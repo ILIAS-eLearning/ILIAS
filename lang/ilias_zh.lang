@@ -143,6 +143,7 @@ assessment#:#available_points#:#分值
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#由
 assessment#:#cancel_test#:#取消考试
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
 assessment#:#cannot_export_test#:#没有足够权限到处考试
 assessment#:#cannot_maintain_test#:#没有足够权限维护考试
@@ -2375,6 +2376,9 @@ content#:#HTML export#:#HTML导出t
 content#:#PDF export#:#PDF导出
 content#:#Pages#:#页
 content#:#all#:#全部
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#按照字母次序 A, B, ...
 content#:#cont_Circle#:#圆
@@ -2753,8 +2757,11 @@ content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new
 content#:#pages from#:#页源于
 content#:#par#:#段落
 content#:#pg#:#页源于
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#在线读
 content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#章标题
 content#:#start export#:#开始导出
 crs#:#crs_accept_subscriber#:#Course subscription###07 Aug 2004 new variable
@@ -4062,6 +4069,7 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable

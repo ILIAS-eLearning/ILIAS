@@ -125,6 +125,7 @@ assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień do eksportu testu!
 assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
@@ -2357,6 +2358,9 @@ content#:#HTML export#:#Eksport HTML
 content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#all#:#Wszystko
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#Dodatkowe
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Koło
@@ -2735,8 +2739,11 @@ content#:#copied_to_clipboard#:#Obiekty skopiowane do schowka.
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#pg#:#Strona
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Czytaj Offline
 content#:#select_a_file#:#Wybierz plik.
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
 crs#:#crs_accept_subscriber#:#Subskrypcja kursu
@@ -4044,6 +4051,7 @@ survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
 survey#:#before#:#przed
 survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#Nie posiadasz wystarczających uprawnień dla eksportu puli pytań ankiety!
 survey#:#cannot_export_survey#:#Nie posiadasz wystarczających uprawnień dla eksportu  ankiety!
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!

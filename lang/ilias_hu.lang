@@ -125,6 +125,7 @@ assessment#:#available_points#:#Available points###05 Nov 2004 new variable
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#létrehozta
 assessment#:#cancel_test#:#Cancel the test###05 Nov 2004 new variable
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
 assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###05 Nov 2004 new variable
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###05 Nov 2004 new variable
@@ -2357,6 +2358,9 @@ content#:#HTML export#:#HTML-export
 content#:#PDF export#:#PDF-export
 content#:#Pages#:#Lapok
 content#:#all#:#Mind
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#További
 content#:#cont_Alphabetic#:#Ábécérend A, B, …
 content#:#cont_Circle#:#Kör
@@ -2735,8 +2739,11 @@ content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
 content#:#pages from#:#Első
 content#:#par#:#Bekezdés
 content#:#pg#:#Lap
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Off-line olvasás
 content#:#select_a_file#:#Válasszon ki egy fájlt.
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Fejezet
 content#:#start export#:#Start Export###05 Nov 2004 new variable
 crs#:#crs_accept_subscriber#:#Course subscription###05 Nov 2004 new variable
@@ -4044,6 +4051,7 @@ survey#:#ask_insert_questions#:#Biztosan be akarja szúrni az alábbi kérdés(e
 survey#:#back#:#<< Vissza
 survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Kérdések keresése
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Nincs írási jogosultsága a felmérés karbantartásához!

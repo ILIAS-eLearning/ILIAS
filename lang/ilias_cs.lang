@@ -125,6 +125,7 @@ assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#by###16 Mar 2004 new variable
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
 assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
@@ -2357,6 +2358,9 @@ content#:#HTML export#:#Export do HTML
 content#:#PDF export#:#Export do PDF
 content#:#Pages#:#Stránky
 content#:#all#:#Všechny
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#Additional###16 Mar 2004 new variable
 content#:#cont_Alphabetic#:#Abecední A, B, ...
 content#:#cont_Circle#:#Circle###16 Mar 2004 new variable
@@ -2735,8 +2739,11 @@ content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new
 content#:#pages from#:#Stránky od
 content#:#par#:#Odstavec
 content#:#pg#:#Stránka
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Číst offline
 content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Kapitola
 content#:#start export#:#Spustit export
 crs#:#crs_accept_subscriber#:#Course subscription###07 Aug 2004 new variable
@@ -4044,6 +4051,7 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
