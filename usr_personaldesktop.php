@@ -48,6 +48,11 @@ $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
 //courses
 $courses = $ilias->account->getCourses();
 
+//forums
+$frm_obj = TUtil::getObjectsByOperations('frm','read');
+$frmNum = count($frm_obj);
+$lastLogin = $ilias->account->data["LastLogin"];
+
 //********************************************
 //* OUTPUT
 //********************************************
@@ -139,6 +144,67 @@ if (count($courses)>0)
         $tpl->setVariable("TXT_DESC", $lng->txt("description"));
         $tpl->parseCurrentBlock();
 }
+
+//forums
+if ($frmNum > 0)
+{	
+	// build list	
+	require_once "classes/class.Forum.php";
+	$frm = new Forum();
+	$z = 0;
+	
+	foreach($frm_obj as $frm_data)
+	{
+		unset($topicData);
+		
+		// get forum data
+		$frm->setWhereCondition("top_frm_fk = ".$frm_data["obj_id"]);			
+		$topicData = $frm->getOneTopic();		
+		
+		$lastPost = "";
+				
+		if ($topicData["top_last_post"] != "") 
+		{
+			$lastPost = $frm->getLastPost($topicData["top_last_post"]);	
+			
+			// if lastPost is more up to date than lastLogin ...
+			if ($lastPost["pos_date"] > $frm->convertDate($lastLogin))
+			{
+				if ($_GET["cmd"] == "list_forum")
+				{
+					$tpl->setCurrentBlock("tbl_frm_row");
+					$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+					$tpl->setVariable("ROWCOL", $rowCol);				
+					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?obj_id=".$frm_data["obj_id"]."&parent=".$frm_data["parent"]."\">".$topicData["top_name"]."</a>");								
+					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
+					$tpl->parseCurrentBlock("tbl_frm_row");
+				}
+				
+				$z ++;
+			}
+				
+		}		
+		
+	}
+	
+	// show table, when there are new entries
+	if ($z > 0)
+	{	
+		$tpl->setCurrentBlock("tbl_frm");
+		$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_new_entries"));
+		
+		if ($_GET["cmd"] == "list_forum") {
+			$tpl->setVariable("TXT_TITLE", $lng->txt("forum"));
+			$tpl->setVariable("TXT_LASTPOST", $lng->txt("forums_last_post"));
+		}
+		else {
+			$tpl->setVariable("LIST_BUTTON", "<a href=\"usr_personaldesktop.php?cmd=list_forum\">".$lng->txt("show_list")."</a>");
+		}
+		$tpl->parseCurrentBlock("tbl_frm");
+	}
+	
+}
+
 
 $tpl->show();
 
