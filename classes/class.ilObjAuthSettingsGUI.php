@@ -186,7 +186,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			case AUTH_LDAP:
 				if ($this->object->checkAuthLDAP() !== true)
 				{
-					sendInfo($this->lng->txt("ldap_not_configured"),true);
+					sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"editLDAP")));
 				}
 				break;
@@ -194,7 +194,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			case AUTH_RADIUS:
 				if ($this->object->checkAuthRADIUS() !== true)
 				{
-					sendInfo($this->lng->txt("radius_not_configured"),true);
+					sendInfo($this->lng->txt("auth_radius_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"editRADIUS")));
 				}
 				break;

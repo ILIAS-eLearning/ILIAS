@@ -666,6 +666,7 @@ common#:#attend#:#Attend
 common#:#auth_configure#:#configure...
 common#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
