@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="refresh" CONTENT="240">
+<META HTTP-EQUIV="expires" CONTENT="now">
+</HEAD>
+<BODY BGCOLOR=white TOPMARGIN=0 MARGINHEIGHT=0 LEFTMARGIN=0 MARGINWIDTH=0>
+<FONT FACE='Arial' SIZE=-1>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var cc=0;
+function rel()
+{ 
+  cc++; 
+  if (cc>240) 
+  {
+     d = new Date();
+     dat = d.getMinutes()+""+d.getHours()+""+d.getSeconds();
+     document.relForm.A.value = dat;
+     document.relForm.submit();cc=0;
+  }  
+  setTimeout('rel()',1000);
+}
+
+setTimeout('rel()',1000);
+
+function scrollDown() {
+  window.scrollTo(0,20000);
+  setTimeout("scrollDown();",100);
+}
+setTimeout("scrollDown();",100);
+
+//-->
+
+</SCRIPT>
+
+<FORM NAME=relForm METHOD=GET>
+<INPUT TYPE=HIDDEN NAME=A VALUE="1">
+</FORM>
