@@ -11,7 +11,7 @@ chapter#:#chapter
 check#:#check
 chg_language#:#change language
 chg_password#:#change password
-choose_language_s#:#choose language(s)
+choose_language#:#choose your language
 city#:#city
 country#:#country
 courses#:#courses
@@ -87,3 +87,14 @@ usr_agreement#:#user agreement
 write#:#write
 yes#:#yes
 zip_code#:#zip code
+step#:#step
+inifile#:#INI-file
+db_name#:#database name
+db_user#:#database user
+dp_pass#:#database password
+reset#:#reset
+err_create_database_failed#:#creation of database failed
+setup_ready#:#setup is ready
+database_exists#:#database exists
+languages_generate_from_file#:#generate languages from file
+languages_generate_from_upload#:#generate languages from uploaded file
