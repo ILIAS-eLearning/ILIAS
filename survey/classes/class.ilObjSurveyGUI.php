@@ -186,7 +186,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["exit"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -654,7 +654,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
     }
 
@@ -3157,7 +3157,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["cancel"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		if (count($_POST))
