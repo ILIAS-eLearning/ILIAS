@@ -1173,7 +1173,8 @@ class ASS_Question extends PEAR
 		global $ilDB;
 
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
-			$ilDB->quote($a_q_id));
+			$ilDB->quote($a_q_id)
+		);
 
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 0)
@@ -1186,15 +1187,15 @@ class ASS_Question extends PEAR
 			array_push($found_id, $row->question_id);
 		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
-			join($found_id, ","));
-
+			join($found_id, ",")
+		);
 		$result = $ilDB->query($query);
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-    		$question =& $this->createQuestion("", $row->question_fi);
-			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
-			$max = $question->object->getMaximumPoints();
+//    	$question =& $this->createQuestion("", $row->question_fi);
+//			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
+//			$max = $question->object->getMaximumPoints();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -1204,7 +1205,14 @@ class ASS_Question extends PEAR
 			$max += $value["max"];
 			$reached += $value["reached"];
 		}
-		return $reached / $max;
+		if ($max > 0)
+		{
+			return $reached / $max;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 }
