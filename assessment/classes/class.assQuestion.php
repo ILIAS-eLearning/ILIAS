@@ -189,7 +189,7 @@ class ASS_Question extends PEAR {
 * @access public
 */
   function question_title_exists($title) {
-    $query = sprintf("SELECT * FROM dum_assessment_questions WHERE title = %s",
+    $query = sprintf("SELECT * FROM qpl_questions WHERE title = %s",
       $this->ilias->db->db->quote($title)
     );
     $result = $this->ilias->db->query($query);

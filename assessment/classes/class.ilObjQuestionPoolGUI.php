@@ -35,9 +35,12 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once "assessment/classes/class.assQuestionGUI.php";
+require_once "assessment/classes/class.ilObjQuestionPool.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
+  var $question_pool;
+  
 	/**
 	* Constructor
 	* @access public
@@ -48,6 +51,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->type = "qpl";
     $lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+    $this->question_pool =& new ilObjQuestionPool($a_id, $a_call_by_reference);
 	}
 	
 	/**
@@ -103,7 +107,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       $this->set_question_form($type, $_GET["edit"]);
       return;
     }
-    if (($_POST["cmd"]["create"]) or ($type)) {
+    if (($_POST["cmd"]["create"]) and ($type)) {
       $this->set_question_form($type);
       return;
     }
@@ -113,8 +117,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
 
     $add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
-/*
-    // Alle ausgewählten Checkboxen ermitteln
+
+    // create an array of all checked checkboxes
     $checked_questions = array();
     foreach ($_POST as $key => $value) {
       if (preg_match("/cb_(\d+)/", $key, $matches)) {
@@ -123,90 +127,52 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     }
     
     if (strlen($_POST["cmd"]["edit"]) > 0) {
-      // Edit-Schaltfläche wurde ausgewählt
+      // edit button was pressed
       if (count($checked_questions) > 1) {
-        sendInfo("Please select only one question for editing");
+        sendInfo($this->lng->txt("qpl_edit_select_multiple"));
       } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check a question for editing");
+        sendInfo($this->lng->txt("qpl_edit_select_none"));
       } else {
-        if ($this->get_question_owner($checked_questions[0]) != $this->ilias->account->id) {
-          sendInfo("You must be the owner of a question to edit it!");
-        } else {
-          // Only the owner is allowed to edit his/her question
-          header("location:il_as_question_composer.php?edit=$checked_questions[0]");
-          exit();
-        }
+        header("location:" . $_SERVER["PHP_SELF"] . $add_parameter . "&edit=" . $checked_questions[0]);
+        exit();
       }
     }
     
     if (strlen($_POST["cmd"]["delete"]) > 0) {
-      // Delete-Schaltfläche wurde ausgewählt
+      // delete button was pressed
       if (count($checked_questions) > 0) {
-        $delete_errors = 0;
         foreach ($checked_questions as $key => $value) {
-          if ($this->get_question_owner($value) != $this->ilias->account->id) {
-            $delete_errors++;
-          } else {
-            // Only the owner is allowed to delete his/her question
-            $this->delete_question($value);
-          }
-        }
-        if ($delete_errors > 0) {
-          if ($delete_errors == 1) {
-            sendInfo("$delete_errors question could not be deleted, because you are not the owner!");
-          } else {
-            sendInfo("$delete_errors questions could not be deleted, because you are not the owner!");
-          }
+           $this->question_pool->delete_question($value);
         }
       } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check at least one question to delete it");
+        sendInfo($this->lng->txt("qpl_delete_select_none"));
       }
     }
     
     if (strlen($_POST["cmd"]["duplicate"]) > 0) {
-      // Delete-Schaltfläche wurde ausgewählt
+      // duplicate button was pressed
       if (count($checked_questions) > 0) {
-        $duplicate_errors = 0;
         foreach ($checked_questions as $key => $value) {
-          if (($this->get_question_owner($value) == $this->ilias->account->id) or ($this->can_duplicate_question($value))) {
-            $this->duplicate_question($value);
-          } else {
-            $duplicate_errors++;
-          }
-        }
-        if ($duplicate_errors > 0) {
-          if ($duplicate_errors == 1) {
-            sendInfo("$duplicate_errors question could not be duplicated, because it is not allowed to duplicate it!");
-          } else {
-            sendInfo("$duplicate_errors questions could not be duplicated, because it is not allowed to duplicate it!");
-          }
+          $question_gui =& new ASS_QuestionGUI();
+          $question =& $question_gui->create_question("", $value);
+          $question_gui->question->duplicate();
         }
       } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check at least one question to duplicate it");
+        sendInfo($this->lng->txt("qpl_duplicate_select_none"));
       }
     }
     
     if (strlen($_POST["cmd"]["export"]) > 0) {
-      // Delete-Schaltfläche wurde ausgewählt
+      // export button was pressed
       if (count($checked_questions) > 0) {
+        // here comes the export routine call for qti export
       } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check at least one question to export it");
+        sendInfo($this->lng->txt("qpl_export_select_none"));
       }
     }
     
-    if (strlen($_POST["cmd"]["cancel"]) > 0) {
-      // Cancel-Schaltfläche wurde ausgewählt
-      if ($this->view_mode == VIEW_MODE_STANDARD) {
-        header("location:il_as_assessment.php");
-        exit();
-      } else {
-        header("location:il_as_test_composer.php?edit=" . $_GET["test"] . "&tab=questions");
-        exit();
-      }
-    }
-    
-    if (strlen($_POST["cmd"]["insert"]) > 0) {
-      // Delete-Schaltfläche wurde ausgewählt
+/*    if (strlen($_POST["cmd"]["insert"]) > 0) {
+      // insert button was pressed
       if (count($checked_questions) > 0) {
         foreach ($_POST as $key => $value) {
           if (preg_match("/cb_(\d+)/", $key, $matches)) {
@@ -246,7 +212,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     }
     $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-    $this->tpl->setVariable("ACTION_FILTER", $_SERVER["PHP_SELF"] . $add_parameter);
     $this->tpl->parseCurrentBlock();
     
     if (!$_POST["cmd"]["reset"]) {

@@ -206,5 +206,37 @@ class ilObjQuestionPool extends ilObject
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
+  
+/**
+* Deletes a question from the question pool
+* 
+* Deletes a question from the question pool
+*
+* @param integer $question_id The database id of the question
+* @access private
+*/
+  function delete_question($question_id) 
+  {
+    if ($question_id < 1)
+      return;
+      
+    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE question_id = %s AND qpl_question_type.question_type_id = qpl_questions.question_type_fi",
+      $this->ilias->db->db->quote($question_id)
+    );
+    $result = $this->ilias->db->db->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
+        $this->ilias->db->db->quote($question_id)
+      );
+      $result = $this->ilias->db->db->query($query);
+      $query = sprintf("DELETE FROM qpl_answers WHERE question_id = %s",
+        $this->ilias->db->db->quote($question_id)
+      );
+      $result = $this->ilias->db->db->query($query);
+    } else {
+      return;
+    }
+  }
 } // END class.ilObjQuestionPool
 ?>
