@@ -245,5 +245,22 @@ class ilSCORMResource extends ilSCORMObject
 		}
 	}
 
+	function delete()
+	{
+		global $ilDB;
+
+		parent::delete();
+
+		$q = "DELETE FROM sc_resource WHERE obj_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
+		$q = "DELETE FROM sc_resource_file WHERE res_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
+		$q = "DELETE FROM sc_resource_dependency WHERE res_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+	}
+
+
 }
 ?>

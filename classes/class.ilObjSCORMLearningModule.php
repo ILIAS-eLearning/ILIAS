@@ -301,15 +301,25 @@ class ilObjSCORMLearningModule extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 
-		// put here SCORM learning module specific stuff
-		
+		// delete meta data of scorm content object
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+
+		// delete data directory
+		ilUtil::delDir($this->getDataDirectory());
+
+		// delete content object record
+		$q = "DELETE FROM scorm_lm WHERE id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+
 		// always call parent delete function at the end!!
 		return true;
 	}
