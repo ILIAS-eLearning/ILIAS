@@ -143,7 +143,7 @@
 	<property cmd="owner">show_owner</property>
 </object>
 <object name="objf">
-	<subobj>type</subobj>
+	<subobj>typ</subobj>
 	<property cmd="view">view_content</property>
 	<property cmd="edit">edit_properties</property>
 	<property cmd="perm">perm_settings</property>
