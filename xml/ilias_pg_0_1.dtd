@@ -21,7 +21,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList), BibItemIdentifier*)>
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
 <!ELEMENT BibItemIdentifier EMPTY>
 <!ATTLIST BibItemIdentifier
@@ -133,6 +133,10 @@
 	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 >
 <!ELEMENT ListItem (PageContent*)>
+
+<!-- FileList -->
+<!ELEMENT FileList (Title?, FileItem*)>
+<!ELEMENT FileItem (Identifier, Location, Format?)>
 
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->

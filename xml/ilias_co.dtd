@@ -36,7 +36,7 @@
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList), BibItemIdentifier*)>
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
 <!ELEMENT BibItemIdentifier EMPTY>
 <!ATTLIST BibItemIdentifier
@@ -317,6 +317,10 @@
 	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 >
 <!ELEMENT ListItem (PageContent*)>
+
+<!-- FileList -->
+<!ELEMENT FileList (Title?, FileItem*)>
+<!ELEMENT FileItem (Identifier, Location, Format?)>
 
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
