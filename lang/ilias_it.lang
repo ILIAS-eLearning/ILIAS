@@ -30,6 +30,8 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
 <!-- language file start -->
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
@@ -540,6 +542,7 @@ common#:#msg_no_rolf_allowed1#:#L&#039;oggetto###10 Jul 2003 new variable
 common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.###10 Jul 2003 new variable
 common#:#msg_no_search_result#:#Nessun risultato trovato###04 Aug 2003 new variable
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca###04 Aug 2003 new variable
+common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users###18 Nov 2003 new variable
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_not_possible_link#:#Non &#232; possibile creare il collegamento dell&#039;oggetto: Tipo
 common#:#msg_nothing_found#:#Nessun risultato
@@ -556,6 +559,8 @@ common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. P
 common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato###04 Nov 2003 new variable
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. ###04 Nov 2003 new variable
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato###04 Aug 2003 new variable
+common#:#msg_sysrole_not_deletable#:#The systemrole cannot be deleted###18 Nov 2003 new variable
+common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.###18 Nov 2003 new variable
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.###10 Jul 2003 new variable
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:###04 Jul 2003 new variable
