@@ -146,7 +146,7 @@ class ilClient
 	}
 
 	/**
-	* connect
+	* installed db?
 	*/
 	function isInstalledDB(&$a_db)
 	{
@@ -278,6 +278,11 @@ class ilClient
 		$db = DB::connect($this->dsn);
 
 		if (DB::isError($db))
+		{
+			return false;
+		}
+		
+		if (!$this->isInstalledDB($db))
 		{
 			return false;
 		}

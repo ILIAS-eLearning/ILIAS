@@ -66,7 +66,7 @@ class ilSetupGUI extends ilSetup
 		$this->revision = "$Revision$";
 		$this->version = "2.".substr(substr($this->revision,2),0,-2);
 		$this->lang = $this->lng->lang_key;
-		
+
 		// init setup	
 		$this->ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
 
@@ -861,10 +861,10 @@ class ilSetupGUI extends ilSetup
 
 		$clientlist = new ilClientList();
 		$list = $clientlist->getClients();
-		
+
 		if (count($list) == 0)
 		{
-			sendInfo($this->lng->txt("no_clients_available"));
+			sendInfo($this->lng->txt("no_clients_available"),true);
 		}
 		
 		//prepare clientlist
@@ -878,7 +878,7 @@ class ilSetupGUI extends ilSetup
 			// check status
 			// TODO: aufräumen!!!	
 			$status_arr = $this->getStatus($client);
-			
+
 			if (!$status_arr["db"]["status"])
 			{
 				$status = $status_arr["db"]["comment"];
@@ -1221,7 +1221,6 @@ class ilSetupGUI extends ilSetup
 			$old_db_name = $this->client->getDbName();
 			$old_client_id = $this->client->getId();			
 			// set client data 
-			//$this->client->setName($_POST["form"]["client_name"]);
 			$this->client->setId($_POST["form"]["client_id"]);
 			$this->client->setDbHost($_POST["form"]["db_host"]);
 			$this->client->setDbName($_POST["form"]["db_name"]);
@@ -1236,14 +1235,20 @@ class ilSetupGUI extends ilSetup
 			}
 			
 			// check if db exists
-			/*$db_exists = $this->client->checkDatabaseExists();
+			$db_installed = $this->client->checkDatabaseExists();
 
-			if ($db_exists and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
+			if ($db_installed and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
 			{
 				$_POST["form"]["db_name"] = $old_db_name;
 				$message = "Database \"".$this->client->getDbName()."\" already exists! Please choose another db name.";
 				$this->raiseError($message,$this->error_obj->MESSAGE);
-			}*/
+			}
+			
+			if ($this->ini_client_exists and $old_client_id != $this->client->getId())
+			{
+				$message = "client_id_cannot_be_changed_in_this_version";
+				$this->raiseError($message,$this->error_obj->MESSAGE);
+			}
 
 			// all ok. create client.ini and save posted data
 			if (!$this->ini_client_exists)
@@ -1263,14 +1268,14 @@ class ilSetupGUI extends ilSetup
 			}
 			else
 			{
-				if ($this->updateNewClient($old_client_id))
+				if ($this->client->ini->write())
 				{
 					sendInfo($this->lng->txt("settings_changed"));
 					$this->client->status["ini"]["status"] = true;
 				}
 				else
 				{
-					$err = $this->getError();
+					$err = $this->client->ini->getError();
 					sendInfo($this->lng->txt("save_error").": ".$err);
 					$this->client->status["ini"]["status"] = false;
 					$this->client->status["ini"]["comment"] = $err;
