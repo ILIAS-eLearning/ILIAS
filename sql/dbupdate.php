@@ -2640,3 +2640,5 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 } // end while
 ?>
+<#161>
+ALTER  TABLE  `qpl_answers`  ADD  `name` VARCHAR( 50  )  NOT  NULL  AFTER  `question_fi` ;

@@ -404,11 +404,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_cloze_question_data() {
-    if ($this->question->get_cloze_type() == CLOZE_TEXT) {
-      $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_text.html", true);
-    } else {
-      $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_select.html", true);
-    }
+		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
     $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
     if ($this->question->get_cloze_type() == CLOZE_TEXT)
@@ -419,18 +415,33 @@ class ASS_QuestionGUI extends PEAR {
         $gap_text = $this->question->get_gap($i);
         foreach ($gap_text as $key => $value) {
           $this->tpl->setVariable("VALUE_TEXT_GAP", $value->get_answertext());
-          $this->tpl->setVariable("TEXT_POSSIBLE_GAP_TEXT", $this->lng->txt("possible_gap_text"));
+          $this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
           $this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
           $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
           $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setCurrentBlock("textgap");
-        $this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
-        $this->tpl->setVariable("VALUE_GAP_COUNTER", $i+1);
+				$name = $value->get_name();
+				if (!$name)
+				{
+					$name = $this->lng->txt("gap") . " " . ($i+1);
+				}
+        $this->tpl->setVariable("TEXT_GAP_NAME", $name);
         $answer_array = $this->question->get_gap($i);
         $answer_points = $answer_array[0]->get_points();
         $this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
         $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+        $this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
+				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+				if ($this->question->get_cloze_type() == CLOZE_SELECT)
+				{
+					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
+				} else
+				{
+					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
+				$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
         $this->tpl->parseCurrentBlock();
       }
     } elseif ($this->question->get_cloze_type() == CLOZE_SELECT) {
@@ -439,31 +450,55 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setCurrentBlock("selectgap_value");
         $gap_text = $this->question->get_gap($i);
         foreach ($gap_text as $key => $value) {
-          $this->tpl->setVariable("TEXT_GAP_SELECTION", $this->lng->txt("gap_selection"));
+          $this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
           $this->tpl->setVariable("VALUE_SELECT_GAP", $value->get_answertext());
           $this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
-          $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-          $this->tpl->setVariable("IMG_UP", ilUtil::getImagePath("up.gif", true));
-          $this->tpl->setVariable("IMG_DOWN", ilUtil::getImagePath("down.gif", true));
-          $this->tpl->setVariable("VALUE_SELECT_GAP_ORDER", sprintf("%d", $value->get_order()));
           $this->tpl->setVariable("VALUE_GAP", $i);
-          $this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
-          $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
           $this->tpl->setVariable("VALUE_INDEX", $key);
-          $this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
+          $this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
           if ($value->is_true()) {
             $this->tpl->setVariable("SELECTED_CORRECTNESS_TRUE", " checked=\"checked\"");
           }
+          $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+          $this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
+          $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
           $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setCurrentBlock("selectgap");
-        $this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+				$name = $value->get_name();
+				if (!$name)
+				{
+					$name = $this->lng->txt("gap") . " " . ($i+1);
+				}
+        $this->tpl->setVariable("TEXT_GAP_NAME", $name);
         $this->tpl->setVariable("VALUE_GAP_COUNTER", $i+1);
+				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+				if ($this->question->get_cloze_type() == CLOZE_SELECT)
+				{
+					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
+				} else
+				{
+					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
+				$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+				if ($this->question->get_shuffle())
+				{
+					$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+				}
+					else
+				{
+					$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+				$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
         $this->tpl->parseCurrentBlock();
       }
     }
+		
     // call to other question data i.e. material, estimated working time block
-	$this->out_other_question_data();
+		$this->out_other_question_data();
 
     $this->tpl->setCurrentBlock("question_data");
     $this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->question->get_title());
@@ -472,37 +507,16 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->question->get_cloze_text());
     $this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
     $this->tpl->setVariable("CLOZE_ID", $this->question->get_id());
-    if ($this->question->get_cloze_type() == CLOZE_SELECT)
-    {
-      $this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
-    } else
-    {
-      $this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
-    }
 
     $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
-    $this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("TEXT_START_TAG", $this->lng->txt("start_tag"));
 		$this->tpl->setVariable("TEXT_END_TAG", $this->lng->txt("end_tag"));
 		$this->tpl->setVariable("VALUE_START_TAG", $this->question->get_start_tag());
 		$this->tpl->setVariable("VALUE_END_TAG", $this->question->get_end_tag());
-    $this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
-    $this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
-		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-		if ($this->question->get_shuffle())
-		{
-			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
-		}
-			else
-		{
-			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
-		}
-		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY","Apply");
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
