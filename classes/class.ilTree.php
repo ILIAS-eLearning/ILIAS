@@ -1054,7 +1054,8 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
+			return false;
+			#$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
@@ -1402,6 +1403,10 @@ class ilTree
 	function getRootId()
 	{
 		return $this->root_id;
+	}
+	function setRootId($a_root_id)
+	{
+		$this->root_id = $a_root_id;
 	}
 
 	/**

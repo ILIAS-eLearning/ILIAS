@@ -259,6 +259,7 @@ class ilSearch
 		}
 
 		$this->setResult($result);
+		$this->__validateResults();
 
 		if ($this->getPerformUpdate())
 		{
@@ -297,7 +298,10 @@ class ilSearch
 				break;
 
 			case "result":
-				$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByActualType())."') ";
+#				if(count($this->__getResultIdsByActualType()))
+#				{
+					$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByActualType())."') ";
+#				}
 				break;
 
 		}
@@ -495,6 +499,8 @@ class ilSearch
 								   "dbk" => array()));
 		}
 
+		$this->__validateResults();
+		$this->__updateDBResult();
 		return true;
 	}
 
@@ -512,11 +518,13 @@ class ilSearch
 				break;
 		}
 
-		foreach ($results as $result)
+		if(is_array($results))
 		{
-			$ids[] = $result["id"];
+			foreach ($results as $result)
+			{
+				$ids[] = $result["id"];
+			}
 		}
-
 		return $ids ? $ids : array();
 	}
 
@@ -536,6 +544,79 @@ class ilSearch
 		}
 
 		return false;
+	}
+
+	function __validateResults()
+	{
+		global $tree;
+
+		$new_result = array();
+
+
+		// check lm meta
+		if(is_array($this->result['lm']['meta']))
+		{
+			foreach($this->result['lm']['meta'] as $data)
+			{
+				if($tree->isInTree($data['id']))
+				{
+					$new_result['lm']['meta'][] = $data;
+				}
+			}
+		}
+		if(is_array($this->result['lm']['content']))
+		{
+			foreach($this->result['lm']['content'] as $data)
+			{
+				if($tree->isInTree($data['id']))
+				{
+					$new_result['lm']['content'][] = $data;
+				}
+			}
+		}
+		if(is_array($this->result['dbk']['meta']))
+		{
+			foreach($this->result['dbk']['meta'] as $data)
+			{
+				if($tree->isInTree($data['id']))
+				{
+					$new_result['dbk']['meta'][] = $data;
+				}
+			}
+		}
+		if(is_array($this->result['dbk']['content']))
+		{
+			foreach($this->result['dbk']['content'] as $data)
+			{
+				if($tree->isInTree($data['id']))
+				{
+					$new_result['dbk']['content'][] = $data;
+				}
+			}
+		}
+		if(is_array($this->result['grp']))
+		{
+			foreach($this->result['grp'] as $data)
+			{
+				if($tree->isInTree($data['id']))
+				{
+					$new_result['grp'][] = $data;
+				}
+			}
+		}
+		if(is_array($this->result['usr']))
+		{
+			foreach($this->result['usr'] as $user)
+			{
+				if($tmp_obj =& ilObjectFactory::getInstanceByObjId($user['id'],false))
+				{
+					$new_result['usr'][] = $user;
+				}
+			}
+		}
+		$this->setResult($new_result);
+
+		return true;
 	}
 } // END class.ilSearch
 ?>
