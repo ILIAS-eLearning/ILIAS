@@ -314,7 +314,6 @@ function storeCaret(textEl) {
 
 </form>
 
-<p>----------------------------------------------------------------------------------------------------------------</p>
 
 <div id="footnotelist"></div>
 
@@ -941,9 +940,11 @@ function refreshFootnotelist()
 	for (i=0;i<fussnoten.length;i++) 
 	{
 		j=i+1;
-		fhtml += "["+j+"]&nbsp;"+fussnoten[i];
-		fhtml += "<br>";
-		fhtml += "";
+		if(fussnoten[i]!="") {
+			fhtml += "["+j+"]&nbsp;"+fussnoten[i];
+			fhtml += "<br>";
+			fhtml += "";
+		}
 	}
 	fhtml += "<ul>";
 	
@@ -953,10 +954,32 @@ function refreshFootnotelist()
 
 function buttonFootnote() 
 {
-	if(editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;") 
+	if(editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;" && editor.getSelectedHTML().indexOf("footnote")==-1) 
 	{
-		addFussnote(editor.getSelectedHTML());
-		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
+		text = editor.getSelectedHTML();
+		
+		isbr = false;
+		if(	text.indexOf("<br>")!=-1 || text.indexOf("<br/>")!=-1 ||text.indexOf("<br />")!=-1 || text.indexOf("<BR>")!=-1 || text.indexOf("<BR/>")!=-1 ||text.indexOf("<BR />")!=-1) 
+		{
+			isbr = true;
+		}
+		
+		text = replaceAll(text,"<P>","");
+		text = replaceAll(text,"</P>","");
+		text = replaceAll(text,"<br>","");
+		text = replaceAll(text,"<br/>","");
+		text = replaceAll(text,"<br />","");
+		text = replaceAll(text,"<BR>","");
+		text = replaceAll(text,"<BR/>","");
+		text = replaceAll(text,"<BR />","");
+		
+		addFussnote(text);
+		//editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
+		
+		ins = "<span class=\"footnote\" value=\""+text+"\">["+fnCount+"]</span>";
+		if(isbr) ins += "<br>";
+		editor.insertHTML(ins);
+		
 		refreshFootnotelist()
 	} 
 	else 
