@@ -582,7 +582,7 @@ common#:#account_expires_body#:#Votre compte est limité, il expirera le :
 common#:#account_expires_subject#:#[ILIAS 3] Votre compte expire
 common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
-common#:#activate_https#:#Activer HTTPS (paiement, connexion)
+common#:#activate_https#:#Activer HTTPS (paiement, connexion)###18 Oct 2004 content changed
 common#:#activate_tracking#:#Activer suivi
 common#:#activation#:#Activation
 common#:#active#:#Actif
@@ -2124,6 +2124,7 @@ common#:#user#:#Utilisateur
 common#:#user_access#:#Accès par utilisateur
 common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Utilisateur détruit
 common#:#user_detail#:#Détail
 common#:#user_imported#:#Importation des utilisateurs terminée

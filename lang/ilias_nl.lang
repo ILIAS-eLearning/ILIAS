@@ -584,7 +584,7 @@ common#:#account_expires_body#:#Uw toegang is gelimiteerd. Het loopt af op:
 common#:#account_expires_subject#:#[ILIAS 3] Uw abonnement verloopt
 common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
-common#:#activate_https#:#Activeer HTTPS (Betalingen, Inloggen)
+common#:#activate_https#:#Activeer HTTPS (Betalingen, Inloggen)###18 Oct 2004 content changed
 common#:#activate_tracking#:#Activateer tracking
 common#:#activation#:#Aktivering
 common#:#active#:#Actief
@@ -2126,6 +2126,7 @@ common#:#user#:#Gebruiker
 common#:#user_access#:#Toegang per gebruiker
 common#:#user_added#:#Gebruiker toegevoegd
 common#:#user_assignment#:#Gebruiker-toewijzing
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Gebruiker gewist
 common#:#user_detail#:#Detail-gegevens
 common#:#user_imported#:#Gebruikers-import gereed

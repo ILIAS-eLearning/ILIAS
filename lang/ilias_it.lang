@@ -591,7 +591,7 @@ common#:#account_expires_body#:#La tua iscrizione &#232; limitata, scadr&#224; i
 common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
-common#:#activate_https#:#Attivato HTTPS (Pagamento, Login)
+common#:#activate_https#:#Attivato HTTPS (Pagamento, Login)###18 Oct 2004 content changed
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
 common#:#active#:#Attivo
@@ -2132,6 +2132,7 @@ common#:#user#:#Utente
 common#:#user_access#:#Accessi utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
 common#:#user_imported#:#Importazione utenti completata.

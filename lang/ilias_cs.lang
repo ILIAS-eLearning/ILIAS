@@ -2134,6 +2134,7 @@ common#:#user#:#Uživatel
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Uživatel přidán
 common#:#user_assignment#:#Přiřazení uživatelů
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Uživatel odstraněn
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###16 Mar 2004 new variable
