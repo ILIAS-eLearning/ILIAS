@@ -10,7 +10,7 @@
 
 <applet code="IliasApiAdapterApplet" codebase="./apiadapter"
 	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
-	ID="API" NAME="API" width="10" height="10">
+	ID="APIX" NAME="APIX" width="10" height="10">
 <param name = "mayscript" value="true" >
 <param name = "scriptable" value="true" >
 <param name = "ref_id" value="{REF_ID}" >
@@ -21,7 +21,7 @@
 </applet>
 
 <script language="JavaScript">
-	//var API = APIAdapter;
+	this.API = window.document.APIX;
 
 	var code_base="{CODE_BASE}";
 	var user_id="{USER_ID}";
