@@ -73,7 +73,7 @@ class ilObjectFactory
 
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
-		
+
 		// check class
 		if ($class_name == "ilObj")
 		{
@@ -109,7 +109,7 @@ class ilObjectFactory
 		{
 			$message = "ilObjectFactory::getInstanceByRefId(): No ref_id given!";
 			$log->writeWarning($message);
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
 		// read object data
@@ -117,7 +117,7 @@ class ilObjectFactory
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 		 	"WHERE object_reference.ref_id='".$a_ref_id."'";
 		$object_set = $ilias->db->query($q);
-	
+
 		// check number of records
 		if ($object_set->numRows() == 0)
 		{

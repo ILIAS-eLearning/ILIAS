@@ -89,9 +89,10 @@ class ilObjectDefinition extends ilSaxParser
 		return $this->obj_data[$a_obj_name]["class_name"];
 	}
 
+
 	/**
 	* should the object get a checkbox (needed for 'cut','copy' ...)
-	* 
+	*
 	* @param	string	object type
 	* @access	public
 	*/
@@ -118,12 +119,27 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getProperties($a_obj_name)
 	{
-		return $this->obj_data[$a_obj_name]["properties"];
+		if(defined("ILIAS_MODULE"))
+		{
+			return $this->obj_data[$a_obj_name]["properties"];
+		}
+		else
+		{
+			$props = array();
+			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			{
+				if($prop["module"] != 1)
+				{
+					$props[$data] = $prop;
+				}
+			}
+			return $props;
+		}
 	}
 
 	/**
 	* get subobjects by type
-	* 
+	*
 	* @access	public
 	*/
 	function getSubObjects($a_obj_name)
@@ -133,7 +149,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* get possible actions by type
-	* 
+	*
 	* @access	public
 	*/
 	function getActions($a_obj_name)
@@ -146,18 +162,31 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* get default property by type
-	* 
+	*
 	* @access	public
 	*/
 	function getFirstProperty($a_obj_name)
 	{
-		$data = array_keys($this->obj_data[$a_obj_name]["properties"]);
-		return $data[0];
+		if(defined("ILIAS_MODULE"))
+		{
+			$data = array_keys($this->obj_data[$a_obj_name]["properties"]);
+			return $data[0];
+		}
+		else
+		{
+			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			{
+				if($prop["module"] != 1)
+				{
+					return $data;
+				}
+			}
+		}
 	}
 
 	/**
 	* get name of property by type
-	* 
+	*
 	* @access	public
 	*/
 	function getPropertyName($a_cmd, $a_obj_name)
@@ -167,17 +196,17 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* get a string of all subobjects by type
-	* 
+	*
 	* @access	public
 	*/
 	function getSubObjectsAsString($a_obj_type)
 	{
 		$string = "";
-		
+
 		if (is_array($this->obj_data[$a_obj_type]["subobjects"]))
 		{
 			$data = array_keys($this->obj_data[$a_obj_type]["subobjects"]);
-			
+
 			$string = "'".implode("','", $data)."'";
 		}
 			return $string;
@@ -186,7 +215,7 @@ class ilObjectDefinition extends ilSaxParser
 // PRIVATE METHODS
 	/**
 	* set event handler
-	* 
+	*
 	* @access	private
 	*/
 	function setHandlers($a_xml_parser)
@@ -198,7 +227,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* start tag handler
-	* 
+	*
 	* @access	private
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
@@ -227,6 +256,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->current_tag = "property";
 				$this->current_tag_name = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
+				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"] = $a_attribs["module"];
 				break;
 			case 'action':
 				$this->current_tag = "action";

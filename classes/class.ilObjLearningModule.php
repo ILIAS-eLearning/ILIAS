@@ -25,17 +25,21 @@
 /**
 * Class ilObjLearningModule
 *
-* @author Sascha Hofmann <shofmann@databay.de> 
+* @author Sascha Hofmann <shofmann@databay.de>
 * $Id$
-* 
+*
 * @extends ilObject
 * @package ilias-core
 */
 
-require_once "class.ilObject.php";
+require_once "classes/class.ilObject.php";
+require_once "classes/class.ilMetaData.php";
 
 class ilObjLearningModule extends ilObject
 {
+	var $lm_tree;
+	var $meta_data;
+
 	/**
 	* Constructor
 	* @access	public
@@ -44,8 +48,42 @@ class ilObjLearningModule extends ilObject
 	*/
 	function ilObjLearningModule($a_id = 0,$a_call_by_reference = true)
 	{
-		$this->type = "le";
+		$this->type = "lm";
 		$this->ilObject($a_id,$a_call_by_reference);
+	}
+
+	function read()
+	{
+		$this->lm_tree = new ilTree($this->getId());
+		$this->lm_tree->setTableNames('lm_tree','lm_data');
+		$this->lm_tree->setTreeTablePK("lm_id");
+
+		$this->meta_data =& new ilMetaData("lm", $this->getId());
+		parent::read();
+	}
+
+	function getTitle()
+	{
+		return $this->meta_data->getTitle();
+	}
+
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+
+	function update()
+	{
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		$this->meta_data->update();
+		parent::update();
 	}
 
 
@@ -72,6 +110,17 @@ class ilObjLearningModule extends ilObject
 
 		// make new tree for this object
 		$tree->addTree($this->getId());
+	}
+
+	function getLayout()
+	{
+		// todo: make it real
+		return "toc2win";
+	}
+
+	function &getLMTree()
+	{
+		return $this->lm_tree;
 	}
 
 
@@ -205,5 +254,7 @@ echo "Build Tree<br>";
 		// for output
 		return $data;
 	}
+
+
 } // END class.LearningModuleObject
 ?>

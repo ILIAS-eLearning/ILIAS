@@ -480,10 +480,10 @@ class ilObject
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = '".$this->title."',".
-			"description = '".$this->desc."', ".
+			"title = '".$this->getTitle()."',".
+			"description = '".$this->getDescription()."', ".
 			"last_update = now() ".
-			"WHERE obj_id = '".$this->id."'";
+			"WHERE obj_id = '".$this->getId()."'";
 		$ilias->db->query($q);
 
 		$this->read();						// to get all data (incl. dates!)

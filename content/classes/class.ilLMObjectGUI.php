@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
+require_once("classes/class.ilMetaData.php");
 
 /**
 * Class ilLMObject

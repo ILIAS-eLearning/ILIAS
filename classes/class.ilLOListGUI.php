@@ -122,7 +122,9 @@ class ilLOListGUI
 	}
 
 
-
+	/**
+	* display list of courses and learning modules
+	*/
 	function displayList()
 	{
 
@@ -177,7 +179,7 @@ class ilLOListGUI
 		switch ($_SESSION["viewmode"])
 		{
 			case "flat":
-				$lr_arr = ilUtil::getObjectsByOperations('le','visible');
+				$lr_arr = ilUtil::getObjectsByOperations('lm','visible');
 				$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
 				break;
 
@@ -190,7 +192,7 @@ class ilLOListGUI
 				{
 					foreach ($objects as $key => $object)
 					{
-						if ($object["type"] == "le" && $this->rbacsystem->checkAccess('visible',$object["child"]))
+						if ($object["type"] == "lm" && $this->rbacsystem->checkAccess('visible',$object["child"]))
 						{
 							$lr_arr[$key] = $object;
 						}
@@ -233,7 +235,7 @@ class ilLOListGUI
 				$this->tpl->setVariable("TITLE", $lr_data["title"]);
 				$this->tpl->setVariable("LO_LINK", $obj_link);
 
-				if ($lr_data["type"] == "le")		// Test
+				if ($lr_data["type"] == "lm")		// Test
 				{
 					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");

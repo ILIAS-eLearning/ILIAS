@@ -33,10 +33,10 @@
 * @package	ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+//require_once "class.ilObjectGUI.php";
 
-class ilLearningObjectGUI extends ilObjectGUI
-{
+//class ilLearningObjectGUI extends ilObjectGUI
+//{
 	/**
 	* Constructor
 	* 
@@ -225,8 +225,8 @@ class ilLearningObjectGUI extends ilObjectGUI
 				echo "<td>" . $value . "</td>";
 			} 
 			echo "</tr>";
-		} 
+		}
 		echo "</table>";
 	}
-}
+//}
 ?>

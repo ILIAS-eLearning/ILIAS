@@ -4,7 +4,7 @@
 <object name="root" class_name="RootFolder" checkbox="0" inherit="0">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
-	<subobj name="le">le</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
@@ -35,7 +35,7 @@
 <object name="cat" class_name="Category" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
-	<subobj name="le">le</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
@@ -55,7 +55,7 @@
 <object name="dlib" class_name="Digilib" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
-	<subobj name="le">le</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
@@ -74,7 +74,7 @@
 </object>
 <object name="crs" class_name="Course" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
-	<subobj name="le">le</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -113,7 +113,7 @@
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
-	<subobj name="le">le</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -130,26 +130,17 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="le" class_name="LearningModule" checkbox="1" inherit="1">
+<object name="lm" class_name="LearningModule" checkbox="1" inherit="1">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="frm">frm</subobj>
-	<subobj name="file" max="1">file</subobj>
-	<subobj name="lo">lo</subobj>
+	<subobj name="st">st</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
+	<property name="chapters" module="1">cont_chapters</property>
+	<property name="pages" module="1">cont_all_pages</property>
+	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<property name="trash">trash</property>
-	<action name="cut">cut</action>
-	<action name="copy">copy</action>
-	<action name="delete">delete</action>
-	<action name="link">link</action>
-	<action name="paste">paste</action>
-	<action name="clear">clear</action>
 	<action name="import">import</action>
-</object>
-<object name="lo" class_name="LearningObject" checkbox="1" inherit="0">
-	<property name="view">view_content</property>
+	<action name="confirmDeletion">delete</action>
 </object>
 <object name="lng" class_name="Language" checkbox="1">
 	<property name="edit">edit_properties</property>
@@ -269,12 +260,5 @@
 	<property name="preview">cont_preview</property>
 	<property name="edit_meta">cont_meta_data</property>
 	<subobj name="par">par</subobj>
-</object>
-<object name="lm">
-	<property name="view">cont_chapters</property>
-	<property name="pages">cont_all_pages</property>
-	<property name="edit_meta">cont_meta_data</property>
-	<subobj name="st">st</subobj>
-	<action name="confirmDeletion">delete</action>
 </object>
 </objects>
