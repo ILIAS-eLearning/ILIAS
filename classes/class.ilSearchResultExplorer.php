@@ -52,7 +52,6 @@ class ilSearchResultExplorer extends ilExplorer
 	*/
 	function ilSearchResultExplorer($a_target,$a_user_id)
 	{
-		define("ROOT_ID",1);
 		define("TABLE_SEARCH_DATA","search_data");
 		define("TABLE_SEARCH_TREE","search_tree");
 
@@ -60,6 +59,7 @@ class ilSearchResultExplorer extends ilExplorer
 
 		$this->user_id = $a_user_id;
 		
+		$this->__setRootId();
 		$this->tree = new ilTree($this->getUserId(),ROOT_ID);
 		$this->tree->setTableNames(TABLE_SEARCH_TREE,TABLE_SEARCH_DATA);
 
@@ -170,6 +170,20 @@ class ilSearchResultExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+	}
+
+	function __setRootId()
+	{
+		$query = "SELECT * FROM search_tree ".
+			"WHERE tree = '".$this->user_id."' ".
+			"AND parent = '0'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			define(ROOT_ID,$row->child);
+		}
+		return true;
 	}
 
 } // END class ilRepositoryExplorer
