@@ -116,6 +116,7 @@ assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
+assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
 assessment#:#cannot_save_metaobject#:#Non hai i diritti per salvare i metadata!
@@ -387,6 +388,7 @@ assessment#:#tst_resume_test#:#Riprendi il test
 assessment#:#tst_score_reporting#:#Rapporto con i risultati
 assessment#:#tst_score_reporting_date#:#Data del rapporto
 assessment#:#tst_score_type#:#Tipo del rapporto
+assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
 assessment#:#tst_sequence#:#Tipo di sequenza
