@@ -551,3 +551,5 @@ common#:#mail_select_one_file#:#You have to select one file
 common#:#mail_deleted_entry#:#The entries are deleted
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 common#:#new_mail#:#New mail!
+common#:#mail_entry_changed#:#The entry is changed
+common#:#mail_entry_added#:#Added new Entry
