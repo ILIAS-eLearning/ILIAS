@@ -52,43 +52,43 @@ $courses = $ilias->account->getCourses();
 //begin mailblock if there are new mails
 if ($mails["unread"]>0)
 {
-// output mails
-        unset($i);
-foreach ($mails["msg"] as $row)
-{
-	$i++;
-                $tpl->setCurrentBlock("tbl_mail_row");
-	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	// output mails
+    unset($i);
+	foreach ($mails["msg"] as $row)
+	{
+		$i++;
+	    $tpl->setCurrentBlock("tbl_mail_row");
+		$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 
-	//new mail or read mail?
-	if ($row["new"] == true)
-		$mailclass = "mailunread";
-	else
-		$mailclass = "mailread";
+		//new mail or read mail?
+		if ($row["new"] == true)
+			$mailclass = "mailunread";
+		else
+			$mailclass = "mailread";
 		
-	$tpl->setVariable("MAILCLASS", $mailclass);
-	$tpl->setVariable("MAIL_ID", $row["id"]);
-	$tpl->setVariable("MAIL_FROM", $row["from"]);
-	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
-	$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
-	$tpl->setVariable("MAIL_LINK_DEL", "");
-	$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
-	$tpl->parseCurrentBlock();
-}
+		$tpl->setVariable("MAILCLASS", $mailclass);
+		$tpl->setVariable("MAIL_ID", $row["id"]);
+		$tpl->setVariable("MAIL_FROM", $row["from"]);
+		$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
+		$tpl->setVariable("MAIL_DATE", $row["datetime"]);
+		$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
+		$tpl->setVariable("MAIL_LINK_DEL", "");
+		$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
+		$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+		$tpl->parseCurrentBlock();
 
-        $tpl->setCurrentBlock("tbl_mail");
-        //headline
-        $tpl->setVariable("MAIL_COUNT",count($mails));
-        $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
-        //columns headlines
-        $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
-        $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-//        $tpl->setVariable("MAIL_SORT_SUBJ","link");
-        $tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
+	    $tpl->setCurrentBlock("tbl_mail");
+    	//headline
+		$tpl->setVariable("MAIL_COUNT", $mails["count"]);
+	    $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
+    	//columns headlines
+	    $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
+    	$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+		//   $tpl->setVariable("MAIL_SORT_SUBJ","link");
+    	$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
 //        $tpl->setVariable("MAIL_SORT_DATE","link");
-        $tpl->parseCurrentBlock();
+    	$tpl->parseCurrentBlock();
+	}
 }
 
 //if there are lessons output them
