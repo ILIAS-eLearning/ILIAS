@@ -855,7 +855,7 @@ class ASS_ClozeTest extends ASS_Question
     unset($this->gaps[$index]);
     $this->gaps = array_values($this->gaps);
 
-    $this->cloze_text = preg_replace("/" . "<gap.*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
+    $this->cloze_text = preg_replace("/" . "<gap[^<]*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
   }
 
 /**
