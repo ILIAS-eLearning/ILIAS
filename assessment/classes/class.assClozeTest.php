@@ -519,8 +519,8 @@ class ASS_ClozeTest extends ASS_Question
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".CLOZE_TEST_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
-		// add estimated working time
 		$qtiIdent->append_child($qtiComment);
+		// add estimated working time
 		$qtiDuration = $this->domxml->create_element("duration");
 		$workingtime = $this->getEstimatedWorkingTime();
 		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));

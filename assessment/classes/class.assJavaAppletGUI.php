@@ -100,6 +100,19 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			// image block
 			$this->tpl->setCurrentBlock("post_save");
 
+			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+			if ($this->object->getSolutionHint())
+			{
+				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+			}
+			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
+			
 			// java applet block
 			$javaapplet = $this->object->getJavaAppletFilename();
 			$this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
@@ -192,18 +205,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		if ($this->object->getSolutionHint())
-		{
-			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
-		}
-		else
-		{
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
-		}
-		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
