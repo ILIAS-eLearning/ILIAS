@@ -427,6 +427,32 @@ class ilForumExport
 	}
 	
 	
+	/**
+	* get all threads of given forum
+	* @param	integer	topic: forum-ID
+	* @return	object	res result identifier for use with fetchRow
+	* @access	public
+	*/
+	function getThreadList($topic)
+	{
+		$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
+		$q .= "thr_top_fk ='".$topic."' AND ";
+		$q .= "thr_usr_id = usr_id";
+
+		if ($this->orderField != "")
+		{
+			$q .= " ORDER BY ".$this->orderField;
+		}
+	
+		$res = $this->ilias->db->query($q);			
+
+		return $res;
+	}
+	
+	
+	
+	
+	
 	
 
 	

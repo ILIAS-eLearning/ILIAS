@@ -30,24 +30,19 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 
 // start: form operations
 if (isset($_POST["cmd"]["submit"]))
-{
-	echo "action: ".$_POST["action"]."<br>";	
-	
+{	
 	if(is_array($_POST["forum_id"]))
 	{
-		$startTbl = "frm_data";
+		$startTbl = "frm_threads";
 		
-		// now it starts
-		for ($j = 0; $j < count($_POST["forum_id"]); $j++)
-		{
-			echo "id: ".$_POST["forum_id"][$j]."<br>";
-		}
+		require_once "forums_export.php";		
+		
+		unset($topicData);
 		
 	}
 	
 }
 // end: form operations
-
 
 // ********************************************************************************
 // build location-links
@@ -61,6 +56,7 @@ $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
 if (is_array($topicData = $frm->getOneTopic()))
 {
+	
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);

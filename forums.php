@@ -29,18 +29,14 @@ $pageHits = $frm->getPageHits();
 
 // start: form operations
 if (isset($_POST["cmd"]["submit"]))
-{
-	echo "action: ".$_POST["action"]."<br>";	
-	
+{	
 	if(is_array($_POST["forum_id"]))
 	{
 		$startTbl = "frm_data";
 		
-		// now it starts
-		for ($j = 0; $j < count($_POST["forum_id"]); $j++)
-		{
-			echo "id: ".$_POST["forum_id"][$j]."<br>";
-		}
+		require_once "forums_export.php";	
+		
+		unset($topicData);	
 		
 	}
 	
