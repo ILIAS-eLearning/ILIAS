@@ -144,6 +144,8 @@ common#:#disabled#:#Disabled
 common#:#download#:#Download
 common#:#drafts#:#Drafts
 common#:#edit#:#Edit
+common#:#all_objects#:#All Objects
+common#:#locator#:#Locator:
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
@@ -619,6 +621,8 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#learning_objects#:#Learning Objects
+content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
@@ -708,6 +712,7 @@ forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BC
+common#:#mail_folders#:#Mail Folders
 mail#:#forward#:#Forward
 mail#:#linebreak#:#Linebreak
 mail#:#mail_add_recipient#:#Please enter a recipient

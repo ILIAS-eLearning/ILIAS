@@ -365,7 +365,7 @@ class ilObjectGUI
 			$prop_name = "delete_object";
 		}
 
-		$this->tpl->setVariable("TXT_PATH",$debug.$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
 

@@ -121,6 +121,8 @@ class ilLMEditorGUI
 					ilObjStyleSheet::getContentStylePath($this->lm_obj->getStyleSheetId()));
 				$this->tpl->parseCurrentBlock();
 
+				$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+
 				$this->tree = new ilTree($this->lm_obj->getId());
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
@@ -308,6 +310,7 @@ class ilLMEditorGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&mexpand=".$_GET["mexpand"]);
 		$this->tpl->parseCurrentBlock();
