@@ -171,22 +171,32 @@ class ilGlossaryPresentationGUI
 				for($j=0; $j<count($defs); $j++)
 				{
 					$def = $defs[$j];
-					$this->tpl->setCurrentBlock("definition_no_link");
-					//$this->tpl->setVariable("DEF_LINK",
-					//	"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
-					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+					if (count($defs) > 1)
+					{
+						$this->tpl->setCurrentBlock("definition");
+						$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					//
+					$this->tpl->setCurrentBlock("definition");
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
 					$short_str = str_replace("<", "&lt;", $short_str);
 					$short_str = str_replace(">", "&gt;", $short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("definition_row");
+					$this->tpl->parseCurrentBlock();
 				}
 
-				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setCurrentBlock("view_term");
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				//$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
-				$this->tpl->setVariable("TARGET_TERM", "glossary_presentation.php?ref_id=".
+				$this->tpl->setVariable("LINK_VIEW_TERM", "glossary_presentation.php?ref_id=".
 					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();

@@ -5,8 +5,11 @@
 	</td>
 	<!-- END check_col -->
 	<td class="std" valign="top">
-		<b>{TEXT_TERM}</b>
+		<!-- BEGIN view_term -->
+			<a href="{LINK_VIEW_TERM}"><b>{TEXT_TERM}</b></a>
+		<!-- END view_term -->
 		<!-- BEGIN edit_term -->
+			<b>{TEXT_TERM}</b>
 			[<a href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>]
 		<!-- END edit_term -->
 	</td>
@@ -15,6 +18,9 @@
 	</td>
 	<td class="std" valign="top">
 	<!-- BEGIN definition_row -->
+		<!-- BEGIN def_head -->
+			<i>{DEF_TEXT}</i><br />
+		<!-- END def_head -->
 		<!-- BEGIN definition -->
 			{DEF_SHORT}<br />
 		<!-- END definition -->
@@ -30,10 +36,6 @@
 		<!-- BEGIN edit -->
 			[<a href="{LINK_EDIT}">{TXT_EDIT}</a>]<br />
 		<!-- END edit -->
-		<!-- BEGIN definition_no_link -->
-			<b>{DEF_TEXT}</b><br />
-			{DEF_SHORT}<br />
-		<!-- END definition_no_link -->
 	<!-- END definition_row -->
 	</td>
 </tr>

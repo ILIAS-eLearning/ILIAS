@@ -638,6 +638,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				// edit term link
 				$this->tpl->setCurrentBlock("edit_term");
+				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->ctrl->setParameter($this, "term_id", $term["id"]);
 				$this->tpl->setVariable("LINK_EDIT_TERM",
 					$this->ctrl->getLinkTarget($this, "editTerm"));
@@ -648,7 +649,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				// output term and language
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
