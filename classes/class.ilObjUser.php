@@ -1588,7 +1588,7 @@ class ilObjUser extends ilObject
 	*/
 	function updateActiveRoles($a_user_id)
 	{
-		global $rbacreview;
+		global $rbacreview,$ilDB;
 		
 		if (!count($user_online = ilUtil::getUsersOnline($a_user_id)) == 1)
 		{
@@ -1607,7 +1607,7 @@ class ilObjUser extends ilObject
 			$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$a_user_id]["data"]);
 
 			$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$a_user_id."'";
-			$this->ilias->db->query($q);
+			$this->ilDB->query($q);
 		}
 
 		return true;

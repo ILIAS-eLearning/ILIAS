@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.90 2004/08/10 13:47:31 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.92 2004/08/10 14:32:33 shofmann Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -65,7 +65,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		else
 		{
 			$this->initCourseContentInterface();
-			$this->cci_view();
+			$this->cci_obj->cci_view();
 		}
 		return true;
 	}
@@ -1605,10 +1605,12 @@ class ilObjGroupGUI extends ilObjectGUI
 	// METHODS FOR COURSE CONTENT INTERFACE
 	function initCourseContentInterface()
 	{
+		global $ilCtrl;
+
 		include_once "./course/classes/class.ilCourseContentInterface.php";
-			
-		aggregate($this,"ilCourseContentInterface");
-		$this->cci_init($this,$this->object->getRefId());
+		
+		$this->object->ctrl =& $ilCtrl;
+		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
 	}
 
 	function cciEditObject()
@@ -1622,7 +1624,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_edit();
+		$this->cci_obj->cci_edit();
 
 		return true;;
 	}
@@ -1638,7 +1640,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_update();
+		$this->cci_obj->cci_update();
 
 		return true;;
 	}
@@ -1653,7 +1655,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_move();
+		$this->cci_obj->cci_move();
 
 		return true;;
 	}
@@ -2000,6 +2002,75 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->__showSearchUserTable($f_result,"listUsers");
 
 		return true;
+	}
+	// Methods for ConditionHandlerInterface
+	function initConditionHandlerGUI($item_id)
+	{
+		include_once './classes/class.ilConditionHandlerInterface.php';
+
+		if(!is_object($this->chi_obj))
+		{
+			if($_GET['item_id'])
+			{
+				$this->chi_obj =& new ilConditionHandlerInterface($this,$item_id);
+				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+			}
+			else
+			{
+				$this->chi_obj =& new ilConditionHandlerInterface($this);
+			}
+		}
+		return true;
+	}
+
+	function chi_updateObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_update();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}		
+	function chi_deleteObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_delete();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}
+
+	function chi_selectorObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_selector();
+	}		
+
+	function chi_assignObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_assign();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
 	}
 } // END class.ilObjGroupGUI
 ?>

@@ -114,7 +114,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			   ($this->object->isActivated() and !$this->object->isArchived()))
 			{
 				$this->initCourseContentInterface();
-				$this->cci_view();
+				$this->cci_obj->cci_view();
 			}
 			else
 			{
@@ -484,7 +484,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT","update");
 
 		$this->initConditionHandlerGUI($this->object->getRefId());
-		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_list());
+		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_obj->chi_list());
 
 
 	}
@@ -2733,10 +2733,12 @@ class ilObjCourseGUI extends ilObjectGUI
 	// METHODS FOR COURSE CONTENT INTERFACE
 	function initCourseContentInterface()
 	{
+		global $ilCtrl;
+
 		include_once "./course/classes/class.ilCourseContentInterface.php";
-			
-		aggregate($this,"ilCourseContentInterface");
-		$this->cci_init($this,$this->object->getRefId());
+		
+		$this->object->ctrl =& $ilCtrl;
+		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
 	}
 
 	function cciEditObject()
@@ -2750,7 +2752,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_edit();
+		$this->cci_obj->cci_edit();
 		return true;;
 	}
 
@@ -2765,7 +2767,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_update();
+		$this->cci_obj->cci_update();
 
 		return true;;
 	}
@@ -2780,7 +2782,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_move();
+		$this->cci_obj->cci_move();
 
 		return true;;
 	}
@@ -2788,20 +2790,18 @@ class ilObjCourseGUI extends ilObjectGUI
 	// Methods for ConditionHandlerInterface
 	function initConditionHandlerGUI($item_id)
 	{
-		if(!method_exists($this,'chi_init'))
-		{
-			include_once "./classes/class.ilConditionHandlerInterface.php";
-			
-			aggregate($this,"ilConditionHandlerInterface");
+		include_once './classes/class.ilConditionHandlerInterface.php';
 
+		if(!is_object($this->chi_obj))
+		{
 			if($_GET['item_id'])
 			{
-				$this->chi_init($item_id);
+				$this->chi_obj =& new ilConditionHandlerInterface($this,$item_id);
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 			}
 			else
 			{
-				$this->chi_init();
+				$this->chi_obj =& new ilConditionHandlerInterface($this);
 			}
 		}
 		return true;
@@ -2810,7 +2810,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	function chi_updateObject()
 	{
 		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_update();
+		$this->chi_obj->chi_update();
 
 		if($_GET['item_id'])
 		{
@@ -2824,7 +2824,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	function chi_deleteObject()
 	{
 		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_delete();
+		$this->chi_obj->chi_delete();
 
 		if($_GET['item_id'])
 		{
@@ -2839,13 +2839,13 @@ class ilObjCourseGUI extends ilObjectGUI
 	function chi_selectorObject()
 	{
 		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_selector();
+		$this->chi_obj->chi_selector();
 	}		
 
 	function chi_assignObject()
 	{
 		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
-		$this->chi_assign();
+		$this->chi_obj->chi_assign();
 
 		if($_GET['item_id'])
 		{
