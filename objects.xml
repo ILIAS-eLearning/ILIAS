@@ -34,7 +34,7 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
-    	<subobj name="dbk" max="1">dbk</subobj>
+    <subobj name="dbk">dbk</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
