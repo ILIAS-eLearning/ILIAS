@@ -33,48 +33,48 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#apply#:#Apply###05 Feb 2004 new variable
-assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-assessment#:#by#:#by###05 Feb 2004 new variable
-assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
-assessment#:#create_date#:#Created###05 Feb 2004 new variable
-assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
-assessment#:#create_new#:#Create new###05 Feb 2004 new variable
-assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#export#:#Export###05 Feb 2004 new variable
-assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#filter#:#Filter###05 Feb 2004 new variable
-assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
-assessment#:#last_update#:#Last update###05 Feb 2004 new variable
-assessment#:#matches#:#matches###05 Feb 2004 new variable
-assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
-assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
-assessment#:#preview#:#Preview###07 Feb 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
-assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
-assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
-assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
-assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
-assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
-assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
-assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#add_answer#:#Додати віповідь
+assessment#:#add_matching_pair#:#Додати співпадаючу пару
+assessment#:#answer#:#Відповідь
+assessment#:#answer_text#:#Текст відповіді
+assessment#:#apply#:#Примінити
+assessment#:#ass_questions#:#Питання
+assessment#:#by#:#
+assessment#:#cloze_text#:#Закрити текст
+assessment#:#create_date#:#Створений
+assessment#:#create_gaps#:#Створити проміжок
+assessment#:#create_new#:#Створити новий
+assessment#:#duplicate#:#Дублювати
+assessment#:#export#:#Експорт
+assessment#:#false#:#Невірний
+assessment#:#filter#:#Фільтр
+assessment#:#gap_selection#:#Вибір проміжку
+assessment#:#last_update#:#Останнє оновлення
+assessment#:#matches#:#співпадання
+assessment#:#matching_pair#:#Співпадаючі пари
+assessment#:#no_questions_available#:#Немає доступних питань!
+assessment#:#points#:#Бали
+assessment#:#possible_gap_text#:#Можливі текстові проміжки
+assessment#:#preview#:#Попередній огляд
+assessment#:#qpl_delete_rbac_error#:#У вас немає прав видалити це питання!
+assessment#:#qpl_delete_select_none#:#Будь ласка виберіть принаймні одне питання щоб видалити його
+assessment#:#qpl_duplicate_select_none#:#Будь ласка виберіть принаймні одне питання щоб дублювати його
+assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагувати це питання
+assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
+assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одне питання для редагування
+assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
+assessment#:#qt_cloze#:#Закрити питання
+assessment#:#qt_matching#:#Співпадаючі питання
+assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
+assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
+assessment#:#qt_ordering#:#Порядкове Питання
+assessment#:#question_type#:#Тип Питання
+assessment#:#reset_filter#:#Сбросити фільтр
+assessment#:#select_gap#:#Вибрати проміжок
+assessment#:#set_filter#:#Встановити фільтр
+assessment#:#solution_order#:#Порядок розв'язку
+assessment#:#text_gap#:#Текстовий проміжок
+assessment#:#true#:#Правда
 common#:#3rd_party_software#:#програмне забезпечення третіх виробників
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -150,9 +150,9 @@ common#:#cat_create_frm#:#Створити Форум
 common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_lm#:#Створити Учбовий Модуль
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
+common#:#cat_create_qpl#:#Створити Чергу Питань
 common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
+common#:#cat_create_tst#:#Створити Тест
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
@@ -366,9 +366,9 @@ common#:#force_accept_usr_agreement#:#Ви маєте прийняти угод�
 common#:#forename#:#Ім'я
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
 common#:#forum#:#Форум
-common#:#forum_notification#:#Notification###06 Feb 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
+common#:#forum_notification#:#Повідомлення
+common#:#forum_notify_me#:#Повідомити меня про відповідь
+common#:#forum_post_replied#:#На вашу відку в форумі з'явилась відповідь!
 common#:#forums#:#Форуми
 common#:#forums_overview#:#Огляд Форумів
 common#:#frm#:#Форум
@@ -451,8 +451,8 @@ common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_lm#:#Створити Учбовий Модуль
 common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
 common#:#grp_delete#:#Видалити Групу
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.
+common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи.
 common#:#grp_edit#:#Редагувати Групу
 common#:#grp_edit_permission#:#Змінити настройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
@@ -699,8 +699,8 @@ common#:#msg_min_one_role#:#Кожний користувач повинен м�
 common#:#msg_multi_language_selected#:#Ви вибрали одну і ту ж саму мову для різних перекладів!
 common#:#msg_no_default_language#:#Мова по замовчанню не вказана! Ви маєте визначити один переклад як переклад по замовчанню.
 common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
-common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного переклад�
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###09 Feb 2004 new variable 
+common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
+common#:#msg_no_perm_assign_role_to_user#:#Ви не маєте прав змінювати призначення ролей користувачам.
 common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
 common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
 common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
@@ -723,7 +723,7 @@ common#:#msg_no_rolf_allowed1#:#Об'єкт
 common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Папку Ролі
 common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role###09 Feb 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Ви можете не призначати користувачів на Роль Системного адміністратора, якщо ви не призначили себе на цю Роль
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
 common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
 common#:#msg_not_possible_link#:#Не є можливим стоврити посилання об'єкта: Тип
@@ -807,7 +807,7 @@ common#:#obj_objf#:#Визначення об'єкта
 common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
 common#:#obj_owner#:#Цей Об'єкт належить
 common#:#obj_pg#:#Сторінка
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_qpl#:#Черга Питань
 common#:#obj_role#:#Роль
 common#:#obj_rolf#:#Ролі
 common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
@@ -817,7 +817,7 @@ common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM LM
 common#:#obj_st#:#Глава
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#Тест
 common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
 common#:#obj_uset#:#Настройки Користувача
@@ -903,16 +903,16 @@ common#:#publication#:#Публікація
 common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
 common#:#publishing_organisation#:#Організація що Публікує
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#Черга питань
+common#:#qpl_add#:#Додати чергу питань
+common#:#qpl_delete#:#Видалити Чергу Питань
+common#:#qpl_edit_permission#:#Змінити настройки прав
+common#:#qpl_new#:#Нова черга питань
+common#:#qpl_read#:#Доступ на читання до черги питань
+common#:#qpl_visible#:#Черга питань є видимою
+common#:#qpl_write#:#Редагувати Чергу Птань
 common#:#question#:#Питання
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#Черги питань
 common#:#quit#:#Вихід
 common#:#quote#:#Цитата
 common#:#read#:#Читати
@@ -921,7 +921,7 @@ common#:#refresh#:#Обновити
 common#:#refresh_languages#:#Обновити Мови
 common#:#refresh_list#:#Обновити Список
 common#:#register#:#Зареєструвати
-common#:#register_info#:#Будь ласка заповніть форму реєстрації (Поля позначені зірочкою обов'язкові для заповнення).###09 Feb 2004 content changed
+common#:#register_info#:#Будь ласка заповніть форму для реєстрації (Поля позначені зірочкою обов'язкові для заповнення).
 common#:#registered_since#:#Зареєстрований з
 common#:#registered_user#:#зареєстрований Користувач
 common#:#registered_users#:#зареєстровані Користувачі
@@ -1050,7 +1050,7 @@ common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
 common#:#term#:#Термін
 common#:#test_intern#:#Тест Intern
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#Тести
 common#:#time#:#Час
 common#:#title#:#Назва
 common#:#to#:#
@@ -1062,14 +1062,14 @@ common#:#tpl_path#:#Шлях до Шаблона
 common#:#translation#:#Переклад
 common#:#trash#:#Смітник
 common#:#treeview#:#Огляд у вигляді дерева
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#Тест
+common#:#tst_add#:#Додати тест
+common#:#tst_delete#:#Видалити Тест
+common#:#tst_edit_permission#:#Змінити настройки прав
+common#:#tst_new#:#Новий тест
+common#:#tst_read#:#Доступ на читання до Тесту
+common#:#tst_visible#:#Тест є видимим
+common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.
@@ -1160,7 +1160,7 @@ content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
 content#:#cont_all_pages#:#Усі Сторінки
 content#:#cont_alphabetic#:#Алфавітн a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#Карта областей видалена.
 content#:#cont_assign_full#:#Призначити Повний Екран
 content#:#cont_assign_std#:#Призначити Стандарт
 content#:#cont_assign_translation#:#Призначити переклад
@@ -1184,9 +1184,9 @@ content#:#cont_citations#:#Цитати
 content#:#cont_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
 content#:#cont_click_center#:#Будь ласка клікніть на центр бажаної області.
 content#:#cont_click_circle#:#Будь ласка клікніть на точку на колі вибраної області.
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
+content#:#cont_click_next_or_save#:#Будь ласка клікніть на наступну точку полігона або збережіть область. (Не є необхідним клікати знову на початкову точку цього полігона !)
+content#:#cont_click_next_point#:#Будь ласка клікніть на наступну точку полігона.
+content#:#cont_click_starting_point#:#Будь ласка клікніть на початкову точку полігона.
 content#:#cont_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
@@ -1211,12 +1211,12 @@ content#:#cont_edit_par#:#Редагувати Параграф
 content#:#cont_edit_tab_properties#:#Властивості Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випуск
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#зовнішній
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли
 content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
 content#:#cont_fullscreen#:#Повний екран
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#отримати посилання
 content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
 content#:#cont_href#:#href
@@ -1230,7 +1230,7 @@ content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
 content#:#cont_insert_par#:#Вставити Параграф
 content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
 content#:#cont_insert_table#:#Вставити Таблицю
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#внутрішній
 content#:#cont_internal_link#:#внутрішнє посилання
 content#:#cont_is_visible#:#є видимим
 content#:#cont_isbn#:#ISBN
@@ -1239,8 +1239,8 @@ content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
 content#:#cont_link#:#Посилання
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link_ext#:#Посилання (зовнішнє)
+content#:#cont_link_int#:#Посилання (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
 content#:#cont_list_properties#:#Властивості Списку
@@ -1267,7 +1267,7 @@ content#:#cont_mob_usages#:#Використання
 content#:#cont_month#:#Місяць
 content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
 content#:#cont_name#:#Ім'я
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_new_area#:#Нова Область-Посилання
 content#:#cont_new_assignment#:#Нове призначення
 content#:#cont_new_dir#:#Нова Директорія
 content#:#cont_new_file#:#Новий Файл
@@ -1304,7 +1304,7 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
+content#:#cont_saved_map_area#:#Збережена карта області
 content#:#cont_saved_map_data#:#Зберегти дані карти
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
@@ -1435,10 +1435,10 @@ mail#:#mail_folder_name_changed#:#Папка була переіменована
 mail#:#mail_folder_options#:#Опції Папки
 mail#:#mail_following_rcp_not_valid#:#Наступний одержувач є некорректним:
 mail#:#mail_global_options#:#Глобальні опції
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
+mail#:#mail_incoming#:#Вхідні листи
+mail#:#mail_incoming_both#:#локальні та ті що пересилаються
+mail#:#mail_incoming_local#:#тільки локальні
+mail#:#mail_incoming_smtp#:#переслати на поштову адресу
 mail#:#mail_insert_folder_name#:#Будь ласка вставте ім'я папки
 mail#:#mail_insert_query#:#Будь ласка вставте запит
 mail#:#mail_intern#:#Внутрішній
@@ -1453,7 +1453,7 @@ mail#:#mail_moved_to_trash#:#Пошта була переміщена в смі�
 mail#:#mail_new_file#:#Додати новий файл:
 mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
 mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати зовнішні листи
 mail#:#mail_options_of#:#Опції
 mail#:#mail_options_saved#:#Опції збережені
 mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
