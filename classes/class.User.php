@@ -102,12 +102,28 @@ class User
 				$this->prefs["skin"] == "";
 				$this->writePref("skin", "");
 			}
+
 			//set template to default if not set
 			if ($this->prefs["skin"] == "")
 			{
-				//TODO: read it from default system settings
 			 	$this->prefs["skin"] = $this->ilias->ini->readVariable("layout","defaultskin");
 			}
+
+			$style = "style_".$this->prefs["skin"];			
+			//check style-setting (skins could have more than one stylesheet
+			if ($this->prefs[$style] != "" && 
+			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]."/".$this->prefs[$style].".css") == false)
+			{
+				$this->prefs[$style] == "";
+				$this->writePref($style, "");
+			}
+
+			//set template to default if not set
+			if ($this->prefs[$style] == "")
+			{
+			 	$this->prefs[$style] = $this->ilias->getFirstStyle($this->prefs["skin"]);
+			}
+			
 		}
 		else
 		{
