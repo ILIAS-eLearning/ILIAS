@@ -251,6 +251,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
 			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST",
 				$this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
@@ -313,7 +314,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function addYesNo()
 	{
-		$this->setObjectData();
+		$this->writePostData();
+		//$this->setObjectData();
 
 		if (!$this->checkInput())
 		{
@@ -344,7 +346,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function addTrueFalse()
 	{
-		$this->setObjectData();
+		//$this->setObjectData();
+		$this->writePostData();
 
 		if (!$this->checkInput())
 		{
@@ -375,7 +378,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function add()
 	{
-		$this->setObjectData();
+		//$this->setObjectData();
+		$this->writePostData();
 
 		if (!$this->checkInput())
 		{
@@ -400,7 +404,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function delete()
 	{
-		$this->setObjectData();
+		//$this->setObjectData();
+		$this->writePostData();
 
 		if (!$this->checkInput())
 		{
@@ -435,7 +440,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function save()
 	{
-		$this->writePostData(true);
+		$this->writePostData();
+		$this->object->saveToDb();
+		$this->object->removeAllQuestionReferences();
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -444,7 +451,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function uploadingMaterial()
 	{
-		$this->setObjectData();
+		//$this->setObjectData();
+		$this->writePostData();
 		$this->editQuestion();
 	}
 
@@ -478,6 +486,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	/**
 	* set object data
 	*/
+	/*
 	function setObjectData()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -543,6 +552,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 	}
+	*/
 
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object
@@ -700,18 +710,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			$this->object->setId($_POST["multiple_choice_id"]);
 		}
-
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			// ???
-		}
-
-		$this->object->saveToDb();
-		$this->object->removeAllQuestionReferences();
 
 		return $result;
 	}
