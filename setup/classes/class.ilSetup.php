@@ -1107,7 +1107,7 @@ class ilSetup extends PEAR
 		$webspace_dir = ILIAS_ABSOLUTE_PATH . "/data";
 		
 		// datadir may not point to webspace dir or to any place under webspace_dir
-		if (ereg($webspace_dir,$datadir_path) or preg_match($webspace_dir,$datadir_path))
+		if (strpos($datadir_path,$webspace_dir) !== false)
 		{
 			$this->error = "datadir_webspacedir_match";
 			return false;
@@ -1238,6 +1238,7 @@ class ilSetup extends PEAR
 		{
 			unlink(ILIAS_ABSOLUTE_PATH."/images/test.gif");
 		}
+
 		system($a_convert_path." ".ILIAS_ABSOLUTE_PATH."/images/test.jpg GIF:".ILIAS_ABSOLUTE_PATH."/images/test.gif");
 	
 		// check wether convert generated file
@@ -1264,10 +1265,7 @@ class ilSetup extends PEAR
 	
 		unset($out);
 	
-		if ($back != 1)
-			return false;
-		else
-			return true;
+		return ($back != 1) ? false : true;
 	}
 
 	/**
