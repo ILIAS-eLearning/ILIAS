@@ -45,12 +45,29 @@ table.fullwidth {
 	border-spacing:1px;
 }
 
+table.fullwidth_invisible {
+	width: 100%;
+	border-spacing:0px;
+}
+
 td.std {
 	padding:3px;
 }
 
+.tbltitle {
+	font-size:16px;
+	font-weight:bold;
+	color:#ffffff;
+	background-color:#006699;
+}
+
 .tblheader {
 	font-weight:bold;
+	color:#ffffff;
+	background-color:#666677;
+}
+
+.tblfooter {
 	color:#ffffff;
 	background-color:#666677;
 }
@@ -178,7 +195,11 @@ a.btn {
 	font-size:13px;
 }
 
-a.tblheader:visited, a.tblheader:hover {
+a.tblheader:visited, a.tblheader:hover  {
+	color:#ffffff;
+}
+
+a.tblfooter:visited, a.tblfooter:hover  {
 	color:#ffffff;
 }
 
@@ -222,4 +243,10 @@ img.imgtab {
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
 	margin:0px;
+}
+
+/* ------------------ blind image - spacer gif -------------- 
+   please use this style class always when using this blind image */
+img.spacer {
+	display:block;
 }
