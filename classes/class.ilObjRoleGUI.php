@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.35 2003/07/28 09:33:30 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.36 2003/07/29 14:02:40 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -506,7 +506,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 
 					$roles = "RoleId|".serialize($role_arr);
-					$modified_data = preg_replace("/RoleId.*}/",$roles,$affected_user["data"]);
+					$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$affected_user["data"]);
 			
 					$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$affected_user["user_id"]."'";
 					$this->ilias->db->query($q);
