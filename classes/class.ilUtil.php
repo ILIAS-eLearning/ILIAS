@@ -57,7 +57,7 @@ class ilUtil
 	*/
 	function getImagePath($img, $in_module = false)
 	{
-		global $ilias;
+		global $ilias, $styleDefinition;
 
 		if(defined("ILIAS_MODULE"))
 		{
@@ -73,8 +73,10 @@ class ilUtil
 			$base.= ILIAS_MODULE."/";
 		}
 		$base .= "templates/";
+//echo ":".$styleDefinition->getImageDirectory($ilias->account->prefs["style"]).":";
 		$user_skin_and_style = $base.$ilias->account->skin."/".
-			$ilias->account->prefs["style"]."/images/".$img;
+			$styleDefinition->getImageDirectory($ilias->account->prefs["style"]).
+			"/images/".$img;
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
 //echo ":".$user_skin_and_style.":<br>";
@@ -92,7 +94,7 @@ class ilUtil
 	function getJSPath($a_js)
 	{
 		global $ilias;
-		
+
 		if(defined("ILIAS_MODULE"))
 		{
 			$dir = ".";
@@ -351,7 +353,7 @@ class ilUtil
 		global $lng;
 		
 		$tpltab = new ilTemplate("tpl.tabs.html", true, true);
-		
+
 		for ($i=1; $i<=4; $i++)
 		{
 			$tpltab->setCurrentBlock("tab");
@@ -365,13 +367,13 @@ class ilUtil
 				$tabtype = "tabinactive";
 				$tab = "tab";
 			}
-				
+
 			switch ($i)
 			{
-				case 1: 
+				case 1:
 					$txt = $lng->txt("view_content");
 					break;
-				case 2: 
+				case 2:
 					$txt = $lng->txt("edit_properties");
 					break;
 				case 3: 
@@ -1511,7 +1513,7 @@ class ilUtil
 	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0)
 	{
 		global $array_sortby,$array_sortorder;
-	
+
 		$array_sortby = $a_array_sortby;
 		
 		if ($a_array_sortorder == "desc")

@@ -287,7 +287,7 @@ class ILIAS extends PEAR
 		{
 			$arr[$row["keyword"]] = ilUtil::stripSlashes($row["value"]);
 		}
-		
+
 		return $arr;
 	}
 
@@ -312,12 +312,16 @@ class ILIAS extends PEAR
 	}
 
 	/**
+	*
+	* /// deprecated: Use $templates = $styleDefinition->getAllTemplates() instead
+	*
 	* skin system: get all available skins from template directory
 	* and store them in $this->skins
 	* @access	public
 	* @return	boolean	false if no skin was found
 	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
+	/*
 	function getSkins()
 	{
 		$skins = array();
@@ -347,9 +351,13 @@ class ILIAS extends PEAR
 		$this->skins = $skins;
 
 		return true;
-	}
+	}*/
 
 	/**
+	*
+	* /// deprecated: use 	ilStyleDefinition()->getStyles() instead
+	*
+	*
 	* skin system: get all available styles from current templates
 	* and store them in $this->styles
 	* @access	public
@@ -357,6 +365,7 @@ class ILIAS extends PEAR
 	* @return	boolean	false if no style was found
 	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
+	/*
 	function getStyles($a_skin)
 	{
 		$styles = array();
@@ -382,12 +391,12 @@ class ILIAS extends PEAR
 		{
 			return false;
 		}
-		
+
 		$this->styles = $styles;
 
 		return true;
-	}
-	
+	}*/
+
 	/**
 	* get first available stylesheet from skindirectory
 	* @param	string
