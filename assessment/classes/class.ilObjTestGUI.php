@@ -2163,7 +2163,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["confirmdeleteresults"])
 		{
 			$this->object->deleteResults($ilUser->id);
-			sendInfo("tst_confirm_delete_results");
+			sendInfo($this->lng->txt("tst_confirm_delete_results_info"));
 		}
 		
 		if ($_POST["cmd"]["deleteresults"])

@@ -2545,9 +2545,56 @@ class ilObjSurveyGUI extends ilObjectGUI
 		exit;
 	}
 
-	function evaluationuserObject()
+	function evaluationuserObject($print = 0)
 	{
-		//$this->object->getEvaluationByUser();
+		$eval =& $this->object->getEvaluationForAllUsers();
+		if (!$print)
+		{
+			$this->setEvalTabs();
+			sendInfo();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", true);
+		}
+		else
+		{
+			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
+		}
+		$counter = 0;
+		$classes = array("tblrow1", "tblrow2");
+		$questions =& $this->object->getSurveyQuestions();
+		foreach ($questions as $question_id => $question_data)
+		{
+			$this->tpl->setCurrentBlock("headercell");
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $question_data["title"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		foreach ($eval as $user_id => $resultset)
+		{
+		}
+		if (!$print)
+		{
+			$this->tpl->setCurrentBlock("adm_content");
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("__global__");
+			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
+			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
+			$this->tpl->setVariable("PRINT_TYPE", "summary");
+		}
+		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
+		$this->tpl->setVariable("VALUE_DETAIL", $details);
+		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
+		$this->tpl->parseCurrentBlock();
+		if ($print)
+		{
+			$this->tpl->show();
+		}
 	}
 	
 	function evaluationdetailsObject()
@@ -2636,7 +2683,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 		}
 
-    $add_parameter = $this->getAddParameter();
 		if (!$print)
 		{
 			$this->setEvalTabs();

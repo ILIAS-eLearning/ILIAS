@@ -1736,6 +1736,15 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($user_id)
 			);
 			$result = $this->ilias->db->query($query);
+			$sequence_arr = array_flip($this->questions);
+			$sequence = join($sequence_arr, ",");
+			$query = sprintf("UPDATE tst_active SET sequence = %s, lastindex = %s WHERE test_fi = %s and user_fi = %s",
+				$this->ilias->db->quote($sequence),
+				$this->ilias->db->quote("1"),
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($user_id)
+			);
+			$result = $this->ilias->db->query($query);
 		}
 	}
 	
