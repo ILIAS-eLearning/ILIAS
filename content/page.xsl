@@ -35,6 +35,7 @@
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
 <xsl:param name="map_item" />
+<xsl:param name="map_edit_mode" />
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
@@ -957,19 +958,30 @@
 
 		<!-- all image mime types -->
 		<xsl:when test="substring($type, 1, 5) = 'image'">
-			<img border="0">
-				<xsl:if test = "$map_item = ''">
-					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test = "$map_item != ''">
-					<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
-					<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
-				</xsl:if>
-			</img>
+			<xsl:if test="$map_edit_mode != 'get_coords'">
+				<img border="0">
+					<xsl:if test = "$map_item = ''">
+						<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test = "$map_item != ''">
+						<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+					</xsl:if>
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
+						<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+					</xsl:if>
+				</img>
+			</xsl:if>
+			<xsl:if test = "$map_edit_mode = 'get_coords'">
+				<a href = "./lm_edit_imagemap_forward.php">
+					<img border = "0" ismap = "1">
+						<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</img>
+				</a>
+			</xsl:if>
 		</xsl:when>
 
 		<!-- flash -->

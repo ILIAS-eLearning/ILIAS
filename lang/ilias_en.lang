@@ -1074,6 +1074,10 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
+content#:#cont_click_center#:#Please click on center of the desired area.
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number

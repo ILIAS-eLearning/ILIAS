@@ -355,7 +355,6 @@ class ilPageEditorGUI
 			$tabs[] = array("cont_mob_usages", "showUsages");
 			if (is_object($this->cont_obj))
 			{
-				/*
 				$st_item =& $this->cont_obj->getMediaItem("Standard");
 				if (is_object($st_item))
 				{
@@ -364,7 +363,7 @@ class ilPageEditorGUI
 					{
 						$tabs[] = array("cont_map_areas", "editMapAreas");
 					}
-				}*/
+				}
 			}
 			$tabs[] = array("cont_back", "returnToContext");
 			/*
