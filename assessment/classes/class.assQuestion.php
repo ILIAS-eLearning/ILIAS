@@ -1266,6 +1266,7 @@ class ASS_Question
 		{
 			require_once "./content/classes/Pages/class.ilInternalLink.php";
 			require_once "./content/classes/class.ilLMObject.php";
+			require_once "./content/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
 				case "pg":
