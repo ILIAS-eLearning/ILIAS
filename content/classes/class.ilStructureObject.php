@@ -21,19 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php");
+require_once("content/classes/class.ilMetaData.php");
 
 /**
-* Class ilPageObject
+* Class ilStructreObject
 *
-* Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
+* Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package application
 */
-class ilPageObject
+class ilStructureObject
 {
 	var $ilias;
 	var $meta_data;
@@ -44,36 +44,12 @@ class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject()
+	function ilStructureObject()
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
 
-		$this->is_alias = false;
-	}
-
-	/**
-	* set wether page object is an alias
-	*/
-	function setAlias($a_is_alias)
-	{
-		$this->is_alias = $a_is_alias;
-	}
-
-	function isAlias()
-	{
-		return $this->is_alias;
-	}
-
-	function setOriginID($a_id)
-	{
-		return $this->origin_id = $a_id;
-	}
-
-	function getOriginID()
-	{
-		return $this->origin_id;
 	}
 
 	function assignMetaData(&$a_meta_data)

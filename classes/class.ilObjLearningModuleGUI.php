@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.5 2003/04/18 18:22:08 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.6 2003/04/24 14:26:46 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -123,7 +123,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		// --- start: test of alternate parsing / lm storing
 		if ($_POST["parse_mode"] == 2)
 		{
-			require_once ("classes/class.ilLMParser.php");
+			require_once ("content/classes/class.ilLMParser.php");
 			$lmParser = new ilLMParser($HTTP_POST_FILES["xmldoc"]["tmp_name"]);
 			$lmParser->startParsing();
 			exit;
