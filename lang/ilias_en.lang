@@ -4573,3 +4573,13 @@ crs#:#crs_test_status_not_complete#:#Not complete
 crs#:#assigned#:#Assigned
 crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.
 crs#:#crs_no_question_selected#:#Please select one question.
+crs#:#crs_objective_overview_question_assignment#:#Overview question assignment
+crs#:#crs_objective_overview_objectives#:#Overview objectives
+crs#:#crs_objectives_nr_questions#:#Number of questions
+crs#:#crs_objectives_max_points#:#Maximum points
+crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment
+crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.
+crs#:#crs_objective_updated_test#:#Updated modifications.
+crs#:#crs_no_questions_assigned#:#There are no questions assigned.
+crs#:#crs_change_status#:#Changes status of objective:
+crs#:#crs_suggest_lm#:#Suggest learning materials if:

@@ -4567,3 +4567,13 @@ crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
 crs#:#assigned#:#Zugeordnet
 crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
 crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
+crs#:#crs_objective_overview_question_assignment#:#Übersicht Fragenzuordnung
+crs#:#crs_objective_overview_objectives#:#Übersicht Lernziele
+crs#:#crs_objectives_nr_questions#:#Anzahl Fragen
+crs#:#crs_objectives_max_points#:#Maximale Punktzahl
+crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
+crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
+crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
+crs#:#crs_no_questions_assigned#:#Diesem Lernziel sind keine Fragen zugeordnet.
+crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
+crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:

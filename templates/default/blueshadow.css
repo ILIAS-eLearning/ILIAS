@@ -265,6 +265,15 @@ td.option_value {
 	vertical-align:top;
 	text-align:left;
 }
+td.option_value_center {
+	background-color:#f7f7f7;
+	background-image: none;
+	color:#222222;
+	padding:3px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:center;
+}
 
 td.option_desc, p.option_desc {
 	background-color:#f7f7f7;
