@@ -2473,6 +2473,7 @@ content#:#cont_files#:#Soubory
 content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###16 Mar 2004 new variable
+content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Smazání není možné.  Celoobrazovkový soubor je v adresáři.###14 Sep 2004 content changed
 content#:#cont_fullscreen#:#Přes celou obrazovku###14 Sep 2004 content changed

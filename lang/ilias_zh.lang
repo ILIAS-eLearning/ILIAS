@@ -2491,6 +2491,7 @@ content#:#cont_files#:#文件
 content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###23 Feb 2004 new variable
+content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。###14 Sep 2004 content changed
 content#:#cont_fullscreen#:#全屏幕###14 Sep 2004 content changed

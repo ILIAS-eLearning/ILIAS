@@ -2473,6 +2473,7 @@ content#:#cont_files#:#Files
 content#:#cont_fix_tree#:#Fix structure
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
 content#:#cont_format#:#Format
+content#:#cont_format_error#:#This operation is not allowed here!
 content#:#cont_free_pages#:#Free Pages
 content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in directory.
 content#:#cont_fullscreen#:#Full Screen
@@ -4289,4 +4290,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-content#:#cont_format_error#:#This operation is not allowed here!
