@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.12 2003/07/09 18:36:58 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.13 2003/07/25 08:58:11 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -75,7 +75,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->data["data"][] = array(
 						"type"			=> $val["type"],
 						"name"			=> $val["title"],
-						"description"	=> $val["desc"],
+						"email"			=> $val["desc"],
 						"last_change"	=> $val["last_update"],
 						"obj_id"		=> $val["obj_id"]
 					);
