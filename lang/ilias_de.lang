@@ -360,7 +360,7 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstell
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
-common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser Rolle zugewiesen:
+common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert.
 common#:#multimedia#:#Multimedia
