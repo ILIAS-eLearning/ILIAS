@@ -1780,3 +1780,5 @@ search#:#search_one_action#:#Select one action.
 search#:#search_move_to#:#Move to:
 search#:#search_select_one_select#:#--Select one folder--
 common#:#to_client_list#:#To Client selection
+content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.
+content#:#cont_select_one_edition#:#Please select at least one edition.
