@@ -82,6 +82,11 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.Interface.php');
 		$uptext			= $Interface->getFrameDec();
 	}
 	
+
+	/* load language strings into private array for the tateplaner*/
+	$lng->loadLanguageModule("dateplaner");	
+	$DP_language	= $lng->text;
+
 	/* other dynamic variables used in the dateplaner */
 	$DP_UId			= $Interface->getUId();				// UserID
 	$DP_Lang		= $Interface->getLang();			// language, selected by the user

@@ -47,7 +47,7 @@
 	require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.TimestampToDate.php');
 
 //language
-	$DP_language = ($Gui->getLangArray($DP_Lang));
+	//$DP_language = ($Gui->getLangArray($DP_Lang));
 
 //dateplaner functions
 	//include keyword functions

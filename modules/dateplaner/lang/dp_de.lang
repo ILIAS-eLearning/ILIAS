@@ -50,7 +50,7 @@ dateplaner#:#week#:#Woche
 dateplaner#:#year#:#Jahr
 dateplaner#:#month#:#Monat
 dateplaner#:#hour#:#Stunde
-dateplaner#:#o_day_date#:#ganztägig
+dateplaner#:#o_day_date#:#24h Termin
 dateplaner#:#date_format#:#d.m.Y H:i //day.month.Year4Digits Hour24:Minutes
 dateplaner#:#date_format_middle#:#d/m/y//month/day/Year
 dateplaner#:#myeahr#:#letztes Jahr
@@ -185,7 +185,6 @@ dateplaner#:#newDates#:#Neue Termine
 dateplaner#:#changedDates#:#Geänderte Termine
 dateplaner#:#deletedDates#:#Gelöschte Termine
 dateplaner#:#singleDate#:#Einzeltermin
-dateplaner#:#properties#:#Einstellungen
 dateplaner#:#changeTo#:#Ändern zu:
 dateplaner#:#newKeyword#:#Neu:
 dateplaner#:#View#:#Ansicht:
@@ -203,20 +202,19 @@ dateplaner#:#inbox#:#Inbox
 dateplaner#:#properties#:#Einstellungen
 dateplaner#:#c_date#:#erstelle Termin
 dateplaner#:#free#:#frei
-dateplaner#:#back#:#zurück
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
 dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
 dateplaner#:#help_startdate#:#Startdatum - Syntax[dd//mm/yyyy]
 dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm#:# 24h Format
+dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
 dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd//mm/yyyy]
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm#:# 24h Format
+dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.

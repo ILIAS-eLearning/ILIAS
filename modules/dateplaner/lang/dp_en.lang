@@ -200,23 +200,21 @@ dateplaner#:#Month_long#:#Month View
 dateplaner#:#Week_long#:#Week View
 dateplaner#:#Day_long#:#Day View
 dateplaner#:#inbox#:#Inbox
-dateplaner#:#properties#:#Properties
 dateplaner#:#c_date#:#Create Date
 dateplaner#:#free#:#free
-dateplaner#:#back#:#back
 dateplaner#:#checkforfreetime#:#Check for free time
 dateplaner#:#freetime#:#free Time in group
 dateplaner#:#busytime#:#busy time in group
 dateplaner#:#help_further#:#<br> <b>click here for further information.</b>
 dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]
 dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm#:# 24h format
+dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format
 dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]
 dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.
 dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
-dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm#:# 24h format
+dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.
 dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
