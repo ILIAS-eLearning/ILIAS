@@ -23,12 +23,12 @@
 
 
 /**
-* Class ilExplorer 
+* Class ilExplorer
 * class for explorer view in admin frame
-* 
+*
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @package ilias-core
 */
 class ilExplorer
@@ -83,6 +83,13 @@ class ilExplorer
 	var $expanded;
 
 	/**
+	* order column
+	* @var string
+	* @access private
+	*/
+	var $order_column;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -102,7 +109,18 @@ class ilExplorer
 		$this->target = $a_target;
 		$this->target_get = 'ref_id';
 		$this->frameTarget = "content";
+		$this->order_column = "title";
 		$this->tree = new ilTree(ROOT_FOLDER_ID);
+	}
+
+	/**
+	* set the order column
+	* @access	public
+	* @param	string		name of order column
+	*/
+	function setOrderColumn($a_column)
+	{
+		$this->order_column = $a_column;
 	}
 
 	/**
@@ -139,12 +157,12 @@ class ilExplorer
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		$objects = $this->tree->getChilds($a_parent_id,"title");
-		
+		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
-			
+
 			// Maybe call a lexical sort function for the child objects
 			foreach ($objects as $key => $object)
 			{
