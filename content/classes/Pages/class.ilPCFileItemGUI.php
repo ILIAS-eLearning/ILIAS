@@ -127,7 +127,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{
@@ -173,7 +173,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{
@@ -188,7 +188,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**

@@ -75,7 +75,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newRowAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newRowBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteRow();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 
@@ -106,7 +106,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newColAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newColBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteCol();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 
