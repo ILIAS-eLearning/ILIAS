@@ -46,6 +46,7 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
+require_once "include/inc.get_pear.php";
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 

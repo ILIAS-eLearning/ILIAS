@@ -428,6 +428,7 @@ class ilPageEditorGUI
 		global $ilUser;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
+		$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		$this->ctrl->returnToParent($this);
 	}
 	
