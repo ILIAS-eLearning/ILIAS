@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Question Type###16 Mar 2004 new variable
 assessment#:#region#:#Region###16 Mar 2004 new variable
 assessment#:#remove_question#:#Remove###16 Mar 2004 new variable
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Reset filter###16 Mar 2004 new variable
 assessment#:#result#:#Result###16 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###16 Mar 2004 new variable
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#cat_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#cat_create_grp#:#Create Group###16 Mar 2004 new variable
 common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###16 Mar 2004 new variable
 common#:#cat_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
 common#:#cat_create_tst#:#Create Test###16 Mar 2004 new variable
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Člen
 common#:#members#:#Členové
 common#:#membership_annulled#:#Vaše členství bylo vypovězeno
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Zpráva
 common#:#message_content#:#Obsah zprávy
 common#:#message_to#:#Zpráva pro:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Správa systémových jazyků.
 common#:#obj_lo#:#Výukový objekt
 common#:#obj_mail#:#Nastavení Pošty
 common#:#obj_mail_desc#:#Zde proveďte globální nastavení pošty.
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Multimedia Object###16 Mar 2004 new variable
 common#:#obj_not_found#:#Objekt nenalezen
 common#:#obj_note#:#Poznámka

@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Тип Питання
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Сбросити фільтр
 assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Створити Форум
 common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_lm#:#Створити Учбовий Модуль
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Створити Чергу Питань
 common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
 common#:#cat_create_tst#:#Створити Тест
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Член
 common#:#members#:#Члени
 common#:#membership_annulled#:#Ваше членство було відмінено
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Повідомлення
 common#:#message_content#:#Зміст Повідомлення
 common#:#message_to#:#Повідомлення для:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Управляйте вашими системними 
 common#:#obj_lo#:#Учбовий Об'єкт
 common#:#obj_mail#:#Настойки Пошти
 common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Мультимедіа Об'єкт
 common#:#obj_not_found#:#Об'єкт Не Знайдений
 common#:#obj_note#:#Примітка
