@@ -1361,6 +1361,11 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$notoperations[] = "paste";
 			$notoperations[] = "clear";
+
+			// temp. disabled
+			$notoperations[] = "cut";
+			$notoperations[] = "copy";
+			$notoperations[] = "link";
 		}
 		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
 		if ($_SESSION["clipboard"])
@@ -1368,6 +1373,10 @@ class ilGroupGUI extends ilObjectGUI
 			$notoperations[] = "cut";
 			$notoperations[] = "copy";
 			$notoperations[] = "link";
+
+			//temp. disabled
+			$notoperations[] = "paste";
+			$notoperations[] = "clear";
 		}
 
 		$operations = array();
