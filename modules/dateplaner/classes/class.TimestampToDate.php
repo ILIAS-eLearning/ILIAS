@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Gui Class
 *
