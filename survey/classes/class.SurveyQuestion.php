@@ -797,16 +797,19 @@ class SurveyQuestion {
 		);
 		$result = $this->ilias->db->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
-		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($this->material["internal_link"] . ""),
-			$this->ilias->db->quote($this->material["import_id"] . ""),
-			$this->ilias->db->quote($this->material["title"] . "")
-		);
-		$this->ilias->db->query($query);
-		if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+		if (count($this->material))
 		{
-			ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+			$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getId() . ""),
+				$this->ilias->db->quote($this->material["internal_link"] . ""),
+				$this->ilias->db->quote($this->material["import_id"] . ""),
+				$this->ilias->db->quote($this->material["title"] . "")
+			);
+			$this->ilias->db->query($query);
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+			}
 		}
 	}
 	

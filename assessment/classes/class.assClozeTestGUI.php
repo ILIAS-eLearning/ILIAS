@@ -541,7 +541,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				{
 					$points = 0.0;
 				}
-				$this->object->set_gap_points($matches[1]-1, $points);
+				$this->object->set_gap_points($matches[1], $points);
 			}
 		}
 	}

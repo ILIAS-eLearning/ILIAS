@@ -576,10 +576,27 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
+		$total = $this->object->evalTotalPersons();
 		$deleteuserdata = false;
 		$randomtest_switch = false;
 		// Check the values the user entered in the form
-		$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
+		if (!$total)
+		{
+			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
+			if (!strlen($_POST["chb_random"]))
+			{
+				$data["random_test"] = 0;
+			}
+			else
+			{
+				$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
+			}
+		}
+		else
+		{
+			$data["sel_test_types"] = $this->object->getTestType();
+			$data["random_test"] = $this->object->random_test;
+		}
 		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
 			$deleteuserdata = true;
@@ -706,12 +723,8 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($deleteuserdata)
 		{
 			$this->object->removeAllTestEditings();
-			sendInfo($this->lng->txt("tst_type_changed"));
 		}
-		else
-		{
-			sendInfo($this->lng->txt("msg_obj_modified"));
-		}
+		sendInfo($this->lng->txt("msg_obj_modified"));
 		if ($randomtest_switch)
 		{
 			if ($this->object->isRandomTest())
@@ -750,72 +763,81 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
-		$this->lng->loadLanguageModule("jscalendar");
-		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-		$this->tpl->setCurrentBlock("calendar_javascript");
-		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", ilUtil::getJSPath("calendar.js"));
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", ilUtil::getJSPath("calendar-setup.js"));
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", ilUtil::getJSPath("calendar.css"));
-		$this->tpl->parseCurrentBlock();
+		$total = $this->object->evalTotalPersons();
+		if (($data["sel_test_types"] == TYPE_ASSESSMENT) || ($this->object->getTestType() == TYPE_ASSESSMENT && strlen($data["sel_test_types"]) == 0)) 
+		{
+			$this->lng->loadLanguageModule("jscalendar");
+			$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
+			$this->tpl->setCurrentBlock("calendar_javascript");
+			$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
+			$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
+			$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
+			$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
+			$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
+			$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
+			$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
+			$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
+			$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
+			$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
+			$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
+			$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
+			$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
+			$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
+			$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
+			$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
+			$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
+			$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
+			$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
+			$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
+			$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
+			$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
+			$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
+			$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
+			$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
+			$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
+			$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
+			$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
+			$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
+			$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
+			$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
+			$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
+			$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
+			$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
+			$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
+			$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
+			$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
+			$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
+			$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
+			$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
+			$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
+			$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
+			$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
+			$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
+			$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
+			$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
+			$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
+			$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
+			$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
+			$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
+			$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
+			$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
+			$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
+			$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
+			$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
+			$this->tpl->setVariable("WK", $this->lng->txt("wk"));
+			$this->tpl->setVariable("TIME", $this->lng->txt("time"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("CalendarJS");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", ilUtil::getJSPath("calendar.js"));
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", ilUtil::getJSPath("calendar-setup.js"));
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", ilUtil::getJSPath("calendar.css"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("javascript_call_calendar");
+			$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
+			$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
+			$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
+			$this->tpl->parseCurrentBlock();
+		}
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -987,6 +1009,11 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
+		if ($total > 0)
+		{
+			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
+			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1609,8 +1636,21 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function randomQuestionsObject()
 	{
+		$total = $this->object->evalTotalPersons();
 		$add_parameter = $this->getAddParameter();
 		$available_qpl =& $this->object->getAvailableQuestionpools(true);
+		foreach ($available_qpl as $key => $value)
+		{
+			$count = ilObjQuestionPool::_getQuestionCount($key);
+			if ($count == 1)
+			{
+				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
+			}
+			else
+			{
+				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_questions") . ")";
+			}
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", true);
 		$found_qpls = array();
 		if (count($_POST) == 0)
@@ -1690,10 +1730,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("VALUE_COUNTQPL", $value["count"]);
 			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-			if ($counter > 0)
+			if (!$total)
 			{
-				$this->tpl->setVariable("BTNCOUNTQPL", $counter);
-				$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+				if ($counter > 0)
+				{
+					$this->tpl->setVariable("BTNCOUNTQPL", $counter);
+					$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 			$counter++;
@@ -1749,8 +1792,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $total_questions);
 		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
-		$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
+		if (!$total)
+		{
+			$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
+		}
 		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
@@ -2856,7 +2902,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$test_disabled = false;
 		if ($active) {
 			$this->tpl->setCurrentBlock("resume");
-			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
+			if ($seq == 1)
+			{
+				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_start_test"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
+			}
 			if ((($active->tries >= $this->object->getNrOfTries()) and ($this->object->getNrOfTries() != 0)) or $maxprocessingtimereached) {
 				$this->tpl->setVariable("DISABLED", " disabled");
 				$test_disabled = true;
@@ -4536,11 +4589,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", true);
 		if (!$this->object->isComplete())
 		{
-			if (count($this->object->questions) == 0)
+			if (!$this->object->isRandomTest())
 			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_questions"));
-				$this->tpl->parseCurrentBlock();
+				if (count($this->object->questions) == 0)
+				{
+					$this->tpl->setCurrentBlock("list_element");
+					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_questions"));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			if (count($this->object->mark_schema->mark_steps) == 0)
 			{
@@ -4560,6 +4616,29 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_author"));
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			if ($this->object->isRandomTest())
+			{
+				$arr = $this->object->getRandomQuestionpools();
+				if (count($arr) == 0)
+				{
+					$this->tpl->setCurrentBlock("list_element");
+					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_no_questionpools_for_random_test"));
+					$this->tpl->parseCurrentBlock();
+				}
+				$count = 0;
+				foreach ($arr as $array)
+				{
+					$count += $array["count"];
+				}
+				if (($count == 0) && ($this->object->getRandomQuestionCount() == 0))
+				{
+					$this->tpl->setCurrentBlock("list_element");
+					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_no_questions_for_random_test"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$this->tpl->setCurrentBlock("status_list");
 			$this->tpl->setVariable("TEXT_MISSING_ELEMENTS", $this->lng->txt("tst_status_missing_elements"));
 			$this->tpl->parseCurrentBlock();

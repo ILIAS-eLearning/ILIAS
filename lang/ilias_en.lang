@@ -120,6 +120,7 @@ assessment#:#ass_create_export_file#:#Create export file
 assessment#:#ass_export_files#:#Export files
 assessment#:#ass_file#:#File
 assessment#:#ass_questions#:#Questions
+assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
 assessment#:#available_points#:#Available points
 assessment#:#average_reached_points#:#Average reached points
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#You have not entered a test title! Please go to
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of tries

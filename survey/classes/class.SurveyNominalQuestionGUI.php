@@ -394,7 +394,10 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
+		if (strlen($_POST["material"]))
+		{
+			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
+		}
 		$this->object->setSubtype($_POST["type"]);
 		$this->object->setOrientation($_POST["orientation"]);
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);

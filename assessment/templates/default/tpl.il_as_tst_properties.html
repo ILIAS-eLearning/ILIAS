@@ -5,15 +5,11 @@
 </tr>
 <tr>
   <td class="option">{TEXT_TEST_TYPES}:</td>
-  <td class="option_value"><select name="sel_test_types">
+  <td class="option_value"><select name="sel_test_types"{ENABLED_TEST_TYPES}>
 <!-- BEGIN test_types -->  
   <option value="{VALUE_TEST_TYPE}"{SELECTED_TEST_TYPE}>{TEXT_TEST_TYPE}</option>
 <!-- END test_types -->  
   </select>
-<!-- BEGIN change_type -->
-	<input class="submit" type="submit" name="cmd[saveProperties]" value="{SUBMIT_TYPE}" />
-<!-- END change_type -->
-	<div class="warning">{TEST_TYPE_COMMENT}</div>
   </td>
 </tr>
 <tr>
@@ -75,7 +71,7 @@
 <!-- END ending_time -->
 <tr>
   <td class="option">{TEXT_RANDOM_TEST}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_random" id="chb_random" value="1"{CHECKED_RANDOM_TEST} /> <label for="chb_random">{TEXT_RANDOM_TEST_DESCRIPTION}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_random" id="chb_random" value="1"{CHECKED_RANDOM_TEST}{ENABLED_RANDOM_TEST} /> <label for="chb_random">{TEXT_RANDOM_TEST_DESCRIPTION}</label></td>
 </tr>
 <tr><td colspan="2" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
@@ -87,23 +83,26 @@
 </td></tr>
 </table>
 </form>
+<!-- BEGIN javascript_call_calendar -->
 <script type="text/javascript">
 	Calendar.setup( 
 		{ 
 			button : "btn_cal_starting_time",
-			inputFieldsDate : "starting_date"
+			inputFieldsDate : "{INPUT_FIELDS_STARTING_DATE}"
 		} 
 	); 
 	Calendar.setup( 
 		{ 
 			button : "btn_cal_ending_time",
-			inputFieldsDate : "ending_date"
+			inputFieldsDate : "{INPUT_FIELDS_ENDING_DATE}"
 		} 
 	);
 	Calendar.setup( 
 		{ 
 			button : "btn_cal_reporting_date",
-			inputFieldsDate : "reporting_date"
+			inputFieldsDate : "{INPUT_FIELDS_REPORTING_DATE}"
 		} 
 	); 
 </script> 
+<!-- END javascript_call_calendar -->
+

@@ -1120,5 +1120,31 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 	}
+	
+	/**
+	* Returns the number of questions in a question pool
+	*
+	* Returns the number of questions in a question pool
+	*
+	* @param integer $questonpool_id Object id of the questionpool to examine
+	* @param boolean $complete_questions_only If set to TRUE, returns only the number of complete questions in the questionpool. Default is FALSE
+	* @return integer The number of questions in the questionpool object
+	* @access public
+	*/
+	function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE obj_fi = %s AND ISNULL(original_id)",
+			$ilDB->quote($questionpool_id . "")
+		);
+		if ($complete_questions_only)
+		{
+			$query .= " AND complete = '1'";
+		}
+		$result = $ilDB->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row["question_count"];
+	}
+	
 } // END class.ilObjQuestionPool
 ?>
