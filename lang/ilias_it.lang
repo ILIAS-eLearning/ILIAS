@@ -46,6 +46,7 @@ common#:#administrator#:#amministratore
 common#:#adopt#:#adopt###28 Mar 2003 new variable
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###29 Mar 2003 new variable
 common#:#all_objects#:#All Objects###04 Aug 2003 new variable
+common#:#allow_register#:#Available in registration form for new users###13 Aug 2003 new variable
 common#:#announce#:#annunciare
 common#:#announce_changes#:#annunciare cambio
 common#:#answers#:#answers
