@@ -3,9 +3,9 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Dec 24, 2002 at 12:49 PM
+# Generation Time: Jan 06, 2003 at 04:34 PM
 # Server version: 4.00.05
-# PHP Version: 4.3.0RC3
+# PHP Version: 4.3.0
 # Database : `ilias3`
 # --------------------------------------------------------
 
@@ -807,17 +807,22 @@ CREATE TABLE mail (
 #
 
 # --------------------------------------------------------
+
 #
 # Table structure for table `note_data`
 #
 
 CREATE TABLE note_data (
-  note_id int(11) NOT NULL,
-  lo_id int(11) NOT NULL,
-  text text default '',
+  note_id int(11) NOT NULL default '0',
+  lo_id int(11) NOT NULL default '0',
+  text text,
   create_date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (note_id)
 ) TYPE=MyISAM;
+
+#
+# Dumping data for table `note_data`
+#
 
 # --------------------------------------------------------
 
@@ -1182,7 +1187,6 @@ INSERT INTO rbac_ta VALUES (36, 3);
 INSERT INTO rbac_ta VALUES (36, 4);
 INSERT INTO rbac_ta VALUES (36, 5);
 INSERT INTO rbac_ta VALUES (36, 6);
-
 # --------------------------------------------------------
 
 #
@@ -1509,7 +1513,6 @@ INSERT INTO settings VALUES ('news', '');
 INSERT INTO settings VALUES ('payment_system', '');
 INSERT INTO settings VALUES ('phone', '');
 INSERT INTO settings VALUES ('pub_section', '');
-INSERT INTO settings VALUES ('setup_passwd', '');
 INSERT INTO settings VALUES ('street', '');
 INSERT INTO settings VALUES ('unzip_path', '');
 INSERT INTO settings VALUES ('zipcode', 'ghj');
