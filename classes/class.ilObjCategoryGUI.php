@@ -685,7 +685,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		include_once './classes/class.ilLocalUser.php';
 		include_once './classes/class.ilObjUserGUI.php';
 
-		global $rbacsystem;
+		global $rbacsystem,$rbacreview;
 
 		if(!$rbacsystem->checkAccess("cat_administrate_users",$this->object->getRefId()))
 		{
@@ -699,21 +699,28 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// add user button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjusergui','create'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('add_user'));
-		$this->tpl->parseCurrentBlock();
+		if(count($rbacreview->getGlobalAssignableRoles()))
+		{
+			// add user button
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjusergui','create'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('add_user'));
+			$this->tpl->parseCurrentBlock();
 
-		// import user button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui','importUserForm'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('import_users'));
-		$this->tpl->parseCurrentBlock();
-
+			// import user button
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui','importUserForm'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('import_users'));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
+			return true;
+		}			
 		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'])))
 		{
-			sendInfo($this->lng->txt('no_local_user'));
+			sendInfo($this->lng->txt('no_local_users'));
 
 			return true;
 		}

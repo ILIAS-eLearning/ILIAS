@@ -950,7 +950,8 @@ class ilObjUserGUI extends ilObjectGUI
             {
                 if (empty($_POST["Fobject"][$val]))
                 {
-                    $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),$this->ilias->error_obj->MESSAGE);
+                    $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                 }
             }
         }
