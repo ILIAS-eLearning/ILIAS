@@ -76,7 +76,6 @@ class ilPageObject extends ilLMObject
 		$pg_set = $this->ilias->db->query($query);
 		$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->xml_content = $this->page_record["content"];
-
 		$page_parser = new ilPageParser($this, $this->xml_content);
 		$page_parser->startParsing();
 
@@ -154,6 +153,16 @@ class ilPageObject extends ilLMObject
 		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
 			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
 		$this->ilias->db->query($query);
+	}
+
+	function update()
+	{
+		//parent::update();
+		$query = "UPDATE lm_page_object ".
+			"SET content = '".$this->getXMLContent()."' ".
+			"WHERE page_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 	}
 
 }

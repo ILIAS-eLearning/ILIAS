@@ -138,6 +138,13 @@ class ilPageParser extends ilSaxParser
 				$this->page_object->appendContent($this->paragraph);
 				break;
 
+			case "br":
+				if (is_object($this->paragraph))
+				{
+					$this->paragraph->appendText("<br />");
+				}
+				break;
+
 		}
 		$this->beginElement($a_name);
 	}

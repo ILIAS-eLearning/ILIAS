@@ -1,0 +1,24 @@
+<form action="{FORMACTION}" name="objectItems" method="post">
+<table class="fullwidth">
+<!-- BEGIN content_selection -->
+<tr>
+	<td class="submit" >
+		{SELECT_CONTENT}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+	</td>
+</tr>
+<!-- END content_selection -->
+<tr>
+	<td class="submit">
+		{EDIT_CONTENT}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" >
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>
