@@ -146,6 +146,30 @@ class ilLMPageObject extends ilLMObject
 	}
 
 	/**
+	* copy a page to another content object (learning module / dlib book)
+	*/
+	function &copyToOtherContObject(&$a_cont_obj)
+	{
+//echo "<br>from page lm:".$this->getLMId().", pg: ".$this->getId();
+		$meta =& new ilMetaData();
+		$lm_page =& new ilLMPageObject($a_cont_obj);
+		$lm_page->assignMetaData($meta);
+		$lm_page->setTitle($this->getTitle());
+		$lm_page->setLMId($a_cont_obj->getId());
+		$lm_page->setType($this->getType());
+		$lm_page->setDescription($this->getDescription());
+		$lm_page->create();
+//echo "<br>to page lm:".$lm_page->getLMId().", pg: ".$lm_page->getId();
+
+		$page =& $lm_page->getPageObject();
+		$page->setXMLContent($this->page_object->getXMLContent());
+		$page->buildDom();
+		$page->update();
+
+		return $lm_page;
+	}
+
+	/**
 	*
 	*/
 	function assignPageObject(&$a_page_obj)
