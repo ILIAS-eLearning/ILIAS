@@ -290,8 +290,58 @@ class ilInternalLinkGUI
 					$tpl->setCurrentBlock("row");
 					$tpl->parseCurrentBlock();
 				}
+
+				// get all free pages
+				$pages = ilLMPageObject::getPageList($cont_obj->getId());
+				$free_pages = array();
+				foreach ($pages as $page)
+				{
+					if (!$ctree->isInTree($page["obj_id"]))
+					{
+						$free_pages[] = $page;
+					}
+				}
+				if(count($free_pages) > 0)
+				{
+					$tpl->setCurrentBlock("chapter_row");
+					$tpl->setVariable("TXT_CHAPTER", $this->lng->txt("cont_free_pages"));
+					$tpl->setVariable("ROWCLASS", "tblrow1");
+					$tpl->parseCurrentBlock();
+
+					foreach ($free_pages as $node)
+					{
+						switch ($this->mode)
+						{
+							case "link":
+								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+								ilObjMediaObjectGUI::_recoverParameters();
+								$tpl->setCurrentBlock("link_row");
+								$tpl->setVariable("ROWCLASS", "tblrow2");
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("LINK_TARGET", "content");
+								$tpl->setVariable("LINK",
+									ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+									"linktype=PageObject".
+									"&linktarget=il__pg_".$node["obj_id"].
+									"&linktargetframe=".$this->link_target));
+								$tpl->parseCurrentBlock();
+								break;
+
+							default:
+								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("ROWCLASS", "tblrow2");
+								$tpl->setVariable("LINK_CHAPTER",
+									"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+								$tpl->parseCurrentBlock();
+								break;
+						}
+					}
+				}
+
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
+
 				break;
 
 			// chapter link
