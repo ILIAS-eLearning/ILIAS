@@ -2946,3 +2946,5 @@ foreach($perms as $perm)
 UPDATE settings SET value = '3.0.0 2004/05/15' WHERE keyword = 'ilias_version' LIMIT 1;
 <#190>
 INSERT  INTO  `qpl_question_type` (  `question_type_id` ,  `type_tag`  ) VALUES ('7',  'qt_javaapplet');
+<#191>
+ALTER  TABLE  `tst_solutions`  ADD  `points` DOUBLE AFTER  `value2` ;
