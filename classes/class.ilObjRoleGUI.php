@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.65 2004/01/12 15:51:42 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.66 2004/01/12 16:30:53 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -367,101 +367,99 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
-		else
+
+		// delete all template entries
+		$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
+
+		if (empty($_POST["template_perm"]))
 		{
-			// delete all template entries
-			$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
+			$_POST["template_perm"] = array();
+		}
 
-			if (empty($_POST["template_perm"]))
+		foreach ($_POST["template_perm"] as $key => $ops_array)
+		{
+			// sets new template permissions
+			$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
+		}
+
+		// update object data entry (to update last modification date)
+		$this->object->update();
+
+		// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
+		// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
+		if ($_POST["recursive"])
+		{
+			// IF PARENT NODE IS MAIN ROLE FOLDER START AT ROOT FOLDER
+			if ($_GET["ref_id"] == ROLE_FOLDER_ID)
 			{
-				$_POST["template_perm"] = array();
+				$node_id = ROOT_FOLDER_ID;
+			}
+			else
+			{
+				$node_id = $this->tree->getParentId($_GET["ref_id"]);
 			}
 
-			foreach ($_POST["template_perm"] as $key => $ops_array)
-			{
-				// sets new template permissions
-				$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
-			}
+			// GET ALL SUBNODES
+			$node_data = $this->tree->getNodeData($node_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
 
-			// update object data entry (to update last modification date)
-			$this->object->update();
+			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
+			$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 
-			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
-			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
-			if ($_POST["recursive"])
+			// DELETE ACTUAL ROLE FOLDER FROM ARRAY
+			$key = array_keys($all_rolf_obj,$node_id);
+			unset($all_rolf_obj["$key[0]"]);
+
+			$check = false;
+
+			foreach ($subtree_nodes as $node)
 			{
-				// IF PARENT NODE IS MAIN ROLE FOLDER START AT ROOT FOLDER
-				if ($_GET["ref_id"] == ROLE_FOLDER_ID)
+				if (!$check)
 				{
-					$node_id = ROOT_FOLDER_ID;
+					if (in_array($node["child"],$all_rolf_obj))
+					{
+						$lft = $node["lft"];
+						$rgt = $node["rgt"];
+						$check = true;
+						continue;
+					}
+
+					$valid_nodes[] = $node;
 				}
 				else
 				{
-					$node_id = $this->tree->getParentId($_GET["ref_id"]);
-				}
-
-				// GET ALL SUBNODES
-				$node_data = $this->tree->getNodeData($node_id);
-				$subtree_nodes = $this->tree->getSubTree($node_data);
-
-				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
-				$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
-
-				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-				$key = array_keys($all_rolf_obj,$node_id);
-				unset($all_rolf_obj["$key[0]"]);
-
-				$check = false;
-
-				foreach ($subtree_nodes as $node)
-				{
-					if (!$check)
+					if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
 					{
-						if (in_array($node["child"],$all_rolf_obj))
-						{
-							$lft = $node["lft"];
-							$rgt = $node["rgt"];
-							$check = true;
-							continue;
-						}
-
-						$valid_nodes[] = $node;
+						continue;
 					}
 					else
 					{
-						if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
-						{
-							continue;
-						}
-						else
-						{
-							$check = false;
-							$valid_nodes[] = $node;
-						}
+						$check = false;
+						$valid_nodes[] = $node;
 					}
 				}
+			}
+			
+			// prepare arrays for permission settings below
+			foreach ($valid_nodes as $key => $node)
+			{
+				$node_ids[] = $node["child"];
+				
+				$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+			}
+			
+			// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+			$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
 
-				// prepare arrays for permission settings below
-				foreach ($valid_nodes as $key => $node)
+			// NOW SET ALL PERMISSIONS
+			foreach ($valid_nodes as $node)
+			{
+				if (is_array($node["perms"]))
 				{
-					$node_ids[] = $node["child"];
-					
-					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+					$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
 				}
-					
-				// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
-				$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
-
-				// NOW SET ALL PERMISSIONS
-				foreach ($valid_nodes as $node)
-				{
-					if (is_array($node["perms"]))
-					{
-						$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
-					}
-				}
-			}// END IF RECURSIVE
-		}// END CHECK ACCESS
+			}
+		}// END IF RECURSIVE
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
