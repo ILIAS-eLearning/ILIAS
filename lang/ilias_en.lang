@@ -43,6 +43,7 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
