@@ -3080,6 +3080,7 @@ survey#:#insert_before#:#Wstaw przed
 survey#:#insert_missing_question#:#Wybierz conajmniej jedno pytanie do ankiety!
 survey#:#insert_missing_questionblock#:#Wybierz conajmniej jeden blok pytań do ankiety!
 survey#:#introduction#:#Wstęp
+survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
 survey#:#invitation#:#Zaproszenie
 survey#:#invitation_mode#:#Tryb zaproszenia
 survey#:#invite_participants#:#Przydzieleni do zaproszenia
@@ -3087,6 +3088,7 @@ survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
 survey#:#last_update#:#Ostatnia aktualizacja
 survey#:#lower_limit#:#Limit dolny
+survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
 survey#:#material_file#:#Plik z materiałami
 survey#:#maximum#:#Maksymalna wartość
 survey#:#median#:#Środkowa
@@ -3109,6 +3111,7 @@ survey#:#no_questions_available#:#Brak dostępnych pytań!
 survey#:#no_search_results#:#Brak rezultatów wyszukania!
 survey#:#no_target_selected_for_move#:#Musisz wybrać pozycję docelową!
 survey#:#no_user_or_group_selected#:#Wybierz opcję której szukasz (użytkownicy i/lub  grupy)!
+survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
 survey#:#nominal_question_not_checked#:#Wybierz jedną z oferowanych odpowiedzi!
 survey#:#non_ratio#:#Brak-Współczynnika
 survey#:#not_finished#:#nie skończona
@@ -3124,13 +3127,16 @@ survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadz
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
 survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
 survey#:#preview#:#Podgląd
+survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Chcesz usunąć wybrane pytania?
 survey#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania!
 survey#:#qpl_define_questionblock_select_missing#:#Wybierz conajmniej dwa pytania aby zdefiniować blok pytań!
+survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it###28 Jun 2004 new variable
 survey#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usuwania pytań!
 survey#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia!
 survey#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do powielenia!
 survey#:#qpl_past_questions_confirmation#:#Chcesz wkleić wybrane pytania do puli pytań?
+survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.###28 Jun 2004 new variable
 survey#:#qpl_questions_deleted#:#Pytania usunięte.
 survey#:#qpl_questions_pasted#:#Pytania wklejone.
 survey#:#qpl_savephrase_empty#:#Podaj frazę tytułową!
