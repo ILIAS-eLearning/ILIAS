@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.53 2003/10/15 14:20:11 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.54 2003/10/29 15:01:09 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -72,8 +72,13 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
 			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	
 		}
@@ -657,21 +662,25 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_role"),$this->ilias->error_obj->WARNING);
 		}
-		else
-		{
-			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-			}
 
-			// update
-			$this->object->setTitle($_POST["Fobject"]["title"]);
-			$this->object->setDescription($_POST["Fobject"]["desc"]);
-			$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
-			$this->object->update();
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if role title is unique
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// update
+		$this->object->setTitle($_POST["Fobject"]["title"]);
+		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
+		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
@@ -692,36 +701,38 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$this->getTemplateFile("edit");
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
+			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+			
+			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+		}
 		else
 		{
-			$this->getTemplateFile("edit");
-
-			if ($_SESSION["error_post_vars"])
-			{
-				// fill in saved values in case of error
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
-				$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-				
-				$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
-			}
-			else
-			{
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
-				$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($this->object->getDescription()));
-				
-				$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
-			}
-
-			$obj_str = "&obj_id=".$this->obj_id;
-
-			$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-			$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
+			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($this->object->getDescription()));
+			
+			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 		}
+
+		$obj_str = "&obj_id=".$this->obj_id;
+
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 	
 	/**

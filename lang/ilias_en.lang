@@ -683,15 +683,23 @@ common#:#retype_password#:#Retype Password
 common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role#:#Role
-common#:#role_add_local#:#Add local Role
+common#:#role_a#:#a Role
+common#:#role_add#:#Add Role
 common#:#role_added#:#Role added
+common#:#role_edit#:#Edit Role
+common#:#role_new#:#New Role
+common#:#role_add_local#:#Add local Role
 common#:#role_assignment#:#Role Assignment
 common#:#role_deleted#:#Role deleted
 common#:#roles#:#Roles
 common#:#rolf#:#Role Folder
 common#:#rolf_added#:#Role Folder added
 common#:#rolt#:#Role Template
+common#:#rolt_a#:#a Role Template
+common#:#rolt_add#:#Add Role Template
 common#:#rolt_added#:#Role template added
+common#:#rolt_edit#:#Edit Role Template
+common#:#rolt_new#:#New Role Template
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
