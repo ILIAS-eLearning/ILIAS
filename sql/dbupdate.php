@@ -4662,3 +4662,5 @@ UPDATE `usr_data` SET `active`='1';
 <#294>
 ALTER  TABLE  `tst_tests`  ADD  `ects_output` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `ending_time` ;
 ALTER  TABLE  `tst_tests`  ADD  `ects_fx` VARCHAR(2) DEFAULT  NULL AFTER  `ects_output` ;
+<#295>
+ALTER TABLE `tst_tests` CHANGE `ects_fx` `ects_fx` FLOAT DEFAULT NULL 
