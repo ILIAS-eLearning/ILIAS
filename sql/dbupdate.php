@@ -5055,3 +5055,9 @@ ALTER TABLE history ADD info_params TEXT;
 
 <#348>
 UPDATE file_data SET version = 1;
+<#349>
+CREATE TABLE `frm_settings` (
+  `obj_id` int(11) NOT NULL default '0',
+  `default_view` int(2) NOT NULL default '0',
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;

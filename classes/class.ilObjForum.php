@@ -39,6 +39,13 @@ require_once "./classes/class.ilFileDataForum.php";
 class ilObjForum extends ilObject
 {
 	/**
+	* Default view ( 1 means 'order by answers', 2 => 'order by date')
+	* @var		object Forum
+	* @access	private
+	*/
+	var $default_view = 1;
+
+	/**
 	* Forum object
 	* @var		object Forum
 	* @access	private
@@ -58,6 +65,28 @@ class ilObjForum extends ilObject
 		
 		// TODO: needs to rewrite scripts that are using Forum outside this class
 		$this->Forum =& new ilForum();
+
+		if($a_id)
+		{
+			$this->__read();
+		}
+	}
+
+	function read($a_force_db = false)
+	{
+		parent::read($a_force_db);
+
+		$this->__read();
+	}
+
+
+	function getDefaultView()
+	{
+		return $this->default_view;
+	}
+	function setDefaultView($a_default_view)
+	{
+		return $this->default_view = (int) $a_default_view;
 	}
 
 	/**
@@ -77,6 +106,12 @@ class ilObjForum extends ilObject
 					 "update_user = '".(int) $_SESSION["AccountId"]."' ".
 					 "WHERE top_frm_fk = '".(int) $this->getId()."'";
 			$res = $this->ilias->db->query($query);
+
+			$query = "REPLACE INTO frm_settings ".
+				"SET obj_id = '".$this->getId()."', ".
+				"default_view = '".$this->getDefaultView()."'";
+
+			$this->ilias->db->query($query);
 		
 			return true;
 		}
@@ -102,6 +137,13 @@ class ilObjForum extends ilObject
 		
 		// get object instance of cloned forum
 		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
+
+		// COPY settings
+		$query = "INSERT INTO frm_settings ".
+			"SET obj_id = '".$forumObj->getId()."', ".
+			"default_view = '".$this->getDefaultView()."'";
+		$this->ilias->db->query($query);
+		
 
 		// COPY ATTACHMENTS
 		$tmp_file_obj =& new ilFileDataForum($this->getId());
@@ -136,9 +178,13 @@ class ilObjForum extends ilObject
 		
 		// insert new forum as a copy 
 		$q = "INSERT INTO frm_data ";
-		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id,visits,top_update,update_user) ";
+		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,".
+			"top_usr_id,visits,top_update,update_user) ";
 		$q .= "VALUES ";
-		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$roles[0]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
+		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".
+			$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$roles[0]."','".
+			$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".
+			$topData["update_user"]."')";
 		$this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -152,7 +198,9 @@ class ilObjForum extends ilObject
 			$q = "INSERT INTO frm_threads ";
 			$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,thr_num_posts,thr_last_post,visits) ";
 			$q .= "VALUES ";
-			$q .= "('".$new_top_pk."','".$thrData["thr_usr_id"]."','".addslashes($thrData["thr_subject"])."','".$thrData["thr_date"]."','".$thrData["thr_update"]."','".$thrData["thr_num_posts"]."','".$thrData["thr_last_post"]."','".$thrData["visits"]."')";
+			$q .= "('".$new_top_pk."','".$thrData["thr_usr_id"]."','".addslashes($thrData["thr_subject"])."','".
+				$thrData["thr_date"]."','".$thrData["thr_update"]."','".$thrData["thr_num_posts"]."','".
+				$thrData["thr_last_post"]."','".$thrData["visits"]."')";
 			$this->ilias->db->query($q);
 			
 			// get last insert id and return it
@@ -166,7 +214,8 @@ class ilObjForum extends ilObject
 				$q2 = "INSERT INTO frm_posts ";
 				$q2 .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,pos_update) ";
 				$q2 .= "VALUES ";
-				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".addslashes($posData["pos_message"])."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
+				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".
+					addslashes($posData["pos_message"])."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
 				$this->ilias->db->query($q2);
 
 				// get last insert id and return it
@@ -184,7 +233,8 @@ class ilObjForum extends ilObject
 								
 				$q4 = "INSERT INTO frm_posts_tree (thr_fk,pos_fk,parent_pos,lft,rgt,depth,date) ";
 				$q4 .= "VALUES ";
-				$q4 .= "('".$new_thr_pk."','".$new_pos_pk."','".$treeData["parent_pos"]."','".$treeData["lft"]."','".$treeData["rgt"]."','".$treeData["depth"]."','".$treeData["date"]."')";
+				$q4 .= "('".$new_thr_pk."','".$new_pos_pk."','".$treeData["parent_pos"]."','".
+					$treeData["lft"]."','".$treeData["rgt"]."','".$treeData["depth"]."','".$treeData["date"]."')";
 				$this->ilias->db->query($q4);
 			}
 		}
@@ -236,7 +286,11 @@ class ilObjForum extends ilObject
 		// delete topic
 		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
 		$this->ilias->db->query($query);
-		
+
+		// delete settings
+		$query = "DELETE FROM frm_settings WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+
 		return true;
 	}
 
@@ -335,5 +389,33 @@ class ilObjForum extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 		
 	}
+
+	function createSettings()
+	{
+		$query = "INSERT INTO frm_settings ".
+			"SET obj_id = '".$this->getId()."', ".
+			"default_view = '".$this->getDefaultView()."'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+
+	
+	// PRIVATE
+	function __read()
+	{
+		$query = "SELECT * FROM frm_settings WHERE ".
+			"obj_id = '".$this->getId()."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->default_view = $row->default_view;
+		}
+		return true;
+	}
+
+
 } // END class.ilObjForum
 ?>

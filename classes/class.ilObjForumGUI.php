@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.16 2004/11/26 10:43:49 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.17 2004/11/26 12:08:43 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -80,8 +80,18 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_threads_liste.html");
+		$frm =& $this->object->Forum;
+		$frm->setForumId($this->object->getId());
+		$frm->setForumRefId($this->object->getRefId());
+		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
+		$topicData = $frm->getOneTopic();
+		if(!$topicData['top_num_threads'])
+		{
+			ilUtil::redirect("forums_threads_new.php?ref_id=".$this->object->getRefId());
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_threads_liste.html");
 		if($rbacsystem->checkAccess('edit_post',$this->object->getRefId()))
 		{
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -93,29 +103,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
-		// start: form operations
-		//????????????????????????????????????????
-		if (isset($_POST["cmd"]["submit"]))
-		{	
-			if(is_array($_POST["forum_id"]))
-			{
-				$startTbl = "frm_threads";
-		
-				require_once "forums_export.php";		
-		
-				unset($topicData);
-
-			}
-			
-		}
-
-		$frm =& $this->object->Forum;
-		$frm->setForumId($this->object->getId());
-		$frm->setForumRefId($this->object->getRefId());
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
-
-		if (is_array($topicData = $frm->getOneTopic()))
+		if($topicData)
 		{
 			// Visit-Counter
 			$frm->setDbTable("frm_data");
@@ -242,12 +230,6 @@ class ilObjForumGUI extends ilObjectGUI
 			} // if ($thrNum > 0)	
 		
 		} // if (is_array($topicData = $frm->getOneTopic()))
-		else
-		{
-			$this->tpl->setCurrentBlock("threads_no");
-			$this->tpl->setVariable("TXT_MSG_NO_THREADS_AVAILABLE",$this->lng->txt("forums_threads_not_available"));
-			$this->tpl->parseCurrentBlock("threads_no");
-		}
 
 		$this->tpl->setCurrentBlock("threadtable");
 		$this->tpl->setVariable("COUNT_THREAD", $this->lng->txt("forums_count_thr").": ".$thrNum);
@@ -263,26 +245,65 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function createObject()
 	{
-		//add template for buttons
-		parent::createObject();
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
+
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('edit_properties'));
+
+
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+		$this->tpl->setVariable("TITLE",$_POST['title']);
+		$this->tpl->setVariable("DESC",$_POST['description']);
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".
+																   $_GET["ref_id"]."&new_type=".$new_type));
+
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt('frm_new'));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+		// DEFAULT ORDER
+		$this->tpl->setVariable("TXT_VIEW",$this->lng->txt('frm_default_view'));
+		$this->tpl->setVariable("TXT_ANSWER",$this->lng->txt('order_by').' '.$this->lng->txt('answers'));
+		$this->tpl->setVariable("TXT_DATE",$this->lng->txt('order_by').' '.$this->lng->txt('date'));
+
+		$default_sort = $_POST['sort'] ? $_POST['sort'] : 1;
+
+		$this->tpl->setVariable("CHECK_ANSWER",ilUtil::formRadioButton($default_sort == 1 ? 1 : 0,'sort',1));
+		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
 
 		return true;
 	}
 
 	function updateObject()
 	{
-		if(strlen($_POST['Fobject']['title']))
+		if(strlen($_POST['title']))
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-			$this->update = $this->object->update();
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+			$this->object->setDefaultView((int) $_POST['sort']);
+			$this->object->update();
 
-			sendInfo($this->lng->txt("msg_obj_modified"));
+			sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+			// REDIRECT (UPDATE TITLE)
+			$this->ctrl->redirect($this,'edit');
 		}
-		else
-		{
-			sendInfo($this->lng->txt('frm_title_required'));
-		}
+		// ERROR
+		sendInfo($this->lng->txt('frm_title_required'));
+
 		return $this->editObject();
 	}
 
@@ -292,10 +313,24 @@ class ilObjForumGUI extends ilObjectGUI
 	* @access	private
 	* @param	array	$fields		key/value pairs of input fields
 	*/
-	function properties()
+	function editObject()
 	{
+		global $rbacsystem;
 
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"],"frm"))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$default_sort = $_POST['sort']
+			? $_POST['sort'] 
+			: $this->object->getDefaultView();
+			
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
+
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('edit_properties'));
+
 
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
@@ -303,25 +338,21 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("DESC", ilUtil::stripSlashes($this->object->getDescription()));
 
 
-		$this->tpl->setVariable("FORMACTION", "repository.php?ref_id=".$this->object->getRefId());
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt('edit_properties'));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+		// DEFAULT ORDER
+		$this->tpl->setVariable("TXT_VIEW",$this->lng->txt('frm_default_view'));
+		$this->tpl->setVariable("TXT_ANSWER",$this->lng->txt('order_by').' '.$this->lng->txt('answers'));
+		$this->tpl->setVariable("TXT_DATE",$this->lng->txt('order_by').' '.$this->lng->txt('date'));
+
+		$this->tpl->setVariable("CHECK_ANSWER",ilUtil::formRadioButton($default_sort == 1 ? 1 : 0,'sort',1));
+		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
 	}
-
-	function saveProperties()
-	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
-		$this->update = $this->object->update();
-
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect("repository.php?ref_id=".$this->object->getRefId());
-	}
-
 
 	function importObject()
 	{
@@ -391,8 +422,16 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 
+
+		$_POST['Fobject']['title'] = $_POST['title'];
+		$_POST['Fobject']['desc'] = $_POST['desc'];
+
 		// create and insert forum in objecttree
 		$forumObj = parent::saveObject();
+
+		// Create settings
+		$forumObj->setDefaultView((int) $_POST['sort']);
+		$forumObj->createSettings();
 
 		// setup rolefolder & default local roles (moderator)
 		$roles = $forumObj->initDefaultRoles();

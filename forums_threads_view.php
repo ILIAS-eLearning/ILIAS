@@ -80,8 +80,8 @@ if($_GET["file"])
 }
 
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
-
-if($_SESSION["viewmode"] == 'flat')
+$session_name = "viewmode_".$forumObj->getId();
+if($_SESSION[$session_name] == 'flat')
 {
 	$new_order = "answers";
 	$orderField = "frm_posts_tree.date";
@@ -142,7 +142,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 	// set tabs
 	// display different buttons depending on viewmode
-	if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+
+	$session_name = "viewmode_".$forumObj->getId();
+	if (!isset($_SESSION[$session_name]) or $_SESSION[$session_name] == "flat")
 	{
 		$ftabtype = "tabactive";
 		$ttabtype = "tabinactive";
@@ -153,7 +155,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$ttabtype = "tabactive";
 	}
 
-	$tpl->setCurrentBlock("tab");
+	$tpl->setCurrentBlock("tab");	
 	$tpl->setVariable("TAB_TYPE", $ttabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("answers"));
