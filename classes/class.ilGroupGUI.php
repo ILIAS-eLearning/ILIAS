@@ -1390,14 +1390,11 @@ class ilGroupGUI extends ilObjectGUI
 		/////////////////////
 		$this->prepareOutput(true, 7);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
-		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
-		
+		$this->tpl->addBlockFile("CONTENT","permission", "tpl.perm_grp.html");
 		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
 		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
-
 		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
 		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
-		
 		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
 		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
@@ -2206,7 +2203,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->prepareOutput(false,1);
+		$this->prepareOutput(false,99);
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2406,7 +2403,7 @@ class ilGroupGUI extends ilObjectGUI
 	**/
 	function show_tree()
 	{
-		$this->prepareOutput(false,1);
+		$this->prepareOutput(false,99);
 		
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
