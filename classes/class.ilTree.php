@@ -200,7 +200,7 @@ class ilTree
 			 "AND tree = '".$this->tree->id."'";
 		$r = $this->ilias->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$leafs[] = $this->fetchNodeData($row);
 		}
@@ -253,7 +253,7 @@ class ilTree
 
 		if ($count > 0)
 		{
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$childs[] = $this->fetchNodeData($row);
 			}
@@ -297,7 +297,7 @@ class ilTree
 			 "AND ".$this->table_obj_data.".type='".$a_type."'";
 		$r = $this->ilias->db->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
@@ -378,7 +378,7 @@ class ilTree
 
 		$r = $this->ilias->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$subtree[] = $this->fetchNodeData($row);
 		}
@@ -492,7 +492,7 @@ class ilTree
 
 		$r = $this->fetchPath($a_endnode_id, $a_startnode_id);
 				
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$path[] = $this->fetchNodeData($row);
 		}
@@ -670,7 +670,7 @@ class ilTree
 			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 		
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $this->fetchNodeData($row);
 	}
@@ -684,6 +684,9 @@ class ilTree
 	*/
 	function fetchNodeData($a_row)
 	{
+		$data = $a_row;
+		$data["desc"] = $a_row["description"];
+		/*
 		$data = array(
 					"ref_id"		=> $a_row->ref_id,
 					"obj_id"		=> $a_row->obj_id,
@@ -700,7 +703,7 @@ class ilTree
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
 					"desc"			=> $a_row->description
-					);
+					);*/
 
 		return $data ? $data : array();
 	}
@@ -738,7 +741,7 @@ class ilTree
 			 "AND v.tree = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $this->fetchNodeData($row);
 	}
@@ -836,7 +839,7 @@ class ilTree
 			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$data[] = $this->fetchNodeData($row);
 		}
@@ -897,7 +900,7 @@ class ilTree
 			 "AND rgt <= '".$rgt."'";
 		$r = $this->ilias->db->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$subnodes[$row->child] = $this->fetchNodeData($row);
 		}
@@ -957,7 +960,7 @@ class ilTree
 			 "AND ".$this->table_tree.".child = ".$this->table_obj_data.".".$this->obj_pk;
 		$r = $this->ilias->db->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$saved[] = $this->fetchNodeData($row);
 		}
