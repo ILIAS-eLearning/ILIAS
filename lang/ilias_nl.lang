@@ -1477,7 +1477,7 @@ common#:#ingmedia_level_zero#:#Niveau omhoog
 common#:#ingmedia_pers_dates#:#Persoonlijke gegevens
 common#:#ingmedia_reg_fo#:#Geregistreerde forums
 common#:#ingmedia_reg_le#:#Geregistereerde lessen
-common#:#ingmedia_use_info1#:#Hier kunt u uw persoonlijke gegevens wijzigen. Behalve uw INGMEDIA gebruikersnaam en wachtwoord, bent u niet verplicht verdere gegevens te verstrekken. Bedenk dat een vergeten wachtwoord alleen per e-mail toegestuurd kan worden (!).
+common#:#ingmedia_use_info1#:#Hier kunt u uw persoonlijke gegevens wijzigen. Behalve uw INGMEDIA gebruikersnaam en wachtwoord, bent u niet verplicht verdere gegevens te verstrekken. Bedenk dat een vergeten wachtwoord alleen per e-mail toegestuurd kan worden (!).###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#Het gebruik van de speciale karakters (zoals , ; . = - * + #) is niet toegestaan , ; . = - * + 
 common#:#ingmedia_use_info3#:#Kies AUB één van de links in de menubalk hiernaast.
 common#:#ingmedia_use_title#:#Gebruikersgegevens wijzigen.
@@ -2906,8 +2906,8 @@ crs#:#crs_accept_subscriber#:#Hoofdstuk
 crs#:#crs_accept_subscriber_body#:#Start exporteren
 crs#:#crs_access_password#:#Cursus-abonnement
 crs#:#crs_activation#:#U bent al aan deze cursus toegevoegd.
-crs#:#crs_add_archive_html#:#Wachtwoord
-crs#:#crs_add_archive_xml#:#Aktivering
+crs#:#crs_add_archive_html#:#Wachtwoord###04 Mar 2005 content changed
+crs#:#crs_add_archive_xml#:#Aktivering###04 Mar 2005 content changed
 crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
 crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
 crs#:#crs_add_html_archive#:#Voeg HTML-archief toe

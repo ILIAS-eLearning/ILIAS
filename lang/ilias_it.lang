@@ -1067,7 +1067,7 @@ common#:#edit_roleassignment#:#Modifica assegnamento ruoli
 common#:#edit_stylesheet#:#Modifica stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
-common#:#email#:#eMail
+common#:#email#:#eMail###04 Mar 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L&#039;indirizzo eMail non &#232; valido!
 common#:#enable#:#Abilita
@@ -1477,7 +1477,7 @@ common#:#ingmedia_level_zero#:#Livello superiore
 common#:#ingmedia_pers_dates#:#Dati personali
 common#:#ingmedia_reg_fo#:#Forum registrati
 common#:#ingmedia_reg_le#:#LE registrati
-common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).
+common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.
 common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.
 common#:#ingmedia_use_title#:#Cambia i dati utente.
@@ -2905,8 +2905,8 @@ crs#:#crs_accept_subscriber#:#Iscrizione al corso
 crs#:#crs_accept_subscriber_body#:#Sei stato assegnato a questo corso.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Attivazione
-crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
-crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
+crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML###04 Mar 2005 content changed
+crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML###04 Mar 2005 content changed
 crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
 crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
 crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
@@ -3015,7 +3015,7 @@ crs#:#crs_max_members_reached#:#E'stato raggiunto il numero massimo di iscritti
 crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
-crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
+crs#:#crs_member_blocked#:#Iscritto (non-bloccato)###04 Mar 2005 content changed
 crs#:#crs_member_unblocked#:#Iscritto (bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
@@ -4312,16 +4312,16 @@ payment#:#price_a#:#Prezzo
 payment#:#prices#:#Prezzi
 payment#:#update#:#Aggiornamento
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
-pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.
+pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.###04 Mar 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell'utente e la nuova password nei campi qui sotto.
-pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.
+pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.###04 Mar 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\nIl nome dell'utente che &#232; stato indicato non corrisponde all'utente per il quale hai chiesto assistenza.
-pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.
+pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.###04 Mar 2005 content changed
 pwassist#:#pwassist_mail_sent#:#Un messaggio &#232; stato inviato a %1$s.\nPer favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
 pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\nIL servizio di assistenza per le password non &#232; consentito per l'utente che hai specificato.
 pwassist#:#pwassist_password_assigned#:#La password &#232; stata assegnata con successo all'utente "%1$s".
-pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.
+pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.###04 Mar 2005 content changed
 pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di sistema.\nLa password non pu&#242; essere assegnata all'utente indicato per un errore nell'aggiornamento del Database.
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati

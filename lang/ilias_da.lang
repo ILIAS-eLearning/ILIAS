@@ -979,7 +979,7 @@ common#:#edit_roleassignment#:#Rediger Rolle Tildeling
 common#:#edit_stylesheet#:#Rediger Stil
 common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
-common#:#email#:#E-mail
+common#:#email#:#E-mail###04 Mar 2005 content changed
 common#:#email_not_valid#:#Den indtastede email adresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_registration#:#Aktiver en ny registration
@@ -1340,7 +1340,7 @@ common#:#ingmedia_level_zero#:#Level up
 common#:#ingmedia_pers_dates#:#Personlig data
 common#:#ingmedia_reg_fo#:#Registrede forummer
 common#:#ingmedia_reg_le#:#Registrede LE
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
+common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
 common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
 common#:#ingmedia_use_title#:#&aelig;ndrer Bruger data.
@@ -2579,8 +2579,8 @@ crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse
 crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Aktivering
-crs#:#crs_add_archive_html#:#Tilf&oslash;j HTML-Arkiv
-crs#:#crs_add_archive_xml#:#Tilf&oslash;j XML-Arkiv
+crs#:#crs_add_archive_html#:#Tilf&oslash;j HTML-Arkiv###04 Mar 2005 content changed
+crs#:#crs_add_archive_xml#:#Tilf&oslash;j XML-Arkiv###04 Mar 2005 content changed
 crs#:#crs_add_html_archive#:#Tilf&oslash;j HTML arkiv
 crs#:#crs_add_member#:#Tilf&oslash;j medlem/medlemmer
 crs#:#crs_add_subscribers#:#Tilf&oslash;j abonnent
@@ -2646,7 +2646,7 @@ crs#:#crs_max_members_reached#:#Det maximale antal medlemmer n&aring;ed
 crs#:#crs_mem_change_status#:#&aelig;ndre status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Medlem
-crs#:#crs_member_blocked#:#Medlem (blokeret)
+crs#:#crs_member_blocked#:#Medlem (blokeret)###04 Mar 2005 content changed
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)
 crs#:#crs_member_updated#:#Medlemmet er blevet opdateret
 crs#:#crs_members_deleted#:#Slettede medlemmer
@@ -3864,16 +3864,16 @@ payment#:#price_a#:#Pris
 payment#:#prices#:#Priser
 payment#:#update#:#Opdater
 pwassist#:#password_assistance#:#Password Hj&aelig;lp
-pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilh&oslash;rende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det v&aelig;re tilf&aelig;ldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilh&oslash;rende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det v&aelig;re tilf&aelig;ldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s.###04 Mar 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###04 Mar 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###04 Mar 2005 content changed
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s.\nCheck venligst din mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Hj&aelig;lp
 pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
 pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til bruger "%1$s".
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###04 Mar 2005 content changed
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.
 search#:#search_all_results#:#Alle resultater
 search#:#search_and#:#og

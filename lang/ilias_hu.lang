@@ -1477,7 +1477,7 @@ common#:#ingmedia_level_zero#:#Egy szinttel feljebb
 common#:#ingmedia_pers_dates#:#Személyi adatok
 common#:#ingmedia_reg_fo#:#Regisztrált fórumok
 common#:#ingmedia_reg_le#:#Regisztrált tananyagelem
-common#:#ingmedia_use_info1#:#Itt megváltoztathatja személyes adatait. A felhasználói név és jelszó kivételével nem kell kitöltenie más mezőket. Az elfelejtett jelszavakat csak e-mailben kaphatja meg (!).
+common#:#ingmedia_use_info1#:#Itt megváltoztathatja személyes adatait. A felhasználói név és jelszó kivételével nem kell kitöltenie más mezőket. Az elfelejtett jelszavakat csak e-mailben kaphatja meg (!).###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#Nem használhatók speciális karakterek (mint pl. ,)
 common#:#ingmedia_use_info3#:#Az oldalon levő linkek közül válasszon ki egyet.
 common#:#ingmedia_use_title#:#Felhasználói adatok változtatása.

@@ -1066,7 +1066,7 @@ common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#E-Mail
+common#:#email#:#E-Mail###04 Mar 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
@@ -1476,7 +1476,7 @@ common#:#ingmedia_level_zero#:#Eine Ebene nach oben
 common#:#ingmedia_pers_dates#:#Persönliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
+common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit den Benutzervereinbarungen einverstanden sein.
 common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
 common#:#ingmedia_use_title#:#Benutzerdaten ändern
@@ -2905,8 +2905,8 @@ crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
-crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
-crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
+crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen###04 Mar 2005 content changed
+crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen###04 Mar 2005 content changed
 crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
@@ -3015,7 +3015,7 @@ crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritt
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
 crs#:#crs_member#:#Mitglied
-crs#:#crs_member_blocked#:#Mitglied (gesperrt)
+crs#:#crs_member_blocked#:#Mitglied (gesperrt)###04 Mar 2005 content changed
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
@@ -3024,7 +3024,7 @@ crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
-crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
+crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.###04 Mar 2005 content changed
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
 crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
@@ -4312,16 +4312,16 @@ payment#:#price_a#:#Preis
 payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort Unterstützung
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. 
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ###04 Mar 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
+pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.###04 Mar 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.###04 Mar 2005 content changed
 pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort Unterstützung
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
-pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. 
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. ###04 Mar 2005 content changed
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
 search#:#search_active#:#Aktive Benutzer
 search#:#search_all_results#:#Alle Resultate
