@@ -605,6 +605,7 @@ common#:#contact_data#:#联系信息
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#上下文
 common#:#copy#:#拷贝
+common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#的拷贝
 common#:#country#:#国家
 common#:#course#:#课程

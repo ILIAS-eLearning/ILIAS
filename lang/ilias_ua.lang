@@ -588,6 +588,7 @@ common#:#contact_data#:#Контактна Інформація
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Контекст
 common#:#copy#:#Копіювати
+common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Копія
 common#:#country#:#Країна
 common#:#course#:#Курс
