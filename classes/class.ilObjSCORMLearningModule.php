@@ -51,5 +51,45 @@ class ilObjSCORMLearningModule extends ilObject
 		parent::ilObject($a_id,$a_call_by_reference);
 	}
 
+	/**
+	* creates data directory for package files
+	* (webspace_dir/lm_data/lm_<id>, depending on webspace
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createDataDirectory()
+	{
+		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+		if(!is_writable($lm_data_dir))
+		{
+			$this->ilias->raiseError("LM Data Directory (".$lm_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		@mkdir($lm_dir);
+		@chmod($lm_dir,0755);
+		if(!@is_dir($lm_dir))
+		{
+			$this->ilias->raiseError("Creation of Data Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get data directory of lm
+	*/
+	function getDataDirectory()
+	{
+		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		if(@is_dir($lm_dir))
+		{
+			return $lm_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 } // END class.ilSCORMLearningModule
 ?>

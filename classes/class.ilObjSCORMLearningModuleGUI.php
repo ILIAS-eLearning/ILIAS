@@ -106,11 +106,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
 
-		// todo: create directory, copy file to directory
+		// create data directory, copy file to directory
+		$newObj->createDataDirectory();
+
+		// copy uploaded file to data directory
+		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
+		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
 		// start SCORM package parser
 		require_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
-		$slmParser = new ilSCORMPackageParser($newObj, $HTTP_POST_FILES["scormfile"]["tmp_name"]);
+		$slmParser = new ilSCORMPackageParser($newObj, $file_path);
 		$slmParser->startParsing();
 
 		header("Location: adm_object.php?".$this->link_params);
