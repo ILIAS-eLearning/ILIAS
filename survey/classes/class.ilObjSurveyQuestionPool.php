@@ -34,6 +34,10 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilMetaData.php");
+require_once "class.SurveyNominalQuestion.php";
+require_once "class.SurveyTextQuestion.php";
+require_once "class.SurveyMetricQuestion.php";
+require_once "class.SurveyOrdinalQuestion.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {
@@ -436,6 +440,36 @@ class ilObjSurveyQuestionPool extends ilObject
 			array_push($result_array, $row);
 		}
 		return $result_array;
+	}
+	
+/**
+* Duplicates a question in the question pool
+* 
+* Duplicates a question in the question pool
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+	function duplicate($question_id)
+	{
+		$questiontype = $this->getQuestiontype($question_id);
+		switch ($questiontype)
+		{
+			case "qt_nominal":
+				$question = new SurveyNominalQuestion();
+				break;
+			case "qt_ordinal":
+				$question = new SurveyOrdinalQuestion();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestion();
+				break;
+			case "qt_text":
+				$question = new SurveyTextQuestion();
+				break;
+		}
+		$question->loadFromDb($question_id);
+		$question->duplicate();
 	}
 
 } // END class.ilSurveyObjQuestionPool

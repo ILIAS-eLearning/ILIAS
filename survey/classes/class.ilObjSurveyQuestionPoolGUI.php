@@ -369,6 +369,42 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+/**
+* Displays the definition form for a question block
+*
+* Displays the definition form for a question block
+*
+* @access public
+*/
+	function defineQuestionblock()
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "cb_$matches[1]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $matches[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setCurrentBlock("obligatory");
+		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
+		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 	/**
 	* Displays the question browser
 	* @access	public
@@ -437,6 +473,63 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       }
     }
 */    
+		if ($_POST["cmd"]["questionblock"])
+		{
+			$questionblock = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					array_push($questionblock, $value);
+				}
+			}
+			if (count($questionblock) < 2)
+			{
+        sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"));
+			}
+			else
+			{
+				$this->defineQuestionblock();
+				return;
+			}
+		}
+		
+		if ($_POST["cmd"]["save_questionblock"])
+		{
+			if ($_POST["title"])
+			{
+				$questionblock = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/cb_(\d+)/", $key, $matches))
+					{
+						array_push($questionblock, $value);
+					}
+				}
+//				$this->object->createQuestionblock($_POST["title"], $_POST["obligatory"], $questionblock);
+			}
+		}
+
+		if ($_POST["cmd"]["unfold"])
+		{
+			$unfoldblocks = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					array_push($unfoldblocks, $matches[1]);
+				}
+			}
+			if (count($unfoldblocks))
+			{
+//				$this->object->unfoldQuestionblocks($unfoldblocks);
+			}
+			else
+			{
+        sendInfo($this->lng->txt("qpl_unfold_select_none"));
+			}
+		}
+		
     if (strlen($_POST["cmd"]["delete"]) > 0) {
       // delete button was pressed
       if (count($checked_questions) > 0) {
@@ -467,19 +560,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       }
 		}
 		
-  /*  if (strlen($_POST["cmd"]["duplicate"]) > 0) {
+		if (strlen($_POST["cmd"]["duplicate"]) > 0) {
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
         foreach ($checked_questions as $key => $value) {
-          $question_gui =& new ASS_QuestionGUI();
-          $question =& $question_gui->create_question("", $value);
-          $question_gui->question->duplicate();
+					$this->object->duplicate($value);
         }
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_duplicate_select_none"));
       }
     }
-*/    
+  
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", true);
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
   	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", true);

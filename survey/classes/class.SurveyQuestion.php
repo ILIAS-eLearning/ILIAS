@@ -642,17 +642,17 @@ class SurveyQuestion {
 * @access public
 */
   function duplicate() {
-/*    $clone = $this;
-    $clone->set_id(-1);
+    $clone = $this;
+    $clone->setId(-1);
     $counter = 2;
-    while ($this->question_title_exists($clone->get_title() . " ($counter)")) {
+    while ($this->questionTitleExists($clone->getTitle() . " ($counter)")) {
       $counter++;
     }
-    $clone->set_title($clone->get_title() . " ($counter)");
-    $clone->set_owner($this->ilias->account->id);
-    $clone->set_author($this->ilias->account->fullname);
-    $clone->save_to_db($this->ilias->db->db);
-*/  }
+    $clone->setTitle($clone->getTitle() . " ($counter)");
+    $clone->setOwner($this->ilias->account->id);
+    $clone->setAuthor($this->ilias->account->fullname);
+    $clone->saveToDb();
+}
 
 /**
 * Returns the image path for web accessable images of a question

@@ -100,7 +100,7 @@ class SurveyOrdinalQuestionGUI {
 		// set the id to return to the selected question
 		$this->tpl->setCurrentBlock("hidden");
 		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
 		$this->tpl->parseCurrentBlock();
 
 		$phrases =& $this->object->getAvailablePhrases();
