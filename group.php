@@ -122,23 +122,8 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 			//echo "typ".$obj_type;
 			//echo "cmd".$cmd;
 			$class_name = $objDefinition->getClassName($obj_type);
-			if ($obj_type == "lm" or $obj_type == "crs" or $obj_type == "fold" or $obj_type == "file")
+			if ( $obj_type == "crs" or $obj_type="frm" or $obj_type="lm" or $obj_type="slm" or $obj_type="glo")
 			{
-
-				$module = $objDefinition->getModule($obj_type);
-				$module_dir = ($module == "")
-				? ""
-				: $module."/";
-				$class_constr = "il".$class_name."GUI";
-				require_once("./".$module_dir."classes/class.il".$class_name."GUI.php");
-				$obj = new $class_constr($data, $id, $call_by_reference);
-				$method= $cmd."Object";
-				//echo ("hit ".$class_constr.$method);
-				$obj->$method();
-			}
-			else
-			{
-
 				//echo ("objtype: ".$obj_type);
 				$module = $objDefinition->getModule($obj_type);
 				//echo ("modul:  ".$module);
@@ -152,8 +137,26 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 
 
 				$method= $cmd."Object";
-//				echo ("hit ".$class_constr.$method);
+				//echo ("hit ".$class_constr.$method);
+				$obj->setReturnLocation("save","group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
 				$obj->$method();
+				
+				
+			}
+			else
+			{
+
+				$module = $objDefinition->getModule($obj_type);
+				$module_dir = ($module == "")
+				? ""
+				: $module."/";
+				$class_constr = "il".$class_name."GUI";
+				require_once("./".$module_dir."classes/class.il".$class_name."GUI.php");
+				$obj = new $class_constr($data, $id, $call_by_reference);
+				$method= $cmd."Object";
+				//echo ("hit ".$class_constr.$method);
+				$obj->$method();
+				
 			}
 		}
 }
