@@ -817,7 +817,8 @@ class ilObjectGUI
 		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
 		{
-			$mapping = $this->cloneNodes($id,$this->ref_id);
+			$this->cloneNodes($id,$this->ref_id,$mapping);
+			
 		}
 
 		// inform other objects in hierarchy about cut operation
@@ -839,10 +840,16 @@ class ilObjectGUI
 	* @param	integer ref_id of source object
 	* @param	integer ref_id of destination object
 	* @param    array	mapping new_ref_id => new_ref_id
+	* @return	boolean	true
 	*/
-	function cloneNodes($a_source_id,$a_dest_id)
+	function cloneNodes($a_source_id,$a_dest_id,&$mapping)
 	{
-		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED
+		if (!$mapping)
+		{
+			$mapping = array();
+		}
+
+		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED)
 		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 		$new_ref_id = $source_obj->clone($a_dest_id);
 		unset($source_obj);
@@ -855,17 +862,16 @@ class ilObjectGUI
 			// STOP IF CHILD OBJECT IS ROLE FOLDER SINCE IT DOESN'T MAKE SENSE TO CLONE LOCAL ROLES
 			if ($child["type"] != 'rolf')
 			{
-				$mapping = $this->cloneNodes($child["ref_id"],$new_ref_id);
+				$this->cloneNodes($child["ref_id"],$new_ref_id,$mapping);
 			}
 			else
 			{
-				$rolf = $this->tree->getChildsByType($new_ref_id,"rolf");
-				
+				$rolf = $this->tree->getChilds($new_ref_id);
 				$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
 			}
 		}
 
-		return $mapping;
+		return true;
 	}
 
 	/**
