@@ -4064,6 +4064,7 @@ survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to s
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categories?
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#chart#:#Chart
@@ -4346,6 +4347,7 @@ survey#:#svy_select_questionpools#:#Please select a question pool to store the i
 survey#:#svy_select_surveys#:#Please select a survey for duplication
 survey#:#svy_show_questiontitles#:#Show question titles in survey
 survey#:#svy_size#:#Size
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
