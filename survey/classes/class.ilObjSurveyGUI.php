@@ -1919,7 +1919,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($_GET["eqid"] and $_GET["eqpl"])
 		{
-			header("Location:questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+			ilUtil::redirect("questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
 
 		$_SESSION["calling_survey"] = $this->object->getRefId();
