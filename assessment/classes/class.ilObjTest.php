@@ -245,7 +245,7 @@ class ilObjTest extends ilObject
 	{ 
 		$this->type = "tst";
 		$this->ilObject($a_id, $a_call_by_reference);
-		$this->retrieve_test_types();
+		$this->retrieveTestTypes();
 		$this->test_id = -1;
     $this->author = $this->ilias->account->fullname;
     $this->introduction = "";
@@ -305,7 +305,7 @@ class ilObjTest extends ilObject
 	
 	function createReference() {
 		parent::createReference();
-		$this->save_to_db();
+		$this->saveToDb();
 	}
 
 /**
@@ -373,7 +373,7 @@ class ilObjTest extends ilObject
 	function deleteTest()
 	{
 		$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		$active_array = array();
@@ -383,7 +383,7 @@ class ilObjTest extends ilObject
 		}
 		
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 
@@ -399,22 +399,22 @@ class ilObjTest extends ilObject
 		}
 		
 		$query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		
 		$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		
 		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 	}
@@ -520,7 +520,7 @@ class ilObjTest extends ilObject
 * @access private
 * @see $test_types
 */
-	function retrieve_test_types() {
+	function retrieveTestTypes() {
 		$this->test_types = array();
 		$query = "SELECT * FROM tst_test_type ORDER BY test_type_id";
 		$result = $this->ilias->db->query($query);
@@ -538,7 +538,7 @@ class ilObjTest extends ilObject
 * @return boolean The result of the title check
 * @access public
 */
-  function test_title_exists($title) {
+  function testTitleExists($title) {
     $query = sprintf("SELECT * FROM object_data WHERE title = %s AND type = %s",
       $this->ilias->db->quote($title),
 			$this->ilias->db->quote("tst")
@@ -563,13 +563,13 @@ class ilObjTest extends ilObject
     $clone = $this;
     $clone->set_id(-1);
     $counter = 2;
-    while ($this->test_title_exists($this->get_title() . " ($counter)")) {
+    while ($this->testTitleExists($this->get_title() . " ($counter)")) {
       $counter++;
     }
     $clone->set_title($this->get_title() . " ($counter)");
     $clone->set_owner($this->ilias->account->id);
-    $clone->set_author($this->ilias->account->fullname);
-    $clone->save_to_db($this->ilias->db);
+    $clone->setAuthor($this->ilias->account->fullname);
+    $clone->saveToDb($this->ilias->db);
     // Zugeordnete Fragen duplizieren
     $query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
       $this->ilias->db->quote($this->getId())
@@ -605,7 +605,7 @@ class ilObjTest extends ilObject
 		}
 	}
 
-	function save_complete_status() {
+	function saveCompleteStatus() {
     global $ilias;
     $db =& $ilias->db;
 		$complete = 0;
@@ -629,7 +629,7 @@ class ilObjTest extends ilObject
 * @param object $db A pear DB object
 * @access public
 */
-  function save_to_db()
+  function saveToDb()
   {
     global $ilias;
     $db =& $ilias->db;
@@ -679,7 +679,7 @@ class ilObjTest extends ilObject
       $result = $db->query($query);
     }
     if ($result == DB_OK) {
-      $this->mark_schema->save_to_db($this->test_id);
+      $this->mark_schema->saveToDb($this->test_id);
     }
   }
 
@@ -716,12 +716,12 @@ class ilObjTest extends ilObject
         $this->starting_time = $data->starting_time;
 
 				$this->mark_schema->loadFromDb($this->test_id);
-				$this->load_questions();
+				$this->loadQuestions();
       }
     }
  }
 
-	function load_questions() {
+	function loadQuestions() {
     $db = $this->ilias->db;
 		$this->questions = array();
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -742,7 +742,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $author
 */
-  function set_author($author = "") {
+  function setAuthor($author = "") {
     $this->author = $author;
   }
 
@@ -755,7 +755,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $introduction
 */
-  function set_introduction($introduction = "") {
+  function setIntroduction($introduction = "") {
     $this->introduction = $introduction;
   }
 
@@ -781,7 +781,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $introduction
 */
-  function get_introduction() {
+  function getIntroduction() {
     return $this->introduction;
   }
 
@@ -794,7 +794,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_id
 */
-  function get_test_id() {
+  function getTestId() {
     return $this->test_id;
   }
 
@@ -807,7 +807,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $sequence_settings
 */
-  function set_sequence_settings($sequence_settings = 0) {
+  function setSequenceSettings($sequence_settings = 0) {
     $this->sequence_settings = $sequence_settings;
   }
 
@@ -820,7 +820,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $type
 */
-  function set_test_type($type = TYPE_ASSESSMENT) {
+  function setTestType($type = TYPE_ASSESSMENT) {
     $this->test_type = $type;
   }
 
@@ -833,7 +833,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $score_reporting
 */
-  function set_score_reporting($score_reporting = 0) {
+  function setScoreReporting($score_reporting = 0) {
     $this->score_reporting = $score_reporting;
   }
 
@@ -846,7 +846,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $reporting_date
 */
-  function set_reporting_date($reporting_date) {
+  function setReportingDate($reporting_date) {
     if (!$reporting_date) {
       $this->reporting_date = "";
     } else {
@@ -864,7 +864,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $sequence_settings
 */
-  function get_sequence_settings() {
+  function getSequenceSettings() {
     return $this->sequence_settings;
   }
 
@@ -877,7 +877,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $score_reporting
 */
-  function get_score_reporting() {
+  function getScoreReporting() {
     return $this->score_reporting;
   }
 
@@ -890,7 +890,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $type
 */
-  function get_test_type() {
+  function getTestType() {
     return $this->test_type;
   }
 
@@ -903,7 +903,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $reporting_date
 */
-  function get_reporting_date() {
+  function getReportingDate() {
     return $this->reporting_date;
   }
 
@@ -916,7 +916,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_formats
 */
-  function set_test_formats($test_formats = 7) {
+  function setTestFormats($test_formats = 7) {
     $this->test_formats = $test_formats;
   }
 
@@ -929,7 +929,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_formats
 */
-  function get_test_formats() {
+  function getTestFormats() {
     return $this->test_formats;
   }
 
@@ -943,7 +943,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_formats
 */
-  function can_resume() {
+  function canResume() {
     return (($this->test_formats & TEST_FORMAT_RESUME) == 1);
   }
 
@@ -957,7 +957,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_formats
 */
-  function can_review() {
+  function canReview() {
     return (($this->test_formats & TEST_FORMAT_REVIEW) == 1);
   }
 
@@ -970,7 +970,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $nr_of_tries
 */
-  function get_nr_of_tries() {
+  function getNrOfTries() {
     return $this->nr_of_tries;
   }
 
@@ -983,7 +983,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $processing_time
 */
-  function get_processing_time() {
+  function getProcessingTime() {
     return $this->processing_time;
   }
 
@@ -996,7 +996,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $processing_time
 */
-  function get_enable_processing_time() {
+  function getEnableProcessingTime() {
     return $this->enable_processing_time;
   }
 
@@ -1009,7 +1009,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $starting_time
 */
-  function get_starting_time() {
+  function getStartingTime() {
     return $this->starting_time;
   }
 
@@ -1022,7 +1022,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $nr_of_tries
 */
-  function set_nr_of_tries($nr_of_tries = 0) {
+  function setNrOfTries($nr_of_tries = 0) {
     $this->nr_of_tries = $nr_of_tries;
   }
 
@@ -1035,7 +1035,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $processing_time
 */
-  function set_processing_time($processing_time = "00:00:00") {
+  function setProcessingTime($processing_time = "00:00:00") {
     $this->processing_time = $processing_time;
   }
 	
@@ -1048,7 +1048,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $processing_time
 */
-	function set_enable_processing_time($enable = 0) {
+	function setEnableProcessingTime($enable = 0) {
 		if ($enable) {
 			$this->enable_processing_time = "1";
 		} else {
@@ -1065,7 +1065,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $starting_time
 */
-  function set_starting_time($starting_time = "") {
+  function setStartingTime($starting_time = "") {
     $this->starting_time = $starting_time;
   }
   
@@ -1078,18 +1078,18 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_id
 */
-	function remove_question($question_id) {
+	function removeQuestion($question_id) {
 		if (!$question_id)
 			return;
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		
 		// renumber sequence of remaining questions
 		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi=%s ORDER BY sequence ASC",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		$test_question_id_arr = array();
@@ -1105,8 +1105,8 @@ class ilObjTest extends ilObject
 			$result = $this->ilias->db->query($query);
 			$counter++;
 		}
-		$this->remove_all_test_editings($question_id);
-		$this->load_questions();
+		$this->removeAllTestEditings($question_id);
+		$this->loadQuestions();
 	}
 
 /**
@@ -1120,18 +1120,18 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function remove_all_test_editings($question_id = "") {
+	function removeAllTestEditings($question_id = "") {
 		// remove test_active entries, because test has changed
-		$this->delete_active_tests();
+		$this->deleteActiveTests();
 		// remove the question from tst_solutions
 		if ($question_id) {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
-				$this->ilias->db->quote($this->get_test_id()),
+				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($question_id)
 			);
 		} else {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
-				$this->ilias->db->quote($this->get_test_id())
+				$this->ilias->db->quote($this->getTestId())
 			);
 		}
 		$result = $this->ilias->db->query($query);
@@ -1145,9 +1145,9 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function delete_active_tests() {
+	function deleteActiveTests() {
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 	}
@@ -1161,10 +1161,10 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_id
 */
-	function question_move_up($question_id) {
+	function questionMoveUp($question_id) {
 		// Move a question up in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -1172,7 +1172,7 @@ class ilObjTest extends ilObject
 		if ($data->sequence > 1) {
 			// OK, it's not the top question, so move it up
 			$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-				$this->ilias->db->quote($this->get_test_id()),
+				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($data->sequence - 1)
 			);
 			$result = $this->ilias->db->query($query);
@@ -1190,7 +1190,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
-		$this->load_questions();
+		$this->loadQuestions();
 	}
 	
 /**
@@ -1202,16 +1202,16 @@ class ilObjTest extends ilObject
 * @access public
 * @see $test_id
 */
-	function question_move_down($question_id) {
+	function questionMoveDown($question_id) {
 		// Move a question down in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($data->sequence + 1)
 		);
 		$result = $this->ilias->db->query($query);
@@ -1231,13 +1231,13 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
-		$this->load_questions();
+		$this->loadQuestions();
 	}
 	
-	function insert_question($question_id) {
+	function insertQuestion($question_id) {
     // get maximum sequence index in test
     $query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
-      $this->ilias->db->quote($this->get_test_id())
+      $this->ilias->db->quote($this->getTestId())
     );
     $result = $this->ilias->db->query($query);
     $sequence = 1;
@@ -1246,7 +1246,7 @@ class ilObjTest extends ilObject
       $sequence = $data->seq + 1;
     }
     $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->quote($this->get_test_id()),
+      $this->ilias->db->quote($this->getTestId()),
       $this->ilias->db->quote($question_id),
       $this->ilias->db->quote($sequence)
     );
@@ -1256,10 +1256,10 @@ class ilObjTest extends ilObject
     }
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		$this->load_questions();
+		$this->loadQuestions();
 	}
 	
 /**
@@ -1271,7 +1271,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function get_question_title($sequence) {
+	function getQuestionTitle($sequence) {
 		$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($this->questions[$sequence])
 		);
@@ -1290,7 +1290,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function get_question_dataset($question_id) {
+	function getQuestionDataset($question_id) {
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$this->ilias->db->quote("$question_id")
 		);
@@ -1311,10 +1311,10 @@ class ilObjTest extends ilObject
 		return $qpl_titles;
 	}
 	
-	function &get_existing_questions() {
+	function &getExistingQuestions() {
 		$existing_questions = array();
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -1323,7 +1323,7 @@ class ilObjTest extends ilObject
 		return $existing_questions;
 	}
 	
-  function get_question_type($question_id) {
+  function getQuestionType($question_id) {
     if ($question_id < 1)
       return -1;
     $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
@@ -1338,12 +1338,12 @@ class ilObjTest extends ilObject
     }
   }
 	
-	function start_working_time ($user_id) 
+	function startWorkingTime ($user_id) 
 	{
 		$result = "";
-		if (!($result = $this->get_active_test_user($user_id))) {
-			$this->set_active_test_user();
-			$result = $this->get_active_test_user($user_id);
+		if (!($result = $this->getActiveTestUser($user_id))) {
+			$this->setActiveTestUser();
+			$result = $this->getActiveTestUser($user_id);
 		}
 		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($result->active_id),
@@ -1354,7 +1354,7 @@ class ilObjTest extends ilObject
 		return $this->ilias->db->getLastInsertId();
 	}
 	
-	function update_working_time($times_id)
+	function updateWorkingTime($times_id)
 	{
 		$q = sprintf("UPDATE tst_times SET finished = %s WHERE times_id = %s",
 			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S")),
@@ -1363,13 +1363,13 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($q);
 	}
   
-	function get_question_count ()
+	function getQuestionCount ()
 	{
 		return count($this->questions);
 	}
 	
-	function get_question_id_from_active_user_sequence($sequence) {
-		$active = $this->get_active_test_user();
+	function getQuestionIdFromActiveUserSequence($sequence) {
+		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
@@ -1384,7 +1384,7 @@ class ilObjTest extends ilObject
 */
 	function &getAllQuestionsForActiveUser() {
 		$result_array = array();
-		$active = $this->get_active_test_user();
+		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
 		$all_questions = &$this->getAllQuestions();
 		$worked_questions = &$this->getWorkedQuestions();
@@ -1408,7 +1408,7 @@ class ilObjTest extends ilObject
 		global $ilUser;
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s GROUP BY question_fi",
 			$this->ilias->db->quote($ilUser->id),
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		$result_array = array();
@@ -1439,7 +1439,7 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 	
-	function get_active_test_user($user_id = "") {
+	function getActiveTestUser($user_id = "") {
 		global $ilDB;
 		global $ilUser;
 		
@@ -1460,12 +1460,12 @@ class ilObjTest extends ilObject
 		}
 	}
 	
-	function set_active_test_user($lastindex = 1, $postpone = "", $addTries = false) {
+	function setActiveTestUser($lastindex = 1, $postpone = "", $addTries = false) {
 		global $ilDB;
 		global $ilUser;
 		
 		$db =& $ilDB->db;
-		$old_active = $this->get_active_test_user();
+		$old_active = $this->getActiveTestUser();
 		if ($old_active) {
 			$sequence = $old_active->sequence;
 			$postponed = $old_active->postponed;
@@ -1505,18 +1505,18 @@ class ilObjTest extends ilObject
 		$db->query($query);
 	}
 	
-	function &get_test_result($user_id) {
+	function &getTestResult($user_id) {
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
-		$active = $this->get_active_test_user($user_id);
+		$active = $this->getActiveTestUser($user_id);
 		$sequence_array = split(",", $active->sequence);
 		sort($sequence_array, SORT_NUMERIC);
 		$key = 1;
 		$result_array = array();
     foreach ($sequence_array as $idx => $seq) {
 			$value = $this->questions[$seq];
-      $question_type = $this->get_question_type($value);
+      $question_type = $this->getQuestionType($value);
       switch ($question_type) {
         case "qt_cloze":
           $question = new ASS_ClozeTest();
@@ -1538,7 +1538,7 @@ class ilObjTest extends ilObject
       $question->loadFromDb($value);
       $max_points = $question->getMaximumPoints();
       $total_max_points += $max_points;
-      $reached_points = $question->getReachedPoints($user_id, $this->get_test_id());
+      $reached_points = $question->getReachedPoints($user_id, $this->getTestId());
       $total_reached_points += $reached_points;
 			if ($max_points > 0) {
 				$percentvalue = $reached_points / $max_points;
@@ -1643,7 +1643,7 @@ class ilObjTest extends ilObject
 	function evalTotalPersons()
 	{
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -1661,11 +1661,11 @@ class ilObjTest extends ilObject
 	function canViewResults()
 	{
 		$result = true;
-		if ($this->get_test_type() == TYPE_ASSESSMENT)
+		if ($this->getTestType() == TYPE_ASSESSMENT)
 		{
-			if ($this->get_reporting_date())
+			if ($this->getReportingDate())
 			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->get_reporting_date(), $matches);
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches);
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
 				if ($now < $epoch_time) {
@@ -1774,10 +1774,10 @@ class ilObjTest extends ilObject
 */
 	function &evalStatistical($user_id)
 	{
-		$test_result =& $this->get_test_result($user_id);
+		$test_result =& $this->getTestResult($user_id);
 
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
-			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($user_id)
 		);
 		$result = $this->ilias->db->query($q);
@@ -1818,7 +1818,7 @@ class ilObjTest extends ilObject
 		$qworkedthrough = 0;
 		$query_worked_through = sprintf("SELECT DISTINCT(question_fi) FROM tst_solutions WHERE user_fi = %s AND test_fi = %s",
 			$this->ilias->db->quote("$user_id"),
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$worked_through_result = $this->ilias->db->query($query_worked_through);
 		$result_array = array(
@@ -1856,7 +1856,7 @@ class ilObjTest extends ilObject
 	function &evalTotalPersonsArray()
 	{
 		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id", 
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$persons_array = array();
@@ -1878,7 +1878,7 @@ class ilObjTest extends ilObject
 	function evalTotalFinished()
 	{
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s AND tries > 0",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -1897,7 +1897,7 @@ class ilObjTest extends ilObject
 	function evalTotalFinishedPassed()
 	{
 		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s AND tries > 0",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$points = array();
@@ -1905,7 +1905,7 @@ class ilObjTest extends ilObject
 		$failed_tests = 0;
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$res =& $this->get_test_result($row->user_fi);
+			$res =& $this->getTestResult($row->user_fi);
 			if (!$res["test"]["total_reached_points"]) {
 				$percentage = 0.0;
 			} else {
@@ -1950,7 +1950,7 @@ class ilObjTest extends ilObject
 	function evalTotalFinishedAverageTime()
 	{
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.active_id = tst_times.active_fi",
-			$this->ilias->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($q);
 		$times = array();
@@ -2011,7 +2011,7 @@ class ilObjTest extends ilObject
 	function getEstimatedWorkingTime() {
 		$time_in_seconds = 0;
 		foreach ($this->questions as $question_id) {
-      $question_type = $this->get_question_type($question_id);
+      $question_type = $this->getQuestionType($question_id);
       switch ($question_type) {
         case "qt_cloze":
           $question = new ASS_ClozeTest();
