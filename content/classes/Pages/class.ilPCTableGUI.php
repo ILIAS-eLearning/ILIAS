@@ -218,6 +218,55 @@ class ilPCTableGUI extends ilPageContentGUI
 		}
 	}
 
+	/**
+	* align table to right
+	*/
+	function rightAlign()
+	{
+		$this->content_obj->setHorizontalAlign("Right");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* align table to left
+	*/
+	function leftAlign()
+	{
+		$this->content_obj->setHorizontalAlign("Left");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* align table to left
+	*/
+	function centerAlign()
+	{
+		$this->content_obj->setHorizontalAlign("Center");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* align table to left float
+	*/
+	function leftFloatAlign()
+	{
+		$this->content_obj->setHorizontalAlign("LeftFloat");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* align table to left
+	*/
+	function rightFloatAlign()
+	{
+		$this->content_obj->setHorizontalAlign("RightFloat");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 
 	/**
 	* insert new table form

@@ -160,6 +160,7 @@
 	Id ID #IMPLIED
 	Width CDATA #IMPLIED
 	Border CDATA #IMPLIED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
 	CellPadding CDATA #IMPLIED
 	CellSpacing CDATA #IMPLIED
 	Class CDATA #IMPLIED
