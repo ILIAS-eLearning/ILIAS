@@ -50,9 +50,13 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=perm&show=rolf");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
+
+			// determine image (role folder or role template?)
 			$image = $val["type"] == 'rolt' ? 'autor.gif' : 'admin.gif';
+
 			$tplContent->setVariable("IMG_TYPE",$image);
-			$tplContent->setVariable("ALT_IMG_TYPE","Category");
+			$tplContent->setVariable("ALT_IMG_TYPE",$val["type"]);
+
 			$tplContent->setVariable("CSS_ROW",$css_row);
 			$tplContent->setVariable("OBJ",$val["obj_id"]);
 			$tplContent->parseCurrentBlock("row");
