@@ -1,0 +1,77 @@
+<form action="{FORMACTION}" name="objectItems" method="post">
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<!-- BEGIN table_header_row -->
+<tr class="tblheader">
+  <td width="3%">&nbsp;</td>
+<!-- BEGIN table_header_cell -->
+  <td width="6%">
+    <a class="tblheader" href="{LINK}"><strong>{TEXT}</strong></a>
+  </td>
+<!-- END table_header_cell -->
+</tr>
+<!-- END table_header_row -->
+
+
+<!-- BEGIN table_row -->
+<tr class="{CSS_ROW}">
+<!-- BEGIN checkbox -->
+  <td valign="top" width="16">
+	<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
+  </td>
+<!-- END checkbox -->
+<!-- BEGIN empty_cell -->
+  <td valign="top" width="16">
+	&nbsp;
+  </td>
+<!-- END empty_cell -->
+  <td align="center" valign="top" nowrap="1">
+    <a href="{LINK_TARGET}">
+  	<img src="{TPLPATH}/images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" vspace="0" /></a>
+  </td>
+  <td valign="top">
+      <a href="{LINK_TARGET}"> {OBJ_TITLE} </a>
+  </td>
+  <td valign="top">
+      <a href="{LINK_TARGET}"> {OBJ_DESC} </a>
+  </td>
+  <td align="right" valign="top">
+      {OBJ_LAST_UPDATE}
+  </td>
+</tr>
+<!-- END table_row -->
+
+<!-- BEGIN notfound -->
+<tr>
+  <td colspan="5" align="center" valign="top">
+    <i>{TXT_OBJECT_NOT_FOUND}</i>
+  </td>
+</tr>
+<!-- END notfound -->
+</table>
+
+<table cellspacing="0" cellpadding="2" border="0">
+<tr height="40">
+	<td align="left" width="16"><img src="{TPLPATH}/images/arrow_downright.gif" border="0" /></td>
+	<td align="left">
+		<div class="form-element">
+		<input class="form-element" type="submit" name="cmd" 
+					   value="cut" />
+				<input class="form-element" type="submit" name="cmd" 
+					   value="copy" />
+				<!-- BEGIN btn_paste -->	    
+				<input class="form-element" type="submit" name="cmd" 
+					   value="paste" />
+				<!-- END btn_paste -->
+				<input class="form-element" type="submit" name="cmd" 
+					   value="delete" />
+				<!-- BEGIN btn_clear -->	    
+				<input class="form-element" type="submit" name="cmd" 
+					   value="clear" />
+				<!-- END btn_clear -->
+			  </div>
+	</td>
+</tr>
+</table>
+	  
+</form>

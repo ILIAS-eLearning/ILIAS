@@ -1,69 +1,84 @@
-<script language="JavaScript">
-<!--
-function CheckAll(){
-	if(document.formmsg.all)
-	{
-		var c = document.formmsg.all.checked;
-	}
-	for (var i=0;i<document.formmsg.elements.length;i++)
-	{
-		var e = document.formmsg.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-//-->
-</script>
-
-<h3>{TXT_PAGEHEADLINE}</h3>
+<h1>{TXT_MAIL}</h1>
 
 {BUTTONS}
 
 <form method="post" name="formmsg" action="{ACTION}">
-<input type="hidden" name="func" value="">
-<h4>{FOLDERNAME}</h4>
 
-<p>{MAIL_COUNT}&nbsp;{TXT_MAIL} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
+<h2>{FOLDERNAME}</h2>
 
-<table width="100%" cellpadding=2 cellspacing=0 border=0>
+<p>{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
+
+<table cellpadding=4 cellspacing=0 border=0 width="100%">
 <tr class="tblrow2">
-  <td><img src="./images/arrow_upright.gif" border=0 alt="{TXT_ARROW_UPRIGHT}"></td>
-  <td align="right"><select name="action" onChange="document.formmsg.func.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
+  <td>
+<table cellpadding=4 cellspacing=0 border=0>
+<tr class="tblrow2">
+  <td><img src="{TPLPATH}/images/arrow_upright.gif" border=0 alt="{TXT_ARROW_UPRIGHT}"></td>
+  <td><input type="submit" name="read" value="{TXT_READ}"></td>
+  <td><input type="submit" name="delete" value="{TXT_DELETE}"></td>
+  <td>
+	<select name="action" onChange="document.formmsg.submit();">
 	   <option selected>{TXT_ACTIONS}</option>
 <!-- BEGIN mailactions -->
 	   <option value="{MAILACTION_VALUE}">{MAILACTION_OPTION}</option>
-<!-- END mailactions -->
-	</select>
+<!-- END mailactions -->	  
+	</select></font>
+  </td>
+  <td>
+	<select name="move_to" onChange="document.formmsg.submit();">
+	   <option selected>{TXT_MOVE_TO}</option>
+<!-- BEGIN mailmoveto -->
+	   <option value="{MAILMOVE_VALUE}">{MAILMOVE_OPTION}</option>
+<!-- END mailmoveto -->	  
+	</select></font>
   </td>
 </tr>
-<br>
+</table>
+	</td>
+	<td>
+<table cellpadding=4 cellspacing=0 border=0>
 <tr class="tblrow2">
-	<td colspan=2 align="right"><select name="move_to" onChange="submit()">
-	   <option selected>{TXT_MOVE_TO}</option>
+	<td align="right">{TXT_FOLDERS}
+	<select name="folder" onChange="document.formmsg.submit();">
 <!-- BEGIN folder -->
 	   <option value="{FOLDER_VALUE}" {FOLDER_SELECTED}>{FOLDER_OPTION}</option>
-<!-- END folder -->
+<!-- END folder -->	  
 	</select>
 	</td>
 </tr>
 </table>
 
-<table width="100%" cellpadding=2 cellspacing=0 border=0>
-<tr bgcolor="#bbbbcc">
-  <td>&nbsp;</td>
-  <td><b>{TXT_SENDER}</b></td>
-  <td><b>{TXT_SUBJECT}</b></td>
-  <td><b>{TXT_DATE}</b></a></td>
+	</td>
 </tr>
+</table>
+
+<table>
+<tr>
+	<td><img src="./images/spacer.gif" width=1 height=1></td>
+</tr>
+</table>
+
+<table width="100%" cellpadding=0 cellspacing=0 border=0>
+<tr class="tblheader">
+  <td>&nbsp;</td>
+  <td>{TXT_SENDER}</td>
+  <td>{TXT_SUBJECT}</td>
+  <td>{TXT_DATE}<img VSPACE=0 BORDER=0 SRC="{TPLPATH}/images/a_{DIRECTION}.gif" WIDTH=12 HEIGHT=6 ALT="{TXT_DIRECTION}"></a></td>
+</tr>
+
 <!-- BEGIN row -->
-<tr bgcolor="#ddddee">
-  <td><font size=1><input type="checkbox" name="marker[]" value="{MAIL_ID}"></font></td>
-  <td valign="middle">{MAIL_FROM}</TD>
-  <td valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
-  <td valign="middle">{MAIL_DATE}</td>
+<tr class="{ROWCOL}">
+  <td>&nbsp;<input type="checkbox" name="marker[]" value="{MAIL_ID}"></td>
+  <td valign="middle">&nbsp;{MAIL_FROM}</TD>
+  <td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
+  <td valign="middle">&nbsp;{MAIL_DATE}</td>
 </tr>
 <!-- END row -->
-<tr bgcolor="#bbbbcc">
-  <td colspan=4><input type="checkbox" name="all" value="check_all" onClick="CheckAll();"><strong>{TXT_SELECT_ALL}</strong></td>
+<tr>
+	<td><img src="./images/spacer.gif" width=1 height=3></td>
+</tr>
+<tr class="tblrow2">
+  <td colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;<strong>{TXT_SELECT_ALL}</strong></td>
 </tr>
 </table>
 

@@ -1,21 +1,20 @@
-<h3>{TXT_PAGEHEADLINE}</h3>
+<h1>{TXT_PAGEHEADLINE}</h1>
 
 {BUTTONS}
 
 <form name="form" action="{FORMACTION}" method="post">
 
 <h3>{TXT_BOOKMARK_NEW}</h3>
-
 <table cellspacing=0 cellpadding=2 border=0>
-<tr bgcolor="#bbbbcc">
+<tr class="tblrow2">
   <td><b>&nbsp;{TXT_NAME}</b></td>
-  <td>&nbsp;<input type=text maxlength=255 SIZE=20 name="name" value="{NAME}"></td>
+  <td>&nbsp;<input type=text maxlength=255 SIZE=40 name="name" value="{NAME}"></td>
 </tr>
-<tr bgcolor="#ddddee">
-  <td>&nbsp;{TXT_URL}</td>
-  <td>&nbsp;<input type=text maxlength=255 SIZE=20 name="url" value="{URL}"></td>
+<tr class="tblrow1">
+  <td><b>&nbsp;{TXT_URL}</b></td>
+  <td>&nbsp;<input type=text maxlength=255 SIZE=40 name="url" value="{URL}"></td>
 </tr>
-<tr bgcolor="#ddddee">
+<tr class="tblrow2">
   <td>&nbsp;{TXT_FOLDER}</td>
   <td>&nbsp;<select name="folder" size=1>
   <option value="top">{TXT_TOP}</option>
