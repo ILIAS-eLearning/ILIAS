@@ -1557,8 +1557,7 @@ class ilTree
 	{
 		if(!$this->isInTree($a_ref_id))
 		{
-			echo "ilTree: No valid ref_id given";
-			exit;
+			return false;
 		}
 		$path = array_reverse($this->getPathFull($a_ref_id));
 
