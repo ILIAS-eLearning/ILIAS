@@ -1748,8 +1748,36 @@ class ASS_QuestionGUI extends PEAR {
 			if (strcmp($this->question->answers[$solutions[0]->value1]->get_area(), "rect") == 0) {
 				$imagepath_working = $this->question->get_image_path() . $this->question->get_image_filename();
 				$coords = $this->question->answers[$solutions[0]->value1]->get_coords();
-				$coords = preg_replace("/(\d+,\d+),(\d+,\d+)/", "$1 $2", $coords);
-				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
+				preg_match("/(\d+),(\d+),(\d+),(\d+)/", $coords, $matches);
+				$x0 = $matches[1];
+				$y0 = $matches[2];
+				$x1 = $matches[3];
+				$y1 = $matches[4];
+				$i0 = $x0-1;
+				$j0 = $y0-1;
+				$i1 = $x1+1;
+				$j1 = $y1+1;
+//				$coords = preg_replace("/(\d+,\d+),(\d+,\d+)/", "$1 $2", $coords);
+//				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
+				// draw a rect around the selection
+				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
+				"-fill red -draw \"line " . 
+				$x0 . "," . $y0 .	" " . $x0 . "," . $y1 . "\" " .
+				"-fill red -draw \"line " . 
+				$x0 . "," . $y1 .	" " . $x1 . "," . $y1 . "\" " .
+				"-fill red -draw \"line " . 
+				$x1 . "," . $y1 .	" " . $x1 . "," . $y0 . "\" " .
+				"-fill red -draw \"line " . 
+				$x1 . "," . $y0 .	" " . $x0 . "," . $y0 . "\" " .
+				"-fill white -draw \"line " . 
+				$i0 . "," . $j0 .	" " . $i0 . "," . $j1 . "\" " .
+				"-fill white -draw \"line " . 
+				$i0 . "," . $j1 .	" " . $i1 . "," . $j1 . "\" " .
+				"-fill white -draw \"line " . 
+				$i1 . "," . $j1 .	" " . $i1 . "," . $j0 . "\" " .
+				"-fill white -draw \"line " . 
+				$i1 . "," . $j0 .	" " . $i0 . "," . $j0 . "\" " .
+				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				system($convert_cmd);
 			}
 		} else {

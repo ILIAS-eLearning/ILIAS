@@ -254,6 +254,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
     $this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_PROPERTIES", $_SERVER['PHP_SELF'] . $add_parameter);
+		$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
