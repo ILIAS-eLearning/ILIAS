@@ -107,11 +107,12 @@ class ilSCORMExplorer extends ilExplorer
 			? $a_child
 			: -(int) $a_child;
 
-		return $_SERVER["PATH_INFO"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
+		$s=($this->api == 2) ? "2" : "";
+		return $_SERVER["PATH_INFO"]."?cmd=explorer$s&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
 	}
-	
+
 	function setOutput($a_parent_id, $a_depth = 0)
-	{		
+	{
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
 
