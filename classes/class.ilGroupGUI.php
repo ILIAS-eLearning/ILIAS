@@ -1127,6 +1127,10 @@ class ilGroupGUI extends ilObjectGUI
 			case "lm":
 				$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
 				break;
+			
+			case "slm":
+				$URL = "content/scorm_presentation.php?ref_id=".$cont_data["ref_id"];
+				break;
 
 			case "fold":
 				$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=show_content";
@@ -2053,7 +2057,7 @@ class ilGroupGUI extends ilObjectGUI
 					{
 						$link_target = "_top";
 					}
-					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo")
+					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo" or $cont_data["type"] == "slm")
 					{
 						
 						$link_target = "bottom";
