@@ -21,13 +21,13 @@ class ilUtil
 	}
 
 	/**
-	* build image tag (for images located in a template directory)
+	* get image path (for images located in a template directory)
 	*
 	* @param	string		full image filename (e.g. myimage.gif)
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
 	*/
-	function getImageTag($img, $in_module = false)
+	function getImagePath($img, $in_module = false)
 	{
 		global $ilias;
 
@@ -50,13 +50,13 @@ class ilUtil
 		$default = $base."default/images/".$img;
 		if (file_exists($user_skin_and_style))
 		{
-			return "<img src=\"".$user_skin_and_style."\" border=\"0\"/>";
+			return $user_skin_and_style;
 		}
 		else if (file_exists($user_skin))
 		{
-			return "<img src=\"".$user_skin."\" border=\"0\"/>";
+			return $user_skin;
 		}
-		return "<img src=\"".$default."\" border=\"0\"/>";
+		return $default;
 	}
 
 	/**
