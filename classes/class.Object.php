@@ -658,7 +658,7 @@ class Object
 
 			if ($child_objects["rolf"])
 			{
-				$data["local_role"]["id"] = $this->id;
+				$data["local_role"]["child"] = $this->id;
 				$data["local_role"]["parent"] = $_GET["parent"];
 			}
 		}

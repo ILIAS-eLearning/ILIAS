@@ -71,7 +71,7 @@ class LearningObjectObjectOut extends ObjectOut
 					"parent" => $_GET["parent"],
 					"parent_parent" => $val["parent_parent"],
 					"lm_id" => $_GET["lm_id"],
-					"lo_id" => $val["id"],
+					"lo_id" => $val["child"],
 					"lo_parent" => $val["parent"]
 				);
 				
@@ -165,10 +165,10 @@ class LearningObjectObjectOut extends ObjectOut
 			$this->tpl->setVariable("ITEM", $row["title"]);
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?".$type_lo."obj_id=".$_GET["obj_id"].
 							  "&parent=".$_GET["parent"]."&parent_parent=".$row["parent_parent"].
-							  "&lm_id=".$_GET["lm_id"]."&lo_id=".$row["id"]."&lo_parent=".$row["parent"]);
+							  "&lm_id=".$_GET["lm_id"]."&lo_id=".$row["child"]."&lo_parent=".$row["parent"]);
 			$this->tpl->parseCurrentBlock();
 
-			if ($row["id"] == $_GET["lm_id"])
+			if ($row["child"] == $_GET["lm_id"])
 			{
 				$type_lo = "type=lo&";
 			}
