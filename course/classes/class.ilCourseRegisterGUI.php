@@ -336,6 +336,8 @@ class ilCourseRegisterGUI
 	}
 	function __getGroupingCourses()
 	{
+		global $tree;
+
 		include_once './classes/class.ilConditionHandler.php';
 		include_once './course/classes/class.ilCourseMembers.php';
 
@@ -355,10 +357,29 @@ class ilCourseRegisterGUI
 			if($condition['operator'] == 'not_member')
 			{
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
-				$courses .= (' <b>'.$tmp_obj->getTitle().'</b>');
+				$courses .= (' <br/>'.$this->__formatPath($tree->getPathFull($tmp_obj->getRefId())));
 			}
 		}
 		return $courses;
+	}
+
+	function __formatPath($a_path_arr)
+	{
+		$counter = 0;
+		foreach($a_path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " -> ";
+			}
+			$path .= $data['title'];
+		}
+
+		if(strlen($path) > 40)
+		{
+			return '...'.substr($path,-40);
+		}
+		return $path;
 	}
 }
 ?>

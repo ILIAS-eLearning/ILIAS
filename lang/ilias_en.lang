@@ -4695,3 +4695,4 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
+crs#:#crs_grouping_deleted#:#Deleted course grouping.

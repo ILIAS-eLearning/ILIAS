@@ -214,9 +214,6 @@ class ilRbacSystem
 
 	function checkPreconditions($a_operations,$a_ref_id, $a_user_id = "")
 	{
-		// DISABLED
-		return true;
-
 		if ($a_user_id == "")
 		{
 			$a_user_id = $this->ilias->account->getId();
