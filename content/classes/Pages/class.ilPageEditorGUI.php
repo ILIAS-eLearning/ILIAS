@@ -45,7 +45,7 @@ require_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCParagraphGUI, ilPCTableGUI, ilPCTableDataGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 *
 * @package content
 */
@@ -262,14 +262,12 @@ class ilPageEditorGUI
 				case "flit":
 					$this->ctrl->setCmdClass("ilPCFileItemGUI");
 					break;
+
+				case "pcqst":
+					$this->ctrl->setCmdClass("ilPCQuestionGUI");
+					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
-		}
-
-		// redirect to assessment
-		if (substr($ctype, 0, 3) == "qt_")
-		{
-			$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
 		}
 
 //echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
@@ -375,6 +373,14 @@ class ilPageEditorGUI
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
+				break;
+
+			case "ilpcquestiongui":
+				include_once("content/classes/Pages/class.ilPCQuestionGUI.php");
+				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id);
+				$cmd = $this->ctrl->getCmd();
+				$pc_question_gui->$cmd();
+				$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
 				break;
 
 			default:
