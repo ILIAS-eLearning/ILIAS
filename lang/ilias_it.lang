@@ -763,7 +763,7 @@ common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
-common#:#obj_slm#:#SCORM LM
+common#:#obj_slm#:#SCORM LM###31 Jan 2004 content changed
 common#:#obj_st#:#Capitolo
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -891,7 +891,7 @@ common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Cancellare un ruolo o un template di ruolo
-common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
+common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo###31 Jan 2004 content changed
 common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo

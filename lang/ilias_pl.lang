@@ -763,7 +763,7 @@ common#:#obj_rolf_local#:#Lokalne role
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
-common#:#obj_slm#:#SCORM (MN)
+common#:#obj_slm#:#SCORM (MN)###31 Jan 2004 content changed
 common#:#obj_st#:#Rozdział
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
@@ -891,7 +891,7 @@ common#:#rolf_added#:#Folder roli został dodany
 common#:#rolf_create_role#:#Twórz definicję Roli
 common#:#rolf_create_rolt#:#Twórz nowy szablon Roli
 common#:#rolf_delete#:#Usuń Role/Szablony ról
-common#:#rolf_edit_permission#:#Zmień usawienia uprawnie�
+common#:#rolf_edit_permission#:#Zmień usawienia uprawnie�###31 Jan 2004 content changed
 common#:#rolf_edit_userassignment#:#Change userassignment of Roles###25 Jan 2004 new variable
 common#:#rolf_read#:#Prawo czytania Ról/Szablonów ról
 common#:#rolf_visible#:#Role/Szablony ról są widoczne
