@@ -55,6 +55,16 @@ class ilPersonalDesktopGUI
 			foreach ($lo_items as $lo_item)
 			{
 				$i++;
+
+				if ($rbacsystem->checkAccess('write', $lo_item["id"]) and $type != "slm")
+				{
+					$this->tpl->setCurrentBlock("tbl_lo_edit");
+					$this->tpl->setVariable("EDIT_LINK", $lo_item["edit_link"]);
+					$this->tpl->setVariable("TXT_EDIT",$this->lng->txt("edit"));
+
+					$this->tpl->parseCurrentBlock();
+				}
+
 				$this->tpl->setCurrentBlock("tbl_lo_row");
 				$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 				$this->tpl->setVariable("LO_LINK", $lo_item["link"]);
@@ -63,13 +73,7 @@ class ilPersonalDesktopGUI
 					ilUtil::getImagePath("icon_".$lo_item["type"].".gif")."\">&nbsp;";
 				$this->tpl->setVariable("LO_TITLE", $img.$lo_item["title"]);
 				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=".$type."&id=".$lo_item["id"]);
-				$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
-
-				if ($rbacsystem->checkAccess('write', $lo_item["id"]) and $type != "slm")
-				{
-					$this->tpl->setVariable("EDIT_LINK", $lo_item["edit_link"]);
-					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
-				}
+				$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
 
 				$this->tpl->parseCurrentBlock();
 			}
@@ -108,7 +112,7 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("FRM_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
 			$this->tpl->setVariable("FRM_TITLE", $frm_item["title"]);
 			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=frm&id=".$frm_item["id"]);
-			$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
+			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -188,7 +192,7 @@ class ilPersonalDesktopGUI
 				$cmd = "whoisdetail";
 			}
 
-			$user_details_link = "<a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\"> [".$text."]</a>";
+			$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
 
 			if (!empty($guest_text))
 			{
@@ -279,7 +283,7 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("GRP_LINK", "group.php?ref_id=".$grp_item["id"]);
 			$this->tpl->setVariable("GRP_TITLE", $grp_item["title"]);
 			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=leaveGroup&id=".$grp_item["id"]);
-			$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("unsubscribe").")");
+			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("unsubscribe"));
 			$this->tpl->parseCurrentBlock();
 		}
 
