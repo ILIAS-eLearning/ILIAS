@@ -1447,18 +1447,20 @@ class ilPageObject
 
 			$content = $this->highlightText($plain_content, $subchar);
 
-			$rows  	 = htmlentities ("<TR valign=\"top\"><TD><PRE>");
-			$rownumbers = "";
+			$rows  	 = htmlentities ("<TR valign=\"top\">");
+			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
 	
 			if (strcmp($showlinenumbers,"y")==0) {
 			for ($j=0; $j < $rownums; $j++)  
 			{	$indentno      = strlen($rownums) - strlen($j+1) + 2;
-					$rownumeration = str_repeat("&amp;nbsp;",$indentno).($j+1)."&amp;nbsp;";
-					$rownumbers   .= $rownumeration."\n";
+					$rownumeration = ($j+1); 
+					$rownumbers   .= $rownumeration;
+					if ($j < $rownums-1)
+						$rownumbers .= "<br />";
 			}
-				$rows .= $rownumbers.htmlentities ("</PRE></TD><TD><PRE>");
+				$rows .= $rownumbers.htmlentities ("</PRE></TD>");
 			}
-			$rows .= $content.htmlentities ("</PRE></TD></TR>");			
+			$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");			
 			
 			$newcontent = str_replace("\n", "<br />", $rows);			
 	
