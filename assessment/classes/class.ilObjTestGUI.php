@@ -1308,9 +1308,20 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			} else {
-				$this->tpl->setCurrentBlock("start");
-				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
-				$this->tpl->parseCurrentBlock();
+				if ($this->object->startingTimeReached())
+				{
+					$this->tpl->setCurrentBlock("start");
+					$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("startingtime");
+					$this->tpl->setVariable("IMAGE_STARTING_TIME", ilUtil::getImagePath("time.gif", true));
+					$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
+					$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->setCurrentBlock("adm_content");
 			if ($test_disabled) {
@@ -1471,6 +1482,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function eval_statObject()
 	{
 		global $ilUser;
+		$testname = preg_replace("/\s/", "_", $this->object->getTitle());
 		switch ($_POST["export_type"])
 		{
 			case TYPE_XLS:
@@ -1478,7 +1490,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$workbook = new Spreadsheet_Excel_Writer();
 				
 				// sending HTTP headers
-				$workbook->send('eval.xls');
+				$workbook->send("$testname.xls");
 				
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
@@ -2104,19 +2116,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$workbook->close();
 				exit;
 			case TYPE_SPSS:
-				$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
-				header( "Content-type: application/force-download" );
-				if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
-					header( "Content-Disposition: filename=eval.txt");
-				} else {
-					header( "Content-Disposition: attachment; filename=eval.txt");
-				}
-				header( "Content-Description: File Transfer");
+				$csv = "";
 				foreach ($csvfile as $csvrow)
 				{
-					print join($csvrow, ",") . "\n";
+					$csv .= join($csvrow, ",") . "\n";
 				}
-				exit;
+				ilUtil::deliverData($csv, "$testname.csv");
+				exit();
 		}
 	}
 

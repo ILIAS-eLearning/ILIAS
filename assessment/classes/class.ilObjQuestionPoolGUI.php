@@ -437,13 +437,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
 
 				}
-        header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
-        header ("Cache-Control: no-cache, must-revalidate");
-        header ("Pragma: no-cache");
-				// force downloading of the xml file: use octet-stream instead of text/xml
-				header ("Content-type: application/octet-stream");
-				header ("Content-Disposition: attachment; filename=qti_export.xml" );
- 				print $xml;
+				$questiontitle = $question->object->getTitle();
+				$questiontitle = preg_replace("/[\s]/", "_", $questiontitle);
+				ilUtil::deliverData($xml, "$questiontitle.xml");
 				exit();
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_export_select_none"));
@@ -457,23 +453,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
 
-    
-/*    if (strlen($_POST["cmd"]["insert"]) > 0) {
-      // insert button was pressed
-      if (count($checked_questions) > 0) {
-        foreach ($_POST as $key => $value) {
-          if (preg_match("/cb_(\d+)/", $key, $matches)) {
-            $this->insert_question_in_test($matches[1], $_GET["test"]);
-          }
-        }       
-        header("location:il_as_test_composer.php?edit=" . $_GET["test"] . "&tab=questions");
-      } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check at least one question to insert it into your test");
-      }
-    }
-*/    
     // create filter form
-
     $filter_fields = array(
       "title" => $this->lng->txt("title"),
       "comment" => $this->lng->txt("description"),

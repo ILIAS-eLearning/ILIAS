@@ -182,12 +182,28 @@ class ilFormat
 
 
 	/**
-	* formats timestamp to db-datetime
+	* formats timestamp to db-date
 	* @param string
 	*/
 	function ftimestamp2dateDB ($t)
 	{
 		return sprintf("%04d-%02d-%02d",substr($t, 0, 4),substr($t, 4, 2),substr($t, 6, 2));
+	}
+
+    /**
+	* Timestamp to database datetime
+	*
+	* @param string $aTimestamp String in timestamp format
+	* @return string Database datetime in format yyyy-mm-dd hh:mm:ss
+	*/
+	function ftimestamp2datetimeDB($aTimestamp)
+	{
+		$date = "";
+		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $aTimestamp, $matches))
+		{
+			$date = "$matches[1]-$matches[2]-$matches[3] $matches[4]:$matches[5]:$matches[6]";
+		}
+		return $date;
 	}
 
 
