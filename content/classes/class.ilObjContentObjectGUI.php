@@ -2368,7 +2368,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id="
+									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			}
 			else
 			{
@@ -2384,7 +2385,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id="
+									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
 							$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 				$tpl_menu->parseCurrentBlock();
@@ -2394,7 +2396,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// download
 		if ($this->object->isActiveDownloads() && !$a_offline)
 		{
-			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showDownloadList&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showDownloadList&ref_id="
+								   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("download"));
 						$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
@@ -2426,6 +2429,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$tpl_menu->setVariable("BTN_TARGET", "_blank");
 				$tpl_menu->parseCurrentBlock();
 			}
+		}
+
+		if(!$showViewInFrameset and
+		   $this->object->isActiveLMMenu())
+		{
+			$tpl_menu->setCurrentBlock("js_close");
+			$tpl_menu->setVariable("JS_BTN_TXT",$this->lng->txt('close'));
+			$tpl_menu->parseCurrentBlock();
 		}
 
 		return $tpl_menu->get();
