@@ -322,8 +322,7 @@ class ilSetupGUI extends ilSetup
 
 			case "login":
 				session_destroy();
-				header("Location: ".ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
-				exit();
+				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
 				break;
 
 			case "login_new":
@@ -334,8 +333,7 @@ class ilSetupGUI extends ilSetup
 				}
 
 				session_destroy();
-				header("Location: ".ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
-				exit();
+				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
 				break;
 
 			default:
@@ -778,8 +776,7 @@ class ilSetupGUI extends ilSetup
 			
 			sendInfo($this->lng->txt("settings_saved"),true);
 			
-			header("Location: setup.php?cmd=startup");
-			exit();
+			ilUtil::redirect("setup.php?cmd=startup");
 		}
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -893,8 +890,7 @@ class ilSetupGUI extends ilSetup
 	{
 		session_destroy();
 		
-		header ("Location: ".ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
-		exit();
+		ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
 	}
 	
 	/**
@@ -925,8 +921,7 @@ class ilSetupGUI extends ilSetup
 				}
 			}
 
-			header ("Location: setup.php");
-			exit();
+			ilUtil::redirect("setup.php");
 		}
 
 		// output
@@ -1169,8 +1164,7 @@ class ilSetupGUI extends ilSetup
 			}			
 			
 			sendInfo($this->lng->txt("settings_saved"),true);
-			header("Location: setup.php");
-			exit;
+			ilUtil::redirect("setup.php");
 		}
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -2213,8 +2207,7 @@ class ilSetupGUI extends ilSetup
 			}
 
 			sendInfo($this->lng->txt("password_changed"),true);
-			header("Location: setup.php");
-			exit();
+			ilUtil::redirect("setup.php");
 		}
 		
 		// output
@@ -2297,8 +2290,7 @@ class ilSetupGUI extends ilSetup
 			$msg = $this->client->delete($ini,$db,$files);
 
 			sendInfo($this->lng->txt("client_deleted"),true);
-			header("Location: setup.php");
-			exit();
+			ilUtil::redirect("setup.php");
 		}
 
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_delete"));
@@ -2335,8 +2327,7 @@ class ilSetupGUI extends ilSetup
 		
 		sendInfo($this->lng->txt($message),true);
 		
-		header("Location: setup.php?cmd=".$a_back);
-		exit();
+		ilUtil::redirect("setup.php?cmd=".$a_back);
 	}
 	
 	/**
@@ -2369,8 +2360,7 @@ class ilSetupGUI extends ilSetup
 		
 		sendInfo($this->lng->txt($message),true);
 		
-		header("Location: setup.php");
-		exit();
+		ilUtil::redirect("setup.php");
 	}
 
 	/**
@@ -2464,8 +2454,7 @@ class ilSetupGUI extends ilSetup
 			sendInfo($this->lng->txt("list_enabled"),true);				
 		}
 		
-		header("Location: setup.php");
-		exit;
+		ilUtil::redirect("setup.php");
 	}
 } // END class.ilSetupGUI
 ?>

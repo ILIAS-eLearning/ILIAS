@@ -179,8 +179,7 @@ class ILIAS
 		// if no ini-file found switch to setup routine
 		if ($this->ini->ERROR != "")
 		{
-			header("Location: ./setup/setup.php");
-			exit();
+			ilUtil::redirect("./setup/setup.php");
 		}
 		
 		if (!$this->ini->readVariable("client","access"))
