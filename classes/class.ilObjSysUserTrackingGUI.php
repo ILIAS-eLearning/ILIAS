@@ -24,7 +24,7 @@
 /**
 * Class ilObjSysUserTrackingGUI
 *
-* @author Arlon Yin <arlon_yin@sina.com.cn>
+* @author Arlon Yin <arlon_yin@hotmail.com>
 * @author Alex Killing <alex.killing@gmx.de>
 *
 * @version $Id$
@@ -34,7 +34,6 @@
 */
 
 require_once "class.ilObjectGUI.php";
-require_once "tracking/classes/class.ilUserTracking.php";
 
 class ilObjSysUserTrackingGUI extends ilObjectGUI
 {
@@ -407,11 +406,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		{
 			$tpl->setVariable("O_CHK", " checked=\"1\" ");
 		}
-		elseif($_SESSION["il_track_stat"] == "u")
-		{
-			$tpl->setVariable("U_CHK", " checked=\"1\" ");
-		}
-
+		
 		// tracked object type
 		if ($_SESSION["il_object_type"] == "tst")
 		{
@@ -454,12 +449,10 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 		}
 		//test module
-		//arlon modified,if there isn't test of the login,the test tracking module will not display!
-		$usertracking = new ilUserTracking();
-		$result_test = $usertracking->getTestId($_SESSION["AccountId"]);
+		
+		$result_test = ilObjSysUserTracking::getTestId($_SESSION["AccountId"]);
 
 		$tpl->setVariable("TXT_TEST",$lng->txt("test"));
-		$tracking = new ilUserTracking();
 
 		//$test = $tracking->TestTitle($_SESSION["AccountId"]);
 
@@ -522,11 +515,8 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				$this->ilias->error_obj->MESSAGE);
 		}*/
 
-		$usertracking = new ilUserTracking();
-		//$result_id = $usertracking->getSubId($_SESSION["AccountId"]);
 		$condition = $this->getCondition()." and acc_time >='".$from."' and acc_time< '".$to."'";
-
-		if(count($usertracking->countResults($condition))== 0)
+		if(count(ilObjSysUserTracking::countResults($condition))== 0)
 		{
 			$this->ilias->raiseError($lng->txt("msg_no_search_result"),
 				$this->ilias->error_obj->MESSAGE);
@@ -589,6 +579,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				{
 					$header_names[] = $lng->txt($val);
 				}
+				$tbl->disable("sort");
 				$tbl->setHeaderNames($header_names);
 				//$tbl->setColumnWidth(array("15","75%","25%"));
 				$tbl->setMaxCount($this->maxcount);
@@ -655,15 +646,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 				$title_new = array("user", "count", "");
 
-				// condition
-				$condition = $this->getCondition()." and acc_time>='".$from."' and acc_time<'".$to."'";
-
 				$user_acc = $this->object->getAccessTotalPerUser($condition);
 
 				$this->maxcount = count($user_acc);
 
 				// check if result is given
-				if (count($user_acc) < 1)
+				if ($this->maxcount < 1)
 				{
 					$this->ilias->raiseError($lng->txt("msg_no_search_result"),
 						$this->ilias->error_obj->MESSAGE);
@@ -674,6 +662,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				{
 					$header_names[] = $lng->txt($val);
 				}
+				$tbl->disable("sort");
 				$tbl->setHeaderNames($header_names);
 				//$tbl->setColumnWidth(array("15","75%","25%"));
 				$tbl->setMaxCount($this->maxcount);
@@ -715,11 +704,88 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 
 		}
-		elseif($_POST["stat"] == "o")
+		elseif($_POST["stat"] == "o") //Object Access
 		{
+			if(($_POST["object_type"]=="lm" and $_POST["author"] =="0") or ($_POST["object_type"]=="tst" and $_POST["author1"]=="0"))
+			{
+				$title_new = array("author", "subject", "count","");	
+			}
+			else
+			{
+				$title_new = array("subject", "count","");
+			}
+			$acc_object = $this->object->getAccessTotalPerObj($condition);
+			
+			$this->maxcount = count($acc_object);
+			if ($this->maxcount < 1)
+			{
+				$this->ilias->raiseError($lng->txt("msg_no_search_result"),
+					$this->ilias->error_obj->MESSAGE);
+			}
 
+			$tbl->setTitle($lng->txt("search_result"),0,0);
+			
+			include_once "./classes/class.ilTableGUI.php";
+			$tbl = new ilTableGUI();
+			$tbl->setTitle($lng->txt("obj_trac"),0,0);
+			foreach ($title_new as $val)
+			{
+				$header_names[] = $lng->txt($val);
+			}
+			$tbl->disable("sort");
+			$tbl->setHeaderNames($header_names);
+			$tbl->setMaxCount($this->maxcount);
+			$tbl->setStyle("table", "std");
+			$tbl->render();
+			$max = 0;
+			foreach ($acc_object as $obj)
+			{
+				$max = ($max > $obj["cnt"]) ? $max : $obj["cnt"];
+			}
+
+			foreach ($acc_object as $obj)
+			{
+				if(($_POST["object_type"]=="lm" and $_POST["author"]=="0") or ($_POST["object_type"]=="tst" and $_POST["author1"]=="0"))
+				{
+					$data[0] = $obj["author"];
+					$data[1] = $obj["title"];
+					$data[2] = $obj["cnt"];
+					$width = ($max > 0)
+						? round($data[2] / $max * 100)
+						: 0;
+					$data[3] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+						"width=\"".$width."\" height=\"10\"/>";
+				}
+				else
+				{
+					$data[0] = $obj["title"];
+					$data[1] = $obj["cnt"];
+					$width = ($max > 0)
+						? round($data[1] / $max * 100)
+						: 0;
+					$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+						"width=\"".$width."\" height=\"10\"/>";
+				}
+				$css_row = $i%2==0?"tblrow1":"tblrow2";
+				foreach ($data as $key => $val)
+				{
+					if($val=="")
+					{
+						$val=0;
+					}
+					$tpl->setCurrentBlock("text");
+					$tpl->setVariable("TEXT_CONTENT", $val);
+					$tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("table_cell");
+					$tpl->parseCurrentBlock();
+				} //foreach
+				$tpl->setCurrentBlock("tbl_content");
+				$tpl->setVariable("CSS_ROW", $css_row);
+				$tpl->parseCurrentBlock();
+			} //for
+	
 		}
-		else//user not selected
+		else //user not selected
 		{
 			$title_new = array("time", "count", "");
 
@@ -730,6 +796,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			{
 				$header_names[] = $lng->txt($val);
 			}
+			$tbl->disable("sort");
 			$tbl->setHeaderNames($header_names);
 
 			if($_POST["stat"]=='h')
@@ -739,8 +806,8 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 			else
 			{
-				$num = $usertracking->numDay($from,$to);
-				$from1 = $usertracking->addDay($from);
+				$num = $this->numDay($from,$to);
+				$from1 = $this->addDay($from);
 				$tbl->setMaxCount($num);
 			}
 			$tbl->setStyle("table", "std");
@@ -751,7 +818,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 			if($_POST["stat"]=='h')		//hours of day
 			{
-				$time = $usertracking->selectTime($from,$to,$condition);
+				$time = $this->selectTime($from,$to,$condition);
 				$max = 0;
 				for($i=0;$i<24;$i++)
 				{
@@ -811,9 +878,9 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				for($i=0;$i<$num;$i++)
 				{
 					$fro[$i] = $from;
-					$cou[$i] = $usertracking->countNum($from,$from1,$condition);
+					$cou[$i] = $this->countNum($from,$from1,$condition);
 					$from = $from1;
-					$from1 = $usertracking->addDay($from);
+					$from1 = $this->addDay($from);
 					$max = ($max > $cou[$i]) ? $max : $cou[$i];
 				}
 				for($i=0;$i<$num;$i++)
@@ -992,6 +1059,107 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	{
 		return $this->conditions;
 	}
-
+	
+	/**
+	* Return the nums of days between 'from' and 'to'
+	*/
+	function numDay($from,$to)
+	{
+		$from = strtotime($from);
+		$to = strtotime($to);
+		$dayf = date ("d",$from);
+		$dayt = date ("d",$to);
+		$yearf = date ("Y",$from); 
+		$yeart = date ("Y",$to); 
+		$montht = date ("m",$to); 
+		$monthf = date ("m",$from); 
+		$ret = ( mktime(0,0,0,$montht,$dayt,$yeart) - mktime(0,0,0,$monthf,$dayf,$yearf))/(3600*24); 
+		return $ret; 
+	}
+	
+	/**
+	* Return the nums of hours between 'from' and 'to'
+	*/
+	function numHour($from,$to)
+	{
+		$from = strtotime($from);
+		$to = strtotime($to);
+		$dayf = date ("d",$from); 
+		$dayt = date ("d",$to);
+		$yearf = date ("Y",$from); 
+		$yeart = date ("Y",$to); 
+		$montht = date ("m",$to); 
+		$monthf = date ("m",$from); 
+		$hourt = date ("h",$to);
+		$hourf = date ("h",$from);
+		$ret = (mktime($hourt,0,0,$montht,$dayt,$yeart)-mktime($hourf,0,0,$monthf,$dayf,$yearf))/3600; 
+		$ret = strftime($ret);
+		return $ret; 
+	}
+	
+	/**
+	* Add one hour to the 'time' and return it
+	*/
+	function addHour($time)
+	{
+		$time = strtotime($time);
+		$day = date("d",$time);
+		$month = date("m",$time);
+		$year = date("Y",$time);
+		$hour = date("H",$time);
+		$min = date("i",$time);
+		$sec = date("s",$time);
+		$hour = $hour+1;
+		$ret = date("H:i:s", mktime($hour,$min,$sec,$month,$day,$year));
+		return $ret;
+	}
+	
+	/**
+	* Add one day to the 'time' and return it
+	*/
+	function addDay($time)
+	{
+		$time = strtotime($time);
+		$day = date("d",$time);
+		$month = date("m",$time);
+		$year = date("y",$time);
+		$min = date("i",$time);
+		$hour = date("h",$time);
+		$sec = date("s",$time);
+		$day = $day + 1;
+		$ret = date ("Y-m-d", mktime($hour,$min,$sec,$month,$day,$year));
+		return $ret;
+	}
+	
+	/**
+	* Get the access time between 'from' to 'to' and under the 'condition'
+	*/
+	function selectTime($from,$to,$condition)
+	{
+		$q = "SELECT acc_time from ut_access "
+			." WHERE (acc_time >= '".$from
+			."' AND acc_time <='".$to."')"
+			." AND ".$condition;
+		$res = $this->ilias->db->query($q);
+		for($i=0;$i<$res->numRows();$i++)
+		{
+			$result[$i]=$res->fetchRow();
+		}
+		return $result;
+	}
+	
+	/**
+	* Get the access num between 'from' to 'from1' and under the 'condition'
+	*/
+	function countNum($from,$from1,$condition)
+	{
+		$q = "SELECT count(*) from ut_access "
+			." WHERE (acc_time > '".$from
+			."' AND acc_time <='".$from1."')"
+			." AND ".$condition;
+		$res = $this->ilias->db->query($q);
+		$result = $res->fetchRow();
+		return $result[0];
+	}
 } // END class.ilObj<module_name>
 ?>
