@@ -126,6 +126,10 @@ assessment#:#direct_feedback#:#Sprawdź swoją odpowiedź
 assessment#:#duplicate#:#Kopiuj
 assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wybrane wartości!
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
+assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
 assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku powstał błąd!
