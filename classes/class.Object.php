@@ -464,7 +464,6 @@ class Object
 	function getPath($a_id = "", $a_id_parent = '')
 	{		
 		global $tree;
-		
 		if(!$a_id)
 		{
 			$a_id = $_GET["obj_id"];

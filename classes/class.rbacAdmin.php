@@ -38,10 +38,10 @@ class RbacAdmin extends PEAR
     }
 
 	/**
-	* Checks if a role exists
+	* Checks if a role already exists. Role title should be unique
 	* @access	public
 	* @param	string
-	* @return	array 
+	* @return	int 
 	*/
     function roleExists($a_title)
     {
@@ -207,7 +207,7 @@ class RbacAdmin extends PEAR
 						 "WHERE rol_id = '".$a_obj_id ."' ");
 		$this->db->query("DELETE FROM rbac_fa ".
 						 "WHERE rol_id = '".$a_obj_id ."' ");
-		return 1;
+		return true;
     }
 
 	/**
@@ -739,7 +739,6 @@ class RbacAdmin extends PEAR
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
 		$a_start_parent = $a_start_parent ? $a_start_parent : $_GET["parent"];
 
-		//$a_tree =  new Tree($a_start_node,$a_start_parent,ROOT_FOLDER_ID,1);
 		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 

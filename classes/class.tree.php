@@ -104,7 +104,6 @@ class Tree extends PEAR
 		{
 			$a_root_id = ROOT_FOLDER_ID;
 		}
-		
 		$this->node_id		= $a_node_id;
 		$this->parent_id	= $a_parent_id;
 		$this->root_id		= $a_root_id;		
@@ -541,7 +540,6 @@ class Tree extends PEAR
 		{
 			$a_endparent = $this->parent_id;
 		}
-//		var_dump("<pre>",$a_endnode,$a_endparent,$a_startnode,$a_startparent,"</pre");
 		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
@@ -581,7 +579,7 @@ class Tree extends PEAR
 	{
 		$a_end = $a_end ? $a_end : $_GET["obj_id"];
 		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
-		$res = $this->fetchPath($a_end ,$a_endparent, $a_start, $a_startparent);
+		$res = $this->fetchPath($a_endnode ,$a_endparent, $a_startnode, $a_startparent);
 		
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
