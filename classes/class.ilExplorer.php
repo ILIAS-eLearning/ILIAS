@@ -143,6 +143,13 @@ class ilExplorer
 	var $is_clickable;
 
 	/**
+	* process post sorting true/false
+	* @var boolean
+	* @access private
+	*/
+	var $post_sort;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -169,6 +176,7 @@ class ilExplorer
 		$this->output_icons = true;
 		$this->expand_variable = "expand";
 		$this->textwidth=50;
+		$this->post_sort=true;
 	}
 
 	/**
@@ -180,7 +188,7 @@ class ilExplorer
 	{
 		$this->order_column = $a_column;
 	}
-	
+
 	/**
 	* set the order direction
 	* @access	public
@@ -314,6 +322,14 @@ class ilExplorer
 		}
 	}
 
+	/**
+	* process post sorting
+	* @param	boolean		$a_sort		true / false
+	*/
+	function setPostSort($a_sort)
+	{
+		$this->post_sort = $a_sort;
+	}
 
 	/**
 	* Creates output for explorer view in admin menue
@@ -339,7 +355,10 @@ class ilExplorer
 		{
 			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
-			$objects = $this->sortNodes($objects);
+			if ($this->post_sort)
+			{
+				$objects = $this->sortNodes($objects);
+			}
 
 			foreach ($objects as $key => $object)
 			{

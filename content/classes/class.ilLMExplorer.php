@@ -61,6 +61,7 @@ class ilLMExplorer extends ilExplorer
 		$this->order_column = "";
 		$this->setSessionExpandVariable("lmexpand");
 		$this->checkPermissions(false);
+		$this->setPostSort(false);
 	}
 
 
