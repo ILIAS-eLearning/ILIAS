@@ -3,7 +3,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.3 2003/04/18 18:22:08 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -84,7 +84,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["error_recipient"] = $_POST["error_recipient"];
 
 				// pathes
-				$settings["tpl_path"] = $_POST["tpl_path"];
+				//$settings["tpl_path"] = $_POST["tpl_path"];
 				$settings["lang_path"] = $_POST["lang_path"];
 				$settings["convert_path"] = $_POST["convert_path"];
 				$settings["zip_path"] = $_POST["zip_path"];
@@ -142,7 +142,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->setSetting("inst_info",$_POST["inst_info"]);
 				$ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
 				$ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-				$ilias->ini->setVariable("server","tpl_path",$_POST["tpl_path"]);
+				//$ilias->ini->setVariable("server","tpl_path",$_POST["tpl_path"]);
 				$ilias->ini->setVariable("language","path",$_POST["lang_path"]);
 				$ilias->ini->setVariable("language","default",$_POST["default_language"]);
 				$ilias->ini->setVariable("layout","skin",$_POST["default_skin"]);
@@ -229,7 +229,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		// pathes
 		$tpl->setVariable("TXT_PATHES", $lng->txt("pathes"));
-		$tpl->setVariable("TXT_TPL_PATH", $lng->txt("tpl_path"));
+		//$tpl->setVariable("TXT_TPL_PATH", $lng->txt("tpl_path"));
 		$tpl->setVariable("TXT_LANG_PATH", $lng->txt("lang_path"));
 		$tpl->setVariable("TXT_CONVERT_PATH", $lng->txt("path_to_convert"));
 		$tpl->setVariable("TXT_ZIP_PATH", $lng->txt("path_to_zip"));
@@ -354,7 +354,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		// pathes
-		$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
+		//$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
 		$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
 		$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
 		$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);

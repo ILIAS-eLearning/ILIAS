@@ -132,7 +132,7 @@ class ilSetup
 		$this->setDSN();
 		
 		// set tplPath
-		$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
+		// $this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
 		return true;
 	}

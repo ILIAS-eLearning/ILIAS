@@ -365,18 +365,27 @@ class ilTemplate extends IntegratedTemplateExtension
 	* @param	string
 	* @param	string
 	* @param	string
+	* @param	boolean			should be set to true, if template file is in module subdirectory
 	* @return	boolean/string
 	*/
-	function addBlockFile($var, $block, $tplname)
+	function addBlockFile($var, $block, $tplname, $in_module = false)
 	{
 		if (DEBUG)
 		{
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
 		}
-		
-		if (file_exists($this->tplPath."/".$tplname) == false)
+
+		if(!$in_module)
 		{
-			echo "<br/>Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...";
+			$tpl_file = $this->tplPath."/".$tplname;
+		}
+		else
+		{
+			$tpl_file = ILIAS_MODULE."/templates/".$tplname;
+		}
+		if (file_exists($tpl_file) == false)
+		{
+			echo "<br/>Template '".$tpl_file."' doesn't exist! aborting...";
 			return false;
 		}
 
