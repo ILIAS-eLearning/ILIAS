@@ -35,6 +35,7 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
+    <subobj name="dbk" max="1">dbk</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -46,6 +47,17 @@
 	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
+</object>
+<object name="dbk" class_name="DlBook" module="content" checkbox="1" inherit="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="view">subobjects</property>
+	<property name="chapters" module="1">cont_chapters</property>
+	<property name="pages" module="1">cont_all_pages</property>
+	<property name="editMeta">meta_data</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="confirmDeletion">delete</action>
 </object>
 <object name="dlib" class_name="Digilib" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
