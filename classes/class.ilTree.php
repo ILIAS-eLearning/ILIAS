@@ -421,7 +421,7 @@ class ilTree
 		$targetId = $_GET["dragdropTarget"];
 		
 		// "move" | "copy"
-		$movecopy = $_GET["dragdropMovecopy"];
+		$movecopy = $_GET["dragdropCopymove"];
 		
 		// "after" | "before" : copy or move the source-object before or after the selected target-object.
 		$position = $_GET["dragdropPosition"];
