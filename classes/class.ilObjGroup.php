@@ -865,6 +865,36 @@ class ilObjGroup extends ilObject
 		}		
 	}
 	
+	function linkGrpTree($a_ref_id,$params)
+	{
+		$grp_tree = new ilTree($this->getId());
+		$grp_tree->setTableNames("grp_tree","object_data");
+		
+		//get (direct) children of the node where the event occured
+		$childrenNodes = $this->tree->getChilds($a_ref_id); 
+		
+		//filter only the nodes which were linked
+		foreach ( $childrenNodes as $child)
+		{
+			foreach ( $params as $parameter => $value)
+			{
+				if ( $child["ref_id"] == $parameter )
+				{
+					$new_node =& $this->ilias->obj_factory->getInstanceByRefId($parameter);
+					
+					//insert the new node into the 'grp_tree' table	
+					$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+					$this->insertGroupNode($new_node->getId(),$object->getId(),$this->getId(),$new_node->getRefId());
+						
+					//$params = array_diff($params,array($value));
+						
+					//repeat the procedure one level deeper			
+					$this->linkGrpTree($child["ref_id"],$params);  
+				}
+					
+			}
+		}
+	}
 	
 	/**
 	* notifys an object about an event occured
@@ -882,6 +912,8 @@ class ilObjGroup extends ilObject
 		switch ($a_event)
 		{
 			case "link":
+				$this->linkGrpTree($a_ref_id,$a_params);
+				
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Group ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
