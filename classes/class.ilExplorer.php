@@ -522,7 +522,7 @@ class ilExplorer
 		{
 			if ($options["visible"] and $key != 0)
 			{
-				$this->formatObject($options["child"],$options);
+				$this->formatObject($options["child"],$options,$options['obj_id']);
 			}
 			if ($key == 0)
 			{
@@ -553,7 +553,7 @@ class ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option)
+	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 
@@ -603,7 +603,7 @@ class ilExplorer
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
+		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
 		{
 			$tpl->setCurrentBlock("link");
 			//$target = (strpos($this->target, "?") === false) ?

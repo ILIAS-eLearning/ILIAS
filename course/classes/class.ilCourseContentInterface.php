@@ -104,9 +104,11 @@ class ilCourseContentInterface
 			{
 				$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($cont_data['obj_id']);
 				
-				if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
-					($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
+				#if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
+				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
+				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id']))	
 				{
+					
 					$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
 					$tpl->setCurrentBlock("crs_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
@@ -132,9 +134,31 @@ class ilCourseContentInterface
 				}
 				if(!$conditions_ok)
 				{
+					foreach(ilConditionHandler::_getConditionsOfTarget($cont_data['obj_id']) as $condition)
+					{
+						if(ilConditionHandler::_checkCondition($condition['id']))
+						{
+							continue;
+						}
+						$trigger_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
+
+						if(ilRepositoryExplorer::isClickable($trigger_obj->getType(),$trigger_obj->getRefId(),$trigger_obj->getId()))
+						{
+							$tpl->setCurrentBlock("link");
+							$tpl->setVariable("PRECONDITION_LINK",
+											  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
+							$tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
+							$tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$tpl->setCurrentBlock("no_link");
+							$tpl->setVariable("PRECONDITION_NO_TITLE",$trigger_obj->getTitle());
+							$tpl->parseCurrentBlock();
+						}
+					}
 					$tpl->setCurrentBlock("crs_preconditions");
-					$tpl->setVariable("PRECONDITIONS_LINK",'');
-					$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('preconditions'));
+					$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('condition_precondition'));
 					$tpl->parseCurrentBlock();
 				}
 

@@ -208,10 +208,14 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}
 
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{
 		global $rbacsystem,$tree;
 
+		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
+		{
+			return false;
+		}
 
 		switch ($a_type)
 		{
