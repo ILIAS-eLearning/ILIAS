@@ -1415,12 +1415,23 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_tst_row.html");
 			// counter for rowcolor change
 			$num = 0;
-
+			global $ilDB;
+			foreach ($tests as $key => $tst_data) {
+				$q = sprintf("SELECT complete FROM tst_tests WHERE ref_fi=%s",
+					$ilDB->quote($tst_data["ref_id"])
+				);
+				$result = $ilDB->query($q);
+				if ($result->numRows() == 1) {
+					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+					$tests[$key]["complete"] = $row->complete;
+				}
+			}
+			
 			foreach ($tests as $tst_data)
 			{
           $obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
 
-				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]))
+				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]) and ($tst_data["complete"]))
 				{
 					$tpl->setCurrentBlock("tst_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
@@ -1453,7 +1464,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				}
 
 				// add to desktop link
-				if (!$ilias->account->isDesktopItem($tst_data["ref_id"], "tst"))
+				if (!$ilias->account->isDesktopItem($tst_data["ref_id"], "tst") and ($tst_data["complete"]))
 				{
 					$tpl->setCurrentBlock("tst_subscribe");
 					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -1464,7 +1475,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				}
 
 				// add anonymous aggregated test results link
-				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
+				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]) and ($tst_data["complete"]))
 				{
 					$tpl->setCurrentBlock("tst_anon_eval");
 					$tpl->setVariable("ANON_EVAL_LINK", "assessment/test.php?cmd=eval_a&ref_id=".$tst_data["ref_id"]);
