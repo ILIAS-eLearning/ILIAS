@@ -114,6 +114,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
 			}
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("available_points"));
+			$this->tpl->setVariable("VALUE_APPLET_POINTS", sprintf("%d", $this->object->getPoints()));
 			$this->tpl->parseCurrentBlock();
 
 			if ($javaapplet)
@@ -272,6 +274,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->setQuestion(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
+		$this->object->setPoints($_POST["applet_points"]);
 
 		if ($_POST["id"] > 0)
 		{
