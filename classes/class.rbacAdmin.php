@@ -6,7 +6,12 @@ include_once "classes/class.Object.php";
  * Class RbacAdmin 
  * core functions for role based access control
  * @author Stefan Meyer <smeyer@databay.de>
+<<<<<<< class.rbacAdmin.php
  * @version $Id$
+ * @extends PEAR
+=======
+ * @version $Id$
+>>>>>>> 1.18
  * @package rbac
  */
 class RbacAdmin extends PEAR
@@ -23,11 +28,11 @@ class RbacAdmin extends PEAR
 	*/
 	var $error_class;
 
-/**
- * Constructor 
- * @param object db
- * @access public
- */
+	/**
+	* Constructor
+	* @access	public
+	* @param	object	db	db-handler
+	*/
     function RbacAdmin(&$dbhandle)
     {
 		$this->PEAR();
@@ -36,12 +41,13 @@ class RbacAdmin extends PEAR
 
         $this->db =& $dbhandle;
     }
-/**
- * Checks if a role exists
- * @access public
- * @param string
- * @return array 
- */
+
+	/**
+	* Checks if a role exists
+	* @access	public
+	* @param	string
+	* @return	array 
+	*/
     function roleExists($a_title)
     {
 		$res = $this->db->query("SELECT obj_id FROM object_data ".
@@ -53,12 +59,13 @@ class RbacAdmin extends PEAR
 		}
 		return count($id);
     }
-/**
- * Inserts userdata in user_data table
- * @access public
- * @param  array 
- * @return bool true/false
- */
+
+	/**
+	* Inserts userdata in user_data table
+	* @access	public
+	* @param	array 
+	* @return	boolean
+	*/
 	function addUser($a_data)
     {
 
@@ -72,12 +79,13 @@ class RbacAdmin extends PEAR
 		$res = $this->db->query($query);
 		return true;
     }
-/**
- * Deletes a user from object_data, rbac_pa, rbac_ua and user_data
- * @access public
- * @param array
- * @return boolean true/false
- */
+
+	/**
+	* Deletes a user from object_data, rbac_pa, rbac_ua and user_data
+	* @access	public
+	* @param	array
+	* @return	boolean
+	*/
     function deleteUser($a_usr_id)
     {
 		foreach($a_usr_id as $id)
@@ -94,12 +102,13 @@ class RbacAdmin extends PEAR
 		}
 		return true;
 	}
-/**
- * updates user data in table user_data & object_data
- * @access public
- * @param array Array with user data
- * @return bool true false
- */
+
+	/**
+	* updates user data in table user_data & object_data
+	* @access	public
+	* @param	array		with user data
+	* @return	boolean
+	*/
 	function updateUser($a_userdata)
 	{
 		$query = "UPDATE user_data ".
@@ -125,13 +134,14 @@ class RbacAdmin extends PEAR
 		
 		return true;
 	}
-/**
- * Creates a role, inserts data in object_data, rbac_ua, rbac_pa
- * @access public
- * @param string title
- * @param string description
- * @return  int new obj_id
- */
+
+	/**
+	* Creates a role, inserts data in object_data, rbac_ua, rbac_pa
+	* @access	public
+	* @param	string	title
+	* @param	string	description
+	* @return	integer	new obj_id
+	*/
     function addRole($a_title,$a_description)
     {
 		$rbacreview = new RbacReview($this->db);
@@ -165,12 +175,13 @@ class RbacAdmin extends PEAR
 		}
 		return $row[0];
 	}
+
 	/**
-	 * Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
-	 * @access public
-	 * @param int Object Id
-	 * @return bool true/false
-	 */
+	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
+	* @access	public
+	* @param	integer	Object Id
+	* @return	boolean
+	*/
     function deleteRole($a_obj_id)
     {
 		$this->db->query("DELETE FROM object_data ".
@@ -183,14 +194,16 @@ class RbacAdmin extends PEAR
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		$this->db->query("DELETE FROM rbac_fa ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
-		return 1;
+		return true;
     }
+
 	/**
-	 * Deletes a template from role folder and deletes all entries in object_data, rbac_templates, rbac_fa
-	 * @access public
-	 * @param int Object Id
-	 * @return bool true/false
-	 */
+	* Deletes a template from role folder and deletes all entries in object_data, rbac_templates, rbac_fa
+	* @access	public
+	* @param	integer		Object Id
+	* @param	integer		Parent Id
+	* @return	boolean
+	*/
     function deleteTemplate($a_obj_id,$a_parent)
     {
 		$this->db->query("DELETE FROM object_data ".
@@ -202,13 +215,13 @@ class RbacAdmin extends PEAR
 		return 1;
     }
 
-/**
- * Deletes a local role and entries in rbac_fa and rbac_templates
- * @access public
- * @param int Object Id of role
- * @param int Obkect of parent object
- * @return bool true/false
- */
+	/**
+	* Deletes a local role and entries in rbac_fa and rbac_templates
+	* @access	public
+	* @param	integer	Object Id of role
+	* @param	integer	Object of parent object
+	* @return	boolean
+	*/
 	function deleteLocalRole($a_rol_id,$a_parent)
 	{
 		$query = "DELETE FROM rbac_fa ".
@@ -219,17 +232,18 @@ class RbacAdmin extends PEAR
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_parent."'";
 		$res = $this->db->query($query);
+
 		return true;
 	}
 
-/**
- * Get parent roles in a path. If last parameter is set 'true'
- * it delivers also all templates in the path
- * @access public
- * @param array Path Id
- * @param bool 
- * @return bool true/false
- */
+	/**
+	* Get parent roles in a path. If last parameter is set 'true'
+	* it delivers also all templates in the path
+	* @access	public
+	* @param	array	Path Id
+	* @param	boolean 
+	* @return	boolean
+	*/
 	function getParentRoles($a_path,$a_templates = false)
 	{
 		$parentRoles = array();
@@ -267,66 +281,74 @@ class RbacAdmin extends PEAR
 		}
 		return $parentRoles;
 	}
-/**
- * Assigns a user to a role
- * @access public
- * @param int object id of role
- * @param integer object id of user
- * @return bool true/false
- */
+
+	/**
+	* Assigns a user to a role
+	* @access	public
+	* @param	integer		object id of role
+	* @param	integer		object id of user
+	* @return	boolean
+	*/
     function assignUser($a_rol_id,$a_usr_id = 0)
     {
         // Zuweisung des aktuellen Benutzers zu der Rolle
 		if(!$a_usr_id)
 		{
 			global $ilias;
+
 			$a_usr_id = $ilias->account->data["Id"];
 		}
 		$query = "INSERT INTO rbac_ua ".
 			"VALUES ('".$a_usr_id."','".$a_rol_id."')";
 		$res = $this->db->query($query);
-		return 1;
+
+		return true;
     }
-/**
- * Deassigns a user from a role
- * @access public
- * @param int object id of role
- * @param int user id
- * @return bool true/false
- */
+
+	/**
+	* Deassigns a user from a role
+	* @access	public
+	* @param	integer		object id of role
+	* @param	integer		user id
+	* @return	boolean
+	*/
     function deassignUser($a_rol_id,$a_usr_id)
     {
 		$query = "DELETE FROM rbac_ua ".
 			"WHERE usr_id='".$a_usr_id."' ".
 			"AND rol_id='".$a_rol_id."'";
 		$res = $this->db->query($query);
-		return 1;
+
+		return true;
     }
-/**
- * Grants permissions to an object
- * @access public
- * @param int object id of role
- * @param array array of operations
- * @param int object id
- * @param int obj id of parent object
- * @return bool true/false
- */
+
+	/**
+	* Grants permissions to an object
+	* @access	public
+	* @param	integer		object id of role
+	* @param	array		array of operations
+	* @param	integer		object id
+	* @param	integer		obj id of parent object
+	* @return	boolean
+	*/
     function grantPermission($a_rol_id,$a_ops_id,$a_obj_id,$a_setid)
     {
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops_id));
 		$query = "INSERT INTO rbac_pa VALUES('".$a_rol_id."','".$ops_ids."','".$a_obj_id."','".$a_setid."')";
 		$res = $this->db->query($query);
-		return 1;
+
+		return true;
     }
-/**
- * Revokes permissions of object
- * @access public
- * @param int object id
- * @param string role id
- * @param string id of parent object
- * @return bool true/false
- */
+
+	/**
+	* Revokes permissions of object
+	* @access	public
+	* @param	integer		object id
+	* @param	string		role id
+	* @param	string		id of parent object
+	* @return	boolean
+	*/
     function revokePermission($a_obj_id,$a_rol_id = "",$a_set_id = "")
     {
 		if($a_set_id)
@@ -344,16 +366,17 @@ class RbacAdmin extends PEAR
 			$and1.
 			$and2;
 		$res = $this->db->query($query);
-		return 1;
+		return true;
     }
-/**
- * Return template permissions of an role
- * @access public
- * @param int role id
- * @param string
- * @param int
- * @return array Operation ids
- */
+
+	/**
+	* Return template permissions of an role
+	* @access	public
+	* @param	integer		role id
+	* @param	string
+	* @param	integer
+	* @return	array		Operation ids
+	*/
     function getRolePermission($a_rol_id,$a_type,$a_parent)
     {
 		$ops_id = array();
@@ -371,15 +394,16 @@ class RbacAdmin extends PEAR
 		}
 		return $ops_id;
     }
-/**
- * Copies template permissions
- * @access public
- * @param int role id source
- * @param int parent id source
- * @param int role id destination
- * @param string parent id destination
- * @return bool 
- */
+
+	/**
+	* Copies template permissions
+	* @access	public
+	* @param	integer		role id source
+	* @param	integer		parent id source
+	* @param	integer		role id destination
+	* @param	string		parent id destination
+	* @return	boolean 
+	*/
 	function copyRolePermission($a_rol_id,$a_from,$a_to,$a_dest_rol_id = '')
 	{
 		$a_dest_rol_id = $a_dest_rol_id ? $a_dest_rol_id : $a_rol_id;
@@ -396,13 +420,13 @@ class RbacAdmin extends PEAR
 		return true;
 	}
 	
-/**
- * Deletes a template
- * @access public
- * @param int role id
- * @param int parent object id
- * @return bool
- */
+	/**
+	* Deletes a template
+	* @access	public
+	* @param	integer		role id
+	* @param	integer		parent object id
+	* @return	boolean
+	*/
 	function deleteRolePermission($a_rol_id,$a_parent)
 	{
 		$query = "DELETE FROM rbac_templates ".
@@ -412,15 +436,15 @@ class RbacAdmin extends PEAR
 		return true;
 	}
 	
-/**
- * Inserts template permissions in rbac_templates
- * @access public
- * @param int rol id
- * @param string
- * @param array operation ids
- * @param parent object id
- * @return bool
- */
+	/**
+	* Inserts template permissions in rbac_templates
+	* @access	public
+	* @param	integer		rol id
+	* @param	string
+	* @param	array		operation ids
+	* @param	parent		object id
+	* @return	boolean
+	*/
     function setRolePermission($a_rol_id,$a_type,$a_ops_id,$a_parent)
     {
 		if(!$a_ops_id)
@@ -432,15 +456,15 @@ class RbacAdmin extends PEAR
 				"VALUES('".$a_rol_id."','".$a_type."','".$o."','".$a_parent."')";
 			$res = $this->db->query($query);
 		}
-		return 1;
+		return true;
     }
-	
-/**
- * Returns parent id of an object (obsolete)
- * @access public
- * @param int object id 
- * @return array parent ids
- */
+
+	/**
+	* Returns parent id of an object (obsolete)
+	* @access	public
+	* @param	integer		object id 
+	* @return	array		parent ids
+	*/
     function getSetIdByObject($a_obj_id)
     {
 		$set_id = array();
@@ -454,14 +478,14 @@ class RbacAdmin extends PEAR
 		return $set_id;
     }
 	
-/**
- * Returns a list of roles in an container
- * @access public
- * @param int object id
- * @param string
- * @param string
- * @return array set ids
- */
+	/**
+	* Returns a list of roles in an container
+	* @access	public
+	* @param	integer		object id
+	* @param	string
+	* @param	string
+	* @return	array		set ids
+	*/
 	function getRoleListByObject($a_parent,$a_order='',$a_direction='')
 	{
 		$role_list = array();
@@ -489,14 +513,15 @@ class RbacAdmin extends PEAR
 		}
 		return $role_list;
 	}
-/**
- * Returns a list of roles  and templates of an container
- * @access public
- * @param int object id
- * @param string
- * @param string
- * @return array set ids
- */
+
+	/**
+	* Returns a list of roles  and templates of an container
+	* @access	public
+	* @param	integer		object id
+	* @param	string
+	* @param	string
+	* @return	array		set ids
+	*/
 	function getRoleAndTemplateListByObject($a_parent,$a_order='',$a_direction='')
 	{
 		$role_list = array();
@@ -511,6 +536,7 @@ class RbacAdmin extends PEAR
 			"AND rbac_fa.parent = '".$a_parent."' ".
 			"ORDER BY ".$a_order." ".$a_direction;
 		$res = $this->db->query($query);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$role_list[] = array( 
@@ -522,17 +548,18 @@ class RbacAdmin extends PEAR
 				"create_date"       => $row->create_date,
 				"last_update"       => $row->last_update);
 		}
+
 		return $role_list;
 	}
 
-/**
- * Assigns a role to an role folder
- * @access public
- * @param int object id of role
- * @param parent object id
- * @param string asignable('y','n')
- * @return bool
- */
+	/**
+	* Assigns a role to an role folder
+	* @access	public
+	* @param	integer		object id of role
+	* @param	integer		parent object id
+	* @param	string		asignable('y','n')
+	* @return	boolean
+	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = 'y')
 	{
 		$query = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
@@ -540,13 +567,14 @@ class RbacAdmin extends PEAR
 		$res = $this->db->query($query);
 		return true;
 	}
-/**
- * Check if its possible to assign users
- * @access public
- * @param int object id
- * @param int parent id
- * @return bool 
- */
+
+	/**
+	* Check if its possible to assign users
+	* @access	public
+	* @param	integer		object id
+	* @param	integer		parent id
+	* @return	boolean 
+	*/
 	function isAssignable($a_rol_id,$a_parent)
 	{
 		$query = "SELECT * FROM rbac_fa ".
@@ -558,12 +586,13 @@ class RbacAdmin extends PEAR
 			return $row->assign == 'y' ? true : false;
 		}
 	}
-/**
- * gets data of an role
- * @access public
- * @param int object id  
- * @return array array of set ids
- */
+
+	/**
+	* gets data of an role
+	* @access	public
+	* @param	integer		object id  
+	* @return	array		array of set ids
+	*/
 	function getRoleData($a_obj_id)
 	{
 		$role_list = array();
@@ -585,12 +614,13 @@ class RbacAdmin extends PEAR
 		}
 		return $role_list;
 	}
-/**
- * returns an array with role ids assigned to a role folder
- * @access public
- * @param int role id
- * @return array object ids of role folders
- */
+
+	/**
+	* returns an array with role ids assigned to a role folder
+	* @access	public
+	* @param	integer		role id
+	* @return	array		object ids of role folders
+	*/
 	function getFoldersAssignedToRole($a_rol_id)
 	{
 		$parent = array();
@@ -604,12 +634,13 @@ class RbacAdmin extends PEAR
 		}
 		return $parent;
 	}
-/**
- * return an array with role ids
- * @access public
- * @param int parent id  
- * @return array Array with rol_ids
- */
+
+	/**
+	* return an array with role ids
+	* @access	public
+	* @param	integer		parent id  
+	* @return	array		Array with rol_ids
+	*/
 	function getRolesAssignedToFolder($a_parent)
 	{
 		$query = "SELECT rol_id FROM rbac_fa ".
@@ -622,11 +653,11 @@ class RbacAdmin extends PEAR
 		return $rol_id ? $rol_id : array();
 	}
 	
-/**
- * all role folder ids
- * @access public
- * @return array
- */
+	/**
+	* all role folder ids
+	* @access public
+	* @return array
+	*/
 	function getRoleFolder()
 	{
 		$parent = array();
@@ -639,12 +670,13 @@ class RbacAdmin extends PEAR
 		}
 		return $parent;
 	}
-/**
- * returns the data of a role folder assigned to an object
- * @access public
- * @param int parent id
- * @return array
- */
+
+	/**
+	* returns the data of a role folder assigned to an object
+	* @access	public
+	* @param	integer		parent id
+	* @return	array
+	*/
 	function getRoleFolderOfObject($a_parent)
 	{
 		$rol_data = array();
@@ -661,12 +693,13 @@ class RbacAdmin extends PEAR
 		}
 		return $rol_data;
 	}
-/**
- * return id of parent object
- * @access public
- * @param int  
- * @return int
- */
+
+	/**
+	* return id of parent object
+	* @access	public
+	* @param	integer  
+	* @return	integer
+	*/
 	function getParentObject($a_child)
 	{
 		$res = $this->db->query("SELECT * FROM tree ".
@@ -677,12 +710,13 @@ class RbacAdmin extends PEAR
 		}
 		return $parent;
 	}
-/**
- * all possible operations of a type
- * @access public
- * @param int 
- * @return array
- */
+
+	/**
+	* all possible operations of a type
+	* @access	public
+	* @param	integer 
+	* @return	array
+	*/
 	function getOperationsOnType($a_typ_id)
 	{
 		$res = $this->db->query("SELECT * FROM rbac_ta ".
@@ -693,14 +727,17 @@ class RbacAdmin extends PEAR
 		}
 		return $ops_id ? $ops_id : array();
 	}
-/**
- * get role ids of all parent roles, if last parameter is set true
- * you get also all parent templates
- * @access private
- * @param string object id of start node
- * @return string 
- */
-	function getParentRoleIds($a_start_node = "",$a_start_parent = '',$a_templates = false)
+
+	/**
+	* get role ids of all parent roles, if last parameter is set true
+	* you get also all parent templates
+	* @access	private
+	* @param	integer		object id of start node
+	* @param	integer		object id of start parent
+	* @param	boolean
+	* @return	string 
+	*/
+	function getParentRoleIds($a_start_node = 0,$a_start_parent = 0,$a_templates = false)
 	{
 		global $ilias;
 
@@ -710,8 +747,8 @@ class RbacAdmin extends PEAR
 		$a_tree =  new Tree($a_start_node,$a_start_parent,ROOT_FOLDER_ID,1);
 		$pathIds  = $a_tree->getPathId($a_start_node,$a_start_parent);
 		$pathIds[0] = SYSTEM_FOLDER_ID;
-		
+
 		return $this->getParentRoles($pathIds,$a_templates);
 	}
-}
+} // END class.rbacAdmin
 ?>

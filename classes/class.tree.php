@@ -6,9 +6,9 @@
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Stefan Meyer <smeyer@databay.de>
 * @package ilias-core
+* @extends PEAR
 * @version $Id$
 */
-
 class Tree extends PEAR
 {
 	/**
@@ -82,13 +82,14 @@ class Tree extends PEAR
 	var $maxlvl;
 
 	/**
-	* constructor
+	* Constructor
+	* @access	public
 	* @param	integer	$a_node_id		node_id
 	* @param	integer	$a_parent_id	parent_id
 	* @param	integer	$a_root_id		root_id (optional)
 	* @param	integer	$a_tree_id		tree_id (optional)
 	*/
-	function Tree($a_node_id, $a_parent_id, $a_root_id = ROOT_FOLDER_ID, $a_tree_id = 1)
+	function Tree($a_node_id, $a_parent_id, $a_root_id = 0, $a_tree_id = 1)
 	{
 		global $ilias;
 
@@ -99,6 +100,11 @@ class Tree extends PEAR
 		$this->db =& $ilias->db;
 		
 		//init variables
+		if (empty($a_root_id))
+		{
+			$a_root_id = ROOT_FOLDER_ID;
+		}
+		
 		$this->node_id		= $a_node_id;
 		$this->parent_id	= $a_parent_id;
 		$this->root_id		= $a_root_id;		
@@ -108,7 +114,6 @@ class Tree extends PEAR
 	/**
 	* get leaf-nodes of tree
 	* @access	public
-	* @return	object	error object in case of an error
 	*/
 	function getLeafs()
 	{
@@ -139,11 +144,11 @@ class Tree extends PEAR
 	
 	/**
 	* get subnodes of given node
-	* @param	integer	$a_node_id		node_id
-	* @param	string	$a_order		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
-	* @param	string	$a_direction	sort direction, optional (passible values: 'DESC' or 'ASC'; defalut is 'ASC')
 	* @access	public
-	* @return	boolean					true when node has childs, otherwise false
+	* @param	integer		node_id
+	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
+	* @param	string		sort direction, optional (passible values: 'DESC' or 'ASC'; defalut is 'ASC')
+	* @return	boolean		true when node has childs, otherwise false
 	*/
 	function getChilds($a_node_id,$a_order = "",$a_direction = "ASC")
 	{
@@ -207,11 +212,11 @@ class Tree extends PEAR
 	}
 
 	/**
-	* get subnodes of given node by type 
-	* @param	integer	$a_node_id		node_id
-	* @param	integer	$a_parent_id	parent_id
-	* @param	string	$a_type			object type definition
+	* get subnodes of given node by type
 	* @access	public
+	* @param	integer		node_id
+	* @param	integer		parent_id
+	* @param	string		object type definition
 	* @return	array	childs by type
 	*/
 	function getAllChildsByType($a_node_id,$a_parent_id,$a_type)
@@ -261,13 +266,12 @@ class Tree extends PEAR
 	}
 
 	/**
-	* insert node under parent node 
-	* @param	integer	$a_node_id		node_id
-	* @param	integer	$a_parent_id	parent_id (optional)
+	* insert node under parent node
 	* @access	public
-	* @return	object	$error	error object on error
+	* @param	integer		node_id
+	* @param	integer		parent_id (optional)
 	*/
-	function insertNode($a_node_id,$a_parent_id = "")
+	function insertNode($a_node_id,$a_parent_id = 0)
 	{
 		$left = "";			// first tree_left
 		$lft = "";			// second tree_left
@@ -318,13 +322,13 @@ class Tree extends PEAR
 	}
 
 	/**
-	* delete node under parent node 
+	* delete node under parent node
+	* @access	public 
 	* @param	integer	$a_node_id		node_id
 	* @param	integer	$a_parent_id	parent_id (optional)
-	* @access	public
 	* @return	object	$error	error object on error
 	*/
-	function deleteNode($a_node_id = "",$a_parent_id = "")
+	function deleteNode($a_node_id = 0,$a_parent_id = 0)
 	{
 		$left = "";				// tree_left
 		$right = "";			// tree_right
@@ -399,10 +403,10 @@ class Tree extends PEAR
 
 	/**
 	* move a node into another position within the tree 
+	* @access	public
 	* @param	integer	$a_node_id		node_id
 	* @param	integer	$a_parent_id	parent_id
 	* @param	integer	$a_target_id	node_id of parent node where the node is moved to
-	* @access	public
 	* @return	void
 	*/
 	function moveNode ($a_node_id,$a_parent_id,$a_target_id)
@@ -412,13 +416,13 @@ class Tree extends PEAR
 	}
 
 	/**
-	* delete node and the whole subtree under this node 
+	* delete node and the whole subtree under this node
+	* @access	public
 	* @param	integer	$a_node_id		node_id (optional)
 	* @param	integer	$a_parent_id	parent_id (optional)
-	* @access	public
 	* @return	object	$error	error object on error
 	*/
-	function deleteTree($a_node_id = "", $a_parent_id = "")
+	function deleteTree($a_node_id = 0, $a_parent_id = 0)
 	{
 		$left = "";			// tree_left
 		$right = "";			// tree_right
@@ -508,12 +512,14 @@ class Tree extends PEAR
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
 	* if endnode is not given the current node is endnode
-	* @param	integer	$a_endnode		node_id of endnode (optional)
-	* @param	integer	$a_startnode	node_id of startnode (optional)
 	* @access	private
-	* @return	object	$res			query result
+	* @param	integer		node_id of endnode (optional)
+	* @param	integer		node_id of endparent (optional)
+	* @param	integer		node_id of startnode (optional)
+	* @param	integer		node_id of startparent (optional)
+	* @return	object		query result
 	*/
-	function fetchPath ($a_endnode = "", $a_endparent = "", $a_startnode = "", $a_startparent = "")
+	function fetchPath ($a_endnode = 0, $a_endparent = 0, $a_startnode = 0, $a_startparent = 0)
 	{
 		if (empty($a_endnode))
 		{
@@ -564,12 +570,14 @@ class Tree extends PEAR
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
 	* if endnode is not given the current node is endnode
-	* @param	integer	$a_endnode		node_id of endnode (optional)
-	* @param	integer	$a_startnode	node_id of startnode (optional)
 	* @access	public
-	* @return	array	$this->Path		ordered path info (id,title,parent) from start to end
+	* @param	integer	node_id of endnode (optional)
+	* @param	integer	node_id of endparent (optional)
+	* @param	integer	node_id of startnode (optional)
+	* @param	integer	node_id of startparent (optional)
+	* @return	array	ordered path info (id,title,parent) from start to end
 	*/
-	function getPathFull ($a_end = '',$a_endparent = '', $a_start = '' ,$a_startparent = '')
+	function getPathFull ($a_endnode = 0, $a_endparent = 0, $a_startnode = 0 , $a_startparent = 0)
 	{
 		$a_end = $a_end ? $a_end : $_GET["obj_id"];
 		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
@@ -590,12 +598,12 @@ class Tree extends PEAR
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
 	* if endnode is not given the current node is endnode
+	* @access	public
 	* @param	integer	$a_endnode		node_id of endnode (optional)
 	* @param	integer	$a_startnode	node_id of startnode (optional)
-	* @access	public
 	* @return	array	$id				all path ids from startnode to endnode
 	*/
-	function getPathId ($a_end = '',$a_endparent = '', $a_start = '' ,$a_startparent = '')
+	function getPathId ($a_end = 0, $a_endparent = 0, $a_start = 0, $a_startparent = 0)
 	{
 
 		$a_end = $a_end ? $a_end : $_GET["obj_id"];
@@ -642,14 +650,14 @@ class Tree extends PEAR
 
 	/**
 	* builds an array of a flattened tree for output purposes
-	* @param	array	$nodes		tree information
-	* @param	integer	$start		node_id of current startnode
-	* @param	integer	$level		level of current node
-	* @param	string	$open		information about opened folders (optional; is set automatically)
-	* @param	array	$out		end result of recursion (optional, is set automatically)
-	* @param	array	$tabarr		information about the needed tabstops for each node (optional, is set automatically)
 	* @access	public
-	* @return	array 	$out		complete tree in a flat structure to display all elements sequently
+	* @param	array	tree information
+	* @param	integer	node_id of current startnode
+	* @param	integer	level of current node
+	* @param	string	information about opened folders; is set automatically (optional)
+	* @param	array	end result of recursion; is set automatically (optional)
+	* @param	array	information about the needed tabstops for each node; is set automatically (optional)
+	* @return	array 	complete tree in a flat structure to display all elements sequently
 	*/
 	function display($nodes,$start,$level,$open="",$out="",$tabarr="") {
 
@@ -814,9 +822,9 @@ class Tree extends PEAR
 
 	/**
 	* fetch all expanded nodes & their childs
-	* @param	array	$nodes		tree information
 	* @access	public
-	* @return	array 	$knoten		all expanded nodes & their childs
+	* @param	array	tree information
+	* @return	array 	all expanded nodes & their childs
 	*/
 	function buildTree ($nodes)
 	{
@@ -830,10 +838,10 @@ class Tree extends PEAR
 
 	/**
 	* builds a string in HTML to output path information
-	* @param	array	$a_path			full path information
-	* @param	string	$a_scriptname	scriptname to use for hyperlinks
 	* @access	public
-	* @return	string 	$path			HTML-formatted string
+	* @param	array	full path information
+	* @param	string	scriptname to use for hyperlinks
+	* @return	string	HTML-formatted string
 	*/
 	function showPath($a_path,$a_scriptname)
 	{
@@ -859,10 +867,10 @@ class Tree extends PEAR
 	
 	/**
 	* get all childs from a node by depth
-	* @param	integer	$a_depth		tree-level
-	* @param	integer	$a_parent		node_id
 	* @access	public
-	* @return	array 	$childs			childs
+	* @param	integer		tree-level
+	* @param	integer		node_id
+	* @return	array		childs
 	*/
 	function getChildsByDepth($a_depth,$a_parent)
 	{
@@ -911,8 +919,8 @@ class Tree extends PEAR
 	
 	/**
 	* Return the maximum depth in tree
-	* @access public
-	* @return int
+	* @access	public
+	* @return	integer
 	*/
 	function getMaximumDepth()
 	{
@@ -927,10 +935,11 @@ class Tree extends PEAR
 	
 	/**
 	* Return depth of an object
-	* @access public
-	* @param int
-	* @param int
-	* @return int
+	* @access	public
+	* @param	integer	node_id of node in question
+	* @param	integer	node_id of parent node
+	* @return	integer	tree_id (optional)
+	* @return	integer	depth of node
 	*/
 	function getDepth($a_child,$a_parent,$a_tree=1)
 	{

@@ -17,8 +17,8 @@ class Admin
 	var $ilias;
 
 	/**
-	* constructor
-	* @param object ILIAS
+	* Constructor
+	* @access public
 	*/
 	function Admin()
 	{

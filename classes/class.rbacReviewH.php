@@ -1,15 +1,16 @@
 <?php
 /**
- * class RbacreviewH
- * extensions for hierachical Rbac (maybe later)
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package rbac
+* class RbacreviewH
+* extensions for hierachical Rbac (maybe later)
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$ 
+* @package rbac
+* @extends RbacReview
 */
 class RbacReviewH extends RbacReview
 {
 	/**
-	* constructor ??
+	* Constructor
 	* @param object db
 	*/
     function RbacReviewH(&$dbhandle)
@@ -39,6 +40,7 @@ class RbacReviewH extends RbacReview
     }
 
     /**
+	* @param void
 	* @access public
 	*/
     function userPermissions()

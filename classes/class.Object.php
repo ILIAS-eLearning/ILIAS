@@ -11,14 +11,14 @@ class Object
 {
 	/**
 	* ilias object
-	* @var object ilias
-	* @access private
+	* @var		object ilias
+	* @access	private
 	*/
 	var $ilias;
 	
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
 	function Object()
 	{
@@ -29,7 +29,7 @@ class Object
 	
 	/**
 	* create object in admin interface
-	* @access public
+	* @access	public
 	*/
 	function createObject()
 	{
@@ -56,7 +56,7 @@ class Object
 	
 	/**
 	* saves new object in admin interface
-	* @access public
+	* @access	public
 	*
 	**/
 	function saveObject()
@@ -89,7 +89,7 @@ class Object
 	
 	/**
 	* edit object
-	* @access public
+	* @access	public
 	* 
 	**/
 	function editObject()
@@ -123,7 +123,7 @@ class Object
 	
 	/**
 	* update an object
-	* @access public
+	* @access	public
 	**/
 	function updateObject()
 	{
@@ -144,7 +144,7 @@ class Object
 	
 	/**
 	* show permissions of object
-	* @access public
+	* @access	public
 	**/
 	function permObject()
 	{
@@ -422,7 +422,7 @@ class Object
 
 	/**
 	* add a new permission to an object
-	* @public
+	* @access	public
 	* 
 	**/
 	function addPermissionObject()
@@ -457,9 +457,10 @@ class Object
 	/**
 	* create path
 	* TODO: ist die Function nicht grosser quatsch?
-	* @access private
-	* @param string
-	* @return string
+	* @access	private
+	* @param	integer	node_id
+	* @param	integer	node_id of parent_node
+	* @return	string
 	*/
 	function getPath($a_id = "", $a_id_parent = '')
 	{		
@@ -476,10 +477,12 @@ class Object
 		$path = $tree->getPathFull($a_id,$a_id_parent);
 		return $tree->showPath($path,"content.php");
 	}
+
 	/**
 	* returns the parent object id of $_GET["parent"]
-	* @access private
-	* @return int
+	* @access	private
+	* @param	integer		node_id where to start
+	* @return	integer
 	*/
 	function getParentObjectId($a_start = '')
 	{
