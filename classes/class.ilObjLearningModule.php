@@ -22,6 +22,10 @@
 */
 
 
+define ("IL_CHAPTER_TITLE", "st_title");
+define ("IL_PAGE_TITLE", "pg_title");
+define ("IL_NO_HEADER", "none");
+
 /**
 * Class ilObjLearningModule
 *
@@ -41,6 +45,7 @@ class ilObjLearningModule extends ilObject
 	var $meta_data;
 	var $layout;
 	var $style_id;
+	var $pg_header;
 
 	/**
 	* Constructor
@@ -158,6 +163,19 @@ class ilObjLearningModule extends ilObject
 		$this->style_id = $a_style_id;
 	}
 
+	function getPageHeader()
+	{
+		return $this->pg_header;
+	}
+
+	/**
+	* @param string $a_pg_header		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
+	*/
+	function setPageHeader($a_pg_header = IL_CHAPTER_TITLE)
+	{
+		$this->pg_header = $a_pg_header;
+	}
+
 	function readProperties()
 	{
 		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
@@ -165,13 +183,15 @@ class ilObjLearningModule extends ilObject
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setLayout($lm_rec["default_layout"]);
 		$this->setStyleSheetId($lm_rec["stylesheet"]);
+		$this->setPageHeader($lm_rec["page_header"]);
 	}
 
 	function updateProperties()
 	{
 		$q = "UPDATE learning_module SET ".
 			" default_layout = '".$this->getLayout()."', ".
-			" stylesheet = '".$this->getStyleSheetId()."'".
+			" stylesheet = '".$this->getStyleSheetId()."',".
+			" page_header = '".$this->getPageHeader()."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}

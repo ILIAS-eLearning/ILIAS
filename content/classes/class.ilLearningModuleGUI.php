@@ -104,11 +104,21 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->object->getRefId()."&cmd=post");
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+
 		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
 		$layouts = ilObjLearningModule::getAvailableLayouts();
 		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
 			$layouts, false, true);
 		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
+
+		$this->tpl->setVariable("TXT_PAGE_HEADER", $this->lng->txt("cont_page_header"));
+		$pg_header = array ("st_title" => $this->lng->txt("cont_st_title"),
+			"pg_title" => $this->lng->txt("cont_pg_title"),
+			"none" => $this->lng->txt("cont_none"));
+		$select_pg_head = ilUtil::formSelect ($this->object->getPageHeader(), "lm_pg_header",
+			$pg_header, false, true);
+		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -118,6 +128,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	function saveProperties()
 	{
 		$this->object->setLayout($_POST["lm_layout"]);
+		$this->object->setPageHeader($_POST["lm_pg_header"]);
 		$this->object->updateProperties();
 		$this->view();
 	}

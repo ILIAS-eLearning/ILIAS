@@ -1282,3 +1282,6 @@ REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('31','5');
 <#60>
 ALTER TABLE grp_tree ADD COLUMN ref_id int(11);
 
+<#61>
+ALTER TABLE learning_module ADD COLUMN page_header
+	ENUM ('st_title','pg_title','none') DEFAULT 'st_title';

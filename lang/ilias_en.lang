@@ -343,7 +343,7 @@ common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
 common#:#msg_linked#:#Selected object(s) linked.
-common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
@@ -608,6 +608,10 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_page_header#:#Page Header
+content#:#cont_st_title#:#Chapter Title
+content#:#cont_pg_title#:#Page Title
+content#:#cont_none#:#None
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
