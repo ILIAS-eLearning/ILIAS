@@ -68,7 +68,6 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasLaunchSco</font></b> <font color="#990000">(</font>String sco_id<font color="#990000">)</font> <font color="#FF0000">{</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>sco_id <font color="#990000">=</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched <font color="#990000">&amp;</font><font color="#990000">&amp;</font> sco_id<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>IliasScoId<font color="#990000">)</font><font color="#990000">)</font> <font color="#FF0000">{</font>
 			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SCO "</font> <font color="#990000">+</font>sco_id <font color="#990000">+</font><font color="#FF0000">" is already running."</font><font color="#990000">)</font><font color="#990000">;</font>
 			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
@@ -104,6 +103,8 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">private</font></b> <b><font color="#0000FF">final</font></b> String <b><font color="#000000">IliasCommit</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>IliasScoId <font color="#990000">=</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> <font color="#FF0000">"false"</font><font color="#990000">;</font>
+
 		core<font color="#990000">.</font><b><font color="#000000">transEnd</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		StringBuffer P <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">StringBuffer</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		Hashtable ins <font color="#990000">=</font> core<font color="#990000">.</font><b><font color="#000000">getTransNew</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
@@ -161,10 +162,10 @@
 			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"post:"</font> <font color="#990000">+</font>P<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 			os<font color="#990000">.</font><b><font color="#000000">write</font></b> <font color="#990000">(</font>P<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">getBytes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 			os<font color="#990000">.</font><b><font color="#000000">close</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+
 			DataInputStream r <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">DataInputStream</font></b><font color="#990000">(</font>
 				po<font color="#990000">.</font><b><font color="#000000">getInputStream</font></b> <font color="#990000">(</font><font color="#990000">)</font>
 			<font color="#990000">)</font><font color="#990000">;</font>
-
 			<b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
 				<b><font color="#000000">say</font></b> <font color="#990000">(</font>r<font color="#990000">.</font><b><font color="#000000">readUTF</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 				r<font color="#990000">.</font><b><font color="#000000">close</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
@@ -185,7 +186,10 @@
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
 			<font color="#FF0000">"../scorm_presentation.php?cmd=view"</font>
+			<font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font> IliasScoId
 			<font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font> IliasRefId
+			<font color="#990000">+</font><font color="#FF0000">"&amp;status="</font> <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.lesson_status"</font><font color="#990000">)</font>
+			<font color="#990000">+</font><font color="#FF0000">"&amp;totime="</font> <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.total_time"</font><font color="#990000">)</font>
 		<font color="#990000">)</font><font color="#990000">;</font>
 		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
@@ -217,6 +221,7 @@
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"LMSFinish("</font><font color="#990000">+</font>s<font color="#990000">+</font><font color="#FF0000">")="</font><font color="#990000">+</font>rv<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>rv<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font><font color="#FF0000">"false"</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
 		<b><font color="#000000">IliasFinish</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+		core<font color="#990000">.</font><b><font color="#000000">reset</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
