@@ -10,11 +10,11 @@
 * @package ilias-core
 */
 require_once "include/inc.header.php";
-require_once "classes/class.Explorer.php";
+require_once "classes/class.ilExplorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-$explorer = new Explorer("adm_object.php");
+$explorer = new ilExplorer("adm_object.php");
 
 $explorer->setExpand($_GET["expand"]);
 /*
