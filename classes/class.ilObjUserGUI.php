@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.58 2003/10/31 14:08:50 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.59 2003/11/03 12:08:36 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -641,7 +641,15 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function activeRoleSaveObject()
 	{
-		if (!count($_POST["id"]))
+		global $rbacreview;
+
+		$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
+
+		// at least one active global role must be assigned to user
+		$global_roles_all = $rbacreview->getGlobalRoles();
+		$assigned_global_roles = array_intersect($_POST["id"],$global_roles_all);
+		
+		if (!count($_POST["id"]) or count($assigned_global_roles) < 1)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_min_one_active_role"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -668,8 +676,10 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		header("Location: adm_object.php?ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]&cmd=edit");
-		exit;
+		sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
+
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=edit");
+		exit();
 	}
 
 	/**
