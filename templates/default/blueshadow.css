@@ -136,6 +136,16 @@ td.option {
 	text-align:right;
 }
 
+td.sub_option {
+	background-color:#eeeeee;
+	color:#222222;
+	padding:4px;
+	font-size:13px;
+	font-weight : bold;
+	vertical-align:top;
+	text-align:right;
+}
+
 td.option_value {
 	background-color:#f7f7f7;
 	background-image: none;
