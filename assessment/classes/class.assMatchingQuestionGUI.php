@@ -96,7 +96,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_matching");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
-		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
 		// Vorhandene Anworten ausgeben
 		for ($i = 0; $i < $this->object->get_matchingpair_count(); $i++)
