@@ -4,28 +4,65 @@
       <td class="std" colspan="2">{TXT_BASIC_DATA}</td>
     </tr>
     <tr>
-      <td class="option">{TXT_DB_VERSION}</td>
-      <td class="option_value">{DB_VERSION}</td>
+      <td class="option">{TXT_INST_NAME}</td>
+      <td class="option_value">{INST_NAME}<br/><span class="subtitle">{INST_INFO}</span></td>
     </tr>
     <tr>
-      <td class="option">{TXT_ILIAS_VERSION}</td>
-      <td class="option_value">{ILIAS_VERSION}</td>
+      <td class="option">{TXT_CLIENT_ID}</td>
+      <td class="option_value">{CLIENT_ID}</td>
     </tr>
     <tr>
       <td class="option">{TXT_INST_ID}</td>
       <td class="option_value">{INST_ID}</td>
     </tr>
     <tr>
+      <td class="option">{TXT_DB_VERSION}</td>
+      <td class="option_value">{DB_VERSION}{TXT_DB_UPDATE}</td>
+    </tr>
+
+	<tr>
+		<td class="option">{TXT_DEFAULT_SKIN_STYLE}</td>
+		<td class="option_value">
+		<select name="default_skin_style">
+<!-- BEGIN selectskin -->
+			<option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
+<!-- END selectskin -->
+		</select>
+		</td>
+	</tr>
+    <tr>
+        <td class="option">{TXT_DEFAULT_LANGUAGE}</td>
+        <td class="option_value">
+          <select name="default_language">
+<!-- BEGIN selectlanguage -->
+             <option value="{LANGVALUE}"{LANGSELECTED}>{LANGOPTION}</option>
+<!-- END selectlanguage -->
+          </select>
+        </td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_PUB_SECTION}</td>
+      <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ENABLE_REGISTRATION}</td>
+      <td class="option_value"><input type="checkbox" name="enable_registration"  value="1" {ENABLE_REGISTRATION} /></td>
+    </tr>
+
+    <tr class="tblheader">
+      <td class="std" colspan="2">{TXT_SERVER_DATA}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ILIAS_VERSION}</td>
+      <td class="option_value">{ILIAS_VERSION}</td>
+    </tr>
+    <tr>
       <td class="option">{TXT_HOSTNAME}</td>
       <td class="option_value">{HOSTNAME}</td>
     </tr>
     <tr>
-      <td class="option">{TXT_IP_ADDRESS}</td>
-      <td class="option_value">{IP_ADDRESS}</td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_SERVER_PORT}</td>
-      <td class="option_value">{SERVER_PORT}</td>
+      <td class="option">{TXT_IP_ADDRESS} & {TXT_SERVER_PORT}</td>
+      <td class="option_value">{IP_ADDRESS}:{SERVER_PORT}</td>
     </tr>
     <tr>
       <td class="option">{TXT_SERVER_SOFTWARE}</td>
@@ -39,87 +76,29 @@
       <td class="option">{TXT_ABSOLUTE_PATH}</td>
       <td class="option_value">{ABSOLUTE_PATH}</td>
     </tr>
-    <tr>
-      <td class="option">{TXT_INST_NAME}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="40" name="inst_name" value="{INST_NAME}" /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_INST_INFO}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="128" name="inst_info" value="{INST_INFO}" /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_DEFAULT_SKIN}</td>
-        <td class="option_value">
-          <select name="default_skin">
-<!-- BEGIN selectskin -->
-             <option value="{SKINVALUE}"{SKINSELECTED}>{SKINOPTION}</option>
-<!-- END selectskin -->
-          </select>
-        </td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_DEFAULT_STYLE}</td>
-        <td class="option_value">
-          <select name="default_style">
-<!-- BEGIN selectstyle -->
-             <option value="{STYLEVALUE}"{STYLESELECTED}>{STYLEOPTION}</option>
-<!-- END selectstyle -->
-          </select>
-        </td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_DEFAULT_LANGUAGE}</td>
-        <td class="option_value">
-          <select name="default_language">
-<!-- BEGIN selectlanguage -->
-             <option value="{LANGVALUE}"{LANGSELECTED}>{LANGOPTION}</option>
-<!-- END selectlanguage -->
-          </select>
-        </td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_FEEDBACK_RECIPIENT}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="feedback_recipient" value="{FEEDBACK_RECIPIENT}" /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_ERROR_RECIPIENT}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_PUB_SECTION}</td>
-      <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_ENABLE_REGISTRATION}</td>
-      <td class="option_value"><input type="checkbox" name="enable_registration"  value="1" {ENABLE_REGISTRATION} /></td>
-    </tr>
 
 	<tr class="tblheader">
-      <td class="std" colspan="2">{TXT_PATHES}</td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_LANG_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="128" name="lang_path" value="{LANG_PATH}" /></td>
+      <td class="std" colspan="2">{TXT_SOFTWARE}</td>
     </tr>
     <tr>
       <td class="option">{TXT_CONVERT_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="convert_path" value="{CONVERT_PATH}" /></td>
+      <td class="option_value">{CONVERT_PATH}</td>
     </tr>
     <tr>
       <td class="option">{TXT_ZIP_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="zip_path" value="{ZIP_PATH}" /></td>
+      <td class="option_value">{ZIP_PATH}</td>
     </tr>
     <tr>
       <td class="option">{TXT_UNZIP_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="unzip_path" value="{UNZIP_PATH}" /></td>
+      <td class="option_value">{UNZIP_PATH}</td>
     </tr>
     <tr>
       <td class="option">{TXT_JAVA_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="java_path" value="{JAVA_PATH}" /></td>
+      <td class="option_value">{JAVA_PATH}</td>
     </tr>
     <tr>
       <td class="option">{TXT_HTMLDOC_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="250" name="htmldoc_path" value="{HTMLDOC_PATH}" /></td>
+      <td class="option_value">{HTMLDOC_PATH}</td>
     </tr>
 
 	<tr class="tblheader">
@@ -168,6 +147,14 @@
     <tr>
       <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_email" value="{ADMIN_EMAIL}" /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_FEEDBACK_RECIPIENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="feedback_recipient" value="{FEEDBACK_RECIPIENT}" /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ERROR_RECIPIENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
     </tr>
 	<tr>
 	  <td class="submit" colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
