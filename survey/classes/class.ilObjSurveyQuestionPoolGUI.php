@@ -105,6 +105,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		exit();
 	}
 	
+/**
+* Returns the calling script of the GUI class
+*
+* @access	public
+*/
+	function getCallingScript()
+	{
+		return "questionpool.php";
+	}
+
   function getAddParameter() 
   {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
@@ -427,31 +437,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 *
 * Creates a confirmation form to delete personal phases from the database
 *
+* @param array $checked_phrases An array with the id's of the phrases checked for deletion
 * @access public
 */
-	function deletePhraseObject()
+	function deletePhrasesForm($checked_phrases)
 	{
 		sendInfo();
-
-		$checked_phrases = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/phrase_(\d+)/", $key, $matches))
-			{
-				array_push($checked_phrases, $matches[1]);
-			}
-		}
-		if (count($checked_phrases))
-		{
-			sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
-		}
-		else
-		{
-			sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
-			$this->phrasesObject();
-			return;
-		}
-		
 		$ordinal = new SurveyOrdinalQuestion();
 		$phrases =& $ordinal->getAvailablePhrases(1);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_phrases.html", true);
@@ -480,6 +471,52 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+/**
+* Creates a confirmation form to delete personal phases from the database
+*
+* Creates a confirmation form to delete personal phases from the database
+*
+* @access public
+*/
+	function deletePhraseObject()
+	{
+		sendInfo();
+
+		$checked_phrases = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/phrase_(\d+)/", $key, $matches))
+			{
+				array_push($checked_phrases, $matches[1]);
+			}
+		}
+		if (count($checked_phrases))
+		{
+			sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
+			$this->deletePhrasesForm($checked_phrases);
+			return;
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
+			$this->phrasesObject();
+			return;
+		}
+		
+		$this->tpl->setCurrentBlock("obligatory");
+		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
+		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* Displays a form to manage the user created phrases
 	*

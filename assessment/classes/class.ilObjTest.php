@@ -373,7 +373,7 @@ class ilObjTest extends ilObject
 		$this->saveToDb();
 		return $result;
 	}
-
+	
 	/**
 	* Returns the calling script of the class
 	*
@@ -381,11 +381,7 @@ class ilObjTest extends ilObject
 	*/
 	function getCallingScript()
 	{
-		$module = $this->getModule("tst");
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
-		return $module . "test.php";
+		return "test.php";
 	}
 	
 /**

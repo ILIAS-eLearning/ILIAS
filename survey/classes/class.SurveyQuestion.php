@@ -238,6 +238,16 @@ class SurveyQuestion {
 	}
 
 /**
+* Returns the calling script of the GUI class
+*
+* @access	public
+*/
+	function getCallingScript()
+	{
+		return "questionpool.php";
+	}
+	
+/**
 * Returns TRUE if the question title exists in the database
 *
 * Returns TRUE if the question title exists in the database

@@ -75,11 +75,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getCallingScript()
 	{
-		$module = $this->object->getModule($this->type);
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
-		return $module . "test.php";
+		return "test.php";
 	}
 	
 	/**
