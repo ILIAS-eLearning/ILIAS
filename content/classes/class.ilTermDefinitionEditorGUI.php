@@ -66,8 +66,15 @@ class ilTermDefinitionEditorGUI
 
 		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 
-		$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
-			$this->lng->txt("cont_definition")." ".$this->definition->getNr());
+		//$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
+		//	$this->lng->txt("cont_definition")." ".$this->definition->getNr());
+
+
+		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc->setTerm($this->term);
+		$gloss_loc->setGlossary($this->glossary);
+		$gloss_loc->setDefinition($this->definition);
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page =& $this->definition->getPageObject();
@@ -75,6 +82,7 @@ class ilTermDefinitionEditorGUI
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setOutputMode("edit");
+		$page_gui->setLocator($gloss_loc);
 		$page_gui->setPresentationTitle($this->term->getTerm());
 		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
@@ -208,6 +216,7 @@ class ilTermDefinitionEditorGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->setVariable("HEADER", $a_header_title);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->displayLocator();
 		//$this->setAdminTabs($a_type);
 	}
@@ -256,6 +265,7 @@ class ilTermDefinitionEditorGUI
 
 	}
 
+	/*
 	function displayLocator()
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -284,9 +294,9 @@ class ilTermDefinitionEditorGUI
 		//$this->tpl->touchBlock("locator_separator");
 
 		$this->tpl->setCurrentBlock("locator");
-		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+		$this->tpl->setVariable("TXT_LOCATOR", $debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 	function saveShortText()
 	{
