@@ -319,6 +319,27 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
+	// convert boolean ***
+	function selectBool ($data)
+	{
+		switch ($data) 
+		{
+			case "y":
+			case "j":
+				$str = "TRUE";
+				break;
+			
+			case "n":
+			case "f":
+				$str = "FALSE";
+				break;
+			
+			default:
+				$str = "FALSE";
+		}
+		return $str;
+	}
+	
 	/**
 	* fetch all vri tags in a string
 	*
