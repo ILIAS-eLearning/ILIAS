@@ -348,7 +348,7 @@ assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di po
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
 assessment#:#save_edit#:#Salva e vedi il contenuto
 assessment#:#save_finish#:#Salva e finisci il test
-assessment#:#save_introduction#:#Salva e vai all'introduzione
+assessment#:#save_introduction#:#Salva e torna all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#save_text_answer_points#:#Salva i punti della domanda
@@ -812,7 +812,7 @@ common#:#bookmarks_of#:#Preferiti di
 common#:#btn_remove_system#:#Rimuovi dal sistema
 common#:#btn_undelete#:#Ripristina gli oggetti
 common#:#by#:#con
-common#:#bytes#:#Bytes###13 Mar 2005 new variable
+common#:#bytes#:#Byte
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annulla
 common#:#cannot_find_xml#:#Non ho trovato nessun file XML.
@@ -846,7 +846,7 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#cat_create_webr#:#Creare una risorsa web
 common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -897,13 +897,13 @@ common#:#check#:#Seleziona
 common#:#check_all#:#Seleziona tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
-common#:#check_link#:#Verifica i link
+common#:#check_link#:#Verifica i collegamenti
 common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
 common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
-common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
-common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
+common#:#check_web_resources#:#Controlla le risorse web
+common#:#check_web_resources_desc#:#Se selezionato verranno controllate tutte le risorse web attive.
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -914,12 +914,12 @@ common#:#city#:#Citt&#224;
 common#:#cleaned_file#:#Il file &#232; stato svuotato.
 common#:#cleaning_failed#:#Svuotamento del file fallito.
 common#:#clear#:#Annulla
-common#:#clear_clipboard#:#Appunti vuoto
+common#:#clear_clipboard#:#Cartella appunti vuota
 common#:#client ip#:#Client Ip
 common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
-common#:#clipboard#:#Appunti
+common#:#clipboard#:#Cartella appunti
 common#:#close#:#Chiudi
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento
@@ -958,7 +958,7 @@ common#:#create#:#Crea
 common#:#create_date#:#Creato il
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
-common#:#created#:#Create date###11 Mar 2005 new variable
+common#:#created#:#Crea appuntamemto
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo automatico che agisce ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#crs#:#Corso
@@ -989,7 +989,7 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
-common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1011,7 +1011,7 @@ common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_password#:#Password attuale
 common#:#cut#:#Taglia
 common#:#cutPage#:#Taglia
-common#:#daily#:#daily###11 Mar 2005 new variable
+common#:#daily#:#giornaliero
 common#:#database#:#Database
 common#:#database_version#:#Versione attuale del database
 common#:#dataset#:#Dataset
@@ -1061,9 +1061,9 @@ common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
 common#:#desktop_items#:#Oggetti del desktop personale
-common#:#details#:#Details###11 Mar 2005 new variable
+common#:#details#:#Dettagli
 common#:#disable#:#disabilita
-common#:#disable_check#:#Disable check###11 Mar 2005 new variable
+common#:#disable_check#:#Disabilita controllo
 common#:#disabled#:#Disabilitato
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
@@ -1072,13 +1072,13 @@ common#:#download_all_returned_files#:#Download di tutti i file restituiti
 common#:#drafts#:#Bozze
 common#:#drop#:#Togli
 common#:#edit#:#Modifica
-common#:#edit_content#:#Edit content###11 Mar 2005 new variable
-common#:#edit_data#:#Modifica dati
-common#:#edit_operations#:#Modifica operazioni
+common#:#edit_content#:#Modifica il contenuto
+common#:#edit_data#:#Modifica i dati
+common#:#edit_operations#:#Modifica le operazioni
 common#:#edit_perm_ruleset#:#Modificare le regole predefinite dei permessi
 common#:#edit_properties#:#Modifica le propriet&agrave;
-common#:#edit_roleassignment#:#Modifica assegnamento ruoli
-common#:#edit_stylesheet#:#Modifica stile
+common#:#edit_roleassignment#:#Modifica l'assegnamento dei ruoli
+common#:#edit_stylesheet#:#Modifica lo stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
 common#:#email#:#eMail
@@ -1339,7 +1339,7 @@ common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
-common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#grp_create_webr#:#Creare una nuova risorsa web
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1394,11 +1394,11 @@ common#:#hist_lm:pg_create#:#Pagina creata
 common#:#hist_lm:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Pagina incollata nel capitolo "%1" [%2]
 common#:#hist_lm:pg_update#:#Pagina modificata
-common#:#hist_no_entries#:#NEssuna voce nella storia
-common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
-common#:#history#:#Storia
+common#:#hist_no_entries#:#Nessuna voce nella storia
+common#:#hist_webr_add#:#Aggiunta nuov risorsa web con titolo: "%1"
+common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: "%1"
+common#:#hist_webr_update#:#Modificata risorsa web. Titolo: "%1"
+common#:#history#:#Mostra la storia
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Modulo HACP
 common#:#hlm_added#:#Modulo HACP aggiunto
@@ -1438,7 +1438,7 @@ common#:#icrs#:#Corso iLinc
 common#:#icrs_add#:#Aggiungi corso iLinc
 common#:#icrs_delete#:#Elimina corso iLinc
 common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#icrs_new#:#Creare corsi iLinc
+common#:#icrs_new#:#Nuovo corso iLinc
 common#:#icrs_read#:#Accedere in lettura a corsi iLinc
 common#:#icrs_visible#:#Vedere corsi iLinc
 common#:#icrs_write#:#Modificare corsi iLinc
@@ -1587,7 +1587,7 @@ common#:#learning_objects#:#Unit&#224; didattiche
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
 common#:#link#:#Collega
-common#:#link_check#:#Verifica link
+common#:#link_check#:#Verifica i collegamenti
 common#:#link_check_body_top#:#Hai ricevuto questa mail perch&#232; hai scelto di voler essere informato sui collegamenti che non sono pi&#249; validi dei seguenti moduli:
 common#:#link_check_message_b#:#Se selezionato, sarai informato sui collegamenti che non sono pi&#249; validi tramite eMail.
 common#:#link_check_message_disabled#:#Mail disabilitata
@@ -1697,7 +1697,7 @@ common#:#mep_delete#:#Cancellare una libreria multimediale
 common#:#mep_edit#:#Modificare un libreria multimediale
 common#:#mep_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#mep_new#:#Nuova libreria multimediale
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
+common#:#mep_not_insert_already_exist#:#Gli elementi seguenti non sono stati inseriti perch&#232; sono gi&#224; presenti nella raccolta multimediale:
 common#:#mep_read#:#Accedere il lettura ad una libreria multimediale
 common#:#mep_visible#:#Vedere una libreria multimediale
 common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
@@ -1737,7 +1737,7 @@ common#:#month_11_long#:#Novembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dicembre
 common#:#month_12_short#:#Dic
-common#:#monthly#:#monthly###11 Mar 2005 new variable
+common#:#monthly#:#mensilmente
 common#:#move#:#Sposta
 common#:#moveChapter#:#Sposta
 common#:#movePage#:#Sposta
@@ -1831,7 +1831,7 @@ common#:#my_grps#:#I miei gruppi
 common#:#my_los#:#Le mie unit&#224; didattiche
 common#:#my_tsts#:#I miei test
 common#:#name#:#Nome
-common#:#never#:#never###11 Mar 2005 new variable
+common#:#never#:#mai
 common#:#new#:#Nuovo
 common#:#new_appointment#:#Nuovo appuntamento
 common#:#new_folder#:#Nuova cartella
@@ -1856,8 +1856,8 @@ common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
 common#:#no_global_role_left#:#Tutti gli utenti devono essere assegnati ad almeno un ruolo.
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo
-common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
-common#:#no_invalid_links#:#Non sono stati trovati collegamenti non validi.
+common#:#no_import_file_found#:#Non &#232; stato trovato il file indicato.
+common#:#no_invalid_links#:#Tutti i collegamenti sono validi.
 common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_local_users#:#Non ci sono utenti locali
@@ -1951,7 +1951,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Per amministrare gli utenti.
-common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
+common#:#obj_webr#:#Risorsa web
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
@@ -1995,7 +1995,7 @@ common#:#objs_tst#:#Test
 common#:#objs_type#:#Tipi di oggetti
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
-common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
+common#:#objs_webr#:#Risorse web
 common#:#of#:#di
 common#:#offline#:#offline
 common#:#offline_version#:#Versione offline
@@ -2095,7 +2095,7 @@ common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
 common#:#qpl_upload_file#:#Scegli il file
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
-common#:#quarterly#:#quarterly###11 Mar 2005 new variable
+common#:#quarterly#:#trimestrale
 common#:#query_data#:#Invia
 common#:#question#:#Domanda
 common#:#question_pools#:#Raccolte di domande
@@ -2351,7 +2351,7 @@ common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#system_style_settings#:#Impostazione degli stili di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
-common#:#target#:#Target###11 Mar 2005 new variable
+common#:#target#:#Indirizzo
 common#:#tax#:#Tassonomia
 common#:#tax_add#:#Aggiungi tassonomia
 common#:#tax_delete#:#Eliminare una tassonomia
@@ -2514,7 +2514,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attr
 common#:#usrimport_xml_element_content_illegal#:#Il contenuto "%2$s" dell'elemento "%1$s" non &#232; consentito.
 common#:#usrimport_xml_element_for_action_required#:#L'elemento "%1$s" deve essere specificato per l'operazione di "%2$s".
 common#:#usrimport_xml_element_inapplicable#:#L'elemento "%1$s" non &#232; consentito per l'operazione "%2$s".
-common#:#valid#:#Valid###11 Mar 2005 new variable
+common#:#valid#:#Valido
 common#:#validate#:#Valida
 common#:#value#:#Valore
 common#:#vcard#:#Biglietto da visita
@@ -2530,29 +2530,29 @@ common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
-common#:#web_resources#:#Web resources###11 Mar 2005 new variable
-common#:#webr#:#Web resource###11 Mar 2005 new variable
-common#:#webr_active#:#Active###11 Mar 2005 new variable
-common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
-common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
-common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
-common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
-common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
-common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
-common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
-common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
-common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
-common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
-common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
-common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
-common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
-common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
-common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
-common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
-common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
-common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
-common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
-common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
+common#:#web_resources#:#Risorse web
+common#:#webr#:#Risorsa web
+common#:#webr_active#:#Attivo
+common#:#webr_add#:#Crea risorsa web
+common#:#webr_add_item#:#Aggiungi risorsa web
+common#:#webr_delete#:#Eliminare una risorse web
+common#:#webr_disable_check#:#Disabilita controllo
+common#:#webr_edit#:#Modifica risorsa web
+common#:#webr_edit_item#:#Modifica risorsa web
+common#:#webr_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#webr_fillout_all#:#Per favore completa tutti i campi richiesti.
+common#:#webr_item_updated#:#Modifiche salvate
+common#:#webr_join#:#Sottoscrivere una risorsa web
+common#:#webr_last_check#:#Ultimo controllo
+common#:#webr_last_check_table#:#Ultimo controllo:
+common#:#webr_leave#:#Annullare la sottoscrizione alla risorsa web
+common#:#webr_modified_items#:#Modifiche salvate
+common#:#webr_never_checked#:#Controllo mai effettuato
+common#:#webr_new#:#Nuova risorsa web
+common#:#webr_no_items_created#:#Nessuna risorsa web presente
+common#:#webr_read#:#Accedere in lettura alle risorse web
+common#:#webr_visible#:#Vedere le risorse web
+common#:#webr_write#:#Modificare le risorse web
 common#:#webservices#:#Webservices
 common#:#week#:#Settimana
 common#:#weekly#:#weekly###11 Mar 2005 new variable
@@ -2658,7 +2658,7 @@ content#:#cont_create_export_file_scorm#:#Crea file di export (SCORM)
 content#:#cont_create_export_file_xml#:#Crea file di export (XML)
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_html_version#:#Crea un Package HTML
-content#:#cont_create_mob#:#Crea un oggetto multimediale
+content#:#cont_create_mob#:#Aggiungi oggetto multimediale
 content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni di tipo 'Normale')
 content#:#cont_credit_off#:#Senza crediti
 content#:#cont_credit_on#:#Con crediti
@@ -2755,7 +2755,7 @@ content#:#cont_import_id#:#Identificatore
 content#:#cont_insert_file_item#:#Inserisci il file.
 content#:#cont_insert_file_list#:#Inserisci l'elenco di file.
 content#:#cont_insert_list#:#Inserisci lista
-content#:#cont_insert_mob#:#Inserisci oggetto multimediale
+content#:#cont_insert_mob#:#Nuovo oggetto multimediale
 content#:#cont_insert_new_footnote#:#inserisci una nuova nota in fondo alla pagina
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
