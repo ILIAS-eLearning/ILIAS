@@ -1,10 +1,11 @@
 <!-- ilias_lo.dtd for creating ILIAS LearningObjects, see http://www.ilias.uni-koeln.de/download/dtd/ilias_lo.dtd for current version -->
-<!-- initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
-<!-- modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
+<!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
+<!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
 <!-- $Id$ -->
-<!-- language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
-<!-- types of content -->
+<!-- Types of content -->
 <!ENTITY % text "#PCDATA | Comment | Link | Emph | Strong | Quotation | Code | Formula | Annotation | List | Table | GlossaryTerm | Reference | RefTarget">
 <!ENTITY % commenttext "#PCDATA | Link | Emph | Strong | Quotation | Code | Formula | Annotation | List | Table | GlossaryTerm | Reference | RefTarget">
 <!ENTITY % reftext "#PCDATA | Comment | Link | Emph | Strong | Quotation | Code | Formula | Annotation | List | Table | GlossaryTerm | Reference">
@@ -13,15 +14,12 @@
 <!ENTITY % strongtext "#PCDATA | Comment | Link | Emph | Quotation | Code | Formula | List | GlossaryTerm | Reference | RefTarget">
 <!ENTITY % simpletext "#PCDATA | Link | Emph | Strong | Quotation | Code | Formula | GlossaryTerm | Reference | RefTarget">
 <!ENTITY % titletext "#PCDATA | Emph | Strong | Quotation | Code | Formula">
-<!-- technical entities -->
-<!ENTITY % operatingsystem "PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None">
-<!ENTITY % browser "Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla">
 <!-- LearningObject: object of highest complexity -->
-<!-- if the LearningObject has an AggregationLevel 1 (atomic), there is only MetaData and optionally Layout and Parameter -->
+<!-- If the LearningObject has an AggregationLevel 1 (atomic), there is only MetaData and optionally Layout and Parameter -->
 <!ELEMENT LearningObject (MetaData, Layout?, Parameter?, Content?, Test?, Glossary?, Bibliography?)>
 <!-- METADATA -->
 <!-- MetaData referring to LOM/SCORM standard, see http://www.adlnet.org/library/documents/scorm/specifications/SCORM_1.2_CAM.pdf for details -->
-<!-- the base scheme consists of nine categories: -->
+<!-- The base scheme consists of nine categories: -->
 <!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
 <!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical?, Educational?, Rights?, Relation*, Annotation*, Classification*)>
 <!-- 1 General information about the resource as a whole -->
@@ -30,12 +28,11 @@
 	Structure (Atomic | Collection | Networked | Hierarchical | Linear) #REQUIRED
 	AggregationLevel (1 | 2 | 3 | 4) #REQUIRED
 >
-<!-- AggregationLevel 1 = smallest level of aggregation, e.g. raw media data or fragments -->
-<!-- AggregationLevel 2 = a collection of atoms, e.g. an HTML document with some embedded pictures -->
-<!-- AggregationLevel 3 = a collection of level 2 learning objects, e.g. a web of HTML documents, with an index page that links the pages together of a course -->
-<!-- AggregationLevel 4 = the largest level of aggregation, e.g. a set of courses that lead to a certificate -->
-<!-- AggregationLevel 1 should be used for images and other media embedded in another LO -->
-<!-- AggregationLevel 4 should be used only within ILIAS course management system! -->
+<!-- AggregationLevel 1 = smallest level of aggregation: raw media data or fragments (e.g. an image or applet) -->
+<!-- AggregationLevel 2 = lowest level for embedding text as content: a page with embedded level 1 learning objects -->
+<!-- AggregationLevel 3 = a collection of level 2 and/or level 3 learning objects: a chapter (e.g. a web of HTML documents, with an index page that links the pages together within a chapter or subchapter) -->
+<!-- AggregationLevel 4 = the largest level of aggregation: a learning unit (e.g. a set of courses that lead to a certificate -->
+<!-- AggregationLevel 1 should be used for images and other raw media embedded in learning objects -->
 <!-- 1.1 A global unique label, that identifies this learning object -->
 <!ELEMENT Identifier EMPTY>
 <!ATTLIST Identifier
@@ -109,13 +106,13 @@
 <!ELEMENT Type (OperatingSystem | Browser)>
 <!ELEMENT OperatingSystem EMPTY>
 <!ATTLIST OperatingSystem
-	Name (%operatingsystem;) #REQUIRED
+	Name (PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None) #REQUIRED
 	MinimumVersion CDATA #IMPLIED
 	MaximumVersion CDATA #IMPLIED
 >
 <!ELEMENT Browser EMPTY>
 <!ATTLIST Browser
-	Name (%browser;) #REQUIRED
+	Name (Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla) #REQUIRED
 	MinimumVersion CDATA #IMPLIED
 	MaximumVersion CDATA #IMPLIED
 >
@@ -202,14 +199,14 @@
 	TargetFrame (Media | FAQ | Glossary) #IMPLIED
 >
 <!-- PARAMETER -->
-<!-- Parameters needed for learning objects -->
+<!-- Parameters needed for level 1 learning objects -->
 <!ELEMENT Parameter (ParameterName, ParameterValue)+>
 <!ELEMENT ParameterName (#PCDATA)>
 <!ELEMENT ParameterValue (#PCDATA)>
 <!--  CONTENT -->
 <!-- (textual) Content of a learning object should be divided in single paragraphs -->
-<!-- the Content may include another LO (e.g. images, video) -->
-<!-- LO which contain other LOs should use AggregationLevel 2 or 3 -->
+<!-- The Content may include another learning object (e.g. images, video) -->
+<!-- Learning objects which contain other learning objects should use AggregationLevel 2, 3 or 4 -->
 <!ELEMENT Content (Paragraph | LearningObject)+>
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
@@ -220,8 +217,8 @@
 <!ATTLIST Comment
 	Language (%langcode;) #REQUIRED
 >
-<!-- a Link element to link to _external_ resources -->
-<!-- it is fixed to xlink-type simple, only required attribute value is href -->
+<!-- A Link element to link to _external_ resources -->
+<!-- It is fixed to xlink-type simple, only required attribute value is href -->
 <!ELEMENT Link (%linktext;)*>
 <!ATTLIST Link
 	Href CDATA #REQUIRED
@@ -249,6 +246,7 @@
 <!ATTLIST Formula
 	Id ID #REQUIRED
 >
+<!-- Markup element can be used for not supported items; the processing of this element can be adjusted in the XSLT stylesheet -->
 <!ELEMENT Markup (%text;)*>
 <!ATTLIST Markup
 	Type CDATA #REQUIRED
@@ -263,8 +261,8 @@
 	Type (Ordered | Unordered) #REQUIRED
 >
 <!ELEMENT Item (Paragraph+)>
-<!-- table model is some kind of a mixture of mimalized CALS and HTML dtd -->
-<!-- only a minimum of style elements and attributes defined -->
+<!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
+<!-- Only a minimum of style elements and attributes defined -->
 <!ELEMENT Table (Title?, HeaderCaption?, FooterCaption?, Summary?, TableRow+)>
 <!ATTLIST Table
 	Id ID #IMPLIED
@@ -285,12 +283,10 @@
 	Colspan CDATA #IMPLIED
 	Rowspan CDATA #IMPLIED
 >
-<!-- a Reference element to refer to _internal_ resources via XML ID/IDREF -->
-<!-- each LO has an Identifier attribute (type ID) in its Metadata/General element -->
-<!-- only this one should be used! -->
-<!-- other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element -->
-<!-- they should be ignored! -->
-<!-- in case of RefTarget the concerning attribute Id of the RefTarget should be used! -->
+<!-- A Reference element to refer to _internal_ resources via XML ID/IDREF -->
+<!-- Each LO has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
+<!-- Other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element; they should be ignored! -->
+<!-- In case of RefTarget the concerning attribute Id of the RefTarget should be used! -->
 <!ELEMENT Reference (%reftext;)*>
 <!ATTLIST Reference
 	Reference_to IDREF #REQUIRED
@@ -301,6 +297,7 @@
 	Id ID #REQUIRED
 >
 <!-- TEST -->
+<!-- Only a minimum of functionality defined to support simple multiple choice tests -->
 <!ELEMENT Test (TestItem+)>
 <!ATTLIST Test
 	Id ID #IMPLIED
@@ -312,7 +309,7 @@
 <!ELEMENT Question (Paragraph | LearningObject)+>
 <!ELEMENT Answer (Paragraph | LearningObject)+>
 <!ATTLIST Answer
-	Status (Right | Wrong) #IMPLIED
+	Solution (Right | Wrong) #IMPLIED
 >
 <!ELEMENT Hint (Paragraph | LearningObject)+>
 <!-- GLOSSARY -->
