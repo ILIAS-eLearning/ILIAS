@@ -608,21 +608,18 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_insert_list#:#Insert List
-content#:#cont_nr_items#:#Number of Items
-content#:#cont_Unordered#:#Unordered
-content#:#cont_Number#:#Number
-content#:#cont_Roman#:#Roman I, II, ...
-content#:#cont_roman#:#Roman i, ii, ...
-content#:#cont_Alphabetic#:#Alphabetic A, B, ...
-content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_Additional#:#Additional
+content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
-content#:#cont_List#:#List
 content#:#cont_Headline#:#Headline
+content#:#cont_List#:#List
 content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Number#:#Number
+content#:#cont_Roman#:#Roman I, II, ...
+content#:#cont_Unordered#:#Unordered
 content#:#cont_all_pages#:#All Pages
+content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
 content#:#cont_chapters#:#Chapters
@@ -634,15 +631,18 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_file#:#File
 content#:#cont_height#:#Height
+content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
 content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_nr_cols#:#Number of Columns
+content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
 content#:#cont_preview#:#Preview
+content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_subchapters#:#Subchapters

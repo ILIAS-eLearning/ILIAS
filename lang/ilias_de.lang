@@ -609,11 +609,17 @@ common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
 content#:#cont_Additional#:#Additional###23 Jun 2003 new variable
+content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
 content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
 content#:#cont_Example#:#Example###23 Jun 2003 new variable
 content#:#cont_Headline#:#Headline###23 Jun 2003 new variable
+content#:#cont_List#:#List###12 Jul 2003 new variable
 content#:#cont_Mnemonic#:#Mnemonic###23 Jun 2003 new variable
+content#:#cont_Number#:#Number###12 Jul 2003 new variable
+content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
+content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
+content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
 content#:#cont_caption#:#Caption###11 Jun 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
@@ -625,15 +631,18 @@ content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
 content#:#cont_file#:#File###08 Jul 2003 new variable
 content#:#cont_height#:#Height###08 Jul 2003 new variable
+content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
+content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
 content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
+content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
