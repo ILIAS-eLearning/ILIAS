@@ -10,7 +10,7 @@ if (document.images)
 
 	imag = new Array();
 	imag[0]  = "{IMG_DESK}";
-	imag[1]  = "{IMG_COURSE}";
+	imag[1]  = "{IMG_CATALOG}";
 	imag[2]  = "{IMG_BOOKMA}";
 	imag[3]  = "{IMG_SEARCH}";
 	imag[4]  = "{IMG_LITERAT}";
@@ -21,7 +21,7 @@ if (document.images)
 	imag[9]  = "{IMG_FEEDB}";
 	imag[10] = "{IMG_LOGOUT}";
 	imag[11] = "{IMG_DESK_O}";
-	imag[12] = "{IMG_COURSE_O}";
+	imag[12] = "{IMG_CATALOG_O}";
 	imag[13] = "{IMG_BOOKMA_O}";
 	imag[14] = "{IMG_SEARCH_O}";
 	imag[15] = "{IMG_LITERAT_O}";
@@ -84,14 +84,15 @@ if (document.images)
       <td><img class="spacer" border="0" src="{IMG_SPACE_DESK}" width="5" /></td>
 <!-- END desktopbutton -->
 
+<!--
       <td><a class="menu" href="{SCRIPT_CATALOG}" target="{TARGET}" ">
 		{TXT_CATALOG}
 	    </a>
 	  	</td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-
-	  <td><a href="{SCRIPT_COURSE}" target="{TARGET}" onmouseover="swtchon(12,courses,'{TXT_LO_OVERVIEW}');return true;" onmouseout="swtch(1,courses)">
-	    <img border="0" src="{IMG_COURSE}" width="32" height="32" alt="{TXT_LO_OVERVIEW}" title="{TXT_LO_OVERVIEW}" name="courses" /></a></td>
+-->
+	  <td><a href="{SCRIPT_CATALOG}" target="{TARGET}" onmouseover="swtchon(12,courses,'{TXT_CATALOG}');return true;" onmouseout="swtch(1,courses)">
+	    <img border="0" src="{IMG_CATALOG}" width="32" height="32" alt="{TXT_CATALOG}" title="{TXT_CATALOG}" name="courses" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
 
       <td><a href="{SCRIPT_SEARCH}" target="{TARGET}" onmouseover="swtchon(14,srch,'{TXT_SEARCH}');return true;" onmouseout="swtch(3,srch)">
@@ -108,16 +109,18 @@ if (document.images)
 	    <img border="0" src="{IMG_MAIL}" width="32" height="32" alt="{TXT_MAIL}" title="{TXT_MAIL}" name="mail" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE_MAIL}" width="5" /></td>
 <!-- END mailbutton -->
-	  
+
+<!--
       <td><a href="{SCRIPT_FORUMS}" target="{TARGET}" onmouseover="swtchon(17,newsgr,'{TXT_FORUMS}');return true;" onmouseout="swtch(6,newsgr)">
 	    <img border="0" src="{IMG_FORUMS}" width="32" height="32" alt="{TXT_FORUMS}" title="{TXT_FORUMS}" name="newsgr" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
 
       <td><a href="{SCRIPT_GROUPS}" target="{TARGET}" onmouseover="swtchon(18,groups,'{TXT_GROUPS}');return true;" onmouseout="swtch(7,groups)">
 	    <img border="0" src="{IMG_GROUPS}" width="32" height="32" alt="{TXT_GROUPS}" title="{TXT_GROUPS}" name="groups" /></a></td>
+-->
 
 <!-- BEGIN userisadmin -->
-      <td><img class="spacer" border="0" src="{IMG_SPACE_ADMIN}" width="5" /></td>
+      <!--<td><img class="spacer" border="0" src="{IMG_SPACE_ADMIN}" width="5" /></td>-->
       <td><a href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}" onmouseover="swtchon(27,admin,'{TXT_ADMINISTRATION}');return true;" onmouseout="swtch(26,admin)">
 	    <img border="0" src="{IMG_ADMIN}" width="32" height="32" alt="{TXT_ADMINISTRATION}" title="{TXT_ADMINISTRATION}" name="admin" /></a></td>
 <!-- END userisadmin -->
