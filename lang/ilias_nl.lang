@@ -117,8 +117,10 @@ assessment#:#create_gaps#:#Creëer gaten
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Creëer een nieuwe
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplikaat
 assessment#:#end_tag#:#Eind tag
+assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
 assessment#:#eval_cloze_result#:#Opening-nummer %s met waarde %s is %s. U ontving %s punten.
 assessment#:#eval_imagemap_result#:#De selectie van de figuur-kaart is %s. U ontving %s punten.
@@ -225,6 +227,7 @@ assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Schud de antwoorden
 assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#start_tag#:#Start tag
+assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Symbool
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
@@ -799,6 +802,7 @@ common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new var
 common#:#file_new#:#Nieuw bestand
 common#:#file_not_found#:#Bestand niet gevonden
 common#:#file_not_valid#:#Bestand niet geldig!
+common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
 common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#Bestand is geldig!
 common#:#file_version#:#Versie is in bestand

@@ -117,8 +117,10 @@ assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Criar novo
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplicar
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
+assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_cloze_result#:#Número do espaço %s com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_imagemap_result#:#A selecção do mapa de imagem é %s. Você recebeu %s pontos.
@@ -225,6 +227,7 @@ assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordem solução
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
+assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Símbolo
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
@@ -799,6 +802,7 @@ common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new var
 common#:#file_new#:#Novo Ficheiro
 common#:#file_not_found#:#Ficheiro Não Encontrado
 common#:#file_not_valid#:#Ficheiro inválido!
+common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
 common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#Ficheiro válido!
 common#:#file_version#:#Versão Fornecida no Ficheiro

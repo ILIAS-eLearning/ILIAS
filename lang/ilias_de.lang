@@ -117,8 +117,10 @@ assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
+assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
@@ -225,6 +227,7 @@ assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
+assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
