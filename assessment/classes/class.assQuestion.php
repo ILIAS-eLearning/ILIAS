@@ -202,6 +202,7 @@ class ASS_Question extends PEAR {
     }
     $this->id = -1;
     $this->test_id = -1;
+		$this->shuffle = 1;
 		register_shutdown_function(array(&$this, '_ASS_Question'));
 	}
 	
