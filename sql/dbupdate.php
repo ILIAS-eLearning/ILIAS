@@ -3112,3 +3112,267 @@ ALTER TABLE ut_access CHANGE browser browser char(60) NOT NULL default '';
 
 <#203>
 ALTER TABLE ut_access CHANGE php_script php_script char(100) NOT NULL default '';
+
+<#204>
+# Create all tables for survey tool
+
+DROP TABLE IF EXISTS `survey_answer`;
+CREATE TABLE `survey_answer` (
+  `answer_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `value` double default NULL,
+  `textanswer` text,
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`answer_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_category`;
+CREATE TABLE `survey_category` (
+  `category_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `defaultvalue` enum('0','1') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`category_id`)
+) TYPE=MyISAM AUTO_INCREMENT=36 ;
+
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (1, 'dc_desired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (2, 'dc_undesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (3, 'dc_agree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (4, 'dc_disagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (5, 'dc_good', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (6, 'dc_notacceptable', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (7, 'dc_should', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (8, 'dc_shouldnot', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (9, 'dc_true', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (10, 'dc_false', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (11, 'dc_always', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (12, 'dc_never', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (13, 'dc_yes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (14, 'dc_no', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (15, 'dc_neutral', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (16, 'dc_undecided', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (17, 'dc_fair', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (18, 'dc_sometimes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (19, 'dc_stronglydesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (20, 'dc_stronglyundesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (21, 'dc_stronglyagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (22, 'dc_stronglydisagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (23, 'dc_verygood', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (24, 'dc_poor', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (25, 'dc_must', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (26, 'dc_mustnot', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (27, 'dc_definitelytrue', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (28, 'dc_definitelyfalse', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (29, 'dc_manytimes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (30, 'dc_varying', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (31, 'dc_rarely', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (32, 'dc_mostcertainly', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (33, 'dc_morepositive', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (34, 'dc_morenegative', '1', 0, 20040522134301);
+INSERT INTO `survey_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (35, 'dc_mostcertainlynot', '1', 0, 20040522134301);
+
+DROP TABLE IF EXISTS `survey_constraint`;
+CREATE TABLE `survey_constraint` (
+  `constraint_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `relation_fi` int(11) NOT NULL default '0',
+  `value` double NOT NULL default '0',
+  PRIMARY KEY  (`constraint_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_finished`;
+CREATE TABLE `survey_finished` (
+  `finished_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `state` enum('0','1') NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`finished_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_invited_group`;
+CREATE TABLE `survey_invited_group` (
+  `invited_group_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `group_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`invited_group_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_invited_user`;
+CREATE TABLE `survey_invited_user` (
+  `invited_user_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`invited_user_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_phrase`;
+CREATE TABLE `survey_phrase` (
+  `phrase_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `defaultvalue` enum('0','1','2') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`phrase_id`)
+) TYPE=MyISAM AUTO_INCREMENT=22 ;
+
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (1, 'dp_standard_attitude_desired_undesired', '1', 0, 20040522135431);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (2, 'dp_standard_attitude_agree_disagree', '1', 0, 20040522135458);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (3, 'dp_standard_attitude_good_notacceptable', '1', 0, 20040522135518);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (4, 'dp_standard_attitude_shold_shouldnot', '1', 0, 20040522135546);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (5, 'dp_standard_beliefs_true_false', '1', 0, 20040522135613);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (6, 'dp_standard_beliefs_always_never', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (7, 'dp_standard_behaviour_yes_no', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (8, 'dp_standard_attitude_desired_neutral_undesired', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (9, 'dp_standard_attitude_agree_undecided_disagree', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (10, 'dp_standard_attitude_good_fair_notacceptable', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (11, 'dp_standard_attitude_should_undecided_shouldnot', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (12, 'dp_standard_beliefs_true_undecided_false', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (13, 'dp_standard_beliefs_always_sometimes_never', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (14, 'dp_standard_behaviour_yes_undecided_no', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (15, 'dp_standard_attitude_desired5', '1', 0, 20040522150702);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (16, 'dp_standard_attitude_agree5', '1', 0, 20040522150717);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (17, 'dp_standard_attitude_good5', '1', 0, 20040522150729);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (18, 'dp_standard_attitude_must5', '1', 0, 20040522150744);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (19, 'dp_standard_beliefs_true5', '1', 0, 20040522150754);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (20, 'dp_standard_beliefs_always5', '1', 0, 20040522150812);
+INSERT INTO `survey_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `TIMESTAMP`) VALUES (21, 'dp_standard_behaviour_certainly5', '1', 0, 20040522150828);
+
+DROP TABLE IF EXISTS `survey_phrase_category`;
+CREATE TABLE `survey_phrase_category` (
+  `phrase_category_id` int(11) NOT NULL auto_increment,
+  `phrase_fi` int(11) NOT NULL default '0',
+  `category_fi` int(11) NOT NULL default '0',
+  `sequence` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`phrase_category_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_question`;
+CREATE TABLE `survey_question` (
+  `question_id` int(11) NOT NULL auto_increment,
+  `subtype` enum('0','1','2','3','4','5') NOT NULL default '0',
+  `questiontype_fi` int(11) NOT NULL default '0',
+  `ref_fi` int(11) NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `title` varchar(100) NOT NULL default '',
+  `description` varchar(200) NOT NULL default '',
+  `author` varchar(100) NOT NULL default '',
+  `questiontext` text NOT NULL,
+  `obligatory` enum('0','1') NOT NULL default '1',
+  `complete` enum('0','1') NOT NULL default '0',
+  `created` varchar(14) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`question_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_question_constraint`;
+CREATE TABLE `survey_question_constraint` (
+  `question_constraint_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `constraint_fi` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`question_constraint_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_question_material`;
+CREATE TABLE `survey_question_material` (
+  `material_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `materials` text,
+  `materials_file` varchar(200) NOT NULL default '',
+  UNIQUE KEY `material_id` (`material_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_questionblock`;
+CREATE TABLE `survey_questionblock` (
+  `questionblock_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) default NULL,
+  `obligatory` enum('0','1') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`questionblock_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_questionblock_question`;
+CREATE TABLE `survey_questionblock_question` (
+  `questionblock_question_id` int(11) NOT NULL auto_increment,
+  `questionblock_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`questionblock_question_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_questiontype`;
+CREATE TABLE `survey_questiontype` (
+  `questiontype_id` int(11) NOT NULL auto_increment,
+  `type_tag` varchar(30) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`questiontype_id`)
+) TYPE=MyISAM AUTO_INCREMENT=5 ;
+
+INSERT INTO `survey_questiontype` (`questiontype_id`, `type_tag`, `TIMESTAMP`) VALUES (1, 'qt_nominal', 20040518222841);
+INSERT INTO `survey_questiontype` (`questiontype_id`, `type_tag`, `TIMESTAMP`) VALUES (2, 'qt_ordinal', 20040518222848);
+INSERT INTO `survey_questiontype` (`questiontype_id`, `type_tag`, `TIMESTAMP`) VALUES (3, 'qt_metric', 20040518222859);
+INSERT INTO `survey_questiontype` (`questiontype_id`, `type_tag`, `TIMESTAMP`) VALUES (4, 'qt_text', 20040518222904);
+
+DROP TABLE IF EXISTS `survey_relation`;
+CREATE TABLE `survey_relation` (
+  `relation_id` int(11) NOT NULL auto_increment,
+  `long` varchar(20) NOT NULL default '',
+  `short` char(2) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`relation_id`)
+) TYPE=MyISAM AUTO_INCREMENT=7 ;
+
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (1, 'less', '<', 20040518195753);
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (2, 'less or equal', '<=', 20040518195808);
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (3, 'equal', '=', 20040518195816);
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (4, 'not equal', '<>', 20040518195839);
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (5, 'more or equal', '>=', 20040518195852);
+INSERT INTO `survey_relation` (`relation_id`, `long`, `short`, `TIMESTAMP`) VALUES (6, 'more', '>', 20040518195903);
+
+DROP TABLE IF EXISTS `survey_survey`;
+CREATE TABLE `survey_survey` (
+  `survey_id` int(11) NOT NULL auto_increment,
+  `ref_fi` int(11) NOT NULL default '0',
+  `author` varchar(50) NOT NULL default '',
+  `introduction` text,
+  `status` enum('0','1') NOT NULL default '1',
+  `startdate` date default NULL,
+  `enddate` date default NULL,
+  `evaluation_access` enum('0','1') NOT NULL default '0',
+  `invitation` enum('0','1') NOT NULL default '0',
+  `invitation_mode` enum('0','1') NOT NULL default '1',
+  `complete` enum('0','1') NOT NULL default '0',
+  `created` varchar(14) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`survey_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_survey_question`;
+CREATE TABLE `survey_survey_question` (
+  `survey_question_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `sequence` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`survey_question_id`)
+) TYPE=MyISAM ;
+
+DROP TABLE IF EXISTS `survey_variable`;
+CREATE TABLE `survey_variable` (
+  `variable_id` int(11) NOT NULL auto_increment,
+  `category_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `value1` double default NULL,
+  `value2` double default NULL,
+  `sequence` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`variable_id`)
+) TYPE=MyISAM ;
+
+    

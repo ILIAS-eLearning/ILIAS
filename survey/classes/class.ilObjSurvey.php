@@ -1428,15 +1428,20 @@ class ilObjSurvey extends ilObject
 		
 		foreach ($all_questions as $question_id => $row)
 		{
+			$constraints = $this->getConstraints($question_id);
 			if (isset($questionblocks[$question_id]))
 			{
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+				// overwrite obligatory flag for single questions with obligatory flag of the block
+				$all_questions[$question_id]["constraints"] = $constraints;
+				$all_questions[$question_id]["obligatory"] = $questionblocks[$question_id]->obligatory;
 			}
 			else
 			{
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
+				$all_questions[$question_id]["constraints"] = $constraints;
 			}
 		}
 		return $all_questions;
@@ -1479,6 +1484,7 @@ class ilObjSurvey extends ilObject
 		$currentblock = "";
 		foreach ($all_questions as $question_id => $row)
 		{
+			$constraints = array();
 			if (isset($questionblocks[$question_id]))
 			{
 				if (!$currentblock or ($currentblock != $questionblocks[$question_id]->questionblock_id))
@@ -1490,6 +1496,8 @@ class ilObjSurvey extends ilObject
 				// overwrite obligatory flag for single questions with obligatory flag of the block
 				$all_questions[$question_id]["obligatory"] = $questionblocks[$question_id]->obligatory;
 				$currentblock = $questionblocks[$question_id]->questionblock_id;
+				$constraints = $this->getConstraints($question_id);
+				$all_questions[$question_id]["constraints"] = $constraints;
 			}
 			else
 			{
@@ -1497,6 +1505,8 @@ class ilObjSurvey extends ilObject
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
 				$currentblock = "";
+				$constraints = $this->getConstraints($question_id);
+				$all_questions[$question_id]["constraints"] = $constraints;
 			}
 			if (!isset($all_pages[$pageindex]))
 			{
@@ -1979,6 +1989,73 @@ class ilObjSurvey extends ilObject
 			return $row["question_fi"];
 		}
 	}
-	
+
+/**
+* Checks if a constraint is valid
+*
+* Checks if a constraint is valid
+*
+* @param array $constraint_data The database row containing the constraint data
+* @param array $working_data The user input of the related question
+* @return boolean true if the constraint is valid, otherwise false
+* @access public
+*/
+	function checkConstraint($constraint_data, $working_data)
+	{
+		if (count($working_data) == 0)
+		{
+			return 0;
+		}
+		
+		if ((count($working_data) == 1) and (strcmp($working_data[0]["value"], "") == 0))
+		{
+			return 0;
+		}
+		
+		foreach ($working_data as $data)
+		{
+			switch ($constraint_data["short"])
+			{
+				case "<":
+					if ($data["value"] < $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+				case "<=":
+					if ($data["value"] <= $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+				case "=":
+					if ($data["value"] == $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+				case "<>":
+					if ($data["value"] != $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+				case ">=":
+					if ($data["value"] >= $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+				case ">":
+					if ($data["value"] > $constraint_data["value"])
+					{
+						return 1;
+					}
+					break;
+			}
+		}
+		return 0;
+	}
+		
 } // END class.ilObjSurvey
 ?>
