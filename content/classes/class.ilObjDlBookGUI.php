@@ -44,7 +44,7 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 	function ilObjDlBookGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
         $this->type = "dbk";
-		parent::ilObjContentObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		if($a_id != 0)
 		{
 			$this->lm_tree =& $this->object->getLMTree();
