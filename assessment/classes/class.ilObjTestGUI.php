@@ -3411,7 +3411,18 @@ class ilObjTestGUI extends ilObjectGUI
 	function evalSelectedUsersObject($all_users = 0)
 	{
 		global $ilUser;
-		if (count($_POST) == 0)
+
+		$print = 0;
+		$export = 0;
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("print")) == 0)
+		{
+			$print = 1;
+		}
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("export")) == 0)
+		{
+			$export = 1;
+		}
+		if ((count($_POST) == 0) || ($print) || ($export))
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
@@ -3810,7 +3821,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$arrkey = array_search($qt, $legend);
 					if ($arrkey)
 					{
-						$qshort = $arrkey . ": ";
+						$qshort = "<span title=\"" . ilUtil::prepareFormOutput($qt) . "\">" . $arrkey . "</span>: ";
 					}
 				}
 				array_push($evalrow, array(
@@ -3822,7 +3833,14 @@ class ilObjTestGUI extends ilObjectGUI
 			array_push($eval_complete, array("title" => $titlerow_user, "data" => $evalrow));
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
+		if ($print)
+		{
+			$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_statistical_evaluation_preview.html", true, true);
+		}
+		else
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
+		}
 		$color_class = array("tblrow1", "tblrow2");
 		$noqcount = count($titlerow_without_questions);
 		foreach ($legend as $short => $long)
@@ -3845,7 +3863,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($noq > 0)
 			{
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $title);
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . ilUtil::prepareFormOutput($legend[$title]) . "\">" . $title . "</div>");
 				$this->tpl->parseCurrentBlock();
 				if ($noq == $noqcount)
 				{
@@ -3858,7 +3876,7 @@ class ilObjTestGUI extends ilObjectGUI
 			else
 			{
 				$this->tpl->setCurrentBlock("questions_titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $title);
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $legend[$title] . "\">" . $title . "</div>");
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -3904,10 +3922,30 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("export_btn");
+		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_STATISTICAL_DATA",  $this->lng->txt("statistical_data"));
+		$this->tpl->setVariable("TXT_STATISTICAL_DATA", $this->lng->txt("statistical_data"));
+		$this->tpl->parseCurrentBlock();
 //		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
-//		print_r($eval_complete);		
+//		print_r($eval_complete);
+		if ($print)
+		{
+			$this->tpl->setCurrentBlock("__global__");
+			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation") . " " . strtolower($this->lng->txt("of")) . " &quot;" . ilUtil::prepareFormOutput($this->object->getTitle()) . "&quot;");
+			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
+			$this->tpl->setVariable("PRINT_TYPE", "summary");
+			$this->tpl->show();
+			exit;
+		}
 	}
 	
 	function evalAllUsersObject()

@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
      "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<!-- BEGIN heading -->
 <head>
 	<title>{TXT_STATISTICAL_EVALUATION}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,43 +20,53 @@ if (typeof(window.print) != 'undefined') {
 //-->
 </script>
             
-
 <h1>{TXT_STATISTICAL_EVALUATION}</h1> <br>
-
+<h3>{TXT_STATISTICAL_DATA}</h3>
 <table class="printtable">
-<tr>
+<tr class="header">
 <!-- BEGIN titlecol -->
-<th>{TXT_TITLE}</th>
+<td class="header" valign="top">{TXT_TITLE}</td>
 <!-- END titlecol -->
 </tr>
 <!-- BEGIN row -->
-<tr class="{ROW_CLASS}">
+<tr class="{COLOR_CLASS}">
 <!-- BEGIN datacol -->
-<td>{TXT_DATA}</td>
+<td class="{COLOR_CLASS}">{TXT_DATA}</td>
 <!-- END datacol -->
 </tr>
 <!-- END row -->
 </table>
-
-<!-- BEGIN question_block -->
-<br><br>
+<!-- BEGIN questions_output -->
 <h3>{TXT_QUESTIONS}</h3>
 <table class="printtable">
-<tr>
-<!-- BEGIN qtitlecol -->
-<th>{TXT_QTITLE}</th>
-<!-- END qtitlecol -->
+<tr class="header">
+<!-- BEGIN questions_titlecol -->
+<td class="header" valign="top">{TXT_TITLE}</td>
+<!-- END questions_titlecol -->
 </tr>
-<!-- BEGIN qrow -->
-<tr class="{ROW_CLASS}">
-<!-- BEGIN qdatacol -->
-<td>{TXT_QDATA}</td>
-<!-- END qdatacol -->
+<!-- BEGIN questions_row -->
+<tr class="{COLOR_CLASS}">
+<!-- BEGIN questions_datacol -->
+<td class="{COLOR_CLASS}">{TXT_DATA}</td>
+<!-- END questions_datacol -->
 </tr>
-<!-- END qrow -->
+<!-- END questions_row -->
 </table>
-<!-- END question_block -->
-
+<!-- END questions_output -->
+<!-- BEGIN legend -->
+<h2>{TXT_LEGEND}</h2>
+<table class="printtable">
+<tr class="header">
+<td class="header" valign="top">{TXT_SYMBOL}</td>
+<td class="header" valign="top">{TXT_MEANING}</td>
+</tr>
+<!-- BEGIN legendrow -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}">{TXT_SYMBOL}</td>
+<td class="{COLOR_CLASS}">{TXT_MEANING}</td>
+</tr>
+<!-- END legendrow -->
+</table>
+<!-- END legend -->
 </body>
-<!-- END heading -->
 </html>
