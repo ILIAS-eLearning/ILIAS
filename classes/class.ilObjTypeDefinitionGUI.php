@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.7 2003/06/11 08:41:44 shofmann Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.8 2003/06/12 14:37:40 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -227,7 +227,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 			{
 				if (!in_array($ops_id,$ops_valid))
 				{
-					$rbacreview->assignPermissionToObject($_GET["obj_id"],$ops_id);
+					$rbacadmin->assignOperationToObject($_GET["obj_id"],$ops_id);
 				}
 			}
 
@@ -235,7 +235,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 			{
 				if (in_array($ops_id,$ops_valid))
 				{
-					$rbacreview->deassignPermissionFromObject($_GET["obj_id"],$ops_id);
+					$rbacadmin->deassignOperationFromObject($_GET["obj_id"],$ops_id);
 //					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
 				}
 			}
