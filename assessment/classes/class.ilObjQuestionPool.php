@@ -271,6 +271,9 @@ class ilObjQuestionPool extends ilObject
 			$question = new ASS_Question();
 			$question->set_id($question_id);
 			$question->remove_all_question_references();
+			// delete the question in the tst_test_question table (list of test questions)
+			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->db->quote($question_id));
+			$deleteresult = $this->ilias->db->query($querydelete);
     } else {
       return;
     }

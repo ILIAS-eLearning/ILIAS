@@ -2805,3 +2805,7 @@ $ini->write();
 
 <#180>
 UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='style';
+
+<#181>
+ALTER  TABLE  `tst_tests`  CHANGE  `processing_time`  `processing_time` TIME;
+ALTER  TABLE  `tst_tests`  ADD  `enable_processing_time` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `processing_time` ;

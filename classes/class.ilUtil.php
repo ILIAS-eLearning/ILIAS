@@ -707,6 +707,10 @@ class ilUtil
 			$hour = $now[2];
 			$minute = $now[1];
 			$second = $now[0];
+		} else {
+			$hour = (int)$hour;
+			$minute = (int)$minute;
+			$second = (int)$second;
 		}
 		// build hour select
 		$sel_hour .= "<select name=\"".$prefix."[h]\">\n";
