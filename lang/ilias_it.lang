@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo
 common#:#at_location#:#alla locazione
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachment
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
@@ -441,7 +442,17 @@ common#:#cat_write#:#Modifica categoria
 common#:#categories#:#Categorie
 common#:#categories_imported#:#Imporazione categorie completata.
 common#:#cc#:#cc
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#Moderatore
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chac_read#:#Accedere in lettura alle impostazioni delle chat
 common#:#chac_visible#:#Vedere le impostazioni delle chat
@@ -563,6 +574,7 @@ common#:#desc#:#Descrivi
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
 common#:#disabled#:#Disabilitato
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
 common#:#drafts#:#Bozze
@@ -1132,6 +1144,7 @@ common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
 common#:#obj_cat#:#Categoria
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Impostazioni chat
 common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
 common#:#obj_chat#:#Chat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Configura gli utenti qui.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Oggetti
 common#:#objf#:#Oggetti
 common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi degli oggetti

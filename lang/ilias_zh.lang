@@ -402,6 +402,7 @@ common#:#assign_user_to_role#:#为用户指定角色
 common#:#at_location#:#地点为
 common#:#attachment#:#附件
 common#:#attachments#:#附件
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#作者
 common#:#authors#:#作者
 common#:#available_languages#:#可用的语言
@@ -458,7 +459,17 @@ common#:#cat_write#:#编辑类别
 common#:#categories#:#类别
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#抄送
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#审查
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
 common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
@@ -580,6 +591,7 @@ common#:#desc#:#描述
 common#:#description#:#描述
 common#:#desired_password#:#期望的口令
 common#:#disabled#:#禁止
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#向下
 common#:#download#:#下载
 common#:#drafts#:#草稿
@@ -1149,6 +1161,7 @@ common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
 common#:#obj_cat#:#类别
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat###18 Feb 2004 new variable
@@ -1197,6 +1210,7 @@ common#:#obj_uset#:#用户设置
 common#:#obj_usr#:#用户
 common#:#obj_usrf#:#用户账号
 common#:#obj_usrf_desc#:#在此管理用户账号
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#对象
 common#:#objf#:#对象定义
 common#:#objf_edit_permission#:#更改许可设置

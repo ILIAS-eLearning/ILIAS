@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Přiřadit uživateli roli
 common#:#at_location#:#umístění
 common#:#attachment#:#Příloha
 common#:#attachments#:#Přílohy
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autoři
 common#:#available_languages#:#Dostupné jazyky
@@ -441,7 +442,17 @@ common#:#cat_write#:#Edit Category###16 Mar 2004 new variable
 common#:#categories#:#kategorie
 common#:#categories_imported#:#Category import complete.###16 Mar 2004 new variable
 common#:#cc#:#Kopie
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#Cenzura
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#chac_read#:#Read access to chat settings###16 Mar 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###16 Mar 2004 new variable
@@ -563,6 +574,7 @@ common#:#desc#:#Popis
 common#:#description#:#Popis
 common#:#desired_password#:#Požadované heslo
 common#:#disabled#:#Zakázáno
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Dolů
 common#:#download#:#Stáhnout
 common#:#drafts#:#Koncepty
@@ -1132,6 +1144,7 @@ common#:#obj#:#Objekt
 common#:#obj_adm#:#Systémová nastavení
 common#:#obj_adm_desc#:#Hlavní složka systémových nastavení obsahojící všechny panely pro administraci ILIASu.
 common#:#obj_cat#:#Kategorie
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###16 Mar 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###16 Mar 2004 new variable
 common#:#obj_chat#:#Chat###16 Mar 2004 new variable
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Uživatelská nastavení
 common#:#obj_usr#:#Uživatel
 common#:#obj_usrf#:#Uživatelské účty
 common#:#obj_usrf_desc#:#Správa uživatelských účtů.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objekty
 common#:#objf#:#Definice objektů
 common#:#objf_edit_permission#:#Change permission settings###16 Mar 2004 new variable

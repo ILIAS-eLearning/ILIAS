@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
+common#:#attend#:#Teilnehmen
 common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#available_languages#:#Verfügbare Sprachen
@@ -441,7 +442,17 @@ common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event hinzugefügt
+common#:#cen_delete#:#Centra Event löschen
+common#:#cen_edit#:#Centra Event bearbeiten
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Centra Event abspeichern
 common#:#censorship#:#Zensur
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra-Räume
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Rechteeinstellungen ändern
 common#:#chac_read#:#Lesezugriff auf Chateinstellungen
 common#:#chac_visible#:#Chateinstellungen sind sichtbar
@@ -563,6 +574,7 @@ common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
+common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
 common#:#drafts#:#Entwürfe
@@ -1132,6 +1144,7 @@ common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chateinstellungen
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###16 Mar 2004 new variable
 common#:#obj_chat#:#Chat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
 common#:#objf_edit_permission#:#Rechteeinstellungen ändern
@@ -2621,20 +2635,6 @@ meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
-common#:#obj_cen#:#Centra Event
-common#:#cen#:#Centra Event
-common#:#domain#:#Domäne
-common#:#centra_server#:#Centra Server
-common#:#centra_account#:#Centra Admin Account
-common#:#centra_rooms#:#Centra-Räume
-common#:#cen_new#:#New Centra Event
-common#:#cen_add#:#Add Centra Event
-common#:#cen_added#:#Centra Event hinzugefügt
-common#:#cen_edit#:#Centra Event bearbeiten
-common#:#cen_save#:#Centra Event abspeichern
-common#:#cen_delete#:#Centra Event löschen
-common#:#object_added#:#Objekt hinzugefügt
-common#:#attend#:#Teilnehmen
 search#:#search_all_results#:#Alle Resultate
 search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt

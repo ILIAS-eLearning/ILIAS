@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
 common#:#attachments#:#Załączniki
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
 common#:#available_languages#:#Dostępne języki
@@ -441,7 +442,17 @@ common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
 common#:#categories_imported#:#Zakończony import kategorii.
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#cenzura
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
 common#:#chac_read#:#Prawo czytania ustawień czatu
 common#:#chac_visible#:#Ustawienia czatu są widoczne
@@ -563,6 +574,7 @@ common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
 common#:#disabled#:#Wyłączony
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Down
 common#:#download#:#Pobierz
 common#:#drafts#:#Szkice
@@ -1132,6 +1144,7 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Ustawienia czatu
 common#:#obj_chac_desc#:#Tu skonfiguruj serwer czat. Włącz/Wyłacz czat.
 common#:#obj_chat#:#Czat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
 common#:#objf_edit_permission#:#Zmień ustawienia uprawnień

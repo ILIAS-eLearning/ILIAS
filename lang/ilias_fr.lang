@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
 common#:#at_location#:#à l'emplacement
 common#:#attachment#:#Attachement
 common#:#attachments#:#Attachements
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
 common#:#available_languages#:#Langages disponibles
@@ -441,7 +442,17 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#Catégories
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#censure
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
 common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
@@ -563,6 +574,7 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Mot de passe souhaité
 common#:#disabled#:#Désactivé
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Bas
 common#:#download#:#Télécharger
 common#:#drafts#:#Brouillons
@@ -1132,6 +1144,7 @@ common#:#obj#:#Objet
 common#:#obj_adm#:#Paramètres système###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
 common#:#obj_cat#:#Catégorie
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat###18 Feb 2004 new variable
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Paramètres d'utilisateur
 common#:#obj_usr#:#Utilisateur
 common#:#obj_usrf#:#Comptes utilisateurs
 common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objets
 common#:#objf#:#Définition d'objet
 common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
