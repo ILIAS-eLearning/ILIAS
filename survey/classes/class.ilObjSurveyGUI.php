@@ -1287,7 +1287,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function questionsObject() {
 		global $rbacsystem;
-
     $add_parameter = $this->getAddParameter();
 
 		if ($_POST["cmd"]["insert_before"] or $_POST["cmd"]["insert_after"])

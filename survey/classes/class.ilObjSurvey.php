@@ -459,7 +459,6 @@ class ilObjSurvey extends ilObject
 		);
     $result = $this->ilias->db->query($query);
 		$duplicate_id = $this->ilias->db->getLastInsertId();
-		
 		// copy question variables
 		$query = sprintf("SELECT * FROM survey_variable WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
@@ -469,7 +468,7 @@ class ilObjSurvey extends ilObject
 		{
 			$insertquery = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$row->category_fi"),
-				$this->ilias->db->quote("duplicate_id"),
+				$this->ilias->db->quote("$duplicate_id"),
 				$this->ilias->db->quote("$row->value1"),
 				$this->ilias->db->quote("$row->value2"),
 				$this->ilias->db->quote("$row->sequence")
@@ -485,9 +484,9 @@ class ilObjSurvey extends ilObject
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$insertquery = sprintf("INSERT INTO survey_question_material (material_id, question_fi, materials, materials_file) VALUES (NULL, %s, %s, %s)",
-				$this->ilias->db->quote("duplicate_id"),
+				$this->ilias->db->quote("$duplicate_id"),
 				$this->ilias->db->quote("$row->materials"),
-				$this->ilias->db->quote("$row->materials_file"),
+				$this->ilias->db->quote("$row->materials_file")
 			);
 	    $insertresult = $this->ilias->db->query($insertquery);
 		}
