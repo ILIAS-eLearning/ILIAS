@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.7 2004/06/17 13:45:57 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.8 2004/07/10 08:35:24 mkurian Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -105,6 +105,95 @@ class ilObjExerciseGUI extends ilObjectGUI
 		return true;
 	}
 
+/**
+* Displays a form which allows members to deliver their solutions
+*
+* @access public
+*/
+	function deliverObject()
+	{
+		global $ilUser;
+		require_once "./classes/class.ilUtil.php";
+		
+		if ($_POST["cmd"]["delete"])
+		{
+			if (count($_POST["delivered"]))
+			{
+				$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
+			}
+		}
+		
+		if ($_POST["cmd"]["download"])
+		{
+			if (count($_POST["delivered"]))
+			{
+				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
+			}
+		}
+
+		$this->getTemplateFile("deliver_file", "exc");
+		$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($delivered_files as $index => $file)
+		{
+			$this->tpl->setCurrentBlock("delivered_row");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
+			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP"], $matches);
+			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
+			$this->tpl->setVariable("DELIVERED_DATE", $date);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		if (count($delivered_files))
+		{
+			$this->tpl->setCurrentBlock("footer_content");
+			$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("footer_empty");
+			$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", $this->lng->txt("message_no_delivered_files"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("delivered_files");
+		$this->tpl->setVariable("DELIVER_FORMACTION", $this->getFormAction("deliver", "exercise.php?cmd=deliver&ref_id=".$this->ref_id));
+		$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
+		$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("deliverFile", "exercise.php?cmd=deliverFile&ref_id=".$this->ref_id));
+		$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function deliverFileObject()
+	{
+		global $ilUser;
+
+		if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
+		{
+			sendInfo($this->lng->txt("exc_upload_error"),true);
+		}
+		$this->deliverObject();
+	}
+	
 	function downloadFileObject()
 	{
 		global $rbacsystem;
@@ -311,26 +400,34 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		switch($_POST["action"])
+		if ($_POST["downloadReturned"])
 		{
-			case "save_status":
-				$this->__saveStatus();
-				sendInfo($this->lng->txt("exc_status_saved"),true);
-				break;
-			case "send_member":
-				if(!count($_POST["member"]))
-				{
-					sendInfo($this->lng->txt("select_one"),true);
-				}
-				else
-				{
-					$this->object->send($_POST["member"]);
-					sendInfo($this->lng->txt("exc_sent"),true);
-				}
-				break;
-			case "delete_member":
-				$this->__deassignMembers();
-				break;
+			$this->object->members_obj->deliverReturnedFiles(key($_POST["downloadReturned"]));
+			exit;
+		}
+		else
+		{
+			switch($_POST["action"])
+			{
+				case "save_status":
+					$this->__saveStatus();
+					sendInfo($this->lng->txt("exc_status_saved"),true);
+					break;
+				case "send_member":
+					if(!count($_POST["member"]))
+					{
+						sendInfo($this->lng->txt("select_one"),true);
+					}
+					else
+					{
+						$this->object->send($_POST["member"]);
+						sendInfo($this->lng->txt("exc_sent"),true);
+					}
+					break;
+				case "delete_member":
+					$this->__deassignMembers();
+					break;
+			}
 		}
 		header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]&cmd=members"));
 		exit;
@@ -368,6 +465,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$f_result[$counter][]	= $tmp_obj->getLastname();
 				$f_result[$counter][]	= array("notice[$member_id]",
 												ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
+				if ($this->object->members_obj->hasReturned($member_id))
+				{
+					$f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"" . $this->lng->txt("download") . "\" />";
+				}
+				else
+				{
+					$f_result[$counter][]	= "";
+				}
 				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusReturnedByMember($member_id),
 															   "returned[$member_id]",1);
 				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),
@@ -691,7 +796,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("COLUMN_COUNTS",8);
+		$this->tpl->setVariable("COLUMN_COUNTS",9);
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$this->tpl->parseCurrentBlock();
 
@@ -701,12 +806,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("exc_header_members"),"icon_usr_b.gif",$this->lng->txt("exc_header_members"));
 		$tbl->setHeaderNames(array('',$this->lng->txt("login"),$this->lng->txt("firstname")
-								   ,$this->lng->txt("lastname"),$this->lng->txt("exc_notices"),$this->lng->txt("exc_status_returned"),
+								   ,$this->lng->txt("lastname"),$this->lng->txt("exc_notices"),$this->lng->txt("exc_files_returned"), $this->lng->txt("exc_status_returned"),
 								   $this->lng->txt("exc_status_solved"),$this->lng->txt("sent")));
-		$tbl->setHeaderVars(array("","login","firstname","lastname","","","",""),
+		$tbl->setHeaderVars(array("","login","firstname","lastname","","","","",""),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members"));
-		$tbl->setColumnWidth(array("5%","15%","15%","15%","30%","7%","7%","7%"));
+		$tbl->setColumnWidth(array("5%","10%","10%","10%","30%","15%","7%","7%","7%"));
 		$tbl->disable('content');
 
 		$tbl->setOrderColumn($_GET["sort_by"]);

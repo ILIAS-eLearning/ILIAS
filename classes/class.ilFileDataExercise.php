@@ -126,6 +126,13 @@ class ilFileDataExercise extends ilFileData
 		{
 			$this->unlinkFile($file["name"]);
 		}
+		
+		$delivered_file_path = $this->getExercisePath() . "/" . $this->obj_id . "/";
+		if (is_dir($delivered_file_path))
+		{
+			system("rm -rf " . ilUtil::escapeShellArg($delivered_file_path));
+		}
+		
 		return true;
 	}
 
@@ -150,6 +157,42 @@ class ilFileDataExercise extends ilFileData
 		}
 		return true;
 	}
+
+	/**
+	* store delivered file in filesystem
+	* @param array HTTP_POST_FILES
+	* @param numeric database id of the user who delivered the file
+	* @access	public
+	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
+	*/
+	function deliverFile($a_http_post_file, $user_id)
+	{
+		// TODO: 
+		// CHECK UPLOAD LIMIT
+		// 
+		$result = false;
+		if(isset($a_http_post_file) && $a_http_post_file['size'])
+		{
+			$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/" . $user_id . "/";
+			// CHECK IF FILE PATH EXISTS
+			if (!is_dir($savepath))
+			{
+				require_once "./classes/class.ilUtil.php";
+				ilUtil::makeDirParents($savepath);
+			}
+			$now = getdate();
+			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], $now["minutes"], $now["seconds"]);
+			move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $a_http_post_file["name"]);
+			require_once "./content/classes/Media/class.ilObjMediaObject.php";
+			$result = array(
+				"filename" => $prefix . "_" . $a_http_post_file["name"],
+				"fullname" => $savepath . $prefix . "_" . $a_http_post_file["name"],
+        "mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $a_http_post_file["name"])
+			);
+		}
+		return $result;
+	}
+	
 	/**
 	* unlink files: expects an array of filenames e.g. array('foo','bar')
 	* @param array filenames to delete

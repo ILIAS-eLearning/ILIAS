@@ -131,8 +131,29 @@ class ilExerciseMembers
 
 		$this->ilias->db->query($query);
 		$this->read();
+		// delete all delivered files of the member
+		$delivered_files =& $this->getDeliveredFiles($a_usr_id);
+		$files_to_delete = array();
+		$userfile = "";
+		foreach ($delivered_files as $key => $value)
+		{
+			array_push($files_to_delete, $value["returned_id"]);
+			$userfile = $value["filename"];
+		}
+		$this->deleteDeliveredFiles($files_to_delete, $a_usr_id);
+		// delete the user directory if existing
+		if ($userfile)
+		{
+			$pathinfo = pathinfo($userfile);
+			$dir = $pathinfo["dirname"];
+		}
+		if (is_dir($dir))
+		{
+			rmdir($dir);
+		}
 		return false;
 	}
+	
 	function deassignMembers($a_members)
 	{
 		if(is_array($a_members))
@@ -275,6 +296,174 @@ class ilExerciseMembers
 		}
 	}
 
+	function hasReturned($a_member_id)
+	{
+		$query = sprintf("SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s",
+			$this->ilias->db->quote($this->getObjId() . ""),
+			$this->ilias->db->quote($a_member_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		return $result->numRows();
+	}
+
+	/**
+	* Returns an array of all delivered files of an user
+	*
+	* @param numeric $a_member_id The user id
+	* @access	public
+	* @return array An array containing the information on the delivered files
+	*/
+	function &getDeliveredFiles($a_member_id)
+	{
+		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY TIMESTAMP",
+			$this->ilias->db->quote($this->getObjId() . ""),
+			$this->ilias->db->quote($a_member_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$delivered_files = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($delivered_files, $row);
+			}
+		}
+		return $delivered_files;
+	}
+	
+	/**
+	* Deletes already delivered files
+	* @param array $file_id_array An array containing database ids of the delivered files
+	* @param numeric $a_member_id The database id of the user
+	* @access	public
+	*/
+	function deleteDeliveredFiles($file_id_array, $a_member_id)
+	{
+		if (count($file_id_array))
+		{
+			$query = sprintf("SELECT * FROM exc_returned WHERE user_id = %s AND returned_id IN (" . join($file_id_array, ",") . ")",
+				$this->ilias->db->quote($a_member_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows())
+			{
+				$result_array = array();
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($result_array, $row);
+				}
+				// delete the entries in the database
+				$query = sprintf("DELETE FROM exc_returned WHERE user_id = %s AND returned_id IN (" . join($file_id_array, ",") . ")",
+					$this->ilias->db->quote($a_member_id . "")
+				);
+				$result = $this->ilias->db->query($query);
+				// delete the files
+				foreach ($result_array as $key => $value)
+				{
+					unlink($value["filename"]);
+				}
+			}
+		}
+	}
+
+	/**
+	* Delivers the returned files of an user
+	* @param numeric $a_member_id The database id of the user
+	* @access	public
+	*/
+	function deliverReturnedFiles($a_member_id)
+	{
+		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s",
+			$this->ilias->db->quote($this->getObjId() . ""),
+			$this->ilias->db->quote($a_member_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$count = $result->numRows();
+		if ($count == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->downloadSingleFile($row["filename"], $row["filetitle"]);
+		}
+		else
+		{
+			$array_files = array();
+			$filename = "";
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$filename = $row["filename"];
+				$pathinfo = pathinfo($filename);
+				$dir = $pathinfo["dirname"];
+				$file = $pathinfo["basename"];
+				array_push($array_files, $file);
+			}
+			$pathinfo = pathinfo($filename);
+			$dir = $pathinfo["dirname"];
+			$this->downloadMultipleFiles($array_files, $dir);
+		}
+	}
+	
+	function downloadSelectedFiles($array_file_id)
+	{
+		if (count($array_file_id))
+		{
+			$query = "SELECT * FROM exc_returned WHERE returned_id IN (" . join($array_file_id, ",") . ")";
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows())
+			{
+				$array_found = array();
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($array_found, $row);
+				}
+				if (count($array_found) == 1)
+				{
+					$this->downloadSingleFile($array_found[0]["filename"], $array_found[0]["filetitle"]);
+				}
+				else
+				{
+					$filenames = array();
+					$dir = "";
+					$file = "";
+					foreach ($array_found as $key => $value)
+					{
+						$pathinfo = pathinfo($value["filename"]);
+						$dir = $pathinfo["dirname"];
+						$file = $pathinfo["basename"];
+						array_push($filenames, $file); 
+					}
+					$this->downloadMultipleFiles($filenames, $dir);
+				}
+			}
+		}
+	}
+	
+	function downloadSingleFile($filename, $filetitle)
+	{
+		require_once "./classes/class.ilUtil.php";
+		ilUtil::deliverFile($filename, $filetitle);
+	}
+	
+	function downloadMultipleFiles($array_filenames, $pathname)
+	{
+		global $lng;
+		require_once "./classes/class.ilUtil.php";
+		$cdir = getcwd();
+		chdir($pathname);
+		$zip = PATH_TO_ZIP;
+		$tmpfile = tempnam("/tmp", "foo");
+		$tmpzipfile = $tmpfile . ".zip";
+		foreach ($array_filenames as $key => $filename)
+		{
+			$array_filenames[$key] = ilUtil::escapeShellArg($array_filenames[$key]);
+		}
+		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($array_filenames, " ");
+		exec($zipcmd);
+		ilUtil::deliverFile($tmpzipfile, strtolower($lng->txt("excs")) . ".zip");
+		chdir($cdir);
+		unlink($tmpfile);
+		unlink($tmpzipfile);
+	}
+	
 	function setNoticeForMember($a_member_id,$a_notice)
 	{
 

@@ -98,6 +98,28 @@ class ilObjExercise extends ilObject
 			$this->year == (int) date("Y",$this->timestamp);
 	}
 
+	function deliverFile($a_http_post_files, $user_id)
+	{
+		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id);
+		if ($deliver_result)
+		{
+			$query = sprintf("INSERT INTO exc_returned (returned_id, obj_id, user_id, filename, filetitle, mimetype, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getId() . ""),
+				$this->ilias->db->quote($user_id . ""),
+				$this->ilias->db->quote($deliver_result["fullname"]),
+				$this->ilias->db->quote($a_http_post_files["name"]),
+				$this->ilias->db->quote($deliver_result["mimetype"])
+			);
+			$this->ilias->db->query($query);
+			if (!$this->members_obj->isAssigned($user_id))
+			{
+				$this->members_obj->assignMember($user_id);
+			}
+			$this->members_obj->setStatusReturnedForMember($user_id, 1);
+		}
+		return true;
+	}
+
 	function addUploadedFile($a_http_post_files)
 	{
 		$this->file_obj->storeUploadedFile($a_http_post_files);
@@ -150,6 +172,39 @@ class ilObjExercise extends ilObject
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
+	}
+
+	/**
+	* Returns the delivered files of an user
+	* @param numeric $user_id The database id of the user
+	* @return array An array containing the information on the delivered files
+	* @access	public
+	*/
+	function &getDeliveredFiles($user_id)
+	{
+		$delivered_files =& $this->members_obj->getDeliveredFiles($user_id);
+		return $delivered_files;
+	}
+
+	/**
+	* Deletes already delivered files
+	* @param array $file_id_array An array containing database ids of the delivered files
+	* @param numeric $user_id The database id of the user
+	* @access	public
+	*/
+	function deleteDeliveredFiles($file_id_array, $user_id)
+	{
+		$this->members_obj->deleteDeliveredFiles($file_id_array, $user_id);
+	}
+	
+	/**
+	* Delivers the returned files of an user
+	* @param numeric $user_id The database id of the user
+	* @access	public
+	*/
+	function deliverReturnedFiles($user_id)
+	{
+		require_once "./classes/class.ilUtil.php";
 	}
 
 	/**

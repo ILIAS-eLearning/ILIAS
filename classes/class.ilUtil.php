@@ -453,8 +453,8 @@ class ilUtil
 	* Diese Funktion erzeugt einen typischen Navigationsbalken mit
 	* "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
 	*
-	* die komplette LinkBar wird zurückgegeben
-	* der Variablenname für den offset ist "offset"
+	* die komplette LinkBar wird zurï¿½ckgegeben
+	* der Variablenname fï¿½r den offset ist "offset"
 	*
 	* @author Sascha Hofmann <shofmann@databay.de>
 	*
@@ -463,7 +463,7 @@ class ilUtil
 	* @param	integer	Anzahl der Elemente insgesamt
 	* @param	integer	Anzahl der Elemente pro Seite
 	* @param	integer	Das aktuelle erste Element in der Liste
-	* @param	array	Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
+	* @param	array	Die zu ï¿½bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
 	* @param	array	layout options (all optional)
 	* 					link	=> css name for <a>-tag
 	* 					prev	=> value for 'previous page' (default: '<<')
@@ -497,7 +497,7 @@ class ilUtil
 			}
 		}
 
-		// Wenn Hits grösser Limit, zeige Links an
+		// Wenn Hits grï¿½sser Limit, zeige Links an
 		if ($AHits > $ALimit)
 		{
 			if (!empty($AParams))
@@ -510,14 +510,14 @@ class ilUtil
 			// if ($params) $params = substr($params,0,-1);
 			$link = $AScript."?".$params."offset=";
 
-			// übergehe "zurck"-link, wenn offset 0 ist.
+			// ï¿½bergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
 				$LinkBar .= "<a".$layout_link." href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
 			}
 
-			// Benötigte Seitenzahl kalkulieren
+			// Benï¿½tigte Seitenzahl kalkulieren
 			$pages=intval($AHits/$ALimit);
 
 			// Wenn ein Rest bleibt, addiere eine Seite
@@ -631,7 +631,7 @@ class ilUtil
 	* @param	integer	$day Default value for day select
 	* @return	string	HTML select boxes
 	* @author	Aresch Yavari <ay@databay.de>
-	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @author Helmut SchottmÃ¼ller <hschottm@tzi.de>
 	*/
 	function makeDateSelect($prefix, $year = "", $month = "", $day = "")
 	{
@@ -702,7 +702,7 @@ class ilUtil
 	* @param	integer $minute Default minute value
 	* @param	integer $second Default second value
 	* @return	string	HTML select boxes
-	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @author Helmut SchottmÃ¼ller <hschottm@tzi.de>
 	*/
 	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "")
 	{
@@ -1228,7 +1228,6 @@ class ilUtil
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
 		$mime = "application/octet-stream"; // or whatever the mime type is
-
 		if (isset($_SERVER["HTTPS"]))
 		{
 			/**
@@ -1258,7 +1257,6 @@ class ilUtil
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(filesize($a_file)));
 		header("Connection: close");
-
 		readfile( $a_file );
 		exit;
 	}
@@ -1384,7 +1382,7 @@ class ilUtil
 	* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
 	* are not working with PHP's file_exists function.
 	*
-	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @author Helmut SchottmÃ¼ller <hschottm@tzi.de>
 	* @param string $a_dir The directory name to be created
 	* @access public
 	*/
