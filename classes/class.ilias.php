@@ -233,12 +233,13 @@ class ILIAS extends PEAR
 		$skins = array();
 		
 		//open directory for reading and search for subdirectories
-		if ($dp = @opendir($this->ini->readVariable("server", "tpl_path")))
+		$tplpath = $this->ini->readVariable("server", "tpl_path");
+		if ($dp = @opendir($tplpath))
 		{
 			while (($file = readdir($dp)) != false)
 			{
-				echo is_dir($file)."----".$file."<br>";
-				if (is_dir($file) && $file != "." && $file != ".." && $file != "CVS")
+				//is the file a directory?
+				if (is_dir($tplpath."/".$file) && $file != "." && $file != ".." && $file != "CVS")
 				{
 					$skins[] = array(
 						"name" => $file
@@ -250,7 +251,6 @@ class ILIAS extends PEAR
 		{
 			return false;
 		}
-		vd($skins);
 		$this->skins = $skins;
 		return true;
 	}
