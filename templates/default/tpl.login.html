@@ -2,28 +2,24 @@
 <div align="center">
 <br/>
 <img src="./images/ilias_logo_big.gif" border="0"/>
+<p>Version {ILIAS_RELEASE}</p>
+<br/><br/>
 <form method="post" action="{FORMACTION}" name="formlogin">
-<table border="0" cellpadding="2" cellspacing="0">
-	<tr>
-	<td colspan="2" align="right">Version {ILIAS_RELEASE}</td>
-	</tr>
-	<tr>
-	<td colspan="2">&nbsp;</td>
-	</tr>
-	<tr>
-	<td colspan="2" bgcolor="#eeeeee" align="center"><b>{TXT_ILIAS_LOGIN}</b></td>
-	</tr>
-	<tr>
-	<td>{TXT_USERNAME}</td>
-	<td><input type="text" name="username" value="{USERNAME}"/></td>
-	</tr>
-	<tr>
-	<td>{TXT_PASSWORD}</td>
-	<td><input type="password" name="password" value="{PASSWORD}"/></td>
-	</tr>
-	<tr>
-	<td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
-	</tr>
+<table class="std">
+  <tr class="tblheader">
+	<td class="std" colspan="2" align="center">{TXT_ILIAS_LOGIN}</td>
+  </tr>
+  <tr>
+	<td class="std" align="right">{TXT_USERNAME}</td>
+	<td class="std"><input type="text" name="username" value="{USERNAME}"/></td>
+  </tr>
+  <tr>
+	<td class="std" align="right">{TXT_PASSWORD}</td>
+	<td class="std"><input type="password" name="password" value="{PASSWORD}"/></td>
+  </tr>
+  <tr class="tblfooter">
+	<td class="std" colspan="2" align="center"><input class="submit" type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
+  </tr>
 </table>
 <p>{TXT_CHOOSE_LANGUAGE}<br/>
 <!-- BEGIN languages -->
@@ -33,7 +29,6 @@
 <br/>
 <p class="warning">{TXT_MSG_LOGIN_FAILED}</p>
 </div>
-
 <script language="JavaScript">
 <!--
 	document.formlogin.username.focus();
