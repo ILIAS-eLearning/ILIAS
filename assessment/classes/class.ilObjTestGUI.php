@@ -2470,7 +2470,14 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$qpls =& $this->object->getRandomQuestionpools();
 					$rndquestions = $this->object->randomSelectQuestions($this->object->getRandomQuestionCount(), 0, 1, $qpls);
+					$allquestions = array();
 					foreach ($rndquestions as $question_id)
+					{
+						array_push($allquestions, $question_id);
+					}
+					srand ((float)microtime()*1000000);
+					shuffle($allquestions);
+					foreach ($allquestions as $question_id)
 					{
 						$this->object->saveRandomQuestion($question_id);
 					}
@@ -2479,6 +2486,7 @@ class ilObjTestGUI extends ilObjectGUI
 				else
 				{
 					$qpls =& $this->object->getRandomQuestionpools();
+					$allquestions = array();
 					foreach ($qpls as $key => $value)
 					{
 						if ($value["count"] > 0)
@@ -2486,11 +2494,17 @@ class ilObjTestGUI extends ilObjectGUI
 							$rndquestions = $this->object->randomSelectQuestions($value["count"], $value["qpl"], 1);
 							foreach ($rndquestions as $question_id)
 							{
-								$this->object->saveRandomQuestion($question_id);
+								array_push($allquestions, $question_id);
 							}
-							$this->object->loadQuestions();
 						}
 					}
+					srand ((float)microtime()*1000000);
+					shuffle($allquestions);
+					foreach ($allquestions as $question_id)
+					{
+						$this->object->saveRandomQuestion($question_id);
+					}
+					$this->object->loadQuestions();
 				}
 			}
 			
