@@ -102,8 +102,11 @@ administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
 administration#:#view_log#:#View details###09 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#增加答案
+assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
+assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#增加匹配对
 assessment#:#answer#:#答案
+assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#答案文本
 assessment#:#apply#:#申请
 assessment#:#ass_questions#:#问题
@@ -116,6 +119,7 @@ assessment#:#duplicate#:#复制
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#导出
@@ -129,6 +133,7 @@ assessment#:#filter#:#过滤程序
 assessment#:#gap_selection#:#间隔选择
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#上次更新
+assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -136,8 +141,12 @@ assessment#:#matches#:# 匹配
 assessment#:#matching_pair#:# 匹配对
 assessment#:#material#:#Material###11 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
+assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#无可用问题！
+assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
+assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#分数
 assessment#:#possible_gap_text#:#可能的间隔文本
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
@@ -149,6 +158,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 ne
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#您没有删除此问题的权限！
 assessment#:#qpl_delete_select_none#:#请至少选择一个问题删除
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
 assessment#:#qpl_duplicate_select_none#:#请至少选择一个问题复制
 assessment#:#qpl_edit_rbac_error#:#您没有编辑此问题的权限！
 assessment#:#qpl_edit_select_multiple#:#请只选择一个问题进行编辑
@@ -161,6 +171,7 @@ assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
+assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#问题类型
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
@@ -174,6 +185,7 @@ assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new v
 assessment#:#select_gap#:#选择间隔
 assessment#:#set_filter#:#设置过滤程序
 assessment#:#solution_order#:#解答次序
+assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#文本间隔
 assessment#:#true#:#是
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
@@ -1573,6 +1585,7 @@ content#:#cont_content_obj#:#内容对象
 content#:#cont_coords#:#坐标
 content#:#cont_create_dir#:#创建目录
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
+content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_cross_reference#:#交叉参考
 content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
 content#:#cont_def_layout#:#缺省版面
@@ -1646,6 +1659,7 @@ content#:#cont_manifest#:#声明
 content#:#cont_map_areas#:#链接区域
 content#:#cont_mastery_score#:#adlcp技能分数
 content#:#cont_max_time_allowed#:#adlcp允许的最长时间
+content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#对象文件
 content#:#cont_mob_inst_prop#:#即时属性
 content#:#cont_mob_prop#:#对象属性
