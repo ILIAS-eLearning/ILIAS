@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.38 2003/08/06 15:47:11 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.39 2003/08/06 16:26:56 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -324,6 +324,9 @@ class ilObjRoleGUI extends ilObjectGUI
 				$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
 			}
 
+			// update object data entry (to update last modification date)
+			$this->object->update();
+
 			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
 			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
 			if ($_POST["recursive"])
@@ -436,6 +439,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
 										   $_GET["ref_id"],$_GET["obj_id"]);		
+
+			// update object data entry (to update last modification date)
+			$this->object->update();
+
 			// send info
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
@@ -519,6 +526,9 @@ class ilObjRoleGUI extends ilObjectGUI
 						$this->ilias->db->query($q);
 					}
 				}
+				
+				// update object data entry (to update last modification date)
+				$this->object->update();			
 			}
 		}
 

@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.18 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.19 2003/07/16 07:05:24 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -274,6 +274,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$_GET["ref_id"]);
 			}
 		}
+		
+		// update object data entry (to update last modification date)
+		$this->object->update();
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
@@ -304,6 +307,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
 										   $_GET["ref_id"],$_GET["obj_id"]);		
+			// update object data entry (to update last modification date)
+			$this->object->update();
+
 			// send info
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
