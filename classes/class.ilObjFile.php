@@ -82,6 +82,11 @@ class ilObjFile extends ilObject
 		move_uploaded_file($a_upload_file, $file);
 	}
 
+	function copy($a_source,$a_destination)
+	{
+		return copy($a_source,$this->getDirectory()."/".$a_destination);
+	}
+
 	function read()
 	{
 		parent::read();
