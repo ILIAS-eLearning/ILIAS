@@ -205,15 +205,19 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
 	$dirname = dirname($_SERVER["PHP_SELF"]);
-	$num_subdirs = substr_count(substr($dirname,strlen(substr(ILIAS_HTTP_PATH,strrpos(ILIAS_HTTP_PATH,"/"))) - strlen($dirname)),"/");
+	$subdir = strlen((substr(ILIAS_HTTP_PATH,strrpos(ILIAS_HTTP_PATH,"/"))) - strlen($dirname));
+	
+	if ($subdir > 0)
+	{
+		$num_subdirs = substr_count(substr($dirname,$subdir),"/");	
+	}
 
 	for ($i=1;$i<=$num_subdirs;$i++)
 	{
 		$updir .= "../";
 	}
-
-	header("Location: ".$updir."index.php?reload=true");
-	exit;
+	
+	ilUtil::redirect($updir."index.php?reload=true");
 }
 
 //init language
