@@ -1401,41 +1401,107 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$message = "";
 		$this->object->setInvitation($_POST["invitation"]);
 		$this->object->setInvitationMode($_POST["mode"]);
-		
-		if ($_POST["cmd"]["search"])
+		if ($_POST["cmd"]["disinvite"])
 		{
-			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
+			// disinvite users
+			if (is_array($_POST["invited_users"]))
 			{
-				$search =& new ilSearch($ilUser->id);
-				$search->setSearchString($_POST["search_term"]);
-				$search->setCombination($_POST["concatenation"]);
-				$search->setSearchFor($_POST["search_for"]);
-				$search->setSearchType("new");
-				if($search->validate($message))
+				foreach ($_POST["invited_users"] as $user_id)
 				{
-					$search->performSearch();
+					$this->object->disinviteUser($user_id);
 				}
-				if ($message)
+			}
+			// disinvite groups
+			if (is_array($_POST["invited_groups"]))
+			{
+				foreach ($_POST["invited_groups"] as $group_id)
 				{
-					sendInfo($message);
-				}
-				if(!$search->getNumberOfResults() && $search->getSearchFor())
-				{
-					sendInfo($this->lng->txt("search_no_match"));
-					return;
-				}
-				if ($search->getResultByType("usr"))
-				{
-					$this->showSearchResult($search, "usr");
-				}
-				if ($search->getResultByType("grp"))
-				{
-					$this->showSearchResult($search, "grp");
+					$this->object->disinviteGroup($group_id);
 				}
 			}
 		}
+		
+		if ($_POST["cmd"]["add"])
+		{
+			// add users to invitation
+			if (is_array($_POST["user_select"]))
+			{
+				foreach ($_POST["user_select"] as $user_id)
+				{
+					$this->object->inviteUser($user_id);
+				}
+			}
+			// add groups to invitation
+			if (is_array($_POST["group_select"]))
+			{
+				foreach ($_POST["group_select"] as $group_id)
+				{
+					$this->object->inviteGroup($group_id);
+				}
+			}
+		}
+		
+		if ($_POST["cmd"]["search"])
+		{
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
+				{
+					$search =& new ilSearch($ilUser->id);
+					$search->setSearchString($_POST["search_term"]);
+					$search->setCombination($_POST["concatenation"]);
+					$search->setSearchFor($_POST["search_for"]);
+					$search->setSearchType("new");
+					if($search->validate($message))
+					{
+						$search->performSearch();
+					}
+					if ($message)
+					{
+						sendInfo($message);
+					}
+					if(!$search->getNumberOfResults() && $search->getSearchFor())
+					{
+						sendInfo($this->lng->txt("search_no_match"));
+						return;
+					}
+					$buttons = array("add");
+					$invited_users = $this->object->getInvitedUsers();
+					if ($searchresult = $search->getResultByType("usr"))
+					{
+						$users = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!in_array($result_array["id"], $invited_users))
+							{
+								array_push($users, $result_array["id"]);
+							}
+						}
+						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
+					}
+					$searchresult = array();
+					$invited_groups = $this->object->getInvitedGroups();
+					if ($searchresult = $search->getResultByType("grp"))
+					{
+						$groups = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!in_array($result_array["id"], $invited_groups))
+							{
+								array_push($groups, $result_array["id"]);
+							}
+						}
+						$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
+					}
+				}
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_user_or_group_selected"));
+			}
+		}
 	}
-
+	
 	/**
 	* Creates the search output for the user/group search form
 	*
@@ -1443,18 +1509,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function showSearchResult(&$search, $a_type)
+	function outUserGroupTable($a_type, $id_array, $block_result, $block_row, $title_text, $buttons)
 	{
-		$searchresult = $search->getResultByType($a_type);
 		$rowclass = array("tblrow1", "tblrow2");
 		switch($a_type)
 		{
 			case "usr":
-				foreach ($searchresult as $user_array)
+				foreach ($id_array as $user_id)
 				{
 					$counter = 0;
-					$user = new ilObjUser($user_array["id"]);
-					$this->tpl->setCurrentBlock("user_row");
+					$user = new ilObjUser($user_id);
+					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $user->getId());
 					$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
@@ -1463,21 +1528,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("user_result");
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $this->lng->txt("search_user"));
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
-				$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
+				foreach ($buttons as $cat)
+				{
+					$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+				}
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "grp":
-				foreach ($searchresult as $group_array)
+				foreach ($id_array as $group_id)
 				{
 					$counter = 0;
-					$group = new ilObjGroup($group_array["id"]);
-					$this->tpl->setCurrentBlock("group_row");
+					$group = new ilObjGroup($group_id);
+					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $group->getRefId());
 					$this->tpl->setVariable("VALUE_TITLE", $group->getTitle());
@@ -1485,11 +1553,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("group_result");
-				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $this->lng->txt("search_group"));
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-				$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
+				foreach ($buttons as $cat)
+				{
+					$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+				}
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -1506,8 +1577,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function inviteObject()
 	{
 		global $rbacsystem;
+		if ($_POST["cmd"]["cancel"])
+		{
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
-		$this->writeInviteFormData();
+		if (count($_POST))
+		{
+			$this->writeInviteFormData();
+		}
+		if ($_POST["cmd"]["apply"])
+		{
+			$this->object->saveToDb();
+		}
+		if ($_POST["cmd"]["save"])
+		{
+			$this->object->saveToDb();
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
 		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
 		{
 			$this->tpl->setCurrentBlock("invitation");
@@ -1541,6 +1632,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
 			$this->tpl->parseCurrentBlock();
+		}
+		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+		{
+			$invited_users = $this->object->getInvitedUsers();
+			$invited_groups = $this->object->getInvitedGroups();
+			$buttons = array("disinvite");
+			if (count($invited_users))
+			{
+				$this->outUserGroupTable("usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("invited_users"), $buttons);
+			}
+			if (count($invited_groups))
+			{
+				$this->outUserGroupTable("grp", $invited_groups, "invited_group_result", "invited_group_row", $this->lng->txt("invited_groups"), $buttons);
+			}
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));

@@ -72,6 +72,33 @@
 <tr><td class="submit" colspan="3">{ARROW} <input type="submit" class="submit" name="cmd[add]" value="{VALUE_ADD}" /></td></tr>
 </table>
 <!-- END group_result -->
+<!-- BEGIN invited_user_result -->
+<h2>{TEXT_USER_TITLE}</h2>
+<table class="fullwidth">
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_LOGIN}</td><td class="std">{TEXT_FIRSTNAME}</td><td class="std">{TEXT_LASTNAME}</td></tr>
+<!-- BEGIN invited_user_row -->
+<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
+<td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
+<td class="{COLOR_CLASS}" width="15%">{VALUE_FIRSTNAME}</td>
+<td class="{COLOR_CLASS}" width="69%">{VALUE_LASTNAME}</td>
+</tr>
+<!-- END invited_user_row -->
+<tr><td class="submit" colspan="4">{ARROW} <input type="submit" class="submit" name="cmd[disinvite]" value="{VALUE_DISINVITE}" /></td></tr>
+</table>
+<!-- END invited_user_result -->
+<!-- BEGIN invited_group_result -->
+<h2>{TEXT_GROUP_TITLE}</h2>
+<table class="fullwidth">
+<tr class="tblheader"><td class="std"></td><td class="std">{TEXT_TITLE}</td><td class="std">{TEXT_DESCRIPTION}</td></tr>
+<!-- BEGIN invited_group_row -->
+<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="invited_groups[]" value="{COUNTER}" /></td>
+<td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
+<td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
+</tr>
+<!-- END invited_group_row -->
+<tr><td class="submit" colspan="3">{ARROW} <input type="submit" class="submit" name="cmd[disinvite]" value="{VALUE_DISINVITE}" /></td></tr>
+</table>
+<!-- END invited_group_result -->
 <!-- BEGIN hidden -->
 <input type="hidden" name="{NAME_HIDDEN}" value="{VALUE_HIDDEN}" />
 <!-- END hidden -->
