@@ -158,8 +158,11 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("ILIAS_VERSION",$ilias->getSetting("ilias_version"));
 			if (DEVMODE)
 			{
-				$this->setVariable("MEMORY_USAGE",
-					", Memory Usage: ".memory_get_usage()." Bytes");
+				if(function_exists(memory_get_usage))
+				{
+					$this->setVariable("MEMORY_USAGE",
+									   ", Memory Usage: ".memory_get_usage()." Bytes");
+				}
 			}
 		}
 
