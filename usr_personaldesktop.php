@@ -10,6 +10,8 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
+require_once "classes/class.Mail.php";
+require_once "classes/class.User.php";
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
@@ -44,11 +46,9 @@ $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 //$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
-//mails
-//$myMails = new UserMail($ilias->account->Id);
-//$mails = $myMails->getMail();
-//$myMails = new UserMail($ilias->account->getId());
-//$mails = $myMails->getMail();
+// SYSTEM MAILS
+$umail = new Mail($_SESSION["AccountId"]);
+$smails = $umail->getMailsOfFolder(0);
 
 //last visited lessons
 $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
@@ -67,37 +67,36 @@ $lastLogin = $ilias->account->getLastLogin();
 //********************************************
 
 //begin mailblock if there are new mails
-if ($mails["unread"]>0)
+if(count($smails))
 {
 	// output mails
-    unset($i);
-	foreach ($mails["msg"] as $row)
+	$counter = 1;
+	foreach ($smails as $mail)
 	{
-		$i++;
-	    $tpl->setCurrentBlock("tbl_mail_row");
-		$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-
-		//new mail or read mail?
-		if ($row["new"] == true)
-			$mailclass = "mailunread";
-		else
-			$mailclass = "mailread";
+		// GET INBOX FOLDER FOR LINK_READ
+		require_once "classes/class.Mailbox.php";
 		
-		$tpl->setVariable("MAILCLASS", $mailclass);
-		$tpl->setVariable("MAIL_ID", $row["id"]);
-		$tpl->setVariable("MAIL_FROM", $row["from"]);
-		$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-		$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"],"date"));
-		$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
-		$tpl->setVariable("MAIL_LINK_DEL", "");
-		$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-		$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+		$mbox = new Mailbox($_SESSION["AccountId"]);
+		$inbox = $mbox->getInboxFolder();
+
+	    $tpl->setCurrentBlock("tbl_mail_row");
+		$tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
+
+		// GET SENDER NAME
+		$user = new User($mail["sender_id"]);
+		
+		//new mail or read mail?
+		$tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
+		$tpl->setVariable("MAIL_FROM", $user->getFullname());
+		$tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
+		$tpl->setVariable("MAIL_DATE", Format::formatDate($mail["send_time"]));
+		$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
+		$tpl->setVariable("MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
 		$tpl->parseCurrentBlock();
 	}
     $tpl->setCurrentBlock("tbl_mail");
    	//headline
-	$tpl->setVariable("MAIL_COUNT", $mails["count"]);
-    $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
+	$tpl->setVariable("SYSTEM_MAILS",$lng->txt("mail_system"));
    	//columns headlines
     $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
    	$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
