@@ -59,8 +59,8 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
-    	$this->getTemplateFile("view");
+    	
+		$this->getTemplateFile("view");
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
@@ -166,12 +166,12 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		}
 
 		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("NUM_COLS", $num);
+		$this->tpl->setVariable("COLUMN_COUNTS", $num);
 		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", $num);
 		$this->showPossibleSubObjects();
+		
 	}
 } // END class.ObjectFolderObjectOut
 ?>

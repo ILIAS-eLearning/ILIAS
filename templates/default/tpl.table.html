@@ -1,13 +1,16 @@
+<!-- BEGIN tbl_form_header -->
+<form action="{FORMACTION}" name="ObjectItems" method="post">
+<!-- END tbl_form_header -->
 <table class="fullwidth">
 <!-- BEGIN tbl_header_title -->
   <tr class="tbltitle">
-    <td colspan="{CELL_COUNT}">
+    <td colspan="{COLUMN_COUNT}">
 	<table class="fullwidth_invisible">
 	  <tr class="tbltitle">
 <!-- BEGIN tbl_header_title_icon -->
 	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
 <!-- END tbl_header_title_icon -->
-		<td class="tbltitle" align="left">{TBL_TITLE}</td>
+		<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
 <!-- BEGIN tbl_header_title_help -->
 		<td align="right"><a href="#" onclick="return popup_window('{TBL_HELP_LINK}',60,90,20,80);"><img src="{TBL_HELP_IMG}" alt="{TBL_HELP_IMG_ALT}" title="{TBL_HELP_IMG_ALT}" border="0" align="right" /></a></td>
 <!-- END tbl_header_title_help -->
@@ -35,9 +38,33 @@
   </tr>
 <!-- END tbl_content_row -->
 {TBL_CONTENT}
+<!-- BEGIN tbl_action_row -->
+  <tr>
+	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	  <tr>
+		<td align="left" width="10">
+		  <img src="{TPLPATH}/images/arrow_downright.gif" border="0" />
+		</td>
+		<td align="left">&nbsp;
+<!-- BEGIN tbl_action_btn -->
+		  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+<!-- END tbl_action_btn -->
+		</td>
+<!-- BEGIN add_object -->
+	<td align="right" valign="top">
+		{SELECT_OBJTYPE}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
+	</td>
+<!-- END add_object -->
+	  </tr>
+	</table>
+    </td>
+  </tr>
+<!-- END tbl_action_row -->
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
-    <td colspan="{CELL_COUNT}">
+    <td colspan="{COLUMN_COUNT}">
 	<table class="fullwidth_invisible">
 	  <tr class="tblfooter">
 	    <td>
@@ -54,3 +81,6 @@
   </tr>
 <!-- END tbl_footer -->
 </table>
+<!-- BEGIN tbl_form_footer -->
+</form>
+<!-- END tbl_form_footer -->
