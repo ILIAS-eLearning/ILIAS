@@ -770,6 +770,8 @@ common#:#group_create_chat#:#Criar Chat
 common#:#group_desc#:#Descrição do Grupo
 common#:#group_details#:#Detalhes do Grupo
 common#:#group_filesharing#:#Partilha de ficheiros de grupo
+common#:#group_import#:#Group import###20 Apr 2004 new variable
+common#:#group_import_file#:#Import file###20 Apr 2004 new variable
 common#:#group_members#:#Membros do Grupo
 common#:#group_memstat#:#Estado do Membro
 common#:#group_memstat_admin#:#Administrador
@@ -1636,6 +1638,8 @@ content#:#cont_added_term#:#Termo adicionado
 content#:#cont_all_definitions#:#Todas as Definições
 content#:#cont_all_pages#:#Todas as Páginas
 content#:#cont_alphabetic#:#Alfabético a, b, ...
+content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
+content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Áreas apagadas do Mapa.
 content#:#cont_assign_full#:#Atribuir Ecrã Inteiro
 content#:#cont_assign_std#:#Atribuir Padrão
@@ -1770,6 +1774,7 @@ content#:#cont_new_file#:#Novo Ficheiro
 content#:#cont_new_media_obj#:#Novo Objecto Média
 content#:#cont_new_term#:#Novo Termo
 content#:#cont_no_assign_itself#:#O objecto não pode ser atribuído a si mesmo
+content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
 content#:#cont_no_object_found#:#Não pôde encontrar nenhum objecto com este título
 content#:#cont_no_page#:#Nenhuma Página encontrada.
 content#:#cont_none#:#Nenhum
@@ -1855,6 +1860,7 @@ content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
 content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
+content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
 content#:#cont_version#:#versão
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Foram publicados
@@ -2119,6 +2125,7 @@ forum#:#forums_posts_not_available#:#Artigos Não Disponíveis
 forum#:#forums_print_thread#:#Imprimir Thread
 forum#:#forums_quote#:#Cotar
 forum#:#forums_respond#:#Mandar Resposta
+forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#Artigo
 forum#:#forums_thread#:#Tópico
 forum#:#forums_thread_articles#:#Artigos para o tópico
