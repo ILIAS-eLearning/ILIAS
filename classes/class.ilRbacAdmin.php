@@ -95,6 +95,7 @@ class ilRbacAdmin
 		}
 
 		// TODO: check assigned users before deletion
+		// This is done in ilObjRole. Should be better moved to this place?
 		
 		// delete user assignements
 		$q = "DELETE FROM rbac_ua ".
@@ -106,8 +107,7 @@ class ilRbacAdmin
 			 "WHERE rol_id = '".$a_rol_id."'";
 		$this->ilias->db->query($q);
 		
-		//TODO: delete rbac_templates and rbac_fa
-
+		//delete rbac_templates and rbac_fa
 		$this->deleteLocalRole($a_rol_id,$a_ref_id);
 		
 		return true;

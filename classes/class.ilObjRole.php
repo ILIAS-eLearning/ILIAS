@@ -56,6 +56,8 @@ class ilObjRole extends ilObject
 	{
 		global $tree, $rbacadmin, $rbacreview;
 		
+		// TODO: unassign users from deleted role
+
 		// check if role is a linked local role or not
 		if ($rbacreview->isAssignable($this->getId(),$_GET["ref_id"]))
 		{
@@ -81,9 +83,17 @@ class ilObjRole extends ilObject
 			// users with last role found?
 			if (count($last_role_user_ids) > 0)
 			{
-				//$_SESSION["message"] = "There are users assigned to the role and its their last role!";
-				//header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
-				$this->ilias->raiseError("There are users assigned to the role and its their last role!",$this->ilias->error_obj->MESSAGE);
+				foreach($last_role_user_ids as $user_id)
+				{
+					// GET OBJECT TITLE
+					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
+					$user_names[] = $tmp_obj->getFullname();
+					unset($tmp_obj);
+				}
+
+				$users = implode(', ',$user_names);
+				$this->ilias->raiseError($this->lng->txt("msg_user_last_role1")." ".
+									 $users."<br/>".$this->lng->txt("msg_user_last_role2"),$this->ilias->error_obj->WARNING);				
 			}
 			else
 			{
