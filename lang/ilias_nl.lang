@@ -151,11 +151,13 @@ assessment#:#set_filter#:#Instellen filter
 assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#true#:#Waar
+assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
 assessment#:#tst_general_properties#:#Algemene eigenschappen
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introductie
+assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Creëer een nieuwe markerings-stap
 assessment#:#tst_mark_create_simple_mark_schema#:#Creëer een eenvoudig markerings-schema
 assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %)
@@ -190,6 +192,10 @@ assessment#:#tst_session_settings#:#Instellingen sessies
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
+assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
+assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
+assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
+assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
