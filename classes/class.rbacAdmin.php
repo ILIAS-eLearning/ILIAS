@@ -708,6 +708,27 @@ class RbacAdmin
 	}
 
 	/**
+	* get all objects in which the inheritance was stoped
+	* @param int role_id
+	* @access	public
+	* @return	array
+	*/
+	function getObjectsWithStopedInheritance($a_rol_id)
+	{
+		$parent_obj = array();
+		
+		$query = "SELECT DISTINCT parent_obj FROM rbac_fa ".
+			"WHERE rol_id = '".$a_rol_id."'";
+		$res = $this->ilias->db->query($query);
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$parent_obj[] = $row->parent_obj;
+		}
+
+		return $parent_obj;
+	}
+	/**
 	* returns the data of a role folder assigned to an object
 	* @access	public
 	* @param	integer		parent id
@@ -715,21 +736,23 @@ class RbacAdmin
 	*/
 	function getRoleFolderOfObject($a_parent)
 	{
-		$rol_data = array();
+		$rolf_data = array();
 
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-				 "WHERE parent = '".$a_parent."' ".
-				 "AND type = 'rolf'";
+		// parent obj_id is enough for information since linked objects(they have duplicate object_ids) are not
+		// allowed to contain role folders
+		$query = "SELECT * from tree ,object_data ".
+			"WHERE tree.parent = '".$a_parent."' ".
+			"AND tree.child = object_data.obj_id ".
+			"AND object_data.type = 'rolf' ".
+			"AND tree.tree = '1'";
+			
 		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$rol_data["child"] = $row->obj_id;
-			$rol_data["parent"] = $row->parent;
+			$rolf_data["child"] = $row->child;
+			$rolf_data["parent"] = $row->parent;
 		}
-
-		return $rol_data;
+		return $rolf_data;
 	}
 
 	/**
