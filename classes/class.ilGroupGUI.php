@@ -125,6 +125,9 @@ class ilGroupGUI extends ilObjectGUI
 		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("permSave","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("addrole","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
+
 
 		$cmd = $_GET["cmd"];
 		//var_dump ($cmd);
@@ -223,6 +226,95 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&user_id=".$this->ilias->account->getId());		
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
+	}
+
+	/**
+	* adds a local role
+	* This method is only called when choose the option 'you may add local roles'. This option
+	* is displayed in the permission settings dialogue for an object
+	* TODO: this will be changed
+	* @access	public
+	*/
+	function addRole()
+	{
+		global $rbacadmin, $rbacreview, $rbacsystem;
+
+		// first check if role title is unique
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// if the current object is no role folder, create one
+		if ($this->object->getType() != "rolf")
+		{
+			$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
+
+			// is there already a rolefolder?
+			if (!($rolf_id = $rolf_data["child"]))
+			{
+				// can the current object contain a rolefolder?
+				$subobjects = $this->objDefinition->getSubObjects($this->object->getType());
+
+				if (!isset($subobjects["rolf"]))
+				{
+					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
+											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
+				}
+
+				// CHECK ACCESS 'create' rolefolder
+				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
+				{
+					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
+				}
+
+				// create a rolefolder
+				$rolfObj = $this->object->createRoleFolder();
+				$rolf_id = $rolfObj->getRefId();
+
+// TODO: this is done by object->createRoleFolder
+				// Suche aller Parent Rollen im Baum
+				/*
+				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+
+				foreach ($parentRoles as $parRol)
+				{
+					// Es werden die im Baum am 'n�hsten liegenden' Templates ausgelesen
+					$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
+
+					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
+				}*/
+			}
+		}
+		else
+		{
+			// Current object is already a rolefolder. To create the role we take its reference id
+			$rolf_id = $this->object->getRefId();
+		}
+
+		// CHECK ACCESS 'write' of role folder
+		if (!$rbacsystem->checkAccess('write',$rolf_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		else	// create role
+		{
+			if ($this->object->getType() == "rolf")
+			{
+				$this->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+			}
+			else
+			{
+				$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
+				$rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+			}
+		}
+
+		sendInfo($this->lng->txt("role_added"),true);
+
+		header("Location: ".$this->getReturnLocation("addRole","group.php?ref_id=".$_GET["ref_id"]."&cmd=permObject"));
+		exit();
 	}
 
 	function applyForMembershipObject()
@@ -687,6 +779,95 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
+	function permSave()
+	{
+		global $rbacsystem, $rbacreview, $rbacadmin;
+
+		// first save the new permission settings for all roles
+		$rbacadmin->revokePermission($this->ref_id);
+
+		foreach ($_POST["perm"] as $key => $new_role_perms)
+		{
+			// $key enthaelt die aktuelle Role_Id
+			$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
+		}
+
+		// update object data entry (to update last modification date)
+		$this->object->update();
+
+		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
+		// muss folgendes geschehen:
+		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
+		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
+		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
+		//   und das Permission Template an den Wert des n�hst hher gelegenen Permission Templates angepasst
+
+		// get rolefolder data if a rolefolder already exists
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
+		$rolf_id = $rolf_data["child"];
+
+		if ($_POST["stop_inherit"])
+		{
+			// rolefolder doesn't exists, so create one
+			if (empty($rolf_id))
+			{
+				// CHECK ACCESS 'create' rolefolder
+				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
+				{
+					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
+				}
+
+				// create a local role folder
+				$rfoldObj = $this->object->createRoleFolder();
+
+				// set rolf_id again from new rolefolder object
+				$rolf_id = $rfoldObj->getRefId();
+			}
+
+			// CHECK ACCESS 'write' of role folder
+			if (!$rbacsystem->checkAccess('write',$rolf_id))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+			}
+
+			foreach ($_POST["stop_inherit"] as $stop_inherit)
+			{
+				$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_id);
+
+				// create role entries for roles with stopped inheritance
+				if (!in_array($stop_inherit,$roles_of_folder))
+				{
+					$parentRoles = $rbacreview->getParentRoleIds($rolf_id);
+					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+												   $rolf_id,$stop_inherit);
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
+				}
+			}// END FOREACH
+		}// END STOP INHERIT
+		elseif 	(!empty($rolf_id))
+		{
+			// TODO: this feature doesn't work at the moment
+			// ok. if the rolefolder is not empty, delete the local roles
+			//if (!empty($roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"])));
+			//{
+				//foreach ($roles_of_folder as $obj_id)
+				//{
+					//$rolfObj =& $this->ilias->obj_factory->getInstanceByRefId($rolf_data["child"]);
+					//$rolfObj->delete();
+					//unset($rolfObj);
+				//}
+			//}
+		}
+
+		sendinfo($this->lng->txt("saved_successfully"),true);
+
+		header("Location: ".$this->getReturnLocation("permSave","group.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
+		exit();
+
+	}
+
+
+
 	/**
 	* create new object form
 	*
@@ -697,7 +878,7 @@ class ilGroupGUI extends ilObjectGUI
 		//TODO: check the
 		// creates a child object
 		global $rbacsystem;
-		
+
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		$this->prepareOutput();
@@ -911,7 +1092,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 	
 	
-	
+
 	/*
 	* function returns specific link-url depending on object-type
 	*
@@ -1310,7 +1491,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "group.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
@@ -1321,7 +1502,7 @@ class ilGroupGUI extends ilObjectGUI
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-		$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+		$this->getFormAction("permSave","group.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -1411,9 +1592,11 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["active"] = $active;
 		}
-		$tab[$_GET["active"]]["ftabtype"] = "tabactive";
-
-
+		if (! empty ($_GET["active"]))
+		{
+			$tab[$_GET["active"]]["ftabtype"] = "tabactive";
+		}
+		
 		$this->setAdminTabs($tabs, $tab);
 		$this->setLocator();
 
