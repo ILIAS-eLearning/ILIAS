@@ -903,6 +903,7 @@ common#:#rolt_added#:#Role template added###02 Apr 2003 new variable
 common#:#rolt_edit#:#Edit Role Template###30 Oct 2003 new variable
 common#:#rolt_new#:#New Role Template###30 Oct 2003 new variable
 common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
+common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
 common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
 common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
@@ -1108,6 +1109,10 @@ content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
 content#:#cont_citation_err_one#:#You have to select exactly one edition###09 Oct 2003 new variable
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09 Oct 2003 new variable
 content#:#cont_citations#:#Citations###09 Oct 2003 new variable
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable

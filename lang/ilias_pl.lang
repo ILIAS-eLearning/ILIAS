@@ -903,10 +903,11 @@ common#:#rolt_added#:#Szablon roli został dodany
 common#:#rolt_edit#:#Edytuj szablon roli
 common#:#rolt_new#:#Nowy szablon roli
 common#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
+common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
 common#:#root_edit_permission#:#Zmień ustawienia uprawnień
 common#:#root_read#:#Prawo czytania systemu ILIAS
 common#:#root_visible#:#System ILIAS jest widoczny
-common#:#root_write#:#Edycja danych korzenia systemu ILIAS
+common#:#root_write#:#Edycja danych korzenia systemu ILIAS###29 Jan 2004 content changed
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
@@ -1108,6 +1109,10 @@ content#:#cont_choose_glossary#:#Wybierz słownik
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
 content#:#cont_coords#:#Koordynaty
