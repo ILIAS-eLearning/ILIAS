@@ -1075,6 +1075,19 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"]) 
 		{
+			$eval_statistical_settings = array(
+				"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
+				"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
+				"timeofwork" => $_POST["chb_result_timeofwork"],
+				"atimeofwork" => $_POST["chb_result_atimeofwork"],
+				"firstvisit" => $_POST["chb_result_firstvisit"],
+				"lastvisit" => $_POST["chb_result_lastvisit"],
+				"resultspoints" => $_POST["chb_result_resultspoints"],
+				"resultsmarks" => $_POST["chb_result_resultsmarks"],
+				"distancemean" => $_POST["chb_result_distancemean"],
+				"distancequintile" => $_POST["chb_result_distancequintile"]
+			);
+			$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
 			// bild title columns
 			$this->tpl->setCurrentBlock("titlecol");
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
@@ -1156,37 +1169,50 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($_POST["chb_result_pworkedthrough"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0));
+					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %");
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_timeofwork"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["timeofwork"] . " s");
+					$time = $stat_eval["timeofwork"];
+					$time_seconds = $time;
+					$time_hours    = floor($time_seconds/3600);
+					$time_seconds -= $time_hours   * 3600;
+					$time_minutes  = floor($time_seconds/60);
+					$time_seconds -= $time_minutes * 60;
+					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_atimeofwork"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f s", $stat_eval["atimeofwork"]));
+					$time = $stat_eval["atimeofwork"];
+					$time_seconds = $time;
+					$time_hours    = floor($time_seconds/3600);
+					$time_seconds -= $time_hours   * 3600;
+					$time_minutes  = floor($time_seconds/60);
+					$time_seconds -= $time_minutes * 60;
+					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_firstvisit"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", sprintf("%04d-%02d-%02d %02d:%02d:%02d", $stat_eval["firstvisit"]["year"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"]));
+					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_lastvisit"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", sprintf("%04d-%02d-%02d %02d:%02d:%02d", $stat_eval["lastvisit"]["year"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"]));
+					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_resultspoints"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultspoints"]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultspoints"] . " " . 
+						strtolower($this->lng->txt("of")) . " " . $stat_eval["maxpoints"]);
 					$this->tpl->parseCurrentBlock();
 				}
 				if ($_POST["chb_result_resultsmarks"]) {
@@ -1241,16 +1267,24 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_DISTANCEMEAN", $this->lng->txt("tst_stat_result_distancemean"));
 			$this->tpl->setVariable("TXT_DISTANCEQUINTILE", $this->lng->txt("tst_stat_result_distancequintile"));
 			$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
-			$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_TIMEOFWORK", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_ATIMEOFWORK", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_FIRSTVISIT", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_LASTVISIT", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_RESULTSMARKS", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_DISTANCEMEAN", " checked=\"checked\"");
-			$this->tpl->setVariable("CHECKED_DISTANCEQUINTILE", " checked=\"checked\"");
+			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+			foreach ($user_settings as $key => $value) {
+				if ($value == 1) {
+					$user_settings[$key] = " checked=\"checked\"";
+				} else {
+					$user_settings[$key] = "";
+				}
+			}
+			$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", $user_settings["qworkedthrough"]);
+			$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", $user_settings["pworkedthrough"]);
+			$this->tpl->setVariable("CHECKED_TIMEOFWORK", $user_settings["timeofwork"]);
+			$this->tpl->setVariable("CHECKED_ATIMEOFWORK", $user_settings["atimeofwork"]);
+			$this->tpl->setVariable("CHECKED_FIRSTVISIT", $user_settings["firstvisit"]);
+			$this->tpl->setVariable("CHECKED_LASTVISIT", $user_settings["lastvisit"]);
+			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
+			$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
+			$this->tpl->setVariable("CHECKED_DISTANCEMEAN", $user_settings["distancemean"]);
+			$this->tpl->setVariable("CHECKED_DISTANCEQUINTILE", $user_settings["distancequintile"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
