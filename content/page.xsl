@@ -1453,11 +1453,10 @@
 				<xsl:for-each select="render_choice/response_label">
 					<tr>
 						<td class="nobackground" width="30">
-							<input type="text" value="" size="2">
+							<input type="text" size="2">
 							<xsl:attribute name="name">order_<xsl:value-of select="@ident"/></xsl:attribute>
-							<xsl:attribute name="id">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
+							<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="dummy">ord<xsl:value-of select="@ident"/></xsl:attribute>
 							</input>
 						</td>
 						<td class="nobackground" width="left">
@@ -1519,25 +1518,26 @@
 <!-- t&a: response_str -->
 <xsl:template match="response_str">
 	<xsl:choose>
-		<!-- multiple choice single response -->
+
+		<!-- text gap -->
 		<xsl:when test = "./render_fib">
-			<input type="text" value="" size="20">
-				<xsl:attribute name="name">
-				<xsl:value-of select="../@ident"/>
-				</xsl:attribute>
+			<input type="text" size="20">
+				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+				<xsl:attribute name="dummy">t<xsl:value-of select="@ident"/></xsl:attribute>
 			</input>
 		</xsl:when>
+
+		<!-- select gap ? -->
 		<xsl:otherwise>
 			<select>
-				<xsl:attribute name="name">
-				<xsl:value-of select="@ident"/>
-				</xsl:attribute>
+				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+				<xsl:variable name="crespstr"><xsl:value-of select="@ident"/></xsl:variable>
+
 				<option value="-1" selected="selected">-- please select --</option>
 				<xsl:for-each select="render_choice/response_label">
 					<option>
-					<xsl:attribute name="value">
-					<xsl:value-of select="@ident"/>
-					</xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+					<xsl:attribute name="dummy">s<xsl:value-of select="$crespstr"/>_<xsl:value-of select="@ident"/></xsl:attribute>
 					<xsl:apply-templates/>
 					</option>
 				</xsl:for-each>
@@ -1549,6 +1549,8 @@
 <!-- t&a: response_grp -->
 <xsl:template match="response_grp">
 	<table class="nobackground">
+
+	<!-- matching -->
 	<xsl:for-each select="render_choice/response_label">
 		<xsl:if test='@match_max'>
 			<tr>
@@ -1557,9 +1559,10 @@
 			<td class="nobackground">
 			<select>
 				<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
-				<xsl:variable name="mgrp">
-					<xsl:value-of select="@match_group"/>
-				</xsl:variable>
+
+				<xsl:variable name="mgrp"><xsl:value-of select="@match_group"/></xsl:variable>
+				<xsl:variable name="clabel"><xsl:value-of select="@ident"/></xsl:variable>
+
 				<option value="-1" selected="selected">-- please select --</option>
 				<xsl:for-each select="../response_label">
 					<xsl:if test="contains($mgrp, concat(',',@ident,',')) or
@@ -1567,9 +1570,8 @@
 						$mgrp = @ident or
 						substring($mgrp, string-length($mgrp) - string-length(@ident)) = concat(',',@ident)">
 						<option>
-						<xsl:attribute name="value">
-						<xsl:value-of select="@ident"/>
-						</xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+						<xsl:attribute name="dummy">match<xsl:value-of select="$clabel"/>_<xsl:value-of select="@ident"/></xsl:attribute>
 						<xsl:apply-templates/>
 						</option>
 					</xsl:if>

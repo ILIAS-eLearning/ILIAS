@@ -445,16 +445,17 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
 
 		// set solutions
-		/*
+
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+				$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
+//echo "<br>".$repl_str;
+				$output = str_replace($repl_str, $repl_str." selected=\"1\"", $output);
 			}
-		}*/
+		}
 
 		$this->tpl->setVariable("MATCHING_QUESTION", $output);
 

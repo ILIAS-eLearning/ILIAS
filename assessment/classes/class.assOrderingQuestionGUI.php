@@ -428,16 +428,16 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$output = $this->outQuestionPage("ORDERING_QUESTION", $is_postponed);
 
 		// set solutions
-		/*
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+				$repl_str = "dummy=\"ord".$solution_value->value1."\"";
+//echo "<br>".$repl_str;
+				$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
 			}
-		}*/
+		}
 
 		$this->tpl->setVariable("ORDERING_QUESTION", $output);
 
