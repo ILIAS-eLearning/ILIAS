@@ -4,34 +4,60 @@
 <!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
 <!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
 <!-- $Id$ -->
+
+<!--
+	Things still missing in ILIAS 3 (search for TO_IMPLEMENT in this document)
+	- Test (assessment is supposed to get a dtd of its own, but we'll need
+	- a reference concept for this)
+	- Internal Link Type Bibliography (is this needed?)
+	- Structure Aliases
+	- Formula
+	- Markup
+	- Anchor
+-->
+
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
+
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup">
+<!-- TO_IMPLEMENT <!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup">
 <!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup">
 <!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
 <!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
 <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
 <!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
 <!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
-<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula"> -->
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Annotation | ExtLink | IntLink">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Annotation | ExtLink | IntLink">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
+
 <!-- ContentObject -->
 <!-- Object of highest complexity; ContentObject is a container for all content, meta data and layout information; it is comparable to an entire book-->
 <!-- ContentObjects are comparable to LOM LearningObjects of aggregation level 3 -->
-<!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)>
+<!-- TO_IMPLEMENT <!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)> -->
+<!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Glossary?, Bibliography?, Layout?)>
 <!ATTLIST ContentObject
 	Type (LearningModule | LibObject) #REQUIRED
 >
+
 <!-- StructureObject -->
 <!-- Object for structuring the learning material of a LearningModule and comparable to a chapter of a book; a StructureObject contains other StructureObjects (=chapters) and PageObjects (=pages) or a StructureAlias-->
 <!-- StructureObjects are comparable to LOM LearningObjects of aggregation level 3 -->
-<!ELEMENT StructureObject (((MetaData, (StructureObject | PageObject)+) | StructureAlias), Layout?)>
+<!-- TO_IMPLEMENT <!ELEMENT StructureObject (((MetaData, (StructureObject | PageObject)+) | StructureAlias), Layout?)> -->
+<!ELEMENT StructureObject ((MetaData, (StructureObject | PageObject)+), Layout?)>
 <!-- StructureAlias -->
 <!-- Alias for an already existing StructureObject; this allows an easy reuse of existing StructureObjects; an alias is not a copy but only a reference to the original object-->
-<!ELEMENT StructureAlias EMPTY>
+<!-- TO_IMPLEMENT <!ELEMENT StructureAlias EMPTY>
 <!ATTLIST StructureAlias
 	OriginId CDATA #REQUIRED
->
+> -->
+
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
@@ -62,17 +88,20 @@
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
 <!ELEMENT MediaObject ((MetaData, MediaItem+) | (MediaAlias, MediaAliasItem+))>
+
 <!-- MediaAlias -->
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
 	OriginId CDATA #REQUIRED
 >
+
 <!-- MediaAliasItem -->
 <!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*)>
 <!ATTLIST MediaAliasItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
+
 <!-- MediaItem -->
 <!-- Location and Format as defined in Technical Section of Meta Data -->
 <!--  Max. one Standard and one Fullscreen Item per MediaObject -->
@@ -80,6 +109,7 @@
 <!ATTLIST MediaItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
+
 <!-- MapAreas should be only defined for image objects with purpose
 	Standard or Fullscreen -->
 <!ELEMENT MapArea (ExtLink | IntLink)>
@@ -259,6 +289,7 @@
 	Language (%langcode;) #REQUIRED
 	Id ID #IMPLIED
 >
+
 <!-- Paragraph -->
 <!-- All textual content of a PageObject has to be divided in single paragraphs -->
 <!ELEMENT Paragraph (%text;)*>
@@ -275,6 +306,7 @@
 <!ATTLIST Comment
 	Language (%langcode;) #REQUIRED
 >
+
 <!-- Emph -->
 <!ELEMENT Emph (%emphtext;)*>
 <!ATTLIST Emph
@@ -292,23 +324,27 @@
 <!ATTLIST Strong
 	Reason (Keyword | Intuition | MetaLanguageUse) #IMPLIED
 >
+
 <!-- Quotation -->
 <!ELEMENT Quotation (%text;)*>
 <!ATTLIST Quotation
 	Language (%langcode;) #REQUIRED
 	Reference IDREF #IMPLIED
 >
+
 <!-- Code -->
 <!ELEMENT Code (#PCDATA | br)*>
 <!ATTLIST Code
 	Id ID #IMPLIED
 	ProgrammingLanguage CDATA #IMPLIED
 >
+
 <!-- Formula -->
-<!ELEMENT Formula (#PCDATA | br)*>
+<!-- TO_IMPLEMENT <!ELEMENT Formula (#PCDATA | br)*>
 <!ATTLIST Formula
 	Id ID #IMPLIED
->
+> -->
+
 <!-- List -->
 <!ELEMENT List (Title?, ListItem+)>
 <!ATTLIST List
@@ -355,6 +391,7 @@
 	Href CDATA #REQUIRED
 	Title CDATA #IMPLIED
 >
+
 <!-- IntLink -->
 <!-- An element to link to _internal_ resources via XML ID/IDREF -->
 <!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
@@ -362,20 +399,27 @@
 <!-- In case of Anchor the concerning attribute Id of the Anchor should be used! -->
 <!-- note: replaced IDREF by CDATA, IDERF does not work with links to resources outside this document -->
 <!ELEMENT IntLink (%linktext;)*>
-<!ATTLIST IntLink
+<!-- TO_IMPLEMENT <!ATTLIST IntLink
 	Target CDATA #REQUIRED
 	Type (StructureObject | PageObject | MediaObject | Test | TestItem | Glossary | GlossaryItem | Bibliography | Anchor) #REQUIRED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+> -->
+<!ATTLIST IntLink
+	Target CDATA #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | GlossaryItem) #REQUIRED
+	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 >
+
 <!-- Anchor -->
 <!-- Allows to jump to a specified target point within a page; the use of anchors in ILIAS is equal to its use in HTML-->
-<!ELEMENT Anchor (%linktext;)*>
+<!-- TO_IMPLEMENT <!ELEMENT Anchor (%linktext;)*>
 <!ATTLIST Anchor
 	Id ID #REQUIRED
->
+> -->
+
 <!-- Markup -->
 <!-- Markup element can be used for not supported items; the processing of this element can be adjusted in the XSLT stylesheet -->
-<!ELEMENT Markup (%text;)*>
+<!-- TO_IMPLEMENT <!ELEMENT Markup (%text;)*>
 <!ATTLIST Markup
 	Type CDATA #REQUIRED
 	Attribute1 CDATA #IMPLIED
@@ -383,10 +427,11 @@
 	Attribute3 CDATA #IMPLIED
 	Attribute4 CDATA #IMPLIED
 	Attribute5 CDATA #IMPLIED
->
+> -->
+
 <!-- Test -->
 <!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
-<!ELEMENT Test (MetaData, TestItem+)>
+<!-- TO_IMPLEMENT <!ELEMENT Test (MetaData, TestItem+)>
 <!ELEMENT TestItem (MetaData, Introduction*, Question, Answer+, Hint*)>
 <!ELEMENT Introduction (Paragraph | MediaObject)+>
 <!ELEMENT Question (Paragraph | MediaObject)+>
@@ -394,7 +439,7 @@
 <!ATTLIST Answer
 	Solution (Right | Wrong) #IMPLIED
 >
-<!ELEMENT Hint (Paragraph | MediaObject)+>
+<!ELEMENT Hint (Paragraph | MediaObject)+> -->
 
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
@@ -418,6 +463,7 @@
 	Width CDATA #IMPLIED
 	Height CDATA #IMPLIED
 >
+
 <!-- Parameter -->
 <!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
 <!ELEMENT Parameter EMPTY>
