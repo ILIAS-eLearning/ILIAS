@@ -1,6 +1,6 @@
 <?php
 /**
-* class RbacAdminH
+* class ilRbacAdminH
 * extensions for hierachical Rbac (maybe later)
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
@@ -9,13 +9,13 @@
 * @extends RbacAdmin
 * @package rbac
 */
-class RbacAdminH extends RbacAdmin
+class ilRbacAdminH extends RbacAdmin
 {
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function RbacAdminH()
+	function ilRbacAdminH()
 	{
 		$this->RbacAdmin();
 	}
