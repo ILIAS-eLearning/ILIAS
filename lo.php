@@ -1,16 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
-<head>
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-</head>
+<?php
+/**
+ * startpage for ilias
+ * this file decides if a frameset is used or not
+ * 
+ * @author Peter Gabriel <pgabriel@databay.de>
+ * @package ilias-core
+ * @version $Id$
+*/
+require_once "./include/ilias_header.inc";
 
-<frameset cols="175,*">
-<frame src="lo_menu.php?expand=1" name="tree" marginwidth="0" marginheight="0" scrolling="auto">
-<frame src="lo_content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto">
-<noframes>
-The administration interface requires a <b>frames-capable</b> web browser.
-</noframes>
-</frameset>
+//look if there is a file tpl.start.html
+$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.lo.html"; 
 
-</html>
+if (file_exists($startfilename))
+{
+	$tpl = new Template("tpl.lo.html", false, false);
+	$tpl->show();
+}
+else
+{
+	header("location: lo_content.php");
+}
+
+?>

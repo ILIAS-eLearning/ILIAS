@@ -253,12 +253,21 @@ class Template extends IntegratedTemplateExtension {
 	}
 	
 	/**
-	* check if there is a topic in global block
+	* check if there is a NAVIGATION-topic
 	* @access public
 	*/
 	function includeNavigation()
 	{
 		return $this->checkTopic("__global__", "NAVIGATION");
+	}
+	
+	/**
+	* check if there is a TREE-topic
+	* @access public
+	*/
+	function includeTree()
+	{
+		return $this->checkTopic("__global__", "TREE");
 	}
 }
 
