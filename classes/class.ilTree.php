@@ -826,9 +826,18 @@ class ilTree
 		
 		if ($translation_type == "sys")
 		{
-			$data["title"] = $lng->txt("obj_".$data["type"]);
-			$data["description"] = $lng->txt("obj_".$data["type"]."_desc");
-			$data["desc"] = $lng->txt("obj_".$data["type"]."_desc");
+			if ($data["type"] == "rolf" and $data["obj_id"] != ROLE_FOLDER_ID)
+			{
+				$data["title"] = $lng->txt("obj_".$data["type"]."_local");
+				$data["description"] = $lng->txt("obj_".$data["type"]."_local_desc");
+				$data["desc"] = $lng->txt("obj_".$data["type"]."_local_desc");			
+			}
+			else
+			{			
+				$data["title"] = $lng->txt("obj_".$data["type"]);
+				$data["description"] = $lng->txt("obj_".$data["type"]."_desc");
+				$data["desc"] = $lng->txt("obj_".$data["type"]."_desc");
+			}
 		}
 		elseif ($translation_type == "db")
 		{
