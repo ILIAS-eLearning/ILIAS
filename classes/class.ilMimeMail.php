@@ -85,7 +85,7 @@ class ilMimeMail
 	 * 	character set of message
 	 * 	@var string
 	 */
-	var $charset = "us-ascii";
+	var $charset = "utf-8";
 	var $ctencoding = "7bit";
 	var $receipt = 0;
 	
