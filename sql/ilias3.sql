@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Nov 04, 2004 at 03:20 PM
+# Generation Time: Nov 19, 2004 at 04:15 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias321rel`
+# Database : `ilias322rel`
 # --------------------------------------------------------
 
 #
@@ -1056,6 +1056,9 @@ CREATE TABLE `lng_data` (
 INSERT INTO `lng_data` VALUES ('administration', 'analyze_data', 'en', 'Analyze data Integrity');
 INSERT INTO `lng_data` VALUES ('administration', 'analyze_desc', 'en', 'Scan system for corrupted/invalid/missing/unbound objects.');
 INSERT INTO `lng_data` VALUES ('administration', 'analyzing', 'en', 'Analyzing...');
+INSERT INTO `lng_data` VALUES ('administration', 'analyzing_tree_structure', 'en', 'Analyzing tree structure...');
+INSERT INTO `lng_data` VALUES ('administration', 'check_tree', 'en', 'Check tree structure');
+INSERT INTO `lng_data` VALUES ('administration', 'check_tree_desc', 'en', 'Check consistence of entire tree structure. Depending on tree size this may take a while!');
 INSERT INTO `lng_data` VALUES ('administration', 'clean', 'en', 'Clean up');
 INSERT INTO `lng_data` VALUES ('administration', 'clean_desc', 'en', 'Remove invalid references & tree entries. Close gaps in tree structure.');
 INSERT INTO `lng_data` VALUES ('administration', 'cleaning', 'en', 'Cleaning...');
@@ -1081,6 +1084,7 @@ INSERT INTO `lng_data` VALUES ('administration', 'purging_trash', 'en', 'Purging
 INSERT INTO `lng_data` VALUES ('administration', 'purging_unbound_objs', 'en', 'Purging unbound objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_childs', 'en', 'Removing invalid tree entries...');
 INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_refs', 'en', 'Removing invalid references...');
+INSERT INTO `lng_data` VALUES ('administration', 'removing_invalid_rolfs', 'en', 'Removing invalid rolefolders...');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_missing', 'en', 'Restore missing objects');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_missing_desc', 'en', 'Restore missing and unbound objects to RecoveryFolder.');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_trash', 'en', 'Restore deleted objects');
@@ -1097,12 +1101,14 @@ INSERT INTO `lng_data` VALUES ('administration', 'scanning_system', 'en', 'Scann
 INSERT INTO `lng_data` VALUES ('administration', 'searching_deleted_objs', 'en', 'Searching for deleted objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_invalid_childs', 'en', 'Searching for invalid tree entries...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_invalid_refs', 'en', 'Searching for invalid references...');
+INSERT INTO `lng_data` VALUES ('administration', 'searching_invalid_rolfs', 'en', 'Searching for invalid rolefolders...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_missing_objs', 'en', 'Searching for missing objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_unbound_objs', 'en', 'Searching for unbound objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'skipped', 'en', 'skipped');
 INSERT INTO `lng_data` VALUES ('administration', 'start_scan', 'en', 'Start!');
 INSERT INTO `lng_data` VALUES ('administration', 'stop_scan', 'en', 'Stop!');
 INSERT INTO `lng_data` VALUES ('administration', 'systemcheck', 'en', 'System check');
+INSERT INTO `lng_data` VALUES ('administration', 'tree_corrupt', 'en', 'Tree is corrupted! See scan log for details.');
 INSERT INTO `lng_data` VALUES ('administration', 'view_last_log', 'en', 'View last Scan log');
 INSERT INTO `lng_data` VALUES ('administration', 'view_log', 'en', 'View details');
 INSERT INTO `lng_data` VALUES ('assessment', '0_unlimited', 'en', '(0=unlimited)');
@@ -1147,6 +1153,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'circle_click_center', 'en', 'Pleas
 INSERT INTO `lng_data` VALUES ('assessment', 'circle_click_circle', 'en', 'Please click on a circle point of the desired area.');
 INSERT INTO `lng_data` VALUES ('assessment', 'cloze_text', 'en', 'Close text');
 INSERT INTO `lng_data` VALUES ('assessment', 'code', 'en', 'Code');
+INSERT INTO `lng_data` VALUES ('assessment', 'confirm_sync_questions', 'en', 'The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?');
 INSERT INTO `lng_data` VALUES ('assessment', 'coordinates', 'en', 'Coordinates');
 INSERT INTO `lng_data` VALUES ('assessment', 'correct_solution_is', 'en', 'The correct solution is');
 INSERT INTO `lng_data` VALUES ('assessment', 'counter', 'en', 'Counter');
@@ -1293,6 +1300,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_select_none', 'en', 'Plea
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_export_select_none', 'en', 'Please check at least one question to export it');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_question_is_in_use', 'en', 'The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_questions_deleted', 'en', 'Question(s) deleted.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_cloze', 'en', 'Close Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_imagemap', 'en', 'Image Map Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_javaapplet', 'en', 'Java Applet Question');
@@ -1328,6 +1336,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'save_previous', 'en', 'Save and go
 INSERT INTO `lng_data` VALUES ('assessment', 'see_details_for_further_information', 'en', 'See details for suggested solutions');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_an_answer', 'en', '--- Please select an answer ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_gap', 'en', 'Select gap');
+INSERT INTO `lng_data` VALUES ('assessment', 'select_max_one_item', 'en', 'Please select one item only');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_target_position_for_move_question', 'en', 'Please select a target position to move the question(s) and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_tst_option', 'en', '--- Please select a test ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'selected_image', 'en', 'Selected image');
@@ -1364,6 +1373,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_total_passed_average_poin
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_eval_total_persons', 'en', 'Total number of persons entered the test');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_general_properties', 'en', 'General properties');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_generate_xls', 'en', 'Generate Excel');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_in_use_edit_questions_disabled', 'en', 'The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_missing_question', 'en', 'Please select at least one question to insert it into the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_questions', 'en', 'Are you sure you want to insert the following question(s) to the test?');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_questions_and_results', 'en', 'This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?');
@@ -2309,6 +2319,8 @@ INSERT INTO `lng_data` VALUES ('common', 'import_lm', 'en', 'Import ILIAS Learni
 INSERT INTO `lng_data` VALUES ('common', 'import_qpl', 'en', 'Import Questionpool Test');
 INSERT INTO `lng_data` VALUES ('common', 'import_root_user', 'en', 'Import Root User');
 INSERT INTO `lng_data` VALUES ('common', 'import_sahs', 'en', 'Import SCORM/AICC Package');
+INSERT INTO `lng_data` VALUES ('common', 'import_spl', 'en', 'Import Questionpool Survey');
+INSERT INTO `lng_data` VALUES ('common', 'import_svy', 'en', 'Import Survey');
 INSERT INTO `lng_data` VALUES ('common', 'import_tst', 'en', 'Import Test');
 INSERT INTO `lng_data` VALUES ('common', 'import_users', 'en', 'Import Users');
 INSERT INTO `lng_data` VALUES ('common', 'imported', 'en', 'imported');
@@ -2660,6 +2672,7 @@ INSERT INTO `lng_data` VALUES ('common', 'no_access_link_object', 'en', 'You are
 INSERT INTO `lng_data` VALUES ('common', 'no_bm_in_personal_list', 'en', 'No bookmarks defined.');
 INSERT INTO `lng_data` VALUES ('common', 'no_chat_in_personal_list', 'en', 'No chats in personal list');
 INSERT INTO `lng_data` VALUES ('common', 'no_checkbox', 'en', 'No checkbox checked!');
+INSERT INTO `lng_data` VALUES ('common', 'no_datasets', 'en', 'The table is empty');
 INSERT INTO `lng_data` VALUES ('common', 'no_date', 'en', 'No date');
 INSERT INTO `lng_data` VALUES ('common', 'no_description', 'en', 'No description');
 INSERT INTO `lng_data` VALUES ('common', 'no_frm_in_personal_list', 'en', 'No forums in personal list.');
@@ -2881,6 +2894,7 @@ INSERT INTO `lng_data` VALUES ('common', 'qpl_delete', 'en', 'Delete Question Po
 INSERT INTO `lng_data` VALUES ('common', 'qpl_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'qpl_new', 'en', 'New question pool for test');
 INSERT INTO `lng_data` VALUES ('common', 'qpl_read', 'en', 'Read access to Question Pool for Test');
+INSERT INTO `lng_data` VALUES ('common', 'qpl_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'qpl_visible', 'en', 'Question Pool for Test is visible');
 INSERT INTO `lng_data` VALUES ('common', 'qpl_write', 'en', 'Edit Question Pool for Test');
 INSERT INTO `lng_data` VALUES ('common', 'query_data', 'en', 'Query data');
@@ -3060,6 +3074,7 @@ INSERT INTO `lng_data` VALUES ('common', 'spl_delete', 'en', 'Delete Question Po
 INSERT INTO `lng_data` VALUES ('common', 'spl_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'spl_new', 'en', 'New question pool for survey');
 INSERT INTO `lng_data` VALUES ('common', 'spl_read', 'en', 'Read access to Question Pool for Survey');
+INSERT INTO `lng_data` VALUES ('common', 'spl_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'spl_visible', 'en', 'Question Pool for Survey is visible');
 INSERT INTO `lng_data` VALUES ('common', 'spl_write', 'en', 'Edit Question Pool for Survey');
 INSERT INTO `lng_data` VALUES ('common', 'st_a', 'en', 'a chapter');
@@ -3091,6 +3106,7 @@ INSERT INTO `lng_data` VALUES ('common', 'svy_invite', 'en', 'Invite users to a 
 INSERT INTO `lng_data` VALUES ('common', 'svy_new', 'en', 'New survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_participate', 'en', 'Participate in a survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_read', 'en', 'Read access to survey');
+INSERT INTO `lng_data` VALUES ('common', 'svy_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'svy_visible', 'en', 'Survey is visible');
 INSERT INTO `lng_data` VALUES ('common', 'svy_write', 'en', 'Edit survey');
 INSERT INTO `lng_data` VALUES ('common', 'system', 'en', 'System');
@@ -4759,6 +4775,7 @@ INSERT INTO `lng_data` VALUES ('search', 'search_select_one_select', 'en', '--Se
 INSERT INTO `lng_data` VALUES ('search', 'search_show_result', 'en', 'Show');
 INSERT INTO `lng_data` VALUES ('search', 'search_user', 'en', 'Users');
 INSERT INTO `lng_data` VALUES ('survey', 'add_category', 'en', 'Add category');
+INSERT INTO `lng_data` VALUES ('survey', 'add_heading', 'en', 'Add heading');
 INSERT INTO `lng_data` VALUES ('survey', 'add_limits_for_standard_numbers', 'en', 'Please enter a lower and upper limit for the standard numbers you want to add as categories.');
 INSERT INTO `lng_data` VALUES ('survey', 'add_phrase', 'en', 'Add phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'add_phrase_introduction', 'en', 'Please select a phrase:');
@@ -4771,7 +4788,10 @@ INSERT INTO `lng_data` VALUES ('survey', 'arithmetic_mean', 'en', 'Arithmetic me
 INSERT INTO `lng_data` VALUES ('survey', 'ask_insert_questionblocks', 'en', 'Are you sure you want to insert the following question block(s) to the survey?');
 INSERT INTO `lng_data` VALUES ('survey', 'ask_insert_questions', 'en', 'Are you sure you want to insert the following question(s) to the survey?');
 INSERT INTO `lng_data` VALUES ('survey', 'back', 'en', '<< Back');
+INSERT INTO `lng_data` VALUES ('survey', 'before', 'en', 'before');
 INSERT INTO `lng_data` VALUES ('survey', 'browse_for_questions', 'en', 'Browse for questions');
+INSERT INTO `lng_data` VALUES ('survey', 'cannot_export_questionpool', 'en', 'You do not possess sufficient permissions to export the survey questionpool!');
+INSERT INTO `lng_data` VALUES ('survey', 'cannot_export_survey', 'en', 'You do not possess sufficient permissions to export the survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_maintain_survey', 'en', 'You do not possess sufficient permissions to maintain the survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_manage_phrases', 'en', 'You do not possess sufficient permissions to manage the phrases!');
 INSERT INTO `lng_data` VALUES ('survey', 'cannot_participate_survey', 'en', 'You do not possess sufficient permissions to participate in the survey!');
@@ -4782,6 +4802,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'category_delete_confirm', 'en', 'Are y
 INSERT INTO `lng_data` VALUES ('survey', 'category_delete_select_none', 'en', 'Please check at least one category to delete it!');
 INSERT INTO `lng_data` VALUES ('survey', 'category_nr_selected', 'en', 'Number of users that selected this category');
 INSERT INTO `lng_data` VALUES ('survey', 'concatenation', 'en', 'Concatenation');
+INSERT INTO `lng_data` VALUES ('survey', 'confirm_sync_questions', 'en', 'The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?');
 INSERT INTO `lng_data` VALUES ('survey', 'constraints', 'en', 'Constraints');
 INSERT INTO `lng_data` VALUES ('survey', 'contains', 'en', 'Contains');
 INSERT INTO `lng_data` VALUES ('survey', 'continue', 'en', 'Continue >>');
@@ -4850,12 +4871,15 @@ INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_beliefs_true_false', 'en',
 INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_beliefs_true_undecided_false', 'en', 'Standard beliefs (true-undecided-false)');
 INSERT INTO `lng_data` VALUES ('survey', 'dp_standard_numbers', 'en', 'Standard numbers');
 INSERT INTO `lng_data` VALUES ('survey', 'duplicate', 'en', 'Duplicate');
+INSERT INTO `lng_data` VALUES ('survey', 'duplicate_svy', 'en', 'Duplicate survey');
 INSERT INTO `lng_data` VALUES ('survey', 'edit_ask_continue', 'en', 'Do you want to continue and edit this question?');
 INSERT INTO `lng_data` VALUES ('survey', 'edit_constraints_introduction', 'en', 'You have selected the following question(s)/question block(s) to edit the constraints');
+INSERT INTO `lng_data` VALUES ('survey', 'edit_heading', 'en', 'Edit heading');
 INSERT INTO `lng_data` VALUES ('survey', 'end_date', 'en', 'End date');
 INSERT INTO `lng_data` VALUES ('survey', 'end_date_reached', 'en', 'You cannot start the survey. The end date is reached!');
 INSERT INTO `lng_data` VALUES ('survey', 'enter_phrase_title', 'en', 'Please enter a phrase title');
 INSERT INTO `lng_data` VALUES ('survey', 'enter_value', 'en', 'Enter a value');
+INSERT INTO `lng_data` VALUES ('survey', 'error_add_heading', 'en', 'Please add a heading!');
 INSERT INTO `lng_data` VALUES ('survey', 'error_importing_question', 'en', 'There was an error importing the question(s) from the file you have selected!');
 INSERT INTO `lng_data` VALUES ('survey', 'error_retrieving_anonymous_survey', 'en', 'The system could not find your survey data for survey code %s. Please check the survey code you have entered!');
 INSERT INTO `lng_data` VALUES ('survey', 'evaluation', 'en', 'Evaluation');
@@ -4875,6 +4899,8 @@ INSERT INTO `lng_data` VALUES ('survey', 'found_questions', 'en', 'Found questio
 INSERT INTO `lng_data` VALUES ('survey', 'geometric_mean', 'en', 'Geometric mean');
 INSERT INTO `lng_data` VALUES ('survey', 'given_answers', 'en', 'Given answers');
 INSERT INTO `lng_data` VALUES ('survey', 'harmonic_mean', 'en', 'Harmonic mean');
+INSERT INTO `lng_data` VALUES ('survey', 'heading', 'en', 'Heading');
+INSERT INTO `lng_data` VALUES ('survey', 'horizontal', 'en', 'horizontal');
 INSERT INTO `lng_data` VALUES ('survey', 'import_question', 'en', 'Import question(s)');
 INSERT INTO `lng_data` VALUES ('survey', 'insert_after', 'en', 'Insert after');
 INSERT INTO `lng_data` VALUES ('survey', 'insert_before', 'en', 'Insert before');
@@ -4929,6 +4955,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'on', 'en', 'on');
 INSERT INTO `lng_data` VALUES ('survey', 'online', 'en', 'online');
 INSERT INTO `lng_data` VALUES ('survey', 'or', 'en', 'or');
 INSERT INTO `lng_data` VALUES ('survey', 'ordinal_question_not_checked', 'en', 'Please check one of the offered answers!');
+INSERT INTO `lng_data` VALUES ('survey', 'orientation', 'en', 'Orientation');
 INSERT INTO `lng_data` VALUES ('survey', 'percentage_of_entered_values', 'en', 'Percentage of users that entered this value');
 INSERT INTO `lng_data` VALUES ('survey', 'percentage_of_selections', 'en', 'Percentage of users that selected this category');
 INSERT INTO `lng_data` VALUES ('survey', 'predefined_users', 'en', 'Predefined user set');
@@ -4983,13 +5010,17 @@ INSERT INTO `lng_data` VALUES ('survey', 'search_questions', 'en', 'Search quest
 INSERT INTO `lng_data` VALUES ('survey', 'search_term', 'en', 'Search term');
 INSERT INTO `lng_data` VALUES ('survey', 'search_type_all', 'en', 'Search in all question types');
 INSERT INTO `lng_data` VALUES ('survey', 'search_users', 'en', 'Users');
+INSERT INTO `lng_data` VALUES ('survey', 'select_max_one_item', 'en', 'Please select one item only');
 INSERT INTO `lng_data` VALUES ('survey', 'select_prior_question', 'en', 'Select a prior question');
 INSERT INTO `lng_data` VALUES ('survey', 'select_questionpool', 'en', 'Please select a question pool to store the created question');
+INSERT INTO `lng_data` VALUES ('survey', 'select_questionpool_short', 'en', 'Question pool for Survey');
 INSERT INTO `lng_data` VALUES ('survey', 'select_relation', 'en', 'Select a relation');
+INSERT INTO `lng_data` VALUES ('survey', 'select_svy_option', 'en', '--- Please select a survey ---');
 INSERT INTO `lng_data` VALUES ('survey', 'select_target_position_for_move', 'en', 'Please select a target position to move the categories and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('survey', 'select_target_position_for_move_question', 'en', 'Please select a target position to move the question(s) and press one of the insert buttons!');
 INSERT INTO `lng_data` VALUES ('survey', 'select_value', 'en', 'Select a value');
 INSERT INTO `lng_data` VALUES ('survey', 'set_filter', 'en', 'Set filter');
+INSERT INTO `lng_data` VALUES ('survey', 'spl_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('survey', 'start_date', 'en', 'Start date');
 INSERT INTO `lng_data` VALUES ('survey', 'start_date_not_reached', 'en', 'You cannot start the survey until the start date is reached!');
 INSERT INTO `lng_data` VALUES ('survey', 'start_survey', 'en', 'Start survey');
@@ -5010,14 +5041,20 @@ INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_previous', 'en', '<<< skip
 INSERT INTO `lng_data` VALUES ('survey', 'survey_skip_start', 'en', 'skip and go to start page');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_start', 'en', 'save and go to start page');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_all_user_data_deleted', 'en', 'All user data of this survey has been deleted!');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_create_export_file', 'en', 'Create export file');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_delete_all_user_data', 'en', 'Delete all user data');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_export_files', 'en', 'Export files');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_file', 'en', 'File');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_author', 'en', 'You have not entered the author\'s name in the survey properties! Please add an authors name.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_questions', 'en', 'You do not have any questions in the survey! Please add at least one question to the survey.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_title', 'en', 'You have not entered a survey title! Please go to the metadata section and enter a title.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_page_error', 'en', 'There was an error answering a survey question. Please refer to the question to get more information on the error!');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_page_errors', 'en', 'There were errors answering the survey questions. Please refer to the questions to get more information on the errors!');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_select_questionpools', 'en', 'Please select a question pool to store the imported questions');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_select_surveys', 'en', 'Please select a survey for duplication');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_show_questiontitles', 'en', 'Show question titles in survey');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_size', 'en', 'Size');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_statistical_evaluation', 'en', 'Statistical evaluation');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_status_missing', 'en', 'There are required elements missing in this survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_status_missing_elements', 'en', 'The following elements are missing:');
@@ -5034,6 +5071,8 @@ INSERT INTO `lng_data` VALUES ('survey', 'users_answered', 'en', 'Users answered
 INSERT INTO `lng_data` VALUES ('survey', 'users_skipped', 'en', 'Users skipped');
 INSERT INTO `lng_data` VALUES ('survey', 'value_nr_entered', 'en', 'Number of users that entered that value');
 INSERT INTO `lng_data` VALUES ('survey', 'values', 'en', 'Values');
+INSERT INTO `lng_data` VALUES ('survey', 'vertical', 'en', 'vertical');
+INSERT INTO `lng_data` VALUES ('survey', 'view_constraints_introduction', 'en', 'You are viewing the constraints of the following question/question block:');
 INSERT INTO `lng_data` VALUES ('survey', 'view_phrase', 'en', 'View phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_in_use', 'en', 'Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_not_complete', 'en', 'The question is not complete!');
@@ -5835,7 +5874,8 @@ CREATE TABLE `qpl_answers` (
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`answer_id`),
   UNIQUE KEY `answer_id` (`answer_id`),
-  KEY `answer_id_2` (`answer_id`)
+  KEY `answer_id_2` (`answer_id`),
+  KEY `question_fi` (`question_fi`)
 ) TYPE=MyISAM;
 
 #
@@ -5897,7 +5937,8 @@ CREATE TABLE `qpl_questions` (
   `created` varchar(14) NOT NULL default '',
   `original_id` int(11) default NULL,
   `TIMESTAMP` timestamp(14) NOT NULL,
-  PRIMARY KEY  (`question_id`)
+  PRIMARY KEY  (`question_id`),
+  KEY `question_type_fi` (`question_type_fi`)
 ) TYPE=MyISAM;
 
 #
@@ -7072,8 +7113,8 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '333');
-INSERT INTO `settings` VALUES ('ilias_version', '3.2.1 2004-11-03');
+INSERT INTO `settings` VALUES ('db_version', '338');
+INSERT INTO `settings` VALUES ('ilias_version', '3.2.2 2004-11-19');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
@@ -7435,6 +7476,7 @@ CREATE TABLE `survey_question` (
   `author` varchar(100) NOT NULL default '',
   `questiontext` text NOT NULL,
   `obligatory` enum('0','1') NOT NULL default '1',
+  `orientation` enum('0','1') default '0',
   `complete` enum('0','1') NOT NULL default '0',
   `created` varchar(14) NOT NULL default '',
   `original_id` int(11) default NULL,
@@ -7623,6 +7665,7 @@ CREATE TABLE `survey_survey_question` (
   `survey_fi` int(11) NOT NULL default '0',
   `question_fi` int(11) NOT NULL default '0',
   `sequence` int(11) NOT NULL default '0',
+  `heading` varchar(255) default NULL,
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`survey_question_id`)
 ) TYPE=MyISAM;
@@ -7778,7 +7821,9 @@ CREATE TABLE `tst_solutions` (
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`solution_id`),
   UNIQUE KEY `solution_id` (`solution_id`),
-  KEY `solution_id_2` (`solution_id`)
+  KEY `solution_id_2` (`solution_id`),
+  KEY `user_fi` (`user_fi`),
+  KEY `test_fi` (`test_fi`)
 ) TYPE=MyISAM COMMENT='Test and Assessment solutions';
 
 #
@@ -7965,6 +8010,25 @@ INSERT INTO `usr_pref` VALUES (6, 'public_city', 'n');
 INSERT INTO `usr_pref` VALUES (6, 'language', 'en');
 INSERT INTO `usr_pref` VALUES (6, 'show_users_online', 'y');
 INSERT INTO `usr_pref` VALUES (13, 'show_users_online', 'y');
+# --------------------------------------------------------
+
+#
+# Table structure for table `usr_pwassist`
+#
+
+CREATE TABLE `usr_pwassist` (
+  `pwassist_id` varchar(32) NOT NULL default '',
+  `expires` int(11) NOT NULL default '0',
+  `ctime` int(11) NOT NULL default '0',
+  `user_id` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`pwassist_id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `usr_pwassist`
+#
+
 # --------------------------------------------------------
 
 #
