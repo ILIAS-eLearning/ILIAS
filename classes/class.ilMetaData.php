@@ -31,6 +31,7 @@ require_once ("classes/class.ilMetaTechnicalRequirementSet.php");
 * Handles Meta Data of ILIAS Learning Objects (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Databay AG <jc@databay.de>
 * @version $Id$
 *
 * @package application
@@ -41,25 +42,19 @@ class ilMetaData
 
 	var $id;
 	var $type;
-	var $technicals;
 
 	var $nested_obj;
-
-	var $import_id;			// +, array
 
 	var $meta;
 	var $section;
 
 	var $obj;
 
-	// attributes of the "General" Section
-	var $identifier;		// +, array
-	var $title;				// 1, array
-	var $language;			// +, array
-	var $description;		// +, array
-	var $keyword;			// +, array
-	var $coverage;			// ?, array
-	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
+	var $import_id;			// ?
+	var $title;				// 1
+	var $language;			// ?, array
+	var $description;		// ?
+	var $technicals;		// ?, array
 
 	/**
 	* Constructor
@@ -75,10 +70,7 @@ class ilMetaData
 		$this->title = "";
 		$this->language = array();
 		$this->description = "";
-		$this->keyword = array();
 		$this->technicals = array();	// technical sections
-		$this->coverage = "";
-		$this->structure = "";
 		$this->type = $a_type;
 		$this->id = $a_id;
 		if($a_id != 0)
@@ -410,8 +402,7 @@ class ilMetaData
 	}
 
 	/**
-	* set identifier catalog value
-	* note: only one value implemented currently
+	* buffer value of one element
 	*/
 	function setElement($a_name, $a_data)
 	{
@@ -419,8 +410,7 @@ class ilMetaData
 	}
 
 	/**
-	* get identifier catalog value
-	* note: only one value implemented currently
+	* get value of one element of the ILIAS meta data structure
 	*/
 	function getElement($a_name, $a_path = "", $a_index = 0)
 	{
@@ -440,39 +430,19 @@ class ilMetaData
 	}
 
 	/**
-	* set identifier catalog value
-	* note: only one ID implemented currently
-	*/
-	function setImportIdentifierCatalog($a_cdata)
-	{
-		$this->import_id[0]["catalog"] = $a_data;
-	}
-
-	/**
 	* set identifier entry ID
-	* note: only one ID implemented currently
 	*/
 	function setImportIdentifierEntryID($a_id)
 	{
-		$this->import_id[0]["entry_id"] = $a_id;
-	}
-
-	/**
-	* get identifier catalog value
-	* note: only one ID implemented currently
-	*/
-	function getImportIdentifierCatalog()
-	{
-		return $this->import_id[0]["catalog"];
+		$this->import_id = $a_id;
 	}
 
 	/**
 	* get identifier entry ID
-	* note: only one ID implemented currently
 	*/
 	function getImportIdentifierEntryID()
 	{
-		return $this->import_id[0]["entry_id"];
+		return $this->import_id;
 	}
 
 	/**
@@ -529,45 +499,64 @@ class ilMetaData
 	}
 
 	/**
-	* set id
+	* set object id
 	*/
 	function setID($a_id)
 	{
 		$this->id = $a_id;
 	}
 
+	/**
+	* get object id
+	*/
 	function getID()
 	{
 		return $this->id;
 	}
 
+	/**
+	* set object type
+	*/
 	function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
 
+	/**
+	* get object type
+	*/
 	function getType()
 	{
 		return $this->type;
 	}
 
-	// GENERAL: Language
+	/**
+	* set language
+	*/
 	function setLanguage($a_lang)
 	{
 		$this->language = $a_lang;
 	}
 
+	/**
+	* get language
+	*/
 	function getLanguage()
 	{
 		return $this->language;
 	}
 
-	// GENERAL: Description
+	/**
+	* set description
+	*/
 	function setDescription($a_desc)
 	{
 		$this->description = $a_desc;
 	}
 
+	/**
+	* get description
+	*/
 	function getDescription()
 	{
 		return $this->description;
@@ -685,7 +674,7 @@ class ilMetaData
 
 	/**
 	* set xml content of MetaData, start with <MetaData...>,
-	* end with </MetaDatat>, comply with ILIAS DTD, use utf-8!
+	* end with </MetaData>, comply with ILIAS DTD, use utf-8!
 	*
 	* @param	string		$a_xml			xml content
 	* @param	string		$a_encoding		encoding of the content (here is no conversion done!

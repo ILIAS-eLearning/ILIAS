@@ -562,7 +562,6 @@ class ilContObjParser extends ilSaxParser
 				if ($this->in_meta_data)
 				{
 					$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
-					$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
 					$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
 				}
 				if ($this->in_file_item)

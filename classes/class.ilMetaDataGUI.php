@@ -1307,10 +1307,7 @@ class ilMetaDataGUI
 		{
 			$a_language = $this->ilias->account->getLanguage();
 		}
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
 		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data_editor.html", false);
-		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
 
 		if ($a_section == "")
 		{
@@ -1340,11 +1337,9 @@ class ilMetaDataGUI
 
 	function save($a_section = "General")
 	{
-//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaGUI::save()\n"); fclose($f);
 		/* editing meta data with editor */
 		if (is_array($_POST["meta"]))
 		{
-//echo "metagui_Save_1<br>";
 			$meta = $_POST["meta"];
 			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
 			$this->meta_obj->setMeta($meta);
@@ -1352,12 +1347,10 @@ class ilMetaDataGUI
 		/* creating a new object -> meta data: title and description */
 		else if (is_array($_POST["Fobject"]))
 		{
-//echo "metagui_Save_2<br>";
 			$meta = $_POST["Fobject"];
 			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["title"]));
 			$this->meta_obj->setMeta($meta);
 		}
-//echo "metagui_Save_3<br>"; exit;
 		$this->meta_obj->setSection($a_section);
 		$this->obj->updateMetaData();
 	}
