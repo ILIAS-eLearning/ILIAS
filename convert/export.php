@@ -5,8 +5,8 @@
 *
 * Dependencies:
 * 
-* @author	Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
-* @version	$Id$
+* @author Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
+* @version $Id$
 */
 
 // *** = dirty/buggy --> to be modified/extended
@@ -15,7 +15,7 @@
 require_once "PEAR.php";
 require_once "DB.php";
 
-class ILIAS2export 
+class ILIAS2export
 {
 	//-----------
 	// properties
@@ -409,6 +409,189 @@ class ILIAS2export
 		}
 		
 		return $str;
+	}
+	
+	/**
+	* fetch all vri tags in a string
+	*
+	* *** Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
+	* vri_fetch($string,"st") returns an array $arr with $arr["inst"]->100, $arr["type"]->"st"
+	* and $arr["id"]->20.
+	*
+	* @param string $data string, that should be searched through
+	* @param string $types vri types, that should be searched, separated by "|", e.g. "mm|st"
+	* @param boolean $limiter true, if vri in input string doesn´t contain tag limiter "<" and ">" (default TRUE)
+	* @param boolean $vri true, if vri in input string doesn´t contain vri string "vri=" (default TRUE)
+	*
+	* @return	array	array with fields "inst", "type", "id" and "target"; false, if no vri was found
+	*/
+	function fetchVri ($data, $types, $limiter = TRUE, $vri = TRUE)
+	{
+		// set limiter strings
+		if($limiter)
+		{
+			$lt = "<";
+			$gt = ">";
+		}
+		else
+		{
+			$lt = $gt = "";
+		}
+		
+		// set vri string
+		if ($vri)
+		{
+			$vri = "vri[\s]*=[\s]*";
+		}
+		else
+		{
+			$vri = "";
+		}
+		
+		// set content and end tag string
+		if($limiter and $vri)
+		{
+			$end = "(.*?)<\/vri>";
+		}
+		else
+		{
+			$end = "";
+		}
+		
+		// set regular expressiion for vri tag
+		$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
+		
+		// get all vri tags
+		preg_match_all($vriTag, $data, $matches, PREG_SET_ORDER);
+		
+		/* ***
+		echo "<pre>";
+		htmlentities(print_r($matches));
+		echo "</pre>";
+		*/
+		
+		if (is_array($matches))
+		{
+			// fill vri array	
+			foreach ($matches as $key => $value)
+			{
+				$vriSet[$key] = array(	"inst" => $value[1],
+										"type" => $value[2],
+										"id" => $value[3],
+										"target" => $value[5],
+										"content" => $value[7]);
+			}
+			return $vriSet;	
+		}
+		else
+		{
+			return FALSE;	
+		}
+		
+		/* ***
+		echo "<pre>";
+		htmlentities(print_r($vriSet));
+		echo "</pre>";
+		*/
+	}
+	
+	/**
+	* fetch all text parts between vri tags in a string
+	*
+	* *** Example: If the string contains "some text  some text <vri=!100!st!20!> a link </vri> some text"
+	* fetchText($string) returns an array $arr with $arr[0]->"some text" , $arr[1]->"some text"
+	* vri tags must contain limiter and vri string
+	*
+	* @param string $data string, that should be searched through
+	*
+	* @return	array	array with text parts; false, otherwise ***
+	*/
+	function fetchText ($data)
+	{
+		// set types
+		$types = "st|ab|pg|mm";
+		
+		// set limiter strings
+		$lt = "<";
+		$gt = ">";
+		
+		// set vri string
+		$vri = "vri[\s]*=[\s]*";
+		
+		// set content and end tag string
+		$end = "(.*?)<\/vri>";
+		
+		// set regular expressiion for vri tag
+		$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
+		
+		// get all text parts splitted by vri tags
+		$matches = preg_split($vriTag, $data);
+		
+		/* ***
+		echo "<pre>";
+		htmlentities(print_r($matches));
+		echo "</pre>";
+		*/
+		
+		if (is_array($matches))
+		{
+			return $matches;	
+		}
+		else
+		{
+			return FALSE;	
+		}
+	}
+	
+	/**
+	* convert text to paragraph and vri to reference ***
+	*/
+	function convertVri ($data, $parent)
+	{
+		// fetch vri (array)
+		if ($vri = $this->fetchVri($data,"st|ab|pg|mm"))
+		{
+		    // fetch text (array)
+			$text = $this->fetchText($data);
+			
+			// ***
+			for ($i = 0; $i < count($text); $i++)
+			{
+				// *** test ob leer
+				if (!empty($text[$i]))
+				{
+					// Paragraph ***
+					$attrs = array("Language" => "de"); // *** aus ... holen
+					$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text[$i]);
+					
+					// *** $ret .= "<p>".$text[$i]."</p>";
+				}
+				
+				// ***
+				if (isset($vri[$i]))
+				{
+					// *** legacy
+					if ($vri[$i]["type"] == "ab")
+					{
+						$vri[$i]["type"] == "pg";
+					}
+					
+					// Paragraph..Reference *** target einbauen !!!
+					$attrs = array(	"Reference_to" => $vri[$i]["type"]."_".$vri[$i]["id"],
+									"Type" => "LearningObject"); // ***
+					$Reference = $this->writeNode($parent, "Reference", $attrs, $vri[$i]["content"]);
+					
+					// *** $ret .= "vri_link".$i;
+				}
+			}		
+		}
+		else
+		{
+			// Paragraph ***
+			$attrs = array("Language" => "de"); // *** aus ... holen
+			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $data);
+		}
+		// *** return $ret;
 	}
 	
 	// get mimetype for a file *** takes full path to a lokal file
@@ -1240,19 +1423,17 @@ class ILIAS2export
 				// *** (convert VRIs, HTML and Layout (alignment))
 				//--------------------------
 				
-				/* **
-				$temp = convertVri($text["text"]); // *** Probe, eigentlich muss eine Unterscheidung auf Limit her
-				echo "<pre>";
-				print_r($temp);
-				echo "</pre>";
-				*/
-				
 				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
 				
+				/* ***
 				// Paragraph ***
 				$attrs = array(	"Language" => "de", // *** aus meta holen
 								"Characteristic" => "Example"); // *** aus bsp holen
 				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text["text"]);
+				*/
+				
+				// ***
+				$this->convertVRI($text["text"], $parent);
 				
 				break;
 			
@@ -2533,252 +2714,6 @@ class ILIAS2export
 		// call destructor
 		$this->_ilias2export();
 	}
-}
-
-/**
-* fetch all vri tags in a string
-*
-* *** Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
-* vri_fetch($string,"st") returns an array $arr with $arr["inst"]->100, $arr["type"]->"st"
-* and $arr["id"]->20.
-*
-* @param string $data string, that should be searched through
-* @param string $types vri types, that should be searched, separated by "|", e.g. "mm|st"
-* @param boolean $limiter true, if vri in input string doesn´t contain tag limiter "<" and ">" (default TRUE)
-* @param boolean $vri true, if vri in input string doesn´t contain vri string "vri=" (default TRUE)
-*
-* @return	array	array with fields "inst", "type", "id" and "target"; false, if no vri was found
-*/
-function fetchVri ($data, $types, $limiter = TRUE, $vri = TRUE)
-{
-	// set limiter strings
-	if($limiter)
-	{
-		$lt = "<";
-		$gt = ">";
-	}
-	else
-	{
-		$lt = $gt = "";
-	}
-	
-	// set vri string
-	if ($vri)
-	{
-		$vri = "vri[\s]*=[\s]*";
-	}
-	else
-	{
-		$vri = "";
-	}
-	
-	// set content and end tag string
-	if($limiter and $vri)
-	{
-		$end = "(.*?)<\/vri>";
-	}
-	else
-	{
-		$end = "";
-	}
-	
-	// set regular expressiion for vri tag
-	$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
-	
-	// get all vri tags
-	preg_match_all($vriTag, $data, $matches, PREG_SET_ORDER);
-	
-	/* ***
-	echo "<pre>";
-	htmlentities(print_r($matches));
-	echo "</pre>";
-	*/
-	
-	if (is_array($matches))
-	{
-		// fill vri array	
-		foreach ($matches as $key => $value)
-		{
-			$vriSet[$key] = array(	"inst" => $value[1],
-									"type" => $value[2],
-									"id" => $value[3],
-									"target" => $value[5],
-									"content" => $value[7]);
-		}
-		return $vriSet;	
-	}
-	else
-	{
-		return FALSE;	
-	}
-	
-	/* ***
-	echo "<pre>";
-	htmlentities(print_r($vriSet));
-	echo "</pre>";
-	*/
-}
-
-/**
-* replace vri tags in a string $text with string $str
-*
-* All vri tags (specified by $inst, $types and $id) are replaced by $str.
-*
-* @param	string		$text		string, in that tags should be replaced
-* @param	string		$str		string, that replaces the removed tags
-* @param	integer		$inst		installation ID of vri
-* @param	string		$types		vri type
-* @param	integer 	$id			vri ID
-* @param	boolean		$e_tag		TRUE, if one-part tag is meant (e.g. <vri=!100!mm!22!/>) (optional, default FALSE)
-* @param	boolean		$no_limit	TRUE, if vri in input string doesn´t contain tag limiter "<" and ">" (default FALSE)
-* @param	string		$target		target type (media|glossary|faq|new) (optional)
-*
-* @return	string		string with replaced tags
-*/
-function replaceVri ($text, $string, $type, $id, $emptyTag = FALSE, $noLimiter = FALSE, $noVri = FALSE)
-{
-	// set whitespaces
-	$ws = "[ \t\r\f\v\n]";
-	
-	// set limiter strings
-	if($noLimiter)
-	{
-		$lt = $gt = "";
-	}
-	else
-	{
-		$lt = "<";
-		$gt = ">";
-	}
-	
-	// set vri string
-	if ($noVri)
-	{
-		$vri = "";
-	}
-	else
-	{
-		$vri = "vri$ws*=$ws*";
-		// content
-		$content = "";
-		// endtag
-		$endTag = "";
-	}
-	
-	// set empty tag strings
-	if ($emptyTag)
-	{
-		// set empty tag slash
-		$slash = "/";
-		// endtag
-		$endTag = "";
-		// content
-		$content = "";
-	}
-	else
-	{
-		// set empty-tag slash
-		$slash = "";
-		// endtag
-		$endTag = $lt."/vri".$gt;
-		// content
-		$content = "(.[^".$endTag."]*)";
-	}
-	
-	// set regular expressiion for vri tag
-	$vriTag =	$lt.$vri."!(([_a-z0-9-]|[.-])*)!(".$type.")!(".$id.")!$ws*".
-				"(type$ws*=$ws*(media|glossary|faq|new)$ws*)?".$slash.$gt.
-				$content.$endTag;
-	
-	// get vri
-	$str = eregi_replace($vriTag,$string,$text);
-	
-	return $str;
-}
-
-
-/**
-* replace vri tags in a string $text with string $str
-*
-* All vri tags (specified by $inst, $types and $id) are replaced by $str.
-*
-* @param	string		$text		string, in that tags should be replaced
-* @param	string		$str		string, that replaces the removed tags
-* @param	integer		$inst		installation ID of vri
-* @param	string		$types		vri type
-* @param	integer 	$id			vri ID
-* @param	boolean		$e_tag		TRUE, if one-part tag is meant (e.g. <vri=!100!mm!22!/>) (optional, default FALSE)
-* @param	boolean		$no_limit	TRUE, if vri in input string doesn´t contain tag limiter "<" and ">" (default FALSE)
-* @param	string		$target		target type (media|glossary|faq|new) (optional)
-*
-* @return	string		string with replaced tags
-*/
-function vri_replace($text, $str, $inst, $types, $id, $e_tag=FALSE, $no_limit=FALSE, $target="")
-{
-	// set limiter strings
-	if($no_limit)
-	{
-		$lt = $gt = "";
-	}
-	else
-	{
-		$lt = "<";
-		$gt = ">";
-	}
-	$slash = ($e_tag) ? "/" : "";
-	$ws= "[ \t\r\f\v\n]"; // whitespaces
-	$tarstr = ($target != "") ? "(type$ws*=$ws*$target$ws*)?" : "";
-	$vri_tag=$lt."$ws*[vV][rR][iI]$ws*=$ws*!$inst!$types!$id!$ws*".$tarstr.$slash.$gt;
-	$ret = eregi_replace($vri_tag,$str,$text);
-	return $ret;
-}
-
-/**
-*/
-function convertVri ($text, $noLimit=FALSE)
-{
-	// 2-tag-vri (<vri=!...!> ... </vri>)
-	while ($vri = fetchVri($text,"st|ab|pg|mm",FALSE,$noLimiter))
-	{
-		// *** legacy
-		if ($vri["type"] == "ab")
-		{
-			$vri["type"] == "pg";
-		}
-		
-		/* ***
-		// Paragraph..Reference ***
-		$attrs = array(	"Reference_to" => $vri["type"]."_".$vri["id"],
-						"Type" => "LearningObject");
-		$Reference = $this->writeNode($parent, "Reference", $attrs, "bla");
-		
-		// cut the tags
-		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],FALSE,$noLimit,$vri["target"]);
-		$text = ereg_replace("</[Vv][Rr][Ii]>","",$text);
-		*/
-		/*
-		$str = "<Reference Reference_to=\"".$vri["type"]."_".$vri["id"]."\" Type=\"LearningObject\">";
-		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],FALSE,$noLimit,$vri["target"]);
-		// cut end tags
-		$text = ereg_replace("</[Vv][Rr][Ii]>","</Reference>",$text);
-		*/
-		
-		// *** inst (not needed), type, id, target
-		$test[] = array("inst" => $vri["inst"],
-						"type" => $vri["type"],
-						"id" => $vri["id"],
-						"target" => $vri["target"],
-						"content" => $vri["content"]);
-	}
-	/*
-	// 1-tag-vri (<vri=!...!/>) (only used for "inline"-images !)
-	while ($vri = vri_fetch($text,"mm",TRUE,$noLimit))
-	{
-		$str = "<Reference Reference_to=\"".$vri["type"]."_".$vri["id"]."\" Type=\"LearningObject\" />";
-		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],TRUE,$noLimit,$vri["target"]);
-	}		
-	*/
-	return $test;
 }
 
 //------
