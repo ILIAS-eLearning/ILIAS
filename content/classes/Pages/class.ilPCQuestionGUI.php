@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./content/classes/Pages/class.ilPageContentGUI.php";
+
 /**
 * Class ilPCQuestionGUI
 *
