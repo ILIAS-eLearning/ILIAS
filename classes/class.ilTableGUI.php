@@ -493,7 +493,7 @@ class ilTableGUI
 			
 			$this->sortData();
 			$count = 0;
-					
+			
 			foreach ($this->data as $tbl_content_row)
 			{
 				foreach ($tbl_content_row as $key => $tbl_content_cell)
@@ -511,10 +511,10 @@ class ilTableGUI
 				$count++;
 			}
 		}
-
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
+
 			$start = $this->offset + 1;				// compute num info
 			$end = $this->offset + $this->limit;
 			
@@ -537,6 +537,7 @@ class ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// table footer linkbar
+
 		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0)
 		{
 			$params = array(

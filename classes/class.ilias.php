@@ -131,6 +131,7 @@ class ILIAS
 	{
 		global $ilErr;
 
+
 		// load setup.ini
 		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
 		$this->ini_ilias->read();

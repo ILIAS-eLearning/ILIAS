@@ -991,6 +991,7 @@ class ilTree
 					"desc"			=> $a_row->description
 					);*/
 
+
 		return $data ? $data : array();
 	}
 
@@ -1490,6 +1491,34 @@ class ilTree
 		
 		return $i;
 	}
+
+	/**
+	* Check for parent type
+	* e.g check if a folder (ref_id 3) is in a parent course obj => checkForParentType(3,'crs');
+	*
+ 	* @access	public
+	* @param	integer	ref_id
+	* @param	string type
+	* @param	int ref_id of last parent type
+	*/
+	function checkForParentType($a_ref_id,$a_type)
+	{
+		if(!$this->isInTree($a_ref_id))
+		{
+			echo "ilTree: No valid ref_id given";
+			exit;
+		}
+		$path = array_reverse($this->getPathFull($a_ref_id));
+
+		foreach($path as $node)
+		{
+			if($node["type"] == $a_type)
+			{
+				return $node["child"];
+			}
+		}
+		return 0;
+	}		
 
 	/**
 	* STATIC METHOD

@@ -27,8 +27,7 @@ include_once("classes/class.ilObjFolderGUI.php");
 include_once("classes/class.ilObjFolder.php");
 include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
-include_once("classes/class.ilObjCourseGUI.php");
-include_once("classes/class.ilObjCourse.php");
+include_once("course/classes/class.ilObjCourseGUI.php");
 include_once("classes/class.ilTabsGUI.php");
 
 /**
@@ -121,6 +120,7 @@ class ilRepositoryGUI
 		$this->learning_resources = array();
 		$this->forums = array();
 		$this->groups = array();
+		$this->courses = array();
 		$this->glossaries = array();
 		$this->exercises = array();
 		$this->questionpools = array();
@@ -138,7 +138,10 @@ class ilRepositoryGUI
 	*/
 	function &executeCommand()
 	{
+		global $tree;
+
 		$next_class = $this->ctrl->getNextClass($this);
+
 		/*if (empty($next_class))
 		{
 			// get object of current ref id
@@ -156,14 +159,20 @@ class ilRepositoryGUI
 				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);
 
 				$this->prepareOutput();
-				//$this->gui_obj->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 
 				$this->tpl->show();
 				break;
 
 			case "ilobjcoursegui":
-				echo "hier";
+				include_once("./course/classes/class.ilObjCourseGUI.php");
+				
+				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
+
+				$this->prepareOutput();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				$this->tpl->show();
+
 				break;
 
 			case "ilobjfilegui":
@@ -178,6 +187,7 @@ class ilRepositoryGUI
 				break;
 
 			case "ilobjfoldergui":
+			
 				include_once("./classes/class.ilObjFolderGUI.php");
 				$this->gui_obj = new ilObjFolderGUI("", $this->cur_ref_id, true, false);
 
@@ -218,7 +228,17 @@ class ilRepositoryGUI
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					$cmd = $this->ctrl->getCmd("ShowList");
+					if($obj_type == "crs")
+					{
+						$this->prepareOutput();
+						$this->ctrl->forwardCommand($this->gui_obj);
+						$this->tpl->show();
+						break;
+					}
+					else
+					{
+						$cmd = $this->ctrl->getCmd("ShowList");
+					}
 					//$next_class = "";
 				}
 
@@ -457,7 +477,7 @@ class ilRepositoryGUI
 					include_once "./course/classes/class.ilObjCourse.php";
 					
 					$tmp_course =& new ilObjCourse($object["ref_id"]);
-					if($tmp_course->isActivated() or $this->rbacsystem->checkAccess("administrate",$object["child"]))
+					if($tmp_course->isActivated() or $this->rbacsystem->checkAccess("write",$object["child"]))
 					{
 						$this->courses[$key] = $object;
 					}
@@ -575,6 +595,10 @@ class ilRepositoryGUI
 		if (count($this->media_pools))
 		{
 			$this->showMediaPools();
+		}
+		if(count($this->courses))
+		{
+			$this->showCourses();
 		}
 
 		$this->tpl->show();
@@ -2236,7 +2260,7 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-  function showQuestionPools()
+	function showQuestionPools()
   {
 		$maxcount = count($this->questionpools);
 		$qpool = array_slice($this->questionpools, $_GET["offset"], $_GET["limit"]);
@@ -2574,6 +2598,100 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function showCourses()
+	{
+		// GET ALL COURSES
+		global  $tree, $rbacsystem;
+
+		$tpl =& new ilTemplate("tpl.table.html", true, true);
+	
+		$maxcount = count($this->courses);
+
+		$cont_arr = array_slice($this->courses, $_GET["offset"], $_GET["limit"]);
+
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_crs_row.html");
+
+		$cont_num = count($cont_arr);
+
+		// render table content data
+		if ($cont_num > 0)
+		{
+			// counter for rowcolor change
+			$num = 0;
+			foreach ($cont_arr as $cont_data)
+			{
+				$tpl->setCurrentBlock("tbl_content");
+
+				$newuser = new ilObjUser($cont_data["owner"]);
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+				
+				if ($this->rbacsystem->checkAccess('join',$cont_data["ref_id"]) or
+					$this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				{
+					#$this->ctrl->setTargetScript("course.php");
+					$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $cont_data["ref_id"]);
+					$obj_link = $this->ctrl->getLinkTargetByClass("ilObjCourseGUI");
+					#$obj_link = "repository.php?ref_id=".$cont_data["ref_id"];
+					$tpl->setCurrentBlock("crs_read");
+					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
+					$tpl->setVariable("READ_LINK", $obj_link);
+					$tpl->setVariable("READ_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("crs_visible");
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("crs_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("DELELTE_TARGET","bottom");
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("tbl_content");
+				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("courses"),"icon_crs_b.gif",$this->lng->txt("courses"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
+		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("90%","10%"));
+
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		$tbl->disable("footer");
+
+		// render table
+		$tbl->setTemplate($tpl);
+		$tbl->render();
+
+		$this->tpl->setCurrentBlock("folders");
+		$this->tpl->setVariable("FOLDERS", $tpl->get());
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* set Locator
 	*/
@@ -2623,8 +2741,16 @@ class ilRepositoryGUI
 				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
 			}
 
-			$this->tpl->setVariable("LINK_ITEM", "repository.php?ref_id=".$row["child"]);
-
+			// NOT NICE 
+			if($row["type"] == "crs")
+			{
+				$this->ctrl->setParameterByClass("ilObjCourseGUI","ref_id",$row["child"]);
+				$this->tpl->setVariable("LINK_ITEM",$this->ctrl->getLinkTargetByClass("ilObjCourseGUI"));
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_ITEM","repository.php?ref_id=".$row["child"]);
+			}
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("locator");
@@ -2676,7 +2802,7 @@ class ilRepositoryGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep",
+					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep","crs",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))

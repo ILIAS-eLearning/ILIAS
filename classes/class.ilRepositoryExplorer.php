@@ -42,7 +42,7 @@ class ilRepositoryExplorer extends ilExplorer
 	 */
 	var $root_id;
 	var $output;
-
+	var $ctrl;
 	/**
 	* Constructor
 	* @access	public
@@ -51,7 +51,9 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function ilRepositoryExplorer($a_target)
 	{
-		global $tree;
+		global $tree,$ilCtrl;
+
+		$this->ctrl = $ilCtrl;
 
 		parent::ilExplorer($a_target);
 		$this->tree = $tree;
@@ -74,6 +76,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->addFilter("glo");
 		$this->addFilter("file");
 		$this->addFilter("fold");
+		$this->addFilter("crs");
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 	}
@@ -101,6 +104,13 @@ class ilRepositoryExplorer extends ilExplorer
 			case "grp":
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
+			case "crs":
+				$this->ctrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
+				$this->ctrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
+				return $this->ctrl->getLinkTargetByClass("ilObjCourseGUI");
+				
+				#return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjcoursegui";
+
 			case "frm":
 				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
 
@@ -114,6 +124,9 @@ class ilRepositoryExplorer extends ilExplorer
 				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
+				$this->ctrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
+				$this->ctrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
+				return $this->ctrl->getLinkTargetByClass("ilObjFolderGUI");
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjfoldergui";
 				
 			case "file":
@@ -154,6 +167,13 @@ class ilRepositoryExplorer extends ilExplorer
 
 		switch ($a_type)
 		{
+			case "crs":
+				if($rbacsystem->checkAccess('join',$a_ref_id) or
+				   $rbacsystem->checkAccess('read',$a_ref_id))
+				{
+					return true;
+				}
+
 			// visible groups can allways be clicked; group processing decides
 			// what happens next
 			case "grp":
