@@ -2220,8 +2220,20 @@ class ilObjTest extends ilObject
 */
 	function randomSelectQuestions($nr_of_questions, $questionpool)
 	{
+		if ($questionpool != 0)
+		{
+			// retrieve object id
+			$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
+				$this->ilias->db->quote("$questionpool")
+			);
+			$result = $this->ilias->db->query($query);
+			$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
+			$questionpool = $row[0];
+		}
 		// get all questions in the test
-		$query = "SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi";
+		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . "")
+		);
 		$result = $this->ilias->db->query($query);
 		$original_ids = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
@@ -2231,9 +2243,8 @@ class ilObjTest extends ilObject
 		$original_clause = "";
 		if (count($original_ids))
 		{
-			$original_clause = " AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
+			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
 		}
-				
 		$result_array = array();
 		if ($questionpool == 0)
 		{
