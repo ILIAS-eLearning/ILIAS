@@ -411,7 +411,6 @@ common#:#order_by#:#order by
 common#:#answers#:#answers
 common#:#mandatory_fields#:#mandatory fields
 common#:#visits#:#visits
-common#:#of#:#of
 common#:#delete_object#:#delete object(s)
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
 common#:#cancel#:#cancel
