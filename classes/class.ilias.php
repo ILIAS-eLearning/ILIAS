@@ -83,7 +83,7 @@ class ILIAS extends PEAR
 								"rolf" => "'role'",
 								"objf" => "'type'"
 							);
-    /**
+/**
     *  system settings
     *  @var array
     *  @access public
@@ -91,25 +91,26 @@ class ILIAS extends PEAR
 	var $ini = array();
 
 	/**
-    * constructor
+	* constructor
 	* 
 	* setup ILIAS global object
 	* 
 	* @param void
-    * @return boolean
-    */
+	* @return boolean
+	*/
     function ILIAS()
     {
 		// get settings from ini file
 		$this->ini = new IniFile($this->INI_FILE);
+		$this->ini->read();
 
 		//check for error
 		if ($this->ini->ERROR != "")
 		{
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
 		}
-	
-        // build dsn of database connection and connect
+		
+		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
 					 "://".$this->ini->readVariable("db", "user").
 					 ":".$this->ini->readVariable("db", "pass").
