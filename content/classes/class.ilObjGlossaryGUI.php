@@ -144,6 +144,81 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
+	// called by administration
+	function chooseMetaSectionObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
+		}
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
+	}
+
+	// called by editor
+	function chooseMetaSection()
+	{
+		$this->chooseMetaSectionObject("glossary_edit.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function addMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
+		}
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
+	}
+
+	function addMeta()
+	{
+		$this->addMetaObject("glossary_edit.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function deleteMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
+		}
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
+	}
+
+	function deleteMeta()
+	{
+		$this->deleteMetaObject("glossary_edit.php?ref_id=".
+			$this->object->getRefId());
+	}
+
 
 	function viewObject()
 	{
