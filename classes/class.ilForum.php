@@ -728,7 +728,7 @@ class ilForum
 		{
 			return true;
 		}
-		elseif ($rbacsystem->checkAccess("edit_post", $this->getForumRefId()))
+		elseif ($rbacsystem->checkAccess("delete_post", $this->getForumRefId()))
 		{
 			return true;		
 		}
