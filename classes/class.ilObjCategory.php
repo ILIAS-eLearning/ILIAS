@@ -116,5 +116,24 @@ class ilObjCategory extends ilObject
 				
 		return $data ? $data : array();	
 	}
+	
+	// remove all Translations of current category
+	function removeTranslations()
+	{
+		$q = "DELETE FROM object_translation WHERE obj_id= ".$this->getId();
+		$this->ilias->db->query($q);
+	}
+	
+	// add a new translation to current category
+	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
+	{
+		$q = "INSERT INTO object_translation ".
+			 "(obj_id,title,description,lang_code,lang_default) ".
+			 "VALUES ".
+			 "(".$this->getId().",'".$a_title."','".$a_desc."','".$a_lang."',".$a_lang_default.")";
+		$this->ilias->db->query($q);
+		
+		return true;
+	}
 } // END class.ilObjCategory
 ?>
