@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.51 2003/08/22 14:12:05 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.52 2003/08/26 09:46:14 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -854,7 +854,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->showActions(true);
+		$this->showActions();
 		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
