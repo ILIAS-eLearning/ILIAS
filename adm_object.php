@@ -52,8 +52,8 @@ if (!isset($_GET["type"]))
 		//$obj = getObject($id);
 		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 	}
-	
-	$_GET["type"] = $obj->getType();	
+
+	$_GET["type"] = $obj->getType();
 }
 
 //if no cmd is given default to first property
@@ -63,7 +63,7 @@ if (!isset($_GET["cmd"]))
 }
 
 // CREATE OBJECT CALLS 'createObject' METHOD OF THE NEW OBJECT
-if ($_POST["new_type"])
+if ($_POST["new_type"] && (key($_POST["cmd"]) == "create"))
 {
 	$obj_type = $_POST["new_type"];
 }
@@ -134,7 +134,7 @@ switch ($_GET["cmd"])
 	// no more owner() here! all calls moved to "out" class
 	case "owner":
 		break;
-		
+
 	case "adoptPermSave":
 	case "assignSave":
 	case "trash":

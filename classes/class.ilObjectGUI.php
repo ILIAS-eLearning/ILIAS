@@ -215,7 +215,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$this->tpl->parseCurrentBlock();		
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setCurrentBlock("locator");
@@ -511,10 +511,10 @@ class ilObjectGUI
 				$obj_data->createReference();
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
-			
+
 				// ... remove top_node from list....
 				array_shift($subnode);
-				
+
 				// ... insert subtree of top_node if any subnodes exist
 				if (count($subnode) > 0)
 				{
@@ -827,7 +827,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
 		{
@@ -867,7 +867,7 @@ class ilObjectGUI
 				{
 					//$obj = getObject($id);
 					$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-					$this->callDeleteMethod($id,$_GET["ref_id"],$obj->getType());
+					$obj->delete();
 				}
 			}
 			else
@@ -895,7 +895,7 @@ class ilObjectGUI
 
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
-		
+
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 
@@ -982,7 +982,7 @@ class ilObjectGUI
 	*/
 	function gatewayObject()
 	{
-	
+
 //echo "MKK:".key($_POST["cmd"]).":<br>";
 		switch(key($_POST["cmd"]))
 		{
@@ -1532,7 +1532,7 @@ class ilObjectGUI
 					}
 					else
 					{
-						$link_id = $ctrl["ref_id"];					
+						$link_id = $ctrl["ref_id"];
 					}
 
 					$this->tpl->setCurrentBlock("checkbox");
@@ -1544,7 +1544,7 @@ class ilObjectGUI
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
 				$this->tpl->parseCurrentBlock();
-				
+
 				foreach ($data as $key => $val)
 				{
 					//build link

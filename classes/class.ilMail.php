@@ -381,7 +381,7 @@ class ilMail
 		$this->email_rcp_cc = array();
 		$this->email_rcp_bcc = array();
 		
-		require_once "classes/class.ilUser.php";
+		require_once "classes/class.ilObjUser.php";
 
 		// TO
 		$rcp_ids_to = $this->getUserIds(trim($a_rcp_to));
@@ -389,7 +389,7 @@ class ilMail
 		{
 			foreach($rcp_ids_to as $id)
 			{
-				$tmp_user = new ilUser($id);
+				$tmp_user = new ilObjUser($id);
 				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
@@ -403,7 +403,7 @@ class ilMail
 		{
 			foreach($rcp_ids_cc as $id)
 			{
-				$tmp_user = new ilUser($id);
+				$tmp_user = new ilObjUser($id);
 				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
@@ -417,7 +417,7 @@ class ilMail
 		{
 			foreach($rcp_ids_bcc as $id)
 			{
-				$tmp_user = new ilUser($id);
+				$tmp_user = new ilObjUser($id);
 				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
@@ -435,10 +435,10 @@ class ilMail
 	*/
 	function getUserIds($a_recipients)
 	{
-		require_once "classes/class.ilUser.php";
+		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilGroup.php";
 
-		$user = new ilUser();
+		$user = new ilObjUser();
 
 		$tmp_names = $this->explodeRecipients($a_recipients);
 		
@@ -584,10 +584,10 @@ class ilMail
 	*/
 	function checkRecipients($a_recipients)
 	{
-		require_once "classes/class.ilUser.php";
+		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilGroup.php";
 		
-		$user = new ilUser();
+		$user = new ilObjUser();
 		$group = new ilGroup();
 
 		$tmp_rcp = $this->explodeRecipients($a_recipients);
@@ -869,9 +869,9 @@ class ilMail
 	*/
 	function getEmailOfSender()
 	{
-		require_once "classes/class.ilUser.php";
+		require_once "classes/class.ilObjUser.php";
 
-		$umail = new ilUser($this->user_id);
+		$umail = new ilObjUser($this->user_id);
 		$sender = $umail->getEmail();
 		if(ilUtil::is_email($sender))
 		{
