@@ -48,6 +48,7 @@ if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt
 		
 		$ilias->ini->setVariable("server","tpl_path",$tpl_path);
 		$ilias->ini->setVariable("server","lang_path",$lang_path);
+		$ilias->ini->setVariable("layout","defaultskin",$usr_skin);
 		$ilias->ini->write();
 
 		$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
@@ -185,6 +186,21 @@ if ($settings[news]=="y") $tpl->setVariable("NEWS","checked");
 if ($settings[payment_system]=="y") $tpl->setVariable("PAYMENT_SYSTEM","checked");
 if ($settings[group_file_sharing]=="y") $tpl->setVariable("GROUP_FILE_SHARING","checked");
 if ($settings[crs_enable]=="y") $tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked");
+
+$ilias->getSkins();
+foreach ($ilias->skins as $row)
+{
+	$tpl->setCurrentBlock("selectskin");
+	if ($ilias->ini->readVariable("layout","defaultskin") == $row["name"])
+	{
+		$tpl->setVariable("SKINSELECTED", "selected");
+	}
+	$tpl->setVariable("SKINVALUE", $row["name"]);
+	$tpl->setVariable("SKIN_OPTION", $row["name"]);
+	$tpl->parseCurrentBlock();
+}
+
+
 
 if ($settings[ldap_enable]=="y") $tpl->setVariable("LDAP_ENABLE","checked");
 $tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
