@@ -498,9 +498,6 @@ class ASS_MatchingQuestion extends ASS_Question {
 */
   function set_image_file($image_filename, $image_tempfilename = "") {
  		
-    if (!empty($image_filename)) {
-      $this->image_filename = $image_filename;
-    }
 		if (!empty($image_tempfilename)) {
 			$imagepath = $this->get_image_path();
 			if (!file_exists($imagepath)) {
