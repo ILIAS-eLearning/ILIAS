@@ -37,7 +37,7 @@ $tplContent->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 $tplContent->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tplContent->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tplContent->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-$tplContent->setVariable("TXT_CHOOSE_LANGUAGES", $lng->txt("choose_language_s"));
+$tplContent->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
 if (!empty($ilias->auth->status) && $ilias->auth->status == AUTH_EXPIRED)
 {
