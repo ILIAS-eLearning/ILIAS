@@ -2357,9 +2357,9 @@ class ilGroupGUI extends ilObjectGUI
 
 	function newMembersObject()
 	{
-		$this->prepareOutput();
+		$this->prepareOutput(false);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
-		$_SESSION["LAST_LOCATION"] = "newmembersobject";
+
 		$this->tpl->addBlockFile("CONTENT", "newmember","tpl.grp_newmember.html");
 
 		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("Username"));
@@ -2372,23 +2372,24 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
 		$this->tpl->setVariable("TXT_SEARCH", "Search");
+
 		if(isset($_POST["search_user"]) )
 			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
 		else if(isset($_GET["search_user"]) )
 			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
 
-		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "adm_object.php?type=grp&cmd=newMembers&ref_id=".$_GET["ref_id"]);//"&search_user=".$_POST["search_user"]
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "group.php?type=grp&cmd=newMembersObject&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
+		//$this->tpl->parseCurrentBlock();
 
 		//query already started ?
-		$this->tpl->show();
+		//$this->tpl->show();
 		if( (isset($_POST["search_user"]) && isset($_POST["status"]) ) || ( isset($_GET["search_user"]) && isset($_GET["status"]) ) )//&& isset($_GET["ref_id"]) )
 		{
 			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
 
 			//INTERIMS SOLUTION
 			$_SESSION["status"] = $_POST["status"];
-
+			//var_dump($member_ids);
 			foreach($member_ids as $member)
 			{
 				$this->data["data"][$member["usr_id"]]= array(
@@ -2406,7 +2407,8 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
 			// load template for table content data
 
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+			$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 			$this->data["buttons"] = array( "assignMember"  => $this->lng->txt("assign"),
 							"canceldelete"  => $this->lng->txt("cancel"));
@@ -2449,12 +2451,14 @@ class ilGroupGUI extends ilObjectGUI
 			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
 			// render table
-			$tbl->render();
-			$this->tpl->show();
 
+			$tbl->render();
 
 		}
+		$this->tpl->show();
 	}
+
+
 	function confirmedAssignMemberObject()
 	{
 		if(isset($_SESSION["saved_post"]) && isset($_SESSION["status"]) )
