@@ -177,35 +177,35 @@ common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_new#:#Neues Forum
 common#:#forums#:#Foren
-common#:#forums_articles#:#Beiträge
-common#:#forums_available#:#Verfügbare Foren
-common#:#forums_count#:#Anzahl Foren
-common#:#forums_count_art#:#Anzahl Beiträge
-common#:#forums_count_thr#:#Anzahl Themen
-common#:#forums_edit_post#:#Beitrag bearbeiten
-common#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
-common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_moderators#:#Moderatoren
-common#:#forums_new_entries#:#Neue Foren-Einträge
-common#:#forums_new_thread#:#Neues Thema
-common#:#forums_not_available#:#Keine Foren verfügbar
-common#:#forums_overview#:#Übersicht Foren
-common#:#forums_post_deleted#:#Beitrag wurde gelöscht
-common#:#forums_post_modified#:#Beitrag wurde bearbeitet
-common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-common#:#forums_posts#:#Alle Beiträge
-common#:#forums_posts_not_available#:#Keine Artikel verfügbar
-common#:#forums_respond#:#Beitrag beantworten
-common#:#forums_the_post#:#Beitrag
-common#:#forums_thread#:#Thema
-common#:#forums_thread_articles#:#Beiträge zum Thema
-common#:#forums_thread_create_date#:#Erstellt am
-common#:#forums_thread_create_from#:#Erstellt von
-common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-common#:#forums_threads#:#Themen
-common#:#forums_threads_not_available#:#Keine Themen verfügbar
-common#:#forums_topics_overview#:#Themen-Übersicht
-common#:#forums_your_reply#:#Ihre Antwort
+forum#:#forums_articles#:#Beiträge
+forum#:#forums_available#:#Verfügbare Foren
+forum#:#forums_count#:#Anzahl Foren
+forum#:#forums_count_art#:#Anzahl Beiträge
+forum#:#forums_count_thr#:#Anzahl Themen
+forum#:#forums_edit_post#:#Beitrag bearbeiten
+forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_last_post#:#Letzter Beitrag
+forum#:#forums_moderators#:#Moderatoren
+forum#:#forums_new_entries#:#Neue Foren-Einträge
+forum#:#forums_new_thread#:#Neues Thema
+forum#:#forums_not_available#:#Keine Foren verfügbar
+forum#:#forums_overview#:#Übersicht Foren
+forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
+forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
+forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+forum#:#forums_posts#:#Alle Beiträge
+forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
+forum#:#forums_respond#:#Beitrag beantworten
+forum#:#forums_the_post#:#Beitrag
+forum#:#forums_thread#:#Thema
+forum#:#forums_thread_articles#:#Beiträge zum Thema
+forum#:#forums_thread_create_date#:#Erstellt am
+forum#:#forums_thread_create_from#:#Erstellt von
+forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+forum#:#forums_threads#:#Themen
+forum#:#forums_threads_not_available#:#Keine Themen verfügbar
+forum#:#forums_topics_overview#:#Themen-Übersicht
+forum#:#forums_your_reply#:#Ihre Antwort
 common#:#frm#:#Forum
 common#:#from#:#Von
 common#:#functions#:#Funktionen

@@ -165,6 +165,9 @@ if ($frmNum > 0)
 	// build list	
 	require_once "classes/class.ilForum.php";
 	$frm = new ilForum();
+	$lng->loadLanguageModule("forum");
+
+
 	$z = 0;
 	
 	foreach($frm_obj as $frm_data)
