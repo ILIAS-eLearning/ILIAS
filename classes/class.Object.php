@@ -83,13 +83,14 @@ class Object
 		{
 			$rbacreview = new RbacReviewH($this->ilias->db);
 			$rbacadmin = new RbacAdminH($this->ilias->db); 
-			$rbacsystem = new RbacSystem($this->ilias->db);
+
 			// Erzeugen und Eintragen eines Objektes in Tree
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
 
 			// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
-			$parentRoles = $this->getParentRoleIds();
+			$parentRoles = $rbacadmin->getParentRoleIds();
+			
 			foreach($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -181,7 +182,7 @@ class Object
 			$tplContent->setVariable("MESSAGE_TOP","Permissions of: ".$obj["title"]);
 
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
-			$parentRoles = $this->getParentRoleIds();
+			$parentRoles = $rbacadmin->getParentRoleIds();
 		
 			// BEGIN ROLENAMES
 			$tplContent->setCurrentBlock("ROLENAMES");
@@ -300,7 +301,7 @@ class Object
 						$tree->insertNode($rolf_id,$_GET["obj_id"]);
 
 						// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
-						$parentRoles = $this->getParentRoleIds();
+						$parentRoles = $rbacadmin->getParentRoleIds();
 						foreach($parentRoles as $parRol)
 						{
 							// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -376,7 +377,7 @@ class Object
 				$rolf_id = createNewObject("rolf",$role_obj);
 				$tree->insertNode($rolf_id,$_GET["obj_id"]);
 				// Suche aller Parent Rollen im Baum
-				$parentRoles = $this->getParentRoleIds();
+				$parentRoles = $rbacadmin->getParentRoleIds();
 				foreach($parentRoles as $parRol)
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -481,22 +482,6 @@ class Object
 		return $tree->showPath($tree->getPathFull($a_id,$this->ROOT_FOLDER_ID),"content.php");
 	}
 
-/**
- * get role ids of all parent roles
- * @access private
- * @param string object id of start node
- * @return string 
- */
-	function getParentRoleIds($a_start_node = '')
-	{
-		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
-		$tree = new Tree($_GET["parent"],$this->ROOT_FOLDER_ID);
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-
-		$pathIds  = $tree->getPathId($a_start_node,1);
-		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
-		return $rbacadmin->getParentRoles($pathIds);
-	}
 /**
  * get role and template ids of all parent role folder 
  * @access private
