@@ -3,7 +3,7 @@
 * Class Object
 * Basic functions for all objects
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @package ilias-core
@@ -36,39 +36,189 @@ class Object
 	var $owner;
 	var $create_date;
 	var $last_update;
-	
+
 	/**
 	* object list
 	* @var		array	contains all child objects of current object
 	* @access	private
 	*/
 	var $objectList;
-	
+
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function Object($a_id)
+	function Object($a_id = 0)
 	{
 		global $ilias, $lng;
-		
-		$this->ilias =& $ilias;
-		$this->lng = &$lng; 
 
-		$this->id = $a_id;
+		$this->ilias =& $ilias;
+		$this->lng = &$lng;
+
 		$this->parent = $_GET["parent"]; // possible deprecated
 		$this->parent_parent = $_GET["parent_parent"]; // // possible deprecated
 
-		// get object data...
-		$data = getObject($this->id);
-		// ...and write data to class member variables 
-		$this->type = $data["type"];
-		$this->title = $data["title"];
-		$this->desc = $data["description"];
-		$this->owner = $data["owner"];
-		$this->create_date = $data["create_date"];
-		$this->last_update = $data["last_update"];
+		$this->id = $a_id;
+
+		// read object data
+		if ($a_id != 0)
+			$this->read();
 	}
+
+	/**
+	* read object data from db into object
+	* @access	public
+	*/
+	function read()
+	{
+		global $ilias;
+
+		$q = "SELECT * FROM object_data ".
+			 "WHERE obj_id = '".$this->id."'";
+		$r = $ilias->db->query($q);
+
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$obj = fetchObjectData($row);
+		$this->type = $obj["type"];
+		$this->title = $obj["title"];
+		$this->desc = $obj["description"];
+		$this->owner = $obj["owner"];
+		$this->create_date = $obj["create_date"];
+		$this->last_update = $obj["last_update"];
+	}
+
+
+	/**
+	* get object id
+	* @access	public
+	* @return	int		object id
+	*/
+	function get_id()
+	{
+		return $this->id;
+	}
+
+
+	/**
+	* set object id
+	* @access	public
+	* @param	int		$a_id		object id
+	*/
+	function set_id($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+
+	/**
+	* get object type
+	* @access	public
+	* @return	string		object type
+	*/
+	function get_type()
+	{
+		return $this->type;
+	}
+
+
+	/**
+	* set object type
+	* @access	public
+	* @param	int		$a_type		object type
+	*/
+	function set_type($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+
+	/**
+	* get object title
+	* @access	public
+	* @return	string		object title
+	*/
+	function get_title()
+	{
+		return $this->title;
+	}
+
+
+	/**
+	* set object title
+	* @access	public
+	* @param	string		$a_title		object title
+	*/
+	function set_title($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+
+	/**
+	* get object description
+	* @access	public
+	* @return	string		object description
+	*/
+	function get_description()
+	{
+		return $this->desc;
+	}
+
+
+	/**
+	* set object description
+	* @access	public
+	* @param	string		$a_desc		object description
+	*/
+	function set_description($a_desc)
+	{
+		$this->desc = $a_desc;
+	}
+
+
+	/**
+	* get object owner
+	* @access	public
+	* @return	int			owner id
+	*/
+	function get_owner()
+	{
+		return $this->owner;
+	}
+
+
+	/**
+	* set object owner
+	* @access	public
+	* @param	int		$a_owner		owner id
+	*/
+	function set_owner($a_owner)
+	{
+		$this->owner = $a_owner;
+	}
+
+
+	/**
+	* get create date
+	* @access	public
+	* @return	string			creation date
+	*/
+	function get_create_date()
+	{
+		return $this->create_date;
+	}
+
+
+	/**
+	* get last update date
+	* @access	public
+	* @return	string			date of last update
+	*/
+	function get_last_update_date()
+	{
+		return $this->last_update;
+	}
+
 
 	/**
 	* copy all entries of an object !!! IT MUST RETURN THE NEW OBJECT ID !!
@@ -84,7 +234,7 @@ class Object
 		$tree->insertNode($new_id,$a_dest_id,$a_dest_parent);
 
 		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
-			
+
 		foreach ($parentRoles as $parRol)
 		{
 			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -103,9 +253,9 @@ class Object
 		global $lng;
 
 		include_once ("classes/class.Admin.php");
-		
+
 		$admin = new Admin();
-		
+
 		switch(key($_POST["cmd"]))
 		{
 			case "cut":
@@ -217,7 +367,7 @@ class Object
 		if ($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
 			$obj = getObject($this->id);
-			
+
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = $obj["title"];
@@ -260,7 +410,7 @@ class Object
 	{
 		global $lng, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
-		
+
 		// TODO: get rif of $_GET["parent"] in this function
 
 		$obj = getObject($this->id);
@@ -321,7 +471,7 @@ class Object
 		{
 			// Check if object is able to contain role folder
 			$child_objects = TUtil::getModules($obj[type]);
-			
+
 			if ($child_objects["rolf"])
 			{
 				$data["local_role"]["id"] = $this->id;
@@ -604,7 +754,7 @@ class Object
 		
 		return array_pop($path_ids);
 	} //function
-	
+
 	function getSubObjects()
 	{
 		global $rbacsystem;
