@@ -174,7 +174,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-
+		$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
+		
 		// save meta data
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
