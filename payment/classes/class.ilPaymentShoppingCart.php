@@ -116,6 +116,18 @@ class ilPaymentShoppingCart
 	}
 
 
+	// STATIC
+	function _hasEntries($a_user_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_shopping_cart ".
+			"WHERE customer_id = '".$a_user_id."'";
+
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
 
 
 	// PRIVATE
@@ -135,21 +147,21 @@ class ilPaymentShoppingCart
 			$this->sc_entries[$row->psc_id]["pobject_id"] = $row->pobject_id; 
 			$this->sc_entries[$row->psc_id]["price_id"] = $row->price_id;
 		}
-		
+
 		// Delete all entries with not valid prices or pay_method
 		foreach($this->sc_entries as $entry)
 		{
 			// check if price_id exists for pobject
 			if(!ilPaymentPrices::_priceExists($entry['price_id'],$entry['pobject_id']))
 			{
-				$this->delete($sc_entries['psc_id']);
+				$this->delete($entry['psc_id']);
 				return false;
 			}
 			
 			$tmp_pobj =& new ilPaymentObject($this->user_obj,$entry['pobject_id']);
 			if($tmp_pobj->getPayMethod() == $tmp_pobj->PAY_METHOD_BILL)
 			{
-				unset($this->sc_entries['psc_id']);
+				$this->delete($entry['psc_id']);
 				return false;
 			}
 			unset($tmp_pobj);
