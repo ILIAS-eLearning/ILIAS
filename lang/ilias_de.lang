@@ -105,7 +105,7 @@ assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
-assessment#:#applet_parameter#:#Parameter###03 Nov 2004 new variable
+assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
@@ -116,7 +116,7 @@ assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
+assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
@@ -127,7 +127,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
-assessment#:#code#:#Code###03 Nov 2004 new variable
+assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#counter#:#Zähler
@@ -186,7 +186,7 @@ assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften bet
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
-assessment#:#exp_type_excel#:#Microsoft Excel###03 Nov 2004 new variable
+assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -200,7 +200,7 @@ assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle 
 assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
-assessment#:#filter#:#Filter###03 Nov 2004 new variable
+assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#Alle Fragentypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -218,7 +218,7 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#javaapplet#:#Java Applet###03 Nov 2004 new variable
+assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#last_update#:#Letzte Aktualisierung
@@ -230,7 +230,7 @@ assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
-assessment#:#material#:#Material###03 Nov 2004 new variable
+assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
@@ -293,7 +293,7 @@ assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
-assessment#:#region#:#Region###03 Nov 2004 new variable
+assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_solution#:#Musterlösung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
@@ -323,7 +323,7 @@ assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erf
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
-assessment#:#time_format#:#HH MM SS###03 Nov 2004 new variable
+assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
@@ -391,7 +391,6 @@ assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
-assessment#:#tst_select_file_for_import#:#You must select a file for import!###03 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
@@ -1301,7 +1300,6 @@ common#:#import_lm#:#Import Lernmodul
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
-common#:#import_tst#:#Import Test###03 Nov 2004 new variable
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
@@ -2161,7 +2159,6 @@ common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_upload_file#:#Datei hochladen
-common#:#tst_upload_file#:#Upload file###03 Nov 2004 new variable
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
@@ -3827,7 +3824,7 @@ survey#:#dc_mostcertainly#:#absolut sicher
 survey#:#dc_mostcertainlynot#:#absolut unsicher
 survey#:#dc_must#:#muss
 survey#:#dc_mustnot#:#darf nicht
-survey#:#dc_neutral#:#neutral###03 Nov 2004 new variable
+survey#:#dc_neutral#:#neutral
 survey#:#dc_never#:#nie
 survey#:#dc_no#:#nein
 survey#:#dc_notacceptable#:#inakzeptabel
@@ -3880,14 +3877,14 @@ survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
-survey#:#evaluation#:#Evaluation###03 Nov 2004 new variable
+survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#excel#:#Microsoft Excel###03 Nov 2004 new variable
+survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Beenden
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
-survey#:#filter#:#Filter###03 Nov 2004 new variable
+survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -3916,7 +3913,7 @@ survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
-survey#:#median#:#Median###03 Nov 2004 new variable
+survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
@@ -4036,8 +4033,8 @@ survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
-survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
-survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
+survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
+survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
 survey#:#svy_show_questiontitles#:#Fragentitel in der Umfrage anzeigen
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
