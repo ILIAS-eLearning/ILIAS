@@ -1,22 +1,25 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
+<style>
+body { margin:0px; }
+</style>
+{LOCATOR}
+<div class="invisible_border">
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
 {INFOPANEL}
 {BUTTONS}
 {MESSAGE}
 <form action="{ACTION}" method="post" name="form">
-<table class="std">
+<table class="fullwidth">
 <tr class="tblheader">
- <td><b>{TXT_AGREEMENT}</b></td>
+ <td class="std">{TXT_AGREEMENT}</td>
 </tr>
-<tr class="tblrow2">
- <td>{TXT_USR_AGREEMENT}</td>
+<tr class="std">
+ <td class="std">{TXT_USR_AGREEMENT}</td>
 </tr>
-<tr class="tblrow1">
- <td align=center><b>{TXT_ACCEPT}</b></td>
-</tr>
-<tr class="tblrow2">
- <td align="center"><input type="radio" name="agreement" checked="checked" value="y" /><b>{TXT_YES}</b><input type="radio" name="agreement" value="n" /><b>{TXT_NO}</b></td>
+<tr>
+ <td class="submit" align="center"><b>{TXT_ACCEPT}</b><input type="radio" name="agreement" value="y" />{TXT_YES}<input type="radio" name="agreement" checked="checked" value="n" />{TXT_NO}
+ <div align="left"><input class="submit" type="submit" name="butSubmit" value="{TXT_SUBMIT}" /></div>
+ </td>
 </tr>
 </table>
-  <br />
-  <input type="submit" name="butSubmit" value="{TXT_SUBMIT}" />
 </form>
+</div>
