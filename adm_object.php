@@ -220,12 +220,11 @@ switch ($type)
 		$ilias->raiseError("Object type '".$type."' is not implemented yet.",$ilias->error_obj->MESSAGE);
 		break;
 }
-
 if ($_GET["message"])
 {
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", $_GET["message"]);
+    $tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("MSG", urldecode($_GET["message"]));
 	$tpl->parseCurrentBlock();
 }
 

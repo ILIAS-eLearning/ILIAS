@@ -63,7 +63,7 @@ class RoleFolderObject extends Object
 		} //if rbac
 		else
 		{
-			$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
 		}
 	} //function
 	

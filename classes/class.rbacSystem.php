@@ -75,17 +75,16 @@ class RbacSystem
 			{
 				if (empty($a_type))
 				{
-					$this->ilias->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",
+											 $this->ilias->error_obj->FATAL);
 				}
 				
 				if ($objDefinition->getSubObjectsAsString($a_type) == "")
 				{
-					$this->ilias->raiseError("CheckAccess: Unknown type definition given: '".$a_type."'",$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError("CheckAccess: Unknown type definition given: '".$a_type."'",
+											 $this->ilias->error_obj->FATAL);
 				}
 
-				// Wofür steht das hier? Hab das auskommentiert; macht keinen Sinn - SH
-				//$obj = new Object();
-				
 				// sometimes no tree-object was instated, therefore:
 				if (!is_object($tree))
 				{

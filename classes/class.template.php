@@ -93,6 +93,7 @@ class Template extends IntegratedTemplateExtension
 			&& substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
 		{
 			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+			$_SESSION["post_vars"] = $_POST;
 		}
     }
 

@@ -50,6 +50,13 @@ include_once "./include/inc.main.php";
 
 session_start();
 
+
+// LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
+if($_GET["message"])
+{
+	$_POST = $_SESSION["post_vars"];
+}
+
 // load main class
 $ilias = new ILIAS;
 
