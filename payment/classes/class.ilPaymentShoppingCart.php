@@ -158,10 +158,18 @@ class ilPaymentShoppingCart
 				return false;
 			}
 			
+			// check pay method
 			$tmp_pobj =& new ilPaymentObject($this->user_obj,$entry['pobject_id']);
 			if($tmp_pobj->getPayMethod() == $tmp_pobj->PAY_METHOD_BILL)
 			{
 				$this->delete($entry['psc_id']);
+				return false;
+			}
+			// if payment is expired
+			if($tmp_pobj->getStatus() == $tmp_pobj->STATUS_EXPIRES)
+			{
+				$this->delete($entry['psc_id']);
+
 				return false;
 			}
 			unset($tmp_pobj);
