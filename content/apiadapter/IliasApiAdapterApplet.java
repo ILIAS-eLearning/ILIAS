@@ -66,7 +66,6 @@ public	class IliasApiAdapterApplet
 	}
 
 	public	final void IliasLaunchSco (String sco_id) {
-		if (sco_id == null) return;
 		if (isLaunched && sco_id.equals(IliasScoId)) {
 			say ("SCO " +sco_id +" is already running.");
 			return;
@@ -102,6 +101,8 @@ public	class IliasApiAdapterApplet
 	}
 
 	private final String IliasCommit () {
+		if (IliasScoId == null) return "false";
+
 		core.transEnd();
 		StringBuffer P = new StringBuffer();
 		Hashtable ins = core.getTransNew ();
@@ -159,10 +160,10 @@ public	class IliasApiAdapterApplet
 			say ("post:" +P.toString());
 			os.write (P.toString().getBytes());
 			os.close ();
+
 			DataInputStream r = new DataInputStream(
 				po.getInputStream ()
 			);
-
 			try {
 				say (r.readUTF());
 				r.close ();
@@ -183,7 +184,10 @@ public	class IliasApiAdapterApplet
 		if (!isLaunched) return;
 		IliasLaunchContent (
 			"../scorm_presentation.php?cmd=view"
+			+"&sco_id=" + IliasScoId
 			+"&ref_id=" + IliasRefId
+			+"&status=" + core.sysGet ("cmi.core.lesson_status")
+			+"&totime=" + core.sysGet ("cmi.core.total_time")
 		);
 		isLaunched = false;
 	}
@@ -215,6 +219,7 @@ public	class IliasApiAdapterApplet
 		say ("LMSFinish("+s+")="+rv);
 		if (rv.equals("false")) return rv;
 		IliasFinish();
+		core.reset();
 		return rv;
 	}
 

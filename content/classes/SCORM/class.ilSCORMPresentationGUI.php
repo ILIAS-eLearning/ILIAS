@@ -182,29 +182,18 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
-	function api()
+	function api2()
 	{
-		// should be an item
-		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
-
-		if(is_object($sc_gui_object))
-		{
-			$sc_gui_object->api();
-		}
-
+		$this->api();
 	}
 
-	function api2()
+	function api()
 	{
 		global $ilias;
 
 		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
 
-		$this->tpl = new ilTemplate("tpl.scorm_api2.html", true, true, true);
-		//$func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
-		//$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
-		//$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
-		//$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+		$this->tpl = new ilTemplate("tpl.scorm_api.html", true, true, true);
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
 		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
