@@ -198,8 +198,18 @@ class ilObjGlossary extends ilObject
 	{
 		$this->initMeta();
 		$this->meta_data->update();
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
 		parent::update();
 	}
 
