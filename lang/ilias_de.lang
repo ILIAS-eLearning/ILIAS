@@ -281,6 +281,27 @@ common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_trash#:#Gelöschte Objekte
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
+common#:#ingmedia_all_offers#:#Alle LE
+common#:#ingmedia_back_to_le#:#Zur&uuml;ck zur Lerneinheit
+common#:#ingmedia_level_zero#:#Eine Ebene nach oben
+common#:#ingmedia_good_morning#:#Guten Morgen
+common#:#ingmedia_good_afternoon#:#Guten Nachmittag
+common#:#ingmedia_good_evening#:#Guten Abend
+common#:#ingmedia_good_night#:#Guten Nacht
+common#:#ingmedia_hello#:#Guten Tag
+common#:#ingmedia_info_about_work1#:#Sie haben hier am
+common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie k&ouml;nnen jetzt dort weitermachen, wo Sie damals aufgeh&ouml;rt haben:
+common#:#ingmedia_pers_dates#:#Pers&ouml;nliche Daten
+common#:#ingmedia_reg_fo#:#Registrierte Foren
+common#:#ingmedia_reg_le#:#Registrierte LE
+common#:#ingmedia_user_agree#:#Benutzervereinbarung
+common#:#ingmedia_use_info1#:#Hier k&ouml;nnen Sie Ihre pers&ouml;nliche Daten &auml;ndern. Sie sind NICHT verpflichtet, au&szlig;er dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder d&uuml;rfen Sie mit sonstigen Zeichen f&uuml;llen.
+common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu d&uuml;rfen, m&uuml;ssen Sie mit den Benutzervereinbarungen einverstanden sein.
+common#:#ingmedia_use_info3#:#Bitte w&auml;hlen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
+common#:#ingmedia_use_title#:#Benutzerdaten &auml;ndern
+common#:#ingmedia_vis_le#:#Besuchte LE
+common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
+common#:#ingmedia_welcome#:#, willkommen an Ihrem pers&ouml;nlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
 common#:#insert#:#Einfügen
