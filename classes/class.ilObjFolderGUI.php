@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.13 2004/01/12 16:30:53 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.14 2004/01/19 15:49:17 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -121,7 +121,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		// no notify for folders
 		//$folderObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$folderObj->getRefId());
 
-		sendInfo($this->lng->txt("fold_add"),true);		
+		sendInfo($this->lng->txt("fold_added"),true);		
 		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
