@@ -216,10 +216,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_NAME", "save");
 		
 		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
-		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
-		$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
+		//$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
+		//$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
 		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
-		
+
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
