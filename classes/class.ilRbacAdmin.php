@@ -318,9 +318,9 @@ class ilRbacAdmin
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
 
-		$q = "INSERT INTO rbac_pa (rol_id,ops_id,obj_id,set_id) ".
+		$q = "INSERT INTO rbac_pa (rol_id,ops_id,obj_id) ".
 			 "VALUES ".
-			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."','".$a_ref_id."')";
+			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -472,35 +472,33 @@ class ilRbacAdmin
 
 	/**
 	* Assigns a role to an role folder
-	*  A role folder is an object to store roles.
-	*  Every role is assigned to minimum one role folder
-	*  If the inheritance of a role is stopped, a new role template will created, and the role is assigned to
+	* A role folder is an object to store roles.
+	* Every role is assigned to minimum one role folder
+	* If the inheritance of a role is stopped, a new role template will created, and the role is assigned to
 	* minimum two role folders. All roles with stopped inheritance need the flag '$a_assign = false'
 	*
 	* @access	public
 	* @param	integer		object id of role
 	* @param	integer		ref_id of role folder
-	* @param    integer     ref_id of role folders parent
 	* @param	string		assignable('y','n'); default: 'y'
 	* @return	boolean
 	*/
-	function assignRoleToFolder($a_rol_id,$a_parent,$a_parent_obj,$a_assign = "y")
+	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
 		global $log;
 
-		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() != 4)
+		if (!isset($a_rol_id) or !isset($a_parent) or func_num_args() != 3)
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
 					   " role_id: ".$a_rol_id.
 					   " parent_id: ".$a_parent.
-					   " parent_obj: ".$a_parent_obj.
 					   " assign: ".$a_assign;
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
-			 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."','".$a_parent_obj."')";
+		$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
+			 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -536,7 +534,7 @@ class ilRbacAdmin
 
 	/**
 	* Deassign an existing operation from an object 
-	*  Update of rbac_ta
+	* Update of rbac_ta
 	* @access	public
 	* @param	integer	object type
 	* @param	integer	operation_id
@@ -562,7 +560,5 @@ class ilRbacAdmin
 	
 		return true;
 	}
-
-
 } // END class.ilRbacAdmin
 ?>

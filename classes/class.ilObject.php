@@ -688,5 +688,40 @@ class ilObject
 
 		return $data;
 	}
+
+	/**
+	* init default roles settings
+	* Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type 
+	* If you want to setup default local roles you MUST overwrite this method in derived object classes (see ilObjForum for an example)
+	* @access	public
+	* @return	array	empty array
+	*/
+	function initDefaultRoles()
+	{
+		return array();
+	}
+	
+	/**
+	* creates a local role folder
+	* 
+	* @access	public
+	* @param	string	rolefolder title
+	* @param	string	rolefolder description
+	* @param	object	parent object where the rolefolder is attached to
+	* @return	object	rolefolder object
+	*/
+	function createRoleFolder($a_title,$a_desc)
+	{
+		include_once ("classes/class.ilObjRoleFolder.php");
+		$rfoldObj = new ilObjRoleFolder();
+		$rfoldObj->setTitle($a_title);
+		$rfoldObj->setDescription($a_desc);
+		$rfoldObj->create();
+		$rfoldObj->createReference();
+		$rfoldObj->putInTree($this->getRefId());
+		$rfoldObj->setPermissions($this->getRefId());
+		
+		return $rfoldObj;
+	}
 } // END class.ilObject
 ?>

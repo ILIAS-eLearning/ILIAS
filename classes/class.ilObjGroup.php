@@ -365,7 +365,7 @@ class ilObjGroup extends ilObject
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
 				//the assignment stops the inheritation
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
 			}//END foreach
 
 			$this->m_grpStatus = 0;
@@ -393,7 +393,7 @@ class ilObjGroup extends ilObject
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
 				//the assignment stops the inheritation
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
 			}//END foreach
 
 			$this->m_grpStatus = 2;
@@ -457,7 +457,7 @@ class ilObjGroup extends ilObject
 				$roleObj->create();
 
 				// put the role into local role folder...
-				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
+				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,"y");
 
 				// set member role id for group object
 				$this->m_roleMemberId = $roleObj->getId();
@@ -489,7 +489,7 @@ class ilObjGroup extends ilObject
 				$roleObj->create();
 
 				// put the role into local role folder...
-				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
+				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,"y");
 
 				// set adimn role id for group object
 				$this->m_roleAdminId = $roleObj->getId();
@@ -516,8 +516,7 @@ class ilObjGroup extends ilObject
 				$roleObj->setDescription("automatic generated Group-Requestrole");
 				$roleObj->create();
 				$roleObj->createReference();
-				$parent_id = $this->->getParentId($_GET["ref_id"]);
-				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
+				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, 'y');
 
 				$this->m_roleRequestId = $roleObj->getId();
 				//set permissions for request-role

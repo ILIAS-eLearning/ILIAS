@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.21 2003/07/07 20:30:32 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.22 2003/07/13 09:08:09 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,38 +69,39 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+		global $rbacadmin;
 
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		{
-			// create and insert object in objecttree
-			require_once("classes/class.ilObjLearningModule.php");
-			$newObj = new ilObjLearningModule();
-			$newObj->setType("lm");
-			$newObj->setTitle("dummy");			// set by meta_gui->save
-			$newObj->setDescription("dummy");	// set by meta_gui->save
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
+		// always call parent method first to create an object_data entry & a reference
+		//$newObj = parent::saveObject();
+		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call 
 
-			// save meta data
-			require_once "classes/class.ilMetaDataGUI.php";
-			$meta_gui =& new ilMetaDataGUI();
-			$meta_gui->setObject($newObj);
-			$meta_gui->save();
 
-			// create learning module tree
-			$newObj->createLMTree();
+		// create and insert object in objecttree
+		include_once("classes/class.ilObjLearningModule.php");
+		$newObj = new ilObjLearningModule();
+		$newObj->setType("lm");
+		$newObj->setTitle("dummy");			// set by meta_gui->save
+		$newObj->setDescription("dummy");	// set by meta_gui->save
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
 
-			unset($newObj);
-		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
-		}
+		// save meta data
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($newObj);
+		$meta_gui->save();
 
-		header("Location: adm_object.php?".$this->link_params);
+		// create learning module tree
+		$newObj->createLMTree();
+
+		unset($newObj);
+
+		// always send a message
+		sendInfo($this->lng->txt("lm_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
 
@@ -317,7 +318,5 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 
 		//nada para mirar ahora :-)
 	}
-
-
-}
+} // END class.ilObjLearningModuleGUI
 ?>

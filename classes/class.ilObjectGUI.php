@@ -420,7 +420,7 @@ class ilObjectGUI
  	*/
 	function pasteObject()
 	{
-		global $rbacsystem, $rbacadmin;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// CHECK SOME THINGS
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
@@ -637,22 +637,45 @@ class ilObjectGUI
 				{
 					foreach ($subnode as $node)
 					{
-						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-						$new_ref_id = $obj_data->createReference();
+						if ($node["type"] != 'rolf')
+						{
+							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+							$new_ref_id = $obj_data->createReference();
 						
-						// ... use mapping array to find out the correct new parent node where to put in the node...
-						$new_parent = array_search($node["parent"],$mapping);
+							// ... use mapping array to find out the correct new parent node where to put in the node...
+							$new_parent = array_search($node["parent"],$mapping);
 						
-						// ... append node to mapping for further possible subnodes ...
-						$mapping[$new_ref_id] = $node["child"];
+							// ... append node to mapping for further possible subnodes ...
+							$mapping[$new_ref_id] = $node["child"];
 
-						$obj_data->putInTree($new_parent);
-						$obj_data->setPermissions($new_parent);
+							$obj_data->putInTree($new_parent);
+							$obj_data->setPermissions($new_parent);
+						}
+						else
+						{
+							// get the parent object that contains the rolefolder ...
+							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+
+							// ... use mapping array to find out the correct new parent node where to put in the node...
+							$new_parent = array_search($node["parent"],$mapping);
+							
+							// setup rolefolder and link in default local roles
+							// createRoleFolder
+							$rfoldObj = $obj_data->createRoleFolder("Local Roles","Role Folder of object ref_no.".$new_parent,$new_parent);
+							
+							$localroles = $rbacreview->getRolesOfRoleFolder($obj_data->getRefId(),false);
+//var_dump("<pre>",$localroles,"</pre>");exit;
+							foreach ($localroles as $role_id)
+							{
+								$rbacadmin->assignRoleToFolder($role_id,$rfoldObj->getRefId(),"y");
+							} 
+							//$obj_data->link($new_parent);							
+						}
 					}
 				}
 			}
 		} // END IF 'link & paste'
-				
+
 		// save cmd for correct message output after clearing the clipboard
 		$last_cmd = $_SESSION["clipboard"]["cmd"];
 		
@@ -670,7 +693,7 @@ class ilObjectGUI
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-	}
+	} // END PASTE
 
 	/**
 	* clear clipboard and go back to last object
@@ -1180,15 +1203,16 @@ class ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin;
+		global $rbacsystem;
 
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
-			// create and insert object in objecttree
+ 			// create and insert object in objecttree
 			$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
 			include_once("classes/class.".$class_name.".php");
 			$newObj = new $class_name();
@@ -1199,13 +1223,9 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			unset($newObj);
+			
+			return $newObj;
 		}
-
-		sendInfo($this->lng->txt("msg_obj_created"),true);
-
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
 	}
 
 	/**
@@ -1328,7 +1348,7 @@ class ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $log, $rbacsystem, $rbacreview, $rbacadmin;
+		global $rbacsystem, $rbacreview;
 
 #		static $num = 0;
 
@@ -1637,7 +1657,7 @@ class ilObjectGUI
 						$parentRoles = $rbacreview->getParentRoleIds($rolf_data["child"]);
 						$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 													   $rolf_data["child"],$stop_inherit);
-						$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
+						$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],'n');
 					}
 				}
 			}// END FOREACH
@@ -2228,7 +2248,7 @@ class ilObjectGUI
 			$roleObj->setDescription("No description");
 			$roleObj->create();
 			$new_obj_id = $roleObj->getId();
-			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["ref_id"],'y');
+			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,'y');
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);

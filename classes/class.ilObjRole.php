@@ -155,8 +155,14 @@ class ilObjRole extends ilObject
 				// IT'S A BASE ROLE
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
-				// delete object_data entry
-				parent::delete();
+				// check if role is assigned to other rolefolders (by linking operation)
+				if (count($rbacreview->getFoldersAssignedToRole($this->getId())) == 0)
+				{
+					// delete object_data entry
+					parent::delete();
+					return true;
+				}
+				
 				return true;
 			}
 		}

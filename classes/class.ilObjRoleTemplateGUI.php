@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.16 2003/07/08 12:00:45 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.17 2003/07/09 18:36:58 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -78,8 +78,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$roltObj->setTitle($_POST["Fobject"]["title"]);
 			$roltObj->setDescription($_POST["Fobject"]["desc"]);
 			$roltObj->create();
-			$parent_id = $this->tree->getParentId($_GET["ref_id"]);
-			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],$parent_id,'y');
+			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],'y');
 		}
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
