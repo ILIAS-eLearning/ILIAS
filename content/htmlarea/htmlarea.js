@@ -964,7 +964,7 @@ HTMLArea.loadStyle("htmlarea.css");
 // by Weeezl (user @ InteractiveTools forums).
 HTMLArea.prototype._wordClean = function() {
 	var D = this.getInnerHTML();
-	if (D.indexOf('class=Mso') >= 0 || D.indexOf('mso-') >= 0 ) {
+	if (D.indexOf('class=Mso') >= 0 || D.indexOf('mso-') >= 0 || 1==1) {
 
 		// make one line
 		D = D.replace(/\r\n/g, ' ').

@@ -4370,3 +4370,4 @@ survey#:#view_phrase#:#Voir expression
 survey#:#warning_question_in_use#:#Attention ! La question que vous voulez modifier est utilisée dans les sondages listés ci-dessous. Si vous décidez de continuer et d'enregistrer/appliquer la question, toutes les réponses aux sondages listés ci-dessous seront détruites. Si vous voulez changer la question et l'utiliser dans un autre sondage, veuillez choisir 'dupliquer' dans l'explorateur de questions pour créer une nouvelle instance de la question.
 survey#:#warning_question_not_complete#:#La question n'est pas complète.
 survey#:#warning_survey_not_complete#:#Le sondage n'est pas complet.
+content#:#cont_removeiln#:#Etes-vous sûr(e) de vouloir détruire ce lien interne?
