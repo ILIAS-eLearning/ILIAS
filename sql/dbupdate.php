@@ -4762,3 +4762,8 @@ $ilCtrlStructureReader->getStructure();
 <#311>
 ALTER TABLE `tst_active` ADD INDEX `user_fi` (`user_fi`);
 ALTER TABLE `tst_active` ADD INDEX `test_fi` (`test_fi`);
+<#312>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
