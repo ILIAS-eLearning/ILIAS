@@ -60,7 +60,10 @@ class ilContObjectExport
 
 	}
 
-
+	function getInstId()
+	{
+		return $this->inst_id;
+	}
 
     function exportRekursiv($depth, $left, $right)
 	{

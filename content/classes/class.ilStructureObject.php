@@ -85,7 +85,7 @@ class ilStructureObject extends ilLMObject
 		parent::delete();
 	}
 
-		/**
+	/**
 	* export object to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
@@ -111,8 +111,9 @@ class ilStructureObject extends ilLMObject
 		$a_xml_writer->xmlEndTag("StructureObject");
 	}
 
+
 	/**
-	* export content objects meta data to xml (see ilias_co.dtd)
+	* export structure objects meta data to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
@@ -122,6 +123,55 @@ class ilStructureObject extends ilLMObject
 		$nested = new ilNestedSetXML();
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+	}
+
+
+	/**
+	* export page objects of structure object (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLPageObjects(&$a_xml_writer)
+	{
+		$childs = $this->tree->getChilds($this->getId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "pg")
+			{
+				continue;
+			}
+
+			// export xml to writer object
+			$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
+			$page_obj->exportXML($a_xml_writer, "alias");
+			unset($page_obj);
+		}
+	}
+
+
+	/**
+	* export (sub)structure objects of structure object (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLStructureObjects(&$a_xml_writer)
+	{
+		$childs = $this->tree->getChilds($this->getId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "st")
+			{
+				continue;
+			}
+
+			// export xml to writer object
+			$structure_obj = new ilStructureObject($this->getContentObject(),
+				$child["obj_id"]);
+			$structure_obj->exportXML($a_xml_writer);
+			unset($structure_obj);
+		}
 	}
 
 

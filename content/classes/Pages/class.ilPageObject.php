@@ -123,6 +123,11 @@ class ilPageObject
 		}
 	}
 
+	function freeDom()
+	{
+		$this->dom->free();
+	}
+
 	function &getDom()
 	{
 		return $this->dom;
@@ -334,12 +339,6 @@ class ilPageObject
 	{
 		// build full http path for XML DOCTYPE header.
 		// Under windows a relative path doesn't work :-(
-		// unfortunately this fix doesn't work also.
-		// the class is used in scripts outside the content
-		// module as well.
-		/*
-		$split = preg_split("/\/content\//",$_SERVER["PHP_SELF"]);
-		$http_path = "http://".$_SERVER["HTTP_HOST"].$split[0]."/xml/";*/
 
 		if($a_incl_head)
 		{
@@ -360,7 +359,8 @@ class ilPageObject
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
 	*/
-	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false, $a_append_bib = false, $a_append_str = "")
+	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false, $a_append_bib = false,
+		$a_append_str = "", $a_omit_pageobject_tag = false)
 	{
 		if ($a_incl_head)
 		{
@@ -387,7 +387,20 @@ class ilPageObject
 			{
 				if (is_object($this->dom))
 				{
-					return $this->dom->dump_node($this->node);
+					if ($a_omit_pageobject_tag)
+					{
+						$xml = "";
+						$childs =& $this->node->child_nodes();
+						for($i = 0; $i < count($childs); $i++)
+						{
+							$xml.= $childs[$i]->dump_node();
+						}
+						return $xml;
+					}
+					else
+					{
+						return $this->dom->dump_node($this->node);
+					}
 				}
 				else
 				{
@@ -1073,6 +1086,44 @@ class ilPageObject
 		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
 		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
 		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
+	}
+
+	/**
+	* inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
+	* this is needed for xml export of page
+	*/
+	function insertInstIntoIDs($a_inst)
+	{
+		// insert inst id into internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+
+			if (substr($target, 0, 4) == "il__")
+			{
+				$new_target = "il_".$a_inst."_".substr($target, 4, strlen($target) - 4);
+				$res->nodeset[$i]->set_attribute("Target", $new_target);
+			}
+		}
+		unset($xpc);
+
+		// insert inst id into media aliases
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$orig_id = $res->nodeset[$i]->get_attribute("OriginId");
+			if (substr($target, 0, 4) == "il__")
+			{
+				$new_id = "il_".$a_inst."_".substr($origin_id, 4, strlen($origin_id) - 4);
+				$res->nodeset[$i]->set_attribute("OriginId", $new_id);
+			}
+		}
 	}
 
 
