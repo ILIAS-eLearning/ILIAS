@@ -157,6 +157,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	}
 	
 	// delete post and its sub-posts
+/*
 	if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 	{
 		$dead_thr = $frm->deletePost($_GET["pos_pk"]);		
@@ -171,7 +172,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 		
 		sendInfo($lng->txt("forums_post_deleted"));
 	}
-	
+*/	
 	// get first post of thread
 	$first_node = $frm->getFirstPostNode($_GET["thr_pk"]);	
 	
