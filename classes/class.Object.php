@@ -443,7 +443,8 @@ class Object
 			{
 				if (in_array($ops_id,$ops_valid))
 				{
-					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
+					$rbacreview->deassignPermissionFromObject($_GET["obj_id"],$ops_id);
+//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
 				}
 			}
 		}
