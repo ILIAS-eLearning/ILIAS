@@ -125,7 +125,7 @@ class Object
 		$a_new_type = $a_new_type ? $a_new_type : $_GET["new_type"];
 		$a_data = $a_data ? $a_data : $_POST["Fobject"];
 		
-		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_type))
+		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_new_type))
 		{
 			// create and insert object in objecttree
 			$this->id = createNewObject($a_new_type, $a_data);
