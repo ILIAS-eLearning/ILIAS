@@ -8,8 +8,11 @@
 <p>{MSG}</p>
 <!-- END message -->
 
+<form name="form" action="{FORMACTION}" method="post">
+
 <table cellpadding="2" cellspacing="0" border="0">
 <tr  class="tblheader" >
+  <td>&nbsp;</td>
   <td><b>&nbsp;{TXT_LANG}&nbsp;</b></td>
   <td><b>&nbsp;{TXT_STATUS}&nbsp;</b></td>
   <td><b>&nbsp;{TXT_LASTCHANGE}&nbsp;</b></td>
@@ -17,16 +20,20 @@
 
 <!-- BEGIN language_row -->
 <tr class="{ROWCOL}">
+  <td><input type="checkbox" name="check" value=1></td>
   <td>&nbsp;{TITLE}&nbsp;</td>
   <td><a href="{LINK}" target="_top">&nbsp;{STATUS}&nbsp;</a></td>
   <td><font size=-1>&nbsp;{LASTCHANGE}</font></td>
 </tr>
 <!-- END language_row -->
+<tr>
+  <td><img src="./images/arrow_downright.gif" border=0></td>
+  <td colspan=3>action</td>
+</tr>
 </table>
 <br>
 {BUTTONS2}
 
-<form name="form" method="post" action="{FORMACTION}">
 <p>{TXT_GENERATE} <input type="text" name="langfile" value="{LANGMASTERFILE}">
 <input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></p>
 </form>
