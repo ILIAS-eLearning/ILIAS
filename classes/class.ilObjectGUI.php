@@ -520,8 +520,7 @@ class ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
 
-		header("location:".$this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
 	}
 
 	/**
@@ -600,7 +599,7 @@ class ilObjectGUI
 
 		////////////////////////////////////////////////////////
 		// everything ok: now paste the objects to new location
-		
+
 		// process COPY command
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
@@ -636,7 +635,7 @@ class ilObjectGUI
 
 				// ... remove top_node from list ...
 				array_shift($subnode);
-				
+
 				// ... insert subtree of top_node if any subnodes exist
 				if (count($subnode) > 0)
 				{
@@ -780,8 +779,8 @@ class ilObjectGUI
 			sendInfo($this->lng->txt("msg_linked"),true);		
 		}
 		
-		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	} // END PASTE
 
 	/**
@@ -797,8 +796,7 @@ class ilObjectGUI
 		{
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
 			
-			header("location:".$this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
-			exit();
+			ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
 	}
 
@@ -849,8 +847,8 @@ class ilObjectGUI
 		
 		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
-		header("Location:".$this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	} // END CUT
 
 	/**
@@ -920,8 +918,7 @@ class ilObjectGUI
 	
 		sendinfo($this->lng->txt("msg_link_clipboard"),true);
 
-		header("location:".$this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END LINK
 
@@ -964,8 +961,8 @@ class ilObjectGUI
 		unset($_SESSION["copied_group_refs"]);
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
-		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	} // END CLONE
 
 	/**
@@ -1056,8 +1053,8 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_undeleted"),true);
 		
-		header("Location:".$this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	}
 
 	/**
@@ -1197,8 +1194,8 @@ class ilObjectGUI
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 		
-		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	}
 
 	/**
@@ -1212,8 +1209,8 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		
-		header("Location:".$this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	}
 
 	/**
@@ -1259,8 +1256,8 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
 
-		header("Location:".$this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
+
 	}
 
 	/**
@@ -1361,8 +1358,8 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		header("Location:".$this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+
 	}
 
 	/**
@@ -1509,8 +1506,7 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 	}
 
 	/**
@@ -1891,8 +1887,8 @@ class ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: ".$this->getReturnLocation("permSave","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("permSave","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
+
 	}
 
 	/**
@@ -2470,8 +2466,8 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("role_added"),true);
 
-		header("Location: ".$this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
+
 	}
 
 	/**
