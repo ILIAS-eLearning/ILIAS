@@ -54,7 +54,7 @@ administration#:#nothing_to_purge#:#Rien à purger...
 administration#:#nothing_to_remove#:#Rien à supprimer...
 administration#:#nothing_to_restore#:#Rien à restaurer...
 administration#:#options#:#Options
-administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
+administration#:#passwd_auto_generate#:#Envoi/génération de mot de passe
 administration#:#purge_missing#:#Purge des objets manquants
 administration#:#purge_missing_desc#:#Suppression des tous les objets manquants et orphelins trouvés sur le système.
 administration#:#purge_trash#:#Purge des objets détruits
@@ -102,7 +102,7 @@ assessment#:#add_area#:#Ajouter zone
 assessment#:#add_gap#:#Ajouter texte à trous
 assessment#:#add_imagemap#:#Ajouter image réactive
 assessment#:#add_matching_pair#:#Ajouter appariements
-assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
+assessment#:#add_questionpool#:#Ajouter jeu de questions
 assessment#:#all_available_question_pools#:#Tous les jeux de questions disponibles
 assessment#:#answer#:#Réponse
 assessment#:#answer_is_right#:#Votre solution est correcte
@@ -117,19 +117,19 @@ assessment#:#apply#:#Appliquer
 assessment#:#ass_create_export_file#:#Créer fichier d'exportation
 assessment#:#ass_export_files#:#Fichiers d'exportation
 assessment#:#ass_file#:#Fichier
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Question
 assessment#:#ass_questions#:#Questions
 assessment#:#ass_size#:#Taille
 assessment#:#available_points#:#Points disponibles
-assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#average_reached_points#:#Niveaux moyens atteints
+assessment#:#backtocallingtest#:#Retour au test
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Annuler le test
-assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
+assessment#:#cannot_edit_test#:#Vous n'avez pas les permissions nécessaires pour modifier ce test.
+assessment#:#cannot_execute_test#:#Vous n'avez pas les permissions nécessaires pour lancer ce test
 assessment#:#cannot_export_test#:#Vous n'avez pas les permissions nécessaires pour exporter le test.
 assessment#:#cannot_maintain_test#:#Vous n'avez pas les permissions nécessaires pour assurer la maintenance du test
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+assessment#:#cannot_read_questionpool#:#Vous n'avez pas les permissions nécessaires pour  lire les données du jeu de questions.
 assessment#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les métadonnées
 assessment#:#change_solution#:#Modifier proposition de solution
 assessment#:#checkbox_checked#:#Coché
@@ -137,11 +137,11 @@ assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
 assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désirée
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
+assessment#:#close_text_hint#:#Vous pouvez définir une lacune en saisissant <gap></gap> à la position de votre choix dans le texte.  Cliquez sur le bouton 'Créer les lacunes' pour ajouter un formulaire modifiable pour chaque lacune.
 assessment#:#cloze_text#:#Texte de closure
 assessment#:#code#:#Code
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
-assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?###19 Nov 2004 content changed
+assessment#:#confirm_delete_all_user_data#:#Etes-vous sûr(e) de vouloir détruire toutes les informations utilisateurs du test ?
+assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?
 assessment#:#coordinates#:#Coordonnées
 assessment#:#correct_solution_is#:#La solution correcte est
 assessment#:#create_date#:#Créé
@@ -149,7 +149,7 @@ assessment#:#create_gaps#:#Créer lacune
 assessment#:#create_imagemap#:#Créer  une image réactive
 assessment#:#create_new#:#Créer nouveau
 assessment#:#delete_area#:#Détruire zone
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
+assessment#:#description_maxchars#:#Si rien n'est saisi, le nombre maximum de caractères pour cette réponse texte est illimité.
 assessment#:#detail_ending_time_reached#:#Vous avez atteint la limite de temps pour le test.  Le test n'est plus disponible depuis %s
 assessment#:#detail_max_processing_time_reached#:#Vous avez atteint le temps maximal autorisé pour le test !
 assessment#:#detail_starting_time_not_reached#:#Le temps de départ du test n'est pas encore arrivé.  Il sera disponible à partir de %s
@@ -183,8 +183,8 @@ assessment#:#ects_range_error_d#:#Veuillez saisir une valeur entre 0 et 100 pour
 assessment#:#ects_range_error_e#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS E.
 assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants ont échoué
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
+assessment#:#edit_content#:#Modifier contenu
+assessment#:#edit_properties#:#Modifier propriétés
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
 assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son répertoire de destination.
@@ -193,23 +193,23 @@ assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importati
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
 assessment#:#error_open_java_file#:#Erreur à l'ouverture d'une applet java
 assessment#:#error_save_image_file#:#Erreur lors de l'enregistrement d'un fichier image
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Evaluation pour tous les utilisateurs
 assessment#:#eval_choice_result#:#Le choix avec la valeur %s est %s.  Vous avez obtenu %s points.
 assessment#:#eval_cloze_result#:#La lacune numéro %s avec la valeur %s est %s. Vous avez obtenu %s points.
-assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
+assessment#:#eval_concatenation#:#Concaténation
 assessment#:#eval_data#:#Données d'évaluation
-assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
-assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
+assessment#:#eval_found_selected_groups#:#Groupes sélectionnés
+assessment#:#eval_found_selected_users#:#Utilisateurs sélectionnés
 assessment#:#eval_imagemap_result#:#La sélection de l'image réactive est %s. Vous avez obtenu %s points.
 assessment#:#eval_java_result#:#La réponse pour la valeur %s est %s. Vous avez reçu %s points.
 assessment#:#eval_legend_link#:#Veuillez vous reporter à la légende pour connaître le sens des symboles des entêtes de colonnes.
 assessment#:#eval_matching_result#:#L'appariement %s - %s est %s. Vous avez obtenu %s points.
 assessment#:#eval_order_result#:#L'ordre pour la valeur %s est %s. Vous avez obtenu %s points.
-assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
-assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
-assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
-assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
-assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
+assessment#:#eval_search_groups#:#Groupes
+assessment#:#eval_search_term#:#Terme de recherche
+assessment#:#eval_search_users#:#Utilisateurs
+assessment#:#eval_search_userselection#:#Rechercher les utilisateurs que vous voulez ajouter à l'évaluation statistique
+assessment#:#eval_selected_users#:#Evaluation pour les utilisateurs sélectionnés
 assessment#:#exp_eval_data#:#Exporter les données d'évaluation
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -249,16 +249,16 @@ assessment#:#javaapplet_unsuccessful_saved#:#Une erreur s'est produite pendant l
 assessment#:#last_update#:#Dernière mise à jour
 assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
-assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
-assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
-assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
-assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
-assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
-assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
-assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
+assessment#:#log_create_new_test#:#Nouveau test créé
+assessment#:#log_mark_added#:#Marque ajoutée
+assessment#:#log_mark_changed#:#Marque modifiée
+assessment#:#log_mark_removed#:#Marque supprimée
+assessment#:#log_modified_test#:#Le test a été modifié
+assessment#:#log_no_test_fields_changed#:#Enregistré, mais aucun changement
+assessment#:#log_question_added#:#Question ajoutée à la position
+assessment#:#log_question_position_changed#:#Position de la question modifiée
+assessment#:#log_question_removed#:#Question supprimée
+assessment#:#log_user_data_removed#:#Toutes les données utilisateurs supprimées
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Schéma de note
 assessment#:#match_terms_and_definitions#:#Termes d'appariement et définitions
@@ -268,7 +268,7 @@ assessment#:#matching_pair#:#Appariement
 assessment#:#material#:#Matériau 
 assessment#:#material_download#:#Matériau à télécharger
 assessment#:#material_file#:#Fichier matériau
-assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
+assessment#:#maxchars#:#Nombre maximum de caractères
 assessment#:#maximum_nr_of_tries_reached#:#Vous avez atteint le nombre de tentatives maximal pour ce test. Vous ne pouvez plus entrer dans le test.
 assessment#:#meaning#:#Signification
 assessment#:#min_percentage_ne_0#:#Vous devez définir un pourcentage minimal de 0 %. Le schéma de note n'a pas été enregistré.
@@ -278,7 +278,7 @@ assessment#:#no_passed_mark#:#Vous devez définir au moins une note comme REUSSI
 assessment#:#no_question_selected_for_move#:#Veuillez cocher au moins une question pour la déplacer
 assessment#:#no_questions_available#:#Il n'y a pas de questions disponibles !
 assessment#:#no_target_selected_for_move#:#Vous devez sélectionner une position de destination
-assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#no_user_or_group_selected#:#Veuillez sélectionner le type d'objets que vous cherchez (utilisateurs et/ou groupes)
 assessment#:#or#:#ou
 assessment#:#order_pictures#:#Ordonner les images
 assessment#:#order_terms#:#Ordonner les termes
@@ -319,13 +319,13 @@ assessment#:#qt_matching#:#Question d'appariement
 assessment#:#qt_multiple_choice_mr#:#Question à choix multiple (réponse multiple)
 assessment#:#qt_multiple_choice_sr#:#Question
 assessment#:#qt_ordering#:#Question de remise en ordre
-assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
+assessment#:#qt_text#:#Question à réponse courte (texte)
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_short#:#Q
-assessment#:#question_title#:#Question title###17 Dec 2004 new variable
+assessment#:#question_title#:#Titre de la question
 assessment#:#question_type#:#Type de Question
 assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
-assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
+assessment#:#questions_from#:#questions de
 assessment#:#radio_set#:#Sélectionné
 assessment#:#radio_unset#:#Déselectionné
 assessment#:#random_accept_sample#:#Accepter échantillon
@@ -341,13 +341,13 @@ assessment#:#reset_filter#:#Remettre le filtre à zéro
 assessment#:#result#:#Resultat
 assessment#:#save_before_upload_imagemap#:#Vous devez appliquer vos changements avant de pouvoir télécharger une image réactive.
 assessment#:#save_before_upload_javaapplet#:#Vous devez appliquer vos changements avant de pouvoir télécharger une applet Java
-assessment#:#save_finish#:#Enregistrer et terminer le test###21 Dec 2004 content changed
-assessment#:#save_introduction#:#Enregistrer et aller à l'introduction###21 Dec 2004 content changed
-assessment#:#save_next#:#Enregistrer et aller à la prochaine question###21 Dec 2004 content changed
-assessment#:#save_previous#:#Enregistrer et aller à la question précédente###21 Dec 2004 content changed
-assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
-assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
-assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
+assessment#:#save_finish#:#Terminer le test
+assessment#:#save_introduction#:#Aller à l'introduction
+assessment#:#save_next#:#Aller à la question suivante
+assessment#:#save_previous#:#Aller à la question précédente
+assessment#:#save_text_answer_points#:#Enregistrer les points des questions texte
+assessment#:#search_found_groups#:#Groupes trouvés
+assessment#:#search_found_users#:#Utilisateurs trouvés
 assessment#:#see_details_for_further_information#:#Voir détails pour les solutions proposées
 assessment#:#select_an_answer#:#--- Veuillez sélectionner une réponse ---
 assessment#:#select_gap#:#Selectionner lacune
@@ -361,20 +361,20 @@ assessment#:#shuffle_answers#:#Mélanger les réponses
 assessment#:#solution_order#:#Ordre correct
 assessment#:#start_tag#:#Point de départ
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
-assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
+assessment#:#statistical_data#:#Données statistiques
 assessment#:#suggested_solution_added_successfully#:#Vous avez défini une proposition de solution avec succès.
 assessment#:#symbol#:#Symbole
-assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
+assessment#:#text_answers_saved#:#Points des questions texte modifiés
 assessment#:#text_gap#:#Lacune du texte
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
+assessment#:#text_maximum_chars_allowed#:#Veuillez ne pas saisir plus de %s caractères.  Tout caractère supplémentaire sera supprimé
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Veuillez remplir les paramètres vides de votre applet avant d'ajouter un nouveau paramètre.
 assessment#:#true#:#Vrai
-assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites###29 Nov 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
 assessment#:#tst_already_taken#:#Tests déjà pris
 assessment#:#tst_anon_eval#:#Résultats anonymes agrégés
 assessment#:#tst_browse_for_questions#:#Parcourir les questions
-assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats préalables des questions de ce test. Cela remettra toutes les questions à leur valeur par défaut. Souvenez-vous que vous ne pouvez pas réinitialiser le nombre de tentatives que vous avez faites pour ce test. Voulez-vous vraiment réinitialiser les résultats saisis ?###29 Nov 2004 content changed
+assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats précédents des questions de ce test. Cela remettra toutes les questions à leur valeur par défaut. Souvenez-vous que vous ne pouvez pas réinitialiser le nombre de tentatives que vous avez faites pour ce test. Voulez-vous vraiment réinitialiser les résultats saisis ?
 assessment#:#tst_confirm_delete_results_info#:#Vos résultats précédemment saisis ont été détruits. Vous avez réinitialisé le test avec succès.
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer
@@ -382,13 +382,13 @@ assessment#:#tst_delete_results#:#Réinitialiser le test
 assessment#:#tst_ending_time#:#Date de fin
 assessment#:#tst_enter_questionpool#:#Veuillez saisir un nom pour un jeu de questions dans lequel la nouvelle question sera stockée.
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles
-assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
+assessment#:#tst_eval_show_answer#:#Montrer réponse
 assessment#:#tst_eval_total_finished#:#Total des tests finis
 assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis
 assessment#:#tst_eval_total_passed#:#Total des tests passés
 assessment#:#tst_eval_total_passed_average_points#:#Moyenne des tests passés
-assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont fait le test XXX
-assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
+assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont fait le test
+assessment#:#tst_eval_user_answer#:#Réponse de l'utilisateur
 assessment#:#tst_general_properties#:#Propriétés générales
 assessment#:#tst_generate_xls#:#Générer une sortie Excel
 assessment#:#tst_in_use_edit_questions_disabled#:#Le test est en cours d'utilisation par %d utilisateur(s). Vous n'êtes pas autorisé à modifier ou déplacer les questions de ce test.
@@ -409,11 +409,11 @@ assessment#:#tst_missing_marks#:#Vous n'avez pas de schéma de note dasn la test
 assessment#:#tst_missing_questions#:#Vous n'avez pas de question dans le test. Veuillez ajouter au moins une question.
 assessment#:#tst_missing_title#:#Vous n'avez pas saisi de titre de test. Veuillez aller dans la section des métadonnées et saisir un titre
 assessment#:#tst_no_marks_defined#:#Aucune note n'est définie, veuillez créer au moins un schéma de note simple.
-assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
+assessment#:#tst_no_more_available_questionpools#:#Il n'y a plus de jeu de questions disponible.
 assessment#:#tst_no_question_selected_for_removal#:#Veuillez sélectionner au moins une question à supprimer.
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questionpools_for_random_test#:#Vous n'avez pas ajouté de jeu de questions pour ce test aléatoire !  Veuillez sélectionner au moins un jeu de questions.
 assessment#:#tst_no_questions_available#:#Aucune question n'est disponible. Vous devez créer des nouvelles questions, ou en rechercher.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questions_for_random_test#:#Vous n'avez pris aucune question du jeu de questions pour ce test aléatoire.  Veuillez prendre au moins une question en choisissant un nombre de questions pour le jeu de questions ajouté.
 assessment#:#tst_no_taken_tests#:#Aucun test pris.
 assessment#:#tst_no_tries#:#aucun
 assessment#:#tst_nr_of_tries#:#Nombre maximal d'essais
@@ -427,11 +427,11 @@ assessment#:#tst_question_type#:#Type de question
 assessment#:#tst_questions_inserted#:#Question(s) insérée(s)
 assessment#:#tst_questions_removed#:#Question(s) supprimée(s)
 assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###06 Dec 2004 new variable
-assessment#:#tst_random_questionpools#:#Source questionpools###06 Dec 2004 new variable
+assessment#:#tst_random_qpl_unselected#:#Il y a au moins un jeu de questions non sélectionné.  Vous n'avez pas besoin d'ajouter un jeu de questions.
+assessment#:#tst_random_questionpools#:#Jeux de questions source
 assessment#:#tst_random_select_questionpool#:#Sélectionnez le jeu de questions dans lequel vous choisirez la question
-assessment#:#tst_random_test#:#Random test###05 Dec 2004 new variable
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be generated by a random generator###05 Dec 2004 new variable
+assessment#:#tst_random_test#:#Test aléatoire
+assessment#:#tst_random_test_description#:#Si cette case est cochée, les questions du test seront choisies par un générateur aléatoire
 assessment#:#tst_reached_points#:#Point atteint
 assessment#:#tst_remove_questions#:#Etes-vous sûr(e) de vouloir supprimer la (les) question(s) suivante(s) du test ?
 assessment#:#tst_remove_questions_and_results#:#Ce test a déjà été fait par %s utilisateur(s). En supprimant des questions de ce test, vous supprimerez les résultats de tous ces utilisateurs. Etes-vous sûr(e) de vouloir supprimer la (les) question(s) suivante(s) du test ?
@@ -447,7 +447,7 @@ assessment#:#tst_score_type#:#Type de communication des scores
 assessment#:#tst_select_file_for_import#:#Vous devez sélectionner un fichier à importer
 assessment#:#tst_select_questionpool#:#Veuillez choisir un jeu de questions pour stocker la question créée
 assessment#:#tst_select_questionpools#:#Veuillez sélectionner un jeu de questions pour stocker les questions importées.
-assessment#:#tst_select_random_questions#:#Select the questionpool(s) and the amount of questions for the random test###06 Dec 2004 new variable
+assessment#:#tst_select_random_questions#:#Sélectionner le(s) jeu(x) de questions et le nombre de questions pour le test aléatoire.
 assessment#:#tst_select_tsts#:#Veuillez sélectionner un test pour la duplication.
 assessment#:#tst_sequence#:#Séquence
 assessment#:#tst_sequence_fixed#:#La séquence de questions est fixée
@@ -476,9 +476,9 @@ assessment#:#tst_stat_result_resultspoints#:#Résultats des tests en points
 assessment#:#tst_stat_result_specification#:#Spécification des données d'évaluation
 assessment#:#tst_stat_result_timeofwork#:#Temps de travail
 assessment#:#tst_stat_result_total_participants#:#Nombre total de participants
-assessment#:#tst_stat_selected_users#:#Utilisateurs sélectionnés###15 Dec 2004 content changed
+assessment#:#tst_stat_selected_users#:#Participants sélectionnés
 assessment#:#tst_stat_users_intro#:#Montrer l'évaluation statistique pour
-assessment#:#tst_statistical_evaluation#:#Outil d'évaluation statistique###15 Dec 2004 content changed
+assessment#:#tst_statistical_evaluation#:#Evaluation statistique
 assessment#:#tst_status_completed#:#terminé
 assessment#:#tst_status_completed_more_tries_possible#:#(terminé)
 assessment#:#tst_status_missing#:#Il y a des éléments manquants dans ce test.
@@ -487,8 +487,8 @@ assessment#:#tst_status_not_entered#:#non saisi
 assessment#:#tst_status_ok#:#L'état du test est valide. Il n'y a pas d'élément manquant
 assessment#:#tst_status_progress#:#en cours
 assessment#:#tst_time_already_spent#:#Temps déjà passé
-assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
+assessment#:#tst_total_questions#:#Nombre total de questions
+assessment#:#tst_total_questions_description#:#Si vous saisissez une valeur ici, le nombre de questions pour chaque jeu de questions sera ignoré.  Si vous ne mettez rien ici, vous devez spécifier un nombre pour chaque jeu de questions.
 assessment#:#tst_type#:#Type de test
 assessment#:#tst_types#:#Types de test
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions
@@ -569,8 +569,8 @@ bibitem#:#bibitem_year#:#Année
 chat#:#chat_active#:#Actif
 chat#:#chat_active_users#:#Utilisateur (actif)
 chat#:#chat_add_allowed_hosts#:#Veuillez ajouter l'adresse de l'hôte (des hôtes) autorisé(s) à accéder à ce serveur de chat.
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
+chat#:#chat_add_external_ip#:#Veuillez saisir l'adresse IP externe du serveur.
+chat#:#chat_add_internal_ip#:#Veuillez saisir l'adresse IP interne du serveur.
 chat#:#chat_add_moderator_password#:#Veuillez saisir un mot de passe de modérateur
 chat#:#chat_add_port#:#Veuillez saisir le port du serveur.
 chat#:#chat_aqua#:#aqua
@@ -584,7 +584,7 @@ chat#:#chat_chatrooms#:#Salons
 chat#:#chat_color#:#Couleur de police
 chat#:#chat_delete_sure#:#Etes-vous sûr(e) de vouloir détruire ce salon ?
 chat#:#chat_drop_user#:#Utilisateur expulsé
-chat#:#chat_edit#:#Modifier chat###29 Nov 2004 content changed
+chat#:#chat_edit#:#Modifier chat
 chat#:#chat_face#:#Type de caractères
 chat#:#chat_fuchsia#:#fuschia
 chat#:#chat_gray#:#gris
@@ -631,8 +631,8 @@ chat#:#chat_rooms_deleted#:#Salon(s) détruit(s)
 chat#:#chat_select_one_room#:#Veuillez sélectionner un salon
 chat#:#chat_server_allowed#:#Hôtes autorisés
 chat#:#chat_server_allowed_b#:#(par ex. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
+chat#:#chat_server_external_ip#:#Adresse IP externe du serveur
+chat#:#chat_server_internal_ip#:#Adresse IP interne du serveur
 chat#:#chat_server_logfile#:#Chemin vers le fichier journal
 chat#:#chat_server_loglevel#:#Niveau de journalisation
 chat#:#chat_server_not_active#:#Le serveur de chat n'est pas actif
@@ -663,10 +663,10 @@ common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?
 common#:#access#:#Accès
 common#:#account_expires_body#:#Votre compte est limité, il expirera le :
 common#:#account_expires_subject#:#[ILIAS 3] Votre compte expire
-common#:#action#:#Action###29 Nov 2004 new variable
+common#:#action#:#Action
 common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
+common#:#activate_assessment_logging#:#Activer le journal des tests et évaluations
 common#:#activate_https#:#Activer HTTPS (paiement, connexion)
 common#:#activate_tracking#:#Activer suivi
 common#:#activation#:#Activation
@@ -728,21 +728,21 @@ common#:#approve_recipient#:#Login de la personne qui donné son approbation
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
 common#:#as_of#:#as of###29 Nov 2004 new variable
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
-common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
-common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
-common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
-common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
-common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
-common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
-common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
+common#:#assessment_log#:#Créer un journal de test & évaluation pour une période spécifique
+common#:#assessment_log_datetime#:#Date/heure
+common#:#assessment_log_for_test#:#Pour test
+common#:#assessment_log_no_log#:#Il n'y a pas de données de journal pour le test et la période sélectionnés
+common#:#assessment_log_open_calendar#:#Cliquer ici pour ouvrir un calendrier pour la sélection de la date (javascript requis)
+common#:#assessment_log_question#:#Question
+common#:#assessment_log_select_test#:#--- Veuillez sélectionner un test ---
+common#:#assessment_log_text#:#Message du journal
+common#:#assessment_log_user_answer#:#L'utilisateur a répondu à une question
+common#:#assessment_log_user_answers#:#Montrer les actions de l'utilisateur
+common#:#assessment_settings#:#Administration des paramètres de test & évaluation 
+common#:#assf_edit_permission#:#Modifier les paramètres de permission
+common#:#assf_read#:#Accéder à l'administration des tests & évaluations
+common#:#assf_visible#:#Administration des tests & évaluations est visible
+common#:#assf_write#:#Modifier administration des tests & évaluations
 common#:#assign#:#Assigner
 common#:#assign_global_role#:#Assigner à un rôle global
 common#:#assign_lo_forum#:#Assigner le forum de cours
@@ -750,7 +750,7 @@ common#:#assign_local_role#:#Assigner à un rôle local
 common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
 common#:#assigned_roles#:#Rôles assignés
 common#:#assigned_users#:#Utilisateurs assignés
-common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
+common#:#at_least_one_style#:#Un style au moins doit rester actif
 common#:#at_location#:#à l'emplacement
 common#:#attachment#:#Attachement
 common#:#attachments#:#Attachements
@@ -776,7 +776,7 @@ common#:#auth_write#:#Modifier les paramètres d'authentification
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
 common#:#auto_registration#:#Approuver les enregistrements automatiquement
-common#:#available#:#Available###23 Dec 2004 new variable
+common#:#available#:#Disponible
 common#:#available_languages#:#Langues disponibles
 common#:#average_time#:#Temps moyen
 common#:#back#:#Retour
@@ -798,14 +798,14 @@ common#:#bookmarks_of#:#Liens internet de
 common#:#btn_remove_system#:#Supprimer du système
 common#:#btn_undelete#:#Restaurer
 common#:#by#:#par
-common#:#bytes#:#Bytes###13 Mar 2005 new variable
+common#:#bytes#:#octets
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annuler
 common#:#cannot_find_xml#:#Aucun fichier XML n'a été trouvé
 common#:#cannot_uninstall_language_in_use#:#Vous ne pouvez pas désinstaller le langage courant !
 common#:#cannot_uninstall_systemlanguage#:#Vous ne pouvez pas désinstaller le langage système !
 common#:#cannot_unzip_file#:#Impossible de décompresser le fichier
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
+common#:#cant_deactivate_if_users_assigned#:#Vous ne pouvez pas désactiver un style s'il est assigné à des utilisateurs
 common#:#cat#:#Catégorie
 common#:#cat_a#:#une catégorie
 common#:#cat_add#:#Ajouter catégorie
@@ -832,7 +832,7 @@ common#:#cat_create_spl#:#Créer jeu de questions pour sondage
 common#:#cat_create_svy#:#Créer sondage
 common#:#cat_create_tst#:#Créer test
 common#:#cat_create_url#:#Créer URL
-common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#cat_create_webr#:#Créer nouvelle ressource web
 common#:#cat_delete#:#Détruire catégorie
 common#:#cat_edit#:#Modifier catégorie
 common#:#cat_edit_permission#:#Changer paramètres de permission
@@ -883,13 +883,13 @@ common#:#check#:#Vérifier
 common#:#check_all#:#Tout cocher
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier langues
-common#:#check_link#:#Link check###18 Dec 2004 new variable
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
+common#:#check_link#:#Vérification du lien
+common#:#check_link_desc#:#Si cette option est active, tous les liens externes dans les modules d'apprentissage ILIAS seront vérifiés.
 common#:#check_max_allowed_packet_size#:#La taille du contenu de la page est trop importante.
-common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
-common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
-common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
+common#:#check_user_accounts#:#Vérifier les comptes utilisateurs
+common#:#check_user_accounts_desc#:#Si les tâches cron sont activées et que cette option est active, tous les utilisateurs dont le compte arrive à expiration seront informés par courrier électronique.
+common#:#check_web_resources#:#Vérifier ressources web
+common#:#check_web_resources_desc#:#Si cette option est active, toutes les ressources web seront vérifiées
 common#:#checked_files#:#Fichiers importables
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
@@ -897,12 +897,12 @@ common#:#choose_language#:#Choisissez votre langue
 common#:#choose_location#:#Choisissez l'emplacement
 common#:#choose_only_one_language#:#Veuillez ne choisir qu'une langue
 common#:#city#:#Ville
-common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
-common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
+common#:#cleaned_file#:#Le fichier a été nettoyé
+common#:#cleaning_failed#:#Le nettoyage a échoué
 common#:#clear#:#Effacer
-common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
+common#:#clear_clipboard#:#Presse-papier vide
 common#:#client ip#:#IP client
-common#:#client#:#Client###06 Mar 2005 new variable
+common#:#client#:#Client
 common#:#client_id#:#ID client
 common#:#client_ip#:#IP client
 common#:#clipboard#:#Presse-papier
@@ -914,8 +914,8 @@ common#:#condition#:#Condition
 common#:#condition_already_assigned#:#Objet déjà assigné
 common#:#condition_circle_created#:#L'association n'est pas possible, car elle introduirait une dépendance croisée.
 common#:#condition_deleted#:#Condition détruite
-common#:#condition_finished#:#Finished###01 Mar 2005 new variable
-common#:#condition_not_finished#:#Not finished###01 Mar 2005 new variable
+common#:#condition_finished#:#Terminé
+common#:#condition_not_finished#:#Non terminé
 common#:#condition_passed#:#Validé
 common#:#condition_precondition#:#Pré-conditions :
 common#:#condition_select_object#:#Veuillez sélectionner un objet
@@ -924,11 +924,11 @@ common#:#condition_update#:#Enregistrer
 common#:#conditions_updated#:#Conditions enregistrées
 common#:#confirm#:#Confirmer
 common#:#confirmation#:#Confirmation
-common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
+common#:#conflict_handling#:#Gestion des conflits
 common#:#cont_object#:#Objet
 common#:#contact_data#:#Informations de contact
 common#:#container#:#Conteneur
-common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
+common#:#content_styles#:#Styles de contenu
 common#:#context#:#Contexte
 common#:#continue_work#:#Continuer
 common#:#copied_object#:#Objet copié
@@ -944,16 +944,16 @@ common#:#create#:#Créer
 common#:#create_date#:#Créé le
 common#:#create_in#:#Créer dans
 common#:#create_stylesheet#:#Créer style
-common#:#created#:#Create date###11 Mar 2005 new variable
-common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
+common#:#created#:#Créer date
+common#:#cron_jobs#:#Tâches cron
+common#:#cron_jobs_desc#:#Une tâche cron est un processus automatique qui est exécuté à des moments prédéfinis. Vous trouverez des informations pour l'installation de cette fonctionnalité dans la documentation d'installation (INSTALL)
 common#:#crs#:#Cours
 common#:#crs_a#:#un cours
 common#:#crs_add#:#Ajouter cours
 common#:#crs_added#:#Cours ajouté
-common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###01 Mar 2005 new variable
+common#:#crs_all_questions_answered_successfully#:#Vous répondu correctement à toutes les questions
 common#:#crs_archives#:#Archives
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
+common#:#crs_at_least_one_admin#:#Il faut qu'au moins un administrateur de cours soit spécifié
 common#:#crs_available#:#Cours disponibles
 common#:#crs_container_link_not_allowed#:#Il n'est pas possible de lier des objets conteneurs
 common#:#crs_create#:#Créer cours
@@ -975,7 +975,7 @@ common#:#crs_create_sahs#:#Créer module d'apprentissage SCORM/AICC
 common#:#crs_create_spl#:# Créer jeu de questions pour sondage
 common#:#crs_create_svy#:#Créer sondage
 common#:#crs_create_tst#:#Créer test
-common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#crs_create_webr#:#Créer nouvelles ressources web
 common#:#crs_delete#:#Détruire cours
 common#:#crs_edit#:#Modifier cours
 common#:#crs_edit_permission#:#Changer les paramètres de permission
@@ -997,7 +997,7 @@ common#:#cur_number_rec#:#Nombre actuel d'enregistrements
 common#:#current_password#:#Mot de passe courant
 common#:#cut#:#Couper
 common#:#cutPage#:#Couper
-common#:#daily#:#daily###11 Mar 2005 new variable
+common#:#daily#:#quotidiennement
 common#:#database#:#Base de données
 common#:#database_version#:#Version courante de la base de données
 common#:#dataset#:#Item
@@ -1024,7 +1024,7 @@ common#:#dbk_new#:#Nouveau livre Digilib
 common#:#dbk_read#:#Accès en lecture au livre Digilib
 common#:#dbk_visible#:#Le livre Digilib est visible
 common#:#dbk_write#:#Modifier livre Digilib
-common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
+common#:#def_repository_view#:#Affichage par défaut des activités
 common#:#default#:#Défaut
 common#:#default_language#:#Langue par défaut
 common#:#default_perm_settings#:#Permissions par défaut
@@ -1045,10 +1045,10 @@ common#:#department#:#Département
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Mot de passe souhaité
-common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
-common#:#details#:#Details###11 Mar 2005 new variable
-common#:#disable#:#disable###26 Jan 2005 new variable
-common#:#disable_check#:#Disable check###11 Mar 2005 new variable
+common#:#desktop_items#:#Objets du bureau personnel
+common#:#details#:#Détails
+common#:#disable#:#désactiver
+common#:#disable_check#:#Désactiver la vérification
 common#:#disabled#:#Désactivé
 common#:#domain#:#Domaine
 common#:#down#:#Bas
@@ -1057,7 +1057,7 @@ common#:#download_all_returned_files#:#Télécharger tous les fichiers retourné
 common#:#drafts#:#Brouillons
 common#:#drop#:#Supprimer
 common#:#edit#:#Modifier
-common#:#edit_content#:#Edit content###11 Mar 2005 new variable
+common#:#edit_content#:#Modifier contenu
 common#:#edit_data#:#modifier données
 common#:#edit_operations#:#Modifier opérations
 common#:#edit_perm_ruleset#:#Modifier règles de permission par défaut
@@ -1066,12 +1066,12 @@ common#:#edit_roleassignment#:#Modifier assignation de rôle
 common#:#edit_stylesheet#:#Modifier style
 common#:#edited_at#:#Modifié le
 common#:#editor#:#Editeur
-common#:#email#:#Email###04 Mar 2005 content changed
+common#:#email#:#Email
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
-common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
+common#:#enable_hist_user_comments#:#Activer les commentaires d'utilisateurs dans l'historique
+common#:#enable_hist_user_comments_desc#:#Donne la possibilité aux auteurs d'ajouter des commentaire à l'historique des pages.
 common#:#enable_js_edit#:#Activer éditeur javascript
 common#:#enable_js_edit_info#:#Cette option permet d'activer un éditeur pour tout les ressources d'apprentissage (module d'apprentissage ILIAS, Glossaire, question etc.)
 common#:#enable_password_assistance#:#Activer l'assistance pour les mots de passe
@@ -1098,7 +1098,7 @@ common#:#err_unknown_error#:#Erreur inconnue
 common#:#err_wrong_header#:#Raison : entête invalide
 common#:#err_wrong_login#:#Login erroné
 common#:#err_wrong_password#:#Mot de passe incorrect
-common#:#error#:#Error###29 Nov 2004 new variable
+common#:#error#:#Erreur
 common#:#error_parser#:#Erreur au démarrage du parseur
 common#:#error_recipient#:#Erreur de destinataire
 common#:#exc#:#Exercice
@@ -1155,7 +1155,7 @@ common#:#file_added#:#Fichier téléversé
 common#:#file_delete#:#Détruire fichier
 common#:#file_edit#:#Modifier fichier
 common#:#file_edit_permission#:#Changer paramètres de permission
-common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
+common#:#file_is_infected#:#Le fichier est infecté par un virus
 common#:#file_new#:#Nouveau fichier
 common#:#file_not_found#:#Fichier non trouvé !
 common#:#file_not_valid#:#Fichier non valide !
@@ -1235,7 +1235,7 @@ common#:#gdf_new#:#Nouvelle définition
 common#:#gender#:#Sexe
 common#:#gender_f#:#Féminin
 common#:#gender_m#:#Masculin
-common#:#general_settings#:#General settings###29 Nov 2004 new variable
+common#:#general_settings#:#Paramètres généraux
 common#:#generate#:#Générer
 common#:#glo#:#Glossaire
 common#:#glo_a#:#un glossaire
@@ -1252,9 +1252,9 @@ common#:#glo_upload_file#:#Fichier
 common#:#glo_visible#:#Le glossaire est visible
 common#:#glo_write#:#Modifier glossaire
 common#:#global#:#Global
-common#:#global_default#:#Global Default###01 Mar 2005 new variable
-common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
+common#:#global_default#:#Valeur par défaut globale
+common#:#global_fixed#:#Valeur fixée globale
+common#:#global_settings#:#Paramètres globaux
 common#:#global_user#:#Utilisateurs globaux
 common#:#glossaries#:#Glossaires
 common#:#glossary#:#Glossaire
@@ -1296,7 +1296,7 @@ common#:#groups_overview#:#Vue générale des groupes
 common#:#grp#:#Groupe
 common#:#grp_a#:#un groupe
 common#:#grp_add#:#Ajouter groupe
-common#:#grp_add_member#:#Ajouter membres###01 Mar 2005 content changed
+common#:#grp_add_member#:#Ajouter membres
 common#:#grp_added#:#Groupe ajouté
 common#:#grp_already_applied#:#Vous avez déjà demandé votre inscription à ce groupe. Veuillez attendre la confirmation.
 common#:#grp_app_send_mail#:#Envoyer un message au candidat
@@ -1320,7 +1320,7 @@ common#:#grp_create_sahs#:#Créer module d'apprentissage  SCORM/AICC
 common#:#grp_create_spl#:#Créer jeu de questions pour des sondages
 common#:#grp_create_svy#:#Créer sondage
 common#:#grp_create_tst#:#Créer test
-common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
+common#:#grp_create_webr#:#Créer nouvelle ressource web
 common#:#grp_delete#:#Détruire groupe
 common#:#grp_dismiss_member#:#Etes-vous sûr(e) de vouloir exclure les utilisateurs suivants du groupe ?
 common#:#grp_dismiss_myself#:#Etes-vous sûr(e) de vouloir vous exclure du groupe ?
@@ -1362,25 +1362,25 @@ common#:#guest#:#Invité
 common#:#guests#:#Invités
 common#:#header_title#:#Titre d'entête
 common#:#help#:#Aide
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#masquer
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
-common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
-common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
-common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
-common#:#history#:#History###29 Nov 2004 new variable
-common#:#hits_per_page#:#Hits/Page
+common#:#hist_dbk:pg_create#:#Page créée
+common#:#hist_dbk:pg_cut#:#Page coupée dans le chapitre "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Page collée dans le chapitre "%1" [%2]
+common#:#hist_dbk:pg_update#:#Page modifiée
+common#:#hist_file_create#:#Fichier créé, le nom de fichier est "%1".
+common#:#hist_file_replace#:#Fichier remplacé, le nouveau nom de fichier est  "%1", la nouvelle  version est %2.
+common#:#hist_lm:pg_create#:#Page créée
+common#:#hist_lm:pg_cut#:#Page coupé dans le chapitre "%1" [%2]
+common#:#hist_lm:pg_paste#:#Page collée dans le chapitre "%1" [%2]
+common#:#hist_lm:pg_update#:#Page modifiée
+common#:#hist_no_entries#:#Pas d'entrées dans l'historique
+common#:#hist_webr_add#:#Nouvelle ressource web ajoutée avec le titre : "%1"
+common#:#hist_webr_delete#:#Ressource web détruite : "%1"
+common#:#hist_webr_update#:#Ressource web mise à jour : "%1"
+common#:#history#:#Historique
+common#:#hits_per_page#:#Lignes par page
 common#:#hlm#:#Module d'apprentissage HACP
 common#:#hlm_added#:#Module d'apprentissage  HACP ajouté
 common#:#hlm_create#:#Créer module d'apprentissage HACP 
@@ -1407,18 +1407,18 @@ common#:#htlm_write#:#Modifier module d'apprentissage HTML
 common#:#http_not_possible#:#Ce serveur ne permet pas les connexions HTTP.
 common#:#http_path#:#Chemin HTTP
 common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.
-common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
-common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
-common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
-common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
-common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
-common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
-common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
+common#:#icla#:#Salle de classe iLinc
+common#:#icla_add#:#Ajouter salle de classe iLinc
+common#:#icla_delete#:#Détruire salle de classe iLinc
+common#:#icla_edit_permission#:#Modifier paramètres de permission
+common#:#icla_new#:#Nouvelle salle de classe iLinc
+common#:#icla_read#:#Accès en lecture à la salle de classe iLinc
+common#:#icla_visible#:#La salle de classe iLinc est visible
+common#:#icla_write#:#Modifier salle de classe iLinc
+common#:#icrs#:#Cours iLinc
+common#:#icrs_add#:#Ajouter cours  iLinc
+common#:#icrs_delete#:#Supprimer cours iLinc
+common#:#icrs_edit_permission#:#Modifier paramètres de permission XXX
 common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
 common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
 common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
