@@ -332,10 +332,12 @@ class Tree extends PEAR
 			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
 		}
 		
+		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"])+1;
+		
 		// insert node
-		$query = "INSERT INTO tree (tree,child,parent,lft,rgt) ".
+		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 				 "VALUES ".
-				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."')";
+				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 				 
 		$res = $this->db->query($query);
 
@@ -1009,8 +1011,10 @@ class Tree extends PEAR
 				 "AND tree = '".$a_tree."'";
 
 		$res = $this->db->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			
 			return $row->depth;
 		}
 	}
