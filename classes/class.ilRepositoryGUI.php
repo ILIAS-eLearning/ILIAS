@@ -57,6 +57,7 @@ class ilRepositoryGUI
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
 
+		// determine current ref id and mode
 		if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
 		{
 			$this->cur_ref_id = $_GET["ref_id"];
@@ -73,7 +74,6 @@ class ilRepositoryGUI
 			}
 		}
 
-
 		if (!empty($_GET["set_mode"]))
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
@@ -88,7 +88,15 @@ class ilRepositoryGUI
 			$this->cur_ref_id = $this->tree->getRootId();
 		}
 
-		$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
+		// get object of current ref id
+		include_once("classes/class.ilObjectFactory.php");
+		$this->object =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
+
+		if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
+			&& ($this->object->getType == "cat" || $this->object->getType == "root"))
+		{
+			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
+		}
 
 		$this->categories = array();
 		$this->learning_resources = array();
@@ -319,11 +327,9 @@ class ilRepositoryGUI
 		}
 		else
 		{
-			require_once("classes/class.ilObjCategory.php");
-			$cat =& new ilObjCategory($this->cur_ref_id, true);
-			$this->tpl->setVariable("HEADER",  $cat->getTitle());
-			$this->tpl->setVariable("H_DESCRIPTION",  $cat->getDescription());
-			if($this->mode != "tree")
+			$this->tpl->setVariable("HEADER",  $this->object->getTitle());
+			$this->tpl->setVariable("H_DESCRIPTION",  $this->object->getDescription());
+			if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
 			{
 				$this->showPossibleSubObjects("cat");
 			}
@@ -340,11 +346,15 @@ class ilRepositoryGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
-		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
-		$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&ref_id=".$this->cur_ref_id);
-		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
+		{
+			$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
+			$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+			$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&ref_id=".$this->cur_ref_id);
+			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		}
 	}
 
 	/**
@@ -386,7 +396,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
 
 				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
+				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
 				if ($this->rbacsystem->checkAccess('read',$cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_link");
@@ -402,6 +412,20 @@ class ilRepositoryGUI
 				}
 				$tpl->setCurrentBlock("tbl_content");
 
+				// edit
+				if($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
+				{
+					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&ref_id=".$cat["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+				}
+
+				// delete
+				if($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				{
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cat["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
+				}
+
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
 				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cat["last_update"]));
@@ -413,7 +437,7 @@ class ilRepositoryGUI
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
-			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("COLSPAN", "2");
 			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock();
 		}
@@ -426,10 +450,10 @@ class ilRepositoryGUI
 		$tbl->setTitle($this->lng->txt("categories"),
 			"icon_cat_b.gif", $this->lng->txt("categories"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
-		$tbl->setHeaderVars(array("", "type", "title"),
+		$tbl->setHeaderNames(array($this->lng->txt("type"), $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("type", "title"),
 			array("ref_id" => $_GET["ref_id"]));
-		$tbl->setColumnWidth(array("1%", "1%", "98%"));
+		$tbl->setColumnWidth(array("1%", "99%"));
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -1074,7 +1098,7 @@ class ilRepositoryGUI
 	function setLocator()
 	{
 		global $ilias_locator;
-		
+
 		$a_tree =& $this->tree;
 		$a_id = $this->cur_ref_id;
 
@@ -1089,13 +1113,19 @@ class ilRepositoryGUI
 		{
 			$modifier = 0;
 		}
-		
+
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
+		if ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit")
+		{
+			unset($path[count($path) - 1]);
+		}
+
 		foreach ($path as $key => $row)
 		{
-			if ($key < count($path)-$modifier)
+
+			if ($key < count($path) - $modifier)
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
@@ -1115,7 +1145,7 @@ class ilRepositoryGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("locator");
-			
+
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
 			if ($row["child"] != $a_tree->getRootId())
@@ -1243,7 +1273,6 @@ class ilRepositoryGUI
 	{
 		global $objDefinition;
 
-		$_GET["ref_id"] = $_GET["ref_id"];
 		$id = $_GET["ref_id"];
 		$cmd = $this->cmd;
 		$new_type = $_POST["new_type"]
@@ -1308,7 +1337,7 @@ class ilRepositoryGUI
 
 			$class_constr = "ilObj".$class_name."GUI";
 			require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-
+//echo $class_constr.":".$cmd."<br>";
 			$obj_gui =& new $class_constr("", $_GET["ref_id"], true, false);
 
 			switch($cmd)
@@ -1331,9 +1360,36 @@ class ilRepositoryGUI
 					$obj_gui->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
 					$obj_gui->confirmedDeleteObject();
 					break;
+
+				case "edit":
+					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$_POST["id"] = array($_GET["ref_id"]);
+					$_GET["type"] = $this->object->getType();
+					$obj_gui->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$_GET["ref_id"]);
+					//$obj_gui->setTargetFrame("save", "bottom");
+					$obj_gui->editObject();
+					break;
+
+				case "cancel":
+					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$obj_gui->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
+					$obj_gui->cancelObject();
+					break;
+
+				case "update":
+					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$obj_gui->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
+					$obj_gui->updateObject();
+					break;
+
+				case "addTranslation":
+					$obj_gui->setReturnLocation("addTranslation",
+						"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]);
+					$obj_gui->addTranslationObject();
+					break;
+
 			}
 		}
-
 		$this->tpl->show();
 	}
 
@@ -1368,6 +1424,16 @@ class ilRepositoryGUI
 	}
 
 	function addTranslation()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function edit()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function update()
 	{
 		$this->executeAdminCommand();
 	}
