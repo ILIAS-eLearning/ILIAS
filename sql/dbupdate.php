@@ -3027,6 +3027,7 @@ $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+?>
 
 <#194>
 DROP TABLE IF EXISTS aicc_lm;
@@ -3038,7 +3039,6 @@ CREATE TABLE aicc_lm (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
-?>
 
 <#195>
 ALTER TABLE scorm_tracking2 DROP PRIMARY KEY;
@@ -3047,8 +3047,8 @@ ALTER TABLE scorm_tracking2 ADD PRIMARY KEY (user_id, sco_id, lvalue);
 
 <#196>
 # add operations 'invite' and 'participate' for survey objects
-INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('44', 'invite', 'invite');
-INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('45', 'participate', 'participate');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('45', 'invite', 'invite');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('46', 'participate', 'participate');
 
 <#197>
 <?php
@@ -3060,9 +3060,43 @@ $row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 $typ_id = $row->obj_id;
 
 // append operation assignment to survey object definition
-// 44: invite, 45: participate
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','44')";
-$this->db->query($query);
+// 45: invite, 46: participate
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','45')";
 $this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','46')";
+$this->db->query($query);
 ?>
+
+<#198>
+DROP TABLE IF EXISTS aicc_lm;
+CREATE TABLE aicc_lm (
+  `id` int(11) NOT NULL default '0',
+  `online` enum('y','n') default 'n',
+  `api_adapter` varchar(80) default 'API',
+  `api_func_prefix` varchar(20) default 'LMS',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+<#199>
+ALTER TABLE scorm_tracking2 DROP PRIMARY KEY;
+ALTER TABLE scorm_tracking2 MODIFY lvalue VARCHAR(64) NOT NULL;
+ALTER TABLE scorm_tracking2 ADD PRIMARY KEY (user_id, sco_id, lvalue);
+
+<#200>
+CREATE TABLE `ut_access` (
+	`obj_id` int(10) NOT NULL auto_increment,
+	`user_id` int(10) unsigned NOT NULL default '0',
+	`action_type` char(10) default NULL,
+	`php_script` char(10) default NULL,
+	`client_ip` char(15) default NULL,
+	`acc_obj_type` char(10) NOT NULL default '',
+	`acc_obj_id` int(10) NOT NULL default '0',
+	`sub_type` char(10) NOT NULL default '',
+	`sub_id` int(10) NOT NULL default '0',
+	`language` char(15) default NULL,
+	`browser` char(10) default NULL,
+	`session_id` char(40) default NULL,
+	`acctime` datetime default NULL,
+	PRIMARY KEY (`obj_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1;
