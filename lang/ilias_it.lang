@@ -2933,6 +2933,8 @@ content#:#cont_table_cellpadding#:#Cell Padding della tabella
 content#:#cont_table_cellspacing#:#Cell Spacing della tabella
 content#:#cont_table_html_import#:#Importare una tabella HTML
 content#:#cont_table_html_import_info#:#Importare solo lavori con tabelle conformi allo standard XHTML. "Table" deve essere il tag radice!
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Voce

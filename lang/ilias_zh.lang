@@ -2954,6 +2954,8 @@ content#:#cont_table_cellpadding#:#表格单元填料
 content#:#cont_table_cellspacing#:#表格单元间距
 content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
 content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#表格宽度
 content#:#cont_target_within_source#:#目标不必在源对象中。
 content#:#cont_term#:#术语

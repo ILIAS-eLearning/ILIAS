@@ -2936,6 +2936,8 @@ content#:#cont_table_cellpadding#:#Клітинний Відступ у Табл
 content#:#cont_table_cellspacing#:#Міжклітинний Відступ у Таблиці
 content#:#cont_table_html_import#:#Імпортувати HTML Таблицю
 content#:#cont_table_html_import_info#:#Імпорт працює тільки з XHTML погодженими таблицями. Таблиця повинна бути головним тегом!
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Ширина Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
 content#:#cont_term#:#Термін

@@ -2910,6 +2910,8 @@ content#:#cont_table_cellpadding#:#Largeur des cellules du tableau
 content#:#cont_table_cellspacing#:#Espacement des cellules du tableau
 content#:#cont_table_html_import#:#Importer tableau HTML
 content#:#cont_table_html_import_info#:#L'importation fonctionne uniquement avec les tableaux conformes au standard XHTML. Table doit être la balise racine.
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Largeur du tableau
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.
 content#:#cont_term#:#Terme

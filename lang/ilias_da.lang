@@ -2597,6 +2597,8 @@ content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Table Width
 content#:#cont_target_within_source#:#Destinationen m&aring; ikke v&aelig;re den samme som kilden.
 content#:#cont_term#:#Term

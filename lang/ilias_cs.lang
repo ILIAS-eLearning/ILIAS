@@ -2936,6 +2936,8 @@ content#:#cont_table_cellpadding#:#Šířka prázdného okraje uvnitř buněk ta
 content#:#cont_table_cellspacing#:#Vzdálenost buněk tabulky
 content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
 content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Šířka tabulky
 content#:#cont_target_within_source#:#Cíl nesmí být obsažen ve zdrojovém objektu.
 content#:#cont_term#:#Pojem
