@@ -2622,8 +2622,12 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 
+		#$tpl->setCurrentBlock("input_text");
+		#$tpl->setVariable("PB_TXT_NAME",'member');
+		#$tpl->parseCurrentBlock();
+
 		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","searchUser");
+		$tpl->setVariable("PBTN_NAME","addUser");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("plain_buttons");

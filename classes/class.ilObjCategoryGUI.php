@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.16 2004/04/12 13:46:52 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.17 2004/08/23 10:37:18 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -37,14 +37,78 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjCategoryGUI extends ilObjectGUI
 {
+	var $ctrl;
+
 	/**
 	* Constructor
 	* @access public
 	*/
 	function ilObjCategoryGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $ilCtrl;
+
+		// CONTROL OPTIONS
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
+
 		$this->type = "cat";
 		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+	}
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
+	}
+
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+
+		#if ($rbacsystem->checkAccess('read',$this->ref_id))
+		#{
+		#	$tabs_gui->addTarget("view_content",
+		#						 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
+		#}
+		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget("edit_properties",
+								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
+		{
+			$tabs_gui->addTarget("perm_settings",
+								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+		}
+
+		if ($this->ctrl->getTargetScript() == "adm_object.php")
+		{
+			$tabs_gui->addTarget("show_owner",
+								 $this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
+			
+			if ($this->tree->getSavedNodeData($this->ref_id))
+			{
+				$tabs_gui->addTarget("trash",
+									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
+			}
+		}
+			
 	}
 
 	/**

@@ -240,5 +240,21 @@ class ilPaymentTrustees
 		return ilPaymentTrustees::_hasStatisticPermission($a_usr_id) or 
 			ilPaymentTrustees::_hasObjectPermission($a_usr_id);
 	}
+
+	function _getVendorsForObjects($a_usr_id)
+	{
+		$query = "SELECT vendor_id FROM payment_trustees ".
+			"WHERE perm_obj = '1' ".
+			"AND trustee_id = '".$a_usr_id."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$vendors[] = $row->vendor_id;
+		}
+
+		return $vendors ? $vendors : array();
+	}
+
 } // END class.ilPaymentTrustees
 ?>
