@@ -26,6 +26,7 @@
 <xsl:param name="pg_title"/>
 <xsl:param name="ref_id"/>
 <xsl:param name="pg_frame"/>
+<xsl:param name="webspace_path"/>
 <xsl:template match="PageObject">
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
@@ -37,6 +38,7 @@
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/></xsl:attribute>
 			<option value="insert_par">insert Paragr.</option>
 			<option value="insert_tab">insert Table</option>
+			<option value="insert_mob">insert Media</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
@@ -95,6 +97,7 @@
 			<option value="edit">edit</option>
 			<option value="insert_par">insert Paragr.</option>
 			<option value="insert_tab">insert Table</option>
+			<option value="insert_mob">insert Media</option>
 			<option value="delete">delete</option>
 			<option value="moveAfter">move after</option>
 			<option value="moveBefore">move before</option>
@@ -190,6 +193,7 @@
 								</xsl:attribute>
 								<option value="insert_par">insert Paragr.</option>
 								<option value="insert_tab">insert Table</option>
+								<option value="insert_mob">insert Media</option>
 								<option value="newRowAfter">new Row after</option>
 								<option value="newRowBefore">new Row before</option>
 								<option value="newColAfter">new Col after</option>
@@ -229,6 +233,7 @@
 		<option value="edit">edit properties</option>
 		<option value="insert_par">insert Paragr.</option>
 		<option value="insert_tab">insert Table</option>
+		<option value="insert_mob">insert Media</option>
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
@@ -241,15 +246,102 @@
 	</xsl:if>
 </xsl:template>
 
+
 <!-- MediaAlias -->
 <xsl:template match="MediaAlias">
+
+	<!-- Alignment Part 1 (Left, Center, Right)-->
+	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Left'">
+		<div align="left" style="clear:both;">
+		<xsl:call-template name="MOBTable"/>
+		</div>
+	</xsl:if>
+	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Center'">
+		<div align="center" style="clear:both;">
+		<xsl:call-template name="MOBTable"/>
+		</div>
+	</xsl:if>
+	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Right'">
+		<div align="right" style="clear:both;">
+		<xsl:call-template name="MOBTable"/>
+		</div>
+	</xsl:if>
+	<xsl:if test="../Layout[1]/@HorizontalAlign = 'RightFloat'">
+		<xsl:call-template name="MOBTable"/>
+	</xsl:if>
+	<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
+		<xsl:call-template name="MOBTable"/>
+	</xsl:if>
+</xsl:template>
+
+<!-- MOBTable: display multimedia objects within a layout table> -->
+<xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
-	<object>
-		<xsl:attribute name="data">../../iliaswbdata/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
-		<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
-		<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
-		<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
-	</object>
+
+	<table class="ilc_MobTable" border="0" cellpadding="0" cellspacing="0">
+		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
+		<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
+			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="../Layout[1]/@HorizontalAlign = 'RightFloat'">
+			<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
+		</xsl:if>
+
+		<!-- make object fit to left/right border -->
+		<xsl:if test="../Layout[1]/@HorizontalAlign = 'Left'">
+			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="../Layout[1]/@HorizontalAlign = 'Right'">
+			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
+		</xsl:if>
+
+
+		<tr><td>
+		<object>
+			<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+			<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
+			<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
+			<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
+		</object>
+		</td></tr>
+
+		<xsl:if test="count(../Parameter[@Name='caption']) = 1">
+			<tr><td class="ilc_MobCaption">
+			<xsl:value-of select="../Parameter[@Name='caption']/@Value"/>
+			</td></tr>
+		</xsl:if>
+
+		<tr><td>
+			<!-- command selectbox -->
+			<xsl:if test="$mode = 'edit'">
+				<!-- <xsl:value-of select="../../@HierId"/> -->
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>
+					</xsl:attribute>
+				</input>
+				<select size="1" class="ilEditSelect">
+					<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
+					</xsl:attribute>
+				<option value="edit">edit properties</option>
+				<option value="insert_par">insert Paragr.</option>
+				<option value="insert_tab">insert Table</option>
+				<option value="insert_mob">insert Media</option>
+				<option value="delete">delete</option>
+				<option value="moveAfter">move after</option>
+				<option value="moveBefore">move before</option>
+				<option value="leftAlign">align: left</option>
+				<option value="rightAlign">align: right</option>
+				<option value="centerAlign">align: center</option>
+				<option value="leftFloatAlign">align: left float</option>
+				<option value="rightFloatAlign">align: right float</option>
+				</select>
+				<input class="ilEditSubmit" type="submit" value="Go">
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+		</td></tr>
+	</table>
 </xsl:template>
 
 <!-- MediaObject -->

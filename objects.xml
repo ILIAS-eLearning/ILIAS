@@ -260,7 +260,7 @@
 	<action name="confirmDeletion">delete</action>
 </object>
 <object name="pg">
-	<property name="view">cont_content</property>
+	<property name="view">edit</property>
 	<property name="preview">cont_preview</property>
 	<property name="edit_meta">meta_data</property>
 	<subobj name="par">par</subobj>
