@@ -826,33 +826,33 @@ CREATE TABLE int_link
 
 <#63>
 <?php
+// CODE IS BROKEN! DON'T USE IT
 // remove LDAP node temporary
-
 // get LDAP node data
-$query = "SELECT * FROM tree WHERE child=13 AND tree=1";
-$res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+//$query = "SELECT * FROM tree WHERE child=13 AND tree=1";
+//$res = $this->db->query($query);
+//$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 // take out node in main tree
-$query = "update tree SET tree='-13' WHERE child=13";
-$this->db->query($query);
+//$query = "update tree SET tree='-13' WHERE child=13";
+//$this->db->query($query);
 
 // close gaps
-$diff = $row->rgt - $row->lft + 1;
+//$diff = $row->rgt - $row->lft + 1;
 
-$query = "UPDATE tree SET ".
-		 "lft = CASE ".
-		 "WHEN lft > '".$row->lft." '".
-		 "THEN lft - '".$diff." '".
-		 "ELSE lft ".
-		 "END, ".
-		 "rgt = CASE ".
-		 "WHEN rgt > '".$row->lft." '".
-		 "THEN rgt - '".$diff." '".
-		 "ELSE rgt ".
-		 "END ".
-		 "WHERE tree = 1";
-$this->db->query($query);
+//$query = "UPDATE tree SET ".
+//		 "lft = CASE ".
+//		 "WHEN lft > '".$row->lft." '".
+//		 "THEN lft - '".$diff." '".
+//		 "ELSE lft ".
+//		 "END, ".
+//		 "rgt = CASE ".
+//		 "WHEN rgt > '".$row->lft." '".
+//		 "THEN rgt - '".$diff." '".
+//		 "ELSE rgt ".
+//		 "END ".
+//		 "WHERE tree = 1";
+//$this->db->query($query);
 ?>
 
 <#64>
@@ -1147,3 +1147,31 @@ DROP TABLE IF EXISTS lo_pi_data;
 DROP TABLE IF EXISTS lo_pi_target;
 DROP TABLE IF EXISTS lo_text;
 DROP TABLE IF EXISTS lo_tree;
+
+<#86>
+<?php
+// remove LDAP node temporary
+
+// get LDAP node data
+$query = "SELECT ref_id FROM object_reference ".
+		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
+		 "WHERE object_data.type = 'ldap'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// check if ldap node was found
+if ($row->ref_id > 0)
+{
+	// init tree
+	$tree = new ilTree(ROOT_FOLDER_ID);
+	
+	$ldap_node = $tree->getNodeData($row->ref_id);
+	
+	// check if ldap is already deactivated
+	if ($ldap_node["tree"] > 0)
+	{
+		// remove ldap node from tree
+		$tree->deleteTree($ldap_node);
+	}
+}
+?>
