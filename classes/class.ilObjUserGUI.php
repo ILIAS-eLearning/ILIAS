@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.78 2004/03/02 16:51:09 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.79 2004/04/26 20:38:13 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -508,7 +508,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 				if ($key != "default_role" and $key != "language" and $key != "skin_style")
 				{
-					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
 				}
 			}
 
@@ -807,6 +807,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// TODO: check length of login and passwd
 
+		foreach ($_POST["Fobject"] as $key => $val)
+		{
+			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
+		}
+		
 		// checks passed. save user
 		$this->object->assignData($_POST["Fobject"]);
 
