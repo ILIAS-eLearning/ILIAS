@@ -181,6 +181,9 @@ class ilObjFile extends ilObject
 
 		if (@is_file($file))
 		{
+			ilUtil::deliverFile($file, $this->getFileName());
+			return true;
+			/*
 			// send file
 			$file_type = ($this->getFileType() != "")
 				? $this->getFileType()
@@ -197,7 +200,7 @@ class ilObjFile extends ilObject
 
 			@fclose($fp);
 			exit;			// prevent any output
-			return true;
+			return true;*/
 		}
 
 		return false;
