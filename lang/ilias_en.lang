@@ -3129,3 +3129,11 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+survey#:#display_all_available#:#Display all available
+survey#:#questions#:#Questions
+survey#:#questionblocks#:#Questionblocks
+survey#:#no_questionblocks_available#:#There are no questionblocks available
+survey#:#contains#:#Contains
+survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
+survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
+survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?

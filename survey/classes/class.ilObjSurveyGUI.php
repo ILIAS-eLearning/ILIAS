@@ -539,7 +539,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questionbrowser.html", true);
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", true);
-    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_qpl_filter_questions.html", true);
+    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", true);
 
     $filter_fields = array(
       "title" => $this->lng->txt("title"),
@@ -558,6 +558,20 @@ class ilObjSurveyGUI extends ilObjectGUI
       $this->tpl->parseCurrentBlock();
     }
 
+		$browsequestions = 1;
+		if (strcmp($_POST["cmd"]["datatype"], "") != 0)
+		{
+			$browsequestions = $_POST["datatype"];
+		}
+		else
+		{
+			if (strcmp($_GET["browsetype"], "") != 0)
+			{
+				$browsequestions = $_GET["browsetype"];
+			}
+		}
+		$add_parameter .= "&browsetype=$browsequestions";
+
     $this->tpl->setCurrentBlock("filter_questions");
     $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
     $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
@@ -566,25 +580,21 @@ class ilObjSurveyGUI extends ilObjectGUI
     }
     $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
+    $this->tpl->setVariable("OPTION_QUESTIONS", $this->lng->txt("questions"));
+    $this->tpl->setVariable("OPTION_QUESTIONBLOCKS", $this->lng->txt("questionblocks"));		
+		if ($browsequestions)
+		{
+	    $this->tpl->setVariable("SELECTED_QUESTIONS", " selected=\"selected\"");
+		}
+		else
+		{
+	    $this->tpl->setVariable("SELECTED_QUESTIONBLOCKS", " selected=\"selected\"");
+		}
+    $this->tpl->setVariable("TEXT_DATATYPE", $this->lng->txt("display_all_available"));
+		$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
     $this->tpl->parseCurrentBlock();
 
-    if (!$_POST["cmd"]["reset"]) {
-      if (strlen($_POST["filter_text"]) > 0) {
-        switch($_POST["sel_filter_type"]) {
-          case "title":
-            $where = " AND survey_questions.title LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
-            break;
-          case "description":
-            $where = " AND survey_questions.description LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
-            break;
-          case "author":
-            $where = " AND survey_questions.author LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
-            break;
-        }
-      }
-    }
-
-  // create edit buttons & table footer
+	  // create edit buttons & table footer
 		$this->tpl->setCurrentBlock("selection");
 		$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
 		$this->tpl->parseCurrentBlock();
@@ -593,79 +603,98 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
     $this->tpl->parseCurrentBlock();
 
-    $this->tpl->setCurrentBlock("QTab");
+		$browserdata = &$this->object->getQuestionbrowserData($browsequestions, $_POST["sel_filter_type"], $_POST["filter_text"], $_GET["sort"]);
+		if (is_array($_GET["sort"]))
+		{
+			$value = $_GET["sort"][key($_GET["sort"])];
+			switch(key($_GET["sort"])) {
+				case "title":
+					$img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "description":
+					$img_description = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "type":
+					$img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "author":
+					$img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "created":
+					$img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "updated":
+					$img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "qpl":
+					$img_qpl = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+				case "svy":
+					$img_svy = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+					break;
+			}
+		}
 
-    // build sort order for sql query
-    if (count($_GET["sort"])) {
-      foreach ($_GET["sort"] as $key => $value) {
-        switch($key) {
-          case "title":
-            $order = " ORDER BY title $value";
-            $img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "description":
-            $order = " ORDER BY description $value";
-            $img_description = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "type":
-            $order = " ORDER BY question_type_id $value";
-            $img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "author":
-            $order = " ORDER BY author $value";
-            $img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "created":
-            $order = " ORDER BY created $value";
-            $img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "updated":
-            $order = " ORDER BY TIMESTAMP $value";
-            $img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-					case "qpl":
-						$order = " ORDER BY ref_fi $value";
-            $img_qpl = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-						break;
-        }
-      }
-    }
-
-    // display all questions in accessable question pools
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id" . " $where$order";
-    $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
+		$questionblock_id = 0;
 		$questionpools =& $this->object->getQuestionpoolTitles();
-    if ($query_result->numRows() > 0)
+    if (count($browserdata) > 0)
     {
 			$existing_questions =& $this->object->getExistingQuestions();
-      while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($browserdata as $id => $data)
       {
-        if (($rbacsystem->checkAccess("read", $data->ref_fi)) and (!in_array($data->question_id, $existing_questions))) {
-					if ($data->complete) {
-						// make only complete questions selectable
-	          $this->tpl->setVariable("QUESTION_ID", $data->question_id);
+				if ($browsequestions)
+				{
+					if (($rbacsystem->checkAccess("read", $data["ref_fi"])) and (!in_array($data["question_id"], $existing_questions))) {
+				    $this->tpl->setCurrentBlock("QTab");
+						if ($data["complete"]) {
+							// make only complete questions selectable
+							$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+						}
+						$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
+						$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+						$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+						$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+						$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+						$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
+						$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
+						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+						$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
+						$this->tpl->parseCurrentBlock();
+						$counter++;
 					}
-          $this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
-          $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
-          $this->tpl->setVariable("QUESTION_COMMENT", $data->description);
-          $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-          $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-          $this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
-          $this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
-          $this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-          $this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->ref_fi]);
-          $this->tpl->parseCurrentBlock();
-          $counter++;
-        }
-      }
+				}
+				else
+				{
+			    $this->tpl->setCurrentBlock("questionblock_row");
+					$this->tpl->setVariable("QUESTIONBLOCK_ID", $data[key($data)]["questionblock_id"]);
+					$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<strong>" . $data[key($data)]["title"] . "</strong>");
+					$this->tpl->setVariable("SURVEY_TITLE", $data[key($data)]["surveytitle"]);
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$questions = array();
+					foreach ($data as $key => $value)
+					{
+						array_push($questions, $value["sequence"] . ". " . $value["questiontitle"]);
+					}
+					$this->tpl->setVariable("QUESTIONS_TITLE", join($questions, ", "));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
     }
 
     // if there are no questions, display a message
     if ($counter == 0) {
       $this->tpl->setCurrentBlock("Emptytable");
-      $this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+			if ($browsequestions)
+			{
+      	$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+			}
+			else
+			{
+      	$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questionblocks_available"));
+			}
       $this->tpl->parseCurrentBlock();
     }
 
@@ -677,7 +706,8 @@ class ilObjSurveyGUI extends ilObjectGUI
       "author" => $_GET["sort"]["author"],
       "created" => $_GET["sort"]["created"],
       "updated" => $_GET["sort"]["updated"],
-			"qpl" => $_GET["sort"]["qpl"]
+			"qpl" => $_GET["sort"]["qpl"],
+			"svy" => $_GET["sort"]["svy"]
     );
     foreach ($sort as $key => $value) {
       if (strcmp($value, "ASC") == 0) {
@@ -687,15 +717,28 @@ class ilObjSurveyGUI extends ilObjectGUI
       }
     }
 
+		if ($browsequestions)
+		{
+			$this->tpl->setCurrentBlock("questions_header");
+			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
+			$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[description]=" . $sort["description"] . "\">" . $this->lng->txt("description") . "</a>$img_description");
+			$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>$img_type");
+			$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>$img_author");
+			$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>$img_created");
+			$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>$img_updated");
+			$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_spl") . "</a>$img_qpl");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("questionblocks_header");
+			$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
+			$this->tpl->setVariable("SURVEY_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[svy]=" . $sort["svy"] . "\">" . $this->lng->txt("obj_svy") . "</a>$img_svy");
+			$this->tpl->setVariable("QUESTIONS_TITLE", $this->lng->txt("contains"));
+			$this->tpl->parseCurrentBlock();
+		}
     $this->tpl->setCurrentBlock("adm_content");
     // create table header
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
-    $this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[description]=" . $sort["description"] . "\">" . $this->lng->txt("description") . "</a>$img_description");
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>$img_type");
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>$img_author");
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>$img_created");
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>$img_updated");
-		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>$img_qpl");
     $this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
     $this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
     $this->tpl->parseCurrentBlock();
@@ -712,29 +755,50 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_insert_questions.html", true);
-		$where = "";
-		foreach ($checked_questions as $id) {
-			$where .= sprintf(" OR survey_question.question_id = %s", $this->ilias->db->quote($id));
-		}
-		$where = preg_replace("/^ OR /", "", $where);
-		$where = "($where)";
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND $where";
-		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		if ($query_result->numRows() > 0)
+		if ($_GET["browsetype"] == 1)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			$questions = &$this->object->getQuestions($checked_questions);
+			if (count($questions))
 			{
-				if (in_array($data->question_id, $checked_questions))
+				foreach ($questions as $data)
 				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TEXT_TITLE", $data->title);
-					$this->tpl->setVariable("TEXT_DESCRIPTION", $data->description);
-					$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
+					if (in_array($data["question_id"], $checked_questions))
+					{
+						$this->tpl->setCurrentBlock("row");
+						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+						$this->tpl->setVariable("TEXT_TITLE", $data["title"]);
+						$this->tpl->setVariable("TEXT_DESCRIPTION", $data["description"]);
+						$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data["type_tag"]));
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
+				}
+			}
+		}
+		else
+		{
+			$questionblocks = &$this->object->getQuestionblocks($checked_questions);
+			if (count($questionblocks))
+			{
+				foreach ($questionblocks as $questionblock_id => $data)
+				{
+					if (in_array($questionblock_id, $checked_questions))
+					{
+						$this->tpl->setCurrentBlock("row");
+						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+						$this->tpl->setVariable("TEXT_TITLE", $data[key($data)]["title"]);
+						$this->tpl->setVariable("TEXT_TYPE", $data[key($data)]["surveytitle"]);
+						$contains = array();
+						foreach ($data as $key => $value)
+						{
+							array_push($contains, $value["sequence"] . ". " . $value["questiontitle"]);
+						}
+						$this->tpl->setVariable("TEXT_DESCRIPTION", join($contains, ", "));
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
 				}
 			}
 		}
@@ -748,11 +812,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		if ($_GET["browsetype"] == 1)
+		{
+			$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("contains"));
+			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("obj_svy"));
+		}
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter() . "&browsetype=" . $_GET["browsetype"]);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1399,14 +1471,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 				}
 				if (!count($selected_array)) {
-					sendInfo($this->lng->txt("tst_insert_missing_question"));
+					if ($_GET["browsetype"] == 1)
+					{
+						sendInfo($this->lng->txt("insert_missing_question"));
+					}
+					else
+					{
+						sendInfo($this->lng->txt("insert_missing_questionblock"));
+					}
 				} else {
 //					$total = $this->object->evalTotalPersons();
 //					if ($total) {
 						// the test was executed previously
 //						sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
 //					} else {
-						sendInfo($this->lng->txt("ask_insert_questions"));
+						if ($_GET["browsetype"] == 1)
+						{
+							sendInfo($this->lng->txt("ask_insert_questions"));
+						}
+						else
+						{
+							sendInfo($this->lng->txt("ask_insert_questionblocks"));
+						}
 //					}
 					$this->insertQuestionsForm($selected_array);
 					return;
@@ -1426,7 +1512,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// insert questions from test after confirmation
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					$this->object->insertQuestion($matches[1]);
+					if ($_GET["browsetype"] == 1)
+					{
+						$this->object->insertQuestion($matches[1]);
+					}
+					else
+					{
+						$this->object->insertQuestionBlock($matches[1]);
+					}
 				}
 			}
 			$this->object->saveCompletionStatus();

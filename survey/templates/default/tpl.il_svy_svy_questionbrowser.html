@@ -6,6 +6,7 @@
 </tr>
 </table>
 <table class="fullwidth">
+<!-- BEGIN questions_header -->
 <tr class="tblheader">
 <td class="std"></td>
 <td class="std">{QUESTION_TITLE}</td>
@@ -16,10 +17,30 @@
 <td class="std">{QUESTION_CREATED}</td>
 <td class="std">{QUESTION_UPDATED}</td>
 <td class="std">{QUESTION_POOL}</td>
+<!-- END questions_header -->
+<!-- BEGIN questionblocks_header -->
+<tr class="tblheader">
+<td class="std"></td>
+<td class="std">{QUESTIONBLOCK_TITLE}</td>
+<td class="std">{QUESTIONS_TITLE}</td>
+<td class="std" colspan="6">{SURVEY_TITLE}</td>
+<!-- END questionblocks_header -->
 </tr>
+<!-- BEGIN questionblock_row --> 
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" width="20">
+<!-- BEGIN checkable_block -->
+<input type="checkbox" name="cb_{QUESTIONBLOCK_ID}" value="1" />
+<!-- END checkable_block -->
+</td>
+<td class="{COLOR_CLASS}">{QUESTIONBLOCK_TITLE}</td>
+<td class="{COLOR_CLASS}">{QUESTIONS_TITLE}</td>
+<td class="{COLOR_CLASS}" colspan="6">{SURVEY_TITLE}</td>
+</tr>
+<!-- END questionblock_row --> 
 <!-- BEGIN QTab --> 
 <tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" width="20">
 <!-- BEGIN checkable -->
 <input type="checkbox" name="cb_{QUESTION_ID}" value="1" />
 <!-- END checkable -->
