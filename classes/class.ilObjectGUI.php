@@ -1040,7 +1040,7 @@ class ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $lng, $rbacsystem, $rbacreview, $rbacadmin;
+		global $lng, $log, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
 
 		$obj = getObjectByReference($this->object->getRefId());
@@ -1049,13 +1049,19 @@ class ilObjectGUI
 		{
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 			$parentRoles = $rbacadmin->getParentRoleIds($this->object->getRefId());
+
 			$data = array();
 
+			// GET ALL LOCAL ROLE IDS
+			$role_folder = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
+			
+			if ($role_folder)
+			{
+				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folder["ref_id"]);
+			}
+				
 			foreach ($parentRoles as $r)
 			{
-				// GET ALL LOCAL ROLE IDS
-				$role_folders = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
-				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folders["child"]);
 				$data["rolenames"][] = $r["title"];
 
 				if(!in_array($r["obj_id"],$local_roles))
@@ -1089,6 +1095,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
+		
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();

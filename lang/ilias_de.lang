@@ -565,6 +565,9 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
+common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
+common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
 common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten

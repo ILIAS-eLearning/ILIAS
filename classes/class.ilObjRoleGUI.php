@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -59,7 +59,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-
 
 	/**
 	* display permissions
@@ -119,10 +118,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			$output["col_anz"] = count($obj_data);
 			$output["check_bottom"] = $box;
-			$output["message_table"] = "Change existing objects";
+			$output["message_table"] = $lng->txt("change_existing_objects");
 
 			// USER ASSIGNMENT
-			if ($rbacadmin->isAssignable($this->object->getId(),$_GET["parent"]))
+			if ($rbacadmin->isAssignable($this->object->getId(),$_GET["ref_id"]))
 			{
 				$users = getObjectList("usr","title","ASC");
 				$assigned_users = $rbacreview->assignedUsers($this->object->getId());
@@ -136,13 +135,12 @@ class ilObjRoleGUI extends ilObjectGUI
 					$output["users"][$key]["username"] = $user["title"];
 				}
 
-				$output["message_bottom"] = "Assign User To Role";
-				$output["formaction_assign"] = "adm_object.php?cmd=assignSave&obj_id=".
-								  $this->object->getId()."&ref_id=".$_GET["ref_id"];
+				$output["message_bottom"] = $lng->txt("assign_user_to_role");
+				$output["formaction_assign"] = "adm_object.php?cmd=assignSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 			}
 
 			// ADOPT PERMISSIONS
-			$output["message_middle"] = "Adopt Permissions from Role Template";
+			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 
@@ -157,12 +155,10 @@ class ilObjRoleGUI extends ilObjectGUI
 				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 				$output["adopt"][$key]["role_name"] = $par["title"];
 			}
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id=".
-				$this->object->getId()."&ref_id=".$_GET["ref_id"];
+			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 
 			// END ADOPT_PERMISSIONS
-			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".
-				$_GET["ref_id"]."&obj_id=".$this->object->getId();
+			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 			$role_data = getObject($this->object->getId());
 			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
@@ -173,7 +169,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
-
 
 		// BEGIN BLOCK OBJECT TYPES
 		$this->tpl->setCurrentBlock("OBJECT_TYPES");
@@ -186,11 +181,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		// END BLOCK OBJECT TYPES
 
 		// BEGIN TABLE DATA OUTER
-		foreach($this->data["perm"] as $name => $operations)
+		foreach ($this->data["perm"] as $name => $operations)
 		{
 			// BEGIN CHECK PERMISSION
 			$this->tpl->setCurrentBlock("CHECK_PERM");
-			for($i = 0;$i < count($operations)-1;++$i)
+
+			for ($i = 0;$i < count($operations)-1;++$i)
 			{
 				$this->tpl->setVariable("CHECK_PERMISSION",$operations[$i]);
 				$this->tpl->parseCurrentBlock();
@@ -200,12 +196,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("CSS_ROW",$operations["color"]);
 			$this->tpl->setVariable("PERMISSION",$name);
 			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE DATA OUTER
+		} // END TABLE DATA OUTER
 
 		// BEGIN ADOPT PERMISSIONS
-
-		foreach($this->data["adopt"] as $key => $value)
+		foreach ($this->data["adopt"] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");
 			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
@@ -213,14 +207,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("TYPE",$value["type"]);
 			$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
 			$this->tpl->parseCurrentBlock();
-		}
-		// END ADOPT PERMISSIONS
-
+		} // END ADOPT PERMISSIONS
 
 		// BEGIN USER_ASSIGNMENT
-		if(count($this->data["users"]))
+		if (count($this->data["users"]))
 		{
-			foreach($this->data["users"] as $key => $value)
+			foreach ($this->data["users"] as $key => $value)
 			{
 				$this->tpl->setCurrentBLock("TABLE_USER");
 				$this->tpl->setVariable("CSS_ROW_USER",$value["css_row_user"]);
@@ -228,23 +220,20 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->tpl->setVariable("USERNAME",$value["username"]);
 				$this->tpl->parseCurrentBlock();
 			}
+
 			$this->tpl->setCurrentBlock("ASSIGN");
 			$this->tpl->setVariable("MESSAGE_BOTTOM",$this->data["message_bottom"]);
 			$this->tpl->setVariable("FORMACTION_ASSIGN",$this->data["formaction_assign"]);
 			$this->tpl->parseCurrentBlock();
-		}
+		} // END USER_ASSIGNMENT
 
-		// END USER_ASSIGNMENT
 		$this->tpl->setCurrentBlock("adm_content");
-
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
 		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
 		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
-
-
 		$this->tpl->parseCurrentBlock("adm_content");
 	}
 

@@ -285,20 +285,28 @@ class RbacAdmin
 	* @access	public
 	* @param	integer	object id of role
 	* @param	integer	user id
-	* @return	integer	object id of new default role
+	* @return	boolean true if role was changed
 	*/
 	function updateDefaultRole($a_rol_id,$a_usr_id)
 	{
+		global $log;
+
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::updateDefaultRole(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$this->deassignUser($this->getDefaultRole($a_usr_id),$a_usr_id);
-		$this->deassignUser($a_rol_id,$a_usr_id);
-
-		return $this->assignUser($a_rol_id,$a_usr_id,true);
+		$current_default_role = $this->getDefaultRole($a_usr_id);
+		
+		if ($current_default_role != $a_rol_id)
+		{
+			$this->deassignUser($current_default_role,$a_usr_id);	
+			return $this->assignUser($a_rol_id,$a_usr_id,true);
+		}
+		
+		return false;
 	}
 
 	/**
@@ -310,9 +318,12 @@ class RbacAdmin
 	*/
 	function getDefaultRole($a_usr_id)
 	{
+		global $log;
+
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::getDefaultRole(): No usr_id given!";
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -593,8 +604,19 @@ class RbacAdmin
 	* @param	string		assignable('y','n'); default: 'y'
 	* @return	boolean
 	*/
-	function assignRoleToFolder($a_rol_id, $a_parent,$a_parent_obj, $a_assign = "y")
+	function assignRoleToFolder($a_rol_id,$a_parent,$a_parent_obj,$a_assign = "y")
 	{
+		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() != 4)
+		{
+			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
+					   "role_id: ".$a_rol_id.
+					   "parent_id: ".$a_parent.
+					   "parent_obj: ".$a_parent_obj.
+					   "assign: ".$a_assign;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
 			 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."','".$a_parent_obj."')";
 		$this->ilias->db->query($q);
@@ -611,10 +633,13 @@ class RbacAdmin
 	*/
 	function isAssignable($a_rol_id, $a_ref_id)
 	{
+		global $log;
+		
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::isAssignable(): Missing parameter!".
 					   "role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -635,6 +660,15 @@ class RbacAdmin
 	*/
 	function getFoldersAssignedToRole($a_rol_id)
 	{
+		global $log;
+
+		if (!isset($a_rol_id))
+		{
+			$message = get_class($this)."::getFoldersAssignedToRole(): No role_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "SELECT DISTINCT parent,parent_obj FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."'";
 		$r = $this->ilias->db->query($q);
@@ -653,13 +687,22 @@ class RbacAdmin
 	* TODO: function should be renamed
 	* return an array with role ids
 	* @access	public
-	* @param	integer		parent id  
+	* @param	integer		ref_id of object  
 	* @return	array		Array with rol_ids
 	*/
-	function getRolesAssignedToFolder($a_parent)
+	function getRolesAssignedToFolder($a_ref_id)
 	{
+		global $log;
+
+		if (!isset($a_ref_id))
+		{
+			$message = get_class($this)."::getRolesAssignedToFolder(): No ref_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = '".$a_parent."'";
+			 "WHERE parent = '".$a_ref_id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -687,6 +730,7 @@ class RbacAdmin
 			$parent[] = $row->parent;
 		}
 
+//var_dump($parent);		
 		return $parent;
 	}
 
@@ -699,6 +743,15 @@ class RbacAdmin
 	*/
 	function getObjectsWithStopedInheritance($a_rol_id)
 	{
+		global $log;
+		
+		if (!isset($a_rol_id))
+		{
+			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+			
 		$parent_obj = array();
 		
 		$q = "SELECT DISTINCT parent_obj FROM rbac_fa ".
@@ -715,30 +768,23 @@ class RbacAdmin
 	/**
 	* returns the data of a role folder assigned to an object
 	* @access	public
-	* @param	integer		parent id
+	* @param	integer		ref_id of object with a rolefolder object under it
 	* @return	array
 	*/
-	function getRoleFolderOfObject($a_parent)
+	function getRoleFolderOfObject($a_ref_id)
 	{
-		$rolf_data = array();
-
-		// parent obj_id is enough for information since linked objects(they have duplicate object_ids) are not
-		// allowed to contain role folders
-		$q = "SELECT * from tree ,object_data ".
-			 "WHERE tree.parent = '".$a_parent."' ".
-			 "AND tree.child = object_data.obj_id ".
-			 "AND object_data.type = 'rolf' ".
-			 "AND tree.tree = '1'";
-		$r = $this->ilias->db->query($q);
-
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		global $tree, $log;
+		
+		if (!isset($a_ref_id))
 		{
-			//$rolf_data["child"] = $row->child;
-			//$rolf_data["parent"] = $row->parent;
-			$rolf_data = $row;
+			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		return $rolf_data;
+		$childs = $tree->getChildsByType($a_ref_id,"rolf");
+
+		return $childs[0] ? $child[0] : array();
 	}
 
 	/**
@@ -751,10 +797,17 @@ class RbacAdmin
 	*/
 	function getParentRoleIds($a_endnode_id,$a_templates = false)
 	{
-		global $tree;
+		global $tree, $log;
+
+		if (!isset($a_endnode_id))
+		{
+			$message = get_class($this)."::getParentRoleIds(): No node_id (ref_id) given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
 		
 		$pathIds  = $tree->getPathId($a_endnode_id);
-		
+
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 
@@ -769,6 +822,15 @@ class RbacAdmin
 	*/
 	function getOperationsOnType($a_typ_id)
 	{
+		global $log;
+
+		if (!isset($a_typ_id))
+		{
+			$message = get_class($this)."::getOperationsOnType(): No type_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "SELECT * FROM rbac_ta WHERE typ_id = '".$a_typ_id."'";
 		$r = $this->ilias->db->query($q);
 
@@ -782,19 +844,28 @@ class RbacAdmin
 	
 	/**
 	* TODO: function needs better explanation and should be renamed
+	* TODO: using var $a_obj_id which is not known in function
 	* Fetch loaded modules or possible modules in context
 	* @access	public
 	* @param	string
 	*/
-	function getModules ($a_objname)
+	function getModules ($a_type,$a_ref_id)
 	{
 		global $objDefinition;
 		
+		if (!isset($a_type) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::getModules(): Missing parameter!".
+					   "type: ".$a_type." ref_id: ".$a_ref_id;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$arr = array();
 		
-		$type_list = $objDefinition->getSubObjectsAsString($a_objname);
+		$type_list = $objDefinition->getSubObjectsAsString($a_type);
 		
-		if (empty($ATypeList))
+		if (empty($type_list))
 		{
 			$q = "SELECT * FROM object_data ".
 				 "WHERE type = 'typ' ORDER BY type";
@@ -802,14 +873,14 @@ class RbacAdmin
 		else
 		{
 			$q = "SELECT * FROM object_data ".
-				 "WHERE title IN ($type_list) AND type='typ'";
+				 "WHERE title IN (".$type_list.") AND type='typ'";
 		}
 
 		$r = $this->ilias->db->query($q);
 		
 		$rolf_exist = false;
 		
-		if (count($this->getRoleFolderOfObject($a_obj_id)) > 0)
+		if (count($this->getRoleFolderOfObject($a_ref_id)) > 0)
 		{
 			$rolf_exist = true;
 		}

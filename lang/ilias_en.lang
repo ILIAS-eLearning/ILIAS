@@ -565,6 +565,9 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
+common#:#assign_user_to_role#:#Assign User to Role
+common#:#change_existing_objects#:#Change existing Objects
 common#:#mail_check_your_email_addr#:#Your email address is not valid
 common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
