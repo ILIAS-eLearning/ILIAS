@@ -527,26 +527,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	{
 		if($_GET["limit"] == 0 )
 		{
-			$_GET["limit"] = 10;
+			$_GET["limit"] = 15;
 		}
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// edit object button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
-			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
-			"&cmd=createDir");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_dir"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
-			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
-			"&cmd=uploadFile");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_upload_file"));
-		$this->tpl->parseCurrentBlock();
 
 		// standard item
 		$std_item =& $this->content_obj->getMediaItem("Standard");
@@ -554,17 +536,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		{
 			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
 		}
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
-
-		$num = 0;
-
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=post");
 
 		// create table
 		require_once("classes/class.ilTableGUI.php");
@@ -590,11 +561,36 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				}
 			}
 		}
+
 		$cur_subdir = str_replace(".", "", $cur_subdir);
 		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
 		$cur_dir = (!empty($cur_subdir))
 			? $mob_dir."/".$cur_subdir
 			: $mob_dir;
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", true);
+
+		$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
+		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
+		$this->tpl->setVariable("CMD_NEW_DIR", "createDirectory");
+		$this->tpl->setVariable("CMD_NEW_FILE", "uploadFile");
+		$this->tpl->setVariable("BTN_NEW_DIR", $this->lng->txt("create"));
+		$this->tpl->setVariable("BTN_NEW_FILE", $this->lng->txt("upload"));
+
+		//
+		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
 
 		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -604,7 +600,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$cols = array("", "", "dir_file", "size", "purpose");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "editFiles");
+			"cmd" => "editFiles", "hier_id" => $_GET["hier_id"]);
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
 
@@ -618,20 +614,21 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
-		/*
 		// delete button
 		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "clipboardDeletion");
-		$this->tpl->setVariable("BTN_VALUE", "delete");
+		$this->tpl->setVariable("BTN_NAME", "deleteFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
 		$this->tpl->parseCurrentBlock();
 
-		// add list
-		$opts = ilUtil::formSelect("","new_type",array("mob" => "mob"));
-		$this->tpl->setCurrentBlock("add_object");
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("BTN_NAME", "createMediaInClipboard");
-		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-		$this->tpl->parseCurrentBlock();*/
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignStandard");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_assign_std"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignFullscreen");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_assign_full"));
+		$this->tpl->parseCurrentBlock();
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -643,8 +640,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$entries = ilUtil::getDir($cur_dir);
 
 		//$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
-		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 		$tbl->setMaxCount(count($entries));
+		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
 		if(count($entries) > 0)
@@ -667,6 +664,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 						rawurlencode($entry["entry"]));
 					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
 					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setVariable("ICON", "<img src=\"".
+						ilUtil::getImagePath("icon_cat.gif")."\">");
 				}
 				else
 				{
@@ -680,7 +680,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
 				$this->tpl->setVariable("TXT_SIZE", $entry["size"]);
-				//$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $entry["entry"]);
 				$compare = (!empty($cur_subdir))
 					? $cur_subdir."/".$entry["entry"]
 					: $entry["entry"];
@@ -707,6 +707,196 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* create directory
+	*/
+	function createDirectory()
+	{
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+
+		$new_dir = str_replace(".", "", $_POST["new_dir"]);
+		$new_dir = str_replace("/", "", $new_dir);
+
+		if (!empty($new_dir))
+		{
+			ilUtil::makeDir($cur_dir."/".$new_dir);
+		}
+
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* upload file
+	*/
+	function uploadFile()
+	{
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		if (is_file($_FILES["new_file"]["tmp_name"]))
+		{
+			move_uploaded_file($_FILES["new_file"]["tmp_name"],
+				$cur_dir."/".$_FILES["new_file"]["name"]);
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* assign file to standard view
+	*/
+	function assignStandard()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		if(!is_file($file))
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		$std_item->setLocationType("LocalFile");
+		$std_item->setLocation($location);
+		$format = ilMediaObject::getMimeType($file);
+		$this->content_obj->update();
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* assign file to fullscreen view
+	*/
+	function assignFullscreen()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		if(!is_file($file))
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+		$full_item->setLocationType("LocalFile");
+		$full_item->setLocation($location);
+		$format = ilMediaObject::getMimeType($file);
+		$this->content_obj->update();
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	function deleteFile()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+
+		if ($location == $std_item->getLocation())
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_cant_del_std"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($location == $full_item->getLocation())
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_cant_del_full"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (@is_dir($file))
+		{
+			if (substr($std_item->getLocation(), 0 ,strlen($location)) == $location)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_std_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			if (substr($full_item->getLocation(), 0 ,strlen($location)) == $location)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_full_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		if (@is_file($file))
+		{
+			unlink($file);
+		}
+
+		if (@is_dir($file))
+		{
+			ilUtil::delDir($file);
+		}
+
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 

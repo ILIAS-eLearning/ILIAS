@@ -129,6 +129,11 @@ class ilPageEditorGUI
 			}
 		}
 
+		if ($cmd == "post")
+		{
+			$cmd = key($_POST["cmd"]);
+		}
+
 		$this->page->buildDom();
 		$this->page->addHierIDs();
 

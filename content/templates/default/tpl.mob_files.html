@@ -1,0 +1,27 @@
+<form action="{FORMACTION1}" name="post" method="post" enctype="multipart/form-data">
+<table class="std">
+	<tr>
+		<td class="option">
+		{TXT_NEW_DIRECTORY}
+		</td>
+		<td class="option_value">
+		<input type="text" name="new_dir" size="30" maxlength="80">
+		</td>
+		<td class="submit">
+		<input class="submit" type="submit" name="cmd[{CMD_NEW_DIR}]" value="{BTN_NEW_DIR}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="option">
+		{TXT_NEW_FILE}
+		</td>
+		<td class="option_value">
+		<input type="file" name="new_file" size="30">
+		</td>
+		<td class="submit">
+		<input class="submit" type="submit" name="cmd[{CMD_NEW_FILE}]" value="{BTN_NEW_FILE}" />
+		</td>
+	</tr>
+</table>
+</form>
+{FILE_TABLE}
