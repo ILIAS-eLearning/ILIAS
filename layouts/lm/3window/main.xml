@@ -38,7 +38,7 @@
 				</PageObject>
 			</ilFrame>
 			<ilFrame name="botright" template="tpl.blank.html" template_location="module">
-				<GlossaryItem template="tpl.page.html" template_location="module">
+				<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
 					<ilGlossary>
 						<LinkTarget Type="New" Frame="_new" />
 						<LinkTarget Type="FAQ" Frame="topright" />
