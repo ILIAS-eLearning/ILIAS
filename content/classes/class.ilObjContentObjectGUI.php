@@ -130,7 +130,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->updateProperties();
-		sendInfo($this->lng->txt("msg_obj_modified"));
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->view();
 	}
 	// END PROPERTIES
@@ -272,7 +272,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			unset($newObj);
 
 			// always send a message
-			sendInfo($this->lng->txt("lm_added"),true);
+			sendInfo($this->lng->txt("lm_added"), true);
 			header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 			exit();
 		}
@@ -315,7 +315,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("meta_choose_element"));
+			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $meta_section);
 	}
@@ -337,7 +337,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("meta_choose_element"));
+			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->object->getRefId(), $meta_section);
@@ -1029,6 +1029,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+//echo "Hallo::"; exit;
 		if(count($_POST["id"]) > 1)
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
@@ -1037,11 +1038,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
 
-		sendInfo($this->lng->txt("cont_chap_select_target_now"));
+		sendInfo($this->lng->txt("cont_chap_select_target_now"), true);
 
 		if ($a_parent_subobj_id == 0)
 		{
-			$this->chapters();
+			//$this->chapters();
+			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
 
@@ -1078,7 +1080,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if($_POST["id"][0] == $id)
 		{
 			ilEditClipboard::clear();
-			$this->chapters();
+			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			//$this->chapters();
 			return;
 		}
 
@@ -1133,7 +1136,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($a_parent_subobj_id == 0)
 		{
-			$this->chapters();
+			//$this->chapters();
+			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
 
@@ -1154,8 +1158,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("pg", $_POST["id"][0]);
 
-		sendInfo($this->lng->txt("cont_page_select_target_now"));
-		$this->pages();
+		sendInfo($this->lng->txt("cont_page_select_target_now"), true);
+		header("Location: lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
+		//$this->pages();
 	}
 
 	function cancel()
