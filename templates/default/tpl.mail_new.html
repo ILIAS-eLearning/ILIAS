@@ -5,56 +5,57 @@
 	  <table CELLPADDING=4 CELLSPACING=0 BORDER=0>
 		<!-- BEGIN search -->
 		  <TR>
-			<TD ALIGN=right>&nbsp;</a>
+			<TD ALIGN=right>&nbsp;
 			</TD>
 			<td>
-			  <INPUT name="search" value="" SIZE=30 width="80%">
+			  <INPUT name="search" value="" SIZE=30 width="80%"/>
 			</TD>
 		  </TR>
 		  <TR>
-			<TD ALIGN=right>&nbsp;</a></TD>
+			<TD ALIGN=right>&nbsp;</TD>
 			<td>
-			  <input type="submit" name="cmd" value="{BUTTON_SEARCH}">
-			  <input type="submit" name="cmd" value="{BUTTON_CANCEL}">
+			  <input type="submit" name="cmd" value="{BUTTON_SEARCH_SYSTEM}"/>
+			  <input type="submit" name="cmd" value="{BUTTON_SEARCH_ADDRESSBOOK}"/>
+			  <input type="submit" name="cmd" value="{BUTTON_CANCEL}"/>
 			</TD>
 		  </TR>
 		  <!-- END search -->
 		  <TR>
 			<TD ALIGN=right>{TXT_RECIPIENT}</a></TD>
 			<td>
-			  <input name="rcp_to" value="{RCP_TO}" SIZE="50" width="80%">
-			  <input type="submit" name="cmd" value="{BUTTON_TO}">
+			  <input name="rcp_to" value="{RCP_TO}" SIZE="50" width="80%"/>
+			  <input type="submit" name="cmd" value="{BUTTON_TO}"/>
 			</TD>
 		  </TR>
 		  <TR>
 			<TD ALIGN=right>{TXT_CC}</a></TD>
 			<td>
-			  <INPUT name="rcp_cc" value="{RCP_CC}" SIZE="50" width="80%">
-			  <input type="submit" name="cmd" value="{BUTTON_CC}">
+			  <INPUT name="rcp_cc" value="{RCP_CC}" SIZE="50" width="80%"/>
+			  <input type="submit" name="cmd" value="{BUTTON_CC}"/>
 			</TD>
 		  </TR>
 		  <TR>
 			<TD ALIGN=right>{TXT_BC}</a></TD>
 			<TD>
-			  <INPUT name="rcp_bcc" value="{RCP_BCC}" SIZE=50 width="80%">
-			  <input type="submit" name="cmd" value="{BUTTON_BC}">
+			  <INPUT name="rcp_bcc" value="{RCP_BCC}" SIZE=50 width="80%"/>
+			  <input type="submit" name="cmd" value="{BUTTON_BC}"/>
 			</TD>
 		  </TR>
 		  <TR>
 			<td align="right">{TXT_SUBJECT}</TD>
-			<td><INPUT name="m_subject" value="{M_SUBJECT}" SIZE=50 width="80%"></TD>
+			<td><INPUT name="m_subject" value="{M_SUBJECT}" SIZE=50 width="80%"/></TD>
 		  </TR>
 		  <TR>
 			<td align="right">{TXT_TYPE}</TD>
 			<td>
-			  <input type="radio" name="m_type" value="normal" {CHECKED_NORMAL}>{TXT_NORMAL}
-			  <input type="radio" name="m_type" value="system" {CHECKED_SYSTEM}>{TXT_SYSTEM}
-			  <input type="radio" name="m_type" value="email" {CHECKED_EMAIL}>{TXT_EMAIL}
+			  <input type="radio" name="m_type" value="normal" {CHECKED_NORMAL}/>{TXT_NORMAL}
+			  <input type="radio" name="m_type" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
+			  <input type="radio" name="m_type" value="email" {CHECKED_EMAIL}/>{TXT_EMAIL}
 			</td>
 		  </TR>
 		  <TR>
 			<td align="right">{TXT_ALSO_AS_EMAIL}</TD>
-			<td><input type="checkbox" name="m_email" value="1" {CHECKED_ALSO_EMAIL}></TD>
+			<td><input type="checkbox" name="m_email" value="1" {CHECKED_ALSO_EMAIL}/></TD>
 		  </tr>
 		  <TR>
 			<td align="right" valign="top">{TXT_ATTACHMENT}</TD>
@@ -62,10 +63,10 @@
 			  <!-- BEGIN files -->
 			  <textarea cols="60" rows="{ROWS}" readonly>{FILES}</textarea><br/>
 			  <!-- BEGIN hidden -->
-			  <input type="hidden" name="attachments[]" value="{ATTACHMENTS}">
+			  <input type="hidden" name="attachments[]" value="{ATTACHMENTS}"/>
 			  <!-- END hidden -->
 			  <!-- END files -->
-			  <input type="submit" name="cmd" value="{BUTTON_EDIT}">
+			  <input type="submit" name="cmd" value="{BUTTON_EDIT}"/>
 			</td>
 		  </TR>
 		  <TR>
@@ -74,8 +75,8 @@
 		  </TR>
 		  <TR>
 			<td>&nbsp;</td>
-			<TD><input type="submit" name="cmd" value="{TXT_SEND}">&nbsp;
-			  <input type="submit" name="cmd" value="{TXT_MSG_SAVE}"></TD>
+			<TD><input type="submit" name="cmd" value="{TXT_SEND}"/>&nbsp;
+			  <input type="submit" name="cmd" value="{TXT_MSG_SAVE}"/></TD>
 		  </TR>
 	  </table>
     </FORM>
