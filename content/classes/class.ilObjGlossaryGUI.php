@@ -479,6 +479,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			if(is_object($this->object))
 			{
 
+				// ### AA 03.11.10 added new locator GUI class ###
+				$i = 1;
+				
 				$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 				if (!empty($_GET["term_id"]))
@@ -491,6 +494,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 				$this->tpl->parseCurrentBlock();
+				
+				// ### AA 03.11.10 added new locator GUI class ###
+				// navigate locator
+				$ilias_locator->navigate($i++,$this->object->getTitle(),"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms"),"bottom");
 
 				if (!empty($_GET["term_id"]))
 				{
@@ -500,6 +507,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 						"&cmd=listDefinitions&term_id=".$term->getId());
 					$this->tpl->parseCurrentBlock();
+					
+					// ### AA 03.11.10 added new locator GUI class ###
+					// navigate locator
+					$ilias_locator->navigate($i++,$term->getTerm(),"glossary_edit.php?ref_id=".$_GET["ref_id"].
+						"&cmd=listDefinitions&term_id=".$term->getId(),"bottom");
 				}
 
 				//$this->tpl->touchBlock("locator_separator");
