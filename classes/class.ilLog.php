@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
 /**
 * logging
 *
@@ -32,41 +30,47 @@ require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
 * $log = new Log();
 * you can give a filename if you want, else the defaultfilename is used.
 *
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
-* @package application
+* @author	Peter Gabriel <pgabriel@databay.de>
+* @version	$Id$
+* @package	application
 */
+
+require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
+
 class ilLog extends PEAR
 {
 
 	/**
-	 * logfile
-	 * @var string
-	 * @access private
-	 */
+	* logfile
+	* @var		string
+	* @access	private
+	*/
 	var $LOGFILE = "application.log";
 
 	/**
 	* error handling
 	*/
-	var $error_class;	
+	var $error_class;
+
 	/**
-	 * constructor
-	 * 
-	 * set the filename
-	 * 
-	 * @param string
-	 * @return boolean 
-	 * @access public
-	 * @author Peter Gabriel <pgabriel@databay.de>
-	 * @version 1.0
-	 */
+	* constructor
+	* 
+	* set the filename
+	* 
+	* @param	string
+	* @return	boolean 
+	* @access	public
+	*/
 	function ilLog($logfile = "")
 	{
-		if ($logfile=="")
+		if ($logfile == "")
+		{
 			$this->filename = $this->LOGFILE;
+		}
 		else
+		{
 			$this->filename = $logfile;
+		}
 
 		$this->PEAR();
 		$this->error_class = new ilErrorHandling();
@@ -115,17 +119,19 @@ class ilLog extends PEAR
 	*/
 	function write($msg)
 	{
-		$fp = @fopen ($this->filename, "a");
+		$fp = @fopen (ILIAS_ABSOLUTE_PATH."/".$this->filename, "a");
+
 		if ($fp == false)
 		{
 			$this->raiseError("Logfile: cannot open file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
 		}
+
 		if (fwrite($fp,date("[y-m-d H:i] ").$msg."\n") == -1)
 		{
 			$this->raiseError("Logfile: cannot write to file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
 		}
+
 		fclose($fp);
 	}
-
 } //class
 ?>
