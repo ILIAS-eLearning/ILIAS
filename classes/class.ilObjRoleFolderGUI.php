@@ -771,6 +771,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
+		
+
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
@@ -779,22 +781,22 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 
-			$tpl->setVariable("COLUMN_COUNTS",($_SESSION["filtered_roles"] == 4) ? 4 : 5);
-if ($_SESSION["filtered_roles"] != 4)
-{
+		$tpl->setVariable("COLUMN_COUNTS",($_SESSION["filtered_roles"] == 4) ? 4 : 5);
+		if ($_SESSION["filtered_roles"] != 4)
+		{
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 
-            foreach ($actions as $name => $value)
+			foreach ($actions as $name => $value)
 			{
 				$tpl->setCurrentBlock("tbl_action_btn");
 				$tpl->setVariable("BTN_NAME",$name);
 				$tpl->setVariable("BTN_VALUE",$value);
 				$tpl->parseCurrentBlock();
 			}
-}
+		}
 
-            $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 
 		$this->ctrl->setParameter($this,"cmd","view");
@@ -802,16 +804,23 @@ if ($_SESSION["filtered_roles"] != 4)
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("roles"),"icon_role_b.gif",$this->lng->txt("roles"));
 
-if ($_SESSION["filtered_roles"] == 4){
-		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("role"),$this->lng->txt("description"),$this->lng->txt("context")));
-		$tbl->setHeaderVars(array("type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
-		$tbl->setColumnWidth(array("","30%","40%","30%"));
-} else {
-		$tbl->setHeaderNames(array("",$this->lng->txt("type"),$this->lng->txt("role"),$this->lng->txt("description"),$this->lng->txt("context")));
-		$tbl->setHeaderVars(array("","type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
-		$tbl->setColumnWidth(array("","","30%","40%","30%"));
-}
-
+		if ($_SESSION["filtered_roles"] == 4)
+		{
+			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("role"),
+									   $this->lng->txt("description"),$this->lng->txt("context")));
+			$tbl->setHeaderVars(array("type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
+			$tbl->setColumnWidth(array("","30%","40%","30%"));
+		} 
+		else 
+		{
+			$tbl->setHeaderNames(array("",$this->lng->txt("type"),
+									   $this->lng->txt("role"),
+									   $this->lng->txt("description"),
+									   $this->lng->txt("context")));
+			$tbl->setHeaderVars(array("","type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
+			$tbl->setColumnWidth(array("","","30%","40%","30%"));
+		}
+		
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"view");
 		$tbl->render();
 		$this->tpl->setVariable("ROLES_TABLE",$tbl->tpl->get());
