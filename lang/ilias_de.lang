@@ -1763,3 +1763,5 @@ search#:#search_delete_sure#:#Sind Sie, daß dieser Ordner und sein Inhalt gelö
 search#:#search_new_folder#:#Neuer Ordner
 search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
 search#:#search_group#:#Gruppen
+common#:#folder#:#Ordner
+search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--

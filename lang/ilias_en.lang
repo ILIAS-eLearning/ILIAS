@@ -1763,3 +1763,5 @@ search#:#search_delete_sure#:#The folder and its content will be deleted permana
 search#:#search_new_folder#:#New folder
 search#:#search_search_no_results_saved#:#There are no search results saved
 search#:#search_group#:#Groups
+common#:#folder#:#folder
+search#:#search_select_one_select#:#--Select one folder--
