@@ -91,5 +91,6 @@ switch ($type)
 
 }
 
+$ilBench->save();
 
 ?>
