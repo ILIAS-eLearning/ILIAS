@@ -121,20 +121,20 @@ function change_password()
 	}
 
 	// check new password
-	if ($_POST["desired_password"] != $_POST["retype_password"])
+	else if ($_POST["desired_password"] != $_POST["retype_password"])
 	{
 		$password_error=$lng->txt("passwd_not_match");
 		//$ilias->raiseError($lng->txt("passwd_not_match"),$ilias->error_obj->MESSAGE);
 	}
 
 	// validate password
-	if (!ilUtil::is_password($_POST["desired_password"]))
+	else if (!ilUtil::isPassword($_POST["desired_password"]))
 	{
 		$password_error=$lng->txt("passwd_invalid");
 		//$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
 	}
 
-	if ($_POST["current_password"] != "")
+	else if ($_POST["current_password"] != "")
 	{
 		$ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
 
