@@ -682,6 +682,7 @@ common#:#approve_date#:#Approvato il
 common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
+common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Assegna
 common#:#assign_global_role#:#Assegnato ad un ruolo globale
@@ -3075,6 +3076,7 @@ forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere q
 forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
 forum#:#forums_last_post#:#Ultimo messaggio
+forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Moderatori
 forum#:#forums_new_entries#:#Nuovi forum
 forum#:#forums_new_thread#:#Nuovo argomento
@@ -3094,11 +3096,15 @@ forum#:#forums_thread#:#Argomento
 forum#:#forums_thread_articles#:#Messaggi dell'argomento
 forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
+forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
 forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta
+forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
+forum#:#is_read#:#mark read###02 Dec 2004 new variable
 mail#:#also_as_email#:#Anche tramite eMail
 mail#:#bc#:#BC
 mail#:#forward#:#Inoltra
@@ -4108,6 +4114,8 @@ survey#:#median_between#:#tra
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#Hai iniziato in modo anomino il sondaggio &quot;%s&quot;. Per riprendere il sondaggio, hai bisogno del codice :<br><br><strong>%s</strong><br><br> a 32 cifre ad esso associato. E' possibile riprendere il sondaggio solo se viene interrotto prima della fine.
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Il valore che hai inserito non &#232; compreso tra i valori minimo e massimo!
 survey#:#minimum#:#Valore minimo
 survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore e superiore!

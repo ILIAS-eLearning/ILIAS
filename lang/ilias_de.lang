@@ -682,6 +682,7 @@ common#:#approve_date#:#Freigegeben am
 common#:#approve_recipient#:#Freigegeben durch (Login ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
+common#:#articels_unread#:#Ungelesene Beiträge:
 common#:#as_of#:#Stand
 common#:#assign#:#Annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen 
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
+forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_moderators#:#Moderatoren
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
+forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads#:#Themen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
+forum#:#frm_default_view#:#Standardansicht
+forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
+forum#:#is_read#:#gelesen
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 mail#:#forward#:#Weiterleiten
@@ -4109,6 +4115,8 @@ survey#:#median_between#:#zwischen
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -4266,9 +4274,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#articels_unread#:#Ungelesene Beiträge:
-forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
-forum#:#frm_default_view#:#Standardansicht
-forum#:#forums_mark_read#:#Alle auf gelesen setzen
-forum#:#is_read#:#gelesen
-forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.

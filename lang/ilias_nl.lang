@@ -682,6 +682,7 @@ common#:#approve_date#:#Goedgekeurd op
 common#:#approve_recipient#:#login-ID van keurder
 common#:#archive#:#Archief
 common#:#are_you_sure#:#Weet u het zeker?
+common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Toewijzen
 common#:#assign_global_role#:#Toewijzen aan een globale rol
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Download bestand
 forum#:#forums_info_censor_post#:#Wijzigen artikel
 forum#:#forums_info_delete_post#:#Herroep censor?
 forum#:#forums_last_post#:#Weet u zeker, dat u dit artikel wil verbergen?
+forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Weet u zeker, dat u dit artikel wil verwijderen inclusief elke reactie?
 forum#:#forums_new_entries#:#Laatste artikel
 forum#:#forums_new_thread#:#Moderatoren
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Subject
 forum#:#forums_thread_articles#:#Artikel
 forum#:#forums_thread_create_date#:#Thema
 forum#:#forums_thread_create_from#:#Artikelen van thema
+forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Gecreëerd op
 forum#:#forums_threads#:#Gecreëerd van
 forum#:#forums_threads_not_available#:#Nieuw thema werd gecreërd
 forum#:#forums_topics_overview#:#Threads
 forum#:#forums_your_reply#:#Thema niet beschikbaar
+forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
+forum#:#is_read#:#mark read###02 Dec 2004 new variable
 mail#:#also_as_email#:#Overzicht thema's
 mail#:#bc#:#Uw antwoord
 mail#:#forward#:#Ook als email
@@ -4109,6 +4115,8 @@ survey#:#median_between#:#Maximum waarde
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Median
 survey#:#minimum#:#tussen
 survey#:#missing_upper_or_lower_limit#:#De waarde die u invoerde is niet tussen de minimum en de maximum waarde!

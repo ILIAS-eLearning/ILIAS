@@ -682,6 +682,7 @@ common#:#approve_date#:#Approved On###14 Sep 2004 new variable
 common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Určitě pokračovat?
+common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Přiřadit
 common#:#assign_global_role#:#Assign to global role###16 Mar 2004 new variable
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Vzít zpět cenzuru?
 forum#:#forums_info_censor_post#:#Jste si jist(a), že chcete skrýt tento příspěvek?
 forum#:#forums_info_delete_post#:#Jste si jist(a), že chcete odstranit tento příspěvek včetně všech reakcí?
 forum#:#forums_last_post#:#Poslední příspěvek
+forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Moderátoři
 forum#:#forums_new_entries#:#Nové záznamy ve skupině
 forum#:#forums_new_thread#:#Nové téma
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Téma
 forum#:#forums_thread_articles#:#Příspěvky k tématu###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Vytvořeno
 forum#:#forums_thread_create_from#:#Vytvořeno od
+forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Nové téma bylo registrováno###14 Sep 2004 content changed
 forum#:#forums_threads#:#Témata
 forum#:#forums_threads_not_available#:#Témata nejsou dostupná
 forum#:#forums_topics_overview#:#Přehled témat
 forum#:#forums_your_reply#:#Vaše reakce
+forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
+forum#:#is_read#:#mark read###02 Dec 2004 new variable
 mail#:#also_as_email#:#Také jako e-mail
 mail#:#bc#:#Slepá kopie###14 Sep 2004 content changed
 mail#:#forward#:#Přeposlat
@@ -4109,6 +4115,8 @@ survey#:#median_between#:#between###01 Sep 2004 new variable
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
