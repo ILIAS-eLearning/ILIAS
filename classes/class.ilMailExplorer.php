@@ -153,7 +153,7 @@ class ilMailExplorer extends ilExplorer
 	} //function
 
 	/**
-	* overwritten method from base class
+	* method to create a mail system specific header
 	* @access	public
 	* @param	integer obj_id
 	* @param	integer array options
