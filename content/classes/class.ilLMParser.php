@@ -51,6 +51,8 @@ class ilLMParser extends ilSaxParser
 	var $pg_into_tree;
 	var $st_into_tree;
 
+	var $keyword_language;
+
 	/**
 	* Constructor
 	* @access	public
@@ -259,6 +261,10 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
 				break;
 
+			case "Keyword":
+				$this->keyword_language = $a_attribs["Language"];
+				break;
+
 		}
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
@@ -378,7 +384,8 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 					break;
 
 				case "Keyword":
-					$this->meta_data->setKeyword($a_data);
+					$this->meta_data->addKeyword($this->keyword_language, $a_data);
+echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
 					break;
 
 			}

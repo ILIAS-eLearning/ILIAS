@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ilFrameset rows="82,*">
-	<ilFrame name="mainmenu" scrolling="no">
-		<ilMainMenu template="tpl.menu.html" />
-	<ilFrame>
-	<ilFrameset cols="40%,60%">
-		<ilFrame name="toc">
-			<ilTOC template="tpl.toc.html" />
+<ilFrame rows="82,*">
+	<ilFrame name="mainmenu" template="tpl.main_buttons.html" template_location="core" scrolling="no">
+		<ilMainMenu />
+	</ilFrame>
+	<ilFrame name="content" cols="40%,60%">
+		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
+			<ilTOC />
 		</ilFrame>
-		<ilFrame name="maincontent">
-			<ilPage template="tpl.page.html" />
+		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
+			<ilPage />
+			<ilLMNavigation />
 		</ilFrame>
-	</ilFrameset>
-</ilFrameset>
+	</ilFrame>
+</ilFrame>

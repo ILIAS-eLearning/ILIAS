@@ -40,7 +40,7 @@ class ilMetaData
 	var $title;				// 1
 	var $language;			// string
 	var $description;		// string
-	var $keyword;			// string
+	var $keyword;			// array
 	var $coverage;			// ?, optional
 	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 	var $id;
@@ -180,12 +180,12 @@ class ilMetaData
 	}
 
 	// GENERAL: Keyword
-	function setKeyword($a_key)
+	function addKeyword($a_lang, $a_key)
 	{
-		$this->keyword = $a_key;
+		$this->keyword[] = array("language" => $a_lang, "keyword" => $a_key);
 	}
 
-	function getKeyword()
+	function getKeywords()
 	{
 		return $this->keyword;
 	}
@@ -193,19 +193,37 @@ class ilMetaData
 	function create()
 	{
 		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
-			"language, keyword, description) VALUES ".
+			"language, description) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
-			"'".$this->getLanguage()."','".$this->getKeyword."','".$this->getDescription."')";
+			"'".$this->getLanguage()."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
+		$this->updateKeywords();
 	}
 
 	function update()
 	{
 		$query = "REPLACE INTO meta_data (obj_id, obj_type, title,".
-			"language, keyword, description) VALUES ".
+			"language, description) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
-			"'".$this->getLanguage()."','".$this->getKeyword."','".$this->getDescription."')";
+			"'".$this->getLanguage()."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
+		$this->updateKeywords();
+	}
+
+	function updateKeywords()
+	{
+		$query = "DELETE FROM meta_keyword ".
+			"WHERE obj_id ='".$this->getId()."' ".
+			"AND obj_type = '".$this->getType()."'";
+		$this->ilias->db->query($query);
+		reset($this->keyword);
+		foreach ($this->keyword as $keyword)
+		{
+			$query = "INSERT INTO meta_keyword (obj_id, obj_type, language, keyword) ".
+				"VALUES ('".$this->getId()."','".$this->getType().
+				"','".$keyword["language"]."','".$keyword["keyword"]."')";
+			$this->ilias->db->query($query);
+		}
 	}
 
 	function getLanguageCodes()
