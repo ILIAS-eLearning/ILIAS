@@ -1,6 +1,16 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
 <table class="fullwidth">
 <!-- BEGIN tableheader -->
+<tr class="tbltitle">
+  <td colspan="{COLSPAN}">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
 <tr class="tblheader">
   <td class="std" width="30%" align="left">
   </td>
@@ -12,7 +22,7 @@
 <!-- END tableheader -->
 <tr class="tblheader">
 
-  <td class="std" width="30%" align="left">{TXT_PERMISSION}</td>
+  <td class="std" width="30%" align="left">{TXT_OPERATION}</td>
     	<!-- BEGIN ROLENAMES -->
   <td class="std">{ROLE_NAME}
   </td>

@@ -52,6 +52,8 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
+common#:#default_perm_settings#:#Default permissions
+common#:#permission_settings#:#Permission settings
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users

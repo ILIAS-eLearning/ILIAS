@@ -41,12 +41,14 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
+common#:#permission_settings#:#Rechteeinstellungen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemgrunddaten
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
+common#:#default_perm_settings#:#Rechtevorgaben
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration

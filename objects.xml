@@ -187,7 +187,7 @@
 </object>
 <object name="role" class_name="Role" checkbox="1" inherit="0" translate="0">
 	<property name="edit">edit_properties</property>
-	<property name="perm">perm_settings</property>
+	<property name="perm">default_perm_settings</property>
 	<property name="userassignment">user_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
@@ -201,7 +201,7 @@
 </object>
 <object name="rolt" class_name="RoleTemplate" checkbox="1" inherit="0" translate="0">
 	<property name="edit">edit_properties</property>
-	<property name="perm">perm_settings</property>
+	<property name="perm">default_perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>

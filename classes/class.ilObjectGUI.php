@@ -1509,6 +1509,8 @@ class ilObjectGUI
 			if ($operation["operation"] != "create")
 			{
 				$opdata["name"] = $operation["operation"];
+				
+				$colspan = count($parentRoles) + 1;
 
 				foreach ($parentRoles as $role)
 				{
@@ -1538,7 +1540,9 @@ class ilObjectGUI
 
 		$this->getTemplateFile("perm");
 		$this->tpl->setCurrentBlock("tableheader");
-		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
+		$this->tpl->setVariable("COLSPAN", $colspan);
+		$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
 		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
 		$this->tpl->parseCurrentBlock();
 
