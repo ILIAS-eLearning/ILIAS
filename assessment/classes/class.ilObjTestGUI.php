@@ -2903,6 +2903,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if ($this->object->getStartingTime())
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_starting_time") . ":");
+			$this->tpl->setVariable("TEXT_INFO_COL2", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($this->object->getEndingTime())
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_ending_time") . ":");
+			$this->tpl->setVariable("TEXT_INFO_COL2", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock("info");
 		$this->tpl->setVariable("TEXT_USE_JAVASCRIPT", $this->lng->txt("tst_use_javascript"));
