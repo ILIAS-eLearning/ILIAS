@@ -139,7 +139,7 @@ class ilPersonalDesktopGUI
 					$tpl->setCurrentBlock("edit_link");
 					$tpl->setVariable("LINK_EDIT", $item["edit_link"]);
 					$tpl->setVariable("TARGET_EDIT", "bottom");
-					$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -151,7 +151,7 @@ class ilPersonalDesktopGUI
 				$tpl->setCurrentBlock("drop_link");
 				$tpl->setVariable("TYPE", $item["type"]);
 				$tpl->setVariable("ID", $item["id"]);
-				$tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
+				$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
 				$tpl->parseCurrentBlock();
 
 				// description
