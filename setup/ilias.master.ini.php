@@ -19,4 +19,9 @@ zip =
 unzip = 
 java = 
 htmldoc = 
+
+[log]
+path = 
+file = 
+enabled = 1
 */ ?>
