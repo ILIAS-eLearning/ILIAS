@@ -59,7 +59,7 @@ function getCurrentVersion()
 	global $ilias;
 
 	//read settingskey from settingstable
-	$this->currentVersion = $ilias->getSettingsInt("db_version");
+	$this->currentVersion = $ilias->getSetting("db_version");
 
 	return $this->currentVersion;
 }
@@ -244,8 +244,8 @@ function applyUpdateNr($nr)
 	}
 
 	//increase db_Version number
-	$ilias->setSettingsInt("db_version", $nr);
-	$this->currentVersion = $ilias->getSettingsInt("db_version");
+	$ilias->setSetting("db_version", $nr);
+	$this->currentVersion = $ilias->getSetting("db_version");
 	
 	return true;
 	
