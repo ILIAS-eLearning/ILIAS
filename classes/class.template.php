@@ -81,7 +81,7 @@ class Template extends IntegratedTemplateExtension {
         }
 
         $this->IntegratedTemplateExtension(dirname($fname));
-        $this->LoadTemplatefile(basename($fname), $flag1, $flag2);
+        $this->loadTemplatefile(basename($fname), $flag1, $flag2);
 
 //         $this->replace($this->vars);
 
