@@ -150,18 +150,26 @@ class UserObject extends Object
 			$data["fields"]["default_role"] = $role;
 			$data["title"] = $user->data["Title"];
 			
-
+			$data["active_role"]["access"] = true;
 			// BEGIN ACTIVE ROLE
 			$assigned_roles = $rbacreview->assignedRoles($_GET["obj_id"]);
 			foreach ($assigned_roles as $key => $role)
 			{
 			   // BEGIN TABLE_ROLES
 			   $obj = getObject($role);
-			   $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
+			   if($_GET["obj_id"] == $_SESSION["AccountId"])
+			   {
+				  $data["active_role"]["access"] = true;
+				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
+			   }
+			   else
+			   {
+				  $data["active_role"]["access"] = false;
+				  $box = "";
+			   }
 			   $data["active_role"][$role]["checkbox"] = $box;
 			   $data["active_role"][$role]["title"] = $obj["title"];
 			}
-
 			return $data;
 		}
 		else

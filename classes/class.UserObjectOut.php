@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.2 2002/12/05 13:39:40 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.3 2002/12/17 13:59:24 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -49,6 +49,7 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		
+
 		// BEGIN ACTIVE ROLES
 		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
 
@@ -69,6 +70,12 @@ class UserObjectOut extends ObjectOut
 								"&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
+
+		if($this->data["active_role"]["access"] == true)
+		{
+		   $this->tpl->touchBlock("TABLE_SUBMIT");
+	    }
+
 	}
 	function activeRoleSaveObject()
 	{
