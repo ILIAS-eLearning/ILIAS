@@ -299,7 +299,7 @@ class ilMediaObject extends ilObjMediaObject
 	* get MediaObject XLM Tag
 	*  @param	int		$a_mode		IL_MODE_ALIAS | IL_MODE_OUTPUT | IL_MODE_FULL
 	*/
-	function getXML($a_mode = IL_MODE_FULL)
+	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
 	{
 		// TODO: full implementation of all parameters
 
@@ -401,11 +401,73 @@ class ilMediaObject extends ilObjMediaObject
 					$xml .= "</MediaItem>";
 				}
 				break;
+
+			// full xml for export
+			case IL_MODE_FULL:
+
+				$meta =& $this->getMetaData();
+				$xml = "<MediaObject>";
+
+				// meta data
+				$nested = new ilNestedSetXML();
+				$xml.= $nested->export($this->getId(), $this->getType());
+
+				$media_items =& $this->getMediaItems();
+				for($i=0; $i<count($media_items); $i++)
+				{
+					$item =& $media_items[$i];
+					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+
+					// Location
+					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
+						$item->getLocation()."</Location>";
+
+					// Format
+					$xml.= "<Format>".$item->getFormat()."</Format>";
+
+					// Layout
+					$width = ($item->getWidth() != "")
+						? "Width=\"".$item->getWidth()."\""
+						: "";
+					$height = ($item->getHeight() != "")
+						? "Height=\"".$item->getHeight()."\""
+						: "";
+					$halign = ($item->getHAlign() != "")
+						? "HorizontalAlign=\"".$item->getHAlign()."\""
+						: "";
+					$xml .= "<Layout $width $height $halign />";
+
+					// Caption
+					if ($item->getCaption() != "")
+					{
+						$xml .= "<Caption Align=\"bottom\">".
+							$item->getCaption()."</Caption>";
+					}
+
+					// Parameter
+					$parameters = $item->getParameters();
+					foreach ($parameters as $name => $value)
+					{
+						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+					}
+					$xml .= $item->getMapAreasXML();
+					$xml .= "</MediaItem>";
+				}
+				break;
 		}
 		$xml .= "</MediaObject>";
-//echo "MEDIAALIAS:<br>".htmlentities($xml)."<br><br>";
 		return $xml;
 	}
+
+
+	/**
+	* export XML
+	*/
+	function exportXML(&$a_xml_writer, $a_inst = 0)
+	{
+		$a_xml_writer->appendXML($this->getXML(IL_MODE_FULL, $a_inst));
+	}
+
 
 	//////
 	// EDIT METHODS: these methods act on the media alias in the dom

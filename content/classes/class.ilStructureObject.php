@@ -132,8 +132,12 @@ class ilStructureObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLPageObjects(&$a_xml_writer)
+	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
 	{
+		$this->tree = new ilTree($this->getLmId());
+		$this->tree->setTableNames('lm_tree', 'lm_data');
+		$this->tree->setTreeTablePK("lm_id");
+
 		$childs = $this->tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
@@ -144,7 +148,7 @@ class ilStructureObject extends ilLMObject
 
 			// export xml to writer object
 			$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
-			$page_obj->exportXML($a_xml_writer, "alias");
+			$page_obj->exportXML($a_xml_writer, "alias", $a_inst);
 			unset($page_obj);
 		}
 	}
@@ -156,8 +160,12 @@ class ilStructureObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLStructureObjects(&$a_xml_writer)
+	function exportXMLStructureObjects(&$a_xml_writer, $a_inst = 0)
 	{
+		$this->tree = new ilTree($this->getLmId());
+		$this->tree->setTableNames('lm_tree', 'lm_data');
+		$this->tree->setTreeTablePK("lm_id");
+
 		$childs = $this->tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
@@ -169,7 +177,7 @@ class ilStructureObject extends ilLMObject
 			// export xml to writer object
 			$structure_obj = new ilStructureObject($this->getContentObject(),
 				$child["obj_id"]);
-			$structure_obj->exportXML($a_xml_writer);
+			$structure_obj->exportXML($a_xml_writer, $a_inst);
 			unset($structure_obj);
 		}
 	}

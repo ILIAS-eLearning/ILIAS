@@ -394,7 +394,7 @@ class ilPageObject
 						$childs =& $this->node->child_nodes();
 						for($i = 0; $i < count($childs); $i++)
 						{
-							$xml.= $childs[$i]->dump_node();
+							$xml.= $this->dom->dump_node($childs[$i]);
 						}
 						return $xml;
 					}
@@ -475,11 +475,12 @@ class ilPageObject
         return $bibs_xml;
     }
 
+
 	/**
-	* get a xml string that contains all media object elements, that
-	* are referenced by any media alias in the page
+	* get all media objects, that are referenced and used within
+	* the page
 	*/
-	function getMultimediaXML()
+	function collectMediaObjects()
 	{
 //echo htmlentities($this->getXMLFromDom());
 		// determine all media aliases of the page
@@ -491,7 +492,7 @@ class ilPageObject
 		{
 			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
 			$mob_id = $id_arr[count($id_arr) - 1];
-			$mob_ids[$mob_id] = true;
+			$mob_ids[$mob_id] = $mob_id;
 		}
 
 		// determine all inline internal media links
@@ -504,9 +505,20 @@ class ilPageObject
 			{
 				$id_arr = explode("_", $res->nodeset[$i]->get_attribute("Target"));
 				$mob_id = $id_arr[count($id_arr) - 1];
-				$mob_ids[$mob_id] = true;
+				$mob_ids[$mob_id] = $mob_id;
 			}
 		}
+
+		return $mob_ids;
+	}
+
+	/**
+	* get a xml string that contains all media object elements, that
+	* are referenced by any media alias in the page
+	*/
+	function getMultimediaXML()
+	{
+		$mob_ids = $this->collectMediaObjects();
 
 		// get xml of corresponding media objects
 		$mobs_xml = "";
@@ -1126,41 +1138,6 @@ class ilPageObject
 			}
 		}
 	}
-
-
-	/**
-	* presentation title doesn't have to be page title, it may be
-	* chapter title + page title or chapter title only, depending on settings
-	*
-	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
-	*/
-	// this method is moved to class ilLMPageObject
-	/*
-	function getPresentationTitle($a_mode = IL_CHAPTER_TITLE)
-	{
-		if($a_mode == IL_NO_HEADER)
-		{
-			return "";
-		}
-
-		if($a_mode == IL_PAGE_TITLE)
-		{
-			return $this->getTitle();
-		}
-
-		$tree = new ilTree($this->getLMId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-		if ($tree->isInTree($this->getId()))
-		{
-			$pred_node = $tree->fetchPredecessorNode($this->getId(), "st");
-			return $pred_node["title"];
-		}
-		else
-		{
-			return $this->getTitle();
-		}
-	}*/
 
 }
 ?>

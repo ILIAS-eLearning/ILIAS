@@ -817,7 +817,7 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer)
+	function exportXML(&$a_xml_writer, $a_inst = 0)
 	{
 		$attrs = array();
 		switch($this->getType())
@@ -836,13 +836,13 @@ class ilObjContentObject extends ilObject
 		$this->exportXMLMetaData($a_xml_writer);
 
 		// StructureObjects
-		$this->exportXMLStructureObjects($a_xml_writer);
+		$this->exportXMLStructureObjects($a_xml_writer, $a_inst);
 
 		// PageObjects
 		$this->exportXMLPageObjects($a_xml_writer);
 
 		// MediaObjects
-		$this->exportXMLMediaObjects($a_xml_writer);
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst);
 
 		// Glossary
 		// not implemented
@@ -910,6 +910,7 @@ class ilObjContentObject extends ilObject
 
 			// collect media objects
 			$mob_ids = $page_obj->getMediaObjectIDs();
+
 			foreach($mob_ids as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
@@ -924,12 +925,14 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLMediaObjects(&$a_xml_writer)
+	function exportXMLMediaObjects(&$a_xml_writer, $a_inst = 0)
 	{
+		include_once("content/classes/Pages/class.ilMediaObject.php");
+
 		foreach ($this->mob_ids as $mob_id)
 		{
 			$media_obj = new ilMediaObject($mob_id);
-			$media_obj->exportXML($a_xml_writer);
+			$media_obj->exportXML($a_xml_writer, $a_inst);
 			unset($media_obj);
 		}
 	}
