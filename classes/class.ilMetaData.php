@@ -107,18 +107,17 @@ class ilMetaData
 			{
 				/* Init DOM failed */
 			}
-		if( $this->nested->initDom() ) {
+			if ( $this->nested->initDom() ) {
 				$meta_rec["title"] = $this->nested->getFirstDomContent("//MetaData/General/Title");
 			}
 
 		} 
 		
 		$this->setTitle($meta_rec["title"]);
-		#$this->setDescription($meta_rec["description"]);
-		#$this->setLanguage($meta_rec["language"]);
-		#$this->readKeywords();
-		#$this->readTechnicalSections();
-
+/*		$this->setDescription($meta_rec["description"]);
+		$this->setLanguage($meta_rec["language"]);
+		$this->readKeywords();
+		$this->readTechnicalSections();*/
 	}
 
 	/**
@@ -375,9 +374,8 @@ class ilMetaData
 		$this->updateKeywords();
 		$this->updateTechnicalSections();
 		
-		
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
-			|| $this->getType() == "glo" || $this->getType() == "gdf")
+			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk")
 		{
 
 			include_once("./classes/class.ilNestedSetXML.php");
@@ -388,7 +386,6 @@ class ilMetaData
 				$node = $nested->getFirstDomNode("//MetaData/General/Title");
 				$c = $node->children();
 				$c[0]->set_content($this->getTitle());
-
 				$nested->updateFromDom();
 			}
 		}
