@@ -73,7 +73,8 @@ $log = new Log("ilias.log");
 
 //load object definitions
 $objDefinition = new ObjectDefinition();
-
+$objDefinition->startParsing();
+//var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
 $ilias->account = new User();
 
