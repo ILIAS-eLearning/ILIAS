@@ -3996,6 +3996,8 @@ survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numera
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
+survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety
 survey#:#anonymize_survey_explanation#:#Kiedy jest aktywne, wszystkie dane użytkownika są anonimowe i nie mogą być śledzone.
 survey#:#answer#:#Odpowiedź
@@ -4094,11 +4096,12 @@ survey#:#edit_constraints_introduction#:#Wybrałeś następujące pytania/bloki 
 survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
+survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
 survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
-survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!
+survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!###09 Dec 2004 content changed
 survey#:#evaluation#:#Wyniki
 survey#:#evaluation_access#:#Ograniczenie dostępu
 survey#:#excel#:#Microsoft Excel###05 Nov 2004 new variable
