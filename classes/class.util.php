@@ -349,11 +349,16 @@ class TUtil
 		{
 			foreach($childs as $child)
 			{
-				if($rbacsystem->checkAccess($a_operation,$child["obj_id"],$child["parent"],$a_type))
+				// CHECK IF CONTAINER OBJECT IS VISIBLE
+				if($rbacsystem->checkAccess('visible',$child["obj_id"],$child["parent"],$a_type))
 				{
 					if($child["type"] == $a_type)
 					{
-						$objects[] = $child;
+						// NOW CHECK FOR ASKED OPERATION
+						if($rbacsystem->checkAccess($a_operation,$child["obj_id"],$child["parent"],$a_type))
+						{
+							$objects[] = $child;
+						}
 					}
 					TUtil::getObjectsByOperations($a_type,$a_operation,$child["obj_id"]);
 				}
