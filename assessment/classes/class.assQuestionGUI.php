@@ -373,6 +373,8 @@ class ASS_QuestionGUI
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setFileDownloadLink("test.php?cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFullscreenLink("test.php?cmd=fullscreen".
+			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setSourcecodeDownloadScript("test.php?ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());

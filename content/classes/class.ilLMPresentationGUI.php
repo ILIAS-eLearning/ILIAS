@@ -1000,7 +1000,8 @@ class ilLMPresentationGUI
 		$page_object_gui->setOutputMode("presentation");
 		$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
 			"&amp;ref_id=".$this->lm->getRefId());
-
+		$page_object_gui->setFullscreenLink("lm_presentation.php?cmd=fullscreen".
+			"&amp;ref_id=".$this->lm->getRefId());
 		$page_object_gui->setPresentationTitle(
 			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
@@ -1152,6 +1153,9 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilGlossary");
 	}
 
+	/**
+	* output media 
+	*/
 	function ilMedia()
 	{
 		global $ilBench;

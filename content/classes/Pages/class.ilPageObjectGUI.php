@@ -271,6 +271,16 @@ class ilPageObjectGUI
 		return $this->file_download_link;
 	}
 
+	function setFullscreenLink($a_fullscreen_link)
+	{
+		$this->fullscreen_link = $a_fullscreen_link;
+	}
+
+	function getFullscreenLink()
+	{
+		return $this->fullscreen_link;
+	}
+	
 	function setIntLinkHelpDefault($a_type, $a_id)
 	{
 		$this->int_link_def_type = $a_type;
@@ -437,6 +447,7 @@ class ilPageObjectGUI
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
+						 'fullscreen_link' => $this->getFullscreenLink(),
 						 'med_disabled_path' => $med_disabled_path,
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
@@ -508,6 +519,64 @@ class ilPageObjectGUI
 		return $this->showPage();
 	}
 
+	
+	/**
+	* show fullscreen view of media object
+	*/
+	function showMediaFullscreen($a_style_id = 0)
+	{
+		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("PAGETITLE", " - ".ilObject::_lookupTitle($_GET["mob_id"]));
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setCurrentBlock("ilMedia");
+
+		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		if (!empty ($_GET["pg_id"]))
+		{
+			require_once("content/classes/Pages/class.ilPageObject.php");
+			$pg_obj =& new ilPageObject($this->obj->getParentType(), $_GET["pg_id"]);
+			$pg_obj->buildDom();
+
+			$xml = "<dummy>";
+			// todo: we get always the first alias now (problem if mob is used multiple
+			// times in page)
+			$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.="</dummy>";
+		}
+		else
+		{
+			$xml = "<dummy>";
+			$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.="</dummy>";
+		}
+
+//echo htmlentities($xml); exit;
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+//echo "<b>XML:</b>".htmlentities($xml);
+		// determine target frames for internal links
+		//$pg_frame = $_GET["frame"];
+		$wb_path = ilUtil::getWebspaceDir("output");
+//		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$mode = "fullscreen";
+		$params = array ('mode' => $mode, 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$this->tpl->setVariable("MEDIA_CONTENT", $output);
+	}
 
 	/**
 	* save page
