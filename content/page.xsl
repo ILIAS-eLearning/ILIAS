@@ -2208,7 +2208,6 @@
     						<table border="0">
     						<tr><td align="left">
 	    					<img border="0">
-	    						<xsl:attribute name="id">definition_<xsl:value-of select="@ident"/></xsl:attribute>
 	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 	    					</img>
     						</td>
