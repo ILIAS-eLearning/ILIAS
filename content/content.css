@@ -97,6 +97,12 @@ div.ilc_Page
 	margin-bottom: 0px;
 }
 
+table.ilc_Page {
+	background-color:#EEEEEE;
+	width:100%;
+	border-spacing:0px;
+}
+
 td.ilc_Page
 {
 	background-color:#EEEEEE;
