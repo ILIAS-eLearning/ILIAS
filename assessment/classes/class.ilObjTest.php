@@ -521,6 +521,26 @@ class ilObjTest extends ilObject
   }
   
 /**
+* Returns true, if a test is complete for use
+*
+* Returns true, if a test is complete for use
+*
+* @return boolean True, if the test is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if (($this->getTitle()) and ($this->author) and (count($this->mark_schema->mark_steps)) and (count($this->questions)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
 * Saves a ilObjTest object to a database
 * 
 * Saves a ilObjTest object to a database (experimental)
@@ -532,12 +552,16 @@ class ilObjTest extends ilObject
   {
     global $ilias;
     $db =& $ilias->db->db;
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
     if ($this->test_id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('tst_tests');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, reporting_date, starting_time, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
 				$db->quote($this->getRefId()),
         $db->quote($this->author), 
@@ -549,6 +573,7 @@ class ilObjTest extends ilObject
         $db->quote(sprintf("%d", $this->processing_time)),
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
+				$db->quote($complete),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -557,7 +582,7 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, reporting_date = %s, starting_time = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, reporting_date = %s, starting_time = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
@@ -567,6 +592,7 @@ class ilObjTest extends ilObject
         $db->quote(sprintf("%d", $this->processing_time)), 
         $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
+				$db->quote($complete),
         $db->quote($this->test_id) 
       );
       $result = $db->query($query);
