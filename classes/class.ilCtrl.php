@@ -66,7 +66,7 @@ class ilCtrl
 	*/
 	function &forwardCommand(&$a_gui_object)
 	{
-		$class = get_class($a_gui_object);
+		$class = strtolower(get_class($a_gui_object));
 //echo "<br>wanna forward from :".$this->current_node.": to :$class:";
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr > 0)
@@ -632,7 +632,7 @@ class ilCtrl
 
 	function getFormAction(&$a_gui_obj, $a_transits = "", $a_prepend_transits = false)
 	{
-		$script =  $this->getFormActionByClass(get_class($a_gui_obj), $a_transits, $a_prepend_transits);
+		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)), $a_transits, $a_prepend_transits);
 		return $script;
 	}
 
@@ -645,7 +645,7 @@ class ilCtrl
 	function redirect(&$a_gui_obj, $a_cmd = "")
 	{
 //echo "<br>class:".get_class($a_gui_obj).":";
-		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
 //echo "<br>script:$script:";
 		ilUtil::redirect($script);
 	}
@@ -677,7 +677,7 @@ class ilCtrl
 	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
 	{
 //echo "<br>getLinkTarget";
-		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
 		return $script;
 	}
 
@@ -734,9 +734,9 @@ class ilCtrl
 	function setReturn(&$a_gui_obj, $a_cmd)
 	{
 		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters(get_class($a_gui_obj), $script, $a_cmd);
+		$script = $this->getUrlParameters(strtolower(get_class($a_gui_obj)), $script, $a_cmd);
 //echo "<br>setReturn:".get_class($a_gui_obj).":".$script.":<br>";
-		$this->return[get_class($a_gui_obj)] = $script;
+		$this->return[strtolower(get_class($a_gui_obj))] = $script;
 	}
 
 	/**
@@ -757,7 +757,7 @@ class ilCtrl
 	{
 		$script = $this->getParentReturn($a_gui_obj);
 		$script = ilUtil::appendUrlParameterString($script,
-			"redirectSource=".get_class($a_gui_obj));
+			"redirectSource=".strtolower(get_class($a_gui_obj)));
 		if ($a_anchor != "")
 		{
 		 $script = $script."#".$a_anchor;
@@ -777,19 +777,22 @@ class ilCtrl
 	}
 
 	/**
-	* 
+	*
 	*/
 	function getParentReturn(&$a_gui_obj)
 	{
-		return $this->getParentReturnByClass(get_class($a_gui_obj));
+		return $this->getParentReturnByClass(strtolower(get_class($a_gui_obj)));
 	}
 
 
 	function getParentReturnByClass($a_class)
 	{
+		$a_class = strtolower($a_class);
 		$ret_class = $this->searchReturnClass($a_class);
+//echo ":$ret_class:";
 		if($ret_class)
 		{
+//echo ":".$this->return[$ret_class].":";
 			return $this->return[$ret_class];
 		}
 	}
@@ -868,7 +871,7 @@ class ilCtrl
 		{
 			$trans_arr = $this->getTransitArray();
 		}*/
-		$par_arr = $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd,
+		$par_arr = $this->getParameterArrayByClass(strtolower(get_class($a_gui_obj)), $a_cmd,
 			$trans_arr);
 		/*
 		if ($a_incl_transit)
