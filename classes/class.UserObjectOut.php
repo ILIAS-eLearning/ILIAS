@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.13 2003/03/19 09:42:53 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.14 2003/03/19 11:46:55 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -265,7 +265,7 @@ class UserObjectOut extends ObjectOut
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
 

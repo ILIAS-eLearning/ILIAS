@@ -630,7 +630,7 @@ class sql2xml
 	
 	function img_url($a_id, $a_parent, $a_img)
 	{
-		return "<a href=\"./lo_view.php?type=lo&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&lm_id=".$_GET["lm_id"]."&lo_id=".$a_id."&lo_parent=".$a_parent."\">".$a_img."</a>";
+		return "<a href=\"./lo_view.php?type=lo&obj_id=".$_GET["obj_id"]."&lm_id=".$_GET["lm_id"]."&lo_id=".$a_id."&lo_parent=".$a_parent."\">".$a_img."</a>";
 	}	
 	
 	/**

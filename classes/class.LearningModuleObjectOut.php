@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.16 2003/03/14 16:25:06 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.17 2003/03/17 10:04:58 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -57,9 +57,7 @@ class LearningModuleObjectOut extends ObjectOut
 			//control information
 			$this->data["ctrl"][] = array(
 				"type" => $val["type"],
-				"obj_id" => $_GET["obj_id"],
-				"parent" => $_GET["parent"],
-				"parent_parent" => $val["parent_parent"],
+				"ref_id" => $_GET["ref_id"],
 				"lm_id" => $_GET["obj_id"],
 				"lo_id" => $val["child"]
 			);
@@ -104,8 +102,7 @@ class LearningModuleObjectOut extends ObjectOut
 	function importObject()
 	{
 		$this->getTemplateFile("import");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=gateway&type=".$_GET["type"].
-						  "&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
@@ -143,15 +140,14 @@ class LearningModuleObjectOut extends ObjectOut
 		}
 
 		//
-		$lmObj = new LearningModuleObject($_GET["obj_id"]);
+		$lmObj = new LearningModuleObject($_GET["ref_id"]);
 		$this->data = $lmObj->upload(	$_POST["parse_mode"],
 										$HTTP_POST_FILES["xmldoc"]["tmp_name"],
 										$HTTP_POST_FILES["xmldoc"]["name"]);
 		unset($lmObj);
 
 
-		header("Location: adm_object.php?cmd=view&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
-			   "&message=".urlencode($this->data["msg"]));
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&message=".urlencode($this->data["msg"]));
 		exit();
 
 		//nada para mirar ahora :-)

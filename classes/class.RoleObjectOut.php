@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.9 2003/03/18 14:13:33 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.10 2003/03/19 09:42:53 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -54,7 +54,7 @@ class RoleObjectOut extends ObjectOut
 			$roleObj->create();
 			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
 		}
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
