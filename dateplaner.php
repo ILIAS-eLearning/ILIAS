@@ -123,7 +123,7 @@ include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.session.php');
 //db_session_write(session_id(),session_encode());
 /* --------------  end session initialisation ---------------------*/
 
-
+header('Content-type: text/html; charset=UTF-8');
 
 /*dateplaner functions*/
 switch($_REQUEST["app"]) {
