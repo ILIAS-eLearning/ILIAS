@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.24 2004/03/05 17:16:07 akill Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.25 2004/04/26 20:38:13 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -773,7 +773,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
-		ilUtil::redirect("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 	}
 
 	/**
