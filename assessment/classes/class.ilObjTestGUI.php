@@ -930,10 +930,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$filter_questionpool = $_GET["sel_questionpool"];
-		if (!$filter_questionpool)
+		if ($_POST["cmd"]["filter"])
 		{
 			$filter_questionpool = $_POST["sel_questionpool"];
+		}
+		else
+		{
+			$filter_questionpool = $_GET["sel_questionpool"];
 		}
 		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
 		{

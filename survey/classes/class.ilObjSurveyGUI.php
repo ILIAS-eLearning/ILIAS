@@ -857,8 +857,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
-		$filter_questionpool = $_POST["sel_questionpool"];
-		if (!$filter_questionpool)
+		if ($_POST["cmd"]["filter"])
+		{
+			$filter_questionpool = $_POST["sel_questionpool"];
+		}
+		else
 		{
 			$filter_questionpool = $_GET["sel_questionpool"];
 		}
