@@ -24,7 +24,7 @@
 /**
 * Class ilObjTest
 * 
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmüller<hschottm@tzi.de>
 * @version $Id$
 *
 * @extends ilObject
@@ -1830,7 +1830,8 @@ class ilObjTest extends ilObject
 	function getTitle()
 	{
 		//return $this->title;
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
+		//return $this->meta_data->getTitle();
 	}
 
 	/**

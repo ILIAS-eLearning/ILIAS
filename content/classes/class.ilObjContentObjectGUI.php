@@ -861,6 +861,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
+		
+		// import style
+		$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
+		if (is_file($style_file))
+		{
+			require_once("classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet();
+			$style->createFromXMLFile($style_file);
+			$newObj->writeStyleSheetId($style->getId());
+		}
 
 		/* update title and description in object data */
 		if (is_object($newObj->meta_data))

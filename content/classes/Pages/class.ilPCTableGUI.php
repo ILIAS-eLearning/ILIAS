@@ -98,6 +98,8 @@ class ilPCTableGUI extends ilPageContentGUI
 		$tab_node = $this->content_obj->getNode();
 		$content = $this->dom->dump_node($tab_node);
 		//$dom2 =& domxml_open_mem($this->xml);
+		$trans =& $this->pg_obj->getLanguageVariablesXML();
+		$content = "<dummy>".$content.$trans."</dummy>";
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
