@@ -110,10 +110,15 @@ class ilLMPresentationGUI
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
+				$child_attr = $this->attrib2arr($child->attributes());
 				switch ($child->node_name())
 				{
 					case "ilMainMenu":
 						$this->ilMainMenu();
+						break;
+
+					case "ilTOC":
+						$this->ilTOC($child_attr["target_frame"]);
 						break;
 				}
 			}
@@ -121,28 +126,51 @@ class ilLMPresentationGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* output main menu
+	*/
 	function ilMainMenu()
 	{
 		$menu = new ilMainMenuGUI("_top", true);
 		$menu->setTemplate($this->tpl);
 		$menu->setTemplateVars();
-		/*
-		$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
-		$this->tpl->setVariable("IMG_COURSE", ilUtil::getImagePath("navbar/course.gif", false));
-		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
-		$this->tpl->setVariable("IMG_FORUMS", ilUtil::getImagePath("navbar/newsgr.gif", false));
-		$this->tpl->setVariable("IMG_SEARCH", ilUtil::getImagePath("navbar/search.gif", false));
-		$this->tpl->setVariable("IMG_LITERAT", ilUtil::getImagePath("navbar/literat.gif", false));
-		$this->tpl->setVariable("IMG_GROUPS", ilUtil::getImagePath("navbar/groups.gif", false));
-		$this->tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
-		$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("navbar/help.gif", false));
-		$this->tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("navbar/feedb.gif", false));
-		$this->tpl->setVariable("IMG_LOGOUT", ilUtil::getImagePath("navbar/logout.gif", false));
-		$this->tpl->setVariable("IMG_ILIAS", ilUtil::getImagePath("navbar/ilias.gif", false));
+	}
+
+	/**
+	* output table of content
+	*/
+	function ilTOC($a_target)
+	{
+		require_once("./content/classes/class.ilLMTOCExplorer.php");
+		$exp = new ilLMTOCExplorer("lm_presentation.php?cmd=layout&frame=$a_target&lm_id=".$this->lm->getId(),$this->lm);
+		$exp->setTargetGet("obj_id");
+		$exp->setFrameTarget($a_target);
+		$exp->addFilter("du");
+		$exp->addFilter("st");
+		$exp->setFiltered(true);
+
+		if ($_GET["mexpand"] == "")
+		{
+			$mtree = new ilTree($this->lm->getId());
+			$mtree->setTableNames('lm_tree','lm_data');
+			$mtree->setTreeTablePK("lm_id");
+			$expanded = $mtree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["mexpand"];
+		}
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
-		*/
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+			"&lm_id=".$this->lm->getId()."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->parseCurrentBlock();
 	}
 
 	function processNodes(&$a_content, &$a_node)
@@ -161,7 +189,7 @@ class ilLMPresentationGUI
 					if(!empty($attributes["name"]))
 					{
 						$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-							"src=\"lm_presentation.php?cmd=layout&frame=".$attributes["name"]."\" />\n";
+							"src=\"lm_presentation.php?lm_id=".$this->lm->getId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
 					}
 					else	// ok, no name means that we can easily output the frameset tag
 					{
@@ -173,7 +201,7 @@ class ilLMPresentationGUI
 				else	// frame with
 				{
 					$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-						"src=\"lm_presentation.php?cmd=layout&frame=".$attributes["name"]."\" />\n";
+						"src=\"lm_presentation.php?lm_id=".$this->lm->getId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
 				}
 			}
 		}
