@@ -558,6 +558,69 @@ class ASS_ClozeTest extends ASS_Question {
       $this->rebuild_cloze_text();
     }
   }
+	
+/**
+* Updates the cloze text setting the cloze type for every gap
+*
+* Updates the cloze text setting the cloze type for every gap
+*
+* @access public
+* @see $cloze_text
+*/
+	function update_all_gap_params() {
+		global $lng;
+		
+		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		{
+	    $gaptext = $this->get_gap_text_list($i);
+			if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_TEXT)
+			{
+				$strType = "text";
+			}
+				else
+			{
+				$strType = "select";
+			}
+			if ($this->gaps[$i][0]->get_shuffle() == 0)
+			{
+				$shuffle = "no";
+			}
+				else
+			{
+				$shuffle = "yes";
+			}
+			if (preg_match("/" . "<gap[^<]*?" . "type\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
+				// change the type attribute
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "type\=\"[^\"]+\"" . "([^<]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1type=\"$strType\"\$2>$gaptext</gap>", $this->cloze_text);
+			} else {
+				// create a type attribute
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap type=\"$strType\"\$1>$gaptext", $this->cloze_text);
+			}
+			if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_SELECT) {
+				if (preg_match("/" . "<gap[^<]*?" . "shuffle\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
+					// change the shuffle attribute
+					$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "shuffle\=\"[^\"]+\"" . "([^>]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1shuffle=\"$shuffle\"\$2>$gaptext</gap>", $this->cloze_text);
+				} else {
+					// create a shuffle attribute
+					$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap shuffle=\"$shuffle\"\$1>$gaptext", $this->cloze_text);
+				}
+			}
+				else
+			{
+				// remove the shuffle attribute
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "shuffle\=\"[^\"]+\"" . "([^>]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1\$2>$gaptext</gap>", $this->cloze_text);
+			}
+			if (!preg_match("/" . "<gap[^<]*?" . "name\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
+				// create a name attribute
+				$name = $this->gaps[$i][0]->get_name();
+				if (!$name)
+				{
+					$name = $lng->txt("gap") . " " . ($i+1);
+				}
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap name=\"" . $name . "\"\$1>$gaptext", $this->cloze_text);
+			}
+		}
+	}
 
 /**
 * Sets the cloze type of the gap
