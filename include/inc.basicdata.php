@@ -190,7 +190,7 @@ $tpl->setVariable("TXT_LDAP_SERVER", $lng->txt("server"));
 $tpl->setVariable("TXT_LDAP_PORT", $lng->txt("port"));
 $tpl->setVariable("TXT_LDAP_BASEDN", $lng->txt("basedn"));
 
-$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail")." (".$lng->txt("smtp").")");
 $tpl->setVariable("TXT_MAIL_ENABLE", $lng->txt("enable"));
 $tpl->setVariable("TXT_MAIL_SERVER", $lng->txt("server"));
 $tpl->setVariable("TXT_MAIL_PORT", $lng->txt("port"));
