@@ -1093,8 +1093,10 @@ if ($_REQUEST["ok"] == "ok")
 	$dbname = $_REQUEST["dbname"];
 	
 	// LE id, path
-	$leId = $_REQUEST["leId"];
+	$leId = (integer) $_REQUEST["leId"];
 	$path = $_REQUEST["path"];
+	
+
 	
 	// test run ***
 	if (is_integer($leId) and is_string($path))
@@ -1124,7 +1126,7 @@ else
 					"Id of the 'Lerneinheit' to be exported:<br /><br />".
 					"<input type=\"text\" name=\"leId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />".
 					"Full Path and Filename for the generated XML File:<br /><br />".
-					"<input type=\"text\" name=\"path\" maxlengh=\"50\" size=\"40\" value=\"/Temp/LO.xml\"><br /><br />".
+					"<input type=\"text\" name=\"path\" maxlengh=\"50\" size=\"40\" value=\"/tmp/LO.xml\"><br /><br />".
 					"<input type=\"submit\" name=\"ok\" value=\"ok\">".
 				"</form>".
 			"</body>".
