@@ -212,8 +212,14 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}		
 
+	/**
+	*
+	* STATIC, do not use $this inside!
+	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
+		global $ilias;
+		
 		switch($a_type)
 		{
 			case "cat":
@@ -225,7 +231,7 @@ class ilRepositoryExplorer extends ilExplorer
 			case "sahs":
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+				$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
 
 				if ($showViewInFrameset) 
 				{

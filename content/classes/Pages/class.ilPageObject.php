@@ -1439,9 +1439,11 @@ class ilPageObject
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$qref = $res->nodeset[$i]->get_attribute("QRef");
+//echo "<br>setted:".$qref;
 			if (substr($qref, 0, 4) == "il__")
 			{
-				$new_id = "il_".$a_inst."_".substr($qref, 4, strlen($origin_id) - 4);
+				$new_id = "il_".$a_inst."_".substr($qref, 4, strlen($qref) - 4);
+//echo "<br>setting:".$new_id;
 				$res->nodeset[$i]->set_attribute("QRef", $new_id);
 			}
 		}
