@@ -138,6 +138,7 @@ common#:#crs_management_system#:#Course Management System
 common#:#crs_new#:#New Course
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
+common#:#cutPage#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Dataset
@@ -386,6 +387,7 @@ common#:#migrate#:#Migrate
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Month
+common#:#moveChapter#:#Move
 common#:#move_to#:#Move to
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
@@ -533,13 +535,13 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passwd#:#Password
-common#:#moveChapter#:#Move
-common#:#pasteChapter#:#Paste
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#paste#:#Paste
+common#:#pasteChapter#:#Paste
+common#:#pastePage#:#Paste
 common#:#path#:#Path
 common#:#path_to_babylon#:#Path to Babylon
 common#:#path_to_convert#:#Path to Convert
@@ -736,9 +738,6 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#cutPage#:#Cut
-common#:#pastePage#:#Paste
-content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -758,32 +757,38 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
+content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
+content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_organization#:#default
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitions
 content#:#cont_dependencies#:#Dependencies
+content#:#cont_details#:#Details
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
+content#:#cont_edition#:#Edition
 content#:#cont_file#:#File
 content#:#cont_files#:#Files
 content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_height#:#Height
+content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
@@ -793,7 +798,11 @@ content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
 content#:#cont_internal_link#:#internal link
 content#:#cont_is_visible#:#isvisible
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
+content#:#cont_journal#:#Journal
+content#:#cont_keyword#:#Keyword
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
 content#:#cont_list_properties#:#List Properties
@@ -812,6 +821,7 @@ content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_month#:#Month
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
 content#:#cont_no_page#:#No Page found.
@@ -827,13 +837,13 @@ content#:#cont_page_header#:#Page Header
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
-content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
+content#:#cont_publisher#:#Publisher
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
 content#:#cont_resource#:#Resource
@@ -841,12 +851,18 @@ content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_sc_title#:#title
+content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_max_one_item#:#Please select one item only
+content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_term#:#Select a term
+content#:#cont_series#:#Series
+content#:#cont_series_editor#:#Series editor
+content#:#cont_series_title#:#Series title
+content#:#cont_series_volume#:#Series volume
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
+content#:#cont_show#:#Show
 content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_view#:#Standard View
@@ -857,15 +873,19 @@ content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_width#:#Table Width
+content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table of Contents
 content#:#cont_top#:#Top
+content#:#cont_url#:#URL
 content#:#cont_version#:#version
+content#:#cont_where_published#:#Where published
 content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Year
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#st#:#Chapter
@@ -1382,23 +1402,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-content#:#cont_details#:#Details
-content#:#cont_show#:#Show
-content#:#cont_edition#:#Edition
-content#:#cont_booktitle#:#Booktitle
-content#:#cont_cross_reference#:#Cross reference
-content#:#cont_how_published#:#How published
-content#:#cont_where_published#:#Where published
-content#:#cont_journal#:#Journal
-content#:#cont_keyword#:#Keyword
-content#:#cont_school#:#School
-content#:#cont_month#:#Month
-content#:#cont_publisher#:#Publisher
-content#:#cont_series#:#Series
-content#:#cont_series_title#:#Series title
-content#:#cont_series_editor#:#Series editor
-content#:#cont_series_volume#:#Series volume
-content#:#cont_year#:#Year
-content#:#cont_url#:#URL
-content#:#cont_isbn#:#ISBN
-content#:#cont_issn#:#ISSN
