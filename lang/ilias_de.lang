@@ -86,14 +86,14 @@ administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
-assessment#:#0_unlimited#:#(0 = unbegrenzt)###31 May 2004 content changed
+assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
-assessment#:#add_area#:#Add area###15 Jun 2004 new variable
+assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
-assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
+assessment#:#add_imagemap#:#Imagemap anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -106,23 +106,23 @@ assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
-assessment#:#circle#:#Circle###15 Jun 2004 new variable
-assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
+assessment#:#circle#:#Kreis
+assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
+assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext
 assessment#:#code#:#Code
-assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
+assessment#:#coordinates#:#Koordinaten
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
-assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
+assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
-assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
-assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
+assessment#:#delete_area#:#Region löschen
+assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
+assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
-assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
-assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
+assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
+assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
@@ -140,20 +140,20 @@ assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaar
 assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen!
 assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen!
-assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
+assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
-assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
-assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
-assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
-assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
-assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
+assessment#:#imagemap_source#:#Imagemap Quelltext
+assessment#:#insert_after#:#Einfügen hinter
+assessment#:#insert_before#:#Einfügen vor
+assessment#:#internal_links#:#Interne Verweise
+assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
@@ -168,18 +168,18 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
-assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
+assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
-assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
+assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
-assessment#:#please_select#:#---- bitte auswählen ----###27 May 2004 content changed
+assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
-assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
-assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
-assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
+assessment#:#polygon#:#Polygonzug
+assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
+assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
+assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
@@ -208,9 +208,9 @@ assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
 assessment#:#random_selection#:#Zufällige Auswahl
-assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
-assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
+assessment#:#rectangle#:#Rechteck
+assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
+assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
@@ -223,13 +223,13 @@ assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
-assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
+assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#set_filter#:#Filter setzen
-assessment#:#shape#:#Shape###19 Jun 2004 new variable
+assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
-assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
+assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
@@ -239,10 +239,10 @@ assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
-assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
-assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests###12 Jun 2004 content changed
-assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests###12 Jun 2004 content changed
+assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
+assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
@@ -325,7 +325,7 @@ assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
-assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
+assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
@@ -1677,9 +1677,9 @@ common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage anfügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
-common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
+common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
-common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
+common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_write#:#Umfrage kann bearbeitet werden
@@ -1701,7 +1701,7 @@ common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
 common#:#taxf_visible#:#Taxonomienordner ist sichtbar
 common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
-common#:#test#:#Test###24 Jun 2004 new variable
+common#:#test#:#Test
 common#:#test_intern#:#Interner Test
 common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests
@@ -1952,7 +1952,7 @@ content#:#cont_lk_media_new#:#Medienobjekt (Neuer Frame)
 content#:#cont_lk_page#:#Seite
 content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
 content#:#cont_lk_page_new#:#Seite (Neuer Frame)
-content#:#cont_lk_survey#:#Survey###04 Jun 2004 new variable
+content#:#cont_lk_survey#:#Umfrage
 content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_menu#:#Menü
@@ -2998,28 +2998,28 @@ search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
 survey#:#add_category#:#Kategorie anfügen
-survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.###07 Jun 2004 new variable
+survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Kategorien anfügen wollen.
 survey#:#add_phrase#:#Phrase anfügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
-survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
-survey#:#answer#:#Answer###27 May 2004 new variable
+survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
+survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
-survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
-survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
+survey#:#arithmetic_mean#:#Arithmetisches Mittel
+survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage anfügen wollen?
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
-survey#:#back#:#<< Back###26 May 2004 new variable
+survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
-survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
-survey#:#concatenation#:#Concatenation###27 May 2004 new variable
-survey#:#constraints#:#Constraints###26 May 2004 new variable
-survey#:#contains#:#Contains###10 Jun 2004 new variable
-survey#:#continue#:#Continue >>###26 May 2004 new variable
+survey#:#category_nr_selected#:#Anzahl der TeilnehmerInnen, die diese Kategorie ausgewählt haben
+survey#:#concatenation#:#Verknüpfung
+survey#:#constraints#:#Beschränkungen
+survey#:#contains#:#Beinhaltet
+survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
-survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
+survey#:#csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#dc_agree#:#einverstanden
 survey#:#dc_always#:#immer
 survey#:#dc_definitelyfalse#:#eindeutig falsch
@@ -3056,8 +3056,8 @@ survey#:#dc_varying#:#unterschiedlich
 survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Fragenblock definieren
-survey#:#disinvite#:#Disinvite###27 May 2004 new variable
-survey#:#display_all_available#:#Display all available###10 Jun 2004 new variable
+survey#:#disinvite#:#Ausladen
+survey#:#display_all_available#:#Anzeige aller verfübaren
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard-Haltung (einverstanden-unentschlossen-nicht einverstanden)
@@ -3079,99 +3079,99 @@ survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard-Vorstellungen (im
 survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr-unentschlossen-falsch-eindeutig falsch)
 survey#:#dp_standard_beliefs_true_false#:#Standard-Vorstellungen (wahr-falsch)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr-unentschlossen-falsch)
-survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
+survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate#:#Duplizieren
-survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
+survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
+survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten
 survey#:#end_date#:#Enddatum
-survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new variable
-survey#:#enter_value#:#Enter a value###26 May 2004 new variable
-survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
+survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
+survey#:#enter_value#:#Geben Sie einen Wert an
+survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
-survey#:#exit#:#Exit###01 Jun 2004 new variable
-survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
+survey#:#excel#:#Microsoft Excel
+survey#:#exit#:#Beenden
+survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
-survey#:#finished#:#finished###07 Jun 2004 new variable
-survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
-survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
-survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
-survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
+survey#:#finished#:#beendet
+survey#:#found_questions#:#Gefundene Fragen
+survey#:#geometric_mean#:#Geometrisches Mittel
+survey#:#given_answers#:#Abgegebene Antworten
+survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
-survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!###10 Jun 2004 new variable
-survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!###10 Jun 2004 new variable
+survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage anfügen wollen!
+survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage anfügen wollen!
 survey#:#introduction#:#Einleitung
-survey#:#invitation#:#Invitation###27 May 2004 new variable
-survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
-survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
-survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
-survey#:#invited_users#:#Invited users###27 May 2004 new variable
+survey#:#invitation#:#Einladung
+survey#:#invitation_mode#:#Einladungsmodus
+survey#:#invite_participants#:#TeilnehmerInnen einladen
+survey#:#invited_groups#:#Eingeladene Gruppen
+survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#last_update#:#Letzte Aktualisierung
-survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
+survey#:#lower_limit#:#Untere Schranke
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
-survey#:#median#:#Median###02 Jun 2004 new variable
-survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
+survey#:#median#:#Median
+survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
-survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
-survey#:#mode#:#Most selected value###02 Jun 2004 new variable
-survey#:#mode_nr_of_selections#:#Nr of selections###02 Jun 2004 new variable
-survey#:#mode_text#:#Most selected value (Text)###12 Jun 2004 new variable
+survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
+survey#:#mode#:#Häufigste Auswahl
+survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
+survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
-survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
+survey#:#no_available_constraints#:#Es sind keine Beschränkungen definiert!
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
-survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
+survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Beschränkungen zu bearbeiten!
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
-survey#:#no_questionblocks_available#:#There are no questionblocks available###10 Jun 2004 new variable
+survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
-survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new variable
+survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
-survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
+survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
+survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
-survey#:#not_finished#:#not finished###07 Jun 2004 new variable
-survey#:#not_started#:#not started###12 Jun 2004 new variable
+survey#:#not_finished#:#noch nicht abgeschlossen
+survey#:#not_started#:#noch nicht gestartet
 survey#:#obligatory#:#verpflichtend
 survey#:#off#:#aus
 survey#:#offline#:#nicht aktiviert
 survey#:#on#:#an
 survey#:#online#:#aktiviert
 survey#:#or#:#oder
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
-survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
-survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
-survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
+survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
+survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
+survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Katgorie ausgewählt haben
+survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
 survey#:#preview#:#Vorschau
 survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!###07 Jun 2004 new variable
+survey#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
 survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
 survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Rechte, um die Frage(n) zu löschen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!###07 Jun 2004 new variable
-survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?###07 Jun 2004 new variable
-survey#:#qpl_questions_deleted#:#Frage(n) gelöscht
-survey#:#qpl_questions_pasted#:#Question(s) pasted.###07 Jun 2004 new variable
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!###07 Jun 2004 new variable
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.###07 Jun 2004 new variable
+survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
+survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
+survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
+survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
+survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
+survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte geben Sie einen anderen Titel an.
 survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
 survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
-survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
+survey#:#question_has_constraints#:#Beschränkungen
+survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
-survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
-survey#:#questions#:#Questions###10 Jun 2004 new variable
+survey#:#questionblock_has_constraints#:#Beschränkungen
+survey#:#questionblocks#:#Fragenblöcke
+survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
@@ -3180,49 +3180,49 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
-survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
-survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
-survey#:#search_field_all#:#Search in all fields###10 Jun 2004 new variable
-survey#:#search_for#:#Search for###27 May 2004 new variable
-survey#:#search_groups#:#Groups###27 May 2004 new variable
-survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
-survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
-survey#:#search_term#:#Search term###27 May 2004 new variable
-survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
-survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
-survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
-survey#:#select_relation#:#Select a relation###26 May 2004 new variable
+survey#:#resume_survey#:#Umfrage fortsetzen
+survey#:#save_phrase#:#Als Phrase speichern
+survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Kategorien aus, um diese in einer neuen Phrase speichern zu können!
+survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Kategorien für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
+survey#:#search_field_all#:#In allen Feldern suchen
+survey#:#search_for#:#Suchen nach
+survey#:#search_groups#:#Gruppen
+survey#:#search_invitation#:#NutzerInnen oder Gruppen durchsuchen
+survey#:#search_questions#:#Fragen suchen
+survey#:#search_term#:#Suchbegriff(e)
+survey#:#search_type_all#:#In allen Fragentypen suchen
+survey#:#search_users#:#NutzerInnen
+survey#:#select_prior_question#:#Eine vorherige Frage auswählen
+survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
+survey#:#select_relation#:#Relation auswählen
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
-survey#:#select_value#:#Select a value###26 May 2004 new variable
+survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
 survey#:#start_survey#:#Umfrage beginnen
-survey#:#subtype#:#Subtype###04 Jun 2004 new variable
-survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
-survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
-survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
+survey#:#subtype#:#Untertyp
+survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
+survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_next#:#Speichern und weiter >>>
+survey#:#survey_offline_message#:#Es können keine NutzerInnen eingeladen werden. Die Umfrage ist nicht online!
+survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
+survey#:#survey_previous#:#<<< Speichern und zurück
 survey#:#survey_questions#:#Fragen
-survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
-survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
-survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
-survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
+survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
+survey#:#survey_skip_next#:#Überpringen und weiter >>>
+survey#:#survey_skip_previous#:#<<< Überspringen und zurück
+survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
+survey#:#survey_start#:#<<< Speichern und zur Startseite
+survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
-survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
+survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
-survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Jun 2004 new variable
-survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
-survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
-survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
-survey#:#values#:#Values###04 Jun 2004 new variable
-survey#:#view_phrase#:#View phrase###31 May 2004 new variable
-survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
+survey#:#upper_limit#:#Obere Schranke
+survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
+survey#:#users_answered#:#Beantwortet
+survey#:#users_skipped#:#Übersprungen
+survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben haben
+survey#:#values#:#Werte
+survey#:#view_phrase#:#Phrase ansehen
+survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
