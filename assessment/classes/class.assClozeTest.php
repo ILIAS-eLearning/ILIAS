@@ -1327,10 +1327,13 @@ class ASS_ClozeTest extends ASS_Question
     $result = $this->ilias->db->query($query);
 		$user_result = array();
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$user_result[$data->value1] = array(
-				"gap_id" => $data->value1,
-				"value" => $data->value2
-			);
+			if (strcmp($data->value2, "") != 0)
+			{
+				$user_result[$data->value1] = array(
+					"gap_id" => $data->value1,
+					"value" => $data->value2
+				);
+			}
     }
     $points = 0;
     $counter = 0;

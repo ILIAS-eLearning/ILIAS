@@ -922,9 +922,11 @@ class ASS_MultipleChoice extends ASS_Question
 		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			array_push($found_values, $data->value1);
+			if (strcmp($data->value1, "") != 0)
+			{
+				array_push($found_values, $data->value1);
+			}
 		}
-
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
 		{
