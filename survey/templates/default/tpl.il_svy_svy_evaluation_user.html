@@ -1,0 +1,36 @@
+<table>
+<tr><td>
+<form name="form_evaluation" method="POST" action="{FORM_ACTION}">
+{EXPORT_DATA} <select name="export_format" size="1"><option value="excel">{TEXT_EXCEL}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form></td><td><form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="submit" name="cmd[printEvaluation]" value="{BTN_PRINT}" /><input type="hidden" name="detail" value="{VALUE_DETAIL}"></form></td></tr></table>
+<p class="small"><a href="#legend">{TEXT_LEGEND_LINK}</a></p>
+<table class="fullwidth">
+<tr class="tblheader">
+<!-- BEGIN headercell -->
+<td class="std">{TEXT_HEADER_CELL}</td>
+<!-- END headercell -->
+</tr>
+<!-- BEGIN row -->
+<tr>
+<!-- BEGIN bodycell -->
+<td class="{COLOR_CLASS}">{TEXT_BODY_CELL}</td>
+<!-- END bodycell -->
+</tr>
+<!-- END row -->
+<!-- BEGIN Emptytable -->
+<tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
+<!-- END Emptytable -->
+</table>
+<p><a name="legend"></a>
+<table class="std">
+<tr class="tblheader">
+  <td class="std" colspan="2">{TEXT_LEGEND}</td>
+</tr>
+<!-- BEGIN legendrow -->
+<tr>
+  <td class="option">{TEXT_KEY}:</td>
+  <td class="option_value">{TEXT_VALUE}</td>
+</tr>
+<!-- END legendrow -->
+</table>
+</p>
+</form>
