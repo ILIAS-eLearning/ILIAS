@@ -597,11 +597,8 @@ class ilSetup extends PEAR
 		$status["ini"] = $this->checkClientIni($client);
 		$status["db"] = $this->checkClientDatabase($client);
 		
-		//var_dump($status["db"],$client->db_exists,$client->db_installed);
-		
 		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)
 		{
-			var_dump($status["db"]);
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
