@@ -171,8 +171,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
+echo "1";
 		if($_GET["def"] > 0)
 		{
+echo "2";
 			$def_edit =& new ilTermDefinitionEditorGUI();
 			$def_edit->executeCommand();
 		}
