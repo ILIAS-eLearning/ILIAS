@@ -27,7 +27,7 @@ if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
 $tpl->setVariable("TXT_FORUM_USER", $lng->txt("userdata"));
 
 // get user data
-$author = $frm->getModerator($_GET["user"]);	
+$author = $frm->getUser($_GET["user"]);	
 
 $tpl->setCurrentBlock("usertable");
 
@@ -35,26 +35,31 @@ $tpl->setVariable("ROWCOL1", "tblrow1");
 $tpl->setVariable("ROWCOL2", "tblrow2");
 
 $tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-$tpl->setVariable("LOGIN",$author["login"]);	
+$tpl->setVariable("LOGIN",$author->getLogin());	
 
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("FIRSTNAME",$author["FirstName"]);	
-$tpl->setVariable("SurName",$author["SurName"]);	
+$tpl->setVariable("FIRSTNAME",$author->getFirstName());	
+$tpl->setVariable("LASTNAME",$author->getLastName());	
 
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TITLE",$author["Title"]);
+$tpl->setVariable("TITLE",$author->getTitle());
 
 $tpl->setVariable("TXT_GENDER", $lng->txt("gender"));
-$tpl->setVariable("GENDER",$author["Gender"]);
+$tpl->setVariable("GENDER",$author->getGender());
 
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
-	$tpl->setVariable("EMAIL","<a href=\"mailto:".$author["Email"]."\">".$author["Email"]."</a>");
+
+if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+{
+	$tpl->setVariable("EMAIL","<a href=\"mailto:".$author->getEmail()."\">".$author->getEmail()."</a>");
 }
-else $tpl->setVariable("EMAIL",$author["Email"]);
+else
+{
+	$tpl->setVariable("EMAIL",$author->Email());
+}
 
 $tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-$tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["CreateDate"]));
+$tpl->setVariable("REGISTERED",$frm->convertDate($author->getCreateDate()));
 
 // count articles of user
 $numPosts = $frm->countUserArticles($_GET["user"]);
@@ -65,13 +70,11 @@ $tpl->parseCurrentBlock("usertable");
 
 if ($_GET["message"])
 {
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+	$tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
 	$tpl->setCurrentBlock("message2");
 	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
 	$tpl->parseCurrentBlock();
 }
 
-
 $tpl->show();
-
 ?>

@@ -193,8 +193,8 @@ class User
 		$this->setEmail($a_data["email"]);
 		
 		// system data
-		$this->last_login	= $a_data["last_login"];
-		$this->last_update	= $a_data["last_update"];
+		$this->setLastLogin($a_data["last_login"]);
+		$this->setLastUpdate($a_data["last_update"]);
 		$this->create_date	= $a_data["create_date"];
 	}
 
@@ -885,7 +885,57 @@ class User
 	{
 		 return $this->data["language"];
 	}
+
+	/**
+	* set user's last login
+	* @access	public
+	* @param	string	login date
+	*/
+	function setLastLogin($a_str)
+	{
+		$this->last_login = $a_str;
+	}
 	
+	/**
+	* returns last login date
+	* @access	public
+	* @return	string	date
+	*/
+	function getLastLogin ()
+	{
+		 return $this->last_login;
+	}
+
+	/**
+	* set last update of user data set
+	* @access	public
+	* @param	string	date
+	*/
+	function setLastUpdate($a_str)
+	{
+		$this->last_update = $a_str;
+	}
+	
+	/**
+	* returns last update date
+	* @access	public
+	* @return	string	date
+	*/
+	function getLastUpdate ()
+	{
+		 return $this->last_update;
+	}
+
+	/**
+	* returns create date of user set
+	* @access	public
+	* @return	string	date
+	*/
+	function getCreateDate ()
+	{
+		 return $this->create_date;
+	}
+
 	/**
 	* set user skin (template set)
 	* @access	public

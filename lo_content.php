@@ -67,20 +67,76 @@ else
 	$tpl->parseCurrentBlock();
 }
 
-$lr_arr = TUtil::getObjectsByOperations('le','visible');
-$lr_arr = TUtil::getObjectsByOperations('crs','visible');
-
-usort($lr_arr,"sortObjectsByTitle");
-
-$lr_num = count($lr_arr);
-
-if ($lr_num > 0)
+// display different content depending on viewmode
+switch ($_SESSION["viewmode"])
 {
-	// counter for rowcolor change
-	$num = 0;
-	
+	case "flat":
+		$lr_arr = TUtil::getObjectsByOperations('le','visible');
+		$lr_arr = TUtil::getObjectsByOperations('crs','visible');
+		
+		usort($lr_arr,"sortObjectsByTitle");
+		
+		$lr_num = count($lr_arr);
+		
+		if ($lr_num > 0)
+		{
+			// counter for rowcolor change
+			$num = 0;
+			
+			foreach ($lr_arr as $lr_data)
+			{
+				$tpl->setCurrentBlock("learningstuff_row");
+		
+				// change row color
+				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;		
+		
+				$obj_link = "lo_view.php?lm_id=".$lr_data["obj_id"];
+				$obj_icon = "icon_".$lr_data["type"].".gif";
+		 
+				$tpl->setVariable("TITLE", $lr_data["title"]);
+				$tpl->setVariable("LO_LINK", $obj_link);
+				$tpl->setVariable("IMG", $obj_icon);
+				$tpl->setVariable("ALT_IMG", $lr_data["data"]);		
+				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
+				$tpl->setVariable("STATUS", "N/A");
+				$tpl->setVariable("LAST_VISIT", "N/A");
+				$tpl->setVariable("LAST_CHANGE", $lr_data["last_update"]);
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
+				
+				$tpl->parseCurrentBlock("learningstuff_row");
+			}
+		
+		
+		}
+		else
+		{
+			$tpl->setCurrentBlock("no_content");
+			$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock("no_content");
+		}
+		
+		$tpl->setCurrentBlock("learningstuff");
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+		$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
+		$tpl->setVariable("TXT_LAST_VISIT", $lng->txt("last_visit"));
+		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
+		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
+		$tpl->parseCurrentBlock("learningstuff");
+		
+		if ($_GET["message"])
+		{
+		    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+			$tpl->setCurrentBlock("message2");
+			$tpl->setVariable("MSG", urldecode( $_GET["message"]));
+			$tpl->parseCurrentBlock();
+		}
+		break;
+		
+	case "tree":
 //go through valid objects and filter out the lessons only
-/*
+$lessons = array();
 if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 {
 	foreach ($objects as $key => $object)
@@ -91,33 +147,57 @@ if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 		}
 	}
 }
-*/
-//$lessons = array();
+
 //TODO: maybe move the code above to this method
 //$lessons = $ilias->account->getLessons();
-	foreach ($lr_arr as $lr_data)
-	{
-		$tpl->setCurrentBlock("learningstuff_row");
 
-		// change row color
-		$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
-		$num++;		
-
-		$obj_link = "lo_view.php?lm_id=".$lr_data["obj_id"];
-		$obj_icon = "icon_".$lr_data["type"].".gif";
- 
-		$tpl->setVariable("TITLE", $lr_data["title"]);
-		$tpl->setVariable("LO_LINK", $obj_link);
-		$tpl->setVariable("IMG", $obj_icon);
-		$tpl->setVariable("ALT_IMG", $lr_data["data"]);		
-		$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
-		$tpl->setVariable("STATUS", "N/A");
-		$tpl->setVariable("LAST_VISIT", "N/A");
-		$tpl->setVariable("LAST_CHANGE", $lr_data["last_update"]);
-		$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
+		$lr_num = count($lessons);
+		if ($lr_num > 0)
+		{
+			// counter for rowcolor change
+			$num = 0;
+			
+			foreach ($lessons as $lr_data)
+			{
+				$tpl->setCurrentBlock("learningstuff_row");
 		
-		$tpl->parseCurrentBlock("learningstuff_row");
-	}
+				// change row color
+				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;		
+		
+				$obj_link = "lo_view.php?lm_id=".$lr_data["obj_id"];
+				$obj_icon = "icon_".$lr_data["type"].".gif";
+		 
+				$tpl->setVariable("TITLE", $lr_data["title"]);
+				$tpl->setVariable("LO_LINK", $obj_link);
+				$tpl->setVariable("IMG", $obj_icon);
+				$tpl->setVariable("ALT_IMG", $lr_data["data"]);		
+				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
+				$tpl->setVariable("STATUS", "N/A");
+				$tpl->setVariable("LAST_VISIT", "N/A");
+				$tpl->setVariable("LAST_CHANGE", $lr_data["last_update"]);
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
+				
+				$tpl->parseCurrentBlock("learningstuff_row");
+			}
+		
+		
+		}
+		else
+		{
+			$tpl->setCurrentBlock("no_content");
+			$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock("no_content");
+		}
+		
+		$tpl->setCurrentBlock("learningstuff");
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+		$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
+		$tpl->setVariable("TXT_LAST_VISIT", $lng->txt("last_visit"));
+		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
+		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
+		$tpl->parseCurrentBlock("learningstuff");
 
 /*
 foreach ($lessons as $row)
@@ -170,29 +250,7 @@ if ($tpl->includeTree() == true)
 	$tpl->setVariable("TREE", $tplTree->get());
 }
 */
-}
-else
-{
-	$tpl->setCurrentBlock("no_content");
-	$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
-	$tpl->parseCurrentBlock("no_content");
-}
-
-$tpl->setCurrentBlock("learningstuff");
-$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
-$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
-$tpl->setVariable("TXT_LAST_VISIT", $lng->txt("last_visit"));
-$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
-$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
-$tpl->parseCurrentBlock("learningstuff");
-
-if ($_GET["message"])
-{
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-	$tpl->parseCurrentBlock();
+		break;
 }
 
 $tpl->show();

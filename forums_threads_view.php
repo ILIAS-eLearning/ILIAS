@@ -252,7 +252,10 @@ if (is_array($topicData = $frm->getOneTopic())) {
 					}			
 				}
 			}
-			else $tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+			else
+			{
+				$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+			}
 			
 			$tpl->setCurrentBlock("posts_row");
 			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
@@ -260,15 +263,18 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			
 			// get author data
 			unset($author);
-			$author = $frm->getModerator($node["author"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
+			$author = $frm->getUser($node["author"]);	
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLastName()."</a>"); 
 			
 			// get create- and update-dates
-			if ($node["update_user"] > 0) {
+			if ($node["update_user"] > 0)
+			{
 				$node["update"] = $frm->convertDate($node["update"]);
-				$updUser = $frm->getModerator($node["update_user"]);					
-				$tpl->setVariable("POST_UPDATE","[".$lng->txt("edited_at").": ".$node["update"]." - ".$lng->txt("from").": ".$updUser["SurName"]."]");
-			}		
+				unset($lastuser);
+				$lastuser = $frm->getUser($node["update_user"]);					
+				$tpl->setVariable("POST_UPDATE","[".$lng->txt("edited_at").": ".$node["update"]." - ".$lng->txt("from").": ".$lastuser->getLastName()."]");
+			}
+
 			$node["create_date"] = $frm->convertDate($node["create_date"]);
 			$tpl->setVariable("POST_DATE",$node["create_date"]);	
 			
@@ -279,14 +285,11 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			$node["message"] = TUtil::makeClickable($node["message"]);
 			
 			$tpl->setVariable("POST",nl2br($node["message"]));	
-			
 			$tpl->parseCurrentBlock("posts_row");		
-		
-		}			
-		
+		}
+
 		$z ++;		
 	}
-		
 }
 else
 {
@@ -301,16 +304,13 @@ $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_POST", $lng->txt("forums_the_post"));
 $tpl->parseCurrentBlock("posttable");
 
-
 if ($_GET["message"])
 {
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+	$tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
 	$tpl->setCurrentBlock("message2");
 	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
 	$tpl->parseCurrentBlock();
 }
 
-
 $tpl->show();
-
 ?>

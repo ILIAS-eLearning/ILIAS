@@ -1,6 +1,6 @@
 <?php
 /**
-* lo view
+* lo view. Displays LearningObject (db->dom->xsl->ITx)
 *
 * @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
@@ -45,6 +45,25 @@ xslt_free($xh);
 //$T1 = TUtil::StopWatch(); 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_content.html");
 //$tpl->addBlockFile("LM_NAVBAR", "navbar", "tpl.lm_navbar.html");
+$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->touchBlock("buttons");
+
+// this view should switch between a tree view if the learningmodule's structure and full view.
+if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+{
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","lo.php?viewmode=tree");
+	$tpl->setVariable("BTN_TXT", $lng->txt("treeview"));
+	$tpl->parseCurrentBlock();
+}
+else
+{
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","lo.php?viewmode=flat");
+	$tpl->setVariable("BTN_TARGET","target=\"_parent\"");
+	$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("LM_NAVBAR",$navbar);

@@ -55,7 +55,7 @@ $courses = $ilias->account->getCourses();
 //forums
 $frm_obj = TUtil::getObjectsByOperations('frm','read');
 $frmNum = count($frm_obj); 
-$lastLogin = $ilias->account->data["LastLogin"];
+$lastLogin = $ilias->account->getLastLogin();
 
 //********************************************
 //* OUTPUT
