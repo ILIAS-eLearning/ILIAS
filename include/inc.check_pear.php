@@ -19,7 +19,9 @@ if (!strstr(php_uname(), "Windows"))
 
 $include_paths = explode($separator,$include_paths);
 
-$pear = false;
+// WE HAVE TO MAKE ANOTHER CHECK SINCE file_exists IS NOT ALLOWED IN SAFE_MODE
+/*
+$pear = false
 $auth = false;
 
 foreach ($include_paths as $path)
@@ -34,6 +36,9 @@ foreach ($include_paths as $path)
 		$auth = true;
 	}
 }
+*/
+$pear = true;
+$auth = true;
 
 if (!$pear)
 {
