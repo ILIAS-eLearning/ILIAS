@@ -128,10 +128,10 @@ class ilFileSystemGUI
 			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$file = (!empty($cur_subdir))
-			? $this->main_dir."/".$cur_subdir."/".$_POST["file"][0]
-			: $this->main_dir."/".$_POST["file"][0];
+			? $this->main_dir."/".$cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0])
+			: $this->main_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
 
 		// check wether selected item is a directory
 		if (@is_dir($file))
@@ -140,8 +140,8 @@ class ilFileSystemGUI
 		}
 
 		$file = (!empty($cur_subdir))
-			? $cur_subdir."/".$_POST["file"][0]
-			: $_POST["file"][0];
+			? $cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0]) 
+			: ilUtil::stripSlashes($_POST["file"][0]);
 
 		$obj =& $this->commands[$a_nr]["object"];
 		$method = $this->commands[$a_nr]["method"];
@@ -161,22 +161,27 @@ class ilFileSystemGUI
 		$tbl = new ilTableGUI();
 
 		// determine directory
-		$cur_subdir = $_GET["cdir"];
-		if($_GET["newdir"] == "..")
+		// FIXME: I have to call stripSlashes here twice, because I could not
+		//        determine where the second layer of slashes is added to the
+		//        URL Parameter
+		$cur_subdir = ilUtil::stripSlashes(ilUtil::stripSlashes($_GET["cdir"]));
+		$new_subdir = ilUtil::stripSlashes(ilUtil::stripSlashes($_GET["newdir"]));
+
+		if($new_subdir == "..")
 		{
 			$cur_subdir = substr($cur_subdir, 0, strrpos($cur_subdir, "/"));
 		}
 		else
 		{
-			if (!empty($_GET["newdir"]))
+			if (!empty($new_subdir))
 			{
 				if (!empty($cur_subdir))
 				{
-					$cur_subdir = $cur_subdir."/".$_GET["newdir"];
+					$cur_subdir = $cur_subdir."/".$new_subdir;
 				}
 				else
 				{
-					$cur_subdir = $_GET["newdir"];
+					$cur_subdir = $new_subdir;
 				}
 			}
 		}
@@ -190,7 +195,7 @@ class ilFileSystemGUI
 		// load files templates
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
 
-		$this->ctrl->setParameter($this, "cdir", urlencode($cur_subdir));
+		$this->ctrl->setParameter($this, "cdir", $cur_subdir);
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
 		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
@@ -301,7 +306,7 @@ class ilFileSystemGUI
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
-//echo "<br>curdir:".$cur_dir.":";
+
 		$entries = ilUtil::getDir($cur_dir);
 
 		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
@@ -343,7 +348,7 @@ class ilFileSystemGUI
 				{
 					$this->tpl->setCurrentBlock("FileLink");
 					$this->ctrl->setParameter($this, "cdir", $cur_subdir);
-					$this->ctrl->setParameter($this, "newdir", rawurlencode($entry["entry"]));
+					$this->ctrl->setParameter($this, "newdir", $entry["entry"]);
 					$this->tpl->setVariable("LINK_FILENAME", $this->ctrl->getLinkTarget($this, "listFiles"));
 					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
 					$this->tpl->parseCurrentBlock();
@@ -398,20 +403,20 @@ class ilFileSystemGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($_POST["file"][0] == ".." )
+		if (ilUtil::stripSlashes($_POST["file"][0]) == ".." )
 		{
 			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$file = (!empty($cur_subdir))
-			? $this->main_dir."/".$cur_subdir."/".$_POST["file"][0]
-			: $this->main_dir."/".$_POST["file"][0];
+			? $this->main_dir."/".$cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0])
+			: $this->main_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
 
 		// load files templates
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.file_rename.html", false);
 
-		$this->ctrl->setParameter($this, "old_name", rawurlencode($_POST["file"][0]));
+		$this->ctrl->setParameter($this, "old_name", ilUtil::stripSlashes($_POST["file"][0]));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		if (@is_dir($file))
 		{
@@ -422,7 +427,7 @@ class ilFileSystemGUI
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_file"));
 		}
 		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VAL_NAME", $_POST["file"][0]);
+		$this->tpl->setVariable("VAL_NAME", ilUtil::stripSlashes($_POST["file"][0]));
 		$this->tpl->setVariable("CMD_CANCEL", "cancelRename");
 		$this->tpl->setVariable("CMD_SUBMIT", "renameFile");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -436,19 +441,19 @@ class ilFileSystemGUI
 	*/
 	function renameFile()
 	{
-		$new_name = str_replace("..", "", $_POST["new_name"]);
+		$new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
 		$new_name = str_replace("/", "", $new_name);
 		if ($new_name == "")
 		{
 			$this->ilias->raiseError($this->lng->txt("enter_new_name"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir."/"
 			: $this->main_dir."/";
 
-		rename($dir.$_GET["old_name"], $dir.$new_name);
+		rename($dir.ilUtil::stripSlashes($_GET["old_name"]), $dir.$new_name);
 
 		ilUtil::renameExecutables($this->main_dir);
 
@@ -470,12 +475,12 @@ class ilFileSystemGUI
 	{
 
 		// determine directory
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
 
-		$new_dir = str_replace(".", "", $_POST["new_dir"]);
+		$new_dir = str_replace(".", "", ilUtil::stripSlashes($_POST["new_dir"]));
 		$new_dir = str_replace("/", "", $new_dir);
 
 		if (!empty($new_dir))
@@ -492,14 +497,15 @@ class ilFileSystemGUI
 	function uploadFile()
 	{
 		// determine directory
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
-			
-		ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"],
-			$_FILES["new_file"]["name"], $cur_dir."/".$_FILES["new_file"]["name"]);
-			
+		if (is_file($_FILES["new_file"]["tmp_name"]))
+		{
+			move_uploaded_file($_FILES["new_file"]["tmp_name"],
+				$cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]));
+		}
 		$this->ctrl->saveParameter($this, "cdir");
 
 		ilUtil::renameExecutables($this->main_dir);
@@ -517,31 +523,30 @@ class ilFileSystemGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		if (count($_POST["file"]) > 1)
+		
+		foreach ($_POST["file"] as $post_file)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
+			if (ilUtil::stripSlashes($post_file) == "..")
+			{
+				$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+				break;
+			}
 
-		if ($_POST["file"][0] == "..")
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
+			$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+			$cur_dir = (!empty($cur_subdir))
+				? $this->main_dir."/".$cur_subdir
+				: $this->main_dir;
+			$file = $cur_dir."/".ilUtil::stripSlashes($post_file);
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
-		$cur_dir = (!empty($cur_subdir))
-			? $this->main_dir."/".$cur_subdir
-			: $this->main_dir;
-		$file = $cur_dir."/".$_POST["file"][0];
+			if (@is_file($file))
+			{
+				unlink($file);
+			}
 
-		if (@is_file($file))
-		{
-			unlink($file);
-		}
-
-		if (@is_dir($file))
-		{
-			ilUtil::delDir($file);
+			if (@is_dir($file))
+			{
+				ilUtil::delDir($file);
+			}
 		}
 
 		$this->ctrl->saveParameter($this, "cdir");
@@ -563,15 +568,15 @@ class ilFileSystemGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
-		$file = $cur_dir."/".$_POST["file"][0];
+		$file = $cur_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
 
 		if (@is_file($file))
 		{
-			ilUtil::unzip($file);
+			ilUtil::unzip($file, true);
 		}
 
 		ilUtil::renameExecutables($this->main_dir);
@@ -595,7 +600,7 @@ class ilFileSystemGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;

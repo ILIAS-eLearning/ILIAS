@@ -156,7 +156,7 @@ class ilObjFileBasedLM extends ilObject
 
 		$q = "UPDATE file_based_lm SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" startfile = '".$this->getStartFile()."'".
+			" startfile = '".ilUtil::prepareDBString($this->getStartFile())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 
