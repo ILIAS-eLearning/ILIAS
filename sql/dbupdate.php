@@ -5235,4 +5235,13 @@ CREATE TABLE `link_check` (
   `http_status_code` int(4) NOT NULL default '0',
   `last_check` int(11) NOT NULL default '0'
 ) TYPE=MyISAM;
+<#366>
+CREATE TABLE `survey_anonymous` (
+`anonymous_id` INT NOT NULL AUTO_INCREMENT ,
+`survey_key` VARCHAR( 32 ) NOT NULL ,
+`survey_fi` INT NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `anonymous_id` ) ,
+INDEX ( `survey_key` , `survey_fi` )
+);
 

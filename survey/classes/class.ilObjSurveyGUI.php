@@ -549,6 +549,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("start");
 			$anonymize_key = md5($ilUser->id . $this->object->getSurveyId());
+			if (strcmp($ilUser->login, "anonymous") == 0)
+			{
+				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_anonymous_introduction"));
+			}
+			else
 			if ($survey_started === 0)
 			{
 				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_resume_introduction"));
