@@ -188,7 +188,7 @@ class ilContObjParser extends ilSaxParser
 		$pg_mapping = array();
 		foreach($this->pg_mapping as $key => $value)
 		{
-			$pg_mapping[$key] = "pg_".$value;
+			$pg_mapping[$key] = "il__pg_".$value;
 		}
 		foreach($this->pages_with_int_links as $page_id)
 		{
