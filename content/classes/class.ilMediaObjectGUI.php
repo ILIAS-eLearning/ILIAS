@@ -362,9 +362,12 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_item->setHeight($_POST["mob_height"]);
 		$std_item->setCaption($_POST["mob_caption"]);
 
-		$full_item->setWidth($_POST["full_width"]);
-		$full_item->setHeight($_POST["full_height"]);
-		$full_item->setCaption($_POST["full_caption"]);
+		if($this->content_obj->hasFullscreenItem())
+		{
+			$full_item->setWidth($_POST["full_width"]);
+			$full_item->setHeight($_POST["full_height"]);
+			$full_item->setCaption($_POST["full_caption"]);
+		}
 
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
