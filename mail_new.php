@@ -231,7 +231,7 @@ $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
 $tpl->setVariable("TXT_NORMAL", $lng->txt("mail_intern"));
 if(!is_array($mail_data["m_type"]) or (is_array($mail_data["m_type"]) and in_array('normal',$mail_data["m_type"])))
 {
-	$tpl->setVariable("CHECKED_NORMAL",'CHECKED');
+	$tpl->setVariable("CHECKED_NORMAL",'checked="checked"');
 }
 
 // ONLY IF SYSTEM MAILS ARE ALLOWED
@@ -241,7 +241,7 @@ if($rbacsystem->checkAccess("system message",$umail->getMailObjectReferenceId())
 	$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
 	if(is_array($mail_data["m_type"]) and in_array('system',$mail_data["m_type"]))
 	{
-		$tpl->setVariable("CHECKED_SYSTEM",'CHECKED');
+		$tpl->setVariable("CHECKED_SYSTEM",'checked="checked"');
 	}
 	$tpl->parseCurrentBlock();
 }
@@ -253,7 +253,7 @@ if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
 	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 	if(is_array($mail_data["m_type"]) and in_array('email',$mail_data["m_type"]))
 	{
-		$tpl->setVariable("CHECKED_EMAIL",'CHECKED');
+		$tpl->setVariable("CHECKED_EMAIL",'checked="checked"');
 	}
 	$tpl->parseCurrentBlock();
 }

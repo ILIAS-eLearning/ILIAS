@@ -12,66 +12,66 @@ body { margin:0px; }
 {BUTTONS}
 <br />
 {MESSAGE}
-	<FORM ACTION="{ACTION}" METHOD="post">
+	<form action="{ACTION}" method="post">
 	  <table class="fullwidth">
 		<!-- BEGIN search -->
-		  <TR>
-			<TD CLASS="STD"  ALIGN=right>Suche nach:
-			</TD>
-			<td class="std">
-			  <INPUT name="search" value="" SIZE=30 width="80%"/>
-			</TD>
-		  </TR>
 		  <tr>
-			<TD CLASS="STD">&nbsp;
-			</TD>
-			<td CLASS="STD">
+			<td class="std" align="right">Suche nach:
+			</td>
+			<td class="std">
+			  <input name="search" value="" size="30" width="80%"/>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="std">&nbsp;
+			</td>
+			<td class="std">
 			  <input type="checkbox" name="type_addressbook" value="address" checked="checked"/>{TXT_SEARCH_ADDRESS}
 			  </td>
 		  </tr>
 		  <tr>
-			<TD CLASS="STD">&nbsp;
-			</TD>
-			  <td CLASS="STD">
+			<td class="std">&nbsp;
+			</td>
+			  <td class="std">
 			  <input type="checkbox" name="type_system" value="system"/>{TXT_SEARCH_SYSTEM}
 			</td>
 		  </tr>
-		  <TR>
-			<TD CLASS="STD">&nbsp;</TD>
+		  <tr>
+			<td class="std">&nbsp;</td>
 			<td class="std" >
 			  <input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
 			  <input class="submit" type="submit" name="cmd[search_cancel]" value="{BUTTON_CANCEL}"/>
-			</TD>
-		  </TR>
+			</td>
+		  </tr>
 		  <!-- END search -->
-		  <TR>
-			<TD CLASS="STD"  ALIGN=right>{TXT_RECIPIENT}</a></TD>
+		  <tr>
+			<td class="std" align="right">{TXT_RECIPIENT}</a></td>
 			<td class="std" >
-			  <input name="rcp_to" value="{RCP_TO}" SIZE="50" width="80%"/>
+			  <input name="rcp_to" value="{RCP_TO}" size="50" width="80%"/>
 			  <input class="submit" type="submit" name="cmd[rcp_to]" value="{BUTTON_TO}"/>
-			</TD>
-		  </TR>
-		  <TR>
-			<TD CLASS="STD"  ALIGN=right>{TXT_CC}</a></TD>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="std" align="right">{TXT_CC}</a></td>
 			<td class="std">
-			  <INPUT name="rcp_cc" value="{RCP_CC}" SIZE="50" width="80%"/>
+			  <input name="rcp_cc" value="{RCP_CC}" size="50" width="80%"/>
 			  <input class="submit" type="submit" name="cmd[rcp_cc]" value="{BUTTON_CC}"/>
-			</TD>
-		  </TR>
-		  <TR>
-			<TD CLASS="STD"  ALIGN=right>{TXT_BC}</a></TD>
-			<TD CLASS="STD" >
-			  <INPUT name="rcp_bcc" value="{RCP_BCC}" SIZE=50 width="80%"/>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="std" align="right">{TXT_BC}</a></td>
+			<td class="std">
+			  <input name="rcp_bcc" value="{RCP_BCC}" size="50" width="80%"/>
 			  <input class="submit" type="submit" name="cmd[rcp_bc]" value="{BUTTON_BC}"/>
-			</TD>
-		  </TR>
-		  <TR>
-			<td class="std"  align="right">{TXT_SUBJECT}</TD>
-			<td class="std" ><INPUT name="m_subject" value="{M_SUBJECT}" SIZE=50 width="80%"/></TD>
-		  </TR>
-		  <TR>
-			<td class="std"  align="right">{TXT_TYPE}</TD>
-			<td class="std" >
+			</td>
+		  </tr>
+		  <tr>
+			<td class="std" align="right">{TXT_SUBJECT}</td>
+			<td class="std"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
+		  </tr>
+		  <tr>
+			<td class="std" align="right">{TXT_TYPE}</td>
+			<td class="std">
 			  <input type="checkbox" name="m_type[]" value="normal" {CHECKED_NORMAL}/>{TXT_NORMAL}
 			  <!-- BEGIN system_message --> 
 			  <input type="checkbox" name="m_type[]" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
@@ -80,28 +80,28 @@ body { margin:0px; }
 			  <input type="checkbox" name="m_type[]" value="email" {CHECKED_EMAIL}/>{TXT_EMAIL}
 			  <!-- END also_smtp -->
 			</td>
-		  </TR>
-		  <TR>
-			<td class="std"  align="right" valign="top">{TXT_ATTACHMENT}</TD>
-			<td class="std" >
+		  </tr>
+		  <tr>
+			<td class="std" align="right" valign="top">{TXT_ATTACHMENT}</td>
+			<td class="std">
 			  <!-- BEGIN files -->
-			  <textarea cols="60" rows="{ROWS}" readonly>{FILES}</textarea><br/>
+			  <textarea cols="60" rows="{ROWS}" readonly="readonly">{FILES}</textarea><br/>
 			  <!-- BEGIN hidden -->
 			  <input type="hidden" name="attachments[]" value="{ATTACHMENTS}"/>
 			  <!-- END hidden -->
 			  <!-- END files -->
 			  <input class="submit" type="submit" name="cmd[edit]" value="{BUTTON_EDIT}"/>
 			</td>
-		  </TR>
-		  <TR>
-			<td class="std"  align="right" valign="top">{TXT_MSG_CONTENT}</td>
-			<TD CLASS="STD" ><TEXTAREA name="m_message" ROWS=10 COLS=60>{M_MESSAGE}</TEXTAREA></TD>
-		  </TR>
-		  <TR>
-			<td class="std" >&nbsp;</td>
-			<TD CLASS="STD" ><input class="submit" type="submit" name="cmd[send]" value="{TXT_SEND}"/>&nbsp;
-			  <input class="submit" type="submit" name="cmd[save_message]" value="{TXT_MSG_SAVE}"/></TD>
-		  </TR>
+		  </tr>
+		  <tr>
+			<td class="std" align="right" valign="top">{TXT_MSG_CONTENT}</td>
+			<td class="std"><textarea name="m_message" rows="10" cols="60">{M_MESSAGE}</textarea></td>
+		  </tr>
+		  <tr>
+			<td class="std">&nbsp;</td>
+			<td class="std"><input class="submit" type="submit" name="cmd[send]" value="{TXT_SEND}"/>&nbsp;
+			  <input class="submit" type="submit" name="cmd[save_message]" value="{TXT_MSG_SAVE}"/></td>
+		  </tr>
 	  </table>
-    </FORM>
+    </form>
 </div>
