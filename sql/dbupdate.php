@@ -5394,4 +5394,30 @@ while($tree_rec = $tree_set->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+<#385>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#386>
+DROP TABLE IF EXISTS `crs_objectives`;
+CREATE TABLE `crs_objectives` (
+  `crs_id` int(11) NOT NULL default '0',
+  `objective_id` int(11) NOT NULL auto_increment,
+  `title` varchar(70) NOT NULL default '',
+  `description` varchar(128) NOT NULL default '',
+  `position` int(3) NOT NULL default '0',
+  `created` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`objective_id`),
+  KEY `crs_id` (`crs_id`)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS `crs_objective_lm`;
+CREATE TABLE `crs_objective_lm` (
+  `lm_ass_id` int(11) NOT NULL auto_increment,
+  `objective_id` int(11) NOT NULL default '0',
+  `ref_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `type` char(6) NOT NULL default '',
+  PRIMARY KEY  (`lm_ass_id`)
+) TYPE=MyISAM AUTO_INCREMENT=14 ;
 

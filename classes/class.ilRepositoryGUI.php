@@ -41,7 +41,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSAHSLearningModuleGUI, ilObjChatGUI, ilObjForumGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
@@ -222,6 +222,18 @@ class ilRepositoryGUI
 				$this->tpl->show();
 
 				break;
+
+			case "ilcourseobjectivesgui":
+				include_once("./course/classes/class.ilObjCourseGUI.php");
+
+				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
+
+				$this->prepareOutput();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				$this->tpl->show();
+
+				break;
+
 
 			case "ilobjfilegui":
 				include_once("./classes/class.ilObjFileGUI.php");
