@@ -1568,6 +1568,7 @@ content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
+content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
 content#:#cont_citation_err_one#:#You have to select exactly one edition###09 Oct 2003 new variable
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09 Oct 2003 new variable
 content#:#cont_citations#:#Citations###09 Oct 2003 new variable
@@ -1658,6 +1659,7 @@ content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
 content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
+content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
 content#:#cont_mob_inst_prop#:#Instance Properties###27 Oct 2003 new variable

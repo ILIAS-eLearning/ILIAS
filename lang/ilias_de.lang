@@ -1568,6 +1568,7 @@ content#:#cont_chapters#:#Kapitel
 content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Wählen Sie das Content Object
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
+content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
@@ -1658,6 +1659,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
@@ -1729,7 +1731,7 @@ content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe
-content#:#cont_source#:#Quelle
+content#:#cont_source#:#Quelle###01 Apr 2004 content changed
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht

@@ -1568,6 +1568,7 @@ content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
+content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You have to select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
@@ -1658,6 +1659,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
@@ -1730,8 +1732,6 @@ content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
-content#:#cont_media_source#:#Media Source
-content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
 content#:#cont_std_view#:#Standard View

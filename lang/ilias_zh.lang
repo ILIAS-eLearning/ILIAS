@@ -1585,6 +1585,7 @@ content#:#cont_chapters#:#章
 content#:#cont_characteristic#:#特性
 content#:#cont_choose_cont_obj#:#选择内容对象
 content#:#cont_choose_glossary#:#选择术语表
+content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
 content#:#cont_citation_err_one#:#您必须确实选择一个版本
 content#:#cont_citation_selection_not_valid#:#您的选择无效
 content#:#cont_citations#:#引用
@@ -1675,6 +1676,7 @@ content#:#cont_manifest#:#声明
 content#:#cont_map_areas#:#链接区域
 content#:#cont_mastery_score#:#adlcp技能分数
 content#:#cont_max_time_allowed#:#adlcp允许的最长时间
+content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#对象文件
 content#:#cont_mob_inst_prop#:#即时属性
@@ -1746,7 +1748,7 @@ content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
 content#:#cont_show_citation#:#具有引用的显示
 content#:#cont_size#:#大小（字节）
-content#:#cont_source#:#原始资料
+content#:#cont_source#:#原始资料###01 Apr 2004 content changed
 content#:#cont_st_title#:#章标题
 content#:#cont_std_is_in_dir#:#不能删除。标准视图文件在目录中。
 content#:#cont_std_view#:#标准视图

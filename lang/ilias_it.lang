@@ -1568,6 +1568,7 @@ content#:#cont_chapters#:#Capitoli
 content#:#cont_characteristic#:#Caratteristica
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
+content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
@@ -1658,6 +1659,7 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_max_time_allowed#:#tempo massimo consentito
+content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
@@ -1729,7 +1731,7 @@ content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_size#:#Dimensioni
-content#:#cont_source#:#Sorgente
+content#:#cont_source#:#Sorgente###01 Apr 2004 content changed
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
