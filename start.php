@@ -57,7 +57,8 @@ $start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_scr
 
 if (file_exists($start_template))
 {
-	$tpl = new ilTemplate("tpl.start.html", false, false);
+	$tpl = new ilTemplate("tpl.start.html", true, true);
+
 	$tpl->setVariable("SCRIPT", $start_script);
 	$tpl->show();
 }
