@@ -83,7 +83,7 @@ class ilUtil
 		}
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
-		if (file_exists($user_skin_and_style) && $st_image_dir != "")
+		if (@file_exists($user_skin_and_style) && $st_image_dir != "")
 		{
 			return $dir.$user_skin_and_style;
 		}
