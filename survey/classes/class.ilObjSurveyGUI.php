@@ -786,8 +786,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if ($table["rowcount"] > count($table["rows"]))
 			{
-				$this->tpl->setCurrentBlock("questions_navigation_bottom");
-				$this->tpl->setVariable("PREV_ROWS", sprintf($this->lng->txt("previous_question_rows"), $table["prevrow"] + 1, $table["prevrow"] + $table["step"], $table["rowcount"]));
 				$nextstep = $table["nextrow"] + $table["step"];
 				if ($nextstep > $table["rowcount"])
 				{
@@ -799,7 +797,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$key = key($_GET["sort"]);
 					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
 				}
-				$this->tpl->setVariable("NEXT_ROWS", sprintf($this->lng->txt("next_question_rows"), $table["nextrow"] + 1, $nextstep, $table["rowcount"]));
+				$counter = 1;
+				for ($i = 0; $i < $table["rowcount"] - 1; $i += $table["step"])
+				{
+					$this->tpl->setCurrentBlock("pages_questions");
+					if ($table["startrow"] == $i)
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<strong>$counter</strong>");
+					}
+					else
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+					}
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("questions_navigation_bottom");
+				$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
+				$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
+				$this->tpl->setVariable("TEXT_ITEM_END", $table["startrow"] + $table["step"]);
+				$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
+				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
+				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
+				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
 				$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
 				$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();
@@ -820,8 +840,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if ($table["rowcount"] > count($table["rows"]))
 			{
-				$this->tpl->setCurrentBlock("questionblocks_navigation_bottom");
-				$this->tpl->setVariable("PREV_ROWS", sprintf($this->lng->txt("previous_question_rows"), $table["prevrow"] + 1, $table["prevrow"] + $table["step"], $table["rowcount"]));
 				$nextstep = $table["nextrow"] + $table["step"];
 				if ($nextstep > $table["rowcount"])
 				{
@@ -833,7 +851,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$key = key($_GET["sort"]);
 					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
 				}
-				$this->tpl->setVariable("NEXT_ROWS", sprintf($this->lng->txt("next_question_rows"), $table["nextrow"] + 1, $nextstep, $table["rowcount"]));
+				$counter = 1;
+				for ($i = 0; $i < $table["rowcount"] - 1; $i += $table["step"])
+				{
+					$this->tpl->setCurrentBlock("pages_questionblocks");
+					if ($table["startrow"] == $i)
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<strong>$counter</strong>");
+					}
+					else
+					{
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+					}
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("questionblocks_navigation_bottom");
+				$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
+				$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
+				$this->tpl->setVariable("TEXT_ITEM_END", $table["startrow"] + $table["step"]);
+				$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
+				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
+				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
+				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
 				$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
 				$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();

@@ -2661,7 +2661,24 @@ class ilObjTest extends ilObject
 		{
 			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
 		}
-		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id)$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+
+		// get all questions in the test
+		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$original_ids = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+		{
+			array_push($original_ids, $row[0]);
+		}
+		$original_clause = " ISNULL(qpl_questions.original_id)";
+		if (count($original_ids))
+		{
+			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
+		}
+
+		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE $original_clause$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -2673,7 +2690,7 @@ class ilObjTest extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag, object_reference.ref_id FROM qpl_questions, qpl_question_type, object_reference WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = object_reference.obj_id$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag, object_reference.ref_id FROM qpl_questions, qpl_question_type, object_reference WHERE $original_clause AND qpl_questions.obj_fi = object_reference.obj_id$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
