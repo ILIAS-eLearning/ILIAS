@@ -269,7 +269,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang")
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang" and $this->error === true)
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -1779,7 +1779,7 @@ class ilSetupGUI extends ilSetup
 
 		if (!$this->client->db_installed)
 		{
-			// programm should never come to this place
+			// program should never come to this place
 			$message = "No database found! Please install database first.";
 			sendInfo($message);
 		}
@@ -1796,7 +1796,9 @@ class ilSetupGUI extends ilSetup
 			if (!in_array($_POST["form"]["lang_default"],$_POST["form"]["lang_id"]))
 			{
 				$message = $this->lng->txt("lang_not_installed_default");
+				$this->error = true;
 				$this->raiseError($message,$this->error_obj->MESSAGE);
+
 			}
 			
 			$result = $this->lng->installLanguages($_POST["form"]["lang_id"]);
@@ -2067,6 +2069,7 @@ class ilSetupGUI extends ilSetup
 				{
 					$this->client->setSetting("inst_id",$this->client->nic_status[2]);
 					$this->client->setSetting("nic_enabled","1");
+					$this->client->status["nic"]["status"] = true;
 					$message = $this->lng->txt("nic_reg_enabled");		
 				}
 			}
@@ -2405,7 +2408,7 @@ class ilSetupGUI extends ilSetup
 	/**
 	* if setting up a client was not finishedjump back to the first uncomleted setup step
 	*/
-	function jumpToFirstUnfinishedsetupStep()
+	function jumpToFirstUnfinishedSetupStep()
 	{
 		if (!$this->client->status["db"]["status"])
 		{
