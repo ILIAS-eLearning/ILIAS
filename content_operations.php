@@ -1,9 +1,6 @@
 <?php
 include_once "include/ilias_header.inc";
 
-$rbacadmin = new RbacAdminH($ilias->db);
-$tree = new Tree($_GET["obj_id"],1,1);
-
 // Template generieren
 $tplContent = new Template("content_operations.html",true,true);
 $tplContent->setVariable($ilias->ini["layout"]);
@@ -11,7 +8,7 @@ $tplContent->setVariable($ilias->ini["layout"]);
 $path = $tree->showPath($tree->getPathFull($_GET["parent"],1),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 
-$tplContent->setVariable("OBJ_SELF","content.php?obj_id=$obj_id&parent=$parent");
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 $tplContent->setVariable("CMD","save");
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);		
@@ -30,12 +27,13 @@ if($_GET["direction"] == 'DESC')
 $tplContent->setCurrentBlock("row",true);
 
 $ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
-if($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
+
+if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 {
 	$options = array("e" => "enabled","d" => "disabled");
 	foreach ($ops_arr as $key => $ops)
 	{
-		if(in_array($ops["ops_id"],$ops_valid))
+		if (in_array($ops["ops_id"],$ops_valid))
 		{
 			$ops_status = 'e';
 		}
@@ -43,6 +41,7 @@ if($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 		{
 			$ops_status = 'd';
 		}
+
 		$obj = $ops["ops_id"];
 		$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
 		
@@ -56,7 +55,7 @@ if($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 			$css_row = "row_low";
 		}
 
-		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$obj_id."&parent=".$parent."&cmd=edit");	
+		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");	
 		$tplContent->setVariable("OPS_TITLE",$ops["operation"]);
 		$tplContent->setVariable("OPS_DESC",$ops["desc"]);
 		$tplContent->setVariable("IMG_TYPE","icon_perm_b.gif");
@@ -74,7 +73,8 @@ else
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
 }
-if($_GET["message"])
+
+if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
 	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);

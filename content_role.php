@@ -1,16 +1,14 @@
 <?php
 include_once "include/ilias_header.inc";
 
-
 // Template generieren
 $tplContent = new Template("content_role.html",true,true);
 
-$tplContent->setVariable("OBJ_SELF","content_role.php?obj_id=$obj_id&parent=$parent");
-$tplContent->setVariable("OBJ_ID",$obj_id);
-$tplContent->setVariable("TPOS",$parent);
+$tplContent->setVariable("OBJ_SELF","content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tplContent->setVariable("TPOS",$_GET["parent"]);
 
 // display path
-$tree = new Tree($obj_id,1,1);
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a role to edit the template of that role</h5>");
@@ -18,7 +16,6 @@ $tplContent->setVariable("TYPE","role");
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
-$rbacadmin = new RbacAdminH($ilias->db);
 
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
@@ -36,11 +33,11 @@ if (empty($_GET["order"]))
 	$_GET["order"] = "title";
 }
 
-if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
+if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if($role_list = $rbacadmin->getRoleAndTemplateListByObject($obj_id,$_GET["order"],$_GET["direction"]))
+	if ($role_list = $rbacadmin->getRoleAndTemplateListByObject($obj_id,$_GET["order"],$_GET["direction"]))
 	{
-		foreach($role_list as $key => $val)
+		foreach ($role_list as $key => $val)
 		{
 			// color changing
 			if ($key % 2)
@@ -71,13 +68,15 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 }
 else
 {
-	$ilias->raiseError("No permission to read role folder",$ilias->error_class->MESSAGE);
+	$ilias->raiseError("No permission to read role folder",$ilias->error_obj->MESSAGE);
 }
-if($_GET["message"])
+
+if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
 	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
 	$tplContent->parseCurrentBlock();
 }
+
 include_once "include/ilias_footer.inc";
 ?>

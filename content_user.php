@@ -1,16 +1,14 @@
 <?php
 include_once "include/ilias_header.inc";
 
-
 // Template generieren
 $tplContent = new Template("content_user.html",true,true);
 
-$tplContent->setVariable("OBJ_SELF","content_user.php?obj_id=$obj_id&parent=$parent");
-$tplContent->setVariable("OBJ_ID",$obj_id);
-$tplContent->setVariable("TPOS",$parent);
+$tplContent->setVariable("OBJ_SELF","content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tplContent->setVariable("TPOS",$_GET["parent"]);
 
 // display path
-$tree = new Tree($obj_id,1,1);
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a user to edit that user</h5>");
@@ -34,11 +32,12 @@ if (empty($_GET["order"]))
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
-if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
+
+if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if($user_data = getUserList($_GET["order"],$_GET["direction"]) )
+	if ($user_data = getUserList($_GET["order"],$_GET["direction"]) )
 	{
-		foreach($user_data as $key => $val)
+		foreach ($user_data as $key => $val)
 		{
 			// color changing
 			if ($key % 2)
@@ -60,14 +59,16 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("OBJ",$val["obj_id"]);
 			$tplContent->parseCurrentBlock("row");
 		}
+		
 		$tplContent->touchBlock("options");
 	}
 }
 else
 {
-	$ilias->raiseError("No permission to read user folder",$ilias->error_class->MESSAGE);
+	$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
 }
-if($_GET["message"])
+
+if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
 	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
