@@ -516,9 +516,23 @@ class ilObjCourseGUI extends ilObjectGUI
 					$f_result[$counter][]	= $tmp_obj->getLogin();
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLastname();
-					$f_result[$counter][]   = $member_data["role"] == $this->object->members_obj->ROLE_ADMIN 
-						? $this->lng->txt("admin") 
-						: $this->lng->txt("member");
+
+					switch($member_data["role"])
+					{
+						case $this->object->members_obj->ROLE_ADMIN:
+							$role = $this->lng->txt("crs_admin");
+							break;
+
+						case $this->object->members_obj->ROLE_TUTOR:
+							$role = $this->lng->txt("crs_tutor");
+							break;
+
+						case $this->object->members_obj->ROLE_MEMBER:
+							$role = $this->lng->txt("crs_member");
+							break;
+					}
+					$f_result[$counter][]   = $role;
+					
 					switch($member_data["status"])
 					{
 						case $this->object->members_obj->STATUS_NOTIFY:
@@ -585,12 +599,50 @@ class ilObjCourseGUI extends ilObjectGUI
 		$f_result[0][]	= $tmp_obj->getFirstname();
 		$f_result[0][]	= $tmp_obj->getLastname();
 
-		$actions = array($this->object->members_obj->STATUS_UNBLOCKED	=> $this->lng->txt("unblocked"),
-						 $this->object->members_obj->STATUS_BLOCKED	   	=> $this->lng->txt("blocked"),
-						 $this->object->members_obj->STATUS_NOTIFY		=> $this->lng->txt("notify"),
-						 $this->object->members_obj->STATUS_NO_NOTIFY	=> $this->lng->txt("no_notify"));
+		$actions = array(0	=> $this->lng->txt("crs_member_unblocked"),
+						 1 	=> $this->lng->txt("crs_member_blocked"),
+						 2	=> $this->lng->txt("crs_tutor_notify"),
+						 3	=> $this->lng->txt("crs_tutor_no_notify"),
+						 4	=> $this->lng->txt("crs_admin_notify"),
+						 5	=> $this->lng->txt("crs_admin_no_notify"));
 
-		$f_result[0][]	= ilUtil::formSelect($member_data["status"],"role_status",$actions,false,true);
+		// GET SELECTED
+		switch($member_data["role"])
+		{
+			case $this->object->members_obj->ROLE_ADMIN:
+				if($member_data["status"] == $this->object->members_obj->STATUS_NOTIFY)
+				{
+					$selected = 4;
+				}
+				else
+				{
+					$selected = 5;
+				}
+				break;
+
+			case $this->object->members_obj->ROLE_TUTOR:
+				if($member_data["status"] == $this->object->members_obj->STATUS_NOTIFY)
+				{
+					$selected = 2;
+				}
+				else
+				{
+					$selected = 3;
+				}
+				break;
+
+			case $this->object->members_obj->ROLE_MEMBER:
+				if($member_data["status"] == $this->object->members_obj->STATUS_UNBLOCKED)
+				{
+					$selected = 0;
+				}
+				else
+				{
+					$selected = 1;
+				}
+				break;
+		}
+		$f_result[0][]	= ilUtil::formSelect($selected,"role_status",$actions,false,true);
 
 		unset($tmp_obj);
 		
@@ -619,7 +671,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		// UPDATE MEMBER
 		switch((int) $_POST["role_status"])
 		{
-			case $this->object->members_obj->STATUS_UNBLOCKED:
+			case 0:
 				// CHECK IF LIMIT MAX MEMBERS IS REACHED
 				if($this->object->getSubscriptionMaxMembers() and
 				   $this->object->members_obj->getCountMembers() >= $this->object->getSubscriptionMaxMembers())
@@ -629,19 +681,40 @@ class ilObjCourseGUI extends ilObjectGUI
 
 					return false;
 				}
-			case $this->object->members_obj->STATUS_BLOCKED:
+				$status = $this->object->members_obj->STATUS_UNBLOCKED;;
 				$role = $this->object->members_obj->ROLE_MEMBER;
 				break;
 
-			case $this->object->members_obj->STATUS_NOTIFY:
-			case $this->object->members_obj->STATUS_NO_NOTIFY:
+			case 1:
+				$status = $this->object->members_obj->STATUS_BLOCKED;;
+				$role = $this->object->members_obj->ROLE_MEMBER;
+				break;
+
+
+			case 2:
+				$status = $this->object->members_obj->STATUS_NOTIFY;
+				$role = $this->object->members_obj->ROLE_TUTOR;
+				break;
+
+			case 3:
+				$status = $this->object->members_obj->STATUS_NO_NOTIFY;
+				$role = $this->object->members_obj->ROLE_TUTOR;
+				break;
+
+			case 4:
+				$status = $this->object->members_obj->STATUS_NOTIFY;
+				$role = $this->object->members_obj->ROLE_ADMIN;
+				break;
+
+			case 5:
+				$status = $this->object->members_obj->STATUS_NO_NOTIFY;
 				$role = $this->object->members_obj->ROLE_ADMIN;
 				break;
 
 			default:
 				$this->ilias->raiseError($this->lng->txt("no_valid_status_given"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->object->members_obj->update((int) $_GET["member_id"],$role,(int) $_POST["role_status"]);
+		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status);
 
 		sendInfo($this->lng->txt("member_updated"));
 		$this->membersObject();
