@@ -190,7 +190,7 @@ if ($_GET["cmd"] == "save")
 	{
 		change_password();
 	}
-	
+
 	//init checking var
 	$form_valid = true;
 
@@ -209,94 +209,20 @@ if ($_GET["cmd"] == "save")
 	}
 
 	// if check on Institute
-	if (($_POST["chk_institute"])=="on")
+	$val_array = array("institution", "department", "upload", "street",
+		"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
+		"fax", "email", "hobby");
+	foreach ($val_array as $key => $value)
 	{
-		$ilias->account->setPref("public_institution","y");
+		if (($_POST["chk_".$value]) == "on")
+		{
+			$ilias->account->setPref("public_".$value,"y");
+		}
+		else
+		{
+			$ilias->account->setPref("public_".$value,"n");
+		}
 	}
-	else
-	{
-		$ilias->account->setPref("public_institution","n");
-	}
-	//if check on picture upload
-	if (($_POST["chk_upload"])=="on")
-	{
-		$ilias->account->setPref("public_upload","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_upload","n");
-	}
-
-	// if check on Street
-	if (($_POST["chk_street"])=="on")
-	{
-		$ilias->account->setPref("public_street","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_street","n");
-	}
-
-	// if check on Zip Code
-	if (($_POST["chk_zip"])=="on")
-	{
-		$ilias->account->setPref("public_zip","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_zip","n");
-	}
-
-	// if check on City
-	if (($_POST["chk_city"])=="on")
-	{
-		$ilias->account->setPref("public_city","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_city","n");
-	}
-
-	// if check on Country
-	if (($_POST["chk_country"])=="on")
-	{
-		$ilias->account->setPref("public_country","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_country","n");
-	}
-
-	// if check on Phone
-	if (($_POST["chk_phone"])=="on")
-	{
-		$ilias->account->setPref("public_phone","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_phone","n");
-	}
-
-	// if check on Email address
-	if (($_POST["chk_email"])=="on")
-	{
-		$ilias->account->setPref("public_email","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_email","n");
-	}
-
-		// if check on Email address
-	if (($_POST["chk_hobby"])=="on")						// here
-	{
-		$ilias->account->setPref("public_hobby","y");
-	}
-	else
-	{
-		$ilias->account->setPref("public_hobby","n");
-	}
-	// end of testing by ratana ty
 
 	// check required fields
 	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
@@ -322,11 +248,15 @@ if ($_GET["cmd"] == "save")
 	// added for upload by ratana ty
 	//$ilias->account->setFile($_POST["usr_file"]);
 	$ilias->account->setInstitution($_POST["usr_institution"]);
+	$ilias->account->setDepartment($_POST["usr_department"]);
 	$ilias->account->setStreet($_POST["usr_street"]);
 	$ilias->account->setZipcode($_POST["usr_zipcode"]);
 	$ilias->account->setCity($_POST["usr_city"]);
 	$ilias->account->setCountry($_POST["usr_country"]);
-	$ilias->account->setPhone($_POST["usr_phone"]);
+	$ilias->account->setPhoneOffice($_POST["usr_phone_office"]);
+	$ilias->account->setPhoneHome($_POST["usr_phone_home"]);
+	$ilias->account->setPhoneMobile($_POST["usr_phone_mobile"]);
+	$ilias->account->setFax($_POST["usr_fax"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
 	$ilias->account->setHobby($_POST["usr_hobby"]);
 
@@ -354,8 +284,8 @@ if ($_GET["cmd"] == "save")
 				$ilias->account->setLanguage($_POST["usr_language"]);
 				$reload = true;
 		}
-		
-		
+
+
 		// save user data & object_data
 		$ilias->account->setTitle($ilias->account->getFullname());
 		$ilias->account->setDescription($ilias->account->getEmail());
@@ -369,14 +299,14 @@ if ($_GET["cmd"] == "save")
 		//$userObj->setTitle($ilias->account->getFullname());
 		//$userObj->setDescription($ilias->account->getEmail());
 		//$userObj->update();
-		
+
 		//$userObj->setTitle($ilias->account->getFullname());
 		//$userObj->setDescription($ilias->account->getEmail());
 		//$userObj->update();
-		
-		
-		
-		
+
+
+
+
 		// reload page only if skin or style were changed
 		if ($reload)
 		{
@@ -490,11 +420,15 @@ $tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
 $tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
 
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
+$tpl->setVariable("TXT_DEPARTMENT",$lng->txt("department"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
 $tpl->setVariable("TXT_ZIPCODE",$lng->txt("zipcode"));
 $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
-$tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
+$tpl->setVariable("TXT_PHONE_OFFICE",$lng->txt("phone_office"));
+$tpl->setVariable("TXT_PHONE_HOME",$lng->txt("phone_home"));
+$tpl->setVariable("TXT_PHONE_MOBILE",$lng->txt("phone_mobile"));
+$tpl->setVariable("TXT_FAX",$lng->txt("fax"));
 $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 $tpl->setVariable("TXT_HOBBY",$lng->txt("hobby"));					// here
 $tpl->setVariable("TXT_DEFAULT_ROLE",$lng->txt("default_role"));
@@ -525,11 +459,15 @@ $tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 $tpl->setVariable("TITLE", $ilias->account->getUTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
+$tpl->setVariable("DEPARTMENT", $ilias->account->getDepartment());
 $tpl->setVariable("STREET", $ilias->account->getStreet());
 $tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
 $tpl->setVariable("CITY", $ilias->account->getCity());
 $tpl->setVariable("COUNTRY", $ilias->account->getCountry());
-$tpl->setVariable("PHONE", $ilias->account->getPhone());
+$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
+$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
+$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
+$tpl->setVariable("FAX", $ilias->account->getFax());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 $tpl->setVariable("HOBBY", $ilias->account->getHobby());		// here
 
@@ -550,41 +488,15 @@ if($ilias->account->prefs["public_profile"]=="y")
 {
 	$tpl->setVariable("CHK_PUB","checked");
 }
-if($ilias->account->prefs["public_upload"]=="y")
+$val_array = array("institution", "department", "upload", "street",
+	"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
+	"fax", "email", "hobby");
+foreach($val_array as $key => $value)
 {
-	$tpl->setVariable("CHK_UPLOAD","checked");
-}
-if($ilias->account->prefs["public_institution"]=="y")
-{
-	$tpl->setVariable("CHK_INSTITUTE","checked");
-}
-if($ilias->account->prefs["public_street"]=="y")
-{
-	$tpl->setVariable("CHK_STREET","checked");
-}
-if($ilias->account->prefs["public_zip"]=="y")
-{
-	$tpl->setVariable("CHK_ZIP","checked");
-}
-if($ilias->account->prefs["public_city"]=="y")
-{
-	$tpl->setVariable("CHK_CITY","checked");
-}
-if($ilias->account->prefs["public_country"]=="y")
-{
-	$tpl->setVariable("CHK_COUNTRY","checked");
-}
-if($ilias->account->prefs["public_phone"]=="y")
-{
-	$tpl->setVariable("CHK_PHONE","checked");
-}
-if($ilias->account->prefs["public_email"]=="y")
-{
-	$tpl->setVariable("CHK_EMAIL","checked");
-}
-if($ilias->account->prefs["public_hobby"]=="y")			// here
-{
-	$tpl->setVariable("CHK_HOBBY","checked");
+	if ($ilias->account->prefs["public_".$value] == "y")
+	{
+		$tpl->setVariable("CHK_".strtoupper($value), "checked");
+	}
 }
 // End of shwing
 // Testing by ratana ty

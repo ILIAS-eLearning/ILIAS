@@ -52,11 +52,15 @@ class ilObjUser extends ilObject
 	//var $archive_dir = "./image";  // point to image file (should be flexible)
  	// address data
 	var $institution;
+	var $department;
 	var $street;
 	var $city;
 	var $zipcode;
 	var $country;
-	var $phone;
+	var $phone_office;
+	var $phone_home;
+	var $phone_mobile;
+	var $fax;
 	var $email;
 	var $hobby;
 
@@ -219,11 +223,15 @@ class ilObjUser extends ilObject
 
 		// address data
 		$this->setInstitution($a_data["institution"]);
+		$this->setDepartment($a_data["department"]);
 		$this->setStreet($a_data["street"]);
 		$this->setCity($a_data["city"]);
 		$this->setZipcode($a_data["zipcode"]);
 		$this->setCountry($a_data["country"]);
-		$this->setPhone($a_data["phone"]);
+		$this->setPhoneOffice($a_data["phone_office"]);
+		$this->setPhoneHome($a_data["phone_home"]);
+		$this->setPhoneMobile($a_data["phone_mobile"]);
+		$this->setFax($a_data["fax"]);
 		$this->setEmail($a_data["email"]);
 		$this->setHobby($a_data["hobby"]);
 
@@ -242,16 +250,17 @@ class ilObjUser extends ilObject
 	{
 		$q = "INSERT INTO usr_data ".
 			 "(usr_id,login,passwd,firstname,lastname,title,gender,".
-			 "email,hobby,institution,street,city,zipcode,country,".
-			 "phone,last_login,last_update,create_date) ".
+			 "email,hobby,institution,department,street,city,zipcode,country,".
+			 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
 			 "VALUES ".
 			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
 			 "'".$this->firstname."','".$this->lastname."', ".
 			 "'".$this->utitle."','".$this->gender."', ".
 			 "'".$this->email."','".$this->hobby."', ".
-			 "'".$this->institution."','".$this->street."', ".
+			 "'".$this->institution."','".$this->department."','".$this->street."', ".
 			 "'".$this->city."','".$this->zipcode."','".$this->country."', ".
-			 "'".$this->phone."', 0, now(), now())";
+			 "'".$this->phone_office."','".$this->phone_home."',".
+			 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
 
 		$this->ilias->db->query($q);
 	}
@@ -272,11 +281,15 @@ class ilObjUser extends ilObject
 			 "email='".$this->email."', ".
 			 "hobby='".$this->hobby."', ".
 			 "institution='".$this->institution."', ".
+			 "department='".$this->department."', ".
 			 "street='".$this->street."', ".
 			 "city='".$this->city."', ".
 			 "zipcode='".$this->zipcode."', ".
 			 "country='".$this->country."', ".
-			 "phone='".$this->phone."', ".
+			 "phone_office='".$this->phone_office."', ".
+			 "phone_home='".$this->phone_home."', ".
+			 "phone_mobile='".$this->phone_mobile."', ".
+			 "fax='".$this->fax."', ".
 			 "last_update=now() ".
 			 "WHERE usr_id='".$this->id."'";
 
@@ -547,12 +560,12 @@ class ilObjUser extends ilObject
 
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
-		
+
 		// remove mailbox
 		include_once ("classes/class.ilMailbox.php");
 		$mailbox = new IlMailbox($this->getId());
 		$mailbox->delete();
-		
+
 		// remove bookmarks
 		// TODO: move this to class.ilBookmarkFolder
 		$q = "DELETE FROM bookmark_tree WHERE tree='".$this->getId()."'";
@@ -578,7 +591,7 @@ class ilObjUser extends ilObject
 	function setFullname ($a_title = "",$a_firstname = "",$a_lastname = "")
 	{
 		$this->fullname = "";
-		
+
 		if ($a_title)
 		{
 			$fullname = $a_title." ";
@@ -596,7 +609,7 @@ class ilObjUser extends ilObject
 		{
 			$this->fullname .= $this->firstname." ";
 		}
-		
+
 		if ($a_lastname)
 		{
 			return $fullname.$a_lastname;
@@ -857,6 +870,25 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* set department
+	* @access	public
+	* @param	string	department
+	*/
+	function setDepartment($a_str)
+	{
+		$this->department = $a_str;
+	}
+
+	/**
+	* get department
+	* @access	public
+	*/
+	function getDepartment()
+	{
+		return $this->department;
+	}
+
+	/**
 	* set street
 	* @access	public
 	* @param	string	street
@@ -933,22 +965,79 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* set phone
+	* set office phone
 	* @access	public
-	* @param	string	phone
+	* @param	string	office phone
 	*/
-	function setPhone($a_str)
+	function setPhoneOffice($a_str)
 	{
-		$this->phone = $a_str;
+		$this->phone_office = $a_str;
 	}
 
 	/**
-	* get phone
+	* get office phone
 	* @access	public
 	*/
-	function getPhone()
+	function getPhoneOffice()
 	{
-		return $this->phone;
+		return $this->phone_office;
+	}
+
+	/**
+	* set home phone
+	* @access	public
+	* @param	string	home phone
+	*/
+	function setPhoneHome($a_str)
+	{
+		$this->phone_home = $a_str;
+	}
+
+	/**
+	* get home phone
+	* @access	public
+	*/
+	function getPhoneHome()
+	{
+		return $this->phone_home;
+	}
+
+	/**
+	* set mobile phone
+	* @access	public
+	* @param	string	mobile phone
+	*/
+	function setPhoneMobile($a_str)
+	{
+		$this->phone_mobile = $a_str;
+	}
+
+	/**
+	* get mobile phone
+	* @access	public
+	*/
+	function getPhoneMobile()
+	{
+		return $this->phone_mobile;
+	}
+
+	/**
+	* set fax
+	* @access	public
+	* @param	string	fax
+	*/
+	function setFax($a_str)
+	{
+		$this->fax = $a_str;
+	}
+
+	/**
+	* get fax
+	* @access	public
+	*/
+	function getFax()
+	{
+		return $this->fax;
 	}
 
 	/**

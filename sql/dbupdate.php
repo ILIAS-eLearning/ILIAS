@@ -315,7 +315,7 @@ CREATE TABLE exc_members
 	sent TINYINT(1) NULL,
 	PRIMARY KEY(obj_id,usr_id)
 	);
-	
+
 <#40>
 INSERT INTO rbac_templates VALUES(81,"frm",4,8);
 INSERT INTO rbac_templates VALUES(80,"frm",9,8);
@@ -359,7 +359,7 @@ $this->db->query($query);
 // fetch type id
 $query = "SELECT LAST_INSERT_ID()";
 $res = $this->db->query($query);
-$row = $res->fetchRow(); 
+$row = $res->fetchRow();
 $typ_id = $row[0];
 
 // ADD OPERATION assignment to ldap object definition
@@ -380,7 +380,7 @@ $this->db->query($query);
 // fetch obj id
 $query = "SELECT LAST_INSERT_ID()";
 $res = $this->db->query($query);
-$row = $res->fetchRow(); 
+$row = $res->fetchRow();
 $obj_id = $row[0];
 
 // CREATE OBJECT REFERENCE ENTRY for ldap object
@@ -390,7 +390,7 @@ $this->db->query($query);
 // fetch ref id
 $query = "SELECT LAST_INSERT_ID()";
 $res = $this->db->query($query);
-$row = $res->fetchRow(); 
+$row = $res->fetchRow();
 $ref_id = $row[0];
 
 // INSERT LDAP OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
@@ -431,3 +431,10 @@ INSERT INTO settings (keyword, value) VALUES ('anonymous_role_id','14');
 <#48>
 ALTER TABLE grp_data ADD COLUMN password VARCHAR(255) DEFAULT NULL;
 ALTER TABLE grp_data ADD COLUMN expiration DATETIME DEFAULT '0000-00-00 00:00:00';
+
+<#49>
+ALTER TABLE usr_data ADD COLUMN department VARCHAR(80) NOT NULL DEFAULT '';
+ALTER TABLE usr_data CHANGE phone phone_office VARCHAR(40) NOT NULL DEFAULT '';
+ALTER TABLE usr_data ADD COLUMN phone_home VARCHAR(40) NOT NULL DEFAULT '';
+ALTER TABLE usr_data ADD COLUMN phone_mobile VARCHAR(40) NOT NULL DEFAULT '';
+ALTER TABLE usr_data ADD COLUMN fax VARCHAR(40) NOT NULL DEFAULT '';

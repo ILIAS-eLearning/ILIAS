@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.52 2003/10/27 16:46:39 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.53 2003/10/27 17:50:21 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,7 +69,7 @@ class ilObjUserGUI extends ilObjectGUI
 		global $rbacsystem,$rbacreview;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
 		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -99,11 +99,15 @@ class ilObjUserGUI extends ilObjectGUI
 			$data["fields"]["firstname"] = "";
 			$data["fields"]["lastname"] = "";
 			$data["fields"]["institution"] = "";
+			$data["fields"]["department"] = "";
 			$data["fields"]["street"] = "";
 			$data["fields"]["city"] = "";
 			$data["fields"]["zipcode"] = "";
 			$data["fields"]["country"] = "";
-			$data["fields"]["phone"] = "";
+			$data["fields"]["phone_office"] = "";
+			$data["fields"]["phone_home"] = "";
+			$data["fields"]["phone_mobile"] = "";
+			$data["fields"]["fax"] = "";
 			$data["fields"]["email"] = "";
 			$data["fields"]["hobby"] = "";
 			$data["fields"]["default_role"] = $role;
@@ -120,7 +124,7 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			
+
 			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -140,14 +144,18 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("LASTNAME",$_SESSION["error_post_vars"]["Fobject"]["lastname"]);
 			$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
 			$this->tpl->setVariable("INSTITUTION",$_SESSION["error_post_vars"]["Fobject"]["institution"]);
+			$this->tpl->setVariable("DEPARTMENT",$_SESSION["error_post_vars"]["Fobject"]["department"]);
 			$this->tpl->setVariable("STREET",$_SESSION["error_post_vars"]["Fobject"]["street"]);
 			$this->tpl->setVariable("CITY",$_SESSION["error_post_vars"]["Fobject"]["city"]);
 			$this->tpl->setVariable("ZIPCODE",$_SESSION["error_post_vars"]["Fobject"]["zipcode"]);
 			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
-			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
+			$this->tpl->setVariable("PHONE_OFFICE",$_SESSION["error_post_vars"]["Fobject"]["phone_office"]);
+			$this->tpl->setVariable("PHONE_HOME",$_SESSION["error_post_vars"]["Fobject"]["phone_home"]);
+			$this->tpl->setVariable("PHONE_MOBILE",$_SESSION["error_post_vars"]["Fobject"]["phone_mobile"]);
+			$this->tpl->setVariable("FAX",$_SESSION["error_post_vars"]["Fobject"]["fax"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
 			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
-			
+
 			// gender selection
 			if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
 			{
@@ -162,18 +170,18 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// language selection
 			$languages = $this->lng->getInstalledLanguages();
-	
+
 			foreach ($languages as $lang_key)
 			{
 				$this->tpl->setCurrentBlock("language_selection");
 				$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
 				$this->tpl->setVariable("LANGSHORT", $lang_key);
-	
+
 				if ($this->ilias->getSetting("language") == $lang_key)
 				{
 					$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 				}
-	
+
 				$this->tpl->parseCurrentBlock();
 			} // END language selection
 		}
@@ -182,7 +190,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	/**
 	* display user edit form
-	* 
+	*
 	* @access	public
 	*/
 	function editObject()
@@ -207,11 +215,15 @@ class ilObjUserGUI extends ilObjectGUI
 			$data["fields"]["firstname"] = $this->object->getFirstname();
 			$data["fields"]["lastname"] = $this->object->getLastname();
 			$data["fields"]["institution"] = $this->object->getInstitution();
+			$data["fields"]["department"] = $this->object->getDepartment();
 			$data["fields"]["street"] = $this->object->getStreet();
 			$data["fields"]["city"] = $this->object->getCity();
 			$data["fields"]["zipcode"] = $this->object->getZipcode();
 			$data["fields"]["country"] = $this->object->getCountry();
-			$data["fields"]["phone"] = $this->object->getPhone();
+			$data["fields"]["phone_office"] = $this->object->getPhoneOffice();
+			$data["fields"]["phone_home"] = $this->object->getPhoneHome();
+			$data["fields"]["phone_mobile"] = $this->object->getPhoneMobile();
+			$data["fields"]["fax"] = $this->object->getFax();
 			$data["fields"]["email"] = $this->object->getEmail();
 			$data["fields"]["hobby"] = $this->object->getHobby();
 
@@ -227,7 +239,7 @@ class ilObjUserGUI extends ilObjectGUI
 				preg_match("/RoleId.*?;\}/",$user_online[$this->object->getId()]["data"],$matches);
 
 				$active_roles = unserialize(substr($matches[0],7));
-				
+
 				// gather data for active roles
 				$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
@@ -237,10 +249,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 					// fetch context path of role
 					$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
-			
-					$path = "";		
-					
-					$tmpPath = $this->tree->getPathFull($rolf[0]);		
+
+					$path = "";
+
+					$tmpPath = $this->tree->getPathFull($rolf[0]);
 
 					// count -1, to exclude the role folder itself
 					for ($i = 0; $i < (count($tmpPath)-1); $i++)
@@ -250,8 +262,8 @@ class ilObjUserGUI extends ilObjectGUI
 							$path .= " > ";
 						}
 
-						$path .= $tmpPath[$i]["title"];						
-					}					
+						$path .= $tmpPath[$i]["title"];
+					}
 
 					if (in_array($role,$active_roles))
 					{
@@ -260,7 +272,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 					$data["active_role"][$role]["title"] = $roleObj->getTitle();
 					$data["active_role"][$role]["context"] = $path;
-								
+
 					unset($roleObj);
 				}
 			}
@@ -288,7 +300,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
-		
+
 		// gender selection
 		if ($data["fields"]["gender"] == "f")
 		{
@@ -328,12 +340,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
-		
+
 		if ($user_is_online)
 		{
 			// BEGIN TABLE ROLES
 			$this->tpl->setCurrentBlock("TABLE_ROLES");
-		
+
 			$counter = 0;
 
 			foreach ($data["active_role"] as $role_id => $role)
@@ -371,7 +383,7 @@ class ilObjUserGUI extends ilObjectGUI
 		global $rbacsystem,$rbacadmin;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
 		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"],$new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_user"),$this->ilias->error_obj->WARNING);
@@ -422,7 +434,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		//insert user data in table user_data
 		$userObj->saveAsNew();
-		
+
 		// setup user preferences
 		$userObj->setLanguage($_POST["usr_language"]);
 		$userObj->writePrefs();
@@ -554,11 +566,15 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
 					$this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
 					$this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
+					$this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
 					$this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
 					$this->lng->txt("city").": ".$this->object->getCity()."\n\r".
 					$this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
 					$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
-					$this->lng->txt("phone").": ".$this->object->getPhone()."\n\r".
+					$this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
+					$this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
+					$this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
+					$this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
 					$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
 					$this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
 					$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
@@ -589,7 +605,7 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* updates actives roles of user in session
 	* DEPRECATED
-	* 
+	*
 	* @access	public
 	*/
 	function activeRoleSaveObject()
@@ -598,7 +614,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_min_one_active_role"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		if ($this->object->getId() == $_SESSION["AccountId"])
 		{
 			$_SESSION["RoleId"] = $_POST["id"];
@@ -608,12 +624,12 @@ class ilObjUserGUI extends ilObjectGUI
 			if (count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 			{
 				//var_dump("<pre>",$user_online,$_POST["id"],"</pre>");exit;
-				
+
 				$roles = "RoleId|".serialize($_POST["id"]);
 				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$this->object->getId()]["data"]);
-			
+
 				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
-				$this->ilias->db->query($q);			
+				$this->ilias->db->query($q);
 			}
 			else
 			{
@@ -641,17 +657,17 @@ class ilObjUserGUI extends ilObjectGUI
 		else
 		{
 			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-			
+
 			$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
 			$assigned_roles = array_intersect($assigned_roles_all,$_SESSION["role_list"]);
-			
+
 			//var_dump("<pre>",$_POST["id"],$assigned_roles_all,$_SESSION["role_list"],$assigned_roles,"</pre>");exit;
-			
+
 			if (empty($_POST["id"]) and (count($assigned_roles_all) == count($assigned_roles)))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 			}
-			
+
 			foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
 			{
 				$rbacadmin->deassignUser($role,$this->object->getId());
@@ -661,13 +677,13 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$rbacadmin->assignUser($role,$this->object->getId(),false);
 			}
-				
+
 			$online_users = ilUtil::getUsersOnline();
-			
+
 			if (in_array($this->object->getId(),array_keys($online_users)))
 			{
-				$role_arr = $rbacreview->assignedRoles($this->object->getId());	
-				
+				$role_arr = $rbacreview->assignedRoles($this->object->getId());
+
 				if ($_SESSION["AccountId"] == $this->object->getId())
 				{
 					$_SESSION["RoleId"] = $role_arr;
@@ -676,7 +692,7 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 					$roles = "RoleId|".serialize($role_arr);
 					$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users[$this->object->getId()]["data"]);
-			
+
 					$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
 					$this->ilias->db->query($q);
 				}
@@ -684,25 +700,25 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// update object data entry (to update last modification date)
-		$this->object->update();		
+		$this->object->update();
 
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
-		
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 		exit();
 	}
 
 	/**
 	* display roleassignment panel
-	* 
+	*
 	* @access	public
 	*/
 	function roleassignmentObject ()
 	{
 		global $rbacreview;
-		
+
 		$obj_str = "&obj_id=".$this->obj_id;
-				
+
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
@@ -717,14 +733,14 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
-			
+
 			// only list roles that are not deleted
 			if (!$rbacreview->isDeleted($rolf[0]))
 			{
 				$path = "";
-						
-				$tmpPath = $this->tree->getPathFull($rolf[0]);		
-	
+
+				$tmpPath = $this->tree->getPathFull($rolf[0]);
+
 				// count -1, to exclude the role folder itself
 				for ($i = 1; $i < (count($tmpPath)-1); $i++)
 				{
@@ -732,9 +748,9 @@ class ilObjUserGUI extends ilObjectGUI
 					{
 						$path .= " > ";
 					}
-	
-					$path .= $tmpPath[$i]["title"];						
-				}	
+
+					$path .= $tmpPath[$i]["title"];
+				}
 //visible data part
 				$this->data["data"][] = array(
 							"type"			=> $val["type"],
@@ -753,8 +769,8 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($_GET["sort_by"] == "title")
 		{
 			$_GET["sort_by"] = "role";
-		}		
-		
+		}
+
 		// sorting array
 		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
@@ -781,8 +797,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// remember filtered users
-		$_SESSION["role_list"] = $tmp;		
-	
+		$_SESSION["role_list"] = $tmp;
+
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		// load template for table content data
@@ -800,14 +816,14 @@ class ilObjUserGUI extends ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		
+
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
 		}
-		
+
 		$tbl->setHeaderNames($header_names);
-		
+
 		$header_params = array(
 								"ref_id"	=> $this->ref_id,
 								"obj_id"	=> $this->obj_id,
@@ -824,7 +840,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 
 		// display action button
 		$this->tpl->setCurrentBlock("tbl_action_btn");
@@ -834,7 +850,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// display arrow
 		$this->tpl->touchBlock("tbl_action_row");
-	
+
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
@@ -854,13 +870,13 @@ class ilObjUserGUI extends ilObjectGUI
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
 				($ctrl["assigned"]) ? $checked = "checked=\"checked\"" : $checked = "";
-				
+
 				$this->tpl->setCurrentBlock("checkbox");
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
 				$this->tpl->setVariable("CHECKED", $checked);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
-	
+
 
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -883,10 +899,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 					if ($key == "type")
 					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
@@ -900,7 +916,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		} //if is_array
 	}
-	
+
 	/**
 	* display public profile
 	*
@@ -917,7 +933,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// Get name of picture of user
 		// TODO: the user is already the current user object !!
 		$userObj = new ilObjUser($_GET["user"]);
-		
+
 		$this->tpl->setVariable("USR_PROFILE", $this->lng->txt("userdata")." ".strtolower($this->lng->txt("of")." ".$this->object->getLogin()));
 
 		$this->tpl->setVariable("ROWCOL1", "tblrow1");
@@ -952,106 +968,24 @@ class ilObjUserGUI extends ilObjectGUI
 			// Todo: point to anonymous picture
 		}
 
-		// Check from Database if value
-		// "y" show institute information
-		$this->tpl->setVariable("TXT_INSTITUTE",$this->lng->txt("institution"));
+		$val_arr = array("getInstitution" => "institution", "getStreet" => "street",
+			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
+			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
+			"getPhoneMobile" => "phone_mobile", "getEmail" => "email",
+			"getHobby" => "hobby");
 
-		if ($userObj->getPref(public_institution)=="y")
+		foreach($val_arr as $key => $value)
 		{
-			$this->tpl->setVariable("INSTITUTE",$userObj->getInstitution());
-		}
-		else
-		{
-			$this->tpl->setVariable("INSTITUTE","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show institute information
-		$this->tpl->setVariable("TXT_STREET",$this->lng->txt("street"));
-
-		if ($userObj->getPref(public_street)=="y")
-		{
-			$this->tpl->setVariable("STREET",$userObj->getStreet());
-		}
-		else
-		{
-			$this->tpl->setVariable("STREET","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show zip code information
-		$this->tpl->setVariable("TXT_ZIPCODE",$this->lng->txt("zipcode"));
-
-		if ($userObj->getPref(public_zip)=="y")
-		{
-			$this->tpl->setVariable("ZIPCODE",$userObj->getZipcode());
-		}
-		else
-		{
-			$this->tpl->setVariable("ZIPCODE","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show city information
-		$this->tpl->setVariable("TXT_CITY",$this->lng->txt("city"));
-
-		if ($userObj->getPref(public_city)=="y")
-		{
-			$this->tpl->setVariable("CITY",$userObj->getCity());
-		}
-		else
-		{
-			$this->tpl->setVariable("CITY","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show country information
-		$this->tpl->setVariable("TXT_COUNTRY",$this->lng->txt("country"));
-
-		if ($userObj->getPref(public_country)=="y")
-		{
-			$this->tpl->setVariable("COUNTRY",$userObj->getCountry());
-		}
-		else
-		{
-			$this->tpl->setVariable("COUNTRY","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show phone information
-		$this->tpl->setVariable("TXT_PHONE",$this->lng->txt("phone"));
-
-		if ($userObj->getPref(public_phone)=="y")
-		{
-			$this->tpl->setVariable("PHONE",$userObj->getPhone());
-		}
-		else
-		{
-			$this->tpl->setVariable("PHONE","N / A");
-		}
-
-		// Check from Database if value
-		// "y" show email information
-		$this->tpl->setVariable("TXT_EMAIL",$this->lng->txt("email"));
-
-		if ($userObj->getPref(public_email)=="y")
-		{
-			$this->tpl->setVariable("EMAIL",$userObj->getEmail());
-		}
-		else
-		{
-			$this->tpl->setVariable("EMAIL","N / A");
-		}
-
-		$this->tpl->setVariable("TXT_HOBBY",$this->lng->txt("hobby"));
-
-		if ($userObj->getPref(public_hobby)=="y")
-		{
-			$this->tpl->setVariable("HOBBY",$userObj->getHobby());
-		}
-		else
-		{
-			$this->tpl->setVariable("HOBBY","N / A");
+			// if value "y" show information
+			$this->tpl->setVariable("TXT_".strtoupper($value),$this->lng->txt($value));
+			if ($userObj->getPref("public_".$value) == "y")
+			{
+				$this->tpl->setVariable(strtoupper($value), $userObj->$key());
+			}
+			else
+			{
+				$this->tpl->setVariable(strtoupper($value), "N / A");
+			}
 		}
 
 		$this->tpl->parseCurrentBlock($a_template_block_name);
