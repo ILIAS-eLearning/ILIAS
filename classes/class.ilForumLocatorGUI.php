@@ -21,16 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* Content Object Locator GUI
-*
+* Class ilForumLocatorGUI
+* core export functions for forum
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @package ilias-forum
 */
-class ilContObjLocatorGUI
+class ilForumLocatorGUI
 {
 	var $mode;
 	var $temp_var;
@@ -38,13 +39,16 @@ class ilContObjLocatorGUI
 	var $obj;
 	var $lng;
 	var $tpl;
+	var $frm;
+	var $thread_id;
+	var $thread_subject;
+	var $show_user;
 
-
-	function ilContObjLocatorGUI($a_tree)
+	function ilForumLocatorGUI()
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $tree;
 
-		$this->tree =& $a_tree;
+		$this->tree =& $tree;
 		$this->mode = "std";
 		$this->temp_var = "LOCATOR";
 		$this->lng =& $lng;
@@ -52,19 +56,31 @@ class ilContObjLocatorGUI
 		$this->show_user = false;
 	}
 
+
 	function setTemplateVariable($a_temp_var)
 	{
 		$this->temp_var = $a_temp_var;
 	}
 
-	function setObject($a_obj)
+	function setRefId($a_ref_id)
 	{
-		$this->obj =& $a_obj;
+		$this->ref_id = $a_ref_id;
 	}
 
-	function setContentObject($a_cont_obj)
+	function setThread($a_id, $a_subject)
 	{
-		$this->cont_obj =& $a_cont_obj;
+		$this->thread_id = $a_id;
+		$this->thread_subject = $a_subject;
+	}
+
+	function setForum(&$a_frm)
+	{
+		$this->frm =& $a_frm;
+	}
+
+	function showUser($a_show)
+	{
+		$this->show_user = $a_show;
 	}
 
 	/**
@@ -76,51 +92,73 @@ class ilContObjLocatorGUI
 
 		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html");
 
-		if (is_object($this->obj) && $this->tree->isInTree($this->obj->getId()))
-		{
-			$path = $this->tree->getPathFull($this->obj->getId());
-		}
-		else
-		{
-			$path = $this->tree->getPathFull($this->tree->getRootId());
-			if (is_object($this->obj))
-			{
-				$path[] = array("child" => $this->obj->getId(), "title" => $this->obj->getTitle());
-			}
-		}
+		$path = $this->tree->getPathFull($this->ref_id);
 
 		$modifier = 1;
 
 		foreach ($path as $key => $row)
 		{
-			if ($key < count($path)-$modifier)
+			if ($this->ref_id == $row["child"] && is_object($this->frm))
+			{
+				if (!is_array($topicData = $this->frm->getOneTopic()))
+				{
+					continue;
+				}
+			}
+
+			if (($key < count($path)-$modifier) || (!empty($this->thread_id))
+				|| $this->show_user)
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
 
 			$this->tpl->setCurrentBlock("locator_item");
-			if ($row["child"] == 1)
+			if ($row["child"] == $this->tree->getRootId())
 			{
-				$title = $this->cont_obj->getTitle();
-				$cmd = "properties";
+				$title = $this->lng->txt("repository");
+				$link = "repository.php?ref_id=".$row["child"];
+			}
+			else if (($this->ref_id == $row["child"]) && (is_object($this->frm)))
+			{
+				$title = $row["title"];
+				$link = "forums_threads_liste.php?ref_id=".$row["child"];
 			}
 			else
 			{
 				$title = $row["title"];
-				$cmd = "view";
+				$link = "repository.php?ref_id=".$row["child"];
 			}
 			$this->tpl->setVariable("ITEM", $title);
-			$obj_str = ($row["child"] == 1)
-				? ""
-				: "&obj_id=".$row["child"];
-			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=$cmd&ref_id=".
-				$this->cont_obj->getRefId().$obj_str);
+			$this->tpl->setVariable("LINK_ITEM", $link);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if (!empty($this->thread_id))
+		{
+			if ($this->show_user)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->thread_subject);
+			$this->tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".
+				$this->thread_id."&ref_id=".$this->ref_id);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($this->show_user)
+		{
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $lng->txt("userdata"));
+			$this->tpl->setVariable("LINK_ITEM", "");
+			$this->tpl->setVariable("LINK_TARGET","target=\"bottom\"");
 			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setCurrentBlock("locator");
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
 
-}
-?>
+
+} // END class ilForumLocatorGUI

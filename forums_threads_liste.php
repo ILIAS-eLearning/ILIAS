@@ -64,31 +64,25 @@ if (isset($_POST["cmd"]["submit"]))
 		require_once "forums_export.php";		
 		
 		unset($topicData);
-		
+
 	}
-	
+
 }
 // end: form operations
 
 // ********************************************************************************
 // build location-links
-$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
-$tpl->touchBlock("locator_separator");
-$tpl->setCurrentBlock("locator_item");
-$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$_GET["ref_id"]);
-$tpl->parseCurrentBlock();
+
+require_once("classes/class.ilForumLocatorGUI.php");
+$frm_loc =& new ilForumLocatorGUI();
+$frm_loc->setRefId($_GET["ref_id"]);
+$frm_loc->setForum($frm);
+$frm_loc->display();
 
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
 if (is_array($topicData = $frm->getOneTopic()))
 {
-	
-	$tpl->setCurrentBlock("locator_item");
-	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
-	$tpl->parseCurrentBlock();
-
 	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");

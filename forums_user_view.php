@@ -35,14 +35,43 @@ require_once "classes/class.ilForum.php";
 
 $lng->loadLanguageModule("forum");
 
-$frm = new ilForum();
+$ref_obj =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+if($ref_obj->getType() == "frm")
+{
+	$forumObj = new ilObjForum($_GET["ref_id"]);
+	$frm =& $forumObj->Forum;
+	$frm->setForumId($forumObj->getId());
+	$frm->setForumRefId($forumObj->getRefId());
+}
+else
+{
+	$frm =& new ilForum();
+}
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-// set locator 
+// locator
+require_once("classes/class.ilForumLocatorGUI.php");
+$frm_loc =& new ilForumLocatorGUI();
+$frm_loc->setRefId($_GET["ref_id"]);
+if ($ref_obj->getType() == "frm")
+{
+	$frm_loc->setForum($frm);
+}
+if (!empty($_GET["thr_pk"]))
+{
+	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+	$threadData = $frm->getOneThread();
+	$frm_loc->setThread($_GET["thr_pk"], $threadData["thr_subject"]);
+}
+$frm_loc->showUser(true);
+$frm_loc->display();
+
+// set locator
+/*
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
@@ -54,7 +83,7 @@ $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("userdata"));
 $tpl->setVariable("LINK_ITEM", "");
 $tpl->setVariable("LINK_TARGET","target=\"bottom\"");
-$tpl->parseCurrentBlock();
+$tpl->parseCurrentBlock();*/
 
 require_once ("classes/class.ilObjUserGUI.php");
 
