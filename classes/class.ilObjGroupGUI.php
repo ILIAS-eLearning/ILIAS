@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.60 2003/12/09 14:03:20 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.61 2003/12/16 14:21:29 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -137,6 +137,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
+		$this->tpl->setVariable("TXT_EXPIRATIONTIME", $this->lng->txt("group_registration_expiration_time"));
 		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
 		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
 

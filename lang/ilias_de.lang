@@ -376,8 +376,8 @@ common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
 common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
 common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
-common#:#group_registration_expiration_date#:#Anmeldedatum
-common#:#group_registration_expiration_time#:#Anmeldeuhrzeit
+common#:#group_registration_expiration_date#:#Ablaufdatum
+common#:#group_registration_expiration_time#:#Ablaufzeit
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
 common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
