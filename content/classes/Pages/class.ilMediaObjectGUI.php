@@ -1502,11 +1502,12 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$_SESSION["il_map_edit_hier_id"] = $_GET["hier_id"];
 		}
 
+		/*
 		if($_GET["coords"] != "")
 		{
 //echo "setcoords:".$_GET["coords"].":";
 			$_SESSION["il_map_edit_coords"] = $_GET["coords"];
-		}
+		}*/
 	}
 
 
@@ -1519,7 +1520,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
 		$_GET["hier_id"] = $_SESSION["il_map_edit_hier_id"];
 		$_GET["areatype"] = $_SESSION["il_map_edit_area_type"];
-		$_GET["coords"] = $_SESSION["il_map_edit_coords"];
+		//$_GET["coords"] = $_SESSION["il_map_edit_coords"];
 	}
 
 	function clearParameters()

@@ -38,18 +38,18 @@ require_once "./content/classes/Pages/class.ilMediaObjectGUI.php";
 // recover parameter
 ilMediaObjectGUI::_recoverParameters();
 
-if ($_GET["coords"] != "")
+if ($_SESSION["il_map_edit_coords"] != "")
 {
-	$_GET["coords"] .= ",";
+	$_SESSION["il_map_edit_coords"] .= ",";
 }
 $pos = strpos($QUERY_STRING, "?");
 if ($pos > 0)
 {
-	$_GET["coords"] .= substr($QUERY_STRING, $pos + 1, strlen($QUERY_STRING) - $pos);
+	$_SESSION["il_map_edit_coords"] .= substr($QUERY_STRING, $pos + 1, strlen($QUERY_STRING) - $pos);
 }
 else
 {
-	$_GET["coords"] .= $QUERY_STRING;
+	$_SESSION["il_map_edit_coords"] .= $QUERY_STRING;
 }
 
 
@@ -58,13 +58,13 @@ if ($_SESSION["il_map_edit_mode"] != "edit_shape")
 {
 	ilUtil::redirect("lm_edit.php?ref_id=".$_GET["ref_id"].
 		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-		"&cmd=addArea&coords=".$_GET["coords"]);
+		"&cmd=addArea");
 }
 else
 {
 	ilUtil::redirect("lm_edit.php?ref_id=".$_GET["ref_id"].
 		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-		"&cmd=setShape&coords=".$_GET["coords"]);
+		"&cmd=setShape");
 }
 
 ?>
