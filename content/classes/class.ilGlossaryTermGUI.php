@@ -141,7 +141,7 @@ class ilGlossaryTermGUI
 	{
 		$term =& new ilGlossaryTerm();
 		$term->setGlossary($this->glossary);
-		$term->setTerm($_POST["term"]);
+		$term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$term->setLanguage($_POST["term_language"]);
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
 		$term->create();
@@ -184,7 +184,7 @@ class ilGlossaryTermGUI
 	*/
 	function updateTerm()
 	{
-		$this->term->setTerm($_POST["term"]);
+		$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$this->term->setLanguage($_POST["term_language"]);
 		$this->term->update();
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
@@ -473,8 +473,8 @@ class ilGlossaryTermGUI
 		//$meta_data =& $meta_gui->create();
 		$def =& new ilGlossaryDefinition();
 		$def->setTermId($_GET["term_id"]);
-		$def->setTitle($_POST["Fobject"]["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
-		$def->setDescription($_POST["Fobject"]["desc"]);	// set by meta_gui->save
+		$def->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
+		$def->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));	// set by meta_gui->save
 		$def->create();
 
 		$this->ctrl->redirect($this, "listDefinitions");
