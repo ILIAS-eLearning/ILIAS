@@ -643,3 +643,11 @@ while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 INSERT INTO bookmark_data (obj_id, user_id, title, target, type)
 VALUES (1, 0, 'dummy', '', 'dum');
+
+<#26>
+DROP TABLE IF EXISTS grp_data;
+CREATE TABLE grp_data (
+	grp_id int(11) NOT NULL,
+	status int(11),
+	PRIMARY KEY(grp_id)
+) TYPE=MyISAM;
