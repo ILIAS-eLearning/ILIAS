@@ -204,7 +204,7 @@ class ilPageContentGUI
 		else
 		{
 			ilLMPageObject::splitPage($this->pg_obj->getId(),
-				$this->pg_obj->getParentType(),);
+				$this->pg_obj->getParentType(), $this->hier_id);
 		}
 	}
 
