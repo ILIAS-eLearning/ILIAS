@@ -240,6 +240,7 @@ class SurveyNominalQuestionGUI {
 				$this->tpl->setCurrentBlock("nominal_row_sr");
 				$this->tpl->setVariable("TEXT_NOMINAL", $category);
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -247,6 +248,7 @@ class SurveyNominalQuestionGUI {
 				$this->tpl->setCurrentBlock("nominal_row_mr");
 				$this->tpl->setVariable("TEXT_NOMINAL", $category);
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 				$this->tpl->parseCurrentBlock();
 			}
 		}
