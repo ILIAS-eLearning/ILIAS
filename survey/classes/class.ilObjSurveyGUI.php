@@ -120,12 +120,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		$returnlocation = "survey.php";
-		if (!defined("ILIAS_MODULE"))
-		{
-			$returnlocation = "adm_object.php";
-		}
-		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getTargetScript()."?".$this->link_params));
 		exit();
 	}
 
@@ -141,7 +136,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 	
 /**
@@ -2011,6 +2006,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$_SESSION["calling_survey"] = $this->object->getRefId();
+		unset($_SESSION["survey_id"]);
     $add_parameter = $this->getAddParameter();
 
 		if ($_GET["editheading"])
@@ -4236,7 +4232,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
 
-		function saveMetaObject()
+	function saveMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -4247,7 +4243,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
 			$this->object->update();
 		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=editMeta");
 	}
 
 	// called by administration
@@ -4515,6 +4511,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
+		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
+		{
+			sendInfo($this->lng->txt("svy_select_file_for_import"));
+			$this->importObject();
+			return;
+		}
 		include_once("./survey/classes/class.ilObjSurvey.php");
 		$newObj = new ilObjSurvey();
 		$newObj->setType($_GET["new_type"]);
@@ -4543,7 +4545,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$newObj->saveToDb();
 		if ($redirect)
 		{
-			ilUtil::redirect("adm_object.php?".$this->link_params);
+			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
 	}
 
@@ -4648,7 +4650,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		require_once "./survey/classes/class.ilObjSurvey.php";
 		ilObjSurvey::_clone($_POST["svy"]);
-		$this->ctrl->redirect($this, "post");
+		ilUtil::redirect($this->getReturnLocation("cloneAll",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 	
 	/**
@@ -4669,7 +4671,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadObject(false);
-		$this->ctrl->redirect($this, "post");
+		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 
 	/**
