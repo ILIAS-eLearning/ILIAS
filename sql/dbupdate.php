@@ -982,7 +982,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <#44>
 # adding group tree table
 DROP TABLE IF EXISTS grp_tree;
-ALTER TABLE usr_data ADD COLUMN hobby TEXT DEFAULT '';
 
 CREATE TABLE grp_tree (
   tree int(11) NOT NULL default '0',
@@ -1124,3 +1123,27 @@ CREATE TABLE mob_parameter
 	value text,
 	INDEX (mob_id)
 );
+
+<#48>
+<?php
+global $mySetup;
+
+$db_name = $mySetup->getDbName();
+$fields = mysql_list_fields($db_name, "usr_data");
+$numfields = mysql_num_fields($fields);
+$got_hobby = false;
+for($i=0; $i < $numfields; $i++)
+{
+	$fname = mysql_field_name($fields, $i);
+	if ($fname == "hobby")
+	{
+		$got_hobby = true;
+	}
+}
+if(!$got_hobby)
+{
+	$q = "ALTER TABLE usr_data ADD COLUMN hobby TEXT NOT NULL DEFAULT ''";
+	$this->db->query($q);
+}
+
+?>

@@ -264,6 +264,15 @@ class ilSetup
 	}
 
 	/**
+	* get name of database
+	* @return		string		name of database
+	*/
+	function getDbName()
+	{
+		return $this->dbName;
+	}
+
+	/**
 	* set the user
 	* @param	string
 	*/
