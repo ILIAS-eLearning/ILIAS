@@ -371,11 +371,11 @@ class ilTree
 	    $subtree = array();
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin(). // TODO: i think this will not work
-			 "WHERE ".$this->table_obj_data.".".$this->obj_pk." = ".$this->table_tree.".child ".
-			 "AND ".$this->table_tree.".lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+			 $this->buildJoin().
+			 "WHERE ".$this->table_tree.".lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
 			 "AND ".$this->table_tree.".tree = '".$this->tree_id."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
+
 		$r = $this->ilias->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
