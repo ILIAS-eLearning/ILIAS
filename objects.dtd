@@ -2,8 +2,8 @@
 
 <!ELEMENT objects (object*)>
 <!ATTLIST objects
-	xmlns #PCDATA #REQUIRED
-	version #PCDATA #REQUIRED
+    xmlns CDATA #REQUIRED
+	version CDATA #REQUIRED
 >
 
 <!ELEMENT object (subobj*, property*, action*)>
@@ -17,12 +17,12 @@
 	max CDATA #IMPLIED
 >
 
-<!ELEMENT property (%properties;)>
+<!ELEMENT property (#PCDATA)>
 <!ATTLIST property
 	name (%objecttype;) #REQUIRED
 >
 
-<!ELEMENT action (%actions;)>
+<!ELEMENT action (#PCDATA)>
 <!ATTLIST action
 	name (%objecttype;) #REQUIRED
 >

@@ -66,6 +66,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
+
 <object name="grp">
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
@@ -144,7 +145,6 @@
 	<action name="delete">delete</action>
 </object>
 <object name="rolt">
-	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

@@ -100,7 +100,6 @@ class UserObject extends Object
 			
 			//create usertree from class.user.php	
 			$tree->addTree($Fuserdata["Id"], $Fusetdata["Id"]);
-			
 		}
 		else
 		{
@@ -142,7 +141,6 @@ class UserObject extends Object
 		{
 			// Userobjekt erzeugen
 			$user = new User($_GET["obj_id"]);
-
 			// gender selection
 			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection

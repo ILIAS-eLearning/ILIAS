@@ -117,7 +117,7 @@ class Language
 		if ($ilias)
 		{
 			$this->MASTERLANGFILE = $this->ilias->ini->readVariable("language","masterfile");
-			$this->LANGUAGESDIR = $this->ilias->ini->readVariable("server","lang_path");		
+			$this->LANGUAGESDIR = $this->ilias->ini->readVariable("server","lang_path");
 		}
 		else
 		{
@@ -339,7 +339,8 @@ class Language
 
 		if (!$l_file = @file($this->LANGUAGESDIR."/".$this->MASTERLANGFILE))
 		{
-			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",
+									 $this->ilias->error_obj->WARNING);
 		}
 	
 		for ($i=1; $i<count($l_file); $i++)
@@ -355,7 +356,8 @@ class Language
 
 						if (!$file[$j-1])
 						{
-							$this->ilias->raiseError("Could not open output-file '".trim($rows[$j]).".lang'",$this->ilias->error_obj->WARNING);
+							$this->ilias->raiseError("Could not open output-file '".trim($rows[$j]).".lang'",
+													 $this->ilias->error_obj->WARNING);
 						}
 					} //for
 					break;
@@ -477,7 +479,8 @@ class Language
 
 		if ($l_file == false)
 		{
-			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",
+									 $this->ilias->error_obj->MESSAGE);
 		}
 	
 		$ids = explode("\t",$l_file[1]);
