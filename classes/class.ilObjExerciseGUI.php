@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.5 2004/01/05 08:22:10 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.6 2004/04/26 20:38:13 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -358,8 +358,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				include_once "./classes/class.ilObjectFactory.php";
 
-				$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
-
+				if(!($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
+				{
+					continue;
+				}
 				$f_result[$counter][]	= ilUtil::formCheckbox(0,"member[$member_id]",1);
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
@@ -710,7 +712,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit(10);
-		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount(count($a_data));
+		$tbl->setOffset($_GET["offset"] ? $_GET["offset"] : 0);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_data);
 		$tbl->sortData();
