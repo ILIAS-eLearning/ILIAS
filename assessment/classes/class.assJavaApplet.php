@@ -139,7 +139,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
 	{
 		if (!empty($this->domxml))
 		{
@@ -232,6 +232,59 @@ class ASS_JavaApplet extends ASS_Question
 				$qtiAppletParams = $this->domxml->create_text_node($value["value"]);
 				$qtiMatText->append_child($qtiAppletParams);
 				$qtiMaterial->append_child($qtiMatText);
+			}
+			if ($test_output)
+			{
+				require_once "./assessment/classes/class.ilObjTest.php";
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "test_type");
+				$qtiAppletParams = $this->domxml->create_text_node(ilObjTest::_getTestType($test_output));
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "test_id");
+				$qtiAppletParams = $this->domxml->create_text_node($test_output);
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "question_id");
+				$qtiAppletParams = $this->domxml->create_text_node($this->getId());
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "user_id");
+				global $ilUser;
+				$qtiAppletParams = $this->domxml->create_text_node($ilUser->id);
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "points_max");
+				$qtiAppletParams = $this->domxml->create_text_node($this->getPoints());
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "post_url");
+				$qtiAppletParams = $this->domxml->create_text_node(ILIAS_HTTP_PATH . "/assessment/save_java_question_result.php");
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+				$info = $this->getReachedInformation($ilUser->id, $test_output);
+				foreach ($info as $kk => $infodata)
+				{
+					$qtiMatText->append_child($qtiAppletParams);
+					$qtiMaterial->append_child($qtiMatText);
+					$qtiMatText = $this->domxml->create_element("mattext");
+					$qtiMatText->set_attribute("label", "value_" . $infodata["order"] . "_1");
+					$qtiAppletParams = $this->domxml->create_text_node($infodata["value1"]);
+					$qtiMatText->append_child($qtiAppletParams);
+					$qtiMaterial->append_child($qtiMatText);
+					$qtiMatText->append_child($qtiAppletParams);
+					$qtiMaterial->append_child($qtiMatText);
+					$qtiMatText = $this->domxml->create_element("mattext");
+					$qtiMatText->set_attribute("label", "value_" . $infodata["order"] . "_2");
+					$qtiAppletParams = $this->domxml->create_text_node($infodata["value2"]);
+					$qtiMatText->append_child($qtiAppletParams);
+					$qtiMaterial->append_child($qtiMatText);
+				}
 			}
 		}
 
@@ -888,7 +941,8 @@ class ASS_JavaApplet extends ASS_Question
 				"order" => "$counter",
 				"points" => "$data->points",
 				"true" => "$true",
-				"value" => "$data->value1 $data->value2",
+				"value1" => "$data->value1",
+				"value2" => "$data->value2",
 			);
 			$counter++;
 			array_push($user_result, $solution);
@@ -1036,6 +1090,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
 	{
+		return true;
 		/*    global $ilDB;
 			global $ilUser;
 	    $db =& $ilDB->db;
