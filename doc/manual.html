@@ -142,7 +142,8 @@ Sie haben jetzt die Möglichkeit, ILIAS3 zu administrieren, Benutzer anzulegen, e
 <br />
 <a name="#chapter4"></a><h1>4&nbsp;Entwicklerdokumentation</h1><br />
 <br />
-Aufgabe dieses Kapitels ist es, dem Programmentwickler das Gesamtkonzept von ILIAS3 zu erläutern. Die Klassenstrukturen sind vereinheitlicht. Bitte halten Sie sich insbesondere an die Techniken im Konstruktor der jeweiligen Klasse (s. Abschnitt 4.2.1).<br />
+Aufgabe dieses Kapitels ist es, dem Programmentwickler das Gesamtkonzept von ILIAS3 zu erläutern. Die Klassenstrukturen sind vereinheitlicht. Bitte halten Sie sich insbesondere an die Techniken im Konstruktor der jeweiligen Klasse (s. Abschnitt ???).<br />
+<br />
 ILIAS3 basiert auf der Programmiersprache PHP und dem „neuen“ PEAR-Framework. Das Programm benutzt dabei folgende Klassen von PEAR:<br />
 <ul><br />
 <li> Datenbankabstraktionsschicht (DB.php) <br />
@@ -180,13 +181,494 @@ ILIAS3 umfasst neben dem Hauptzweck, der Lernumgebung, folgende Module:<br />
 </ul><br />
 <br />
 <br />
-<a name="#chapter41"></a><h2>4.1&nbsp;Konzeptbeschreibung</h2><br />
+<a name="#chapter41"></a><h2>4.1&nbsp;Übersicht über ILIAS-Objekte und deren Funktionen</h2><br />
+Die ILIAS-Objektstruktur ist in der XML-Datei „objects.xml“ abgelegt. In ihr können Sie die erlaubten Unterobjekte, Aktionen und Übersichten nachschauen und verändern.<br />
+Diese Datei enthält die Objektliste (in Tags „object“). Derzeit sind drei verschiedene Unterelemente von „object“ definiert:<br />
+<ul><br />
+<li> subobj: Unterobjekt<br />
+</li><br />
+<li> property: Übersichtsart/Eigenschaft<br />
+</li><br />
+<li> action: Aktion, Funktion auf dem Objekt<br />
+</li><br />
+</ul><br />
+<br />
+Unterobjekte werden wie folgt definiert:<br />
+&lt;subobj name=”name” atrrib1=”wert1”&gt;übersetzung&lt;/subobject&gt;.<br />
+“name” kennzeichnet den Typ des Unterobjektes, und eventuelle Attribute definieren weitere Eigenschaften. Die Übersetzung wird für die Internationalisierung verwendet und in den Sprachdateien nachgeschlagen.<br />
+<br />
+Die Übersichtsarten und Aktionen werden ähnlich definieren. Schauen Sie bitte hierzu in die XML-Datei.<br />
+<br />
+<a name="#chapter411"></a><h3>4.1.1&nbsp;adm - Administration Panel object</h3><br />
+Administrations-Oberflächenobjekt mit folgenden Subobjekten:<br />
+<ul><br />
+<li> usrf – User Folder object (Benutzerordner-Objekt)<br />
+</li><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+<li> objf – Object -Type Folder object (Objekttypordner-Objekt)<br />
+</li><br />
+<li> lngf – Language Folder object (Sprachenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter412"></a><h3>4.1.2&nbsp;cat – Category object</h3><br />
+Kategorie-Objekt mit folgenden Subobjekten:<br />
+<ul><br />
+<li> cat – Category  object (Kategorie-Objekt)<br />
+</li><br />
+<li> frm – Forum object (Forum-Objekt)<br />
+</li><br />
+<li> le – Learning module Object (Lerneinheiten-Objekt)<br />
+</li><br />
+<li> grp – Group object (Gruppen-Objekt)<br />
+</li><br />
+<li> crs – Course object (Kurs-Objekt)<br />
+</li><br />
+<li> file – FileSharing object (Dateiordner-Objekt)<br />
+</li><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 bei den Subobjekten file und rolf kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> cut (ausschneiden)<br />
+</li><br />
+<li> copy (kopieren)<br />
+</li><br />
+<li> delete (löschen)<br />
+</li><br />
+<li> paste (einfügen)<br />
+</li><br />
+<li> clear (abbrechen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter413"></a><h3>4.1.3&nbsp;crs – Course object</h3><br />
+Kategorie-Objekt mit folgenden Subobjekten:<br />
+<ul><br />
+<li> frm – Forum object (Forum-Objekt)<br />
+</li><br />
+<li> le – Learning module Object (Lerneinheiten-Objekt)<br />
+</li><br />
+<li> grp – Group object (Gruppen-Objekt)<br />
+</li><br />
+<li> file – FileSharing object (Dateiordner-Objekt)<br />
+</li><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 bei den Subobjekten file und rolf kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen fünf Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_members (Mitgliederinfo)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> cut (ausschneiden)<br />
+</li><br />
+<li> copy (kopieren)<br />
+</li><br />
+<li> delete (löschen)<br />
+</li><br />
+<li> paste (einfügen)<br />
+</li><br />
+<li> clear (abbrechen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter414"></a><h3>4.1.4&nbsp;file – FileSharing object</h3><br />
+Dateiordner-Objekt mit dem Subobjekt:<br />
+<ul><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> delete (löschen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter415"></a><h3>4.1.5&nbsp;frm – Forum object</h3><br />
+Forum-Objekt mit dem Subobjekt:<br />
+<ul><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> cut (ausschneiden)<br />
+</li><br />
+<li> copy (kopieren)<br />
+</li><br />
+<li> delete (löschen)<br />
+</li><br />
+<li> paste (einfügen)<br />
+</li><br />
+<li> clear (abbrechen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter416"></a><h3>4.1.6&nbsp;grp – Group object</h3><br />
+Gruppen-Objekt mit folgenden Subobjekten:<br />
+<ul><br />
+<li> frm – Forum object (Forum-Objekt)<br />
+</li><br />
+<li> le – Learning module Object (Lerneinheiten-Objekt)<br />
+</li><br />
+<li> crs – Course object (Kurs-Objekt)<br />
+</li><br />
+<li> file – FileSharing object (Dateiordner-Objekt)<br />
+</li><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+</ul><br />
+Das Attribut max=1 bei den Subobjekten file und rolf kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen fünf Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_members (Mitgliederinfo)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> cut (ausschneiden)<br />
+</li><br />
+<li> copy (kopieren)<br />
+</li><br />
+<li> delete (löschen)<br />
+</li><br />
+<li> paste (einfügen)<br />
+</li><br />
+<li> clear (abbrechen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter417"></a><h3>4.1.7&nbsp;le – Learning module Object</h3><br />
+Lerneinheiten-Objekt mit folgenden Subobjekten:<br />
+<ul><br />
+<li> rolf – Role Folder object (Rollenordner-Objekt)<br />
+</li><br />
+<li> file – FileSharing object (Dateiordner-Objekt)<br />
+</li><br />
+</ul><br />
+<br />
+Das Attribut max=1 bei den Subobjekten file und rolf kennzeichnet die maximale Anzahl der Subobjekte.<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> cut (ausschneiden)<br />
+</li><br />
+<li> copy (kopieren)<br />
+</li><br />
+<li> delete (löschen)<br />
+</li><br />
+<li> paste (einfügen)<br />
+</li><br />
+<li> clear (abbrechen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter418"></a><h3>4.1.8&nbsp;lng – Language object</h3><br />
+Sprachen-Objekt<br />
+<br />
+In der Objektübersicht stehen zwei Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> refresh (aktualisieren)<br />
+</li><br />
+<li> install (installieren)<br />
+</li><br />
+<li> uninstall (deinstallieren)<br />
+</li><br />
+<li> edit (editieren)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter419"></a><h3>4.1.9&nbsp;lngf – Language Folder object</h3><br />
+Sprachenordner-Objekt mit dem Subobjekt:<br />
+<ul><br />
+<li> lng – Language object (Sprachen-Objekt)<br />
+</li><br />
+</ul><br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> install (installieren)<br />
+</li><br />
+<li> uninstall (deinstallieren)<br />
+</li><br />
+<li> refresh (aktualisieren)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4110"></a><h3>4.1.10&nbsp;lo – Learning Object</h3><br />
+Lern-Objekt<br />
+<br />
+In der Objektübersicht steht eine Möglichkeit zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4111"></a><h3>4.1.11&nbsp;mail – Mailmodule object</h3><br />
+Mailmodul-Objekt<br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> refresh (aktualisieren)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4112"></a><h3>4.1.12&nbsp;objf – Object-Type Folder object</h3><br />
+Objekttypordner-Objekt mit dem Subobjekt:<br />
+<ul><br />
+<li> typ - Object Type Definition object (Objekttypdefinitions-Objekt)<br />
+</li><br />
+</ul><br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4113"></a><h3>4.1.13&nbsp;role – Role Object</h3><br />
+Rollen-Objekt<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4114"></a><h3>4.1.14&nbsp;rolf – Role Folder object</h3><br />
+Rollenordner-Objekt mit den Subobjekten:<br />
+<ul><br />
+<li> rolt – Role template object (Rollentemplate-Objekt)<br />
+</li><br />
+<li> role – Role Object (Rollen-Objekt)<br />
+</li><br />
+</ul><br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> delete (löschen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4115"></a><h3>4.1.15&nbsp;rolt – Role template object</h3><br />
+Rollentemplate-Objekt<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> delete (löschen)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4116"></a><h3>4.1.16&nbsp;typ – Object Type Definition object</h3><br />
+Objekttypdefinitions-Objekt<br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4117"></a><h3>4.1.17&nbsp;usr – User Object</h3><br />
+Benutzer-Objekt<br />
+<br />
+In der Objektübersicht stehen drei Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+<a name="#chapter4118"></a><h3>4.1.18&nbsp;usrf – User Folder object</h3><br />
+Benutzerordner-Objekt mit dem Subobjekt:<br />
+<ul><br />
+<li> usr – User Object (Benutzer-Objekt)<br />
+</li><br />
+</ul><br />
+<br />
+In der Objektübersicht stehen vier Möglichkeiten zur Verfügung:<br />
+<ul><br />
+<li> view_content (Inhalt)<br />
+</li><br />
+<li> edit_properties (Eigenschaften)<br />
+</li><br />
+<li> perm_settings (Rechte)<br />
+</li><br />
+<li> show_owner (Besitzerinfo)<br />
+</li><br />
+</ul><br />
+<br />
+Folgende Aktionen werden angezeigt:<br />
+<ul><br />
+<li> delete (löschen)<br />
+</li><br />
+</ul><br />
+<br />
+<br />
+<a name="#chapter42"></a><h2>4.2&nbsp;Konzeptbeschreibung</h2><br />
 <br />
 Die folgenden Unterkapitel erklären Teilkonzepte von ILIAS3. Zum nachvollziehen der Konzepte schauen Sie bitte in die Quelltexte der jeweiligen Klassen.<br />
 <br />
 <br />
 <br />
-<a name="#chapter411"></a><h3>4.1.1&nbsp;Administrations-Konsole</h3><br />
+<a name="#chapter421"></a><h3>4.2.1&nbsp;Administrations-Konsole</h3><br />
 <br />
 Die Administration-Konsole (AK) von ILIAS3 besteht aus drei Teilen:<br />
 <ul><br />
@@ -258,7 +740,7 @@ check_inherit: Stop Inheritance festlegen<br />
 permission: Rechte für jeweiliges Recht und Rollen, dabei legt der Eintrag &quot;name&quot; den Namen des Rechts fest und die folgenden Checkboxen markieren den Status des Rechts für die Rollen.<br />
 </ul><br />
 <br />
-<a name="#chapter412"></a><h3>4.1.2&nbsp;Setup-Routine</h3><br />
+<a name="#chapter422"></a><h3>4.2.2&nbsp;Setup-Routine</h3><br />
 ILIAS3 wird über eine Setup-Routine auf dem Computer installiert. Dabei können folgende Aufgaben automatisiert abgearbeitet werden:<br />
 <ul><br />
 <li> Schreiben der INI-Datei (s. auch Abschnitt 4.1.2)<br />
@@ -281,22 +763,22 @@ Sind diese Voraussetzungen nicht gegeben, bietet ILIAS3 keine automatisierte Ins
 Weitere Installationsschritte können dabei bequem über Anpassung des Setup-Templates, der Setup-Klasse und des Setup-Skriptes vorgenommen werden.<br />
 Neben den Überprüfungen auf schreibbare Verzeichnisse etc. besteht die Hauptaufgabe der Setup-Klasse in der korrekten Einrichtung der Datenbank. Dazu ist die neueste PEAR-Version nötig. Die Setup-Klasse fängt beim Connect zum Datenbankserver Fehler ab und berichtet diese.<br />
 <br />
-<a name="#chapter413"></a><h3>4.1.3&nbsp;INI-Datei-Handling</h3><br />
+<a name="#chapter423"></a><h3>4.2.3&nbsp;INI-Datei-Handling</h3><br />
 Die IniFile-Klasse kapselt Lese- und Schreibzugriff auf die Ini-Datei von ILIAS3 (ilias.ini.php). Durch sie werden Fehler beim Lesen abgefangen und berichtet. Die wichtigste Methode für den Programmierer ist readVariable. Eine Ini-Instanz befindet sich im Ilias-Hauptobjekt $ilias-ini. Sie können z.B. die Default-Systemsprache über folgenden Aufruf auslesen:<br />
 $lng = $ilias-&gt;ini-&gt;readVariable(„language“, „default“);<br />
 Dabei bezeichnet der erste Parameter die Gruppe, der zweite Parameter der Variablenname. Gruppen erkennen Sie in der Ini-Datei an den eckigen Klammern (z.B. [language]).<br />
 <br />
-<a name="#chapter414"></a><h3>4.1.4&nbsp;Fehlermanagement</h3><br />
+<a name="#chapter424"></a><h3>4.2.4&nbsp;Fehlermanagement</h3><br />
 ILIAS3 bietet ein Fehlermanagement für die Behandlung von fatalen Fehlern (sofortiger Programmabbruch), Warnungen (Fehler mit sofortigem Programmabbruch und Ausgabe auf einer Fehlerseite), und Message (Ausgabe einer Nachricht auf dem Bildschirm bei fortlaufendem Programm). Dazu wird in allen Klassen das Fehlermanagement von ILIAS3 aktiviert, dass durch die Klasse ErrorHandling repräsentiert wird. Diese Klasse wird im Ilias-Objekt instanziert, ruft den PEAR-Errorhandler auf und behandelt die Fehler je nach aufgetretenem Fehlergrad.<br />
 <br />
-<a name="#chapter4141"></a><h4>4.1.4.1&nbsp;Erzeugen von Fehlern</h4><br />
+<a name="#chapter4241"></a><h4>4.2.4.1&nbsp;Erzeugen von Fehlern</h4><br />
 Falls in einer Klasse ein Fehler aufgetreten ist, wird er entweder automatisch behandelt (im Falle von Datenbankabfragen - ungültige SQL-Statements) oder muss von Ihnen explizit erhoben werden. Dafür steht ihnen die Methode $this-&gt;raiseError zur Verfügung. Geben Sie als ersten Parameter die Nachricht des Fehlers an, als zweiten Parameter erwartet die Methode die Art des Fehlers, z.B.<br />
 $this-&gt;raiseError(„user exists“, $this-&gt;FATAL);<br />
 <br />
-<a name="#chapter415"></a><h3>4.1.5&nbsp;Datenbankwrapper</h3><br />
+<a name="#chapter425"></a><h3>4.2.5&nbsp;Datenbankwrapper</h3><br />
 ILIAS3 leitet die PEAR-Klasse DB noch einmal ab, damit der Fehlermechanismus automatisch ablaufen kann. Schlägt eine Abfrage ($this-&gt;query) fehl, so wird automatisch ein Fataler Fehler erzeugt und eine entsprechende Meldung auf dem Bildschirm ausgegeben (error.php).<br />
 <br />
-<a name="#chapter416"></a><h3>4.1.6&nbsp;Datenbankupdater</h3><br />
+<a name="#chapter426"></a><h3>4.2.6&nbsp;Datenbankupdater</h3><br />
 ILIAS3 ist mit einem Mechanismus ausgestattet, der die Datenbank während des Entwicklungsprozesses eines Releases unter allen Entwicklern up-to-date hält. Ändert man etwas an der Datenbank, so werden die Änderungen in dbupdate.php im sql-Verzeichnis eingetragen. Bei der Pflege des Entwicklungssnapshots (also der aktuellen Developerversion) kann man nun im Adminbereich diese Datanbankversion überprüfen und evtl. updaten. Vor Veröffentlichung eines neuen Releases wird ILIAS3 auf einem Testsystem installiert, vorhandene Updates installiert und daraufhin die Datenbank exportiert. Dieser Datenbankauszug (dump) ersetzt das alte Datenbanktemplate (ilias3.sql).<br />
 Folgende Regeln sind zu beachten, wenn Datenbankänderungen in das Skript dbupdate.php eingetragen werden:<br />
 <ul><br />
@@ -309,15 +791,15 @@ Folgende Regeln sind zu beachten, wenn Datenbankänderungen in das Skript dbupdat
 </ul><br />
 Das Ilias-Objekt stellt Ihnen einen Datenbank-Handler zur Verfügung ($ilias-&gt;db).  <br />
 <br />
-<a name="#chapter417"></a><h3>4.1.7&nbsp;Loggingmechanismus</h3><br />
+<a name="#chapter427"></a><h3>4.2.7&nbsp;Loggingmechanismus</h3><br />
 ILIAS3 bietet einen einfachen Loggingmechanismus in eine Datei. Sie haben Zugriff auf den Logger mittels des Ilias-Objektes: <br />
 $ilias-&gt;log-&gt;write($msg);<br />
 Daraufhin wird in die Datei ilias.log die Nachricht $msg geschrieben. Der Logger eignet sich besonders gut zum Debugging. Z.B. wird er eingesetzt, um den Administrator über fehlende Sprachtopics zu informieren.<br />
 <br />
-<a name="#chapter418"></a><h3>4.1.8&nbsp;Interne Mail</h3><br />
+<a name="#chapter428"></a><h3>4.2.8&nbsp;Interne Mail</h3><br />
 Ein internes Mailsystem gehört zum Lieferumfang von ILIAS3. Dieses Mailsystem besteht aus einer Klasse.<br />
 <br />
-<a name="#chapter419"></a><h3>4.1.9&nbsp;Sprachkonzept</h3><br />
+<a name="#chapter429"></a><h3>4.2.9&nbsp;Sprachkonzept</h3><br />
 ILIAS3 ist sprachenunabhängig, d.h. sämtliche Texte sind in Templates mittels definierten Platzhaltern angegeben (z.b. TXT_SAVE) die in den aufgerufenen PHP-Skripten in die jeweilige Benutzersprache übersetzt werden. Eine Übersetzung eines solchen Platzhalters geschieht mit z.B. mit folgendem Befehl:<br />
 $tpl-&gt;setVariable(„TXT_SAVE“, $lng-&gt;txt(„save“));<br />
 Der Zugriff auf die Benutzersprache wird in der header-Datei von ILIAS3 initialisiert. Die Sprachklasse (class.Language.php) wird dabei instanziert.<br />
@@ -325,7 +807,7 @@ $lng = new Language($ilias-&gt;account-&gt;data[„language“]);<br />
 $data[language] besteht meist aus einem zweibuchstabigen Sprachcode („en“, „de“, „it“, …). Die Sprachklasse versucht nun, auf eine generierte Sprachdatei zuzugreifen, die im lang-Ordner von ILIAS3 liegt. Schlägt dies fehl, wird keine Sprache initialisiert.<br />
 <br />
 <br />
-<a name="#chapter42"></a><h2>4.2&nbsp;Programmierung</h2><br />
+<a name="#chapter43"></a><h2>4.3&nbsp;Programmierung</h2><br />
 Die Programmierung von ILIAS3 unterliegt einigen Regeln. Näheres hierzu erfahren Sie unter rules.txt sowie unter Programmierrichtlinien.doc. Dort sind Variablennamenkonventionen u.v.m. aufgeführt. Auf folgendes möchten wir kurz eingehen:<br />
 Formularbehandlung<br />
 Es gibt in Formularen feste Parameter, wie $id, die vom Benutzer nicht verändert werden können. Anstelle diese in hidden-Felder abzulegen, werden diese per GET-Methode in der Action des Formulars eingetragen, Beispiel:<br />
@@ -336,7 +818,7 @@ Die Variablen werden anschließend in den Arrays $_POST und $_GET behandelt. So i
 So ist es möglich, „Register Globals = off“ zu setzen.<br />
 <br />
 <br />
-<a name="#chapter421"></a><h3>4.2.1&nbsp;Klassenentwurf</h3><br />
+<a name="#chapter431"></a><h3>4.3.1&nbsp;Klassenentwurf</h3><br />
 Der Konstruktor der ILIAS3-Klassen besitzt eine feste Struktur:<br />
 global $ilias;<br />
 // set ilias<br />
@@ -420,4 +902,5 @@ ILIAS3 benötigt eine Reihe von html-Dateien, die das Layout von IlLIAS3 bestimme
 Bitte halten Sie sich an die Schreibweise der Variablen bzw. Blöcke. Diese wurden in ILIAS§ definiert und können nicht verändert werden.<br />
 Alle Textanteile in den Templates werden ebenfalls durch Variablen bezeichnet, um die Vielsprachigkeit von IIAS3 zu gewährleisten. Alle Textvariablen werden durch &quot;TXT_&quot; vor der Variable markiert (z.B. TXT_MAIL wird zu &quot;mail&quot; im Englischen, zu &quot;Posta&quot; im Italienischen). Dieses System ist eng mit dem Sprachensystem von ILIAS3 verknüpft. Lesen Sie, falls Sie neue Sprachen hinzufügen wollen, im Abschnitt &quot;Sprachen&quot; (???).<br />
 Nachfolgend finden Sie eine Liste von Blöcken und Variablen in den einzelnen Templatedateien von Ilias. Global definierte Variablen (also Variablen, die in keinem Block stehen) stehen unter dem Abschnitt &quot;global&quot;. Beachten Sie bitte, dass Blöcke aus kleinen Buchstaben bestehen, Variablenbezeichner bestehen aus Großbuchstaben.<br />
+<br />
 <br />
