@@ -241,7 +241,6 @@ class ilRepositoryGUI
 					}
 					//$next_class = "";
 				}
-
 				$this->cmd = $cmd;
 				$this->$cmd();
 				break;

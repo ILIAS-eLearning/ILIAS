@@ -487,7 +487,6 @@ class ilObjCourse extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
-
 	// META DATA METHODS
 	function &getMetaData()
 	{
