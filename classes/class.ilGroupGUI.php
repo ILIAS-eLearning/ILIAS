@@ -135,17 +135,14 @@ class ilGroupGUI extends ilObjectGUI
 		infoPanel();
 		sendInfo();
 
-
 		if ((isset($addtab)) && ($tabs == true))
 		{
-
 			$this->setAdminTabs($addtab);
 		}
 		else if ($tabs == true)
 		{
 			$this->setAdminTabs();
 		}
-
 		$this->setLocator("", "",$locatorscript);
 	}
 
@@ -237,12 +234,10 @@ class ilGroupGUI extends ilObjectGUI
 		require_once "./classes/class.ilTableGUI.php";
 
 		$this->prepareOutput();
-
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
-
 
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
@@ -281,18 +276,18 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setCurrentBlock("btn_cell");
-
 		//show "new group" button only if category or dlib objects were chosen(current object)
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-		if($obj_data->getType() == "cat" || $obj_data->getType() == "dlib")
+		if(strcmp($obj_data->getType(),"cat")==0 || strcmp($obj_data->getType(),"dlib")==0)
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			//right solution
 			//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
-			//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 			//temp.solution
 			$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
+			//$this->tpl->setVariable("BTN_TARGET","target=\"_parent\"");
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -452,7 +447,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->show();
 	}
-	
+
 	/**
 	* show content
 	* @access	public
@@ -475,7 +470,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
-		
+
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -1125,13 +1120,18 @@ class ilGroupGUI extends ilObjectGUI
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$call_by_ref = "n")
 	{
 		$this->data["cols"] = array("type", "title", "description", "last_change");
+		$tab = array();
+		$tab[0] = array();
+		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
+		$tab[0]["ftabtype"] = 'tabinactive';
+		$tab[0]["tab_text"] = 'group_details';
+
+		$this->prepareOutput(true, $tab);
 
 		if(is_array($user_id))
 			foreach($user_id as $id)
 			{
-//				if($call_by_reference == 'y')
 				if($call_by_ref == 'y')
-//				if($call_by_ref == true)
 					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 				else
 					$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -1146,7 +1146,6 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		else
 		{
-//			if($call_by_reference == 'y')
 			if($call_by_ref == 'y')
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
 			else
@@ -1172,7 +1171,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->data["buttons"] = array( $confirm  => $this->lng->txt("confirm"),
 						$cancel  => $this->lng->txt("cancel"));
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.obj_confirm.html");
+		$this->tpl->addBlockFile("CONTENT", "confirm", "tpl.obj_confirm.html");
 
 		infoPanel();
 
@@ -1317,7 +1316,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 //!!!
 //!!!		$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_chooseuser.html");
-		
+
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_members"));
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
@@ -1766,7 +1765,6 @@ class ilGroupGUI extends ilObjectGUI
 		// creates a child object
 		global $rbacsystem;
 
-
 		// TODO: get rid of $_GET variable
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
 		{
@@ -2025,50 +2023,50 @@ class ilGroupGUI extends ilObjectGUI
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
 
 		global $rbacsystem;
+		$this->prepareOutput();
+		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_new"));
 
-			if(isset($_POST["new_type"]))
-			{
-				$new_type =  $_POST["new_type"];
-			}else{
-				$new_type =	 $_GET["type"];
-			}
+		if(isset($_POST["new_type"]))
+		{
+			$new_type =  $_POST["new_type"];
+		}else{
+			$new_type =	 $_GET["type"];
+		}
 
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["group_name"] = "";
-			$data["fields"]["desc"] = "";
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["group_name"] = "";
+		$data["fields"]["desc"] = "";
 
-			//$this->getTemplateFile("new","group");
-			$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_new.html");
-
-			infoPanel();
-
-			$node = $this->tree->getNodeData($_GET["parent_ref_id"]);
-			$this->tpl->setVariable("TXT_PAGEHEADLINE", $node["title"]);
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-			}
-
-			$stati = array("group_status_public","group_status_private","group_status_closed");
-
-			//build form
-			$opts = ilUtil::formSelect(0,"group_status_select",$stati);
-
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-			//$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
-			//	"&new_type=".$_POST["new_type"]);
+		$this->tpl->addBlockFile("CONTENT", "new_grp", "tpl.group_new.html");
 
 
-			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&cmd=save"."&ref_id=".$_GET["parent_ref_id"]."&new_type=".$new_type);
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->show();
+		$node = $this->tree->getNodeData($_GET["parent_ref_id"]);
+		$this->tpl->setVariable("TXT_PAGEHEADLINE", $node["title"]);
+
+		foreach ($data["fields"] as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+
+		}
+
+		$stati = array("group_status_public","group_status_private","group_status_closed");
+
+		//build form
+		$opts = ilUtil::formSelect(0,"group_status_select",$stati);
+
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		//$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+		//	"&new_type=".$_POST["new_type"]);
+
+
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&cmd=save"."&ref_id=".$_GET["parent_ref_id"]."&new_type=".$new_type);
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
 	}
 
 	/**
@@ -2257,10 +2255,16 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function newMembersObject()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content","tpl.grp_newmember.html");
+		$tab = array();
+		$tab[0] = array();
+		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
+		$tab[0]["ftabtype"] = 'tabinactive';
+		$tab[0]["tab_text"] = 'group_details';
 
-		//display search results
-		infoPanel();
+		$this->prepareOutput(true, $tab);
+
+		$this->tpl->addBlockFile("CONTENT", "form","tpl.grp_newmember.html");
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_members"));
 
 		$this->data["cols"] = array("type", "title", "description", "last_change");
 		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("Username"));
@@ -2273,6 +2277,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
 		$this->tpl->setVariable("TXT_SEARCH", "Search");
+
 		if(isset($_POST["search_user"]) )
 			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
 		else if(isset($_GET["search_user"]) )
@@ -2296,6 +2301,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+
 			// load template for table content data
 			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 			$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
