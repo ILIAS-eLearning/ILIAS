@@ -242,6 +242,11 @@ class ilSoapUserAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),'Client');
 		}
+
+		if(strlen($user_data['passwd']))
+		{
+			$user_obj->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
+		}
 		$this->__setUserData($user_obj,$user_new);
 
 		$log->write('SOAP: updateUser()');
@@ -294,6 +299,8 @@ class ilSoapUserAdministration
 		}
 
 		$new_user =& new ilObjUser();
+
+		$new_user->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
 		$this->__setUserData($new_user,$user_data);
 
 
@@ -510,12 +517,6 @@ class ilSoapUserAdministration
 		   !$user_data['time_limit_unlimited'])
 		{
 			$user_data['time_limit_unlimited'] = 1;
-		}
-
-		// set Password if it is given
-		if(strlen($user_data['passwd']))
-		{
-			$user_obj->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
 		}
 		$user_obj->assignData($user_data,IL_NO_PASSWD);
 
