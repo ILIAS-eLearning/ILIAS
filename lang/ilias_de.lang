@@ -138,6 +138,7 @@ common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_new#:#Neuer Kurs
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
+common#:#cutPage#:#Cut###19 Sep 2003 new variable
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Datensatz
@@ -386,6 +387,7 @@ common#:#migrate#:#Migrieren
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Month###01 Sep 2003 new variable
+common#:#moveChapter#:#Move###19 Sep 2003 new variable
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
@@ -538,6 +540,8 @@ common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht �
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#paste#:#Einfügen
+common#:#pasteChapter#:#Paste###19 Sep 2003 new variable
+common#:#pastePage#:#Paste###19 Sep 2003 new variable
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -753,32 +757,38 @@ content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Change Type###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
+content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.###19 Sep 2003 new variable
 content#:#cont_chapters#:#Kapitel
 content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
+content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definition###01 Sep 2003 new variable
 content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies
+content#:#cont_details#:#Details###19 Sep 2003 new variable
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
+content#:#cont_edition#:#Ausgabe
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_height#:#Höhe
+content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
@@ -788,7 +798,11 @@ content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal_link#:#interner link
 content#:#cont_is_visible#:#isvisible
+content#:#cont_isbn#:#ISBN###19 Sep 2003 new variable
+content#:#cont_issn#:#ISSN###19 Sep 2003 new variable
 content#:#cont_item#:#Item
+content#:#cont_journal#:#Journal###19 Sep 2003 new variable
+content#:#cont_keyword#:#Schlagwort
 content#:#cont_link_select#:#Internal Link###06 Sep 2003 new variable
 content#:#cont_link_type#:#Link Type###06 Sep 2003 new variable
 content#:#cont_list_properties#:#Listen-Eigenschaften
@@ -807,6 +821,7 @@ content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_month#:#Monat
 content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_no_page#:#No Page found.###22 Aug 2003 new variable
@@ -828,6 +843,7 @@ content#:#cont_pg_title#:#Seitentitel
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
+content#:#cont_publisher#:#Herausgeber
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Referenz
 content#:#cont_resource#:#Ressource
@@ -835,11 +851,18 @@ content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_sc_title#:#Titel
+content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_item#:#Please select one item only###19 Sep 2003 new variable
 content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
 content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
+content#:#cont_series#:#Serie
+content#:#cont_series_editor#:#Series editor###19 Sep 2003 new variable
+content#:#cont_series_title#:#Serientitel
+content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
+content#:#cont_show#:#Anzeigen
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_std_view#:#Standardsicht
@@ -850,15 +873,19 @@ content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_width#:#Tabellenbreite
+content#:#cont_target_within_source#:#Target must not be within source object.###19 Sep 2003 new variable
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
+content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version
+content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt Wysiwyg
 content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Jahr
 content#:#par#:#Absatz
 content#:#pg#:#Seite
 content#:#st#:#Kapitel
@@ -1375,23 +1402,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-content#:#cont_details#:#Details
-content#:#cont_show#:#Anzeigen
-content#:#cont_edition#:#Ausgabe
-content#:#cont_booktitle#:#Buchtitel
-content#:#cont_cross_reference#:#Verweis
-content#:#cont_how_published#:#Veröffentlichungsart
-content#:#cont_where_published#:#Veröffentlichungsort
-content#:#cont_journal#:#Journal
-content#:#cont_keyword#:#Schlagwort
-content#:#cont_school#:#Schule
-content#:#cont_month#:#Monat
-content#:#cont_publisher#:#Herausgeber
-content#:#cont_series#:#Serie
-content#:#cont_series_title#:#Serientitel
-content#:#cont_series_editor#:#Series editor
-content#:#cont_series_volume#:#Band
-content#:#cont_year#:#Jahr
-content#:#cont_url#:#URL
-content#:#cont_isbn#:#ISBN
-content#:#cont_issn#:#ISSN
