@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -33,56 +33,6 @@
 // Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-administration#:#analyze_data#:#Analyse der Datenintegrität
-administration#:#analyze_desc#:#Durchsucht das System nach ungültigen/fehlenden/kaputten/unverlinkten Objekten
-administration#:#analyzing#:#Analysiere...
-administration#:#clean#:#Aufräumen
-administration#:#clean_desc#:#Entfernt alle ungültigen Referenzen und Hierarchie-Einträge. Schliesst Lücken im Objektbaum
-administration#:#cleaning#:#Aufräumen...
-administration#:#cleaning_final#:#Aufräumen abschliessen...
-administration#:#closing_gaps#:#Schliesse Lücken in Objektbaum...
-administration#:#disabled#:#ausgeschaltet
-administration#:#done#:#Fertig
-administration#:#found#:#gefunden.
-administration#:#found_none#:#nichts gefunden.
-administration#:#log_scan#:#Logdatei schreiben
-administration#:#log_scan_desc#:#Schreibt das Analyse-Ergebnis in die Dateo 'scanlog.log' im Datenverzeichnis des Mandanten.
-administration#:#nothing_to_purge#:#nichts zu löschen...
-administration#:#nothing_to_remove#:#nichts zu entfernen...
-administration#:#nothing_to_restore#:#nichts wieder herzustellen...
-administration#:#options#:#Optionen
-administration#:#purge_missing#:#Fehlende Objekte löschen
-administration#:#purge_missing_desc#:#Entfernt alle gefundenen fehlenden oder unverlinkten Objekte aus dem System.
-administration#:#purge_trash#:#Gelöschte Objekte entfernen
-administration#:#purge_trash_desc#:#Entfernt alle Objekte im Papierkorb aus dem System.
-administration#:#purging#:#Löschen...
-administration#:#purging_trash#:#Papierkorb leeren...
-administration#:#purging_unbound_objs#:#Entferen unverlinkte Objekte...
-administration#:#removing_invalid_childs#:#Entferne ungültige Hierarchie-Einträge...
-administration#:#removing_invalid_refs#:#Entferne ungültige Referenzen...
-administration#:#restore_missing#:#Fehlende Objekte wiederherstellen
-administration#:#restore_missing_desc#:#Stellt gefundene fehlende oder unverlinkte Objekte wieder her.
-administration#:#restore_trash#:#Gelöschte Objekte wiederherstellen
-administration#:#restore_trash_desc#:#Stellt alle Objekte im Papierkorb im RecoveryFolder wieder her.
-administration#:#restoring#:#Wiederherstellen...
-administration#:#restoring_missing_objs#:#Wiederherstellen gelöschter Objekte...
-administration#:#restoring_trash#:#Papierkorb wiederherstellen...
-administration#:#restoring_unbound_objs#:#Wiederherstellen unverlinkter Objekte und möglicher Unterobjekte...
-administration#:#scan_completed#:#Analyse abgeschlossen
-administration#:#scan_details#:#Analysedetails
-administration#:#scan_modes#:#Analysemodus
-administration#:#scan_only#:#Nur analysieren
-administration#:#scanning_system#:#Analysiere das System...
-administration#:#searching_deleted_objs#:#Suche nach gelöschten Objekten...
-administration#:#searching_invalid_childs#:#Suche nach ungültigen Hierarchie-Einträgen...
-administration#:#searching_invalid_refs#:#Suche nach ungültigen Referenzen...
-administration#:#searching_missing_objs#:#Suche nach fehlenden Objekten...
-administration#:#searching_unbound_objs#:#Suche nach unverlinkten Objekten...
-administration#:#skippede#:#skipped###09 Mar 2004 new variable
-administration#:#start_scan#:#Start!###09 Mar 2004 new variable
-administration#:#systemcheck#:#System Check
-administration#:#view_last_log#:#Logdatei der letzen Analyse anzeigen
-administration#:#view_log#:#Details anzeigen
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
@@ -96,18 +46,8 @@ assessment#:#create_date#:#Created###05 Feb 2004 new variable
 assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
 assessment#:#create_new#:#Create new###05 Feb 2004 new variable
 assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#Export###05 Feb 2004 new variable
 assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -117,8 +57,6 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#matches###05 Feb 2004 new variable
 assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#material#:#Material###11 Mar 2004 new variable
-assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
@@ -139,7 +77,6 @@ assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
 assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
@@ -153,35 +90,26 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
-assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
-assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
 assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
 assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
 assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
-assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
-assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
-assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
-assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
 assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
-assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
 assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
 assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
@@ -195,18 +123,12 @@ assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
-assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
-assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
-assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
-assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
-assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
@@ -223,7 +145,6 @@ chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
-chat#:#chat_drop_user#:#Benutzer ausladen
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
@@ -1009,7 +930,6 @@ common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
-common#:#no_chat_in_personal_list#:#Es sind keine Chats abonniert
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
@@ -1029,7 +949,6 @@ common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_chac#:#Chateinstellungen
-common#:#obj_chac_desc#:#Chatserver konfigurieren. Chats aktivieren/deaktivieren.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
@@ -1057,8 +976,6 @@ common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_qpl#:#Fragen-Pool
-common#:#obj_recf#:#Wiederhergestellte Objekte
-common#:#obj_recf_desc#:#Enhält beim System Check wiederhergestellte Objekte.
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Rollenverwaltung
@@ -1648,6 +1565,223 @@ content#:#pg#:#Seite
 content#:#read offline#:#Offline lesen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+dateplaner#:#Language_file#:#german
+dateplaner#:#application#:#Terminplaner
+dateplaner#:#title#:#Ilias Terminplaner
+dateplaner#:#app_inbox#:#Gruppen Termin Eingang
+dateplaner#:#app_day#:#Tagesansicht
+dateplaner#:#app_week#:#Wochenansicht
+dateplaner#:#app_month#:#Monatsansicht
+dateplaner#:#app_list#:#Terminliste
+dateplaner#:#app_properties#:#Einstellungen
+dateplaner#:#app_date#:#Termin eintragen
+dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
+dateplaner#:#new_doc#:#neuer Termin
+dateplaner#:#open_day#:#Tagesansicht
+dateplaner#:#week#:#Woche
+dateplaner#:#year#:#Jahr
+dateplaner#:#month#:#Monat
+dateplaner#:#hour#:#Stunde
+dateplaner#:#o_day_date#:#24h Termin
+dateplaner#:#date_format#:#d.m.Y H:i //day.month.Year4Digits Hour24:Minutes
+dateplaner#:#date_format_middle#:#d/m/y//month/day/Year
+dateplaner#:#myeahr#:#letztes Jahr
+dateplaner#:#mmonth#:#letzter Monat
+dateplaner#:#mweek#:#letzte Woche
+dateplaner#:#today#:#Heute
+dateplaner#:#pweek#:#nächste Woche
+dateplaner#:#pmonth#:#nächsten Monat
+dateplaner#:#pyear#:#nächstes Jahr
+dateplaner#:#long_01#:#Januar
+dateplaner#:#long_02#:#Februar
+dateplaner#:#long_03#:#März
+dateplaner#:#long_04#:#April
+dateplaner#:#long_05#:#Mai
+dateplaner#:#long_06#:#Juni
+dateplaner#:#long_07#:#Juli
+dateplaner#:#long_08#:#August
+dateplaner#:#long_09#:#September
+dateplaner#:#long_10#:#Oktober
+dateplaner#:#long_11#:#November
+dateplaner#:#long_12#:#Dezember
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Feb
+dateplaner#:#short_03#:#Mär
+dateplaner#:#short_04#:#Apr
+dateplaner#:#short_05#:#Mai
+dateplaner#:#short_06#:#Jun
+dateplaner#:#short_07#:#Jul
+dateplaner#:#short_08#:#Aug
+dateplaner#:#short_09#:#Sep
+dateplaner#:#short_10#:#Oct
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dec
+dateplaner#:#Mo_long#:#Montag
+dateplaner#:#Tu_long#:#Dienstag
+dateplaner#:#We_long#:#Mittwoch
+dateplaner#:#Th_long#:#Donnerstag
+dateplaner#:#Fr_long#:#Freitag
+dateplaner#:#Sa_long#:#Samstag
+dateplaner#:#Su_long#:#Sonntag
+dateplaner#:#Mo_short#:#Mo
+dateplaner#:#Tu_short#:#Di
+dateplaner#:#We_short#:#Mi
+dateplaner#:#Th_short#:#Do
+dateplaner#:#Fr_short#:#Fr
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_short#:#So
+dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###TEST
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <BR> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
+dateplaner#:#ERROR_TS#:#Falsches Datumsformat
+dateplaner#:#ERROR_DB#:#Database write error!
+dateplaner#:#ERROR_STARTDATE#:#Falsche Eingaben bei Termin Startdatum. Format: dd/mm/jjjj
+dateplaner#:#ERROR_STARTTIME#:#Falsche Eingaben bei Termin Startuhrzeit. Format: hh:mm
+dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
+dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
+dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
+dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
+dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
+dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
+dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
+dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
+dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
+dateplaner#:#date#:#Termin
+dateplaner#:#begin_date#:#Termin Anfang
+dateplaner#:#end_date#:#Termin Ende
+dateplaner#:#created#:#erstellt am
+dateplaner#:#last_change#:#letzte Änderung am
+dateplaner#:#rotation#:#Turnus
+dateplaner#:#rotation_dates#:#Turnus Termine
+dateplaner#:#dv_date_begin#:#Termin Beginn:
+dateplaner#:#dv_date_end#:#Termin Ende:
+dateplaner#:#dv_whole_day#:#Ganztägig:
+dateplaner#:#dv_rotation_date#:#Turnus Termine:
+dateplaner#:#dv_rotation_end#:#Turnus Ende:
+dateplaner#:#dv_startdate#:#Startdatum:
+dateplaner#:#dv_enddate#:#Enddatum:
+dateplaner#:#dv_date_hm#:#Stunde:Minute
+dateplaner#:#dv_rotation#:#Turnus:
+dateplaner#:#dv_message#:#Mitteilung:
+dateplaner#:#dv_shorttext#:#Kurztext:
+dateplaner#:#dv_text#:#Text:
+dateplaner#:#dv_groupselect#:#Gruppenauswahl:
+dateplaner#:#dv_keywords#:#Keyword:
+dateplaner#:#dv_keywordselect#:#Keywordauswahl:
+dateplaner#:#dv_button_insert#:#Einfügen
+dateplaner#:#dv_button_cancel#:#Abbrechen
+dateplaner#:#dv_button_update#:#Update
+dateplaner#:#dv_button_delete#:#Löschen
+dateplaner#:#dv_groupview#:#Gruppentermin:
+dateplaner#:#dv_groupview_text#:#Gruppe:<br> 
+dateplaner#:#dv_noKey#:#kein Keyword
+dateplaner#:#dv_noGroup#:#keine Gruppe
+dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
+dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
+dateplaner#:#dv_preview#:#<b>! Vorschau !</b>
+dateplaner#:#r_nonrecurring#:#Einmalig
+dateplaner#:#r_day#:#jeden Tag
+dateplaner#:#r_week#:#jede Woche
+dateplaner#:#r_14#:#alle 14 Tage
+dateplaner#:#r_4_weeks#:#alle 4 Wochen
+dateplaner#:#r_month#:#jeden Monat
+dateplaner#:#r_halfyear#:#jedes halbe Jahr
+dateplaner#:#r_year#:#jedes Jahr
+dateplaner#:#semester_name#:#Semester Name
+dateplaner#:#keyword#:#Schlagwort
+dateplaner#:#keywords#:#Schlagwörter
+dateplaner#:#shorttext#:#Kurztext
+dateplaner#:#Text#:#Text
+dateplaner#:#DateText#:#Nachricht
+dateplaner#:#add_data#:#zusätzliche Informationen
+dateplaner#:#menue#:#Menue
+dateplaner#:#k_alldates#:#alle Termine
+dateplaner#:#main_dates#:#Normale Termine
+dateplaner#:#extra_dates#:#Ganztages Termine
+dateplaner#:#no_entry#:#keine Termine vorhanden
+dateplaner#:#more#:#weitere
+dateplaner#:#to#:#bis
+dateplaner#:#of#:#von
+dateplaner#:#back#:#zurück
+dateplaner#:#del_all#:#alle Termine löschen
+dateplaner#:#del_one#:#einmalig löschen
+dateplaner#:#viewlist#:#Ansicht aktualisieren
+dateplaner#:#printlist#:#Termin Liste ausdrucken
+dateplaner#:#apply#:#übernehmen
+dateplaner#:#discard#:#abweisen
+dateplaner#:#delete#:#löschen
+dateplaner#:#keep#:#unverändert
+dateplaner#:#timedate#:#Zeit / Datum
+dateplaner#:#group#:#Gruppe
+dateplaner#:#newDates#:#Neue Termine
+dateplaner#:#changedDates#:#Geänderte Termine
+dateplaner#:#deletedDates#:#Gelöschte Termine
+dateplaner#:#singleDate#:#Einzeltermin
+dateplaner#:#changeTo#:#Ändern zu:
+dateplaner#:#newKeyword#:#Neu:
+dateplaner#:#View#:#Ansicht:
+dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
+dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
+dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
+dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
+dateplaner#:#timeslice#:#Zeitraum:
+dateplaner#:#readimportfile#:#Einlesen
+dateplaner#:#Listbox_long#:#Terminliste
+dateplaner#:#Month_long#:#Monatsansicht
+dateplaner#:#Week_long#:#Wochenansicht
+dateplaner#:#Day_long#:#Tagesansicht
+dateplaner#:#inbox#:#Inbox
+dateplaner#:#properties#:#Einstellungen
+dateplaner#:#c_date#:#erstelle Termin
+dateplaner#:#free#:#frei
+dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
+dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
+dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
+dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
+dateplaner#:#help_startdate#:#Startdatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
+dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_enddate#:#Enddatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
+dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_rotation#:#Rotation
+dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
+dateplaner#:#help_group#:#Gruppentermine Auswahl
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
+dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
+dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
+dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
+dateplaner#:#help_text#:#Text
+dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
+dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br>TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
+dateplaner#:#help_inbox#:#Terminplaner Inbox
+dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
+dateplaner#:#help_day#:#Terminplaner Tagesansicht
+dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
+dateplaner#:#help_week#:#Terminplaner Wochenansicht
+dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
+dateplaner#:#help_month#:#Terminplaner Monatsansicht
+dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
+dateplaner#:#help_list#:#Terminplaner Terminliste
+dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
+dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
+dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
+dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
+dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br>Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
+dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
+dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
+dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
 forum#:#forums#:#Foren
 forum#:#forums_articles#:#Beiträge
 forum#:#forums_attachments#:#Dateianhänge
@@ -2231,7 +2365,7 @@ meta#:#meta_no_classification#:#Keine Metadaten für den Klassifizierungsbereich
 meta#:#meta_no_educational#:#Keine Metadaten für den erzieherischen Bereich vorhanden.
 meta#:#meta_no_lifecycle#:#Keine Metadaten für den Lebenszyklus Bereich vorhanden.
 meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Meta-Metadaten Bereich vorhanden.
-meta#:#meta_no_relation#:#Keine Metadaten für den Beziehungen Bereich vorhanden.
+meta#:#meta_no_relation#:#Keine Metadate für den Beziehungen Bereich vorhanden.
 meta#:#meta_no_rights#:#Keine Metadaten für den Rechte Bereich vorhanden.
 meta#:#meta_no_technical#:#Keine Metadaten für den technischen Bereich vorhanden.
 meta#:#meta_none#:#Keins
@@ -2325,61 +2459,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-bibitem#:#bibitem_choose_index#:#Bitte wählen Sie eine bibliographische Information:
-bibitem#:#bibitem_not_found#:#Es liegen noch keine bibliographischen Informationen vor.
-bibitem#:#bibitem_add#:#Hinzufügen
-bibitem#:#bibitem_bibitem#:#Bibliographische Information
-bibitem#:#bibitem_new_element#:#Neues Element
-bibitem#:#bibitem_language#:#Sprache
-bibitem#:#bibitem_author#:#Autor
-bibitem#:#bibitem_cross_reference#:#Querverweis
-bibitem#:#bibitem_editor#:#Verfasser
-bibitem#:#bibitem_where_published#:#Wo herausgegeben
-bibitem#:#bibitem_institution#:#Institution
-bibitem#:#bibitem_keyword#:#Schlagwort
-bibitem#:#bibitem_school#:#Schule
-bibitem#:#bibitem_journal#:#Journal
-bibitem#:#bibitem_month#:#Monat
-bibitem#:#bibitem_pages#:#Seiten
-bibitem#:#bibitem_series#:#Reihe
-bibitem#:#bibitem_url#:#URL
-bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_type#:#Typ
-bibitem#:#bibitem_please_select#:#Bitte wählen Sie
-bibitem#:#bibitem_book#:#Buch
-bibitem#:#bibitem_inbook#:#Bucheinlage
-bibitem#:#bibitem_journal_article#:#Journal Artikel
-bibitem#:#bibitem_proceedings#:#Bericht
-bibitem#:#bibitem_inproceedings#:#Inproceedings
-bibitem#:#bibitem_dissertation#:#Doktorarbeit
-bibitem#:#bibitem_phd_thesis#:#Promotion
-bibitem#:#bibitem_master_thesis#:#Masterarbeit
-bibitem#:#bibitem_technical_report#:#Forschungsbericht
-bibitem#:#bibitem_manual#:#Handbuch
-bibitem#:#bibitem_newspaper_article#:#Zeitungsartikel
-bibitem#:#bibitem_av#:#AV
-bibitem#:#bibitem_internet#:#Internet
-bibitem#:#bibitem_unpublished#:#Unveröffentlicht
-bibitem#:#bibitem_label#:#Kennzeichen
-bibitem#:#bibitem_identifier#:#Bezeichner
-bibitem#:#bibitem_catalog#:#Katalog
-bibitem#:#bibitem_entry#:#Eintrag
-bibitem#:#bibitem_delete#:#Löschen
-bibitem#:#bibitem_first_name#:#Vorname
-bibitem#:#bibitem_last_name#:#Nachname
-bibitem#:#bibitem_middle_name#:#Mittelname
-bibitem#:#bibitem_booktitle#:#Buchtitel
-bibitem#:#bibitem_note#:#Notiz
-bibitem#:#bibitem_number#:#Nummer
-bibitem#:#bibitem_organization#:#Organisation
-bibitem#:#bibitem_edition#:#Ausgabe
-bibitem#:#bibitem_how_published#:#Wie veröffentlicht
-bibitem#:#bibitem_grey_literature#:#Graue Literatur
-bibitem#:#bibitem_print#:#Druck
-bibitem#:#bibitem_publisher#:#Herausgeber
-bibitem#:#bibitem_series_title#:#Titel der Reihe
-bibitem#:#bibitem_series_editor#:#Verfasser
-bibitem#:#bibitem_series_volume#:#Band
-bibitem#:#bibitem_year#:#Jahr
-bibitem#:#bibitem_save#:#Speichern

@@ -33,56 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
-administration#:#analyzing#:#Analyzing...
-administration#:#clean#:#Clean up
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
-administration#:#cleaning#:#Cleaning...
-administration#:#cleaning_final#:#Final cleaning...
-administration#:#closing_gaps#:#Closing gaps in tree...
-administration#:#disabled#:#disabled
-administration#:#done#:#Done
-administration#:#found#:#found.
-administration#:#found_none#:#none found.
-administration#:#log_scan#:#Log scan results
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
-administration#:#nothing_to_purge#:#Nothing to purge...
-administration#:#nothing_to_remove#:#Nothing to remove...
-administration#:#nothing_to_restore#:#Nothing to restore...
-administration#:#options#:#Options
-administration#:#purge_missing#:#Purge missing objects
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
-administration#:#purge_trash#:#Purge deleted objects
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
-administration#:#purging#:#Purging...
-administration#:#purging_trash#:#Purging trash...
-administration#:#purging_unbound_objs#:#Purging unbound objects...
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...
-administration#:#removing_invalid_refs#:#Removing invalid references...
-administration#:#restore_missing#:#Restore missing objects
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.
-administration#:#restore_trash#:#Restore deleted objects
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.
-administration#:#restoring#:#Restoring...
-administration#:#restoring_missing_objs#:#Restoring missing objects...
-administration#:#restoring_trash#:#Restoring trash...
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...
-administration#:#scan_completed#:#Scan completed
-administration#:#scan_details#:#Scan details
-administration#:#scan_modes#:#Scan modes used
-administration#:#scan_only#:#Scan only
-administration#:#scanning_system#:#Scanning system...
-administration#:#searching_deleted_objs#:#Searching for deleted objects...
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...
-administration#:#searching_invalid_refs#:#Searching for invalid references...
-administration#:#searching_missing_objs#:#Searching for missing objects...
-administration#:#searching_unbound_objs#:#Searching for unbound objects...
-administration#:#skippede#:#skipped
-administration#:#start_scan#:#Start!
-administration#:#systemcheck#:#Systemcheck
-administration#:#view_last_log#:#View last Scanlog
-administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
 assessment#:#add_matching_pair#:#Add matching pair
@@ -96,17 +46,10 @@ assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
-assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
-assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.
-assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
-assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
 assessment#:#export#:#Export
 assessment#:#false#:#False
-assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
-assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
@@ -117,8 +60,6 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
-assessment#:#material#:#Material
-assessment#:#material_download#:#Material to download
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
@@ -153,35 +94,26 @@ assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
-assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_introduction#:#Introduction
-assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
-assessment#:#tst_maximum_points#:#Maximum points
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
-assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_nr_of_tries#:#Max. number of tries
-assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_processing_time#:#Max. processing time
-assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
-assessment#:#tst_reached_points#:#Reached points
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
@@ -195,18 +127,12 @@ assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_show_results#:#Show test results
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
-assessment#:#tst_status_completed#:#completed
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)
-assessment#:#tst_status_not_entered#:#not entered
-assessment#:#tst_status_progress#:#in progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
-assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
-assessment#:#uploaded_material#:#Uploaded Material
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
@@ -223,7 +149,6 @@ chat#:#chat_chatroom_rename#:#Edit chatroom
 chat#:#chat_chatrooms#:#Chatrooms
 chat#:#chat_color#:#Font color
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
-chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat 
 chat#:#chat_face#:#Font type
 chat#:#chat_fuchsia#:#fuchsia
@@ -1009,7 +934,6 @@ common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
-common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
@@ -1029,7 +953,6 @@ common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
 common#:#obj_chac#:#Chat settings
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
@@ -1057,8 +980,6 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool
-common#:#obj_recf#:#Restored Objects
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -1648,6 +1569,223 @@ content#:#pg#:#Page
 content#:#read offline#:#Read Offline
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
+dateplaner#:#Language_file#:#english
+dateplaner#:#application#:#Dateplaner
+dateplaner#:#title#:#Ilias dateplaner
+dateplaner#:#app_inbox#:#group dates inbox
+dateplaner#:#app_day#:#dayview
+dateplaner#:#app_week#:#weekview
+dateplaner#:#app_month#:#monthview
+dateplaner#:#app_list#:#date list
+dateplaner#:#app_properties#:#properties
+dateplaner#:#app_date#:#insert date
+dateplaner#:#app_freetime#:#freetime of other group members (catch a time)
+dateplaner#:#new_doc#:#create new date
+dateplaner#:#open_day#:#dayview
+dateplaner#:#week#:#week
+dateplaner#:#year#:#year
+dateplaner#:#month#:#month
+dateplaner#:#hour#:#hour
+dateplaner#:#o_day_date#:#24h date
+dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
+dateplaner#:#date_format_middle#:#m/d/y//month/day/Year
+dateplaner#:#myeahr#:#last year
+dateplaner#:#mmonth#:#last month
+dateplaner#:#mweek#:#last week
+dateplaner#:#today#:#today
+dateplaner#:#pweek#:#next week
+dateplaner#:#pmonth#:#next month
+dateplaner#:#pyear#:#next year
+dateplaner#:#long_01#:#January
+dateplaner#:#long_02#:#February
+dateplaner#:#long_03#:#March
+dateplaner#:#long_04#:#April
+dateplaner#:#long_05#:#May
+dateplaner#:#long_06#:#June
+dateplaner#:#long_07#:#July
+dateplaner#:#long_08#:#August
+dateplaner#:#long_09#:#September
+dateplaner#:#long_10#:#October
+dateplaner#:#long_11#:#November
+dateplaner#:#long_12#:#December
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Feb
+dateplaner#:#short_03#:#Mar
+dateplaner#:#short_04#:#Apr
+dateplaner#:#short_05#:#May
+dateplaner#:#short_06#:#Jun
+dateplaner#:#short_07#:#Jul
+dateplaner#:#short_08#:#Aug
+dateplaner#:#short_09#:#Sep
+dateplaner#:#short_10#:#Oct
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dec
+dateplaner#:#Mo_long#:#Monday
+dateplaner#:#Tu_long#:#Tuesday
+dateplaner#:#We_long#:#Wednesday
+dateplaner#:#Th_long#:#Thursday
+dateplaner#:#Fr_long#:#Friday
+dateplaner#:#Sa_long#:#Saturday
+dateplaner#:#Su_long#:#Sunday
+dateplaner#:#Mo_short#:#Mo
+dateplaner#:#Tu_short#:#Tu
+dateplaner#:#We_short#:#We
+dateplaner#:#Th_short#:#Th
+dateplaner#:#Fr_short#:#Fr
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_short#:#Su
+dateplaner#:#error_minical_img#:#Cant create GD-picture-stream
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>
+dateplaner#:#ERROR_TS#:#Incorrect date format
+dateplaner#:#ERROR_DB#:#Database write error!
+dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm
+dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm
+dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.
+dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.
+dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.
+dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
+dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.
+dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.
+dateplaner#:#date#:#Date
+dateplaner#:#begin_date#:#Begin of Date
+dateplaner#:#end_date#:#End of Date
+dateplaner#:#created#:#Created
+dateplaner#:#last_change#:#Last changed
+dateplaner#:#rotation#:#Rotation
+dateplaner#:#rotation_dates#:#Rotation Dates
+dateplaner#:#dv_date_begin#:#Date Start:
+dateplaner#:#dv_date_end#:#Date End:
+dateplaner#:#dv_whole_day#:#Whole day:
+dateplaner#:#dv_rotation_date#:#Rotation date:
+dateplaner#:#dv_rotation_end#:#Rotation end:
+dateplaner#:#dv_startdate#:#Startdate:
+dateplaner#:#dv_enddate#:#Enddate:
+dateplaner#:#dv_date_hm#:#Hour:Minute
+dateplaner#:#dv_rotation#:#Rotation:
+dateplaner#:#dv_message#:#Message:
+dateplaner#:#dv_shorttext#:#Shorttext:
+dateplaner#:#dv_text#:#Text:
+dateplaner#:#dv_groupselect#:#Groupselect:
+dateplaner#:#dv_keywords#:#Keywords:
+dateplaner#:#dv_keywordselect#:#Keywordselect:
+dateplaner#:#dv_button_insert#:#Insert
+dateplaner#:#dv_button_cancel#:#Cancel
+dateplaner#:#dv_button_update#:#Update
+dateplaner#:#dv_button_delete#:#Delete
+dateplaner#:#dv_groupview#:#Groupdate:
+dateplaner#:#dv_groupview_text#:#Group:<br> 
+dateplaner#:#dv_noKey#:#no Keyword
+dateplaner#:#dv_noGroup#:#no Group
+dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox) 
+dateplaner#:#dv_Grouptime#:#free time
+dateplaner#:#dv_preview#:#      <b>! Preview !</b>
+dateplaner#:#r_nonrecurring#:#Once
+dateplaner#:#r_day#:#every day
+dateplaner#:#r_week#:#every week
+dateplaner#:#r_14#:#every 14 days
+dateplaner#:#r_4_weeks#:#every 4 weeks
+dateplaner#:#r_month#:#every month
+dateplaner#:#r_halfyear#:#every half year
+dateplaner#:#r_year#:#every year
+dateplaner#:#semester_name#:#Semester Name
+dateplaner#:#keyword#:#Keyword
+dateplaner#:#keywords#:#Keywords
+dateplaner#:#shorttext#:#Short Text
+dateplaner#:#Text#:#Text
+dateplaner#:#DateText#:#Message
+dateplaner#:#add_data#:#Additional data
+dateplaner#:#menue#:#Menu
+dateplaner#:#k_alldates#:#all dates
+dateplaner#:#main_dates#:#Main Dates
+dateplaner#:#extra_dates#:#One Day Dates
+dateplaner#:#no_entry#:#no dates available
+dateplaner#:#more#:#more
+dateplaner#:#to#:#to
+dateplaner#:#of#:#of
+dateplaner#:#back#:#back
+dateplaner#:#del_all#:#delete all dates
+dateplaner#:#del_one#:#delete one date
+dateplaner#:#viewlist#:#view
+dateplaner#:#printlist#:#print
+dateplaner#:#apply#:#apply
+dateplaner#:#discard#:#discard
+dateplaner#:#delete#:#delete
+dateplaner#:#keep#:#keep
+dateplaner#:#timedate#:#Time / Date
+dateplaner#:#group#:#group
+dateplaner#:#newDates#:#New dates
+dateplaner#:#changedDates#:#Changed dates
+dateplaner#:#deletedDates#:#Deleted dates
+dateplaner#:#singleDate#:#single date
+dateplaner#:#properties#:#Properties
+dateplaner#:#changeTo#:#Change to:
+dateplaner#:#newKeyword#:#New:
+dateplaner#:#View#:#View:
+dateplaner#:#starttime_for_view#:#Starttime for view:
+dateplaner#:#endtime_for_view#:#Endtime for view:
+dateplaner#:#importDates#:#Import of Outlook Dates
+dateplaner#:#insertImportDates#:#These dates were successfully registered:
+dateplaner#:#timeslice#:#Time:
+dateplaner#:#readimportfile#:#insert
+dateplaner#:#Listbox_long#:#List of Dates
+dateplaner#:#Month_long#:#Month View
+dateplaner#:#Week_long#:#Week View
+dateplaner#:#Day_long#:#Day View
+dateplaner#:#inbox#:#Inbox
+dateplaner#:#c_date#:#Create Date
+dateplaner#:#free#:#free
+dateplaner#:#checkforfreetime#:#Check for free time
+dateplaner#:#freetime#:#free Time in group
+dateplaner#:#busytime#:#busy time in group
+dateplaner#:#help_further#:#<br> <b>click here for further information.</b>
+dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
+dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format
+dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.
+dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]
+dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.
+dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
+dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format
+dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.
+dateplaner#:#help_rotation#:#Rotation
+dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
+dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date 
+dateplaner#:#help_group#:#Groupdates selection
+dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.
+dateplaner#:#help_keyword#:#Keyword selection
+dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
+dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters
+dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.
+dateplaner#:#help_text#:#Text
+dateplaner#:#help_text_l#:#Here one can enter the text for a given date.
+dateplaner#:#help_keywordUse#:#Keyword  selection
+dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.
+dateplaner#:#help_inbox#:#Dateplaner Inbox
+dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.
+dateplaner#:#help_day#:#Dateplaner dayview
+dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.
+dateplaner#:#help_week#:#Dateplaner weekview
+dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.
+dateplaner#:#help_month#:#Dateplaner monthview
+dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.
+dateplaner#:#help_list#:#Dateplaner datelist
+dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.
+dateplaner#:#help_properties_del#:#Deletes the keyword
+dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.
+dateplaner#:#help_properties_alt#:#Changes the keyword
+dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.
+dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
+dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview
+dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.
+dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
+dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_attachments#:#Attachments
