@@ -10,29 +10,67 @@
 	<option value="relation"{META_SECTION_RELATION}>Relation</option>
 	<option value="annotation"{META_SECTION_ANNOTATION}>Annotation</option>
 	<option value="classification"{META_SECTION_CLASSIFICATION}>Classification</option>
-</select>
-<input class="submit" type="submit" value="{TXT_OK}"/></p>
+</select></p>
+<p>{TXT_CHOOSE_LANGUAGE}:
+{SEL_META_LANGUAGE}</p>
+<p><input class="submit" type="submit" value="{TXT_OK}"/></p>
 </form>
 <form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
-<input type="hidden" name="meta[section]" value="{VAL_SECTION}">
+<input type="hidden" name="meta_section" value="{VAL_SECTION}">
+<input type="hidden" name="meta_language" value="{VAL_LANGUAGE}">
 <table class="std">
+<!-- BEGIN general -->
 <tr class="tblheader">
-	<td class="std" colspan="2">{TXT_GENERAL}</td>
+	<td class="std" colspan="3">{GENERAL_TXT_GENERAL} (General)</td>
 </tr>
 <tr>
-	<td class="option">{TXT_IDENTIFIER}</td>
-	<td class="option_value">{VAL_IDENTIFIER}</td>
+	<td class="option" colspan=2>{GENERAL_TXT_STRUCTURE} (Structure)</td>
+	<td class="option_value">
+		<select name="meta[structure] size="1">
+			<option value="">{GENERAL_TXT_PLEASE_SELECT}</option>
+			<option value="Atomic"{GENERAL_VAL_STRUCTURE_ATOMIC}>{GENERAL_TXT_STRUCTURE_ATOMIC} (Atomic)</option>
+			<option value="Collection"{GENERAL_VAL_STRUCTURE_COLLECTION}>{GENERAL_TXT_STRUCTURE_COLLECTION} (Collection)</option>
+			<option value="Networked"{GENERAL_VAL_STRUCTURE_NETWORKED}>{GENERAL_TXT_STRUCTURE_NETWORKED} (Networked)</option>
+			<option value="Hierarchical"{GENERAL_VAL_STRUCTURE_HIERARCHICAL}>{GENERAL_TXT_STRUCTURE_HIERARCHICAL} (Hierarchical)</option>
+			<option value="Linear"{GENERAL_VAL_STRUCTURE_LINEAR}>{GENERAL_TXT_STRUCTURE_LINEAR} (Linear)</option>
+		</select>
+	</td>
+</tr>
+<!-- BEGIN identifier_loop -->
+<tr>
+	<td class="option" colspan=2>{IDENTIFIER_LOOP_TXT_IDENTIFIER} (Identifier)</td>
+	<td class="option_value">{IDENTIFIER_LOOP_VAL_IDENTIFIER}</td>
 </tr>
 <tr>
-	<td class="option">{TXT_TITLE}</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[title]" value="{VAL_TITLE}"></td>
+	<td class="option" width=10>&nbsp;</td>
+	<td class="sub_option">{IDENTIFIER_LOOP_TXT_CATALOG} (Catalog)</td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[identifier_catalog]" value="{IDENTIFIER_LOOP_VAL_CATALOG}"></td>
 </tr>
 <tr>
-	<td class="option">{TXT_LANGUAGE}</td>
-	<td class="option_value">{SEL_LANGUAGE}</td>
+	<td class="option" width=10>&nbsp;</td>
+	<td class="sub_option">{IDENTIFIER_LOOP_TXT_ENTRY} (Entry)</td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[identifier_entry]" value="{IDENTIFIER_LOOP_VAL_ENTRY}"></td>
 </tr>
 <tr>
-	<td class="submit" colspan="2">
+	<td class="option" width=10>&nbsp;</td>
+	<td class="sub_option">&nbsp;</td>
+	<td class="option_value">
+		[ <a href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a> ]
+		[ <a href="{IDENTIFIER_LOOP_ACTION_ADD}">{IDENTIFIER_LOOP_TXT_ADD}</a> ]
+	</td>
+</tr>
+<!-- END identifier_loop -->
+<tr>
+	<td class="option" colspan=2>{GENERAL_TXT_TITLE}</td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[title]" value="{GENERAL_VAL_TITLE}"></td>
+</tr>
+<tr>
+	<td class="option" colspan=2>{GENERAL_TXT_LANGUAGE}</td>
+	<td class="option_value">{GENERAL_SEL_LANGUAGE}</td>
+</tr>
+<!-- END general -->
+<tr>
+	<td class="submit" colspan="3">
 	<div align="left"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
 </tr>
 </table>
