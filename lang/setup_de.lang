@@ -371,3 +371,4 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
+datadir_webspacedir_match#:#Datenverzeichnis und Webspaceverzeichnis sind gleich! Sie müssen für das Datenverzeichnis ein eigenes Verzeichnis angeben.
