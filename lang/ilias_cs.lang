@@ -496,6 +496,7 @@ common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#Aktivovat role
 common#:#add#:#Přidat
 common#:#add_author#:#Přidat authora
+common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Přidat člena
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Přidat překlad
@@ -530,6 +531,7 @@ common#:#answers#:#odpovědí### Je spojováno s "Seřadit podle"
 common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Žádost dokončena
 common#:#application_date#:#Datum žádosti
+common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#appointment#:#Schůzka
 common#:#appointment_list#:#Seznam schůzek
 common#:#archive#:#Archiv
@@ -678,6 +680,15 @@ common#:#close#:#Zavřít
 common#:#comma_separated#:#Čárkami oddělený
 common#:#comment#:#komentář
 common#:#compose#:#Vytvořit
+common#:#condition#:#Condition###14 Aug 2004 new variable
+common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
+common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
+common#:#condition_passed#:#Passed###14 Aug 2004 new variable
+common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
+common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
+common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
+common#:#condition_update#:#Save###14 Aug 2004 new variable
+common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#Potvrdit
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktní informace
@@ -715,9 +726,14 @@ common#:#crs_edit_permission#:#Change permission settings###16 Mar 2004 new vari
 common#:#crs_join#:#Subscribe to Course###16 Mar 2004 new variable
 common#:#crs_leave#:#Unsubscribe from Course###16 Mar 2004 new variable
 common#:#crs_management_system#:#Systém pro správu kurzů
+common#:#crs_member_not_passed#:#Not passed###14 Aug 2004 new variable
+common#:#crs_member_passed#:#Passed###14 Aug 2004 new variable
 common#:#crs_new#:#Nový kurz
 common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Read access to Course###16 Mar 2004 new variable
+common#:#crs_status_blocked#:#[Access refused]###14 Aug 2004 new variable
+common#:#crs_status_pending#:#[Waiting for registration]###14 Aug 2004 new variable
+common#:#crs_subscribers_assigned#:#Assigned new user(s)###14 Aug 2004 new variable
 common#:#crs_visible#:#Course is visible###16 Mar 2004 new variable
 common#:#crs_write#:#Edit Course###16 Mar 2004 new variable
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
@@ -1435,6 +1451,7 @@ common#:#no_objects#:#Žádné objekty
 common#:#no_permission_to_join#:#Nemáte oprávnění pro vstup do skupiny!
 common#:#no_title#:#Žádný název
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
+common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#none#:#Neurčeno
 common#:#normal#:#Normální
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1609,6 +1626,7 @@ common#:#please_enter_target#:#Zadejte prosím cíl
 common#:#please_enter_title#:#Zadejte prosím název
 common#:#port#:#Port### identical translation
 common#:#position#:#Pozice
+common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
 common#:#presentation_options#:#Prezentační volby
 common#:#previous#:#předchozí
 common#:#print#:#Tisk
@@ -1824,6 +1842,15 @@ common#:#tests#:#Tests###16 Mar 2004 new variable
 common#:#time#:#Čas
 common#:#time_d#:#Day###24 Jun 2004 new variable
 common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_limit#:#Access###14 Aug 2004 new variable
+common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###14 Aug 2004 new variable
+common#:#time_limit_applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#time_limit_no_users_selected#:#Please select an user.###14 Aug 2004 new variable
+common#:#time_limit_not_valid#:#The period is not valid.###14 Aug 2004 new variable
+common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###14 Aug 2004 new variable
+common#:#time_limit_reached#:#Your access period is expired.###14 Aug 2004 new variable
+common#:#time_limit_users_updated#:#User data updated###14 Aug 2004 new variable
+common#:#time_limits#:#Access###14 Aug 2004 new variable
 common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Název
 common#:#to#:#Komu
@@ -2237,6 +2264,7 @@ crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
 crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
 crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
 crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
+crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
 crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
 crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
 crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
@@ -2327,6 +2355,7 @@ crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Options###07 Aug 2004 new variable
+crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
 crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
 crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
 crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable

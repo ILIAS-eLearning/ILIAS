@@ -496,6 +496,7 @@ common#:#activation#:#Attivazione
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
 common#:#add_author#:#Aggiungi autore
+common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Aggiungi membro
 common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
@@ -530,6 +531,7 @@ common#:#answers#:#Risposta
 common#:#any_language#:#Tutte le lingue
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
+common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#appointment#:#Appuntamento
 common#:#appointment_list#:#Lista appuntamenti
 common#:#archive#:#Archivio
@@ -677,6 +679,15 @@ common#:#close#:#Chiudi
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento
 common#:#compose#:#Scrivi
+common#:#condition#:#Condition###14 Aug 2004 new variable
+common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
+common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
+common#:#condition_passed#:#Passed###14 Aug 2004 new variable
+common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
+common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
+common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
+common#:#condition_update#:#Save###14 Aug 2004 new variable
+common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#Conferma
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
@@ -714,9 +725,14 @@ common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#crs_join#:#Iscrivere al corso
 common#:#crs_leave#:#Cancellare dal corso
 common#:#crs_management_system#:#Sistema di gestione corsi
+common#:#crs_member_not_passed#:#Not passed###14 Aug 2004 new variable
+common#:#crs_member_passed#:#Passed###14 Aug 2004 new variable
 common#:#crs_new#:#Nuovo corso
 common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Accedere in lettura al corso
+common#:#crs_status_blocked#:#[Access refused]###14 Aug 2004 new variable
+common#:#crs_status_pending#:#[Waiting for registration]###14 Aug 2004 new variable
+common#:#crs_subscribers_assigned#:#Assigned new user(s)###14 Aug 2004 new variable
 common#:#crs_visible#:#Vedere il corso
 common#:#crs_write#:#Modificare il corso
 common#:#cumulative_time#:#Tempo totale
@@ -1434,6 +1450,7 @@ common#:#no_objects#:#Nessun oggetto
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
+common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
@@ -1608,6 +1625,7 @@ common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
 common#:#port#:#Porta
 common#:#position#:#Posizione
+common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente
 common#:#print#:#Stampa
@@ -1823,6 +1841,15 @@ common#:#tests#:#Test
 common#:#time#:#Ora
 common#:#time_d#:#Giorno
 common#:#time_h#:#Ora
+common#:#time_limit#:#Access###14 Aug 2004 new variable
+common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###14 Aug 2004 new variable
+common#:#time_limit_applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#time_limit_no_users_selected#:#Please select an user.###14 Aug 2004 new variable
+common#:#time_limit_not_valid#:#The period is not valid.###14 Aug 2004 new variable
+common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###14 Aug 2004 new variable
+common#:#time_limit_reached#:#Your access period is expired.###14 Aug 2004 new variable
+common#:#time_limit_users_updated#:#User data updated###14 Aug 2004 new variable
+common#:#time_limits#:#Access###14 Aug 2004 new variable
 common#:#time_segment#:#Intervallo di tempo
 common#:#title#:#Titolo
 common#:#to#:#A:
@@ -2236,6 +2263,7 @@ crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
 crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
 crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
 crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
+crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
 crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
 crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
 crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
@@ -2326,6 +2354,7 @@ crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Options###07 Aug 2004 new variable
+crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
 crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
 crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
 crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable

@@ -494,6 +494,7 @@ common#:#activation#:#Aktivierung
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
+common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
@@ -528,6 +529,7 @@ common#:#answers#:#Antworten
 common#:#any_language#:#Alle Sprachen
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
+common#:#applied_users#:#Angelegte Benutzer
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
@@ -676,6 +678,15 @@ common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
+common#:#condition#:#Bedingung
+common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
+common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
+common#:#condition_passed#:#Bestanden
+common#:#condition_precondition#:#Vorbedingungen:
+common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
+common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
+common#:#condition_update#:#Speichern
+common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
@@ -713,9 +724,14 @@ common#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_join#:#Kurs abonnieren
 common#:#crs_leave#:#Kursabonnement aufheben
 common#:#crs_management_system#:#Kursmanagement-System
+common#:#crs_member_not_passed#:#Nicht bestanden
+common#:#crs_member_passed#:#Bestanden
 common#:#crs_new#:#Neuer Kurs
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
+common#:#crs_status_blocked#:#[Zugang gesperrt]
+common#:#crs_status_pending#:#[Anmeldung wird bearbeitet]
+common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
 common#:#cumulative_time#:#Kumulative Zeit
@@ -1433,6 +1449,7 @@ common#:#no_objects#:#Keine Objekte
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
+common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
@@ -1607,6 +1624,7 @@ common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
 common#:#port#:#Port
 common#:#position#:#Position
+common#:#preconditions#:#Vorbedingungen
 common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
@@ -1822,6 +1840,15 @@ common#:#tests#:#Tests
 common#:#time#:#Zeit
 common#:#time_d#:#Tag
 common#:#time_h#:#Stunde
+common#:#time_limit#:#Zugang
+common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.
+common#:#time_limit_applied_users#:#Angelegte Benutzer
+common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
+common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
+common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
+common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
+common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
+common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#An
@@ -2235,6 +2262,7 @@ crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
+crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_subscribers#:#Benutzer hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
@@ -2325,6 +2353,7 @@ crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt.
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Aktionen
+crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt.
 crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
 crs#:#crs_print_list#:#Liste ausdrucken
@@ -3528,32 +3557,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
-common#:#condition_passed#:#Bestanden
-common#:#condition_update#:#Speichern
-common#:#add_condition#:#Neue Verknüpfung anlegen
-common#:#preconditions#:#Vorbedingungen
-common#:#condition#:#Bedingung
-common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
-common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
-common#:#crs_status_blocked#:#[Zugang gesperrt]
-common#:#crs_status_pending#:#[Anmeldung wird bearbeitet]
-common#:#condition_precondition#:#Vorbedingungen:
-common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
-common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
-crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
-common#:#crs_member_passed#:#Bestanden
-common#:#crs_member_not_passed#:#Nicht bestanden
-common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
-crs#:#crs_passed#:#Bestanden
-common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
-common#:#time_limits#:#Zugang
-common#:#time_limit#:#Zugang
-common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.
-common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
-common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
-common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
-common#:#time_limit_applied_users#:#Angelegte Benutzer
-common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
-common#:#applied_users#:#Angelegte Benutzer
-common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
