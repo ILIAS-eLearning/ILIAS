@@ -152,7 +152,6 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->materials),
         $db->quote($created)
       );
-      print $query;
       $result = $db->query($query);
       if ($result == DB_OK) {
         $this->id = $id;

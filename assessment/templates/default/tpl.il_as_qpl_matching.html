@@ -3,31 +3,28 @@
 <table class="std">
 <tr>
   <td class="option">{TEXT_TITLE}:</td>
-  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_MATCHING_TITLE}" size="50" /></td></tr>
+  <td class="option_value" colspan="5"><input name="title" type="text" value="{VALUE_MATCHING_TITLE}" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_AUTHOR}:</td>
-  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_MATCHING_AUTHOR}" size="50" /></td></tr>
+  <td class="option_value" colspan="5"><input name="author" type="text" value="{VALUE_MATCHING_AUTHOR}" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_MATCHING_COMMENT}" id="comment" size="50" /></td></tr>
+  <td class="option_value" colspan="5"><input name="comment" type="text" value="{VALUE_MATCHING_COMMENT}" id="comment" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_QUESTION}:</td>
-  <td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+  <td class="option_value" colspan="5"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
 </tr>
-<tr>
-  <td class="option">{TEXT_POINTS}:</td>
-  <td class="option_value" colspan="4"><input name="points" type="text" id="points" size="10" value="{VALUE_MATCHING_POINTS}" /></td>
-</tr>
-<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+<tr><td colspan="6" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
-  <td colspan="5" class="tblheader">{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
+  <td colspan="6" class="tblheader">{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
 </tr>
 <tr>
   <td class="option">{TEXT_MATCHING_PAIR}:</td>
   <td class="option_value"><input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="text" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" /></td>
   <td class="option_value">{TEXT_MATCHES}</td>
   <td class="option_value"><input name="right_{ANSWER_ORDER}_{MATCHING_ID}" type="text" id="right_{ANSWER_ORDER}_{MATCHING_ID}" size="20" value="{VALUE_RIGHT}" /></td>
+  <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
   <td class="option_value">
 <!-- BEGIN deletebutton -->
 <input type="submit" class="submit" name="delete_{ANSWER_ORDER}" value="{DELETE}" />
@@ -35,6 +32,6 @@
 </td>
 </tr>
 <!-- END answers -->
-<tr><td colspan="5" class="option"><input name="cmd[apply]" type="submit" class="submit" id="apply_matching" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_matching" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
+<tr><td colspan="6" class="option"><input name="cmd[apply]" type="submit" class="submit" id="apply_matching" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_matching" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
 </table>
 </form>

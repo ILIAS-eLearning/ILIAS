@@ -1,0 +1,29 @@
+<table class="fullwidth">
+<tr class="tblheader">
+<td class="std"><h1>{MATCHING_QUESTION_HEADLINE}</h1></td>
+</tr>
+</table>
+<p>
+<table class="std">
+<tr class="tblheader"><td class="std" colspan="3">{MATCHING_QUESTION}</td></tr>
+<!-- BEGIN matching_question -->
+<tr>
+<td class="option_value">
+<select name="sel_answer_{COUNTER}">
+<!-- BEGIN answer_combo -->
+<option value="{COMBO_ANSWER}">{COMBO_ANSWER_VALUE}</option>
+<!-- END answer_combo -->
+</select>
+</td>
+<td class="option_value">{TEXT_MATCHES}</td>
+<td class="option_value">
+ <select name="sel_matching_{COUNTER}">
+<!-- BEGIN matching_combo -->
+<option value="{COMBO_MATCHING}">{COMBO_MATCHING_VALUE}</option>
+<!-- END matching_combo -->
+</select>
+</td>
+<tr>
+<!-- END matching_question -->
+</table>
+</p>
