@@ -581,6 +581,10 @@ class ilObjSurveyQuestionPool extends ilObject
       }
     }
 		$maxentries = $ilUser->prefs["hits_per_page"];
+		if ($maxentries < 1)
+		{
+			$maxentries = 9999;
+		}
     $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();

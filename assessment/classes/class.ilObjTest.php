@@ -3752,6 +3752,10 @@ class ilObjTest extends ilObject
       }
     }
 		$maxentries = $ilUser->prefs["hits_per_page"];
+		if ($maxentries < 1)
+		{
+			$maxentries = 9999;
+		}
 		$forbidden_pools =& $this->getForbiddenQuestionpools();
 		$forbidden = "";
 		if (count($forbidden_pools))
