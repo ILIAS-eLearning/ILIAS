@@ -5201,3 +5201,24 @@ CREATE TABLE `link_check` (
   `url` varchar(255) NOT NULL default '',
   `parent_type` varchar(8) NOT NULL default ''
 ) TYPE=MyISAM;
+<#363>
+CREATE TABLE `tst_eval_users` (
+`eval_users_id` INT NOT NULL AUTO_INCREMENT ,
+`test_fi` INT NOT NULL ,
+`evaluator_fi` INT NOT NULL ,
+`user_fi` INT NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `eval_users_id` ) ,
+INDEX ( `test_fi` , `evaluator_fi` , `user_fi` )
+) COMMENT = 'Contains the users someone has chosen for a statistical evaluation';
+
+CREATE TABLE `tst_eval_groups` (
+`eval_users_id` INT NOT NULL AUTO_INCREMENT ,
+`test_fi` INT NOT NULL ,
+`evaluator_fi` INT NOT NULL ,
+`group_fi` INT NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `eval_users_id` ) ,
+INDEX ( `test_fi` , `evaluator_fi` , `group_fi` )
+) COMMENT = 'Contains the groups someone has chosen for a statistical evaluation';
+
