@@ -472,7 +472,7 @@ class ilUtil
 	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array())
 	{
 		$LinkBar = "";
-		
+
 		$layout_link = "";
 		$layout_prev = "&lt;&lt;";
 		$layout_next = "&gt;&gt;";
@@ -533,11 +533,11 @@ class ilUtil
 
 					if ($newoffset == $AOffset)
 					{
-						$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font>";
+						$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font> ";
 					}
 					else
 					{
-						$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>]";
+						$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>] ";
 					}
 				}
 //			}
