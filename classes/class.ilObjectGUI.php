@@ -148,7 +148,7 @@ class ilObjectGUI
 		// get the object
 		$this->assignObject();
 		
-		// use global $lng instead, when creating new objects object is not
+		// use global $lng instead, when creating new objects object is not available
 		//$this->lng =& $this->object->lng;
 
 		//prepare output

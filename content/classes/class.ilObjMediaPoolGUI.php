@@ -142,6 +142,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
 							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 						$folder_gui->createObject();
+						$this->tpl->show();
 						break;
 
 					case "saveObject":

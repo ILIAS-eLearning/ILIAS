@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.20 2004/04/16 16:29:13 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.21 2004/05/06 18:42:47 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -130,7 +130,7 @@ class ilObjFolderGUI extends ilObjectGUI
 
 		// create and insert Folder in grp_tree
 		include_once("classes/class.ilObjFolder.php");
-		$folderObj = new ilObjFolder();
+		$folderObj = new ilObjFolder(0,$this->withReferences());
 		$folderObj->setType($this->type);
 		$folderObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$folderObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -149,10 +149,11 @@ class ilObjFolderGUI extends ilObjectGUI
 		if ($this->withReferences())		// check if this folders use references
 		{									// note: e.g. folders in media pools don't
 			$folderObj->createReference();
-			$folderObj->putInTree($a_parent);
 			$folderObj->setPermissions($a_parent);
 		}
 
+		$folderObj->putInTree($a_parent);
+			
 		sendInfo($this->lng->txt("fold_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
