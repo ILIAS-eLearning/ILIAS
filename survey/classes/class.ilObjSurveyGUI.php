@@ -1882,12 +1882,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+		if ($question_id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("INSERTBEFORE_ORIGINAL", $question_id);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($question_id)
 		{
 			$this->tpl->setVariable("TEXT_ADD_HEADING", $this->lng->txt("edit_heading"));
+			$this->tpl->setVariable("SELECT_DISABLED", " disabled=\"disabled\"");
 		}
 		else
 		{
@@ -1902,6 +1909,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 /**
+>>>>>>> 1.72.2.18
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
@@ -1940,7 +1948,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if ($_POST["heading"])
 			{
-				$this->object->saveHeading($_POST["heading"], $_POST["insertbefore"]);
+				$insertbefore = $_POST["insertbefore"];
+				if (!$insertbefore)
+				{
+					$insertbefore = $_POST["insertbefore_original"];
+				}
+				$this->object->saveHeading($_POST["heading"], $insertbefore);
 			}
 			else
 			{
