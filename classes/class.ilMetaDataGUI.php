@@ -1325,7 +1325,13 @@ class ilMetaDataGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("CHOOSE_SECTION_ACTION", $a_formaction . "&cmd=chooseMetaSection");
 		$this->tpl->setVariable("TXT_CHOOSE_SECTION", $this->lng->txt("meta_choose_section"));
-		$this->tpl->setVariable("META_SECTION_" . strtoupper($a_section), " selected");
+		for ($i = 0; $i < count($sections); $i++)
+		{
+			if ($a_section != $sections[$i])
+			{
+				$this->tpl->setVariable("META_SECTION_" . strtoupper($sections[$i]), "in");
+			}
+		}
 		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->parseCurrentBlock();

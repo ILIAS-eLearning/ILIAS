@@ -133,7 +133,7 @@ class ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_REQUEST["meta_section"]);
 	}
 
 
