@@ -133,14 +133,14 @@ class ilObjDlBook extends ilObjContentObject
 	/**
 	*	exports the digi-lib-object into a xml structure
 	*/
-	function export($ref_id) 
+	function export()
 	{
 
 		include_once("./classes/class.ilNestedSetXML.php");
 		// ------------------------------------------------------
 		// anhand der ref_id die obj_id ermitteln.
 		// ------------------------------------------------------
-		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$ref_id."' AND object_reference.obj_id=object_data.obj_id ";
+		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$this->getRefId()."' AND object_reference.obj_id=object_data.obj_id ";
         $result = $this->ilias->db->query($query);
 
 		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);

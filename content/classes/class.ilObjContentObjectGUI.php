@@ -87,6 +87,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		/*
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "lm_edit.php?cmd=export&ref_id=".$this->object->getRefID());
+		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
+		$this->tpl->parseCurrentBlock();*/
+
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
@@ -1182,6 +1189,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
+
+
+	/**
+	* export content object
+	*/
+	function export()
+	{
+		require_once("content/classes/class.ilContObjectExport.php");
+		$cont_exp = new ilContObjectExport($this->object);
+		$cont_exp->export();
+	}
+
 
 } // END class.ilObjContentObjectGUI
 ?>

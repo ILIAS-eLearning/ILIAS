@@ -236,10 +236,10 @@ class ilLMPresentationGUI
                     
                     if ($tmp_obj->getType() == "dbk" ) {
                         require_once "content/classes/class.ilObjDlBook.php";
-                        $dbk =& new ilObjDlBook();
-                        $dbk->export($_GET["ref_id"]);
+                        $dbk =& new ilObjDlBook($_GET["ref_id"]);
+                        $dbk->export();
                     }
-                    
+
                 } else if($_POST["type"] == "print")
 				{
 					echo $html;
