@@ -670,14 +670,14 @@ common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_create#:#Neues Forum anlegen
 common#:#frm_delete#:#Forum löschen
-common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
+common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur###30 Mar 2004 content changed
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_edit_permission#:#Rechteeinstellungen ändern
-common#:#frm_edit_post#:#Forumbeiträge anlegen
+common#:#frm_edit_post#:#Forumbeiträge anlegen###30 Mar 2004 content changed
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
 common#:#frm_visible#:#Forum ist sichtbar
-common#:#frm_write#:#Forum bearbeiten
+common#:#frm_write#:#Forum bearbeiten###30 Mar 2004 content changed
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen

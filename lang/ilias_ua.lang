@@ -670,14 +670,14 @@ common#:#frm_add#:#Додати Форум
 common#:#frm_added#:#Форум доданий
 common#:#frm_create#:#Створити Форум
 common#:#frm_delete#:#Видалити Форум
-common#:#frm_delete_post#:#Видалити пост
+common#:#frm_delete_post#:#Видалити пост###30 Mar 2004 content changed
 common#:#frm_edit#:#Редагувати Форум
 common#:#frm_edit_permission#:#Змінити настройки прав
-common#:#frm_edit_post#:#Редагувати пост
+common#:#frm_edit_post#:#Редагувати пост###30 Mar 2004 content changed
 common#:#frm_new#:#Новий Форум
 common#:#frm_read#:#Доступ на читання до Форума
 common#:#frm_visible#:#Форум є видимим
-common#:#frm_write#:#Редагувати форум
+common#:#frm_write#:#Редагувати форум###30 Mar 2004 content changed
 common#:#from#:#Від
 common#:#fullname#:#Повне ім'я
 common#:#functions#:#Функції
