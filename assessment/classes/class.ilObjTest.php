@@ -5259,5 +5259,62 @@ class ilObjTest extends ilObject
 		}
 		return $test_id;
 	}
+
+/**
+* Returns the text answer of a given user for a given question
+* 
+* Returns the text answer of a given user for a given question
+*
+* @param integer $user_id The user id
+* @param integer $question_id The question id
+* @return string The answer text
+* @access public
+*/
+	function getTextAnswer($user_id, $question_id)
+	{
+		$res = "";
+		if (($user_id) && ($question_id))
+		{
+			$query = sprintf("SELECT value1 FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$this->ilias->db->quote($user_id . ""),
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($question_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows() == 1)
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$res = $row["value1"];
+			}
+		}
+		return $res;
+	}
+	
+/**
+* Returns the question text for a given question
+* 
+* Returns the question text for a given question
+*
+* @param integer $question_id The question id
+* @return string The question text
+* @access public
+*/
+	function getQuestiontext($question_id)
+	{
+		$res = "";
+		if ($question_id)
+		{
+			$query = sprintf("SELECT question_text FROM qpl_questions WHERE question_id = %s",
+				$this->ilias->db->quote($question_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows() == 1)
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$res = $row["question_text"];
+			}
+		}
+		return $res;
+	}
 } // END class.ilObjTest
 ?>
