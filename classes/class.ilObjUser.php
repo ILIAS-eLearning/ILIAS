@@ -270,7 +270,10 @@ class ilObjUser extends ilObject
 		{
 			 $ilErr->raiseError("<b>Error: passwd_type missing in function assignData(). ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
-		$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
+		if ($a_data["passwd"] != "********")
+		{
+			$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
+		}
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
 		$this->setFirstname($a_data["firstname"]);
