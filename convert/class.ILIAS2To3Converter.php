@@ -2461,7 +2461,7 @@ class ILIAS2To3Converter
 		$this->xml = new XmlWriter;
 		
 		// set dtd definition
-		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://127.0.0.1/ilias3/xml/ilias_lm.dtd\">");
+		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_lm.dtd\">");
 		
 		// set generated comment
 		$this->xml->xmlSetGenCmt("Export of ILIAS 2 learningunit nr ".$this->luId." to ILIAS 3 LearningModule");
