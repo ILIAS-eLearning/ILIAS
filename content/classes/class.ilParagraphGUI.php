@@ -218,6 +218,7 @@ echo "2";
 echo "3";
 echo "Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$this->pg_obj->getId();
+echo "4"; exit;
 			header("Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$this->pg_obj->getId());
 			exit;
