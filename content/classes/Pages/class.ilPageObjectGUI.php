@@ -344,8 +344,15 @@ class ilPageObjectGUI
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
+				$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
+					"disable" => $this->lng->txt("cont_disable_js"));
+				$sel_js_mode = ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+					? "enable"
+					: "disable";
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
+				$this->tpl->setVariable("SEL_JAVA_SCRIPT",
+					ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true));
 			}
 			else
 			{
@@ -452,7 +459,8 @@ class ilPageObjectGUI
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
-						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"));
+						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
+						 'javascript' => $sel_js_mode);
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

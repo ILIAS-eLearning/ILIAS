@@ -42,6 +42,7 @@
 <xsl:param name="citation" />
 <xsl:param name="map_item" />
 <xsl:param name="map_edit_mode" />
+<xsl:param name="javascript" />
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
 
@@ -288,6 +289,7 @@
 	<xsl:param name="hier_id"/>
 	<xsl:param name="edit"/>
 
+	<xsl:if test="$javascript = 'disable'">
 	<select size="1" class="ilEditSelect">
 		<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
 		<xsl:if test="$edit = 'y'">
@@ -313,6 +315,7 @@
 		<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 		<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>]</xsl:attribute>
 	</input>
+	</xsl:if>
 </xsl:template>
 
 <!-- Paragraph -->

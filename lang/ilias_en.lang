@@ -2389,6 +2389,8 @@ content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_enable_media#:#Enable Media
+content#:#cont_enable_js#:#Enable JavaScript
+content#:#cont_disable_js#:#Disable JavaScript
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_file#:#File
