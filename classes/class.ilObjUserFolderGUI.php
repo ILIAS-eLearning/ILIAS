@@ -800,6 +800,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// that one user overwrites the import data that another user is
 		// currently importing.
 		global $ilUser;
+		ilUtil::makeDir(ilUtil::getDataDir()."/user_import");
 		return ilUtil::getDataDir()."/user_import/usr_".$ilUser->getId();
 	}
 
@@ -830,7 +831,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			ilUtil::delDir($import_dir);
 		}
-		ilUtil::createDirectory($import_dir);
+		ilUtil::makeDir($import_dir);
 
 		// move uploaded file to user import directory
 		$file_name = $_FILES["importFile"]["name"];
@@ -1043,6 +1044,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
+		global $rbacreview, $rbacsystem, $tree;
+
 		require_once("classes/class.ilUserImportParser.php");
 		$importParser = new ilUserImportParser($_POST["xml_file"]);
 		$importParser->setFolderId($this->object->getRefId());
@@ -1054,9 +1057,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			foreach ($_POST["role_assign"] as $role_id)
 			{
-				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+				$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
 				if ($rbacreview->isDeleted($rolf[0])
-					|| $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+					|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
 				{
 					$this->ilias->raiseError($this->lng->txt("import_into_specified_role_not_permitted"), 
 						$this->ilias->error_obj->MESSAGE);
