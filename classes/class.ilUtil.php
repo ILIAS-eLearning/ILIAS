@@ -940,6 +940,34 @@ class ilUtil
 	}
 
 	/**
+	*	zips given directory into given zip.file
+	*/
+	function zip($a_dir, $a_file) {
+		global $ilias;
+
+		$cdir = getcwd();
+		
+		$pathinfo = pathinfo($a_file);
+		$dir = $pathinfo["dirname"];
+		$file = $pathinfo["basename"];
+
+		// unzip
+		$cdir = getcwd();
+		chdir($dir);
+		
+		
+		$zip = $ilias->getSetting("zip_path");
+		
+		$name = basename($a_dir);
+		
+		$zipcmd = $zip." -r $a_file $name";
+		
+		exec($zipcmd);
+		
+		chdir($cdir);
+	}
+	
+	/**
 	* get full java path (dir + java command)
 	*/
 	function getJavaPath()
