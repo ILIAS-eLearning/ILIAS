@@ -1186,7 +1186,7 @@ $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 $query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
 $this->db->query($query);
- 
+
 // init rbac
 $rbacadmin = new ilRbacAdmin();
 $rbacreview = new ilRbacReview();
@@ -4399,3 +4399,34 @@ CREATE TABLE `payment_vendors` (
 `cost_center` VARCHAR( 16 ) NOT NULL ,
 PRIMARY KEY ( `vendor_id` )
 );
+
+<#267>
+<?php
+// remove rbac operations of aicc object type
+$query = "SELECT obj_id FROM object_data ".
+		 "WHERE type='typ' AND title='alm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+if ($row->obj_id > 0)
+{
+	$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
+	$this->db->query($query);
+}
+$query = "DELETE FROM object_data WHERE type='typ' and title='alm'";
+$this->db->query($query);
+
+// remove rbac operations of hacp object type
+$query = "SELECT obj_id FROM object_data ".
+		 "WHERE type='typ' AND title='hlm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+if ($row->obj_id > 0)
+{
+	$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
+	$this->db->query($query);
+}
+$query = "DELETE FROM object_data WHERE type='typ' and title='hlm'";
+$this->db->query($query);
+
+?>
