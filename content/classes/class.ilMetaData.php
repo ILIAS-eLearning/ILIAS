@@ -50,7 +50,7 @@ class ilMetaData
 	* Constructor
 	* @access	public
 	*/
-	function ilMetaData()
+	function ilMetaData($a_type = "", $a_id = 0)
 	{
 		global $ilias;
 
@@ -63,6 +63,23 @@ class ilMetaData
 		$keyword = array();
 		$this->coverage = "";
 		$this->structure = "";
+		$this->type = $a_type;
+		$this->id = $a_id;
+
+		if($a_id != 0)
+		{
+			$this->read();
+		}
+	}
+
+	function read()
+	{
+		$query = "SELECT * FROM meta_data ".
+			"WHERE obj_id = '".$this->id."' AND obj_type='".$this->type."'";
+		$meta_set = $this->ilias->db->query($query);
+		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setTitle($meta_rec["title"]);
 	}
 
 	/**
@@ -114,7 +131,7 @@ class ilMetaData
 	*/
 	function getTitle()
 	{
-		return $a_title;
+		return $this->title;
 	}
 
 	/**

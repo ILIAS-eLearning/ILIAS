@@ -48,6 +48,8 @@ class ilLMParser extends ilSaxParser
 	var $paragraph;
 	var $lm_id;
 	var $lm_tree;
+	var $pg_into_tree;
+	var $st_into_tree;
 
 	/**
 	* Constructor
@@ -60,6 +62,8 @@ class ilLMParser extends ilSaxParser
 		$this->current_element = array();
 		$this->structure_objects = array();
 		$this->lm_id = $a_lm_id;
+		$this->st_into_tree = array();
+		$this->pg_into_tree = array();
 
 		// Todo: The following has to go to other places
 		$query = "DELETE FROM lm_tree WHERE lm_id ='".$a_lm_id."'";
@@ -71,15 +75,10 @@ class ilLMParser extends ilSaxParser
 		$query = "DELETE FROM meta_data";
 		$this->ilias->db->query($query);
 
-echo "1";
 		$this->lm_tree = new ilTree($a_lm_id);
-echo "2";
 		$this->lm_tree->setTreeTablePK("lm_id");
-echo "3";
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
-echo "4";
 		$this->lm_tree->addTree($a_lm_id, 1);
-echo "5"; //exit;
 
 	}
 
@@ -94,6 +93,40 @@ echo "5"; //exit;
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
+
+	function startParsing()
+	{
+		parent::startParsing();
+		$this->storeTree();
+	}
+
+	function storeTree()
+	{
+		foreach($this->st_into_tree as $st)
+		{
+			$this->lm_tree->insertNode($st["id"], $st["parent"]);
+			if (is_array($this->pg_into_tree[$st["id"]]))
+			{
+				foreach($this->pg_into_tree[$st["id"]] as $pg)
+				{
+					switch ($pg["type"])
+					{
+						case "pg_alias":
+echo "storeTree.pg_alias:".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
+							$this->lm_tree->insertNode($this->pg_mapping[$pg["id"]], $st["id"]);
+							break;
+
+						case "pg":
+echo "storeTree.pg:".$pg["id"].":".$st["id"].":<br>";
+							$this->lm_tree->insertNode($pg["id"], $st["id"]);
+							break;
+					}
+				}
+			}
+		}
+echo "6";
+	}
+
 
 	/*
 	* update parsing status for a element begin
@@ -176,14 +209,16 @@ echo "5"; //exit;
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+//echo "BEGIN_TAG:".$a_name.":<br>";
 		switch($a_name)
 		{
 			case "LearningModule":
-				$this->learning_module =& new ilLearningModule();
+				$this->learning_module =& new ilLearningModule($this->lm_id);
 				$this->current_object =& $this->learning_module;
 				break;
 
 			case "StructureObject":
+echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->structure_objects[count($this->structure_objects)]
 					=& new ilStructureObject();
 				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
@@ -231,6 +266,11 @@ echo "5"; //exit;
 	{
 		switch($a_name)
 		{
+			case "StructureObject":
+				unset($this->meta_data);
+				unset($this->structure_objects[count($this->structure_objects) - 1]);
+				break;
+
 			case "PageObject":
 				if (!$this->page_object->isAlias())
 				{
@@ -243,12 +283,27 @@ echo "5"; //exit;
 							echo nl2br($co_object->getText())."<br><br>";
 						}
 					}
-					//$this->page_object->create();
-echo "create page object:".$this->page_object->getId()."<br>";
 					$this->page_object->create();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
+
 				}
+				// if we are within a structure object: put page in tree
+				$cnt = count($this->structure_objects);
+				if ($cnt > 0)
+				{
+					$parent_id = $this->structure_objects[$cnt - 1]->getId();
+					if ($this->page_object->isAlias())
+					{
+						$this->pg_into_tree[$parent_id][] = array("type" => "pg_alias", "id" => $this->page_object->getOriginId());
+					}
+					else
+					{
+						$this->pg_into_tree[$parent_id][] = array("type" => "pg", "id" => $this->page_object->getId());
+					}
+				}
+
+				// if we are within a structure object: put page in tree
 				unset($this->meta_data);	//!?!
 				unset($this->page_object);
 				break;
@@ -266,16 +321,15 @@ echo "create page object:".$this->page_object->getId()."<br>";
 					else
 					{
 						$parent_id = $this->lm_tree->getRootId();
-echo "getRootId:".$parent_id."<br>";
 					}
 
 					// create structure object and put it in tree
-echo "create structure object:".$this->current_object->getId().":".
-	$this->current_object->getType()."<br>";
 					$this->current_object->create();
-echo "call insert node :".$this->current_object->getId().":".$parent_id.":<br>";
-					$this->lm_tree->insertNode($this->current_object->getId(), $parent_id);
-echo "after insert node";
+					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
+						"parent" => $parent_id);
+echo "st_into_tree_put:".$this->current_object->getId().":".$parent_id.":<br>";
+echo "count_st_into:".count($this->st_into_tree).":<br>";
+					//$this->lm_tree->insertNode($this->current_object->getId(), $parent_id);
 				}
 				break;
 
@@ -302,6 +356,12 @@ echo "after insert node";
 				case "Paragraph":
 					$this->paragraph->appendText($a_data);
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
+					break;
+
+				case "Title":
+					$this->meta_data->setTitle($a_data);
+echo ":setTitle(".htmlentities($a_data).")<br>";
+echo ":getTitle(".$this->meta_data->getTitle().")<br>";
 					break;
 			}
 		}
