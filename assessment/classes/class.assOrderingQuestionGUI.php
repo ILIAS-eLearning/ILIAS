@@ -355,6 +355,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 */
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
+    $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -425,7 +426,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 */
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
 		$this->outWorkingForm();
 	}
 }

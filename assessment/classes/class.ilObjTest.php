@@ -1323,6 +1323,15 @@ class ilObjTest extends ilObject
 		return $existing_questions;
 	}
 	
+/**
+* Returns the question type of a question with a given id
+* 
+* Returns the question type of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question type string
+* @access private
+*/
   function getQuestionType($question_id) {
     if ($question_id < 1)
       return -1;
@@ -2137,6 +2146,42 @@ class ilObjTest extends ilObject
 		$webdir = CLIENT_WEB_DIR . "/assessment/" . $this->getRefId() . "/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
+
+  function &createQuestionGUI($question_type, $question_id = -1) {
+    if ((!$question_type) and ($question_id > 0)) {
+			$question_type = $this->getQuestionType($question_id);
+    }
+    switch ($question_type) {
+      case "qt_multiple_choice_sr":
+        $question =& new ASS_MultipleChoiceGUI();
+        $question->object->set_response(RESPONSE_SINGLE);
+        break;
+      case "qt_multiple_choice_mr":
+        $question =& new ASS_MultipleChoiceGUI();
+        $question->object->set_response(RESPONSE_MULTIPLE);
+        break;
+      case "qt_cloze":
+        $question =& new ASS_ClozeTestGUI();
+        break;
+      case "qt_matching":
+        $question =& new ASS_MatchingQuestionGUI();
+        break;
+      case "qt_ordering":
+        $question =& new ASS_OrderingQuestionGUI();
+        break;
+      case "qt_imagemap":
+        $question =& new ASS_ImagemapQuestionGUI();
+        break;
+			case "qt_javaapplet":
+				$question =& new ASS_JavaAppletGUI();
+				break;
+    }
+		if ($question_id > 0)
+		{
+			$question->object->loadFromDb($question_id);
+		}
+		return $question;
+  }
 
 } // END class.ilObjTest
 ?>

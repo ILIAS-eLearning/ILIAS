@@ -446,6 +446,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 */
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
+    $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -532,7 +533,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 */
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 		$this->outWorkingForm();
 	}
 

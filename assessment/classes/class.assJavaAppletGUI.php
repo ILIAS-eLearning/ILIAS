@@ -305,6 +305,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 	{
 		global $ilUser;
 
+    $this->tpl->addBlockFile("JAVAAPPLET_QUESTION", "javaappletblock", "tpl.il_as_execute_javaapplet_question.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -378,7 +379,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 */
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("JAVAAPPLET_QUESTION", "javaappletblock", "tpl.il_as_execute_javaapplet_question.html", true);
 		$this->outWorkingForm();
 	}
 

@@ -1137,9 +1137,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"])) {
 			// save question solution
-			$question_gui = new ASS_QuestionGui();
-			$question_gui->create_question("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
-			$question_gui->question->saveWorkingData($this->object->getTestId());
+			$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
+			$question_gui->object->saveWorkingData($this->object->getTestId());
 			// set new finish time for test
 			if ($_SESSION["active_time_id"]) {
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
@@ -1166,9 +1165,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		if ($_GET["evaluation"]) {
-			$question_gui = new ASS_QuestionGui();
-			$question_gui->create_question("", $_GET["evaluation"]);
-			$question_gui->out_evaluation($this->object->getTestId());
+			$this->outEvaluationForm();
 			return;
 		}
 
@@ -1264,8 +1261,6 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = $this->sequence;
 				}
 				$this->object->setActiveTestUser($this->sequence, $postpone);
-				$question_gui = new ASS_QuestionGui();
-				$question_gui->create_question("", $this->object->getQuestionIdFromActiveUserSequence($this->sequence));
 				if ($this->sequence == $this->object->getQuestionCount()) {
 					$finish = true;
 				} else {
@@ -1276,7 +1271,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = true;
 				}
 				$active = $this->object->getActiveTestUser();
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
+				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
 			} else {
 				// finish test
 				$this->object->setActiveTestUser(1, "", true);
@@ -1284,6 +1279,125 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 	}
+
+/**
+* Creates the learners output of a question
+*
+* Creates the learners output of a question
+*
+* @access public
+*/
+  function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed) {
+		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
+    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
+
+		$is_postponed = false;
+		if ($active) {
+			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and !($active->postponed == $question_gui->object->getId())) {
+				$is_postponed = false;
+			} else {
+				$is_postponed = true;
+			}
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
+		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
+		switch ($question_gui->getQuestionType())
+		{
+			case "qt_imagemap":
+				$question_gui->outWorkingForm($test_id, $is_postponed, $formaction);
+				break;
+			default:
+				$question_gui->outWorkingForm($test_id, $is_postponed);
+		}
+    $this->tpl->setCurrentBlock("adm_content");
+    $this->tpl->setVariable("FORMACTION", $formaction);
+		if ($sequence == 1) {
+    	$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+		} else {
+    	$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+		}
+		if ($finish) {
+	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+		} else {
+	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+		}
+		if ($postpone_allowed) {
+			if (!$is_postponed) {
+				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+			}
+		}
+    $this->tpl->parseCurrentBlock();
+  }
+
+
+  function outEvaluationForm() {
+		global $ilUser;
+
+		$test_id = $this->object->getTestId();
+		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
+    
+    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
+		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
+		switch ($question_gui->getQuestionType())
+		{
+			case "qt_imagemap":
+				$question_gui->outWorkingForm($test_id, "", $formaction);
+				break;
+			default:
+				$question_gui->outWorkingForm($test_id, "");
+		}
+    $this->tpl->setCurrentBlock("adm_content");
+		$eval_result = $question_gui->object->getReachedInformation($ilUser->id, $test_id);
+		$bool = array("false", "true");
+    switch($question_gui->getQuestionType())
+    {
+      case "qt_cloze":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_cloze_result"), $value["gap"], $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
+        break;
+      case "qt_multiple_choice_sr":
+      case "qt_multiple_choice_mr":
+				foreach ($eval_result as $key => $value) {
+					$class = "";
+					if (!$value["true"]) {
+						$class = " class=\"warning\"";
+					}
+					$out_eval_results .= "<li$class>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_choice_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
+        break;
+      case "qt_ordering":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_order_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
+        break;
+      case "qt_matching":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_matching_result"), $value["value1"], $value["value2"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
+        break;
+      case "qt_imagemap":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_imagemap_result"), $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
+        break;
+    }
+    $this->tpl->setVariable("EVALUATION_RESULTS", "<ul>\n$out_eval_results\n</ul>");
+    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter());
+    $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+    $this->tpl->parseCurrentBlock();
+  }
 
 	function eval_statObject()
 	{

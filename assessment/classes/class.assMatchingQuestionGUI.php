@@ -367,6 +367,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 */
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
+    $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -457,7 +458,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 */
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
 		$this->outWorkingForm();
 	}
 

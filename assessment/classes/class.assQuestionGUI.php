@@ -193,6 +193,51 @@ class ASS_QuestionGUI {
 		return $saved;
 	}
 
+/**
+* Creates a question gui representation
+*
+* Creates a question gui representation and returns the alias to the question gui
+*
+* @param string $question_type The question type as it is used in the language database
+* @param integer $question_id The database ID of an existing question to load it into ASS_QuestionGUI
+* @return object The alias to the question object
+* @access public
+*/
+  function &createQuestionGUI($question_type, $question_id = -1) {
+    if ((!$question_type) and ($question_id > 0)) {
+      $question_type = $this->object->getQuestionTypeFromDb($question_id);
+    }
+    switch ($question_type) {
+      case "qt_multiple_choice_sr":
+        $this->question =& new ASS_MultipleChoiceGUI();
+        $this->question->object->setResponse(RESPONSE_SINGLE);
+        break;
+      case "qt_multiple_choice_mr":
+        $this->question =& new ASS_MultipleChoiceGUI();
+        $this->question->object->setResponse(RESPONSE_MULTIPLE);
+        break;
+      case "qt_cloze":
+        $this->question =& new ASS_ClozeTestGUI();
+        break;
+      case "qt_matching":
+        $this->question =& new ASS_MatchingQuestionGUI();
+        break;
+      case "qt_ordering":
+        $this->question =& new ASS_OrderingQuestionGUI();
+        break;
+      case "qt_imagemap":
+        $this->question =& new ASS_ImagemapQuestionGUI();
+        break;
+      case "qt_java":
+        $this->question =& new ASS_JavaQuestionGUI();
+        break;
+    }
+    if ($question_id > 0) {
+      $this->question->object->loadFromDb($question_id);
+    }
+    return $this->question;
+  }
+
 
 }
 ?>

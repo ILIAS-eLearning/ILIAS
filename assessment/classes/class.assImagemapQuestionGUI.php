@@ -23,6 +23,7 @@
 
 require_once "class.assQuestionGUI.php";
 require_once "class.assImagemapQuestion.php";
+require_once "class.ilImagemapPreview.php";
 
 /**
 * Image map question GUI representation
@@ -80,7 +81,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
   function showEditForm() {
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-		
 		if ($this->object->get_answer_count())
 		{
 			$this->tpl->setCurrentBlock("deletebutton");
@@ -124,7 +124,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->get_area()));
 			$this->tpl->parseCurrentBlock();
 		}
-		
 		// call to other question data i.e. material, estimated working time block
 		$this->outOtherQuestionData();
 		// image block
@@ -347,6 +346,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 	{
 		global $ilUser;
 
+    $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -376,81 +376,32 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->getTitle());
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->object->get_question());
-    $this->tpl->setVariable("IMAGEMAP", $this->object->get_imagemap_contents($formaction));
-		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) 
+		$imagepath = "";
+		$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
+		foreach ($this->object->answers as $index => $answer)
 		{
-			$formaction .= "&selimage=" . $solutions[0]->value1;
-			if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "rect") == 0) 
+			if (!$test_id)
 			{
-				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
-				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
-				preg_match("/(\d+),(\d+),(\d+),(\d+)/", $coords, $matches);
-				$x0 = $matches[1];
-				$y0 = $matches[2];
-				$x1 = $matches[3];
-				$y1 = $matches[4];
-				// draw a rect around the selection
-				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
-				"-stroke white -fill none -linewidth 5 -draw \"rectangle " .
-				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
-				"-stroke red -fill none -linewidth 3 -draw \"rectangle " .
-				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
-				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
-				system($convert_cmd);
-			} 
-			else if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "circle") == 0) 
-			{
-				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
-				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
-				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
-				$x = $matches[1];
-				$y = $matches[2];
-				$r = $matches[3];
-				// draw a circle around the selection
-				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
-				"-stroke white -fill none -linewidth 5 -draw \"circle " .
-				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
-				"-stroke red -fill none -linewidth 3 -draw \"circle " .
-				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
-				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
-				system($convert_cmd);
-			} 
-			else if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "poly") == 0) 
-			{
-				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
-				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
-				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
-				$x = $matches[1];
-				$y = $matches[2];
-				$r = $matches[3];
-				// draw a polygon around the selection
-				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 ";
-				$convert_cmd .= "-stroke white -fill none -linewidth 5 -draw \"polygon ";
-				preg_match_all("/(\d+),(\d+)/", $coords, $matches, PREG_PATTERN_ORDER);
-				for ($i = 0; $i < count($matches[0]); $i++) 
-				{
-					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
-				}
-				$convert_cmd .= "\" ";
-				$convert_cmd .= "-stroke red -fill none -linewidth 3 -draw \"polygon ";
-				preg_match_all("/(\d+),(\d+)/", $coords, $matches, PREG_PATTERN_ORDER);
-				for ($i = 0; $i < count($matches[0]); $i++) 
-				{
-					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
-				}
-				$convert_cmd .= "\" " .
-				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
-				system($convert_cmd);
+				$href = "";
 			}
+			else
+			{
+				$href = $formaction . "&selimage=" . $answer->get_order();
+			}
+			$visible = false;
+			if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) 
+			{
+				if ($solutions[0]->value1 == $index)
+				{
+					$formaction .= "&selimage=" . $answer->get_order();
+					$visible = true;
+				}
+			}
+			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $href, "", $visible);
 		}
-		if (file_exists($this->object->getImagePath() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg")) 
-		{
-			$imagepath = "displaytempimage.php?gfx=" . $this->object->getImagePath() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg";
-		} 
-		else 
-		{
-			$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-		}
+		$preview->createPreview();
+		$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+		$this->tpl->setVariable("IMAGEMAP", $preview->getImagemap($this->object->getTitle()));
     $this->tpl->setVariable("IMAGE", $imagepath);
     $this->tpl->setVariable("IMAGEMAP_NAME", $this->object->getTitle() . $postponed);
     $this->tpl->parseCurrentBlock();

@@ -444,6 +444,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 */
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
+    $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) 
@@ -539,7 +540,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 */
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
 		$this->outWorkingForm();
 	}
 
