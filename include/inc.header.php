@@ -31,7 +31,6 @@
 *
 * @package ilias-core
 */
-
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilBenchmark.php";
@@ -105,6 +104,12 @@ $ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
 $ilBench->start("Core", "HeaderInclude_GetILIASObject");
 $ilias = new ILIAS($_COOKIE["ilClientId"]);
 $ilBench->stop("Core", "HeaderInclude_GetILIASObject");
+
+require_once './classes/class.ilHTTPS.php';
+
+$https =& new ilHTTPS();
+$https->checkPort();
+
 
 if (!db_set_save_handler())
 {
