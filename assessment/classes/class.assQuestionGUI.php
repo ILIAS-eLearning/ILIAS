@@ -910,8 +910,41 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->parseCurrentBlock();
 
 			if ($javaapplet) {
+				$emptyname = 0;
+				for ($i = 0; $i < $this->question->get_parameter_count(); $i++) {
+					// create template for existing applet parameters
+					$this->tpl->setCurrentBlock("delete_parameter");
+					$this->tpl->setVariable("VALUE_DELETE_PARAMETER", $this->lng->txt("delete"));
+					$this->tpl->setVariable("DELETE_PARAMETER_COUNT", $i);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("applet_parameter");
+					$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_parameter") . " " . ($i+1));
+					$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
+					$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
+					$param = $this->question->get_parameter($i);
+					$this->tpl->setVariable("PARAM_NAME_VALUE", $param["name"]);
+					$this->tpl->setVariable("PARAM_VALUE_VALUE", $param["value"]);
+					$this->tpl->setVariable("PARAM_COUNTER", $i);
+					$this->tpl->parseCurrentBlock();
+					if (!$param["name"]) {
+						$emptyname = 1;
+					}
+				}
+				if (strlen($_POST["cmd"]["add"]) > 0) {
+					if (!$emptyname) {
+						// create template for new applet parameter
+						$this->tpl->setCurrentBlock("applet_parameter");
+						$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_new_parameter"));
+						$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
+						$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
+						$this->tpl->setVariable("PARAM_COUNTER", $this->question->get_parameter_count());
+						$this->tpl->parseCurrentBlock();
+					} else {
+						sendInfo($this->lng->txt("too_many_empty_parameters"));
+					}
+				}
 				$this->tpl->setCurrentBlock("appletcode");
-				$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_attributes"));
+				$this->tpl->setVariable("APPLET_ATTRIBUTES", $this->lng->txt("applet_attributes"));
 				$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
 				$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
 				$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
@@ -919,6 +952,8 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setVariable("VALUE_CODE", $this->question->get_java_code());
 				$this->tpl->setVariable("VALUE_WIDTH", $this->question->get_java_width());
 				$this->tpl->setVariable("VALUE_HEIGHT", $this->question->get_java_height());
+				$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_parameters"));
+				$this->tpl->setVariable("VALUE_ADD_PARAMETER", $this->lng->txt("add_applet_parameter"));
 				$this->tpl->parseCurrentBlock();
 			}
 		} else {
@@ -1557,6 +1592,17 @@ class ASS_QuestionGUI extends PEAR {
 				$this->question->set_java_height($_POST["java_height"]);
 				if ((!$_POST["java_width"]) or (!$_POST["java_height"]))
 					$result = 1;
+				$this->question->flush_params();
+				foreach ($_POST as $key => $value) {
+					if (preg_match("/param_name_(\d+)/", $key, $matches)) {
+						$this->question->add_parameter_at_index($matches[1], $value, $_POST["param_value_$matches[1]"]);
+					}
+				}
+				foreach ($_POST as $key => $value) {
+					if (preg_match("/delete_(\d+)/", $key, $matches)) {
+						$this->question->remove_parameter($_POST["param_name_$matches[1]"]);
+					}
+				}
 			}
 		}
 		return $result;
@@ -2104,6 +2150,28 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$this->tpl->setCurrentBlock("additional_params");
+		if (!$test_id) {
+			$test_id = 0;
+		}
+		$this->tpl->setVariable("PARAM_NAME", "test_id");
+		$this->tpl->setVariable("PARAM_VALUE", $test_id);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("additional_params");
+		$this->tpl->setVariable("PARAM_NAME", "user_id");
+		$this->tpl->setVariable("PARAM_VALUE", $ilUser->id);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("additional_params");
+		$this->tpl->setVariable("PARAM_NAME", "question_id");
+		$this->tpl->setVariable("PARAM_VALUE", $this->question->get_id());
+		$this->tpl->parseCurrentBlock();
+		for ($i = 0; $i < $this->question->get_parameter_count(); $i++) {
+			$this->tpl->setCurrentBlock("additional_params");
+			$param = $this->question->get_parameter($i);
+			$this->tpl->setVariable("PARAM_NAME", $param["name"]);
+			$this->tpl->setVariable("PARAM_VALUE", $param["value"]);
+			$this->tpl->parseCurrentBlock();
+		}
     $this->tpl->setCurrentBlock("javaappletblock");
     $this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->question->get_title());
     $this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->question->get_question());

@@ -36,7 +36,7 @@
 <tr><td colspan="5" class="std">{APPLY_MESSAGE}</td></tr>
 <!-- END pre_save -->
 <!-- BEGIN appletcode -->
-<tr><td colspan="5" class="std">{APPLET_PARAMETERS}</td></tr>
+<tr><td colspan="5" class="std">{APPLET_ATTRIBUTES}</td></tr>
 <tr>
 	<td class="option">{TEXT_CODE}:</td>
 	<td class="option_value" colspan="4"><input type="text" name="java_code" value="{VALUE_CODE}" size="50" /></td>
@@ -49,6 +49,20 @@
 	<td class="option">{TEXT_HEIGHT}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="4"><input type="text" name="java_height" value="{VALUE_HEIGHT}" size="5" /></td>
 </tr>
+<tr><td colspan="5" class="std">{APPLET_PARAMETERS}</td></tr>
+<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_parameter" value="{VALUE_ADD_PARAMETER}" /></td>
+<!-- BEGIN applet_parameter -->
+<tr>
+	<td class="option">{PARAM_PARAM}</td>
+	<td class="option_value" colspan="3">
+		<label for="param_name_{PARAM_COUNTER}">{PARAM_NAME}:</label> <input type="text" name="param_name_{PARAM_COUNTER}" value="{PARAM_NAME_VALUE}" size="20" id="param_name_{PARAM_COUNTER}" />
+		<label for="param_value_{PARAM_COUNTER}">{PARAM_VALUE}:</label> <input type="text" name="param_value_{PARAM_COUNTER}" value="{PARAM_VALUE_VALUE}" size="20" id="param_value_{PARAM_COUNTER}" />
+	</td>
+<!-- BEGIN delete_parameter -->
+	<td class="option_value"><input type="submit" class="submit" name="delete_{DELETE_PARAMETER_COUNT}" value="{VALUE_DELETE_PARAMETER}" /></td>
+<!-- END delete_parameter -->
+</tr>
+<!-- END applet_parameter -->
 <!-- END appletcode -->
 <tr><td colspan="5" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>

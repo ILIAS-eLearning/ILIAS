@@ -123,6 +123,7 @@ assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all req
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
+assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#javaapplet#:#Java Applet
 assessment#:#code#:#Code
 assessment#:#width#:#Width
@@ -153,6 +154,9 @@ assessment#:#please_select#:#--- please select ---
 assessment#:#points#:#Points
 assessment#:#postpone#:#Postpone question
 assessment#:#postponed#:#postponed
+assessment#:#applet_new_parameter#:#New parameter
+assessment#:#applet_parameter#:#Parameter
+assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#preview#:#Preview
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
