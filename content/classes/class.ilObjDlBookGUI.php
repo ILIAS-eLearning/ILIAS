@@ -76,20 +76,27 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		//vd($this->tpl);
 		$this->tpl->addBlockfile("CONTENT", "offline_content", "tpl.offline_export.html", true);
 		$this->tpl->touchBlock("offline_content");
-		$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline");
+		$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline / print");
 		
 		$this->tpl->setVariable("TXT_TYPE","Export-Type");
-		$this->tpl->setVariable("TXT_HTMLEXPORT","HTML export");
-		$this->tpl->setVariable("TXT_PDFEXPORT","PDF export");
+
+		if ($_GET["print"]==1) {
+			$this->tpl->setVariable("TXT_PRINTEXPORT",$this->lng->txt("Print") );
+			$this->tpl->setVariable("PRINT_CHECKED","checked");
+		} else {
+			$this->tpl->setVariable("TXT_HTMLEXPORT",$this->lng->txt("HTML export") );
+			$this->tpl->setVariable("TXT_PDFEXPORT",$this->lng->txt("PDF export") );
+			$this->tpl->setVariable("OFFLINE_CHECKED","checked");
+		}
 		
-		$this->tpl->setVariable("TXT_PAGES","Pages");
-		$this->tpl->setVariable("TXT_PAGESALL","all");
-		$this->tpl->setVariable("TXT_PAGESCHAPTER","chapter");
-		if ($_GET["obj_id"] != "") $this->tpl->setVariable("TXT_PAGESPAGE","this page");
-		$this->tpl->setVariable("TXT_PAGESFROM","pages from");
-		$this->tpl->setVariable("TXT_PAGESTO","to");
+		$this->tpl->setVariable("TXT_PAGES",$this->lng->txt("Pages") );
+		$this->tpl->setVariable("TXT_PAGESALL",$this->lng->txt("all"));
+		$this->tpl->setVariable("TXT_PAGESCHAPTER",$this->lng->txt("chapter") );
+		if ($_GET["obj_id"] != "") $this->tpl->setVariable("TXT_PAGESPAGE",$this->lng->txt("this page"));
+		$this->tpl->setVariable("TXT_PAGESFROM",$this->lng->txt("pages from") );
+		$this->tpl->setVariable("TXT_PAGESTO",$this->lng->txt("to") );
 		
-		$this->tpl->setVariable("BTN_VALUE","start export");
+		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("start export") );
 		
 		$this->tpl->setVariable("EXPORT_ACTION","lm_presentation.php?cmd=offlineexport&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		
@@ -103,16 +110,23 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		include_once("./classes/class.ilTemplate.php");
 
 		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
-		
-		$tpl_menu->setCurrentBlock("btn_cell");
+
+		$tpl_menu->setCurrentBlock("btn_cell");		
+/*
 		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$tpl_menu->setVariable("BTN_TXT","Export");
+		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("export") );
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
+*/		
 
 
 		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$tpl_menu->setVariable("BTN_TXT","read offline");
+		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("read offline"));
+		// $tpl_menu->setVariable("BTN_TARGET","...");
+		$tpl_menu->parseCurrentBlock();
+
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print") );
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
 		
