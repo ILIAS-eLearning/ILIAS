@@ -768,6 +768,10 @@ class ilObjUser extends ilObject
 
 		ilObjForum::_deleteUser($this->getId());
 
+		// Delete link check notify entries
+		include_once './classes/class.ilLinkCheckNotify.php';
+
+		ilLinkCheckNotify::_deleteUser($this->getId());
 
 		// delete object data
 		parent::delete();
@@ -1284,7 +1288,6 @@ class ilObjUser extends ilObject
 	{
 		return $this->email;
 	}
-
 
 	/**
 	* set hobby
