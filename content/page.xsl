@@ -37,6 +37,9 @@
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
+<xsl:param name="img_add"/>
+<xsl:param name="img_col"/>
+<xsl:param name="img_row"/>
 <xsl:param name="med_disabled_path"/>
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
@@ -60,6 +63,17 @@
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
+		<xsl:if test="$javascript = 'enable'">
+			<img border="1">
+				<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
+				<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+				<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
+				<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
+				<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
+				<xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="src"><xsl:value-of select="$img_add"/></xsl:attribute>
+			</img>
+		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="@HierId" />
 			<xsl:with-param name="edit">n</xsl:with-param>
@@ -761,6 +775,15 @@
 								<br/>
 							</xsl:if>
 							<xsl:if test= "$javascript = 'enable'">
+								<img border="1">
+									<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
+									<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+									<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
+									<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
+									<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
+									<xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
+									<xsl:attribute name="src"><xsl:value-of select="$img_add"/></xsl:attribute>
+								</img>
 								<div style="position:absolute;left:0;top:0;visibility:hidden;">
 									<xsl:attribute name="id">contextmenu_<xsl:value-of select="@HierId"/></xsl:attribute>
 									<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>

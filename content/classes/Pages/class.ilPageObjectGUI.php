@@ -446,6 +446,9 @@ class ilPageObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$add_path = ilUtil::getImagePath("add.gif");
+		$col_path = ilUtil::getImagePath("col.gif");
+		$row_path = ilUtil::getImagePath("row.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$pg_title_class = ($this->getOutputMode() == "print")
@@ -455,7 +458,11 @@ class ilPageObjectGUI
 //echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
-						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
+						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
+						 'img_add' => $add_path,
+						 'img_col' => $col_path,
+						 'img_row' => $row_path,
+						 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'fullscreen_link' => $this->getFullscreenLink(),
 						 'med_disabled_path' => $med_disabled_path,
