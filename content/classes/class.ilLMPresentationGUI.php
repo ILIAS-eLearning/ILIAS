@@ -55,6 +55,21 @@ class ilLMPresentationGUI
 
 		// Todo: check lm id
 		$this->lm =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+
+		// TODO: WE NEED AN OBJECT FACTORY FOR GUI CLASSES
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				include_once("./content/classes/class.ilObjDlBookGUI.php");
+				
+				$this->lm_gui = new ilObjDlBookGUI($data,$_GET["ref_id"],true,false);
+				break;
+			case "lm":
+				include_once("./content/classes//class.ilObjLearningModuleGUI.php");
+				
+				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
+				break;
+		}
 #		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
 		//echo $this->lm->getTitle(); exit;
 
@@ -205,6 +220,10 @@ class ilLMPresentationGUI
 					case "ilLocator":
 						$this->ilLocator();
 						break;
+
+					case "ilLMMenu":
+						$this->ilLMMenu();
+						break;
 				}
 			}
 		}
@@ -263,6 +282,11 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->lm->getRefId()."&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
+	}
+
+	function ilLMMenu()
+	{
+		$this->tpl->setVariable("MENU",$this->lm_gui->setilLMMenu());
 	}
 
 	function ilLocator()
