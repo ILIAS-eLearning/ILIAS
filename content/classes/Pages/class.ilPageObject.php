@@ -801,7 +801,7 @@ class ilPageObject
 
 
 		include_once("content/classes/Pages/class.ilInternalLink.php");
-		ilInternalLink::_deleteAllLinksOfSource("pg", $this->getId());
+		ilInternalLink::_deleteAllLinksOfSource($this->getParentType().":pg", $this->getId());
 
 		// get all internal links
 		$xpc = xpath_new_context($doc);
@@ -846,7 +846,7 @@ class ilPageObject
 
 			if ($t_id > 0)
 			{
-				ilInternalLink::_saveLink("pg", $this->getId(), $t_type,
+				ilInternalLink::_saveLink($this->getParentType().":pg", $this->getId(), $t_type,
 					$t_id, $t_inst);
 			}
 		}
