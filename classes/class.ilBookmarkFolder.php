@@ -67,9 +67,9 @@ class ilBookmarkFolder
 		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
 				"VALUES ('".$_SESSION["AccountId"]."','".$this->getName()."','','bmf')";
 		$this->ilias->db->query($q);
-
+echo $q."<br>";
 		$this->setId(getLastInsertId());
-
+echo "id:".$this->getId().":parent:".$this->getParent().":<br>";
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
 

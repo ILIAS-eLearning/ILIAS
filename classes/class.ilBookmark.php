@@ -23,170 +23,48 @@ class ilBookmark
 	* @access public
 	*/	
 	var $ilias;
+	var $tree;
+	
+	var $name;
+	var $target;
+	var $id;
+	var $parent;
 	
 	/**
 	* Constructor
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmark($a_user_id = 0)
+	function ilBookmark($bm_id = 0, $tree_id = 0)
 	{
 		global $ilias;
 		
 		// Initiate variables
 		$this->ilias =& $ilias;
-		$this->userId = $a_user_id;
-	}
-
-	/**
-	* loads a bookmark
-	* @access public
-	*/
-	function getBookmark ()
-	{
-		//query
-		// TODO: ist wohl noch nicht ganz fertig, oder?
-		if ($folder != "")
+		if ($tree_id == 0)
 		{
-			$w = "folder='".$folder."' AND ";
-		}
-			
-		$sql = "SELECT * FROM fav_data 
-				WHERE ".$w." usr_fk='".$this->userId."'
-				ORDER BY folder, pos";
-
-		$r = $this->ilias->db->query($sql);
-
-		if ($r->numRows()>0)
-		{
-		 	$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
-			$bookmark = array(
-							"id"		=> $row["id"],
-							"url"		=> $row["url"],
-							"name"		=> $row["name"],
-							"folder"	=> $row["folder"],
-							"pos"		=> $row["pos"]
-							);
-			
-			return $bookmark;
+			$tree_id = $_SESSION["AccountId"];
 		}
 
-		return false;
+		$this->tree = new ilTree($tree_id);
+		$this->tree->setTableNames('bookmark_tree','bookmark_data');
+
 	}
 
-	/**
-	* saves a bookmark
-	* @access	public
-	*/
-	function insert()
+	function create()
 	{
-		// fill usr_data
-		$query = "INSERT INTO bookmark ".
-				 "(usr_fk, pos, url, name) ".
-				 "VALUES ".
-				 "('".$this->userId."','0','".$this->url."','".$this->name."')";
-		$res = $this->ilias->db->query($query);
+		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
+				"VALUES ('".$_SESSION["AccountId"]."','".$this->getName().
+				"','".$this->getTarget()."','bm')";
+echo $q."<br>";
+		$this->ilias->db->query($q);
+
+		$this->setId(getLastInsertId());
+
+		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
 
-	/**
-	* updates a record "user" and write it into database
-	* @access	public
-	*/
-	function update ()
-	{
-		if (empty($this->id))
-		{
-			return false;
-		}
-
-		$query = "UPDATE fav_data SET ".
-				 "name='".$this->name."', ".
-				 "url='".$this->url."' ".
-				 "WHERE usr_fk='".$this->userId."' ".
-				 "AND id='".$this->id."'";
-
-		$this->ilias->db->query($query);
-		
-		return true;
-	}
-
-	/**
-	* @access	public
-	* @param	integer		bookmark_id
-	*/
-	function delete ($a_id)
-	{
-		// delete bookmark
-		$sql = "DELETE FROM fav_data WHERE id='".$a_id."'";
-		$this->ilias->db->query($sql);
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* get own bookmarks
-	* @access	public
-	* @param	string		folder
-	* @return	array		bookmarks
-	*/
-	function getBookmarkList($a_folder = "")
-	{
-		//initialize array
-		$bookmarks = array();
-		//query
-		if ($folder!="")
-		{
-			$w = "folder='".$a_folder."' AND ";
-		}
-			
-		$sql = "SELECT * FROM fav_data 
-				WHERE ".$w." usr_fk='".$this->userId."'
-				ORDER BY folder, pos";
-		$r = $this->ilias->db->query($sql);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$bookmarks[] = array(
-							"id" => $row["id"],
-							"url" => "http://".$row["url"],
-							"name" => $row["name"],
-							"folder" => $row["folder"],
-							"pos" => $row["pos"]
-								);
-		}
-
-		return $bookmarks;
-	}
-
-	/**
-	* get bookmarkfolders
-	* @access	public
-	* @return	array	bookmarks
-	*/
-	function getFolders()
-	{
-		//initialize array
-		$folders = array();
-		//query
-		$sql = "SELECT folder FROM fav_data 
-				WHERE usr_fk='".$this->userId."'
-				GROUP BY folder";
-		$r = $this->ilias->db->query($sql);
-		
-		while ($row = $r->fetchRow())
-		{
-			if ($row[0] != "top")
-			{
-				$folders[] = array(
-								"name" => $row[0]
-								);
-			}
-		}
-
-		return $folders;
-	}
-
-	/**
+	/*
 	* set id
 	* @access	public
 	* @param	integer
@@ -194,7 +72,11 @@ class ilBookmark
 	function setId($a_id)
 	{
 		$this->id = $a_id;
-		return true;
+	}
+	
+	function getId()
+	{
+		return $this->id;
 	}
 
 	/**
@@ -205,19 +87,37 @@ class ilBookmark
 	function setName($a_str)
 	{
 		$this->name = $a_str;
-		return true;
+	}
+
+	function getName()
+	{
+		return $this->name;
 	}
 
 	/**
-	* set url
+	* set target
 	* @access	public
 	* @param	string
-	* TODO: heir fehlt noch ein url-check inklusive "http://"-check
 	*/
-	function setURL($a_url)
+	function setTarget($a_target)
 	{
-		$this->url = $a_url;
-		return true;
+		$this->target = $a_target;
 	}
-} // END class.Bookmarks
+
+
+	function getTarget()
+	{
+		return $this->target;
+	}
+	
+	function setParent($a_parent_id)
+	{
+		$this->parent = $a_parent_id;
+	}
+	
+	function getParent()
+	{
+		return $this->parent;
+	}
+}
 ?>

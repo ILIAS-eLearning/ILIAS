@@ -229,12 +229,7 @@
 <object name="bmf" class_name="BookmarkFolder" checkbox="1">
 	<subobj name="bmf">bmf</subobj>
 	<subobj name="bm">bm</subobj>
-	<action name="cut">cut</action>
-	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
-	<action name="paste">paste</action>
-	<action name="clear">clear</action>
 </object>
 <object name="bm" class_name="Bookmark" checkbox="1">
 	<property name="view">view_content</property>
