@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -97,7 +97,7 @@ common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_new#:#Neue Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
-common#:#censorship#:#Zensur###10 Nov 2003 content changed
+common#:#censorship#:#Zensur
 common#:#change#:#Ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
@@ -119,7 +119,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
-common#:#client_id#:#Client ID###19 Nov 2003 new variable
+common#:#client_id#:#Mandanten ID
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
@@ -150,13 +150,13 @@ common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
-common#:#dataset#:#Eintrag###08 Nov 2003 content changed
+common#:#dataset#:#Eintrag
 common#:#date#:#Datum
 common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
-common#:#db_need_update#:#Datenbank benötigt ein update!
+common#:#db_need_update#:#Datenbank benötigt ein Update!
 common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
@@ -266,7 +266,7 @@ common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
 common#:#folders#:#Ordner
-common#:#force_accept_usr_agreement#:#You have to accept user agreement!
+common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
@@ -292,7 +292,7 @@ common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_new#:#Neues Glossar
-common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
+common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
 common#:#group_access_denied#:#Zugriff verweigert
@@ -307,7 +307,7 @@ common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Neuanmeldungen
 common#:#group_no_registration#:#keine Registrierung erforderlich
-common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br>Als Gruppenmitglied haben Sie folgende Vorteile:<br>- Sie werden über Aktualisierungen informiert<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br><br>Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
+common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden über Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
 common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
@@ -332,7 +332,7 @@ common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe übearbeiten
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
-common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef�hrt
+common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef�hrt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
@@ -349,7 +349,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
-common#:#hide_structure#:#Strukturansicht ausblenden###01 Nov 2003 content changed
+common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
@@ -357,16 +357,16 @@ common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
-common#:#image#:#Image###08 Nov 2003 new variable
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###08 Nov 2003 new variable
+common#:#image#:#Bild
+common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Import
 common#:#import_lm#:#Import Lernmodul
 common#:#import_slm#:#Import SCORM-Datei
-common#:#in#:#in###01 Nov 2003 new variable
+common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
-common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?###04 Nov 2003 new variable
-common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
+common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_trash#:#Gelöschte Objekte
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
@@ -408,22 +408,31 @@ common#:#item#:#Begriff
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_dateformat#:#d.m.Y
+common#:#lang_cz#:#Tschechisch
 common#:#lang_de#:#Deutsch
 common#:#lang_dk#:#Dänisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
+common#:#lang_fi#:#Finnisch
 common#:#lang_fr#:#Französisch
+common#:#lang_gr#:#Neugriechisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
+common#:#lang_ja#:#Japanisch
+common#:#lang_lt#:#Litauisch
+common#:#lang_nl#:#Niederländisch
 common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
+common#:#lang_pt#:#Portugisisch
 common#:#lang_se#:#Schwedisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
+commom#:#lang_ua#:#Ukrainisch
 common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
+common#:#lang_zh#:#Chinesisch
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
@@ -460,7 +469,7 @@ common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
-common#:#locator#:#Locator:###01 Nov 2003 content changed
+common#:#locator#:#Position:
 common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
@@ -502,7 +511,7 @@ common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
-common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
+common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
@@ -529,12 +538,12 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen###01 Nov 2003 content changed
+common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
-common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven globalen Rollen zugewiesen sein!###04 Nov 2003 content changed
-common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!###01 Nov 2003 content changed
+common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven globalen Rollen zugewiesen sein!
+common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
@@ -574,9 +583,9 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstel
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
-common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen###08 Nov 2003 content changed
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#msg_roleassignment_active_changed#:#Aktive Rollenzuweisung geändert
-common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt. ###25 Nov 2003 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt. 
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
 common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle können nicht geändert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschränkten Zugriff auf alle Objekte und Funktionen.
@@ -681,7 +690,7 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
-common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Die folgenden Zeichen sind erlaubt (mind. sechs Zeichen): A-Z a-z 0-9 _.-+*@!$%~###15 Nov 2003 content changed
+common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
@@ -816,7 +825,7 @@ common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_structure#:#Strukturansicht einblenden###01 Nov 2003 content changed
+common#:#show_structure#:#Strukturansicht einblenden
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
@@ -893,7 +902,7 @@ common#:#usr_agreement#:#Nutzervereinbarung
 common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
+common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
@@ -910,7 +919,7 @@ common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
-common#:#zip#:#Postal Code###08 Nov 2003 new variable
+common#:#zip#:#PLZ
 common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
@@ -1021,7 +1030,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
-content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
+content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_new_assignment#:#Neue Zuordnung
@@ -1116,16 +1125,16 @@ forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
 forum#:#forums_available#:#Verfügbare Foren
-forum#:#forums_censor_comment#:#Comment of Censor###20 Nov 2003 new variable
+forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?###21 Nov 2003 content changed
-forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass dieser Beitrag auch weiterhin nicht angezeigt werden soll?
+forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
+forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_moderators#:#Moderatoren
 forum#:#forums_new_entries#:#Neue Foren-Einträge
@@ -1137,7 +1146,7 @@ forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
-forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
+forum#:#forums_print_thread#:#Thread ausdrucken
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
 forum#:#forums_the_post#:#Beitrag
