@@ -77,6 +77,7 @@ common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht de
 common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
+common#:#censorship#:#Zensur
 common#:#change#:#ändern
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
@@ -95,6 +96,7 @@ common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
+common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
 common#:#contact_data#:#Kontaktinformationen
@@ -531,6 +533,8 @@ forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
+forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?
+forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_moderators#:#Moderatoren
@@ -617,7 +621,3 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
-common#:#censorship#:#Zensur
-forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?
-common#:#comment#:#Kommentar
