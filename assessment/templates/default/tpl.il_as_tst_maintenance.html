@@ -1,6 +1,11 @@
 <form name="form_maintenance" method="POST" action="{FORM_ACTION}">
-<input class="submit" type="submit" name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
 <!-- BEGIN generation -->
 <input class="submit" type="submit" name="cmd[createSolutions]" value="{BTN_CREATE_SOLUTIONS}" />
 <!-- END generation -->
+<!-- BEGIN delete_button -->
+<input class="submit" type="submit" name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
+<!-- END delete_button -->
+<!-- BEGIN confirm_delete -->
+<input class="submit" type="submit" name="cmd[confirmDeleteAllUserData]" value="{BTN_CONFIRM_DELETE_ALL}" /> <input class="submit" type="submit" name="cmd[cancelDeleteAllUserData]" value="{BTN_CANCEL_DELETE_ALL}" />
+<!-- END confirm_delete -->
 </form>

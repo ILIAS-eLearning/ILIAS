@@ -4290,16 +4290,50 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* @access	public
+	*/
+	function deleteAllUserDataObject()
+	{
+		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
+
+		$this->tpl->setCurrentBlock("confirm_delete");
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* Deletes all user data for the test object
 	*
 	* Deletes all user data for the test object
 	*
 	* @access	public
 	*/
-	function deleteAllUserDataObject()
+	function confirmDeleteAllUserDataObject()
 	{
 		$this->object->removeAllTestEditings();
 		sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Cancels the deletion of all user data for the test object
+	*
+	* Cancels the deletion of all user data for the test object
+	*
+	* @access	public
+	*/
+	function cancelDeleteAllUserDataObject()
+	{
 		$this->ctrl->redirect($this, "maintenance");
 	}
 	
@@ -4339,7 +4373,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-			$add_parameter = $this->getAddParameter();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
