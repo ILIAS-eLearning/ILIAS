@@ -107,8 +107,12 @@ assessment#:#applet_new_parameter#:#Новий параметр
 assessment#:#applet_parameter#:#Параметр
 assessment#:#applet_parameters#:#Параметри аплета
 assessment#:#apply#:#Примінити
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Питання
 assessment#:#available_points#:#Доступні пункти
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
 assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
@@ -606,6 +610,7 @@ common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Додати переклад
 common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
+common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
 common#:#adm_visible#:#Системні настройки є видимі###14 Sep 2004 content changed
@@ -844,11 +849,23 @@ common#:#crs_available#:#Доступні Курси
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Створити Курс
 common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
+common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
 common#:#crs_create_frm#:#Створити Форум
 common#:#crs_create_glo#:#Створити Глосарій
+common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#crs_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
+common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
@@ -1039,13 +1056,21 @@ common#:#fold_add#:#Додати Папку
 common#:#fold_added#:#Папка додана
 common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
 common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
 common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1149,6 +1174,7 @@ common#:#grp_add#:#Додати Групу
 common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#Група додана
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Створити Групу
@@ -1164,7 +1190,11 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
+common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи.###19 Jun 2004 content changed

@@ -107,7 +107,11 @@ assessment#:#applet_new_parameter#:#Nieuwe parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-parameters
 assessment#:#apply#:#Toepassen
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Vragen
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Beschikbare punten
 assessment#:#by#:#door
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
@@ -599,6 +603,7 @@ common#:#add_members#:#Voeg lid(leden) toe
 common#:#add_translation#:#Vertaling toevoegen
 common#:#add_user#:#Voeg lokale gebruiker toe
 common#:#added_new_condition#:#Een nieuwe conditie gecreëerd.
+common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Wijzige instellingen van de rechten
 common#:#adm_read#:#Lees-rechten Systeem-instellingen
 common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
@@ -837,11 +842,23 @@ common#:#crs_available#:#Beschikbare cursussen
 common#:#crs_container_link_not_allowed#:#Het is niet mogelijk om container-objecten te linken
 common#:#crs_create#:#Creëer cursus
 common#:#crs_create_alm#:#Creëer AICC Lesmodule
+common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
+common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
 common#:#crs_create_frm#:#Creëer forum
 common#:#crs_create_glo#:#Creëer woordenlijst
+common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Creëer HACP lesmodule
+common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#crs_create_lm#:#Creëer lesmodule
+common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#crs_create_sahs#:#Creëer SCORM/AICC lesmodule
+common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_delete#:#Verwijderen cursus
 common#:#crs_edit#:#Cursus wijzigen
 common#:#crs_edit_permission#:#Wijzige instellingen van de rechten
@@ -1032,13 +1049,21 @@ common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
 common#:#fold_create_alm#:#Creëer AICC Lesmodule
 common#:#fold_create_chat#:#Creëer een Chat
+common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#fold_create_file#:#Upload-bestand
 common#:#fold_create_fold#:#Creëer Map
 common#:#fold_create_frm#:#Creëer forum
 common#:#fold_create_glo#:#Creëer woordenlijst
 common#:#fold_create_hlm#:#Creëer HACP lesmodule
+common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#fold_create_lm#:#Creëer lesmodule
+common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#fold_create_sahs#:#Creëer SCORM/AICC lesmodule
+common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_delete#:#Verwijder Map
 common#:#fold_edit#:#Wijzig Map
 common#:#fold_edit_permission#:#Wijzige instellingen van de rechten
@@ -1142,6 +1167,7 @@ common#:#grp_add#:#Toevoegen van een groep
 common#:#grp_add_member#:#Voeg lid(leden) toe
 common#:#grp_added#:#Groep toegevoegd
 common#:#grp_already_applied#:#U heeft u al aan deze groep aangemeld! A.u.b. wacht op een bevestiging
+common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
 common#:#grp_back#:#Terug
 common#:#grp_count_members#:#Aantal leden
 common#:#grp_create#:#Creëer groep
@@ -1157,7 +1183,11 @@ common#:#grp_create_hlm#:#Creëer HACP lesmodule
 common#:#grp_create_htlm#:#Creëer HTML lesmodule
 common#:#grp_create_lm#:#Creëer lesmodule
 common#:#grp_create_mep#:#Creëer Media-pool
+common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#grp_create_sahs#:#Creëer SCORM/AICC lesmodule
+common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_delete#:#Verwijder groep
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen?
 common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wilt verwijderen?
