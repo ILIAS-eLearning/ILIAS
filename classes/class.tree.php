@@ -213,9 +213,13 @@ class Tree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
+		global $log;
+
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getChilds(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$message = get_class($this)."::getChilds(): No node_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		// init childs
@@ -258,6 +262,42 @@ class Tree
 		{
 			return $childs;
 		}
+	}
+
+	/**
+	* get child nodes of given node by object type
+	* @access	public
+	* @param	integer		node_id
+	* @param	string		object type
+	* @return	array		with node data of all childs or empty array
+	*/
+	function getChildsByType($a_node_id,$a_type)
+	{
+		global $log;
+
+		if (!isset($a_node_id) or !isset($a_type))
+		{
+			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_type;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		// init childs
+		$childs = array();
+
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 $this->buildJoin().
+			 "WHERE parent = '".$a_node_id."' ".
+			 "AND tree = '".$this->tree_id."' ".
+			 "AND ".$this->table_obj_data.".type='".$a_type."'";
+		$r = $this->ilias->db->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$childs[] = $this->fetchNodeData($row);
+		}
+
+		return $childs;
 	}
 
 	/**
