@@ -1417,3 +1417,6 @@ $this->db->query($query);
 $query = "DELETE FROM tree WHERE parent=0 AND tree <> 1";
 $this->db->query($query);
 ?>
+
+<#88>
+DELETE FROM usr_session;
