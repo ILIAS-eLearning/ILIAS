@@ -439,6 +439,41 @@ class Object
 		}
 		return true;
 	}
+	function cutAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->cutObject();
+	}
+	function copyAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->copyObject();
+	}
+	function pasteAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->pasteObject();
+	}
+	function deleteAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->deleteObject();
+	}
+	function clearAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->clearObject();
+	}
 
 	/**
 	* create path

@@ -13,42 +13,28 @@ if (!isset($_GET["type"]))
 //if there is a post-parameter it is translated, cause it is a buttonvalue
 if ($_POST["cmd"] != "")
 {
-	include_once ("classes/class.Admin.php");
-	$obj2 = new Admin();
-		
 	switch ($_POST["cmd"])
 	{
 		case $lng->txt("cut"):
-			$_GET["cmd"] = "cut";
-			$methode = $_POST["cmd"]."Object"; 
-			$result = $obj2->cutObject();
+			$_GET["cmd"] = "cutAdm";
 			break;
 		case $lng->txt("copy"):
-			$_GET["cmd"] = "copy";
-			$methode = $_POST["cmd"]."Object"; 
-			$result = $obj2->copyObject();
+			$_GET["cmd"] = "copyAdm";
 			break;
 		case $lng->txt("paste"):
-			$_GET["cmd"] = "paste";
-			$methode = $_POST["cmd"]."Object"; 
-			$result = $obj2->pasteObject();			
+			$_GET["cmd"] = "pasteAdm";
 			break;
 		case $lng->txt("delete"):
-			$_GET["cmd"] = "delete";
-			$result = $obj2->deleteObject();
+			$_GET["cmd"] = "deleteAdm";
 			break;
 		case $lng->txt("clear"):
-			$_GET["cmd"] = "clear";
-			$result = $obj2->clearObject();
+			$_GET["cmd"] = "clearAdm";
 			break;
 	}
-	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-		   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-	exit();
 }
 
 //if no cmd is given default to first property
-if ($_GET["cmd"] == "")
+if (!$_GET["cmd"])
 {
 	$_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
 }
@@ -220,6 +206,7 @@ switch ($type)
 		$ilias->raiseError("Object type '".$type."' is not implemented yet.",$ilias->error_obj->MESSAGE);
 		break;
 }
+// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 if ($_GET["message"])
 {
     $tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");

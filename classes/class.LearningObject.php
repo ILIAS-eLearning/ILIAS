@@ -19,5 +19,6 @@ class LearningObject extends Object
 	{
 		$this->Object();
 	}
-} // END class.LeraningObject
+	
+} // END class.LearningObject
 ?>
