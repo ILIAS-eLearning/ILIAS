@@ -2619,7 +2619,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			}
 		}
 	}
-	
+
 	// prepare arrays for permission settings below
 	foreach ($valid_nodes as $key => $node)
 	{
@@ -2809,3 +2809,22 @@ UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='
 <#181>
 ALTER  TABLE  `tst_tests`  CHANGE  `processing_time`  `processing_time` TIME;
 ALTER  TABLE  `tst_tests`  ADD  `enable_processing_time` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `processing_time` ;
+
+<#182>
+CREATE TABLE glossary
+(
+	id INT NOT NULL PRIMARY KEY,
+	online ENUM('y','n') DEFAULT 'n'
+);
+
+<#183>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type='glo'";
+$gl_set = $this->db->query($query);
+
+while ($gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = "INSERT INTO glossary (id, online) VALUES ('".$gl_rec["obj_id"]."','y')";
+	$this->db->query($query);
+}
+?>

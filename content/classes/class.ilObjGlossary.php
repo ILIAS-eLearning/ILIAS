@@ -57,6 +57,8 @@ class ilObjGlossary extends ilObject
 	*/
 	function create($a_upload = false)
 	{
+		global $ilDB;
+
 		parent::create();
 		if (!$a_upload)
 		{
@@ -67,6 +69,11 @@ class ilObjGlossary extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+
+		$q = "INSERT INTO glossary (id, online) VALUES ".
+			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").")";
+		$ilDB->query($q);
+
 	}
 
 	/**
@@ -76,6 +83,11 @@ class ilObjGlossary extends ilObject
 	{
 		parent::read();
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+
+		$q = "SELECT * FROM glossary WHERE id = '".$this->getId()."'";
+		$gl_set = $this->ilias->db->query($q);
+		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
 
 	}
 
@@ -118,6 +130,16 @@ class ilObjGlossary extends ilObject
 		$this->meta_data->setTitle($a_title);
 	}
 
+	function setOnline($a_online)
+	{
+		$this->online = $a_online;
+	}
+
+	function getOnline()
+	{
+		return $this->online;
+	}
+
 	/**
 	* assign a meta data object to glossary object
 	*
@@ -155,7 +177,12 @@ class ilObjGlossary extends ilObject
 	function update()
 	{
 		$this->updateMetaData();
-		// todo: glossary attributes/properties
+
+		$q = "UPDATE glossary SET ".
+			" online = '".ilUtil::tf2yn($this->getOnline())."'".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+
 	}
 
 	function getImportId()

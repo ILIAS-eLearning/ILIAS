@@ -79,7 +79,8 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.scorm_pres_frameset.html", false, false, "content");
+		//$this->tpl = new ilTemplate("tpl.scorm_pres_frameset.html", false, false, "content");
+		$this->tpl = new ilTemplate("tpl.scorm_pres_frameset2.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
 		$this->tpl->show();
 	}
@@ -148,6 +149,27 @@ class ilSCORMPresentationGUI
 			$sc_gui_object->api();
 		}
 
+	}
+
+	function api2()
+	{
+		global $ilias;
+
+		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+
+		$this->tpl = new ilTemplate("tpl.scorm_api2.html", true, true, true);
+		//$func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
+		//$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
+		//$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
+		//$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+		$this->tpl->setVariable("SESSION_ID",session_id());
+
+		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/scorm_presentation.php")));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->show(false);
+		exit;
 	}
 
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Unbenanntes Dokument</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="JavaScript">
+	//window.document.writeln('<applet CODE="Ilias.class" ID="APIAdapter" NAME="APIAdapter" width="100" height="100"></applet>');
+	var code_base="{CODE_BASE}";
+	var user_id="{USER_ID}";
+	var item_id="{ITEM_ID}";
+	var session_id="{SESSION_ID}";
+
+
+function LMSGetValue(dataModelElement)
+{
+ 	return APIAdapter.LMSGetValue(dataModelElement);
+}
+
+function LMSSetValue(dataModelElement,elemValue)
+{
+	return APIAdapter.LMSSetValue(dataModelElement,elemValue);
+}
+
+function LMSInitialize(inString)
+{
+	APIAdapter.SetParameter(user_id, item_id, session_id, code_base);
+
+	APIAdapter.LMSInitialize(inString);
+
+	//parent.parent._api.document.getElementById("APIAdapter").SetParameter(user_id, item_id, session_id, code_base);
+ 	//return parent.parent._api.document.getElementById("APIAdapter").LMSInitialize(inString);
+}
+
+function LMSFinish(inString)
+{
+	return APIAdapter.LMSFinish(inString);
+}
+
+function LMSCommit(inString)
+{
+ return APIAdapter.LMSCommit(inString);
+}
+
+function LMSGetLastError()
+{
+ 	return APIAdapter.LMSGetLastError();
+}
+
+function LMSGetErrorString(errorNumber)
+{
+ 	return APIAdapter.LMSGetErrorString(errorNumber);
+}
+
+function LMSGetDiagnostics(inString)
+{
+	return LMSGetDiagnostics(inString);
+}
+
+function LMSTerminate(inString)
+{
+ return APIAdapter.LMSFinish(inString);
+}
+</script>
+
+</head>
+
+<body>
+
+<applet code="IliasAPIAdapterApplet" codebase="." archive="" ID="APIAdapter" NAME="APIAdapter" width="0" height="0">
+<param name = "code" value = "IliasAPIAdapterApplet" >
+<param name = "type" value="application/x-java-applet">
+<param name = "mayscript" value="true" >
+<param name = "scriptable" value="true" >
+<param name = "cmi.core.student_id" value="{USER_ID}">
+<param name = "cmi.core.student_name" value="lastname, firstname">
+<param name = "session_id" value="{SESSION_ID}">
+<param name = "code_base" value="{CODE_BASE}">
+<param name = "language" value="de_DE">
+</applet>
+
+
+</body>
+</html>
