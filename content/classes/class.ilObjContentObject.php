@@ -348,7 +348,7 @@ class ilObjContentObject extends ilObject
 	* (data_dir/lm_data/lm_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createExportDirectory()
+	function createExportDirectory($ref_id="")
 	{
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
@@ -357,7 +357,8 @@ class ilObjContentObject extends ilObject
 				.") not writeable.",$this->ilias->error_obj->FATAL);
 		}
 		// create learning module directory (data_dir/lm_data/lm_<id>)
-		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+        if ($ref_id=="") $ref_id = $this->getId();
+		$lm_dir = $lm_data_dir."/lm_".$ref_id;
 		if(!@is_dir($lm_dir))
 		{
 			@mkdir($lm_dir);
@@ -383,10 +384,10 @@ class ilObjContentObject extends ilObject
 	/**
 	* get export directory of lm
 	*/
-	function getExportDirectory()
+	function getExportDirectory($ref_id="")
 	{
-		$export_dir = ilUtil::getDataDir()."/lm_data".
-			"/lm_".$this->getId()."/export";
+        if ($ref_id=="") $ref_id = $this->getId();
+		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$ref_id."/export";
 		if(@is_dir($export_dir))
 		{
 			return $export_dir;
