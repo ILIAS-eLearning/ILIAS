@@ -27,7 +27,7 @@
 	<subobj name="trac" max="1">trac</subobj>
 	<subobj name="auth" max="1">auth</subobj>
 	<subobj name="assf" max="1">assf</subobj>
-	<subobj name="styf" max="1">styf</subobj>
+	<subobj name="stys" max="1">stys</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -345,7 +345,7 @@
 <object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">cont_content</property>
 </object>
-<object name="styf" class_name="StyleSheetFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
+<object name="stys" class_name="StyleSettings" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="sty">sty</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
