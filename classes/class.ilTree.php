@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("IL_LAST_NODE", -2);
+define("IL_FIRST_NODE", -1);
 
 /**
 * Tree class
@@ -363,73 +365,108 @@ class ilTree
 	* @access	public
 	* @param	integer		node_id
 	* @param	integer		parent_id
+	* @param	integer		IL_LAST_NODE | IL_FIRST_NODE | node id of preceding child
 	*/
-	function insertNode($a_node_id,$a_parent_id)
+	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE)
 	{
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::insertNode(): Missing parameter! ".
-								"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilias->error_obj->WARNING);
+				"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilias->error_obj->WARNING);
 		}
 
-		// get left value
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE child = '".$a_parent_id."' ".
-			 "AND ".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->getRow($q);
-
 		//
-		// note: i changed the processing here. nodes are (concerning lft ordering)
-		// appended after the last child of a parent now, not before the first
-		// child as before. mail any errors to me alex.killing@gmx.de
+		// i changed the processing here.
+		// mail any errors to alex.killing@gmx.de (22.5.2003)
 		//
-		/*
-		$left = $r->lft;
-		$lft = $left + 1;
-		$rgt = $left + 2;
+		switch ($a_pos)
+		{
+			case IL_FIRST_NODE:
 
-		// spread tree
-		$q = "UPDATE ".$this->table_tree." SET ".
-			 "lft = CASE ".
-			 "WHEN lft > ".$left." ".
-			 "THEN lft + 2 ".
-			 "ELSE lft ".
-			 "END, ".
-			 "rgt = CASE ".
-			 "WHEN rgt > ".$left." ".
-			 "THEN rgt + 2 ".
-			 "ELSE rgt ".
-			 "END ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-		$this->ilias->db->query($q);
+				// get left value of parent
+				$q = "SELECT * FROM ".$this->table_tree." ".
+					"WHERE child = '".$a_parent_id."' ".
+					"AND ".$this->tree_pk." = '".$this->tree_id."'";
+				$r = $this->ilias->db->getRow($q);
 
-		// get depth
-		$depth = $this->getDepth($a_parent_id) + 1;
+				$left = $r->lft;
+				$lft = $left + 1;
+				$rgt = $left + 2;
 
-		// insert node
-		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
-			 "VALUES ".
-			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
-		*/
+				// spread tree
+				$q = "UPDATE ".$this->table_tree." SET ".
+					"lft = CASE ".
+					"WHEN lft > ".$left." ".
+					"THEN lft + 2 ".
+					"ELSE lft ".
+					"END, ".
+					"rgt = CASE ".
+					"WHEN rgt > ".$left." ".
+					"THEN rgt + 2 ".
+					"ELSE rgt ".
+					"END ".
+					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+				$this->ilias->db->query($q);
+				break;
 
-		$right = $r->rgt;
-		$lft = $right;
-		$rgt = $right + 1;
+			case IL_LAST_NODE:
 
-		// spread tree
-		$q = "UPDATE ".$this->table_tree." SET ".
-			 "lft = CASE ".
-			 "WHEN lft > ".$right." ".
-			 "THEN lft + 2 ".
-			 "ELSE lft ".
-			 "END, ".
-			 "rgt = CASE ".
-			 "WHEN rgt >= ".$right." ".
-			 "THEN rgt + 2 ".
-			 "ELSE rgt ".
-			 "END ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-		$this->ilias->db->query($q);
+				// get right value of parent
+				$q = "SELECT * FROM ".$this->table_tree." ".
+					"WHERE child = '".$a_parent_id."' ".
+					"AND ".$this->tree_pk." = '".$this->tree_id."'";
+				$r = $this->ilias->db->getRow($q);
+
+				$right = $r->rgt;
+				$lft = $right;
+				$rgt = $right + 1;
+
+				// spread tree
+				$q = "UPDATE ".$this->table_tree." SET ".
+					"lft = CASE ".
+					"WHEN lft > ".$right." ".
+					"THEN lft + 2 ".
+					"ELSE lft ".
+					"END, ".
+					"rgt = CASE ".
+					"WHEN rgt >= ".$right." ".
+					"THEN rgt + 2 ".
+					"ELSE rgt ".
+					"END ".
+					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+				$this->ilias->db->query($q);
+				break;
+
+			default:
+
+				// get right value of preceding child
+				$q = "SELECT * FROM ".$this->table_tree." ".
+					"WHERE child = '".$a_pos."' ".
+					"AND ".$this->tree_pk." = '".$this->tree_id."'";
+				$r = $this->ilias->db->getRow($q);
+
+				$right = $r->rgt;
+				$lft = $right + 1;
+				$rgt = $right + 2;
+
+				// update lft/rgt values
+				$q = "UPDATE ".$this->table_tree." SET ".
+					"lft = CASE ".
+					"WHEN lft > ".$right." ".
+					"THEN lft + 2 ".
+					"ELSE lft ".
+					"END, ".
+					"rgt = CASE ".
+					"WHEN rgt > ".$right." ".
+					"THEN rgt + 2 ".
+					"ELSE rgt ".
+					"END ".
+					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+				$this->ilias->db->query($q);
+
+				break;
+
+		}
 
 		// get depth
 		$depth = $this->getDepth($a_parent_id) + 1;
