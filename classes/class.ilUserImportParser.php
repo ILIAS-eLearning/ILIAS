@@ -198,10 +198,10 @@ class ilUserImportParser extends ilSaxParser
 						$this->userObj->setDescription($this->userObj->getEmail());
 
 						// default time limit settings
-						$userObj->setTimeLimitOwner(7); // seven is usrf-Id
-						$userObj->setTimeLimitUnlimited(1);
-						$userObj->setTimeLimitFrom(time());
-						$userObj->setTimeLimitUntil(time());
+						$this->userObj->setTimeLimitOwner(7); // seven is usrf-Id
+						$this->userObj->setTimeLimitUnlimited(1);
+						$this->userObj->setTimeLimitFrom(time());
+						$this->userObj->setTimeLimitUntil(time());
 
 
 						$this->userObj->create();
