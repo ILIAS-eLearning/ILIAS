@@ -83,11 +83,14 @@ class ilPersonalDesktopGUI
 		}
 	}
 
+
 	/**
 	* get selected item block
 	*/
 	function getSelectedItemBlockHTML($a_title, $a_type)
 	{
+		include_once './classes/class.ilRepositoryExplorer.php';
+
 		global $rbacsystem;
 
 		$items = $this->ilias->account->getDesktopItems($a_type);
@@ -121,6 +124,7 @@ class ilPersonalDesktopGUI
 			$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
 			$this->lng->loadLanguageModule("assessment");
 			$this->lng->loadLanguageModule("survey");
+			$this->lng->loadLanguageModule("crs");
 			foreach($items as $item)
 			{
 				if (strcmp($a_type, "tst")==0) {
@@ -178,7 +182,7 @@ class ilPersonalDesktopGUI
 				}
 
 				// edit link
-				if ($item["edit_link"] != "" &&
+				if ($item["edit_link"] != "" and
 					$rbacsystem->checkAccess("write", $item["id"]))
 				{
 					$tpl->setCurrentBlock("edit_link");
@@ -192,14 +196,17 @@ class ilPersonalDesktopGUI
 				{
 					$tpl->setVariable("EDIT", "&nbsp;");
 				}
-
+				
 				// drop link
-				$tpl->setCurrentBlock("drop_link");
-				$tpl->setVariable("TYPE", $item["type"]);
-				$tpl->setVariable("ID", $item["id"]);
-				$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
-				$tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
-				$tpl->parseCurrentBlock();
+				if($item['type'] != 'crs' or $rbacsystem->checkAccess('leave',$item['id']))
+				{
+					$tpl->setCurrentBlock("drop_link");
+					$tpl->setVariable("TYPE", $item["type"]);
+					$tpl->setVariable("ID", $item["id"]);
+					$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
+					$tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
+					$tpl->parseCurrentBlock();
+				}
 
 				// description
 				if ($item["description"] != "")
@@ -209,13 +216,73 @@ class ilPersonalDesktopGUI
 					$tpl->parseCurrentBlock();
 				}
 
+				if($a_type == 'crs')
+				{
+					$tmp_course =& ilObjectFactory::getInstanceByRefId($item['id']);
+					$tmp_course->initCourseMemberObject();
+					$id = ilObject::_lookupObjId($item['id']);
+
+					if($tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
+					{
+						$tpl->setCurrentBlock("crs_status");
+						$tpl->setVariable("STATUS",$this->lng->txt("crs_status_blocked"));
+						$tpl->parseCurrentBlock();
+					}
+					$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($id);
+
+					if(!$conditions_ok)
+					{
+						foreach(ilConditionHandler::_getConditionsOfTarget($id) as $condition)
+						{
+							if(ilConditionHandler::_checkCondition($id))
+							{
+								continue;
+							}
+							$trigger_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
+
+							if(ilRepositoryExplorer::isClickable($trigger_obj->getType(),$trigger_obj->getRefId(),$trigger_obj->getId()))
+							{
+								$tpl->setCurrentBlock("pre_link");
+								$tpl->setVariable("PRECONDITION_LINK",
+												  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
+								$tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
+								$tpl->parseCurrentBlock();
+							}
+							else
+							{
+								$tpl->setCurrentBlock("pre_no_link");
+								$tpl->setVariable("PRECONDITION_NO_TITLE",$trigger_obj->getTitle());
+								$tpl->parseCurrentBlock();
+							}
+						}
+						$tpl->setCurrentBlock("crs_preconditions");
+						$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('condition_precondition'));
+						$tpl->parseCurrentBlock();
+					}
+
+
+				}
+
 				// show link
+				if($a_type != 'crs' or ilRepositoryExplorer::isClickable($a_type,$item['id'],ilObject::_lookupObjId($item['id'])))
+				{
+					$tpl->setCurrentBlock("show_link");
+					$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
+					$tpl->setVariable("LINK_SHOW", $item["link"]);
+					$tpl->setVariable("TARGET_SHOW", $item["target"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("no_link");
+					$tpl->setVariable("TXT_NO_LINK_TITLE",$item['title']);
+					$tpl->parseCurrentBlock();
+				}
+
 				$tpl->setCurrentBlock("block_row");
-				$tpl->setVariable("LINK_SHOW", $item["link"]);
-				$tpl->setVariable("TARGET_SHOW", $item["target"]);
-				$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
 				$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
 				$tpl->parseCurrentBlock();
+
 			}
 			return $tpl->get();
 		}

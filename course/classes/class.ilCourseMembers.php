@@ -75,6 +75,33 @@ class ilCourseMembers
 
 	}
 
+	function addDesktopItem($a_usr_id)
+	{
+		$user_obj =& ilObjectFactory::getInstanceByObjId($a_usr_id);
+
+		if(!$user_obj->isDesktopItem($this->course_obj->getRefId(),'crs'))
+		{
+			$user_obj->addDesktopItem($this->course_obj->getRefId(),'crs');
+		}
+		unset($user_obj);
+
+		return true;
+	}
+	function dropDesktopItem($a_usr_id)
+	{
+		$user_obj =& ilObjectFactory::getInstanceByObjId($a_usr_id);
+
+		if($user_obj->isDesktopItem($this->course_obj->getRefId(),'crs'))
+		{
+			$user_obj->dropDesktopItem($this->course_obj->getRefId(),'crs');
+		}
+		unset($user_obj);
+
+		return true;
+	}
+
+
+
 	function add(&$user_obj,$a_role,$a_status = 0,$a_passed = 0)
 	{
 		global $rbacadmin;
@@ -96,6 +123,8 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultMemberRole();
 				$passed = $a_passed;
+
+				$this->addDesktopItem($user_obj->getId());
 				break;
 
 			case $this->ROLE_ADMIN:
@@ -133,6 +162,7 @@ class ilCourseMembers
 				break;
 				
 		}
+		// 1. create entry
 		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
 
 		return $rbacadmin->assignUser($role,$user_obj->getId());
@@ -165,6 +195,7 @@ class ilCourseMembers
 				{
 					$this->ilErr->raiseError($this->lng->txt("crs_status_not_allowed",$this->ilErr->MESSAGE));
 				}
+				$this->addDesktopItem($a_usr_id);
 
 			default:
 				$this->ilErr->raiseError($this->lng->txt("crs_role_not_allowed",$this->ilErr->MESSAGE));
@@ -274,6 +305,8 @@ class ilCourseMembers
 				$role = $this->course_obj->getDefaultMemberRole();
 				break;
 		}
+
+		$this->dropDesktopItem($a_usr_id);
 		$rbacadmin->deassignUser($role,$a_usr_id);
 		
 		$query = "DELETE FROM crs_members ".
