@@ -779,3 +779,16 @@ CREATE TABLE meta_data (
 	title varchar(200) NOT NULL default '',
 	PRIMARY KEY  (obj_id, obj_type)
 ) TYPE=MyISAM;
+
+<#30>
+
+ALTER TABLE lm_structure_object RENAME AS lm_tree;
+
+ALTER TABLE lm_page_object MODIFY page_id int(11) NOT NULL;
+
+CREATE TABLE lm_data (
+	obj_id int(11) NOT NULL auto_increment,
+	title varchar(200) NOT NULL default '',
+	type char(2) NOT NULL default '',
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;

@@ -47,6 +47,7 @@ class ilLMParser extends ilSaxParser
 	var $meta_data;			// current meta data object
 	var $paragraph;
 	var $lm_id;
+	var $structure_tree;
 
 	/**
 	* Constructor
@@ -67,6 +68,10 @@ class ilLMParser extends ilSaxParser
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM meta_data";
 		$this->ilias->db->query($query);
+
+		$this->structure_tree = new ilTree($a_lm_id);
+		$this->tree->setTableNames('lm_structure_object','lm_page_object');
+
 	}
 
 	/**
