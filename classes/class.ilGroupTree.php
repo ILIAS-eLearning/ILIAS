@@ -88,11 +88,11 @@ class ilGroupTree extends ilTree
 		
 		// SAVE SUBTREE
 		foreach($subnodes as $node)
-		{	
+		{	 
 			$q = "INSERT INTO ".$this->table_tree." ".
 				 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
 				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."','".
-				 $node["perm"]."','".$node["ref_id"]."')";
+				 $node["perm"]."','".$node["obj_id"]."')";
 			$r = $this->ilias->db->query($q);
 		}
 

@@ -2734,7 +2734,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 	
 	
-	/** TODO MARTIN ANPASSEN AN GRUPPEN BESONDERHEITEN
+	/** 
 	* confirmed deletion if object -> objects are moved to trash
 	*
 	* However objects are only removed from tree!! That means that the objects
@@ -2900,7 +2900,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 				
 				//SET DELETED NODES IN TREE TABLE 
-				if ($is_rbac)
+				if ($grp_tree_subnodes[0]["perm"] == 1)
 				{
 					$this->tree->saveSubTree($id);
 					$this->tree->deleteTree($this->tree->getNodeData($id));
@@ -3153,7 +3153,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		if($a_db_table=="grp_tree")
 		{
-			$this->grp_tree->insertNode($a_source_id,$a_dest_id);
+			$this->grp_object->insertGroupNode($a_source_id,$a_dest_id,$this->grp_id);
 		}
 		else
 		{
