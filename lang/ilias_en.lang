@@ -56,6 +56,11 @@ assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
 assessment#:#possible_gap_text#:#Possible gap text
 assessment#:#preview#:#Preview
+assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
+assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
+assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
+assessment#:#qpl_edit_select_none#:#Please check one question for editing
+assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
