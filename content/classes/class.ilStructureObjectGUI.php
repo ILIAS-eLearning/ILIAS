@@ -68,8 +68,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -91,7 +91,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -145,8 +145,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -168,7 +168,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -235,24 +235,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function save()
 	{
 		// create new object
-echo "1";
 		$meta_gui =& new ilMetaDataGUI();
-echo "2";
 		$meta_data =& $meta_gui->create();
-echo "3";
 		$this->obj =& new ilStructureObject();
-echo "4";
 		$this->obj->assignMetaData($meta_data);
-echo "5";
 		$this->obj->setType($_GET["new_type"]);
-echo "6";
 		$this->obj->setLMId($this->lm_obj->getId());
-echo "7";
 		$this->obj->create();
-echo "8";
 
 		$this->putInTree();
-echo "9";
 
 		if (!empty($_GET["obj_id"]))
 		{

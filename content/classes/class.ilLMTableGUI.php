@@ -51,8 +51,8 @@ class ilLMTableGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_properties.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_tab_properties"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
 		// content is in utf-8, todo: set globally
@@ -179,7 +179,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
 		$this->content_obj->setCaption($_POST["tab_caption"], $_POST["tab_cap_align"]);
 		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 		exit;
 
@@ -190,8 +190,8 @@ class ilLMTableGUI extends ilPageContentGUI
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
 		// content is in utf-8, todo: set globally
@@ -228,7 +228,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->pg_obj->insertContent($new_table, $this->hier_id, IL_INSERT_AFTER);
 		$new_table->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
 		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -243,7 +243,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);*/
 
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 

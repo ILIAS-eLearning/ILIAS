@@ -120,7 +120,6 @@ class ilLMObjectGUI
 		}
 
 		$tree->insertNode($this->obj->getId(), $parent_id, $target);
-echo "insert:".$this->obj->getId().":parent:$parent_id:target:$target:";
 	}
 
 
