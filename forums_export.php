@@ -76,7 +76,7 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 					
 				// get author data
 				unset($author);
-				$author = $frmEx->getUserData($node["author"]);
+				$author = $frmEx->getUserData($node["author"],$node["import_name"]);
 
 
 				#$author = $frmEx->getUser($node["author"]);	
@@ -148,7 +148,7 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			
 			// get author data
 			unset($author);
-			$author = $frmEx->getUserData($node["author"]);
+			$author = $frmEx->getUserData($node["author"],$node["import_name"]);
 			#$author = $frmEx->getUser($node["author"]);	
 			#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
 			$tplEx->setVariable("AUTHOR",$author["login"]); 
@@ -245,7 +245,7 @@ elseif ($_POST["action"] == "html")
 								
 								// get author data
 								unset($author);
-								$author = $frmEx->getUserData($node["author"]);
+								$author = $frmEx->getUserData($node["author"],$node["import_name"]);
 								#$author = $frmEx->getUser($node["author"]);	
 									#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
 								$tplEx->setVariable("AUTHOR",$author["login"]); 
@@ -301,7 +301,7 @@ elseif ($_POST["action"] == "html")
 						$tplEx->setVariable("T_FORUM",$topicData["top_name"]);
 											
 						unset($t_author);
-						$t_author = $frmEx->getUserData($node["author"]);
+						$t_author = $frmEx->getUserData($node["author"],$node["import_name"]);
 						#$t_author = $frmEx->getUser($threadData["thr_usr_id"]);	
 						#$tplEx->setVariable("T_AUTHOR",$t_author->getLogin()); 
 						$tplEx->setVariable("T_AUTHOR",$t_author["login"]);
@@ -421,7 +421,7 @@ elseif ($_POST["action"] == "html")
 								// get author data
 								unset($author);
 								#$author = $frmEx->getUser($node["author"]);
-								$author = $frmEx->getUserData($node["author"]);
+								$author = $frmEx->getUserData($node["author"],$node["import_name"]);
 								#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
 								$tplEx->setVariable("AUTHOR",$author["login"]); 
 

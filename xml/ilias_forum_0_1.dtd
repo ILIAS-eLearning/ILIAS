@@ -1,6 +1,6 @@
 <!-- ilias_user.dtd for ILIAS mail import -->
 <!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
-<!-- $Id$Id: ilias_forum_0_1.dtd,v 1.1 2004/04/08 09:59:22 smeyer Exp $ -->
+<!-- $Id$Id: ilias_forum_0_1.dtd,v 1.2 2004/04/15 11:11:53 smeyer Exp $ -->
 
 <!-- FORUM -->
 <!ELEMENT forum (title,description,moderator*,thread*)>
@@ -20,6 +20,7 @@
 <!ELEMENT moderator EMPTY>
 <!ATTLIST moderator
     id CDATA #REQUIRED
+    login CDATA #REQUIRED
 >
 
 <!-- THREAD -->
@@ -39,12 +40,14 @@
 <!ELEMENT threadAuthor EMPTY>
 <!ATTLIST threadAuthor
     id CDATA #REQUIRED
+    login CDATA #REQUIRED
 >
 
 <!-- AUTHOR -->
 <!ELEMENT postingAuthor EMPTY>
 <!ATTLIST postingAuthor
     id CDATA #REQUIRED
+    login CDATA #REQUIRED
 >
 
 <!-- CREATIONDATE -->

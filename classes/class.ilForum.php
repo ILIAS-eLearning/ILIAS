@@ -365,13 +365,15 @@ class ilForum
 			"pos_subject"   => addslashes($subject),
 			"pos_date"		=> $date
 		);
-		
+
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_subject,pos_date,notify) ";
+		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_subject,pos_date,notify,import_name) ";
 		$q .= "VALUES ";
-		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".
-			$pos_data["pos_message"]."','".$pos_data["pos_subject"]."','".$pos_data["pos_date"]."','".$notify."')";
+		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','";
+		$q .= $pos_data["pos_message"]."','".$pos_data["pos_subject"]."','".$pos_data["pos_date"]."','".$notify."','";
+		$q .= ilUtil::prepareDBString($this->getImportName())."')";
+
 		$result = $this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -430,10 +432,12 @@ class ilForum
 		
 		// insert new thread into frm_threads
 		$q = "INSERT INTO frm_threads ";
-		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update) ";
+		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,import_name) ";
 		$q .= "VALUES ";
 		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".
-			$thr_data["thr_subject"]."','".$thr_data["thr_date"]."','".$thr_data["thr_date"]."')";
+			$thr_data["thr_subject"]."','".$thr_data["thr_date"]."','".$thr_data["thr_date"]."','".
+			ilUtil::prepareDBString($this->getImportName())."')";
+
 		$result = $this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -1040,7 +1044,8 @@ class ilForum
 		require_once("./classes/class.ilObjUser.php");
 		$tmp_user = new ilObjUser($a_row->pos_usr_id);
 		$fullname = $tmp_user->getFullname();
-		$fullname = $fullname ? $fullname : $lng->txt("unknown");
+	
+		$fullname = $fullname ? $fullname : ($a_row->import_name ? $a_row->import_name : $lng->txt("unknown"));
 
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
@@ -1062,7 +1067,8 @@ class ilForum
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
 					"id"			=> $a_row->fpt_pk,
-					"notify"		=> $a_row->notify				
+					"notify"		=> $a_row->notify,
+					"import_name"   => $a_row->import_name
 					);
 		
 		$data["message"] = stripslashes($data["message"]);
@@ -1332,13 +1338,13 @@ class ilForum
 		return $message;
 	}
 
-	function getUserData($id)
+	function getUserData($a_id,$a_import_name)
 	{
 		global $lng;
 
-		if($id)
+		if($a_id)
 		{
-			$query = "SELECT * FROM usr_data WHERE usr_id = '".$id."'";
+			$query = "SELECT * FROM usr_data WHERE usr_id = '".$a_id."'";
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -1349,9 +1355,20 @@ class ilForum
 		}
 		else
 		{
-			return array("usr_id" => 0,"login" => $lng->txt("unknown"));
+			$login = $a_import_name ? $a_import_name." (".$lng->txt("imported").")" : $lng->txt("unknown");
+
+			return array("usr_id" => 0,"login" => $login);
 		}
 	}
 
+
+	function getImportName()
+	{
+		return $this->import_name;
+	}
+	function setImportName($a_import_name)
+	{
+		$this->import_name = $a_import_name;
+	}
 
 } // END class.Forum

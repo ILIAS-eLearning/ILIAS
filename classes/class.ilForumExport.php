@@ -284,7 +284,8 @@ class ilForumExport
 					"lft"			=> $a_row->lft,
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
-					"id"			=> $a_row->fpt_pk		
+					"id"			=> $a_row->fpt_pk,
+					"import_name"   => $a_row->import_name
 					);
 		
 		$data["message"] = stripslashes($data["message"]);
@@ -481,7 +482,7 @@ class ilForumExport
 		return $res;
 	}
 	
-	function getUserData($id)
+	function getUserData($id,$a_import_name)
 	{
 		global $lng;
 
@@ -501,7 +502,9 @@ class ilForumExport
 		}
 		else
 		{
-			return array("usr_id" => 0,"login" => $lng->txt("unknown"));
+			$login = $a_import_name ? $a_import_name." (".$lng->txt("imported").")" : $lng->txt("unknown");
+
+			return array("usr_id" => 0,"login" => $login);
 		}
 	}
 } // END class.ForumExport

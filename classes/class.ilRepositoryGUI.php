@@ -1225,10 +1225,11 @@ class ilRepositoryGUI
 				// show content of last-post
 				if (is_array($lastPost))
 				{
-					if($lastPost["pos_usr_id"])
-					{
-						$last_user = $frm->getUserData($lastPost["pos_usr_id"]);
-					}
+					$last_user = $frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
+					#if($lastPost["pos_usr_id"])
+					#{
+					#	$last_user = $frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
+					#}
 
 					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".
 						$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
@@ -1243,7 +1244,8 @@ class ilRepositoryGUI
 					}
 					else
 					{
-						$lpCont .= $lng->txt("unknown");
+						$lpCont .= $last_user["login"];
+						#$lpCont .= $lng->txt("unknown");
 					}
 				}
 

@@ -580,7 +580,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 							  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>");
 			*/
 			// GET USER DATA, USED FOR IMPORTED USERS
-			$usr_data = $frm->getUserData($node["author"]);
+			$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
 
 			if($node["author"])
 			{
