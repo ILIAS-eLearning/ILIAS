@@ -1,4 +1,4 @@
-<form name="frm_properties" action="{ACTION_PROPERTIES}" method="post">
+<form name="frm_properties" action="{ACTION_PROPERTIES}" method="post" onSubmit="return submitForm();">
 <table class="std">
 <tr class="tblheader">
   <td class="std" colspan="2">{HEADING_GENERAL}</td>
@@ -23,7 +23,12 @@
   <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" disabled /></td></tr>
 <tr>
   <td class="option">{TEXT_INTRODUCTION}:</td>
-  <td class="option_value"><textarea name="introduction" rows="10" cols="50" id="introduction">{VALUE_INTRODUCTION}</textarea></td></tr>
+  <td class="option_value">{RTE}</td>
+</tr>
+<!--tr>
+  <td class="option">{TEXT_INTRODUCTION}:</td>
+  <td class="option_value"><textarea name="introduction" rows="10" cols="50" id="introduction">{VALUE_INTRODUCTION}</textarea></td>
+</tr-->
 <tr class="tblheader">
   <td class="std" colspan="2">{HEADING_SEQUENCE}</td>
 </tr>
