@@ -1026,5 +1026,31 @@ class ilUtil
 		return @mkdir($a_dir,fileperms($path));
 	}
 	
+	/**
+	* removes a dir and all its content (subdirs and files) recursively
+	* 
+	* @access	public
+	* @param	string	dir to delete
+	* @author	 <flexer@cutephp.com> (taken from the annotated php manual)
+	*/
+	function delDir($a_dir)
+	{
+		$current_dir = opendir($a_dir);
+		
+		while($entryname = readdir($current_dir))
+		{
+			if(is_dir($a_dir."/".$entryname) and ($entryname != "." and $entryname!=".."))
+			{
+				ilUtil::delDir(${a_dir}."/".${entryname});
+			}
+			elseif ($entryname != "." and $entryname!="..")
+			{
+				unlink(${a_dir}."/".${entryname});
+			}
+		}
+		
+		closedir($current_dir);
+		rmdir(${a_dir});
+	}
 } // END class.ilUtil
 ?>
