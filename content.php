@@ -171,6 +171,7 @@ if ($_GET["message"])
 }
 
 //testing
+/*
 $flat = $tree->calculateFlatTree(1);
 $flat_tree = "<table>\n<tr>\n<th>\nno.</th>\n<th>\nname</th>\n<th>\nnode_id</th>\n<th>\nsucc</th>\n<th>\ndepth</th>\n<th>\nbrother</th>\n<th>\nlft</th>\n<th>\nrgt</th>\n</tr>\n";
 
@@ -182,6 +183,7 @@ foreach ($flat as $key => $node)
 $flat_tree .= "</table>\n";
 
 $tplContent->setVariable("TESTING",$flat_tree);
+*/
 	
 $tplContent->show();
 ?>
