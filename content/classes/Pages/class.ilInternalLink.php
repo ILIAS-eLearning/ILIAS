@@ -65,5 +65,32 @@ class ilInternalLink
 		$ilias->db->query($q);
 	}
 
+	/**
+	* get all sources of a link target
+	*
+	* @param	string		$a_target_type		target type
+	* @param	int			$a_target_id		target id
+	* @param	int			$a_target_inst		target installation id
+	*
+	* @return	array		sources (array of array("type", "id"))
+	*/
+	function _getSourcesOfTarget($a_target_type, $a_target_id, $a_target_inst)
+	{
+		global $ilias;
+
+		$q = "SELECT * FROM int_link WHERE ".
+			"target_type = '$a_target_type' AND ".
+			"target_id = '$a_target_id' AND ".
+			"target_inst = '$a_target_inst'";
+		$source_set = $ilias->db->query($q);
+		$sources = array();
+		while ($source_rec = $source_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$sources[$source_rec["source_type"].":".$source_rec["source_id"]] =
+				array("type" => $source_rec["source_type"], "id" => $source_rec["source_id"]);
+		}
+
+		return $sources;
+	}
 }
 ?>

@@ -34,6 +34,7 @@ require_once("content/classes/class.ilBibItem.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTerm.php");
 require_once("content/classes/class.ilGlossaryDefinition.php");
+require_once("content/classes/Pages/class.ilInternalLink.php");
 require_once("classes/class.ilObjFile.php");
 
 /**
@@ -81,6 +82,7 @@ class ilContObjParser extends ilSaxParser
 	var $loc_type;			// current location type
 	var $bib_item;			// current bib item object
 	var $in_bib_item;		// are we currently within BibItem? true/false
+	var $link_targets;		// stores all objects by import id
 
 	/**
 	* Constructor
@@ -106,6 +108,7 @@ class ilContObjParser extends ilSaxParser
 		$this->mob_mapping = array();
 		$this->file_item_mapping = array();
 		$this->pg_mapping = array();
+		$this->link_targets = array();
 		$this->subdir = $a_subdir;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
@@ -191,6 +194,8 @@ class ilContObjParser extends ilSaxParser
 		{
 			$pg_mapping[$key] = "il__pg_".$value;
 		}*/
+
+		// outgoins internal links
 		foreach($this->pages_with_int_links as $page_id)
 		{
 			$page_obj =& new ilPageObject($this->content_object->getType(), $page_id);
@@ -198,6 +203,38 @@ class ilContObjParser extends ilSaxParser
 			$page_obj->resolveIntLinks();
 			$page_obj->update(false);
 			unset($page_obj);
+		}
+
+		// incoming internal links
+		$done = array();
+		foreach ($this->link_targets as $link_target)
+		{
+//echo "doin link target:".$link_target.":<br>";
+			$link_arr = explode("_", $link_target);
+			$target_inst = $link_arr[1];
+			$target_type = $link_arr[2];
+			$target_id = $link_arr[3];
+			$sources = ilInternalLink::_getSourcesOfTarget($target_type, $target_id, $target_inst);
+			foreach($sources as $key => $source)
+			{
+//echo "got source:".$key.":<br>";
+				if(in_array($key, $done))
+				{
+					continue;
+				}
+				$type_arr = explode(":", $source["type"]);
+
+				// content object pages
+				if ($type_arr[1] == "pg")
+				{
+					$page_object = new ilPageObject($type_arr[0], $source["id"]);
+					$page_object->buildDom();
+					$page_object->resolveIntLinks();
+					$page_object->update();
+					unset($page_object);
+				}
+				$done[$key] = $key;
+			}
 		}
 	}
 
@@ -442,6 +479,7 @@ class ilContObjParser extends ilSaxParser
 				$this->glossary_term->setGlossaryId($this->glossary_object->getId());
 				$this->glossary_term->setLanguage($a_attribs["Language"]);
 				$this->glossary_term->setImportId($a_attribs["Id"]);
+				$this->link_targets[$a_attribs["Id"]] = $a_attribs["Id"];
 				break;
 
 			case "Definition":
@@ -488,6 +526,7 @@ class ilContObjParser extends ilSaxParser
 				{
 					$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
 					$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
+					$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
 				}
 				if ($this->in_file_item)
 				{
