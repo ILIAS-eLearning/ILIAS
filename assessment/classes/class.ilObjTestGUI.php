@@ -92,7 +92,7 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	* form for new test object duplication
 	*/
-	function cloneObject()
+	function cloneAllObject()
 	{
 		if ($_POST["tst"] < 1)
 		{
