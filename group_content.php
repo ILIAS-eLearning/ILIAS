@@ -136,6 +136,7 @@ $tpl->addBlockfile("GROUP_TABLE", "group_table", "tpl.table.html");
 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 $cont_num = count($cont_arr);
 
+var_dump ($cont_arr);
 // render table content data
 if ($cont_num > 0)
 { 
@@ -145,23 +146,23 @@ if ($cont_num > 0)
 	foreach ($cont_arr as $cont_data)
 	{
 		$tpl->setCurrentBlock("tbl_content");
-
+		$newuser = new ilObjUser($cont_data["owner"]);
 		// change row color
 		$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 		$num++;
 
 		$obj_link = "group_view.php?grp_id=".$cont_data["ref_id"];
 		$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-
 		$tpl->setVariable("TITLE", $cont_data["title"]);
 		$tpl->setVariable("LO_LINK", $obj_link);
 		
 		$tpl->setVariable("IMG", $obj_icon);
 		$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
 		$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-		$tpl->setVariable("STATUS", "N/A");
+		$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 		$tpl->setVariable("LAST_VISIT", "N/A");
-		$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
+		$tpl->setVariable("ROLE_IN_GROUP", "keine Rolle zugewiesen");
+		//$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
 		$tpl->setVariable("CONTEXTPATH", getContextPath($cont_data["ref_id"]));
 		$tpl->parseCurrentBlock();
 		
@@ -181,8 +182,9 @@ $tbl = new ilTableGUI();
 // title & header columns
 //$tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
 //$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-$tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("status"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
-$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"));
+$tbl->setHeaderNames(array(
+$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("role_in_group"),$lng->txt("context")));
+$tbl->setHeaderVars(array("title","description","owner","last_visit","role_in_group","context"));
 $tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
 
 // control
