@@ -30,17 +30,28 @@ class Admin
 		
 		if (!isset($_POST["id"]))
 		{
-			$_SESSION["Error_Message"] = "No permission to delete Object";
+			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_class->MESSAGE);
 		}
 		
+		// fetch object type for each obj_id
+		foreach ($_POST["id"] as $val)
+		{
+			$obj = getObject($val);
+			$obj_list[$val] = $obj["type"];
+		}
+
+		// destroy $obj
+		unset($obj);		
+
+		// write all nessessary data into clipboard
 		$clipboard = array( "node"		=> $_GET["obj_id"],
 							"parent"	=> $_GET["parent"],
-							"obj_list"	=> $_POST["id"],
+							"obj_list"	=> $obj_list,
 							"cmd"		=> $_POST["cmd"]
 						   );
 								   
+		// save clipboard to session
 		$_SESSION["clipboard"] = $clipboard;
-			
 	}
 		
 	// create an new reference of an object in tree
@@ -50,15 +61,28 @@ class Admin
 
 		if (!isset($_POST["id"]))
 		{
-			$_SESSION["Error_Message"] = "No permission to delete Object";
+			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_class->MESSAGE);
 		}
 		
+		// fetch object type for each obj_id
+		foreach ($_POST["id"] as $val)
+		{
+			$obj = getObject($val);
+			$obj_list[$val] = $obj["type"];
+		}
+		
+		// destroy $obj
+		unset($obj);		
+
+		// write all nessessary data into clipboard
 		$clipboard = array( "node"		=> $_GET["obj_id"],
 							"parent"	=> $_GET["parent"],
-							"obj_list"	=> $_POST["id"],
+							"obj_list"	=> $obj_list,
 							"cmd"		=> $_POST["cmd"]
 						   );
 								   
+	
+		// save clipboard to session
 		$_SESSION["clipboard"] = $clipboard;
 	}
 	
@@ -69,7 +93,35 @@ class Admin
 		
 		if ($clipboard["cmd"] == "copy")
 		{
-			//$tree->copyNode();
+			$rbacsystem = new RbacSystemH($this->ilias->db);
+			//$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
+			
+			foreach ($clipboard["obj_list"] as $obj_id => $obj_type)
+			{
+				if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$obj_type))
+				{
+					$rbacreview = new RbacReviewH($this->ilias->db);
+					$rbacadmin = new RbacAdminH($this->ilias->db); 
+
+					// Eintragen des Objektes in Tree
+					$tree->insertNode($obj_id,$_GET["obj_id"]);
+	
+					// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
+					$parentRoles = $rbacadmin->getParentRoleIds();
+
+					foreach($parentRoles as $parRol)
+					{
+						// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+						$ops = $rbacreview->getOperations($parRol["obj_id"],$obj_type,$parRol["parent"]);
+						$rbacadmin->grantPermission($parRol["obj_id"],$ops,$obj_id,$_GET["obj_id"]);
+					}
+				}
+				else
+				{
+					$this->ilias->raiseError("No permission to create object",$this->ilias->error_class->MESSAGE);
+			
+				}
+			}
 		}		
 	
 		if ($clipboard["cmd"] == "cut")
@@ -100,7 +152,7 @@ class Admin
 			{
 
 				// CHECK ACCESS	
-				if($rbacsystem->checkAccess('delete',$id,$_GET["obj_id"]))
+				if($rbacsystem->checkAccess("delete",$id,$_GET["obj_id"]))
 				{
 					$tree->deleteTree($id);
 					$rbacadmin->revokePermission($id);
