@@ -1785,6 +1785,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$insert_id = $matches[1];
 					}
 				}
+				if (preg_match("/^cb_qb_(\d+)$/", $key, $matches))
+				{
+					if ($insert_id < 0)
+					{
+						$ids =& $this->object->getQuestionblockQuestionIds($matches[1]);
+						if (count($ids))
+						{
+							if ($_POST["cmd"]["insert_before"])
+							{
+								$insert_id = $ids[0];
+							}
+							else if ($_POST["cmd"]["insert_after"])
+							{
+								$insert_id = $ids[count($ids)-1];
+							}
+						}
+					}
+				}
 			}
 			if ($insert_id <= 0)
 			{
