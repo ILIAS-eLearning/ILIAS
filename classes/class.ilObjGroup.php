@@ -286,7 +286,7 @@ class ilObjGroup extends ilObject
 	* @param	array	of user ids
 	* @return	return array of userdata
 	*/
-	function getGroupMemberData($a_mem_ids)
+	function getGroupMemberData($a_mem_ids, $active = 1)
 	{
 		global $rbacadmin, $rbacreview, $ilBench, $ilDB;
 
@@ -295,7 +295,11 @@ class ilObjGroup extends ilObject
 		$q = "SELECT login,firstname,lastname,title,usr_id ".
 			 "FROM usr_data ".
 			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
-		$r = $ilDB->query($q);
+			 
+  		if (is_numeric($active) && $active > -1)
+  			$q .= "AND active = '$active'";			 
+		
+  		$r = $ilDB->query($q);
 		
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
