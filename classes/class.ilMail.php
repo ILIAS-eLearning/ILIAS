@@ -802,6 +802,7 @@ class ilMail
 	{
 		global $lng;
 
+
 		$error_message = '';
 		$message = '';
 
@@ -859,6 +860,8 @@ class ilMail
 		// save mail in sent box
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
 										$a_m_subject,$a_m_message);
+		$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
+
 		// ACTIONS FOR NORMAL
 		// save attachments
 		if (in_array('normal',$a_type))
