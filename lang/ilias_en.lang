@@ -1540,7 +1540,6 @@ common#:#order_by#:#Order by
 common#:#other#:#Other
 common#:#overview#:#Overview
 common#:#owner#:#Owner
-common#:#per_object#:#Access per object
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
 common#:#pages#:#Pages
@@ -1564,6 +1563,7 @@ common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Pathes
 common#:#payment_system#:#Payment System
+common#:#per_object#:#Access per object
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied

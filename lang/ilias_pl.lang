@@ -1546,6 +1546,7 @@ common#:#path_to_unzip#:#Ściezka do Unzip
 common#:#path_to_zip#:#Ścieżka do Zip
 common#:#pathes#:#Ścieżki
 common#:#payment_system#:#System płatności
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
 common#:#permission_denied#:#Dostęp zabroniony

@@ -1579,6 +1579,7 @@ common#:#path_to_unzip#:#到Unzip的路径
 common#:#path_to_zip#:#到Zip的路径
 common#:#pathes#:#路径
 common#:#payment_system#:#付费系统
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#权限
 common#:#permission#:#权限
 common#:#permission_denied#:#权限被拒绝

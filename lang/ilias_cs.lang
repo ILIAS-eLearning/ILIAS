@@ -1563,6 +1563,7 @@ common#:#path_to_unzip#:#Cesta k programu Unzip
 common#:#path_to_zip#:#Cesta k programu Zip
 common#:#pathes#:#Cesty
 common#:#payment_system#:#Platební systém
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Přístupová práva
 common#:#permission#:#Oprávnění
 common#:#permission_denied#:#Přístup odepřen
