@@ -1,0 +1,79 @@
+<!-- Course -->
+<!ELEMENT Course (MetaData,Admin*,Tutor*,Member*,Subscriber*,Settings,Objects*)>
+<!ATTLIST Course
+    exportVersion CDATA #REQUIRED
+    id CDATA #REQUIRED
+>
+
+<!ELEMENT Admin EMPTY>
+<!ATTLIST Admin
+    id CDATA #REQUIRED
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT Tutor EMPTY>
+<!ATTLIST Tutor
+    id CDATA #REQUIRED
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT Member EMPTY>
+<!ATTLIST Member
+    id CDATA #REQUIRED
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT Subscriber EMPTY>
+<!ATTLIST Subscriber
+    id CDATA #REQUIRED
+    SubscriptionTime CDATA #REQUIRED
+>
+
+<!ELEMENT Settings (Syllabus?,Contact?,Activation,Subscription,Sort,Archive)
+
+<!ELEMENT Syllabus (#PCDATA)>
+<!ELEMENT Contact (Name?,Responsibility?,Phone?,Email?,Consultation?)
+
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT Responsibility (#PCDATA)>
+<!ELEMENT Phone (#PCDATA)>
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Consultation (#PCDATA)>
+
+<!ELEMENT Activation (Start,End)>
+<!ATTLIST Activation
+    Unlimited CDATA #REQUIRED
+    Offline CDATA #REQUIRED
+>
+
+<!ELEMENT Subscription (Start,End,Password?)>
+<!ATTLIST Subscription
+    Unlimited CDATA #REQUIRED
+    MaxMembers CDATA #REQUIRED
+    Notify CDATA #REQUIRED
+    Type CDATA #REQUIRED
+>
+
+<!ELEMENT Password (#PCDATA)>
+<!ELEMENT Start (#PCDATA)>
+<!ELEMENT End (#PCDATA)>
+
+<!ELEMENT Sort EMPTY>
+<!ATTLIST Sort
+    SortType CDATA #REQUIRED
+>
+
+<!ELEMENT Archive (Start,End)>
+<!ATTLIST Archive
+    Type CDATA #REQUIRED
+>
+
+<!ELEMENT Object (Start,End,Object*)>
+
+<!ELEMENT Object EMPTY>
+<!ATTLIST Object
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+    Unlimited CDATA #REQUIRED
+    Position CDATA #REQUIRED
+>
