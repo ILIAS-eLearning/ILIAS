@@ -22,6 +22,7 @@
 */
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerBinaryState.php";
+require_once "./classes/class.ilXmlWriter.php";
 
 define("RESPONSE_SINGLE", "0");
 define("RESPONSE_MULTIPLE", "1");
@@ -154,22 +155,22 @@ class ASS_MultipleChoice extends ASS_Question
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
 		$qtiIdent->set_attribute("ident", $this->getId());
-		$qtiIdent->set_attribute("title", $this->getTitle());
+		$qtiIdent->set_attribute("title", ilXmlWriter::xmlEscapeData($this->getTitle()));
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("<![CDATA[".$this->getComment()."]]>");
+		$qtiCommentText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($this->getComment()));
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation
 		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->getTitle());
+		$qtiPresentation->set_attribute("label", ilXmlWriter::xmlEscapeData($this->getTitle()));
 		// add flow to presentation
 		$qtiFlow = $this->domxml->create_element("flow");
 		// add material with question text to presentation
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$this->get_question()."]]>");
+		$qtiMatTextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($this->get_question()));
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
@@ -210,7 +211,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$qtiResponseLabel->set_attribute("ident", $index);
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$answer->get_answertext()."]]>");
+			$qtiMatTextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($answer->get_answertext()));
 			$qtiMatText->append_child($qtiMatTextText);
 			$qtiMaterial->append_child($qtiMatText);
 			$qtiResponseLabel->append_child($qtiMaterial);
@@ -307,7 +308,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMattext = $this->domxml->create_element("mattext");
 			// Insert response text for right/wrong answers here!!!
-			$qtiMattextText = $this->domxml->create_text_node("<![CDATA[".""."]]>");
+			$qtiMattextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData(""));
 			$qtiMattext->append_child($qtiMattextText);
 			$qtiMaterial->append_child($qtiMattext);
 			$qtiFlowmat->append_child($qtiMaterial);

@@ -23,6 +23,7 @@
 
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerImagemap.php";
+require_once "./classes/class.ilXmlWriter.php";
 
 /**
 * Class for image map questions
@@ -208,7 +209,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -237,7 +238,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			// saving material uris in the database
 			$this->saveMaterialsToDb();
 			// Antworten schreiben
-			// alte Antworten löschen
+			// alte Antworten lï¿½schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -395,22 +396,22 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
 		$qtiIdent->set_attribute("ident", $this->getId());
-		$qtiIdent->set_attribute("title", $this->getTitle());
+		$qtiIdent->set_attribute("title", ilXmlWriter::xmlEscapeData($this->getTitle()));
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("<![CDATA[".$this->getComment()."]]>");
+		$qtiCommentText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($this->getComment()));
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation
 		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->getTitle());
+		$qtiPresentation->set_attribute("label", ilXmlWriter::xmlEscapeData($this->getTitle()));
 		// add flow to presentation
 		$qtiFlow = $this->domxml->create_element("flow");
 		// add material with question text to presentation
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$this->get_question()."]]>");
+		$qtiMatTextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($this->get_question()));
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
@@ -422,7 +423,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatImage = $this->domxml->create_element("matimage");
 		$qtiMatImage->set_attribute("imagtype", "image/jpeg");
-		$qtiMatImage->set_attribute("label", $this->get_image_filename());
+		$qtiMatImage->set_attribute("label", ilXmlWriter::xmlEscapeData($this->get_image_filename()));
 		if ($a_include_binary)
 		{
 			$qtiMatImage->set_attribute("embedded", "base64");
@@ -546,7 +547,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMattext = $this->domxml->create_element("mattext");
 			// Insert response text for right/wrong answers here!!!
-			$qtiMattextText = $this->domxml->create_text_node("");
+			$qtiMattextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData(""));
 			$qtiMattext->append_child($qtiMattextText);
 			$qtiMaterial->append_child($qtiMattext);
 			$qtiFlowmat->append_child($qtiMaterial);
@@ -747,7 +748,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
   )
   {
     if (array_key_exists($order, $this->answers)) {
-      // Antwort einfügen
+      // Antwort einfï¿½gen
       $answer = new ASS_AnswerImagemap($answertext, $points, $found, $correctness, $coords, $area);
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) {
 				$this->answers[$i+1] = $this->answers[$i];
@@ -755,7 +756,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			}
 			$this->answers[$order] = $answer;
     } else {
-      // Anwort anhängen
+      // Anwort anhï¿½ngen
       $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $correctness, $coords, $area);
       array_push($this->answers, $answer);
     }

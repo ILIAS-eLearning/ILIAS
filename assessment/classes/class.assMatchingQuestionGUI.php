@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assMatchingQuestion.php";
 * The ASS_MatchingQuestionGUI class encapsulates the GUI representation
 * for matching questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½Ã¼ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMatchingQuestionGUI.php
 * @modulegroup   Assessment
@@ -155,7 +155,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 
 		if ($this->ctrl->getCmd() == "addPair")
 		{
-			// Template für neue Antwort erzeugen
+			// Template fï¿½r neue Antwort erzeugen
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("pictures");
