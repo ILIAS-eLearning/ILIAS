@@ -1091,24 +1091,3 @@ div.ilc_Question
 	font-size:14px;
 	font-weight: bold;
 }
-
-.textbox
-{
-	position:relative;
-	border: 1px solid #000000;
-	background: #DDDDDD;
-	width: 200px;
-	height: 100px;
-	padding: 10px;
-	vertical-align: middle;
-	border-style: outset;
-	text-align: center;
-}
-
-.imagebox
-{
-	position:relative;
-	width: 150px;
-}
-
-
