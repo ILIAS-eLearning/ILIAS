@@ -154,8 +154,6 @@ assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all 
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
-assessment#:#with_order#:#with order
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#height#:#Height
@@ -186,7 +184,6 @@ assessment#:#no_question_selected_for_move#:#Please check at least one question 
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#or#:#or
-assessment#:#selected_image#:#Selected image
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
@@ -245,6 +242,7 @@ assessment#:#save_next#:#Save and goto next question
 assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
+assessment#:#selected_image#:#Selected image
 assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
@@ -358,7 +356,9 @@ assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#when#:#when
 assessment#:#width#:#Width
+assessment#:#with_order#:#with order
 assessment#:#working_time#:#Working Time
+assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
 bibitem#:#bibitem_add#:#Add
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
@@ -1775,7 +1775,6 @@ common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
 common#:#selected#:#Selected
-common#:#unselected#:#Unselected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
 common#:#sender#:#Sender
@@ -1927,6 +1926,7 @@ common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
+common#:#unselected#:#Unselected
 common#:#unsubscribe#:#unsubscribe
 common#:#unzip#:#Unzip
 common#:#up#:#Up
