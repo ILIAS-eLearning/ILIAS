@@ -405,7 +405,10 @@ class ilObjTestGUI extends ilObjectGUI
       while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
       {
         if (($rbacsystem->checkAccess("read", $data->ref_fi)) and (!in_array($data->question_id, $existing_questions))) {
-          $this->tpl->setVariable("QUESTION_ID", $data->question_id);
+					if ($data->complete) {
+						// make only complete questions selectable
+	          $this->tpl->setVariable("QUESTION_ID", $data->question_id);
+					}
           //if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
           //  $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&edit=$data->question_id\">$data->title</a>");
           //} else {
