@@ -2430,8 +2430,8 @@ crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
 crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
-crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt.
-crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt.
+crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt
+crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
@@ -2443,20 +2443,21 @@ crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Liste ausdrucken
-crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
-crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
-crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
-crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen.
+crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
+crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
+crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten. Sie werden auf die Warteliste gesetzt
+crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen
 crs#:#crs_reg_until#:#Anmeldungszeitraum
-crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses.
-crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet.
-crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt.
+crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
+crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet
+crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Kursanmeldung
 crs#:#crs_reject_subscriber#:#Kursanmeldung
-crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt.
+crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
-crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein.
+crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
+common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 crs#:#crs_search_for#:#Suchen nach:
 crs#:#crs_search_members#:#Benutzersuche
 crs#:#crs_search_str#:#Suchbegriff
@@ -2472,10 +2473,10 @@ crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_start#:#Start
 crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Kursstatus
-crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert.
+crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subscribers#:#Anmeldungen
-crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht.
+crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht
 crs#:#crs_subscription#:#Anmeldung
 crs#:#crs_subscription_max_members#:#Maiximale Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
@@ -2483,7 +2484,7 @@ crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
 crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
 crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
-crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet.
+crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet
 crs#:#crs_subscription_type#:#Anmeldungsart
 crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Lernziel
@@ -2494,7 +2495,7 @@ crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Kursmitgliedschaft
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wiederhergestellt.
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wiederhergestellt
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Abmelden
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
@@ -2508,7 +2509,7 @@ dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
 dateplaner#:#ERROR_DB#:#Schreibfehler in Datenbank
-dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
+dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen.
 dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
