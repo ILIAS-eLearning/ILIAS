@@ -326,3 +326,13 @@ ALTER TABLE learning_module RENAME content_object;
 
 <#42>
 ALTER TABLE content_object ADD COLUMN online ENUM('y','n') DEFAULT 'n';
+
+<#43>
+DELETE FROM rbac_templates where rol_id=82;
+
+CREATE TABLE grp_registration (
+`grp_id` INT NOT NULL ,
+`user_id` INT NOT NULL ,
+`subject` VARCHAR( 255 ) NOT NULL ,
+`application_date` DATETIME NOT NULL
+);
