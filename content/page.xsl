@@ -26,12 +26,14 @@
 
 <!-- PageObject -->
 <xsl:param name="mode"/>
+<xsl:param name="media_mode"/>
 <xsl:param name="pg_title"/>
 <xsl:param name="pg_id"/>
 <xsl:param name="link_params"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
+<xsl:param name="med_disabled_path"/>
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
 <xsl:param name="map_item" />
@@ -959,7 +961,13 @@
 	<xsl:param name="location_mode"/>
 	<xsl:param name="curType"/>
 	<xsl:choose>
-
+		<xsl:when test="$media_mode = 'disable' and $mode='edit'">
+			<img border="0">
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:attribute name="src"><xsl:value-of select="$med_disabled_path"/></xsl:attribute>
+			</img>
+		</xsl:when>
 		<!-- all image mime types, except svg -->
 		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">
 			<xsl:if test="$map_edit_mode != 'get_coords'">

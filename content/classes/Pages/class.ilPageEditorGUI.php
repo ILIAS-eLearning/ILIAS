@@ -178,8 +178,10 @@ class ilPageEditorGUI
 		}
 		else
 		{
+//echo $cmd;
 //echo "<br>is_object:".is_object($this->page).":";
-			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard")
+			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
+				$cmd != "setMediaMode")
 			{
 				$cont_obj =& $this->page->getContentObject($hier_id);
 				$ctype = $cont_obj->getType();
@@ -332,6 +334,17 @@ class ilPageEditorGUI
 		}
 
 		return $ret;
+	}
+
+	/**
+	*
+	*/
+	function setMediaMode()
+	{
+		global $ilUser;
+
+		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
