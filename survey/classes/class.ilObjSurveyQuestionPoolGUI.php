@@ -233,7 +233,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 		
 		if (count($checked_questions) > 0) {
-			if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+			if ($rbacsystem->checkAccess('write', $this->ref_id)) {
 				sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
 			} else {
 				sendInfo($this->lng->txt("qpl_delete_rbac_error"), true);
