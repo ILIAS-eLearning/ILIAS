@@ -180,7 +180,7 @@ class ilLanguage
 		// get available setup-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^setup_.{2}\.lang)", $entry)))
+			if (is_file($entry) && (ereg ("(^setup_.{2}\.lang$)", $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages[] = $lang_key;
