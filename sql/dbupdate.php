@@ -3917,6 +3917,112 @@ UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_vers
 $ilCtrlStructureReader->getStructure();
 
 ?>
-
 <#236>
-ALTER TABLE `aicc_object` CHANGE `alm_id` `slm_id` INT( 11 ) DEFAULT '0' NOT NULL
+ALTER TABLE `aicc_object` CHANGE `alm_id` `slm_id` INT( 11 ) DEFAULT '0' NOT NULL;
+
+<#237>
+<?php
+// ADMIN TEMPLATE
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_crs_admin', 'Administrator template for course admins', -1, now(), now())";
+
+$this->db->query($query);
+
+// Get id of admin_template
+$query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_admin'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$admin_id = $row->obj_id;
+}
+
+$admin["lm"] = array(1,2,3,4,6,7,8);
+$admin["slm"] = array(1,2,3,4,6,7,8);
+$admin["dbk"] = array(1,2,3,4,6);
+$admin["glo"] = array(1,2,3,4,6,7,8);
+$admin["frm"] = array(1,2,3,4,6,9,10);
+$admin["chat"] = array(1,2,3,4,6);
+$admin["file"] = array(1,2,3,4,6);
+$admin["tst"] = array(1,2,3,4,6);
+$admin["grp"] = array(1,2,3,4,6,7,8,18,20,21,22,23,24,25,26,27,29,31);
+$admin["exc"] = array(1,2,3,4,6);
+$admin["fold"] = array(1,2,3,4,6,18,20,21,22,25,26,29);
+$admin["crs"] = array(1,2,3,4,6,7,8,17,18,20,21,22,23,24,25,26,27,29,31,32);
+
+$rbacadmin =& new ilRbacAdmin();
+
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($admin_id,$type,$ops,ROLE_FOLDER_ID);
+}
+$rbacadmin->assignRoleToFolder($admin_id,ROLE_FOLDER_ID,"n");
+
+// TUTOR TEMPLATE
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_crs_tutor', 'Tutor template for course tutors', -1, now(), now())";
+
+$this->db->query($query);
+
+// Get id of admin_template
+$query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_tutor'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$tutor_id = $row->obj_id;
+}
+$admin["lm"] = array(2,3,4);
+$admin["slm"] = array(2,3,4,7,8);
+$admin["dbk"] = array(2,3,4);
+$admin["glo"] = array(2,3,4,7,8);
+$admin["frm"] = array(2,3,4,9);
+$admin["chat"] = array(2,3,4);
+$admin["file"] = array(2,3,4);
+$admin["tst"] = array(2,3,4);
+$admin["grp"] = array(2,3,4,7,8);
+$admin["exc"] = array(2,3,4);
+$admin["fold"] = array(2,3,4);
+$admin["crs"] = array(2,3,4,7,8);
+
+$rbacadmin =& new ilRbacAdmin();
+
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($tutor_id,$type,$ops,ROLE_FOLDER_ID);
+}
+$rbacadmin->assignRoleToFolder($tutor_id,ROLE_FOLDER_ID,"n");
+
+// MEMBER TEMPLATE
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_crs_member', 'Member template for course members', -1, now(), now())";
+
+$this->db->query($query);
+
+// Get id of admin_template
+$query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_member'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$member_id = $row->obj_id;
+}
+$admin["lm"] = array(2,3);
+$admin["slm"] = array(2,3,7,8);
+$admin["dbk"] = array(2,3);
+$admin["glo"] = array(2,3,7,8);
+$admin["frm"] = array(2,3);
+$admin["chat"] = array(2,3);
+$admin["file"] = array(2,3);
+$admin["tst"] = array(2,3);
+$admin["grp"] = array(2,3,7,8);
+$admin["exc"] = array(2,3);
+$admin["fold"] = array(2,3);
+$admin["crs"] = array(2,3,7,8);
+
+$rbacadmin =& new ilRbacAdmin();
+
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($member_id,$type,$ops,ROLE_FOLDER_ID);
+}
+
+$rbacadmin->assignRoleToFolder($member_id,ROLE_FOLDER_ID,"n");
+?>
