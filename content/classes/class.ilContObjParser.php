@@ -873,7 +873,7 @@ class ilContObjParser extends ilSaxParser
 //echo "origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
 
 						// update media object
-						
+
 						$this->meta_data->setId($this->media_object->getId());
 						$this->meta_data->setType("mob");
 						$this->media_object->assignMetaData($this->meta_data);

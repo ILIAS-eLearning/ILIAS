@@ -116,6 +116,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
+	function assignObject()
+	{
+		include_once("content/classes/class.ilObjGlossary.php");
+
+		$this->object =& new ilObjGlossary($this->id, true);
+	}
+
 
 	/**
 	* form for new content object creation
@@ -166,6 +173,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 	}
 
+	function importObject()
+	{
+		$this->createObject();
+	}
+
 	/**
 	* save new content object to db
 	*/
@@ -214,7 +226,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function importObject()
+	function importFileObject()
 	{
 		global $HTTP_POST_FILES, $rbacsystem;
 

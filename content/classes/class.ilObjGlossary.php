@@ -644,9 +644,9 @@ class ilObjGlossary extends ilObject
 				//echo "Glossary ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "new":
-				
+
 				//echo "Glossary ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
