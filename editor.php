@@ -9,13 +9,11 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.editor.html", false, true);
+$tpl = new Template("tpl.editor.html", false, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE","Edit Lessons");
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK",".php");
 $tplbtn->setVariable("BTN_TXT","Test/Intern");

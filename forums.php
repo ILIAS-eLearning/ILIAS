@@ -10,8 +10,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.forums.html", true, true);
+$tpl = new Template("tpl.forums.html", true, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE","_Available Forums");
 

@@ -3,8 +3,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.search.html", false, false);
+$tpl = new Template("tpl.search.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE","_Search");
 

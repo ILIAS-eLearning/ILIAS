@@ -9,15 +9,13 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.mail.html", true, true);
+$tpl = new Template("tpl.mail.html", true, true);
 
 $lng = new Language($ilias->account->data["language"]);
 
 $tpl->setVariable("TXT_PAGEHEADLINE","_mail");
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","");
 $tplbtn->setVariable("BTN_TXT","_Inbox");

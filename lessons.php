@@ -9,11 +9,9 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.lessons.html", true, true);
+$tpl = new Template("tpl.lessons.html", true, true);
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","courses.php");
 $tplbtn->setVariable("BTN_TXT","_Courses");

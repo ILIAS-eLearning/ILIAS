@@ -9,8 +9,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.feedback.html", false, false);
+$tpl = new Template("tpl.feedback.html", false, false);
 $tpl->setVariable("TXT_PAGEHEADLINE","_Feedback");
 
 $tpl->setVariable("TXT_MSG_DEFAULT", "_Type your message here");
