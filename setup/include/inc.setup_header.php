@@ -67,11 +67,19 @@ require_once "../classes/class.ilErrorHandling.php";
 
 // set ilias pathes
 define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
-define ("ILIAS_ABSOLUTE_PATH",substr($_SERVER["DOCUMENT_ROOT"].dirname($_SERVER["REQUEST_URI"]),0,-6));
+
+// PHP is running in CGI mode?
+if (isset($_SERVER["REDIRECT_STATUS"]))
+{
+	define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["PATH_TRANSLATED"]),0,-6));
+}
+else
+{
+	define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
+}
 
 define ("TPLPATH","./templates/blueshadow");
 
-//define ("ILIAS_ABSOLUTE_PATH",dirname(__FILE__));
 //var_dump(ILIAS_ABSOLUTE_PATH);exit;
 
 // init session
