@@ -204,6 +204,7 @@ assessment#:#filter#:#Filter
 assessment#:#gap#:#Gat
 assessment#:#gap_definition#:#Gaten-definitie
 assessment#:#gap_selection#:#Selectie van een gat
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Hoogte
 assessment#:#imagemap#:#Grafische map
 assessment#:#imagemap_file#:#Grafische kaart-bestand
@@ -2225,6 +2226,8 @@ common#:#usrf_visible#:#Gebruikers zijn zichtbaar
 common#:#usrf_write#:#Wijzigen gebruiker
 common#:#validate#:#Valideer
 common#:#value#:#Waarde
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Leveranciers
 common#:#version#:#Versie
 common#:#view#:#Tonen

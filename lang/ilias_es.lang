@@ -206,6 +206,7 @@ assessment#:#filter_show_questionpools#:#Mostrar depósitos de preguntas
 assessment#:#gap#:#Hueco
 assessment#:#gap_definition#:#Definición de hueco
 assessment#:#gap_selection#:#Selección de hueco
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Altura
 assessment#:#imagemap#:#Mapa de imagen
 assessment#:#imagemap_file#:#Fichero de mapa de imagen
@@ -2224,6 +2225,8 @@ common#:#usrf_visible#:#Cuentas de usuario visibles
 common#:#usrf_write#:#Editar cuentas de usuario
 common#:#validate#:#Validar
 common#:#value#:#valor
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Vendors
 common#:#version#:#versión
 common#:#view#:#-Ver-

@@ -153,6 +153,7 @@ assessment#:#filter#:#Szűrő
 assessment#:#gap#:#Kitöltendő hely
 assessment#:#gap_definition#:#Kitöltendő hely definíciója
 assessment#:#gap_selection#:#Kitöltendő hely kiválasztása
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Magasság
 assessment#:#imagemap#:#Image Map
 assessment#:#imagemap_source#:#Image Map forrása
@@ -1848,6 +1849,8 @@ common#:#usrf_visible#:#A felhasználói fiókok láthatók
 common#:#usrf_write#:#Felhasználói fiókok szerkesztése
 common#:#validate#:#Érvényesítés
 common#:#value#:#Érték
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#version#:#Változat
 common#:#view#:#Nézet
 common#:#view_content#:#Tartalom nézet

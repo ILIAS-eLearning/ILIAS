@@ -197,6 +197,7 @@ assessment#:#filter_show_questionpools#:#Afficher jeux de questions
 assessment#:#gap#:#Lacune
 assessment#:#gap_definition#:#Définition de lacune
 assessment#:#gap_selection#:#Sélection de lacune
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Hauteur
 assessment#:#imagemap#:#Image réactive
 assessment#:#imagemap_file#:#Fichier d'image réactive
@@ -2210,6 +2211,8 @@ common#:#usrf_visible#:#Les comptes utilisateurs sont visibles
 common#:#usrf_write#:#Modifier comptes utilisateurs
 common#:#validate#:#Valider
 common#:#value#:#Valeur
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Vendeurs
 common#:#version#:#Version
 common#:#view#:#Voir

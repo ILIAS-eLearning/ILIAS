@@ -203,6 +203,7 @@ assessment#:#filter_show_questionpools#:#Pokaż pule pytań
 assessment#:#gap#:#Luka
 assessment#:#gap_definition#:#Definicja luki
 assessment#:#gap_selection#:#Wybór odstępu
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Wysokość
 assessment#:#imagemap#:#Mapa bitowa
 assessment#:#imagemap_source#:#Źródło mapy bitowej
@@ -2087,6 +2088,8 @@ common#:#usrf_visible#:#Konta użytkowników są widoczne
 common#:#usrf_write#:#Edycja kont użytkowników
 common#:#validate#:#Zatwierdź
 common#:#value#:#Wartość
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Sprzedawcy
 common#:#version#:#Wersja
 common#:#view#:#Widok

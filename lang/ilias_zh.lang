@@ -227,6 +227,7 @@ assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new va
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#间隔选择
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
@@ -2251,6 +2252,8 @@ common#:#usrf_visible#:#用户账号可视
 common#:#usrf_write#:#编辑用户账号
 common#:#validate#:#验证
 common#:#value#:#值
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Vendors###31 Aug 2004 new variable
 common#:#version#:#版本
 common#:#view#:#视图
