@@ -1,16 +1,17 @@
 body {
-        color:#222222;
-        background-color:#a0a0b0;
-        font-family:Verdana,Arial,Helvetica,sans-serif;
-        font-size:small;
-                margin:10px;
+	color:#222222;
+	background-color:#b9c0d5;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:small;
+	margin:10px;
 }
+
 td {
         font-size:small;
 }
 
 .btnbar {
-	background-color:#444499;
+	background-color:#FFFFFF;
 	background-image: url(images/navbar/back.gif);
 }
 
@@ -59,7 +60,7 @@ tr.tblheader {
 
 a.tblheader, a.tblheader:visited
 {
-	color:#444499;
+	color:#3444AA;
 }
 
 a.tblheader:hover
@@ -113,30 +114,27 @@ h2 {
 }
 
 /* ----------------- normal links ------------- */
-a {
-        font-weight:bold;
-        text-decoration:none;
-        color:#444499;
+a:link, a:visited {
+	font-weight:bold;
+	text-decoration:none;
+	color:#2255A0;
 }
 
 a:hover {
-        color:#000000;
+	color:#000000;
 }
 
-a:visited {
-        color:#444499;
-}
 
 /* ------------------- mail links ----------- */
 a.mailread
 {
         font-weight: normal;
-        color: #444499;
+        color: #2255A0;
 }
 
 a.mailunread
 {
-        color: #444499;
+        color: #2255A0;
         font-weight: bold;
 }
 
@@ -152,24 +150,55 @@ td.btn {
 	background-image: url(images/cellpic2.jpg);
 }
 
-a.btn {
-        color:#444499;
-        text-decoration:none;
-        font-size:small;
+a.btn:link, a.btn:visited {
+	color:#2255A0;
+	text-decoration:none;
+	font-size:small;
 }
 
-
-a.btn:visited {
-        color:#444499;
-        text-decoration:none;
-        font-size:small;
-
-}
 
 a.btn:hover {
-        color:#000000;
-
+	color:#000000;
 }
+
+
+input {
+	background-color:#FFFFFF;
+	color:#2255A0;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:3px;
+	background-image: url(images/cellpic2.jpg);
+	text-decoration:none;
+	font-size:small;
+	font-weight:bold;
+}
+
+input.tblrow1, input.tblrow2
+{
+	background-color:#FFFFFF;
+	color:#000000;
+	background-image: none;
+	padding:0px;
+}
+
+textarea {
+	background-color:#FFFFFF;
+	color:#000000;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:inset;
+	padding:3px;
+	text-decoration:none;
+	font-size:small;
+	font-weight:bold;
+}
+
+/*input:hover {
+	color:#000000;
+}*/
+
 
 .message {
   color: #dd0000;
