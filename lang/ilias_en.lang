@@ -332,6 +332,7 @@ common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
+common#:#grp_register#:#Register
 common#:#guest#:#Guest
 common#:#guests#:#Guests
 common#:#help#:#Help
