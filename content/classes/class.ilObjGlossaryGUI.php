@@ -720,7 +720,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function setAdminTabs($mode = "std")
 	{
-		if ($mode == "std")
+		if ($mode == "std" || $mode == "")
 		{
 			parent::setAdminTabs();
 		}
