@@ -552,8 +552,8 @@ content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_meta_data#:#Meta Data
-content#:#cont_pg_content#:#Page Content
 content#:#cont_pages#:#Pages
+content#:#cont_pg_content#:#Page Content
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
@@ -895,8 +895,6 @@ meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_c_ZZ#:#Other Country
 meta#:#meta_general#:#General
 meta#:#meta_identifier#:#Identifier
-meta#:#meta_language#:#Language
-meta#:#meta_title#:#Title
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
 meta#:#meta_l_af#:#afrikaans
@@ -944,9 +942,9 @@ meta#:#meta_l_hr#:#croatian
 meta#:#meta_l_hu#:#hungarian
 meta#:#meta_l_hy#:#armenian
 meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonesian
 meta#:#meta_l_ie#:#interlingue
 meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_id#:#indonesian
 meta#:#meta_l_is#:#icelandic
 meta#:#meta_l_it#:#italian
 meta#:#meta_l_iu#:#inuktitut
@@ -1036,3 +1034,5 @@ meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
+meta#:#meta_language#:#Language
+meta#:#meta_title#:#Title
