@@ -1431,26 +1431,23 @@ class ilRepositoryGUI
 					$tpl->setVariable("VIEW_TARGET", "bottom");
 					$tpl->setVariable("R_TITLE", $mep_data["title"]);
 					$tpl->parseCurrentBlock();
+
+                                    if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($mep_data["ref_id"], "mep"))
+                                    {
+                                            $tpl->setCurrentBlock("mep_desklink");
+                                            $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+                                                    "&item_ref_id=".$mep_data["ref_id"].
+                                                    "&type=mep&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+                                                    "&sort_by=".$_GET["sort_by"]);
+                                            $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+                                            $tpl->parseCurrentBlock();
+                                    }
 				}
 				else
 				{
 					$tpl->setCurrentBlock("mep_visible");
 					$tpl->setVariable("V_TITLE", $mep_data["title"]);
 					$tpl->parseCurrentBlock();
-				}
-
-				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($mep_data["ref_id"], "mep"))
-				{
-					if ($this->rbacsystem->checkAccess('write', $mep_data["ref_id"]))
-					{
-						$tpl->setCurrentBlock("mep_desklink");
-						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-							"&item_ref_id=".$mep_data["ref_id"].
-							"&type=mep&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-							"&sort_by=".$_GET["sort_by"]);
-						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-						$tpl->parseCurrentBlock();
-					}
 				}
 
 				$tpl->setCurrentBlock("tbl_content");
@@ -1578,6 +1575,15 @@ class ilRepositoryGUI
 				{
 					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".
 									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
+				}
+
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("forum_edit");
+					$tpl->setVariable("EDIT_LINK","forums_threads_liste.php?cmd=properties&ref_id=".$data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
 				}
 
 				if ($this->rbacsystem->checkAccess('delete', $data["ref_id"]))
@@ -1805,6 +1811,24 @@ class ilRepositoryGUI
 				//$tpl->setVariable("LINK", $obj_link);
 				//$tpl->setVariable("LINK_TARGET", "bottom");
 
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("group_edit");
+					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				// show delete link
+				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("group_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
 				// add to desktop link
 				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
 				{
@@ -1816,14 +1840,6 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
 				}
 
-				// show delete link
-				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
-				{
-					$tpl->setCurrentBlock("group_delete");
-					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
-					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					$tpl->parseCurrentBlock();
-				}
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
@@ -1908,6 +1924,15 @@ class ilRepositoryGUI
 
 					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 				}
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("exc_edit");
+					$tpl->setVariable("EDIT_LINK","exercise.php?cmd=edit&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+                                // delete
 				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
 				{
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
@@ -1997,6 +2022,15 @@ class ilRepositoryGUI
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("chat_edit");
+					$tpl->setVariable("EDIT_LINK","chat/chat_rep.php?cmd=edit&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+                                // delete
 				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
 				{
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
@@ -2155,7 +2189,8 @@ class ilRepositoryGUI
 				}
 
 				// add to desktop link
-				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($tst_data["ref_id"], "tst") and ($tst_data["complete"]))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($tst_data["ref_id"], "tst")
+                                    and ($tst_data["complete"]))
 				{
 					$tpl->setCurrentBlock("tst_subscribe");
 					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -2340,7 +2375,8 @@ class ilRepositoryGUI
 				}
 
 				// add to desktop link
-				if (($this->rbacsystem->checkAccess('participate',$svy_data["ref_id"])) and !$ilias->account->isDesktopItem($svy_data["ref_id"], "svy") and ($svy_data["complete"]))
+				if (($this->rbacsystem->checkAccess('participate',$svy_data["ref_id"])) and !$ilias->account->isDesktopItem($svy_data["ref_id"], "svy")
+                                     and ($svy_data["complete"]))
 				{
 					$tpl->setCurrentBlock("svy_subscribe");
 					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -2476,6 +2512,18 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
+
+
+                                        if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($spl_data["ref_id"], "spl"))
+                                        {
+                                                $tpl->setCurrentBlock("spl_desklink");
+                                                $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+                                                        "&item_ref_id=".$spl_data["ref_id"].
+                                                        "&type=spl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+                                                        "&sort_by=".$_GET["sort_by"]);
+                                                $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+                                                $tpl->parseCurrentBlock();
+                                        }
 				}
 				else if ($this->rbacsystem->checkAccess('read', $spl_data["ref_id"]))
 				{
@@ -2595,6 +2643,17 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
+
+                                        if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($qpl_data["ref_id"], "qpl"))
+                                        {
+                                                $tpl->setCurrentBlock("qpl_desklink");
+                                                $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+                                                        "&item_ref_id=".$qpl_data["ref_id"].
+                                                        "&type=qpl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+                                                        "&sort_by=".$_GET["sort_by"]);
+                                                $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+                                                $tpl->parseCurrentBlock();
+                                        }
 				} 
 				elseif ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{
@@ -2707,51 +2766,54 @@ class ilRepositoryGUI
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				
-				if ($this->rbacsystem->checkAccess('write',$cont_data["ref_id"]))
-				{
-					$this->ctrl->setParameterByClass("ilObjFileGUI", "ref_id", $cont_data["ref_id"]);
-					$obj_link = $this->ctrl->getLinkTargetByClass("ilObjFileGUI","edit");
-					$tpl->setCurrentBlock("file_read");
-					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
-					$tpl->setVariable("READ_LINK", $obj_link);
-					$tpl->setVariable("READ_TARGET", "bottom");
-					$tpl->parseCurrentBlock();
-					
-					$tpl->setCurrentBlock("file_edit");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-					$tpl->setVariable("EDIT_LINK", $obj_link);
-					$tpl->setVariable("EDIT_TARGET", "bottom");
-					$tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$tpl->setCurrentBlock("file_visible");
-					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
-					$tpl->parseCurrentBlock();
-				}
-				
-				$tpl->setCurrentBlock("tbl_content");
-				
 				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("file_dl");
 					$obj_link = "repository.php?cmd=sendfile&ref_id=".$cont_data["ref_id"];
 					$tpl->setVariable("TXT_DL", $this->lng->txt("download"));
 					$tpl->setVariable("DL_LINK", $obj_link);
+					$tpl->setVariable("DL_TITLE", $cont_data["title"]);
 					$tpl->setVariable("DL_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+
+				}
+				else
+				{
+					$tpl->setCurrentBlock("file_visible");
+					$tpl->setVariable("VISIBLE_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
 				
 				$tpl->setCurrentBlock("tbl_content");
 
+				if ($this->rbacsystem->checkAccess('write',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("file_edit");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->setVariable("EDIT_LINK", "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+				}
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 				{
 					//$tpl->setCurrentBlock("file_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
-					$tpl->setVariable("DELELTE_TARGET","bottom");
+					$tpl->setVariable("DELETE_TARGET","bottom");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					//$tpl->parseCurrentBlock();
 				}
+
+                                if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "file")
+				 && $this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+                                {
+                                        $tpl->setCurrentBlock("file_desklink");
+                                        $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+                                                "&item_ref_id=".$cont_data["ref_id"].
+                                                "&type=file"
+                                        );
+                                        $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+                                        $tpl->parseCurrentBlock();
+                                }
 
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
@@ -2843,6 +2905,15 @@ class ilRepositoryGUI
 				}
 
 				$tpl->setCurrentBlock("tbl_content");
+
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("fold_edit");
+					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
 
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 				{
@@ -3016,6 +3087,15 @@ class ilRepositoryGUI
 				#}
 
 				$tpl->setCurrentBlock("tbl_content");
+
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("crs_edit");
+					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&cmdClass=ilobjcoursegui&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
 
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 				{
