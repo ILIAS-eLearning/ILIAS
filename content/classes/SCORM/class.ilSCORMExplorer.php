@@ -108,7 +108,7 @@ class ilSCORMExplorer extends ilExplorer
 			: -(int) $a_child;
 
 		$s=($this->api == 2) ? "2" : "";
-		return $_SERVER["PATH_INFO"]."?cmd=explorer$s&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
+		return $_SERVER["PATH_INFO"]."?cmd=explorer$s&ref_id=".$this->slm_obj->getRefId()."&scexpand=".$a_child;
 	}
 
 	function setOutput($a_parent_id, $a_depth = 0)

@@ -99,14 +99,14 @@ class ilSCORMPresentationGUI
 		$exp->setFrameTarget($a_target);
 		//$exp->setFiltered(true);
 
-		if ($_GET["mexpand"] == "")
+		if ($_GET["scexpand"] == "")
 		{
 			$mtree = new ilSCORMTree($this->slm->getId());
 			$expanded = $mtree->readRootId();
 		}
 		else
 		{
-			$expanded = $_GET["mexpand"];
+			$expanded = $_GET["scexpand"];
 		}
 		$exp->setExpand($expanded);
 
@@ -122,7 +122,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "scorm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->slm->getRefId()."&mexpand=".$_GET["mexpand"]);
+			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
@@ -140,14 +140,14 @@ class ilSCORMPresentationGUI
 		$exp->setFrameTarget($a_target);
 		//$exp->setFiltered(true);
 
-		if ($_GET["mexpand"] == "")
+		if ($_GET["scexpand"] == "")
 		{
 			$mtree = new ilSCORMTree($this->slm->getId());
 			$expanded = $mtree->readRootId();
 		}
 		else
 		{
-			$expanded = $_GET["mexpand"];
+			$expanded = $_GET["scexpand"];
 		}
 		$exp->setExpand($expanded);
 		$exp->setAPI(2);
@@ -164,7 +164,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "scorm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->slm->getRefId()."&mexpand=".$_GET["mexpand"]);
+			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
