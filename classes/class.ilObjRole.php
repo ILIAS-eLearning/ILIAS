@@ -172,7 +172,21 @@ class ilObjRole extends ilObject
 		else
 		{
 			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-			$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
+
+			// but first check if role is assigned to other rolefolders
+			if (count($rbacreview->getFoldersAssignedToRole($this->getId())) == 1)
+			{
+				$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
+				
+				// if not delete object_data entry
+				parent::delete();
+				return true;
+			}
+			else
+			{
+				// only delete the local role entry for the rolefolder
+				$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
+			}
 		}
 
 		return true;
