@@ -46,9 +46,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-    global $lng;
+    		global $lng;
 		$this->type = "qpl";
-    $lng->loadLanguageModule("assessment");
+    		$lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->setTabTargetScript("questionpool.php");
 		if ($a_prepare_output) {
