@@ -431,6 +431,8 @@ class User
 	*/
 	function setFullname ()
 	{
+		$this->fullname = "";
+		
 		if ($this->title)
 		{
 			$this->fullname = $this->title." ";
