@@ -227,17 +227,23 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	$this->tpl->setCurrentBlock("btn_cell");
+	
+	
+	//show "new group" button only if category or dlib objects were chosen(current object) 
+	$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+	if($obj_data->getType() == "cat" || $obj_data->getType() == "dlib")
+	{	
+		$this->tpl->setCurrentBlock("btn_cell");
+		//right solution
+		//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
+		//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+		//temp.solution
+		$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
+		$this->tpl->parseCurrentBlock();
+	}
 
-	//right solution
-	//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
-	//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-	//temp.solution
-	$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
-
-
-	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-	$this->tpl->parseCurrentBlock();
+	
 
 	if ($this->tree->getSavedNodeData($this->ref_id))
 	{
