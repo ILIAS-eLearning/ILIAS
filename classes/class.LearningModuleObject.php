@@ -31,18 +31,18 @@ class LearningModuleObject extends Object
 	{
 		global $lng;
 
-		switch($_POST["cmd"])
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("import"):
+			case "import":
 				return $this->importObject();
 				break;
 
-			case $lng->txt("export"):
+			case "export":
 				// NO FUNCTION IN THE MOMENT
 				return;
 				break;
 
-			case $lng->txt("upload"):
+			case "upload":
 				return $this->uploadObject();
 				break;
 		}
@@ -157,6 +157,8 @@ class LearningModuleObject extends Object
 		// remove empty text nodes
 		$domxml->trimDocument();
 		
+		$n = 0;
+		
 		// Identify Leaf-LOS (LOs not containing other LOs)			
 		while (count($elements = $domxml->getElementsByTagname("LearningObject")) > 1)
 		{
@@ -167,15 +169,19 @@ class LearningModuleObject extends Object
 			{
 				if ($domxml->isLeafElement($element,"LearningObject",1))
 				{
+					$n++;
+
 					$leaf_elements[] = $element;
 					
 					// copy whole LearningObject to $subtree
 					$subtree = $element->clone_node(true);
+					
+					$prev_sibling = $element->previous_sibling();
 					$parent = $element->parent_node();
 					
 					// remove the LearningObject from main file
 					$element->unlink_node();
-					
+
 					// create a new domDocument containing the isolated LearningObject in $subtree
 					$lo = new LearningObjectObject();
 					$node  = $lo->domxml->appendChild($subtree);
@@ -190,7 +196,12 @@ class LearningModuleObject extends Object
 					$lotree = $lo->domxml->buildTree();
 					
 					// create a reference in main file with global obj_id of inserted LO
-					$domxml->appendReferenceNodeForLO ($parent,$lo_id);
+					$domxml->appendReferenceNodeForLO ($parent,$lo_id,$prev_sibling);
+					
+					// write to file
+//					$lo->domxml->doc->dump_file("c:/htdocs/ilias3/test2/".$lo_id.".xml");
+					//echo "<b>LearningObject ".$n."</b><br/>";
+					//echo "<pre>".htmlentities($lo->domxml->dumpDocument())."</pre>";
 					
 					// insert LO into lo_database
 					$xml2sql = new xml2sql($lotree,$lo_id);
@@ -198,14 +209,22 @@ class LearningModuleObject extends Object
 
 					//fetch internal element id, parent_id and save them to reconstruct tree later on
 					$mapping[] = array ($lo_id => $lo->getReferences());
+					
+					// destruct object
+					$lo->domxml->_domxml();
 				}
 			}
 		} // END: while. Continue until only the root LO is left in main file
 		
+		$n++;
+		
 		// write root LO to file (TESTING)
-		//$xmldoc->domxml->dump_file("c:/htdocs/ilias3/xml/file".$n.".xml");
+//		$domxml->doc->dump_file("c:/htdocs/ilias3/test2/root.xml");
+		//echo "<b>LearningObject ".$n."</b><br/>";
+		//echo "<pre>".htmlentities($domxml->dumpDocument())."</pre>";
 		
 		// insert the remaining root-LO into DB
+///*
 		$lo = new LearningObjectObject($domxml->doc);
 		$obj_data = $lo->getInfo();
 		$lo_id = createNewObject("lo",$obj_data);
@@ -220,7 +239,7 @@ class LearningModuleObject extends Object
 		
 		// MOVE TO xml2sql class
 		$this->insertStructureIntoTree(array_reverse($mapping));
-		
+//*/		
 		// for output
 		return $data;
 	}

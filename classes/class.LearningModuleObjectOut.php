@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.6 2003/01/22 13:50:59 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.7 2003/01/30 14:57:01 smeyer Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -32,17 +32,17 @@ class LearningModuleObjectOut extends ObjectOut
 	{
 		global $lng;
 
-		switch($_POST["cmd"])
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("import"):
+			case "import":
 				return $this->importObject();
 				break;
 				
-			case $lng->txt("export"):
+			case "export":
 				return;
 				break;
 
-			case $lng->txt("upload"):
+			case "upload":
 				return $this->uploadObject();
 				break;
 		}
@@ -59,6 +59,7 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->getTemplateFile("import");
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=gateway&type=".$_GET["type"].
 						  "&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("upload"));
 	}
 	

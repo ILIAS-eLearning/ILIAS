@@ -101,29 +101,29 @@ class LanguageFolderObject extends Object
 	{
 		global $lng;
 
-		switch($_POST["cmd"])
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("install"):
+			case "install":
 				return $this->installObject();
 				break;
 
-			case $lng->txt("export"):
+			case "uninstall":
 				return $this->uninstallObject();
 				break;
 
-			case $lng->txt("refresh"):
+			case "refresh":
 				return $this->refreshObject();
 				break;
 
-			case $lng->txt("set_system_language"):
+			case "set_system_language":
 				return $this->setsyslangObject();
 				break;
 
-			case $lng->txt("change_language"):
+			case "change_language":
 				return $this->setuserlangObject();
 				break;
 
-			case $lng->txt("check_language"):
+			case "check_language":
 				return $this->checklangObject();
 				break;
 

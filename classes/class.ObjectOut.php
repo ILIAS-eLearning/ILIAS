@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.21 2003/01/30 14:59:16 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.22 2003/02/04 11:26:59 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -200,18 +200,18 @@ class ObjectOut
 	{
 		global $lng;
 
-		switch($_POST["cmd"])
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("delete"):
+			case "delete":
 				$this->confirmDeleteAdmObject();
 				break;
 
-			case $lng->txt("btn_undelete"):
+			case "btn_undelete":
 				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
 				exit();
 
-			case $lng->txt("btn_remove_system"):
+			case "btn_remove_system":
 				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
 				exit();
@@ -505,9 +505,10 @@ class ObjectOut
 		// END TABLE DATA
 
 		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $value)
+		foreach($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -567,9 +568,10 @@ class ObjectOut
 		// END TABLE DATA
 
 		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $value)
+		foreach($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -607,6 +609,7 @@ class ObjectOut
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("operation_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -618,23 +621,27 @@ class ObjectOut
 	function showPossibleSubObjects()
 	{
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
-		foreach ($d as $row)
+	
+		if (count($d) > 0)
 		{
-		    $count = 0;
-			if ($row["max"] > 0)
+			foreach ($d as $row)
 			{
-				//how many elements are present?
-				for ($i=0; $i<count($this->data["ctrl"]); $i++)
+			    $count = 0;
+				if ($row["max"] > 0)
 				{
-					if ($this->data["ctrl"][$i]["type"] == $row["name"])
+					//how many elements are present?
+					for ($i=0; $i<count($this->data["ctrl"]); $i++)
 					{
-					    $count++;
+						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+						{
+						    $count++;
+						}
 					}
 				}
-			}
-			if ($row["max"] == "" || $count < $row["max"])
-			{
-				$subobj[] = $row["name"];
+				if ($row["max"] == "" || $count < $row["max"])
+				{
+					$subobj[] = $row["name"];
+				}
 			}
 		}		
 

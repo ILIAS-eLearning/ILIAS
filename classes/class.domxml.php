@@ -66,6 +66,16 @@ class domxml
 			$this->initNewDocument($args[0],$args[1],$args[2]);
 		}
 	}
+	
+	function _domxml ()
+	{
+		if (DEBUG)
+		{
+            printf("domxml destructor called, class=%s\n", get_class($this)."<br/>");
+        }
+	}
+	
+	
 
 	/**
 	* init new domDocument
@@ -454,10 +464,19 @@ class domxml
 	* 
 	* TODO: Moved this method to class where it fits better (LearningObject? xml2sql?)
 	*/
-	function appendReferenceNodeForLO ($a_node, $a_lo_id)
+	function appendReferenceNodeForLO ($a_node, $a_lo_id, $a_prev_sibling)
 	{
 		$newnode = $this->createElement("LO");
-		$node = $a_node->append_child($newnode);
+		
+		if (empty($a_prev_sibling))
+		{
+			$node = $a_node->append_child($newnode);
+		}
+		else
+		{
+			$node = $a_prev_sibling->append_sibling($newnode);
+		}
+
 		$node->set_attribute("id",$a_lo_id);
 	}
 
