@@ -62,6 +62,7 @@ class ilLMExplorer extends ilExplorer
 		$this->setSessionExpandVariable("lmexpand");
 		$this->checkPermissions(false);
 		$this->setPostSort(false);
+		$this->textwidth = 200;
 	}
 
 
