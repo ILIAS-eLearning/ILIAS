@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.54 2003/10/29 15:01:09 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.57 2003/10/29 19:45:54 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -63,8 +63,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->getTemplateFile("edit","role");
 
 		// fill in saved values in case of error
-		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
-		$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
+		$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 
 		$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
@@ -119,9 +119,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		// save
 		include_once("./classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
-		$roleObj->assignData($_POST["Fobject"]);
-		//$roleObj->setTitle($_POST["Fobject"]["title"]);
-		//$roleObj->setDescription($_POST["Fobject"]["desc"]);
+		//$roleObj->assignData($_POST["Fobject"]);
+		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$roleObj->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$roleObj->create();
 		$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
 		
@@ -674,8 +675,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// update
-		$this->object->setTitle($_POST["Fobject"]["title"]);
-		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$this->object->update();
 		
@@ -704,14 +705,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		if ($_SESSION["error_post_vars"])
 		{
 			// fill in saved values in case of error
-			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
-			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
+			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
 			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
-			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($this->object->getDescription()));
+			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 		}
 

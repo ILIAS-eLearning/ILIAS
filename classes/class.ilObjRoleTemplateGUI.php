@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.24 2003/10/29 15:01:09 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.25 2003/10/29 19:09:14 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -86,8 +86,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// create new rolt object
 		include_once("./classes/class.ilObjRoleTemplate.php");
 		$roltObj = new ilObjRoleTemplate();
-		$roltObj->setTitle($_POST["Fobject"]["title"]);
-		$roltObj->setDescription($_POST["Fobject"]["desc"]);
+		$roltObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$roltObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roltObj->create();
 		$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],'n');
 		
@@ -369,8 +369,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		// update
-		$this->object->setTitle($_POST["Fobject"]["title"]);
-		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
