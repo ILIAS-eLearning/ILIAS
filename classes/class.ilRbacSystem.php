@@ -204,7 +204,7 @@ class ilRbacSystem
 		switch($type)
 		{
 			case "crs":
-				if(in_array('visible',$a_operations) or in_array('join',$a_operations))
+				if(in_array('visible',$a_operations) or in_array('join',$a_operations) or in_array('leave',$a_operations))
 				{
 					return true;
 				}

@@ -615,6 +615,23 @@ class ilObject
 		return $obj_rec["title"];
 	}
 
+	function _lookupObjId($a_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM object_reference ".
+			"WHERE ref_id = '".$a_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+		return 0;
+	}
+		
+		
+
 	/**
 	* lookup object type
 	*
