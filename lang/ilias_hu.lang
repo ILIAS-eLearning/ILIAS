@@ -1770,6 +1770,7 @@ common#:#user#:#Felhasználó
 common#:#user_access#:#Hozzáférés felhasználónként
 common#:#user_added#:#Felhasználó hozzáadva
 common#:#user_assignment#:#Felhasználó-hozzárendelés
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Felhasználó törölve
 common#:#user_imported#:#A felhasználói importálás befejeződött.
 common#:#user_language#:#Felhasználói nyelv

@@ -2134,6 +2134,7 @@ common#:#user#:#Utilizador
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilizador adicionado
 common#:#user_assignment#:#Atribuição de Utilizador
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Utilizador apagado
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importação de utilizador completa.

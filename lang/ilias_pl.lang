@@ -558,7 +558,7 @@ common#:#account_expires_body#:#Twoje konto jest limitowane, jego ważność sko
 common#:#account_expires_subject#:#[ILIAS 3] Twoje konto straciło ważność
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
-common#:#activate_https#:#Aktywacja HTTPS (Płatność, Logowanie)
+common#:#activate_https#:#Aktywacja HTTPS (Płatność, Logowanie)###18 Oct 2004 content changed
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
 common#:#active_roles#:#Aktywne role
@@ -1990,6 +1990,7 @@ common#:#user#:#Użytkownik
 common#:#user_access#:#Dostęp przez użytkownika
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
 common#:#user_imported#:#Zakończony import użytkowników.

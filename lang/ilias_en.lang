@@ -739,7 +739,6 @@ common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
 common#:#cat_new#:#New Category
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#cat_read#:#Read access to Category
 common#:#cat_read_users#:#Read access to local user accounts
 common#:#cat_visible#:#Category is visible
@@ -2135,6 +2134,7 @@ common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_imported#:#User import complete.

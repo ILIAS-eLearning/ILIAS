@@ -583,7 +583,7 @@ common#:#account_expires_body#:#Su cuenta es limitada, su acceso finaliza en:
 common#:#account_expires_subject#:#[ILIAS 3]  Su acceso finaliza
 common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#acciones
-common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)
+common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)###18 Oct 2004 content changed
 common#:#activate_tracking#:#Activar Seguimiento
 common#:#activation#:#Activación
 common#:#active#:#Activo
@@ -2124,6 +2124,7 @@ common#:#user#:#usuario
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#User Assignment###04 Aug 2003 new variable
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importación de Usuario completada.
