@@ -1,0 +1,111 @@
+
+
+    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <form action="/projekte/uni-koeln/ilias/ed_meta.php" method=post>
+    <input type=hidden name=back value="/projekte/uni-koeln/ilias/ed_le.php?id=5">
+    <input type=hidden name=cmd value="meta"><input type=hidden name=inst value="">
+    <input type=hidden name=typ value="le"><input type=hidden name=id value="5">
+
+    <h2>Metadaten zur Lerneinheit editieren "Kein Titel" [5]</h2><TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0>
+    <tr>
+      <td COLSPAN=2>{TXT_TITLE}</TD>
+    </tr>
+    <tr>
+      <td COLSPAN=2><input type=text name=title value="{NON_TITLE}" size=45></TD>
+    </tr>
+    <TR>
+      <TD COLSPAN=2>{TXT_UID}</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>{TXT_PUBLISHING_ORGANISATION}</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>{TXT_SUMMARY}</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2 ><textarea name=description cols=45 rows=10 WRAP=virtual></textarea></TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2 HEIGHT=0></TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>{TXT_AUTHORS}</TD>
+    </TR>
+    <TR>
+      <TD><small><select name="sel_auths[]" size=8 multiple>
+      <option value="2" >Autor 1 Autor 1 (2)
+      <option value="5" selected>ADMIN1 ADMIN1 (5)
+      </select></small></TD>
+      <TD>{TXT_FIRSTNAME}<br><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size="20"><br>{TXT_LASTNAME}<br><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size="20"><br><input type="submit" name="new_author" value="{ADD_NEW_AUTHOR}"></TD>
+    </tr>
+    <tr>
+      <td COLSPAN=2 HEIGHT=0></td>
+    </tr>
+    <tr>
+      <td COLSPAN=2>{TXT_MEMBERS}</td>
+    </tr>
+    <tr>
+      <td><select name="sel_cons[]" size=8 multiple>
+    <option value="2" >Autor 1 Autor 1 (2)
+    <option value="5" >ADMIN1 ADMIN1 (5)
+    </select></TD>
+      <TD>{TXT_FIRSTNAME}<br><input type="text" name="contrib_firstname" value="{FIRSTNAME}" size="20"><br>
+      {TXT_LASTNAME}<br><input type="text" name="contrib_surname" value="{LASTNAME}" size="20"><br>
+      <input type="submit" name="new_contrib" value="{ADD_NEW_MEMBER}"></TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2 HEIGHT=0></TD></TR>
+    <TR>
+    <TD COLSPAN=2>In den Auswahllisten k&ouml;nnen ganze Bereiche mittels <br>SHIFT + Mausklick, bzw. mehrere einzelne oder keine Eintr&auml;ge <br>durch CTRL + Mausklick selektiert werden (Windows)<br>Falls die gew&uuml;nschte Person nicht in der Liste auftaucht,<br>k&ouml;nnen Sie in den Textfelder rechts einen neuen<br>Autoren/Mitwirkenden eingeben.</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>Schlagworte(durch Kommata getrennt)</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2 ><input type=text name=keys value="" size=45 maxlength=3000></TD>
+    </TR>
+    <TR>
+      <TD>{TXT_LANGUAGE}</TD>
+      <TD>{TXT_LEVEL}</TD>
+    </TR>
+    <TR>
+      <TD><select name="metalang">
+<!-- BEGIN language -->
+      <option value="{LANG_ABBR}">{LANG_NAME}</option>
+<!-- END language -->
+      <option value="-">{TXT_NONE}</option>
+      <option value="other">{TXT_OTHER}</option>
+      </select></TD>
+      <TD ><select name="level">
+      <option value="0">{TXT_NONE}</option>
+<!-- BEGIN level -->
+      <option value="{LEVEL_ABBR}">{LEVEL_NAME}</option>
+<!-- END level -->
+      </select></TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>{TXT_LO_CATEGORIES}</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=2>
+<!-- BEGIN category -->
+      {TXT_CAT_NAME}<br>
+      <input type=checkbox name="{SUBCAT_ID}" value=1>
+      {TXT_SUBCAT_NAME}<br>
+<!-- END category -->
+      </TD>
+    </TR>
+    <input type=hidden name="status" value="draft">
+    </TABLE>
+<small><br></small>
+    <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <TR>
+      <TD><input type=submit name="save_exit" value="{SAVE_AND_BACK_TO_LO}"></TD>
+    </TR>
+    </TABLE>
+    </form>
+    </BODY>
+    </HTML>

@@ -1,0 +1,30 @@
+<h1>{TXT_PAGEHEADLINE}</h1>
+{BUTTONS}
+    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <FORM ACTION="/projekte/uni-koeln/ilias/gruppe.php" METHOD="POST">
+    <INPUT TYPE=hidden NAME="act" VALUE="gen_new_grp">
+    <INPUT TYPE=hidden NAME="back" VALUE="/projekte/uni-koeln/ilias/gruppe.php?act=">
+    <TR>
+      <TD ALIGN=right>{TXT_GROUPNAME}</TD>
+      <TD><INPUT TYPE=text NAME="g_name" SIZE=20></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_DESCRIPTION}</TD>
+      <TD><INPUT TYPE=text NAME="g_desc" SIZE=20></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_ACCESS}</TD>
+      <TD><SELECT NAME="g_open"><OPTION>{TXT_ACCESS_CLOSED}<OPTION SELECTED>{TXT_ACCESS_OPEN}</SELECT></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_GROUP_SCOPE}</TD>
+      <TD><SELECT NAME="g_target"><OPTION SELECTED>{TXT_FORUM}<OPTION>{TXT_LO}</SELECT></TD>
+    </TR>
+    <tr>
+      <td><small>&nbsp;</small></td>
+      <td><INPUT TYPE=submit VALUE="{GEN_NEW_GROUP}" NAME="gen_g"></td>
+    </tr>
+    </FORM>
+    </TABLE>
+    </BODY>
+    </HTML>
