@@ -335,6 +335,25 @@ class ASS_OrderingQuestion extends ASS_Question
 			$qtiResponseLid->set_attribute("ident", "OQT");
 			$qtiResponseLid->set_attribute("rcardinality", "Ordered");
 		}
+		$solution = $this->object->getSuggestedSolution(0);
+		if (count($solution))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", "suggested_solution");
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $solution["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseLid->append_child($qtiMaterial);
+			}
+		}
 		$qtiRenderChoice = $this->domxml->create_element("render_choice");
 		// shuffle output
 		if ($this->getShuffle())
