@@ -9,9 +9,9 @@
 * @extends PEAR
 * @package ilias-core
 */
-require_once("./classes/class.SaxParser.php");
+require_once("./classes/class.ilSaxParser.php");
 
-class ilObjectDefinition extends SaxParser
+class ilObjectDefinition extends ilSaxParser
 {
 	/**
 	* // TODO: var is not used
@@ -42,7 +42,7 @@ class ilObjectDefinition extends SaxParser
 	*/
 	function ilObjectDefinition()
 	{
-		parent::SaxParser("./objects.xml");
+		parent::ilSaxParser("./objects.xml");
 	}
 
 // PUBLIC METHODS
