@@ -75,8 +75,8 @@ class ilSearchGUI
 		global $ilias,$tpl,$lng;
 
 		// DEFINE SOME CONSTANTS
+		#define("RESULT_LIMIT",$ilias->account->getPref("hits_per_page") ? $ilias->account->getPref("hits_per_page") : 3);
 		define("RESULT_LIMIT",10);
-
 		// Initiate variables
 		$this->ilias	=& $ilias;
 		$this->tpl		=& $tpl;
@@ -270,19 +270,23 @@ class ilSearchGUI
 
 	}
 
-	function __addAction($a_type,$a_search_in_type = '')
+	function __addAction(&$tpl,$a_type,$a_search_in_type = '')
 	{
-		$this->tpl->setCurrentBlock("tbl_action_select");
-		$this->tpl->setVariable("SELECT_ACTION",$this->__getFolderSelect($a_type,$a_search_in_type));
-		$this->tpl->setVariable("BTN_NAME",$a_type."_".$a_search_in_type);
-		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("ok"));
-		$this->tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION","search.php");
+		$tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setVariable("COLUMN_COUNTS",5);
-		//$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$this->tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_select");
+		$tpl->setVariable("SELECT_ACTION",$this->__getFolderSelect($a_type,$a_search_in_type));
+		$tpl->setVariable("BTN_NAME",$a_type."_".$a_search_in_type);
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("ok"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		//$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$tpl->parseCurrentBlock();
 	}
 
 	function __showResultTable($a_type, $a_search_in_type = '')
@@ -290,13 +294,13 @@ class ilSearchGUI
 		global $ilBench;
 
 		// FOR ALL TYPES
-		$tbl = new ilTableGUI(0, false);
+		$tbl = new ilTableGUI(0,false);
 
-//	  $tpl =& new ilTemplate ("tpl.table.html", true, true);
+		#$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
-//		$tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
+		#$tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
 
-		$this->__addAction($a_type,$a_search_in_type);
+		$this->__addAction($tbl->getTemplateObject(),$a_type,$a_search_in_type);
 
 		// SWITCH 'usr','dbk','lm','grp'
 		switch($a_type)

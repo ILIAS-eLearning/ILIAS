@@ -128,6 +128,11 @@ class ilTableGUI
 		$this->tpl =& $a_tpl;
 	}
 
+	function &getTemplateObject()
+	{
+		return $this->tpl;
+	}
+
 	/**
 	* set table data
 	* @access	public
