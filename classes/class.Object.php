@@ -216,7 +216,7 @@ class Object
 					"type" => $val["type"],
 					"obj_id" => $val["id"],
 					"parent" => $val["parent"],
-					"parent_parent" => $val["parent_parent"],
+					"parent_parent" => $val["parent_parent"]
 				);
 				
 		    } //foreach
