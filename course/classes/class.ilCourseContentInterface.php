@@ -298,12 +298,20 @@ class ilCourseContentInterface
 																					   date("m",$activation_start)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_START_YEAR",$this->cciGetDateSelect("year","crs[activation_start][year]",
 																					  date("Y",$activation_start)));
+		$this->tpl->setVariable("SELECT_ACTIVATION_START_HOUR",$this->cciGetDateSelect("hour","crs[activation_start][hour]",
+																					  date("G",$activation_start)));
+		$this->tpl->setVariable("SELECT_ACTIVATION_START_MINUTE",$this->cciGetDateSelect("minute","crs[activation_start][minute]",
+																					  date("i",$activation_start)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_DAY",$this->cciGetDateSelect("day","crs[activation_end][day]",
 																				   date("d",$activation_end)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_MONTH",$this->cciGetDateSelect("month","crs[activation_end][month]",
 																					 date("m",$activation_end)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_YEAR",$this->cciGetDateSelect("year","crs[activation_end][year]",
 																					date("Y",$activation_end)));
+		$this->tpl->setVariable("SELECT_ACTIVATION_END_HOUR",$this->cciGetDateSelect("hour","crs[activation_end][hour]",
+																					  date("G",$activation_end)));
+		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->cciGetDateSelect("minute","crs[activation_end][minute]",
+																					  date("i",$activation_end)));
 
 	}
 
@@ -376,6 +384,20 @@ class ilCourseContentInterface
 	{
 		switch($a_type)
 		{
+			case "minute":
+				for($i=0;$i<=60;$i++)
+				{
+					$days[$i] = $i < 10 ? "0".$i : $i;
+				}
+				return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+
+			case "hour":
+				for($i=0;$i<24;$i++)
+				{
+					$days[$i] = $i < 10 ? "0".$i : $i;
+				}
+				return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+
 			case "day":
 				for($i=1;$i<32;$i++)
 				{

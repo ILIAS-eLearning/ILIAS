@@ -113,6 +113,97 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 	}
 
+	function detailsObject()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("read", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_details.html",true);
+
+
+		$this->tpl->setVariable("TITLE",$this->lng->txt("crs_details"));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs_b.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("crs_details"));
+		
+		// SET TXT VARIABLES
+		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("syllabus"));
+		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("contact"));
+		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("contact_name"));
+		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("contact_responsibility"));
+		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("contact_email"));
+		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("contact_phone"));
+		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("contact_consultation"));
+		$this->tpl->setVariable("TXT_DATES",$this->lng->txt("dates"));
+		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("subscription"));
+		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("archive"));
+
+		// FILL 
+		$this->tpl->setVariable("SYLLABUS",nl2br($this->object->getSyllabus() ? 
+												 $this->object->getSyllabus() : 
+												 $this->lng->txt("not_available")));
+
+		$this->tpl->setVariable("CONTACT_NAME",$this->object->getContactName() ? 
+								$this->object->getContactName() : 
+								$this->lng->txt("not_available"));
+		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$this->object->getContactResponsibility() ? 
+								$this->object->getContactResponsibility() : 
+								$this->lng->txt("not_available"));
+		$this->tpl->setVariable("CONTACT_PHONE",$this->object->getContactPhone() ? 
+								$this->object->getContactPhone() : 
+								$this->lng->txt("not_available"));
+		$this->tpl->setVariable("CONTACT_CONSULTATION",nl2br($this->object->getContactConsultation() ? 
+								$this->object->getContactConsultation() : 
+								$this->lng->txt("not_available")));
+		if($this->object->getContactEmail())
+		{
+			$this->tpl->setCurrentBlock("email_link");
+			$this->tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&mail_data[rcp_to]=".$this->object->getContactEmail());
+			$this->tpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("no_mail");
+			$this->tpl->setVariable("NO_CONTACT_EMAIL",$this->object->getContactEmail());
+			$this->tpl->parseCurrentBlock();
+		}
+		if($this->object->getActivationUnlimitedStatus())
+		{
+			$this->tpl->setVariable("ACTIVATION",$this->lng->txt('unlimited'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%c",$this->object->getActivationStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%c",$this->object->getActivationEnd());
+			$this->tpl->setVariable("ACTIVATION",$str);
+		}
+		if($this->object->getSubscriptionUnlimitedStatus())
+		{
+			$this->tpl->setVariable("SUBSCRIPTION",$this->lng->txt('unlimited'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%c",$this->object->getSubscriptionStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%c",$this->object->getSubscriptionEnd());
+			$this->tpl->setVariable("SUBSCRIPTION",$str);
+		}
+		if($this->object->getArchiveType() == $this->object->ARCHIVE_DISABLED)
+		{
+			$this->tpl->setVariable("ARCHIVE",$this->lng->txt('archive_disabled'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%c",$this->object->getArchiveStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%c",$this->object->getArchiveEnd());
+			$this->tpl->setVariable("ARCHIVE",$str);
+		}
+			
+	}
+
 	function editObject()
 	{
 		global $rbacsystem;
@@ -121,6 +212,16 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+
+
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.crs_htmleditor.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "./assessment/templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
+
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html",true);
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1293,7 +1394,11 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tabs_gui->addTarget("view_content",
 								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
 		}
-		
+		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		{
+			$tabs_gui->addTarget("crs_details",
+								 $this->ctrl->getLinkTarget($this, "details"), "details", get_class($this));
+		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
