@@ -22,7 +22,7 @@ if ($_REQUEST["ok"] == "ok")
 	$host = $_REQUEST["host"];
 	$dbname = $_REQUEST["dbname"];
 	
-	// zip command, id and inst of the Learningunit, ILIAS 2 directory, source directory, target directory
+	// zip command, id and inst of the Learning Unit, ILIAS 2 directory, source directory, target directory
 	$zipCmd = $_REQUEST["zipCmd"];
 	$luId = (integer) $_REQUEST["luId"];
 	$luInst = (integer) $_REQUEST["luInst"];
@@ -40,8 +40,13 @@ if ($_REQUEST["ok"] == "ok")
 	{
 		// initialize object
 		$exp = new ILIAS2To3Converter($user, $pass, $host, $dbname, $zipCmd, $iliasDir, $sDir, $tDir);
+		// status message
+		echo "Export of ILIAS 2 Learning Unit nr ".$luId." from installation ".$luInst." into an ILIAS 3 Learning Module";
+		echo "<br>--------------------------------------------------<br>&nbsp;Export process started (do not interrupt, please)";
 		// convert
 		$exp->dumpLearningModuleFile($luId, $luInst);
+		// status message
+		echo "<br>&nbsp;Export process finished<br>--------------------------------------------------";
 		// destroy object
 		$exp->_ILIAS2To3Converter();
 	}
@@ -57,7 +62,7 @@ else // display form
 				"<title>ILIAS 2 to ILIAS 3 converter (experimental)</title>\n".
 			"</head>\n".
 			"<body>\n".
-				"<b>Converting ILIAS 2 Learningunits to ILIAS 3 LearningModules (experimental)</b><br /><br />\n".
+				"<b>Converting ILIAS 2 Learning Units to ILIAS 3 Learning Modules (experimental)</b><br /><br />\n".
 				"<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\" enctype=\"multipart/form-data\">\n".
 					"ILIAS 2 databaseconnection:<br /><br />\n".
 					"user:<br /><input type=\"text\" name=\"user\" maxlengh=\"30\" size=\"20\" value=\"mysql\"><br />\n".
@@ -66,7 +71,7 @@ else // display form
 					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"virtus\"><br /><br />\n".
 					"Zip command:<br /><br />\n".
 					"<input type=\"text\" name=\"zipCmd\" maxlengh=\"50\" size=\"40\" value=\"c:/zip/zip\"><br /><br />\n".
-					"Learningunit:<br /><br />\n".
+					"Learning Unit:<br /><br />\n".
 					"Id:<br /><input type=\"text\" name=\"luId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br />\n".
 					"Installation Id:<br /><input type=\"text\" name=\"luInst\" maxlengh=\"10\" size=\"10\" value=\"101\"><br /><br />\n".
 					"Full path to the ILIAS 2 base directory:<br /><br />\n".
