@@ -282,6 +282,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_nr_of_tries#:#Max. number of tries
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_question_no#:#Order
@@ -337,6 +338,7 @@ assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_not_entered#:#Not started
 assessment#:#tst_status_progress#:#In progress
+assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is
