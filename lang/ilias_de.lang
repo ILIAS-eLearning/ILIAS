@@ -226,6 +226,8 @@ assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
 assessment#:#radio_set#:#Ausgewählt
 assessment#:#radio_unset#:#Nicht ausgewählt
+assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
+assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
