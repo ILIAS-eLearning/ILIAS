@@ -2160,6 +2160,23 @@ class ilObjTest extends ilObject
 		return $average_time;
 	}
 	
+	function &getForbiddenQuestionpools()
+	{
+		global $rbacsystem;
+		
+		// get all available questionpools and remove the trashed questionspools
+		$forbidden_pools = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if (!$rbacsystem->checkAccess('read', $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
+			{
+				array_push($forbidden_pools, $row->obj_id);
+			}
+		}
+		return $forbidden_pools;
+	}
 /**
 * Returns the available question pools for the active user
 * 
@@ -2177,7 +2194,7 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess('read', $row->ref_id))
+			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				$result_array[$row->ref_id] = $row->title;
 			}
@@ -2220,6 +2237,8 @@ class ilObjTest extends ilObject
 */
 	function randomSelectQuestions($nr_of_questions, $questionpool)
 	{
+		global $rbacsystem;
+		
 		if ($questionpool != 0)
 		{
 			// retrieve object id
@@ -2245,14 +2264,21 @@ class ilObjTest extends ilObject
 		{
 			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
 		}
+
+		$forbidden_pools =& $this->getForbiddenQuestionpools();
+		$forbidden = "";
+		if (count($forbidden_pools))
+		{
+			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+		}
 		$result_array = array();
 		if ($questionpool == 0)
 		{
-			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.complete = '1'$original_clause";
+			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause";
 		}
 			else
 		{
-			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE obj_fi = %s$original_clause",
+			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s$original_clause",
 				$this->ilias->db->quote("$questionpool")
 			);
 		}
@@ -2263,11 +2289,11 @@ class ilObjTest extends ilObject
 			// take all available questions
 			if ($questionpool == 0)
 			{
-				$query = "SELECT question_id FROM qpl_questions, object_data WHERE object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.complete = '1'$original_clause";
+				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause";
 			}
 				else
 			{
-				$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.complete = '1'$original_clause",
+				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause",
 					$this->ilias->db->quote("$questionpool")
 				);
 			}
@@ -2286,11 +2312,11 @@ class ilObjTest extends ilObject
 			{
 				if ($questionpool == 0)
 				{
-					$query = "SELECT question_id FROM qpl_questions, object_data WHERE object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
+					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
 				}
 					else
 				{
-					$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
+					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
 						$this->ilias->db->quote("$questionpool")
 					);
 				}
@@ -2555,7 +2581,13 @@ class ilObjTest extends ilObject
       }
     }
 		$maxentries = $ilUser->prefs["hits_per_page"];
-		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$forbidden_pools =& $this->getForbiddenQuestionpools();
+		$forbidden = "";
+		if (count($forbidden_pools))
+		{
+			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+		}
+		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id)$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -2567,7 +2599,7 @@ class ilObjTest extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag, object_reference.ref_id FROM qpl_questions, qpl_question_type, object_reference WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = object_reference.obj_id AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag, object_reference.ref_id FROM qpl_questions, qpl_question_type, object_reference WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = object_reference.obj_id$forbidden AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
