@@ -116,7 +116,7 @@ $maxcount = count($cont_arr);
 // load template for table
 $tpl->addBlockfile("GROUP_DETAILS_TABLE", "group_table", "tpl.table.html");
 // load template for table content data
-$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
+$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
 $cont_num = count($cont_arr);
 
 // render table content data
@@ -128,7 +128,7 @@ if ($cont_num > 0)
 	foreach ($cont_arr as $cont_data)
 	{	
 		$tpl->setCurrentBlock("tbl_content");
-
+		$newuser = new ilObjUser($cont_data["owner"]);
 		// change row color
 		$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 		$num++;
@@ -136,16 +136,16 @@ if ($cont_num > 0)
 		$obj_link = getURLbyType($cont_data);
 		
 		$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-
+		$tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"",""));
 		$tpl->setVariable("TITLE", $cont_data["title"]);
 		$tpl->setVariable("LO_LINK", $obj_link);
 		
 		$tpl->setVariable("IMG", $obj_icon);
 		$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
 		$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-		$tpl->setVariable("STATUS", "N/A");
+		$tpl->setVariable("OWNER", $newuser->getFullName());
 		$tpl->setVariable("LAST_VISIT", "N/A");
-		$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
+		$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));				
 		$tpl->setVariable("CONTEXTPATH", getContextPath($cont_data["ref_id"]));
 		$tpl->parseCurrentBlock();
 		
@@ -165,9 +165,9 @@ $tbl = new ilTableGUI();
 // title & header columns
 //$tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
 //$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-$tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("status"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
-$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"));
-$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
+$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
+$tbl->setColumnWidth(array("3%","7%","7%","15%","15%","6%","22%"));
 
 // control
 $tbl->setOrderColumn($_GET["sort_by"]);
