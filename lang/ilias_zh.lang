@@ -319,6 +319,7 @@ common#:#drop#:#放弃
 common#:#edit#:#编辑课程
 common#:#edit_data#:#编辑数据
 common#:#edit_operations#:#编辑操作
+common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
 common#:#edit_properties#:#编辑属性
 common#:#edit_stylesheet#:#编辑风格
 common#:#edited_at#:#编辑于

@@ -302,6 +302,7 @@ common#:#drop#:#Erop laten vallen
 common#:#edit#:#Wijzigen
 common#:#edit_data#:#Wijzigen gegevens
 common#:#edit_operations#:#Bewerkingen wijzigen
+common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
 common#:#edit_properties#:#Eigenschappen wijzigen
 common#:#edit_stylesheet#:#Stijl wijzigen
 common#:#edited_at#:#Gewijzigd op
