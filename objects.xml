@@ -58,9 +58,7 @@
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
-	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -75,6 +73,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<subobj name="lm">lm</subobj>
@@ -101,7 +100,6 @@
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -121,7 +119,6 @@
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -162,7 +159,6 @@
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -176,6 +172,8 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
 </object>
 <object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -183,6 +181,8 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="alm" class_name="AICCLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -190,6 +190,8 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="hlm" class_name="HACPLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -197,6 +199,8 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="glo" class_name="Glossary" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -205,6 +209,8 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="lng" class_name="Language" checkbox="1" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
@@ -225,6 +231,9 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
 </object>
 <object name="htlm" class_name="FileBasedLM" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<property name="edit" module="n">edit</property>
@@ -232,6 +241,8 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="mail" class_name="Mail" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">view_content</property>
@@ -353,6 +364,8 @@
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
 </object>
 <object name="file" class_name="File" checkbox="1" inherit="0" translate="0" rbac="1">
 	<property name="edit">edit_properties</property>
@@ -363,6 +376,7 @@
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
 	<action name="clear">clear</action>
+	<action name="link">link</action>
 </object>
 <object name="qpl" class_name="QuestionPool" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
@@ -371,6 +385,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
@@ -382,6 +397,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="svy" class_name="Survey" module="survey" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
@@ -393,6 +409,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="spl" class_name="SurveyQuestionPool" module="survey" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
@@ -402,6 +419,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 </object>
 <object name="chat" class_name="Chat" module="chat" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view">view</property>
@@ -409,6 +427,8 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
 </object>
 <object name="chac" class_name="ChatServer" module="chat" checkbox="0" inherit="0" translate="sys" rbac="1" >
 	<property name="edit">edit_properties</property>

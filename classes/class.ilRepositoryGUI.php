@@ -3118,6 +3118,8 @@ class ilRepositoryGUI
 
 	function copyChilds()
 	{
+		global $objDefinition;
+
 		$this->prepareOutput();
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_childs.html");
@@ -3148,16 +3150,16 @@ class ilRepositoryGUI
 
 			foreach($sub_types as $type)
 			{
-				switch($type)
+				$pos_actions = $objDefinition->getActions($type);
+
+				$actions = array();
+				if(isset($pos_actions['link']))
 				{
-					case "grp":
-					case "fold":
-					case "crs":
-						$actions = array('copy' => $this->lng->txt("copy"));
-						break;
-					default:
-						$actions = array('copy' => $this->lng->txt("copy"),
-										 'link' => $this->lng->txt("link"));
+					$actions['link'] = $this->lng->txt("link");
+				}
+				if(isset($pos_actions['copy']))
+				{
+					$actions['copy'] = $this->lng->txt("copy");
 				}
 
 				$this->tpl->setCurrentBlock("object_options");
