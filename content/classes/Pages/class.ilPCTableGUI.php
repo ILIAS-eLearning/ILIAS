@@ -311,7 +311,14 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ROWS", $this->lng->txt("cont_nr_rows"));
 		$select_rows = ilUtil::formSelect ("2","nr_rows",$nr,false,true);
 		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
-
+		
+		//import html table
+		$this->tpl->setVariable("TXT_HTML_IMPORT", $this->lng->txt("cont_table_html_import"));		
+		$this->tpl->setVariable("TXT_BTN_HTML_IMPORT", $this->lng->txt("import"));		
+		$this->tpl->setVariable("TXT_HTML_IMPORT_INFO", $this->lng->txt("cont_table_html_import_info"));		
+		$this->tpl->setVariable("CMD_HTML_IMPORT", "create_tab");
+		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
+					
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -328,12 +335,23 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
+		global	$lng;
 		$this->content_obj = new ilPCTable($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
-		$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
 		$this->content_obj->setLanguage($_POST["tab_language"]);
-		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["tab_language"];
+		$html = trim($_POST["htmltable"]);
+		
+		if (!empty ($html)) {			
+			if (!$this->content_obj->importHtml ($_POST["tab_language"], $html)) {
+				$this->insert();
+				return;	
+			}
+		} else {		
+			$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
+		}
+		
 		$this->updated = $this->pg_obj->update();
+		
 		if ($this->updated === true)
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
