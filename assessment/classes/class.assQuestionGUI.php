@@ -422,8 +422,14 @@ class ASS_QuestionGUI
 	/**
 	* output question page
 	*/
-	function outQuestionPage($a_temp_var)
+	function outQuestionPage($a_temp_var, $a_postponed = false)
 	{
+		$postponed = "";
+		if ($a_postponed)
+		{
+			$postponed = " (" . $this->lng->txt("postponed") . ")";
+		}
+
 		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
@@ -432,7 +438,7 @@ class ASS_QuestionGUI
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());
-		$page_gui->setPresentationTitle($this->object->getTitle());
+		$page_gui->setPresentationTitle($this->object->getTitle().$postponed);
 		return $page_gui->presentation();
 	}
 }

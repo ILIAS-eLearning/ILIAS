@@ -723,8 +723,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
-
-		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION");
+		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION", $is_postponed);
 
 		// set solutions
 		if ($test_id)
@@ -743,14 +742,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 		//$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 
-		$postponed = "";
-
-
-
-		if ($is_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
 
 		/*
 		if (!empty($this->object->materials))
