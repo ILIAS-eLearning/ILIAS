@@ -187,7 +187,6 @@ class ilPageObject extends ilLMObject
 				switch($child_node->node_name())
 				{
 					case "Paragraph":
-
 						require_once("content/classes/class.ilParagraph.php");
 						$par =& new ilParagraph($this->dom);
 						$par->setNode($cont_node);
@@ -195,7 +194,6 @@ class ilPageObject extends ilLMObject
 						return $par;
 
 					case "Table":
-
 						require_once("content/classes/class.ilLMTable.php");
 						$tab =& new ilLMTable($this->dom);
 						$tab->setNode($cont_node);
@@ -209,6 +207,13 @@ class ilPageObject extends ilLMObject
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
 						return $mob;
+
+					case "List":
+						require_once("content/classes/class.ilLMList.php");
+						$list =& new ilLMList($this->dom);
+						$list->setNode($cont_node);
+						$list->setHierId($a_hier_id);
+						return $tab;
 				}
 				break;
 

@@ -39,6 +39,7 @@
 			<option value="insert_par">insert Paragr.</option>
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
+			<option value="insert_list">insert List</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
