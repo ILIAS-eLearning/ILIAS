@@ -125,11 +125,14 @@ class ilSCORMPresentationGUI
 	function view()
 	{
 		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
-		
+
 		if(is_object($sc_gui_object))
 		{
 			$sc_gui_object->view();
 		}
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->show();
 	}
 
 }

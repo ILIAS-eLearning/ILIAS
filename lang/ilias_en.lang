@@ -642,8 +642,30 @@ common#:#learning_objects#:#Learning Objects
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_std_view#:#Standard View
 common#:#subobjects#:#Subobjects
+content#:#cont_def_organization#:#default
+content#:#cont_xml_base#:#xml:base
+content#:#cont_import_id#:#identifier
+content#:#cont_sc_title#:#title
+content#:#cont_structure#:#structure
+content#:#cont_item#:#Item
+content#:#cont_id_ref#:#identifierref
+content#:#cont_is_visible#:#isvisible
+content#:#cont_parameters#:#parameters
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_resource_type#:#type
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_href#:#href
+content#:#cont_files#:#Files
+content#:#cont_dependencies#:#Dependencies
 content#:#cont_organizations#:#Organizations
+content#:#cont_organization#:#Organization
 content#:#cont_resources#:#Resources
+content#:#cont_resource#:#Resource
 content#:#cont_reference#:#Reference
 content#:#cont_orig_size#:#Original Size
 content#:#cont_fullscreen#:#Fullscreen

@@ -23,6 +23,10 @@
 
 require_once("content/classes/SCORM/class.ilSCORMObject.php");
 require_once("content/classes/SCORM/class.ilSCORMItemGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMOrganizationsGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMOrganizationGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMResourcesGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMResourceGUI.php");
 
 /**
 * Parent object for SCORM GUI objects
@@ -36,6 +40,21 @@ require_once("content/classes/SCORM/class.ilSCORMItemGUI.php");
 class ilSCORMObjectGUI
 {
 	var $sc_object;
+	var $tpl;
+	var $lng;
+
+
+	function ilSCORMObjectGUI($a_id = 0)
+	{
+		global $tpl, $lng;
+
+		if($a_id != 0)
+		{
+			$this->sc_object =& new ilSCORMItem($a_id);
+		}
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+	}
 
 	/**
 	* get instance of specialized GUI class
@@ -53,14 +72,38 @@ class ilSCORMObjectGUI
 				break;
 
 			case "sos":					// organizations
+				$sos_gui =& new ilSCORMOrganizationsGUI($a_id);
+				return $sos_gui;
+				break;
+
 			case "sor":					// organization
+				$sor_gui =& new ilSCORMOrganizationGUI($a_id);
+				return $sor_gui;
+				break;
+
 			case "sma":					// manifest
-			case "srs":					// resources
-			case "sre":					// resource
 				return;
+				break;
+
+			case "srs":					// resources
+				$srs_gui =& new ilSCORMResourcesGUI($a_id);
+				return $srs_gui;
+				break;
+
+			case "sre":					// resource
+				$sre_gui =& new ilSCORMResourceGUI($a_id);
+				return $sre_gui;
 				break;
 		}
 	}
 
+
+	function displayParameter($a_name, $a_value)
+	{
+		$this->tpl->setCurrentBlock("parameter");
+		$this->tpl->setVariable("TXT_PARAMETER_NAME", $a_name);
+		$this->tpl->setVariable("TXT_PARAMETER_VALUE", $a_value);
+		$this->tpl->parseCurrentBlock();
+	}
 }
 ?>

@@ -22,76 +22,66 @@
 */
 
 require_once ("content/classes/SCORM/class.ilSCORMObjectGUI.php");
-require_once ("content/classes/SCORM/class.ilSCORMItem.php");
 require_once ("content/classes/SCORM/class.ilSCORMResource.php");
-require_once ("classes/class.ilObjSCORMLearningModule.php");
 
 /**
-* GUI class for SCORM Items
+* GUI class for SCORM Resource element
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMItemGUI
+* @extends ilSCORMObjectGUI
 * @package content
 */
-class ilSCORMItemGUI extends ilSCORMObjectGUI
+class ilSCORMResourceGUI extends ilSCORMObjectGUI
 {
-	function ilSCORMItemGUI($a_id)
+
+	function ilSCORMResourceGUI($a_id)
 	{
 		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMItem($a_id);
+		$this->sc_object =& new ilSCORMResource($a_id);
+		$files =& $this->sc_object->getFiles();
 	}
 
 	function view()
 	{
-		// get ressource identifier
-		$id_ref = $this->sc_object->getIdentifierRef();
-		if ($id_ref != "")
-		{
-			$resource =& new ilSCORMResource();
-			$resource->readByIdRef($id_ref, $this->sc_object->getSLMId());
-
-			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
-
-			if ($resource->getHref() != "")
-			{
-				header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
-				exit;
-			}
-		}
-
-		// this point is only reached if now resource could be displayed above!
+		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", true);
-		$this->tpl->setCurrentBlock("par_table");
-		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_item"));
 		$this->displayParameter($this->lng->txt("cont_import_id"),
 			$this->sc_object->getImportId());
-		$this->displayParameter($this->lng->txt("cont_id_ref"),
-			$this->sc_object->getIdentifierRef());
-		$str_visible = ($this->sc_object->getVisible())
-			? "true"
-			: "false";
-		$this->displayParameter($this->lng->txt("cont_is_visible"),
-			$str_visible);
-		$this->displayParameter($this->lng->txt("cont_parameters"),
-			$this->sc_object->getParameters());
-		$this->displayParameter($this->lng->txt("cont_sc_title"),
-			$this->sc_object->getTitle());
-		$this->displayParameter($this->lng->txt("cont_prereq_type"),
-			$this->sc_object->getPrereqType());
-		$this->displayParameter($this->lng->txt("cont_prerequisites"),
-			$this->sc_object->getPrerequisites());
-		$this->displayParameter($this->lng->txt("cont_max_time_allowed"),
-			$this->sc_object->getMaxTimeAllowed());
-		$this->displayParameter($this->lng->txt("cont_time_limit_action"),
-			$this->sc_object->getTimeLimitAction());
-		$this->displayParameter($this->lng->txt("cont_data_from_lms"),
-			$this->sc_object->getDataFromLms());
-		$this->displayParameter($this->lng->txt("cont_mastery_score"),
-			$this->sc_object->getMasteryScore());
+		$this->displayParameter($this->lng->txt("cont_resource_type"),
+			$this->sc_object->getResourceType());
+		$this->displayParameter($this->lng->txt("cont_scorm_type"),
+			$this->sc_object->getScormType());
+		$this->displayParameter($this->lng->txt("cont_href"),
+			$this->sc_object->getHref());
+		$this->displayParameter($this->lng->txt("cont_xml_base"),
+			$this->sc_object->getXmlBase());
+		$this->tpl->setCurrentBlock("partable");
+		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_resource"));
 		$this->tpl->parseCurrentBlock();
 
+		// files
+		$files =& $this->sc_object->getFiles();
+		for ($i=0; $i<count($files); $i++)
+		{
+			$this->displayParameter($this->lng->txt("cont_href"),
+				$files[$i]->getHRef());
+		}
+		$this->tpl->setCurrentBlock("partable");
+		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_files"));
+		$this->tpl->parseCurrentBlock();
+
+		// dependencies
+		$deps =& $this->sc_object->getDependencies();
+		for ($i=0; $i<count($deps); $i++)
+		{
+			$this->displayParameter($this->lng->txt("cont_id_ref"),
+				$deps[$i]->getIdentifierRef());
+		}
+		$this->tpl->setCurrentBlock("partable");
+		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_dependencies"));
+		$this->tpl->parseCurrentBlock();
 	}
 }
 ?>
