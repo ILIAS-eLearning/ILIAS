@@ -40,6 +40,8 @@ class ilCourseContentInterface
 	var $cci_course_id;
 	var $cci_ref_id;
 	var $cci_client_class;
+
+	var $chi_obj;
 	
 	
 	function cci_init(&$client_class,$a_ref_id)
@@ -339,6 +341,8 @@ class ilCourseContentInterface
 																					  date("G",$activation_end)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->cciGetDateSelect("minute","crs[activation_end][minute]",
 																					  date("i",$activation_end)));
+		$this->initConditionHandlerGUI($_GET['item_id']);
+		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_list());
 
 	}
 

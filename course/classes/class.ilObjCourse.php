@@ -55,6 +55,7 @@ class ilObjCourse extends ilObject
 		$this->SUBSCRIPTION_CONFIRMATION = 2;
 		$this->SUBSCRIPTION_DIRECT = 3;
 		$this->SUBSCRIPTION_PASSWORD = 4;
+		$this->SUBSCRIPTION_AUTOSUBSCRIPTION = 5;
 		$this->SORT_MANUAL = 1;
 		$this->SORT_TITLE = 2;
 		$this->SORT_ACTIVATION = 3;
@@ -317,7 +318,7 @@ class ilObjCourse extends ilObject
 	}
 
 
-	function isActivated($a_check_archive = true)
+	function isActivated($a_check_archive = false)
 	{
 		if($a_check_archive)
 		{

@@ -4184,4 +4184,16 @@ INSERT INTO settings (keyword,value) VALUES ('auth_mode',1);
 $ilCtrlStructureReader->getStructure();
 
 ?>
-
+<#248>
+CREATE TABLE `conditions` (
+`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`target_ref_id` INT( 11 ) NOT NULL ,
+`target_obj_id` INT( 11 ) NOT NULL ,
+`target_type` VARCHAR( 8 ) NOT NULL ,
+`trigger_ref_id` INT( 11 ) NOT NULL ,
+`trigger_obj_id` INT( 11 ) NOT NULL ,
+`trigger_type` VARCHAR( 8 ) NOT NULL ,
+`operation` VARCHAR( 64 ) ,
+`value` VARCHAR( 64 ) ,
+PRIMARY KEY ( `id` )
+);

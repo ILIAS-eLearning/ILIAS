@@ -332,6 +332,7 @@ class ilRepositoryExplorer extends ilExplorer
 			{
 				// Show only activated courses
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
+
 				if(!$tmp_obj->isActivated())
 				{
 					unset($tmp_obj);
