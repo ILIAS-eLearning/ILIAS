@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.8 2003/03/18 08:51:23 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.9 2003/03/18 14:13:33 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -21,7 +21,6 @@ class RoleObjectOut extends ObjectOut
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
-
 	/**
 	* save a new role object
 	* @access	public
@@ -30,7 +29,6 @@ class RoleObjectOut extends ObjectOut
 	function saveObject()
 	{
 		global $rbacsystem, $rbacadmin;
-
 
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
@@ -54,7 +52,7 @@ class RoleObjectOut extends ObjectOut
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
 			$roleObj->create();
-			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"], $_GET["parent"], 'y');
+			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
 		}
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
 		exit();
@@ -95,7 +93,7 @@ class RoleObjectOut extends ObjectOut
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacadmin->getRolePermission($this->object->getId(), $data["title"], $_GET["parent"]);
+						$selected = $rbacadmin->getRolePermission($this->object->getId(), $data["title"], $_GET["ref_id"]);
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
