@@ -2583,7 +2583,10 @@ class ilObjSurvey extends ilObject
 						array_push($median, $value);
 						$x_i += $value;
 						$p_i *= $value;
-						$x_i_inv += 1/$value;
+						if ($value != 0)
+						{
+							$x_i_inv += 1/$value;
+						}
 					}
 				}
 				if (($total % 2) == 0)
