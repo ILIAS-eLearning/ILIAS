@@ -453,6 +453,11 @@ class ilForum
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
 
+		// MARK READ
+		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
+		$forum_obj->updateUserAccess($lastInsert);
+		
+
 		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify,$subject,$date);
 	}
 
