@@ -43,11 +43,20 @@ class ilRbacReview
 	*/
 	function ilRbacReview()
 	{
-		global $ilDB,$ilErr;
+		global $ilDB,$ilErr,$ilias;
 
 		// set db & error handler
-		$this->ilDB =& $ilDB;
-		$this->ilErr =& $ilErr;
+		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
+		
+		if (!isset($ilErr))
+		{
+			$ilErr = new ilErrorHandling();
+			$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+		}
+		else
+		{
+			$this->ilErr =& $ilErr;
+		}
 	}
 
 	/**

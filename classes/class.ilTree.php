@@ -107,11 +107,20 @@ class ilTree
 	*/
 	function ilTree($a_tree_id, $a_root_id = 0)
 	{
-		global $ilDB,$ilErr,$ilUser;
+		global $ilDB,$ilErr,$ilUser,$ilias;
 
 		// set db & error handler
-		$this->ilDB =& $ilDB;
-		$this->ilErr =& $ilErr;
+		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
+		
+		if (!isset($ilErr))
+		{
+			$ilErr = new ilErrorHandling();
+			$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+		}
+		else
+		{
+			$this->ilErr =& $ilErr;
+		}
 		
 		// lang_code is only required in $this->fetchnodedata
 		if (!is_object($ilUser))
