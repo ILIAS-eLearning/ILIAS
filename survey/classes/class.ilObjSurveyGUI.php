@@ -1074,7 +1074,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
+					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 					$this->tpl->parseCurrentBlock();
@@ -5087,7 +5087,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("coderow");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
 					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
-					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP"]), "date"));
+					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
 					$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
 					if ($row["state"])
 					{

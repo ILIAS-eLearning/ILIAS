@@ -35,11 +35,11 @@
 * @package assessment
 */
 
-require_once "./assessment/classes/class.ilObjQuestionPool.php";
-require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilMetaDataGUI.php";
-require_once "./assessment/classes/class.assQuestionGUI.php";
-require_once './classes/Spreadsheet/Excel/Writer.php';
+include_once "./assessment/classes/class.ilObjQuestionPool.php";
+include_once "./classes/class.ilObjectGUI.php";
+include_once "./classes/class.ilMetaDataGUI.php";
+include_once "./assessment/classes/class.assQuestionGUI.php";
+include_once './classes/Spreadsheet/Excel/Writer.php';
 
 define ("TYPE_XLS", "excel");
 define ("TYPE_SPSS", "csv");
@@ -168,7 +168,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		require_once "./assessment/classes/class.ilObjTest.php";
+		include_once "./assessment/classes/class.ilObjTest.php";
 		ilObjTest::_clone($_POST["tst"]);
 		ilUtil::redirect($this->getReturnLocation("post","$returnlocation?".$this->link_params));
 //		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
@@ -253,7 +253,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		include_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -345,7 +345,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			require_once("assessment/classes/class.ilTestExport.php");
+			include_once("assessment/classes/class.ilTestExport.php");
 			$test_exp = new ilTestExport($this->object);
 			$test_exp->buildExportFile();
 		}
@@ -468,7 +468,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->getTemplateFile("import", "tst");
 		$this->tpl->setCurrentBlock("option_qpl");
-		require_once("./assessment/classes/class.ilObjTest.php");
+		include_once("./assessment/classes/class.ilObjTest.php");
 		$tst = new ilObjTest();
 		$questionpools =& $tst->getAvailableQuestionpools(true);
 		if (count($questionpools) == 0)
@@ -1039,7 +1039,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function downloadFileObject()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		require_once("classes/class.ilObjFile.php");
+		include_once("classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
@@ -1062,7 +1062,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function download_paragraphObject()
 	{
-		require_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;
@@ -3253,7 +3253,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outStatSelectedSearchResults()
 	{
-		require_once ("./classes/class.ilSearch.php");
+		include_once ("./classes/class.ilSearch.php");
 		global $ilUser;
 		
 		if (is_array($_POST["search_for"]))
@@ -3305,7 +3305,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						if (!in_array($result_array["id"], $eval_groups))
 						{
-							require_once("./classes/class.ilObjGroup.php");
+							include_once("./classes/class.ilObjGroup.php");
 							$grp = new ilObjGroup($result_array["id"], true);
 							$members = $grp->getGroupMemberIds();
 							$found_member = 0;
@@ -3532,7 +3532,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outEvalSearchResultTable($a_type, $id_array, $block_result, $block_row, $title_text, $buttons)
 	{
-		require_once("./classes/class.ilObjGroup.php");
+		include_once("./classes/class.ilObjGroup.php");
 		global $rbacsystem;
 		
 		$rowclass = array("tblrow1", "tblrow2");
@@ -3826,7 +3826,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} else {
 			$selected_users =& $this->object->getEvaluationUsers($ilUser->id);
 			$selected_groups =& $this->object->getEvaluationGroups($ilUser->id);
-			require_once("./classes/class.ilObjGroup.php");
+			include_once("./classes/class.ilObjGroup.php");
 			foreach ($selected_groups as $group_id)
 			{
 				$grp = new ilObjGroup($group_id, true);
@@ -3869,7 +3869,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$evaluation_array[$key] = $stat_eval;
 		}
 
-		require_once "./classes/class.ilStatistics.php";
+		include_once "./classes/class.ilStatistics.php";
 		// calculate the median
 		$median_array = array();
 		foreach ($evaluation_array as $key => $value)
@@ -5288,7 +5288,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			require_once("./assessment/classes/class.ilObjTest.php");
+			include_once("./assessment/classes/class.ilObjTest.php");
 			$tst = new ilObjTest();
 			
 			$tests =& ilObjTest::_getAvailableTests(true);

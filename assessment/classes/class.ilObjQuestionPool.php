@@ -642,7 +642,7 @@ class ilObjQuestionPool extends ilObject
 						$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
 						break;
 					case "updated":
-						$order = " ORDER BY TIMESTAMP $value";
+						$order = " ORDER BY TIMESTAMP14 $value";
 						$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
 						break;
 				}
@@ -653,7 +653,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP+0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -665,7 +665,7 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())

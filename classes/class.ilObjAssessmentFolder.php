@@ -246,7 +246,7 @@ class ilObjAssessmentFolder extends ilObject
 	function &getLog($ts_from, $ts_to, $test_id, $with_user_actions = FALSE)
 	{
 		$log = array();
-		$query = sprintf("SELECT * FROM ass_log WHERE obj_fi = %s AND TIMESTAMP > %s AND TIMESTAMP < %s ORDER BY TIMESTAMP",
+		$query = sprintf("SELECT *, TIMESTAMP+0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP+0 > %s AND TIMESTAMP+0 < %s ORDER BY TIMESTAMP14",
 			$this->ilias->db->quote($test_id . ""),
 			$this->ilias->db->quote($ts_from . ""),
 			$this->ilias->db->quote($ts_to . "")
@@ -254,26 +254,28 @@ class ilObjAssessmentFolder extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (!array_key_exists($row["TIMESTAMP"], $log))
+			if (!array_key_exists($row["TIMESTAMP14"], $log))
 			{
-				$log[$row["TIMESTAMP"]] = array();
+				$log[$row["TIMESTAMP14"]] = array();
 			}
-			array_push($log[$row["TIMESTAMP"]], $row);
+			array_push($log[$row["TIMESTAMP14"]], $row);
 		}
 		if ($with_user_actions)
 		{
 			require_once "./assessment/classes/class.ilObjTest.php";
-			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s",
-				$this->ilias->db->quote(ilObjTest::_getTestIDFromObjectID($test_id))
+			$query = sprintf("SELECT tst_solutions.*, tst_solutions.TIMESTAMP+0 AS TIMESTAMP14 FROM tst_solutions WHERE test_fi = %s AND TIMESTAMP+0 > %s AND TIMESTAMP+0 < %s",
+				$this->ilias->db->quote(ilObjTest::_getTestIDFromObjectID($test_id)),
+				$this->ilias->db->quote($ts_from . ""),
+				$this->ilias->db->quote($ts_to . "")
 			);
 			$result = $this->ilias->db->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (!array_key_exists($row["TIMESTAMP"], $log))
+				if (!array_key_exists($row["TIMESTAMP14"], $log))
 				{
-					$log[$row["TIMESTAMP"]] = array();
+					$log[$row["TIMESTAMP14"]] = array();
 				}
-				array_push($log[$row["TIMESTAMP"]], $row);
+				array_push($log[$row["TIMESTAMP14"]], $row);
 			}
 		}
 		ksort($log);

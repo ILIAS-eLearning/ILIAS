@@ -804,7 +804,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
+			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
