@@ -120,14 +120,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page =& new ilPageObject("qpl", $_GET["q_id"]);
 				$page_gui =& new ilPageObjectGUI($page);
 				$page_gui->setQuestionXML($question->to_xml(false, false, true));
-				//$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
-				//$page_gui->setLocator($gloss_loc);
 				$page_gui->setHeader($question->getTitle());
 				$page_gui->setFileDownloadLink("questionpool.php?cmd=downloadFile".
 					"&amp;ref_id=".$_GET["ref_id"]);
-
+				$page_gui->setSourcecodeDownloadScript("questionpool.php?ref_id=".$_GET["ref_id"]);
 				/*
 				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
 						array("edit", "view"),
@@ -226,6 +224,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$_POST["filter_text"] = "";
 		$_POST["sel_filter_type"] = "";
 		$this->questionsObject();
+	}
+
+	/**
+	* download source code paragraph
+	*/
+	function download_paragraphObject()
+	{
+		require_once("content/classes/Pages/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
+		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
+		exit;
 	}
 
 	/**
