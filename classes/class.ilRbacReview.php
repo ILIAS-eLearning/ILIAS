@@ -574,7 +574,7 @@ class ilRbacReview
 	}
 
 	/**
-	* get all objects in which the inheritance was stopped
+	* get all objects in which the inheritance of role with role_id was stopped
 	* the function returns all reference ids of objects containing a role folder.
 	* @access	public
 	* @param	integer	role_id
@@ -590,13 +590,11 @@ class ilRbacReview
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 			
-		$q = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."'";
-		$r = $this->ilDB->query($q);
+		$all_rolf_ids = $this->getFoldersAssignedToRole($a_rol_id,false);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		foreach ($all_rolf_ids as $rolf_id)
 		{
-			$parent[] = $tree->getParentId($row->parent);
+			$parent[] = $tree->getParentId($rolf_id);
 		}
 
 		return $parent ? $parent : array();
