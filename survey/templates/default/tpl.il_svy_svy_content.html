@@ -1,0 +1,38 @@
+<style>
+body { margin:0px; }
+</style>
+{STATUSLINE}
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<!--<div class="invisible_border">-->
+<form name="surveyOutput" method="post" action="{FORM_ACTION}">
+<div class="il_Header">
+<table width="100%">
+<tr>
+<td><h1>{HEADER}</h1></td>
+<td align="right">
+<!-- BEGIN skip -->
+<input type="submit" class="submit" name="cmd[skip]" value="{BTN_SKIP}" />
+&nbsp;&nbsp;
+<!-- END skip -->
+<!-- BEGIN prev -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev -->
+<!-- BEGIN next -->
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<!-- END next -->
+</td>
+</tr>
+</table>
+</div>
+<br/>
+{BUTTONS}
+{MESSAGE}
+{ADM_CONTENT}
+{NOMINAL_QUESTION}
+{ORDINAL_QUESTION}
+{METRIC_QUESTION}
+{TEXT_QUESTION}
+{SYSTEMSETTINGS}
+</form>
+<!--</div>-->
+</td></tr></table>

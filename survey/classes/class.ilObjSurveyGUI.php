@@ -112,6 +112,136 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 /**
+* Creates the form output for running the survey
+*
+* Creates the form output for running the survey
+*
+* @access public
+*/
+	function runObject() {
+		global $ilUser;
+
+		if ($_POST["cmd"]["exit"])
+		{
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
+		
+    $add_parameter = $this->getAddParameter();
+		
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		$this->setLocator();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
+		{
+			$activepage = "";
+			$direction = 0;
+			if ($_POST["cmd"]["previous"])
+			{
+				$activepage = $_GET["qid"];
+				$direction = -1;
+			}
+			else if ($_POST["cmd"]["next"])
+			{
+				$activepage = $_GET["qid"];
+				$direction = 1;
+			}
+			
+			$page = $this->object->getNextPage($activepage, $direction);
+			$qid = "";
+			if ($page == 0)
+			{
+				$this->runShowIntroductionPage();
+				return;
+			}
+			else if ($page == 1)
+			{
+				$this->runShowFinishedPage();
+				return;
+			}
+			else
+			{
+				$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
+				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
+				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
+				$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
+				$this->tpl->setCurrentBlock("prev");
+				$this->tpl->setVariable("BTN_PREV", $this->lng->txt("previous"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("next");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("next"));
+				$this->tpl->parseCurrentBlock();
+				foreach ($page as $data)
+				{
+					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
+					$question_gui->outWorkingForm();
+					$qid = "&qid=" . $data["question_id"];
+				}
+			}
+			$this->tpl->setCurrentBlock("content");
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . "$add_parameter$qid");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->runShowIntroductionPage();
+		}
+	}
+	
+/**
+* Creates the introduction page for a running survey
+*
+* Creates the introduction page for a running survey
+*
+* @access public
+*/
+	function runShowIntroductionPage()
+	{
+		// show introduction page
+    $add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
+		$this->tpl->setCurrentBlock("start");
+		$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$introduction = $this->object->getIntroduction();
+		$introduction = preg_replace("/\n/i", "<br />", $introduction);
+		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . "$add_parameter");
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Creates the finished page for a running survey
+*
+* Creates the finished page for a running survey
+*
+* @access public
+*/
+	function runShowFinishedPage()
+	{
+		// show introduction page
+    $add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
+		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
+		$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . "$add_parameter");
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Creates the properties form for the survey object
 *
 * Creates the properties form for the survey object
@@ -625,14 +755,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
-/*		if ($_POST["cmd"]["create_question_execute"])
+		if ($_POST["cmd"]["create_question_execute"])
 		{
-			$_SESSION["test_id"] = $this->object->getRefId();
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+			$_SESSION["survey_id"] = $this->object->getRefId();
+			header("Location:questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
 			exit();
 		}
 
-		if ($_GET["add"])
+/*		if ($_GET["add"])
 		{
 			$selected_array = array();
 			array_push($selected_array, $_GET["add"]);
@@ -679,11 +809,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				return;
 			}
 		}
-		/*
+		
 		if ($_POST["cmd"]["create_question"]) {
-			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
+			header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
 		}
-*/
+
 		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
 		{
 			// insert questions from test after confirmation

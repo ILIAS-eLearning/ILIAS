@@ -225,6 +225,21 @@ class SurveyNominalQuestionGUI {
   }
 
 /**
+* Creates the question output form for the learner
+* 
+* Creates the question output form for the learner
+*
+* @access public
+*/
+	function outWorkingForm()
+	{
+		$this->tpl->setCurrentBlock("question_data_nominal");
+		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+
+/**
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 *
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form

@@ -34,6 +34,10 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
+require_once "class.SurveyNominalQuestionGUI.php";
+require_once "class.SurveyOrdinalQuestionGUI.php";
+require_once "class.SurveyTextQuestionGUI.php";
+require_once "class.SurveyMetricQuestionGUI.php";
 
 define("STATUS_OFFLINE", 0);
 define("STATUS_ONLINE", 1);
@@ -511,6 +515,34 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
+/**
+* Returns a question gui object to a given questiontype and question id
+* 
+* Returns a question gui object to a given questiontype and question id
+*
+* @result object Resulting question gui object
+* @access public
+*/
+	function getQuestionGUI($questiontype, $question_id)
+	{
+		switch ($questiontype)
+		{
+			case "qt_nominal":
+				$question = new SurveyNominalQuestionGUI();
+				break;
+			case "qt_ordinal":
+				$question = new SurveyOrdinalQuestionGUI();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestionGUI();
+				break;
+			case "qt_text":
+				$question = new SurveyTextQuestionGUI();
+				break;
+		}
+		$question->object->loadFromDb($question_id);
+		return $question;
+	}
 
 /**
 * Returns the survey database id
@@ -1249,6 +1281,117 @@ class ilObjSurvey extends ilObject
 			}
 		}
 		return $all_questions;
+	}
+	
+/**
+* Returns the survey pages in an array (a page contains one or more questions)
+* 
+* Returns the survey pages in an array (a page contains one or more questions)
+*
+* @access public
+*/
+	function &getSurveyPages()
+	{
+		// get questionblocks
+		$all_questions = array();
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$all_questions[$row["question_id"]] = $row;
+		}
+		// get all questionblocks
+		$questionblocks = array();
+		$in = join(array_keys($all_questions), ",");
+		if ($in)
+		{
+			$query = "SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.question_fi IN ($in)";
+			$result = $this->ilias->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$questionblocks[$row->question_fi] = $row;
+			}			
+		}
+		
+		$all_pages = array();
+		$pageindex = -1;
+		$currentblock = "";
+		foreach ($all_questions as $question_id => $row)
+		{
+			if (isset($questionblocks[$question_id]))
+			{
+				if (!$currentblock or ($currentblock != $questionblocks[$question_id]->questionblock_id))
+				{
+					$pageindex++;
+				}
+				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
+				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+				$currentblock = $questionblocks[$question_id]->questionblock_id;
+			}
+			else
+			{
+				$pageindex++;
+				$all_questions[$question_id]["questionblock_title"] = "";
+				$all_questions[$question_id]["questionblock_id"] = "";
+				$currentblock = "";
+			}
+			if (!isset($all_pages[$pageindex]))
+			{
+				$all_pages[$pageindex] = array();
+			}
+			array_push($all_pages[$pageindex], $all_questions[$question_id]);
+		}
+		return $all_pages;
+	}
+	
+/**
+* Returns the next "page" of a running test
+* 
+* Returns the next "page" of a running test
+*
+* @param integer $active_page_question_id The database id of one of the questions on that page
+* @param integer $direction The direction of the next page (-1 = previous page, 1 = next page)
+* @return mixed An array containing the question id's of the questions on the next page if there is a next page, 0 if the next page is before the start page, 1 if the next page is after the last page
+* @access public
+*/
+	function getNextPage($active_page_question_id, $direction)
+	{
+		$foundpage = -1;
+		$pages =& $this->getSurveyPages();
+		if (strcmp($active_page_question_id, "") == 0)
+		{
+			return $pages[0];
+		}
+		
+		foreach ($pages as $key => $question_array)
+		{
+			foreach ($question_array as $question)
+			{
+				if ($active_page_question_id == $question["question_id"])
+				{
+					$foundpage = $key;
+				}
+			}
+		}
+		if ($foundpage == -1)
+		{
+			// error: page not found
+		}
+		else
+		{
+			$foundpage += $direction;
+			if ($foundpage < 0)
+			{
+				return 0;
+			}
+			if ($foundpage >= count($pages))
+			{
+				return 1;
+			}
+			return $pages[$foundpage];
+		}
 	}
 		
 } // END class.ilObjSurvey

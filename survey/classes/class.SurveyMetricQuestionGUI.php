@@ -224,6 +224,20 @@ class SurveyMetricQuestionGUI {
   }
 
 /**
+* Creates the question output form for the learner
+* 
+* Creates the question output form for the learner
+*
+* @access public
+*/
+	function outWorkingForm()
+	{
+		$this->tpl->setCurrentBlock("question_data_metric");
+		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Sets the other data i.e. materials uris of a question from a posted create/edit form
 *
 * Sets the other data i.e. materials uris of a question from a posted create/edit form
