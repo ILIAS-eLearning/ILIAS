@@ -410,6 +410,11 @@ class ilTree
 				$res = $this->ilDB->query($q);
 				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
+				if ($r->parent == NULL)
+				{
+					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+				}
+
 				$left = $r->lft;
 				$lft = $left + 1;
 				$rgt = $left + 2;
@@ -438,6 +443,11 @@ class ilTree
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$res = $this->ilDB->query($q);
 				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				
+				if ($r->parent == NULL)
+				{
+					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+				}
 
 				$right = $r->rgt;
 				$lft = $right;
@@ -461,7 +471,7 @@ class ilTree
 
 			default:
 
-				// get right value of preceding child
+				// get right value of preceeding child
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
@@ -471,9 +481,10 @@ class ilTree
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
 				{
-					$this->ilErr->raiseError(get_class($this)."::Wrong use of insertNode(): Parents mismatch! ".
+					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parents mismatch! ".
 						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilErr->WARNING);
 				}
+
 				$right = $r->rgt;
 				$lft = $right + 1;
 				$rgt = $right + 2;
@@ -684,6 +695,7 @@ class ilTree
 
 	/**
 	* check consistence of tree
+	* all left & right values are checked if they are exists only once
 	* @access	public
 	* @return	boolean		true if tree is ok; otherwise throws error object
 	*/
