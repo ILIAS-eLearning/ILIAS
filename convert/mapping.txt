@@ -310,15 +310,28 @@ PAGE (id, parent)
 									n offline/inactive
 		lerneinheit			-->		***
 		
+	page_glossar
+		id
+		ctime
+		utime
+		page
+		glossar
+		pg_inst
+		gl_inst
+	
 	page_link ***
 		id
 		page
+		pg_inst
 		titel
 		url
 		
-	page_glossar
-	
 	page_frage
+		pg_inst
+		pg_id
+		mc_inst
+		mc_id
+		nr
 	
 	ELEMENT(s)
 
