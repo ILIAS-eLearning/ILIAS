@@ -231,6 +231,41 @@ div.il_RepHeader
 	background-color: #CCCCCC;
 }
 
+/* SCORM styles */
+
+table.il_ScormTable
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	border-spacing:1px;
+	border-width:0px;
+}
+
+td.il_ScormTableKey {
+	background-color:#e2e2e2;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.il_ScormTableValue {
+	background-color:#f7f7f7;
+	background-image: none;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+}
+
 
 
 /* must reset all values of td style */

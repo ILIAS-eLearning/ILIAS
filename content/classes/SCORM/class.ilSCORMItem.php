@@ -226,6 +226,29 @@ class ilSCORMItem extends ilSCORMObject
 		$this->ilias->db->query($q);
 	}
 
+	/**
+	* get tracking data of specified or current user
+	*
+	*
+	*/
+	function getTrackingDataOfUser($a_user_id = 0)
+	{
+		global $ilDB, $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$q = "SELECT * FROM scorm_tracking WHERE ".
+			"sc_item_id = '".$this->getId()."' AND ".
+			"usr_id = '".$a_user_id."'";
+
+		$track_set = $ilDB->query($q);
+
+		return $track_set->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+
 
 }
 ?>

@@ -244,6 +244,55 @@ class ilSCORMExplorer extends ilExplorer
 		return false;
 	}
 
+	function formatItemTable(&$tpl, $a_id, $a_type)
+	{
+		global $lng;
+
+		if ($a_type != "sit")
+		{
+			return;
+		}
+		else
+		{
+			$sc_object =& new ilSCORMItem($a_id);
+			if ($sc_object->getIdentifierRef() != "")
+			{
+				$trdata = $sc_object->getTrackingDataOfUser();
+
+				// status
+				$status = ($trdata["lesson_status"] == "")
+					? "not attempted"
+					: $trdata["lesson_status"];
+				$tpl->setCurrentBlock("item_row");
+				$tpl->setVariable("TXT_KEY", $lng->txt("cont_status"));
+				$tpl->setVariable("TXT_VALUE",
+					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status)));
+				$tpl->parseCurrentBlock();
+
+				// credits
+				if ($trdata["mastery_score"] != "")
+				{
+					$tpl->setCurrentBlock("item_row");
+					$tpl->setVariable("TXT_KEY", $lng->txt("cont_credits"));
+					$tpl->setVariable("TXT_VALUE", $trdata["mastery_score"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				// total time
+				if ($trdata["total_time"] != "")
+				{
+					$tpl->setCurrentBlock("item_row");
+					$tpl->setVariable("TXT_KEY", $lng->txt("cont_total_time"));
+					$tpl->setVariable("TXT_VALUE", $trdata["total_time"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("item_table");
+				$tpl->parseCurrentBlock();
+			}
+		}
+	}
+
 
 
 /**
@@ -257,21 +306,21 @@ class ilSCORMExplorer extends ilExplorer
 	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
-		
+
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.scorm_tree.html", true, true, true);
 
 	 	if ($a_option["type"]=="sos")
 			return;
-		
+
 		if ($a_option["type"]=="srs")
 			return;
-		
+
 		foreach ($a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
@@ -295,6 +344,7 @@ class ilSCORMExplorer extends ilExplorer
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
+				$picture = 'blank';
 				$tpl->setCurrentBlock("lines");
 				$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
@@ -331,6 +381,7 @@ class ilSCORMExplorer extends ilExplorer
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
+		$this->formatItemTable($tpl, $a_node_id, $a_option["type"]);
 
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
