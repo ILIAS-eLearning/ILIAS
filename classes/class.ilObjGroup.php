@@ -990,6 +990,12 @@ class ilObjGroup extends ilObject
 	function isUserRegistered($a_user_id = 0)
 	{
 		global $rbacsystem;
+		
+		// exclude system role from check
+		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			return true;		
+		}
 
 		if (!$this->isMember() && $rbacsystem->checkAccess("join", $this->ref_id))
 		{

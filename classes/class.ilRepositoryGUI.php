@@ -191,14 +191,6 @@ class ilRepositoryGUI
 		switch ($next_class)
 		{
 			case "ilobjgroupgui":
-				//$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $this->cur_ref_id);
-				//$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
-				//	$this->gui_obj->setFormAction("update",$obj_link);
-				//$this->gui_obj->setReturnLocation("update",$obj_link);
-				//$this->ctrl->setParameterByClass("ilObjGroupGUI", "cmd", "permSave");
-				// need to change perm template -> cmd[permSave] on submit
-				//$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
-				//$this->gui_obj->setFormAction("permSave",$obj_link);
 		$this->prepareOutput();
 				$this->gui_obj->executeCommand();
 				$this->tpl->show();

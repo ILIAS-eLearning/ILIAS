@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.73 2004/04/15 12:07:40 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.74 2004/04/16 03:35:35 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -453,7 +453,9 @@ class ilObjGroupGUI extends ilObjectGUI
 						$confirm  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
-		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.obj_confirm.html");
+
+		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+
 		infoPanel();
 
 		sendInfo($this->lng->txt($info));
@@ -573,10 +575,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
-
-		if (!in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
+		
+		if (count($user_ids) == 1 and $this->ilias->account->getId() != $user_ids[0])
 		{
-			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+			if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) 
+				and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
+			{
+				$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+			}
 		}
 		//bool value: says if $users_ids contains current user id
 		$is_dismiss_me = array_search($this->ilias->account->getId(),$user_ids);
@@ -601,7 +607,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 		{
 			$err_msg = $this->object->removeMember($member_id);
-	
+
 			if (strlen($err_msg) > 0)
 			{
 				$this->ilErr->raiseError($this->lng->txt($err_msg),$this->ilErr->MESSAGE);
@@ -639,7 +645,8 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 
-		if (!in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
+		if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) 
+			and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
 		}
@@ -679,7 +686,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",4);
-		$this->tpl->setVariable("TPLPATH",$this->ilias->tplPath);
+		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		foreach ($this->data["buttons"] as $name => $value)
 		{
@@ -954,9 +961,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->data["buttons"] = array( "RemoveMember"  => $this->lng->txt("remove"),
 						"changeMember"  => $this->lng->txt("change"));
 
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("TPLPATH",$this->tplPath);
-
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write,delete",$this->object->getRefId()))
 		{
@@ -978,11 +982,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_NAME", "searchUserForm");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			//user is member
-			$this->tpl->setVariable("COLUMN_COUNTS",5);//user must be member
 		}
 
 		$maxcount = count($this->data["data"]);
@@ -1095,7 +1094,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",6);
-		$this->tpl->setVariable("TPLPATH",$this->tplPath);
+		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// create table
 		include_once "./classes/class.ilTableGUI.php";
@@ -1277,7 +1276,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",5);
-		$this->tpl->setVariable("TPLPATH",$this->tplPath);
+		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		foreach ($this->data["buttons"] as $name => $value)
 		{
@@ -1348,7 +1347,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
 
-		$this->showActions(true);
+		//$this->showActions(true);
 		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
