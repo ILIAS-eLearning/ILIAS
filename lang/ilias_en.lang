@@ -906,6 +906,7 @@ common#:#cutPage#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
+common#:#no_datasets#:#The table is empty
 common#:#date#:#Date
 common#:#dateplaner#:#Calendar
 common#:#day#:#Day

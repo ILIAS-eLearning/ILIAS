@@ -167,6 +167,15 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$this->removeQuestion($row["question_id"]);
 		}
+
+		// delete export files
+		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
+		$directory = $spl_data_dir."/spl_".$this->getId();
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
 	}
 
 	/**

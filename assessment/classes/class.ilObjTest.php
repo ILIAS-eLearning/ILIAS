@@ -461,6 +461,15 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
+		
+		// delete export files
+		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
+		$directory = $tst_data_dir."/tst_".$this->getId();
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
 	}
 
 	/**

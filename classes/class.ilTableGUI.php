@@ -540,7 +540,6 @@ class ilTableGUI
 
 			$start = $this->offset + 1;				// compute num info
 			$end = $this->offset + $this->limit;
-			
 			if ($end > $this->max_count or $this->limit == 0)
 			{
 				$end = $this->max_count;
@@ -553,6 +552,10 @@ class ilTableGUI
 			else
 			{
 				$numinfo = "(Dataset ".$start." - ".$end." of ".$this->max_count.")";
+			}
+			if ($this->max_count == 0)
+			{
+				$numinfo = $this->lng->txt("no_datasets");
 			}
 	
 			$this->tpl->setCurrentBlock("tbl_footer_numinfo");
