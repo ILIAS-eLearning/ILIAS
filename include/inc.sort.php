@@ -13,15 +13,28 @@
 * sub-function to sort $languages-array by their long names
 *
 * Long names of languages depends on the chosen language setting by the current user
-* The function is called only in this way: uasort($languages,"cmp");
+* The function is called only in this way: uasort($languages,"sortLanguagesByName");
 *
 * @param	array	$a	expect $languages
-* @param	string	$b	the function name itself ('cmp')
+* @param	string	$b	the function name itself ('sortLanguagesByName')
 *
-* @return	array	$languages	sorted array $languages
+* @return	boolean	true on success / false on error
 */
 function sortLanguagesByName ($a, $b)
 {
 		return strcmp($a["name"], $b["name"]);
+}
+
+/**
+* sub-function to sort $object_data arrays by title
+*
+* @param	array	$a	expect $obj_data
+* @param	string	$b	the function name itself ('sortObjectsByTitle')
+*
+* @return	boolean	true on success / false on error
+*/
+function sortObjectsByTitle ($a, $b)
+{
+		return strcasecmp($a["title"], $b["title"]);
 }
 ?>
