@@ -542,6 +542,7 @@ common#:#password#:#Password
 common#:#paste#:#Paste
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
+common#:#movePage#:#Move
 common#:#path#:#Path
 common#:#path_to_babylon#:#Path to Babylon
 common#:#path_to_convert#:#Path to Convert
@@ -763,6 +764,7 @@ content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
+content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
