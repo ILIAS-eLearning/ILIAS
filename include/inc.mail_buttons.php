@@ -19,7 +19,7 @@ $tplbtn->parseCurrentBlock();
 
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?folder=archive");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("old"));
+$tplbtn->setVariable("BTN_TXT", $lng->txt("archive"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?folder=sent");
@@ -27,11 +27,11 @@ $tplbtn->setVariable("BTN_TXT", $lng->txt("sent"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?folder=drafts");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("saved"));
+$tplbtn->setVariable("BTN_TXT", $lng->txt("drafts"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?folder=trash");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("deleted"));
+$tplbtn->setVariable("BTN_TXT", $lng->txt("trash"));
 $tplbtn->parseCurrentBlock();
 
 $tplbtn->setCurrentBlock("btn_row");

@@ -26,7 +26,7 @@ chapter_number	chapter number	Kapitelnummer	numero del capitolo	chapter number
 chapter_title	chapter title	Kapiteltitel	titolo del capitolo	chapter title
 check	check	prüfen	controlla	check
 chg_language	change language	Sprache ändern	cambia lingua	chg_language
-chg_password	change password	Password ändern	cambia password	chg_password
+chg_password	change password	Passwort ändern	cambia password	chg_password
 choose_language	choose your language	Bitte wählen Sie Ihre Sprache	scegli lingua	please choose your language
 city	city	Stadt	città	city
 comma_separated	comma separated	kommagetrennt	coma separated	coma separated
@@ -102,7 +102,7 @@ mail	mail	Mail	Posta 	mail
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	mail_s_unread
 mails	mails	Mails	messaggi 	mails
 members	members	Mitglieder	members	members
-message_to	message to	Nachricht an	messaggio a	message to
+message_to	message to:	Nachricht an:	messaggio a:	message to:
 migrate	migrate	migrieren	migrare	migrate
 msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	msg_changes_ok
 msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
@@ -214,4 +214,7 @@ to	to:	An	to:	to:
 reply	reply	Antworten	rispondere	reply
 forward	forward	Weiterleiten	forward	forward
 print	print	Drucken	stampare	print
-message	message	Nachricht	massaggio	message
+message	message	Nachricht	messaggio	message
+archive	archive	Archiv	Archivio	archive
+drafts	drafts	Entwürfe	drafts	drafts
+trash	trash	Papierkorb	trash	trash
