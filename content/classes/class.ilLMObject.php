@@ -262,12 +262,15 @@ class ilLMObject
 	/**
 	* delete lm object data
 	*/
-	function delete()
+	function delete($a_delete_meta_data = true)
 	{
-		/* Delete meta data in nested set table for given object and type */
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), $this->getType());
-		$nested->deleteAllDBData();
+		if ($a_delete_meta_data)
+		{
+			/* Delete meta data in nested set table for given object and type */
+			$nested = new ilNestedSetXML();
+			$nested->init($this->getId(), $this->getType());
+			$nested->deleteAllDBData();
+		}
 
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
@@ -342,7 +345,7 @@ class ilLMObject
 			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"]);
 			if (is_object($lm_obj))
 			{
-				$lm_obj->delete();
+				$lm_obj->delete(false);
 			}
 		}
 	}
