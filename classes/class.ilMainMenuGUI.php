@@ -96,7 +96,7 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("IMG_ADMIN2", ilUtil::getImagePath("navbar/admin.gif", false));
 			$this->tpl->setVariable("IMG_SPACE2", ilUtil::getImagePath("spacer.gif", false));
 			$this->tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
-			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("admindex.php"));
+			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("adm_index.php"));
 			$this->tpl->setVariable("TARGET2", $this->target);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -163,7 +163,6 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TARGET", $this->target);
 
 		$this->tpl->parseCurrentBlock();
-
 	}
 
 	/**
@@ -174,7 +173,8 @@ class ilMainMenuGUI
 		global $ilias;
 
 		$script = "./".$a_script;
-		if($this->start_template == true)
+
+		if ($this->start_template == true)
 		{
 			if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
 			{
@@ -187,6 +187,5 @@ class ilMainMenuGUI
 		}
 		return $script;
 	}
-
 }
 ?>
