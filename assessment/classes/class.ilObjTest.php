@@ -1153,6 +1153,7 @@ class ilObjTest extends ilObject
 	}
 	
 	function &get_test_result($user_id) {
+		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
 		$active = $this->get_active_test_user($user_id);
