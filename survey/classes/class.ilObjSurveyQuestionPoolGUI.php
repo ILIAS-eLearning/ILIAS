@@ -501,33 +501,31 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       foreach ($_GET["sort"] as $key => $value) {
         switch($key) {
           case "title":
-            $order = " ORDER BY questionblock_fi, title $value";
+            $order = " ORDER BY title $value";
             $img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "description":
-            $order = " ORDER BY questionblock_fi, description $value";
+            $order = " ORDER BY description $value";
             $img_description = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
-            $order = " ORDER BY questionblock_fi, questiontype_fi $value";
+            $order = " ORDER BY questiontype_fi $value";
             $img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
-            $order = " ORDER BY questionblock_fi, author $value";
+            $order = " ORDER BY author $value";
             $img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "created":
-            $order = " ORDER BY questionblock_fi, created $value";
+            $order = " ORDER BY created $value";
             $img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
-            $order = " ORDER BY questionblock_fi, TIMESTAMP $value";
+            $order = " ORDER BY TIMESTAMP $value";
             $img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
         }
       }
-    } else {
-			$order = " ORDER BY questionblock_fi";
 		}
 
     // display all questions in the question pool
