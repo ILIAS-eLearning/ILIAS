@@ -60,9 +60,9 @@ class ilObjChatServerGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chac_edit.html",true);
 
-		$ip = $_SESSION["error_post_vars"]["chat_ip"] ? 
-			$_SESSION["error_post_vars"]["chat_ip"] :
-			$this->object->server_conf->getIp();
+        $internal_ip = $_SESSION["error_post_vars"]["chat_internal_ip"] ? 
+            $_SESSION["error_post_vars"]["chat_internal_ip"] :
+            $this->object->server_conf->getInternalIp();
 
 		$port = $_SESSION["error_post_vars"]["chat_port"] ? 
 			$_SESSION["error_post_vars"]["chat_port"] :
@@ -80,9 +80,9 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["chat_loglevel"] :
 			$this->object->server_conf->getLogLevel();
 
-		$allowed = $_SESSION["error_post_vars"]["chat_allowed"] ? 
-			$_SESSION["error_post_vars"]["chat_ip"] :
-			$this->object->server_conf->getAllowedHosts();
+        $allowed = $_SESSION["error_post_vars"]["chat_allowed"] ? 
+            $_SESSION["error_post_vars"]["chat_internal_ip"] :
+            $this->object->server_conf->getAllowedHosts();
 
 		$active = $_SESSION["error_post_vars"]["chat_active"] ?
 			$_SESSION["error_post_vars"]["chat_active"] :
@@ -104,7 +104,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", 
 								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_SETTINGS",$this->lng->txt("chat_server_settings"));
-		$this->tpl->setVariable("TXT_CHAT_SERVER_IP",$this->lng->txt("chat_server_ip"));
+        $this->tpl->setVariable("TXT_CHAT_SERVER_INTERNAL_IP",$this->lng->txt("chat_server_internal_ip"));
+        $this->tpl->setVariable("TXT_CHAT_SERVER_EXTERNAL_IP",$this->lng->txt("chat_server_external_ip"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_MODERATOR",$this->lng->txt("chat_moderator_password"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_PORT",$this->lng->txt("chat_server_port"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_LOGFILE",$this->lng->txt("chat_server_logfile"));
@@ -116,7 +117,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("save"));
 
 		// SET SETTING VARS
-		$this->tpl->setVariable("CHAT_SERVER",$ip);
+        $this->tpl->setVariable("CHAT_SERVER_INTERNAL",$internal_ip);
+        $this->tpl->setVariable("CHAT_SERVER_EXTERNAL",$external_ip);
 		$this->tpl->setVariable("CHAT_PORT",$port);
 		$this->tpl->setVariable("CHAT_MODERATOR",$moderator);
 		$this->tpl->setVariable("CHAT_LOGFILE",$logfile);
@@ -129,7 +131,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 
 	function updateObject()
 	{
-		$this->object->server_conf->setIp($_POST["chat_ip"]);
+        $this->object->server_conf->setInternalIp($_POST["chat_internal_ip"]);
+        $this->object->server_conf->setExternalIp($_POST["chat_external_ip"]);
 		$this->object->server_conf->setPort($_POST["chat_port"]);
 		$this->object->server_conf->setModeratorPassword($_POST["chat_moderator"]);
 		$this->object->server_conf->setLogfile($_POST["chat_logfile"]);

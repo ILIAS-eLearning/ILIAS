@@ -35,7 +35,8 @@ class ilChatServerConfig
 	var $ilias;
 	var $lng;
 
-	var $ip;
+    var $internal_ip;
+    var $external_ip;
 	var $port;
 	var $moderator;
 	var $logfile;
@@ -65,14 +66,22 @@ class ilChatServerConfig
 	}
 
 	// SET/GET
-	function setIp($ip)
-	{
-		$this->ip = $ip;
-	}
-	function getIp()
-	{
-		return $this->ip;
-	}
+    function setInternalIp($ip)
+    {
+        $this->internal_ip = $ip;
+    }
+    function getInternalIp()
+    {
+        return $this->internal_ip;
+    }
+    function setExternalIp($ip)
+    {
+        $this->external_ip = $ip;
+    }
+    function getExternalIp()
+    {
+        return $this->external_ip;
+    }
 	function setPort($port)
 	{
 		$this->port = $port;
@@ -135,10 +144,14 @@ class ilChatServerConfig
 	{
 		$this->error_message = "";
 
-		if(!$this->getIp())
-		{
-			$this->error_message .= $this->lng->txt("chat_add_ip");
-		}
+        if(!$this->getInternalIp())
+        {
+            $this->error_message .= $this->lng->txt("chat_add_internal_ip");
+        }
+        if(!$this->getExternalIp())
+        {
+            $this->error_message .= $this->lng->txt("chat_add_external_ip");
+        }
 		if(!$this->getPort())
 		{
 			if($this->error_message)
@@ -173,7 +186,8 @@ class ilChatServerConfig
 	}
 	function update()
 	{
-		$this->ilias->setSetting("chat_ip",$this->getIp());
+        $this->ilias->setSetting("chat_internal_ip",$this->getInternalIp());
+        $this->ilias->setSetting("chat_external_ip",$this->getExternalIp());
 		$this->ilias->setSetting("chat_port",$this->getPort());
 		$this->ilias->setSetting("chat_logfile",$this->getLogfile());
 		$this->ilias->setSetting("chat_loglevel",$this->getLogLevel());
@@ -189,7 +203,8 @@ class ilChatServerConfig
 
 	function read()
 	{
-		$this->ip = $this->ilias->getSetting("chat_ip");
+        $this->internal_ip = $this->ilias->getSetting("chat_internal_ip");
+        $this->external_ip = $this->ilias->getSetting("chat_external_ip");
 		$this->port = $this->ilias->getSetting("chat_port");
 		$this->moderator = $this->ilias->getSetting("chat_moderator_password");
 		$this->loglevel = $this->ilias->getSetting("chat_loglevel");
@@ -201,9 +216,9 @@ class ilChatServerConfig
 
 	function isAlive()
 	{
-		if($this->getIp() and $this->getPort())
-		{
-			if( $sp = @fsockopen($this->getIp(),$this->getPort(), $errno, $errstr, 100))
+        if($this->getInternalIp() and $this->getPort())
+        {
+            if( $sp = @fsockopen($this->getInternalIp(),$this->getPort(), $errno, $errstr, 100))
 			{
 				fclose($sp);
 				return true;
@@ -242,7 +257,8 @@ class ilChatServerConfig
 		{
 			$content .= "LogFile = ".$this->getLogfile()."\n";
 		}
-		$content .= "IpAddress = ".$this->getIp()."\n";
+        $content .= "IpAddress = ".$this->getInternalIp()."\n";
+        $content .= "ExternalIpAddress = ".$this->getExternalIp()."\n";
 		$content .= "Port = ".$this->getPort()."\n";
 		$content .= "ModeratorPassword = ".$this->getModeratorPassword()."\n";
 		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/header.html\n";
