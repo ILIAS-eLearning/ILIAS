@@ -757,9 +757,15 @@ class ASS_ClozeTest extends ASS_Question
 * @see $cloze_text
 */
   function rebuild_cloze_text() {
+
     preg_match_all("/" . "<gap.*?>(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[1] as $key => $value) {
-      $this->cloze_text = preg_replace("/$value/", $this->get_gap_text_list($key), $this->cloze_text);
+    	if (strlen($value) == 0) {
+    		$this->cloze_text = preg_replace("/>$value</", ">".$this->get_gap_text_list($key)."<", $this->cloze_text);
+    	}
+    	else {
+   			$this->cloze_text = preg_replace("/$value/", $this->get_gap_text_list($key), $this->cloze_text);
+   		}
     }
   }
 
@@ -907,7 +913,7 @@ class ASS_ClozeTest extends ASS_Question
 * @see $gaps
 */
   function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) {
-    if ($add_gaptext == 1)    {
+  	if ($add_gaptext == 1)    {
     	$arr = $this->gaps[$index][0];
     	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) {
 				$default_state = 0;
@@ -928,11 +934,14 @@ class ASS_ClozeTest extends ASS_Question
     if ($answertext_index < 0) return;
     if (count($this->gaps[$index]) < 1) return;
     if ($answertext_index >= count($this->gaps[$index])) return;
+
+
     if (strlen($answertext) == 0) {
       // delete the answertext
       $this->delete_answertext($index, $this->gaps[$index][$answertext_index]->get_answertext());
     } else {
       $this->gaps[$index][$answertext_index]->set_answertext($answertext);
+
       $this->rebuild_cloze_text();
     }
   }
