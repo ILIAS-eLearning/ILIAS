@@ -69,3 +69,65 @@ CREATE TABLE object_translation (
  PRIMARY KEY  (obj_id,lang_code)
 ) TYPE=MyISAM;
 
+<#14>
+CREATE TABLE cal_appointment (
+  appointmentId int(11) NOT NULL auto_increment,
+  appointmentUnionId int(11) NOT NULL default '0',
+  categoryId int(11) NOT NULL default '0',
+  priorityId int(11) NOT NULL default '0',
+  access varchar(15) NOT NULL default '',
+  description text,
+  duration int(11) NOT NULL default '0',
+  startTimestamp bigint(14) NOT NULL default '0',
+  term varchar(128) NOT NULL default '',
+  location varchar(80) default NULL,
+  serial tinyint(1) unsigned NOT NULL default '0',
+  ownerId int(11) unsigned NOT NULL default '0',
+  userId int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (appointmentId)
+) TYPE=MyISAM;
+
+<#15>
+CREATE TABLE cal_appointmentrepeats (
+  appointmentRepeatsId int(11) NOT NULL auto_increment,
+  appointmentId int(11) NOT NULL default '0',
+  endTimestamp int(14) default NULL,
+  type varchar(15) NOT NULL default '',
+  weekdays varchar(7) NOT NULL default 'nnnnnnn',
+  PRIMARY KEY  (appointmentRepeatsId)
+) TYPE=MyISAM;
+
+
+<#16>
+CREATE TABLE cal_appointmentrepeatsnot (
+  appointmentRepeatsNotId int(11) NOT NULL auto_increment,
+  appointmentRepeatsId int(11) NOT NULL default '0',
+  leaveOutTimestamp int(14) default NULL,
+  PRIMARY KEY  (appointmentRepeatsNotId)
+) TYPE=MyISAM;
+
+<#17>
+CREATE TABLE cal_category (
+  categoryId int(11) NOT NULL auto_increment,
+  description text,
+  term varchar(20) NOT NULL default '',
+  PRIMARY KEY  (categoryId)
+) TYPE=MyISAM;
+
+
+<#18>
+CREATE TABLE cal_priority (
+  priorityId int(11) NOT NULL auto_increment,
+  description text,
+  term varchar(20) NOT NULL default '',
+  PRIMARY KEY  (priorityId)
+) TYPE=MyISAM;
+
+
+<#19>
+CREATE TABLE cal_user_group (
+  groupId int(11) NOT NULL default '0',
+  userId int(11) NOT NULL default '0',
+  description text,
+  PRIMARY KEY  (groupId,userId)
+) TYPE=MyISAM;
