@@ -11,7 +11,7 @@
 */
 require_once("./classes/class.SaxParser.php");
 
-class ObjectDefinition extends SaxParser
+class ilObjectDefinition extends SaxParser
 {
 	/**
 	* // TODO: var is not used
@@ -20,7 +20,7 @@ class ObjectDefinition extends SaxParser
 	* @access private
 	*/
 	var $obj_id;
-	
+
 	/**
 	* parent id of object
 	* @var parent id
@@ -40,7 +40,7 @@ class ObjectDefinition extends SaxParser
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ObjectDefinition()
+	function ilObjectDefinition()
 	{
 		parent::SaxParser("./objects.xml");
 	}
@@ -48,7 +48,7 @@ class ObjectDefinition extends SaxParser
 // PUBLIC METHODS
 	/**
 	* get object definition by type
-	* 
+	*
 	* @access	public
 	*/
 	function getDefinition($a_obj_name)
@@ -58,7 +58,7 @@ class ObjectDefinition extends SaxParser
 
 	/**
 	* get class name by type
-	* 
+	*
 	* @access	public
 	*/
 	function getClassName($a_obj_name)

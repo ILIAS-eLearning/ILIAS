@@ -28,7 +28,7 @@ require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.User.php";
 require_once "classes/class.ilFormat.php";
-require_once "classes/class.ObjectDefinition.php";
+require_once "classes/class.ilObjectDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
 require_once "classes/class.ilLanguage.php";
@@ -68,7 +68,7 @@ $ilias->auth->start();
 $log = new ilLog("ilias.log");
 
 //load object definitions
-$objDefinition = new ObjectDefinition();
+$objDefinition = new ilObjectDefinition();
 $objDefinition->startParsing();
 //var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
