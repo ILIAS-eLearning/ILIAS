@@ -31,10 +31,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-common#:#lang_version#:#1
-common#:#lang_dateformat#:#DD.MM.YYYY
-common#:#sep_thousand#:#.
-common#:#sep_decimal#:#,
 common#:#absolute_path#:#absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
@@ -48,9 +44,11 @@ common#:#administrator#:#Administrator
 common#:#also_as_email#:#auch als eMail
 common#:#announce#:#ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
+common#:#answers#:#Antworten
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen
+common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#available_languages#:#verfügbare Sprachen
 common#:#back#:#zurück
@@ -59,30 +57,43 @@ common#:#basic_data#:#Grunddaten
 common#:#bc#:#BC
 common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmarks#:#Bookmarks
+common#:#btn_remove_system#:#aus System entfernen
+common#:#btn_undelete#:#wiederherstellen
+common#:#by#:#durch
+common#:#cancel#:#verwerfen
+common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#change#:#ändern
+common#:#change_language#:#Benutzersprache ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#prüfen
+common#:#check_language#:#Sprache checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
 common#:#city#:#Stadt
+common#:#clear#:#abbrechen
 common#:#comma_separated#:#kommagetrennt
 common#:#compose#:#schreiben
+common#:#confirm#:#bestätigen
 common#:#contact_information#:#Kontakt
+common#:#context#:#Kontext
+common#:#copy#:#kopieren
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#erstellen
 common#:#create_in#:#erstellen in
+common#:#crs#:#Kurs
 common#:#crs_available#:#verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#current_password#:#derzeitiges Passwort
+common#:#cut#:#ausschneiden
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#date#:#Datum
@@ -93,20 +104,27 @@ common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
 common#:#default#:#default
+common#:#default_role#:#Standardrolle
 common#:#delete#:#löschen
 common#:#delete_all#:#alle löschen
+common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#deleted#:#gelöscht
+common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#neues Password
+common#:#disabled#:#ausgeschaltet
 common#:#drafts#:#Entwürfe
 common#:#edit#:#bearbeiten
 common#:#edit_data#:#Daten bearbeiten
+common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_properties#:#Eigenschaften
+common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#eMail
 common#:#employee#:#Angestellter
 common#:#enable#:#aktivieren
+common#:#enabled#:#eingeschaltet
 common#:#enumerate#:#nummerieren
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
@@ -114,6 +132,8 @@ common#:#execute#:#ausführen
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback-Empfänger
+common#:#file#:#Datei
+common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_version#:#verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
@@ -121,12 +141,37 @@ common#:#firstname#:#Vorname
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
+common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_new#:#Neues Forum
 common#:#forums#:#Foren
+common#:#forums_articles#:#Beiträge
 common#:#forums_available#:#verfügbare Foren
+common#:#forums_count#:#Anzahl Foren
+common#:#forums_count_art#:#Anzahl Beiträge
+common#:#forums_count_thr#:#Anzahl Themen
+common#:#forums_edit_post#:#Beitrag bearbeiten
+common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_moderators#:#Moderatoren
+common#:#forums_new_thread#:#Neues Thema
+common#:#forums_not_available#:#Keine Foren verfügbar
 common#:#forums_overview#:#Übersicht Foren
+common#:#forums_post_modified#:#Beitrag wurde bearbeitet
+common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+common#:#forums_posts#:#Alle Beiträge
+common#:#forums_posts_not_available#:#Keine Artikel verfügbar
+common#:#forums_respond#:#Beitrag beantworten
+common#:#forums_the_post#:#Beitrag
+common#:#forums_thread#:#Thema
+common#:#forums_thread_articles#:#Beiträge zum Thema
+common#:#forums_thread_create#:#Erstellt von
+common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+common#:#forums_threads#:#Themen
+common#:#forums_threads_not_available#:#Keine Themen verfügbar
+common#:#forums_topics_overview#:#Themen-Übersicht
+common#:#forums_your_reply#:#Ihre Antwort
 common#:#forward#:#Weiterleiten
+common#:#frm#:#Forum
 common#:#from#:#Von
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
@@ -136,13 +181,19 @@ common#:#group_filesharing#:#Gruppen Filesharing
 common#:#groupname#:#Gruppenname
 common#:#groups#:#Gruppen
 common#:#groupscope#:#Gruppenziel
+common#:#grp#:#Gruppe
 common#:#guest#:#Gast
 common#:#help#:#Hilfe
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#ilias_version#:#ILIAS Version
+common#:#import#:#import
+common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#info_trash#:#Gelöschte Objekte
 common#:#information_abbr#:#Infos
 common#:#inifile#:#ini-Datei
 common#:#inst_id#:#Installations ID
@@ -154,12 +205,27 @@ common#:#institution#:#Institution
 common#:#ip_address#:#IP Adresse
 common#:#item#:#Begriff
 common#:#keywords#:#Schlüsselwörter
+common#:#lang_dateformat#:#DD.MM.YYYY
+common#:#lang_de#:#Deutsch
+common#:#lang_dk#:#D&auml;nisch
+common#:#lang_en#:#Englisch
+common#:#lang_es#:#Spanisch
+common#:#lang_fr#:#Franz&ouml;sisch
+common#:#lang_id#:#Indonesisch
+common#:#lang_it#:#Italienisch
+common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Sprachdateien-Pfad
+common#:#lang_pl#:#Polnisch
+common#:#lang_se#:#Schwedisch
+common#:#lang_version#:#1
+common#:#lang_xx#:#benutzerdefiniert
 common#:#language#:#Sprache
 common#:#languages#:#Sprachen
 common#:#last_change#:#letzte Änderung
 common#:#lastname#:#Nachname
+common#:#launch#:#Start
 common#:#ldap#:#LDAP
+common#:#le#:#Lernmodul
 common#:#level#:#Stufe
 common#:#linebreak#:#Zeilenumbruch
 common#:#link#:#verknüpfen
@@ -168,6 +234,8 @@ common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur Bookmarks
+common#:#lng#:#Sprache
+common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
 common#:#lo_available#:#verfügbare Lerneinheiten
 common#:#lo_categories#:#Lerneinheiten Kategorien
@@ -184,6 +252,7 @@ common#:#mail#:#Mail
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#ungelesene Mail(s)
 common#:#mails#:#Mails
+common#:#mandatory_fields#:#Pflichtfelder
 common#:#mark_all_read#:#als gelesen markieren
 common#:#mark_all_unread#:#als ungelesen markieren
 common#:#members#:#Mitglieder
@@ -194,34 +263,56 @@ common#:#migrate#:#migrieren
 common#:#move_to#:#ablegen in
 common#:#msg_changes_ok#:#die Änderungen wurden übernommen
 common#:#msg_failed#:#Aktion fehlgeschlagen
+common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
+common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden: Nr.
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen: Nr.:
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen: Nr.
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen: Nr.
+common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
 common#:#msg_nothing_found#:#nichts gefunden
+common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
 common#:#multimedia#:#Multimedia
 common#:#must_fill_in#:#Felder müssen ausgefüllt werden
 common#:#name#:#Name
 common#:#new#:#neu
 common#:#new_folder#:#neuer Ordner
 common#:#new_group#:#neue Gruppe
+common#:#new_language#:#Neue Sprache
 common#:#news#:#News
 common#:#nickname#:#Login
 common#:#no#:#Nein
+common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_objects#:#keine Objekte
 common#:#no_title#:#kein Titel
 common#:#none#:#keine
 common#:#normal#:#normal
 common#:#not_installed#:#nicht installiert
+common#:#obj#:#Objekt
+common#:#obj_not_found#:#Kein Objekt gefunden
+common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#objects#:#Objekte
+common#:#objf#:#Objektordner
+common#:#of#:#von
 common#:#offline_version#:#Offline Version
 common#:#old#:#alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
+common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#options#:#Optionen
+common#:#order_by#:#Sortieren nach
 common#:#other#:#andere
 common#:#overview#:#Übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
+common#:#passwd#:#Passwort
 common#:#password#:#Passwort
+common#:#paste#:#einfügen
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -230,6 +321,8 @@ common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
 common#:#payment_system#:#Bezahlungssystem
 common#:#perm_settings#:#Rechte
+common#:#permission#:#Recht
+common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_profile#:#persönliches Profil
 common#:#phone#:#Telefon
@@ -250,11 +343,17 @@ common#:#read#:#lesen
 common#:#recipient#:#Empfänger
 common#:#refresh#:#aktualisieren
 common#:#refresh_list#:#refresh list
+common#:#registered_since#:#Eingetragen seit
 common#:#reply#:#Antworten
+common#:#required_field#:#erforderliches Feld
 common#:#reset#:#Zurücksetzen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
+common#:#role#:#Rolle
+common#:#roles#:#Rollen
+common#:#rolf#:#Rollenordner
+common#:#rolt#:#Rollenvorlage
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -274,6 +373,8 @@ common#:#selected#:#ausgewählte
 common#:#send#:#abschicken
 common#:#sender#:#Absender
 common#:#sent#:#gesendet
+common#:#sep_decimal#:#,
+common#:#sep_thousand#:#.
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
@@ -281,6 +382,7 @@ common#:#server_software#:#Server Software
 common#:#set#:#setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
+common#:#set_system_language#:#Systemsprache ändern
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#startpage#:#Startseite
@@ -296,146 +398,44 @@ common#:#submit#:#abschicken
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#system#:#System
+common#:#system_choose_language#:#Systemsprache w&auml;hlen
 common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
-common#:#system_message#:#Systemnachricht
 common#:#system_language#:#Systemsprache
+common#:#system_message#:#Systemnachricht
 common#:#test_intern#:#interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
+common#:#today#:#Heute
 common#:#total#:#gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
 common#:#type#:#Typ
 common#:#type_your_message_here#:#schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
+common#:#uninstall#:#deinstallieren
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#ungelesen
 common#:#update_applied#:#Datenbankupdate erfolgreich
+common#:#update_language#:#Sprache updaten
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
+common#:#user#:#Benutzer
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
+common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
 common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
+common#:#usrf#:#Benutzerordner
 common#:#version#:#Version
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#sichtbare Ebenen
+common#:#visits#:#Besuche
 common#:#write#:#schreiben
 common#:#yes#:#Ja
+common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
-common#:#obj_not_found#:#Kein Objekt gefunden
-common#:#cut#:#ausschneiden
-common#:#copy#:#kopieren
-common#:#paste#:#einfügen
-common#:#clear#:#abbrechen
-common#:#required_field#:#erforderliches Feld
-common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
-common#:#obj_owner#:#Besitzer des Objekts ist
-common#:#permission#:#Recht
-common#:#roles#:#Rollen
-common#:#uninstall#:#deinstallieren
-common#:#frm#:#Forum
-common#:#obj#:#Objekt
-common#:#cat#:#Kategorie
-common#:#le#:#Lernmodul
-common#:#grp#:#Gruppe
-common#:#crs#:#Kurs
-common#:#file#:#Datei
-common#:#rolf#:#Rollenordner
-common#:#rolt#:#Rollenvorlage
-common#:#lngf#:#Sprachordner
-common#:#lng#:#Sprache
-common#:#usr#:#Benutzer
-common#:#user#:#Benutzer
-common#:#usrf#:#Benutzerordner
-common#:#objf#:#Objektordner
-common#:#system_choose_language#:#Systemsprache w&auml;hlen
-common#:#role#:#Rolle
-common#:#passwd#:#Passwort
-common#:#desc#:#Beschreibung
-common#:#default_role#:#Standardrolle
-common#:#enabled#:#eingeschaltet
-common#:#disabled#:#ausgeschaltet
-common#:#import#:#import
-common#:#change_language#:#Benutzersprache ändern
-common#:#update_language#:#Sprache updaten
-common#:#check_language#:#Sprache checken
-common#:#set_system_language#:#Systemsprache ändern
-common#:#in_use#:#Benutzersprache
-common#:#lang_de#:#Deutsch
-common#:#lang_en#:#Englisch
-common#:#lang_dk#:#D&auml;nisch
-common#:#lang_pl#:#Polnisch
-common#:#lang_se#:#Schwedisch
-common#:#lang_no#:#Norwegisch
-common#:#lang_es#:#Spanisch
-common#:#lang_fr#:#Franz&ouml;sisch
-common#:#lang_it#:#Italienisch
-common#:#lang_id#:#Indonesisch
-common#:#lang_xx#:#benutzerdefiniert
-common#:#forums_not_available#:#Keine Foren verfügbar
-common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_moderators#:#Moderatoren
-common#:#forums_new_thread#:#Neues Thema
-common#:#permission_denied#:#Kein Zugriffsrecht
-common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
-common#:#today#:#Heute
-common#:#forums_thread#:#Thema
-common#:#forums_threads#:#Themen
-common#:#forums_topics_overview#:#Themen-Übersicht
-common#:#forums_posts#:#Alle Beiträge
-common#:#forums_the_post#:#Beitrag
-common#:#forums_articles#:#Beiträge
-common#:#forums_thread_create#:#Erstellt von
-common#:#operation#:#Operation
-common#:#edit_operations#:#Operationen bearbeiten
-common#:#file_not_found#:#Datei nicht gefunden
-common#:#new_language#:#Neue Sprache
-common#:#forums_threads_not_available#:#Keine Themen verfügbar
-common#:#forums_posts_not_available#:#Keine Artikel verfügbar
-common#:#author#:#Autor
-common#:#registered_since#:#Eingetragen seit
-common#:#context#:#Kontext
-common#:#forums_respond#:#Beitrag beantworten
-common#:#forums_your_reply#:#Ihre Antwort
-common#:#of#:#von
-common#:#edited_at#:#Bearbeitet am
-common#:#order_by#:#Sortieren nach
-common#:#answers#:#Antworten
-common#:#mandatory_fields#:#Pflichtfelder
-common#:#visits#:#Besuche
-common#:#delete_object#:#Lösche Objekte
-common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
-common#:#cancel#:#verwerfen
-common#:#confirm#:#bestätigen
-common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
-common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden: Nr.
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen: Nr.:
-common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
-common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
-common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
-common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen: Nr.
-common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen: Nr.
-common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
-common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
-common#:#info_deleted#:#Objekt(e) gelöscht
-common#:#forums_thread_articles#:#Beiträge zum Thema
-common#:#forums_count#:#Anzahl Foren
-common#:#forums_count_thr#:#Anzahl Themen
-common#:#forums_count_art#:#Anzahl Beiträge
-common#:#by#:#durch
-common#:#launch#:#Start
-common#:#info_trash#:#Gelöschte Objekte
-common#:#btn_undelete#:#wiederherstellen
-common#:#btn_remove_system#:#aus System entfernen
-common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
-common#:#forums_edit_post#:#Beitrag bearbeiten
-common#:#forums_post_modified#:#Beitrag wurde bearbeitet
