@@ -653,9 +653,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
+		global $ilUser;
 		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION", $is_postponed);
+//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
+//		$solutionoutput = $matches[1];
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
+		$solutionoutput = preg_replace("/multiple_choice_result/", "\"solution_multiple_choice_result", $solutionoutput);
 		// set solutions
 		if ($test_id)
 		{
@@ -667,8 +673,28 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
 			}
 		}
+		
+		foreach ($this->object->answers as $idx => $answer)
+		{
+			if ($answer->isStateChecked())
+			{
+				$repl_str = "dummy=\"solution_mc$idx\"";
+				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+			}
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+		}
 
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput);
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
+		{
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+		}
+		if (!$showsolution)
+		{
+			$solutionoutput = "";
+			$received_points = "";
+		}
+		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	/**

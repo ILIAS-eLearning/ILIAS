@@ -1305,6 +1305,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$maxprocessingtimereached = 1;
 		}
 
+		$directfeedback = 0;
 		// catch feedback message
 		sendInfo();
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selimage"]))
@@ -1329,7 +1330,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 				if ($_POST["cmd"]["directfeedback"])
 				{
-					$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
+					$directfeedback = 1;
+/*					$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
 					$this->tpl->setCurrentBlock("question_feedback");
 					$percentage = 0.0;
 					$max_points = $question_gui->object->getMaximumPoints();
@@ -1343,10 +1345,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 					$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 					$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
+*/					
 				}
 			}
 		}
-
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
 		{
 			// create new time dataset and set start time
@@ -1478,7 +1480,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 
 
-				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
+				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback);
 
 			}
 			else
@@ -1658,7 +1660,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed)
+	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -1695,11 +1697,11 @@ class ilObjTestGUI extends ilObjectGUI
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, $is_postponed, $formaction);
+				$question_gui->outWorkingForm($test_id, $is_postponed, $formaction, $directfeedback);
 				break;
 
 			default:
-				$question_gui->outWorkingForm($test_id, $is_postponed);
+				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback);
 				break;
 		}
 
@@ -1754,19 +1756,19 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
-		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
+//		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, "", $formaction);
+				$question_gui->outWorkingForm($test_id, "", $formaction, 1);
 				break;
 			default:
-				$question_gui->outWorkingForm($test_id, "");
+				$question_gui->outWorkingForm($test_id, "", 1);
 		}
-		$this->tpl->setCurrentBlock("result_description");
-		$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
+//		$this->tpl->setCurrentBlock("result_description");
+//		$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));

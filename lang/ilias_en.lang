@@ -116,6 +116,7 @@ assessment#:#circle_click_circle#:#Please click on a circle point of the desired
 assessment#:#cloze_text#:#Cloze text
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordinates
+assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_imagemap#:#Create an Image map
@@ -154,6 +155,7 @@ assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all 
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
 assessment#:#with_order#:#with order
+assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#height#:#Height
