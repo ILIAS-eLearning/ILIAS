@@ -1599,6 +1599,7 @@ common#:#show_list#:#Mostrar Lista
 common#:#show_members#:#Mostrar Membros
 common#:#show_owner#:#Mostrar Dono
 common#:#show_structure#:#Ligar Vista-Estruturada
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Assinatura
 common#:#slm#:#Módulo de Aprendizagem SCORM
 common#:#slm_added#:#Módulo de Aprendizagem SCORM adicionado
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Rectângulo
 content#:#cont_Reference#:#Referência
 content#:#cont_Remark#:#Observação
 content#:#cont_Roman#:#Romano I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Desordenado
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Adicionar Área
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#título
 content#:#cont_school#:#Escola
 content#:#cont_scorm_type#:#adlcp:tiposcorm

@@ -1597,6 +1597,7 @@ common#:#show_list#:#Mostra lista
 common#:#show_members#:#Mostra membri
 common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Firma
 common#:#slm#:#Modulo SCORM
 common#:#slm_added#:#Aggiungere un modulo SCORM
@@ -1766,6 +1767,7 @@ content#:#cont_Rect#:#Rettangolo
 content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Non ordinato
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
@@ -1971,6 +1973,7 @@ content#:#cont_sc_stat_failed#:#Fallito
 content#:#cont_sc_stat_incomplete#:#Incompleto
 content#:#cont_sc_stat_not_attempted#:#Non eseguito
 content#:#cont_sc_stat_passed#:#Superato
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
