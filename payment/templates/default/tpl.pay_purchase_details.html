@@ -1,5 +1,6 @@
+<!-- BEGIN purchase -->
   <form action="{DETAILS_FORMACTION}" method="post">
-	<table class="std" width="50%">
+	<p><table class="std" width="50%">
 	  <tr class="tbltitle">
 		<td colspan="2">
 		  <table class="fullwidth_invisible" cellspacing="0">
@@ -42,5 +43,10 @@
 	  <tr class="tblfooter" >
 		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" /></td>
 	  </tr>
-	</table>
+	</table></p>
 </form>
+<!-- END purchase -->
+<!-- BEGIN shopping_cart -->
+<p><a class="tabinactive" href="{LINK_GOTO_SHOPPING_CART}" target="bottom">{TXT_GOTO_SHOPPING_CART}</a>
+<a class="tabinactive" href="{LINK_BUY}" target="bottom">{TXT_BUY}</a></p>
+<!-- END shopping_cart -->

@@ -26,7 +26,7 @@
 * @author Stefan Meyer
 * @version $Id$
 *
-* @ilCtrl_Calls ilPaymentGUI: ilPaymentShoppingCartGUI
+* @ilCtrl_Calls ilPaymentGUI: ilPaymentShoppingCartGUI, ilPaymentBuyedObjectsGUI
 *
 * @package core
 */
@@ -72,7 +72,16 @@ class ilPaymentGUI extends ilPaymentBaseGUI
 				$this->ctrl->forwardCommand($pt);
 				break;
 
+			case 'ilpaymentbuyedobjectsgui':
+				$this->setSection($this->SECTION_BUYED_OBJECTS);
+				$this->buildHeader();
+
+				include_once './payment/classes/class.ilPaymentBuyedObjectsGUI.php';
+
+				$pt =& new ilPaymentBuyedObjectsGUI($this->user_obj);
 				
+				$this->ctrl->forwardCommand($pt);
+				break;
 
 			default:
 				$this->__forwardToDefault();

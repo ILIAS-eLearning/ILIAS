@@ -79,13 +79,13 @@ class ilPaymentCurrency
 	{
 		global $ilDB;
 
-		$query = "SELECT sub_unit FROM payment_currencies ".
+		$query = "SELECT subunit FROM payment_currencies ".
 			"WHERE currency_id = '".$a_currency_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->sub_unit;
+			return $row->subunit;
 		}
 		return false;
 	}

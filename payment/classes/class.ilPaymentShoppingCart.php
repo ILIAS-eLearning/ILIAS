@@ -72,9 +72,49 @@ class ilPaymentShoppingCart
 	{
 		return $this->sc_entries ? $this->sc_entries : array();
 	}
+	function setTotalAmount($a_total_amount)
+	{
+		$this->total_amount = $a_total_amount;
+	}
+	function getTotalAmount()
+	{
+		return $this->total_amount;
+	}
+
+	function isInShoppingCart($a_pobject_id)
+	{
+		$query = "SELECT * FROM payment_shopping_cart ".
+			"WHERE customer_id = '".$this->user_obj->getId()."' ".
+			"AND pobject_id = '".$a_pobject_id."'";
+
+		$res = $this->db->query($query);
+		
+		return $res->numRows() ? true : false;
+	}
+
+	function getEntry($a_pobject_id)
+	{
+		$query = "SELECT * FROM payment_shopping_cart ".
+			"WHERE customer_id = '".$this->user_obj->getId()."' ".
+			"AND pobject_id = '".$a_pobject_id."'";
+
+		$r = $this->db->query($query);
+
+		if (is_object($r))
+		{
+			return $r->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+	}
 
 	function add()
 	{
+		// Delete old entries for same pobject_id
+		$query = "DELETE FROM payment_shopping_cart ".
+			"WHERE customer_id = '".$this->user_obj->getId()."' ".
+			"AND pobject_id = '".$this->getPobjectId()."'";
+
+		$this->db->query($query);
+		
 		$query = "INSERT INTO payment_shopping_cart ".
 			"SET customer_id = '".$this->user_obj->getId()."', ".
 			"pobject_id = '".$this->getPobjectId()."', ".
@@ -102,9 +142,6 @@ class ilPaymentShoppingCart
 		return true;
 	}
 			
-
-
-
 	function delete($a_psc_id)
 	{
 		$query = "DELETE FROM payment_shopping_cart ".
@@ -115,6 +152,17 @@ class ilPaymentShoppingCart
 		$this->__read();
 	}
 
+	function emptyShoppingCart()
+	{
+		$query = "DELETE FROM payment_shopping_cart ".
+			"WHERE customer_id = '".$this->user_obj->getId()."'";
+
+		$this->db->query($query);
+
+		$this->__read();
+
+		return true;
+	}
 
 	// STATIC
 	function _hasEntries($a_user_id)
@@ -133,6 +181,8 @@ class ilPaymentShoppingCart
 	// PRIVATE
 	function __read()
 	{
+		include_once './payment/classes/class.ilPaymentPrices.php';
+
 		$this->sc_entries = array();
 
 		$query = "SELECT * FROM payment_shopping_cart ".
@@ -172,10 +222,69 @@ class ilPaymentShoppingCart
 
 				return false;
 			}
+			$prices[] = $entry['price_id'];
 			unset($tmp_pobj);
 		}
+		// set total amount
+		$this->setTotalAmount(ilPaymentPrices::_getTotalAmount($prices ? $prices : array()));
+		
 		return true;
 	}
 		
+	function getShoppingCart()
+	{
+		if(!count($items = $this->getEntries()))
+		{
+			return 0;
+		}
+
+		$counter = 0;
+		foreach($items as $item)
+		{
+			$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
+
+			$f_result[$counter]["typ"] = $tmp_obj->getType();
+			$f_result[$counter]["buchungstext"] = $tmp_obj->getTitle();
+
+			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
+
+			$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
+
+			$f_result[$counter]["betrag"] = (float) $price;
+			$f_result[$counter]["dauer"] = $price_data["duration"];
+
+			unset($tmp_obj);
+			unset($tmp_pobject);
+
+			++$counter;
+		}
+		return $f_result;
+	}
+
+	function getTotalAmountValue()
+	{
+		$amount = 0.0;
+
+		if (is_array($result = $this->getShoppingCart()))
+		{
+			for ($i = 0; $i < count($result); $i++)
+			{
+				$amount += $result[$i]["betrag"];
+			}
+		}
+
+		return (float) $amount;
+	}
+
+	function getVat($a_amount = 0)
+	{
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		$genSet = new ilGeneralSettings();
+
+		return (float) ($a_amount - (round(($a_amount / (1 + ($genSet->get("vat_rate") / 100.0))) * 100) / 100));
+	}
 }
 ?>

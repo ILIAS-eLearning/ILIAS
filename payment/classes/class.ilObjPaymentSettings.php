@@ -85,9 +85,5 @@ class ilObjPaymentSettings extends ilObject
 		}
 		return true;
 	}
-
-		
-
-
 } // END class.ilObjPaymentSettings
 ?>

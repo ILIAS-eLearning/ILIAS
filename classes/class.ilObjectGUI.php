@@ -28,7 +28,6 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-
 *
 * @package ilias-core
 */
@@ -1251,6 +1250,8 @@ class ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
+		include_once './payment/classes/class.ilPaymentObject.php';
+
 		global $rbacsystem, $rbacadmin, $log;
 	
 		// TODO: move checkings to deleteObject
@@ -1281,6 +1282,11 @@ class ilObjectGUI
 					$not_deletable[] = $node["child"];
 					$perform_delete = false;
 				}
+				else if(ilPaymentObject::_isBuyable($node['child']))
+				{
+					$buyable[] = $node['child'];
+					$perform_delete = false;
+				}
 			}
 		}
 
@@ -1294,6 +1300,23 @@ class ilObjectGUI
 
 //			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
 //									 $not_deletable,$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($buyable))
+		{
+			foreach($buyable as $id)
+			{
+				$tmp_object =& ilObjectFactory::getInstanceByRefId($id);
+
+				$titles[] = $tmp_object->getTitle();
+			}
+			$title_str = implode(',',$titles);
+
+			sendInfo($this->lng->txt('msg_obj_not_deletable_sold').' '.$title_str,true);
+
+			$_POST['id'] = $_SESSION['saved_post'];
+			$this->deleteObject(true);
+
+			return false;
 		}
 
 		// DELETE THEM
@@ -2385,7 +2408,7 @@ class ilObjectGUI
 	*
 	* @access	public
  	*/
-	function deleteObject()
+	function deleteObject($a_error = false)
 	{
 		if (!isset($_POST["id"]))
 		{
@@ -2423,7 +2446,10 @@ class ilObjectGUI
 
 		$this->getTemplateFile("confirm");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		if(!$a_error)
+		{
+			sendInfo($this->lng->txt("info_delete_sure"));
+		}
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
 			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));

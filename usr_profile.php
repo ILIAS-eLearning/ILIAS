@@ -168,6 +168,31 @@ function change_password()
 		return;
 	}
 
+    // select password from auto generated passwords
+    if ($ilias->getSetting("passwd_auto_generate") == 1)
+    {
+    	// check old password
+        if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
+        {
+            $password_error=$lng->txt("passwd_wrong");
+            //$ilias->raiseError($lng->txt("passwd_wrong"),$ilias->error_obj->MESSAGE);
+        }
+
+        // validate transmitted password
+        if (!ilUtil::isPassword($_POST["new_passwd"]))
+        {
+            $password_error=$lng->txt("passwd_not_selected");
+            //$ilias->raiseError($lng->txt("passwd_not_selected"),$ilias->error_obj->MESSAGE);
+        }
+        
+        if (empty($password_error))
+        {
+            $ilias->account->updatePassword($_POST["current_password"], $_POST["new_passwd"], $_POST["new_passwd"]);
+        }
+    }
+    else
+    {
+
 	// check old password
 	if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
 	{
@@ -189,7 +214,7 @@ function change_password()
 		//$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
 	}
 
-	else if ($_POST["current_password"] != "")
+	else if ($_POST["current_password"] != "" and empty($password_error))
 	{
 		$ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
 
@@ -204,6 +229,7 @@ function change_password()
 
 		}*/
 	}
+    }
 }
 // End of function change_password
 
@@ -239,7 +265,7 @@ include "./include/inc.personaldesktop_buttons.php";
 // if data are posted check on upload button
 
 //if data are posted
-if ($_GET["cmd"] == "save")
+if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 {
 	$upload_error;
 
@@ -502,13 +528,33 @@ foreach($hits_options as $hits_option)
 
 if (AUTH_CURRENT == AUTH_LOCAL)
 {
-	$tpl->setCurrentBlock("change_password");
-	$tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
-	$tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
-	$tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
-	$tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
-	$tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
-	$tpl->parseCurrentBlock();
+	if ($settings["passwd_auto_generate"] == 1)
+	{
+	    $passwd_list = ilUtil::generatePasswords(5);
+     
+        foreach ($passwd_list as $passwd)
+        {
+            $passwd_choice .= ilUtil::formRadioButton(0,"new_passwd",$passwd)." ".$passwd."<br/>";
+        }
+
+        $tpl->setCurrentBlock("select_password");
+        $tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
+        $tpl->setVariable("TXT_CURRENT_PASSWORD", $lng->txt("current_password"));
+        $tpl->setVariable("TXT_SELECT_PASSWORD", $lng->txt("select_password"));
+        $tpl->setVariable("PASSWORD_CHOICE", $passwd_choice);
+        $tpl->setVariable("TXT_NEW_LIST_PASSWORD", $lng->txt("new_list_password"));
+        $tpl->parseCurrentBlock();
+	}
+	else
+	{
+        $tpl->setCurrentBlock("change_password");
+        $tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
+        $tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
+        $tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
+        $tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
+        $tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
+        $tpl->parseCurrentBlock();
+	}
 }
 
 $tpl->setCurrentBlock("content");

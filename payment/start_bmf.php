@@ -37,7 +37,7 @@ define('ILIAS_MODULE','payment');
 require_once "include/inc.header.php";
 require_once "./payment/classes/class.ilPurchaseBMFGUI.php";
 
-$ilCtrl->setTargetScript("start_purchase.php");
+$ilCtrl->setTargetScript("start_bmf.php");
 $ilCtrl->getCallStructure("ilpurchasebmfgui");
 
 $pa =& new ilPurchaseBMFGUI($ilias->account);

@@ -74,13 +74,16 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 include_once "./payment/classes/class.ilPaymentVendors.php";
 include_once "./payment/classes/class.ilPaymentTrustees.php";
 include_once "./payment/classes/class.ilPaymentShoppingCart.php";
+include_once "./payment/classes/class.ilPaymentBookings.php";
 
 global $ilias;
 
-if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()))
+if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()) or
+   ilPaymentBookings::_getCountBookingsByCustomer($ilias->account->getId()))
+									  
 {
 	$lng->loadLanguageModule('payment');
-	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('pay_header'),'bottom');
+	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('paya_shopping_cart'),'bottom');
 }	
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))

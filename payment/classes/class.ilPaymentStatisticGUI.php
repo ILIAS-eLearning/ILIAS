@@ -27,6 +27,7 @@
 * @version $Id$
 *
 * @package core
+*
 */
 include_once './payment/classes/class.ilPaymentObject.php';
 
@@ -61,7 +62,6 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
-
 			default:
 				if(!$cmd = $this->ctrl->getCmd())
 				{
@@ -72,19 +72,124 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		}
 	}
 
+	function resetFilter()
+	{
+		unset($_SESSION["pay_statistics"]);
+		unset($_POST["transaction_type"]);
+		unset($_POST["transaction_value"]);
+		unset($_POST["from"]["day"]);
+		unset($_POST["from"]["month"]);
+		unset($_POST["from"]["year"]);
+		unset($_POST["til"]["day"]);
+		unset($_POST["til"]["month"]);
+		unset($_POST["til"]["year"]);
+		unset($_POST["payed"]);
+		unset($_POST["access"]);
+		unset($_POST["customer"]);
+		$this->showStatistics();
+	}
+
 	function showStatistics()
 	{
-		$this->__initBookingObject();
+		if ($_POST["updateView"] == 1)
+		{
+			$_SESSION["pay_statistics"]["transaction_type"] = $_POST["transaction_type"];
+			$_SESSION["pay_statistics"]["transaction_value"] = $_POST["transaction_value"];
+			$_SESSION["pay_statistics"]["from"]["day"] = $_POST["from"]["day"];
+			$_SESSION["pay_statistics"]["from"]["month"] = $_POST["from"]["month"];
+			$_SESSION["pay_statistics"]["from"]["year"] = $_POST["from"]["year"];
+			$_SESSION["pay_statistics"]["til"]["day"] = $_POST["til"]["day"];
+			$_SESSION["pay_statistics"]["til"]["month"] = $_POST["til"]["month"];
+			$_SESSION["pay_statistics"]["til"]["year"] = $_POST["til"]["year"];
+			$_SESSION["pay_statistics"]["payed"] = $_POST["payed"];
+			$_SESSION["pay_statistics"]["access"] = $_POST["access"];
+			$_SESSION["pay_statistics"]["customer"] = $_POST["customer"];
+		}
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_statistic.html',true);
 		
+		$this->tpl->setVariable("TXT_FILTER",$this->lng->txt('pay_filter'));
+		$this->tpl->setVariable("FORM_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
+		$this->tpl->setVariable("TXT_STARTING",$this->lng->txt('pay_starting'));
+		$this->tpl->setVariable("TXT_ENDING",$this->lng->txt('pay_ending'));
+		$this->tpl->setVariable("TXT_PAYED",$this->lng->txt('paya_payed'));
+		$this->tpl->setVariable("TXT_ALL",$this->lng->txt('pay_all'));
+		$this->tpl->setVariable("TXT_YES",$this->lng->txt('yes'));
+		$this->tpl->setVariable("TXT_NO",$this->lng->txt('no'));
+		$this->tpl->setVariable("TXT_CUSTOMER",$this->lng->txt('paya_customer'));
+		$this->tpl->setVariable("TXT_ACCESS",$this->lng->txt('paya_access'));
+		$this->tpl->setVariable("TXT_ORDER_DATE_FROM",$this->lng->txt('pay_order_date_from'));
+		$this->tpl->setVariable("TXT_ORDER_DATE_TIL",$this->lng->txt('pay_order_date_til'));
+		$this->tpl->setVariable("TXT_UPDATE_VIEW",$this->lng->txt('pay_update_view'));
+		$this->tpl->setVariable("TXT_RESET_FILTER",$this->lng->txt('pay_reset_filter'));
+
+		$this->tpl->setVariable("TRANSACTION_TYPE_" . $_SESSION["pay_statistics"]["transaction_type"], " selected");
+		$this->tpl->setVariable("TRANSACTION_VALUE", ilUtil::prepareFormOutput($_SESSION["pay_statistics"]["transaction_value"], true));
+		$this->tpl->setVariable("PAYED_" . $_SESSION["pay_statistics"]["payed"], " selected");
+		$this->tpl->setVariable("ACCESS_" . $_SESSION["pay_statistics"]["access"], " selected");
+		$this->tpl->setVariable("CUSTOMER", ilUtil::prepareFormOutput($_SESSION["pay_statistics"]["customer"], true));
+		for ($i = 1; $i <= 31; $i++)
+		{
+			$this->tpl->setCurrentBlock("loop_from_day");
+			$this->tpl->setVariable("LOOP_FROM_DAY", $i < 10 ? "0" . $i : $i);
+			if ($_SESSION["pay_statistics"]["from"]["day"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_FROM_DAY_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_from_day");
+			$this->tpl->setCurrentBlock("loop_til_day");
+			$this->tpl->setVariable("LOOP_TIL_DAY", $i < 10 ? "0" . $i : $i);
+			if ($_SESSION["pay_statistics"]["til"]["day"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_TIL_DAY_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_til_day");
+		}
+		for ($i = 1; $i <= 12; $i++)
+		{
+			$this->tpl->setCurrentBlock("loop_from_month");
+			$this->tpl->setVariable("LOOP_FROM_MONTH", $i < 10 ? "0" . $i : $i);
+			if ($_SESSION["pay_statistics"]["from"]["month"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_FROM_MONTH_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_from_month");
+			$this->tpl->setCurrentBlock("loop_til_month");
+			$this->tpl->setVariable("LOOP_TIL_MONTH", $i < 10 ? "0" . $i : $i);
+			if ($_SESSION["pay_statistics"]["til"]["month"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_TIL_MONTH_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_til_month");
+		}
+		for ($i = 2004; $i <= date("Y"); $i++)
+		{
+			$this->tpl->setCurrentBlock("loop_from_year");
+			$this->tpl->setVariable("LOOP_FROM_YEAR", $i);
+			if ($_SESSION["pay_statistics"]["from"]["year"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_FROM_YEAR_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_from_year");
+			$this->tpl->setCurrentBlock("loop_til_year");
+			$this->tpl->setVariable("LOOP_TIL_YEAR", $i);
+			if ($_SESSION["pay_statistics"]["til"]["year"] == $i)
+			{
+				$this->tpl->setVariable("LOOP_TIL_YEAR_SELECTED", " selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_til_year");
+		}
+
+		$this->__initBookingObject();
+
 		if(!count($bookings = $this->booking_obj->getBookings()))
 		{
 			sendInfo($this->lng->txt('paya_no_bookings'));
 
 			return true;
 		}
-
+		$this->__showButton('excelExport',$this->lng->txt('excel_export'));
 
 		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
 			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
@@ -97,7 +202,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
 			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 			
-			$f_result[$counter][] = $booking['transaction'];
+			$f_result[$counter][] = $booking['transaction_extern'];
 			$f_result[$counter][] = $tmp_obj->getTitle();
 			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
@@ -131,6 +236,106 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		return $this->__showStatisticTable($f_result);
 
 	}
+
+	function excelExport()
+	{
+		include_once './payment/classes/class.ilPaymentExcelWriterAdapter.php';
+
+		$pewa =& new ilPaymentExcelWriterAdapter('payment_vendors.xls');
+
+		// add/fill worksheet
+		$this->addStatisticWorksheet($pewa);
+
+		// HEADER SENT
+		
+		$workbook =& $pewa->getWorkbook();
+		$workbook->close();
+	}
+
+	function addStatisticWorksheet(&$pewa)
+	{
+		include_once './payment/classes/class.ilPaymentVendors.php';
+
+		$this->__initBookingObject();
+
+		if(!count($bookings = $this->booking_obj->getBookings()))
+		{
+			return false;
+		}
+
+		$workbook =& $pewa->getWorkbook();
+		$worksheet =& $workbook->addWorksheet($this->lng->txt('paya_statistic'));
+		
+		$worksheet->mergeCells(0,0,0,8);
+		$worksheet->setColumn(0,0,32);
+		$worksheet->setColumn(0,1,32);
+		$worksheet->setColumn(0,2,16);
+		$worksheet->setColumn(0,3,16);
+		$worksheet->setColumn(0,4,16);
+		$worksheet->setColumn(0,5,24);
+		$worksheet->setColumn(0,6,8);
+		$worksheet->setColumn(0,7,12);
+		$worksheet->setColumn(0,8,16);
+
+		$title = $this->lng->txt('paya_statistic');
+		$title .= ' '.$this->lng->txt('as_of');
+		$title .= strftime('%Y-%m-%d %R',time());
+
+		$worksheet->writeString(0,0,$title,$pewa->getFormatTitle());
+
+		$worksheet->writeString(1,0,$this->lng->txt('paya_transaction'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,1,$this->lng->txt('title'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,2,$this->lng->txt('paya_vendor'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,3,$this->lng->txt('pays_cost_center'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,4,$this->lng->txt('paya_customer'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,5,$this->lng->txt('paya_order_date'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,6,$this->lng->txt('duration'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,7,$this->lng->txt('price_a'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,8,$this->lng->txt('paya_payed_access'),$pewa->getFormatHeader());
+
+		$counter = 2;
+		foreach($bookings as $booking)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($booking['ref_id']);
+			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
+			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+			
+			$worksheet->writeString($counter,0,$booking['transaction_extern']);
+			$worksheet->writeString($counter,1,$tmp_obj->getTitle());
+			$worksheet->writeString($counter,2,$tmp_vendor->getLogin());
+			$worksheet->writeString($counter,3,ilPaymentVendors::_getCostCenter($tmp_vendor->getId()));
+			$worksheet->writeString($counter,4,$tmp_purchaser->getLogin());
+			$worksheet->writeString($counter,5,strftime('%Y-%m-%d %R',$booking['order_date']));
+			/*
+			$worksheet->write($counter,5,ilUtil::excelTime(date('Y',$booking['order_date']),
+														   date('m',$booking['order_date']),
+														   date('d',$booking['order_date']),
+														   date('H',$booking['order_date']),
+														   date('i',$booking['order_date']),
+														   date('s',$booking['order_date'])),$pewa->getFormatDate());
+			*/
+			$worksheet->writeString($counter,6,$booking['duration']);
+			$worksheet->writeString($counter,7,$booking['price']);
+			
+			$payed_access = $booking['payed'] ? 
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$payed_access .= '/';
+			$payed_access .= $booking['access'] ?
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$worksheet->writeString($counter,8,$payed_access);
+
+			unset($tmp_obj);
+			unset($tmp_vendor);
+			unset($tmp_purchaser);
+
+			++$counter;
+		}
+	}		
+
 	function editStatistic($a_show_confirm_delete = false)
 	{
 		if(!isset($_GET['booking_id']))
@@ -170,8 +375,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("STAT_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr_b.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
-		$this->tpl->setVariable("TITLE",$tmp_user->getFullname());
-		$this->tpl->setVariable("DESCRIPTION",$tmp_user->getLogin());
+		$this->tpl->setVariable("TITLE",$tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
 
 		// TXT
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));

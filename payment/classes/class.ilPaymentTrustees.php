@@ -173,6 +173,18 @@ class ilPaymentTrustees
 	}
 
 	// STATIC
+	function _deleteTrusteesOfVendor($a_vendor_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM payment_trustees ".
+			"WHERE vendor_id = '".$a_vendor_id."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+
 	function _hasStatisticPermission($a_trustee)
 	{
 		global $ilDB;

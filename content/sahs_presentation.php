@@ -48,6 +48,22 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 $obj_id = ilObject::_lookupObjectId($ref_id);
 $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
+
+// PAYMENT STUFF
+// check if object is purchased
+include_once './payment/classes/class.ilPaymentObject.php';
+include_once './classes/class.ilSearch.php';
+
+if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+{
+	ilUtil::redirect('../payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+}
+if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+{
+	$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
+}
+
+
 switch ($type)
 {
 	case "scorm":
@@ -68,14 +84,7 @@ switch ($type)
 				$hacp_presentation = new ilHACPPresentationGUI();
 				break;
 	default:
-		// check if object is purchased
-		include_once './payment/classes/class.ilPaymentObject.php';
 
-		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
-		{
-			ilUtil::redirect('../payment/start_purchase.php?ref_id='.$_GET['ref_id']);
-		}
-		
 		//unknown type
 		require_once "./content/classes/class.ilLMPresentationGUI.php";
 		$lm_presentation = new ilLMPresentationGUI();

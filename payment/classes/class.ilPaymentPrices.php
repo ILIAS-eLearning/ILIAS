@@ -39,7 +39,7 @@ class ilPaymentPrices
 	var $duration;
 
 	var $prices;
-
+	
 	function ilPaymentPrices($a_pobject_id = 0)
 	{
 		global $ilDB;
@@ -86,6 +86,105 @@ class ilPaymentPrices
 		return count($price) ? $price : array();
 	}
 
+	function _countPrices($a_pobject_id)
+	{
+		$query = "SELECT count(price_id) FROM payment_prices ".
+			"WHERE pobject_id = '".$a_pobject_id."'";
+
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
+
+		return ($row[0]);
+	}
+
+	function _getPriceString($a_price_id)
+	{
+		include_once './payment/classes/class.ilPaymentCurrency.php';
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		global $lng;
+
+		$genSet = new ilGeneralSettings();
+		$unit_string = $genSet->get("currency_unit");
+
+		$pr_str = '';
+		$price = ilPaymentPrices::_getPrice($a_price_id);
+
+		$pr_str = number_format( ((int) $price["unit_value"]) . "." . ((int) $price["sub_unit_value"]) , 2, ",", ".");
+		return $pr_str . " " . $unit_string;
+
+/*		$unit_string = $lng->txt('currency_'.ilPaymentCurrency::_getUnit($price['currency']));
+		$subunit_string = $lng->txt('currency_'.ilPaymentCurrency::_getSubUnit($price['currency']));
+
+		if((int) $price['unit_value'])
+		{
+			$pr_str .= $price['unit_value'].' '.$unit_string.' ';
+		}
+		if((int) $price['sub_unit_value'])
+		{
+			$pr_str .= $price['sub_unit_value'].' '.$subunit_string;
+		}
+		return $pr_str; */
+	}
+			
+	function _getTotalAmount($a_price_ids)
+	{
+		include_once './payment/classes/class.ilPaymentPrices.php';
+#		include_once './payment/classes/class.ilPaymentCurrency.php';
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		global $ilDB,$lng;
+
+		$genSet = new ilGeneralSettings();
+		$unit_string = $genSet->get("currency_unit");
+
+		$amount = 0.0;
+
+		foreach($a_price_ids as $id)
+		{
+			$price_data = ilPaymentPrices::_getPrice($id);
+
+			$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
+			$amount += (float) $price;
+		}
+
+		return $amount;
+
+/*		foreach($a_price_ids as $id)
+		{
+			$price_data = ilPaymentPrices::_getPrice($id);
+
+			$price_arr["$price_data[currency]"]['unit'] += (int) $price_data['unit_value'];
+			$price_arr["$price_data[currency]"]['subunit'] += (int) $price_data['sub_unit_value'];
+		}
+
+		if(is_array($price_arr))
+		{
+			foreach($price_arr as $key => $value)
+			{
+				// CHECK cent bigger 100
+				$value['unit'] += (int) ($value['subunit'] / 100);
+				$value['subunit'] = (int) ($value['subunit'] % 100);
+
+				$unit_string = $lng->txt('currency_'.ilPaymentCurrency::_getUnit($key));
+				$subunit_string = $lng->txt('currency_'.ilPaymentCurrency::_getSubUnit($key));
+
+				if((int) $value['unit'])
+				{
+					$pr_str .= $value['unit'].' '.$unit_string.' ';
+				}
+				if((int) $value['subunit'])
+				{
+					$pr_str .= $value['subunit'].' '.$subunit_string;
+				}
+
+				// in the moment only one price
+				return $pr_str;
+			}
+		}
+		return 0;*/
+	}
+		
 
 	function setUnitValue($a_value = 0)
 	{
@@ -170,7 +269,7 @@ class ilPaymentPrices
 			$duration_valid = true;
 		}
 		
-		if(preg_match('/^[1-9]{1,5}$/',$this->__getUnitValue()) and
+		if(preg_match('/^[1-9]\d{0,4}$/',$this->__getUnitValue()) and
 		   preg_match('/^\d{0,2}$/',$this->__getSubUnitValue()))
 		{
 			$price_valid = true;

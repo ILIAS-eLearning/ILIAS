@@ -270,7 +270,7 @@ class ilPaymentObject
 		}
 		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ".
-			"AND status = '1' OR status = '2'";
+			"AND (status = '1' OR status = '2')";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -281,6 +281,36 @@ class ilPaymentObject
 			}
 		}
 		return true;
+	}
+	// base method to check access for a specific object
+	function _getActivation($a_ref_id)
+	{
+		include_once './payment/classes/class.ilPaymentBookings.php';
+
+		global $rbacsystem,$ilDB;
+
+		$query = "SELECT * FROM payment_objects ".
+			"WHERE ref_id = '".$a_ref_id."' ".
+			"AND (status = '1' OR status = '2')";
+
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return ilPaymentBookings::_getActivation($row->pobject_id);
+	}
+	function _isBuyable($a_ref_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_objects ".
+			"WHERE ref_id = '".$a_ref_id."' ".
+			"AND (status = 1 or status = 2)";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
 	}
 		
 	// PRIVATE

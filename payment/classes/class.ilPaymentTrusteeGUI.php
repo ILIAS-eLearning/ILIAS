@@ -215,6 +215,12 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		return true;
 	}
 
+	function newSearch()
+	{
+		$_SESSION["paya_search_str"] = $_POST["search_str"];
+		$this->performSearch();
+	}
+
 	function performSearch()
 	{
 		// SAVE it to allow sort in tables
@@ -224,20 +230,23 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		if(!$_POST["search_str"])
 		{
 			sendInfo($this->lng->txt("crs_search_enter_search_string"));
-			$this->searchUser();
+#			$this->searchUser();
+			$this->showTrustees();
 
 			return false;
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
 		{
 			sendInfo($this->lng->txt("crs_no_results_found"));
-			$this->searchUser();
+#			$this->searchUser();
+			$this->showTrustees();
 
 			return false;
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",true);
-		$this->showButton("searchUser",$this->lng->txt("crs_new_search"));
+#		$this->showButton("searchUser",$this->lng->txt("crs_new_search"));
+		$this->showButton("showTrustees",$this->lng->txt("back"));
 		
 		$counter = 0;
 		$f_result = array();
@@ -264,13 +273,15 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		{
 			sendInfo($this->lng->txt("crs_no_users_selected"));
 			$this->performSearch();
+#			$this->showTrustees();
 
 			return false;
 		}
 		if(in_array($this->user_obj->getId(),$_POST['user']))
 		{
 			sendInfo($this->lng->txt('paya_not_assign_yourself'));
-			$this->performSearch();
+#			$this->performSearch();
+			$this->showTrustees();
 
 			return false;
 		}
@@ -438,12 +449,22 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 
-		$tpl->setCurrentBlock("input_text");
+/*		$tpl->setCurrentBlock("input_text");
 		$tpl->setVariable("PB_TXT_NAME",'trustee_login');
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("plain_button");
 		$tpl->setVariable("PBTN_NAME","addUser");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
+		$tpl->parseCurrentBlock();*/
+
+		$tpl->setCurrentBlock("input_text");
+		$tpl->setVariable("PB_TXT_NAME",'search_str');
+		$tpl->setVariable("PB_TXT_VALUE",$_SESSION["paya_search_str"]);
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME","newSearch");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
 		$tpl->parseCurrentBlock();
 

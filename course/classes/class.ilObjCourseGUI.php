@@ -2856,6 +2856,12 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		if(!ilPaymentObject::_hasAccess($this->object->getRefId()))
 		{
+			if ($cmd != "addToShoppingCart")
+			{
+				$this->ctrl->setCmd("");
+				$cmd = "";
+			}
+
 			include_once './payment/classes/class.ilPaymentPurchaseGUI.php';
 
 			$this->ctrl->setReturn($this,"");

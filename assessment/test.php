@@ -56,6 +56,22 @@ if (!isset($_GET["ref_id"]))
 	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
 }
 
+// PAYMENT STUFF
+// check if object is purchased
+include_once './payment/classes/class.ilPaymentObject.php';
+include_once './classes/class.ilSearch.php';
+
+if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+{
+	ilUtil::redirect('../payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+}
+if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+{
+	$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
+}
+
+
+
 if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)

@@ -1,0 +1,27 @@
+  <form action="{FORMACTION}" method="post">
+	<table class="std" width="40%">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr> 
+		<td nowrap class="sub_option">{TXT_VENDOR}</td>
+		<td nowrap class="option_value">{VENDOR}</td>
+	  </tr>
+	  <tr> 
+		<td nowrap class="sub_option">{TXT_COST_CENTER}</td>
+		<td nowrap class="option_value"><input type="text" name="cost_center" value="{COST_CENTER}"></td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" >
+			<input class="submit" type="submit" name="cmd[performEditVendor]" value="{INPUT_VALUE}" />
+		</td>
+	  </tr>
+	</table>
+  </form>

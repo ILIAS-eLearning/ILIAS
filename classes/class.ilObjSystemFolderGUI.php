@@ -26,8 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
+* $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -366,6 +365,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["pub_section"] = $_POST["pub_section"];
 				$settings["password_assistance"] = $_POST["password_assistance"];
 				$settings["js_edit"] = $_POST["js_edit"];
+				$settings["enable_registration"] = $_POST["enable_registration"];
+				$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
 				$settings["https"] = $_POST["https"];
 				
 				// contact
@@ -419,6 +420,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
+				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
+				$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
 				$this->ilias->setSetting('https',$_POST['https']);
 				$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
 				$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
@@ -541,7 +544,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// Registration
 		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("registration"));
 		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
-
+		$this->tpl->setVariable("TXT_PASSWD_AUTO_GENERATE", $this->lng->txt("passwd_auto_generate"));
+		
 		if (AUTH_CURRENT != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("TXT_REGISTRATION_DISABLED", "(".$this->lng->txt("registration_disabled").")");
@@ -696,6 +700,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 
         // registration
+		if ($settings["passwd_auto_generate"])
+		{
+			$this->tpl->setVariable("PASSWD_AUTO_GENERATE","checked=\"checked\"");
+		}
 		if ($settings["enable_registration"])
 		{
 			$this->tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");

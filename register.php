@@ -106,7 +106,10 @@ function saveForm()
     {
         if (substr($key,0,8) == "require_")
         {
-            $require_keys[] = substr($key,8);
+            if ($settings["passwd_auto_generate"] == 1 and ($key != "require_passwd" and $key != "require_passwd2"))
+            {
+                $require_keys[] = substr($key,8);
+            }
         }
     }
 
@@ -133,17 +136,24 @@ function saveForm()
 		$ilias->raiseError($lng->txt("login_exists"),$ilias->error_obj->MESSAGE);
 	}
 
-	// check passwords
-	if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
-	{
-		$ilias->raiseError($lng->txt("passwd_not_match"),$ilias->error_obj->MESSAGE);
-	}
+    if ($settings["passwd_auto_generate"] != 1)
+    {
+        // check passwords
+        if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+        {
+            $ilias->raiseError($lng->txt("passwd_not_match"),$ilias->error_obj->MESSAGE);
+        }
 
-	// validate password
-	if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
-	{
-		$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
-	}
+        // validate password
+        if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
+        {
+            $ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
+        }
+    }
+    
+    $passwd = ilUtil::generatePasswords(1);
+    
+    $_POST["Fobject"]["passwd"] = $passwd[0];
 
 	// validate email
 	if (!ilUtil::is_email($_POST["Fobject"]["email"]))
@@ -250,6 +260,52 @@ function saveForm()
         $error_message = $umail->sendMail($approve_recipient,"","",$subject,$body,array(),array("normal"));
     }
 
+    if ($settings["passwd_auto_generate"] == 1)
+    {
+        include_once "classes/class.ilMimeMail.php";
+
+		$mmail = new ilMimeMail();
+		$mmail->autoCheck(false);
+		$mmail->From($settings["admin_email"]);
+		$mmail->To($userObj->getEmail());
+
+        // mail subject
+        $subject = $lng->txt("reg_mail_subject");
+
+        // mail body
+        $body = $lng->txt("reg_mail_body_salutation")." ".$userObj->getFullname().",\n\r".
+                $lng->txt("reg_mail_body_welcome")."\n\r".
+                $lng->txt("reg_mail_body_text1")."\n\r".
+                $lng->txt("reg_mail_body_text2")."\n\r".
+                ILIAS_HTTP_PATH."login.php?client_id=".$ilias->client_id."\n\r".
+                $lng->txt("login").": ".$userObj->getLogin()."\n\r".
+                $lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r\n\r".
+                $lng->txt("reg_mail_body_text3")."\n\r".
+                $lng->txt("title").": ".$userObj->getTitle()."\n\r".
+                $lng->txt("gender").": ".$userObj->getGender()."\n\r".
+                $lng->txt("firstname").": ".$userObj->getFirstname()."\n\r".
+                $lng->txt("lastname").": ".$userObj->getLastname()."\n\r".
+                $lng->txt("institution").": ".$userObj->getInstitution()."\n\r".
+                $lng->txt("department").": ".$userObj->getDepartment()."\n\r".
+                $lng->txt("street").": ".$userObj->getStreet()."\n\r".
+                $lng->txt("city").": ".$userObj->getCity()."\n\r".
+                $lng->txt("zipcode").": ".$userObj->getZipcode()."\n\r".
+                $lng->txt("country").": ".$userObj->getCountry()."\n\r".
+                $lng->txt("phone_office").": ".$userObj->getPhoneOffice()."\n\r".
+                $lng->txt("phone_home").": ".$userObj->getPhoneHome()."\n\r".
+                $lng->txt("phone_mobile").": ".$userObj->getPhoneMobile()."\n\r".
+                $lng->txt("fax").": ".$userObj->getFax()."\n\r".
+                $lng->txt("email").": ".$userObj->getEmail()."\n\r".
+                $lng->txt("hobby").": ".$userObj->getHobby()."\n\r".
+                $lng->txt("referral_comment").": ".$userObj->getComment()."\n\r".
+                $lng->txt("create_date").": ".$userObj->getCreateDate()."\n\r".
+                $lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+
+		$mmail->Subject($subject);
+		$mmail->Body($body);
+		$mmail->Send();
+    }
+
 	ilUtil::redirect("register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 }
 
@@ -292,9 +348,14 @@ function displayForm()
 	$data = array();
 	$data["fields"] = array();
 	$data["fields"]["login"] = "";
-	$data["fields"]["passwd"] = "";
-	$data["fields"]["passwd2"] = "";
-	$data["fields"]["title"] = "";
+ 
+    if ($settings["passwd_auto_generate"] != 1)
+    {
+        $data["fields"]["passwd"] = "";
+        $data["fields"]["passwd2"] = "";
+    }
+    
+    $data["fields"]["title"] = "";
 	$data["fields"]["gender"] = "";
 	$data["fields"]["firstname"] = "";
 	$data["fields"]["lastname"] = "";
@@ -341,13 +402,23 @@ function displayForm()
 		}
 	}
 
-    // text label for passwd2 is nonstandard
-    $str = $lng->txt("retype_password");
-    if (isset($settings["require_passwd2"]) && $settings["require_passwd2"])
+
+    if ($settings["passwd_auto_generate"] != 1)
     {
-        $str = $str . '<span class="asterisk">*</span>';
+        // text label for passwd2 is nonstandard
+        $str = $lng->txt("retype_password");
+        if (isset($settings["require_passwd2"]) && $settings["require_passwd2"])
+        {
+            $str = $str . '<span class="asterisk">*</span>';
+        }
+
+        $tpl->setVariable("TXT_PASSWD2", $str);
     }
-    $tpl->setVariable("TXT_PASSWD2", $str);
+    else
+    {
+        $tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
+        $tpl->setVariable("TXT_PASSWD_VIA_MAIL", $lng->txt("reg_passwd_via_mail"));
+    }
 
 	$tpl->setVariable("FORMACTION", "register.php?cmd=save&lang=".$_GET["lang"]);
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));

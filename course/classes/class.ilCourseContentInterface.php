@@ -83,6 +83,7 @@ class ilCourseContentInterface
 	function cci_view()
 	{
 		include_once "./classes/class.ilRepositoryExplorer.php";
+		include_once "./payment/classes/class.ilPaymentObject.php";
 
 		global $rbacsystem;
 		global $ilias;
@@ -332,9 +333,24 @@ class ilCourseContentInterface
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 
 				// ACTIVATION
-				if($cont_data["activation_unlimited"])
+				$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
+				if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
+					 $buyable == false) &&
+					$cont_data["activation_unlimited"])
 				{
 					$txt = $this->lng->txt("crs_unlimited");
+				}
+				else if ($buyable)
+				{
+					if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
+					{
+						$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
+							"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
+					}
+					else
+					{
+						$txt = "N/A";
+					}
 				}
 				else
 				{
