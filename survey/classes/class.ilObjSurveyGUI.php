@@ -239,7 +239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$direction = 0;
 		$page_error = 0;
-		$errormsg = "";
+		$error_messages = array();
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"] or $_POST["cmd"]["skip_next"] or $_POST["cmd"]["skip_previous"])
 		{
 			if ($_POST["cmd"]["start"])
@@ -269,13 +269,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 						if ((($_POST[$data["question_id"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$data["question_id"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0))))
 						{
 							// there is an error: value is not in bounds
-							$errormsg .= $this->lng->txt("metric_question_out_of_bounds") . "<br />";
+							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
 							$error = 1;
 						}
 						if ((strcmp($_POST[$data["question_id"] . "_metric_question"], "") == 0) && ($data["obligatory"]))
 						{
 							// there is an error: value is not in bounds
-							$errormsg .= $this->lng->txt("metric_question_out_of_bounds") . "<br />";
+							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
 							$error = 1;
 						}
 						if (($error == 0) && (strcmp($_POST[$data["question_id"] . "_metric_question"], "") != 0))
@@ -289,7 +289,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
-							$errormsg .= $this->lng->txt("nominal_question_not_checked")  . "<br />";
+							$error_messages[$data["question_id"]] = $this->lng->txt("nominal_question_not_checked");
 							$error = 1;
 						}
 						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) {
@@ -306,7 +306,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
-							$errormsg .= $this->lng->txt("ordinal_question_not_checked")  . "<br />";
+							$error_messages[$data["question_id"]] = $this->lng->txt("ordinal_question_not_checked");
 							$error = 1;
 						}
 						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && !$error)
@@ -324,7 +324,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
-							$errormsg .= $this->lng->txt("text_question_not_filled_out")  . "<br />";
+							$error_messages[$data["question_id"]] = $this->lng->txt("text_question_not_filled_out");
 							$error = 1;
 						}
 						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && (!$data["obligatory"]))
@@ -378,7 +378,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if ($page_error)
 			{
-				sendInfo($errormsg);
+				if ($page_error == 1)
+				{
+					sendInfo($this->lng->txt("svy_page_error"));
+				}
+				else
+				{
+					sendInfo($this->lng->txt("svy_page_errors"));
+				}
 			}
 
 			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["skip_previous"])
@@ -454,7 +461,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("survey_content");					
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
-					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles());
+					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
 					$qid = "&qid=" . $data["question_id"];
 					$this->tpl->parse("survey_content");
 				}
