@@ -685,6 +685,11 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}
 	
+			if (!$this->checkLogSetup($_POST["form"]))
+			{
+				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+			}
+
 			if (!$this->checkToolsSetup($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
@@ -740,6 +745,16 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable($chk_datadir_path,$checked);
 		$this->tpl->parseCurrentBlock();
 		
+		// logging
+		$this->tpl->setCurrentBlock("setup_log");
+		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
+		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
+		// values
+		$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
+		$chk_log_path = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
+		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_path);
+		$this->tpl->parseCurrentBlock();
+
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
 		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("Configure 3rd party programs"));
@@ -1021,6 +1036,11 @@ class ilSetupGUI extends ilSetup
 	{
 		if ($_POST["form"])
 		{
+			if (!$this->checkLogSetup($_POST["form"]))
+			{
+				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+			}
+
 			if (!$this->checkToolsSetup($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
@@ -1066,6 +1086,26 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable("clients","datadir"));
 		$this->tpl->parseCurrentBlock();
 
+		// logging
+		$this->tpl->setCurrentBlock("setup_log");
+		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
+		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
+		// values
+		if ($_SESSION["error_post_vars"])
+		{
+			$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
+			$chk_log_status = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
+		}
+		else
+		{
+			$this->tpl->setVariable("LOG_PATH",$this->ini->readVariable("log","path")."/".$this->ini->readVariable("log","file"));
+			$chk_log_status = ($this->ini->readVariable("log","enabled")) ? "" : $checked;
+
+		}
+		
+		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_status);
+		$this->tpl->parseCurrentBlock();
+
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
 		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("Configure 3rd party programs"));
@@ -1098,6 +1138,7 @@ class ilSetupGUI extends ilSetup
 		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
 		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
 
+		$this->tpl->setVariable("CHK_LOG_STATUS", $chk_log_stauts);
 		$this->tpl->setVariable("CHK_CONVERT_PATH", $chk_convert_path);
 		$this->tpl->setVariable("CHK_ZIP_PATH", $chk_zip_path);
 		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
