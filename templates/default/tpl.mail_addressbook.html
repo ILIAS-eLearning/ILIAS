@@ -7,8 +7,8 @@
 	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
 		  <tr>
 			<td align="center" valign="top" height="30">
-			  <input type="submit" name="confirm" value="{BUTTON_CONFIRM}">
-			  <input type="submit" name="cancel" value="{BUTTON_CANCEL}">
+			  <input class="submit" type="submit" name="confirm" value="{BUTTON_CONFIRM}">
+			  <input class="submit" type="submit" name="cancel" value="{BUTTON_CANCEL}">
 			</td>
 		  </tr>
 	  </table>
@@ -35,7 +35,7 @@
 		  <!-- BEGIN addr_search -->
 		  <tr class="{CSSROW}">
 			<td>
-			  <input type="checkbox" name="entry_id[]" value="{ENTRY_ID}"/>			
+			  <input type="checkbox" name="entry_id[]" value="{ENTRY_ID}" "{CHECKED}"/>			
 			</td> 
 			<td valign="top">{LOGIN}</td>
 			<td valign="top">{FIRSTNAME}</td>
@@ -63,9 +63,42 @@
 				<option value="{ACTION_NAME}" {ACTION_SELECTED}>{ACTION_VALUE}</option>
 				<!-- END actions -->
 			  </select>
-			  <input type="submit" name="action" value="{BUTTON_SUBMIT}">
+			  <input class="submit" type="submit" name="action" value="{BUTTON_SUBMIT}"/>
+			</td>
+		  </tr>
+	  </table>
+&nbsp;
+	  <table cellpadding="4" cellspacing="1" border="0" width="100%">
+		  <TR class="{CSSROW_LOGIN}">
+			<TD ALIGN="right" class="tblheader" width="10%">{HEADER_LOGIN}</TD>
+			<TD>
+			  <input type="text" name="login" value="{VALUE_LOGIN}" size="32" maxlength="40"/>
+			</TD>
+		  </TR>
+		  <TR class="{CSSROW_FIRSTNAME}">
+			<TD ALIGN="right" class="tblheader">{HEADER_FIRSTNAME}</TD>
+			<TD>
+			  <input type="text" name="firstname" value="{VALUE_FIRSTNAME}" size="32" maxlength="40"/>
+			</TD>
+		  </TR>
+		  <TR class="{CSSROW_LASTNAME}">
+			<TD ALIGN="right" class="tblheader">{HEADER_LASTNAME}</TD>
+			<TD>
+			  <input type="text" name="lastname" value="{VALUE_LASTNAME}" size="32" maxlength="40"/>
+			</TD>
+		  </TR>
+		  <TR class="{CSSROW_EMAIL}">
+			<TD ALIGN="right" class="tblheader">{HEADER_EMAIL}</TD>
+			<TD>
+			  <input type="text" name="email" value="{VALUE_EMAIL}" size="32" maxlength="40"/>
+			</TD>
+		  </TR>
+		  <tr>
+			<td>
+			  <input class="submit" type="submit" name="cmd" value="{BUTTON_EDIT_ADD}"/>
 			</td>
 		  </tr>
 	  </table>
 	</form>
+&nbsp;
 
