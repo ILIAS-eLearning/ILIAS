@@ -86,11 +86,7 @@
 <table>
   <tr>
     <td>{TXT_DB_TYPE}</td>
-    <td><select name="dbtype">
-<!-- BEGIN seldbtype -->
-    <option value="{DBTYPESHORT}" {SELDBSELECTED}>{DBTYPE}</option>
-<!-- END seldbtype -->
-    </select></td>
+    <td>{DB_TYPE}</td>
   </tr>
   <tr>
     <td>{TXT_DB_HOST}</td>
@@ -112,11 +108,6 @@
     <td>{TXT_DATA_PATH}</td>
     <td><input type="text" size=64 name="dpath" value="{D_PATH}" /></td>
   </tr>
-  <tr>
-    <td>{TXT_IMAGE_PATH}</td>
-    <td><input type="text" size=64 name="ipath" value="{I_PATH}" /></td>
-  </tr>
-
 </table>
 <input type="submit" name="butSubmit" value="{TXT_SUBMIT}" />&nbsp;
 <input type="reset" name="butReset" value="{TXT_RESET}" />

@@ -152,14 +152,11 @@ class ilSetup
 		}
 
 		//here only dbsetting are interesting
-		$this->setDbType($this->ini->readVariable("db","type"));
 		$this->setDbHost($this->ini->readVariable("db","host"));
 		$this->setDbName($this->ini->readVariable("db","name"));
 		$this->setDbUser($this->ini->readVariable("db","user"));
 		$this->setDbPass($this->ini->readVariable("db","pass"));
 		$this->setDataPath($this->ini->readVariable("server","data_dir"));
-		// added by ratana ty
-		$this->setWebspacePath($this->ini->readVariable("server","webspace_dir"));
 
 		$this->setDSN();
 
@@ -185,8 +182,6 @@ class ilSetup
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
 		$this->ini->setVariable("server", "data_dir", $this->data_path);
-		//added by ratana ty
-		$this->ini->setVariable("server", "webspace_dir", $this->webspace_path);
  
 		$this->ini->setVariable("server", "http_path","http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]));
 		$this->ini->setVariable("server", "absolute_path",dirname($_SERVER["SCRIPT_FILENAME"]));
@@ -208,8 +203,8 @@ class ilSetup
 	*/
 	function setDSN()
 	{
-		$this->dsn_host = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
-		$this->dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost."/".$this->dbName;
+		$this->dsn_host = "mysql://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
+		$this->dsn = "mysql://".$this->dbUser.":".$this->dbPass."@".$this->dbHost."/".$this->dbName;
 	}
 
 	/**
@@ -218,7 +213,7 @@ class ilSetup
 	 function connect()
 	 {
 		//check parameters
-		if ($this->dbType=="" || $this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
+		if ($this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
 		{
 			$this->error = "empty_fields";
 			return false;
@@ -236,16 +231,6 @@ class ilSetup
 
 		 return true;
 	 }
-
-	/**
-	* set the databasetype
-	* @param	string
-	*/
-	function setDbType($str)
-	{
-		$this->dbType = $str;
-		$this->setDSN();
-	}
 
 	/**
 	* set the host
@@ -309,15 +294,6 @@ class ilSetup
 		$this->data_path = $a_path;
 	}
 
-	// function added by ratana ty
-	function setWebspacePath($a_ipath)
-	{
-		if(substr($a_ipath,-1) == '/')
-		{
-			$a_ipath = substr($a_ipath,-1);
-		}
-		$this->webspace_path = $a_ipath;
-	}
 	/**
 	* get the path to data directory
 	* @param	string
@@ -325,12 +301,6 @@ class ilSetup
 	function getDataPath()
 	{
 		return $this->data_path;
-	}
-
-	// function added by ratana ty
-	function getWebspacePath()
-	{
-		return $this->webspace_path;
 	}
 
 	/**
@@ -372,7 +342,7 @@ class ilSetup
 	function installDatabase()
 	{
 		//check parameters
-		if ($this->dbType=="" || $this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
+		if ($this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
 		{
 			$this->error = "empty_fields";
 			return false;

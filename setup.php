@@ -378,9 +378,7 @@ switch ($_GET["step"])
 		$dbname = $_POST["dbname"] ? $_POST["dbname"] : $mySetup->dbName;
 		$dbuser = $_POST["dbuser"] ? $_POST["dbuser"] : $mySetup->dbUser;
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
-		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dpath  = $_POST["dpath"]  ? $_POST["dpath"]  : $mySetup->data_path;
-		$ipath  = $_POST["ipath"]  ? $_POST["ipath"]  : $mySetup->webspace_path;
 
 
 
@@ -388,7 +386,6 @@ switch ($_GET["step"])
 		if(!$_POST)
 		{
 			$mySetup->getDefaults();
-			$dbtype = $mySetup->default["db"]["type"];
 			$dbhost = $mySetup->default["db"]["host"];
 			$dbname = $mySetup->default["db"]["name"];
 			$dbuser = $mySetup->default["db"]["user"];
@@ -420,23 +417,6 @@ switch ($_GET["step"])
 
 		//get the defaults from setup class
 		$mySetup->getDefaults();
-		reset ($mySetup->dbTypes);
-
-		//go through database-types and output them
-		while (list($k,$v) = each($mySetup->dbTypes))
-		{
-			//select box in template
-			$tpl->setCurrentBlock("seldbtype");
-			$tpl->setVariable("DBTYPESHORT", $k);
-
-			if ($mySetup->dbType == $k)
-			{
-				$tpl->setVariable("SELDBSELECTED", " selected");
-			}
-
-			$tpl->setVariable("DBTYPE", $v);
-			$tpl->parseCurrentBlock();
-		}
 
 		//text output
 		$tpl->setCurrentBlock("step1");
@@ -453,12 +433,10 @@ switch ($_GET["step"])
 		$tpl->setVariable("LANG", $_GET["lang"]);
 		$tpl->setVariable("DB_HOST", $dbhost);
 		$tpl->setVariable("DB_NAME", $dbname);
-		$tpl->setVariable("DB_TYPE", $dbtype);
+		$tpl->setVariable("DB_TYPE", "MySQL");
 		$tpl->setVariable("DB_USER", $dbuser);
 		$tpl->setVariable("DB_PASS", $dbpass);
 		$tpl->setVariable("D_PATH", $dpath);
-		// added by ratana ty
-		$tpl->setVariable("I_PATH", $ipath);
 
 		$tpl->parseCurrentBlock();
 		break;
@@ -472,14 +450,11 @@ switch ($_GET["step"])
 			exit;
 		}
 
-		$mySetup->setDbType($_POST["dbtype"]);
 		$mySetup->setDbHost($_POST["dbhost"]);
 		$mySetup->setDbName($_POST["dbname"]);
 		$mySetup->setDbUser($_POST["dbuser"]);
 		$mySetup->setDbPass($_POST["dbpass"]);
 		$mySetup->setDataPath($_POST["dpath"]);
-		$mySetup->setWebspacePath($_POST["ipath"]);
-
 
 		//write the inifile if all things are okay
 		if (!$mySetup->writeIniFile())
@@ -512,39 +487,8 @@ switch ($_GET["step"])
 			}
 
 			// PREPARE WEBSPACE DIRECTORIES
-			if(file_exists($mySetup->getWebspacePath()))
-			{
-				if(is_writeable($mySetup->getWebspacePath()))
-				{
-					// PREPARE LEARNING MODULE DATA DIRECTORY (inside wb)
-					if(!@is_dir($mySetup->getWebspacePath().'/lm_data'))
-					{
-						mkdir($mySetup->getWebspacePath().'/lm_data');
-					}
+			// removed
 
-					// PREPARE DIRECTORY FOR USER IMAGES (PERSONAL PROFILE)
-					if(!@is_dir($mySetup->getWebspacePath().'/usr_images'))
-					{
-						mkdir($mySetup->getWebspacePath().'/usr_images');
-					}
-
-					// PREPARE MULTIMEDIA OBJECTS DATA DIRECTORY (inside wb)
-					if(!@is_dir($mySetup->getWebspacePath().'/mobs'))
-					{
-						mkdir($mySetup->getWebspacePath().'/mobs');
-					}
-
-					// PREPARE CSS OBJECTS DATA DIRECTORY (inside wb)
-					if(!@is_dir($mySetup->getWebspacePath().'/css'))
-					{
-						mkdir($mySetup->getWebspacePath().'/css');
-					}
-				}
-				chmod($mySetup->getWebspacePath().'/lm_data',0755);
-				chmod($mySetup->getWebspacePath().'/usr_images',0755);
-				chmod($mySetup->getWebspacePath().'/mobs',0755);
-				chmod($mySetup->getWebspacePath().'/css',0755);
-			}
 
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");
 
