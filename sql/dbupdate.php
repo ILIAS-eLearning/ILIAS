@@ -651,3 +651,81 @@ CREATE TABLE grp_data (
 	status int(11),
 	PRIMARY KEY(grp_id)
 ) TYPE=MyISAM;
+<#27>
+<?php
+
+// INSERT MAIL OBJECT IN object_data
+$query = "SELECT MAX(obj_id) FROM object_data";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$max_id = $row["MAX(obj_id)"];
+}
+++$max_id;
+$query = "INSERT INTO object_data ".
+         "VALUES ('".$max_id."','mail','Mail Settings','Mail settings object','-1',now(),now())";
+$this->db->query($query);
+
+// INSERT MAIL OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
+$query = "SELECT * FROM tree".
+         "WHERE child = '9' ".
+         "AND tree = '1'";
+$res = $this->db->getRow($query);
+
+$left = $res->lft;
+$lft = $left + 1;
+$rgt = $left + 2;
+
+// SPREAD TREE
+$query = "UPDATE tree SET ".
+     "lft = CASE ".
+	 "WHEN lft > ".$left." ".
+	 "THEN lft + 2 ".
+	 "ELSE lft ".
+	 "END, ".
+	 "rgt = CASE ".
+	 "WHEN rgt > ".$left." ".
+	 "THEN rgt + 2 ".
+	 "ELSE rgt ".
+	 "END ".
+	 "WHERE tree = '1'";
+$this->db->query($query);
+
+// INSERT NODE
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
+     "VALUES ".
+	 "('1','".$max_id."','9','".$lft."','".$rgt."','2')";
+$this->db->query($query);
+
+// CREATE OBJECT REFERENCE ENTRY
+$query = "INSERT INTO object_reference VALUES('".$max_id."','".$max_id."')";
+$this->db->query($query);
+
+// ADD NEW OPERATION smtp_mail
+$query = "SELECT MAX(ops_id) FROM rbac_operations ";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$max_ops_id = $row["MAX(ops_id)"];
+}
+++$max_ops_id;
+
+// INSERT NEW OPERAION smtp_mail
+$query = "INSERT INTO rbac_operations ".
+         "VALUES('".$max_ops_id."','smtp mail','send external mail')";
+$res = $this->db->query($query);
+
+// INSERT PERMISSIONS FOR ADMIN ROLE
+$permissions = addslashes(serialize(array("1","2","3","4","$max_ops_id")));
+$query = "INSERT INTO rbac_pa VALUES('2','".$permissions."','".$max_id."','".$max_id."')";
+$this->db->query($query);
+
+// DELETE create AND delete OPERATION FORM OBJERCT MAIL
+$query = "DELETE FROM rbac_ta WHERE typ_id = '19' AND ops_id IN('5','6')";
+$this->db->query($query);
+
+// ADD OPERATION smtp mail FOR OBJECT MAIL
+$query = "INSERT INTO rbac_ta VALUES('19','".$max_ops_id."')";
+$this->db->query($query);
+
+?>

@@ -15,7 +15,6 @@ require_once "classes/class.ilMail.php";
 
 $lng->loadLanguageModule("mail");
 
-
 $umail = new ilMail($_SESSION["AccountId"]);
 $mbox = new ilMailBox($_SESSION["AccountId"]);
 

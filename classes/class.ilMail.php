@@ -75,6 +75,12 @@ class ilMail
 	*/
 	var $email_rcp;
 
+	/**
+	* mail object id used for check access
+	* @var integer
+	* @access private
+	*/
+	var $mail_obj_ref_id;
 
 	/**
 	* Constructor
@@ -95,7 +101,37 @@ class ilMail
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
 		$this->mfile = new ilFileDataMail($this->user_id);
+		
+		// GET REFERENCE ID OF MAIL OBJECT
+		$this->readMailObjectReferenceId();
 
+	}
+
+	/**
+	* read and set mail object id
+	* @access	private
+	*/
+	function readMailObjectReferenceId()
+	{
+		$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
+			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
+			"AND object_data.type = 'mail' ".
+			"AND object_data.obj_id = tree.child ".
+			"AND object_reference.obj_id = tree.child";
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->mail_obj_ref_id = $row["ref_id"];
+		}
+	}
+	/**
+	* get mail object reference id
+	* @return integer mail_obj_ref_id
+	* @access	public
+	*/
+	function getMailObjectReferenceId()
+	{
+		return $this->mail_obj_ref_id;
 	}
 
 	/**

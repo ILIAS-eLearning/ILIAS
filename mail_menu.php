@@ -2,6 +2,7 @@
 require_once "include/inc.header.php";
 require_once "classes/class.ilMailExplorer.php";
 
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 $exp = new ilMailExplorer("mail.php",$_SESSION["AccountId"]);
