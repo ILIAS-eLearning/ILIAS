@@ -136,6 +136,20 @@ class ilGlossaryTerm
 		$this->setId($this->ilias->db->getLastInsertId());
 	}
 
+	function delete()
+	{
+		require_once("content/classes/class.ilGlossaryDefinition.php");
+		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
+		foreach($defs as $def)
+		{
+			$def_obj =& new ilGlossaryDefinition($def["id"]);
+			$def_obj->delete();
+		}
+		$q = "DELETE FROM glossary_term ".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 	function update()
 	{
 		$q = "UPDATE glossary_term SET ".
