@@ -1114,6 +1114,9 @@ class ilObjUser extends ilObject
 	 */
 	function searchUsers($a_search_str)
 	{
+		// NO CLASS VARIABLES IN STATIC METHODS
+		global $ilias;
+
 		$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ".
 			"WHERE (login LIKE '%".$a_search_str."%' ".
 			"OR firstname LIKE '%".$a_search_str."%' ".
@@ -1121,7 +1124,7 @@ class ilObjUser extends ilObject
 			"OR email LIKE '%".$a_search_str."%') ".
 			"AND usr_id != '".ANONYMOUS_USER_ID."'";
 
-		$res = $this->ilias->db->query($query);
+		$res = $ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ids[] = array(
@@ -1133,6 +1136,42 @@ class ilObjUser extends ilObject
 		}
 		return $ids ? $ids : array();
 	}
+
+	/**
+	 * STATIC METHOD
+	 * search for user data. This method is called from class.ilSearch
+	 * @param	object object of search class
+	 * @static
+	 * @access	public
+	 */
+	function _search(&$a_search_obj)
+	{
+		// NO CLASS VARIABLES IN STATIC METHODS
+
+		// TODO CHECK IF ITEMS ARE PUBLIC VISIBLE
+
+		$where_condition = $a_search_obj->getWhereCondition("like",array("login","firstname","lastname","title",
+																		 "email","institution","street","city",
+																		 "zipcode","country","phone"));
+		$in = $a_search_obj->getInStatement("usr_id");
+
+		$query = "SELECT usr_id FROM usr_data ".
+			$where_condition." ".
+			$in." ".
+			"AND usr_id != '".ANONYMOUS_USER_ID."'";
+
+		$res = $a_search_obj->ilias->db->query($query);
+		
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result_data[$counter]["id"]				=  $row->usr_id;
+			$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
+			$result_data[$counter++]["target"]			=  "";
+		}
+		return $result_data ? $result_data : array();
+	}
+			
 
 	/*
 	* get the memberships(group_ids) of groups that are subscribed to the current user object

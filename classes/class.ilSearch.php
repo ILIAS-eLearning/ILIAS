@@ -25,8 +25,8 @@
 /**
 * search
 * 
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @version Id: $Id$
 * 
 * @package application
 */
@@ -38,124 +38,387 @@ class ilSearch
 	* @access public
 	*/	
 	var $ilias;
-
-	/**
-	* search text
-	* @var string
-	* @access public
-	*/	
-	var $text;
-
-	/**
-	* search result
-	* @var array
-	* @access public
-	*/	
-	var $result;
-
-	/**
-	* result count
-	* @var integer
-	* @access public
-	*/	
-	var $hits;
-
-	/**
-	* search options
-	* @var array
-	* @access public
-	*/	
-	var $options;
-
-	/**
-	* ?????
-	* @var string
-	* @access public
-	*/	
-	var $area;
+	var $user_id;				// INTEGER USED FOR SAVED RESULTS
+	var $search_string;			// INPUT FROM SEARCH FORM
+	var $parsed_str;			// PARSED INPUT
+	var $combination;			// STRING 'and' or 'or'
+	var $search_for;			// OBJECT TYPE 'usr','grp','lm','dbk'
+	var $search_in;				// STRING SEARCH IN 'content' OR 'meta'
+	var $search_type;			// STRING 'new' or 'result'
+	var $result;				// RESULT SET array['object_type']['counter']
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilSearch()
+	function ilSearch($a_user_id = 0)
 	{
 		global $ilias;
 		
 		// Initiate variables
 		$this->ilias =& $ilias;
+		$this->user_id = $a_user_id;
+
+		// READ OLD SEARCH RESULTS FROM DATABASE
+		$this->__readDBResult();
 	}
 
-	/**
-	* search database with given values
-	* execute() performs a search on the databasetables
-	* @access private
-	*/
-	function execute()
+	// SET METHODS
+	function setSearchString($a_search_str)
 	{
-		$this->result = array();
-		
-		if (empty($this->text))
-		{
-			return false;
-		}
-		//now only user search and phrase search
-		//search for login  firstname  lastname email
-		$w = "login LIKE '%".$this->text."%'";
-		$w .= " OR firstname LIKE '%".$this->text."%'";
-		$w .= " OR lastname LIKE '%".$this->text."%'";
-		$w .= " OR email LIKE '%".$this->text."%'";
+		$this->search_string = trim($a_search_str);
+	}
+	function setCombination($a_combination)
+	{
+		// 'and' or 'or'
+		$this->combination = $a_combination;
+	}
+	function setSearchFor($a_search_for)
+	{
+		$this->search_for = $a_search_for;
+	}
+	function setSearchIn($a_search_in)
+	{
+		$this->search_in = $a_search_in;
+	}
+	function setResult($a_result)
+	{
+		$this->result = $a_result;
+	}
+	function setSearchType($a_type)
+	{
+		$this->search_type = $a_type;
+	}
 
-		$query = "SELECT * FROM usr_data WHERE ".$w;	
-		$res = $this->ilias->db->query($query);
-		
-		$this->hits = $res->numRows();
-
-		if ($this->hits > 0)
+	// GET MEHODS
+	function getUserId()
+	{
+		return $this->user_id;
+	}
+	function getSearchString()
+	{
+		return $this->search_string;
+	}
+	function getCombination()
+	{
+		return $this->combination ? $this->combination : "or";
+	}
+	function getSearchFor()
+	{
+		return $this->search_for ? $this->search_for : array();
+	}
+	function getSearchIn()
+	{
+		return $this->search_in ? $this->search_in : array();
+	}
+	function getSearchInByType($a_type)
+	{
+		if($a_type == 'lm' or $a_type == 'dbk')
 		{
-			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$this->result[] = array(
-										"text" => $row["firstname"]." ".$row["lastname"],
-										"link" => "mail.php?to=".$row["usr_id"]
-										);
-			}
-			return true;
+			return $this->search_in[$a_type];
 		}
 		else
 		{
 			return false;
 		}
 	}
-
-	/**
-	* set options
-	* @access	public
-	* @param	array
-	*/
-	function setOptions($a_arr)
+	function getResults()
 	{
-		$this->options = $a_arr;
+		return $this->result ? $this->result : array();
+	}
+	function getResultByType($a_type)
+	{
+		return $this->result[$a_type] ? $this->result[$a_type] : array();
+	}
+	function getSearchType()
+	{
+		return $this->search_type;
 	}
 
-	/**
-	* set area
-	* @access	public
-	* @param	string
-	*/
-	function setArea($a_str)
+	// PUBLIC
+	function validate(&$message)
 	{
-		$this->area = $a_str;
+		$ok = true;
+
+		if(!$this->getSearchString())
+		{
+			$message .= "Kein Suchbegriff<br/>";
+			$ok = false;
+		}
+		$this->__parseSearchString();
+
+		if(!$this->__validateParsedString($message))
+		{
+			$ok = false;
+		}
+		if(!$this->getSearchFor())
+		{
+			$message .= "Keine Kategorie gewählt<br/>";
+			$ok = false;
+		}
+		return $ok;
 	}
 
-	/**
-	* set searchtext
-	* @access	public
-	* @param	string 
-	*/
-	function setText($a_str)
+	function performSearch()
 	{
-		$this->text = trim($a_str);
+		global $objDefinition;
+
+		$result = array("usr" => array(),
+						"grp" => array(),
+						"lm"  => array(),
+						"dbk" => array());
+
+		foreach($this->getSearchFor() as $obj_type)
+		{
+			switch($obj_type)
+			{
+				case "usr":
+					// TODO: NOT NICE BUT USEFUL
+					// THIS VAR IS USED IN __getResultIdsByType()
+					$this->act_type = 'usr';
+					$result["usr"] = ilObjUser::_search($this);
+					break;
+
+				case "lm":
+					include_once "./content/classes/class.ilObjContentObject.php";
+					$this->act_type = 'lm';
+					$result["lm"] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
+					break;
+
+				case "dbk":
+					include_once "./content/classes/class.ilObjDlBook.php";
+					$this->act_type = 'dbk';
+					$result["dbk"] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
+					break;
+			}
+		}
+		$this->setResult($result);
+		$this->__updateDBResult();
+
+		return true;
+	}
+
+	function getWhereCondition($a_type,$a_fields)
+	{
+		switch($a_type)
+		{
+			case "like":
+				$where = $this->__createLikeCondition($a_fields);
+				break;
+
+			case "fulltext":
+				$where = $this->__createFulltextCondition($a_fields);
+				break;
+		}
+		return $where;
+	}
+
+	function getInStatement($a_primary)
+	{
+		$in = '';
+
+		switch($this->getSearchType())
+		{
+			case "new":
+				$in .= "";
+				break;
+
+			case "result":
+				$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByType($this->act_type))."') ";
+				break;
+
+		}
+		return $in;
+	}
+
+	// PRIVATE METHODS
+	function __createLikeCondition($a_fields)
+	{
+		$where = "WHERE (";
+		$concat  = "CONCAT(";
+		$concat .= implode(",\" \",",$a_fields);
+		$concat .= ") ";
+
+		$where .= "1 ";
+
+		// AND
+		foreach($this->parsed_str["and"] as $and)
+		{
+			$where .= "AND ";
+			$where .= $concat;
+			$where .= "LIKE(\"%".$and."%\") ";
+		}
+		
+		// AND NOT
+		foreach($this->parsed_str["not"] as $not)
+		{
+			$where .= "AND ";
+			$where .= $concat;
+			$where .= "NOT LIKE(\"%".$not."%\") ";
+		}
+		// OR
+		if(count($this->parsed_str["or"]) and
+		   !count($this->parsed_str["and"]) and
+		   !count($this->parsed_str["not"]))
+		{
+			$where .= "AND ( ";
+			foreach($this->parsed_str["all"] as $or)
+			{
+				$where .= $concat;
+				$where .= "LIKE(\"%".$or."%\") ";
+				$where .= "OR ";
+			}
+			$where .= "0) ";
+		}
+		$where .= ") ";
+		return $where;
+	}
+
+	function __createFulltextCondition($a_fields)
+	{
+		$where = "WHERE (";
+		$match = " MATCH(".implode(",",$a_fields).") ";
+		
+		$where .= "1 ";
+		// OR
+		if(count($this->parsed_str["or"]))
+		{
+			$where .= "AND ";
+			$where .= $match;
+			$where .= " AGAINST('".implode(" ",$this->parsed_str["all"])."') ";
+		}
+		// AND	
+		foreach($this->parsed_str["and"] as $and)
+		{
+			$where .= "AND ";
+			$where .= $match;
+			$where .= "AGAINST('".$and."') ";
+		}
+		// AND NOT
+		foreach($this->parsed_str["not"] as $and)
+		{
+			$where .= "AND NOT ";
+			$where .= $match;
+			$where .= "AGAINST('".$and."') ";
+		}
+		$where .= ") ) ";
+
+		return $where;
+	}
+
+	function __parseSearchString()
+	{
+		$tmp_arr = explode(" ",$this->getSearchString());
+		$this->parsed_str["and"] = $this->parsed_str["or"] = $this->parsed_str["not"] = array();
+		
+		foreach($tmp_arr as $word)
+		{
+			$word = trim($word);
+			if($word)
+			{
+				if(substr($word,0,1) == '+')
+				{
+					$this->parsed_str["all"][] = substr($word,1);
+					$this->parsed_str["and"][] = substr($word,1);
+					continue;
+				}
+				if(substr($word,0,1) == '-')
+				{
+					// better parsed_str["allmost_all"] ;-)
+					#$this->parsed_str["all"][] = substr($word,1);
+					$this->parsed_str["not"][] = substr($word,1);
+					continue;
+				}
+				if($this->getCombination() == 'and')
+				{
+					$this->parsed_str["all"][] = $word;
+					$this->parsed_str["and"][] = $word;
+					continue;
+				}
+				if($this->getCombination() == 'or')
+				{
+					$this->parsed_str["all"][] = $word;
+					$this->parsed_str["or"][] = $word;
+					continue;
+				}
+			}
+		}
+	}				
+
+	function __validateParsedString(&$message)
+	{
+		foreach($this->parsed_str as $type)
+		{
+			foreach($type as $word)
+			{
+				if(strlen($word) <= 3)
+				{
+					$to_short = true;
+				}
+			}
+		}
+		if($to_short)
+		{
+			$message .= "Wörter mit weniger als 3 Zeichen werden ignoriert<br/>";
+			return false;
+		}
+		return true;
+	}
+
+	function __updateDBResult()
+	{
+		if($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			$query = "REPLACE INTO usr_search ".
+				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."')";
+
+			$res = $this->ilias->db->query($query);
+
+			return true;
+		}
+		return false;
+	}
+	
+	function __readDBResult()
+	{
+		if($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			$query = "SELECT search_result FROM usr_search ".
+				"WHERE usr_id = '".$this->getUserId()."'";
+
+			$res = $this->ilias->db->query($query);
+			if($res->numRows())
+			{
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->setResult(unserialize(stripslashes($row->search_result)));
+			}
+			else
+			{
+				$this->setResult(array("usr" => array(),
+									   "grp" => array(),
+									   "lm"  => array(),
+									   "dbk" => array()));
+			}
+		}
+		else
+		{
+			$this->setResult(array("usr" => array(),
+								   "grp" => array(),
+								   "lm"  => array(),
+								   "dbk" => array()));
+		}
+		return true;
+	}
+
+	function __getResultIdsByType()
+	{
+		$results = $this->getResultByType($this->act_type);
+
+		foreach($results as $result)
+		{
+			$ids[] = $result["id"];
+		}
+		return $ids ? $ids : array();
 	}
 } // END class.Search
 ?>
