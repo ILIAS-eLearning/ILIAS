@@ -155,7 +155,7 @@ class ASS_ClozeTest extends ASS_Question
 				}
 				else
 				{
-					$result["gaps"][$index]["params"]["name"] = $lng->txt("gap") . " " . ($index+1);
+					$result["gaps"][$index]["params"]["name"] = $this->lng->txt("gap") . " " . ($index+1);
 				}
 				if (preg_match("/type\=\"([^\"]*?)\"/", $gaps[1][$index], $params))
 				{
@@ -1352,7 +1352,7 @@ class ASS_ClozeTest extends ASS_Question
 			$name = $this->gaps[$i][0]->get_name();
 			if (!$name)
 			{
-				$name = $lng->txt("gap") . " " . ($i+1);
+				$name = $this->lng->txt("gap") . " " . ($i+1);
 			}
 			$close["gaps"][$i]["params"]["name"] = $name;
 		}
