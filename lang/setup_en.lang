@@ -133,8 +133,8 @@ info_text_first_client#:#Your basic settings have been saved. Now we will setup 
 info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
 info_text_lang#:#Please choose additional languages and/or remove selected languages. The default language specified the language for new user accounts or users which haven't selected a prefered language yet.
 info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations. Registration is voluntary. If you don't want to register select 'skip registration' (You may register later at any time).<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please send an
-info_text_nic2#:#with your installation infos to ilias-info@uni-koeln.de. Enter the nic-id you will receive in an response email into the appropiate field and select 'emial registration'.
-info_text_nic3#:#You registered already your installation. Your nic-id is
+info_text_nic2#:#with your installation infos to ilias-info@uni-koeln.de. Enter the nic-id you will receive in an response email into the appropiate field and select 'register via Email'.
+info_text_nic3#:#You registered your installation. Your nic-id is
 info_text_password#:#Here you may change the master password for the setup programm.
 info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
@@ -209,7 +209,8 @@ nic_reg_disabled#:#NIC registration disabled
 nic_reg_email#:#register via Email
 nic_reg_enabled#:#NIC registration enabled!
 nic_reg_enter_correct_id#:#Please enter correct nic_id
-nic_reg_enter_id#:#please enter id sent by email
+nic_reg_enter_id#:#Enter sent NIC ID
+nic_reg_enter_checksum#:#Enter sent checksum
 nic_reg_failed#:#NIC registration failed
 nic_reg_online#:#register online
 nic_registration#:#NIC Registration
