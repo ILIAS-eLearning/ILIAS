@@ -301,7 +301,7 @@ class ilFileExplorer
 		$handle = opendir($a_parent_dir);
 		while (false !== ($file = readdir($handle)))
 		{
-        	if(is_dir($files))
+        	if (!is_dir($file))
 			{
 				$files[] = array("type" => "file", "name" => $file);
 			}
