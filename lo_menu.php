@@ -14,6 +14,7 @@ $explorer->setOutput(1,0);
 
 $output = $explorer->getOutput();
 $tplContent->setVariable("EXPLORER",$output);
+$tplContent->setVariable("EXPAND", "1");
 
 include_once "include/ilias_footer.inc";
 ?>
