@@ -80,6 +80,7 @@ class ilFileDataCourse extends ilFileData
 	{
 		$this->deleteZipFile($this->course_path.'/'.$a_rel_name.'.zip');
 		$this->deleteDirectory($this->course_path.'/'.$a_rel_name);
+		$this->deleteDirectory(CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
 		$this->deletePdf($this->course_path.'/'.$a_rel_name.'.pdf');
 
 		return true;
@@ -171,6 +172,20 @@ class ilFileDataCourse extends ilFileData
 		return $this->course_path;
 	}
 
+	function createOnlineVersion($a_rel_name)
+	{
+		ilUtil::makeDir(CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
+		ilUtil::rCopy($this->getCoursePath().'/'.$a_rel_name,CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
+
+		return true;
+	}
+
+	function getOnlineLink($a_rel_name)
+	{
+		return ilUtil::getWebspaceDir('filesystem').'/courses/'.$a_rel_name.'/index.html';
+	}
+
+
 
 	// PRIVATE METHODS
 	function __checkPath()
@@ -179,6 +194,12 @@ class ilFileDataCourse extends ilFileData
 		{
 			return false;
 		}
+		if(!@file_exists(CLIENT_WEB_DIR.'/courses'))
+		{
+			ilUtil::makeDir(CLIENT_WEB_DIR.'/courses');
+		}
+
+			
 		$this->__checkReadWrite();
 
 		return true;

@@ -199,9 +199,12 @@ class ilCourseArchives
 		// Step two, create child html
 		$this->course_files_obj->addDirectory($this->getName().'/objects');
 		$this->__addHTMLFiles($this->course_obj->getRefId());
-		
+
 		// Step three create course html
 		$this->__addCourseHTML();
+
+		// Step three ² create copy in web dir
+		$this->course_files_obj->createOnlineVersion($this->getName());
 
 		// Step four zip
 		$this->setSize($this->course_files_obj->zipFile($this->getName(),$this->getName().'.zip'));
@@ -331,6 +334,7 @@ class ilCourseArchives
 		if($this->getLanguage())
 		{
 			$lng =& new ilLanguage($this->getLanguage());
+			$lng->loadLanguageModule('crs');
 		}
 		else
 		{
