@@ -980,18 +980,14 @@ class ASS_QuestionGUI extends PEAR {
     $result = 0;
 		$start_tag = ilUtil::stripSlashes($_POST["start_tag"]);
 		$end_tag = ilUtil::stripSlashes($_POST["end_tag"]);
-		if (!$start_tag)
-			$start_tag = "#";
-		if (!$end_tag)
-			$end_tag = "#";
-		$this->question->set_start_tag($start_tag);
-		$this->question->set_end_tag($end_tag);
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 
-    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]) or (!$start_tag) or (!$end_tag))
+		{
       $result = 1;
-
+		}
+		
 		if (($result) and ($_POST["cmd"]["add"])) {
 			// You cannot create gaps before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
@@ -1003,6 +999,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
+		$this->question->set_start_tag($start_tag);
+		$this->question->set_end_tag($end_tag);
     // adding materials uris
     $saved = $saved | $this->set_question_material_from_material_template();
 
@@ -1016,12 +1014,15 @@ class ASS_QuestionGUI extends PEAR {
             $answer_array = $this->question->get_gap($matches[1]);
             if (strlen($value) > 0) {
               // Only change gap values <> empty string
-              if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-                $this->question->set_answertext(
-                  ilUtil::stripSlashes($matches[1]),
-                  ilUtil::stripSlashes($matches[2]),
-                  ilUtil::stripSlashes($value));
-              }
+							if (array_key_exists($matches[2], $answer_array))
+							{
+								if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
+									$this->question->set_answertext(
+										ilUtil::stripSlashes($matches[1]),
+										ilUtil::stripSlashes($matches[2]),
+										ilUtil::stripSlashes($value));
+								}
+							}
             } else {
               // Display errormessage: You've tried to set an gap value to an empty string!
             }
@@ -1049,12 +1050,15 @@ class ASS_QuestionGUI extends PEAR {
             $answer_array = $this->question->get_gap($matches[1]);
             if (strlen($value) > 0) {
               // Only change gap values <> empty string
-              if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-                $this->question->set_answertext(
-                  ilUtil::stripSlashes($matches[1]),
-                  ilUtil::stripSlashes($matches[2]),
-                  ilUtil::stripSlashes($value));
-              }
+							if (array_key_exists($matches[2], $answer_array))
+							{
+								if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
+									$this->question->set_answertext(
+										ilUtil::stripSlashes($matches[1]),
+										ilUtil::stripSlashes($matches[2]),
+										ilUtil::stripSlashes($value));
+								}
+							}
             } else {
               // Display errormessage: You've tried to set an gap value to an empty string!
             }
