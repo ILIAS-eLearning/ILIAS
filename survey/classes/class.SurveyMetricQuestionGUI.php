@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyMetricQuestion.php";
 * The SurveyMetricQuestionGUI class encapsulates the GUI representation
 * for metric survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyMetricQuestionGUI.php
 * @modulegroup   Survey

@@ -33,7 +33,7 @@ define("SUBTYPE_RATIO_ABSOLUTE", 5);
 * The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
 * for metric survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyMetricQuestion.php
 * @modulegroup   Survey

@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 * The SurveyOrdinalQuestionGUI class encapsulates the GUI representation
 * for ordinal survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyOrdinalQuestionGUI.php
 * @modulegroup   Survey

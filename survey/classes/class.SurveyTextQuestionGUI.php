@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyTextQuestion.php";
 * The SurveyTextQuestionGUI class encapsulates the GUI representation
 * for text survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$$
 * @module   class.SurveyTextQuestionGUI.php
 * @modulegroup   Survey

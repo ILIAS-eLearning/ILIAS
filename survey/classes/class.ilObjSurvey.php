@@ -24,7 +24,7 @@
 /**
 * Class ilObjSurvey
 * 
-* @author Helmut Schottm�ller <hschottm@tzi.de> 
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
 * @extends ilObject
