@@ -380,12 +380,14 @@ switch ($_GET["step"])
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dpath  = $_POST["dpath"]  ? $_POST["dpath"]  : $mySetup->data_path;
+		$ipath  = $_POST["ipath"]  ? $_POST["ipath"]  : $mySetup->image_path;
+
 
 
 		//load defaults if neccessary
 		if(!$_POST)
 		{
-			$mySetup->getDefaults();		
+			$mySetup->getDefaults();
 			$dbtype = $mySetup->default["db"]["type"];
 			$dbhost = $mySetup->default["db"]["host"];
 			$dbname = $mySetup->default["db"]["name"];
@@ -446,7 +448,7 @@ switch ($_GET["step"])
 		$tpl->setVariable("TXT_DATA_PATH", $lng->txt("data_path")."<br>".$lng->txt("out_of_webspace"));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
-	
+		$tpl->setVariable("TXT_IMAGE_PATH", $lng->txt("web space dir"));
 		//variable content output
 		$tpl->setVariable("LANG", $_GET["lang"]);
 		$tpl->setVariable("DB_HOST", $dbhost);
@@ -455,6 +457,9 @@ switch ($_GET["step"])
 		$tpl->setVariable("DB_USER", $dbuser);
 		$tpl->setVariable("DB_PASS", $dbpass);
 		$tpl->setVariable("D_PATH", $dpath);
+		// added by ratana ty
+		$tpl->setVariable("I_PATH", $ipath);
+
 		$tpl->parseCurrentBlock();
 		break;
 
@@ -473,10 +478,13 @@ switch ($_GET["step"])
 		$mySetup->setDbUser($_POST["dbuser"]);
 		$mySetup->setDbPass($_POST["dbpass"]);
 		$mySetup->setDataPath($_POST["dpath"]);
+		$mySetup->setImagePath($_POST["ipath"]);
+
 		
 		//write the inifile if all things are okay
 		if (!$mySetup->writeIniFile())
 		{
+
 			showMessage($lng->txt($mySetup->error)."<br/>".$lng->txt("inifile_cannot_write"),$lng->txt("setup_inifile"));
 		}
 		else
@@ -494,7 +502,7 @@ switch ($_GET["step"])
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");
 
 			showMessage($msg,$lng->txt("setup_inifile"));
-			
+
 			$tpl->setCurrentBlock("step2");
 			$tpl->setVariable("INIFILECONTENT", $mySetup->ini->show());
 			$tpl->parseCurrentBlock();
