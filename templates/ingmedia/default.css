@@ -1,420 +1,256 @@
 body {
-	color:#222222;
-	background-color:#b9c0d5;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	font-size:13px;
-	margin:10px;
+        color:#000000;
+        background-color:#336699;
+        font-family:Verdana,Arial,Helvetica,sans-serif;
+        font-size:13px;
+        margin:0px;
 }
 
 td {
-	font-size:13px;
+        font-size:13px;
 }
 
 .btnbar {
-	background-color:#ffffff;
-	background-image: url(images/navbar/back.gif);
+        background-color:#ffcc00;
 }
 
 input, textarea {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
+        font-family:Verdana,Arial,Helvetica,sans-serif;
+        font-size:13px;
 }
-
-
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-	background-color:#f7f7f7;
-	color:#222222;
-	font-size:13px;
-	padding:4px;
+        color:#222222;
+        background-color:#ffffff;
+        font-size:13px;
+        padding:3px;
 }
 
 .tblrow1 {
-	background-color:#eeeeee;
-	color:#222222;
-	font-size:13px;
-	padding:4px;
+        color:#222222;
+        background-color:#ffffff;
+        font-size:13px;
+        padding:3px;
 }
 
 /* -------------------- table formatting ------------------ */
 
 table.std {
-	color:#222222;
-	background-color:#bbbbbb;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #bbbbbb;
-	border-width: 1px;
+        border-spacing: 0px;
 }
 
 table.fullwidth {
-	color:#222222;
-	background-color:#b9c0d5;
-	width:100%;
-	border-spacing:1px;
-	border-style:outset;
-	border-color:#bbbbbb;
-	border-width:1px;
+        width: 100%;
+        border-spacing:1px;
 }
 
 table.fullwidth_invisible {
-	color:#222222;
-	background-color:#b9c0d5;
-	width:100%;
-	border-spacing:0px;
+        width: 100%;
+        border-spacing:0px;
 }
 
 td.std {
-	padding:4px;
+        padding:3px;
 }
 
 .tbltitle {
-	color:#222222;
-	font-size:16px;
-	font-weight:bold;
-	background-color: #C0C0C0;
-	background-image: url(images/cellpic5.gif)
+        font-size:16px;
+        font-weight:bold;
+        color:#000000;
+        background-color:#86a0c1;
 }
 
 .tblheader {
-	color: #000000;
-	font-size:13px;
-	font-weight:bold;
-}
-
-tr.tblheader {
-	color:#000000;
-	font-size:13px;
-	font-weight:bold;
-	background-color:#e3e3e3;
-	background-image:url(images/cellpic1.gif);
-	background-repeat:repeat-x;
+        font-weight:bold;
+        color:#000000;
+        background-color:#86a0c1;
 }
 
 .tblfooter {
-	color: #000000;
-	font-size:13px;
-	font-weight:normal;
-}
-
-tr.tblfooter {
-	color:#000000;
-	font-size:13px;
-	font-weight:normal;
-	background-color:#e3e3e3;
-	background-image:url(images/cellpic1.gif);
-	background-repeat:repeat-x;
-}
-
-tr.std {
-	background-color:#eeeeee;
-	color:#222222;
-	padding:4px;
+        color:#ffffff;
+        background-color:#86a0c1;
 }
 
 td.option {
-	background-color:#e2e2e2;
-	color:#222222;
-	padding:4px;
-	font-size:13px;
-	font-weight : bold;
-	vertical-align:top;
-	text-align:right;
+        padding:3px;
+        border-bottom:1px solid #000000;
 }
 
 td.option_value {
-	background-color:#f7f7f7;
-	background-image: none;
-	color:#222222;
-	padding:4px;
-	font-size:13px;
-	vertical-align:top;
-	text-align:left;
+        padding:3px;
+        border-bottom:1px solid #000000;
 }
-
-td.submit {
-	background-color:#dddddd;
-	color:#222222;
-	padding:4px;
-	font-size:13px;
-	vertical-align:top;
-}
-
-
-td.locator {
-	padding:1px;
-	font-size:13px;
-	vertical-align:top;
-	text-align:left;
-}
-
-
-a.tblheader, a.tblheader:visited
-{
-	color:#3444aa;
-}
-
-a.tblheader:hover
-{
-	color:#000000;
-}
-
 
 /* ---------------- headlines ------------------ */
 
 h1 {
-	font-size:16px;
-	color:#222222;
-	background-color: #C0C0C0;
-	border-width:2px;
-	border-color:#BBBBBB;
-	border-style:outset;
-	padding:7px;
-	background-image: url(images/cellpic5.gif);
+        font-size:16px;
+        color:#336699;
+        white-space:nowrap;
+
 }
 
 h2 {
-	font-size:16px;
-	color:#222222;
-	background-color: #CCCCCC;
-	border-width:1px;
-	border-color:#BBBBBB;
-	border-style:outset;
-	padding:4px;
-	margin-top:25px;
-	margin-bottom:0px;
-	background-image: url(images/cellpic5.gif);
+        font-size:16px;
+        font-weight:bold;
+        color:#000000;
 }
+
 
 /* ----------------- invisible border ------------- */
 
 div.invisible_border {
-	margin-top:15px;
-	margin-bottom:15px;
-	margin-right:15px;
-	margin-left:15px;
+        margin-top:12px;
+        margin-bottom:12px;
+        margin-right:12px;
+        margin-left:12px;
 }
 
 /* ----------------- alternative text styles ------------- */
 .small {
-	text-decoration:none;
-	font-size:11px;
+        text-decoration:none;
+        font-size:11px;
 }
 
 .smallgreen {
-	text-decoration:none;
-	font-size:11px;
-	color:green;
+        text-decoration:none;
+        font-size:11px;
+        color:green;
 }
 
 .smallred {
-	text-decoration:none;
-	font-size:11px;
-	color:red;
+        text-decoration:none;
+        font-size:11px;
+        color:red;
 }
 
 .warning {
-	text-decoration:none;
-	font-weight;bold;
-	color:red;
+        text-decoration:none;
+        font-weight:bold;
+        color:red;
 }
 
 .asterisk {
-	color:red;
-	font-size:11px;
+        color:red;
+        font-size:11px;
 }
 
 .default {
-	text-decoration:none;
-	font-weight:normal;
+        text-decoration:none;
+        font-weight:normal;
 }
 
 .quote {
-	font-style:italic;
-	font-weight:normal;
+        font-style:italic;
+        font-weight:normal;
 }
 
+.moderator_small {
+        text-decoration:none;
+        font-size:11px;
+        color:red;
+}
+
+.moderator {
+        text-decoration:none;
+        font-size:13px;
+        color:red;
+}
 
 /* ----------------- normal links ------------- */
-
-a:link, a:visited {
-	font-weight:bold;
-	text-decoration:none;
-	color:#2255a0;
+a {
+        text-decoration:none;
+        color:#336699;
 }
 
 a:hover {
-	color:#000000;
+        color:#000000;
+}
+
+a:visited {
+        /*color:#1e5792;*/color:#000000;
 }
 
 /* ------------------- mail links ----------- */
 a.mailread
 {
-	font-weight: normal;
-	color: #2255a0;
+        font-weight:normal;
+        color:blue;
 }
 
 a.mailunread
 {
-	color: #2255a0;
-	font-weight: bold;
+        color:blue;
+        font-weight:bold;
 }
 
 /* ------------------ buttons -------------- */
 
-td.btn {
-	background-color:#006699;
-	color:#BBBBBB;
-	border-width:2px;
-	border-color:#BBBBBB;
-	border-style:outset;
-	padding:3px;
-	background-image: url(images/cellpic2.jpg);
+.btn {
+        background-color:#295584;
+        color:#ffffff;
 }
 
-a.btn:link, a.btn:visited {
-	color:#2255a0;
-	text-decoration:none;
-	font-size:13px;
+a.btn {
+        color:#ffffff;
+        text-decoration:none;
+        font-size:13px;
 }
 
+a.tblheader:visited, a.tblheader:hover  {
+        color:#ffffff;
+}
+
+a.tblfooter:visited, a.tblfooter:hover  {
+        color:#ffffff;
+}
+
+a.btn:visited {
+        color:#ffffff;
+        text-decoration:none;
+        font-size:13px;
+}
 
 a.btn:hover {
-	color:#000000;
+        color:#000000;
+
 }
-
-input {
-	background-color:#ffffff;
-	color:#000000;
-	border-width:2px;
-	border-color:#bbbbbb;
-	border-style:inset;
-	font-size:13px;
-}
-
-
-input.submit {
-	background-color:#ffffff;
-	color:#2255a0;
-	border-width:2px;
-	border-color:#bbbbbb;
-	border-style:outset;
-	padding:3px;
-	background-image: url(images/cellpic2.jpg);
-	text-decoration:none;
-	font-size:13px;
-	font-weight:bold;
-	cursor:pointer;
-}
-
-input.ilEditSubmit {
-	background-color:#ffffff;
-	color:#2255a0;
-	border-width:1px;
-	border-color:#bbbbbb;
-	border-style:outset;
-	padding:1px;
-	background-image: none;
-	text-decoration:none;
-	font-size:10px;
-	font-weight:bold;
-	cursor:pointer;
-}
-
-input.ilEditHelpline {
-	background-color:#eeeeee;
-	border-style:none;
-	padding:4px;
-	background-image: none;
-	text-decoration:none;
-	font-size:10px;
-}
-
-input.tblrow1, input.tblrow2
-{
-	background-color:#ffffff;
-	color:#000000;
-	background-image: none;
-	padding:0px;
-}
-
-textarea {
-	background-color:#ffffff;
-	color:#000000;
-	border-width:2px;
-	border-color:#bbbbbb;
-	border-style:inset;
-	padding:3px;
-	text-decoration:none;
-	font-size:13px;
-}
-
-input.submit:hover, input.ilEditSubmit:hover {
-	color:#000000;
-}
-
 
 .message {
-	color: #dd0000;
-	font-weight:bold;
-	text-align:center;
+        color:#dd0000;
+        line-height:25px;
+        font-weight:bold;
+        text-align:center;
+        vertical-align:top;
 }
-
-select.ilEditSelect {
-	background-color:#ffffff;
-	border-width:1px;
-	border-color:#bbbbbb;
-	padding:1px;
-	background-image: none;
-	text-decoration:none;
-	font-size:10px;
-}
-
 
 /* ------------------ tabs -------------- */
 .tab {
-	font-size:11px;
-	color: #000000;
-	font-weight: bold;
-	background-color:#000000;
+        font-size:11px;
+        color:#000000;
+        background-color:#000000;
 }
 
 .tabactive {
-	background-color:#dddddd;
+        background-color:#dddddd;
 }
 .tabinactive {
-	background-color:#bbbbbb;
+        background-color:#bbbbbb;
 }
 
 /* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
 img.imgtab {
-	display:block;
+        display:block;
 }
 
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
-	margin:0px;
+        margin:0px;
 }
 
-/* ------------------ styles for lm content, should be separated
-	in a distinct css sometime -------------- */
-span.ilStrong
-{
-	font-weight: bold;
-}
-
-span.ilEmph
-{
-	font-style: italic;
-}
-
-span.ilComment
-{
-	color: blue;
-}
-
-/* ------------------ blind image - spacer gif -------------- 
+/* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
-	display:block;
+        display:block;
 }
