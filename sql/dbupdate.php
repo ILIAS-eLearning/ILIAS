@@ -4377,6 +4377,10 @@ $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
+// added fix for too small typ_id field
+$query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NULL ";
+$this->db->query($query);
+
 $query = "INSERT INTO rbac_ta VALUES('".$typ_id."','1')";
 $this->db->query($query);
 
@@ -5290,6 +5294,10 @@ INDEX ( `active` )
 <#376>
 <?php
 
+// added fix for too small typ_id field
+$query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NULL ";
+$this->db->query($query);
+
 // register new object type 'assf' for Test&Assessment Administration
 $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
 		"VALUES ('typ', 'assf', 'AssessmentFolder object', -1, now(), now())";
@@ -5362,4 +5370,13 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#381>
 ALTER TABLE `qpl_questions` CHANGE `maxNrOfChars` `maxNumOfChars` INT( 11 ) DEFAULT '0' NOT NULL;
+
+<#382>
+<?php
+
+// added fix for too small typ_id field
+$query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NULL ";
+$this->db->query($query);
+?>
+
 
