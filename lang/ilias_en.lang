@@ -1110,6 +1110,8 @@ common#:#group_any_objects#:#No subobjects available
 common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
+common#:#no_zip_file#:#No zip file found.
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_import#:#Group import
 common#:#group_import_file#:#Import file

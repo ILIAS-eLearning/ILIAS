@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.33 2004/09/20 05:52:31 akill Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.34.2.1 2004/10/11 19:56:29 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -778,6 +778,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once './classes/class.ilObjRole.php';
 
 		global $rbacreview;
+		
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
 
@@ -801,6 +802,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$file_name = $_FILES["importFile"]["name"];
 		$parts = pathinfo($file_name);
 		$full_path = $import_dir."/".$file_name;
+
+		// check zip file		
+		if (!is_file($_FILES["importFile"]["tmp_name"]) ||
+			strtolower($parts["extension"]) != "zip")
+		{
+			$this->ilias->raiseError($this->lng->txt("no_zip_file"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		
 		move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
 
 		// unzip file
@@ -808,6 +818,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$subdir = basename($parts["basename"],".".$parts["extension"]);
 		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+		
+		// check xml file		
+		if (!is_file($xml_file))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_xml_file_found_in_zip")
+				." ".$subdir."/".$subdir.".xml", $this->ilias->error_obj->MESSAGE);
+		}
 
 		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
 
