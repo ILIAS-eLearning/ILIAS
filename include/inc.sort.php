@@ -23,7 +23,7 @@
 
 
 /**
-* colleczion of predefind sort functions
+* collection of predefind sort functions
 * should only be included where you need it
 *
 * @author Sascha Hofmann <shofmann@databay.de> 
@@ -49,15 +49,55 @@ function sortLanguagesByName ($a, $b)
 }
 
 /**
-* sub-function to sort $object_data arrays by title
+* sub-function to sort an array
 *
-* @param	array	$a	expect $obj_data
-* @param	string	$b	the function name itself ('sortObjectsByTitle')
+* @param	array	$a	
+* @param	array	$b
 *
 * @return	boolean	true on success / false on error
 */
-function sortObjectsByTitle ($a, $b)
+function sort_func ($a, $b)
 {
-		return strcasecmp($a["title"], $b["title"]);
+	global $array_sortby,$array_sortorder;
+	
+	if ($array_sortorder == "ASC")
+	{
+		return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
+	}
+
+	if ($array_sortorder == "DESC")
+	{
+		return strcasecmp($b[$array_sortby], $a[$array_sortby]);	
+	}		
 }
+
+/**
+* sortArray
+*
+* @param	array	array to sort
+* @param	string	sort_column
+* @param	string	sort_order (ASC or DESC)
+*
+* @return	array	sorted array
+*/
+function sortArray($array,$a_array_sortby,$a_array_sortorder = 0)
+{
+	global $array_sortby,$array_sortorder;
+
+	$array_sortby = $a_array_sortby;
+	
+	if ($a_array_sortorder == "DESC")
+	{
+		$array_sortorder = "DESC";
+	}
+	else
+	{
+		$array_sortorder = "ASC";	
+	}
+
+	usort($array,"sort_func");
+	
+	return $array;
+}
+
 ?>
