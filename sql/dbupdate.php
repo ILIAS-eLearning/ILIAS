@@ -4216,3 +4216,7 @@ UPDATE usr_data SET time_limit_unlimited = '1';
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#254>
+ALTER TABLE `chat_user` CHANGE `last_conn_timestamp` `last_conn_timestamp` INT( 14 ) DEFAULT NULL;
+<#255>
+DELETE FROM chat_user;
