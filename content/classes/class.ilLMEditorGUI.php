@@ -245,6 +245,7 @@ class ilLMEditorGUI
 				}
 				else
 				{
+//echo "type:$type:cmd:$cmd:<br>";
 					switch ($type)
 					{
 						case "pg":

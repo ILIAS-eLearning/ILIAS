@@ -48,7 +48,7 @@ class ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
 	{
 		global $ilias, $tpl, $lng;
 
@@ -57,8 +57,12 @@ class ilPageContentGUI
 		$this->lng =& $lng;
 		$this->pg_obj =& $a_pg_obj;
 		$this->content_obj =& $a_content_obj;
-		$this->hier_id = $a_hier_id;
-		$this->dom =& $a_pg_obj->getDom();
+
+		if($a_hier_id != 0)
+		{
+			$this->hier_id = $a_hier_id;
+			$this->dom =& $a_pg_obj->getDom();
+		}
 	}
 
 	function setTargetScript($a_target_script)

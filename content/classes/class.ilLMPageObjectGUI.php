@@ -110,6 +110,16 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->forwardToPageObjGUI("clipboardDeletion");
 	}
 
+	function createMediaInClipboard()
+	{
+		$this->forwardToPageObjGUI("createMediaInClipboard");
+	}
+
+	function saveMediaInClipboard()
+	{
+		$this->forwardToPageObjGUI("saveMediaInClipboard");
+	}
+
 	function forwardToPageObjGUI($cmd)
 	{
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");

@@ -39,7 +39,7 @@ require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
 class ilMediaObjectGUI extends ilPageContentGUI
 {
 
-	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
@@ -53,18 +53,18 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	/**
 	* insert new media object form
 	*/
-	function insert()
+	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+			"hier_id=".$this->hier_id."&cmd=$a_post_cmd"));
 
 		$this->displayValidationError();
 
 		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 
 		// select fields for number of columns
@@ -82,7 +82,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "create_mob");
+		$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
@@ -91,7 +91,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	/**
 	* create new media object in dom and update page in db
 	*/
-	function create()
+	function &create($a_create_alias = true)
 	{
 		// create dummy object in db (we need an id)
 		$this->content_obj = new ilMediaObject();
@@ -235,17 +235,24 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$this->content_obj->update();
 
-		$this->content_obj->setDom($this->dom);
-		$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		if ($a_create_alias)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			$this->content_obj->setDom($this->dom);
+			$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				header("Location: ".$this->getReturnLocation());
+				exit;
+			}
+			else
+			{
+				$this->insert();
+			}
 		}
 		else
 		{
-			$this->insert();
+			return $this->content_obj;
 		}
 	}
 
