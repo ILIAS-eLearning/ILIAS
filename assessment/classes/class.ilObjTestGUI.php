@@ -421,11 +421,28 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$questionpools =& $this->object->get_qpl_titles();
 
-		$filter_text = "";
-		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		$filter_type = $_GET["sel_filter_type"];
+		if (!$filter_type)
+		{
+			$filter_type = $_POST["sel_filter_type"];
+		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_type = "";
+		}
+		$add_parameter .= "&sel_filter_type=$filter_type";
+
+		$filter_text = $_GET["filter_text"];
+		if (!$filter_text)
 		{
 			$filter_text = $_POST["filter_text"];
 		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_text = "";
+		}
+		$add_parameter .= "&filter_text=$filter_text";
+
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
 			"comment" => $this->lng->txt("description"),
@@ -436,18 +453,24 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
 			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
 			if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) {
-				if (strcmp($_POST["sel_filter_type"], $key) == 0) {
+				if (strcmp($filter_type, $key) == 0) {
 					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
 				}
 			}
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$filter_question_type = "";
-		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		$filter_question_type = $_GET["sel_question_type"];
+		if (!$filter_question_type)
 		{
 			$filter_question_type = $_POST["sel_question_type"];
 		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_question_type = "";
+		}
+		$add_parameter .= "&sel_question_type=$filter_question_type";
+
 		$questiontypes =& $this->object->_getQuestiontypes();
 		foreach ($questiontypes as $key => $value)
 		{
@@ -461,10 +484,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		$filter_questionpool = $_GET["sel_questionpool"];
+		if (!$filter_questionpool)
 		{
 			$filter_questionpool = $_POST["sel_questionpool"];
 		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_questionpool = "";
+		}
+		$add_parameter .= "&sel_questionpool=$filter_questionpool";
+		
 		foreach ($questionpools as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("questionpool_row");
@@ -521,7 +551,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// default sort order
 			$_GET["sort"] = array("title" => "ASC");
 		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $_POST["sel_filter_type"], $startrow, 1, $filter_question_type, $filter_questionpool);
+		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $filter_type, $startrow, 1, $filter_question_type, $filter_questionpool);
 		// display all questions in accessable question pools
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
