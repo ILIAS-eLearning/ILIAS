@@ -1071,5 +1071,26 @@ class SurveyQuestion {
 			return "";
 		}
 	}
+	
+	function _getRefIdFromObjId($obj_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
+			$ilDB->quote($obj_id)
+			
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["ref_id"];
+		}
+		return 0;
+	}
+	
+	function syncWithOriginal()
+	{
+	}
 }
 ?>

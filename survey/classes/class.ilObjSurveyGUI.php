@@ -1898,6 +1898,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function questionsObject() {
 		global $rbacsystem;
+		$_SESSION["calling_survey"] = $this->object->getRefId();
     $add_parameter = $this->getAddParameter();
 
 		if ($_GET["editheading"])
@@ -2342,7 +2343,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("QTab");
-				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
+				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
+				{
+					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"questionpool.php?ref_id=" . $ref_id . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $data["title"] . "</a>");
+				}
+				else
+				{
+					$this->tpl->setVariable("QUESTION_TITLE", $data["question_id"]);
+				}
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
 					$obligatory_checked = "";
