@@ -1,4 +1,4 @@
-<!-- ilias_co.dtd for creating ILIAS Content (Learning Modules and DigiLib Objects
+<!-- ilias_co.dtd for creating ILIAS Content (Learning Modules and DigiLib Objects) -->
 <!-- , see http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd for current version -->
 <!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
 <!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
@@ -19,6 +19,9 @@
 <!-- Object of highest complexity; ContentObject is a container for all content, meta data and layout information; it is comparable to an entire book-->
 <!-- ContentObjects are comparable to LOM LearningObjects of aggregation level 3 -->
 <!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)>
+<!ATTLIST ContentObject
+	Type (LearningModule | LibObject) #REQUIRED
+>
 <!-- StructureObject -->
 <!-- Object for structuring the learning material of a LearningModule and comparable to a chapter of a book; a StructureObject contains other StructureObjects (=chapters) and PageObjects (=pages) or a StructureAlias-->
 <!-- StructureObjects are comparable to LOM LearningObjects of aggregation level 3 -->
@@ -415,8 +418,8 @@
 <!-- BibItem -->
 <!ELEMENT BibItem (Identifier, Language+, Author*, Booktitle, CrossRef*, Edition, Editor*, HowPublished, WherePublished*, Institution*, Journal?, Keyword*, Month?, Pages?, Publisher, School*, Series?, Year, (URL | (ISSN?, ISBN?)))>
 <!ATTLIST BibItem
-	type (book | inbook | journalarticle | proceedings | inproceedings | dissertation | phdthesis | mastersthesis | techreport | manual | newspaperarticle | av | internet | unpublished) #REQUIRED
-	label ID #REQUIRED
+	Type (book | inbook | journalarticle | proceedings | inproceedings | dissertation | phdthesis | mastersthesis | techreport | manual | newspaperarticle | av | internet | unpublished) #REQUIRED
+	Label ID #REQUIRED
 >
 
 <!ELEMENT Author (FirstName*, MiddleName*, LastName)>
@@ -448,7 +451,6 @@
 <!ELEMENT SeriesTitle (#PCDATA)>
 <!ELEMENT SeriesEditor (#PCDATA)>
 <!ELEMENT SeriesVolume (#PCDATA)>
-<!ELEMENT Type (#PCDATA)>
 <!ELEMENT Volume (#PCDATA)>
 <!ELEMENT Year (#PCDATA)>
 
