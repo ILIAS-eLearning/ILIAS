@@ -870,7 +870,7 @@ common#:#check#:#Seleziona
 common#:#check_all#:#Seleziona tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
-common#:#check_link#:#Verifica il link
+common#:#check_link#:#Verifica i link
 common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
@@ -1124,7 +1124,7 @@ common#:#feedback#:#Risposta
 common#:#feedback_recipient#:#Destinatario per le risposte
 common#:#file#:#File
 common#:#file_a#:#un file
-common#:#file_add#:#File
+common#:#file_add#:#Aggiungi file
 common#:#file_added#:#Importazione del file eseguita
 common#:#file_delete#:#Cancellare un file
 common#:#file_edit#:#Modificare un file
@@ -1869,7 +1869,7 @@ common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
 common#:#objf#:#Oggetti
-common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi degli oggetti
+common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
 common#:#objf_visible#:#Vedere le definizioni degli oggetti
 common#:#objf_write#:#Modificare le definizioni degli oggetti
@@ -2102,7 +2102,7 @@ common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Eliminare un ruolo o un template di ruolo
-common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
+common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#rolf_edit_userassignment#:#Modificare l'assegnamento di un ruolo
 common#:#rolf_read#:#Accedere in lettura ad un ruolo o ad un template di ruolo
 common#:#rolf_visible#:#Vedere un ruolo o un template di ruolo
@@ -2115,7 +2115,7 @@ common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
 common#:#root_create_cat#:#Creare nuovi contesti
 common#:#root_edit#:#Modificare il nodo di sistema
-common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sistema
+common#:#root_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
 common#:#root_write#:#Modificare il nodo radice di ILIAS 3
@@ -2247,7 +2247,7 @@ common#:#tax_new#:#Nuova tassonomia
 common#:#tax_read#:#Accedere in lettura ad una tassonomia
 common#:#tax_visible#:#Vedere una tassonomia
 common#:#tax_write#:#Modificare una tassonomia
-common#:#taxf_edit_permission#:#Modificare le impostazioni dei permessi di una cartella di tassonomie
+common#:#taxf_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#taxf_read#:#Accedere in lettura ad una cartella di tassonomie
 common#:#taxf_visible#:#Vedere una cartella di tassonomie
 common#:#taxf_write#:#Modificare una cartella di tassonomie
@@ -2366,7 +2366,7 @@ common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
 common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Eliminare un utente
-common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
+common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
 common#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
@@ -2438,7 +2438,7 @@ content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
 content#:#cont_areas_deleted#:#Aree cancellate.
 content#:#cont_assign_full#:#Imposta a tutto schermo
 content#:#cont_assign_std#:#Imposta a schermo standard
-content#:#cont_assign_translation#:#Assegna la traduzione
+content#:#cont_assign_translation#:#Associa la traduzione
 content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate
 content#:#cont_autoindent#:#Indentazione automatica
 content#:#cont_back#:#Indietro
@@ -2496,7 +2496,7 @@ content#:#cont_def_lesson_mode#:#Modalit&#224; di esecuzione del modulo
 content#:#cont_def_organization#:#Organizzazione predefinita
 content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
-content#:#cont_del_assignment#:#Assegnamento cancellato
+content#:#cont_del_assignment#:#Cancella associazione
 content#:#cont_dependencies#:#Dipendenze
 content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
@@ -2573,7 +2573,7 @@ content#:#cont_get_link#:#restituisci il collegamento
 content#:#cont_get_orig_size#:#Ripristina le dimensioni originali
 content#:#cont_glo_properties#:#Propriet&#224; del glossario
 content#:#cont_height#:#Altezza
-content#:#cont_how_published#:#Come pubblicato
+content#:#cont_how_published#:#Tipo di pubblicazione
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identificatore riferito
 content#:#cont_imagemap#:#Immagine
@@ -2637,13 +2637,13 @@ content#:#cont_move_object#:#sposta l'oggetto
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple
 content#:#cont_name#:#Nome
 content#:#cont_new_area#:#Nuova area di collegamento
-content#:#cont_new_assignment#:#Nuova assegnazione
+content#:#cont_new_assignment#:#Nuova associazione
 content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale
 content#:#cont_new_term#:#Nuovo termine
 content#:#cont_no_access#:#Accesso non consentito
-content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso
+content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere associato a s&eacute; stesso
 content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
 content#:#cont_no_page#:#Non &#232; stata trovata nessuna pagina.
@@ -2765,8 +2765,8 @@ content#:#cont_top#:#Alto
 content#:#cont_total_time#:#Tempo totale
 content#:#cont_tracking_data#:#Dati tracciati
 content#:#cont_tracking_items#:#Voci tracciate
-content#:#cont_translations#:#Traduzione(i)
-content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
+content#:#cont_translations#:#Traduzioni
+content#:#cont_translations_assigned#:#La traduzione deve essere associata
 content#:#cont_tree_fixed#:#La struttura dell'albero &#232; stata ripristinata.
 content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
@@ -4418,7 +4418,7 @@ survey#:#select_max_one_item#:#Per favore scegli un solo oggetto
 survey#:#select_option#:#--- Scegli un valore ---
 survey#:#select_phrase_to_add#:#Per favore scegli una frase da aggiungere alla domanda!
 survey#:#select_prior_question#:#Seleziona la domanda precedente
-survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
+survey#:#select_questionpool#:#Scegli la raccolta di domande alla quale verr&#224; aggiunto il sondaggio
 survey#:#select_questionpool_short#:#Scegli la raccolta
 survey#:#select_relation#:#Seleziona una relazione
 survey#:#select_svy_option#:#--- Seleziona un sondaggio ---
