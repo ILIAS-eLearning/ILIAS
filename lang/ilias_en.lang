@@ -249,6 +249,9 @@ common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_private#:#Private
 common#:#group_status_public#:#Public
+common#:#group_memstat#:#Member Status
+common#:#group_memstat_member#:#Member
+common#:#group_memstat_admin#:#Administrator
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
