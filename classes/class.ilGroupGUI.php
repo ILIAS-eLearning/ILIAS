@@ -20,9 +20,10 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
+require_once("include/inc.header.php");
 require_once("class.ilObjGroupGUI.php");
-
+require_once("classes/class.ilGroupExplorer.php");
+require_once("classes/class.ilTableGUI.php");
 /**
 * Class ilGroupGUI 
 *
@@ -46,15 +47,15 @@ class ilGroupGUI extends ilObjGroupGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGroupGUI($a_ref_id = 0)
+	function ilGroupGUI()
 	{
 		global $tpl, $lng, $tree, $rbacsystem;
 		
 		
-		if($a_ref_id != 0)
+		/*if($a_ref_id != 0)
 		{
 		parent::ilObjGroupGUI("", $a_ref_id, true, false);
-		}
+		}*/
 		
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
@@ -71,7 +72,8 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		$this->$cmd();
 		
-		var_dump($_GET);
+		//var_dump($_GET);
+		
 	}
 	/**
 	* calls current view mode (tree frame or list)
@@ -95,27 +97,6 @@ class ilGroupGUI extends ilObjGroupGUI
 		}
 	}
 	
-	function getContextPath($a_endnode_id, $a_startnode_id = 0)
-	{
-	global $tree;		
-
-	$path = "";		
-	
-	$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);		
-
-	// count -1, to exclude the forum itself
-	for ($i = 0; $i < (count($tmpPath) - 1); $i++)
-	{
-		if ($path != "")
-		{
-			$path .= " > ";
-		}
-
-		$path .= $tmpPath[$i]["title"];
-	}
-
-	return $path;
-}
 	
 	/**
 	* display list of courses and learning modules
@@ -342,7 +323,7 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		$exp = new ilGroupExplorer("group.php?cmd=displayList");
-		var_dump($_GET["expand"]);
+		
 		if ($_GET["expand"] == "")
 		{
 			$expanded = "1";
@@ -351,7 +332,7 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 		{
 			$expanded = $_GET["expand"];
 		}
-	
+		
 		$exp->setExpand($expanded);
 	
 		//filter object types
@@ -374,7 +355,10 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 	}	
 	
 	function show_content()
-	{
+	{	
+		global $tree, $tpl, $lng, $rbacsystem;
+	
+		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -439,7 +423,7 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 
-				$obj_link = getURLbyType($cont_data);
+				$obj_link = $this->getURLbyType($cont_data);
 		
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("CHECKBOX",
@@ -453,7 +437,7 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 				$this->tpl->setVariable("OWNER", $newuser->getFullName());
 				$this->tpl->setVariable("LAST_VISIT", "N/A");
 				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));				
-				$this->tpl->setVariable("CONTEXTPATH", getContextPath($cont_data["ref_id"]));
+				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$this->tpl->parseCurrentBlock();
 		
 			}
@@ -555,6 +539,50 @@ $tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->t
 		$tbl->render();
 
 		$this->tpl->show();
+	}
+	
+	function getURLbyType($cont_data)
+	{
+		switch ($cont_data["type"])
+		{ 
+		
+  		case "frm":
+			$URL = "forums_threads_liste.php?ref_id=".$cont_data["ref_id"];
+		break;	
+		
+		case "crs":
+			$URL = "lo_content.php?ref_id=".$cont_data["ref_id"];
+		break;
+		
+		case "le":
+			$URL = "content/lm_presentation.php?lm_id=".$cont_data["ref_id"];
+		break;
+		}
+
+	return $URL;
+	}
+	
+	
+	function getContextPath($a_endnode_id, $a_startnode_id = 0)
+	{
+		global $tree;		
+
+		$path = "";		
+	
+		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);		
+
+		// count -1, to exclude the forum itself
+		for ($i = 0; $i < (count($tmpPath) - 1); $i++)
+		{
+			if ($path != "")
+			{
+				$path .= " > ";
+			}
+
+			$path .= $tmpPath[$i]["title"];
+		}
+
+	return $path;
 	}
 }
 

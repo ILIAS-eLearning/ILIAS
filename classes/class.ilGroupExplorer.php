@@ -123,9 +123,9 @@ class ilGroupExplorer extends ilExplorer
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		
-		if ($a_type == "grp")
+		if (!strcmp($a_type,"grp"))
 		{
-			$tpl->setVariable("LINK_TARGET", "group.php?cmd=displayList&grp_id=".$a_node_id);
+			$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&grp_id=".$a_node_id);
 		}
 		else
 		{
@@ -143,7 +143,32 @@ class ilGroupExplorer extends ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
+	
+	/**
+	* Creates Get Parameter
+	* @access	private
+	* @param	string
+	* @param	integer
+	* @return	string
+	*/
+	function createTarget($a_type,$a_node_id)
+	{
+		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::createTarget(): Missing parameter or wrong datatype! ".
+									"type: ".$a_type." node_id:".$a_node_id,$this->ilias->error_obj->WARNING);
+		}
 
+		// SET expand parameter:
+		//     positive if object is expanded
+		//     negative if object is compressed
+		$a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
+
+		$sep = (is_int(strpos($this->expand_target, "?")))
+			? "&"
+			: "?";
+		return $this->expand_target.$sep."cmd=explorer&expand=".$a_node_id;
+	}
 
 }
 
