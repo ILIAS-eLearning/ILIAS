@@ -94,11 +94,13 @@ class ilObjCategoryGUI extends ilObjectGUI
 			$tabs_gui->addTarget("edit_properties",
 								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 		}
+
 		if($rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
 			$tabs_gui->addTarget("administrate_users",
 								 $this->ctrl->getLinkTarget($this, "listUsers"), "", get_class($this));
 		}
+		
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",

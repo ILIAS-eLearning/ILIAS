@@ -101,10 +101,37 @@
 	<span class="small"><br />{TXT_DOWNLOADS_DESC}</span>
 	</td>
 </tr>
+<!-- BEGIN menu_entries -->
+<tr class="std">
+	<td class="option">
+	<a href="{ENTRY_LINK}" target="_blank">{ENTRY_TITLE}</a> 
+	</td>
+	<td class="option_value">
+	<table cellpadding="0" cellspacing="0" border="0"><tr>
+		<td>
+		<input type="checkbox" name="{CBOX_ENTRY}" value="{VAL_ENTRY}" {CHK_ENTRY}>
+		</td>
+		<td valign="top" class="std" width="1px">{EDIT}
+		  <a href="{LINK_EDIT}" class="navigation" target="{TARGET_EDIT}">
+			<img border="0" src="{IMG_EDIT}" align="middle" title="{TXT_EDIT}" alt="{TXT_EDIT}" />
+		  </a>
+		</td>
+		<td valign="top" class="std" width="1px">{DROP}
+		 <a href="{LINK_DROP}" class="navigation" target="{TARGET_DROP}">
+		   <img border="0" src="{IMG_DROP}" align="middle" title="{TXT_DROP}" alt="{TXT_DROP}" />
+		 </a>
+		 </td>
+	  </tr></table>
+	  </td>
+	</tr>
+	</td>
+</tr>
+<!-- END menu_entries -->
 <!-- BEGIN commands -->
 <tr>
 	<td class="submit" colspan="2">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_NAME2}]" value="{BTN_TEXT2}" />
 	</td>
 </tr>
 <!-- END commands -->

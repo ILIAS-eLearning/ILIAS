@@ -341,9 +341,22 @@ class ilGlossaryTerm
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	function _goto($a_target,$a_type)
 	{
 		global $rbacsystem, $ilErr, $lng;
+
+
+		if ($a_type == "glo")
+		{
+			if (!$rbacsystem->checkAccess("read", $a_target))
+			{
+				$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+			}
+			
+			ilUtil::redirect(
+					"./content/glossary_presentation.php?ref_id=".$a_target);				
+		
+		}
 
 		// determine learning object
 		$glo_id = ilGlossaryTerm::_lookGlossaryID ($a_target);//::_lookupContObjID($a_target);

@@ -368,8 +368,25 @@ class ilObjExercise extends ilObject
 				return true;
 		}
 		return true;
-	}	
-				
+	}
+		
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng;
 
+		if ($rbacsystem->checkAccess("read", $a_target))
+		{
+			ilUtil::redirect("exercise.php?ref_id=$a_target");
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+		}
+	}		
 } //END class.ilObjExercise
 ?>

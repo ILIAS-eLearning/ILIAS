@@ -26,7 +26,7 @@
 * Class ilObjContentObjectGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
@@ -216,6 +216,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_fix_tree"));
 		$this->tpl->parseCurrentBlock();
 
+		//$this->tpl->touchBlock("btn_row");
+
+		// edit public section
+		if ($this->ilias->getSetting("pub_section"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "editPublicSection"));
+			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("public_section"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -310,7 +322,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_PRINT", "checked");
 		}
-
+		
 		// downloads
 		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
 		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
@@ -320,10 +332,64 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_DOWNLOADS", "checked");
 		}
+		
+		// get user defined menu entries
+		$this->__initLMMenuEditor();
+		$entries = $this->lmme_obj->getMenuEntries();
+		
+		if (count($entries) > 0)
+		{
+			foreach ($entries as $entry)
+			{
+				$this->ctrl->setParameter($this, "menu_entry", $entry["id"]);
+
+				$this->tpl->setCurrentBlock("menu_entries");
+				
+				if ($entry["type"] == "intern")
+				{
+					$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
+				}
+
+				// add http:// prefix if not exist
+				if (!strstr($entry["link"],'http://'))
+				{
+					$entry["link"] = "http://".$entry["link"];
+				}
+				
+				$this->tpl->setVariable("ENTRY_LINK", $entry["link"]);
+				$this->tpl->setVariable("ENTRY_TITLE", $entry["title"]);
+
+				$this->tpl->setVariable("CBOX_ENTRY", "menu_entries[]");
+				$this->tpl->setVariable("VAL_ENTRY", $entry["id"]);
+
+				if (ilUtil::yn2tf($entry["active"]))
+				{
+					$this->tpl->setVariable("CHK_ENTRY", "checked=\"checked\"");
+				}
+
+
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTarget($this,"editMenuEntry"));
+				$this->tpl->setVariable("TARGET_EDIT", "content");
+				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+				$this->tpl->setVariable("IMG_EDIT", ilUtil::getImagePath("icon_pencil.gif"));
+
+				$this->tpl->setVariable("LINK_DROP", $this->ctrl->getLinkTarget($this,"deleteMenuEntry"));
+				$this->tpl->setVariable("TARGET_DROP", "content");
+				$this->tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
+				$this->tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		// add entry link
+
 
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_NAME2", "addMenuEntry");
+		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("add_menu_entry"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -655,6 +721,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
 		$this->object->updateProperties();
+		
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
+
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
@@ -2298,8 +2368,35 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tpl_menu->parseCurrentBlock();
 		}
 		
+		// get user defined menu entries
+		$this->__initLMMenuEditor();
+		$entries = $this->lmme_obj->getMenuEntries(true);
+		
+		if (count($entries) > 0)
+		{
+			foreach ($entries as $entry)
+			{
+				// build goto-link for internal resources
+				if ($entry["type"] == "intern")
+				{
+					$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
+				}
+
+				// add http:// prefix if not exist
+				if (!strstr($entry["link"],'http://'))
+				{
+					$entry["link"] = "http://".$entry["link"];
+				}
+				
+				$tpl_menu->setVariable("BTN_LINK", $entry["link"]);
+				$tpl_menu->setVariable("BTN_TXT", $entry["title"]);
+				//$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->setVariable("BTN_TARGET", "_blank");
+				$tpl_menu->parseCurrentBlock();
+			}
+		}
+
 		return $tpl_menu->get();
-		//return "";
 	}
 
 	/**
@@ -2618,9 +2715,211 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->link_checker_obj =& new ilLinkChecker($ilDB,false);
 		$this->link_checker_obj->setObjId($this->object->getId());
 
+		return true;
+	}
+	
+	function __initLMMenuEditor()
+	{
+		include_once './content/classes/class.ilLMMenuEditor.php';
+
+		$this->lmme_obj =& new ilLMMenuEditor();
+		$this->lmme_obj->setObjId($this->object->getId());
 
 		return true;
 	}
 
+	/**
+	* display add menu entry form
+	*/
+	function addMenuEntry()
+	{
+		$this->setTabs();
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_entry_form.html",true);
+		
+		if (isset($_GET["link_ref_id"]))
+		{
+			$obj_type = ilObject::_lookupType($_GET["link_ref_id"],true);
+			$obj_id = ilObject::_lookupObjectId($_GET["link_ref_id"]);
+			$title = ilObject::_lookupTitle($obj_id);
+			
+			$target_link = $obj_type."_".$_GET["link_ref_id"];
+			$this->tpl->setVariable("TITLE", $title);
+			$this->tpl->setVariable("TARGET", $target_link);
+			$this->tpl->setVariable("LINK_REF_ID", $_GET["link_ref_id"]);
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_NEW_ENTRY", $this->lng->txt("lm_menu_new_entry"));
+		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("lm_menu_entry_target"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("lm_menu_entry_title"));
+		$this->tpl->setVariable("BTN_NAME", "saveMenuEntry");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_NAME2", "showEntrySelector");
+		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("lm_menu_select_internal_object"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* save new menu entry
+	*/
+	function saveMenuEntry()
+	{
+		// check title and target
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		if (empty($_POST["target"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->setTitle($_POST["title"]);
+		$this->lmme_obj->setTarget($_POST["target"]);
+		$this->lmme_obj->setLinkRefId($_POST["link_ref_id"]);
+		
+		if ($_POST["link_ref_id"])
+		{
+			$this->lmme_obj->setLinkType("intern");
+		}
+		
+		$this->lmme_obj->create();
+
+		sendInfo($this->lng->txt("msg_entry_added"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+	/**
+	* drop a menu entry
+	*/
+	function deleteMenuEntry()
+	{
+		if (empty($_GET["menu_entry"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->delete($_GET["menu_entry"]);
+
+		sendInfo($this->lng->txt("msg_entry_removed"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+	/**
+	* edit menu entry form
+	*/
+	function editMenuEntry()
+	{
+		if (empty($_GET["menu_entry"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->readEntry($_GET["menu_entry"]);
+
+		$this->setTabs();
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_entry_form.html",true);
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_NEW_ENTRY", $this->lng->txt("lm_menu_edit_entry"));
+		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("lm_menu_entry_target"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("lm_menu_entry_title"));
+		$this->tpl->setVariable("TITLE", $this->lmme_obj->getTitle());
+		$this->tpl->setVariable("TARGET", $this->lmme_obj->getTarget());
+		$this->tpl->setVariable("ENTRY_ID", $this->lmme_obj->getEntryId());
+		$this->tpl->setVariable("BTN_NAME", "updateMenuEntry");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_NAME2", "showEntrySelector");
+		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("lm_menu_select_internal_object"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* update a menu entry
+	*/
+	function updateMenuEntry()
+	{
+		if (empty($_POST["menu_entry"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// check title and target
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		if (empty($_POST["target"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->readEntry($_POST["menu_entry"]);
+		$this->lmme_obj->setTitle($_POST["title"]);
+		$this->lmme_obj->setTarget($_POST["target"]);
+		$this->lmme_obj->update();
+
+		sendInfo($this->lng->txt("msg_entry_updated"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+	function showEntrySelector()
+	{
+		$this->setTabs();
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html",true);
+
+		sendInfo($this->lng->txt("lm_menu_select_object_to_add"));
+		
+		require_once ("content/classes/class.ilLMMenuObjectSelector.php");
+		$exp = new ilLMMenuObjectSelector($this->ctrl->getLinkTarget($this,'test'),$this);
+
+		$exp->setExpand($_GET["lm_menu_expand"] ? $_GET["lm_menu_expand"] : $this->tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showEntrySelector'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		
+		$sel_types = array('lm','glo','frm','exc','tst','svy');
+		$exp->setSelectableTypes($sel_types);
+
+		//$exp->setTargetGet("obj_id");
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+		
+		// get page ids
+		foreach ($exp->format_options as $node)
+		{
+			if (!$node["container"])
+			{
+				$pages[] = $node["child"];
+			}
+		}
+		
+		//$this->tpl->setCurrentBlock("content");
+		//var_dump($this->object->getPublicAccessMode());
+		// access mode selector
+		$this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
+		$this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
+		$modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
+		$select_public_mode = ilUtil::formSelect ($this->object->getPublicAccessMode(),"lm_public_mode",$modes, false, true);
+		$this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
+
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->tpl->setVariable("ONCLICK",$js_pages);
+		$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+		$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
+		$this->tpl->parseCurrentBlock();
+	}
 } // END class.ilObjContentObjectGUI
 ?>

@@ -2397,6 +2397,16 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
+content#:#msg_entry_removed#:#Menu entry removed
+content#:#msg_entry_updated#:#Menu entry updated
+content#:#msg_entry_added#:#Menu entry added
+content#:#add_menu_entry#:#Add menu entry >>
+content#:#lm_menu_new_entry#:#Create a new menu entry
+content#:#lm_menu_edit_entry#:#Edit menu entry
+content#:#lm_menu_entry_title#:#Title
+content#:#lm_menu_entry_target#:#Target
+content#:#lm_menu_select_internal_object#:#Select internal object >>
+content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Enables download of all public export files.
 content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.

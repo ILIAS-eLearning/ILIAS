@@ -510,6 +510,10 @@ class ilObjContentObject extends ilObject
 		$q = "DELETE FROM content_object WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
+		// delete lm menu entries
+		$q = "DELETE FROM lm_menu WHERE lm_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+
 		#$ilBench->stop('NestedSet','lm_delete');
 		#$ilBench->save();
 	
