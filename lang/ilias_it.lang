@@ -265,10 +265,10 @@ assessment#:#log_question_removed#:#Eliminata domanda
 assessment#:#log_user_data_removed#:#Eliminati tutti i dati utente
 assessment#:#maintenance#:#Manutenzione
 assessment#:#mark_schema#:#Schema voti
-assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
-assessment#:#match_terms_and_pictures#:#Associa termini e figure
-assessment#:#matches#:#corrisponde a
-assessment#:#matching_pair#:#Coppia -> termine
+assessment#:#match_terms_and_definitions#:#Associa definizioni e termini
+assessment#:#match_terms_and_pictures#:#Associa figure e termini
+assessment#:#matches#:#corrisponde a 
+assessment#:#matching_pair#:#Definizione
 assessment#:#material#:#Materiale
 assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
@@ -364,7 +364,7 @@ assessment#:#selected_image#:#Immagine selezionata
 assessment#:#set_filter#:#Filtra
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
-assessment#:#solution_hint#:#Soluzione suggerita
+assessment#:#solution_hint#:#Mostra soluzione
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
@@ -873,15 +873,15 @@ common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chac_read#:#Accedere in lettura alle impostazioni della chat
 common#:#chac_visible#:#Vedere le impostazioni della chat
 common#:#chac_write#:#Modificare le impostazioni della chat
-common#:#change#:#Cambia
-common#:#change_active_assignment#:#Cambia l&#039;assegnazione attiva
-common#:#change_assignment#:#Cambia l&#039;assegnazione
-common#:#change_existing_objects#:#Cambia gli oggetti esistenti
+common#:#change#:#Modifica
+common#:#change_active_assignment#:#Modifica l&#039;assegnazione attiva
+common#:#change_assignment#:#Modifica l&#039;assegnazione
+common#:#change_existing_objects#:#Modifica gli oggetti esistenti
 common#:#change_header_title#:#Modifica l'intestazione
-common#:#change_lo_info#:#Cambia le informazioni dell'unit&#224; didattica
-common#:#change_metadata#:#Cambia i metadati
-common#:#change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
-common#:#changed_to#:#cambiata in
+common#:#change_lo_info#:#Modifica le informazioni dell'unit&#224; didattica
+common#:#change_metadata#:#Modifica i metadati
+common#:#change_sort_direction#:#Modifica la direzione dell&#039;ordinamento
+common#:#changed_to#:#modificata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
