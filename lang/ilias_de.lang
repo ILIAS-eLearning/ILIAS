@@ -122,7 +122,7 @@ assessment#:#ass_file#:#Datei
 assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
-assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
@@ -187,23 +187,23 @@ assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fe
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Feher beim Öffnen eines Java-Applets!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Evaluation für alle Nutzerinnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
+assessment#:#eval_concatenation#:#Verknüpfung
 assessment#:#eval_data#:#Evaluationsdaten
-assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
-assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
+assessment#:#eval_found_selected_groups#:#Ausgewählte Gruppen
+assessment#:#eval_found_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
-assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
-assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
-assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
-assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
+assessment#:#eval_search_groups#:#Gruppen
+assessment#:#eval_search_term#:#Suchbegriff
+assessment#:#eval_search_users#:#Nutzerinnen
+assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Sie in die statistische Auswertung einbeziehen wollen
+assessment#:#eval_selected_users#:#Auswertung für ausgewählte Nutzerinnen
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
@@ -261,7 +261,7 @@ assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BEST
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
@@ -304,7 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
-assessment#:#question_title#:#Question title###17 Dec 2004 new variable
+assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragentyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questions_from#:#Fragen aus
@@ -329,8 +329,8 @@ assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
-assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
-assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
+assessment#:#search_found_groups#:#Gefundene Gruppen
+assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -345,7 +345,7 @@ assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
-assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
+assessment#:#statistical_data#:#Statistische Daten
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
@@ -455,9 +455,9 @@ assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
-assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen###15 Dec 2004 content changed
+assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
-assessment#:#tst_statistical_evaluation#:#Statistische Auswertung###15 Dec 2004 content changed
+assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!
@@ -2595,7 +2595,7 @@ content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
+content#:#cont_ordering_question_javascript_hint#:#Bitte ziehen Sie eine Definition (oder Bild) über die Definition (oder Bild), an deren Position das gezogene Objekt eingefügt werden soll und legen Sie es dort ab. Die darunter liegende Definition (oder Bild) und alle folgenden Definitionen (Bilder) werden in der Reihenfolge automatisch nach unten verschoben.
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
@@ -4040,7 +4040,7 @@ survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
-survey#:#chart#:#Chart###17 Dec 2004 new variable
+survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?

@@ -3263,6 +3263,7 @@ class ilObjSurvey extends ilObject
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
+		$numrows = $result->numRows();
 		if ($questions[$question_id]["subtype"] == SUBTYPE_MCMR)
 		{
 			$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", user_fi )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
@@ -3272,6 +3273,7 @@ class ilObjSurvey extends ilObject
 			$mcmr_result = $this->ilias->db->query($query);
 			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
 			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
+			$numrows = $mcmr_result->numRows();
 		}
 		else
 		{
@@ -3295,9 +3297,9 @@ class ilObjSurvey extends ilObject
 				foreach ($variables as $key => $value)
 				{
 					$percentage = 0;
-					if ($result->numRows() > 0)
+					if ($numrows > 0)
 					{
-						$percentage = (float)((int)$cumulated[$key]/$result->numRows());
+						$percentage = (float)((int)$cumulated[$key]/$numrows);
 					}
 					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
@@ -3313,9 +3315,9 @@ class ilObjSurvey extends ilObject
 				foreach ($variables as $key => $value)
 				{
 					$percentage = 0;
-					if ($result->numRows() > 0)
+					if ($numrows > 0)
 					{
-						$percentage = (float)((int)$cumulated[$key]/$result->numRows());
+						$percentage = (float)((int)$cumulated[$key]/$numrows);
 					}
 					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
@@ -3361,9 +3363,9 @@ class ilObjSurvey extends ilObject
 				foreach ($cumulated as $value => $nr_of_users)
 				{
 					$percentage = 0;
-					if ($result->numRows() > 0)
+					if ($numrows > 0)
 					{
-						$percentage = (float)($nr_of_users/$result->numRows());
+						$percentage = (float)($nr_of_users/$numrows);
 					}
 					$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => $percentage);
 				}
