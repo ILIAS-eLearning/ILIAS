@@ -3047,7 +3047,7 @@ class ilRepositoryGUI
 		$modifier = 1;
 
 		// ... and to make it more stupid ...
-		if (!empty($_GET["obj_id"]) and $_GET['cmdClass'] != 'ilobjusergui')
+		if (!empty($_GET["obj_id"]) and $_GET['cmdClass'] != 'ilobjusergui' and $_GET['cmdClass'] != 'ilobjcategorygui')
 		{
 			$modifier = 0;
 		}
