@@ -978,9 +978,9 @@ class ilObjTest extends ilObject
 		// create new category relations
 		foreach ($this->questions as $key => $value) {
 			$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getTestId()),
-				$this->ilias->db->quote($value),
-				$this->ilias->db->quote($key)
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($value . ""),
+				$this->ilias->db->quote($key . "")
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -2864,7 +2864,14 @@ class ilObjTest extends ilObject
 		}
 		$part1 = array_values($part1);
 		$part2 = array_values($part2);
-		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
+		$new_array = array_values(array_merge($part1, $move_questions, $part2));
+		$this->questions = array();
+		$counter = 1;
+		foreach ($new_array as $question_id)
+		{
+			$this->questions[$counter] = $question_id;
+			$counter++;
+		}
 		$this->saveQuestionsToDb();
 	}
 

@@ -971,7 +971,10 @@ class ASS_OrderingQuestion extends ASS_Question
 		$user_order = array();
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_order[$data->value2] = $data->value1;
+			if (strcmp($data->value1, "") != 0)
+			{
+				$user_order[$data->value2] = $data->value1;
+			}
 		}
 		ksort($user_order);
 		$user_order = array_values($user_order);

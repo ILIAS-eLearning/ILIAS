@@ -985,8 +985,11 @@ class ASS_MatchingQuestion extends ASS_Question
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			array_push($found_value1, $data->value1);
-			array_push($found_value2, $data->value2);
+			if (strcmp($data->value1, "") != 0)
+			{
+				array_push($found_value1, $data->value1);
+				array_push($found_value2, $data->value2);
+			}
 		}
 		$points = 0;
 		foreach ($found_value2 as $key => $value)
