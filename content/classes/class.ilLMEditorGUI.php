@@ -138,34 +138,37 @@ class ilLMEditorGUI
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
 					$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
-					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
+					if (is_object($obj))
+					{
+						$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
 //echo "1c";
-					if($type != "content")
-					{
-						$type = ($cmd == "create" || $cmd == "save")
-							? $new_type
-							: $obj->getType();
-					}
-					else
-					{
-						/*
-						$obj->buildDom();
-						$obj->addHierIDs();
-//echo "hier_id:$hier_id:";
-						// determine command and content object
-						$com = explode("_", $cmd);
-						$cmd = $com[0];
-				 		$cont_obj =& $obj->getContentObject($hier_id);
-
-						// determine content type
-						if ($cmd == "insert" || $cmd == "create")
+						if($type != "content")
 						{
-							$ctype = $com[1];
+							$type = ($cmd == "create" || $cmd == "save")
+								? $new_type
+								: $obj->getType();
 						}
 						else
 						{
-							$ctype = $cont_obj->getType();
-						}*/
+							/*
+							$obj->buildDom();
+							$obj->addHierIDs();
+//echo "hier_id:$hier_id:";
+							// determine command and content object
+							$com = explode("_", $cmd);
+							$cmd = $com[0];
+				 			$cont_obj =& $obj->getContentObject($hier_id);
+
+							// determine content type
+							if ($cmd == "insert" || $cmd == "create")
+							{
+								$ctype = $com[1];
+							}
+							else
+							{
+								$ctype = $cont_obj->getType();
+							}*/
+						}
 					}
 				}
 				else		// command belongs to learning module

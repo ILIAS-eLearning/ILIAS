@@ -868,7 +868,7 @@ class ilContObjParser extends ilSaxParser
 					break;
 
 				case "Keyword":
-					$this->meta_data->addKeyword($this->keyword_language, $a_data);
+//					$this->meta_data->addKeyword($this->keyword_language, $a_data);
 //echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
 					break;
 

@@ -528,6 +528,12 @@ common#:#other#:#Other
 common#:#overview#:#Overview
 common#:#owner#:#Owner
 common#:#page#:#Page
+common#:#pg_a#:#a page
+common#:#pg_add#:#Add page
+common#:#pg_added#:#Page added
+common#:#pg_edit#:#Edit page
+common#:#pg_new#:#New page
+common#:#pages#:#Pages
 common#:#page_edit#:#Edit Page
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
@@ -650,6 +656,11 @@ common#:#step#:#Step
 common#:#stop_inheritance#:#Stop inheritance
 common#:#street#:#Street
 common#:#structure#:#Structure
+common#:#st_a#:#a chapter
+common#:#st_add#:#Add chapter
+common#:#st_added#:#Chapter added
+common#:#st_edit#:#Edit chapter
+common#:#st_new#:#New chapter
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Subject
@@ -948,6 +959,8 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
+meta#:#meta_add#:#Add
+meta#:#meta_atomic#:#Atomic
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#United Arab Emirates
 meta#:#meta_c_AF#:#Afghanistan
@@ -1186,7 +1199,16 @@ meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZR#:#Zaire
 meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_c_ZZ#:#Other Country
+meta#:#meta_catalog#:#Catalog
+meta#:#meta_collection#:#Collection
+meta#:#meta_choose_element#:#Please choose an element you want to add!
+meta#:#meta_choose_language#:#Please choose a language
+meta#:#meta_choose_section#:#Please choose a section
+meta#:#meta_delete#:#Delete
+meta#:#meta_description#:#Description
+meta#:#meta_entry#:#Entry
 meta#:#meta_general#:#General
+meta#:#meta_hierarchical#:#Hierarchical
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
@@ -1328,7 +1350,14 @@ meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
+meta#:#meta_linear#:#Linear
+meta#:#meta_keyword#:#Keyword
+meta#:#meta_networked#:#Networked
+meta#:#meta_new_element#:#New Element
+meta#:#meta_please_select#:#Please select
+meta#:#meta_structure#:#Structure
 meta#:#meta_title#:#Title
+meta#:#meta_value#:#Value
 search#:#search_all_results#:#All results
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content

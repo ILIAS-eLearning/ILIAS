@@ -47,6 +47,11 @@ class ilMetaData
 
 	var $import_id;			// +, array
 
+	var $meta;
+	var $section;
+
+	var $obj;
+
 	// attributes of the "General" Section
 	var $identifier;		// +, array
 	var $title;				// 1, array
@@ -83,16 +88,14 @@ class ilMetaData
 		}
 	}
 
-	
+	function setObject(&$a_obj)
+	{
+		$this->obj =& $a_obj;
+	}
+
 	function read()
 	{
-//echo "<b>".$this->id."</b><br>";
-/*		$query = "SELECT * FROM meta_data ".
-			"WHERE obj_id = '".$this->id."' AND obj_type='".$this->type."'";
-		$meta_set = $this->ilias->db->query($query);
-		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);*/
-
-		// Metadaten aus der Nested-Set-Struktur ermitteln.
+		/* Get meta data from nested set */
 		if ($this->getType() == "pg" ||
 			$this->getType() == "st" ||
 			$this->getType() == "lm" ||
@@ -105,8 +108,21 @@ class ilMetaData
 			$this->nested->init($this->id, $this->getType());
 			if ( !$this->nested->initDom() )
 			{
-				/* Init DOM failed */
+				/* No meta data found --> Create default meta data dataset */
+				$xml = '
+					<MetaData>
+						<General Structure="Hierarchical">
+							<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
+							<Title Language="' . $this->ilias->account->getLanguage() . '"></Title>
+							<Description Language="' . $this->ilias->account->getLanguage() . '"></Description>
+							<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>
+						</General>
+					</MetaData>
+				';
+				/* To do: Add default meta data for other sections like "Lifecycle", "Technical"... */
+				$this->nested->import($xml, $this->id, $this->getType());
 			}
+
 			if ( $this->nested->initDom() ) {
 				$meta_rec["title"] = $this->nested->getFirstDomContent("//MetaData/General/Title");
 			}
@@ -150,14 +166,17 @@ class ilMetaData
 	*/
 	function delete($a_name, $a_path, $a_index)
 	{
-		$p = "//MetaData/";
-		if ($a_path != "")
+		if ($a_name != "")
 		{
-			$p .= $a_path . "/";
+			$p = "//MetaData/";
+			if ($a_path != "")
+			{
+				$p .= $a_path . "/";
+			}
+			$p .= $a_name;
+			$this->nested->deleteDomNode($p, $a_index);
+			$this->nested->updateFromDom();
 		}
-		$p .= $a_name;
-		$this->nested->deleteDomNode($p, $a_index);
-		$this->nested->updateFromDom();
 	}
 
 	/**
@@ -171,12 +190,35 @@ class ilMetaData
 			$p .= "/" . $a_path;
 		}
 		$attributes = array();
-		if ($a_name == "Identifier")
+		switch ($a_name)
 		{
-			$attributes[0] = array("name" => "Catalog", "value" => "");
-			$attributes[1] = array("name" => "Entry", "value" => "");
+			case "Relation"		:	$xml = '
+										<Relation>
+											<Resource>
+												<Identifier_ Language="' . $this->ilias->account->getLanguage() . '"/>
+												<Description Language="' . $this->ilias->account->getLanguage() . '"/>
+											</Resource>
+										</Relation>
+									';
+									$this->nested->addXMLNode($p, $xml);
+									break;
+			case "Identifier"	:	;
+			case "Identifier_"	:	$value = "";
+									$attributes[0] = array("name" => "Catalog", "value" => "");
+									$attributes[1] = array("name" => "Entry", "value" => "");
+									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									break;
+			case "Language"		:	$value = $this->ilias->account->getLanguage();
+									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
+									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									break;
+			case "Title"		:	;
+			case "Description"	:	;
+			case "Keyword"		:	$value = "";
+									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
+									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									break;
 		}
-		$this->nested->addDomNode($p, $a_name, $attributes);
 		$this->nested->updateFromDom();
 	}
 
@@ -235,6 +277,38 @@ class ilMetaData
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	* set (posted) meta data
+	*/
+	function setMeta($a_data)
+	{
+		$this->meta = $a_data;
+	}
+
+	/**
+	* get meta data
+	*/
+	function getMeta()
+	{
+		return $this->meta;
+	}
+
+	/**
+	* set chosen meta data section
+	*/
+	function setSection($a_section)
+	{
+		$this->section = $a_section;
+	}
+
+	/**
+	* get chosen meta data section
+	*/
+	function getSection()
+	{
+		return $this->section;
 	}
 
 	/**
@@ -345,21 +419,26 @@ class ilMetaData
 		}
 	}
 
-
 	/**
 	* create meta data object in db
 	*/
 	function create()
 	{
-		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
-			"language, description) VALUES ".
-			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
-			"'".$this->getLanguage()."','".$this->getDescription()."')";
-		$this->ilias->db->query($query);
-		$this->updateKeywords();
-		$this->updateTechnicalSections();
+		include_once("./classes/class.ilNestedSetXML.php");
+		$this->nested = new ilNestedSetXML();
+		$this->nested->init($this->id, $this->getType());
+		$xml = '
+			<MetaData>
+				<General Structure="Hierarchical">
+					<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
+					<Title Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getTitle() . '</Title>
+					<Description Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getDescription() . '</Description>
+					<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>
+				</General>
+			</MetaData>
+		';
+		$this->nested->import($xml, $this->getID(), $this->getType());
 	}
-
 
 	/**
 	* update everything
@@ -377,16 +456,27 @@ class ilMetaData
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
 			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk")
 		{
-
-			include_once("./classes/class.ilNestedSetXML.php");
-			$nested = new ilNestedSetXML();
-			$nested->init($this->id, $this->getType());
-			if ($nested->initDom() ) {
-
-				$node = $nested->getFirstDomNode("//MetaData/General/Title");
-				$c = $node->children();
-				$c[0]->set_content($this->getTitle());
-				$nested->updateFromDom();
+#			echo "Section: " . $this->section . "<br>\n";
+			$p = "//MetaData";
+			if ($this->section != "")
+				$p .= "/" . $this->section;
+			$this->nested->updateDomNode($p, $this->meta);
+			$this->nested->updateFromDom();
+			if ($this->getType() == "lm" ||
+				$this->getType() == "dbk")
+			{
+				$this->setTitle($this->meta["title_value"]);
+				$this->setDescription($this->meta["description_value"][0]);
+			}
+			if ($this->getType() == "lm" ||
+					 $this->getType() == "dbk" ||
+					 $this->getType() == "st" ||
+					 $this->getType() == "pg")
+			{
+				$query = "UPDATE lm_data SET title = '".$this->meta["title_value"]."' WHERE ".
+						 "obj_id = '" . $this->getID() . "'";
+#				echo $query;
+				$this->ilias->db->query($query);
 			}
 		}
 	}

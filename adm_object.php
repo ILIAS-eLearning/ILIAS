@@ -84,6 +84,12 @@ if (empty($cmd)) // if no cmd is given default to first property
 	$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
 }
 
+if ($_GET["cmd"] == "post")
+{
+	$cmd = key($_POST["cmd"]);
+	unset($_GET["cmd"]);
+}
+
 // determine object type
 if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
 {

@@ -1,5 +1,7 @@
 <?php
 
+require_once "./classes/class.ilXML2DOM.php";
+
 class ilNestedSetXML 
 {
     // {{{ Vars
@@ -334,7 +336,8 @@ class ilNestedSetXML
     function init($obj_id,$obj_type) 
 	{
         // {{{
-        $result = $this->db->query("SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1");
+		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
+        $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
         
         // vd($row);
@@ -704,13 +707,16 @@ class ilNestedSetXML
 */	
 	function getXpathNodes(&$dom, $expr) 
 	{
-		$xpth = $dom->xpath_new_context();
-		$xnode = xpath_eval($xpth,$expr);
-		if (is_array ($xnode->nodeset)) 
+		if (is_object($dom))
 		{
-			return($xnode->nodeset);
+			$xpth = $dom->xpath_new_context();
+			$xnode = xpath_eval($xpth,$expr);
+			if (is_array ($xnode->nodeset)) 
+			{
+				return($xnode->nodeset);
+			}
 		}
-		else return Null;
+		return Null;
 	}	
 	
 	/**
@@ -719,7 +725,7 @@ class ilNestedSetXML
 	function initDom() 
 	{
 		$xml = $this->export($this->obj_id, $this->obj_type);
-		
+
 		$xml_test = '
 		<MetaData>
 			<General Structure="Atomic">
@@ -742,13 +748,36 @@ class ilNestedSetXML
 	}
 
 	/**
+	*	parse XML code and add it to a given DOM object as a new node
+	*/
+	function addXMLNode($xPath, $xml) 
+	{
+		$newDOM = new XML2DOM($xml);
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
+		if (count($nodes) > 0)
+		{
+			$newDOM->insertNode($this->dom, $nodes[0]);
+#			echo htmlspecialchars($this->dom->dump_mem(0));
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	*	returns first content of this node
 	*/
 	function getFirstDomContent($xPath) 
 	{
-		$node = $this->getXpathNodes($this->dom,$xPath);
-		$c = $node[0]->children();
-		$content = $c[0]->content;
+		$content = "";
+		if (is_object($this->dom))
+		{
+			$node = $this->getXpathNodes($this->dom,$xPath);
+			$c = $node[0]->children();
+			$content = $c[0]->content;
+		}
 		return($content);
 	}	
 	
@@ -773,20 +802,134 @@ class ilNestedSetXML
 	/**
 	*	adds node
 	*/
-	function addDomNode($xPath, $name, $attributes) 
+	function addDomNode($xPath, $name, $value = "", $attributes = "") 
 	{
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 		if (count($nodes) > 0)
 		{
 			$node = $this->dom->create_element($name);
+			if ($value != "")
+			{
+				$node->set_content(utf8_encode($value));
+			}
 			if (is_array($attributes))
 			{
 				for ($i = 0; $i < count($attributes); $i++)
 				{
-					$node->set_attribute($attributes[$i]["name"], $attributes[$i]["value"]);
+					$node->set_attribute($attributes[$i]["name"], utf8_encode($attributes[$i]["value"]));
 				}
 			}
 			$nodes[0]->append_child($node);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}	
+	
+	/**
+	*	adds node
+	*/
+	function updateDomNode($xPath, $meta, $no = 0) 
+	{
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
+#		echo "Path: " . $xPath . "<br>\n";
+#		var_dump("<pre>", $meta, "</pre>");
+#		var_dump("<pre>", $nodes, "</pre>");
+		if (count($nodes) > 0)
+		{
+			/* General */
+			if ($nodes[0]->node_name() == "General")
+			{
+				$nodes[0]->set_attribute("Structure", $meta["structure"]);
+
+				$del = $this->getXpathNodes($this->dom, $xPath . "/Title");
+				if (count($del) > 0)
+				for ($i = 0; $i < count($del); $i++)
+				{
+					$del[$i]->unlink_node();
+				}
+				$node = $this->dom->create_element("Title");
+				$node->set_attribute("Language", $meta["title_language"]);
+				$node->set_content(utf8_encode($meta["title_value"]));
+				$nodes[0]->append_child($node);
+				unset($node);
+
+				$del = $this->getXpathNodes($this->dom, $xPath . "/Keyword");
+				if (count($del) > 0)
+				for ($i = 0; $i < count($del); $i++)
+				{
+					$del[$i]->unlink_node();
+				}
+				if (is_array($meta["keyword_value"]))
+				{
+					for ($i = 0; $i < count($meta["keyword_value"]); $i++)
+					{
+						$node = $this->dom->create_element("Keyword");
+						$node->set_attribute("Language", $meta["keyword_language"][$i]);
+						$node->set_content(utf8_encode($meta["keyword_value"][$i]));
+						$nodes[0]->append_child($node);
+						unset($node);
+					}
+				}
+
+				$del = $this->getXpathNodes($this->dom, $xPath . "/Identifier");
+				if (count($del) > 0)
+				for ($i = 0; $i < count($del); $i++)
+				{
+					$del[$i]->unlink_node();
+				}
+				if (is_array($meta["identifier_value"]))
+				{
+					for ($i = 0; $i < count($meta["identifier_value"]); $i++)
+					{
+						$node = $this->dom->create_element("Identifier");
+						$node->set_attribute("Catalog", utf8_encode($meta["identifier_catalog"][$i]));
+						$node->set_attribute("Entry", utf8_encode($meta["identifier_entry"][$i]));
+						$node->set_content(utf8_encode($meta["identifier_value"][$i]));
+						$nodes[0]->append_child($node);
+						unset($node);
+					}
+				}
+
+				$del = $this->getXpathNodes($this->dom, $xPath . "/Language");
+				if (count($del) > 0)
+				for ($i = 0; $i < count($del); $i++)
+				{
+					$del[$i]->unlink_node();
+				}
+				if (is_array($meta["language_value"]))
+				{
+					for ($i = 0; $i < count($meta["language_value"]); $i++)
+					{
+						$node = $this->dom->create_element("Language");
+						$node->set_attribute("Language", $meta["language_language"][$i]);
+						$node->set_content($meta["language_value"][$i]);
+						$nodes[0]->append_child($node);
+						unset($node);
+					}
+				}
+
+				$del = $this->getXpathNodes($this->dom, $xPath . "/Description");
+				if (count($del) > 0)
+				for ($i = 0; $i < count($del); $i++)
+				{
+					$del[$i]->unlink_node();
+				}
+				if (is_array($meta["description_value"]))
+				{
+					for ($i = 0; $i < count($meta["description_value"]); $i++)
+					{
+						$node = $this->dom->create_element("Description");
+						$node->set_attribute("Language", $meta["description_language"][$i]);
+						$node->set_content(utf8_encode($meta["description_value"][$i]));
+						$nodes[0]->append_child($node);
+						unset($node);
+					}
+				}
+			}
+
 			return true;
 		}
 		else
@@ -806,6 +949,7 @@ class ilNestedSetXML
 			for ($i = 0; $i < count($nodes); $i++)
 			{
 				$content[$i]["value"] = $nodes[$i]->get_content();
+#				echo $nodes[$i]->node_name() . ": " . $content[$i]["value"] . "<br>\n";
 				$a = $nodes[$i]->attributes();
 				for ($j = 0; $j < count($a); $j++)
 				{

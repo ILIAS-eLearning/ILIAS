@@ -71,6 +71,7 @@ class ilObjContentObject extends ilObject
 		parent::create();
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
+		$this->meta_data->setObject($this);
 		$this->meta_data->create();
 		$this->createProperties();
 	}

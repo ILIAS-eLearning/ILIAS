@@ -238,8 +238,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			include_once("content/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
 			$newObj->setType($this->type);
-			$newObj->setTitle("content object ".$newObj->getId());		// set by meta_gui->save
-			$newObj->setDescription("");	// set by meta_gui->save
+			$newObj->setTitle($_POST["Fobject"]["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
+			$newObj->setDescription($_POST["Fobject"]["desc"]);	// set by meta_gui->save
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
@@ -251,12 +251,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// assign author role to creator of forum object
 			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
-
-			// save meta data
-			include_once "classes/class.ilMetaDataGUI.php";
-			$meta_gui =& new ilMetaDataGUI();
-			$meta_gui->setObject($newObj);
-			$meta_gui->save();
 
 			// create content object tree
 			$newObj->createLMTree();
@@ -277,11 +271,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"], $_POST["meta_language"]);
+			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
 	}
 
 	// called by editor
-	function choose_meta_section()
+	function chooseMetaSection()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
@@ -290,6 +284,63 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->getRefId(), $_POST["meta_section"]);
 	}
 
+	function addMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"));
+		}
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $meta_section);
+	}
+
+	function addMeta()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"));
+		}
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->object->getRefId(), $meta_section);
+	}
+
+	function deleteMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $_GET["meta_section"]);
+	}
+
+	function deleteMeta()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->object->getRefId(), $_GET["meta_section"]);
+	}
 
 	function editMetaObject()
 	{
@@ -305,7 +356,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->save();
+		$meta_gui->save($_POST["meta_section"]);
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit;
 	}
@@ -464,14 +515,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// create and insert object in objecttree
-		$newObj = new ilObjLearningModule();
+		include_once("content/classes/class.ilObjContentObject.php");
+		$newObj = new ilObjContentObject();
 		$newObj->setType($_GET["new_type"]);
-		$newObj->setTitle("dummy");			// set by meta_gui->save
-		$newObj->setDescription("dummy");	// set by meta_gui->save
+		$newObj->setTitle("dummy");
+		$newObj->setDescription("dummy");
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
 
 		// create learning module tree
 		$newObj->createLMTree();
