@@ -3,9 +3,14 @@ body { margin:0px; }
 </style>
 {LOCATOR}
 <div class="invisible_border">
-<div class="il_Header"><h1>{TXT_MAILS_OF}</h1></div>
-	  {INFOPANEL}
-	  {BUTTONS}
+<div class="il_Header"><h1>{TXT_MAILS_OF}</h1>
+<div class="il_Tab">
+{TABS}	  
+</div>
+</div>
+{INFOPANEL}
+{BUTTONS}
+<br />
 	<form action="{ACTION_FLAT}" method="GET">
 	  <!-- BEGIN show_folder -->
 	  <table class="fullwidth">
