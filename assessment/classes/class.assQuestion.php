@@ -17,7 +17,7 @@
    |                                                                            |
    | You should have received a copy of the GNU General Public License          |
    | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. | 
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
 
@@ -28,8 +28,8 @@ define("LIMIT_TIME_ONLY", 1);
 
 /**
 * Basic class for all assessment question types
-* 
-* The ASS_Question class defines and encapsulates basic methods and attributes 
+*
+* The ASS_Question class defines and encapsulates basic methods and attributes
 * for assessment question types to be used for all parent classes.
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
@@ -40,7 +40,7 @@ define("LIMIT_TIME_ONLY", 1);
 class ASS_Question extends PEAR {
 /**
 * Question id
-* 
+*
 * A unique question id
 *
 * @var integer
@@ -49,7 +49,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Question title
-* 
+*
 * A title string to describe the question
 *
 * @var string
@@ -57,7 +57,7 @@ class ASS_Question extends PEAR {
   var $title;
 /**
 * Question comment
-* 
+*
 * A comment string to describe the question more detailed as the title
 *
 * @var string
@@ -65,7 +65,7 @@ class ASS_Question extends PEAR {
   var $comment;
 /**
 * Question owner/creator
-* 
+*
 * A unique positive numerical ID which identifies the owner/creator of the question.
 * This can be a primary key from a database table for example.
 *
@@ -74,8 +74,8 @@ class ASS_Question extends PEAR {
   var $owner;
 /**
 * Contains the name of the author
-* 
-* A text representation of the authors name. The name of the author must 
+*
+* A text representation of the authors name. The name of the author must
 * not necessary be the name of the owner.
 *
 * @var string
@@ -83,17 +83,17 @@ class ASS_Question extends PEAR {
   var $author;
 
 /**
-* Contains an uri to additional materials
-* 
-* Contains an uri to additional materials
+* Contains uris to additional materials
 *
-* @var string
+* Contains uris to additional materials
+*
+* @var array
 */
   var $materials;
 
 /**
 * The database id of a test in which the question is contained
-* 
+*
 * The database id of a test in which the question is contained
 *
 * @var integer
@@ -102,7 +102,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Reference id of the container object
-* 
+*
 * Reference id of the container object
 *
 * @var double
@@ -111,7 +111,7 @@ class ASS_Question extends PEAR {
 
 /**
 * The reference to the ILIAS class
-* 
+*
 * The reference to the ILIAS class
 *
 * @var object
@@ -120,7 +120,7 @@ class ASS_Question extends PEAR {
 
 /**
 * The reference to the Template class
-* 
+*
 * The reference to the Template class
 *
 * @var object
@@ -129,16 +129,16 @@ class ASS_Question extends PEAR {
 
 /**
 * The reference to the Language class
-* 
+*
 * The reference to the Language class
 *
 * @var object
 */
   var $lng;
-  
+
 /**
 * ASS_Question constructor
-* 
+*
 * The constructor takes possible arguments an creates an instance of the ASS_Question object.
 *
 * @param string $title A title string to describe the question
@@ -148,13 +148,12 @@ class ASS_Question extends PEAR {
 * @access public
 */
   function ASS_Question(
-    $title = "", 
+    $title = "",
     $comment = "",
     $author = "",
-    $owner = -1,
-    $materials = ""
-  ) 
-  
+    $owner = -1
+  )
+
   {
 		global $ilias;
     global $lng;
@@ -163,7 +162,7 @@ class ASS_Question extends PEAR {
 		$this->ilias =& $ilias;
     $this->lng =& $lng;
     $this->tpl =& $tpl;
-    
+
     $this->title = $title;
     $this->comment = $comment;
     $this->author = $author;
@@ -176,12 +175,11 @@ class ASS_Question extends PEAR {
     }
     $this->id = -1;
     $this->test_id = -1;
-    $this->materials = $materials;
   }
-  
+
 /**
 * Returns TRUE if the question title exists in the database
-* 
+*
 * Returns TRUE if the question title exists in the database
 *
 * @param string $title The title of the question
@@ -200,10 +198,10 @@ class ASS_Question extends PEAR {
     }
     return FALSE;
   }
-  
+
 /**
 * Sets the title string
-* 
+*
 * Sets the title string of the ASS_Question object
 *
 * @param string $title A title string to describe the question
@@ -216,7 +214,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Sets the id
-* 
+*
 * Sets the id of the ASS_Question object
 *
 * @param integer $id A unique integer value
@@ -229,7 +227,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Sets the test id
-* 
+*
 * Sets the test id of the ASS_Question object
 *
 * @param integer $id A unique integer value
@@ -242,7 +240,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Sets the comment
-* 
+*
 * Sets the comment string of the ASS_Question object
 *
 * @param string $comment A comment string to describe the question
@@ -255,20 +253,78 @@ class ASS_Question extends PEAR {
 
 /**
 * Sets the materials uri
-* 
+*
 * Sets the materials uri
 *
 * @param string $materials An uri to additional materials
 * @access public
 * @see $materials
 */
-  function set_materials($materials = "") {
-    $this->materials = $materials;
+  function add_materials($material) {
+    if ((!empty($material))&&(!in_array($material, $this->materials))) {
+      array_push($this->materials, $material);
+    }
+
+  }
+
+/**
+* Sets and uploads the materials uri
+*
+* Sets and uploads the materials uri
+*
+* @param string $materials_filename, string $materials_tempfilename
+* @access public
+* @see $materials
+*/  function set_materialsfile($materials_filename, $materials_tempfilename="") {
+		if (!empty($materials_filename)) {
+			$materialspath = $this->get_materials_path();
+			if (!file_exists($materialspath)) {
+				ilUtil::makeDirParents($materialspath);
+			}
+			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
+				print "image not uploaded!!!! ";
+			} else {
+				$this->add_materials($materials_filename);
+			}
+		}
+	}
+
+/**
+* Deletes a material uri
+*
+* Deletes a material uri with a given index. The index of the first
+* material uri is 0, the index of the second material uri is 1 and so on.
+*
+* @param integer $index A nonnegative index of the n-th material uri
+* @access public
+* @see $materials
+*/
+  function delete_material($material = "") {
+	foreach ($this->materials as $key => $value) {
+		if (strcmp($value, $material)==0) {
+			unset($this->materials[$key]);
+			if (file_exists($this->get_materials_path().$material)) {
+				unlink($this->get_materials_path().$material);
+			}
+		}
+	}
+  }
+
+/**
+* Deletes all materials uris
+*
+* Deletes all materials uris
+*
+* @access public
+* @see $materials
+*/
+  function flush_materials() {
+    $this->materials = array();
   }
 
 /**
 * Sets the authors name
-* 
+*
 * Sets the authors name of the ASS_Question object
 *
 * @param string $author A string containing the name of the questions author
@@ -284,7 +340,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Sets the creator/owner
-* 
+*
 * Sets the creator/owner ID of the ASS_Question object
 *
 * @param integer $owner A numerical ID to identify the owner/creator
@@ -297,7 +353,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Gets the title string
-* 
+*
 * Gets the title string of the ASS_Question object
 *
 * @return string The title string to describe the question
@@ -310,7 +366,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Gets the id
-* 
+*
 * Gets the id of the ASS_Question object
 *
 * @return integer The id of the ASS_Question object
@@ -323,7 +379,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Gets the test id
-* 
+*
 * Gets the test id of the ASS_Question object
 *
 * @return integer The test id of the ASS_Question object
@@ -336,7 +392,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Gets the comment
-* 
+*
 * Gets the comment string of the ASS_Question object
 *
 * @return string The comment string to describe the question
@@ -348,21 +404,8 @@ class ASS_Question extends PEAR {
   }
 
 /**
-* Gets the materials uri
-* 
-* Gets the materials uri
-*
-* @return string The uri to additional materials
-* @access public
-* @see $materials
-*/
-  function get_materials() {
-    return $this->materials;
-  }
-
-/**
 * Gets the authors name
-* 
+*
 * Gets the authors name of the ASS_Question object
 *
 * @return string The string containing the name of the questions author
@@ -375,7 +418,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Gets the creator/owner
-* 
+*
 * Gets the creator/owner ID of the ASS_Question object
 *
 * @return integer The numerical ID to identify the owner/creator
@@ -388,7 +431,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Get the reference id of the container object
-* 
+*
 * Get the reference id of the container object
 *
 * @return integer The reference id of the container object
@@ -401,7 +444,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Set the reference id of the container object
-* 
+*
 * Set the reference id of the container object
 *
 * @param integer $ref_id The reference id of the container object
@@ -414,7 +457,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Insert the question into a test
-* 
+*
 * Insert the question into a test
 *
 * @param integer $test_id The database id of the test
@@ -441,10 +484,10 @@ class ASS_Question extends PEAR {
       // Fehlermeldung
     }
   }
-  
+
 /**
 * Cancels actions editing this question
-* 
+*
 * Cancels actions editing this question
 *
 * @access private
@@ -456,10 +499,10 @@ class ASS_Question extends PEAR {
       header("location:il_as_question_manager.php");
     }
   }
-  
+
 /**
 * Saves a ASS_Question object to a database
-* 
+*
 * Saves a ASS_Question object to a database (only method body)
 *
 * @access public
@@ -467,10 +510,10 @@ class ASS_Question extends PEAR {
   function save_to_db() {
     // Method body
   }
-  
+
 /**
 * Returns the points, a learner has reached answering the question
-* 
+*
 * Returns the points, a learner has reached answering the question
 *
 * @param integer $user_id The database ID of the learner
@@ -480,10 +523,10 @@ class ASS_Question extends PEAR {
   function get_reached_points($user_id, $test_id) {
     return 0;
   }
-  
+
 /**
 * Returns the maximum points, a learner can reach answering the question
-* 
+*
 * Returns the maximum points, a learner can reach answering the question
 *
 * @access public
@@ -495,7 +538,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Saves the learners input of the question to the database
-* 
+*
 * Saves the learners input of the question to the database
 *
 * @access public
@@ -504,7 +547,7 @@ class ASS_Question extends PEAR {
   function save_working_data($limit_to = LIMIT_NO_LIMIT) {
 /*    global $ilias;
     $db =& $ilias->db->db;
-    
+
     // Increase the number of tries for that question
     $query = sprintf("SELECT * FROM dum_assessment_solution_order WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $db->quote($this->ilias->account->id),
@@ -522,7 +565,7 @@ class ASS_Question extends PEAR {
 
 /**
 * Duplicates the question in the database
-* 
+*
 * Duplicates the question in the database
 *
 * @access public
@@ -539,10 +582,10 @@ class ASS_Question extends PEAR {
     $clone->set_author($this->ilias->account->fullname);
     $clone->save_to_db($this->ilias->db->db);
   }
-	
+
 /**
 * Returns the image path for web accessable images of a question
-* 
+*
 * Returns the image path for web accessable images of a question.
 * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 *
@@ -551,10 +594,21 @@ class ASS_Question extends PEAR {
 	function get_image_path() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 	}
+/**
+* Returns the materials path for web accessable material of a question
+*
+* Returns the materials path for web accessable materials of a question.
+* The materials path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/materials
+*
+* @access public
+*/
+	function get_materials_path() {
+		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
+	}
 
 /**
 * Returns the web image path for web accessable images of a question
-* 
+*
 * Returns the web image path for web accessable images of a question.
 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 *
@@ -564,6 +618,64 @@ class ASS_Question extends PEAR {
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
+
+/**
+* Saves a materials to a database
+*
+* Saves a materials to a database
+*
+* @param object $db A pear DB object
+* @access public
+*/
+  function save_materials_to_db()
+  {
+  	global $ilias;
+    $db = & $ilias->db->db;
+
+  	if ($this->id > 0) {
+      	$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
+      		$db->quote($this->id)
+      	);
+ 	    $result = $db->query($query);
+		if (!empty($this->materials)) {
+			foreach ($this->materials as $key => $value) {
+				$query = sprintf("INSERT INTO qpl_question_material (question_id, materials) VALUES (%s, %s)",
+					$db->quote($this->id),
+					$db->quote($value)
+				);
+				$result = $db->query($query);
+			}
+		}
+    }
+  }
+/**
+* Loads materials uris from a database
+*
+* Loads materials uris from a database
+*
+* @param object $db A pear DB object
+* @param integer $question_id A unique key which defines the multiple choice test in the database
+* @access public
+*/
+  function load_material_from_db($question_id)
+  {
+    global $ilias;
+    $db = & $ilias->db->db;
+
+    $query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
+      $db->quote($question_id)
+    );
+    $result = $db->query($query);
+    if (strcmp(get_class($result), db_result) == 0) {
+    	$this->materials = array();
+    	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+        	$this->add_materials($data->materials);
+
+        }
+    }
+  }
+
+
 
 /**
 * Loads solutions of the active user from the database an returns it

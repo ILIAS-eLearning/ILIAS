@@ -107,13 +107,12 @@ class ASS_ClozeTest extends ASS_Question {
     $cloze_text = "",
     $cloze_type = CLOZE_TEXT,
     $start_tag = "#",
-    $end_tag = "#",
-    $materials = ""
+    $end_tag = "#"
   )
   {
     $this->start_tag = $start_tag;
     $this->end_tag = $end_tag;
-    $this->ASS_Question($title, $comment, $author, $owner, $materials);
+    $this->ASS_Question($title, $comment, $author, $owner);
     $this->gaps = array();
     $this->cloze_type = $cloze_type;
     $this->set_cloze_text($cloze_text);
@@ -131,13 +130,13 @@ class ASS_ClozeTest extends ASS_Question {
   {
     global $ilias;
     $db =& $ilias->db->db;
-    
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, start_tag, end_tag, cloze_type, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, start_tag, end_tag, cloze_type, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -149,7 +148,6 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->start_tag),
         $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
-        $db->quote($this->materials),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -162,19 +160,21 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s, materials = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($this->cloze_type),
-        $db->quote($this->materials),
         $db->quote($this->id)
       );
       $result = $db->query($query);
     }
 
     if ($result == DB_OK) {
+      // saving material uris in the database
+      $this->save_materials_to_db();
+
       // Antworten schreiben
 
       // alte Antworten löschen
@@ -212,7 +212,7 @@ class ASS_ClozeTest extends ASS_Question {
   {
     global $ilias;
     $db =& $ilias->db->db;
-    
+
     $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
       $db->quote($question_id)
     );
@@ -230,8 +230,10 @@ class ASS_ClozeTest extends ASS_Question {
         $this->start_tag = $data->start_tag;
         $this->end_tag = $data->end_tag;
         $this->cloze_type = $data->cloze_type;
-        $this->materials = $data->materials;
       }
+      // loads materials uris from database
+      $this->load_material_from_db($question_id);
+
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
         $db->quote($question_id)
       );
@@ -459,7 +461,7 @@ class ASS_ClozeTest extends ASS_Question {
 
     $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag) . preg_quote($old_text) . preg_quote($this->end_tag) . "/", "", $this->cloze_text);
   }
-  
+
 /**
 * Deletes all gaps without changing the cloze text
 *
@@ -625,7 +627,7 @@ class ASS_ClozeTest extends ASS_Question {
       }
     }
   }
-  
+
 /**
 * Moves the order of an answer object down one position
 *
@@ -657,7 +659,7 @@ class ASS_ClozeTest extends ASS_Question {
 
 /**
 * Returns the points, a learner has reached answering the question
-* 
+*
 * Returns the points, a learner has reached answering the question
 *
 * @param integer $user_id The database ID of the learner
@@ -697,7 +699,7 @@ class ASS_ClozeTest extends ASS_Question {
 
 /**
 * Returns the maximum points, a learner can reach answering the question
-* 
+*
 * Returns the maximum points, a learner can reach answering the question
 *
 * @access public
@@ -721,7 +723,7 @@ class ASS_ClozeTest extends ASS_Question {
 
 /**
 * Saves the learners input of the question to the database
-* 
+*
 * Saves the learners input of the question to the database
 *
 * @param integer $test_id The database id of the test containing this question
@@ -739,7 +741,7 @@ class ASS_ClozeTest extends ASS_Question {
       $db->quote($this->get_id())
     );
     $result = $db->query($query);
-    
+
     foreach ($_POST as $key => $value) {
       if (preg_match("/gap_(\d+)/", $key, $matches)) {
         $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",

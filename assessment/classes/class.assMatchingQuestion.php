@@ -96,13 +96,12 @@ class ASS_MatchingQuestion extends ASS_Question {
     $comment = "",
     $author = "",
     $owner = -1,
-    $materials = "",
     $question = "",
     $points = 0.0,
 		$matching_type = MT_TERMS_DEFINITIONS
   )
   {
-    $this->ASS_Question($title, $comment, $author, $owner, $materials);
+    $this->ASS_Question($title, $comment, $author, $owner);
     $this->matchingpairs = array();
     $this->question = $question;
     $this->points = $points;
@@ -121,14 +120,14 @@ class ASS_MatchingQuestion extends ASS_Question {
   {
     global $ilias;
     $db =& $ilias->db->db;
-    
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $question_type = 4;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, matching_type, points, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, matching_type, points, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -139,7 +138,6 @@ class ASS_MatchingQuestion extends ASS_Question {
         $db->quote($this->question),
 				$db->quote($this->matching_type),
         $db->quote($this->points),
-        $db->quote($this->materials),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -152,20 +150,22 @@ class ASS_MatchingQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, matching_type = %s, points = %s, materials = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, matching_type = %s, points = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
 				$db->quote($this->matching_type),
         $db->quote($this->points),
-        $db->quote($this->materials),
         $db->quote($this->id)
       );
       $result = $db->query($query);
     }
 
     if ($result == DB_OK) {
+      // saving material uris in the database
+      $this->save_materials_to_db();
+
       // Antworten schreiben
       // alte Antworten löschen
       $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
@@ -201,7 +201,7 @@ class ASS_MatchingQuestion extends ASS_Question {
   {
     global $ilias;
     $db =& $ilias->db->db;
-    
+
     $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
       $db->quote($question_id)
     );
@@ -218,8 +218,10 @@ class ASS_MatchingQuestion extends ASS_Question {
 				$this->matching_type = $data->matching_type;
         $this->question = $data->question_text;
         $this->points = $data->points;
-        $this->materials = $data->materials;
       }
+      // loads materials uris from database
+      $this->load_material_from_db($question_id);
+
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY answer_id ASC",
         $db->quote($question_id)
       );
@@ -320,7 +322,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     $matchingpair = new ASS_AnswerMatching($answertext, $points, $random_number_answertext, $matchingtext, $random_number_matchingtext);
     array_push($this->matchingpairs, $matchingpair);
   }
-  
+
   function get_random_id($type = "answer") {
     if (strcmp($type, "answer") == 0) {
       $random_number_answertext = mt_rand(1, 100000);
@@ -389,7 +391,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 
 /**
 * Deletes all matching pairs
-* 
+*
 * Deletes all matching pairs
 *
 * @access public
@@ -440,7 +442,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 
 /**
 * Returns the points, a learner has reached answering the question
-* 
+*
 * Returns the points, a learner has reached answering the question
 *
 * @param integer $user_id The database ID of the learner
@@ -470,10 +472,10 @@ class ASS_MatchingQuestion extends ASS_Question {
     }
     return $points;
   }
-  
+
 /**
 * Returns the maximum points, a learner can reach answering the question
-* 
+*
 * Returns the maximum points, a learner can reach answering the question
 *
 * @access public
@@ -488,7 +490,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 		}
     return $points;
   }
-  
+
 /**
 * Sets the image file
 *
@@ -499,7 +501,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 * @access public
 */
   function set_image_file($image_filename, $image_tempfilename = "") {
- 		
+
 		if (!empty($image_tempfilename)) {
 			$imagepath = $this->get_image_path();
 			if (!file_exists($imagepath)) {
@@ -519,7 +521,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 
 /**
 * Saves the learners input of the question to the database
-* 
+*
 * Saves the learners input of the question to the database
 *
 * @param integer $test_id The database id of the test containing this question
@@ -552,7 +554,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     }
 //    parent::save_working_data($limit_to);
   }
-  
+
 }
 
 ?>
