@@ -71,7 +71,7 @@ class ilPCFileItem extends ilPageContent
 		$id_node =& $this->dom->create_element("Identifier");
 		$id_node =& $new_item->append_child($id_node);
 		$id_node->set_attribute("Catalog", "ILIAS");
-		$id_node->set_attribute("Entry", "flit_".$a_id);
+		$id_node->set_attribute("Entry", "il__file_".$a_id);
 
 		// Location
 		$loc_node =& $this->dom->create_element("Location");
@@ -99,7 +99,7 @@ class ilPCFileItem extends ilPageContent
 		$id_node =& $this->dom->create_element("Identifier");
 		$id_node =& $new_item->append_child($id_node);
 		$id_node->set_attribute("Catalog", "ILIAS");
-		$id_node->set_attribute("Entry", "flit_".$a_id);
+		$id_node->set_attribute("Entry", "il__file_".$a_id);
 
 		// Location
 		$loc_node =& $this->dom->create_element("Location");

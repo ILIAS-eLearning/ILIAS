@@ -214,10 +214,10 @@ if (count($grp_data) > 0)
 		$q = "INSERT INTO object_reference ".
 			 "(ref_id,obj_id) VALUES (0,'".$entry["child"]."')";
 		$this->db->query($q);
-	
+
 		$q = "SELECT LAST_INSERT_ID()";
 		$res = $this->db->query($q);
-		$row = $res->fetchRow(); 
+		$row = $res->fetchRow();
 		$entry["ref_id"] = $row[0];
 	
 		$q = "UPDATE grp_data SET ref_id='".$entry["ref_id"]."' WHERE child='".$entry["child"]."'";
@@ -1002,3 +1002,27 @@ ALTER TABLE xmlvalue ADD FULLTEXT ( tag_value );
 <#78>
 UPDATE usr_pref SET value='default' WHERE keyword='skin';
 UPDATE usr_pref SET value='blueshadow' WHERE keyword='style';
+
+<#79>
+<?php
+//
+$q = "SELECT * FROM page_object WHERE content LIKE '%flit%'";
+$page_set = $this->db->query($q);
+
+while ($page_rec = $page_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$content = $page_rec["content"];
+
+	while (ereg("flit\_([0-9]*)", $content, $found))
+	{
+		$new = "il__file_".$found[1];
+		$content = ereg_replace($found[0], $new, $content);
+//echo "replace ".$found[0]." with $new<br>";
+	}
+	$q = "UPDATE page_object SET content = '".addslashes($content)."'".
+		" WHERE page_id = '".$page_rec["page_id"]."'".
+		" AND parent_type='".$page_rec["parent_type"]."'";
+	$this->db->query($q);
+}
+
+?>
