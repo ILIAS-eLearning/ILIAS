@@ -306,8 +306,11 @@ common#:#changed_to#:#zmienione na
 common#:#chapter#:#Rozdział
 common#:#chapter_number#:#Numer rozdziału
 common#:#chapter_title#:#Tytuł rozdziału
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Usuń czat
 common#:#chat_edit_permission#:#Zmień ustawienia uprawnień
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Czytanie/Pisanie w czacie
 common#:#chat_visible#:#Czat jest widoczny
 common#:#chat_write#:#Edycja czatu
@@ -923,7 +926,7 @@ common#:#normal#:#Normalny
 common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
 common#:#obj#:#Obiekt
-common#:#obj_adm#:#Ustawienia systemowe
+common#:#obj_adm#:#Ustawienia systemowe###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_chac#:#Ustawienia czatu
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#Podobiekty
 common#:#subscription#:#Subskrypcja
 common#:#summary#:#Podsumowanie
 common#:#system#:#System
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Wybór języka systemowego
 common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa

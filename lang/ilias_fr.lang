@@ -306,8 +306,11 @@ common#:#changed_to#:#changé en
 common#:#chapter#:#Chapitre
 common#:#chapter_number#:#Numéro de chapitre
 common#:#chapter_title#:#Titre du chapitre
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
@@ -923,7 +926,7 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Non installé
 common#:#not_logged_in#:#Vous n'êtes pas connecté
 common#:#obj#:#Objet
-common#:#obj_adm#:#Paramètres système
+common#:#obj_adm#:#Paramètres système###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
 common#:#obj_cat#:#Catégorie
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#SOus-objets
 common#:#subscription#:#Abonnement
 common#:#summary#:#Résumé
 common#:#system#:#Système
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Choix de la langue système
 common#:#system_groups#:#Groupes système
 common#:#system_grp#:#Groupe système

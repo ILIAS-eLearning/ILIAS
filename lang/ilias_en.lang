@@ -34,7 +34,6 @@
 // to the corresponding mode!
 <!-- language file start -->
 assessment#:#add_answer#:#Add answer
-common#:#system_check#:#System Check
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#answer#:#Answer
 assessment#:#answer_text#:#Answer text
@@ -307,8 +306,11 @@ common#:#changed_to#:#changed to
 common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
+common#:#chat#:#Chat
+common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
+common#:#chat_new#:#New Chat
 common#:#chat_read#:#Read/Write access to chat
 common#:#chat_visible#:#Chat is visible
 common#:#chat_write#:#Edit chat
@@ -1214,6 +1216,7 @@ common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
 common#:#summary#:#Summary
 common#:#system#:#System
+common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
 common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
@@ -2220,6 +2223,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#chat#:#Chat
-common#:#chat_add#:#Add Chat
-common#:#chat_new#:#New Chat

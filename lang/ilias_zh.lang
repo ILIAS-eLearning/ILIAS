@@ -323,8 +323,11 @@ common#:#changed_to#:#已更改为
 common#:#chapter#:#章
 common#:#chapter_number#:#章号
 common#:#chapter_title#:#章标题
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
@@ -940,7 +943,7 @@ common#:#normal#:#正常
 common#:#not_installed#:#未安装
 common#:#not_logged_in#:#您未登录
 common#:#obj#:#对象
-common#:#obj_adm#:#系统设置
+common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
 common#:#obj_cat#:#类别
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
@@ -1230,6 +1233,7 @@ common#:#subobjects#:#子对象
 common#:#subscription#:#订阅
 common#:#summary#:#摘要
 common#:#system#:#系统
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#系统选择语言
 common#:#system_groups#:#系统组
 common#:#system_grp#:#系统组
