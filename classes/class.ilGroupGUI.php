@@ -1124,6 +1124,9 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function getURLbyType($cont_data, $mode = "view")
 	{
+		//result of the function
+		$URL;
+		
 		if ($mode == "view")
 		{
 			switch ($cont_data["type"])
@@ -1196,10 +1199,43 @@ class ilGroupGUI extends ilObjectGUI
 					break;
 			}
 		}
+		else if ($mode == "abo")
+		{
+			switch ($cont_data["type"])
+			{
+				case "frm":
+				    $URL = "group.php?cmd=addToDesk&ref_id=".$cont_data["parent"]."&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"].
+					"&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"]."&sort_by=".$_GET["sort_by"];
+					break;
+
+				case "lm":
+					$URL = "group.php?cmd=addToDesk&ref_id=".$cont_data["parent"]."&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"].
+					"&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"]."&sort_by=".$_GET["sort_by"];
+					break;
+
+				case "slm":
+					$URL = "group.php?cmd=addToDesk&ref_id=".$cont_data["parent"]."&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"].
+					"&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"]."&sort_by=".$_GET["sort_by"];
+					break;
+				
+				case "glo":
+					$URL = "group.php?cmd=addToDesk&ref_id=".$cont_data["parent"]."&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"].
+					"&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"]."&sort_by=".$_GET["sort_by"];
+					break;
+			}
+		}
 
 		return $URL;
 	}
 
+	// add the chosen object to the user desktop
+	function addToDesk()
+	{
+		$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+		$this->view();
+		
+		
+	}
 	/**
 	* get
 	* @access	public
@@ -1642,7 +1678,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
 		*/
-		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) && (count($applications = $this->object->getNewRegistrations())!= 0) )
+		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) && (count($applications = $this->grp_object->getNewRegistrations())!= 0) )
 		{
 			$tab[5] = array ();
 			$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
@@ -2149,7 +2185,19 @@ class ilGroupGUI extends ilObjectGUI
 							$this->tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
 						}
 					}
-
+                    
+					// add to desktop link
+					if(!$this->ilias->account->isDesktopItem($cont_data["ref_id"], $cont_data["type"]) )
+					{
+						$obj_link = $this->getURLbyType($cont_data, "abo");
+						if (!empty($obj_link))
+						{
+							$this->tpl->setVariable("TO_DESK_LINK", $obj_link);
+          					$this->tpl->setVariable("TO_DESK_TARGET", "bottom");
+							$this->tpl->setVariable("TXT_TO_DESK", "[".$this->lng->txt("to_desktop")."]");
+						}
+					}
+					
 					//TODO
 					$this->tpl->parseCurrentBlock();
 				}
