@@ -653,8 +653,6 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				$user =& $this->ilias->obj_factory->getInstanceByObjId($new_member);
-//				if (!$newGrp->join($new_member,0))
-//				if (!$newGrp->addMember($new_member, 0))
 				if (!$this->object->addMember($new_member, 0))
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
@@ -719,12 +717,14 @@ class ilGroupGUI extends ilObjectGUI
 	function confirmedRemoveMemberObject()
 	{
 		global $rbacsystem;
+		
 		if (isset($_SESSION["saved_post"]["user_id"]) )
 		{
 			//User needs to have administrative rights to remove members...
 			if(in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
 				foreach($_SESSION["saved_post"]["user_id"] as $member_id)
-				{
+				{	
+					echo $member_id;
 					if(!$this->object->removeMember($member_id))
 						$this->ilias->raiseError(get_class($this)."::confirmedRemoveMemberObject(): Core Method ".get_class($this->object)."::removeMember() returned false!",$this->ilias->error_obj->WARNING);
 				}
@@ -1212,7 +1212,8 @@ class ilGroupGUI extends ilObjectGUI
 	function joinGroupObject()
 	{
 //		if ($this->object->join($this->ilias->account->getId(),0))
-		if ($this->object->joinGroup(0))
+//		if ($this->object->joinGroup(0))
+		if ($this->object->addMember($this->ilias->account->getId(), 0))
 		{
 			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("assignment_completed"),true);
