@@ -13,6 +13,8 @@ require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilGroup.php";
 require_once "classes/class.ilAddressbook.php";
 
+$lng->loadLanguageModule("mail");
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_search.html");
 $tpl->setVariable("TXT_SEARCH",$lng->txt("search"));
 infoPanel();

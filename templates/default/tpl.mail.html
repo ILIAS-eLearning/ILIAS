@@ -2,6 +2,22 @@
 	  {INFOPANEL}
 	  {LOCATOR}
 	  {BUTTONS}
+	<form action="{ACTION_FLAT}" method="GET">
+	  <!-- BEGIN show_folder -->
+	  <table class="fullwidth">
+		  <tr>
+			<td class="std"  align="left">{TXT_FOLDERS}
+			  <select name="mobj_id">
+				<!-- BEGIN flat_select -->
+				<option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
+				<!-- END flat_select -->
+			  </select>
+			  <input class="submit" type="SUBMIT" value="{FOLDER_VALUE}"/>
+			</td>
+		  </tr>
+	  </table>
+	  <!-- END show_folder -->	  
+	</form>
 	  {MESSAGE}
 	<form method="post" name="cmd" action="{ACTION}">
 	  <!-- BEGIN confirm_delete -->
@@ -64,18 +80,6 @@
 			  </select>
 			  <input class="submit" type="submit" name="cmd[submit]" value="{TXT_SUBMIT}"/>
 			</td>
-	</form>
-	<form action="{ACTION_FLAT}" method="GET">
-	  <!-- BEGIN show_folder -->
-	  <td class="std"  align="right">{TXT_FOLDERS}
-		<select name="mobj_id">
-		  <!-- BEGIN flat_select -->
-		  <option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
-		  <!-- END flat_select -->
-		</select>
-		<input class="submit" type="SUBMIT" value="{FOLDER_VALUE}"/>
-	  </td>
-	</tr>
-	  <!-- END show_folder -->	  
-	</table>
+		  </tr>
+	  </table>
 	</form>

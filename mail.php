@@ -211,8 +211,8 @@ if(!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == 'flat')
 		}
 		$tpl->parseCurrentBlock();
 	}
-	$tpl->setVariable("TXT_FOLDERS", $lng->txt("folders"));
-	$tpl->setVariable("FOLDER_VALUE",$lng->txt("change"));
+	$tpl->setVariable("TXT_FOLDERS", $lng->txt("mail_change_to_folder"));
+	$tpl->setVariable("FOLDER_VALUE",$lng->txt("submit"));
 	$tpl->parseCurrentBlock();
 }
 // END SHOW_FOLDER
