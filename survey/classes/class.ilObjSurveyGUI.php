@@ -184,27 +184,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
-* Creates an input form to enter the anonymous survey id to resume a survey
-*
-* Creates an input form to enter the anonymous survey id to resume a survey
-*
-* @access public
-*/
-	function resumeSurveyForm()
-	{
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_resume_survey.html", true);
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("LABEL_RESUME_SURVEY", $this->lng->txt("label_resume_survey"));
-		$this->tpl->setVariable("TEXT_RESUME_SURVEY", $this->lng->txt("text_resume_survey"));
-		$this->tpl->setVariable("TITLE_RESUME_SURVEY", $this->lng->txt("title_resume_survey"));
-		$this->tpl->setVariable("BUTTON_RESUME", $this->lng->txt("resume_survey"));
-		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter());
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
 * Creates the form output for running the survey
 *
 * Creates the form output for running the survey
@@ -249,29 +228,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
 			}
 		}
-
-		if ($_POST["cmd"]["resume_check"])
-		{
-			if ($this->object->getAnonymize())
-			{
-				$this->resumeSurveyForm();
-				return;
-			}
-			else
-			{
-				$_POST["cmd"]["resume"] = "resume";
-			}
-		}
-
 		$direction = 0;
 		$page_error = 0;
 		$error_messages = array();
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"])
 		{
-			if ($_POST["cmd"]["start"])
+			if (($_POST["cmd"]["start"]) || ($_POST["cmd"]["resume"]))
 			{
-				$anonymize_key = md5($ilUser->getLogin() . strftime('%c'));
-				$_SESSION["anonymous_id"] = $anonymize_key;
+				if ($this->object->getAnonymize())
+				{
+					// check for the correct survey code
+					$anonymize_key = md5($ilUser->id . $this->object->getSurveyId());
+					if (strcmp($anonymize_key, $_POST["anonymous_id"]) == 0)
+					{
+						$_SESSION["anonymous_id"] = $_POST["anonymous_id"];
+					}
+					else
+					{
+						sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
+						$this->ctrl->redirect($this, "run");
+					}
+				}
 			}
 			$activepage = "";
 			$direction = 0;
@@ -386,7 +363,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							case "qt_nominal":
 								if ($data["subtype"] == SUBTYPE_MCSR)
 								{
-									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_value"]);
+									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
 								}
 								else
 								{
@@ -394,23 +371,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 									{
 										foreach ($_POST[$data["question_id"] . "_value"] as $value)
 										{
-											$this->object->saveWorkingData($data["question_id"], $ilUser->id, $value);
+											$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $value);
 										}
 									}
 									else
 									{
-										$this->object->saveWorkingData($data["question_id"], $ilUser->id);
+										$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"]);
 									}
 								}
 								break;
 							case "qt_ordinal":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_value"]);
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_value"]);
 								break;
 							case "qt_metric":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_metric_question"]);
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], $_POST[$data["question_id"] . "_metric_question"]);
 								break;
 							case "qt_text":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_SESSION["anonymous_id"], 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
 								break;
 						}
 					}
@@ -473,7 +450,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else if ($page === 1)
 			{
-				$this->object->finishSurvey($ilUser->id);
+				$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
 				$this->runShowFinishedPage();
 				return;
 			}
@@ -569,12 +546,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilUser;
 		global $rbacsystem;
 		
+		$survey_started = $this->object->isSurveyStarted($ilUser->id, $_SESSION["anonymous_id"]);
 		// show introduction page
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
+		if ($this->object->getAnonymize())
+		{
+			$this->tpl->setCurrentBlock("start");
+			$anonymize_key = md5($ilUser->id . $this->object->getSurveyId());
+			if ($survey_started === 0)
+			{
+				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_resume_introduction"));
+			}
+			elseif ($survey_started === false)
+			{
+				$this->tpl->setVariable("TEXT_ANONYMIZE", sprintf($this->lng->txt("anonymize_key_introduction"), $anonymize_key));
+			}
+			$this->tpl->setVariable("ENTER_ANONYMOUS_ID", $this->lng->txt("enter_anonymous_id"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("start");
 		$canStart = $this->object->canStartSurvey();
-		if ($this->object->isSurveyStarted($ilUser->id) === 1)
+		if ($survey_started === 1)
 		{
 			sendInfo($this->lng->txt("already_completed_survey"));
 			$this->tpl->setCurrentBlock("start");
@@ -582,7 +575,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			$this->tpl->parseCurrentBlock();
 		}
-		if ($this->object->isSurveyStarted($ilUser->id) === 0)
+		if ($survey_started === 0)
 		{
 			$this->tpl->setCurrentBlock("resume");
 			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("resume_survey"));
@@ -603,7 +596,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		if ($this->object->isSurveyStarted($ilUser->id) === false)
+		if ($survey_started === false)
 		{
 			$this->tpl->setCurrentBlock("start");
 			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));

@@ -2821,11 +2821,11 @@ class ilObjSurvey extends ilObject
 * @param string $text The answer text of a text question
 * @access public
 */
-	function saveWorkingData($question_id, $user_id, $value = "", $text = "")
+	function saveWorkingData($question_id, $user_id, $anonymize_id, $value = "", $text = "")
 	{
-		if ($this->isSurveyStarted($user_id) === false)
+		if ($this->isSurveyStarted($user_id, $anonymize_id) === false)
 		{
-			$this->startSurvey($user_id);
+			$this->startSurvey($user_id, $anonymize_id);
 		}
 		if (strcmp($value, "") == 0)
 		{
@@ -2851,7 +2851,7 @@ class ilObjSurvey extends ilObject
 			$this->ilias->db->quote($this->getSurveyId() . ""),
 			$this->ilias->db->quote($question_id . ""),
 			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($_SESSION["anonymous_id"]),
+			$this->ilias->db->quote($anonymize_id),
 			$value,
 			$text
 		);
@@ -2911,13 +2911,22 @@ class ilObjSurvey extends ilObject
 * @param integer $user_id The database id of the user who starts the survey
 * @access public
 */
-	function startSurvey($user_id)
+	function startSurvey($user_id, $anonymous_id)
 	{
 		global $ilUser;
 		
-		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		if (strcmp($user_id, "") == 0)
+		{
+			$user_id = 0;
+		}
+		if ($this->getAnonymize())
+		{
+			$user_id = 0;
+		}
+		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, anonymous_id, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($this->getSurveyId() . ""),
 			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($anonymous_id . ""),
 			$this->ilias->db->quote(0 . "")
 		);
 		$result = $this->ilias->db->query($query);
@@ -2937,10 +2946,6 @@ class ilObjSurvey extends ilObject
 			{
 				sendInfo($error_message);
 			}
-			else
-			{
-				sendInfo($this->lng->txt("survey_code_message_sent"));
-			}
 		}
 	}
 			
@@ -2952,13 +2957,25 @@ class ilObjSurvey extends ilObject
 * @param integer $user_id The database id of the user who finishes the survey
 * @access public
 */
-	function finishSurvey($user_id)
+	function finishSurvey($user_id, $anonymize_id)
 	{
-		$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote("1"),
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($user_id)
-		);
+		if ($this->getAnonymize())
+		{
+			$user_id = 0;
+			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND anonymous_id = %s",
+				$this->ilias->db->quote("1"),
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($anonymize_id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote("1"),
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($user_id . "")
+			);
+		}
 		$result = $this->ilias->db->query($query);
 	}
 	
@@ -2971,12 +2988,22 @@ class ilObjSurvey extends ilObject
 * @return mixed false, if the user has not started the survey, 0 if the user has started the survey but not finished it, 1 if the user has finished the survey
 * @access public
 */
-	function isSurveyStarted($user_id)
+	function isSurveyStarted($user_id, $anonymize_id)
 	{
-		$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($user_id)
-		);
+		if ($this->getAnonymize())
+		{
+			$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($anonymize_id)
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($user_id)
+			);
+		}
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 0)
 		{
