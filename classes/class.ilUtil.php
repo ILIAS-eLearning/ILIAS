@@ -873,7 +873,7 @@ class ilUtil
 			return false;
 		}
 
-		if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_login))
+		if (!ereg("^[A-Za-z0-9_\.\+-\*\@!\$\%\~]+$", $a_login))
 		{
 			return false;
 		}
