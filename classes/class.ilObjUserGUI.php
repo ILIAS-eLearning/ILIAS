@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.39 2003/08/08 10:10:47 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.40 2003/08/08 11:53:19 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -275,7 +275,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
