@@ -79,7 +79,6 @@ common#:#categories#:#categorie
 common#:#cc#:#cc
 common#:#change#:#cambiare
 common#:#change_existing_objects#:#Change existing Objects###29 Mar 2003 new variable
-common#:#change_language#:#set user language
 common#:#change_lo_info#:#cambia LO Informazioni
 common#:#change_metadata#:#cambia metadati
 common#:#changed_to#:#changed to###20 Mar 2003 new variable
@@ -87,8 +86,8 @@ common#:#chapter#:#capitolo
 common#:#chapter_number#:#numero del capitolo
 common#:#chapter_title#:#titolo del capitolo
 common#:#check#:#controllare
+common#:#checkLanguage#:#Check Language###19 Apr 2003 new variable
 common#:#check_langfile#:#Please check your language file.###26 Mar 2003 new variable
-common#:#check_language#:#check language
 common#:#chg_language#:#cambia lingua
 common#:#chg_password#:#cambia password
 common#:#choose_language#:#scegli la Tua lingua
@@ -470,9 +469,10 @@ common#:#sequences#:#esquenza
 common#:#server#:##server
 common#:#server_software#:##server software
 common#:#set#:##set
+common#:#setSystemLanguage#:#Set System Language###19 Apr 2003 new variable
+common#:#setUserLanguage#:#Set User Language###19 Apr 2003 new variable
 common#:#set_offline#:#mettere offline
 common#:#set_online#:#mettere online
-common#:#set_system_language#:#set system language
 common#:#settings#:#Settings###25 Mar 2003 new variable
 common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
