@@ -65,7 +65,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function view()
 	{
 		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-
 		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->content_object->getPageHeader()));
 		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");

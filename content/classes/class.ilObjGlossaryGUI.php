@@ -171,10 +171,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-echo "1";
+//echo "1";
 		if($_GET["def"] > 0)
 		{
-echo "2";
+//echo "2";
 			$def_edit =& new ilTermDefinitionEditorGUI();
 			$def_edit->executeCommand();
 		}
@@ -183,6 +183,7 @@ echo "2";
 			$cmd = $_GET["cmd"];
 			if ($cmd != "listDefinitions" && $cmd != "editTerm")
 			{
+//echo "prep";
 				$this->prepareOutput();
 			}
 			if($cmd == "")
@@ -194,6 +195,7 @@ echo "2";
 			{
 				$cmd = key($_POST["cmd"]);
 			}
+//echo "cmd:$cmd:";
 			$this->$cmd();
 		}
 		$this->tpl->show();

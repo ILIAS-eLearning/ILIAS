@@ -196,13 +196,13 @@ class ilPageObjectGUI
 	{
 		return $this->target_var;
 	}
-	
+
 	function setTemplateOutputVar($a_value)
 	{
 		// USED FOR TRANSLATION PRESENTATION OF dbk OBJECTS
 		$this->template_output_var = $a_value;
 	}
-	
+
 	function getTemplateOutputVar()
 	{
 		return $this->template_output_var;
@@ -232,6 +232,11 @@ class ilPageObjectGUI
 	function setLocator(&$a_locator)
 	{
 		$this->locator =& $a_locator;
+	}
+
+	function setTabs($a_tabs)
+	{
+		$this->tabs = $a_tabs;
 	}
 
 	/*
@@ -432,9 +437,14 @@ class ilPageObjectGUI
 
 	function showPageEditor()
 	{
+//echo "PGObjGUI::showPageEditor";
 		require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 		$page_editor =& new ilPageEditorGUI($this->getPageObject());
 		$page_editor->setTargetScript($this->getTargetScript());
+		if(!empty($this->tabs))
+		{
+			$page_editor->setTabs($this->tabs);
+		}
 		$page_editor->setLocator($this->locator);
 		$page_editor->setHeader($this->getHeader());
 		$page_editor->setReturnLocation($this->getReturnLocation());
