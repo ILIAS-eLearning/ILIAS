@@ -9,7 +9,7 @@
 * @version	$Id$
 */
 
-// *** = dirty/buggy --> to be modified/extende
+// *** = dirty/buggy --> to be modified/extended
 
 //include files from PEAR
 require_once "PEAR.php";
@@ -74,8 +74,8 @@ class export
 		// create and add a text node to the new element node
 		if (is_string($text))
 		{
-			$node_text = $this->doc->create_text_node($text);
-			$node_text = $node->append_child($node_text);
+			$nodeText = $this->doc->create_text_node($text);
+			$nodeText = $node->append_child($nodeText);
 		}
 		
 		// add element node at at the end of the children of the parent
@@ -141,9 +141,9 @@ class export
 	}
 	
 	// convert status values ***
-	function convertMaterialType ($mtype)
+	function convertMaterialType ($materialType)
 	{
-		switch ($mtype) 
+		switch ($materialType) 
 		{
 			case 1: // Standardtext
 				$str = "NarrativeText";
@@ -201,9 +201,9 @@ class export
 	}
 	
 	// convert difficulty values ***
-	function convertDifficulty ($diff)
+	function convertDifficulty ($difficulty)
 	{
-		switch ($diff) 
+		switch ($difficulty) 
 		{
 			case 0:
 				$str = "VeryEasy";
@@ -276,9 +276,9 @@ class export
 	}
 	
 	// convert difficulty values ***
-	function convertMaterialLevel ($material_level)
+	function convertMaterialLevel ($materialLevel)
 	{
-		switch ($material_level) 
+		switch ($materialLevel) 
 		{
 			case 0:
 				$str = "Basic Knowledge";
@@ -303,7 +303,7 @@ class export
 		// get data from db tables:
 		//-------------------------
 		
-		// table 'meta' ***
+		// table 'meta'
 		$sql =	"SELECT id, inst, typ, title, lang, description, diff, level, status, ".
 				"material_level, last_modified_date, publisher, publish_date ".
 				"FROM meta ".
@@ -321,7 +321,19 @@ class export
 		// free result set
 		$result->free();
 		
-		// table 'meta_keyword' ***
+		// set Contribute data in an array
+		$contrib[] = array(	"Role" => "Publisher",
+							"Entity" => $meta["publisher"],
+							"Date" => $meta["publish_date"]);
+		
+		// set Classification data in an array
+		$class[] = array(	"Purpose" => "EducationalLevel",
+							"SourceLanguage" => $meta["lang"],
+							"Source" => "ILIAS2 ".$meta["inst"],
+							"TaxonLanguage" => "en", // default, due to convert function
+							"Taxon" => $this->convertMaterialLevel($meta["material_level"]));
+		
+		// table 'meta_keyword'
 		$sql =	"SELECT DISTINCT keyword ".
 				"FROM meta_keyword ".
 				"WHERE id = $id ".
@@ -372,13 +384,21 @@ class export
 					die ($result2->getMessage());
 				}
 				// get row
-				$author[] = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
 				// free result set
 				$result2->free();
+				
+				// set Contribute data in an array ***
+				$contrib[] = array(	"Role" => "Author",
+									"Entity" => $row2["author_firstname"]." ".$row2["author_surname"],
+									"Date" => $meta["last_modified_date"]);
 			}
 			else
 			{
-				$author[] = $row;
+				// set Contribute data in an array ***
+				$contrib[] = array(	"Role" => "Author",
+									"Entity" => $row["author_firstname"]." ".$row["author_surname"],
+									"Date" => $meta["last_modified_date"]);
 			}
 		}
 		// free result set
@@ -415,13 +435,21 @@ class export
 					die ($result2->getMessage());
 				}
 				// get row
-				$contrib[] = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
 				// free result set
 				$result2->free();
+				
+				// set Contribute data in an array ***
+				$contrib[] = array(	"Role" => "TechnicalImplementer",
+									"Entity" => $row2["contrib_firstname"]." ".$row2["contrib_surname"],
+									"Date" => $meta["last_modified_date"]);
 			}
 			else
 			{
-				$contrib[] = $row;
+				// set Contribute data in an array ***
+				$contrib[] = array(	"Role" => "TechnicalImplementer",
+									"Entity" => $row["contrib_firstname"]." ".$row["contrib_surname"],
+									"Date" => $meta["last_modified_date"]);
 			}
 		}
 		// free result set
@@ -461,7 +489,12 @@ class export
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$discipline[] = $row["discipline"];
+			// set Classification data in an array ***
+			$class[] = array(	"Purpose" => "Discipline",
+								"SourceLanguage" => $meta["lang"],
+								"Source" => "ILIAS2 ".$meta["inst"],
+								"TaxonLanguage" => $meta["lang"],
+								"Taxon" => $row["discipline"]);
 		}
 		// free result set
 		$result->free();
@@ -482,7 +515,12 @@ class export
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$subdiscipline[] = $row["subdiscipline"];
+			// set Classification data in an array ***
+			$class[] = array(	"Purpose" => "Discipline",
+								"SourceLanguage" => $meta["lang"],
+								"Source" => "ILIAS2 ".$meta["inst"],
+								"TaxonLanguage" => $meta["lang"],
+								"Taxon" => $row["subdiscipline"]);
 		}
 		// free result set
 		$result->free();
@@ -493,35 +531,34 @@ class export
 		
 		//-------------------------
 		// create MetaData subtree:
-		// *** Reihenfolge und Validität beachten, notfalls mit defaultwerten auffüllen!!!
-		// defaultvalues, falls records leer, aber requiered
+		// *** Reihenfolge und Validität beachten: defaultvalues, falls records leer, aber requiered
 		//-------------------------
 		
 		// MetaData *** ggf. ein vereinfachtes Konstrukt
 		$MetaData = $this->doc->create_element("MetaData");
 		
-		// 1 MetaData..General ***
+		// 1 MetaData..General
 		$attrs = array(	"Structure" => $this->selectStructure($meta["typ"]),
 						"AggregationLevel" => $this->selectAggregationLevel($meta["typ"]));
 		$General = $this->writeNode($MetaData, "General", $attrs);
 		
-		// 1.1 ..General..Identifier ***
+		// 1.1 ..General..Identifier
 		$attrs = array(	"Catalog" => "ILIAS2 ".$meta["inst"],
 						"Entry" => $meta["id"]);
 		$Identifier = $this->writeNode($General, "Identifier", $attrs);
 		
-		// 1.2 ..General..Title ***
+		// 1.2 ..General..Title
 		$attrs = array(	"Language" => $meta["lang"]);
 		$Title = $this->writeNode($General, "Title", $attrs, $meta["title"]);
 		
-		// 1.3 ..General..Language ***
+		// 1.3 ..General..Language
 		$Language = $this->writeNode($General, "Language", NULL, $meta["lang"]);
 		
-		// 1.4 ..General..Description ***
+		// 1.4 ..General..Description
 		$attrs = array(	"Language" => $meta["lang"]);
 		$Description = $this->writeNode($General, "Description", $attrs, $meta["description"]);
 		
-		// 1.5 ..General..Keyword ***
+		// 1.5 ..General..Keyword
 		if (is_array($keyword))
 		{
 			foreach ($keyword as $value) 
@@ -533,55 +570,50 @@ class export
 		
 		// 1.6 ..General..Description --> unavailable in ILIAS2
 		
-		// 2 MetaData..Lifecycle ***
+		// 2 MetaData..Lifecycle
 		$attrs = array(	"Status" => $this->convertStatus($meta["status"]));
 		$Lifecycle = $this->writeNode($MetaData, "Lifecycle", $attrs);
 		
-		// 2.1 ..Lifecycle..Version ***
+		// 2.1 ..Lifecycle..Version
 		$attrs = array(	"Language" => $meta["lang"]);
-		$Version = $this->writeNode($Lifecycle, "Version", $attrs, date("Y-m-d h:m:s")); // *** fehlt -> default date
+		$Version = $this->writeNode($Lifecycle, "Version", $attrs, "Not available"); // default
 		
-		// 2.3 ..Lifecycle..Contribute *** (mehrere)
-		
-		// *** array contrib mit werten für publisher, author und contrib (je rolle, entity und date)
-		// *** classification analog!!!
-		/*
-		if (is_array($author))
+		// 2.3 ..Lifecycle..Contribute
+		if (is_array($contrib))
 		{
-			foreach ($author as $value) 
+			foreach ($contrib as $value) 
 			{
-				$attrs = array(	"Role" => "Author");
-				$Contribute = $this->writeNode($Lifecycle, "Contribute", $attrs, $value);
+				$attrs = array(	"Role" => $value["Role"]);
+				$Contribute = $this->writeNode($Lifecycle, "Contribute", $attrs);
+				
+				// 2.3.2 ..Lifecycle..Contribute..Entity
+				$Entity = $this->writeNode($Contribute, "Entity", NULL, $value["Entity"]);
+				
+				// 2.3.3 ..Lifecycle..Contribute..Date
+				$Date = $this->writeNode($Contribute, "Date", NULL, $value["Date"]);
 			}
 		}
-		*/
-		
-		$attrs = array(	"Role" => "Publisher");
-		$Contribute = $this->writeNode($Lifecycle, "Contribute", $attrs);
-				
-		// 2.3.2 ..Lifecycle..Contribute..Entity *** (nur für LEs)
-		$Entity = $this->writeNode($Contribute, "Entity", NULL, $meta["publisher"]);
-		
-		// 2.3.3 ..Lifecycle..Contribute..Date ***
-		$Date = $this->writeNode($Contribute, "Date", NULL, $meta["publish_date"]);
 		
 		// 3 MetaData..Meta-Metadata  --> unavailable in ILIAS2
 		
 		// 4 MetaData..Technical ***
 		
-		// 5 MetaData..Educational ***
-		$attrs = array(	"InteractivityType" => "Expositive", // *** fehlt -> default
+		// 5 MetaData..Educational
+		$attrs = array(	"InteractivityType" => "Expositive", // default
 						"LearningResourceType" => $this->convertMaterialType($mtype["mtype"]),
-						"InteractivityLevel" => "Medium", // *** fehlt -> default
-						"SemanticDensity" => "Medium", // *** fehlt -> default
-						"IntendedEndUserRole" => "Learner", // *** fehlt -> default
+						"InteractivityLevel" => "Medium", // default
+						"SemanticDensity" => "Medium", // default
+						"IntendedEndUserRole" => "Learner", // default
 						"Context" => $this->convertLevel($meta["level"]),
 						"Difficulty" => $this->convertDifficulty($meta["diff"]));
 		$Educational = $this->writeNode($MetaData, "Educational", $attrs);
 		
-		// 5.7 ..Educational..TypicalAgeRange ***
+		// 5.7 ..Educational..TypicalAgeRange
+		$attrs = array(	"Language" => $meta["lang"]);
+		$TypicalAgeRange = $this->writeNode($Educational, "TypicalAgeRange", $attrs, "Not available"); // default
 		
-		// 5.9 ..Educational..TypicalLearningTime ***
+		// 5.9 ..Educational..TypicalLearningTime
+		$TypicalLearningTime = $this->writeNode($Educational, "TypicalLearningTime", NULL, "00:00:00"); // default
 		
 		// 6 MetaData..Rights ***
 		
@@ -589,25 +621,39 @@ class export
 		
 		// 8 MetaData..Annotation ***
 		
-		// 9 MetaData..Classification *** (mehrere)
-		$attrs = array(	"Purpose" => "EducationalLevel");
-		$Classification = $this->writeNode($MetaData, "Classification", $attrs);
-		
-		// 9.2 ..Classification..TaxonPath ***
-		$TaxonPath = $this->writeNode($Classification, "TaxonPath");
-		
-		// 9.2.1 ..Classification..TaxonPath..Source ***
-		$attrs = array(	"Language" => $meta["lang"]);
-		$Source = $this->writeNode($TaxonPath, "Source", $attrs, "ILIAS2 ".$meta["inst"]);
-		
-		// 9.2.2 ..Classification..TaxonPath.Taxon *** (ohne Attribut: id)
-		$attrs = array(	"Language" => "en"); // language is linked with the convert function
-		$Taxon = $this->writeNode($TaxonPath, "Taxon", $attrs, $this->convertMaterialLevel($meta["material_level"]));
+		// 9 MetaData..Classification
+		if (is_array($class))
+		{
+			foreach ($class as $value) 
+			{
+				$attrs = array(	"Purpose" => $value["Purpose"]);
+				$Classification = $this->writeNode($MetaData, "Classification", $attrs);
+				
+				// 9.2 ..Classification..TaxonPath
+				$TaxonPath = $this->writeNode($Classification, "TaxonPath");
+				
+				// 9.2.1 ..Classification..TaxonPath..Source
+				$attrs = array(	"Language" => $value["SourceLanguage"]);
+				$Source = $this->writeNode($TaxonPath, "Source", $attrs, $value["Source"]);
+				
+				// 9.2.2 ..Classification..TaxonPath.Taxon
+				$attrs = array(	"Language" => $value["TaxonLanguage"]);
+				$Taxon = $this->writeNode($TaxonPath, "Taxon", $attrs, $value["Taxon"]);
+				
+				// ..Classification..Description
+				$attrs = array(	"Language" => $meta["lang"]);
+				$Description = $this->writeNode($Classification, "Description", $attrs, "Not available"); // default
+				
+				// ..Classification..Keyword
+				$attrs = array(	"Language" => $meta["lang"]);
+				$Keyword = $this->writeNode($Classification, "Keyword", $attrs, "Not available"); // default
+			}
+		}
 		
 		//-----------------
-		// free db records: ***
+		// free db records:
 		//-----------------
-		unset($sql, $sql2, $meta, $keyword, $author, $contrib, $mtype, $discipline, $subdiscipline, $attrs);
+		unset($sql, $sql2, $row, $row2, $meta, $keyword, $contrib, $mtype, $attrs);
 		
 		//----------------------------------------
 		// return MetaData subtree:
@@ -811,7 +857,7 @@ class export
 		$LearningObject = $this->doc->append_child($LearningObject);
 		
 		// create MetaData ***
-		$MetaData = $this->metadata(222, "le");
+		$MetaData = $this->metadata(200, "le");
 		$MetaData = $LearningObject->append_child($MetaData);
 		
 		// dump xml document on the screen ***
