@@ -670,9 +670,11 @@ common#:#contact_data#:#Informacje kontaktowe
 common#:#container#:#Kontener
 common#:#context#:#Kontekst
 common#:#continue_work#:#Kontynuuj
+common#:#copied_object#:#Copied object###07 Aug 2004 new variable
 common#:#copy#:#Kopiuj
 common#:#copyPage#:#Kopiuj
 common#:#copy_of#:#Kopia
+common#:#copy_to#:#to###07 Aug 2004 new variable
 common#:#country#:#Kraj
 common#:#course#:#Kurs
 common#:#courses#:#Kursy
@@ -683,6 +685,7 @@ common#:#crs#:#Kurs
 common#:#crs_a#:#Kurs
 common#:#crs_add#:#Dodaj kurs
 common#:#crs_added#:#Kurs został dodany
+common#:#crs_archives#:#Archives###07 Aug 2004 new variable
 common#:#crs_available#:#Dostępne kursy
 common#:#crs_create#:#Twórz Kurs
 common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
@@ -1146,11 +1149,15 @@ common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Zmień uprawnienia dostępu
+common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Prawo czytania ustawień LDAP
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
 common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
 common#:#ldap_tls#:#Use LDAP TLS###28 Jul 2004 new variable
+common#:#ldap_v2#:#LDAPv2###07 Aug 2004 new variable
+common#:#ldap_v3#:#LDAPv3###07 Aug 2004 new variable
+common#:#ldap_version#:#LDAP protokoll version###07 Aug 2004 new variable
 common#:#ldap_visible#:#Ustawienia LDAP są widoczne
 common#:#ldap_write#:#Edycja ustawień LDAP
 common#:#learning_objects#:#Przedmioty Nauczania (PN)
@@ -1386,6 +1393,7 @@ common#:#news#:#Wieści
 common#:#next#:#następny
 common#:#nickname#:#Pseudonim
 common#:#no#:#Nie
+common#:#no_access_link_object#:#You are not allowed to link this object###07 Aug 2004 new variable
 common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
 common#:#no_chat_in_personal_list#:#Brak czatów na prywatnej liście
 common#:#no_checkbox#:#Nie wybrano opcji!
@@ -1521,6 +1529,7 @@ common#:#online_version#:#Wersja Online
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#options#:#Opcje
+common#:#options_for_subobjects#:#Options for subobjects###07 Aug 2004 new variable
 common#:#order_by#:#Kolejność wg
 common#:#other#:#Inne
 common#:#overview#:#Przegląd
@@ -1681,6 +1690,7 @@ common#:#select#:#Wybierz
 common#:#select_all#:#Wybierz wszystkie
 common#:#select_file#:#Wybierz plik
 common#:#select_mode#:#Wybierz tryb
+common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
 common#:#selected#:#Wybrany
 common#:#selected_items#:#Pozycje osobowe
 common#:#send#:#Wyślij
@@ -2184,6 +2194,165 @@ content#:#read offline#:#Czytaj Offline
 content#:#select_a_file#:#Wybierz plik.
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
+crs#:#crs_accept_subscriber#:#Course subscription###07 Aug 2004 new variable
+crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.###07 Aug 2004 new variable
+crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
+crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
+crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
+crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
+crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
+crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
+crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
+crs#:#crs_added_member#:#Course membership###07 Aug 2004 new variable
+crs#:#crs_added_member_body#:#You have been accepted to this course.###07 Aug 2004 new variable
+crs#:#crs_added_new_archive#:#A new archive has been added###07 Aug 2004 new variable
+crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
+crs#:#crs_admin_no_notify#:#Administrator (no notification)###07 Aug 2004 new variable
+crs#:#crs_admin_notify#:#Administrator (notification)###07 Aug 2004 new variable
+crs#:#crs_archive#:#Archives###07 Aug 2004 new variable
+crs#:#crs_archive_disabled#:#Disabled###07 Aug 2004 new variable
+crs#:#crs_archive_download#:#Download###07 Aug 2004 new variable
+crs#:#crs_archive_lang#:#Language###07 Aug 2004 new variable
+crs#:#crs_archive_read#:#Read access###07 Aug 2004 new variable
+crs#:#crs_archive_select_type#:#Archive access type###07 Aug 2004 new variable
+crs#:#crs_archive_type#:#Archive type###07 Aug 2004 new variable
+crs#:#crs_archive_type_disabled#:#No access###07 Aug 2004 new variable
+crs#:#crs_archives_deleted#:#The archive(s) have been deleted###07 Aug 2004 new variable
+crs#:#crs_auto_fill#:#Auto fill###07 Aug 2004 new variable
+crs#:#crs_blocked#:#Access refused###07 Aug 2004 new variable
+crs#:#crs_blocked_member#:#Course membership###07 Aug 2004 new variable
+crs#:#crs_blocked_member_body#:#Your membership has been terminated.###07 Aug 2004 new variable
+crs#:#crs_contact#:#Contact###07 Aug 2004 new variable
+crs#:#crs_contact_consultation#:#Consultation###07 Aug 2004 new variable
+crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
+crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
+crs#:#crs_contact_phone#:#Telephone###07 Aug 2004 new variable
+crs#:#crs_contact_responsibility#:#Responsibility###07 Aug 2004 new variable
+crs#:#crs_content#:#Course content###07 Aug 2004 new variable
+crs#:#crs_count_members#:#Number of members###07 Aug 2004 new variable
+crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
+crs#:#crs_dates#:#Dates###07 Aug 2004 new variable
+crs#:#crs_delete_member#:#Delete members###07 Aug 2004 new variable
+crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course###07 Aug 2004 new variable
+crs#:#crs_delete_subscribers#:#Delete subscriber###07 Aug 2004 new variable
+crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users###07 Aug 2004 new variable
+crs#:#crs_details#:#Course details###07 Aug 2004 new variable
+crs#:#crs_dismiss_member#:#Course membership###07 Aug 2004 new variable
+crs#:#crs_dismiss_member_body#:#You membership has been terminated###07 Aug 2004 new variable
+crs#:#crs_edit_archive#:#Edit Archives###07 Aug 2004 new variable
+crs#:#crs_end#:#End###07 Aug 2004 new variable
+crs#:#crs_export#:#Course export###07 Aug 2004 new variable
+crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
+crs#:#crs_from#:#From:###07 Aug 2004 new variable
+crs#:#crs_header_archives#:#Course archives###07 Aug 2004 new variable
+crs#:#crs_header_delete_members#:#Delete members###07 Aug 2004 new variable
+crs#:#crs_header_edit_members#:#Edit members###07 Aug 2004 new variable
+crs#:#crs_header_members#:#Course members###07 Aug 2004 new variable
+crs#:#crs_html#:#HTML###07 Aug 2004 new variable
+crs#:#crs_info_reg#:#Information for registration###07 Aug 2004 new variable
+crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.###07 Aug 2004 new variable
+crs#:#crs_info_reg_deactivated#:#There is no registration possible###07 Aug 2004 new variable
+crs#:#crs_info_reg_direct#:#It is necessary to register to this course###07 Aug 2004 new variable
+crs#:#crs_info_reg_password#:#Registration needs a valid password.###07 Aug 2004 new variable
+crs#:#crs_list_users#:#List users###07 Aug 2004 new variable
+crs#:#crs_max_members_reached#:#The maximum number of members has been reached###07 Aug 2004 new variable
+crs#:#crs_mem_change_status#:#Change status###07 Aug 2004 new variable
+crs#:#crs_mem_send_mail#:#Send mail###07 Aug 2004 new variable
+crs#:#crs_member#:#Member###07 Aug 2004 new variable
+crs#:#crs_member_blocked#:#Mitglied (unblocked)###07 Aug 2004 new variable
+crs#:#crs_member_unblocked#:#Member (blocked)###07 Aug 2004 new variable
+crs#:#crs_member_updated#:#The member has been updated###07 Aug 2004 new variable
+crs#:#crs_members_deleted#:#Deleted members###07 Aug 2004 new variable
+crs#:#crs_members_print_title#:#Course members###07 Aug 2004 new variable
+crs#:#crs_members_title#:#Course members###07 Aug 2004 new variable
+crs#:#crs_move_down#:#Move down###07 Aug 2004 new variable
+crs#:#crs_move_up#:#Move up###07 Aug 2004 new variable
+crs#:#crs_moved_item#:#Moved course item###07 Aug 2004 new variable
+crs#:#crs_new_search#:#New search###07 Aug 2004 new variable
+crs#:#crs_new_subscription#:#New course subscription###07 Aug 2004 new variable
+crs#:#crs_new_subscription_body#:#A new user has been subscribed###07 Aug 2004 new variable
+crs#:#crs_no_archive_selected#:#No archives selected###07 Aug 2004 new variable
+crs#:#crs_no_archives_available#:#There are no archives available###07 Aug 2004 new variable
+crs#:#crs_no_archives_selected#:#Please select an archive###07 Aug 2004 new variable
+crs#:#crs_no_groups_selected#:#Please select a group###07 Aug 2004 new variable
+crs#:#crs_no_items_found#:#There are no course items###07 Aug 2004 new variable
+crs#:#crs_no_language#:#No language###07 Aug 2004 new variable
+crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variable
+crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
+crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
+crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
+crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
+crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
+crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable
+crs#:#crs_no_valid_member_id_given#:#No valid member Id###07 Aug 2004 new variable
+crs#:#crs_not_available#:#-Not available-###07 Aug 2004 new variable
+crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
+crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
+crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
+crs#:#crs_options#:#Options###07 Aug 2004 new variable
+crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
+crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
+crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable
+crs#:#crs_reg_subscription_deactivated#:#Registration is disabled###07 Aug 2004 new variable
+crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired###07 Aug 2004 new variable
+crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.###07 Aug 2004 new variable
+crs#:#crs_reg_subscription_start_later#:#The registration time starts later###07 Aug 2004 new variable
+crs#:#crs_reg_until#:#Registration date###07 Aug 2004 new variable
+crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course###07 Aug 2004 new variable
+crs#:#crs_reg_user_already_subscribed#:#You have already subscribed to this course###07 Aug 2004 new variable
+crs#:#crs_reg_user_blocked#:#You are blocked from this course###07 Aug 2004 new variable
+crs#:#crs_registration#:#Course registration###07 Aug 2004 new variable
+crs#:#crs_reject_subscriber#:#Course subscription###07 Aug 2004 new variable
+crs#:#crs_reject_subscriber_body#:#Your subscription has been declined.###07 Aug 2004 new variable
+crs#:#crs_role#:#Role###07 Aug 2004 new variable
+crs#:#crs_role_status#:#Role / Status###07 Aug 2004 new variable
+crs#:#crs_search_enter_search_string#:#Please enter a search string###07 Aug 2004 new variable
+crs#:#crs_search_for#:#Search for###07 Aug 2004 new variable
+crs#:#crs_search_members#:#User search###07 Aug 2004 new variable
+crs#:#crs_search_str#:#Search term###07 Aug 2004 new variable
+crs#:#crs_select_archive_language#:#Please select a language for the archive###07 Aug 2004 new variable
+crs#:#crs_select_one_archive#:#Please select one archive###07 Aug 2004 new variable
+crs#:#crs_settings#:#Course settings###07 Aug 2004 new variable
+crs#:#crs_settings_saved#:#Settings saved###07 Aug 2004 new variable
+crs#:#crs_size#:#File size###07 Aug 2004 new variable
+crs#:#crs_sort_activation#:#Sort by activation###07 Aug 2004 new variable
+crs#:#crs_sort_manual#:#Sort manuell###07 Aug 2004 new variable
+crs#:#crs_sort_title#:#Sort by title###07 Aug 2004 new variable
+crs#:#crs_sortorder#:#Sort###07 Aug 2004 new variable
+crs#:#crs_start#:#Start###07 Aug 2004 new variable
+crs#:#crs_status#:#Status###07 Aug 2004 new variable
+crs#:#crs_status_changed#:#Course status###07 Aug 2004 new variable
+crs#:#crs_status_changed_body#:#Your course status has been changed.###07 Aug 2004 new variable
+crs#:#crs_structure#:#Course structure###07 Aug 2004 new variable
+crs#:#crs_subscribers#:#Subscriptions###07 Aug 2004 new variable
+crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)###07 Aug 2004 new variable
+crs#:#crs_subscription#:#Subscription###07 Aug 2004 new variable
+crs#:#crs_subscription_max_members#:#Maximum of members###07 Aug 2004 new variable
+crs#:#crs_subscription_notify#:#Notify for subscriptions###07 Aug 2004 new variable
+crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation###07 Aug 2004 new variable
+crs#:#crs_subscription_options_deactivated#:#Deactivated###07 Aug 2004 new variable
+crs#:#crs_subscription_options_direct#:#Direct subscription###07 Aug 2004 new variable
+crs#:#crs_subscription_options_password#:#Subscription with password###07 Aug 2004 new variable
+crs#:#crs_subscription_successful#:#You have been subscribed to this course###07 Aug 2004 new variable
+crs#:#crs_subscription_type#:#Subscription type###07 Aug 2004 new variable
+crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives###07 Aug 2004 new variable
+crs#:#crs_syllabus#:#Syllabus###07 Aug 2004 new variable
+crs#:#crs_time#:#Subscription time###07 Aug 2004 new variable
+crs#:#crs_to#:#To:###07 Aug 2004 new variable
+crs#:#crs_tutor#:#Tutor###07 Aug 2004 new variable
+crs#:#crs_tutor_no_notify#:#Tutor (no notification)###07 Aug 2004 new variable
+crs#:#crs_tutor_notify#:#Tutor (notification)###07 Aug 2004 new variable
+crs#:#crs_unblocked#:#Free entrance###07 Aug 2004 new variable
+crs#:#crs_unblocked_member#:#Course membership###07 Aug 2004 new variable
+crs#:#crs_unblocked_member_body#:#Your membership has been restored###07 Aug 2004 new variable
+crs#:#crs_unlimited#:#Unlimited###07 Aug 2004 new variable
+crs#:#crs_unsubscribe#:#Unsubscribe###07 Aug 2004 new variable
+crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course###07 Aug 2004 new variable
+crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###07 Aug 2004 new variable
+crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
+crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
+crs#:#crs_xml#:#XML###07 Aug 2004 new variable
+crs_#:#crs_archives#:#Archives###07 Aug 2004 new variable
 dateplaner#:#DateText#:#Wiadomość
 dateplaner#:#Day_long#:#Widok dnia
 dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.

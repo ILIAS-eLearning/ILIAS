@@ -118,6 +118,7 @@ email_not_valid#:#Invalid email address
 en_by_default#:#(English is installed by default and cannot be deleted).
 enable#:#enable
 enabled#:#enabled
+enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!
 enter_password#:#Please enter password
 env_ok#:#Ok. Sounds good.
 env_using#:#ILIAS 3 will be running on
@@ -142,7 +143,6 @@ hide_clientlist#:#Hide client selection
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
 htmldoc_path_comment#:#required to generate PDF documents
-enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!
 http_path#:#HTTP path
 id#:#ID
 ilias_homepage#:#ILIAS Homepage

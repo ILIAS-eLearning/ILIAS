@@ -117,6 +117,7 @@ email_not_valid#:#Adres Email jest nieprawidłowy
 en_by_default#:#(Angielski jest zainstalowany domyślnie i nie może być usunięty).
 enable#:#włącz
 enabled#:#włączony
+enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#Podaj hasło
 env_ok#:#Ok. Wszystko w porządku
 env_using#:#ILIAS 3 będzie uruchomiony na:
@@ -140,7 +141,7 @@ fop_path_comment#:#wymagany do tworzenia dokumentów PDF
 hide_clientlist#:#Ukryj wybór klienta
 host#:#Serwer
 htmldoc_path#:#Ściezka do HTMLdoc
-htmldoc_path_comment#:#wymagany do wygenerowania bilingów PDF (System Płatności)
+htmldoc_path_comment#:#wymagany do wygenerowania bilingów PDF (System Płatności)###07 Aug 2004 content changed
 http_path#:#Ścieżka HTTP
 id#:#ID
 ilias_homepage#:#Strona domowa ILIAS
