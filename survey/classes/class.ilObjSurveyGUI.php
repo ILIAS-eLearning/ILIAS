@@ -423,7 +423,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		$this->tpl->setCurrentBlock("start");
-
+		$canStart = $this->object->canStartSurvey();
 		if ($this->object->isSurveyStarted($ilUser->id) === 1)
 		{
 			sendInfo($this->lng->txt("already_completed_survey"));
@@ -436,6 +436,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("resume");
 			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("resume_survey"));
+			if ($canStart = SURVEY_START_START_DATE_NOT_REACHED)
+			{
+				sendInfo($this->lng->txt("start_date_not_reached"));
+				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			}
+			if ($canStart = SURVEY_START_END_DATE_REACHED)
+			{
+				sendInfo($this->lng->txt("end_date_reached"));
+				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->object->isSurveyStarted($ilUser->id) === false)
@@ -445,6 +455,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if (!$rbacsystem->checkAccess('participate', $this->object->getRefId()))
 			{
 				sendInfo($this->lng->txt("cannot_participate_survey"));
+				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			}
+			if ($canStart = SURVEY_START_START_DATE_NOT_REACHED)
+			{
+				sendInfo($this->lng->txt("start_date_not_reached"));
+				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			}
+			if ($canStart = SURVEY_START_END_DATE_REACHED)
+			{
+				sendInfo($this->lng->txt("end_date_reached"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			}
 			$this->tpl->parseCurrentBlock();

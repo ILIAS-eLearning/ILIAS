@@ -52,6 +52,10 @@ define("INVITATION_ON", 1);
 define("MODE_UNLIMITED", 0);
 define("MODE_PREDEFINED_USERS", 1);
 
+define("SURVEY_START_ALLOWED", 0);
+define("SURVEY_START_START_DATE_NOT_REACHED", 1);
+define("SURVEY_START_END_DATE_REACHED", 2);
+
 class ilObjSurvey extends ilObject
 {
 /**
@@ -1203,6 +1207,37 @@ class ilObjSurvey extends ilObject
   function getStartDate() {
     return $this->start_date;
   }
+
+/**
+* Checks if the survey can be started
+* 
+* Checks if the survey can be started
+*
+* @return integer 
+* @access public
+*/
+	function canStartSurvey()
+	{
+		$result = 0;
+		if ($this->getStartDateEnabled())
+		{
+			$epoch_time = mktime(0, 0, 0, $this->getStartMonth(), $this->getStartDay(), $this->getStartYear());
+			$now = mktime();
+			if ($now < $epoch_time) {
+				$result = SURVEY_START_START_DATE_NOT_REACHED;
+			}
+		}
+		if ($this->getEndDateEnabled())
+		{
+			$epoch_time = mktime(0, 0, 0, $this->getEndMonth(), $this->getEndDay(), $this->getEndYear());
+			$now = mktime();
+			if ($now > $epoch_time) {
+				$result = SURVEY_START_END_DATE_REACHED;
+			}
+		}
+		return $result;
+	}
+
 
 /**
 * Sets the start date of the survey
