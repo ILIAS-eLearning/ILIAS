@@ -841,8 +841,13 @@ class ilSetup
 				 "WHERE keyword = 'setup_passwd'";
 		$res = $this->db->query($query);
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		if (DB::isError($res))
+		{
+			echo $res->message;
+			exit();
+		}
 
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->value;
 	}
 
