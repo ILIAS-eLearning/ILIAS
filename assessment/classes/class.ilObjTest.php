@@ -2062,13 +2062,16 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote("$user_id")
 		);
 		$result = $this->ilias->db->query($q);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		if ($result->numRows() > 0)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
 		$update = $row["eval_settings_id"];
 		if (!$update) {
 			$q = sprintf("INSERT INTO tst_eval_settings ".
 					 "(eval_settings_id, user_fi, qworkedthrough, pworkedthrough, timeofwork, atimeofwork, firstvisit, " .
 					 "lastvisit, resultspoints, resultsmarks, distancemedian, TIMESTAMP) VALUES " .
-					 "(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+					 "(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$user_id"),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
@@ -3350,6 +3353,66 @@ class ilObjTest extends ilObject
 			}
 		}
 		return $error;
+	}
+	
+	function getECTSGrade($reached_points, $max_points)
+	{
+		require_once "./classes/class.ilStatistics.php";
+		// calculate the median
+		$passed_statistics = new ilStatistics();
+		$passed_array =& $this->getTotalPointsPassedArray();
+		$passed_statistics->setData($passed_array);
+		$ects_percentiles = array
+			(
+				"A" => $passed_statistics->quantile($this->ects_grades["A"]),
+				"B" => $passed_statistics->quantile($this->ects_grades["B"]),
+				"C" => $passed_statistics->quantile($this->ects_grades["C"]),
+				"D" => $passed_statistics->quantile($this->ects_grades["D"]),
+				"E" => $passed_statistics->quantile($this->ects_grades["E"])
+			);
+			if ($reached_points >= $ects_percentiles["A"])
+			{
+				return "A";
+			}
+			else if ($reached_points >= $ects_percentiles["B"])
+			{
+				return "B";
+			}
+			else if ($reached_points >= $ects_percentiles["C"])
+			{
+				return "C";
+			}
+			else if ($reached_points >= $ects_percentiles["D"])
+			{
+				return "D";
+			}
+			else if ($reached_points >= $ects_percentiles["E"])
+			{
+				return "E";
+			}
+			else if (strcmp($this->ects_fx, "") != 0)
+			{
+				if ($max_points > 0)
+				{
+					$percentage = ($reached_points / $max_points) * 100.0;
+				}
+				else
+				{
+					$percentage = 0.0;
+				}
+				if ($percentage >= $this->object->ects_fx)
+				{
+					return "FX";
+				}
+				else
+				{
+					return "F";
+				}
+			}
+			else
+			{
+				return "F";
+			}
 	}
 } // END class.ilObjTest
 ?>
