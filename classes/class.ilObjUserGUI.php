@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.41 2003/08/12 08:53:43 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.42 2003/08/12 16:13:34 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -470,7 +470,9 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacadmin;
 
-		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
+		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"],$new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_user"),$this->ilias->error_obj->WARNING);
 		}
