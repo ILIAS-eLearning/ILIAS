@@ -34,23 +34,23 @@
 </object>
 <object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
-	<subobj name="chat">chat</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="frm">frm</subobj>
-	<subobj name="lm" import="1">lm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
-	<subobj name="glo">glo</subobj>
 	<subobj name="grp" import="1">grp</subobj>
-	<subobj name="exc">exc</subobj>
-	<subobj name="mep">mep</subobj>
+	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
+	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm">frm</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="file" module="1">file</subobj>
+	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
 	<subobj name="svy">svy</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="dbk">dbk</subobj>
-	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -75,19 +75,21 @@
 	<property name="owner">show_owner</property>
 </object>
 <object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
+	<subobj name="fold">fold</subobj>
+	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
-	<subobj name="file">file</subobj>
-	<subobj name="tst">tst</subobj>
-	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="exc">exc</subobj>
-	<subobj name="fold">fold</subobj>
-	<subobj name="frm" import="1">frm</subobj>
-	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="svy">svy</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -104,22 +106,21 @@
 	<action name="clear">clear</action>
 </object>
 <object name="fold" class_name="Folder" checkbox="1" inherit="1" translate="0" rbac="1">
-	<subobj name="frm" import="1">frm</subobj>
-	<subobj name="chat">chat</subobj>
-	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="fold">fold</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
-	<subobj name="exc">exc</subobj>
-	<subobj name="htlm" import="1">lm</subobj>
-	<subobj name="mep">mep</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="file">file</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
 	<subobj name="svy">svy</subobj>
-	<subobj name="fold" module="1">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -141,22 +142,21 @@
 	<property name="owner">show_owner</property>
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1" translate="0" rbac="1">
-	<subobj name="frm" import="1">frm</subobj>
-	<subobj name="chat">chat</subobj>
-	<subobj name="lm" import="1">lm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
-	<subobj name="exc">exc</subobj>
+	<subobj name="fold">fold</subobj>
+	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
-	<subobj name="mep">mep</subobj>
+	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="file">file</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
 	<subobj name="svy">svy</subobj>
-	<subobj name="fold" module="1">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="members">group_members</property>
