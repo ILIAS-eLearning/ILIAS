@@ -1617,7 +1617,6 @@ class ilObjectGUI
 		foreach($data["roles"] as $role)
 		{
 			// BLOCK ROLENAMES
-			/* temp. disabled
 			if ($role["link"])
 			{
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
@@ -1626,7 +1625,7 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				
 				$this->tpl->touchBlock("ROLELINK_CLOSE");
-			}*/
+			}
 			
 			$this->tpl->setCurrentBlock("ROLENAMES");
 			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
