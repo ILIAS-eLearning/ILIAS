@@ -64,7 +64,7 @@ class ilPersonalDesktopGUI
 				$this->tpl->setVariable("LO_TITLE", $img.$lo_item["title"]);
 				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=".$type."&id=".$lo_item["id"]);
 				$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
-				if ($rbacsystem->checkAccess('write', $lo_item["ref_id"]))
+				if ($rbacsystem->checkAccess('write', $lo_item["id"]))
 				{
 					$this->tpl->setVariable("EDIT_LINK", $lo_item["edit_link"]);
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
