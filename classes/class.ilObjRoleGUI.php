@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.81 2004/06/01 14:51:40 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.82 2004/06/03 08:05:18 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -158,7 +158,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
 
 
-		$to_filter = $objDefinition->getSubobjectsToFilter();
+		#$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
 		{
@@ -175,10 +175,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// FILTER SUBOJECTS OF adm OBJECT
-			if(in_array($row->title,$to_filter))
-			{
-				continue;
-			}
+			#if(in_array($row->title,$to_filter))
+			#{
+			#	continue;
+			#}
 			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 											    "type"		=> $row->title
 												);
@@ -443,7 +443,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$to_filter = $objDefinition->getSubobjectsToFilter();
+		#$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		// first safe permissions that were disabled in HTML form due to missing lack of permissions of user who changed it
 		// TODO: move this following if-code into an extra function. this part is also used in $this->permObject !!
@@ -458,10 +458,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				// FILTER SUBOJECTS OF adm OBJECT
-				if(in_array($row->title,$to_filter))
-				{
-					continue;
-				}
+				#if(in_array($row->title,$to_filter))
+				#{
+				#	continue;
+				#}
 
 				$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 												    "type"		=> $row->title
@@ -590,7 +590,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			// prepare arrays for permission settings below
 			foreach ($valid_nodes as $key => $node)
 			{
-				if(!in_array($node["type"],$to_filter))
+				#if(!in_array($node["type"],$to_filter))
 				{
 					$node_ids[] = $node["child"];
 					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
