@@ -1615,7 +1615,6 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->parseCurrentBlock();
 		}
 
-    $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
       $this->tpl->setCurrentBlock("matching_combo");
       foreach ($array_matching as $match_key => $match_value) {
@@ -1632,6 +1631,7 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setVariable("VALUE_SELECTED", $selected);
         $this->tpl->parseCurrentBlock();
       }
+	    $this->tpl->setCurrentBlock("matching_question");
       $this->tpl->setVariable("COUNTER", $value->get_matchingtext_order());
 			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
 				$imagepath = $this->question->get_image_path_web() . $value->get_matchingtext();
@@ -1640,7 +1640,8 @@ class ASS_QuestionGUI extends PEAR {
 	      $this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_matchingtext() . "</strong>");
   		}
 	    $this->tpl->setVariable("TEXT_MATCHES", "matches");
-      $this->tpl->parse("matching_question");
+			$this->tpl->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+      $this->tpl->parseCurrentBlock();
     }
 
     $this->tpl->setCurrentBlock("matching");
