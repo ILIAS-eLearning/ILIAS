@@ -140,6 +140,8 @@ class UserObject extends Object
 		global $tplContent;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
+		$rbacreview = new RbacReviewH($this->ilias->db);
+
 		$parent_obj_id = $this->getParentObjectId();
 
 		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
@@ -176,6 +178,28 @@ class UserObject extends Object
 			$tplContent->setVariable("USR_FIRSTNAME",$user->data["FirstName"]);
 			$tplContent->setVariable("USR_SURNAME",$user->data["SurName"]);
 			$tplContent->setVariable("USR_EMAIL",$user->data["Email"]);
+
+			if($_GET["obj_id"] == $_SESSION["AccountId"])
+			{
+				// BEGIN AVTIVE ROLE
+
+				// BEGIN TABLE_ROLES
+				$tplContent->setCurrentBlock("TABLE_ROLES");
+				$assigned_roles = $rbacreview->assignedRoles($_GET["obj_id"]);
+				foreach($assigned_roles as $key => $role)
+				{
+					$obj = getObject($role);
+					$tplContent->setVariable("CSS_ROW_ROLE",$key % 2 ? 'row_low' : 'row_high');
+					$box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
+					$tplContent->setVariable("CHECK_ROLE",$box);
+					$tplContent->setVariable("ROLENAME",$obj["title"]);
+					$tplContent->parseCurrentBlock();
+				}
+				$tplContent->setCurrentBlock("ACTIVE_ROLE");
+				$tplContent->setVariable("ACTIVE_ROLE_OBJ_ID",$_GET["obj_id"]);
+				$tplContent->setVariable("ACTIVE_ROLE_TPOS",$_GET["parent"]);
+				$tplContent->parseCurrentBlock();
+			}
 		}
 		else
 		{
@@ -208,6 +232,27 @@ class UserObject extends Object
 		}
 		header("Location: content_user.php?obj_id=$_GET[parent]&parent=$this->SYSTEM_FOLDER_ID");
 	}
+/**
+ * add active role in session
+ * @access public
+ *
+ **/
+	function activeRoleSaveObject()
+	{
+		if($_GET["obj_id"] == $_SESSION["AccountId"])
+		{
+			if(!count($_POST["active"]))
+			{
+				$this->ilias->raiseError("You must leave one active role",$this->ilias->error_class->WARNING);
+			}
+			$_SESSION["RoleId"] = $_POST["active"];
+		}
+		else
+		{
+			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_class->WARNING);
+		}
+		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=edit");
+	}		
 
 } //end class
 ?>
