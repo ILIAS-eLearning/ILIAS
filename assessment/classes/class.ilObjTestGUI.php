@@ -25,7 +25,7 @@
 /**
 * Class ilObjTestGUI
 *
-* @author Helmut Schottm¡Zler <hschottm@tzi.de>
+* @author Helmut Schottmüller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI
@@ -129,7 +129,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["reporting_date"] = ilUtil::stripSlashes($_POST["reporting_date"]);
 			$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 			$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
-			$data["starting_time"] = ilUtil::stripSlashes($_POST["starting_time"]);
+			$data["starting_time"] = sprintf("%04d%02d%02d%02d%02d%02d", 
+				$_POST["starting_date"]["y"],
+				$_POST["starting_date"]["m"],
+				$_POST["starting_date"]["d"],
+				$_POST["starting_time"]["h"],
+				$_POST["starting_time"]["m"],
+				0
+			);
 		} else {
 			$data["sel_test_types"] = $this->object->get_test_type();
 			$data["author"] = $this->object->get_author();
@@ -227,8 +234,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
 		$this->tpl->setVariable("VALUE_PROCESSING_TIME", $data["processing_time"]);
 		$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
-		$date_input = ilUtil::makeDateSelect("starting_date");
-		$time_input = ilUtil::makeTimeSelect("starting_time");
+		preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["starting_time"], $matches);
+		$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], $matches[2], $matches[3]);
+		$time_input = ilUtil::makeTimeSelect("starting_time", true, $matches[4], $matches[5], $matches[6]);
 		$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
@@ -1346,13 +1354,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
-
-		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
-		// muss folgendes geschehen:
-		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
-		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
-		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
-		//   und das Permission Template an den Wert des nhst hher gelegenen Permission Templates angepasst
 
 		// get rolefolder data if a rolefolder already exists
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);

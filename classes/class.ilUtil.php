@@ -617,87 +617,62 @@ class ilUtil
 	}
 
 	/**
-	*  erstellt dateselect-boxen mit voreingestelltem datum
+	* Creates a combination of HTML selects for date inputs
 	*
-	* 2004/03/16 Added language and date format support (hschottm@tzi.de)
+	* Creates a combination of HTML selects for date inputs
+	* The select names are $prefix[y] for years, $prefix[m]
+	* for months and $prefix[d] for days.
 	*
 	* @access	public
-	* @param	string	var name in formular
-	* @param	string	date
+	* @param	string	$prefix Prefix of the select name
+	* @param	integer	$year Default value for year select
+	* @param	integer	$month Default value for month select
+	* @param	integer	$day Default value for day select
 	* @return	string	HTML select boxes
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeDateSelect($prefix,$date="current")
+	function makeDateSelect($prefix, $year = "", $month = "", $day = "")
 	{
 		global $lng;
 		
-		if ($date=="current")
-		{
-			$date = date("Y-m-d");
+		if (!strlen("$year$month$day")) {
+			$now = getdate();
+			$year = $now["year"];
+			$month = $now["mon"];
+			$day = $now["mday"];
 		}
 
-		$time = explode("-",$date);
 		// build day select
 		$sel_day .= "<select name=\"".$prefix."[d]\">\n";
 
-		for ($i=1;$i<=31;$i++)
+		for ($i = 1; $i <= 31; $i++)
 		{
-			if ($time[2]==$i) { $sel = " selected"; } else { $sel = "";}
-			$sel_day .= "<option".$sel.">".$i."\n";
+			$sel_day .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
 		}
-		
 		$sel_day .= "</select>\n";
-		// build month select
-		$months = array(1 => $lng->txt("month_01_long"), 
-			$lng->txt("month_02_long"), 
-			$lng->txt("month_03_long"), 
-			$lng->txt("month_04_long"), 
-			$lng->txt("month_05_long"), 
-			$lng->txt("month_06_long"), 
-			$lng->txt("month_07_long"),
-			$lng->txt("month_08_long"),
-			$lng->txt("month_09_long"),
-			$lng->txt("month_10_long"),
-			$lng->txt("month_11_long"),
-			$lng->txt("month_12_long")
-		);
+		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
+		// build month select
 		$sel_month .= "<select name=\"".$prefix."[m]\">\n";
 
-		for ($i=1;$i<=12;$i++)
+		for ($i = 1; $i <= 12; $i++)
 		{
-			if ($time[1]==$i)
-			{
-				$sel = " selected";
-			}
-			else
-			{
-				$sel = "";
-			}
-
-			$sel_month .= "<option value=\"".$i."\" ".$sel.">".$months[$i]."\n";
+			$sel_month .= "<option value=\"$i\">" . $lng->txt("month_" . sprintf("%02d", $i) . "_long") . "</option>\n";
 		}
-
 		$sel_month .= "</select>\n";
+		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
+
 		// build year select
 		$sel_year .= "<select name=\"".$prefix."[y]\">\n";
 
-		for ($i=0;$i<=3;$i++)
+		for ($i = $year; $i <= $year + 3; $i++)
 		{
-			if ($time[0]==(date("Y")+$i))
-			{
-				$sel = " selected";
-			}
-			else
-			{
-				$sel = "";
-			}
-
-			$sel_year .= "<option".$sel.">".(date("Y")+$i)."\n";
+			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
 		}
-
 		$sel_year .= "</select>\n";
+		$sel_year = preg_replace("/(value\=\"$year\")/", "$1 selected=\"selected\"", $sel_year);
+
 		$dateformat = $lng->text["lang_dateformat"];
 		$dateformat = strtolower(preg_replace("/\W/", "", $dateformat));
 		$dateformat = strtolower(preg_replace("/(\w)/", "%%$1", $dateformat));
