@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.70 2004/01/12 12:21:17 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.71 2004/01/12 16:30:53 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -874,43 +874,46 @@ class ilObjUserGUI extends ilObjectGUI
 //echo "2";
 		foreach ($list as $key => $val)
 		{
-			// fetch context path of role
-			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
-//echo "3";
-			// only list roles that are not set to status "deleted"
-			if (!$rbacreview->isDeleted($rolf[0]))
+			if (substr($val["title"],0,3) != "il_")
 			{
-				$path = "";
-//echo "4";
-				if ($this->tree->isInTree($rolf[0]))
+				// fetch context path of role
+				$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
+	//echo "3";
+				// only list roles that are not set to status "deleted"
+				if (!$rbacreview->isDeleted($rolf[0]))
 				{
-					$tmpPath = $this->tree->getPathFull($rolf[0]);
-//echo "5";
-					// count -1, to exclude the role folder itself
-					for ($i = 1; $i < (count($tmpPath)-1); $i++)
+					$path = "";
+	//echo "4";
+					if ($this->tree->isInTree($rolf[0]))
 					{
-						if ($path != "")
+						$tmpPath = $this->tree->getPathFull($rolf[0]);
+	//echo "5";
+						// count -1, to exclude the role folder itself
+						for ($i = 1; $i < (count($tmpPath)-1); $i++)
 						{
-							$path .= " > ";
+							if ($path != "")
+							{
+								$path .= " > ";
+							}
+	
+							$path .= $tmpPath[$i]["title"];
 						}
-
-						$path .= $tmpPath[$i]["title"];
 					}
+					else
+					{
+						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$val["obj_id"].")</b>";
+					}
+	
+					//visible data part
+					$this->data["data"][] = array(
+								"type"			=> $val["type"],
+								"role"			=> $val["title"]."#separator#".$val["desc"],
+								"role_type"		=> $val["role_type"],
+								"context"		=> $path,
+								"obj_id"		=> $val["obj_id"]
+							);
 				}
-				else
-				{
-					$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$val["obj_id"].")</b>";
-				}
-
-				//visible data part
-				$this->data["data"][] = array(
-							"type"			=> $val["type"],
-							"role"			=> $val["title"]."#separator#".$val["desc"],
-							"role_type"		=> $val["role_type"],
-							"context"		=> $path,
-							"obj_id"		=> $val["obj_id"]
-						);
-			}
+			} // if substr
 		} //foreach role
 
 		$this->maxcount = count($this->data["data"]);
