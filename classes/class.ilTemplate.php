@@ -161,6 +161,7 @@ class ilTemplate extends IntegratedTemplateExtension
 		{
 			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
 			$_SESSION["post_vars"] = $_POST;
+			unset($_SESSION["error_post_vars"]);
 		}
 	}
 
