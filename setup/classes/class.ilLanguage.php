@@ -199,7 +199,6 @@ class ilLanguage
 			{
 				// ...re-insert data from lang-file
 				$this->insertLanguage($lang_key);
-				$checked[] = $lang_key;
 			}
 		}
 		
@@ -288,12 +287,14 @@ class ilLanguage
 		// file check
 		if (!is_file($lang_file))
 		{
+			chdir($tmpPath);
 			return false;
 		}
 
 		// header check
 		if (!$content = $this->cut_header(file($lang_file)))
 		{
+			chdir($tmpPath);
 			return false;
 		}
 
@@ -305,6 +306,7 @@ class ilLanguage
 
 			if ($num != 3)
 			{
+				chdir($tmpPath);
 				return false;
 			}
 		}
