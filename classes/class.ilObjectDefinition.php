@@ -152,7 +152,7 @@ class ilObjectDefinition extends ilSaxParser
 			$props = array();
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
-				if($prop["module"] != 0)
+				if($prop["module"] != "n")
 				{
 					$props[$data] = $prop;
 				}
@@ -225,7 +225,7 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
-				if($prop["module"] != 0)
+				if($prop["module"] != "n")
 				{
 					return $data;
 				}
