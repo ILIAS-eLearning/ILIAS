@@ -1594,7 +1594,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadQplObject(false);
-		$this->ctrl->redirect($this, "questions");
+		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 
 } // END class.ilObjQuestionPoolGUI
