@@ -253,6 +253,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['child'];
 			$attr['type'] = $tmp_obj->getType();
 			$attr['Unlimited'] = $item['activation_unlimited'] ? 1 : 0;
+			$attr['Position'] = $item['position'];
+
 			$this->xmlStartTag('Object',$attr);
 			$this->xmlElement('Start',null,$item['activation_start']);
 			$this->xmlElement('End',null,$item['activation_end']);

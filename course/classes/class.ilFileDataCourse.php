@@ -60,6 +60,21 @@ class ilFileDataCourse extends ilFileData
 			$this->__initDirectory();
 		}
 	}
+	
+	function getArchiveFile($a_rel_name)
+	{
+		if(@file_exists($this->course_path.'/'.$a_rel_name.'.zip'))
+		{
+			return $this->course_path.'/'.$a_rel_name.'.zip';
+		}
+		if(@file_exists($this->course_path.'/'.$a_rel_name.'.pdf'))
+		{
+			return $this->course_path.'/'.$a_rel_name.'.pdf';
+		}
+		return false;
+	}
+
+
 
 	function deleteArchive($a_rel_name)
 	{
