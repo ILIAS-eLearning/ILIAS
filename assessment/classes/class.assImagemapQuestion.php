@@ -378,13 +378,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @access public
 * @see $imagemap_contents
 */
-  function get_imagemap_contents() {
+  function get_imagemap_contents($href = "#") {
 		$imagemap_contents = "<map name=\"".$this->title."\"> ";
 		for ($i = 0; $i < count($this->answers); $i++) {
 	 		$imagemap_contents .= "<area alt=\"".$this->answers[$i]->get_answertext()."\" ";
 	 		$imagemap_contents .= "shape=\"".$this->answers[$i]->get_area()."\" ";
 	 		$imagemap_contents .= "coords=\"".$this->answers[$i]->get_coords()."\" ";
-	 		$imagemap_contents .= "href=\"il_as_question_manager.php\" /> ";
+	 		$imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->get_order() . "\" /> ";
 		}
 		$imagemap_contents .= "</map>";
     return $imagemap_contents;
@@ -592,17 +592,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
     );
     $result = $db->query($query);
 
-      foreach ($_POST as $key => $value) {
-        if (preg_match("/imagemap_(\d+)/", $key, $matches)) {
-          $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-            $db->quote($ilUser->id),
-            $db->quote($test_id),
-            $db->quote($this->get_id()),
-            $db->quote($value)
-          );
-          $result = $db->query($query);
-        }
-      }
+		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+			$db->quote($ilUser->id),
+			$db->quote($test_id),
+			$db->quote($this->get_id()),
+			$db->quote($_GET["selimage"])
+		);
+		$result = $db->query($query);
 //    parent::save_working_data($limit_to);
   }
 }
