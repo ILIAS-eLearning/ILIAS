@@ -561,7 +561,8 @@ bibitem#:#bibitem_year#:#Année
 chat#:#chat_active#:#Actif
 chat#:#chat_active_users#:#Utilisateur (actif)
 chat#:#chat_add_allowed_hosts#:#Veuillez ajouter l'adresse de l'hôte (des hôtes) autorisé(s) à accéder à ce serveur de chat.
-chat#:#chat_add_ip#:#Veuillez saisir l'adresse IP du serveur
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Veuillez saisir un mot de passe de modérateur
 chat#:#chat_add_port#:#Veuillez saisir le port du serveur.
 chat#:#chat_aqua#:#aqua
@@ -622,7 +623,8 @@ chat#:#chat_rooms_deleted#:#Salon(s) détruit(s)
 chat#:#chat_select_one_room#:#Veuillez sélectionner un salon
 chat#:#chat_server_allowed#:#Hôtes autorisés
 chat#:#chat_server_allowed_b#:#(par ex. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#IP du serveur
+chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
+chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
 chat#:#chat_server_logfile#:#Chemin vers le fichier journal
 chat#:#chat_server_loglevel#:#Niveau de journalisation
 chat#:#chat_server_not_active#:#Le serveur de chat n'est pas actif

@@ -572,7 +572,8 @@ bibitem#:#bibitem_year#:#Év
 chat#:#chat_active#:#Aktív
 chat#:#chat_active_users#:#Felhasználó (aktív)
 chat#:#chat_add_allowed_hosts#:#Adja meg a chatszerverként elérhető host címét.
-chat#:#chat_add_ip#:#Adja meg a szerver IP-jét.
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Adjon meg a moderátor jelszót.
 chat#:#chat_add_port#:#Adja meg a szerverportot.
 chat#:#chat_aqua#:#akva
@@ -633,7 +634,8 @@ chat#:#chat_rooms_deleted#:#Chatszobá(k) törölve.
 chat#:#chat_select_one_room#:#Válasszon ki egy chatszobát
 chat#:#chat_server_allowed#:#Engedélyezett host-ok
 chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Szerver-IP
+chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
+chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
 chat#:#chat_server_logfile#:#Eseménynapló elérési útja
 chat#:#chat_server_loglevel#:#Naplózási szint
 chat#:#chat_server_not_active#:#A chatszerver nem aktív

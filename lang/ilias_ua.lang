@@ -572,7 +572,8 @@ bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
-chat#:#chat_add_ip#:#Please add the server ip.###05 Mar 2004 new variable
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
 chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
 chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
@@ -633,7 +634,8 @@ chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###05 Mar 2004 new variable
 chat#:#chat_select_one_room#:#Please select one chatroom###05 Mar 2004 new variable
 chat#:#chat_server_allowed#:#Allowed hosts###05 Mar 2004 new variable
 chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###05 Mar 2004 new variable
-chat#:#chat_server_ip#:#Server Ip###05 Mar 2004 new variable
+chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
+chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
 chat#:#chat_server_logfile#:#Logfile path###05 Mar 2004 new variable
 chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
 chat#:#chat_server_not_active#:#The chatserver is not active###05 Mar 2004 new variable

@@ -572,7 +572,8 @@ bibitem#:#bibitem_year#:#Jaar
 chat#:#chat_active#:#Actief
 chat#:#chat_active_users#:#Gebruiker (actief)
 chat#:#chat_add_allowed_hosts#:#Voeg het adres toe van de host(s) die toegang hebben tot de Chat-server.
-chat#:#chat_add_ip#:#Voeg het adres toe van de server IP.
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Voeg een moderator-wachtwoord toe.
 chat#:#chat_add_port#:#Voeg het adres toe van de server-poort.
 chat#:#chat_aqua#:#aqua###05 Nov 2004 new variable
@@ -633,7 +634,8 @@ chat#:#chat_rooms_deleted#:#Chat-ruimte(s) verwijderd.
 chat#:#chat_select_one_room#:#Selecteer a.u.b. één chat-ruimte
 chat#:#chat_server_allowed#:#Sta hosts toe
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)###05 Nov 2004 new variable
-chat#:#chat_server_ip#:#Server IP###05 Nov 2004 new variable
+chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
+chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
 chat#:#chat_server_logfile#:#pad log-bestand
 chat#:#chat_server_loglevel#:#log-niveau
 chat#:#chat_server_not_active#:#De Chat-server is niet aktief
