@@ -1290,22 +1290,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($_POST["cmd"]["save_constraint"])
 		{
-			// must set constraint for all block questions if question is a block question
-			foreach ($pages as $question_array)
+			foreach ($checked_questions as $id)
 			{
-				$found = 0;
-				foreach ($question_array as $question_data)
+				foreach ($pages as $question_array)
 				{
-					if ($question_data["question_id"] == $constraint_question)
+					foreach ($question_array as $question_data)
 					{
-						$found = 1;
+						if ($question_data["question_id"] == $id)
+						{
+							$this->object->addConstraint($question_data["question_id"], $_POST["q"], $_POST["r"], $_POST["v"]);
+						}
 					}
 				}
-				if ($found)
+			}
+			foreach ($checked_questionblocks as $id)
+			{
+				foreach ($pages as $question_array)
 				{
-					foreach ($question_array as $question_id => $question_data)
+					if ($question_array[0]["questionblock_id"] == $id)
 					{
-						$this->object->addConstraint($question_data["question_id"], $_POST["q"], $_POST["r"], $_POST["v"]);
+						foreach ($question_array as $question_data)
+						{
+							$this->object->addConstraint($question_data["question_id"], $_POST["q"], $_POST["r"], $_POST["v"]);
+						}
 					}
 				}
 			}
