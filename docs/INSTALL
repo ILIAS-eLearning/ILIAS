@@ -940,37 +940,21 @@ must be specified in the ILIAS 3 system settings.
 
     Open the ILIAS 3 setup script in your web browser:
 
-        http://www.yourserver.com/ilias3/setup.php
+        http://www.yourserver.com/ilias3/setup/setup.php
 
     If all 'preliminaries' are fulfilled you may click on the [Installation]
-    link at the end of the page. You
-
-    Now click on all setup menu entries:
-
-    1. Create the ini-file containing the following information:
-
-        - Database access information
-        - Path to ILIAS data directory:
-          This path must be an absolut path i.e. it should start with "/", e.g.
-          "/opt/ilias/data". The directory is used for data that does not need
-          to be stored within the webspace.
-
-    2. Setup the database. Please note that unlike with ILIAS 2 the database
-       must not be created manually. After the database has been generated an
-       update of the database structure might be required.
-
-    3. Install additional languages (if required).
-
-    4. IMPORTANT: set a password to protect the setup script.
+    link at the end of the page and follow the instructions. The Path to the
+    ILIAS data directory must be an absolut path i.e. it should start with
+    "/", e.g. "/opt/ilias/data". The directory is used for data that does not
+    need to be stored within the webspace.
 
 
 (c) Initial login
 
-
-    After all menu items display [OK] you may proceed to the ILIAS 3 login,
+    After all steps are passed you may proceed to the ILIAS 3 login,
     either using the [login] link or by accessing
 
-        http://www.yourserver.com/ilias3/index.php
+        http://www.yourserver.com/ilias3/login.php
 
     Please use the ILIAS superuser account for your first login:
 
@@ -1091,7 +1075,7 @@ must be specified in the ILIAS 3 system settings.
      zend_extension="/opt/ilias/lib/php_accelerator_1.3.3r2.so"
  
     Please check the PHP Accelerator configuration documentation for further
-    options. Especially you may want to enlarge the cache size. For arather
+    options. Especially you may want to enlarge the cache size. For a rather
     complex system like ILIAS the default size of 8 MB is rather low. We 
     recommend a size of up to 32 MB, if your systems main memory size allows
     it, even more. Solaris users should read the 'solaris_notes' (included in
@@ -1297,9 +1281,11 @@ options in the ILIAS system settings.
 
 3.2  Updating ILIAS 3
 
-At the time being ILIAS 3 is only available as an alpha version for test
-purposes. Update and migration information will be available as soon as a beta
-release becomes available.
+At the time being ILIAS 3 is only available as a first beta version for test
+purposes. We recommend not to update from an older alpha version because this
+may cause ambiguous errors in the future. Please setup ILIAS 3 beta 1 from
+scratch. Update and migration information will be available as soon as second
+beta release becomes available.
 
 
 3.3  Updating third-party software
