@@ -261,6 +261,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		{
+			$this->tpl->touchBlock("initwysiwygeditor");
+		}
+		
 		// operations
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "create_par");	//--

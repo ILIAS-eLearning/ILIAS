@@ -44,6 +44,10 @@ class ilWysiwygUtil
 							$this->showItl();
 							break;
 						}
+			case "footnote" : {
+							$this->showFootnote();
+							break;
+						}
 		}
 		
 		$this->tpl->show();
@@ -62,8 +66,15 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 	}
 	
+	function showFootnote() 
+	{
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+	}
 	
-	function showHeader() {
+	
+	function showHeader() 
+	{
 		
 	}
 	
@@ -129,23 +140,23 @@ class ilWysiwygUtil
             $new["convert2"] = "[/xln]";
 		}
 		
-        if ($attrs["class"] == "iliasstrong") 
+        if ($attrs["class"] == "ilc_Strong") 
 		{
             $new["convert"] = "[str]";
             $new["convert2"] = "[/str]";
         }
-        if ($attrs["class"] == "iliascom") 
+        if ($attrs["class"] == "ilc_Comment") 
 		{
             $new["convert"] = "[com]";
             $new["convert2"] = "[/com]";
         }
-        if ($attrs["class"] == "iliasemp") 
+        if ($attrs["class"] == "ilc_Emph") 
 		{
             $new["convert"] = "[emp]";
             $new["convert2"] = "[/emp]";
         }
         
-        if ($attrs["class"] == "iliasquot") 
+        if ($attrs["class"] == "ilc_Quotation") 
 		{
             $new["convert"] = "[quot]";
             $new["convert2"] = "[/quot]";

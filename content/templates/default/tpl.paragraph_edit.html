@@ -333,16 +333,16 @@ function storeCaret(textEl) {
 		
 		T = replaceAll(T,"<", "&lt;");
 		
-        T = replaceAll(T, "[str]","<span class=\"iliasstrong\">");
+        T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
         T = replaceAll(T, "[/str]","</span>");
         
-        T = replaceAll(T, "[emp]","<span class=\"iliasemp\">");
+        T = replaceAll(T, "[emp]","<span class=\"ilc_Emph\">");
         T = replaceAll(T, "[/emp]","</span>");
 
-        T = replaceAll(T, "[com]","<span class=\"iliascom\">");
+        T = replaceAll(T, "[com]","<span class=\"ilc_Comment\">");
         T = replaceAll(T, "[/com]","</span>");
         
-        T = replaceAll(T, "[quot]","<span class=\"iliasquot\">");
+        T = replaceAll(T, "[quot]","<span class=\"ilc_Quotation\">");
         T = replaceAll(T, "[/quot]","</span>");
 
         T = replaceAll(T, "[code]","<code>");
