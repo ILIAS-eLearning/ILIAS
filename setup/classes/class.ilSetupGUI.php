@@ -1619,7 +1619,7 @@ class ilSetupGUI extends ilSetup
 	*/
 	function displayDatabase()
 	{
-		global $ilErr;
+		global $ilErr,$ilDB;
 
 		$this->checkDisplayMode("setup_database");
 
@@ -1671,7 +1671,10 @@ class ilSetupGUI extends ilSetup
 			{
 				// referencing db handler in language class
 				$this->lng->setDbHandler($this->client->db);
-				
+
+				// referencing does not work in dbupdate-script
+				$ilDB = $this->client->db;
+
 				// run dbupdate
 				$dbupdate = new ilDBUpdate($this->client->db);
 				$dbupdate->applyUpdate();
@@ -1704,7 +1707,6 @@ class ilSetupGUI extends ilSetup
 		{
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
-			$ilDB =& $this->client->db;
 
 			$dbupdate = new ilDBUpdate($this->client->db);
 
