@@ -330,6 +330,9 @@ function storeCaret(textEl) {
     
         obj = document.getElementById("{PAR_TA_NAME}");
         T = obj.value;
+		
+		T = replaceAll(T,"<", "&lt;");
+		
         T = replaceAll(T, "[str]","<span class=\"iliasstrong\">");
         T = replaceAll(T, "[/str]","</span>");
         
