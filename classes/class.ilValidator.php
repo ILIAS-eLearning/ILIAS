@@ -350,7 +350,8 @@ class ilValidator extends PEAR
 
 		$q = "SELECT tree.*,object_reference.ref_id FROM tree ".
 			 "LEFT JOIN object_reference ON tree.child = object_reference.ref_id ".
-			 "WHERE object_reference.ref_id IS NULL";
+			 "LEFT JOIN object_data ON object_reference.obj_id = object_data.obj_id ".
+			 "WHERE object_reference.ref_id IS NULL or object_data.obj_id IS NULL";
 		$r = $this->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
