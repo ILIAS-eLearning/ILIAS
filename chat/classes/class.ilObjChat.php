@@ -148,12 +148,6 @@ class ilObjChat extends ilObject
 
 		return $body;
 	}
-
-
-		
-		
-
-		
 	// SET/GET
 } // END class.ilObjTest
 ?>

@@ -47,7 +47,7 @@ class ilObjCourse extends ilObject
 	function ilObjCourse($a_id = 0,$a_call_by_reference = true)
 	{
 		define("ILIAS_MODULE","course");
-
+		define("KEEP_IMAGE_PATH",1);
 
 		$this->SUBSCRIPTION_DEACTIVATED = 1;
 		$this->SUBSCRIPTION_CONFIRMATION = 2;
@@ -400,7 +400,7 @@ class ilObjCourse extends ilObject
 		global $rbacadmin;
 
 		// always call parent clone function first!!
-		$new_ref_id = parent::mclone($a_parent_ref);
+		$new_ref_id = parent::clone($a_parent_ref);
 		
 		// put here crs specific stuff
 
