@@ -376,22 +376,22 @@ class ilObjGroup extends ilObject
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-	
-		if(!isset($a_regFlag)) 
+
+		if(!isset($a_regFlag))
 			$a_regFlag = 0;
-		
+
 		if($res->numRows() == 0)
 		{
 			$q = "INSERT INTO grp_data (grp_id, register) VALUES(".$this->getId().",".$a_regFlag.")";
-			$res = $this->ilias->db->query($q);			
+			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
 			$q = "UPDATE grp_data SET register=".$a_regFlag." WHERE grp_id=".$this->getId()."";
-			$res = $this->ilias->db->query($q);						
+			$res = $this->ilias->db->query($q);
 		}
 	}
-	
+
 	/**
 	* get Registration Flag
 	* @access	public
@@ -401,126 +401,100 @@ class ilObjGroup extends ilObject
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["register"];
 	}
-	
+
+	/**
+	* get Password
+	* @access	public
+	* @param	return password
+	*/
 	function getPassword()
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["password"];
 	}
 	
+	/**
+	* set Password
+	* @access	public
+	* @param	password
+	*/
 	function setPassword($a_password="")
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-	
-//		if($a_password) 
-//			$a_passwordFlag = 0;
-		
+
 		if($res->numRows() == 0)
 		{
 			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".$this->getId().",'".$a_password."')";
-			$res = $this->ilias->db->query($q);			
+			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
 			$q = "UPDATE grp_data SET password='".$a_password."' WHERE grp_id=".$this->getId()."";
-			$res = $this->ilias->db->query($q);						
+			$res = $this->ilias->db->query($q);
 		}
 	}
-	
+
+	/**
+	* set Expiration Date and Time
+	* @access	public
+	* @param	date
+	*/
 	function setExpirationDateTime($a_date)
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-//		echo "setExp:".$a_date;
 		$date = ilFormat::input2date($a_date);
-		
 		if($res->numRows() == 0)
 		{
 			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".$this->getId().",'".$date."')";
-			$res = $this->ilias->db->query($q);			
+			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
 			$q = "UPDATE grp_data SET expiration='".$date."' WHERE grp_id=".$this->getId()."";
-			$res = $this->ilias->db->query($q);						
+			$res = $this->ilias->db->query($q);
 		}
 	}
-	
+
+	/**
+	* get Expiration Date and Time
+	* @access	public
+	* @param	return array(0=>date, 1=>time)
+	*/
 	function getExpirationDateTime()
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$datetime = $row["expiration"];
-//		echo "get:".ilFormat::fdateDB2dateDE($datetime);
 		$date = ilFormat::fdateDB2dateDE($datetime);
 		$time = substr($row["expiration"], -8);
 		$datetime = array(0=>$date, 1=>$time);
 		return $datetime;
 	}
-	
+
 	function registrationPossible()
 	{
 		//missing time !!!
 		$datetime = $this->getExpirationDateTime();
 		$today = ilFormat::getDateDE();
-		
+
 		$ts_datetime = ilFormat::dateDE2timestamp($datetime[0]);
 		$ts_today = ilFormat::dateDE2timestamp($today);
-	
+
 		if($ts_today < $ts_datetime)
 			return true;
 		else
 			return false;
-		
+
 	}
-	
-	/**
-	* set Registration Flag 
-	* @access	public
-	* @param	integer [ 0 = no registration| 1 = registration]
-	*/
-/*	
-	function setKeyRegistrationFlag($a_passwordFlag)
-	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
-		$res = $this->ilias->db->query($q);
-	
-		if($a_passwordFlag != 1) 
-			$a_passwordFlag = 0;
-		
-		if($res->numRows() == 0)
-		{
-			$q = "INSERT INTO grp_data (grp_id, key_registration) VALUES(".$this->getId().",".$a_passwordFlag.")";
-			$res = $this->ilias->db->query($q);			
-		}
-		else
-		{
-			$q = "UPDATE grp_data SET key_registration=".$a_passwordFlag." WHERE grp_id=".$this->getId()."";
-			$res = $this->ilias->db->query($q);						
-		}
-	}
-*/	
-	/**
-	* get Registration Flag
-	* @access	public
-	* @param	return flag => [ 0 = no registration| 1 = registration]
-	*/
-/*	
-	function getKeyRegistrationFlag()
-	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
-		return $row["key_registration"];
-	}
-*/
+
 	/**
 	* set group status
 	* @access	public
@@ -620,53 +594,23 @@ class ilObjGroup extends ilObject
 		else
 			$grp_id = $this->getRefId();
 
-//		$roles = $this->getDefaultGroupRoles($grp_id);
 		$roles = $this->getLocalGroupRoles($grp_id);
-//		print_r($roles);
 
 		$countRole = 0;
 		foreach($roles as $role)
 		{
-//			echo"<br>".$role;
 			if( in_array($a_user_id,$rbacreview->assignedUsers($role) ))
 				return $role;
 		}
-/*
-		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_member_role"]) ))
-			return 0;		//MEMBER
-		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_admin_role"]) ))
-			return 1;		//ADMIN
-*/
 	}
-/*
-	function getMemberStatus($a_user_id, $a_grp_id="")
-	{
-		global $rbacadmin, $rbacreview;
 
-		if(strlen($a_grp_id) > 0)
-			$grp_id = $a_grp_id;
-		else
-			$grp_id = $this->getRefId();
-
-		$roles = $this->getDefaultGroupRoles($grp_id);
-
-		echo "<br>roles:";print_r($roles);
-		foreach($roles as $role)
-		{
-//			print_r($role);
-//			echo "<br>role:";print_r($rbacreview->assignedUsers($role) );
-			if( in_array($a_user_id,$rbacreview->assignedUsers($role) ))
-				return $role;
-		}
-
-/*		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_member_role"]) ))
-			return 0;		//MEMBER
-		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_admin_role"]) ))
-			return 1;		//ADMIN
-*/
-//	}
-
-
+	/**
+	* set member role
+	* @access	public
+	* @param	integer	user id
+	* @param	integer	grp_id (optional)
+	* @param	returns id of member_role
+	*/
 	function getMemberRole($a_user_id, $a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
@@ -678,11 +622,8 @@ class ilObjGroup extends ilObject
 
 		$roles = $this->getDefaultGroupRoles($grp_id);
 
-//		echo "<br>roles:";print_r($roles);
 		foreach($roles as $role)
 		{
-//			print_r($role);
-//			echo "<br>role:";print_r($rbacreview->assignedUsers($role) );
 			if( in_array($a_user_id,$rbacreview->assignedUsers($role) ))
 				return $role;
 		}
@@ -718,7 +659,6 @@ class ilObjGroup extends ilObject
 		else
 			$grp_id = $this->getRefId();
 
-//		$grp_Roles = $this->getDefaultGroupRoles($grp_id);
 		$grp_Roles = $this->getLocalGroupRoles($grp_id);
 
 		foreach ($grp_Roles as $role_id)
@@ -735,6 +675,7 @@ class ilObjGroup extends ilObject
 	* is Member
 	* @access	public
 	* @param	integer	user_id
+	* @param	return true if user is member
 	*/
 	function isMember($a_userId="")
 	{
@@ -770,26 +711,31 @@ class ilObjGroup extends ilObject
 			return false;
 	}
 
+	/**
+	* create new group tree
+	* @access	public
+	* @param	integer	reference id of object
+	*/
 	function createNewGroupTree($objGrpRefId)
 	{
 		$grp_tree = new ilGroupTree($objGrpRefId);
 
 		$grp_tree->addTree($objGrpRefId);
-		
+
 		$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=0 AND child=".$objGrpRefId;
 		$this->ilias->db->query($q1);
-		
+
 		$objGrp =& $this->ilias->obj_factory->getInstanceByRefId($objGrpRefId);
 		$objGrpId = $objGrp->getId();
-		
+
 		$q2 = "UPDATE grp_tree SET obj_id=".$objGrpId." WHERE parent=0 AND child=".$objGrpRefId;
 		$this->ilias->db->query($q2);
 	}
-	
+
 	/**
 	* copies a grouptree with a new ref_id
 	* (explanation follows later)
-	* 
+	*
 	* @access	private
 	* @param	integer	ref_id	new reference id of current object (created by clone method)
 	* @return	boolean	true on success
@@ -798,7 +744,7 @@ class ilObjGroup extends ilObject
 	{
 		$q = "SELECT * FROM grp_tree WHERE tree='".$this->getRefId()."'";
 		$r1 = $this->ilias->db->query($q);
-		
+
 		while ($row = $r1->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,obj_id) ".
@@ -853,7 +799,7 @@ class ilObjGroup extends ilObject
 	* @return	integer	new ref id
 	*/
 	function clone($a_parent_ref)
-	{		
+	{
 		global $rbacadmin;
 
 		// always call parent clone function first!!
@@ -891,9 +837,9 @@ class ilObjGroup extends ilObject
 		// I disabled this function. Please investigate
 		// shofmann@databay.de	4.7.03
 		// copy group status
-		// 0=public,1=private,2=closed
+		// 0=public/visible for all,1=closed/invisible for all
 		$groupObj->setGroupStatus($this->getGroupStatus());
-		
+
 		// create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
 		// copy all entries from copied group. the new ref ids of subobjects will be updated during the cloning process, because at this point
 		// these values are not known yet
@@ -903,7 +849,7 @@ class ilObjGroup extends ilObject
 		unset($groupObj);
 		unset($rfoldObj);
 		unset($roleObj);
-		
+
 		// session setzen
 		$_SESSION["copied_group_refs"][$this->getRefId()] = $new_ref_id;
 
