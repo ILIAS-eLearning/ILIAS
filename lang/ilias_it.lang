@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Lezioni
 common#:#obj_mail#:#Impostazioni posta
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
 common#:#obj_mep#:#Media Pool
-common#:#obj_mob#:#Oggetto multimediale
+common#:#obj_mob#:#Oggetto multimediale###06 Apr 2004 content changed
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Gruppi
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Risorse
-common#:#objs_mob#:#Oggetti multimediali
+common#:#objs_mob#:#Oggetti multimediali###06 Apr 2004 content changed
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
 common#:#objs_qpl#:#Esercitazioni

@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
 common#:#obj_mail_desc#:#Konfiguracja globalnych ustawień poczty elektronicznej.
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Obiekt Multimedialny
+common#:#obj_mob#:#Obiekt Multimedialny###06 Apr 2004 content changed
 common#:#obj_not_found#:#Obiekt nie został odnaleziony.
 common#:#obj_note#:#Notatka
 common#:#obj_notf#:#Notatka administracyjna
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Grupy
 common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
-common#:#objs_mob#:#Obiekty multimedialne
+common#:#objs_mob#:#Obiekty multimedialne###06 Apr 2004 content changed
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
 common#:#objs_qpl#:#Pule pytań
