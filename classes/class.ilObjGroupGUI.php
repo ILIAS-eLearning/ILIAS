@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.52 2003/11/05 17:19:02 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.53 2003/11/07 11:11:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -191,8 +191,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$roles = $groupObj->initDefaultRoles();
 
 		// ...finally assign groupadmin role to creator of group object
-//		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
-		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
+		$groupObj->addMember($this->ilias->account->getId(),1);
 
 //		ilObjUser::updateActiveRoles($groupObj->getOwner());
 
