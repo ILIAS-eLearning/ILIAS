@@ -152,6 +152,7 @@ common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Eintrag
 common#:#date#:#Datum
+common#:#dateplaner#:#Terminplaner
 common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
@@ -240,6 +241,7 @@ common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
+common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
@@ -265,6 +267,7 @@ common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
+common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
@@ -319,7 +322,7 @@ common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
-common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
+common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen###11 Dec 2003 content changed
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_public#:#Öffentlich
@@ -407,8 +410,8 @@ common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
-common#:#lang_dateformat#:#d.m.Y
 common#:#lang_cz#:#Tschechisch
+common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
 common#:#lang_dk#:#Dänisch
 common#:#lang_en#:#Englisch
@@ -511,7 +514,7 @@ common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
-common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
+common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.###11 Dec 2003 content changed
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
@@ -669,7 +672,7 @@ common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
-common#:#objs_confirm#:#Bestätige Aktion
+common#:#objs_confirm#:#Bestätige Aktion###11 Dec 2003 content changed
 common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
@@ -761,7 +764,6 @@ common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
-common#:#dateplaner#:#Terminplaner
 common#:#required_field#:#Erforderliche Angabe
 common#:#reset#:#Zurücksetzen
 common#:#resources#:#Ressourcen
@@ -861,6 +863,7 @@ common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
+common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
@@ -1076,7 +1079,9 @@ content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur einen Punkt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
+content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
+content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
 content#:#cont_select_term#:#Wählen Sie einen Zeitraum aus.
 content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_series#:#Serie
@@ -1758,43 +1763,38 @@ search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
 search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
+search#:#search_delete_sure#:#Sind Sie, daß dieses Objekt und sein Inhalt gelöscht werden sollen
+search#:#search_group#:#Gruppen
 search#:#search_in_result#:#In den Resultaten suchen
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
 search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
 search#:#search_meta#:#Metadaten
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
+search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
+search#:#search_move_to#:#Verschieben nach:
+search#:#search_my_search_results#:#Meine Suchergebnisse
+search#:#search_new_folder#:#Neuer Ordner
 search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
+search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
 search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
+search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
+search#:#search_object_renamed#:#Das Objekt wurde umbenannt.
+search#:#search_objects_deleted#:#Das Objekt wurde gelöscht.
+search#:#search_objects_moved#:#Die Objekte wurden verschoben.
+search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
+search#:#search_rename_title#:#Titel umbenennen
+search#:#search_results_saved#:#Die Suchergebnisse wurden gespeichert
+search#:#search_save_as_select#:#Speichern unter:
 search#:#search_search_for#:#Suchen nach
+search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
+search#:#search_search_results#:#Suchergebnisse
 search#:#search_search_term#:#Suchbegriff
+search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
+search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
+search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
+search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
+search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
+search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
-search#:#search_my_search_results#:#Meine Suchergebnisse
-search#:#search_search_results#:#Suchergebnisse
-search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
-search#:#search_results_saved#:#Die Suchergebnisse wurden gespeichert
-search#:#search_delete_sure#:#Sind Sie, daß dieses Objekt und sein Inhalt gelöscht werden sollen
-search#:#search_new_folder#:#Neuer Ordner
-search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
-search#:#search_group#:#Gruppen
-common#:#folder#:#Ordner
-search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
-search#:#search_save_as_select#:#Speichern unter:
-search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
-search#:#search_objects_deleted#:#Das Objekt wurde gelöscht.
-search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
-search#:#search_object_renamed#:#Das Objekt wurde umbenannt.
-search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
-search#:#search_objects_moved#:#Die Objekte wurden verschoben.
-search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
-search#:#search_rename_title#:#Titel umbenennen
-search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
-search#:#search_move_to#:#Verschieben nach:
-search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
-common#:#to_client_list#:#Zur Mandantenauswahl
-content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
-content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
-search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
-common#:#excs#:#Übungen
