@@ -141,98 +141,105 @@ class ASS_MultipleChoice extends ASS_Question
 	* Sets the attributes of the question from the XML text passed
 	* as argument
 	*
+	* @return boolean True, if the import succeeds, false otherwise
 	* @access public
 	*/
 	function from_xml($xml_text)
 	{
+		$result = false;
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
 		}
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$this->domxml = domxml_open_mem($xml_text);
-		$root = $this->domxml->document_element();
-		$item = $root->first_child();
-		$this->setTitle($item->get_attribute("title"));
-		$this->gaps = array();
-		$comment = $item->first_child();
-		if (strcmp($comment->node_name(), "qticomment") == 0)
+		if (!empty($this->domxml))
 		{
-			$this->setComment($comment->get_content());
-		}
-		$itemnodes = $item->child_nodes();
-		foreach ($itemnodes as $index => $node)
-		{
-			switch ($node->node_name())
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$comment = $item->first_child();
+			if (strcmp($comment->node_name(), "qticomment") == 0)
 			{
-				case "duration":
-					$iso8601period = $node->get_content();
-					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-					{
-						$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
-					}
-					break;
-				case "presentation":
-					$flow = $node->first_child();
-					$flownodes = $flow->child_nodes();
-					foreach ($flownodes as $idx => $flownode)
-					{
-						if (strcmp($flownode->node_name(), "material") == 0)
+				$this->setComment($comment->get_content());
+			}
+			$itemnodes = $item->child_nodes();
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 						{
-							$mattext = $flownode->first_child();
-							$this->set_question($mattext->get_content());
+							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
 						}
-						elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
 						{
-							$ident = $flownode->get_attribute("ident");
-							if (strcmp($ident, "MCSR") == 0)
+							if (strcmp($flownode->node_name(), "material") == 0)
 							{
-								$this->set_response(RESPONSE_SINGLE);
+								$mattext = $flownode->first_child();
+								$this->set_question($mattext->get_content());
 							}
-							else
+							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
 							{
-								$this->set_response(RESPONSE_MULTIPLE);
-							}
-							$shuffle = "";
-							$render_choice = $flownode->first_child();
-							if (strcmp($render_choice->node_name(), "render_choice") == 0)
-							{
-								// select gap
-								$shuffle = $render_choice->get_attribute("shuffle");
-								$labels = $render_choice->child_nodes();
-								foreach ($labels as $lidx => $response_label)
+								$ident = $flownode->get_attribute("ident");
+								if (strcmp($ident, "MCSR") == 0)
 								{
-									$material = $response_label->first_child();
-									$mattext = $material->first_child();
-									$shuf = 0;
-									if (strcmp(strtolower($shuffle), "yes") == 0)
+									$this->set_response(RESPONSE_SINGLE);
+								}
+								else
+								{
+									$this->set_response(RESPONSE_MULTIPLE);
+								}
+								$shuffle = "";
+								$render_choice = $flownode->first_child();
+								if (strcmp($render_choice->node_name(), "render_choice") == 0)
+								{
+									// select gap
+									$shuffle = $render_choice->get_attribute("shuffle");
+									$labels = $render_choice->child_nodes();
+									foreach ($labels as $lidx => $response_label)
 									{
-										$shuf = 1;
+										$material = $response_label->first_child();
+										$mattext = $material->first_child();
+										$shuf = 0;
+										if (strcmp(strtolower($shuffle), "yes") == 0)
+										{
+											$shuf = 1;
+										}
+										$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
 									}
-									$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
 								}
 							}
 						}
-					}
-					break;
-				case "resprocessing":
-					$resproc_nodes = $node->child_nodes();
-					foreach ($resproc_nodes as $index => $respcondition)
-					{
-						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						break;
+					case "resprocessing":
+						$resproc_nodes = $node->child_nodes();
+						foreach ($resproc_nodes as $index => $respcondition)
 						{
-							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
-							$found_answer = 0;
-							$this->answers[$respcondition_array["conditionvar"]["value"]]->set_points($respcondition_array["setvar"]["points"]);
-							if ($respcondition_array["conditionvar"]["selected"])
+							if (strcmp($respcondition->node_name(), "respcondition") == 0)
 							{
-								$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
+								$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+								$found_answer = 0;
+								$this->answers[$respcondition_array["conditionvar"]["value"]]->set_points($respcondition_array["setvar"]["points"]);
+								if ($respcondition_array["conditionvar"]["selected"])
+								{
+									$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
+								}
 							}
 						}
-					}
-					break;
+						break;
+				}
 			}
+			$result = true;
 		}
+		return $result;
 	}
 
 	/**

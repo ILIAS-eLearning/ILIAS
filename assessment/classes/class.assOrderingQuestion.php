@@ -136,128 +136,135 @@ class ASS_OrderingQuestion extends ASS_Question
 	* Sets the attributes of the question from the XML text passed
 	* as argument
 	*
+	* @return boolean True, if the import succeeds, false otherwise
 	* @access public
 	*/
 	function from_xml($xml_text)
 	{
+		$result = false;
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
 		}
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$this->domxml = domxml_open_mem($xml_text);
-		$root = $this->domxml->document_element();
-		$item = $root->first_child();
-		$this->setTitle($item->get_attribute("title"));
-		$this->gaps = array();
-		$comment = $item->first_child();
-		if (strcmp($comment->node_name(), "qticomment") == 0)
+		if (!empty($this->domxml))
 		{
-			$this->setComment($comment->get_content());
-		}
-		$itemnodes = $item->child_nodes();
-		$materials = array();
-		$images = array();
-		$shuffle = "";
-		foreach ($itemnodes as $index => $node)
-		{
-			switch ($node->node_name())
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$comment = $item->first_child();
+			if (strcmp($comment->node_name(), "qticomment") == 0)
 			{
-				case "duration":
-					$iso8601period = $node->get_content();
-					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-					{
-						$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
-					}
-					break;
-				case "presentation":
-					$flow = $node->first_child();
-					$flownodes = $flow->child_nodes();
-					foreach ($flownodes as $idx => $flownode)
-					{
-						if (strcmp($flownode->node_name(), "material") == 0)
+				$this->setComment($comment->get_content());
+			}
+			$itemnodes = $item->child_nodes();
+			$materials = array();
+			$images = array();
+			$shuffle = "";
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 						{
-							$mattext = $flownode->first_child();
-							$this->set_question($mattext->get_content());
+							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
 						}
-						elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
 						{
-							$ident = $flownode->get_attribute("ident");
-							if (strcmp($ident, "OQT") == 0)
+							if (strcmp($flownode->node_name(), "material") == 0)
 							{
-								$this->set_ordering_type(OQ_TERMS);
+								$mattext = $flownode->first_child();
+								$this->set_question($mattext->get_content());
 							}
-							elseif (strcmp($ident, "OQP") == 0)
+							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
 							{
-								$this->set_ordering_type(OQ_PICTURES);
-							}
-							$render_choice = $flownode->first_child();
-							if (strcmp($render_choice->node_name(), "render_choice") == 0)
-							{
-								$shuffle = $render_choice->get_attribute("shuffle");
-								$labels = $render_choice->child_nodes();
-								foreach ($labels as $lidx => $response_label)
+								$ident = $flownode->get_attribute("ident");
+								if (strcmp($ident, "OQT") == 0)
 								{
-									$material = $response_label->first_child();
-									if ($this->get_ordering_type() == OQ_PICTURES)
+									$this->set_ordering_type(OQ_TERMS);
+								}
+								elseif (strcmp($ident, "OQP") == 0)
+								{
+									$this->set_ordering_type(OQ_PICTURES);
+								}
+								$render_choice = $flownode->first_child();
+								if (strcmp($render_choice->node_name(), "render_choice") == 0)
+								{
+									$shuffle = $render_choice->get_attribute("shuffle");
+									$labels = $render_choice->child_nodes();
+									foreach ($labels as $lidx => $response_label)
 									{
-										$matimage = $material->first_child();
-										$filename = $matimage->get_attribute("label");
-										$image = base64_decode($matimage->get_content());
-										$images["$filename"] = $image;
-										$materials[$response_label->get_attribute("ident")] = $filename;
-									}
-									else
-									{
-										$mattext = $material->first_child();
-										$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+										$material = $response_label->first_child();
+										if ($this->get_ordering_type() == OQ_PICTURES)
+										{
+											$matimage = $material->first_child();
+											$filename = $matimage->get_attribute("label");
+											$image = base64_decode($matimage->get_content());
+											$images["$filename"] = $image;
+											$materials[$response_label->get_attribute("ident")] = $filename;
+										}
+										else
+										{
+											$mattext = $material->first_child();
+											$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+										}
 									}
 								}
 							}
 						}
-					}
-					break;
-				case "resprocessing":
-					$resproc_nodes = $node->child_nodes();
-					foreach ($resproc_nodes as $index => $respcondition)
-					{
-						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						break;
+					case "resprocessing":
+						$resproc_nodes = $node->child_nodes();
+						foreach ($resproc_nodes as $index => $respcondition)
 						{
-							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
-							$this->add_answer($materials[$respcondition_array["conditionvar"]["value"]], $respcondition_array["setvar"]["points"], count($this->answers), $respcondition_array["conditionvar"]["index"]);
+							if (strcmp($respcondition->node_name(), "respcondition") == 0)
+							{
+								$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+								$this->add_answer($materials[$respcondition_array["conditionvar"]["value"]], $respcondition_array["setvar"]["points"], count($this->answers), $respcondition_array["conditionvar"]["index"]);
+							}
 						}
-					}
-					break;
-			}
-		}
-		if (count($images))
-		{
-			$this->saveToDb();
-			foreach ($images as $filename => $image)
-			{
-				if ($filename)
-				{
-					$imagepath = $this->getImagePath();
-					if (!file_exists($imagepath))
-					{
-						ilUtil::makeDirParents($imagepath);
-					}
-					$imagepath .=  $filename;
-					$fh = fopen($imagepath, "wb");
-					if ($fh == false)
-					{
-						global $ilErr;
-						$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
-						return;
-					}
-					$imagefile = fwrite($fh, $image);
-					fclose($fh);
-					// create thumbnail file
-					$thumbpath = $imagepath . "." . "thumb.jpg";
-					ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+						break;
 				}
 			}
+			if (count($images))
+			{
+				$this->saveToDb();
+				foreach ($images as $filename => $image)
+				{
+					if ($filename)
+					{
+						$imagepath = $this->getImagePath();
+						if (!file_exists($imagepath))
+						{
+							ilUtil::makeDirParents($imagepath);
+						}
+						$imagepath .=  $filename;
+						$fh = fopen($imagepath, "wb");
+						if ($fh == false)
+						{
+							global $ilErr;
+							$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
+							return;
+						}
+						$imagefile = fwrite($fh, $image);
+						fclose($fh);
+						// create thumbnail file
+						$thumbpath = $imagepath . "." . "thumb.jpg";
+						ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+					}
+				}
+			}
+			$result = true;
 		}
+		return $result;
 	}
 
 	/**
