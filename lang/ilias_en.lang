@@ -333,14 +333,17 @@ common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_no_perm_write#:#You have no permission to write
+common#:#msg_no_perm_create_user#:#You have no permission to create users
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
 common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
 common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
+common#:#msg_no_perm_passte#:#You have no permission to paste the following object(s):
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
+common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
@@ -1084,3 +1087,4 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
+common#:#min_one_active_role#:#Each user must have at least one active role!
