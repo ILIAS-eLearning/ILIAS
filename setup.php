@@ -15,7 +15,7 @@
 require_once "include/inc.check_pear.php";
 require_once "classes/class.Setup.php";
 require_once "classes/class.ilLanguage.php";
-require_once "classes/class.Log.php";
+require_once "classes/class.ilLog.php";
 require_once "HTML/IT.php";
 
 $OK = "<font color=\"green\"><strong>OK</strong></font>";
@@ -32,7 +32,7 @@ $tpl->loadTemplatefile("tpl.setup.html", true, true);
 // prepare file access to work with safe mode
 umask(0117);
 
-$log = new Log("ilias.log");
+$log = new ilLog("ilias.log");
 
 //instantiate setup-class
 $mySetup = new Setup();

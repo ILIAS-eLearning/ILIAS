@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
 * @version $Id$
 * @package application
 */
-class Log extends PEAR
+class ilLog extends PEAR
 {
 
 	/**
@@ -38,7 +38,7 @@ class Log extends PEAR
 	 * @author Peter Gabriel <pgabriel@databay.de>
 	 * @version 1.0
 	 */
-	function Log($logfile = "")
+	function ilLog($logfile = "")
 	{
 		if ($logfile=="")
 			$this->filename = $this->LOGFILE;
