@@ -610,7 +610,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if ($_GET["showresults"]) {
+		if ($_POST["cmd"]["showresults"]) {
 			$this->out_test_results();
 			return;
 		}
@@ -651,7 +651,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("info");
 			$this->tpl->parseCurrentBlock();
-			$add_show_results = "";
 			$seq = 1;
 			if ($active) {
 				$seq = $active->lastindex;
@@ -669,7 +668,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("results");
 				if ($active->tries > 0) {
-					$add_show_results = "&showresults=".$this->object->get_test_id();
 				} else {
 					$this->tpl->setVariable("DISABLED", " disabled");
 				}
@@ -687,7 +685,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$introduction = $this->object->get_introduction();
 			$introduction = preg_replace("/0n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=$add_sequence$add_show_results");
+			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
 		} else {
 			if ($this->sequence <= $this->object->get_question_count()) {
@@ -849,7 +847,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
 				if ($this->sequence) {
-					if ($this->sequence <= $this->object->get_question_count()) {
+					if (($this->sequence <= $this->object->get_question_count()) and (!$_POST["cmd"]["showresults"])) {
 						$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
 					} else {		
 					}
