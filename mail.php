@@ -319,7 +319,7 @@ foreach ($mail_data as $mail)
 		$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?mail_id=".
 						  $mail["mail_id"]."&mobj_id=$_GET[mobj_id]");
 	}
-	$tpl->setVariable("MAIL_SUBJECT", $mail["m_subject"]);
+	$tpl->setVariable("MAIL_SUBJECT", htmlspecialchars($mail["m_subject"]));
 	$tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 	$tpl->parseCurrentBlock();
 }

@@ -147,7 +147,7 @@ if($mail_data["rcp_cc"])
 }
 // SUBJECT
 $tpl->setVariable("TXT_SUBJECT",$lng->txt("subject"));
-$tpl->setVariable("SUBJECT", $mail_data["m_subject"]);
+$tpl->setVariable("SUBJECT",htmlspecialchars($mail_data["m_subject"]));
 $tpl->setVariable("CSSROW_SUBJ",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
 
 // DATE
@@ -176,7 +176,7 @@ if($mail_data["attachments"])
 // MESSAGE
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
 //$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlentities($mail_data["m_message"]))));
-$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable($mail_data["m_message"])));
+$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mail_data["m_message"]))));
 
 $tpl->show();
 ?>
