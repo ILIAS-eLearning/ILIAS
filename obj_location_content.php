@@ -40,8 +40,8 @@ if (isset($_GET["from"]))
 // determine command
 if (($cmd = $_GET["cmd"]) == "gateway")
 {
-	// TODO: temp. workaround until cmd is passed by post for lm & dbk
-	if ($_GET["new_type"] == "lm" or $_GET["new_type"] == "dbk")
+	// TODO: temp. workaround until cmd is passed by post for lm & dbk & grp
+	if ($_GET["new_type"] == "lm" or $_GET["new_type"] == "dbk" or $_GET["new_type"] == "grp")
 	{
 		$cmd = "save";
 	}
