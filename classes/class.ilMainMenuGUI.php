@@ -134,7 +134,7 @@ class ilMainMenuGUI
 
 		// set target scripts
 		$scripts = array (	"SCRIPT_DESK" => "usr_personaldesktop.php",
-							"SCRIPT_COURSE" => "lo.php",
+							"SCRIPT_COURSE" => "lo_list.php",
 							"SCRIPT_SEARCH" => "search.php",
 							"SCRIPT_LITERAT" => "literature.php",
 							"SCRIPT_MAIL" => "mail_frameset.php",
