@@ -59,10 +59,11 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple {
     $answertext = "",
     $points = 0.0,
     $order = 0,
-    $state = 0
+    $state = 0,
+		$id = -1
   )
   {
-    $this->ASS_AnswerSimple($answertext, $points, $order);
+    $this->ASS_AnswerSimple($answertext, $points, $order, $id);
     $this->state = $state;
   }
 

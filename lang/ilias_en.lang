@@ -166,9 +166,14 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
+assessment#:#enhanced#:#Enhanced mode
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined
+assessment#:#add_answerblock#:#Add answerblock
+assessment#:#answerblock#:#Answerblock
+assessment#:#select_an_answer#:#--- Please select an answer ---
+assessment#:#action#:#Action
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
-assessment#:#enhanced#:#Enhanced mode
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!

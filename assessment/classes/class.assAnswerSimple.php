@@ -59,6 +59,15 @@ class ASS_AnswerSimple
 	* @var integer
 	*/
 	var $order;
+	
+	/**
+	* The database id of the answer
+	*
+	* The database id of the answer
+	*
+	* @var integer
+	*/
+	var $id;
 
 	/**
 	* ASS_AnswerSimple constructor
@@ -73,14 +82,30 @@ class ASS_AnswerSimple
 	function ASS_AnswerSimple (
 		$answertext = "",
 		$points = 0.0,
-		$order = 0
+		$order = 0,
+		$id = -1
 	)
 	{
 		$this->answertext = $answertext;
 		$this->points = $points;
 		$this->order = $order;
+		$this->id = $id;
 	}
 
+	/**
+	* Gets the answer id
+	*
+	* Returns the answer id
+
+	* @return integer answer id
+	* @access public
+	* @see $id
+	*/
+	function getId()
+	{
+		return $this->id;
+	}
+	
 	/**
 	* Gets the answer text
 	*
@@ -140,6 +165,20 @@ class ASS_AnswerSimple
 		{
 			$this->order = $order;
 		}
+	}
+
+	/**
+	* Sets the answer id
+	*
+	* Sets the answer id
+	*
+	* @param integer $id answer id
+	* @access public
+	* @see $id
+	*/
+	function setId($id = -1)
+	{
+		$this->order = $order;
 	}
 
 	/**

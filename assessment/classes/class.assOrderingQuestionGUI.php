@@ -431,7 +431,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"order_/", "name=\"solution_order_", $solutionoutput);
-
 		// set solutions
 		if ($test_id)
 		{
