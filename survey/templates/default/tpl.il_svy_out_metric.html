@@ -1,9 +1,10 @@
 <!-- BEGIN question_data_metric -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
 <p>{QUESTIONTEXT}</p>
 <table class="nobackground">
 <tr>
-<td class="nobackground">{TEXT_ANSWER}:</td>
-<td class="nobackground" colspan="4"><input name="{QUESTION_ID}_metric_question" type="text" id="metric_question" size="{INPUT_SIZE}" value="{VALUE_METRIC}" /></td></tr>
+<td class="nobackground"><label for="{QUESTION_ID}_metric_question">{TEXT_ANSWER}</label>:</td>
+<td class="nobackground" colspan="4"><input name="{QUESTION_ID}_metric_question" type="text" id="{QUESTION_ID}_metric_question" size="{INPUT_SIZE}" value="{VALUE_METRIC}" /></td></tr>
 <tr>
   <td class="nobackground">{TEXT_MINIMUM}:</td>
   <td class="nobackground" colspan="4">{VALUE_MINIMUM}</td>

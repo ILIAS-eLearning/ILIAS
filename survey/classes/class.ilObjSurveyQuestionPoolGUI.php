@@ -541,6 +541,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
   function phrasesObject()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
 		if ($_POST["cmd"]["delete_phrase"])
 		{
 			$phrases = array();
@@ -602,7 +603,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_user_phrases_defined"));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("INTRODUCTION_MANAGE_PHRASES", $this->lng->txt("introduction_manage_phrases"));
 		$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));

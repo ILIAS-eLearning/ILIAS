@@ -1858,6 +1858,32 @@ class ilObjTest extends ilObject
 		}
 		$result = $this->ilias->db->query($q);
 	}
+
+/**
+* Returns the complete working time in seconds a user worked on the test
+* 
+* Returns the complete working time in seconds a user worked on the test
+*
+* @return integer The working time in seconds
+* @access public
+*/
+	function getCompleteWorkingTime($user_id)
+	{
+		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
+			$this->ilias->db->quote($this->getTestId()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($q);
+		$time = 0;
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$time += ($epoch_2 - $epoch_1);
+		}
+		return $time;
+	}
 	
 /**
 * Returns the statistical evaluation of the test for a specified user

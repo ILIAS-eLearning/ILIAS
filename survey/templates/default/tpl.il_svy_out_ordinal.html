@@ -1,10 +1,11 @@
 <!-- BEGIN question_data_ordinal -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
 <p>{QUESTIONTEXT}</p>
 <table class="nobackground">
 <!-- BEGIN ordinal_row -->
 <tr>
-<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_ORDINAL}" id="{VALUE_ORDINAL}"{CHECKED_ORDINAL} /></td>
-<td class="nobackground"><label for="{VALUE_ORDINAL}">{TEXT_ORDINAL}</label></td>
+<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_ORDINAL}" id="{QUESTION_ID}_{VALUE_ORDINAL}"{CHECKED_ORDINAL} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_ORDINAL}">{TEXT_ORDINAL}</label></td>
 </tr>
 <!-- END ordinal_row -->
 </table>

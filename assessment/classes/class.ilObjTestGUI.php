@@ -1220,12 +1220,16 @@ class ilObjTestGUI extends ilObjectGUI
 		sendInfo();
 
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"])) {
-			// save question solution
-			$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
-			$question_gui->object->saveWorkingData($this->object->getTestId());
 			// set new finish time for test
 			if ($_SESSION["active_time_id"]) {
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
+			}
+			// save question solution
+			if (!($this->object->endingTimeReached() and ($this->object->getTestType == TYPE_ASSESSMENT)))
+			{
+				// but only if the ending time is not reached
+				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
+				$question_gui->object->saveWorkingData($this->object->getTestId());
 			}
 		}
 
@@ -2080,9 +2084,10 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			$this->tpl->setCurrentBlock("export_btn");
-			$this->tpl->setVariable("EXP_EVAL_DATA", $this->lng->txt("exp_eval_data"));
-			$this->tpl->setVariable("TEXT_TYPE_XLS", $this->lng->txt("exp_type_excel"));
-			$this->tpl->setVariable("TEXT_TYPE_SPSS", $this->lng->txt("exp_type_spss"));
+			$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+			$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+			$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+			$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("legend");

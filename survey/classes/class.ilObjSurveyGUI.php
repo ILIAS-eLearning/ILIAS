@@ -373,6 +373,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 				$this->tpl->parseCurrentBlock();
+				if (count($page) > 1)
+				{
+					$this->tpl->setCurrentBlock("questionblock_title");
+					$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
+					$this->tpl->parseCurrentBlock();
+				}
 				foreach ($page as $data)
 				{
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
