@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = ongelimiteerd)
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Toevoegen goede/foute antwoorden
 assessment#:#add_answer_yn#:#Toevoegen ja/nee antwoorden
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
 assessment#:#all_available_question_pools#:#Allemaal beschikbare vraagbakken
 assessment#:#answer#:#Antwoord
@@ -486,6 +487,7 @@ common#:#change#:#Wijzigen
 common#:#change_active_assignment#:#wijzig de actieve toewijziging
 common#:#change_assignment#:#Toewijzing wijzigen
 common#:#change_existing_objects#:#Bestaande objecten wijzigen
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Leerobject-informatie wijzigen
 common#:#change_metadata#:#Metadata wijzigen
 common#:#change_sort_direction#:#Sorteervolgorde wijzigen
@@ -847,6 +849,7 @@ common#:#grp_visible#:#De groep is zichtbaar
 common#:#grp_write#:#Groep wijzigen
 common#:#guest#:#Gast
 common#:#guests#:#Gasten
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Hulp
 common#:#hide_details#:#details verbergen
 common#:#hide_structure#:#Structuurscherm verbergen
@@ -1403,6 +1406,7 @@ common#:#registration_expired#:#De registratie-peride is verlopen...
 common#:#remove#:#Verwijder
 common#:#remove_translation#:#Verwijder vertaling
 common#:#rename#:#Geef een nieuwe naam
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Beantwoord
 common#:#repository#:#Depot
 common#:#required_field#:#Verplicht veld
@@ -1690,6 +1694,7 @@ content#:#cont_create_dir#:#Creëer directory
 content#:#cont_create_export_file#:#Creëer een Export-Bestand
 content#:#cont_create_folder#:#Creëer een Map
 content#:#cont_create_mob#:#Creëer een Media-object
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
@@ -1820,6 +1825,12 @@ content#:#cont_resources#:#Bronnen
 content#:#cont_roman#:#Romeins I, II, ...
 content#:#cont_saved_map_area#:#Opgeslagen map gebied
 content#:#cont_saved_map_data#:#Opgeslagen map gebied
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1848,6 +1859,7 @@ content#:#cont_size#:#Grootte (Bytes)
 content#:#cont_source#:#Bron
 content#:#cont_st_title#:#Hoofdstuk-titel
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#Verwijderen niet mogelijk. Standaard view-bestand is in de directory.
 content#:#cont_std_view#:#Standaard view
 content#:#cont_structure#:#structuur
@@ -1864,6 +1876,9 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhoudsopgave
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Bovenkant
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Vertaling(en)
 content#:#cont_translations_assigned#:#De vertaling(en) zijn toegewezen
 content#:#cont_update#:#Bijwerken

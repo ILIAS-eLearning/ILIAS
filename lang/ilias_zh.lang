@@ -106,6 +106,7 @@ assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#增加答案
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#增加匹配对
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#答案
@@ -503,6 +504,7 @@ common#:#change#:#更改
 common#:#change_active_assignment#:#更改当前任务
 common#:#change_assignment#:#更改任务
 common#:#change_existing_objects#:#更改现有对象
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#更改学习对象信息
 common#:#change_metadata#:#更改元数据
 common#:#change_sort_direction#:#更改分类方向
@@ -864,6 +866,7 @@ common#:#grp_visible#:#组可视
 common#:#grp_write#:#编辑组
 common#:#guest#:#客人
 common#:#guests#:#客人
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助
 common#:#hide_details#:#隐藏详情
 common#:#hide_structure#:#禁止结构化视图
@@ -1420,6 +1423,7 @@ common#:#registration_expired#:#注册时间已过期...
 common#:#remove#:#撤除###25 Mar 2004 content changed
 common#:#remove_translation#:#删除翻译
 common#:#rename#:#重新命名
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#答复
 common#:#repository#:#库
 common#:#required_field#:#必填项
@@ -1707,6 +1711,7 @@ content#:#cont_create_dir#:#创建目录
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#交叉参考
 content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
 content#:#cont_def_layout#:#缺省版面
@@ -1837,6 +1842,12 @@ content#:#cont_resources#:#资源
 content#:#cont_roman#:#罗马数字 i, ii, …
 content#:#cont_saved_map_area#:#已存映射区域
 content#:#cont_saved_map_data#:#已存映射日期
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校
 content#:#cont_scorm_type#:#adlcpscorm类型
@@ -1865,6 +1876,7 @@ content#:#cont_size#:#大小（字节）
 content#:#cont_source#:#原始资料###01 Apr 2004 content changed
 content#:#cont_st_title#:#章标题
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#不能删除。标准视图文件在目录中。
 content#:#cont_std_view#:#标准视图
 content#:#cont_structure#:#结构
@@ -1881,6 +1893,9 @@ content#:#cont_time_limit_action#:#adlcp时间限制操作
 content#:#cont_toc#:#目录
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#向上
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#翻译
 content#:#cont_translations_assigned#:#已指定翻译
 content#:#cont_update#:#更新

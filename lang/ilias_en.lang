@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
 assessment#:#add_answer_yn#:#Add yes/no answers
+assessment#:#add_gap#:#Add Gap Text
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
@@ -100,7 +101,6 @@ assessment#:#by#:#by
 assessment#:#cloze_text#:#Cloze text
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
-assessment#:#add_gap#:#Add Gap Text
 assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
@@ -487,6 +487,7 @@ common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
 common#:#change_existing_objects#:#Change existing Objects
+common#:#change_header_title#:#Edit Header Title
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
 common#:#change_sort_direction#:#Change sort direction
@@ -697,7 +698,6 @@ common#:#file_version#:#Version Provided in File
 common#:#file_visible#:#File is visible
 common#:#file_write#:#Edit File
 common#:#files#:#Files
-common#:#rename_file#:#Rename File
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#firstname#:#First name
@@ -849,6 +849,7 @@ common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
+common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide_details#:#hide details
 common#:#hide_structure#:#Disable Structured-View
@@ -1104,11 +1105,9 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#move#:#Move
-common#:#header_title#:#Header Title
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_to#:#Move to
-common#:#change_header_title#:#Edit Header Title
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
@@ -1407,6 +1406,7 @@ common#:#registration_expired#:#Registration period expired...
 common#:#remove#:#Remove
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
+common#:#rename_file#:#Rename File
 common#:#reply#:#Reply
 common#:#repository#:#Repository
 common#:#required_field#:#Required Field
@@ -1638,8 +1638,6 @@ content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
-content#:#cont_tracking_items#:#Tracking Items
-content#:#cont_tracking_data#:#Tracking Data
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
@@ -1688,15 +1686,6 @@ content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_content#:#Content
-content#:#cont_status#:#Status
-content#:#cont_total_time#:#Total Time
-content#:#cont_credits#:#Credits
-content#:#cont_sc_stat_not_attempted#:#Not attempted
-content#:#cont_sc_stat_passed#:#Passed
-content#:#cont_sc_stat_completed#:#Completed
-content#:#cont_sc_stat_failed#:#Failed
-content#:#cont_sc_stat_incomplete#:#Incomplete
-content#:#cont_sc_stat_browsed#:#Browsed
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
@@ -1705,6 +1694,7 @@ content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_mob#:#Create Media Object
+content#:#cont_credits#:#Credits
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
@@ -1835,6 +1825,12 @@ content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
+content#:#cont_sc_stat_browsed#:#Browsed
+content#:#cont_sc_stat_completed#:#Completed
+content#:#cont_sc_stat_failed#:#Failed
+content#:#cont_sc_stat_incomplete#:#Incomplete
+content#:#cont_sc_stat_not_attempted#:#Not attempted
+content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1863,6 +1859,7 @@ content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_startfile#:#Start File
+content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
 content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
@@ -1879,6 +1876,9 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table of Contents
 content#:#cont_toc_mode#:#TOC Mode
 content#:#cont_top#:#Top
+content#:#cont_total_time#:#Total Time
+content#:#cont_tracking_data#:#Tracking Data
+content#:#cont_tracking_items#:#Tracking Items
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_update#:#Update

@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = unlimited)###16 Mar 2004 new variable
 assessment#:#add_answer#:#Add answer###16 Mar 2004 new variable
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###16 Mar 2004 new variable
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Answer###16 Mar 2004 new variable
@@ -486,6 +487,7 @@ common#:#change#:#Změnit
 common#:#change_active_assignment#:#Změnit aktivní přiřazení
 common#:#change_assignment#:#Změnit přiřazení
 common#:#change_existing_objects#:#Změnit existující objekty
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Změnit informace o výukovém objektu
 common#:#change_metadata#:#Změnit metadata
 common#:#change_sort_direction#:#Změnit směr řazení
@@ -847,6 +849,7 @@ common#:#grp_visible#:#Group is visible###16 Mar 2004 new variable
 common#:#grp_write#:#Edit Group###16 Mar 2004 new variable
 common#:#guest#:#Host
 common#:#guests#:#Hosté
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Nápověda
 common#:#hide_details#:#skrýt podrobnosti
 common#:#hide_structure#:#Zakázat strukturované zobrazení
@@ -1403,6 +1406,7 @@ common#:#registration_expired#:#Registrační období vypršelo...
 common#:#remove#:#Opustit###25 Mar 2004 content changed
 common#:#remove_translation#:#Odstranit překlad
 common#:#rename#:#Přejmenovat
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Odpovědět
 common#:#repository#:#Výuka
 common#:#required_field#:#Povinná položka
@@ -1690,6 +1694,7 @@ content#:#cont_create_dir#:#Vytvořit Adresář
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Křížový odkaz
 content#:#cont_data_from_lms#:#adlcp:datafromlms### translation not available
 content#:#cont_def_layout#:#Výchozí rozložení
@@ -1820,6 +1825,12 @@ content#:#cont_resources#:#Zdroje
 content#:#cont_roman#:#Římské i, ii, ...
 content#:#cont_saved_map_area#:#Saved map area###16 Mar 2004 new variable
 content#:#cont_saved_map_data#:#Saved map data###16 Mar 2004 new variable
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#název
 content#:#cont_school#:#Škola
 content#:#cont_scorm_type#:#adlcp:scormtype### identical translation
@@ -1848,6 +1859,7 @@ content#:#cont_size#:#Velikost (Bajty)
 content#:#cont_source#:#Zdroj###01 Apr 2004 content changed
 content#:#cont_st_title#:#Název kapitoly
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#Odstranění není možné. Adresář obsahuje soubor standardního zobrazení.
 content#:#cont_std_view#:#Standardní zobrazení
 content#:#cont_structure#:#struktura
@@ -1864,6 +1876,9 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction### identical translatio
 content#:#cont_toc#:#Obsah
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Nahoru
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Překlad(y)
 content#:#cont_translations_assigned#:#Překlady byly přiřazeny
 content#:#cont_update#:#Update###16 Mar 2004 new variable

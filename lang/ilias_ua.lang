@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Додати віповідь
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Додати співпадаючу пару
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Відповідь
@@ -486,6 +487,7 @@ common#:#change#:#Змінити
 common#:#change_active_assignment#:#Змінити активне призначення
 common#:#change_assignment#:#Змінити призначення
 common#:#change_existing_objects#:#Змінити існуючі Об'єкти
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Змінити LO Інформацію
 common#:#change_metadata#:#Змінити Метадані
 common#:#change_sort_direction#:#Змінити напрямок сортування
@@ -847,6 +849,7 @@ common#:#grp_visible#:#Група видима
 common#:#grp_write#:#Редагувати Групу
 common#:#guest#:#Гість
 common#:#guests#:#Гості
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Допомога
 common#:#hide_details#:#сховати деталі
 common#:#hide_structure#:#Заборонити Структурований-Огляд
@@ -1403,6 +1406,7 @@ common#:#registration_expired#:#Період реєстрації скінчив
 common#:#remove#:#Вилучити###25 Mar 2004 content changed
 common#:#remove_translation#:#Видалити переклад
 common#:#rename#:#Переіменувати
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Відповісти
 common#:#repository#:#Репозиторій
 common#:#required_field#:#Потрібні Поля
@@ -1690,6 +1694,7 @@ content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
 content#:#cont_def_layout#:#Розміщення по Замовчанню
@@ -1820,6 +1825,12 @@ content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
 content#:#cont_saved_map_area#:#Збережена карта області
 content#:#cont_saved_map_data#:#Зберегти дані карти
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1848,6 +1859,7 @@ content#:#cont_size#:#Розмір (Байтів)
 content#:#cont_source#:#Quelle###01 Apr 2004 content changed
 content#:#cont_st_title#:#Назва Глави
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#Видалення неможливе. Стандартний файл огляду є в директорії.
 content#:#cont_std_view#:#Стандартний Вид
 content#:#cont_structure#:#структура
@@ -1864,6 +1876,9 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Зміст
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Вершина
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
 content#:#cont_update#:#Обновити
