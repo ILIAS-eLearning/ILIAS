@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.7 2003/03/31 11:03:41 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.8 2003/04/01 07:31:53 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -286,6 +286,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$user->assignData($_POST["Fobject"]);
 		
 		//create new ilUserObject
+		require_once("./classes/class.ilObjUser.php");
 		$userObj = new ilObjUser();
 		$userObj->setTitle($user->getFullname());
 		$userObj->setDescription($user->getEmail());
@@ -451,6 +452,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function activeRoleSaveObject()
 	{
+		if (!count($_POST["active"]))
+		{
+			$this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->MESSAGE);
+		}
+
+		$_SESSION["RoleId"] = $_POST["active"];
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=edit");
 		exit;
 	}	   

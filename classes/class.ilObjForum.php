@@ -267,5 +267,3 @@ class ilObjForum extends ilObject
 	}
 } // END class.ForumObject
 ?>
-
-

@@ -44,14 +44,16 @@ if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)
 	{
-		$obj = getObjectByReference($id);
+		//$obj = getObjectByReference($id);
+		$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 	}
 	else
 	{
-		$obj = getObject($id);
+		//$obj = getObject($id);
+		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 	}
 	
-	$_GET["type"] = $obj["type"];	
+	$_GET["type"] = $obj->getType();	
 }
 
 //if no cmd is given default to first property
@@ -79,10 +81,11 @@ $method = $_GET["cmd"]."Object";
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
 $class_name = $objDefinition->getClassName($obj_type);
-$class_constr = "ilObj".$class_name;
-require_once("./classes/class.ilObj".$class_name.".php");
-$obj = new $class_constr($id,$call_by_reference);
+//$class_constr = "ilObj".$class_name;
+//require_once("./classes/class.ilObj".$class_name.".php");
+//$obj = new $class_constr($id,$call_by_reference);
 // call object method
+/*
 switch ($_GET["cmd"])
 {
 	// no more view() here! all calls moved to "out" class
@@ -131,16 +134,23 @@ switch ($_GET["cmd"])
 	// no more owner() here! all calls moved to "out" class
 	case "owner":
 		break;
+		
+	case "adoptPermSave":
+	case "assignSave":
+	case "trash":
+	case "activeRoleSave":
+		break;
 
 	default:
+//echo "hier!!! ".$_GET["cmd"]."!"; exit;
 		$data = $obj->$method();
 		break;
-}
+}*/
 
-// CALL OUTPUT METHOD OF OBJECT
+// CALL METHOD OF GUI OBJECT
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./classes/class.ilObj".$class_name."GUI.php");
-//echo "$class_constr().$method<br>";
+//echo "$class_constr().$method<br>"; //exit;
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->$method();
 

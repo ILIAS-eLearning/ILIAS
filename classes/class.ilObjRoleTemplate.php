@@ -46,27 +46,5 @@ class ilObjRoleTemplate extends ilObject
 		return true;
 	}
 
-
-	/**
-	* copy permissions from role or template
-	* @access	public
-	**/
-	function adoptPermSaveObject()
-	{
-		global $rbacadmin, $rbacsystem;
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
-		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
-			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
-		}
-		else
-		{
-			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
-		}
-
-		return true;
-	}
 } // END class.RoleTemplateObject
 ?>

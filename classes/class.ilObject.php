@@ -526,15 +526,24 @@ class ilObject
 
 
 	/**
-	* copy all entries of an object !!! IT MUST RETURN THE NEW OBJECT ID !!
+	* clone object into tree
 	* @access	public
+	* @param	int		$a_parent_ref		parent ref id
 	* @return	new object id
 	*/
 	function clone($a_parent_ref)
 	{
 		global $tree,$rbacadmin,$rbacreview;
 
-		$new_id = copyObject($this->obj_id);
+		$q = "INSERT INTO object_data ".
+			"(type,title,description,owner,create_date,last_update) ".
+			"VALUES ".
+			"('".$this->getType()."','".$this->getTitle()."','".$this->getDescription()."',".
+			"'".$ilias->account->getId()."',now(),now())";
+		$this->ilias->db->query($q);
+	
+		$new_id = getLastInsertId();
+
 		$tree->insertNode($new_id,$a_parent_ref);
 
 		$parentRoles = $rbacadmin->getParentRoleIds($a_parent_ref);
@@ -572,40 +581,6 @@ class ilObject
 		$rbacadmin->revokePermission($this->getId());
 
 		return true;
-	}
-
-
-	function trashObject()
-	{
-		global $lng,$tree;
-
-
-		$objects = $tree->getSavedNodeData($_GET["ref_id"]);
-
-		if(count($objects) == 0)
-		{
-			sendInfo($lng->txt("msg_trash_empty"));
-			$data["empty"] = true;
-			return $data;
-		}
-		else
-		{
-			$data["empty"] = false;
-			$data["cols"] = array("","type", "title", "description", "last_change");
-
-			foreach($objects as $obj_data)
-			{
-				$data["data"]["$obj_data[child]"] = array(
-					"checkbox"    => "",
-					"type"        => $obj_data["type"],
-					"title"       => $obj_data["title"],
-					"desc"        => $obj_data["desc"],
-					"last_update" => $obj_data["last_update"]);
-			}
-			$data["buttons"] = array( "btn_undelete"  => $lng->txt("btn_undelete"),
-									  "btn_remove_system"  => $lng->txt("btn_remove_system"));
-			return $data;
-		}
 	}
 
 	/**
