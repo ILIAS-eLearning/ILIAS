@@ -262,6 +262,7 @@ if(!is_array($mail_data["m_type"]) or (is_array($mail_data["m_type"]) and in_arr
 if($rbacsystem->checkAccess("system_message",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("system_message");
+	$tpl->setVariable("SYSTEM_TXT_TYPE", $lng->txt("type"));
 	$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
 	if(is_array($mail_data["m_type"]) and in_array('system',$mail_data["m_type"]))
 	{

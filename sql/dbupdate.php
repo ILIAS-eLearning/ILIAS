@@ -1443,3 +1443,6 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('40', 'edit_u
 INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('41', 'edit_roleassignment', 'change roleassignments of user accounts');
 INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('23', '40');
 INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('22', '41');
+
+<#93>
+ALTER TABLE mail_options ADD incoming_type TINYINT( 3 );

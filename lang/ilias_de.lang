@@ -1952,3 +1952,8 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+mail#:#mail_incoming#:#Nachrichten Empfang
+mail#:#mail_incoming_local#:#Nur lokal
+mail#:#mail_incoming_smtp#:#An eingetragene E-mail Adresse weiterleiten
+mail#:#mail_incoming_both#:#Lokal und Weiterleitung
+mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.

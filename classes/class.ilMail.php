@@ -56,6 +56,8 @@ class ilMail
 	*/
 	var $mfile;
 
+	var $mail_options;
+
 	/**
 	* User Id
 	* @var integer
@@ -134,6 +136,8 @@ class ilMail
 	function ilMail($a_user_id)
 	{
 		require_once "classes/class.ilFileDataMail.php";
+		require_once "classes/class.ilMailOptions.php";
+
 		global $ilias, $lng;
 		$lng->loadLanguageModule("mail");
 		
@@ -143,7 +147,8 @@ class ilMail
 		$this->table_mail = 'mail';
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
-		$this->mfile = new ilFileDataMail($this->user_id);
+		$this->mfile =& new ilFileDataMail($this->user_id);
+		$this->mail_options =& new ilMailOptions($a_user_id);
 
 		// DEFAULT: sent mail aren't stored insentbox of user.
 		$this->setSaveInSentbox(false);
@@ -539,13 +544,27 @@ class ilMail
 	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action)
 	{
 		include_once "classes/class.ilMailbox.php";
+		include_once "./classes/class.ilObjUser.php";
 
-		$mbox = new ilMailbox();
+		$as_email = array();
+
+		$mbox =& new ilMailbox();
 
 		$rcp_ids = $this->getUserIds(trim($a_rcp_to).",".trim($a_rcp_cc).",".trim($a_rcp_bcc));
 
 		foreach($rcp_ids as $id)
 		{
+			// CONTINUE IF USER WNATS HIS MAIL SEND TO EMAIL
+			if($this->mail_options->getIncomingType() == $this->mail_options->EMAIL)
+			{
+				$as_email[] = $id;
+				continue;
+			}
+			if($this->mail_options->getIncomingType() == $this->mail_options->BOTH)
+			{
+				$as_email[] = $id;
+			}
+
 			if ($a_action == 'system')
 			{
 				$inbox_id = 0;
@@ -563,7 +582,15 @@ class ilMail
 			{
 				$this->mfile->assignAttachmentsToDirectory($mail_id,$sent_mail_id,$a_attachments);
 			}
-		}		
+		}
+
+		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
+		foreach($as_email as $id)
+		{
+			$tmp_user =& new ilObjUser($id);
+			$this->sendMimeMail('','',$tmp_user->getEmail(),$a_subject,$a_message,$a_attachments);
+		}
+		
 		return true;
 	}
 	
@@ -607,10 +634,10 @@ class ilMail
 				{
 					$ids[] = $id;
 				}
-				else if ($id = ilObjUser::getUserIdByEmail(addslashes($tmp_names[$i])))
-				{
-					$ids[] = $id;
-				}
+#				else if ($id = ilObjUser::getUserIdByEmail(addslashes($tmp_names[$i])))
+#				{
+#					$ids[] = $id;
+#				}
 			}
 		}
 
@@ -629,11 +656,6 @@ class ilMail
 	function checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_type)
 	{
 		$error_message = '';
-
-		if(!is_array($a_type))
-		{
-			$error_message = $this->lng->txt("mail_add_type");
-		}
 
 		if(empty($a_m_subject))
 		{
@@ -735,35 +757,13 @@ class ilMail
 			// NO GROUP
 			if (substr($rcp,0,1) != '#')
 			{
-				// ONLY SYSTEM AND/OR NORMAL SELECTED => NO RECIPIENTS WITH UNKNOWN EMAIL ADDRESSES
-				if ((in_array('normal',$a_type) or in_array('system',$a_type)) and !in_array('email',$a_type))
-				{
-					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
-					   !ilObjUser::getUserIdByEmail(addslashes($rcp)))					
-					{
-						$wrong_rcps .= "<BR/>".$rcp;
-						continue;
-					}
-				}
-				// ONLY EMAIL SELECTED => ALL RECIPIENTS MUST HAVE A VALID EMAIL ADDRESS
-				if (in_array('email',$a_type) and !in_array('normal',$a_type) and !in_array('system',$a_type))
-				{
-					if (!ilUtil::is_email($rcp) and
-					   !ilObjUser::getUserIdByLogin(addslashes($rcp)))
-					{
-						$wrong_rcps .= "<BR/>".$rcp;
-						continue;
-					}
-				}
-				// ALL OTHER CASES => LOGIN OR EMAIL IS KNOWN OR EMAIL IS VALID
+				// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
 				if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
-				   !ilObjUser::getUserIdByEmail(addslashes($rcp)) and
-				   !ilUtil::is_email($rcp))
+					!ilUtil::is_email($rcp))
 				{
 					$wrong_rcps .= "<BR/>".$rcp;
 					continue;
 				}
-				
 			}
 			else
 			{
@@ -852,7 +852,7 @@ class ilMail
 	*/
 	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
 	{
-		global $lng;
+		global $lng,$rbacsystem;
 
 
 		$error_message = '';
@@ -899,13 +899,17 @@ class ilMail
 				return $lng->txt("mail_no_attach_allowed");
 			}
 		}
-		// CHECK FOR EMAIL
-		if (in_array('email',$a_type))
+		// COUNT EMAILS
+		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
+		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
+
+		if(count($c_emails))
 		{
-			if (!$this->getEmailOfSender())
+			if(!$this->getEmailOfSender())
 			{
 				return $lng->txt("mail_check_your_email_addr");
 			}
+			
 		}
 
 		// ACTIONS FOR ALL TYPES
@@ -915,40 +919,63 @@ class ilMail
 		if($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
-		}
-
-		// ACTIONS FOR NORMAL
-		// save attachments
-		if (in_array('normal',$a_type))
-		{
-			if ($error = $this->mfile->saveFiles($sent_id,$a_attachment))
+			// ARE THERE INTERNAL MAILS
+			if($c_emails < $c_rcp)
 			{
-				return $error;
-			}
-		}
-		// ACTIONS FOR TYPE SYSTEM AND NORMAL
-		if (in_array('normal',$a_type))
-		{
-			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal'))
-			{
-				return $lng->txt("mail_send_error");
+				if ($error = $this->mfile->saveFiles($sent_id,$a_attachment))
+				{
+					return $error;
+				}
 			}
 		}
 
-		if (in_array('system',$a_type))
+		// FILTER EMAILS
+		// IF EMAIL RECIPIENT
+		if($c_emails)
+		{
+			if(!$rbacsystem->checkAccess("smtp",$this->getMailObjectReferenceId()))
+			{
+				return $lng->txt("mail_no_permissions_write_smtp");
+			}
+			
+			//IF ONLY EMAIL
+			if( $c_rcp == $c_emails)
+			{
+				// SEND IT
+				$this->sendMimeMail($a_rcp_to,
+									$a_rcp_cc,
+									$a_rcp_bc,
+									$a_m_subject,$a_m_message,$a_attachment);
+			}
+			else
+			{
+				// SET ALL EMAIL RECIPIENTS BCC AND CREATE A LINE ('to','cc') in Message body
+				$new_bcc = array_merge($this->__getEmailRecipients($a_rcp_to),
+									   $this->__getEmailRecipients($a_rcp_cc),
+									   $this->__getEmailRecipients($a_rcp_bcc));
+				$this->sendMimeMail("",
+									"",
+									$new_bcc,
+									$a_m_subject,
+									$this->__prependMessage($a_m_message,$a_rcp_to,$a_rcp_cc),
+									$a_attachment);
+			}
+		}
+		if(in_array('system',$a_type))
 		{
 			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system'))
 			{
 				return $lng->txt("mail_send_error");
 			}
 		}
-		// ACTIONS FOR EMAIL
-		if (in_array('email',$a_type))
+		// ACTIONS FOR TYPE SYSTEM AND NORMAL
+		if (in_array('normal',$a_type))
 		{
-			$this->sendMimeMail($this->getEmailsOfRecipients($a_rcp_to),
-								$this->getEmailsOfRecipients($a_rcp_cc),
-								$this->getEmailsOfRecipients($a_rcp_bc),
-								$a_m_subject,$a_m_message,$a_attachment);
+			// TRY BOTH internal and email (depends on user settings)
+			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal'))
+			{
+				return $lng->txt("mail_send_error");
+			}
 		}
 
 		// Temporary bugfix
@@ -1090,7 +1117,7 @@ class ilMail
 		$a_recipients = preg_replace("/;/",",",$a_recipients);
 		$rcps = explode(',',$a_recipients);
 
-		if(is_array($rcps))
+		if(count($rcps))
 		{
 			for($i = 0; $i < count($rcps); ++ $i)
 			{
@@ -1100,5 +1127,61 @@ class ilMail
 		return is_array($rcps) ? $rcps : array();
 		
 	}
+
+	function __getCountRecipient($rcp,$a_only_email = true)
+	{
+		$counter = 0;
+		foreach($this->explodeRecipients($rcp) as $to)
+		{
+			if($a_only_email)
+			{
+				if(strpos($to,'@'))
+				{
+					++$counter;
+				}
+			}
+			else
+			{
+				++$counter;
+			}
+		}
+		return $counter;
+	}
+			
+
+	function __getCountRecipients($a_to,$a_cc,$a_bcc,$a_only_email = true)
+	{
+		return $this->__getCountRecipient($a_to,$a_only_email) 
+			+ $this->__getCountRecipient($a_cc,$a_only_email) 
+			+ $this->__getCountRecipient($a_bcc,$a_only_email);
+	}
+
+	function __getEmailRecipients($a_rcp)
+	{
+		foreach($this->explodeRecipients($a_rcp) as $to)
+		{
+			if(strpos($to,'@'))
+			{
+				$rcp[] = $to;
+			}
+		}
+		return $rcp ? $rcp : array();
+	}
+
+	function __prependMessage($a_m_message,$rcp_to,$rcp_cc)
+	{
+		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
+
+		$message = $inst_name." To:".$rcp_to."\n";
+		if($rcp_cc)
+		{
+			$message .= "Cc: ".$rcp_cc;
+		}
+		$message .= "\n\n";
+		$message .= $a_m_message;
+
+		return $message;
+	}
+
 } // END class.ilMail
 ?>
