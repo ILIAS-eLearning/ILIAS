@@ -65,6 +65,7 @@ class ilTableGUI
 	var	$footer_next;			// value of next link
 	
 	var $lang_support = true;	// if a lang object is included
+	var $global_tpl;			// uses global tpl (true) or a local one (false)
 	
 	// default settings for enabled/disabled table modules 
 	var $enabled = array(
@@ -94,9 +95,10 @@ class ilTableGUI
 	{
 		global $ilias, $tpl, $lng;
 		
+		$this->global_tpl = $a_global_tpl;
 		$this->ilias =& $ilias;
 
-		if ($a_global_tpl)
+		if ($this->global_tpl)
 		{
 			$this->tpl =& $tpl;
 		}
@@ -526,7 +528,10 @@ class ilTableGUI
 
 		$this->tpl->touchBlock("tbl_form_footer");
 		
-		return $this->tpl->get();
+		if (!$this->global_tpl)
+		{
+			return $this->tpl->get();
+		}
 	}
 	
 	/*
