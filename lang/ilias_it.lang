@@ -82,6 +82,7 @@ administration#:#searching_missing_objs#:#Sto cercando gli oggetti mancanti ...
 administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ...
 administration#:#skipped#:#saltato
 administration#:#start_scan#:#Start!
+administration#:#stop_scan#:#Stop!###new variable 17 June 2004
 administration#:#systemcheck#:#Controllo sistema
 administration#:#view_last_log#:#Vedi l'ultimo log di esame
 administration#:#view_log#:#Vedi dettagli
@@ -812,6 +813,7 @@ common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
+common#:#forgot_password#:#Forgot password?###new variable 17 June 2004
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importa forum
@@ -2949,6 +2951,7 @@ survey#:#add_category#:#Aggiungi categoria
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
 survey#:#add_phrase#:#Aggiungi frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
+survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###new variable 18 June 2004
 survey#:#answer#:#Risposta
 survey#:#apply#:#Esegui
 survey#:#arithmetic_mean#:#Valore aritmetico
@@ -3061,6 +3064,7 @@ survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#median#:#Median###02 Jun 2004 new variable
+survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###new varuiable 18 June 2004
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
 survey#:#mode#:#Most selected value###02 Jun 2004 new variable
@@ -3126,6 +3130,7 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Remove###24 May 2004 new variable
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
+survey#:#resume_survey#:#Resume the survey###new variable 18 June 2004
 survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
 survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
@@ -3169,4 +3174,5 @@ survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
 survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
 survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
 survey#:#values#:#Values###04 Jun 2004 new variable
+survey#:#view_phrase#:#View phrase###new variable 18 June 2004
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
