@@ -37,24 +37,67 @@ class domxml
 	var $error;
 	
 	/**
-	* constructor
-	* init new domDocument
+	* Constructor
+	* init domxml handler
+	* You may (a) initiate this class with an existing domDocument 
+	* OR (b) create a new domDocument
+	* depending on the parameters you pass to this constructor:
 	* 
-	* @param	string	xml version
+	* (a) init existing domDocument
+	* @param	object	domDocument
+	* 
+	* (b) init new domDocument
+	* @param	string	xml version (optional)
+	* @param	string	encoding charset (optional)
+	* @param	string	charset (optional)
 	* @access	public 
 	*/
-	function domxml ($a_domdocument = "")
+	function domxml ()
 	{
-		if (is_object($a_domdocument))
+		$num = func_num_args();
+		$args = func_get_args();
+		
+		if (($num == 1) && is_object($args[0]))
 		{
-			$this->doc = $a_domdocument;
+			$this->doc = $args[0];
 		}
 		else
 		{
-			$this->doc = new_xmldoc("1.0");
+			$this->initNewDocument($args[0],$args[1],$args[2]);
 		}
 	}
 	
+	/**
+	* init new domDocument
+	* private method. Please use constructor to init new Document
+	* 
+	* @param	string	xml version (default: 1.0)
+	* @param	string	encoding charset (default: UTF-8)
+	* @param	string	charset (default: UTF-8)
+	* @access	private 
+	*/
+	function initNewDocument ($a_version = "", $a_encoding = "", $a_charset = "")
+	{
+		if (!$a_version)
+		{
+			$a_version = "1.0";
+		}
+
+		if (!$a_encoding)
+		{
+			$a_encoding = "UTF-8";
+		}
+
+		if (!$a_charset)
+		{
+			$a_charset = "UTF-8";
+		}
+		
+		$this->doc = new_xmldoc($a_version);
+		$this->setEncoding($a_encoding);
+		$this->setCharset($a_charset);
+	}
+
 	/**
 	* wrapper for crating a root element
 	* this methods avoids creating multiple elements on root level.
@@ -107,6 +150,18 @@ class domxml
 			exit();
 		}
 		
+		// set encoding to UTF-8 if empty
+		if (empty($this->doc->encoding))
+		{
+			$this->doc->encoding = "UTF-8";
+		}
+
+		// set charset to encoding
+		if (is_integer($this->doc->charset))
+		{
+			$this->doc->charset = $this->doc->encoding;
+		}		
+
 		return $this->doc; 
 	}
 	
@@ -144,7 +199,6 @@ class domxml
 	*/
 	function trimDocument ($a_node = '')
 	{
-		echo "1<br>";
 		if (empty($a_node))	{
 			$a_node = $this->doc;
 		}
@@ -368,7 +422,12 @@ class domxml
 			$a_node = $this->doc;
 		}
 		
-		return $a_node->get_elements_by_tagname($a_elementname);
+		if (count($node = $a_node->get_elements_by_tagname($a_elementname)) > 0)
+		{
+			return $node;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -463,6 +522,92 @@ class domxml
 		$node = $a_parent->append_child($node);
 		
 		return $node;
+	}
+	
+	/**
+	* get internal reference id of a domNode
+	* 
+	* @param	object	domNode
+	* @return	integer	internal Id of domNode
+	* @access	public
+	*/
+	function getElementId($a_node)
+	{
+		$node = (array) $a_node;
+		return $node[0];
+	}
+	
+	/**
+	* get node_name
+	* 
+	* @param	object	domNode
+ 	* @return	string	name of domNode
+	* @access	public
+	*/
+	function getElementName($a_node)
+	{
+		return $a_node->node_name();
+	}
+	
+
+	/**
+	* set encoding of domDocument
+	* 
+	* @param	string	encoding charset
+	* @param	boolean	overwrite existing encoding charset (true) or not (false)
+	* @return	boolean	returns true when encoding was sucessfully changed
+	* @access	public 
+	*/
+	function setEncoding ($a_encode,$a_overwrite = false)
+	{
+		if (empty($this->doc->encoding) or ($a_overwrite))
+		{
+			$this->doc->encoding = $a_encode;
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	* get encoding of domDocument
+	* 
+	* @return	string	encoding charset
+	* @access	public 
+	*/
+	function getEncoding ()
+	{
+		return $this->doc->encoding;
+	}
+	
+	/**
+	* set charset of domDocument
+	* 
+	* @param	string	charset
+	* @param	boolean	overwrite existing charset (true) or not (false)
+	* @return	boolean	returns true when charset was sucessfully changed
+	* @access	public 
+	*/
+	function setCharset ($a_charset,$a_overwrite = false)
+	{
+		if (is_integer($this->doc->charset) or ($a_overwrite))
+		{
+			$this->doc->charset = $a_charset;
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	* get charset of domDocument
+	* 
+	* @return	string	charset
+	* @access	public 
+	*/
+	function getCharset ()
+	{
+		return $this->doc->charset;
 	}
 } // END class.domxml
 ?>
