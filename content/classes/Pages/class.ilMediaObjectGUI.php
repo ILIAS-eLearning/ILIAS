@@ -1348,12 +1348,21 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		{
 			$this->tpl->setCurrentBlock("new_area");
 			$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
-			$this->tpl->setVariable("TXT_LINK2", $this->lng->txt("cont_link"));
+			$this->tpl->setVariable("TXT_LINK_EXT", $this->lng->txt("cont_link_ext"));
+			$this->tpl->setVariable("TXT_LINK_INT", $this->lng->txt("cont_link_int"));
+			$this->tpl->setVariable("VAL_LINK_EXT", "http://");
 			$this->tpl->setVariable("VAR_NAME2", "area_name");
-			$this->tpl->setVariable("VAR_LINK2", "area_link");
+			$this->tpl->setVariable("VAR_LINK_EXT", "area_link_ext");
+			$this->tpl->setVariable("VAR_LINK_TYPE", "area_link_type");
+			$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
 			$this->tpl->setVariable("BTN_SAVE", "saveArea");
+
+			// internal link list
+			$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
+
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("adm_content");
@@ -1458,8 +1467,16 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$area->setCoords($coords);
 		$area->setNr($max + 1);
 		$area->setTitle($_POST["area_name"]);
-		$area->setLinkType(IL_EXT_LINK);
-		$area->setHref($_POST["area_link"]);
+		switch($_POST["area_link_ext"])
+		{
+			case "ext":
+				$area->setLinkType(IL_EXT_LINK);
+				$area->setHref($_POST["area_link_ext"]);
+				break;
+
+			case "int":
+				break;
+		}
 
 		// put area into item and update media object
 		$st_item->addMapArea($area);
