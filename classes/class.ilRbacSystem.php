@@ -35,6 +35,8 @@
 */
 class ilRbacSystem
 {
+	var $ilias;
+
 	/**
 	* Constructor
 	* @access	public
@@ -42,6 +44,8 @@ class ilRbacSystem
 	function ilRbacSystem()
 	{
 		global $ilDB,$ilErr,$ilias;
+
+		$this->ilias =& $ilias;
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -96,6 +100,11 @@ class ilRbacSystem
 		}
 
 		$operations = explode(",",$a_operations);
+
+		if(!$this->checkPreconditions($operations,$a_ref_id))
+		{
+			return false;
+		}
 
 		foreach ($operations as $operation)
 		{
@@ -177,6 +186,43 @@ class ilRbacSystem
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
 		return in_array($ops_id,$ops);
+	}
+
+	function checkPreconditions($a_operations,$a_ref_id)
+	{
+		// get obj_type 
+		$query = "SELECT type FROM object_data AS obd,object_reference AS obr ".
+			"WHERE obd.obj_id = obr.obj_id AND ".
+			"obr.ref_id = '".$a_ref_id."'";
+		
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$type = $row->type;
+		}
+
+		switch($type)
+		{
+			case "crs":
+				if(in_array('visible',$a_operations) or in_array('join',$a_operations))
+				{
+					return true;
+				}
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
+				$tmp_obj->initCourseMemberObject();
+
+				// CHECK COURSE SPECIFIC THINGS
+				if(!$tmp_obj->members_obj->hasAccess($this->ilias->account->getId()))
+				{
+					unset($tmp_obj);
+					return false;
+				}
+				unset($tmp_obj);
+				return true;
+
+			default:
+				return true;
+		}
 	}
 } // END class.RbacSystem
 ?>
