@@ -264,7 +264,7 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
-common#:#le#:#Learning module
+common#:#slm#:#SCORM LM
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#linked_pages#:#Linked Pages
@@ -370,6 +370,7 @@ common#:#obj_lm#:#Learning Module
 common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
 common#:#obj_lng#:#Language
+common#:#obj_slm#:#SCORM LM
 common#:#obj_lngf#:#Language Administration
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings

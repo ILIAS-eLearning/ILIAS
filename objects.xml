@@ -32,6 +32,7 @@
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
@@ -110,6 +111,7 @@
 <object name="grp" class_name="Group" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -136,6 +138,13 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="confirmDeletion">delete</action>
+</object>
+<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
 </object>
 <object name="lng" class_name="Language" checkbox="1">
 	<property name="edit">edit_properties</property>
