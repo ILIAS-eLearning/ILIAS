@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одн�
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
 assessment#:#qpl_question_is_in_use#:#Питання що ви збираєтесь редагувати існує в %s тесті(ах). Якщо ви зміните це питання, ви НЕ зміните питання в тесті(ах), тому що система створює копію питання коли воно вставляється в тест!
 assessment#:#qpl_questions_deleted#:#Питання виделено(і).
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Закрити питання
 assessment#:#qt_imagemap#:#Питання з картою зображення
 assessment#:#qt_javaapplet#:#Питання з Ява Аплетом
@@ -1890,6 +1891,7 @@ common#:#qpl_delete#:#Видалити Чергу Питань###24 Sep 2004 con
 common#:#qpl_edit_permission#:#Змінити настройки прав
 common#:#qpl_new#:#Нова черга питань###24 Sep 2004 content changed
 common#:#qpl_read#:#Доступ на читання до черги питань###24 Sep 2004 content changed
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Черга питань є видимою###24 Sep 2004 content changed
 common#:#qpl_write#:#Редагувати Чергу Птань###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
@@ -2370,6 +2372,8 @@ content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variabl
 content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
 content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
 content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
 content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
 content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
@@ -2384,6 +2388,8 @@ content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
 content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
 content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
 content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
 content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
 content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
@@ -2393,6 +2399,8 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable

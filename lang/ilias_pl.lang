@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###05 Nov 2004 new variable
 assessment#:#qpl_questions_deleted#:#Usunięte pytania.
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Pytanie na uzupełnianie
 assessment#:#qt_imagemap#:#Pytanie - Mapa Bitowa
 assessment#:#qt_javaapplet#:#Pytanie - Aplet Javy
@@ -1890,6 +1891,7 @@ common#:#qpl_delete#:#Usuń pulę pytań
 common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
 common#:#qpl_new#:#Nowa pula pytań
 common#:#qpl_read#:#Prawo czytania puli pytań
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Pula pytań jest widoczna
 common#:#qpl_write#:#Edycja puli pytań
 common#:#query_data#:#Dane zapytań
@@ -2370,6 +2372,8 @@ content#:#cont_ed_align_left_float#:#wyrównanie: lewa zmienna
 content#:#cont_ed_align_right#:#wyrównanie: do prawej
 content#:#cont_ed_align_right_float#:#wyrównanie: prawa zmienna
 content#:#cont_ed_class#:#Styl
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#kopiuj do schowka
 content#:#cont_ed_delete#:#usuń
 content#:#cont_ed_delete_col#:#usuń kolumnę
@@ -2384,6 +2388,8 @@ content#:#cont_ed_insert_list#:#wstaw Listę
 content#:#cont_ed_insert_media#:#wstaw Media
 content#:#cont_ed_insert_par#:#wstaw Paragr.
 content#:#cont_ed_insert_table#:#wstaw Tabelę
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#przesuń po
 content#:#cont_ed_movebefore#:#przesuń przed
 content#:#cont_ed_new_col_after#:#nowa kolumna po
@@ -2393,6 +2399,8 @@ content#:#cont_ed_new_item_before#:#nowa pozycja przed
 content#:#cont_ed_new_row_after#:#nowy wiersz po
 content#:#cont_ed_new_row_before#:#nowy wiersz przed
 content#:#cont_ed_paste_clip#:#wklej ze schowka
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Szerokość
 content#:#cont_edit_area#:#Edytuj obszar

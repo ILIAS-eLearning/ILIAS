@@ -276,6 +276,7 @@ assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
 assessment#:#qpl_question_is_in_use#:#La pregunta que va a editar existe en el/los test(s) %s. Si modifica esta pregunta, NO cambiará la pregunta(s) en el/los test(s), porque el sistema crea una copia de una pregunta cuando se inserta en un test!
 assessment#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s).
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Pregunta de tipo '-Cloze-'
 assessment#:#qt_imagemap#:#Pregunta de tipo 'mapa de imagen'
 assessment#:#qt_javaapplet#:#Pregunta de tipo 'applet java'
@@ -1891,6 +1892,7 @@ common#:#qpl_delete#:#Eliminar repositorio de preguntas
 common#:#qpl_edit_permission#:#Modificar configuración de permisos
 common#:#qpl_new#:#Nuevo repositorio de preguntas
 common#:#qpl_read#:#Acceso de Lectura a Repositorio de Preguntas
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Repositorio de Preguntas visible
 common#:#qpl_write#:#Editar Repositorio de Preguntas
 common#:#query_data#:#Consultar datos
@@ -2371,6 +2373,8 @@ content#:#cont_ed_align_left_float#:#alinear: flotante izquierda
 content#:#cont_ed_align_right#:#alinear: derecha
 content#:#cont_ed_align_right_float#:#alinear: flotante derecha
 content#:#cont_ed_class#:#Estilo
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#copiar al portapapeles
 content#:#cont_ed_delete#:#eliminar
 content#:#cont_ed_delete_col#:#eliminar columna
@@ -2385,6 +2389,8 @@ content#:#cont_ed_insert_list#:#insertar Lista
 content#:#cont_ed_insert_media#:#insertar Media
 content#:#cont_ed_insert_par#:#insertar Párrafo.
 content#:#cont_ed_insert_table#:#insertar Tabla
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#-move after-
 content#:#cont_ed_movebefore#:#-move before-
 content#:#cont_ed_new_col_after#:#nueva columna después
@@ -2394,6 +2400,8 @@ content#:#cont_ed_new_item_before#:#nuevo item antes
 content#:#cont_ed_new_row_after#:#nueva fila después
 content#:#cont_ed_new_row_before#:#nueva fila antes
 content#:#cont_ed_paste_clip#:#pegar del portapapeles
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Anchura
 content#:#cont_edit_area#:#Editar Area

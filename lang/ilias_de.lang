@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbe
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Lückentext-Frage
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
@@ -2371,6 +2372,8 @@ content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
 content#:#cont_ed_align_right#:#Rechts ausrichten
 content#:#cont_ed_align_right_float#:#Rechts ausr., Text umfl.
 content#:#cont_ed_class#:#Style###05 Nov 2004 new variable
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#In Ablage kopieren
 content#:#cont_ed_delete#:#Löschen
 content#:#cont_ed_delete_col#:#Spalte löschen
@@ -2385,6 +2388,8 @@ content#:#cont_ed_insert_list#:#Liste einfügen
 content#:#cont_ed_insert_media#:#Medien einfügen
 content#:#cont_ed_insert_par#:#Absatz einfügen
 content#:#cont_ed_insert_table#:#Tabelle einfügen
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#Verschieben nach
 content#:#cont_ed_movebefore#:#Verschieben vor
 content#:#cont_ed_new_col_after#:#Neue Spalte anf.
@@ -2394,6 +2399,8 @@ content#:#cont_ed_new_item_before#:#Neuen Eintrag vor.
 content#:#cont_ed_new_row_after#:#Neue Zeile anf.
 content#:#cont_ed_new_row_before#:#Neue Zeile vor.
 content#:#cont_ed_paste_clip#:#Aus Ablage einf.
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern

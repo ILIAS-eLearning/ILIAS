@@ -274,6 +274,7 @@ assessment#:#qpl_edit_select_none#:#Veuillez sélectionner une question à modif
 assessment#:#qpl_export_select_none#:#Veuillez saisir au moins une question pour l'exporter
 assessment#:#qpl_question_is_in_use#:#La question que vous êtes sur le point de modifier existe dans %s test(s).  Si vous changez cette question, vous ne la changerez pas dans ce(s) test(s), car le système crée une copie de la question quand elle est insérée dans un test.
 assessment#:#qpl_questions_deleted#:#Question(s) détruite(s).
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Question de closure
 assessment#:#qt_imagemap#:#Question d'image réactive
 assessment#:#qt_javaapplet#:#Question d'applet Java
@@ -1889,6 +1890,7 @@ common#:#qpl_delete#:#Détruire jeu de questions (test)
 common#:#qpl_edit_permission#:#Changer paramètres de permission
 common#:#qpl_new#:#Nouveau jeu de questions (test)
 common#:#qpl_read#:#Accès en lecture au jeu de questions (test)
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Le jeu de questions (test) est visible
 common#:#qpl_write#:#Modifier jeu de questions (test)
 common#:#query_data#:#Lancer la requête
@@ -2369,6 +2371,8 @@ content#:#cont_ed_align_left_float#:#alignement : flottant à gauche
 content#:#cont_ed_align_right#:#alignement : droite
 content#:#cont_ed_align_right_float#:#alignement : flottant à droite
 content#:#cont_ed_class#:#Style###05 Nov 2004 new variable
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#copier dans le presse-papier
 content#:#cont_ed_delete#:#détruire
 content#:#cont_ed_delete_col#:#Détruire colonne
@@ -2383,6 +2387,8 @@ content#:#cont_ed_insert_list#:#insérer liste
 content#:#cont_ed_insert_media#:#insérer média
 content#:#cont_ed_insert_par#:#insérer paragr.
 content#:#cont_ed_insert_table#:#insérer tableau
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#déplacer après
 content#:#cont_ed_movebefore#:#déplacer avant
 content#:#cont_ed_new_col_after#:#nouvelle colonne après
@@ -2392,6 +2398,8 @@ content#:#cont_ed_new_item_before#:#nouvel objet avant
 content#:#cont_ed_new_row_after#:#nouvelle ligne après
 content#:#cont_ed_new_row_before#:#nouvelle ligne avant
 content#:#cont_ed_paste_clip#:#coller depuis le presse-papier
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Largeur
 content#:#cont_edit_area#:#Modifier zone

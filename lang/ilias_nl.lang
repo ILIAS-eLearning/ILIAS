@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export
 assessment#:#qpl_question_is_in_use#:#De vraag, die u nu gaat bewerken, bestaat al in %s test(en). Als u deze vraag nu wijzigt, wijzigt u niet de vraag/vragen in de test(en), omdat het systeem een copie van de vraag maakt als de vraag in een test wordt opgenomen!
 assessment#:#qpl_questions_deleted#:#Vraag/vragen verwijderd.
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#Gatentekst-vraag
 assessment#:#qt_imagemap#:#Grafische kaart-vraag
 assessment#:#qt_javaapplet#:#Java Applet vraag
@@ -1890,6 +1891,7 @@ common#:#qpl_delete#:#Verwijderen vraag uit pool
 common#:#qpl_edit_permission#:#Wijzige instellingen van de rechten
 common#:#qpl_new#:#Nieuw vraagpool
 common#:#qpl_read#:#Leesrechten op vraagpool
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Vraagpool is zichtbaar
 common#:#qpl_write#:#Wijzigen Vraagpool
 common#:#query_data#:#Opvraag-gegevens
@@ -2370,6 +2372,8 @@ content#:#cont_ed_align_left_float#:#uitlijnen: midden
 content#:#cont_ed_align_right#:#uitlijnen:links
 content#:#cont_ed_align_right_float#:#uitlijnen: links drijvend
 content#:#cont_ed_class#:#uitlijnen: rechts
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#uitlijnen: rechts drijvend
 content#:#cont_ed_delete#:#Stijl
 content#:#cont_ed_delete_col#:#copiëernaar het klembord
@@ -2384,6 +2388,8 @@ content#:#cont_ed_insert_list#:#Voeg code in
 content#:#cont_ed_insert_media#:#Invoegen bestandslijst
 content#:#cont_ed_insert_par#:#Invoegen lijst
 content#:#cont_ed_insert_table#:#Voeg Media in
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#Voeg Paragraaf in.
 content#:#cont_ed_movebefore#:#Invoegen tabel
 content#:#cont_ed_new_col_after#:#verplaatsen achter
@@ -2393,6 +2399,8 @@ content#:#cont_ed_new_item_before#:#nieuwe kolom voor
 content#:#cont_ed_new_row_after#:#nieuw onderdeel na
 content#:#cont_ed_new_row_before#:#nieuw onderdeel voor
 content#:#cont_ed_paste_clip#:#nieuwe rij na
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#nieuwe rij voor
 content#:#cont_edit_area#:#plakken van klembord
