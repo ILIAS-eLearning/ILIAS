@@ -61,7 +61,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	function viewObject()
 	{
 		global $rbacsystem;
-
+		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -155,7 +155,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		} //for
 	
 		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("NUM_COLS", 6);
+		$this->tpl->setVariable("COLUMN_COUNTS", 6);
 		$this->showActions();
 	}
 

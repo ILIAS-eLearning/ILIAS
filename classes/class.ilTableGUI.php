@@ -65,6 +65,7 @@ class ilTableGUI
 							"icon"			=>	true,
 							"help"			=>	true,
 							"content"		=>	true,
+							"action"		=>	false,
 							"footer"		=>	true,
 							"linkbar"		=>	true,
 							"numinfo"		=>	true
@@ -158,10 +159,25 @@ class ilTableGUI
 	* set table header vars
 	* @access	public
 	* @param	array	table header vars
+	* @param	array	additional link params
 	*/
-	function setHeaderVars($a_header_vars)
+	function setHeaderVars($a_header_vars,$a_header_params = 0)
 	{
 		$this->header_vars = $a_header_vars;
+		
+		if ($a_header_params == 0 or !is_array($a_header_params))
+		{
+			$this->link_params = "";
+		}
+		else
+		{
+			$this->header_params = $a_header_params;	// temp. solution for linkbar
+
+			foreach ($a_header_params as $key => $val)
+			{
+				$this->link_params .= $key."=".$val."&";
+			}
+		}
 	}
 	
 	/**
@@ -335,7 +351,7 @@ class ilTableGUI
 		if ($this->enabled["title"])
 		{
 			$this->tpl->setCurrentBlock("tbl_header_title");
-			$this->tpl->setVariable("CELL_COUNT",$this->column_count);
+			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -369,7 +385,7 @@ class ilTableGUI
 				$this->tpl->setVariable("TBL_ORDER_ALT",$this->lng->txt("change_sort_direction"));
 			}
 		
-			$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
+			$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -399,6 +415,13 @@ class ilTableGUI
 			}
 		}
 
+		// table action row
+		if ($this->enabled["action"] && is_array($this->data))
+		{
+		
+		
+		}
+
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
@@ -425,6 +448,7 @@ class ilTableGUI
 							"sort_by"		=> $this->header_vars[$this->order_column],
 							"sort_order"	=> $this->order_direction
 							);
+			$params = array_merge($this->header_params,$params);
 			
 			$layout = array(
 							"link"	=> $this->footer_style,
@@ -443,7 +467,7 @@ class ilTableGUI
 		if ($this->enabled["footer"])
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
-			$this->tpl->setVariable("CELL_COUNT",$this->column_count);
+			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->parseCurrentBlock();
 		}
 	}
