@@ -75,6 +75,7 @@ class Admin
 	
 	/**
 	 * create an new reference of an object in tree
+	 * it's like a hard link of unix
 	 * @access public
 	 */	
 	function linkObject()
@@ -108,7 +109,7 @@ class Admin
 		}
 		if(count($no_link))
 		{
-			$this->ilias->raiseError("It's not possible to create a symbolic link on object type(s) ".
+			$this->ilias->raiseError("It's not possible to create a link on object type(s) ".
 									 implode(',',$no_link)."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE SUBTREE
@@ -120,14 +121,70 @@ class Admin
 		}
 		$_SESSION["clipboard"] = $clipboard;
 	} // END COPY
+	
+	function copyObject()
+	{
+		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
+		
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN. 
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
+		}
+		// FOR ALL SELECTED OBJECTS
+		foreach($_POST["id"] as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $tree->getNodeData($id,$_GET["obj_id"]);
+			$subtree_nodes = $tree->getSubTree($node_data);
+			
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK DELETE PERMISSION OF ALL OBJECTS
+			foreach($subtree_nodes as $node)
+			{
+				if(!$rbacsystem->checkAccess('read',$node["obj_id"],$node["parent"]))
+				{
+					$no_copy[] = $node["obj_id"];
+					$perform_copy = false;
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
+		if(count($no_copy))
+		{
+			$no_copy = implode(',',$no_copy);
+			$this->ilias->raiseError("You have no permission to copy object(s) No. ".
+									 $no_copy."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// COPY TRHEM
+		// SAVE SUBTREE
+		foreach($_POST["id"] as $id)
+		{
+			$tree->saveSubtree($id,$_GET["obj_id"],1);
+			$clipboard[$id]["parent"] = $_GET["obj_id"];
+			$clipboard[$id]["cmd"] = $_POST["cmd"];
+		}
+		$_SESSION["clipboard"] = $clipboard;
+	}
+		
 
 	function pasteObject()
 	{
-		global $rbacsystem,$tree;
-		
+		global $rbacsystem,$tree,$objDefinition,$lng;
+
 		// CHECK SOME THINGS
 		foreach($_SESSION["clipboard"] as $id => $object)
 		{
+			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
+			if($object["cmd"] == $lng->txt('copy'))
+			{
+				$this->cloneObject();
+				return true;
+			}
+
 			$obj_data = getObject($id);
 			$data = $tree->getNodeData($id,$_GET["obj_id"]);
 			// CHECK ACCESS
@@ -145,6 +202,12 @@ class Admin
 			{
 				$is_child[] = $id;
 			}
+			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+			$object = getObject($_GET["obj_id"]);
+			if(!in_array($object["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			{
+				$not_allowed_subobject[] = $obj_data["type"];
+			}
 		}
 		if(count($no_paste))
 		{
@@ -161,9 +224,71 @@ class Admin
 			$this->ilias->raiseError("It's not possible to paste the object(s) No. ".implode(',',$is_child)." in itself",
 									 $this->ilias->error_obj->MESSAGE);
 		}
+		if(count($not_allowed_subobject))
+		{
+			$this->ilias->raiseError("This object may not contain objects of type ".implode(',',$not_allowed_subobject)."<br />".
+									 "Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
 		foreach($_SESSION["clipboard"] as $id => $object)
 		{
 			$this->insertSavedNodes($id,$object["parent"],$_GET["obj_id"],$_GET["parent"],-(int) $id);
+		}
+		$this->clearObject();
+	}
+
+	/**
+	 * clone Object subtree
+	 * @access private
+	 */	
+	function cloneObject()
+	{
+		global $objDefinition,$tree,$rbacsystem;
+
+		foreach($_SESSION["clipboard"] as $id => $object)
+		{
+			// CHECK SOME THNGS
+			$obj_data = getObject($id);
+			$data = $tree->getNodeData($id,$_GET["obj_id"]);
+
+			// CHECK ACCESS
+			if(!$rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],$obj_data["type"]))
+			{
+				$no_paste[] = $id;
+			}
+
+			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+			if($tree->isGrandChild($id,$object["parent"],$_GET["obj_id"],$_GET["parent"]))
+			{
+				$is_child[] = $id;
+			}
+
+			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+			$object = getObject($_GET["obj_id"]);
+			if(!in_array($object["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			{
+				$not_allowed_subobject[] = $obj_data["type"];
+			}
+		}
+		if(count($no_paste))
+		{
+			$this->ilias->raiseError("You have no permission to create object(s) No. ".
+									 implode(',',$no_paste)."in this object<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($is_child))
+		{
+			$this->ilias->raiseError("It's not possible to paste the object(s) No. ".implode(',',$is_child)." in itself",
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		if(count($not_allowed_subobject))
+		{
+			$this->ilias->raiseError("This object may not contain objects of type ".implode(',',$not_allowed_subobject)."<br />".
+									 "Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
+		// NOW CLONE ALL OBJECTS
+		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
+		foreach($_SESSION["clipboard"] as $id => $object)
+		{
+			$this->cloneSavedNodes($id,$object["parent"],$_GET["obj_id"],$_GET["parent"],-(int) $id);
 		}
 		$this->clearObject();
 	}
@@ -181,6 +306,21 @@ class Admin
 		}
 		session_unregister("clipboard");
 	}
+	function cloneSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
+	{
+		global $tree;
+		
+		$object = getObject($a_source_id);
+		$new_object_id = $this->callCloneMethod($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$object["type"]);
+
+		$saved_tree = new Tree($a_source_id,$a_source_parent,0,$a_tree_id);
+		$childs = $saved_tree->getChilds($a_source_id);
+		foreach($childs as $child)
+		{
+			$this->cloneSavedNodes($child["child"],$child["parent"],$new_object_id,$a_dest_id,$a_tree_id);
+		}
+	}
+
 
 	/**
 	 * recursive method to insert all saved nodes of the clipboard
@@ -301,7 +441,24 @@ class Admin
 		$class_name = $objDefinition->getClassName($a_type);
 		$class_constr = $class_name."Object";
 		require_once("./classes/class.".$class_name."Object.php");
+
 		$obj = new $class_constr();
-		$obj->deleteObject($a_obj_id,$a_parent);
+		return $obj->deleteObject($a_obj_id,$a_parent);
 	}
+	/**
+	 * Call clone method of a specific object type
+	 * @access private
+	 */	
+	function callCloneMethod($a_obj_id, $a_parent,$a_dest_id,$a_dest_parent, $a_type)
+	{
+		global $objDefinition;
+
+		$class_name = $objDefinition->getClassName($a_type);
+		$class_constr = $class_name."Object";
+		require_once("./classes/class.".$class_name."Object.php");
+
+		$obj = new $class_constr();
+		return $obj->cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
+	}
+
 } // END class.Admin

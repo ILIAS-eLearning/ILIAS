@@ -58,6 +58,29 @@ class Object
 	}
 
 	/**
+	* copy all entries of an object
+	* @access	public
+	* @return 
+	*/
+	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
+	{
+		global $tree,$rbacadmin,$rbacreview;
+
+		$object = getObject($a_obj_id);
+		$new_id = copyObject($a_obj_id);
+		$tree->insertNode($new_id,$a_dest_id,$a_dest_parent);
+
+		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
+			
+		foreach ($parentRoles as $parRol)
+		{
+			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+			$ops = $rbacreview->getOperations($parRol["obj_id"], $object["type"], $parRol["parent"]);
+			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id, $a_dest_id);
+		}
+		return $new_id;
+	}
+	/**
 	* create object in admin interface
 	* @access	public
 	*/
@@ -496,7 +519,6 @@ class Object
 	function pasteAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
-		
 		$admin = new Admin();
 		return $admin->pasteObject();
 	}
