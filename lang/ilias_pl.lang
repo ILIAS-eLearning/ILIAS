@@ -265,9 +265,9 @@ assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
 assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
 assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
 assessment#:#tst_status_completed#:#ukończony
-assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
-assessment#:#tst_status_not_entered#:#nie wprowadzony
-assessment#:#tst_status_progress#:#wykonywany
+assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)###30 Apr 2004 content changed
+assessment#:#tst_status_not_entered#:#nie wprowadzony###30 Apr 2004 content changed
+assessment#:#tst_status_progress#:#wykonywany###30 Apr 2004 content changed
 assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Twój wybór to
@@ -874,10 +874,12 @@ common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_slm#:#Importuj pakiet SCORM
 common#:#import_users#:#Import Użytkowników
+common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#w
 common#:#in_use#:#język użytkownika
 common#:#inbox#:#Skrzynka odbiorcza
@@ -1025,7 +1027,7 @@ common#:#mail_e_sent#:#Wysłane
 common#:#mail_edit_permission#:#Zmień ustawienia uprawnień
 common#:#mail_folders#:#Foldery pocztowe
 common#:#mail_import#:#Import
-common#:#mail_import_file#:#Plik eksportowy ILIAS 2
+common#:#mail_import_file#:#Plik eksportowy ILIAS 2###30 Apr 2004 content changed
 common#:#mail_intern_enable#:#Wybierz
 common#:#mail_mail_visible#:#Użytkownik może używać systemu pocztowego
 common#:#mail_mails_of#:#Poczta
@@ -1524,7 +1526,7 @@ common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
 common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
-common#:#table_mail_import#:#Import poczty z ILIAS 2
+common#:#table_mail_import#:#Import poczty z ILIAS 2###30 Apr 2004 content changed
 common#:#term#:#Termin
 common#:#test_intern#:#Test wewnętrzny
 common#:#tests#:#Testy

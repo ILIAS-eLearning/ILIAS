@@ -874,10 +874,12 @@ common#:#import_file#:#Import File###16 Mar 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_slm#:#Importovat balík SCORM
 common#:#import_users#:#Import Users###16 Mar 2004 new variable
+common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#v
 common#:#in_use#:#Uživatelský jazyk
 common#:#inbox#:#Doručená pošta
