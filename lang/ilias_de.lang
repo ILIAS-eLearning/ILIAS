@@ -446,7 +446,8 @@ common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#typ#:#Objekttyp-Definitioncommon#:#type#:#Typ
+common#:#typ#:#Objekttyp-Definition
+common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
 common#:#uninstall#:#Deinstallieren

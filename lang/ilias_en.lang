@@ -446,7 +446,8 @@ common#:#total#:#Total
 common#:#tpl_path#:#Template Path
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
-common#:#typ#:#Object Type Definitioncommon#:#type#:#Type
+common#:#typ#:#Object Type Definition
+common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
 common#:#uid#:#UID
 common#:#uninstall#:#Uninstall
