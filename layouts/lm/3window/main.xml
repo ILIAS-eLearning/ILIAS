@@ -5,6 +5,16 @@
 	</ilFrame>
 	<ilFrame name="content" cols="50%,50%">
 		<ilFrame name="maincontent">
+			<StructureObject template="tpl.page.html" template_location="module">
+				<ilPage>
+					<LinkTarget Type="New" Frame="_new" />
+					<LinkTarget Type="FAQ" Frame="topright" />
+					<LinkTarget Type="Glossary" Frame="botright" />
+					<LinkTarget Type="Media" Frame="topright" />
+				</ilPage>
+				<ilLMNavigation />
+				<ilLocator />
+			</StructureObject>
 			<PageObject template="tpl.page.html" template_location="module">
 				<ilPage>
 					<LinkTarget Type="New" Frame="_new" />
@@ -29,12 +39,12 @@
 			</ilFrame>
 			<ilFrame name="botright" template="tpl.blank.html" template_location="module">
 				<GlossaryItem template="tpl.page.html" template_location="module">
-					<ilPage>
+					<ilGlossary>
 						<LinkTarget Type="New" Frame="_new" />
 						<LinkTarget Type="FAQ" Frame="topright" />
 						<LinkTarget Type="Glossary" Frame="botright" />
 						<LinkTarget Type="Media" Frame="topright" />
-					</ilPage>
+					</ilGlossary>
 				</GlossaryItem>
 			</ilFrame>
 		</ilFrame>

@@ -382,9 +382,13 @@ class ilLMPresentationGUI
 						else
 						{
 							// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
-							
+
 							$pageContent = $this->ilAbstract($child);
 						}
+						break;
+
+					case "ilGlossary":
+						$pageContent = $this->ilGlossary($child);
 						break;
 
 					case "ilLMNavigation":
@@ -755,6 +759,52 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
 
 		return($output);*/
+	}
+
+
+	function ilGlossary(&$a_page_node)
+	{
+		//require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		//require_once("content/classes/class.ilLMPageObject.php");
+		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+		$page_object_gui =& new ilPageObjectGUI($page_object);
+
+		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
+
+		// read link targets
+		$childs =& $a_page_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if($child->node_name() == "LinkTarget")
+			{
+				$targets.= $this->layout_doc->dump_node($child);
+			}
+		}
+		$targets = "<LinkTargets>$targets</LinkTargets>";
+
+		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
+		$lm_pg_obj->setLMId($this->lm->getId());
+		//$pg_obj->setParentId($this->lm->getId());
+		$page_object_gui->setLinkTargets($targets);
+
+		// determine target frames for internal links
+		//$pg_frame = $_GET["frame"];
+		$page_object_gui->setLinkFrame($_GET["frame"]);
+		$page_object_gui->setOutputMode("presentation");
+
+		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
+		//$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
+		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
+		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		return $page_object_gui->presentation();
 	}
 
 	function ilMedia()

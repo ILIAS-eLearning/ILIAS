@@ -274,11 +274,10 @@ class ilPCParagraph extends ilPageContent
 				$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
 			}
 		}
-		while (eregi("\[(iln$ws((media)$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
+		while (eregi("\[(iln$ws(media$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
 		{
-//echo $found[0]."<rb>";
 			$attribs = ilUtil::attribsToArray($found[2]);
-			$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[page]."\" Type=\"MediaObject\"/>", $a_text);
+			$a_text = eregi_replace("\[".$found[1]."/\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 		}
 		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
 
