@@ -89,7 +89,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","survey.php?".$this->link_params));
+		$returnlocation = "survey.php";
+		if (!defined("ILIAS_MODULE"))
+		{
+			$returnlocation = "adm_object.php";
+		}
+		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 

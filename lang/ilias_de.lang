@@ -126,7 +126,7 @@ assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des 
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
+assessment#:#eval_data#:#Evaluationsdaten
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
@@ -160,7 +160,7 @@ assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
-assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
+assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
@@ -240,11 +240,11 @@ assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
+assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
@@ -3297,9 +3297,9 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
-survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
-survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
-survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
+survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
+survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
@@ -3403,7 +3403,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
-survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
+survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
@@ -3454,7 +3454,7 @@ survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Re
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
 survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
-survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.###04 Jul 2004 content changed
+survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
 survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
 survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
@@ -3514,8 +3514,8 @@ survey#:#survey_skip_next#:#Überpringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
-survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
-survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
+survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
