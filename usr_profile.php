@@ -37,6 +37,7 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setTitle($_POST["usr_title"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
 	$ilias->account->setLanguage($_POST["usr_language"]);
+
 	//set user skin
 	if ($_POST["usr_skin"] != "")
 	{
@@ -45,7 +46,7 @@ if ($_GET["cmd"] == "save")
 		//set user style
 		if ($_POST["usr_style"] != "")
 		{
-			$ilias->account->setPref("style_".$_POST["usr_skin"], $_POST["usr_style"]);
+			$ilias->account->setPref("style", $_POST["usr_style"]);
 		}
 	}
 
@@ -63,15 +64,15 @@ if ($_GET["cmd"] == "save")
 }
 
 //get all languages
-$lng->getLanguageNames($lng->userLang);
+$languages = $lng->getInstalledLanguages();
 
 //go through languages
-foreach ($lng->LANGUAGES as $row)
+foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("sel_lang");
-	$tpl->setVariable("LANG", $row["name"]);
-	$tpl->setVariable("LANGSHORT", $row["id"]);
-	if ($ilias->account->prefs["language"] == $row["id"])
+	$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+	$tpl->setVariable("LANGSHORT", $lang_key);
+	if ($ilias->account->prefs["language"] == $lang_key)
 	{
 		$tpl->setVariable("SELECTED_LANG", "selected");
 	}
@@ -96,11 +97,10 @@ foreach ($ilias->skins as $row)
 //what styles are available for current skin
 $ilias->getStyles($ilias->account->skin);
 
-$style = "style_".$ilias->account->skin;
 foreach ($ilias->styles as $row)
 {
 	$tpl->setCurrentBlock("selectstyle");
-	if ($ilias->account->prefs[$style] == $row["name"])
+	if ($ilias->account->prefs["style"] == $row["name"])
 	{
 		$tpl->setVariable("STYLESELECTED", "selected");
 	}
@@ -157,5 +157,4 @@ $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-
 ?>

@@ -22,6 +22,13 @@ class Setup
 	 * @access private
 	 */
 	var $INI_FILE = "./ilias.ini.php";
+
+	/**
+	 * ini file
+	 * @var string
+	 * @access private
+	 */
+	var $DEFAULT_INI_FILE = "./ilias.master.ini.php";
 	
 	/**
 	 * sql-template-file
@@ -29,13 +36,6 @@ class Setup
 	 * @access private
 	 */
 	var $SQL_FILE = "./sql/ilias3.sql";
-	
-    /**
-	 * default ini file
-	 * @access private
-	 * @var string
-	 */
-	var $DEFAULT_INI_FILE = "./ilias.master.ini.php";
 	
     /**
 	 *  database connector
@@ -427,6 +427,33 @@ class Setup
 		
 		//return value
 		return $a;
+	}
+	
+	/**
+	* get all setup languages in the system
+	* 
+	* the functions looks for setup*.lang-files in the languagedirectory
+	* @access	public
+	* @return	array	langs
+	*/
+	function getLanguages($a_lang_path)
+	{
+		$d = dir($a_lang_path);
+		$tmpPath = getcwd();
+		chdir ($a_lang_path);
+	
+		// get available lang-files
+		while ($entry = $d->read())
+		{
+			if (is_file($entry) && (ereg ("(^setup_.{2}\.lang)", $entry)))
+			{
+				$lang_key = substr($entry,6,2);
+				$languages[] = $lang_key;
+			}
+		}
+
+		chdir($tmpPath);
+		return $languages;
 	}
 	
 } //class Setup

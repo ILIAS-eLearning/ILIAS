@@ -38,18 +38,18 @@ if ($_GET["step"] == "")
     $step = "preliminaries";
 
 //instantiate language class
-if ($_GET[$lang] == "")
+if ($_GET["lang"] == "")
 	$lang = "en";
 
 $lng = new Language($lang);
 
-$langs = $lng->getInstalledLanguages();
+$languages = $mySetup->getLanguages($lng->lang_path);
 
-foreach ($langs as $row)
+foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
-	$tpl->setVariable("LINK_LANG", "./setup.php?lang=".$row["id"]."&amp;step=".$_GET["step"]);
-	$tpl->setVariable("LANG_DESC", strtoupper($row["id"]));
+	$tpl->setVariable("LINK_LANG", "./setup.php?lang=".$lang_key."&amp;step=".$_GET["step"]);
+	$tpl->setVariable("LANG_DESC", strtoupper($lang_key));
 	$tpl->parseCurrentBlock();
 }
 

@@ -14,16 +14,16 @@ require_once "include/ilias_header.inc";
 if ($ilias->auth->getAuth())
 {
 	header("location: start.php");
-	exit;
+	exit();
 }
 
 //instantiate login template
 $tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
 
 //language handling
-if ($_GET["lang"] != "")
+if ($_GET["lang"] == "")
 {
-	$lang = $_GET["lang"];
+	$lang = $ilias->ini->readVariable("language","default");
 }
 
 if ($lang == "")
@@ -33,14 +33,15 @@ if ($lang == "")
 
 //instantiate language
 $lng = new Language($lang);
-$lng->getLanguageNames($lang);
 
-foreach ($lng->LANGUAGES as $row)
+$languages = $lng->getInstalledLanguages();
+
+foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
-	$tpl->setVariable("LANG_ID", $row["id"]);
-	$tpl->setVariable("LANG_DESC", $row["name"]);
-	$tpl->setVariable("LANG_IMG", "./lang/".$row["id"].".gif");
+	$tpl->setVariable("LANG_ID", $lang_key);
+	$tpl->setVariable("LANG_DESC", $lng->txt("lang_".$lang_key));
+	$tpl->setVariable("LANG_IMG", "./lang/".$lang_key.".gif");
 	$tpl->parseCurrentBlock();
 }
 
@@ -75,5 +76,4 @@ $tpl->setVariable("USERNAME", $_GET["username"]);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-
 ?>

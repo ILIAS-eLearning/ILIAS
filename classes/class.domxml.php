@@ -147,9 +147,9 @@ class domxml
 		}
 		
 		// set encoding to UTF-8 if empty
-		$this->setEncoding("UTF-8");
+		$this->setEncoding("iso-8859-1",true);
 		// set charset to UTF-8
-		$this->setCharset("UTF-8");
+		$this->setCharset("iso-8859-1");
 
 		return $this->doc; 
 	}

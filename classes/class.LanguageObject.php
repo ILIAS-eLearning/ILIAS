@@ -11,6 +11,15 @@
 class LanguageObject extends Object
 {
 	/**
+	* separator of module, identifier & values
+	* in language files
+	*
+	* @var		string
+	* @access	private
+	*/
+	var $separator = "#:#";
+
+	/**
 	* Constructor
 	* @access public
 	*/

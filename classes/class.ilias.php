@@ -108,7 +108,7 @@ class ILIAS extends PEAR
 		}
 		
 		// set constants
-		define(DEBUG,$this->ini->readVariable("system","DEBUG"));
+		define("DEBUG",$this->ini->readVariable("system","DEBUG"));
 		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID')); 
 		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
 		
@@ -189,10 +189,10 @@ class ILIAS extends PEAR
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$rueckgabe[$row[keyword]] = $row[value];
+			$arr[$row[keyword]] = $row[value];
 		}
 		
-		return $rueckgabe;
+		return $arr;
 	}
 
 	/**
@@ -202,7 +202,7 @@ class ILIAS extends PEAR
 	* @param	string		value
 	* @return	integer		value
 	* 
-	* TODO: changed to replace-statement
+	* TODO: change to replace-statement
 	*/
 	function setSetting($key, $value)
 	{
@@ -256,10 +256,6 @@ class ILIAS extends PEAR
 	*/
 	function getStyles($skin)
 	{
-//		if (is_array($this->styles))
-//		{
-//			return true;
-//		}
 		$styles = array();
 
 		//open directory for reading and search for subdirectories

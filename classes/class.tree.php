@@ -411,6 +411,7 @@ class Tree
 							   "parent"	=> $data["parent"]
 							   );
 		}
+
 		return $this->Path;
 	}	
 
@@ -440,7 +441,7 @@ class Tree
 		
 		return $id;
 	}
-
+	
 	/**
 	* check consistence of tree
 	* @access	public

@@ -90,7 +90,6 @@
 	<action name="clear">clear</action>
 	<action name="quote">quote</action>
 </object>
-
 <object name="grp" class_name="Group" chkbox="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
@@ -143,6 +142,7 @@
 	<action name="refresh">refresh</action>
 	<action name="setsyslang">set_system_language</action>
 	<action name="setuserlang">change_language</action>
+	<action name="checklang">check_language</action>
 </object>
 <object name="mail" class_name="" chkbox="1">
 	<action name="refresh">refresh</action>
