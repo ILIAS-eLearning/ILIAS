@@ -1,14 +1,14 @@
 <?php
-
 /**
- * header include for all ilias files
- * 
- * @author Stefan Meyer <smeyer@databay.de>
- * @author Sascha Hofmann <shofmann@databay.de>
- *
- * @version $Id$
- * @package ilias-core
- */
+* header include for all ilias files. This script will be always included first for every page
+* in ILIAS. Inits RBAC-Classes & recent user, log-,language- & tree-object
+* 
+* @version $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
+*
+* @package ilias-core
+*/
 
 //include files from PEAR
 require_once "PEAR.php";
@@ -16,6 +16,8 @@ require_once "DB.php";
 require_once "Auth/Auth.php";
 
 //include classes and function libraries
+require_once "classes/class.IniFile.php";
+require_once "classes/class.DBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
 include_once "function.library.php";
