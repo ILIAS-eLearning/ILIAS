@@ -1416,6 +1416,20 @@ class ilObjUser extends ilObject
 		return $objects;
 	}
 
+	/**
+	* remove object from user's personal clipboard
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	*/
+	function removeObjectFromClipboard($a_item_id, $a_type)
+	{
+		$q = "DELETE FROM personal_clipboard WHERE ".
+			"item_id = '$a_item_id' AND type = '$a_type' ".
+			" AND user_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
 
 } // END class ilObjUser
 ?>

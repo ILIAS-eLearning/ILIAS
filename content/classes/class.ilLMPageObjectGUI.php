@@ -75,49 +75,40 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	function showPageEditor()
 	{
-		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-		$page_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-		$page_gui->showPageEditor();
+		$this->forwardToPageObjGUI("showPageEditor");
 	}
 
 	function showLinkHelp()
 	{
-		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-		$page_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-		$page_gui->showLinkHelp();
+		$this->forwardToPageObjGUI("showLinkHelp");
 	}
 
 	function changeLinkType()
 	{
-		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-		$page_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-		$page_gui->changeLinkType();
+		$this->forwardToPageObjGUI("changeLinkType");
 	}
 
 	function resetLinkList()
 	{
-		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-		$page_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-		$page_gui->resetLinkList();
+		$this->forwardToPageObjGUI("resetLinkList");
 	}
 
 	function changeTargetObject()
+	{
+		$this->forwardToPageObjGUI("changeTargetObject");
+	}
+
+	function clipboard()
+	{
+		$this->forwardToPageObjGUI("clipboard");
+	}
+
+	function clipboardDeletion()
+	{
+		$this->forwardToPageObjGUI("clipboardDeletion");
+	}
+
+	function forwardToPageObjGUI($cmd)
 	{
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
@@ -125,7 +116,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-		$page_gui->changeTargetObject();
+		$page_gui->$cmd();
 	}
 
 	/*
