@@ -426,7 +426,7 @@ class ilUtil
 	}
 	
 	/**
-	* ??? 
+	* ???
 	* @access	public
 	* @param	array
 	* @return	string
@@ -1647,7 +1647,7 @@ class ilUtil
 	
 		usort($array, array("ilUtil", "sort_func"));
 		//usort($array,"ilUtil::sort_func");
-		
+
 		return $array;
 	}
 
@@ -1838,10 +1838,27 @@ class ilUtil
 		return ("MEMORY USAGE (% KB PID ): ".`ps -eo%mem,rss,pid | grep $my_pid`);
 	}
 
+	function isWindows()
+	{
+		if (strtolower(substr(php_uname(), 0, 3)) == "win")
+		{
+			return true;
+		}
+		return false;
+	}
 
 	function escapeShellArg($a_arg)
 	{
-		return ini_get("safe_mode") == 1 ? $a_arg : escapeshellarg($a_arg);
+		global $PHP_OS;
+
+		if (ini_get("safe_mode") == 1 || ilUtil::isWindows())
+		{
+			return $a_arg;
+		}
+		else
+		{
+			return escapeshellarg($a_arg);
+		}
 	}
 
 } // END class.ilUtil
