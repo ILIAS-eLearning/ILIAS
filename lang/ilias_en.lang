@@ -2947,3 +2947,8 @@ survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the foll
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
+survey#:#minimum#:#Minimum value
+survey#:#maximum#:#Maximum value
+survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
+survey#:#non_ratio#:#Non-Ratio
+survey#:#ratio_absolute#:#Ratio-Absolute
