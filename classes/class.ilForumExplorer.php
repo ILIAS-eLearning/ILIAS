@@ -225,12 +225,13 @@ class ilForumExplorer extends ilExplorer
 			}
 		}
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("icon");
 		//$tpl->setVariable("TYPE", $a_option["type"]);
 		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
+		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
@@ -266,15 +267,16 @@ class ilForumExplorer extends ilExplorer
 		$frm->setWhereCondition("thr_pk = ".$this->thread_id);
 		$threadData = $frm->getOneThread();
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("icon");
 		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
+		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);
 		$tpl->parseCurrentBlock();
-		
+
 		$this->output[] = $tpl->get();
 	}
 
