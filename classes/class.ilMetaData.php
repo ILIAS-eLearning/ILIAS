@@ -395,5 +395,40 @@ class ilMetaData
 		return $langs;
 	}
 
+	/**
+	* set xml content of MetaData, start with <MetaData...>,
+	* end with </MetaDatat>, comply with ILIAS DTD, use utf-8!
+	*
+	* @param	string		$a_xml			xml content
+	* @param	string		$a_encoding		encoding of the content (here is no conversion done!
+	*										it must be already utf-8 encoded at the time)
+	*/
+	function setXMLContent($a_xml, $a_encoding = "UTF-8")
+	{
+		$this->encoding = $a_encoding;
+		$this->xml = $a_xml;
+	}
+
+
+	/**
+	* append xml content to MetaData
+	* setXMLContent must be called before and the same encoding must be used
+	*
+	* @param	string		$a_xml			xml content
+	*/
+	function appendXMLContent($a_xml)
+	{
+		$this->xml.= $a_xml;
+	}
+
+
+	/**
+	* get xml content of MetaData
+	*/
+	function getXMLContent()/*$a_incl_head = false*/
+	{
+        return $this->xml;
+	}
+    
 }
 ?>
