@@ -519,7 +519,11 @@ class ilRbacReview
 
 		$ops_arr = array();
 
-		// TODO: what happens if $a_parent is empty???????
+		// if no rolefolder id is given, assume global role folder as target
+		if ($a_parent == 0)
+		{
+			$a_parent = ROLE_FOLDER_ID;
+		}
 		
 		$q = "SELECT ops_id FROM rbac_templates ".
 			 "WHERE type ='".$a_type."' ".
