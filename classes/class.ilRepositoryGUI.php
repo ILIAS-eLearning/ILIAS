@@ -1022,12 +1022,12 @@ class ilRepositoryGUI
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
 				$tpl->setVariable("LINK_TARGET", "bottom");
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
+				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
-				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
+				//$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
 			}
@@ -1045,9 +1045,9 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner")));
-		$tbl->setHeaderVars(array("","title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("1%","89%","10%"));
+		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
+		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("90%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
