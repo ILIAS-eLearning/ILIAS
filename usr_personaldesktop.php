@@ -83,13 +83,8 @@ $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 $tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
-/**
-* TEMP. DISABLED
-// SYSTEM MAILS
-$umail = new ilMail($_SESSION["AccountId"]);
-$smails = $umail->getMailsOfFolder(0);
-
 // courses
+/*
 $courses = $ilias->account->getCourses();
 
 // forums
@@ -103,48 +98,12 @@ $lastLogin = $ilias->account->getLastLogin();
 //********************************************
 
 //begin mailblock if there are new mails
-/*
-if(count($smails))
-{
-	// output mails
-	$counter = 1;
-	foreach ($smails as $mail)
-	{
-		// GET INBOX FOLDER FOR LINK_READ
-		require_once "classes/class.ilMailbox.php";
-
-		$mbox = new ilMailbox($_SESSION["AccountId"]);
-		$inbox = $mbox->getInboxFolder();
-
-	    $tpl->setCurrentBlock("tbl_mail_row");
-		$tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
-
-		// GET SENDER NAME
-		$user = new ilObjUser($mail["sender_id"]);
-
-		//new mail or read mail?
-		$tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
-		$tpl->setVariable("MAIL_FROM", $user->getFullname());
-		$tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
-		$tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
-		$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
-		$tpl->setVariable("MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
-		$tpl->parseCurrentBlock();
-	}
-    $tpl->setCurrentBlock("tbl_mail");
-   	//headline
-	$tpl->setVariable("SYSTEM_MAILS",$lng->txt("mail_system"));
-   	//columns headlines
-    $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
-   	$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-   	$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
-   	$tpl->parseCurrentBlock();
-}*/
 
 $deskgui =& new ilPersonalDesktopGUI();
 
 $deskgui->displayLearningResources();
 $deskgui->displayForums();
+$deskgui->displaySystemMessages();
 $deskgui->displayUsersOnline();
 $deskgui->displayGroups();
 $deskgui->displayBookmarks();
