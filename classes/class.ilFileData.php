@@ -73,8 +73,8 @@ class ilFileData extends ilFile
 	*/
 	function readPath()
 	{
-		$path = $this->ilias->ini->readVariable("server","data_dir");
-		if(!is_writable($path))
+		//$path = $this->ilias->ini->readVariable("server","data_dir");
+		if(!is_writable(ILIAS_DATA_DIR))
 		{
 			$this->ilias->raiseError("DATA DIRECTORY IS NOT WRITABLE",$this->ilias->error_obj->FATAL);
 		}
