@@ -165,8 +165,7 @@ function saveForm()
 
 function displayForm ()
 {
-
-	global $tpl,$ilias,$lng, $ObjDefinition;
+	global $tpl,$ilias,$lng,$ObjDefinition;
 
 	// load login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
