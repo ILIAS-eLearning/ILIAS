@@ -114,35 +114,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		$this->tpl->show();
-		return;
-/*
-		if($_GET["def"] > 0)
-		{
-//echo "2";
-			$def_edit =& new ilTermDefinitionEditorGUI();
-			$def_edit->executeCommand();
-		}
-		else
-		{
-			$cmd = $_GET["cmd"];
-			if ($cmd != "listDefinitions" && $cmd != "editTerm")
-			{
-//echo "prep";
-				$this->prepareOutput();
-			}
-			if($cmd == "")
-			{
-				$cmd = "listTerms";
-			}
-
-			if ($cmd == "post")
-			{
-				$cmd = key($_POST["cmd"]);
-			}
-//echo "cmd:$cmd:";
-			$this->$cmd();
-		}
-		$this->tpl->show();*/
 	}
 
 
@@ -153,18 +124,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		parent::createObject();
 		return;
-/*
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		//$meta_gui->setObject($this->object);
-
-		$meta_gui->setTargetFrame("save", $this->getTargetFrame("save"));
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getFormAction("save","adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$new_type."&cmd=save"));
-		*/
 	}
 
 	/**
@@ -411,7 +370,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
