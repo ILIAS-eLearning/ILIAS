@@ -201,6 +201,7 @@ common#:#forename#:#forename
 common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#forum
 common#:#forums#:#Forums###15 May 2003 new variable
+common#:#forums_overview#:#Forums Overview###09 Aug 2003 new variable
 common#:#frm#:#frm
 common#:#frm_a#:#a Forum###06 Aug 2003 new variable
 common#:#frm_add#:#Add Forum###06 Aug 2003 new variable
@@ -356,7 +357,6 @@ common#:#message_content#:#message content
 common#:#message_to#:#message to:
 common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
 common#:#migrate#:#migrate
-common#:#min_one_active_role#:#Each user must have at least one active role!###07 Jul 2003 new variable
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#move to
@@ -374,9 +374,12 @@ common#:#msg_deleted_rolt#:#Role Template deleted###16 Jul 2003 new variable
 common#:#msg_deleted_rolts#:#Role Template deleted###16 Jul 2003 new variable
 common#:#msg_error_copy#:#Copy Error###04 Jul 2003 new variable
 common#:#msg_failed#:#sorry, action failed
+common#:#msg_is_last_role#:#You deassigned the following users from their last role###09 Aug 2003 new variable
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).###10 Jul 2003 new variable
 common#:#msg_linked#:#Selected object(s) linked.###10 Jul 2003 new variable
 common#:#msg_may_not_contain#:#This object may not contain objects of type: ###16 Jul 2003 content changed
+common#:#msg_min_one_active_role#:#Each user must have at least one active role!###09 Aug 2003 new variable
+common#:#msg_min_one_role#:#Each user must have at least one role!###09 Aug 2003 new variable
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create_object1#:#You have no permission to create###06 Aug 2003 new variable

@@ -34,7 +34,7 @@
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
-common#:#action_aborted#:#Aktion abgebrochen
+common#:#action_aborted#:#Aktion abgebrochen###09 Aug 2003 content changed
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -97,13 +97,13 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
-common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!###09 Aug 2003 content changed
 common#:#check_languages#:#Sprachen checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position w&auml;hlen
-common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!###09 Aug 2003 content changed
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
@@ -169,7 +169,7 @@ common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
-common#:#err_count_param#:#Grund: Falsche Parameteranzahl
+common#:#err_count_param#:#Grund: Falsche Parameteranzahl###09 Aug 2003 content changed
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
@@ -201,6 +201,7 @@ common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forums#:#Foren
+common#:#forums_overview#:#Übersicht Foren
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
@@ -279,11 +280,11 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
-common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst
+common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst###09 Aug 2003 content changed
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
-common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
-common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert###09 Aug 2003 content changed
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert###09 Aug 2003 content changed
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert###09 Aug 2003 content changed
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
@@ -315,7 +316,7 @@ common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen###09 Aug 2003 content changed
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
@@ -342,7 +343,7 @@ common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
-common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
+common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen###09 Aug 2003 content changed
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
@@ -356,17 +357,15 @@ common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
-common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
-common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
-common#:#msg_cancel_delete#:#Aktion abgebrochen
+common#:#msg_cancel_delete#:#Aktion abgebrochen###09 Aug 2003 content changed
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
-common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
-common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
-common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
+common#:#msg_clear_clipboard#:#Zwischenablage gelöscht###09 Aug 2003 content changed
+common#:#msg_cloned#:#Objekt(e) kopiert.###09 Aug 2003 content changed
+common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)###09 Aug 2003 content changed
+common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)###09 Aug 2003 content changed
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles#:#Rollen gelöscht
@@ -375,9 +374,12 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
+common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Rollenzuweisung genommen
+common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)###09 Aug 2003 content changed
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
+common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
+common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
@@ -396,7 +398,7 @@ common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um di
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
-common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
+common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten###09 Aug 2003 content changed
 common#:#msg_no_search_result#:#Keine Einträge gefunden!
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein!
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
@@ -410,7 +412,7 @@ common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
-common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
+common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen###09 Aug 2003 content changed
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte!
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
@@ -482,7 +484,6 @@ common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#parameter#:#Parameter
-common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Rollenzuweisung genommen
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
@@ -508,8 +509,8 @@ common#:#personal_profile#:#Persönliches Profil
 common#:#persons#:#Personen
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
-common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein!
-common#:#please_enter_title#:#Bitte geben Sie einen Titel ein!
+common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein!###09 Aug 2003 content changed
+common#:#please_enter_title#:#Bitte geben Sie einen Titel ein!###09 Aug 2003 content changed
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Präsentationsoptionen
@@ -645,7 +646,7 @@ common#:#users#:#Benutzer
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text###09 Aug 2003 content changed
 common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
@@ -771,7 +772,6 @@ forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
 forum#:#forums_overview#:#Übersicht Foren
-common#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
