@@ -2775,3 +2775,6 @@ $this->db->query($query);
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','43')";
 $this->db->query($query);
 ?>
+<#177>
+ALTER TABLE `usr_data` CHANGE `login` `login` VARCHAR (80) NOT NULL;
+ALTER TABLE `usr_data` CHANGE `email` `email` VARCHAR (80) NOT NULL;
