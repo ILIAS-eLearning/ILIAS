@@ -744,7 +744,7 @@ common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#auto_registration#:#Neuanmeldungen automatisch freigeben
-common#:#available#:#Available###23 Dec 2004 new variable
+common#:#available#:#Verfügbar
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
@@ -847,8 +847,8 @@ common#:#chat_write#:#Chat bearbeiten
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
-common#:#check_languages#:#Sprachen checken
-common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_languages#:#Sprachen überprüfen
+common#:#check_link#:#Externen Link überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
@@ -1016,8 +1016,8 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
-common#:#enable_hist_user_comments#:#Erlaube Kommentare in Verlaufsanzeige
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
+common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
+common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaSkript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
@@ -1486,12 +1486,12 @@ common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#verknüpfen
-common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check#:#Link überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Email über nicht gültige Links dieser Lerneinheit informiert.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. 
-common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
@@ -1605,7 +1605,7 @@ common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
-common#:#missing#:#Missing###23 Dec 2004 new variable
+common#:#missing#:#Es fehlt
 common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -1960,7 +1960,7 @@ common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
-common#:#public#:#public###23 Dec 2004 new variable
+common#:#public#:#öffentlich
 common#:#public_profile#:#Öffentliches Profil
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -2429,7 +2429,7 @@ content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
+content#:#cont_clean_frames_desc#:#Damit werden bei Mehrfensteransichten alle Fenster gelöscht, wenn der Anwender zur nächsten Seite wechselt.
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
@@ -2445,10 +2445,10 @@ content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
-content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
-content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
+content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
-content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
+content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
 content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
 content#:#cont_credit_off#:#Kein Credit
@@ -2469,8 +2469,8 @@ content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#JavaScript deaktivieren
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
-content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
-content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
+content#:#cont_downloads#:#Downloads
+content#:#cont_downloads_desc#:#Ermögliche Anwender, freigegebene Exportdateien herunterzuladen
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
@@ -2619,8 +2619,8 @@ content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versionen
-content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
-content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
+content#:#cont_offline_files#:#Offline-Version
+content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
@@ -2641,7 +2641,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_print_view#:#Druckansicht
-content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
+content#:#cont_public_access#:#Öffentlicher Zugriff
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -3368,7 +3368,7 @@ meta#:#meta_c_GT#:#Guatemala
 meta#:#meta_c_GU#:#Guam
 meta#:#meta_c_GW#:#Guinea-Bissau
 meta#:#meta_c_GY#:#Guyana
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands###05 Nov 2004 new variable
+meta#:#meta_c_HM#:#Heard und Nc Donald Inseln
 meta#:#meta_c_HN#:#Honduras
 meta#:#meta_c_HR#:#Kroatien
 meta#:#meta_c_HT#:#Haiti
@@ -3377,7 +3377,7 @@ meta#:#meta_c_ID#:#Indonesien
 meta#:#meta_c_IE#:#Irland
 meta#:#meta_c_IL#:#Israel
 meta#:#meta_c_IN#:#Indien
-meta#:#meta_c_IO#:#British Indian Ocean Territory###05 Nov 2004 new variable
+meta#:#meta_c_IO#:#Britische Territorien im Indischen Ozean
 meta#:#meta_c_IQ#:#Irak
 meta#:#meta_c_IR#:#Iran
 meta#:#meta_c_IS#:#Island
@@ -3417,7 +3417,7 @@ meta#:#meta_c_ML#:#Mali
 meta#:#meta_c_MM#:#Myanmar
 meta#:#meta_c_MN#:#Mongolei
 meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#Northern Mariana Islands###05 Nov 2004 new variable
+meta#:#meta_c_MP#:#Nördliche Mariannen-Inseln
 meta#:#meta_c_MQ#:#Martinique
 meta#:#meta_c_MR#:#Mauretanien
 meta#:#meta_c_MS#:#Montserrat
@@ -3431,7 +3431,7 @@ meta#:#meta_c_MZ#:#Mozambik
 meta#:#meta_c_NA#:#Namibia
 meta#:#meta_c_NC#:#Neu Kaledonien
 meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Island###05 Nov 2004 new variable
+meta#:#meta_c_NF#:#Norfolk Inseln
 meta#:#meta_c_NG#:#Nigeria
 meta#:#meta_c_NI#:#Nicaragua
 meta#:#meta_c_NL#:#Niederlande
@@ -3457,7 +3457,7 @@ meta#:#meta_c_PY#:#Paraguay
 meta#:#meta_c_QA#:#Katar
 meta#:#meta_c_RE#:#Reunion
 meta#:#meta_c_RO#:#Rumänien
-meta#:#meta_c_RU#:#Ran Federation###05 Nov 2004 new variable
+meta#:#meta_c_RU#:#Ran Federation
 meta#:#meta_c_RW#:#Ruanda
 meta#:#meta_c_SA#:#Saudi-Arabien
 meta#:#meta_c_SB#:#Solomon Inseln
@@ -3496,7 +3496,7 @@ meta#:#meta_c_TW#:#Taiwan
 meta#:#meta_c_TZ#:#Tansania
 meta#:#meta_c_UA#:#Ukraine
 meta#:#meta_c_UG#:#Uganda
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###05 Nov 2004 new variable
+meta#:#meta_c_UM#:#U.S. Minor Outlying Inseln
 meta#:#meta_c_US#:#Vereinigte Staaten
 meta#:#meta_c_UY#:#Uruguay
 meta#:#meta_c_UZ#:#Usbekistan
