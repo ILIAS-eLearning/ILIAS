@@ -67,27 +67,7 @@ class UserFolderObject extends Object
 		}
 	} //function
 
-	/**
-	* delete user
-	* @access	public
-	*/
-	function deleteObject()
-	{
-		global $rbacadmin,$rbacsystem;
-		
-		// CHECK ACCESS
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
-		{
-			$rbacadmin->deleteUser($_POST["id"]);
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
-		}
 
-		return true;		
-	}
-	
 	function getSubObjects()	
 	{
 		return false;

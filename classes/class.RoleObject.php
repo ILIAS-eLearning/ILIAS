@@ -60,7 +60,7 @@ class RoleObject extends Object
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 			}
 
-			$new_obj_id = createNewObject($_GET["type"],$_POST["Fobject"]);
+			$new_obj_id = createNewObject('role',$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'y');
 		}
 		else

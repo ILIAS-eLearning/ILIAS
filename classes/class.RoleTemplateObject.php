@@ -78,31 +78,11 @@ class RoleTemplateObject extends Object
 	* delete a role template object 
 	* @access	public
 	**/
-	function deleteObject()
+	function deleteObject($a_obj_id, $a_parent)
 	{
 		global $rbacsystem, $rbacadmin;
 
-		// check access write in role folder
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
-		{
-			// is there any id to delete
-			if ($_POST["id"])
-			{
-				foreach ($_POST["id"] as $id)
-				{
-					$rbacadmin->deleteTemplate($id);
-				}
-			}
-			else
-			{
-				$this->ilias->raiseError("No check box checked, nothing happened ;-).",$this->ilias->error_obj->MESSAGE);
-			}
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
-		}
-
+		$rbacadmin->deleteTemplate($a_obj_id, $a_parent);
 		return true;
 	}
 

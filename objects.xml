@@ -171,7 +171,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="datf" class_name="">
+<object name="datf" class_name="DateFolder">
 	<subobj name="dat">dat</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -179,13 +179,13 @@
 	<action name="add">add_date</action>
 	<action name="delete">delete_date</action>
 </object>
-<object name="dat" class_name="">
+<object name="dat" class_name="Date">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_date</action>
 </object>
-<object name="favf" class_name="">
+<object name="favf" class_name="BookmarkFolder">
 	<subobj name="fav">fav</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -193,7 +193,7 @@
 	<action name="add">add_favorite</action>
 	<action name="delete">delete_favorite</action>
 </object>
-<object name="fav" class_name="">
+<object name="fav" class_name="Bookmark">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>

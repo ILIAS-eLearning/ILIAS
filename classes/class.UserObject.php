@@ -112,21 +112,12 @@ class UserObject extends Object
 	* delete user
 	* @access	public
 	*/
-	function deleteObject()
+	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{
-		global $rbacadmin,$rbacsystem;
-		
-		// CHECK ACCESS
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
-		{
-			$rbacadmin->deleteUser($_POST["id"]);
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
-		}
+		global $rbacadmin;
 
-		return true;		
+		$rbacadmin->deleteUserData($a_obj_id);
+		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1);
 	}
 	
 	/**
