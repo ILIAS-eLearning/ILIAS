@@ -782,7 +782,7 @@ class ilPageObject
 		}
 
 		include_once("content/classes/Pages/class.ilMediaObject.php");
-		ilMediaObject::_deleteAllUsages("pg", $this->getId());
+		ilMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 		foreach($usages as $mob_id => $val)
 		{
 			ilMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
