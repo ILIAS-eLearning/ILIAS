@@ -422,10 +422,10 @@ class ilRbacAdmin
 	* Copies template permissions of one role to another.
 	*  It's also possible to copy template permissions from/to RoleTemplateObject
 	* @access	public
-	* @param	integer		role_id source
-	* @param	integer		parent_id source
-	* @param	integer		role_id destination
-	* @param	integer		parent_id destination
+	* @param	integer		$a_source_id		role_id source
+	* @param	integer		$a_source_parent	parent_id source
+	* @param	integer		$a_dest_parent		parent_id destination
+ 	* @param	integer		$a_dest_id			role_id destination
 	* @return	boolean 
 	*/
 	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id)
