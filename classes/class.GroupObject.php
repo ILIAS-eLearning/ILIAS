@@ -12,11 +12,13 @@ class GroupObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	*
+	* qparam	int		$a_id	object id
+	* @access	public
 	*/
-	function GroupObject()
+	function GroupObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 } //END class.GroupObject
 ?>

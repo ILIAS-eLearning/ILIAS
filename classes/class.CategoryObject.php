@@ -12,11 +12,13 @@ class CategoryObject extends Object
 {
 	/**
 	* Constructor
+	*
+	* @param	int		$a_id		object id
 	* @access public
 	*/
-	function CategoryObject()
+	function CategoryObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 } // END class.CategoryObject
 ?>

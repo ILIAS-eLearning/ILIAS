@@ -14,9 +14,9 @@ class RoleTemplateObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleTemplateObject()
+	function RoleTemplateObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 
 	//
@@ -27,12 +27,14 @@ class RoleTemplateObject extends Object
 	* create a role template object 
 	* @access	public
 	*/
-	function createObject()
+	function createObject($a_id, $a_new_type)
 	{
 		// Creates a child object
 		global $tplContent, $rbacsystem;
-
-		if ($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
+		
+		// TODO: get rif of $_GET var
+		
+		if ($rbacsystem->checkAccess("write",$a_id,$_GET["parent"]))
 		{
 			$data = array();
 			$data["fields"] = array();
@@ -50,22 +52,22 @@ class RoleTemplateObject extends Object
 	* save a new role template object
 	* @access	public
 	**/
-	function saveObject()
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacadmin, $rbacsystem; 
 
 
 		// CHECK ACCESS 'write' to role folder
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write', $a_obj_id, $a_parent))
 		{
-			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacadmin->roleExists($a_data["title"]))
 			{
 				$this->ilias->raiseError("A role with the name '".
-										 $_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",
+										 $a_data["title"]."' already exists! <br />Please choose another name.",
 										 $this->ilias->error_obj->WARNING);
 			}
-			$new_obj_id = createNewObject($_GET["new_type"],$_POST["Fobject"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'n');
+			$new_obj_id = createNewObject($a_new_type, $a_data);
+			$rbacadmin->assignRoleToFolder($new_obj_id, $a_obj_id, $a_parent,'n');
 		}
 		else
 		{
@@ -78,7 +80,7 @@ class RoleTemplateObject extends Object
 	* delete a role template object 
 	* @access	public
 	**/
-	function deleteObject($a_obj_id, $a_parent)
+	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
 	{
 		global $rbacsystem, $rbacadmin;
 
@@ -91,13 +93,15 @@ class RoleTemplateObject extends Object
 	* @access	public
 	* 
 	**/
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $tplContent, $rbacsystem;
+		
+		// TODO: get rif of $_GET vars
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$obj = getObject($_GET["obj_id"]);
+			$obj = getObject($this->id);
 
 			$data = array();
 			$data["fields"] = array();
@@ -115,13 +119,15 @@ class RoleTemplateObject extends Object
 	* update a role template object
 	* @access	public
 	**/
-	function updateObject()
+	function updateObject($a_data)
 	{
 		global $rbacsystem;
+		
+		// TODD: get rid of $_GET vars
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
+			updateObject($this->id, $this->type, $a_data);
 
 			return true;
 		}
@@ -162,7 +168,7 @@ class RoleTemplateObject extends Object
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["title"],$_GET["parent"]);
+						$selected = $rbacadmin->getRolePermission($this->id, $data["title"], $_GET["parent"]);
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -206,7 +212,7 @@ class RoleTemplateObject extends Object
 			// END ADOPT_PERMISSIONS
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
+			$role_data = $rbacadmin->getRoleData($this->id);
 			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
 		else
@@ -220,19 +226,21 @@ class RoleTemplateObject extends Object
 	* save permission templates of role 
 	* @access	public
 	**/
-	function permSaveObject()
+	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree, $rbacadmin, $rbacsystem;
+		
+		// get rid of $_GET variables
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			// Alle Template Eintraege loeschen
-			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+			$rbacadmin->deleteRolePermission($this->id, $_GET["parent"]);
 
-			foreach ($_POST["template_perm"] as $key => $ops_array)
+			foreach ($a_template_perm as $key => $ops_array)
 			{
 				// Setzen der neuen template permissions
-				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
+				$rbacadmin->setRolePermission($this->id, $key,$ops_array,$_GET["parent"]);
 			}
 		}
 		else

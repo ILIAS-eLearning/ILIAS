@@ -14,21 +14,21 @@ class RoleObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleObject()
+	function RoleObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 
 	/**
 	* create a role object 
 	* @access	public
 	*/
-	function createObject()
+	function createObject($a_id, $a_new_type)
 	{
 		// Creates a child object
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess("write", $a_id, $_GET["parent"]))
 		{
 			$data = array();
 			$data["fields"] = array();
@@ -48,13 +48,10 @@ class RoleObject extends Object
 	* @access	public
 	* @return new ID
 	**/
-	function saveObject($a_obj_id = '', $a_parent = '' , $a_data = '')
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem, $rbacadmin;
 
-		$a_obj_id = $a_obj_id ? $a_obj_id : $_GET["obj_id"];
-		$a_parent = $a_parent ? $a_parent : $_GET["parent"];
-		$a_data = $a_data ? $a_data : $_POST["Fobject"];
 	
 		// CHECK ACCESS 'write' to role folder
 		if ($rbacsystem->checkAccess('write',$a_obj_id,$a_parent))
@@ -82,7 +79,7 @@ class RoleObject extends Object
 	* delete a role object
 	* @access	public
 	**/
-	function deleteObject($a_obj_id, $a_parent)
+	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
 	{
 		global $tree, $rbacadmin;
 		
@@ -104,11 +101,12 @@ class RoleObject extends Object
 	* @access	public
 	* 
 	**/
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		// TODO: get rid of $_GET["parent_parent"]
+		if ($rbacsystem->checkAccess('write', $this->parent, $_GET["parent_parent"]))
 		{
 			$obj = getObject($this->id);
 			
@@ -129,13 +127,14 @@ class RoleObject extends Object
 	* update a role object
 	* @access	public
 	**/
-	function updateObject()
+	function updateObject($a_data)
 	{
 		global $rbacsystem;
 
+		// TODO: get rid of $_GET variables
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
+			updateObject($this->id, $this->type, $a_data);
 			return true;
 		}
 		else
@@ -175,7 +174,7 @@ class RoleObject extends Object
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["title"],$_GET["parent"]);
+						$selected = $rbacadmin->getRolePermission($this->id,$data["title"],$_GET["parent"]);
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -202,10 +201,10 @@ class RoleObject extends Object
 			$output["message_table"] = "Change existing objects";
 
 			// USER ASSIGNMENT
-			if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+			if ($rbacadmin->isAssignable($this->id,$_GET["parent"]))
 			{
 				$users = getUserList();
-				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+				$assigned_users = $rbacreview->assignedUsers($this->id);
 
 				foreach ($users as $key => $user)
 				{
@@ -243,7 +242,7 @@ class RoleObject extends Object
 			// END ADOPT_PERMISSIONS
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
+			$role_data = $rbacadmin->getRoleData($this->id);
 			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
 		else
@@ -257,7 +256,7 @@ class RoleObject extends Object
 	* save permission templates of a role object
 	* @access	public
 	**/
-	function permSaveObject()
+	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree, $rbacsystem, $rbacadmin;
 
@@ -266,22 +265,22 @@ class RoleObject extends Object
 		{
 
 			// delete all template entries
-			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+			$rbacadmin->deleteRolePermission($this->id,$_GET["parent"]);
 
-			if (empty($_POST["template_perm"]))
+			if (empty($a_template_perm))
 			{
-			    $_POST["template_perm"] = array();
+				$a_template_perm = array();
 			}
 			
-			foreach ($_POST["template_perm"] as $key => $ops_array)
+			foreach ($a_template_perm as $key => $ops_array)
 			{
 				// sets new template permissions
-				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
+				$rbacadmin->setRolePermission($this->id, $key,$ops_array, $_GET["parent"]);
 			}
 
 			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
 			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPED
-			if ($_POST["recursive"])
+			if ($a_recursive)
 			{
 				$parent_obj = $_GET["parent_parent"];
 				// IF PARENT NODE IS SYTEM FOLDER START AT ROOT FOLDER
@@ -301,7 +300,7 @@ class RoleObject extends Object
 				$subtree_nodes = $tree->getSubTree($node_data);
 
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
-				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($_GET["obj_id"]);
+				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($this->id);
 
 				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 				$key = array_keys($all_rolf_obj,$object_id);
@@ -335,14 +334,14 @@ class RoleObject extends Object
 					}
 				}
 				// NOW SET ALL PERMISSIONS
-				foreach($_POST["template_perm"] as $type => $a_perm)
+				foreach($a_template_perm as $type => $a_perm)
 				{
 					foreach($valid_nodes as $node)
 					{
 						if($type == $node["type"])
 						{
-							$rbacadmin->revokePermission($node["obj_id"],$node["parent"],$_GET["obj_id"]);
-							$rbacadmin->grantPermission($_GET["obj_id"],$a_perm,$node["obj_id"],$node["parent"]);
+							$rbacadmin->revokePermission($node["obj_id"],$node["parent"],$this->id);
+							$rbacadmin->grantPermission($this->id,$a_perm,$node["obj_id"],$node["parent"]);
 						}
 					}
 				}
@@ -362,10 +361,12 @@ class RoleObject extends Object
 	function adoptPermSaveObject()
 	{
 		global $rbacadmin, $rbacsystem;
+		
+		// TODO: get rid of $_GET variables
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["parent"]);
 			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
 										   $_GET["parent"],$_GET["obj_id"]);
@@ -384,6 +385,8 @@ class RoleObject extends Object
 	function assignSaveObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $rbacreview;
+		
+		// TODO: get rid of $_GET variables
 		 
 		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 		{

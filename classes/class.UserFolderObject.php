@@ -14,12 +14,12 @@ class UserFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function UserFolderObject()
+	function UserFolderObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 	
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $tpl;
 
@@ -32,7 +32,7 @@ class UserFolderObject extends Object
 		
 		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
 		{
-			if ($usr_data = getUserList($_GET["order"], $_GET["direction"]) )
+			if ($usr_data = getUserList($a_order, $a_direction) )
 			{
 			
 				foreach ($usr_data as $key => $val)

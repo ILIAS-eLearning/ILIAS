@@ -14,12 +14,12 @@ class RoleFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleFolderObject()
+	function RoleFolderObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
 
@@ -32,7 +32,7 @@ class RoleFolderObject extends Object
 		
 		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
 		{
-			if ($list = $rbacadmin->getRoleAndTemplateListByObject($this->id, $_GET["order"], $_GET["direction"]))
+			if ($list = $rbacadmin->getRoleAndTemplateListByObject($this->id, $a_order, $a_direction))
 			{
 				foreach ($list as $key => $val)
 				{

@@ -12,11 +12,13 @@ class CourseObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	*
+	* @param	int		$a_id		object id
+	* @access	public
 	*/
-	function CourseObject()
+	function CourseObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 } //END class.CourseObject
 ?>

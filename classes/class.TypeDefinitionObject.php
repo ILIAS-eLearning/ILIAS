@@ -14,12 +14,12 @@ class TypeDefinitionObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function TypeDefinitionObject()
+	function TypeDefinitionObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacadmin, $tpl;
 
@@ -32,7 +32,7 @@ class TypeDefinitionObject extends Object
 
 		$ops_valid = $rbacadmin->getOperationsOnType($this->id);
 		
-		if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
+		if ($ops_arr = getOperationList('', $a_order, $a_direction))
 		{
 			foreach ($ops_arr as $key => $ops)
 			{
@@ -68,7 +68,7 @@ class TypeDefinitionObject extends Object
 	}
 	
 	
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
 
@@ -84,7 +84,7 @@ class TypeDefinitionObject extends Object
 	
 			$ops_valid = $rbacadmin->getOperationsOnType($this->id);
 			
-			if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
+			if ($ops_arr = getOperationList('', $a_order, $a_direction))
 			{
 				$options = array("e" => "enabled","d" => "disabled");
 			
@@ -128,7 +128,7 @@ class TypeDefinitionObject extends Object
 		//}
 	}
 	
-	function saveObject()
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		$this->alterOperationsOnObject();
 	}

@@ -22,11 +22,13 @@ class ForumObject extends Object
 	
 	/**
 	* Constructor
-	* @access public
+	*
+	* @param	int		$a_id		object id
+	* @access	public
 	*/
-	function ForumObject()
+	function ForumObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 		$this->Forum = new Forum();
 	}
 	
@@ -42,17 +44,10 @@ class ForumObject extends Object
 	* @return	integer		new obj_id
 	* @access	public
 	**/
-	function saveObject($a_obj_id = '', $a_parent = '' ,$a_type = '' , $a_new_type = '' , $a_data = '')
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $tree, $rbacadmin;
 
-		// GET DEFAULT VALUES
-		$a_obj_id = $a_obj_id ? $a_obj_id : $_GET["obj_id"];
-		$a_parent = $a_parent ? $a_parent : $_GET["parent"];
-		$a_type = $a_type ? $a_type : $_GET["type"];
-		$a_new_type = $a_new_type ? $a_new_type : $_GET["new_type"];
-		$a_data = $a_data ? $a_data : $_POST["Fobject"];
-		
 		$newFrm_ID = parent::saveObject($a_obj_id, $a_parent ,$a_type, $a_new_type, $a_data);
 		
 		// create new forum tree
@@ -107,12 +102,12 @@ class ForumObject extends Object
 	* update forum data
 	* @access	public
 	**/
-	function updateObject()
+	function updateObject($a_data)
 	{		
 		
 		if (parent::updateObject())
 		{			
-			$a_obj_data = $_POST["Fobject"];
+			$a_obj_data = $a_data;
 			
 			$query = "UPDATE frm_data ".
 					 "SET ".

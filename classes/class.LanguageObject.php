@@ -21,18 +21,21 @@ class LanguageObject extends Object
 
 	/**
 	* Constructor
+	*
+	* @param	int		$a_id		object id
 	* @access public
 	*/
-	function LanguageObject()
+	function LanguageObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
+
 	
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $rbacreview;
 
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$this->parent,$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
 		{
 			$data = array();
 			$lng2 = new Language($this->id);

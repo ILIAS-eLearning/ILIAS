@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.3 2002/12/17 13:59:24 smeyer Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.4 2002/12/17 14:41:30 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
