@@ -39,6 +39,8 @@ class ilMetaDataGUI
 	var $tpl;
 	var $lng;
 	var $lm_obj;
+	var $obj;
+	var $meta_obj;
 
 
 	/**
@@ -61,17 +63,22 @@ class ilMetaDataGUI
 		$this->lm_obj =& $a_lm_obj;
 	}
 
-	function setMetaDataObject(&$a_obj)
+	function setObject($a_obj)
 	{
 		$this->obj =& $a_obj;
+		$this->meta_obj =& $this->obj->getMetaData();
+
 	}
 
+	/**
+	* use this method to initialize form fields
+	*/
 	function curValue($a_val_name)
 	{
-		if(is_object($this->obj))
+		if(is_object($this->meta_obj))
 		{
 			$method = "get".$a_val_name;
-			return $this->obj->$method();
+			return $this->meta_obj->$method();
 		}
 		else
 		{
@@ -83,7 +90,7 @@ class ilMetaDataGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=saveMeta");
+			$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
 		$this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
 		$this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 		$this->tpl->setVariable("VAL_IDENTIFIER", $this->curValue("ID"));
@@ -103,6 +110,16 @@ class ilMetaDataGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
+	}
+
+	function save()
+	{
+//echo "updating ".$this->obj->getType().":".$this->obj->getId().":<br>";
+		$meta = $_POST["meta"];
+		$this->meta_obj->setTitle($meta["title"]);
+		$this->obj->update();
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$this->obj->getId());
 	}
 
 }

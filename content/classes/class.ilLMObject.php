@@ -140,11 +140,22 @@ class ilLMObject
 		$this->meta_data =& $a_meta_data;
 	}
 
-	function getMetaData()
+	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
 
+	function update()
+	{
+		// insert object data
+		$query = "UPDATE lm_data SET title = '".$this->getTitle()."'".
+			" WHERE obj_id= '".$this->getId()."'";
+		$this->ilias->db->query($query);
+
+		// create meta data
+		$this->meta_data->update();
+
+	}
 
 }
 ?>
