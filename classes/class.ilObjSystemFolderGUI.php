@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.24 2004/03/05 17:36:42 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.25 2004/03/05 17:45:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -581,19 +581,29 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		if ($_POST["cmd"]["view_log"])
+		
+		if ($_POST["systemcheck"])
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_scan_log"),$this->ilias->error_obj->MESSAGE);
+			return $this->viewScanLog();
 		}
-
+		
 		if ($_POST["mode"])
 		{
-			$this->startValidator($_POST["mode"]);
+			$this->startValidator($_POST["mode"],$_POST["log_scan"]);
 		}
 		else
 		{
+			include_once "classes/class.ilValidator.php";
+			$validator = new ilValidator();
+			$last_scan = $validator->readScanLog();
+
 			$this->getTemplateFile("check");
+
+			if (is_array($last_scan))
+			{
+				$this->tpl->setVariable("TXT_VIEW_LOG", "View last scanlog");
+			}
+
 			$this->tpl->setVariable("TXT_TITLE", "Systemcheck");
 			$this->tpl->setVariable("COLSPAN", 3);
 			$this->tpl->setVariable("TXT_OPTIONS", "Options");
@@ -610,11 +620,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", "Restore all objects in trash bin to RecoveryFolder.");
 			$this->tpl->setVariable("TXT_PURGE_TRASH", "Purge trash bin");
 			$this->tpl->setVariable("TXT_PURGE_TRASH_DESC", "Remove all objects in trash bin from system.");
+			$this->tpl->setVariable("TXT_LOG_SCAN", "Log scan results");
+			$this->tpl->setVariable("TXT_LOG_SCAN_DESC", "Write scan results to 'scanlog.log' in client data diretory.");
 			$this->tpl->setVariable("TXT_SUBMIT", "Start!");
 		}
 	}
 	
-	function startValidator($a_mode)
+	function startValidator($a_mode,$a_log)
 	{
 		global $rbacsystem; 
 
@@ -623,10 +635,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$logging = ($a_log) ? true : false;
 		include_once "classes/class.ilValidator.php";
-		
-		$validator = new ilValidator();
+		$validator = new ilValidator($logging);
 		$validator->setMode("all",false);
+
 		foreach ($a_mode as $mode => $value)
 		{
 			$validator->setMode($mode,(bool) $value);
@@ -817,18 +830,50 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$arr[] = $mode."[".(int)$value."]";
 		}
 		
-		$scan_log .= "<p>Scan completed.</p>";
+		$scan_log .= "<br/><br/>Scan completed.";
 
 	
 		$mode = "Mode used: ".implode(', ',$arr);
 		
 		// output
 		$this->getTemplateFile("scan");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=check");
 		$this->tpl->setVariable("TXT_TITLE", "Scanning system...");
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
 		$this->tpl->setVariable("TXT_MODE", $mode);
-		$this->tpl->setVariable("TXT_VIEW_LOG", "View Details");
+		
+		if ($logging === true)
+		{
+			$this->tpl->setVariable("TXT_VIEW_LOG", "View Details");
+		}
+
+		$this->tpl->setVariable("TXT_DONE", "Done");
+		
+		$validator->writeScanLogLine($mode);
+	}
+	
+	function viewScanLog()
+	{
+		include_once "classes/class.ilValidator.php";
+		$validator = new IlValidator();
+		$scan_log = $validator->readScanLog();
+		
+		if (is_array($scan_log))
+		{
+			$scan_log = nl2br(implode("",$scan_log));
+			$this->tpl->setVariable("ADM_CONTENT", $scan_log);
+		}
+		else
+		{
+			$scan_log = "no scanlog found.";
+		}
+
+		// output
+		$this->getTemplateFile("scan");
+		$this->tpl->setVariable("TXT_TITLE", "Scan details");
+		$this->tpl->setVariable("COLSPAN", 3);
+		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
 		$this->tpl->setVariable("TXT_DONE", "Done");
 	}
 } // END class.ilObjSystemFolderGUI

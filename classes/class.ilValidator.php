@@ -92,13 +92,30 @@ class ilValidator extends PEAR
 	* @var	array
 	*/
 	var $invalid_objects = array();
+	
+	/**
+	* true enables scan log
+	* @var	boolean
+	*/
+	var $logging = false;
+	
+	/**
+	* contains ilLog object
+	* @var	object
+	*/
+	var $scan_log;
+	
+	var $scan_log_file = "scanlog.log";
+	
+	var $scan_log_separator = "<!-- scan log start -->";
+
 	/**
 	* Constructor
 	* 
 	* @access	public
 	* @param	integer	mode
 	*/
-	function ilValidator()
+	function ilValidator($a_log = false)
 	{
 		global $objDefinition, $ilDB;
 		
@@ -106,6 +123,20 @@ class ilValidator extends PEAR
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
         $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
+		
+		if ($a_log === true)
+		{
+			$this->logging = true;
+
+			// should be available thru inc.header.php
+			include_once "classes/class.ilLog.php";
+		
+			// create scan log
+			$this->scan_log = new ilLog(CLIENT_DATA_DIR,"scanlog.log");
+			$this->scan_log->setLogFormat("");
+			$this->writeScanLogLine($this->scan_log_separator);
+			$this->writeScanLogLine("\n[Systemscan from ".date("y-m-d H:i]"));
+		}
 	}
 
 	/**
@@ -164,6 +195,11 @@ class ilValidator extends PEAR
 		return $this->mode[$a_mode];
 	}
 	
+	function isLogEnabled()
+	{
+		return $this->logging;
+	}
+	
 	/**
 	* Sets modes by considering mode dependencies;
 	* some modes require other modes to be activated.
@@ -217,14 +253,16 @@ class ilValidator extends PEAR
 	*/
 	function findMissingObjects()
 	{
-		// init
-		$this->missing_objects = array();
-
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
 		}
+
+		// init
+		$this->missing_objects = array();
+		
+		$this->writeScanLogLine("\nfindMissingObjects:");
 
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
@@ -238,15 +276,29 @@ class ilValidator extends PEAR
 			if (!in_array($row->type,$this->object_types_exclude))
 			{
 				$this->missing_objects[] = array(
-													"obj_id"	=> $row->obj_id,
-													"type"		=> $row->type,
-													"ref_id"	=> $row->ref_id,
-													"child"		=> $row->child
+													"obj_id"		=> $row->obj_id,
+													"type"			=> $row->type,
+													"ref_id"		=> $row->ref_id,
+													"child"			=> $row->child,
+													"title"			=> $row->title,
+													"desc"			=> $row->description,
+													"owner"			=> $row->owner,
+													"create_date"	=> $row->create_date,
+													"last_update"	=> $row->last_update
 												);
 			}
 		}
+		
+		if (count($this->missing_objects) > 0)
+		{
+			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogArray($this->missing_objects);
+			return true;
+		}
 
-		return (count($this->missing_objects) > 0) ? true : false;
+		$this->writeScanLogLine("none");
+		return false;		
+
 	}
 
 	/**
@@ -278,14 +330,16 @@ class ilValidator extends PEAR
  	*/	
 	function findInvalidReferences()
 	{
-		// init
-		$this->invalid_references = array();
-
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
 		}
+
+		// init
+		$this->invalid_references = array();
+		
+		$this->writeScanLogLine("\nfindInvalidReferences:");
 
 		$q = "SELECT object_reference.* FROM object_reference ".
 			 "LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id ".
@@ -297,11 +351,20 @@ class ilValidator extends PEAR
 		{
 			$this->invalid_references[] = array(
 											"ref_id"	=> $row->ref_id,
-											"obj_id"	=> $row->obj_id
+											"obj_id"	=> $row->obj_id,
+											"msg"		=> "Object does not exists."
 											);
 		}
 
-		return (count($this->invalid_references) > 0) ? true : false;
+		if (count($this->invalid_references) > 0)
+		{
+			$this->writeScanLogLine("obj_id\t\tref_id");
+			$this->writeScanLogArray($this->invalid_references);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;	
 	}
 
 	/**
@@ -328,14 +391,16 @@ class ilValidator extends PEAR
 	*/
 	function findInvalidChilds()
 	{
-		// init
-		$this->invalid_childs = array();
-
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
 		}
+
+		// init
+		$this->invalid_childs = array();
+
+		$this->writeScanLogLine("\nfindInvalidChilds:");
 
 		$q = "SELECT tree.*,object_reference.ref_id FROM tree ".
 			 "LEFT JOIN object_reference ON tree.child = object_reference.ref_id ".
@@ -347,11 +412,20 @@ class ilValidator extends PEAR
 		{
 			$this->invalid_childs[] = array(
 											"child"		=> $row->child,
-											"ref_id"	=> $row->ref_id
+											"ref_id"	=> $row->ref_id,
+											"msg"		=> "No object found"
 											);
 		}
 
-		return (count($this->invalid_childs) > 0) ? true : false;
+		if (count($this->invalid_childs) > 0)
+		{
+			$this->writeScanLogLine("child\t\tref_id");
+			$this->writeScanLogArray($this->invalid_childs);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;
 	}
 
 	/**
@@ -380,14 +454,16 @@ class ilValidator extends PEAR
 	*/
 	function findUnboundObjects()
 	{
-		// init
-		$this->unbound_objects = array();
 		// check mode: analyze
-
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
 		}
+
+		// init
+		$this->unbound_objects = array();
+
+		$this->writeScanLogLine("\nfindUnboundObjects:");
 
 		$q = "SELECT T2.tree AS deleted,T1.child,T1.parent,T2.parent AS grandparent FROM tree AS T1 ".
 			 "LEFT JOIN tree AS T2 ON T2.child=T1.parent ".
@@ -399,14 +475,23 @@ class ilValidator extends PEAR
 			if ($row->deleted === NULL)
 			{
 				$this->unbound_objects[] = array(
-															"child"			=> $row->child,
-															"parent"		=> $row->parent,
-															"tree"			=> 1
-															);
+												"child"			=> $row->child,
+												"parent"		=> $row->parent,
+												"tree"			=> 1,
+												"msg"			=> "Parent is not valid"
+												);
 			}
 		}
 
-		return (count($this->unbound_objects) > 0) ? true : false;
+		if (count($this->unbound_objects) > 0)
+		{
+			$this->writeScanLogLine("child\t\tparent\ttree");
+			$this->writeScanLogArray($this->unbound_objects);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;
 	}
 
 	/**
@@ -422,28 +507,46 @@ class ilValidator extends PEAR
 	*/
 	function findDeletedObjects()
 	{
-		// init
-		$this->deleted_objects = array();
 		// check mode: analyze
-
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
 		}
 
-		$q = "SELECT tree,child,parent FROM tree WHERE tree !=1";
+		// init
+		$this->deleted_objects = array();
+
+		$this->writeScanLogLine("\nfindDeletedObjects:");
+
+		$q = "SELECT object_data.*,tree.tree,tree.child,tree.parent FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
+			 "LEFT JOIN tree ON tree.child=object_reference.ref_id ".
+			 " WHERE tree !=1";
 		$r = $this->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->deleted_objects[] = array(
-											"child"		=> $row->child,
-											"parent"	=> $row->parent,
-											"tree"		=> $row->tree
+											"child"			=> $row->child,
+											"parent"		=> $row->parent,
+											"tree"			=> $row->tree,
+											"title"			=> $row->title,
+											"desc"			=> $row->description,
+											"owner"			=> $row->owner,
+											"create_date"	=> $row->create_date,
+											"last_update"	=> $row->last_update
 											);
 		}
 
-		return (count($this->deleted_objects) > 0) ? true : false;
+		if (count($this->deleted_objects) > 0)
+		{
+			$this->writeScanLogLine("obj_id\tref_id\tparent\ttree\t\ttype\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogArray($this->deleted_objects);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;
 	}
 	
 
@@ -493,6 +596,8 @@ class ilValidator extends PEAR
 			return false;
 		}
 
+		$this->writeScanLogLine("\nremoveInvalidReferences:");
+
 		if ($a_invalid_refs === NULL and isset($this->invalid_references))
 		{
 			$a_invalid_refs =& $this->invalid_references; 
@@ -507,6 +612,7 @@ class ilValidator extends PEAR
 		// no unbound references found. do nothing
 		if (count($a_invalid_refs) == 0)
 		{
+			$this->writeScanLogLine("none");
 			return false;
 		}
 
@@ -518,6 +624,8 @@ restore starts here
 		{
 			$q = "DELETE FROM object_reference WHERE ref_id='".$entry["ref_id"]."' AND obj_id='".$entry["obj_id"]."'";
 			$this->db->query($q);
+			
+			$this->writeScanLogLine("Entry ".$entry["ref_id"]." removed");
 		}
 		
 		return true;	
@@ -540,6 +648,8 @@ restore starts here
 			return false;
 		}
 
+		$this->writeScanLogLine("\nremoveInvalidChilds:");
+
 		if ($a_invalid_childs === NULL and isset($this->invalid_childs))
 		{
 			$a_invalid_childs =& $this->invalid_childs; 
@@ -555,6 +665,7 @@ restore starts here
 		// no unbound childs found. do nothing
 		if (count($a_invalid_childs) == 0)
 		{
+			$this->writeScanLogLine("none");
 			return false;
 		}
 
@@ -566,6 +677,8 @@ remove starts here
 		{
 			$q = "DELETE FROM tree WHERE child='".$entry["child"]."'";
 			$this->db->query($q);
+			
+			$this->writeScanLogLine("Entry ".$entry["child"]." removed");
 		}
 		
 		return true;	
@@ -584,12 +697,14 @@ remove starts here
 	function restoreMissingObjects($a_missing_objects = NULL)
 	{
 		global $tree;
-
+		
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
 		{
 			return false;
 		}
+
+		$this->writeScanLogLine("\nrestoreMissingObjects:");
 
 		if ($a_missing_objects === NULL and isset($this->missing_objects))
 		{
@@ -606,6 +721,7 @@ remove starts here
 		// no missing objectss found. do nothing
 		if (count($a_missing_objects) == 0)
 		{
+			$this->writeScanLogLine("none");
 			return false;
 		}
 		
@@ -621,13 +737,17 @@ restore starts here
 			if ($missing_obj["ref_id"] === NULL)
 			{
 				$missing_obj["ref_id"] = $this->restoreReference($missing_obj["obj_id"]);
+
+				$this->writeScanLogLine("Created missing reference '".$missing_obj["ref_id"]."' for object '".$missing_obj["obj_id"]."'");
 			}
 
 			// put in tree under RecoveryFolder if not on exclude list
 			if (!in_array($missing_obj["type"],$this->object_types_exclude))
 			{
-				$tree->insertNode($missing_obj["ref_id"],$a_rfolder_ref_id);
+				$tree->insertNode($missing_obj["ref_id"],RECOVERY_FOLDER_ID);
 				$restored = true;
+				$this->writeScanLogLine("Created missing tree entry for object '".$missing_obj["obj_id"]."'");
+
 			}
 			
 			// TODO: process rolefolders
@@ -676,7 +796,9 @@ restore starts here
 		{
 			return false;
 		}
-		
+
+		$this->writeScanLogLine("\nrestoreUnboundObjects:");
+
 		if ($a_unbound_objects === NULL and isset($this->unbound_objects))
 		{
 			$a_unbound_objects = $this->unbound_objects;
@@ -709,7 +831,9 @@ restore starts here
 		{
 			return false;
 		}
-		
+
+		$this->writeScanLogLine("\nrestoreTrash:");
+	
 		if ($a_deleted_objects === NULL and isset($this->deleted_objects))
 		{
 			$a_deleted_objects = $this->deleted_objects;
@@ -729,6 +853,8 @@ restore starts here
 		{
 			$q = "DELETE FROM tree WHERE tree!=1";
 			$this->db->query($q);
+
+			$this->writeScanLogLine("Old tree entries removed");
 		}
 		
 		return $restored;
@@ -746,7 +872,7 @@ restore starts here
 	function restoreSubTrees ($a_nodes)
 	{
 		global $tree,$rbacadmin,$ilias;
-
+		
 		// handle wrong input
 		if (!is_array($a_nodes)) 
 		{
@@ -757,6 +883,7 @@ restore starts here
 		// no invalid parents found. do nothing
 		if (count($a_nodes) == 0)
 		{
+			$this->writeScanLogLine("none");
 			return false;
 		}
 		
@@ -797,6 +924,8 @@ restore starts here
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
+			
+			$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 
 			// ... remove top_node from list ...
 			array_shift($subnode);
@@ -810,6 +939,8 @@ restore starts here
 					$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
 					$obj_data->putInTree($node["parent"]);
 					$obj_data->setPermissions($node["parent"]);
+					
+					$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 				}
 			}
 		}
@@ -837,7 +968,9 @@ restore starts here
 		{
 			return false;
 		}
-		
+
+		$this->writeScanLogLine("\npurgeTrash:");
+	
 		if ($a_nodes === NULL and isset($this->deleted_objects))
 		{
 			$a_nodes = $this->deleted_objects;
@@ -863,7 +996,9 @@ restore starts here
 		{
 			return false;
 		}
-		
+
+		$this->writeScanLogLine("\npurgeUnboundObjects:");
+
 		if ($a_nodes === NULL and isset($this->unbound_objects))
 		{
 			$a_nodes = $this->unbound_objects;
@@ -904,6 +1039,8 @@ restore starts here
 
 			$node_obj->delete();
 			ilTree::_removeEntry($node["tree"],$node["child"]);
+			
+			$this->writeScanLogLine("Object '".$node_obj->getId()."' deleted");
 		}
 		
 		$this->findInvalidChilds();
@@ -929,8 +1066,11 @@ restore starts here
 		{
 			return false;
 		}
+		$this->writeScanLogLine("\nrenumberTree:");
 
 		$tree->renumber(ROOT_FOLDER_ID);
+
+		$this->writeScanLogLine("done");
 
 		return true;
 	}
@@ -1007,6 +1147,58 @@ restore starts here
 		{
 			exit();
 		}
+	}
+	
+	function writeScanLogArray($a_arr)
+	{
+		if (!$this->isLogEnabled())
+		{
+			return false;
+		}
+		
+		foreach ($a_arr as $entry)
+		{
+			$this->scan_log->write(implode("\t",$entry));		
+		}
+	}
+	
+	function writeScanLogLine($a_msg)
+	{
+		if (!$this->isLogEnabled())
+		{
+			return false;
+		}
+		
+		$this->scan_log->write($a_msg);
+	}
+
+	function readScanLog()
+	{
+		// file check
+		if (!is_file(CLIENT_DATA_DIR."/".$this->scan_log_file))
+		{
+			return false;
+		}
+
+		// header check
+		if (!$scan_log = $this->get_last_scan(file(CLIENT_DATA_DIR."/".$this->scan_log_file)))
+		{
+			return false;
+		}
+		
+		return $scan_log;
+	}
+	
+	function get_last_scan($a_scan_log)
+	{
+		$logs = array_keys($a_scan_log,$this->scan_log_separator."\n");
+		
+		if (count($logs) > 0)
+		{
+			return array_slice($a_scan_log,array_pop($logs)+2);
+		}
+		
+		return false;
 	}
 } // END class.ilValidator
 ?>

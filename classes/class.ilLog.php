@@ -46,6 +46,7 @@ class ilLog
 	var $path;
 	var $filename;
 	var $tag;
+	var $log_format;
 
 	/**
 	* constructor
@@ -62,9 +63,20 @@ class ilLog
 		$this->filename = ($a_log_file) ? $a_log_file : "ilias.log";
 		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
 		$this->enabled = (bool) $a_enabled;
-		
+		$this->setLogFormat(date("[y-m-d H:i] ")."[".$this->tag."] ");
+
 	}
 	
+	function setLogFormat($a_format)
+	{
+		$this->log_format = $a_format;
+	}
+	
+	function getLogFormat()
+	{
+		return $this->log_format;
+	}
+
 	function setPath($a_str)
 	{
 		$this->path = $a_str;
@@ -151,8 +163,8 @@ class ilLog
 			{
 				die("Logfile: cannot open file. Please give Logfile Writepermissions.");
 			}
-	
-			if (fwrite($fp,date("[y-m-d H:i] ")."[".$this->tag."] ".$msg."\n") == -1)
+	//var_dump($this->getLogFormat());exit;
+			if (fwrite($fp,$this->getLogFormat().$msg."\n") == -1)
 			{
 				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
 			}

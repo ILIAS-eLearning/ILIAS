@@ -160,8 +160,16 @@ function handlePurgeTrash(form)
    <td class="option_desc">{TXT_PURGE_TRASH_DESC}</td>
   </tr>
   <tr>
+   <td class="option">{TXT_LOG_SCAN}</td>
+   <td class="option_value"><input type="checkbox" name="log_scan" value="1"/></td>
+   <td class="option_desc">{TXT_LOG_SCAN_DESC}</td>
+  </tr>
+  <tr>
 	<td class="submit" colspan="3" align="right">
-	<input class="submit" type="submit" value="{TXT_SUBMIT}"/>
+<!-- BEGIN BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="systemcheck[viewScanLog]" value="{TXT_VIEW_LOG}"/>
+<!-- END BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="cmd[check]" value="{TXT_SUBMIT}"/>
 	</td>
   </tr>
 </table>
