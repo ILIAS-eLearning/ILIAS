@@ -8,7 +8,7 @@
 * @package application
 * 
 */
-class AdmTabs
+class ilAdmTabsGUI
 {
 	/**
 	* ilias object
@@ -37,7 +37,7 @@ class AdmTabs
 	* @access	public 
 	* @return	boolean 	false if reading failed
 	*/
-	function AdmTabs()
+	function ilAdmTabsGUI()
 	{
 		global $ilias;
 		global $tpl;
