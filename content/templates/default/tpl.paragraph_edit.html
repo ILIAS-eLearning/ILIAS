@@ -640,13 +640,17 @@ function checkAllowTagInside(which)
 		S = editor.getSelectedHTML();
 		if (S.indexOf("<")>=0 && S.indexOf("</")>=0) 
 		{
+			alert("Error");
 			return(false);
 		}
 		
 		return(true);
 	
 	} 
-	else return(false);
+	else {
+		alert("Error");
+		return(false);
+	}
 	
 	// {{{
 	/*
