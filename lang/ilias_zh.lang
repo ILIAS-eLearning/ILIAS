@@ -3848,6 +3848,7 @@ survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
+survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable

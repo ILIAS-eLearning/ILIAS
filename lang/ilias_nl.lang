@@ -3830,6 +3830,7 @@ survey#:#arithmetic_mean#:#Antwoord
 survey#:#ask_insert_questionblocks#:#Toepassen
 survey#:#ask_insert_questions#:#Rekenkundig gemiddelde
 survey#:#back#:#Weet u zeker, dat u de volgende blok(blokken) met vragen aan de enquête wilt toevoegen?
+survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de enquête wilt toevoegen?
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable

@@ -133,7 +133,7 @@ assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désir�
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée
 assessment#:#cloze_text#:#Texte de closure
 assessment#:#code#:#Code
-assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?
+assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?###19 Nov 2004 content changed
 assessment#:#coordinates#:#Coordonnées
 assessment#:#correct_solution_is#:#La solution correcte est
 assessment#:#create_date#:#Créé
@@ -3809,6 +3809,7 @@ survey#:#arithmetic_mean#:#Moyenne arithmétique
 survey#:#ask_insert_questionblocks#:#Etes-vous sûr(e) de vouloir insérer les blocs de questions suivants dans le sondage ?
 survey#:#ask_insert_questions#:#Etes-vous sûr(e) de vouloir insérer les questions suivantes dans le sondage ?
 survey#:#back#:#<< Retour
+survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Rechercher des questions
 survey#:#cannot_export_questionpool#:#Vous n'avez pas les permissions nécessaires pour exporter le jeu de questions du sondage.
 survey#:#cannot_export_survey#:#Vous n'avez pas les permissions nécessaires pour exporter le sondage.
