@@ -1818,7 +1818,8 @@ class ilTree
 			++$counter;
 		}
 		// MULTIPLE ENTRIES
-		if($counter > 1)
+		// DISABLED DOES NOT WORK WITH PASTE OBJECT
+		if($counter > 1 and 0)
 		{
 			$message = sprintf('%s::__getSubTreeByParentRelation(): Multiple entries in maintree! $a_node_id: %s',
 							   get_class($this),
