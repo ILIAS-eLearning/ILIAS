@@ -83,6 +83,13 @@ class Language
 	* @access	private
 	*/
 	var $separator = "#:#";
+	
+	/**
+	* separator value between the content and the comment of the lang entry 
+	* @var		string
+	* @access	private
+	*/
+	var $comment_separator = "###";
 
 	/**
 	* Constructor
