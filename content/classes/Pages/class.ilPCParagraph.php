@@ -57,8 +57,17 @@ class ilPCParagraph extends ilPageContent
 	}
 
 
+	function createAtNode (&$node) {
+		$this->node =& $this->dom->create_element("PageContent");
+		$this->par_node =& $this->dom->create_element("Paragraph");
+		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node->set_attribute("Language", "");
+		$node->append_child ($this->node);
+	}
+	
+	
 	function create(&$a_pg_obj, $a_hier_id)
-	{
+	{		
 		$this->node =& $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
 		$this->par_node =& $this->dom->create_element("Paragraph");
