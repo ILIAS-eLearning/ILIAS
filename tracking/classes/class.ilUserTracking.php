@@ -86,7 +86,21 @@ class ilUserTracking {
 	{
 		global $ilUser, $ilDB;
 
-		$user_id = $ilUser->getId();
+		include_once("classes/class.ilObjSysUserTracking.php");
+		if (!ilObjSysUserTracking::_enabledTracking())
+		{
+			return false;
+		}
+
+		if (ilObjSysUserTracking::_enabledUserRelatedData())
+		{
+			$user_id = $ilUser->getId();
+		}
+		else
+		{
+			$user_id = 0;
+		}
+
 		$client_ip = getenv("REMOTE_ADDR");
 		$script = substr($_SERVER["SCRIPT_FILENAME"], strlen(IL_ABSOLUTE_PATH) - 1,
 			strlen($_SERVER["SCRIPT_FILENAME"]) - strlen(IL_ABSOLUTE_PATH) + 1);

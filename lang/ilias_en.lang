@@ -641,6 +641,7 @@ common#:#close#:#Close
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#comment
 common#:#compose#:#Compose
+common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#confirm#:#Confirm
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
@@ -1299,8 +1300,12 @@ common#:#msg_not_available_for_anon#:#The page you have chosen is only accessibl
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
+common#:#number_of_accesses#:#Number of accesses
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_modified#:#Modifications saved.
+common#:#delete_tr_data#:#Delete tracking data
+common#:#tracking_data_deleted#:#Tracking data deleted
+common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
 common#:#msg_obj_no_link#:#are not allowed to be linked
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
