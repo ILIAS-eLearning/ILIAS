@@ -115,10 +115,15 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$deleteuserdata = false;
 		if ($_POST["cmd"]["save"])
 		{
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
+			if ($data["sel_test_types"] != $this->object->getTestType())
+			{
+				$deleteuserdata = true;
+			}
 			//$data["title"] = ilUtil::stripSlashes($_POST["title"]);
 			//$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 			$data["author"] = ilUtil::stripSlashes($_POST["author"]);
@@ -244,7 +249,15 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["save"])
 		{
 			$this->updateObject();
-			sendInfo($this->lng->txt("msg_obj_modified"), true);
+			if ($deleteuserdata)
+			{
+				$this->object->removeAllTestEditings();
+				sendInfo($this->lng->txt("tst_type_changed"));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("msg_obj_modified"));
+			}
 		}
 		if ($_POST["cmd"]["cancel"])
 		{
@@ -334,6 +347,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
+		$this->tpl->setVariable("TEST_TYPE_COMMENT", $this->lng->txt("tst_type_comment"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("VALUE_TITLE", $data["title"]);
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -2200,18 +2214,23 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			// bild title columns
 			$this->tpl->setCurrentBlock("titlecol");
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
+			$name_column = $this->lng->txt("name");
+			if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+			{
+				$name_column = $this->lng->txt("counter");
+			}
+			$this->tpl->setVariable("TXT_TITLE", $name_column);
 			$this->tpl->parseCurrentBlock();
 			$column = 0;
 			$csvrow = array();
 			switch ($_POST["export_type"])
 			{
 				case TYPE_XLS:
-					$worksheet->write(0, $column++, $this->lng->txt("name"), $format_title);
+					$worksheet->write(0, $column++, $name_column, $format_title);
 					break;
 				case TYPE_SPSS:
 				case TYPE_PRINT:
-					array_push($csvrow, $this->lng->txt("name"));
+					array_push($csvrow, $name_column);
 					break;
 			}
 			$char = "A";
@@ -2457,7 +2476,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($i == 1)
 				{
 					$this->tpl->setCurrentBlock("questions_titlecol");
-					$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
+					$this->tpl->setVariable("TXT_TITLE", $name_column);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("questions_titlecol");
@@ -2528,6 +2547,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"D" => $passed_statistics->quantile($this->object->ects_grades["D"]),
 					"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
 				);
+			$evalcounter = 1;
 			foreach ($evaluation_array as $key => $stat_eval)
 			{
 				$csvrow = array();
@@ -2548,17 +2568,22 @@ class ilObjTestGUI extends ilObjectGUI
 					$question_legend = true;
 				}
 				$this->tpl->setCurrentBlock("datacol");
-				$this->tpl->setVariable("TXT_DATA", $selected_users[$key]);
+				$username = $evalcounter++; 
+				if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+				{
+					$username = $selected_users[$key];
+				}
+				$this->tpl->setVariable("TXT_DATA", $username);
 				$column = 0;
 				$row++;
 				switch ($_POST["export_type"])
 				{
 					case TYPE_XLS:
-						$worksheet->write($row, $column++, $selected_users[$key]);
+						$worksheet->write($row, $column++, $username);
 						break;
 					case TYPE_SPSS:
 					case TYPE_PRINT:
-						array_push($csvrow, $selected_users[$key]);
+						array_push($csvrow, $username);
 						break;
 				}
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -2839,7 +2864,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setCurrentBlock("questions_datacol");
 						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->setVariable("TXT_DATA", $selected_users[$key]);
+						$this->tpl->setVariable("TXT_DATA", $username);
 						$this->tpl->parseCurrentBlock();
 					}
 					$this->tpl->setCurrentBlock("questions_datacol");
@@ -2907,20 +2932,29 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 			else
 		{
-			$total_persons =& $this->object->evalTotalPersonsArray();
-			foreach ($total_persons as $user_id => $user_name)
+			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
 			{
-				$this->tpl->setCurrentBlock("userrow");
-				$this->tpl->setVariable("ID_USER", $user_id);
-				$this->tpl->setVariable("TXT_USER_NAME", $user_name);
+				$total_persons =& $this->object->evalTotalPersonsArray();
+				foreach ($total_persons as $user_id => $user_name)
+				{
+					$this->tpl->setCurrentBlock("userrow");
+					$this->tpl->setVariable("ID_USER", $user_id);
+					$this->tpl->setVariable("TXT_USER_NAME", $user_name);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+			{
+				$this->tpl->setCurrentBlock("selected_users");
+				$this->tpl->setVariable("TXT_STAT_USERS_INTRO_SELECTED", $this->lng->txt("tst_stat_users_intro"));
+				$this->tpl->setVariable("TXT_STAT_SELECTED_USERS", $this->lng->txt("tst_stat_selected_users"));
+				$this->tpl->setVariable("TXT_STAT_CHOOSE_USERS", $this->lng->txt("tst_stat_choose_users"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("userselect");
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
 			$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
 			$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_all_users"));
-			$this->tpl->setVariable("TXT_STAT_SELECTED_USERS", $this->lng->txt("tst_stat_selected_users"));
-			$this->tpl->setVariable("TXT_STAT_CHOOSE_USERS", $this->lng->txt("tst_stat_choose_users"));
 			$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
 			$this->tpl->setVariable("TXT_PWORKEDTHROUGH", $this->lng->txt("tst_stat_result_pworkedthrough"));
 			$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));

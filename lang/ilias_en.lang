@@ -120,6 +120,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
+assessment#:#counter#:#Counter
 assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#create_date#:#Created
@@ -411,6 +412,8 @@ assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing 
 assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_type#:#Test type
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
 assessment#:#tst_types#:#Test types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions (Apple Safari browser is not supported)
 assessment#:#tst_your_mark_is#:#Your mark is
