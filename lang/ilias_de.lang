@@ -176,36 +176,6 @@ common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_new#:#Neues Forum
-common#:#forums#:#Foren
-forum#:#forums_articles#:#Beiträge
-forum#:#forums_available#:#Verfügbare Foren
-forum#:#forums_count#:#Anzahl Foren
-forum#:#forums_count_art#:#Anzahl Beiträge
-forum#:#forums_count_thr#:#Anzahl Themen
-forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
-forum#:#forums_last_post#:#Letzter Beitrag
-forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_entries#:#Neue Foren-Einträge
-forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_not_available#:#Keine Foren verfügbar
-forum#:#forums_overview#:#Übersicht Foren
-forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
-forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
-forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-forum#:#forums_posts#:#Alle Beiträge
-forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
-forum#:#forums_respond#:#Beitrag beantworten
-forum#:#forums_the_post#:#Beitrag
-forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Beiträge zum Thema
-forum#:#forums_thread_create_date#:#Erstellt am
-forum#:#forums_thread_create_from#:#Erstellt von
-forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads#:#Themen
-forum#:#forums_threads_not_available#:#Keine Themen verfügbar
-forum#:#forums_topics_overview#:#Themen-Übersicht
-forum#:#forums_your_reply#:#Ihre Antwort
 common#:#frm#:#Forum
 common#:#from#:#Von
 common#:#functions#:#Funktionen
@@ -546,6 +516,36 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+forum#:#forums#:#Forums###08 May 2003 new variable
+forum#:#forums_articles#:#Beiträge
+forum#:#forums_available#:#Verfügbare Foren
+forum#:#forums_count#:#Anzahl Foren
+forum#:#forums_count_art#:#Anzahl Beiträge
+forum#:#forums_count_thr#:#Anzahl Themen
+forum#:#forums_edit_post#:#Beitrag bearbeiten
+forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_last_post#:#Letzter Beitrag
+forum#:#forums_moderators#:#Moderatoren
+forum#:#forums_new_entries#:#Neue Foren-Einträge
+forum#:#forums_new_thread#:#Neues Thema
+forum#:#forums_not_available#:#Keine Foren verfügbar
+forum#:#forums_overview#:#Übersicht Foren
+forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
+forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
+forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+forum#:#forums_posts#:#Alle Beiträge
+forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
+forum#:#forums_respond#:#Beitrag beantworten
+forum#:#forums_the_post#:#Beitrag
+forum#:#forums_thread#:#Thema
+forum#:#forums_thread_articles#:#Beiträge zum Thema
+forum#:#forums_thread_create_date#:#Erstellt am
+forum#:#forums_thread_create_from#:#Erstellt von
+forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+forum#:#forums_threads#:#Themen
+forum#:#forums_threads_not_available#:#Keine Themen verfügbar
+forum#:#forums_topics_overview#:#Themen-Übersicht
+forum#:#forums_your_reply#:#Ihre Antwort
 mail#:#also_as_email#:#Auch als eMail
 mail#:#bc#:#BC###16 Apr 2003 new variable
 mail#:#forward#:#Weiterleiten

@@ -176,36 +176,6 @@ common#:#forename#:#nome
 common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#forum
 common#:#forum_new#:#nuovo forum
-common#:#forums#:#fori
-forum#:#forums_articles#:#articles
-forum#:#forums_available#:#fori disponibili
-forum#:#forums_count#:#number of forums
-forum#:#forums_count_art#:#number of articles
-forum#:#forums_count_thr#:#number of threads
-forum#:#forums_edit_post#:#edit article
-forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?###17 Jan 2003 new variable
-forum#:#forums_last_post#:#last article
-forum#:#forums_moderators#:#moderators
-forum#:#forums_new_entries#:#new forums entries###17 Jan 2003 new variable
-forum#:#forums_new_thread#:#new topic
-forum#:#forums_not_available#:#forums not available
-forum#:#forums_overview#:#forums overview
-forum#:#forums_post_deleted#:#article has been deleted###17 Jan 2003 new variable
-forum#:#forums_post_modified#:#article has been modified
-forum#:#forums_post_new_entry#:#new article has been inscribed
-forum#:#forums_posts#:#all articles
-forum#:#forums_posts_not_available#:#articles not available
-forum#:#forums_respond#:#respond to an article
-forum#:#forums_the_post#:#article
-forum#:#forums_thread#:#thread###25 Mar 2003 content changed
-forum#:#forums_thread_articles#:#articles to the thread###25 Mar 2003 content changed
-forum#:#forums_thread_create_date#:#Created at###25 Mar 2003 new variable
-forum#:#forums_thread_create_from#:#Created from###25 Mar 2003 new variable
-forum#:#forums_thread_new_entry#:#new topic has been inscribed
-forum#:#forums_threads#:#threads
-forum#:#forums_threads_not_available#:#topics not available
-forum#:#forums_topics_overview#:#topics overview
-forum#:#forums_your_reply#:#your reply
 common#:#frm#:#forum
 common#:#from#:#di:###25 Mar 2003 content changed
 common#:#functions#:#funzioni
@@ -546,6 +516,36 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#Tuo messagio
 common#:#zipcode#:#codice postale
+forum#:#forums#:#Forums###08 May 2003 new variable
+forum#:#forums_articles#:#articles
+forum#:#forums_available#:#fori disponibili
+forum#:#forums_count#:#number of forums
+forum#:#forums_count_art#:#number of articles
+forum#:#forums_count_thr#:#number of threads
+forum#:#forums_edit_post#:#edit article
+forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?###17 Jan 2003 new variable
+forum#:#forums_last_post#:#last article
+forum#:#forums_moderators#:#moderators
+forum#:#forums_new_entries#:#new forums entries###17 Jan 2003 new variable
+forum#:#forums_new_thread#:#new topic
+forum#:#forums_not_available#:#forums not available
+forum#:#forums_overview#:#forums overview
+forum#:#forums_post_deleted#:#article has been deleted###17 Jan 2003 new variable
+forum#:#forums_post_modified#:#article has been modified
+forum#:#forums_post_new_entry#:#new article has been inscribed
+forum#:#forums_posts#:#all articles
+forum#:#forums_posts_not_available#:#articles not available
+forum#:#forums_respond#:#respond to an article
+forum#:#forums_the_post#:#article
+forum#:#forums_thread#:#thread###25 Mar 2003 content changed
+forum#:#forums_thread_articles#:#articles to the thread###25 Mar 2003 content changed
+forum#:#forums_thread_create_date#:#Created at###25 Mar 2003 new variable
+forum#:#forums_thread_create_from#:#Created from###25 Mar 2003 new variable
+forum#:#forums_thread_new_entry#:#new topic has been inscribed
+forum#:#forums_threads#:#threads
+forum#:#forums_threads_not_available#:#topics not available
+forum#:#forums_topics_overview#:#topics overview
+forum#:#forums_your_reply#:#your reply
 mail#:#also_as_email#:#Also as Email###16 Apr 2003 new variable
 mail#:#bc#:#BC###16 Apr 2003 new variable
 mail#:#forward#:#Forward###16 Apr 2003 new variable

@@ -176,36 +176,6 @@ common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
 common#:#forum_new#:#New Forum
-forum#:#forums#:#Forums
-forum#:#forums_articles#:#Articles
-forum#:#forums_available#:#Available Forums
-forum#:#forums_count#:#Number of Forums
-forum#:#forums_count_art#:#Number of Articles
-forum#:#forums_count_thr#:#Number of Threads
-forum#:#forums_edit_post#:#Edit Article
-forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
-forum#:#forums_last_post#:#Last Article
-forum#:#forums_moderators#:#Moderators
-forum#:#forums_new_entries#:#New Forums Entries
-forum#:#forums_new_thread#:#New Topic
-forum#:#forums_not_available#:#Forums Not Available
-forum#:#forums_overview#:#Forums Overview
-forum#:#forums_post_deleted#:#Article has been deleted
-forum#:#forums_post_modified#:#Article has been modified
-forum#:#forums_post_new_entry#:#New article has been inscribed
-forum#:#forums_posts#:#All articles
-forum#:#forums_posts_not_available#:#Articles Not Available
-forum#:#forums_respond#:#Respond to an Article
-forum#:#forums_the_post#:#Article
-forum#:#forums_thread#:#Topic
-forum#:#forums_thread_articles#:#Articles to the topic
-forum#:#forums_thread_create_date#:#Created at
-forum#:#forums_thread_create_from#:#Created from
-forum#:#forums_thread_new_entry#:#New topic has been inscribed
-forum#:#forums_threads#:#Threads
-forum#:#forums_threads_not_available#:#Topics Not Available
-forum#:#forums_topics_overview#:#Topics Overview
-forum#:#forums_your_reply#:#Your Reply
 common#:#frm#:#Forum
 common#:#from#:#From
 common#:#functions#:#Functions
@@ -546,6 +516,36 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+forum#:#forums#:#Forums
+forum#:#forums_articles#:#Articles
+forum#:#forums_available#:#Available Forums
+forum#:#forums_count#:#Number of Forums
+forum#:#forums_count_art#:#Number of Articles
+forum#:#forums_count_thr#:#Number of Threads
+forum#:#forums_edit_post#:#Edit Article
+forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
+forum#:#forums_last_post#:#Last Article
+forum#:#forums_moderators#:#Moderators
+forum#:#forums_new_entries#:#New Forums Entries
+forum#:#forums_new_thread#:#New Topic
+forum#:#forums_not_available#:#Forums Not Available
+forum#:#forums_overview#:#Forums Overview
+forum#:#forums_post_deleted#:#Article has been deleted
+forum#:#forums_post_modified#:#Article has been modified
+forum#:#forums_post_new_entry#:#New article has been inscribed
+forum#:#forums_posts#:#All articles
+forum#:#forums_posts_not_available#:#Articles Not Available
+forum#:#forums_respond#:#Respond to an Article
+forum#:#forums_the_post#:#Article
+forum#:#forums_thread#:#Topic
+forum#:#forums_thread_articles#:#Articles to the topic
+forum#:#forums_thread_create_date#:#Created at
+forum#:#forums_thread_create_from#:#Created from
+forum#:#forums_thread_new_entry#:#New topic has been inscribed
+forum#:#forums_threads#:#Threads
+forum#:#forums_threads_not_available#:#Topics Not Available
+forum#:#forums_topics_overview#:#Topics Overview
+forum#:#forums_your_reply#:#Your Reply
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BC
 mail#:#forward#:#Forward
