@@ -1844,20 +1844,20 @@ class ilRepositoryGUI
 			{
           $obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"];
 
-				if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
-				{
-					$tpl->setCurrentBlock("qpl_read");
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-					$tpl->setVariable("VIEW_TARGET", "bottom");
-					$tpl->setVariable("R_TITLE", $qpl_data["title"]);
-					$tpl->parseCurrentBlock();
-				}
-				else
-				{
+				//if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
+				//{
+				//	$tpl->setCurrentBlock("qpl_read");
+				//	$tpl->setVariable("VIEW_LINK", $obj_link);
+				//	$tpl->setVariable("VIEW_TARGET", "bottom");
+				//	$tpl->setVariable("R_TITLE", $qpl_data["title"]);
+				//	$tpl->parseCurrentBlock();
+				//}
+				//else
+				//{
 					$tpl->setCurrentBlock("qpl_visible");
 					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
 					$tpl->parseCurrentBlock();
-				}
+				//}
 
 				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
 				{
