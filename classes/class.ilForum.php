@@ -478,10 +478,13 @@ class ilForum
 		// delete tree and get id's of all posts to delete
 		$p_node = $this->getPostNode($post);	
 		$del_id = $this->deletePostTree($p_node);
+
+		// DELETE ATTACHMENTS ASSIGNED TO POST
+		$this->__deletePostFiles($del_id);
 		
 		$dead_pos = count($del_id);
 		$dead_thr = 0;
-		
+
 		// if deletePost is thread opener ...
 		if ($p_node["parent"] == 0)
 		{
@@ -1218,6 +1221,30 @@ class ilForum
 		
 		return $result;
 	}
+
+	function __deletePostFiles($a_ids)
+	{
+		if(!is_array($a_ids))
+		{
+			return false;
+		}
+		include_once "classes/class.ilFileDataForum.php";
+		
+		$tmp_file_obj =& new ilFileDataForum($this->getForumId());
+		foreach($a_ids as $pos_id)
+		{
+			$tmp_file_obj->setPosId($pos_id);
+			$files = $tmp_file_obj->getFilesOfPost();
+			foreach($files as $file)
+			{
+				$tmp_file_obj->unlinkFile($file["name"]);
+			}
+		}
+		unset($tmp_file_obj);
+		return true;
+	}
+			
+
 	
 	
 } // END class.Forum

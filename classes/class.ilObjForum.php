@@ -34,6 +34,7 @@
 
 require_once "class.ilForum.php";
 require_once "class.ilObject.php";
+require_once "./classes/class.ilFileDataForum.php";
 
 class ilObjForum extends ilObject
 {
@@ -100,6 +101,9 @@ class ilObjForum extends ilObject
 		// get object instance of cloned forum
 		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
+		// COPY ATTACHMENTS
+		$tmp_file_obj =& new ilFileDataForum($this->getId());
+
 		// create a local role folder & default roles
 		$roles = $forumObj->initDefaultRoles();
 
@@ -148,6 +152,10 @@ class ilObjForum extends ilObject
 				
 				// get last insert id and return it
 				$new_pos_pk = getLastInsertId();	
+
+				// CLONE POST ATTACHMENTS
+				$tmp_file_obj->setPosId($posData["pos_pk"]);
+				$tmp_file_obj->clone($forumObj->getId(),$new_pos_pk);
 				
 				// get tree data from old post and insert copy
 			    $q3 = "SELECT * FROM frm_posts_tree ";
@@ -182,6 +190,10 @@ class ilObjForum extends ilObject
 		{
 			return false;
 		}
+		// DELETE ATTACHMENTS
+		$tmp_file_obj =& new ilFileDataForum($this->getId());
+		$tmp_file_obj->delete();
+		unset($tmp_file_obj);
 		
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
 		$topData = $this->Forum->getOneTopic();	

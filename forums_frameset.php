@@ -69,14 +69,14 @@ if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 	$tpl = new ilTemplate("tpl.forums_frameset.html", false, false);
 	if(isset($_GET["target"]))
 	{
-		$tpl->setVariable("FRAME_LEFT_SRC","forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("FRAME_RIGHT_SRC","forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]".
+		$tpl->setVariable("FRAME_LEFT_SRC","./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("FRAME_RIGHT_SRC","./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]".
 						  "&pos_pk=$_GET[pos_pk]#$_GET[pos_pk]");
 	}
 	else
 	{
-		$tpl->setVariable("FRAME_LEFT_SRC","forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("FRAME_RIGHT_SRC","forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("FRAME_LEFT_SRC","./forums_menu.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("FRAME_RIGHT_SRC","./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	}
 	$tpl->show();
 }
