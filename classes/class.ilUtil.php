@@ -1534,6 +1534,31 @@ class ilUtil
 		
 		return $array;
 	}
-    
+
+	/**
+	* Make a multi-dimensional array to have only DISTINCT values for a certain "column".
+	* It's like using the DISTINCT parameter on a SELECT sql statement.
+	* 
+	* @param	array	your multi-dimensional array
+	* @param	string	'column' to filter
+	* @return	array	filtered array
+	* @author	Unknown <tru@ascribedata.com> (found in PHP annotated manual)
+	*/
+	function unique_multi_array($array, $sub_key)
+	{
+		$target = array();
+		$existing_sub_key_values = array();
+		
+		foreach ($array as $key=>$sub_array)
+		{
+			if (!in_array($sub_array[$sub_key], $existing_sub_key_values))
+			{
+				$existing_sub_key_values[] = $sub_array[$sub_key];
+				$target[$key] = $sub_array;
+			}
+		}
+
+		return $target;
+	}
 } // END class.ilUtil
 ?>
