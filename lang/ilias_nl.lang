@@ -285,6 +285,7 @@ assessment#:#reset_filter#:#Terugzetten filter
 assessment#:#result#:#Resultaat
 assessment#:#save_before_upload_imagemap#:#U moet wijzigingen aanbrengen voordat u een kaart kunt uploaden!
 assessment#:#save_before_upload_javaapplet#:#U moet wijzigingen aanbrengen voordat u een Java applet kunt uploaden!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Sla test op en sluit test af
 assessment#:#save_introduction#:#Sla op en ga naar introductie
 assessment#:#save_next#:#Sla op en ga naar volgende vraag
@@ -305,7 +306,7 @@ assessment#:#text_gap#:#Tekst-gat
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Vul alle uwlege applet-parameters voordat u toevoegen een nieuwe parameter toevoegd !
 assessment#:#true#:#Waar
-assessment#:#tst_all_user_data_deleted#:#Allel gebruikers-gegevens van deze test zijn verwijderd!
+assessment#:#tst_all_user_data_deleted#:#Allel gebruikers-gegevens van deze test zijn verwijderd!###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Testen zijn gedaan
 assessment#:#tst_anon_eval#:#Anoniem geaggregeerde resultaten
 assessment#:#tst_browse_for_questions#:#Doorzoek op vragen
@@ -413,6 +414,7 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Test-typen
 assessment#:#tst_use_javascript#:#Gebruik Javascript voor activiteiten als slepen en erop laten vallen###03 Oct 2004 content changed
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Uw cijfer is
 assessment#:#tt_assessment#:#Proefwerk-test
 assessment#:#tt_navigation_controlling#:#Test voor navigatiecontrole in lesmodulen
@@ -659,6 +661,7 @@ common#:#auth_configure#:#configureer...
 common#:#auth_edit_permission#:#Wijzige instellingen van de rechten
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticatie gebruiker via LDAP server
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#ILIAS gegevensbank
 common#:#auth_local_desc#:#Authenticatie gebruiker via lokale gegevensbank (standaard)
 common#:#auth_mode#:#Authenticatie modus

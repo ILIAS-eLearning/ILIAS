@@ -273,6 +273,7 @@ assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
 assessment#:#save_before_upload_imagemap#:#Musisz zastosować zmiany przed załadowaniem mapy bitowej!
 assessment#:#save_before_upload_javaapplet#:#Musisz zastosować zmiany przed załadowaniem apletu javy!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
 assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
@@ -291,7 +292,7 @@ assessment#:#text_gap#:#Tekst odstępu
 assessment#:#time_format#:#GG MM SS
 assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
 assessment#:#true#:#Prawda
-assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu zostały skasowane!
+assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu zostały skasowane!###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
@@ -389,6 +390,7 @@ assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_type_changed#:#Zmieniłeś typ testu. Poprzednio wykonane testy zostaną usunięte!
 assessment#:#tst_type_comment#:#Ostrzeżenie: Zmiana typu testu już uruchomionego spowoduje usunięcie już wykonanych testów!
 assessment#:#tst_types#:#Typy testów
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Twój wynik to
 assessment#:#tt_assessment#:#Ocena testu
 assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczniów
@@ -620,6 +622,7 @@ common#:#auth_configure#:#konfiguracja...
 common#:#auth_edit_permission#:#Zmień prawa dostępu
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Identyfikuj użytkowników za pomocą serwera LDAP
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#baza danych ILIAS
 common#:#auth_local_desc#:#Identyfikuj użytkowników za pomocą lokalnej bazy danych ILIAS  (domyślne)
 common#:#auth_mode#:#Tryb identyfikacji

@@ -223,6 +223,7 @@ assessment#:#reset_filter#:#Szűrő visszaállítása
 assessment#:#result#:#Eredmény
 assessment#:#save_before_upload_imagemap#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Image Map-et!
 assessment#:#save_before_upload_javaapplet#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Java Applet-et!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Mentés és a teszt befejezése
 assessment#:#save_introduction#:#Mentés és bevezetésre ugrás
 assessment#:#save_next#:#Mentés és a következő kérdésre ugrás
@@ -241,6 +242,7 @@ assessment#:#time_format#:#ÓÓ PP MM
 assessment#:#too_many_empty_parameters#:#Töltse ki az üres applet-paramétereket mielőtt új paramétert ad hozzá!
 assessment#:#true#:#"Igaz"
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került!
+###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak
 assessment#:#tst_anon_eval#:#Névtelen összesített eredménye
 assessment#:#tst_browse_for_questions#:#Böngészés válaszokért
@@ -326,6 +328,7 @@ assessment#:#tst_status_not_entered#:#Nincs elkezdve
 assessment#:#tst_status_progress#:#Folyamatban
 assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_types#:#Teszttípusok
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Az ön érdemjegye
 assessment#:#tt_assessment#:#Ellenőrző teszt
 assessment#:#tt_navigation_controlling#:#Hallgatók tesztnavigálásának felügyelete
@@ -531,6 +534,7 @@ common#:#at_location#:#helyileg
 common#:#attachment#:#Csatolás
 common#:#attachments#:#Csatolások
 common#:#attend#:#Résztvevő
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#author#:#Szerző
 common#:#authors#:#Szerzők
 common#:#available_languages#:#Alkalmazható nyelvek

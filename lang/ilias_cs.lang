@@ -291,6 +291,7 @@ assessment#:#reset_filter#:#Reset filter###16 Mar 2004 new variable
 assessment#:#result#:#Result###16 Mar 2004 new variable
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###16 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###16 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###16 Mar 2004 new variable
@@ -420,6 +421,7 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Test types###16 Mar 2004 new variable
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Your mark is###16 Mar 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###16 Mar 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###16 Mar 2004 new variable
@@ -666,6 +668,7 @@ common#:#auth_configure#:#configure...###24 Jul 2004 new variable
 common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
 common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable

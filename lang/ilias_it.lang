@@ -291,6 +291,7 @@ assessment#:#reset_filter#:#Annulla il filtro
 assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
@@ -311,7 +312,7 @@ assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
-assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!
+assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
@@ -419,7 +420,8 @@ assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo del test. Tutti i test precedentemente svolti sono stati eliminati!
 assessment#:#tst_type_comment#:#Attenzione: modificando il tipo di un test disponibile, verranno eliminati tutti i test svolti precedentemente!
 assessment#:#tst_types#:#Tipo di test
-assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
+assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"###19 Oct 2004 content changed
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
@@ -666,6 +668,7 @@ common#:#auth_configure#:#configura...
 common#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#Database ILIAS
 common#:#auth_local_desc#:#Autenticazione degli utenti tramite database locale (predefinito)
 common#:#auth_mode#:#Modalit&#224; di autenticazione

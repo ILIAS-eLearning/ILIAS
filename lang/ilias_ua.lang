@@ -291,6 +291,7 @@ assessment#:#reset_filter#:#Скинути фільтр
 assessment#:#result#:#Результат
 assessment#:#save_before_upload_imagemap#:#Ви маєте прийняти ваші зміни перед тим як завантажувати карту зображення!
 assessment#:#save_before_upload_javaapplet#:#Ви маєте прийняти ваші зміни перед тим як завантажувати ява аплет!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Зберігтри та закінчити тест
 assessment#:#save_introduction#:#Зберігти та перейти до передмови
 assessment#:#save_next#:#Зберігти та перейти до наступного питання
@@ -311,7 +312,7 @@ assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Будь ласка заповніть пусті параметри аплету перед додаванням нових параметрів!
 assessment#:#true#:#Правда
-assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
+assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Тест вже вибраний
 assessment#:#tst_anon_eval#:#Анонімно зібрані результати
 assessment#:#tst_browse_for_questions#:#Огляд для питань
@@ -420,6 +421,7 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
@@ -666,6 +668,7 @@ common#:#auth_configure#:#configure...###24 Jul 2004 new variable
 common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
 common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
