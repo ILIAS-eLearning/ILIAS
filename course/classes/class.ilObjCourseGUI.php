@@ -1115,6 +1115,14 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("crs_no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
 		}
+		// CHECK LAST ADMIN
+		if((int) $_POST['role_status'] != 4 or (int) $_POST['role_status'] != 5)
+		{
+			if(!$this->object->members_obj->checkLastAdmin(array((int) $_GET['member_id'])))
+			{
+				$this->ilias->raiseError($this->lng->txt("crs_at_least_one_admin"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
 		
 		// UPDATE MEMBER
 		switch((int) $_POST["role_status"])
@@ -1430,9 +1438,21 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		sendInfo($this->lng->txt("crs_delete_members_sure"));
 
+		$this->object->initCourseMemberObject();
+
+		// CHECK LAST ADMIN
+		if(!$this->object->members_obj->checkLastAdmin($_POST['member']))
+		{
+			sendInfo($this->lng->txt('crs_at_least_one_admin'));
+			$this->membersObject();
+
+			return false;
+		}
+
 		// SHOW DELETE SCREEN
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
-		$this->object->initCourseMemberObject();
+
+		
 
 		// SAVE IDS IN SESSION
 		$_SESSION["crs_delete_member_ids"] = $_POST["member"];

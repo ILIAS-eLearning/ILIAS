@@ -423,6 +423,19 @@ class ilCourseMembers
 		return $this->isAssigned($a_usr_id) && !$this->isBlocked($a_usr_id) ? true : false;
 	}
 
+
+	function checkLastAdmin($a_usr_ids)
+	{
+		foreach($this->getAdmins() as $admin_id)
+		{
+			if(!in_array($admin_id,$a_usr_ids))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// METHODS FOR NEW REGISTRATIONS
 	function getSubscribers()
 	{
