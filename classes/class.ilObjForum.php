@@ -146,17 +146,17 @@ class ilObjForum extends ilObject
 	* @param	integer	a_tree_id (optional)
 	* @access	public
 	*/
-	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
+	function delete()
 	{		
 		global $tree;
 		
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
 		if ($this->countReferences() == 1)
 		{
-			return parent::deleteObject($a_obj_id);
+			return parent::delete();
 		}
 		
-		$this->Forum->setWhereCondition("top_frm_fk = ".$a_obj_id);			
+		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
 		$topData = $this->Forum->getOneTopic();	
 		
 		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
@@ -176,14 +176,14 @@ class ilObjForum extends ilObject
 			$this->ilias->db->query($query);
 		}
 		// delete topic
-		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$a_obj_id."'";
+		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 		
 		// delete forum-object in tree
-		$query = "DELETE FROM tree WHERE tree = '".$a_obj_id."'";		
+		$query = "DELETE FROM tree WHERE tree = '".$this->getId()."'";		
 		$this->ilias->db->query($query);
 		
-		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);
+		return parent::delete();
 	}
 
 	/**
@@ -267,3 +267,5 @@ class ilObjForum extends ilObject
 	}
 } // END class.ForumObject
 ?>
+
+

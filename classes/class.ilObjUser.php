@@ -43,19 +43,19 @@ class ilObjUser extends ilObject
 	* delete user
 	* @access	public
 	*/
-	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
+	function delete()
 	{
 		global $rbacadmin;
 		
 		// delete user data
 		$user = new User();
-		$user->delete($a_obj_id);
+		$user->delete($this->getId());
 
 		// delete rbac data of user
-		$rbacadmin->removeUser($a_obj_id);
+		$rbacadmin->removeUser($this->getId());
 
 		// delete object_data entry
-		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1);
+		return parent::delete();
 	}
 
 

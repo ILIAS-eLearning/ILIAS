@@ -130,11 +130,13 @@ class ilObjectGUI
 
 		if ($this->call_by_reference)
 		{
-			$this->object =& new $obj_class($_GET["ref_id"], true);
+			//$this->object =& new $obj_class($_GET["ref_id"], true);
+			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		}
 		else
 		{
-			$this->object =& new $obj_class($_GET["obj_id"], false);
+			//$this->object =& new $obj_class($_GET["obj_id"], false);
+			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 		}
 	}
 
@@ -163,7 +165,6 @@ class ilObjectGUI
 		{
 			$i++;
 
-			// TODO: get rid of $_GET["cmd"]
 			if ($row[1] == $_GET["cmd"])
 			{
 				$tabtype = "tabactive";
@@ -831,7 +832,10 @@ class ilObjectGUI
 
 			foreach ($subtree_nodes as $node)
 			{
-				$this->object->deleteObject($node["obj_id"],$node["parent"]);
+				// Todo: I think it must be distinguished between obj and ref ids here somehow
+				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				$node_obj->delete();
+				//$this->object->delete($node["obj_id"],$node["parent"]);
 			}
 		}
 

@@ -26,12 +26,15 @@ class ilObjRoleFolder extends ilObject
 	}
 
 
-	function deleteObject($a_obj_id,$a_parent)
+	/**
+	* delete role folder
+	*/
+	function delete()
 	{
 		global $rbacadmin;
 
 
-		$roles = $rbacadmin->getRolesAssignedToFolder($a_obj_id);
+		$roles = $rbacadmin->getRolesAssignedToFolder($this->getId());
 
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
 		require_once("./classes/class.ilObjRole.php");
@@ -39,11 +42,12 @@ class ilObjRoleFolder extends ilObject
 		
 		foreach($roles as $role)
 		{
-			$obj->deleteObject($role,$a_obj_id);
+			$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role);
+			$role_obj->delete();
 		}
 
 		// DELETE ROLE FOLDER
-		parent::deleteObject($a_obj_id,$a_parent);
+		parent::delete();
 		return true;
 	}
 

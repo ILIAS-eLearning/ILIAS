@@ -26,27 +26,27 @@ class ilObjRole extends ilObject
 	}
 
 	/**
-	* delete a role object
+	* delete role object
 	* @access	public
 	*/
-	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
+	function delete()
 	{
 		global $tree, $rbacadmin;
 		
-		if($rbacadmin->isAssignable($a_obj_id,$a_parent))
+		if($rbacadmin->isAssignable($this->getId()))
 		{
 			// IT'S THE BASE ROLE
-			$rbacadmin->deleteRole($a_obj_id,$a_parent);
+			$rbacadmin->deleteRole($this->getId());
 			
 			//remove role entry in object_data
-			deleteObject($a_rol_id);
+			parent::delete();
 			
 			//TODO: delete references	
 		}
 		else
 		{
 			// INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-			$rbacadmin->deleteLocalRole($a_obj_id,$a_parent);
+			$rbacadmin->deleteLocalRole($this->getId());
 
 			//TODO: delete references	
 		}

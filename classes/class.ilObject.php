@@ -76,6 +76,12 @@ class ilObject
 
 
 	/**
+	* object_data record
+	*/
+	var $obj_data_record;
+
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -125,10 +131,14 @@ class ilObject
 	* read object data from db into object
 	* @access	public
 	*/
-	function read()
+	function read($a_force_db = false)
 	{
 		global $ilias;
 
+		if (isset($this->obj_data_record) && !$a_force_db)
+		{
+			$obj = $this->$obj_data_record;
+		}
 		if ($this->referenced)
 		{
 			$obj = getObjectByReference($this->ref_id);
@@ -178,6 +188,7 @@ class ilObject
 	function setRefId($a_id)
 	{
 		$this->ref_id = $a_id;
+		$this->referenced = true;
 	}
 
 
@@ -324,6 +335,20 @@ class ilObject
 	function getLastUpdateDate()
 	{
 		return $this->last_update;
+	}
+
+
+	/**
+	* set object_data record (note: this method should
+	* only be called from the ilObjectFactory class)
+	*
+	* @param	array	$a_record	assoc. array from table object_data
+	* @access	public
+	* @return	int		object id
+	*/
+	function setObjDataRecord($a_record)
+	{
+		$this->obj_data_record = $a_record;
 	}
 
 
@@ -485,7 +510,7 @@ class ilObject
 	* This method should be overwritten by all object types
 	* @access public
 	**/
-	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
+	function delete()
 	{
 		global $rbacadmin, $tree;
 
@@ -494,11 +519,12 @@ class ilObject
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
 		if ($this->countReferences() == 1)
 		{
-			deleteObject($a_obj_id);
+			deleteObject($this->getId());
 		}
 
 		// DELETE PERMISSION ENTRIES IN RBAC_PA
-		$rbacadmin->revokePermission($a_obj_id);
+		// todo: ref_id obj id!?
+		$rbacadmin->revokePermission($this->getId());
 
 		return true;
 	}
