@@ -1014,18 +1014,23 @@ class ASS_MatchingQuestion extends ASS_Question
 				"order" => "$counter",
 				"points" => 0,
 				"true" => 0,
-				"value1" => "",
-				"value2" => ""
+				"term" => "",
+				"definition" => ""
 			);
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value2[$key]))
+				if (($answer_value->getDefinitionId() == $found_value2[$key]) and ($answer_value->getTermId() == $value))
 				{
 					$points += $answer_value->getPoints();
 					$solution["points"] = $answer_value->getPoints();
-					$solution["value1"] = $answer_value->getTerm();
-					$solution["value2"] = $answer_value->getDefinition();
+					$solution["term"] = $value;
+					$solution["definition"] = $found_value2[$key];
 					$solution["true"] = 1;
+				}
+				else
+				{
+					$solution["term"] = $value;
+					$solution["definition"] = $found_value2[$key];
 				}
 			}
 			$counter++;
