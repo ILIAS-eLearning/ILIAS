@@ -34,7 +34,7 @@
 class ilInternalLinkGUI
 {
 	var $default_type;
-	var $default_obj;
+	var $default_obj; 
 	var $link_type;
 	var $link_target;
 	var $lng;

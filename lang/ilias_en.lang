@@ -140,6 +140,9 @@ assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#height#:#Height
 assessment#:#imagemap#:#Image map
+assessment#:#imagemap_source#:#Image map source
+assessment#:#upload_imagemap#:#Upload an Image map
+assessment#:#create_imagemap#:#Create an Image map
 assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
@@ -305,6 +308,8 @@ assessment#:#unlock_question#:#This question is in use of at least one test and 
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#width#:#Width
 assessment#:#working_time#:#Working Time
+assessment#:#internal_links#:#Internal Links
+assessment#:#internal_links_update#:#Update
 bibitem#:#bibitem_add#:#Add
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
