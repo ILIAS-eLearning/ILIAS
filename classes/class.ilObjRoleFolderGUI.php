@@ -116,8 +116,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $rbacreview, $rbacadmin;
 
+		$return_loc = $_GET["ref_id"];
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
 		{
@@ -148,7 +149,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				$obj->delete();
 				unset($obj);
 			}
+
+			$local_roles = $rbacreview->getRolesOfRoleFolder($this->object->getRefId());
 			
+			// remove rolefolder if empty
+			if (count($local_roles) == 0)
+			{
+				$return_loc = $this->tree->getParentId($this->object->getRefId());
+				$rbacadmin->revokePermission($this->object->getRefId());
+				$this->tree->deleteTree($this->tree->getNodeData($this->object->getRefId()));
+				$this->object->delete();
+			}
+		
 			// Compose correct feedback
 			if ($feedback["count"] > 1)
 			{
@@ -180,7 +192,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				}	
 			}
 			
-			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+			header("location: adm_object.php?ref_id=".$return_loc);
 			exit();
 		}
 	}
