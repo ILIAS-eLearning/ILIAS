@@ -510,8 +510,10 @@ class ilCtrl
 	{
 		$path = array();
 		$this->getPath($path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
+//var_dump($path);
 		for($i = count($path)-2; $i>=0; $i--)
 		{
+//echo "<br>:".$path[$i].":".$this->return[$path[$i]].":";
 			if ($this->return[$path[$i]] != "")
 			{
 				return $path[$i];

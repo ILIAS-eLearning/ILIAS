@@ -98,6 +98,11 @@ class ilLMEditorGUI
 			return;
 		}
 
+		if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
+		{
+			$this->ctrl->setReturn($this, "explorer");
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
 //echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":<br>";
 		$cmd = $this->ctrl->getCmd("frameset");
