@@ -657,21 +657,61 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-
-		parent::createObject();
-		return;
-
-		// TEMPORALIY DISABLED
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		//$meta_gui->setObject($this->object);
-
-		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
+		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getFormAction("save","adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$new_type."&cmd=save"));
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			$this->getTemplateFile("create", $new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+				$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_".$new_type));
+			$this->tpl->setVariable("TXT_LM_FILE", $this->lng->txt("file"));
+			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+			
+			// get the value for the maximal uploadable filesize from the php.ini (if available)
+			$umf=get_cfg_var("upload_max_filesize");
+			// get the value for the maximal post data from the php.ini (if available)
+			$pms=get_cfg_var("post_max_size");
+	
+			// use the smaller one as limit
+			$max_filesize=min($umf, $pms);
+			if (!$max_filesize) $max_filesize=max($umf, $pms);
+			
+			// gives out the limit as a littel notice :)
+			$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize.");
+
+		}		
 	}
 
 	/**
@@ -690,6 +730,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
+			// check title
+			if ($_POST["Fobject"]["title"] == "")
+			{
+				$this->ilias->raiseError($this->lng->txt("please_enter_title"), $this->ilias->error_obj->MESSAGE);
+				return;
+			}
+			
 			// create and insert object in objecttree
 			include_once("content/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
@@ -712,7 +759,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			unset($newObj);
 
 			// always send a message
-			sendInfo($this->lng->txt("lm_added"), true);
+			sendInfo($this->lng->txt($this->type."_added"), true);
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		}
 	}
@@ -1039,18 +1086,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function importObject()
 	{
-		$this->getTemplateFile("import", "lm");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
-		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
-		/*
-		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
-		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
-		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));*/
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-
+		$this->createObject();
+		return;
 	}
 
 
@@ -1060,7 +1097,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function uploadObject()
+	function importFileObject()
 	{
 		global $HTTP_POST_FILES, $rbacsystem, $ilDB;
 
@@ -1089,8 +1126,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once("content/classes/class.ilObjContentObject.php");
 		$newObj = new ilObjContentObject();
 		$newObj->setType($_GET["new_type"]);
-		$newObj->setTitle("dummy");
-		$newObj->setDescription("dummy");
+		$newObj->setTitle($_FILES["xmldoc"]["name"]);
+		$newObj->setDescription("");
 		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
@@ -1142,7 +1179,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//$this->ilias->db->query($q);
 		}
 
-		ilUtil::redirect("adm_object.php?".$this->link_params);
+		sendInfo($this->lng->txt($this->type."_added"),true);
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 
 	}
 

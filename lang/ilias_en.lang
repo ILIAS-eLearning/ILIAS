@@ -1330,6 +1330,7 @@ common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
+common#:#import_dbk#:#Import Digilib Book
 common#:#import_qpl#:#Import Questionpool Test
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
