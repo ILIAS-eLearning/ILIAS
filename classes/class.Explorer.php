@@ -121,7 +121,7 @@ class Explorer
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
-
+			
 			// Maybe call a lexical sort function for the child objects
 			foreach ($objects as $key => $object)
 			{
