@@ -2,11 +2,17 @@
 <table class="invisible">
 <tr>
 <td><label for="sel_qpl">{TXT_QPL_SELECT}</label>:</td>
-<td><select name="sel_qpl" id="sel_qpl">
+<td>
+<!-- BEGIN selection -->
+<select name="sel_qpl" id="sel_qpl">
 <!-- BEGIN option --> 
 <option value="{VALUE_OPTION}">{TEXT_OPTION}</option>
 <!-- END option -->
 </select>
+<!-- END selection -->
+<!-- BEGIN text_input -->
+<input type="text" id="sel_qpl" name="txt_qpl" value="{VALUE_QPL}" size="50" />
+<!-- END text_input -->
 </td>
 </tr>
 <tr><td colspan="2" height="15"></td></tr>

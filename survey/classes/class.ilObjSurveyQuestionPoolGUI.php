@@ -1372,7 +1372,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 								$id = $_POST["id"];
 							}
 							if ($question_title) {
-								$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/survey/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
+								if ($id > 0)
+								{
+									$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/survey/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
+								}
 							}
 							break;
 					}

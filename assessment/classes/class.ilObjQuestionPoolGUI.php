@@ -1237,7 +1237,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 							}
 							if ($question_title)
 							{
-								$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","target=\"bottom\"");
+								if ($id > 1)
+								{
+									$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","target=\"bottom\"");
+								}
 							}
 							break;
 					}

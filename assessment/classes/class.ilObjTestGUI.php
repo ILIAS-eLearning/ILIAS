@@ -33,6 +33,7 @@
 * @package assessment
 */
 
+require_once "./assessment/classes/class.ilObjQuestionPool.php";
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./classes/class.ilMetaDataGUI.php";
 require_once "./assessment/classes/class.assQuestionGUI.php";
@@ -675,18 +676,50 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Creates a new questionpool and returns the reference id
+	*
+	* Creates a new questionpool and returns the reference id
+	*
+	* @return integer Reference id of the newly created questionpool
+	* @access	public
+	*/
+	function createQuestionPool($name = "dummy")
+	{
+		global $tree;
+		$parent_ref = $tree->getParentId($this->object->getRefId());
+		$qpl = new ilObjQuestionPool();
+		$qpl->setType("qpl");
+		$qpl->setTitle($name);
+		$qpl->setDescription("");
+		$qpl->create();
+		$qpl->createReference();
+		$qpl->putInTree($parent_ref);
+		$qpl->setPermissions($parent_ref);
+		return $qpl->getRefId();
+	}
+
 	function questionpoolSelect()
 	{
 		global $ilUser;
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
 		$questionpools =& $this->object->getAvailableQuestionpools();
-		foreach ($questionpools as $key => $value)
+		if (count($questionpools) == 0)
 		{
 			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_OPTION", $key);
-			$this->tpl->setVariable("TEXT_OPTION", $value);
+			$this->tpl->setVariable("VALUE_QPL", "");
 			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("option");
+				$this->tpl->setVariable("VALUE_OPTION", $key);
+				$this->tpl->setVariable("TEXT_OPTION", $value);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		$this->tpl->setCurrentBlock("hidden");
 		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
@@ -695,7 +728,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 
-		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		if (count($questionpools) == 0)
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		}
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
@@ -877,10 +917,25 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["create_question_execute"])
 		{
-			$_SESSION["test_id"] = $this->object->getRefId();
-//			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
-			exit();
+			$qpl_ref_id = $_POST["sel_qpl"];
+			if ((strcmp($_POST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
+			{
+				sendInfo($this->lng->txt("questionpool_not_entered"));
+				$this->questionpoolSelect();
+				return;
+			}
+			else
+			{
+				$_SESSION["test_id"] = $this->object->getRefId();
+				if (strcmp($_POST["txt_qpl"], "") != 0)
+				{
+					// create a new question pool and return the reference id
+					$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
+				}
+	//			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+				header("Location:questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
+				exit();
+			}
 		}
 
 		if ($_GET["add"])
