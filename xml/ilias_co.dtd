@@ -82,12 +82,10 @@
 >
 <!-- MapAreas should be only defined for image objects with purpose
 	Standard or Fullscreen -->
-<!ELEMENT MapArea EMPTY>
+<!ELEMENT MapArea (ExtLink | IntLink)>
 <!ATTLIST MapArea
 	Shape (Rect | Circle | Poly) #REQUIRED
 	Coords CDATA #IMPLIED
-	Href CDATA #IMPLIED
-	Alt CDATA #REQUIRED
 >
 
 <!-- Metadata -->
