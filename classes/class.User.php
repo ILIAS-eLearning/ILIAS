@@ -54,8 +54,8 @@ class User
 
 		if (!empty($a_user_id))
 		{
-		    $this->Id = $a_user_id;
-		    $this->getUserdata();
+			$this->Id = $a_user_id;
+			$this->getUserdata();
 		}
 		else
 		{
@@ -98,14 +98,14 @@ class User
 
 			$this->data = array(
 				"Id"		 => $this->Id,
-				"login"      => $data["login"],
-				"passwd"     => $data["passwd"],
+				"login"	  => $data["login"],
+				"passwd"	 => $data["passwd"],
 				"Gender"	 => $data["gender"],
-				"Title"      => $data["title"],
+				"Title"	  => $data["title"],
 				"FirstName"  => $data["firstname"],
-				"SurName"    => $data["surname"],
-				"Email"      => $data["email"],
-				"Role"       => $data["rol_id"],
+				"SurName"	=> $data["surname"],
+				"Email"	  => $data["email"],
+				"Role"	   => $data["rol_id"],
 				"LastLogin"  => $data["last_login"],
 				"CreateDate"  => $data["create_date"]
 			);
@@ -211,11 +211,11 @@ class User
 		$this->Id = $this->data["Id"];
 
 		$query = "UPDATE usr_data SET
-				 gender='".$this->data[Gender]."',
-				 title='".$this->data[Title]."',
-				 firstname='".$this->data[FirstName]."',
-				 surname='".$this->data[SurName]."',
-				 email='".$this->data[Email]."'
+				 gender='".$this->data["Gender"]."',
+				 title='".$this->data["Title"]."',
+				 firstname='".$this->data["FirstName"]."',
+				 surname='".$this->data["SurName"]."',
+				 email='".$this->data["Email"]."'
 				 WHERE usr_id='".$this->Id."'";
 		$this->ilias->db->query($query);
 		
@@ -240,7 +240,6 @@ class User
 		$this->ilias->db->query($q);	
 		
 	}
-	
 	
 	/**
 	* updates password
@@ -388,13 +387,13 @@ class User
 		}
 		
 		// delete user_account
-		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='$id'");
+		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='".$id."'");
 		
 		// delete user-role relation
-		$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='$id' AND rol_id='$rol_id'");
+		$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='".$id."' AND rol_id='".$rol_id."'");
 		
 		// delete obj_data entry
-		$this->ilias->db->query("DELETE FROM object_data WHERE obj_id='$id'");
+		$this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$id."'");
 	}
 	
 	/**
