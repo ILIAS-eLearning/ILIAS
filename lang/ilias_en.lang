@@ -3186,3 +3186,13 @@ assessment#:#shape#:#Shape
 assessment#:#Coordinates#:#Coordinates
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_taxf_desc#:#Folder for taxonomies
+common#:#taxf_edit_permission#:#Change permission settings
+common#:#taxf_visible#:#Taxonomy folder is visible
+common#:#taxf_read#:#Read access to taxonomy folder
+common#:#taxf_write#:#Write access to taxonomy folder
+common#:#tax_edit_permission#:#Change permission settings
+common#:#tax_visible#:#Taxonomy is visible
+common#:#tax_read#:#Read access to taxonomies
+common#:#tax_write#:#Write access to taxonomies
+common#:#tax_delete#:#Delete taxonomies
+common#:#obj_tax#:#Taxonomy
