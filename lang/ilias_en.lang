@@ -104,6 +104,7 @@ assessment#:#answer_text#:#Answer text
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#New parameter
 assessment#:#applet_parameter#:#Parameter
+assessment#:#tst_no_tries#:#none
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
