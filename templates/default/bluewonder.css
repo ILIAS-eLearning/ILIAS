@@ -105,8 +105,9 @@ a.tblheader:visited, a.tblheader:hover {
 		color:#ffffff;
 }
 
-input {
+input, textarea {
 	background-color:#eeeeff;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
 }
 
 select {

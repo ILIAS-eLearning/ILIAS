@@ -13,6 +13,9 @@ td {
         background-color:#006699;
 }
 
+input, textarea {
+        font-family:Verdana,Arial,Helvetica,sans-serif;
+}
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
