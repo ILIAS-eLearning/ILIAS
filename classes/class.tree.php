@@ -401,8 +401,10 @@ class Tree
 	*/
 	function getPathFull ($a_endnode, $a_endparent, $a_startnode = 0 , $a_startparent = 0)
 	{
+		$this->Path = "";
+	
 		$res = $this->fetchPath($a_endnode ,$a_endparent, $a_startnode, $a_startparent);
-		
+				
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->Path[] = array(
