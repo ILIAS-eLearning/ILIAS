@@ -103,8 +103,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->content_obj->create();
 
 		// determine and create mob directory, move uploaded file to directory
-		$mob_dir = $this->ilias->ini->readVariable("server","webspace_dir").
-			"/mobs/mm_".$this->content_obj->getId();
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+//		$mob_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$this->content_obj->getId();
 		ilUtil::createDirectory($mob_dir);
 
 		$media_item =& new ilMediaItem();

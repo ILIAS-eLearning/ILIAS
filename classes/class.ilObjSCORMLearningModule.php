@@ -59,7 +59,7 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function createDataDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+		$lm_data_dir = ilUtil::getWebspaceDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
 			$this->ilias->raiseError("LM Data Directory (".$lm_data_dir
@@ -79,7 +79,7 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function getDataDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+		$lm_data_dir = ilUtil::getWebspaceDir()."/lm_data";
 
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
 		if(@is_dir($lm_dir))
