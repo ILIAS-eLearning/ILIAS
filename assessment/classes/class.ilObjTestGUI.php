@@ -98,7 +98,8 @@ class ilObjTestGUI extends ilObjectGUI
 		exit();
 	}
 
-	function updateObject() {
+	function updateObject()
+	{
 		$this->update = $this->object->update();
 		$this->object->saveToDb();
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
@@ -112,7 +113,9 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
-		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
+
+		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
+		{
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			//$data["title"] = ilUtil::stripSlashes($_POST["title"]);
@@ -123,9 +126,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
 			$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 			$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
-			if (!$_POST["chb_starting_time"]) {
+			if (!$_POST["chb_starting_time"])
+			{
 				$data["starting_time"] = "";
-			} else {
+			}
+			else
+			{
 				$data["starting_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
 					$_POST["starting_date"]["y"],
 					$_POST["starting_date"]["m"],
@@ -135,9 +141,12 @@ class ilObjTestGUI extends ilObjectGUI
 					0
 				);
 			}
-			if (!$_POST["chb_ending_time"]) {
+			if (!$_POST["chb_ending_time"])
+			{
 				$data["ending_time"] = "";
-			} else {
+			}
+			else
+			{
 				$data["ending_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
 					$_POST["ending_date"]["y"],
 					$_POST["ending_date"]["m"],
@@ -147,18 +156,26 @@ class ilObjTestGUI extends ilObjectGUI
 					0
 				);
 			}
-			if ($_POST["chb_processing_time"]) {
+
+			if ($_POST["chb_processing_time"])
+			{
 				$data["enable_processing_time"] = "1";
-			} else {
+			}
+			else
+			{
 				$data["enable_processing_time"] = "0";
 			}
-			if ($data["enable_processing_time"]) {
+
+			if ($data["enable_processing_time"])
+			{
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$_POST["processing_time"]["h"],
 					$_POST["processing_time"]["m"],
 					$_POST["processing_time"]["s"]
 				);
-			} else {
+			}
+			else
+			{
 				$proc_time = $this->object->getEstimatedWorkingTime();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$proc_time["h"],
@@ -166,9 +183,13 @@ class ilObjTestGUI extends ilObjectGUI
 					$proc_time["s"]
 				);
 			}
-			if (!$_POST["chb_reporting_date"]) {
+
+			if (!$_POST["chb_reporting_date"])
+			{
 				$data["reporting_date"] = "";
-			} else {
+			}
+			else
+			{
 				$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
 					$_POST["reporting_date"]["y"],
 					$_POST["reporting_date"]["m"],
@@ -178,7 +199,10 @@ class ilObjTestGUI extends ilObjectGUI
 					0
 				);
 			}
-		} else {
+
+		}
+		else
+		{
 			$data["sel_test_types"] = $this->object->getTestType();
 			$data["author"] = $this->object->getAuthor();
 			$data["introduction"] = $this->object->getIntroduction();
@@ -188,7 +212,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["nr_of_tries"] = $this->object->getNrOfTries();
 			$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 			$data["processing_time"] = $this->object->getProcessingTime();
-			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0) {
+			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
+			{
 				$proc_time = $this->object->getEstimatedWorkingTime();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$proc_time["h"],
@@ -215,37 +240,45 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$add_parameter = $this->getAddParameter();
-		if ($_POST["cmd"]["save"]) {
+		if ($_POST["cmd"]["save"])
+		{
 			$this->updateObject();
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
 			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
-		if ($_POST["cmd"]["apply"]) {
+		if ($_POST["cmd"]["apply"])
+		{
 			$this->updateObject();
 			sendInfo($this->lng->txt("msg_obj_modified"));
 		}
-		if ($_POST["cmd"]["cancel"]) {
+		if ($_POST["cmd"]["cancel"])
+		{
 			sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
 			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT) {
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT)
+		{
 			$this->tpl->setCurrentBlock("starting_time");
 			$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
-			if (!$data["starting_time"]) {
+			if (!$data["starting_time"])
+			{
 				$date_input = ilUtil::makeDateSelect("starting_date");
 				$time_input = ilUtil::makeTimeSelect("starting_time");
-			} else {
+			}
+			else
+			{
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["starting_time"], $matches);
 				$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 				$time_input = ilUtil::makeTimeSelect("starting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
 			}
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["starting_time"]) {
+			if ($data["starting_time"])
+			{
 				$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
@@ -253,16 +286,20 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$this->tpl->setCurrentBlock("ending_time");
 			$this->tpl->setVariable("TEXT_ENDING_TIME", $this->lng->txt("tst_ending_time"));
-			if (!$data["ending_time"]) {
+			if (!$data["ending_time"])
+			{
 				$date_input = ilUtil::makeDateSelect("ending_date");
 				$time_input = ilUtil::makeTimeSelect("ending_time");
-			} else {
+			}
+			else
+			{
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["ending_time"], $matches);
 				$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 				$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
 			}
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["ending_time"]) {
+			if ($data["ending_time"])
+			{
 				$this->tpl->setVariable("CHECKED_ENDING_TIME", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_ENDING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
@@ -270,7 +307,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$this->tpl->setCurrentBlock("reporting_date");
 			$this->tpl->setVariable("TEXT_SCORE_DATE", $this->lng->txt("tst_score_reporting_date"));
-			if (!$data["reporting_date"]) {
+			if (!$data["reporting_date"])
+			{
 				$date_input = ilUtil::makeDateSelect("reporting_date");
 				$time_input = ilUtil::makeTimeSelect("reporting_time");
 			} else {
@@ -355,7 +393,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function questionBrowser() {
+	function questionBrowser()
+	{
 		global $rbacsystem;
 
 		$add_parameter = $this->getAddParameter() . "&insert_question=1";
@@ -384,14 +423,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("filter_questions");
 		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
 		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-		if (!$_POST["cmd"]["reset"]) {
+		if (!$_POST["cmd"]["reset"])
+		{
 			$this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
 		}
 		$this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
 		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
 		$this->tpl->parseCurrentBlock();
 
-	// create edit buttons & table footer
+		// create edit buttons & table footer
 		$this->tpl->setCurrentBlock("selection");
 		$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
 		$this->tpl->parseCurrentBlock();
@@ -410,7 +450,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_GET["prevrow"])
 		{
 			$startrow = $_GET["prevrow"];
-		}		
+		}
 		if ($_GET["nextrow"])
 		{
 			$startrow = $_GET["nextrow"];
@@ -427,8 +467,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$existing_questions =& $this->object->getExistingQuestions();
 		foreach ($table["rows"] as $data)
 		{
-			if (($rbacsystem->checkAccess("read", $data["ref_id"])) and (!in_array($data["question_id"], $existing_questions))) {
-				if ($data["complete"]) {
+			if (($rbacsystem->checkAccess("read", $data["ref_id"])) and (!in_array($data["question_id"], $existing_questions)))
+			{
+				if ($data["complete"])
+				{
 					// make only complete questions selectable
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				}
@@ -494,12 +536,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		// create table header
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-    $this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->parseCurrentBlock();
@@ -554,7 +596,8 @@ class ilObjTestGUI extends ilObjectGUI
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_insert_questions.html", true);
 		$where = "";
-		foreach ($checked_questions as $id) {
+		foreach ($checked_questions as $id)
+		{
 			$where .= sprintf(" OR qpl_questions.question_id = %s", $this->ilias->db->quote($id));
 		}
 		$where = preg_replace("/^ OR /", "", $where);
@@ -702,14 +745,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function questionsObject() {
+	function questionsObject()
+	{
 		global $rbacsystem;
 		$add_parameter = $this->getAddParameter();
 
-		if ($_GET["up"] > 0) {
+		if ($_GET["up"] > 0)
+		{
 			$this->object->questionMoveUp($_GET["up"]);
 		}
-		if ($_GET["down"] > 0) {
+		if ($_GET["down"] > 0)
+		{
 			$this->object->questionMoveDown($_GET["down"]);
 		}
 		if ($_POST["cmd"]["create_question"])
@@ -772,14 +818,20 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["random_select_yes"])
 		{
 			$selected_array = split(",", $_POST["chosen_questions"]);
-			if (!count($selected_array)) {
+			if (!count($selected_array))
+			{
 				sendInfo($this->lng->txt("tst_insert_missing_question"));
-			} else {
+			}
+			else
+			{
 				$total = $this->object->evalTotalPersons();
-				if ($total) {
+				if ($total)
+				{
 					// the test was executed previously
 					sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-				} else {
+				}
+				else
+				{
 					sendInfo($this->lng->txt("tst_insert_questions"));
 				}
 				$this->insertQuestions($selected_array);
@@ -799,44 +851,59 @@ class ilObjTestGUI extends ilObjectGUI
 			$selected_array = array();
 			array_push($selected_array, $_GET["add"]);
 			$total = $this->object->evalTotalPersons();
-			if ($total) {
+			if ($total)
+			{
 				// the test was executed previously
 				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-			} else {
+			}
+			else
+			{
 				sendInfo($this->lng->txt("tst_insert_questions"));
 			}
 			$this->insertQuestions($selected_array);
 			return;
 		}
 
-		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
+		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"]))
+		{
 			$show_questionbrowser = true;
-			if ($_POST["cmd"]["insert"]) {
+			if ($_POST["cmd"]["insert"])
+			{
 				// insert selected questions into test
 				$selected_array = array();
-				foreach ($_POST as $key => $value) {
-					if (preg_match("/cb_(\d+)/", $key, $matches)) {
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/cb_(\d+)/", $key, $matches))
+					{
 						array_push($selected_array, $matches[1]);
 					}
 				}
-				if (!count($selected_array)) {
+				if (!count($selected_array))
+				{
 					sendInfo($this->lng->txt("tst_insert_missing_question"));
-				} else {
+				}
+				else
+				{
 					$total = $this->object->evalTotalPersons();
-					if ($total) {
+					if ($total)
+					{
 						// the test was executed previously
 						sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-					} else {
+					}
+					else
+					{
 						sendInfo($this->lng->txt("tst_insert_questions"));
 					}
 					$this->insertQuestions($selected_array);
 					return;
 				}
 			}
-			if ($_POST["cmd"]["back"]) {
+			if ($_POST["cmd"]["back"])
+			{
 				$show_questionbrowser = false;
 			}
-			if ($show_questionbrowser) {
+			if ($show_questionbrowser)
+			{
 				$this->questionBrowser();
 				return;
 			}
@@ -1197,7 +1264,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function runObject() {
+	function runObject()
+	{
 		global $ilUser;
 
 		$add_parameter = $this->getAddParameter();
@@ -1209,9 +1277,11 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"])) {
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"]))
+		{
 			// set new finish time for test
-			if ($_SESSION["active_time_id"]) {
+			if ($_SESSION["active_time_id"])
+			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
 			}
 			if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
@@ -1219,7 +1289,7 @@ class ilObjTestGUI extends ilObjectGUI
 				// maximum processing time reached
 				$maxprocessingtimereached = 1;
 			}
-			
+
 			// save question solution
 			if (!($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT)) and (!$maxprocessingtimereached))
 			{
@@ -1229,16 +1299,20 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"]) {
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
+		{
 			// create new time dataset and set start time
 			$active_time_id = $this->object->startWorkingTime($ilUser->id);
 			$_SESSION["active_time_id"] = $active_time_id;
 		}
 
 		$this->sequence = $_GET["sequence"];
-		if ($_POST["cmd"]["next"]) {
+		if ($_POST["cmd"]["next"])
+		{
 			$this->sequence++;
-		} elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0)) {
+		}
+		elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0))
+		{
 			$this->sequence--;
 		}
 		$this->setLocator();
@@ -1248,17 +1322,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if ($_GET["evaluation"]) {
+		if ($_GET["evaluation"])
+		{
 			$this->outEvaluationForm();
 			return;
 		}
 
-		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"])) {
+		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"]))
+		{
 			$this->outTestResults();
 			return;
 		}
 
-		if (!$this->sequence) {
+		if (!$this->sequence)
+		{
 			// show introduction page
 			$active = $this->object->getActiveTestUser();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
@@ -1270,9 +1347,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
-			if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE) {
+			if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)
+			{
 				$seq_setting = "tst_sequence_fixed";
-			} else {
+			}
+			else
+			{
 				$seq_setting = "tst_sequence_postpone";
 			}
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
@@ -1322,7 +1402,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
 					$this->tpl->parseCurrentBlock();
 				}
-			} else {
+			}
+			else
+			{
 				if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or (!$this->object->getTestType == TYPE_ASSESSMENT))
 				{
 					$this->tpl->setCurrentBlock("start");
@@ -1346,8 +1428,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+
 			$this->tpl->setCurrentBlock("adm_content");
-			if ($test_disabled) {
+			if ($test_disabled)
+			{
 				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
 			}
 			$introduction = $this->object->getIntroduction();
@@ -1355,7 +1439,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
-		} else {
+		}
+		else
+		{
 			if ($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT))
 			{
 				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
@@ -1371,20 +1457,28 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 			}
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
-			if ($this->sequence <= $this->object->getQuestionCount()) {
+			if ($this->sequence <= $this->object->getQuestionCount())
+			{
 				// show next/previous question
 				$postpone = "";
-				if ($_POST["cmd"]["postpone"]) {
+				if ($_POST["cmd"]["postpone"])
+				{
 					$postpone = $this->sequence;
 				}
 				$this->object->setActiveTestUser($this->sequence, $postpone);
-				if ($this->sequence == $this->object->getQuestionCount()) {
+				if ($this->sequence == $this->object->getQuestionCount())
+				{
 					$finish = true;
-				} else {
+				}
+				else
+				{
 					$finish = false;
 				}
+
 				$postpone = false;
-				if ($this->object->getSequenceSettings() == TEST_POSTPONE) {
+
+				if ($this->object->getSequenceSettings() == TEST_POSTPONE)
+				{
 					$postpone = true;
 				}
 				$active = $this->object->getActiveTestUser();
@@ -1394,8 +1488,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 				$this->tpl->parseCurrentBlock();
+
 				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
-			} else {
+
+			}
+			else
+			{
 				// finish test
 				$this->object->setActiveTestUser(1, "", true);
 				$this->outTestResults();
@@ -1403,53 +1501,75 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-/**
-* Creates the learners output of a question
-*
-* Creates the learners output of a question
-*
-* @access public
-*/
-	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed) {
+	/**
+	* Creates the learners output of a question
+	*
+	* Creates the learners output of a question
+	*
+	* @access public
+	*/
+	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed)
+	{
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
-		if ($active) {
-			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and !($active->postponed == $question_gui->object->getId())) {
+		if ($active)
+		{
+			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and !($active->postponed == $question_gui->object->getId()))
+			{
 				$is_postponed = false;
-			} else {
+			}
+			else
+			{
 				$is_postponed = true;
 			}
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
+
+		// output question
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
 				$question_gui->outWorkingForm($test_id, $is_postponed, $formaction);
 				break;
+
 			default:
 				$question_gui->outWorkingForm($test_id, $is_postponed);
+				break;
 		}
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $formaction);
-		if ($sequence == 1) {
+
+		if ($sequence == 1)
+		{
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
-		} else {
+		}
+		else
+		{
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
 		}
-		if ($finish) {
+
+		if ($finish)
+		{
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-		} else {
+		}
+		else
+		{
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
 		}
-		if ($postpone_allowed) {
-			if (!$is_postponed) {
+
+		if ($postpone_allowed)
+		{
+			if (!$is_postponed)
+			{
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 			}
 		}
+
 		$this->tpl->parseCurrentBlock();
 	}
 

@@ -419,5 +419,21 @@ class ASS_QuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 	}
 
+	/**
+	* output question page
+	*/
+	function outQuestionPage($a_temp_var)
+	{
+		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$this->lng->loadLanguageModule("content");
+		$page =& new ilPageObject("qpl", $this->object->getId());
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setQuestionXML($this->object->to_xml(false, false));
+		$page_gui->setTemplateTargetVar($a_temp_var);
+		$page_gui->setOutputMode("presentation");
+		//$page_gui->setHeader($this->object->getTitle());
+		$page_gui->setPresentationTitle($this->object->getTitle());
+		return $page_gui->presentation();
+	}
 }
 ?>

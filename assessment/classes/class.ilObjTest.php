@@ -1298,19 +1298,19 @@ class ilObjTest extends ilObject
 		$this->loadQuestions();
 	}
 	
-/**
-* Takes a question and creates a copy of the question for use in the test
-*
-* Takes a question and creates a copy of the question for use in the test
-*
-* @param integer $question_id The database id of the question
-* @result integer The database id of the copied question
-* @access public
-*/
+	/**
+	* Takes a question and creates a copy of the question for use in the test
+	*
+	* Takes a question and creates a copy of the question for use in the test
+	*
+	* @param integer $question_id The database id of the question
+	* @result integer The database id of the copied question
+	* @access public
+	*/
 	function duplicateQuestionForTest($question_id)
 	{
 		global $ilUser;
-		
+
 		$questiontype = $this->getQuestionType($question_id);
 		switch ($questiontype)
 		{
@@ -1336,42 +1336,50 @@ class ilObjTest extends ilObject
 		}
 		$question->loadFromDb($question_id);
 		$duplicate_id = $question->duplicate(true);
+
 		return $duplicate_id;
 	}
-	
-	function insertQuestion($question_id) 
+
+	function insertQuestion($question_id)
 	{
+
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
-    // get maximum sequence index in test
-    $query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
-      $this->ilias->db->quote($this->getTestId())
-    );
-    $result = $this->ilias->db->query($query);
-    $sequence = 1;
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $sequence = $data->seq + 1;
-    }
-    $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->quote($this->getTestId()),
-      $this->ilias->db->quote($duplicate_id),
-      $this->ilias->db->quote($sequence)
-    );
-    $result = $this->ilias->db->query($query);
-    if ($result != DB_OK) {
-      // Error
-    }
+
+		// get maximum sequence index in test
+		$query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
+			$this->ilias->db->quote($this->getTestId())
+			);
+		$result = $this->ilias->db->query($query);
+		$sequence = 1;
+
+		if ($result->numRows() == 1)
+		{
+			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$sequence = $data->seq + 1;
+		}
+
+		$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getTestId()),
+			$this->ilias->db->quote($duplicate_id),
+			$this->ilias->db->quote($sequence)
+			);
+
+		$result = $this->ilias->db->query($query);
+		if ($result != DB_OK)
+		{
+			// Error
+		}
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
-		);
+			);
 		$result = $this->ilias->db->query($query);
 		$this->loadQuestions();
 	}
-	
+
 /**
 * Returns the title of a question with a given sequence number
-* 
+*
 * Returns the title of a question with a given sequence number
 *
 * @param integer $sequence The sequence number of the question
