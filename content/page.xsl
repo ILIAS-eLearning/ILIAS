@@ -517,23 +517,36 @@
 <xsl:template match="Table">
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$mode = 'edit'">
-		<!--<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
-			</xsl:attribute>
-		</input> -->
 		<br/>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
+	<xsl:choose>
+		<xsl:when test="@HorizontalAlign = 'Left'">
+			<div align="left"><xsl:call-template name="TableTag" /></div>
+		</xsl:when>
+		<xsl:when test="@HorizontalAlign = 'Right'">
+			<div align="right"><xsl:call-template name="TableTag" /></div>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:call-template name="TableTag" />
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
+
+<!-- Table Tag -->
+<xsl:template name="TableTag">
 	<table>
 	<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
 	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
-	<!--<xsl:for-each select="HeaderCaption">
-		<caption align="top">
-		<xsl:value-of select="."/>
-		</caption>
-	</xsl:for-each>-->
+	<xsl:attribute name="align">
+		<xsl:choose>
+			<xsl:when test="@HorizontalAlign = 'RightFloat'">right</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'LeftFloat'">left</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'Center'">center</xsl:when>
+		</xsl:choose>
+	</xsl:attribute>
 	<xsl:for-each select="Caption">
 		<caption>
 		<xsl:attribute name="align"><xsl:value-of select="@Align"/></xsl:attribute>
@@ -613,6 +626,11 @@
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
+		<option value="leftAlign">align: left</option>
+		<option value="rightAlign">align: right</option>
+		<option value="centerAlign">align: center</option>
+		<option value="leftFloatAlign">align: left float</option>
+		<option value="rightFloatAlign">align: right float</option>
 		<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
@@ -621,7 +639,6 @@
 		<br/>
 	</xsl:if>
 </xsl:template>
-
 
 <!-- Lists -->
 <xsl:template match="List">

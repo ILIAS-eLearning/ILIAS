@@ -214,6 +214,22 @@ class ilPCTable extends ilPageContent
 	}
 
 	/**
+	* set horizontal align
+	*/
+	function setHorizontalAlign($a_halign)
+	{
+		$this->tab_node->set_attribute("HorizontalAlign", $a_halign);
+	}
+
+	/**
+	* get table cell padding
+	*/
+	function getHorizontalAlign()
+	{
+		return $this->tab_node->get_attribute("HorizontalAlign");
+	}
+
+	/**
 	* set width of table data cell
 	*/
 	function setTDWidth($a_hier_id, $a_width)
