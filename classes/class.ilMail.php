@@ -942,7 +942,8 @@ class ilMail
 		$mmail->From($sender);
 		$mmail->To($a_rcp_to);
 		// Add installation name to subject
-		$a_m_subject = "[".$this->ilias->getSetting("inst_name")."] ".$a_m_subject;
+		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
+		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
 		$mmail->Subject($a_m_subject);
 		$mmail->Body($a_m_message);
 
@@ -1023,7 +1024,17 @@ class ilMail
 		// WHITESPACE IS NOT ALLOWED AS SEPERATOR
 		#$a_recipients = preg_replace("/ /",",",$a_recipients);
 		$a_recipients = preg_replace("/;/",",",$a_recipients);
-		return explode(',',$a_recipients);
+		$rcps = explode(',',$a_recipients);
+
+		if(is_array($rcps))
+		{
+			for($i = 0; $i < count($rcps); ++ $i)
+			{
+				$rcps[$i] = trim($rcps[$i]);
+			}
+		}
+		return is_array($rcps) ? $rcps : array();
+		
 	}
 } // END class.ilMail
 ?>
