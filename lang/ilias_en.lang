@@ -91,8 +91,8 @@ assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
-assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
+assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_question_title#:#Title
@@ -1291,6 +1291,7 @@ content#:#cont_edition#:#Edition
 content#:#cont_external#:#external
 content#:#cont_file#:#File
 content#:#cont_files#:#Files
+content#:#cont_format#:#Format
 content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_get_link#:#get link
@@ -1377,17 +1378,15 @@ content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
+content#:#cont_remove_fullscreen#:#Remove Fullscreen
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
-content#:#cont_update_names#:#Update Names
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
-content#:#cont_format#:#Format
-content#:#cont_remove_fullscreen#:#Remove Fullscreen
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
@@ -1428,6 +1427,7 @@ content#:#cont_top#:#Top
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_update#:#Update
+content#:#cont_update_names#:#Update Names
 content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
 content#:#cont_version#:#version

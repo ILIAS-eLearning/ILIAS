@@ -51,6 +51,8 @@ assessment#:#filter#:#Фільтр
 assessment#:#gap_selection#:#Вибір проміжку
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
+assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
+assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#співпадання
 assessment#:#matching_pair#:#Співпадаючі пари
 assessment#:#no_questions_available#:#Немає доступних питань!
@@ -70,14 +72,17 @@ assessment#:#qt_multiple_choice_mr#:#Питання з множинним виб
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
 assessment#:#question_type#:#Тип Питання
+assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Сбросити фільтр
 assessment#:#select_gap#:#Вибрати проміжок
 assessment#:#set_filter#:#Встановити фільтр
 assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#true#:#Правда
+assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
@@ -86,8 +91,12 @@ assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
 assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
 assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
+assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
+assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
+assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
@@ -1282,6 +1291,7 @@ content#:#cont_edition#:#Випуск
 content#:#cont_external#:#зовнішній
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли
+content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
 content#:#cont_fullscreen#:#Повний екран
 content#:#cont_get_link#:#отримати посилання
@@ -1368,6 +1378,7 @@ content#:#cont_publisher#:#Видавник
 content#:#cont_purpose#:#Призначення
 content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Посилання
+content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
 content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
@@ -1390,6 +1401,7 @@ content#:#cont_series_title#:#Назва серій
 content#:#cont_series_volume#:#Гучність серій
 content#:#cont_set_class#:#Встановити Класс
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
+content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_width#:#Встановити Ширину
 content#:#cont_shape#:#Форма
 content#:#cont_show#:#Показати
@@ -1415,6 +1427,7 @@ content#:#cont_top#:#Вершина
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
 content#:#cont_update#:#Обновити
+content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Завантажити Файл
 content#:#cont_url#:#URL
 content#:#cont_version#:#версія

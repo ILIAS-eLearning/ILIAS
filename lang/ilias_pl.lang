@@ -51,6 +51,8 @@ assessment#:#filter#:#Filtr
 assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
+assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
+assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#zgodne
 assessment#:#matching_pair#:#Pasujące pary
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
@@ -70,14 +72,17 @@ assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowie
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie porządkowe
 assessment#:#question_type#:#Typ pytania
+assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#true#:#Prawda
+assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#Cechy ogólne
+assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Wstęp
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
@@ -86,8 +91,12 @@ assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
 assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
 assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
+assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
+assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
 assessment#:#tst_processing_time#:#Maks. czas wykonania
+assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
+assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
 assessment#:#tst_score_reporting#:#Raport punktacji
@@ -1282,6 +1291,7 @@ content#:#cont_edition#:#Edycja
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
+content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
 content#:#cont_get_link#:#podaj łącznik
@@ -1368,6 +1378,7 @@ content#:#cont_publisher#:#Wydawca
 content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/myimage.jpg)
 content#:#cont_reference#:#Referencja
+content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
 content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
@@ -1390,6 +1401,7 @@ content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
+content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
@@ -1415,6 +1427,7 @@ content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
 content#:#cont_update#:#Uaktualnij
+content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja
