@@ -110,6 +110,7 @@ assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
+assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.
 assessment#:#exp_eval_data#:#Export Evaluation Data
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -122,6 +123,12 @@ assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all req
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
+assessment#:#javaapplet#:#Java Applet
+assessment#:#code#:#Code
+assessment#:#width#:#Width
+assessment#:#height#:#Height
+assessment#:#applet_parameters#:#Applet parameters
+assessment#:#applet_attributes#:#Applet attributes
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#imagemap#:#Image map
@@ -162,6 +169,7 @@ assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qt_cloze#:#Cloze Question
+assessment#:#qt_javaapplet#:#Java Applet Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
@@ -169,6 +177,8 @@ assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 assessment#:#question_short#:#Q
+assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
+assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!
 assessment#:#question_type#:#Question Type
 assessment#:#random_selection#:#Random selection
 assessment#:#region#:#Region

@@ -740,6 +740,17 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
+	function get_java_path() {
+		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
+	}
+/**
+* Returns the image path for web accessable images of a question
+*
+* Returns the image path for web accessable images of a question.
+* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
+*
+* @access public
+*/
 	function get_image_path() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 	}
@@ -753,6 +764,19 @@ class ASS_Question extends PEAR {
 */
 	function get_materials_path() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
+	}
+
+/**
+* Returns the web image path for web accessable java applets of a question
+*
+* Returns the web image path for web accessable java applets of a question.
+* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/java
+*
+* @access public
+*/
+	function get_java_path_web() {
+		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
+		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
 /**
