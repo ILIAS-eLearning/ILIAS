@@ -1,6 +1,8 @@
 <?php
 /**
-* GUI class for bookmark folder handling
+* GUI class for bookmark handling. It manages personal folders and bookmarks.
+* The two corresponding core classes are ilBookmarkFolder and ilBookmark.
+* Their methods are called through this User Interface class.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
