@@ -21,6 +21,34 @@ class LearningModuleObject extends Object
 		$this->Object();
 	}
 	
+	/**
+	* Overwritten method from class.Object.php
+	* It handles all button commands from Learning Modules
+	* 
+	* @access public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		switch($_POST["cmd"])
+		{
+			case $lng->txt("import"):
+				return $this->importObject();
+				break;
+
+			case $lng->txt("export"):
+				// NO FUNCTION IN THE MOMENT
+				return;
+				break;
+
+			case $lng->txt("upload"):
+				return $this->uploadObject();
+				break;
+		}
+		parent::gatewayObject();
+	}
+
 	function viewObject()
 	{
 		global $rbacsystem, $tree, $tpl;
@@ -69,6 +97,7 @@ class LearningModuleObject extends Object
 	function importObject()
 	{
 		// nothing to do. just display the dialogue in Out
+		return;
 	}
 	
 	/**
