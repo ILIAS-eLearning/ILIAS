@@ -46,8 +46,9 @@ class ilCategoryImportParser extends ilSaxParser
 	*/
 	function ilCategoryImportParser($a_xml_file, $a_parent)
 	{
-		$this->parent[] = $a_parent;
-
+		$this->parent_cnt = 0;
+		$this->parent[$this->parent_cnt] = $a_parent;
+		$this->parent_cnt++;
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -105,11 +106,11 @@ class ilCategoryImportParser extends ilSaxParser
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
 
-		$cur_parent = $this->parent[count($this->parent) - 1];
-
 		switch($a_name)
 		{
 			case "Category":
+				$cur_parent = $this->parent[$this->parent_cnt - 1];
+				require_once("classes/class.ilObjCategory.php");
 				$this->category = new ilObjCategory;
 				$this->category->setImportId($a_attribs["Id"]);
 				$this->default_language = $a_attribs["DefaultLanguage"];
@@ -117,7 +118,7 @@ class ilCategoryImportParser extends ilSaxParser
 				$this->category->create();
 				$this->category->createReference();
 				$this->category->putInTree($cur_parent);
-				$this->parent[] = $this->category->getRefId();
+				$this->parent[$this->parent_cnt++] = $this->category->getRefId();
 				break;
 
 			case "CategorySpec":
@@ -140,7 +141,8 @@ class ilCategoryImportParser extends ilSaxParser
 		{
 			case "Category":
 				unset($this->category);
-				unset($this->parent[count($this->parent) - 1]);
+				unset($this->parent[$this->parent_cnt - 1]);
+				$this->parent_cnt--;
 				break;
 
 			case "CategorySpec":
@@ -152,19 +154,16 @@ class ilCategoryImportParser extends ilSaxParser
 					$this->category->update();
 					$is_def = 1;
 				}
-//echo "addingTranslation:".$this->cur_title.":".$this->cur_description.":<br>";
 				$this->category->addTranslation($this->cur_title,
 					$this->cur_description, $this->cur_spec_lang, $is_def);
 				break;
 
 			case "Title":
 				$this->cur_title = $this->cdata;
-//echo "Title:end: ".$this->cdata."<br>";
 				break;
 
 			case "Description":
 				$this->cur_description = $this->cdata;
-//echo "Description:end: ".$this->cdata."<br>";
 				break;
 		}
 

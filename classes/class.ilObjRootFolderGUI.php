@@ -26,13 +26,14 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";
+require_once "class.ilObjCategoryGUI.php";
 
 class ilObjRootFolderGUI extends ilObjectGUI
 {
@@ -45,5 +46,35 @@ class ilObjRootFolderGUI extends ilObjectGUI
 		$this->type = "root";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
+
+	/**
+	* import categories form
+	*/
+	function importCategoriesFormObject ()
+	{
+		ilObjCategoryGUI::_importCategoriesForm($this->ref_id, $this->tpl);
+	}
+
+	/**
+	* import cancelled
+	*
+	* @access private
+	*/
+	function importCancelledObject()
+	{
+		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::redirect("adm_object.php?ref_id=".$this->ref_id);
+	}
+
+	/**
+	* import categories
+	*/
+	function importCategoriesObject()
+	{
+		ilObjCategoryGUI::_importCategories($this->ref_id);
+	}
+
+
+
 }
 ?>

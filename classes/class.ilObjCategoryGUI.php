@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.13 2003/12/01 11:34:52 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.14 2004/03/05 17:16:07 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -511,7 +511,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		header("location: adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
-		exit();	
+		exit();
 	}
 
 	/**
@@ -519,7 +519,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 	*/
 	function importCategoriesFormObject ()
 	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
+		/*$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 
@@ -527,8 +527,28 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
 
 		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));*/
+		ilObjCategoryGUI::_importCategoriesForm($this->ref_id, $this->tpl);
 	}
+
+	/**
+	* display form for category import (static, also called by RootFolderGUI)
+	*/
+	function _importCategoriesForm ($a_ref_id, &$a_tpl)
+	{
+		global $lng;
+
+		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
+
+		$a_tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$a_ref_id."&cmd=gateway");
+
+		$a_tpl->setVariable("TXT_IMPORT_CATEGORIES", $lng->txt("import_categories"));
+		$a_tpl->setVariable("TXT_IMPORT_FILE", $lng->txt("import_file"));
+
+		$a_tpl->setVariable("BTN_IMPORT", $lng->txt("import"));
+		$a_tpl->setVariable("BTN_CANCEL", $lng->txt("cancel"));
+	}
+
 
 	/**
 	* import cancelled
@@ -538,14 +558,13 @@ class ilObjCategoryGUI extends ilObjectGUI
 	function importCancelledObject()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
-
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
 	* get user import directory name
 	*/
-	function getImportDir()
+	function _getImportDir()
 	{
 		return ilUtil::getDataDir()."/cat_import";
 	}
@@ -555,10 +574,19 @@ class ilObjCategoryGUI extends ilObjectGUI
 	*/
 	function importCategoriesObject()
 	{
-exit; // buggy
+		ilObjCategoryGUI::_importCategories($_GET["ref_id"]);
+	}
+
+	/**
+	* import categories (static, also called by RootFolderGUI)
+	*/
+	function _importCategories($a_ref_id)
+	{
+		global $lng;
+
 		require_once("classes/class.ilCategoryImportParser.php");
 
-		$import_dir = $this->getImportDir();
+		$import_dir = ilObjCategoryGUI::_getImportDir();
 
 		// create user import directory if necessary
 		if (!@is_dir($import_dir))
@@ -578,11 +606,11 @@ exit; // buggy
 		$subdir = basename($parts["basename"],".".$parts["extension"]);
 		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
 
-		$importParser = new ilCategoryImportParser($xml_file, $_GET["ref_id"]);
+		$importParser = new ilCategoryImportParser($xml_file, $a_ref_id);
 		$importParser->startParsing();
 
-		sendInfo($this->lng->txt("categories_imported"), true);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		sendInfo($lng->txt("categories_imported"), true);
+		ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
 	}
 
 } // END class.ilObjCategoryGUI
