@@ -71,7 +71,7 @@
    size="1" color="#000000">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=edit"><span style="color: #000000;"><strong>Properties</strong></span></a>&nbsp;</font></td>
   <td bgcolor="#efefef" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=perm&show={SHOW}"><span style="color: #000000;"><strong>Security</strong></span></a>&nbsp;</font></td>
+   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=perm"><span style="color: #000000;"><strong>Security</strong></span></a>&nbsp;</font></td>
   <td bgcolor="#efefef" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
    size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=owner"><span style="color: #000000;"><strong>Ownership</strong></span></a>&nbsp;</font></td>
@@ -115,70 +115,92 @@
 	{MESSAGE_TOP}
   </strong>
 </span>
-
-<table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
-      <br><br>
-      <form action="object.php?cmd=perms_save&show={SHOW}&obj_id={OBJ_ID}&parent={TPOS}" method="post">
-		
-	      <!-- BEGIN TABLE_HEADER -->
-	      <th colspan="2">
-		<a href='object.php?cmd=perm&obj_id={OBJECT}&parent={PARENT}&show={COLUMN}'>{HEADER}</a>
-	      </th>
-	      <!-- END TABLE_HEADER -->
-	      <!-- BEGIN TABLE_OUTER -->
-	      <tr>
-		<!-- BEGIN TABLE_INNER -->
-		<td>
-		  {CHECK_TOP}
-		</td>
-		<td>
-		  {PERM}
-		</td>
-		<!-- END TABLE_INNER -->
-	      </tr>
-	      <!-- END TABLE_OUTER -->
-	      <tr>
-		<td colspan="{COL_ANZ}" align="center">
-		      <input type="CHECKBOX" name="recursive"> Existierende Objekte ändern		     
-			<input type="SUBMIT" value="Submit">
-		</td>
-	      </tr>
-      </form>
-  </table>
+<br><br>
+	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
+	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="20%" align="left">
+			  <div class="list-item"><strong>Permission:</strong>
+			  </div>
+			</td>
+			<td width="80%" align="left"><div class="list-item"> 
+				<strong>Object Type:</strong></div>
+			</td>
+		  </tr>
+	  </table>
+	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="20%" align="left">
+			  &nbsp
+			</td>
+			<!-- BEGIN OBJECT_TYPES -->
+			<td>
+			  <strong>
+				{OBJ_TYPES}
+			  </strong>
+			</td>
+			<!-- END OBJECT_TYPES -->
+		  </tr>
+		  <!-- BEGIN TABLE_DATA_OUTER -->
+		  <tr class={CSS_ROW}>
+			<td width="20%" align="left">
+			  {PERMISSION}
+			</td>
+			<!-- BEGIN CHECK_PERM -->
+			<td>
+			  {CHECK_PERMISSION}
+			</td>
+			<!-- END CHECK_PERM -->
+		  </tr>
+		  <!-- END TABLE_DATA_OUTER -->
+		  <tr class="header">
+			<td  align="left"><font color="red">Change existing Objects</font></td>
+			<td>
+			  {CHECK_BOTTOM}
+			</td>
+			<td colspan={COL_ANZ}>
+			  <input type="SUBMIT" value="submit">
+			</td>
+		  </tr>
+	  </table>
+	</form>
 <br><br>
 <span style="color: #000000;">
   <strong>
 	{MESSAGE_MIDDLE}
   </strong>
+<br><br>
 </span>
-<table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
-      <br>
-    <br>
-      <form action="object.php?cmd=assign_save&obj_id={OBJ_ID}&show={SHOW}&parent={TPOS}" method="post">
-	    <th>
-	      Assigned
-	    </th>
-	    <th>
-	      User
-	    </th>
-	    <!-- BEGIN OUTER -->
-	    <tr>
-	      <!-- BEGIN TABLE_DATA -->
-	      <td>
-			{CHECK_BOTTOM}
-	      </td>
-	      <td>
-			{USER}
-	      </td>
-	      <!-- END TABLE_DATA -->
-	    </tr>
-	    <!-- END OUTER -->
-	    <tr>
-	      <td colspan="2" align="center">
-		<input type="SUBMIT" value="Submit">
-	      </td>
-	    </tr>
-      </form>
-  </table>
+	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=assignSave" name="objectItems" method="post">
+	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="20%" align="left">
+			  <div class="list-item">
+			  </div>
+			</td>
+			<td width="80%" align="left"><div class="list-item"> 
+				<strong>User:</strong></div>
+			</td>
+		  </tr>
+			<!-- BEGIN TABLE_USER -->
+			<tr class={CSS_ROW_USER}>
+			  <td>
+				{CHECK_USER}
+			  </td>
+			  <td>
+				{USERNAME}
+			  </td>
+			</tr>
+			<!-- END TABLE_USER -->
+			<tr class="header">
+			  <td>
+				<img src="images/pfeil_rechts.gif">
+			  </td>
+			  <td>
+				<input type="SUBMIT" value="assign">
+			  </td>
+			</tr>
+	  </table>
+	  </form>
 </body>
 </html>

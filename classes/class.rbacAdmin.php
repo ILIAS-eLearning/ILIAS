@@ -455,15 +455,7 @@ class RbacAdmin
     {
 		if(!$Aops_id)
 			$Aops_id = array();
-		$query = "DELETE FROM rbac_templates ".
-			"WHERE rol_id='".$Arol_id."' AND type='".$Atype."' AND parent='".$Aparent."'";
-		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
-		}
+
 		foreach($Aops_id as $o)
 		{
 			$query = "INSERT INTO rbac_templates ".
@@ -659,5 +651,19 @@ class RbacAdmin
 		}
 		return $parent;
 	}
+// @access public
+// @params int (TypeId des Objektes)  
+// @return array(int) (OperationId) sonst false
+	function getOperationsOnType($a_typ_id)
+	{
+		$res = $this->db->query("SELECT * FROM rbac_ta ".
+			"WHERE typ_id = '".$a_typ_id."'");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops_id[] = $row->ops_id;
+		}
+		return $ops_id ? $ops_id : array();
+	}
+		
 }
 ?>
