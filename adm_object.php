@@ -436,10 +436,22 @@ switch($_GET["cmd"])
 		foreach ($objData["subobjects"] as $row)
 		{
 			//@todo max value abfragen und entsprechend evtl aus der liste streichen
-			if ($row) {
-			    
+		    $count = 0;
+			if ($row["attrs"]["MAX"] > 0)
+			{
+				//how many elements are present?
+				for ($i=0; $i<count($obj->objectList["ctrl"]); $i++)
+				{
+					if ($obj->objectList["ctrl"][$i]["type"] == $row["name"])
+					{
+					    $count++;
+					}
+				}
 			}
-			$subobj[] = $row;
+			if ($row["attrs"]["MAX"] == "" || $count < $row["attrs"]["MAX"])
+			{
+				$subobj[] = $row["name"];
+			}
 		}		
 
 		
