@@ -96,6 +96,7 @@ class ilSoapUserAdministration
 
 	function ilSoapUserAdministration($use_nusoap = true)
 	{
+		define('USER_FOLDER_ID',7);
 		define('NUSOAP',1);
 		define('PHP5',2);
 
@@ -162,6 +163,11 @@ class ilSoapUserAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
 		return (int) ilObjUser::getUserIdByLogin($user_name);
 	}
 
@@ -182,6 +188,10 @@ class ilSoapUserAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
 
 		global $ilUser;
 
@@ -213,6 +223,10 @@ class ilSoapUserAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
 
 		global $ilUser;
 
@@ -228,11 +242,11 @@ class ilSoapUserAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),'Client');
 		}
-
 		$this->__setUserData($user_obj,$user_new);
 
+		$log->write('SOAP: updateUser()');
 		$user_obj->update();
-		
+
 		return true;
 	}		
 
@@ -253,6 +267,11 @@ class ilSoapUserAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+
 		// Validate user_data
 		if(!$this->__validateUserData($user_data))
 		{
@@ -263,46 +282,8 @@ class ilSoapUserAdministration
 		{
 			return $this->__raiseError('No role id given','Client');
 		}
-		// Validate language
-		global $lng;
-		
-		$lang_inst = $lng->getInstalledLanguages();
 
-		// Validate style/skin
-		if(($user_data['user_skin'] and !$user_data['user_style']) or
-		   (!$user_data['user_skin'] and $user_data['user_style']))
-		{
-			return $this->__raiseError('user_skin, user_style not valid.','Client');
-		}
-		if($user_data['user_skin'] and $user_data['user_style'])
-		{
-			$ok = false;
-			foreach($styleDefinition->getAllTemplates() as $template)
-			{
-				$styleDef =& new ilStyleDefinition($template["id"]);
-				$styleDef->startParsing();
-				$styles = $styleDef->getStyles();
-				foreach ($styles as $style)
-				{
-					if ($user_data['user_skin'] == $template["id"] &&
-						$user_data['user_style'] == $style["id"])
-					{
-						$ok = true;
-					}
-				}
-			}
-			if(!$ok)
-			{
-				return $this->__raiseError('user_skin, user_style not valid.','Client');
-			}
-		}
-
-		
-		if(!in_array($user_data['user_language'],$lang_inst))
-		{
-			return $this->__raiseError('Language: '.$user_data['user_language'].' is not installed','Client');
-		}
-
+		// Validate global role
 		global $rbacreview;
 		
 		$global_roles = $rbacreview->getGlobalRoles();
@@ -315,6 +296,8 @@ class ilSoapUserAdministration
 		$new_user =& new ilObjUser();
 		$this->__setUserData($new_user,$user_data);
 
+
+		$log->write('SOAP: addUser()');
 		$new_user->create();
 		$new_user->saveAsNew();
 
@@ -351,6 +334,10 @@ class ilSoapUserAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(!$rbacsystem->checkAccess('delete',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
 
 		global $ilUser;
 
@@ -367,6 +354,7 @@ class ilSoapUserAdministration
 			return $this->__raiseError('Cannot delete root account. Aborting','Client');
 		}
 		// Delete him
+		$log->write('SOAP: deleteUser()');
 		$delete_user =& ilObjectFactory::getInstanceByObjId($user_id,false);
 		$delete_user->delete();
 
@@ -399,6 +387,8 @@ class ilSoapUserAdministration
 
 	function __validateUserData(&$user_data,$check_complete = true)
 	{
+		global $lng,$styleDefinition;
+
 		$this->__setMessage('');
 		
 		if($check_complete)
@@ -464,6 +454,47 @@ class ilSoapUserAdministration
 					}
 					break;
 
+				case 'user_language':
+					$lang_inst = $lng->getInstalledLanguages();
+
+					if(!in_array($user_data['user_language'],$lang_inst))
+					{
+						$this->__appendMessage('Language: '.$user_data['user_language'].' is not installed');
+					}
+					break;
+
+
+				case 'user_skin':
+				case 'user_style':
+					if(($user_data['user_skin'] and !$user_data['user_style']) or
+					   (!$user_data['user_skin'] and $user_data['user_style']))
+					{
+						$this->__appendMessage('user_skin, user_style not valid.');
+					}
+					elseif($user_data['user_skin'] and $user_data['user_style'])
+					{
+						$ok = false;
+						foreach($styleDefinition->getAllTemplates() as $template)
+						{
+							$styleDef =& new ilStyleDefinition($template["id"]);
+							$styleDef->startParsing();
+							$styles = $styleDef->getStyles();
+							foreach ($styles as $style)
+							{
+								if ($user_data['user_skin'] == $template["id"] &&
+									$user_data['user_style'] == $style["id"])
+								{
+									$ok = true;
+								}
+							}
+						}
+						if(!$ok)
+						{
+							$this->__appendMessage('user_skin, user_style not valid.');
+						}
+					}
+					break;
+
 				default:
 					continue;
 			}
@@ -482,6 +513,15 @@ class ilSoapUserAdministration
 		}
 		$user_obj->assignData($user_data);
 
+		if(isset($user_data['user_language']))
+		{
+			$user_obj->setLanguage($user_data['user_language']);
+		}
+		if(isset($user_data['user_skin']) and isset($user_data['user_style']))
+		{
+			$user_obj->setPref('skin',$user_data['skin']);
+			$user_obj->setPref('style',$user_data['style']);
+		}
 		return true;
 	}
 
@@ -505,7 +545,6 @@ class ilSoapUserAdministration
 		}
 	}
 
-		
 	
 	function __readUserData(&$usr_obj)
 	{
@@ -551,9 +590,9 @@ class ilSoapUserAdministration
 	{
 		foreach($user_new as $key => $value)
 		{
-			$user_data[$key] = $value;
+			$user_old[$key] = $value;
 		}
-		return $user_data ? $user_data : array();
+		return $user_old ? $user_old : array();
 	}
 }
 ?>

@@ -1373,6 +1373,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$profile_fields = array(
 			"gender",
+			"password",
 			"firstname",
 			"lastname",
 			"title",
@@ -1425,6 +1426,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$profile_fields = array(
 			"gender",
+			"password",
 			"firstname",
 			"lastname",
 			"title",
