@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.42 2003/08/12 11:44:49 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.43 2003/08/14 15:23:15 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -213,7 +213,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 
 			// END TABLE DATA OUTER
-			$box = ilUtil::formCheckBox($checked,"recursive",1);
+			$box = ilUtil::formCheckBox(0,"recursive",1);
 
 			$output["col_anz"] = count($obj_data);
 			$output["txt_save"] = $this->lng->txt("save");
