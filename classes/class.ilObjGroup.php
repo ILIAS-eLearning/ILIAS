@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -575,18 +575,6 @@ class ilObjGroup extends ilObject
 
 	/**
 	* set group status
-	*
-	* Grants permissions on the group object for all parent roles.  
-	* Each permission is granted by computing the intersection of the role 
-	* template il_grp_status_open/_closed and the permission template of 
-	* the parent role.
-	*
-	* Creates linked roles in the local role folder object for all 
-	* parent roles and initializes their permission templates.
-	* Each permission template is initialized by computing the intersection 
-	* of the role template il_grp_status_open/_closed and the permission
-	* template of the parent role.
-	*
 	* @access	public
 	* @param	integer	group id (optional)
 	* @param	integer group status (0=public|1=private|2=closed)
@@ -599,58 +587,64 @@ class ilObjGroup extends ilObject
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 
 		//define all relevant roles that rights are needed to be changed
-		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
-		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultGroupRoles());
+		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$this->getDefaultGroupRoles());
 
-		//group status open (aka public) or group status closed
-		if ($a_grpStatus == 0 || $a_grpStatus == 1)
+		//group status opened/private
+	  	if ($a_grpStatus == 0 )//|| $a_grpStatus == 1)
 		{
-			if ($a_grpStatus == 0)
-			{
-				$template_id = $this->getGrpStatusOpenTemplateId();
-			} else {
-				$template_id = $this->getGrpStatusClosedTemplateId();
-			}
-			//get defined operations from template
-			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'grp', ROLE_FOLDER_ID);
+			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', ROLE_FOLDER_ID);
 
-			foreach ($arr_relevantParentRoleIds as $parentRole)
+			foreach ($arr_globalRoles as $globalRole)
 			{
+				//initialize permissionarray
 				$granted_permissions = array();
+				//delete old rolepermissions in rbac_fa
+				$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
+				//revoke all permission on current group object for global role
+				$rbacadmin->revokePermission($this->getRefId(), $globalRole);
+				//grant new permissions according to group status
+				//$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
+				$ops_of_role = $rbacreview->getOperationsOfRole($globalRole,"grp", ROLE_FOLDER_ID);
 
-				// Delete the linked role for the parent role
-				// (just in case if it already exists).
-				$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
-
-				// Grant permissions on the group object for 
-				// the parent role. In the foreach loop we
-				// compute the intersection of the role     
-				// template il_grp_status_open/_closed and the 
-				// permission template of the parent role.
-				$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
-				$rbacadmin->revokePermission($this->getRefId(), $parentRole);
-				foreach ($template_ops as $template_op) 
+				if (in_array(2,$ops_of_role)) //VISIBLE permission is set for global role and group
 				{
-					if (in_array($template_op,$current_ops)) 
-					{
-						array_push($granted_permissions,$template_op);
-					}
+					array_push($granted_permissions,"2");
 				}
+
+				if (in_array(7,$ops_of_role)) //JOIN permission is set for global role and group
+				{
+					array_push($granted_permissions,"7");
+				}
+
 				if (!empty($granted_permissions))
 				{
-					$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
+					$rbacadmin->grantPermission($globalRole, $granted_permissions, $this->getRefId());
 				}
 
-				// Create a linked role for the parent role and
-				// initialize it with the intersection of 
-				// il_grp_status_open/_closed and the permission
-				// template of the parent role
-				$rbacadmin->copyRolePermissionIntersection(
-					$template_id, ROLE_FOLDER_ID, 
-					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
-					$rolf_data["child"], $parentRole
-				);	
-				$rbacadmin->assignRoleToFolder($parentRole,$rolf_data["child"],"false");
+				//copy permissiondefinitions of openGroup_template
+				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
+			}//END foreach
+		}
+
+		//group status closed
+	  	if ($a_grpStatus == 1)
+		{
+			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', ROLE_FOLDER_ID);
+
+			foreach ($arr_globalRoles as $globalRole)
+			{
+				//delete old rolepermissions in rbac_fa
+				$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
+				//revoke all permission on current group object for all(!) global roles, may be a workaround
+				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
+				//set permissions of global role (admin,author,guest,learner) for group object
+				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
+				//copy permissiondefinitions of closedGroup_template
+				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
 		}
 	}
