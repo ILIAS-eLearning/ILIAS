@@ -832,7 +832,7 @@ common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
 common#:#cat_create_exc#:#Creare una esercitazione
-common#:#cat_create_file#:#Scegli il file
+common#:#cat_create_file#:#Creare un file
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
@@ -960,7 +960,7 @@ common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Crea appuntamemto
 common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo automatico che agisce ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
+common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
@@ -3380,11 +3380,11 @@ dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
 dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
 dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
+dateplaner#:#help_enddate_l#:#In questo campo occorre indicare la data di scadenza dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
 dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
+dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h
-dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
+dateplaner#:#help_endtime_l#:#In questo campo occorre indicare l'ora in cui termina l'appuntamento nel formato 24h.
 dateplaner#:#help_filename#:#dp_help_en.html
 dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
 dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.
@@ -3416,9 +3416,9 @@ dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
 dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
+dateplaner#:#help_startdate_l#:#In questo campo occorre indicare la data di inizio dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
-dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
+dateplaner#:#help_starttime_l#:#In questo campo occorre indicare l'ora di inizio dell'appuntamento usando il formato 24h.
 dateplaner#:#help_text#:#Testo
 dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.
 dateplaner#:#help_week#:#Vista settimanale appuntamenti.
