@@ -84,7 +84,7 @@ class ilObjGroup extends ilObject
 		}
 		
 		$this->tree = $tree;
-		
+
 	}
 
 	/**
@@ -102,22 +102,22 @@ class ilObjGroup extends ilObject
 /*
 			if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 			{
-			
+
 			}
 */
 			//assignUser needs to be renamed into assignObject
 			if(strcmp($a_memStatus,"member") == 0)			//member
 			{
-				$rbacadmin->assignUser($this->m_roleMemberId,$a_userId, false);			
+				$rbacadmin->assignUser($this->m_roleMemberId,$a_userId, false);
 				$ops = array(2,3,7,8);
-				$rbacadmin->grantPermission($this->m_roleMemberId,$ops,$this->getRefId());		
-				
+				$rbacadmin->grantPermission($this->m_roleMemberId,$ops,$this->getRefId());
+
 			}
 			else if(strcmp($a_memStatus,"admin") == 0)		//admin
 			{
-				$rbacadmin->assignUser($this->m_roleAdminId,$a_userId, false);				
+				$rbacadmin->assignUser($this->m_roleAdminId,$a_userId, true);
 				$ops = array(5,6,1,7,8,3,2,4);
-				$rbacadmin->grantPermission($this->m_roleAdminId,$ops,$this->getRefId());		
+				$rbacadmin->grantPermission($this->m_roleAdminId,$ops,$this->getRefId());
 			}
 			else											//request??
 			{
@@ -145,7 +145,7 @@ class ilObjGroup extends ilObject
 		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
 		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
 
-		foreach ($role_arr as $role_id) 
+		foreach ($role_arr as $role_id)
 		{	
 			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
 			{
@@ -197,8 +197,8 @@ class ilObjGroup extends ilObject
 		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
 
 		//TOOODOOOO: schoen machen !!!
-		foreach ($role_arr as $role_id) 
-		{	
+		foreach ($role_arr as $role_id)
+		{
 			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
 			{
 				if($member_id == $a_userId)
@@ -219,7 +219,7 @@ class ilObjGroup extends ilObject
 	function deleteGroup($a_grpId="")
 	{
 	}
-	
+
 	/**
 	* set group status
 	* @access	public
@@ -228,22 +228,46 @@ class ilObjGroup extends ilObject
 	*/
 	function setGroupStatus($a_grpStatus)
 	{
-		
+		global $rbacadmin;
+		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->getRefId());
+
+
 		if(strcmp($a_grpStatus,"group_status_public") == 0)			//group status set public (=0)
-			{
-			$this->m_grpStatus = 0;			
-			}
-		
+		{
+			$this->m_grpStatus = 0;
+		}
+
 		if(strcmp($a_grpStatus,"group_status_private") == 0)			//group status set private (=1)
-			{
-			$this->m_grpStatus = 1;				
-			}
-		
+		{
+			$this->m_grpStatus = 1;
+		}
+
 		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
+		{
+			//ATTENTION: do not regard this as sensible code, it´s just a snap-shot
+			$role_folder   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+
+			$rbacadmin->copyRolePermission(102,8, $role_folder["child"], 6 );
+			$rbacadmin->assignRoleToFolder(2,$role_folder["child"],$role_folder["parent"],'n');
+/*
+			$roles_of_folder = $rbacadmin->getRolesAssignedToFolder(8);
+			print_r($roles_of_folder);
+			if(!in_array($stop_inherit,$roles_of_folder))
 			{
-			$this->m_grpStatus = 2;				
+				//$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
+				$parentRoles = $rbacadmin->getParentRoleIds($role_folder["child"]);
+				$rbacadmin->copyRolePermission(102,8, $rolfId, $roleObj->getId() );
+
+//				$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+											$role_folder["child"],$stop_inherit);
+
+				$rbacadmin->assignRoleToFolder($stop_inherit,$role_folder["child"],$this->getRefId(),'n');
 			}
-		
+*/
+
+			$this->m_grpStatus = 2;
+		}
+
 
 		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res		= $this->ilias->db->query($sql_query1);
@@ -283,13 +307,13 @@ class ilObjGroup extends ilObject
 		global $rbacadmin;
 
 
-		// create new role objects	
+		// create new role objects
 		if(isset($rolfId))
 		{
 
 			//member-role
 			$roleObj = new ilObjRole();
-			$roleObj->setTitle("Member");
+			$roleObj->setTitle("grp_Member");
 			$roleObj->setDescription("automatic generated Group-Memberrole");
 			$roleObj->create();
 			$roleObj->createReference();
@@ -299,48 +323,55 @@ class ilObjGroup extends ilObject
 			$this->m_roleMemberId = $roleObj->getId();
 			
 			//set permissions for member-role
-			$ops = array(2,4,8);	//2=visible, 3=read, 8=leave
-			$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
+			
+			$rbacadmin->copyRolePermission(101,8, $rolfId,$roleObj->getId()  );
+			
+			//$ops = array(2,4,8);	//2=visible, 3=read, 8=leave
+			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
+			
 			unset($roleObj);
 
 			//admin-role
 			$roleObj = new ilObjRole();
-			$roleObj->setTitle("Administrator");
+			$roleObj->setTitle("grp_Administrator");
 			$roleObj->setDescription("automatic generated Group-Adminrole");
 			$roleObj->create();
-			$roleObj->createReference();			
+			$roleObj->createReference();
 			$parent_id = $this->tree->getParentId($_GET["ref_id"]);
 			$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
-			
+
 			$this->m_roleAdminId = $roleObj->getId();
 
 			//set permissions for admin-role
-			$ops = array(1,2,3,4,6,8);
-			$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
-		
-			unset($roleObj);			
+			$rbacadmin->copyRolePermission(100,8, $rolfId, $roleObj->getId() );
+
+			//$ops = array(1,2,3,4,6,8);
+			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
+
+			unset($roleObj);
 
 			//request-role <=> group is private
 			if($this->m_grpStatus == 1)
 			{
 				$roleObj = new ilObjRole();
-				$roleObj->setTitle("Request");
+				$roleObj->setTitle("grp_Request");
 				$roleObj->setDescription("automatic generated Group-Requestrole");
 				$roleObj->create();
-				$roleObj->createReference();				
+				$roleObj->createReference();
 				$parent_id = $this->tree->getParentId($_GET["ref_id"]);
 				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
 
-				$this->m_roleRequestId = $roleObj->getId();	
+				$this->m_roleRequestId = $roleObj->getId();
 				//set permissions for request-role
+				//??? TODO : Do this role need any permissions?
 				$ops = array(2);
 				$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
-				
-				unset($roleObj);			
+
+				unset($roleObj);
 			}
 
 		}
-	}	
+	}
 
 	/**
 	* get 
