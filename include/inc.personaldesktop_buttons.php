@@ -32,7 +32,7 @@
 
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-$script_name = basename($_SERVER["PATH_TRANSLATED"]);
+$script_name = basename($_SERVER["SCRIPT_NAME"]);
 
 $command = $_GET["cmd"] ? $_GET["cmd"] : "";
 
