@@ -1732,10 +1732,25 @@
     					</div>
     				</xsl:if>
     				<xsl:if test = "material/matimage">
-    					<img border="0">
-    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
-    						<xsl:attribute name="name">definition_<xsl:value-of select="@ident"/></xsl:attribute>
-    					</img>
+    					<div class="imagebox">
+    						<xsl:attribute name="id">definition_<xsl:value-of select="@ident"/></xsl:attribute>
+    						<table border="0">
+    						<tr><td align="left">
+	    					<img border="0">
+	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+	    					</img>
+    						</td>
+    						<td valign="top">
+									<a target="_new">
+										<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+										<img border="0">
+											<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
+										</img>
+									</a>
+    						</td>
+    						</tr>
+    						</table>
+    					</div>
     				</xsl:if>
                 </td>
             </xsl:if>

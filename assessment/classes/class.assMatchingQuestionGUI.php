@@ -436,7 +436,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				else
 				{
 					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
-					if ($solution_value->value2 > 1)
+					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
 					{
 						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".x + 250, dd.elements.term_" . $solution_value->value1 . ".y);\n";
 					}
