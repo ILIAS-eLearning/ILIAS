@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE objects PUBLIC "-//W3C//DTD XML 1.0//EN"
-	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
-<objects xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE objects SYSTEM "http://127.0.0.1/ilias3/objects.dtd">
+<objects xmlns="http://www.w3.org">
 <object name="lng">
 	<property cmd="view">view_content</property>
 	<property cmd="edit">edit_properties</property>
