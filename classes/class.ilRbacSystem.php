@@ -1,6 +1,6 @@
 <?php
 /**
-* class RbacSystem
+* class ilRbacSystem
 * system function like checkAccess, addActiveRole ...
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
@@ -8,7 +8,7 @@
 * 
 * @package rbac
 */
-class RbacSystem
+class ilRbacSystem
 {
 	/**
 	* ilias object
@@ -21,7 +21,7 @@ class RbacSystem
 	* Constructor
 	* @access	public
 	*/
-	function RbacSystem()
+	function ilRbacSystem()
 	{
 		global $ilias;
 

@@ -1,23 +1,23 @@
 <?php
 /**
-* Class RbacSystemH
+* Class ilRbacSystemH
 * extensions for hierachical Rbac (maybe later)
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends RbacSystem 
+* @extends ilRbacSystem 
 * @package rbac
 */
-class RbacSystemH extends RbacSystem
+class ilRbacSystemH extends ilRbacSystem
 {
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function RbacSystemH()
+	function ilRbacSystemH()
 	{
-		$this->RbacSystem();
+		$this->ilRbacSystem();
 	}
 
 	/**
