@@ -84,11 +84,14 @@ class ilObjContentObject extends ilObject
 
 	/**
 	* init default roles settings
+	* OBSOLETE. DON'T USE, READ TEXT BELOW 
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
 	function initDefaultRoles()
 	{
+		return array();
+		
 		global $rbacadmin, $rbacreview;
 
 		// create a local role folder

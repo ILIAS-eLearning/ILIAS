@@ -738,32 +738,30 @@ class ilObjectGUI
 								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];						
 							}
 						}
-						/*else
+						
+						if ($node["type"] != 'grp')
 						{
-							// ... use mapping array to find out the correct new parent node where to put in the node...
-							$new_parent = array_search($node["parent"],$mapping);
+							// do group stuff
+						}
+						
+						// re-map $subnodes
+						foreach ($subnodes as $old_ref => $subnode)
+						{
+							$new_ref = array_search($old_ref,$mapping);
 							
-							// get the parent object that contains the rolefolder ...
-							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
-							// setup rolefolder and link in default local roles
-							// createRoleFolder
-							$rfoldObj = $obj_data->createRoleFolder();
-							
-							// ... append node to mapping
-							$mapping[$rfoldObj->getRefId()] = (int) $node["child"];
-
-							$localroles = $rbacreview->getRolesOfRoleFolder($node["child"],false);
-
-							foreach ($localroles as $role_id)
+							foreach ($subnode as $node)
 							{
-								$rbacadmin->assignRoleToFolder($role_id,$rfoldObj->getRefId(),"y");
-							} 
-						}*/
+								$node["child"] = array_search($node["child"],$mapping);
+								$node["parent"] = array_search($node["parent"],$mapping);
+								$new_subnodes[$ref_id][] = $node; 
+							}
+						}
+						
 					}
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			$this->object->notify("link",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
+			$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
