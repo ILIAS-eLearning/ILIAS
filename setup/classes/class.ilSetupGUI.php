@@ -1894,7 +1894,7 @@ class ilSetupGUI extends ilSetup
 				or empty($_POST["form"]["admin_street"]) or empty($_POST["form"]["admin_zipcode"])
 				or empty($_POST["form"]["admin_country"]) or empty($_POST["form"]["admin_city"])
 				or empty($_POST["form"]["admin_phone"]) or empty($_POST["form"]["admin_email"])
-				or empty($_POST["form"]["inst_name"]))
+				or empty($_POST["form"]["inst_name"]) or empty($_POST["form"]["inst_info"]))
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("fill_out_required_fields");
@@ -2045,7 +2045,6 @@ class ilSetupGUI extends ilSetup
 				// update nic
 				$this->client->updateNIC($this->ilias_nic_server);
 				
-				//var_dump("<pre>",$this->client->nic_status,"</pre>");exit;
 				// online registration failed
 				if (empty($this->client->nic_status[2]))
 				{
@@ -2099,7 +2098,7 @@ class ilSetupGUI extends ilSetup
 			$settings = $this->client->getAllSettings();
 			
 			$email_subject = rawurlencode("NIC registration request");
-			$email_body = "blubb"; //base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
+			$email_body = base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
 			$email_link = "<a href=\"mailto:ilias-info@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">".$this->lng->txt("email")."</a>";
 			
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
