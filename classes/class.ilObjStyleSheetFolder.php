@@ -22,9 +22,9 @@
 */
 
 /**
-* Class ilObj<module_name>
+* Class ilObjStyleSheetFolder
 * 
-* @author your name <your email> 
+* @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 *
 * @extends ilObject
@@ -33,7 +33,7 @@
 
 require_once "class.ilObject.php";
 
-class ilObj<module_name> extends ilObject
+class ilObjStyleSheetFolder extends ilObject
 {
 	/**
 	* Constructor
@@ -41,9 +41,9 @@ class ilObj<module_name> extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObj<module_name>($a_id = 0,$a_call_by_reference = true)
+	function ilObjStyleSheetFolder($a_id = 0,$a_call_by_reference = true)
 	{
-		$this->type = "<type ID>";
+		$this->type = "styf";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
@@ -205,5 +205,5 @@ class ilObj<module_name> extends ilObject
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
-} // END class.ilObj<module_name>
+} // END class.ilObjStyleSheetFolder
 ?>
