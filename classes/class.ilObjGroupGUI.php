@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.14 2003/07/07 10:43:23 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.15 2003/07/07 10:55:00 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -181,7 +181,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		
 		
 		$childs = $this->grp_tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
-
+	
 		foreach ($childs as $key => $val)
 	    {
 			//nur für Objecte mit Rechten	
@@ -1139,6 +1139,212 @@ class ilObjGroupGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_changes_ok"),true);
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
+	}
+	
+	/**
+	* display object list
+	*
+	* @access	public
+ 	*/
+	function displayList()
+	{
+		global $tree, $rbacsystem;
+
+		require_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+		
+		$this->tree_id = $_GET["tree_id"];
+		$this->tree_table = $_GET["tree_table"];
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+		
+		$tbl->setHeaderNames($header_names);
+		
+		$header_params = array("ref_id" => $this->ref_id);
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+		
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		// display action buttons only if at least 1 object in the list can be manipulated
+		// temp. deactivated
+		/*if (is_array($this->data["data"][0]))
+		{
+			foreach ($this->data["ctrl"] as $val)
+			{
+				if ($this->objDefinition->hasCheckbox($val["type"]))
+				{
+					// SHOW VALID ACTIONS
+					$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+					$this->showActions(true);
+					break;
+				}				
+			}
+		}*/
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));		
+		$this->showActions(true);
+		
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		// render table
+		$tbl->render();
+
+		if (is_array($this->data["data"][0]))
+		{
+			//table cell
+			for ($i=0; $i < count($this->data["data"]); $i++)
+			{
+				$data = $this->data["data"][$i];
+				$ctrl = $this->data["ctrl"][$i];
+
+				// color changing
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+
+				// surpress checkbox for particular object types
+				if (!$this->objDefinition->hasCheckbox($ctrl["type"]))
+				{
+					$this->tpl->touchBlock("empty_cell");
+				}
+				else
+				{
+					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role")
+					{
+						$link_id = $ctrl["obj_id"];
+					}
+					else
+					{
+						$link_id = $ctrl["ref_id"];
+					}
+
+					$this->tpl->setCurrentBlock("checkbox");
+					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
+					$this->tpl->setVariable("CSS_ROW", $css_row);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+				$this->tpl->parseCurrentBlock();
+
+				foreach ($data as $key => $val)
+				{
+					//build link
+					$link = "adm_object.php?";
+
+					if ($_GET["type"] == "lo" && $key == "type")
+					{
+						$link = "lo_view.php?";
+					}
+
+					$n = 0;
+
+					foreach ($ctrl as $key2 => $val2)
+					{
+						$link .= $key2."=".$val2;
+
+						if ($n < count($ctrl)-1)
+						{
+					    	$link .= "&";
+							$n++;
+						}
+					}
+
+					if ($key == "title" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+
+						if ($_GET["type"] == "lo" && $key == "type")
+						{
+							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
+						}
+
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
+					// process clipboard information"
+					if (isset($_SESSION["clipboard"]))
+					{
+						$cmd = $_SESSION["clipboard"]["cmd"];
+						$parent = $_SESSION["clipboard"]["parent"];
+
+						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
+						{
+							if ($ctrl["ref_id"] == $clip_id)
+							{
+								if ($cmd == "cut" and $key == "title")
+								{
+									$val = "<del>".$val."</del>";
+								}
+								
+								if ($cmd == "copy" and $key == "title")
+								{
+									$val = "<font color=\"green\">+</font>  ".$val;
+								}
+
+								if ($cmd == "link" and $key == "title")
+								{
+									$val = "<font color=\"black\"><</font> ".$val;
+								}
+							}
+						}
+					}
+
+					$this->tpl->setCurrentBlock("text");
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+					}
+
+					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+
+				} //foreach
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 } // END class.GroupObjectOut
 ?>

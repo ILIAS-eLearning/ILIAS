@@ -50,7 +50,9 @@ class ilGroupGUI extends ilObjGroupGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGroupGUI()
+	
+	function ilGroupGUI($a_data,$a_id,$a_call_by_reference)
+	//function ilGroupGUI()
 	{
 		global $tpl, $ilias, $lng, $tree, $rbacsystem, $objDefinition;
 		
@@ -60,7 +62,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		parent::ilObjGroupGUI("", $a_ref_id, true, false);
 		}*/
 		//echo ("a_id : ".$a_id);
-		$this->type = "grp";
+		
 		//$this->ilObjectGUI($a_data,$a_id,$call_by_reference);
 
 		$this->ilias =& $ilias;
@@ -75,8 +77,8 @@ class ilGroupGUI extends ilObjGroupGUI
 
 
 		//var_dump ($this->object);
+		//echo $this->object->getRefId()."fff";
 		//$this->grp_tree = new ilTree($this->object->getRefId());
-
 		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		//$this->callbyReference = true;
 		
@@ -92,7 +94,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			//var_dump ($_POST["id"]);
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."object";
-			echo ($fullcmd);
+			//echo ($fullcmd);
 			$this->$fullcmd();
 			exit();
 			
@@ -128,7 +130,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	
 	
 	/**
-	* display list of courses and learning modules
+	* 
 	*/
 	function displayList()
 	{ 
@@ -361,7 +363,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		infoPanel();
-		$this->tpl->setVariable("FORMACTION", "group.php?grp_id=".$_GET["grp_id"]);
+		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_PAGEHEADLINE",  $this->lng->txt("group_details"));
@@ -381,13 +383,13 @@ class ilGroupGUI extends ilObjGroupGUI
 		}
 		//$this->setLocator();
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","group.php?cmd=groupmembers&grp_id=".$_GET["grp_id"]);
+		$this->tpl->setVariable("BTN_LINK","group.php?cmd=groupmembers&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_members"));
 		$this->tpl->parseCurrentBlock();
 
 		$cont_arr = array();
 
-		$objects = $tree->getChilds($_GET["grp_id"],"title");
+		$objects = $tree->getChilds($_GET["ref_id"],"title");
 
 		if (count($objects) > 0)
 		{
@@ -721,7 +723,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			
 			// TODO:i think this can be substituted by $this->object ????
-			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["grp_id"]);
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 	
 			// this loop does all checks
 			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
@@ -729,13 +731,13 @@ class ilGroupGUI extends ilObjGroupGUI
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
 
 				// CHECK ACCESS
-				if (!$rbacsystem->checkAccess('create', $_GET["grp_id"], $obj_data->getType()))
+				if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
 				{
 					$no_paste[] = $ref_id;
 				}
 
 				// CHECK IF REFERENCE ALREADY EXISTS
-				if ($_GET["grp_id"] == $obj_data->getRefId())
+				if ($_GET["ref_id"] == $obj_data->getRefId())
 				{
 					$exists[] = $ref_id;
 					break;
@@ -804,8 +806,8 @@ class ilGroupGUI extends ilObjGroupGUI
 				//first paste top_node....
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->createReference();
-				$obj_data->putInTree($_GET["grp_id"]);
-				$obj_data->setPermissions($_GET["grp_id"]);
+				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->setPermissions($_GET["ref_id"]);
 				//echo ($obj_data->getRefId()." ". $_GET["grp_id"]);
 				//$this->grp_tree->insertNode($obj_data->getRefId(), $_GET["grp_id"]);
 
@@ -1327,7 +1329,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 
 		// TODO: get rid of $_GET variable
-		if (!$rbacsystem->checkAccess("create", $_GET["grp_id"], $_POST["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1339,7 +1341,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			$data["fields"]["desc"] = "";
 
 			$this->tpl->addBlockFile("CONTENT", "content" ,"tpl.obj_edit.html");
-
+			$this->tpl->addBlockFile("CONTENT", "content", "tpl.groups_overview.html");
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));

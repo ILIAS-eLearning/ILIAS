@@ -34,7 +34,7 @@
 * @package ilias-core
 */
 
-/*
+
 require_once "include/inc.header.php";
 
 // for security
@@ -59,6 +59,8 @@ if (!isset($_GET["ref_id"]))
 	$ilias->raiseError("No valid ID given! Action aborted",$this->ilias->error_obj->MESSAGE);
 }
 
+
+
 if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)
@@ -72,17 +74,24 @@ if (!isset($_GET["type"]))
 
 	$_GET["type"] = $obj->getType();
 }
-
-// determine command
-if (($cmd = $_GET["cmd"]) == "gateway")
+if ($_GET["type"]!="root"  ) 
+{
+if ($_GET["type"]!="cat"  ) 
 {
 	$cmd = key($_POST["cmd"]);
 }
-if (empty($cmd)) // if no cmd is given default to first property
-{
-	//$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
-	$cmd = $_GET["cmd"] = "content";
 }
+
+// determine command
+//if (($cmd = $_GET["cmd"]) == "gateway")
+//{
+//	$cmd = key($_POST["cmd"]);
+//}
+//if (empty($cmd)) // if no cmd is given default to first property
+//{
+	/*//$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
+	$cmd = $_GET["cmd"] = "content";*/
+//}
 
 // determine object type
 if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
@@ -103,24 +112,48 @@ else
 //var_dump($_POST);
 
 // call gui object method
-$method = $cmd."Object";
+//$method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
 
-//$class_constr = "ilObj".$class_name."GUI";
-//require_once("./classes/class.ilObj".$class_name."GUI.php");
+if ($_GET["type"]=="root" or $_GET["type"]=="cat")
+{
+	$class_constr = "ilObj".$class_name."GUI";
+	require_once("./classes/class.ilObj".$class_name."GUI.php");
+}
+else
+{
+	$class_constr = "il".$class_name."GUI";
+	require_once("./classes/class.il".$class_name."GUI.php");
+}
+//echo $class_constr.":".$method;
+//$obj = new $class_constr($data, $id, $call_by_reference);
+//$obj->$method();
 
-$class_constr = "il".$class_name."GUI";
-require_once("./classes/class.il".$class_name."GUI.php");
-
-echo $class_constr.":".$method;
-$obj = new $class_constr($data, $id, $call_by_reference);
-$obj->$method();
-
-$tpl->show();*/
+//$tpl->show();
 
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilGroupGUI.php";
-//echo $_GET["expand"];
-$grp_gui =& new ilGroupGUI();
+      // echo $_GET["expand"];
+//var_dump($_GET);echo "sssssss";var_dump($_POST);
+//echo "ref_id".$_GET["ref_id"]."grp_id".$_GET["grp_id"];
+
+
+//var_dump($_GET); echo "fffff";var_dump($_POST);
+//$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+if ($_POST["new_type"]!="fold")
+{
+$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+}
+//echo $class_constr;
+
+
+if ($_POST["new_type"]=="fold")
+{
+	$obj = new $class_constr($data, $id, $call_by_reference);
+	$method= $cmd."Object";
+	$obj->$method();
+}
+
+
 ?>
 
