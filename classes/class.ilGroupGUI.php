@@ -1854,8 +1854,13 @@ class ilGroupGUI extends ilObjectGUI
 
 				"&new_type=".$_POST["new_type"]);
 
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("BTN_NAME", "cmd[save]");
+			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			//$this->tpl->setVariable("BTN_NAME", "cmd[save]");
+			
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 		$this->tpl->show();
