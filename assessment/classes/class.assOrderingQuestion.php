@@ -138,7 +138,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml()
+	function to_xml($a_include_header = true)
 	{
 		if (!empty($this->domxml))
 		{
@@ -293,7 +293,16 @@ class ASS_OrderingQuestion extends ASS_Question
 			$qtiItemfeedback->append_child($qtiFlowmat);
 			$qtiIdent->append_child($qtiItemfeedback);
 		}
-		return $this->domxml->dump_mem(true);
+
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
+
 	}
 
 

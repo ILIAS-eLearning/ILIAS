@@ -1395,7 +1395,7 @@
 	</xsl:for-each>
 </xsl:template>
 
-<!-- t&a: response_lid (multiple choice) -->
+<!-- t&a: response_lid (multiple choice / ordering) -->
 <xsl:template match="response_lid">
 	<xsl:choose>
 
@@ -1457,6 +1457,34 @@
 				</xsl:for-each>
 			</table>
 		</xsl:when>
+
+		<!-- ordering -->
+		<xsl:when test = "@ident = 'OQT'">
+			<table class="nobackground">
+				<xsl:for-each select="render_choice/response_label">
+					<tr>
+						<td class="nobackground" width="30">
+							<input type="text" value="" size="2">
+							<xsl:attribute name="name">order_<xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="id">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							</input>
+						</td>
+						<td class="nobackground" width="left">
+							<label>
+							<xsl:attribute name="for">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:value-of select="material/mattext"/>
+							</label>
+						</td>
+					</tr>
+				</xsl:for-each>
+			</table>
+		</xsl:when>
+
+
 	</xsl:choose>
 </xsl:template>
 
