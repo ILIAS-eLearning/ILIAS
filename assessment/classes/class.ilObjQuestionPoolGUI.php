@@ -103,31 +103,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
 			&& $next_class != "ilpageobjectgui")
 		{
-			if ($_GET["test_ref_id"] == "")
-			{
-				if (preg_match("/^ass_/", $next_class))
-				{
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-					include_once "./classes/class.ilTabsGUI.php";
-					$tabs_gui =& new ilTabsGUI();
-					if ($_GET["q_id"])
-					{
-						$tabs_gui->addTarget("preview",
-							$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
-							"ilPageObjectGUI");
-					}
-					$tabs_gui->addTarget("back",
-						$this->ctrl->getLinkTarget($this, "questions"), "questions",
-						"ilObjQuestionPoolGUI");
-					// output tabs
-					$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-				}
-				else
-				{
-					$this->setAdminTabs($_POST["new_type"]);
-				}
-			}
-			else
+			if ($_GET["test_ref_id"] != "")
 			{
 				include_once "./classes/class.ilTabsGUI.php";
 				$tabs_gui =& new ilTabsGUI();
@@ -190,12 +166,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 			case "ass_multiplechoicegui":
+				$this->setQuestionTabs();
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_clozetestgui":
+				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -203,6 +181,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_orderingquestiongui":
+				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -210,6 +189,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_matchingquestiongui":
+				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -217,6 +197,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_imagemapquestiongui":
+				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -224,6 +205,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_javaappletgui":
+				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -231,6 +213,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			default:
+//				echo "setAdminTabs<br>";
+				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest")
+				{
+					$this->setAdminTabs();
+				}
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
@@ -641,7 +628,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
-
 
 	/**
 	* list questions of question pool
@@ -1058,6 +1044,85 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "questions"), "questions",
 			"ilObjQuestionPoolGUI");
 
+	}
+	
+	function setQuestionTabs()
+	{
+//		echo "<br>setQuestionTabs<br>";
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		
+		switch ($q_type)
+		{
+			case "qt_multiple_choice_sr":
+				$classname = "ASS_MultipleChoiceGUI";
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_multiple_choice_mr":
+				$classname = "ASS_MultipleChoiceGUI";
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_cloze":
+				$classname = "ASS_ClozeTestGUI";
+				$this->ctrl->setParameterByClass("ass_clozetestgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_clozetestgui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_matching":
+				$classname = "ASS_MatchingQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_ordering":
+				$classname = "ASS_OrderingQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_imagemap":
+				$classname = "ASS_ImagemapQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_javaapplet":
+				$classname = "ASS_JavaAppletGUI";
+				$this->ctrl->setParameterByClass("ass_javaappletgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_javaappletgui", "q_id", $_GET["q_id"]);
+				break;
+		}
+
+		if ($classname)
+		{
+			$tabs_gui->addTarget("properties",
+				$this->ctrl->getLinkTargetByClass($classname, "editQuestion"), "editQuestion",
+				$classname);
+	
+			$tabs_gui->addTarget("enhanced",
+				$this->ctrl->getLinkTargetByClass($classname, "enhancedMode"), "enhancedMode",
+				$classname);
+		}
+
+		if ($_GET["q_id"])
+		{
+			$tabs_gui->addTarget("preview",
+				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
+				"ilPageObjectGUI");
+		}
+
+		$tabs_gui->addTarget("back",
+			$this->ctrl->getLinkTarget($this, "questions"), "questions",
+			"ilObjQuestionPoolGUI");
+
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+//		echo "<br>end setQuestionTabs<br>";
 	}
 
 	function editMetaObject()

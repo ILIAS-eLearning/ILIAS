@@ -219,6 +219,10 @@ class ASS_QuestionGUI
 		return $saved;
 	}
 
+	function enhancedMode()
+	{
+	}
+	
 	/**
 	* Creates a question gui representation
 	*
@@ -435,11 +439,19 @@ class ASS_QuestionGUI
 	*/
 	function save()
 	{
+		$old_id = $_GET["q_id"];
 		$this->writePostData();
 		$this->object->saveToDb();
 		if ($_GET["test_ref_id"] == "")
 		{
 			$_GET["q_id"] = $this->object->getId();
+			if ($_GET["q_id"] !=  $old_id)
+			{
+				// first save
+				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
+				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+			}
 			$this->editQuestion();
 			if (strcmp($_SESSION["info"], "") != 0)
 			{
