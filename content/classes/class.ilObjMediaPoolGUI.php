@@ -450,6 +450,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		require_once ("content/classes/class.ilMediaPoolExplorer.php");
 		$exp = new ilMediaPoolExplorer("mep_edit.php?cmd=listMedia&ref_id=".$this->object->getRefId(), $this->object);
 		$exp->setTargetGet("obj_id");
+		$exp->setExpandTarget("mep_edit.php?cmd=explorer&ref_id=".$this->object->getRefId());
+
+		$exp->addFilter("root");
+		$exp->addFilter("fold");
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+
 
 		if ($_GET["mepexpand"] == "")
 		{

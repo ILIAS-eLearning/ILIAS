@@ -1372,6 +1372,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editMapAreas()
 	{
+		$_SESSION["il_map_edit_target_script"] =
+		"lm_edit.php?ref_id=".$_GET["ref_id"].
+		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"];
+
 		//$this->initMapParameters();
 		$this->handleMapParameters();
 

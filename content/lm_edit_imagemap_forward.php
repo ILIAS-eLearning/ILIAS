@@ -56,21 +56,18 @@ else
 // call lm_edit script
 if ($_SESSION["il_map_edit_mode"] == "edit_shape")
 {
-	ilUtil::redirect("lm_edit.php?ref_id=".$_GET["ref_id"].
-		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-		"&cmd=setShape");
+	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
+		"cmd=setShape"));
 }
 else if($_SESSION["il_map_edit_mode"] == "edit_link")
 {
-	ilUtil::redirect("lm_edit.php?ref_id=".$_GET["ref_id"].
-		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-		"&cmd=setLink");
+	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
+		"cmd=setLink"));
 }
 else
 {
-	ilUtil::redirect("lm_edit.php?ref_id=".$_GET["ref_id"].
-		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-		"&cmd=addArea");
+	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
+		"cmd=addArea"));
 }
 
 ?>
