@@ -15,6 +15,7 @@ else
 	
 $exp->setExpand($expanded);
 //filter object types
+$exp->addFilter("root");
 $exp->addFilter("cat");
 $exp->addFilter("grp");
 $exp->addFilter("crs");
