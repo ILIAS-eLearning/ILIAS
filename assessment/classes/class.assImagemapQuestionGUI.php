@@ -239,6 +239,14 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				if ((strcmp($_GET["markarea"], "") != 0) && ($_GET["markarea"] == $i))
+				{
+					$this->tpl->setVariable("CLASS_FULLWIDTH", "fullwidth_marked");
+				}
+				else
+				{
+					$this->tpl->setVariable("CLASS_FULLWIDTH", "fullwidth");
+				}
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 				$coords = "";
@@ -294,22 +302,31 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setCurrentBlock("imageupload");
 				//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
 				$this->tpl->parse("imageupload");
+				$map = "";
 				if (count($this->object->answers))
 				{
 					$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 					foreach ($this->object->answers as $index => $answer)
 					{
-						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index#bottom", "", true);
 					}
 					$preview->createPreview();
 					$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
 				else
 				{
 					$imagepath = $this->object->getImagePathWeb() . $img;
 				}
 				$size = GetImageSize ($this->object->getImagePath() . $this->object->get_image_filename());
-				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"0\" " . $size[3] . " />");
+				if ($map)
+				{
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"0\" " . $size[3] . " usemap=\"" . "#imagemap_" . $this->object->getId(). "\" />\n$map\n");
+				}
+				else
+				{
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"0\" " . $size[3] . " />");
+				}
 			}
 			else
 			{
