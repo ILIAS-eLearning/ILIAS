@@ -128,8 +128,18 @@ class ASS_JavaApplet extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml()
+	function to_xml($a_include_header = true, $a_include_binary = true)
 	{
+		/*
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;*/
+
 		return "";
 	}
 
