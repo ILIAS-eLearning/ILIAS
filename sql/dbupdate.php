@@ -4261,11 +4261,19 @@ if($role_id and $ops_id)
 INSERT INTO `object_data` VALUES (38, 'typ', 'alm', 'AICC Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
 INSERT INTO `object_data` VALUES (39, 'typ', 'hlm', 'HACP Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
 
-insert into rbac_ta (typ_id, ops_id) (SELECT 38, ops_id FROM rbac_ta WHERE typ_id=20);
-insert into rbac_ta (typ_id, ops_id) (SELECT 39, ops_id FROM rbac_ta WHERE typ_id=20);
+<?php
+$query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ops_id = $row->ops_id;
+}
+$query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
+$this->db->query($query);
 
-
-
+$query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
+$this->db->query($query);
+?>
 <#258>
 <?php
 // fix: remove duplicate auth entry in tree or references table
