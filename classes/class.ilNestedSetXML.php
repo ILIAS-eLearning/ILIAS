@@ -1222,37 +1222,6 @@ class ilNestedSetXML
 		return false;
 	}	
 
-/**
- * Replace node contents
- *
- * Needed as a workaround for bug/feature of set_content
- * This version puts the content
- * as the first child of the new node.
- * If you need it somewhere else, simply
- * move $newnode->set_content() where
- * you want it.
- */
-	function replace_content( &$node, &$new_content )
-	{
-		$dom =& $node->owner_document();
-		$newnode =& $dom->create_element( $node->tagname );
-		$newnode->set_content( $new_content );
-		$atts =& $node->attributes();
-		foreach ( $atts as $att )
-		{
-			$newnode->set_attribute( $att->name, $att->value );
-		}
-		$kids =& $node->child_nodes();
-		foreach ( $kids as $kid )
-		{
-			if ( $kid->node_type() != XML_TEXT_NODE )
-			{
-				$newnode->append_child( $kid );
-			}
-		}
-		$node->replace_node( $newnode );
-	}
-
 	/**
 	*	updates content of this node
     *   @param  string  xPath
@@ -1323,45 +1292,6 @@ class ilNestedSetXML
 		$node->replace_node( $newnode );
 	}
 
-	/**
-	*	updates content of this node
-    *   @param  string  xPath
-    *   @param  string  name
-    *   @param  integer index
-    *   @param  array   newNode
-	*   @access    public
-	*/
-	function replaceDomContent($xPath, $name = "", $index = 0, $newNode) 
-	{
-#		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
-		$nodes = $this->getXpathNodes($this->dom, $xPath);
-		if (count($nodes) > 0)
-		{
-			$children = $nodes[$index]->child_nodes();
-			if (count($children) > 0)
-			{
-				for ($i = 0; $i < count($children); $i++)
-				{
-					if ($children[$i]->node_name() == $name &&
-						is_array($newNode))
-					{
-						foreach ($newNode as $key => $val)
-						{
-							if ($key == "value")
-							{
-								$this->replace_content($children[$i], $val);
-							}
-							else
-							{
-								$children[$i]->set_attribute($key, $val);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
 	/**
 	*	updates content of this node
     *   @param  string  xPath
