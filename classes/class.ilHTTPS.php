@@ -79,17 +79,34 @@ class ilHTTPS
 	* @access	public
 	* @return	boolean
 	*/
-	function _check()
+	function _checkHTTPS()
 	{
 		// only check standard port in the moment
 		$port = 443;
 
-		if(@fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error) === false)
+		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
 		{
 			return false;
 		}
-
+		fclose($sp);
 		return true;
 	}
+	/**
+	* static method to check if http connections are possible for this server
+	* 
+	* @access	public
+	* @return	boolean
+	*/
+	function _checkHTTP()
+	{
+		$port = 81;
+		
+		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
+		{
+			return false;
+		}
+		fclose($sp);
+		return true;
+	}	
 }
 ?>
