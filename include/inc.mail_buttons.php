@@ -1,5 +1,5 @@
 <?php
-
+$lng->loadLanguageModule("mail");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")

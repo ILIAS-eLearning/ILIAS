@@ -13,6 +13,8 @@ require_once "./include/inc.mail.php";
 require_once "classes/class.ilUser.php";
 require_once "classes/class.ilMail.php";
 
+$lng->loadLanguageModule("mail");
+
 //get the mail from user
 $umail = new ilMail($_SESSION["AccountId"]);
 $umail->markRead(array($_GET["mail_id"]));

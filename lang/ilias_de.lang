@@ -3,7 +3,7 @@
 *
 * @module		language file german
 * @modulegroup	language
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de> 
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
 */
 
@@ -44,7 +44,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#also_as_email#:#Auch als eMail
+mail#:#also_as_email#:#Auch als eMail
 common#:#announce#:#ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
@@ -60,7 +60,7 @@ common#:#available_languages#:#Verfügbare Sprachen
 common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
-common#:#bc#:#BC
+mail#:#bc#:#BC
 common#:#bm#:#Bookmark###09 Apr 2003 new variable
 common#:#bmf#:#Bookmark Folder###09 Apr 2003 new variable
 common#:#bookmark_edit#:#Edit Bookmark###09 Apr 2003 new variable
@@ -209,7 +209,7 @@ common#:#forums_threads#:#Themen
 common#:#forums_threads_not_available#:#Keine Themen verfügbar
 common#:#forums_topics_overview#:#Themen-Übersicht
 common#:#forums_your_reply#:#Ihre Antwort
-common#:#forward#:#Weiterleiten
+mail#:#forward#:#Weiterleiten
 common#:#frm#:#Forum
 common#:#from#:#Von
 common#:#functions#:#Funktionen
@@ -281,7 +281,7 @@ common#:#launch#:#Start
 common#:#ldap#:#LDAP
 common#:#le#:#Lernmodul
 common#:#level#:#Stufe
-common#:#linebreak#:#Zeilenumbruch
+mail#:#linebreak#:#Zeilenumbruch
 common#:#link#:#verknüpfen
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
@@ -307,77 +307,77 @@ common#:#los#:#Lerneinheiten
 common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
-common#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
-common#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-common#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
-common#:#mail_addr_entries#:#Einträge
+mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
+mail#:#mail_addr_entries#:#Einträge
 common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
-common#:#mail_attachments#:#Attachments
+mail#:#mail_attachments#:#Attachments
 common#:#mail_b_inbox#:#Posteingang
-common#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
-common#:#mail_bc_search#:#BC Empfänger suchen
+mail#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
+mail#:#mail_bc_search#:#BC Empfänger suchen
 common#:#mail_c_trash#:#Papierkorb
-common#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
-common#:#mail_cc_search#:#CC Empfänger suchen
-common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
-common#:#mail_compose#:#Nachricht erstellen
+mail#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
+mail#:#mail_cc_search#:#CC Empfänger suchen
+mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
+mail#:#mail_compose#:#Nachricht erstellen
 common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
-common#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
-common#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
+mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
-common#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
-common#:#mail_entry_changed#:#Der Eintrag wurde geändert
-common#:#mail_file_name#:#Dateiname
-common#:#mail_file_size#:#Dateigröße
-common#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
-common#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
-common#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
-common#:#mail_folder_name#:#Ordnername
-common#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
-common#:#mail_folder_options#:#Ordner Einstellungen
-common#:#mail_global_options#:#Allgemeine Einstellungen
-common#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
-common#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
+mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
+mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
+mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
+mail#:#mail_file_name#:#Dateiname
+mail#:#mail_file_size#:#Dateigröße
+mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
+mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
+mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
+mail#:#mail_folder_name#:#Ordnername
+mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
+mail#:#mail_folder_options#:#Ordner Einstellungen
+mail#:#mail_global_options#:#Allgemeine Einstellungen
+mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
+mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mails_of#:#Nachrichten:###28 Mar 2003 content changed
-common#:#mail_mark_read#:#Als gelesen markieren
-common#:#mail_mark_unread#:#Als ungelesen markieren
+mail#:#mail_mark_read#:#Als gelesen markieren
+mail#:#mail_mark_unread#:#Als ungelesen markieren
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxsize_mail#:#Max. Mailgrösse
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
-common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails 
-common#:#mail_message_send#:#Ihre Nachricht wurde versandt
-common#:#mail_move_error#:#Fehler beim Senden der Nachricht
-common#:#mail_move_to#:#Nachricht(en) verschieben
-common#:#mail_moved#:#Ihre Nachrichten wurden verschoben
-common#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
-common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
-common#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
+common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
+mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
+mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
+mail#:#mail_move_to#:#Nachricht(en) verschieben
+mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
+mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
+mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
-common#:#mail_options_of#:#Einstellungen:
-common#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
-common#:#mail_s#:#Nachrichten
-common#:#mail_s_unread#:#Ungelesene Nachrichten
-common#:#mail_saved#:#Ihre Nachricht wurde gespeichert
+mail#:#mail_options_of#:#Einstellungen:
+mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
+mail#:#mail_s#:#Nachrichten
+mail#:#mail_s_unread#:#Ungelesene Nachrichten
+mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müßen mindestens eine Nachricht auswählen
-common#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
-common#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
+mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
+mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
-common#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
-common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
-common#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
-common#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
+mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
+mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
+mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
 common#:#mail_system#:#Systemnachricht
-common#:#mail_to_search#:#Empfänger suchen
-common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
+mail#:#mail_to_search#:#Empfänger suchen
+mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
@@ -508,12 +508,12 @@ common#:#save_message#:#Nachricht speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
-common#:#search_addressbook#:#Adressbuchsuche
-common#:#search_bc_recipient#:#BC Empfänger suchen
-common#:#search_cc_recipient#:#CC Empfänger suchen
+mail#:#search_addressbook#:#Adressbuchsuche
+mail#:#search_bc_recipient#:#BC Empfänger suchen
+mail#:#search_cc_recipient#:#CC Empfänger suchen
 common#:#search_in#:#Suchen in
 common#:#search_recipient#:#Empfänger suchen
-common#:#search_system#:#Systemsuche
+mail#:#search_system#:#Systemsuche
 common#:#sections#:#Bereiche
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen

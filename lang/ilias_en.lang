@@ -36,7 +36,7 @@ common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
-common#:#add#:#Add 
+common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -44,7 +44,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
-common#:#also_as_email#:#Also as Email
+mail#:#also_as_email#:#Also as Email
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
@@ -60,7 +60,7 @@ common#:#available_languages#:#Available Languages
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
-common#:#bc#:#BC
+mail#:#bc#:#BC
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bookmark_edit#:#Edit Bookmark
@@ -209,7 +209,7 @@ common#:#forums_threads#:#Threads
 common#:#forums_threads_not_available#:#Topics Not Available
 common#:#forums_topics_overview#:#Topics Overview
 common#:#forums_your_reply#:#Your Reply
-common#:#forward#:#Forward
+mail#:#forward#:#Forward
 common#:#frm#:#Forum
 common#:#from#:#From
 common#:#functions#:#Functions
@@ -281,7 +281,7 @@ common#:#launch#:#Launch
 common#:#ldap#:#LDAP
 common#:#le#:#Learning module
 common#:#level#:#Level
-common#:#linebreak#:#Linebreak
+mail#:#linebreak#:#Linebreak
 common#:#link#:#Link
 common#:#linked_pages#:#Linked Pages
 common#:#list_of_pages#:#Pages List
@@ -307,77 +307,77 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
-common#:#mail_add_recipient#:#Please enter a recipient
-common#:#mail_add_subject#:#Please enter a subject
-common#:#mail_add_to_addressbook#:#Add to addressbook
-common#:#mail_addr_entries#:#Entries
+mail#:#mail_add_recipient#:#Please enter a recipient
+mail#:#mail_add_subject#:#Please enter a subject
+mail#:#mail_add_to_addressbook#:#Add to addressbook
+mail#:#mail_addr_entries#:#Entries
 common#:#mail_addressbook#:#Addressbook
 common#:#mail_allow_smtp#:#Allow SMTP
-common#:#mail_attachments#:#Attachments
+mail#:#mail_attachments#:#Attachments
 common#:#mail_b_inbox#:#Inbox
-common#:#mail_bc_not_valid#:#The Bc recipient is not valid
-common#:#mail_bc_search#:#BC search
+mail#:#mail_bc_not_valid#:#The Bc recipient is not valid
+mail#:#mail_bc_search#:#BC search
 common#:#mail_c_trash#:#Trash
-common#:#mail_cc_not_valid#:#The Cc recipient is not valid
-common#:#mail_cc_search#:#CC search
-common#:#mail_check_your_email_addr#:#Your email address is not valid
-common#:#mail_compose#:#Compose Message
+mail#:#mail_cc_not_valid#:#The Cc recipient is not valid
+mail#:#mail_cc_search#:#CC search
+mail#:#mail_check_your_email_addr#:#Your email address is not valid
+mail#:#mail_compose#:#Compose Message
 common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
-common#:#mail_deleted#:#The mail(s) have been deleted
-common#:#mail_deleted_entry#:#The entries are deleted
+mail#:#mail_deleted#:#The mail(s) have been deleted
+mail#:#mail_deleted_entry#:#The entries are deleted
 common#:#mail_e_sent#:#Sent
-common#:#mail_email_forbidden#:#You are not allowed to send email
-common#:#mail_entry_added#:#Added new Entry
-common#:#mail_entry_changed#:#The entry is changed
-common#:#mail_file_name#:#Filename
-common#:#mail_file_size#:#Filesize
-common#:#mail_files_deleted#:#The file(s) are deleted
-common#:#mail_folder_created#:#A new folder is created
-common#:#mail_folder_exists#:#A folder already exists with this name
-common#:#mail_folder_name#:#Folder name
-common#:#mail_folder_name_changed#:#The folder is renamed
-common#:#mail_folder_options#:#Folder Options
-common#:#mail_global_options#:#Global options
-common#:#mail_insert_folder_name#:#Please insert a folder name
-common#:#mail_insert_query#:#Please insert a query
+mail#:#mail_email_forbidden#:#You are not allowed to send email
+mail#:#mail_entry_added#:#Added new Entry
+mail#:#mail_entry_changed#:#The entry is changed
+mail#:#mail_file_name#:#Filename
+mail#:#mail_file_size#:#Filesize
+mail#:#mail_files_deleted#:#The file(s) are deleted
+mail#:#mail_folder_created#:#A new folder is created
+mail#:#mail_folder_exists#:#A folder already exists with this name
+mail#:#mail_folder_name#:#Folder name
+mail#:#mail_folder_name_changed#:#The folder is renamed
+mail#:#mail_folder_options#:#Folder Options
+mail#:#mail_global_options#:#Global options
+mail#:#mail_insert_folder_name#:#Please insert a folder name
+mail#:#mail_insert_query#:#Please insert a query
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mails_of#:#Mails:
-common#:#mail_mark_read#:#Mark mails read
-common#:#mail_mark_unread#:#Mark mails unread
+mail#:#mail_mark_read#:#Mark mails read
+mail#:#mail_mark_unread#:#Mark mails unread
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#mail_maxtime_mail#:#Max. days to keep mails 
-common#:#mail_message_send#:#The message is send
-common#:#mail_move_error#:#Error moving mail(s)
-common#:#mail_move_to#:#Move mails to
-common#:#mail_moved#:#The mail(s) have been moved
-common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
-common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
-common#:#mail_no_attachments_found#:#No attachments found
+common#:#mail_maxtime_mail#:#Max. days to keep mails
+mail#:#mail_message_send#:#The message is send
+mail#:#mail_move_error#:#Error moving mail(s)
+mail#:#mail_move_to#:#Move mails to
+mail#:#mail_moved#:#The mail(s) have been moved
+mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
+mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
+mail#:#mail_no_attachments_found#:#No attachments found
 common#:#mail_not_sent#:#Mail not sent!
-common#:#mail_options_of#:#Options:
-common#:#mail_recipient_not_valid#:#The recipient is not valid
-common#:#mail_s#:#Mail(s)
-common#:#mail_s_unread#:#Unread Mail(s)
-common#:#mail_saved#:#The message is saved
+mail#:#mail_options_of#:#Options:
+mail#:#mail_recipient_not_valid#:#The recipient is not valid
+mail#:#mail_s#:#Mail(s)
+mail#:#mail_s_unread#:#Unread Mail(s)
+mail#:#mail_saved#:#The message is saved
 common#:#mail_search_no#:#No entries found
 common#:#mail_search_word#:#Search word
 common#:#mail_select_one#:#You have to select one mail.
-common#:#mail_select_one_entry#:#You have to select one entry
-common#:#mail_select_one_file#:#You have to select one file
+mail#:#mail_select_one_entry#:#You have to select one entry
+mail#:#mail_select_one_file#:#You have to select one file
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail successfully sent!
-common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
-common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
-common#:#mail_sure_delete_file#:#The file will be removed permanently
-common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
+mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
+mail#:#mail_sure_delete_file#:#The file will be removed permanently
+mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 common#:#mail_system#:#System Message
-common#:#mail_to_search#:#To search
-common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
+mail#:#mail_to_search#:#To search
+mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
@@ -508,12 +508,12 @@ common#:#save_message#:#Save Message
 common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
-common#:#search_addressbook#:#Addressbook search
-common#:#search_bc_recipient#:#Search BC Recipient
-common#:#search_cc_recipient#:#Search CC Recipient
+mail#:#search_addressbook#:#Addressbook search
+mail#:#search_bc_recipient#:#Search BC Recipient
+mail#:#search_cc_recipient#:#Search CC Recipient
 common#:#search_in#:#Search in
 common#:#search_recipient#:#Search Recipient
-common#:#search_system#:#System search
+mail#:#search_system#:#System search
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
 common#:#select_file#:#Select file

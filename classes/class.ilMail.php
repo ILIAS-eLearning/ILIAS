@@ -94,6 +94,7 @@ class ilMail
 	{
 		require_once "classes/class.ilFileDataMail.php";
 		global $ilias, $lng;
+		$lng->loadLanguageModule("mail");
 		
 		// Initiate variables
 		$this->ilias = &$ilias;

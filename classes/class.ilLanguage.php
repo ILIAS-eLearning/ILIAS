@@ -85,30 +85,39 @@ class ilLanguage
 	var $separator = "#:#";
 	
 	/**
-	* separator value between the content and the comment of the lang entry 
+	* separator value between the content and the comment of the lang entry
 	* @var		string
 	* @access	private
 	*/
 	var $comment_separator = "###";
 
 	/**
+	* array of loaded languages
+	* @var		array
+	* @access	private
+	*/
+	var $loaded_modules;
+
+	/**
 	* Constructor
 	* read the single-language file and put this in an array text.
-	* the text array is two-dimensional. First dimension is the language. 
+	* the text array is two-dimensional. First dimension is the language.
 	* Second dimension is the languagetopic. Content is the translation.
-	* @access	public 
+	* @access	public
 	* @param	string		languagecode (two characters), e.g. "de", "en", "in"
 	* @return	boolean 	false if reading failed
 	*/
 	function ilLanguage($a_lang_key)
 	{
 		global $ilias;
-		
+
 		$this->ilias =& $ilias;
-		
+
 		$this->lang_key = $a_lang_key;
-		
+
 		$this->text = array();
+
+		$this->loaded_modules = array();
 
 		// if no ilias.ini.php was found set default values (->for setup-routine)
 		if (basename($_SERVER["PHP_SELF"]) == "setup.php")
@@ -117,7 +126,7 @@ class ilLanguage
 			$this->lang_default = "en";
 
 			$txt = file($this->lang_path."/setup_".$this->lang_key.".lang");
-		
+
 			$this->lang_name = $txt[0];
 
 			if (is_array($txt))
@@ -135,17 +144,17 @@ class ilLanguage
 		else
 		{
 			$this->lang_path = getcwd().substr($this->ilias->ini->readVariable("language","path"),1);
-			
+
 			// if no directory was found fall back to default lang dir
 			if (!is_dir($this->lang_path))
 			{
 				$this->lang_path = getcwd()."/lang";
 			}
-			
+
 			$this->lang_default = $this->ilias->ini->readVariable("language","default");
 			$this->lang_user = $this->ilias->account->prefs["language"];
-			
-			$this->loadLanguage();
+
+			$this->loadLanguageModule("common");
 		}
 
 		return true;
@@ -180,20 +189,27 @@ class ilLanguage
 		}
 	}
 	
-	function loadLanguage ()
+	function loadLanguageModule ($a_module)
 	{
+		if(in_array($a_module, $this->loaded_modules))
+		{
+			return;
+		}
+
+		$this->loaded_modules[] = $a_module;
+
 		$lang_key = $this->lang_key;
-		
+
 		if (empty($this->lang_key))
 		{
 			$lang_key = $this->lang_user;
 		}
-		
+
 		$query = "SELECT identifier,value FROM lng_data ".
 				 "WHERE lang_key = '".$lang_key."' ".
-				 "AND module = 'common'";
+				 "AND module = '$a_module'";
 		$res = $this->ilias->db->query($query);
-		
+
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
