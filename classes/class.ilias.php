@@ -73,11 +73,12 @@ class ILIAS extends PEAR
     *  @access private
     */	
 	var $typedefinition = array(
-								"grp"  => "'frm','le','crs','file'",
-								"cat"  => "'cat','frm','le','grp','crs','file'",
-								"frm"  => "",
-								"le"   => "",
-								"crs"  => "'le','frm','grp','file'",
+								"grp"  => "'frm','le','crs','file','rolf'",
+								"cat"  => "'cat','frm','le','grp','crs','file','rolf'",
+								"frm"  => "'rolf'",
+								"le"   => "'rolf'",
+								"crs"  => "'le','frm','grp','file','rolf'",
+								"file" => "'rolf'",
 								"adm"  => "'usrf','rolf','objf'",
 								"usrf" => "'user'",
 								"rolf" => "'role'",
