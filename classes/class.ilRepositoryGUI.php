@@ -949,7 +949,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				}
 				else
 				{
-					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".$data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
+					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".
+									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				}
 				// add to desktop link
 				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
@@ -977,15 +978,34 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
 					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
-					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
+					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".
+									  $this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".
+									  $Start."\">".$moderator->getLogin()."</a>");
 				}
 
 				// show content of last-post
 				if (is_array($lastPost))
 				{
-					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";
-					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$lastPost["pos_usr_id"]."&backurl=repository&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
-					$lpCont .= $lastPost["pos_date"];
+					if($lastPost["pos_usr_id"])
+					{
+						$last_user = $frm->getUserData($lastPost["pos_usr_id"]);
+					}
+
+					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".
+						$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
+						$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".
+						strtolower($lng->txt("from"))."&nbsp;";
+
+					if($lastPost["pos_usr_id"])
+					{
+						$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".
+							$last_user["usr_id"]."&backurl=repository&offset=".$Start."\">".$last_user["login"]."</a><br/>";
+						$lpCont .= $lastPost["pos_date"];
+					}
+					else
+					{
+						$lpCont .= $lng->txt("unknown");
+					}
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);
@@ -1005,7 +1025,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 							$moderators .= ", ";
 						}
 
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
+						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".
+							$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
 					}
 				}
 				$tpl->setVariable("MODS",$moderators);

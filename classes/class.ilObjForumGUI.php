@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.11 2003/08/25 14:10:39 mrus Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.12 2003/09/30 09:52:48 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -45,6 +45,83 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->type = "frm";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
+
+	function createObject()
+	{
+		//add template for buttons
+
+		/*
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id."&cmd=importForm");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_forum"));
+		$this->tpl->parseCurrentBlock();
+		*/
+		parent::createObject();
+
+		return true;
+	}
+
+	function importObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"],"frm"))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->getTemplateFile("import","frm");
+
+		$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&new_type=frm");
+		$this->tpl->setVariable("TXT_IMPORT_FORUM",$this->lng->txt("forum_import"));
+		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("forum_import_file"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
+
+		return true;
+	}
+
+
+	function performImportObject()
+	{
+
+		$this->__initFileObject();
+
+		if(!$this->file_obj->storeUploadedFile($_FILES["importFile"]))	// STEP 1 save file in ...import/mail
+		{
+			$this->message = $this->lng->txt("import_file_not_valid"); 
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->unzip())
+		{
+			$this->message = $this->lng->txt("cannot_unzip_file");			// STEP 2 unzip uplaoded file
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->findXMLFile())						// STEP 3 getXMLFile
+		{
+			$this->message = $this->lng->txt("cannot_find_xml");
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->__initParserObject($this->file_obj->getXMLFile()) or !$this->parser_obj->startParsing())
+		{
+			$this->message = $this->lng->txt("import_parse_error").":<br/>"; // STEP 5 start parsing
+		}
+
+		// FINALLY CHECK ERROR
+		if(!$this->message)
+		{
+			sendInfo($this->lng->txt("import_forum_finished"),true);
+			ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		}
+		else
+		{
+			sendInfo($this->message);
+			$this->importObject();
+		}
+	}
+
 
 	/**
 	* save object
@@ -88,5 +165,25 @@ class ilObjForumGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
+
+	// PRIVATE
+	function __initFileObject()
+	{
+		include_once "classes/class.ilFileDataImportForum.php";
+
+		$this->file_obj =& new ilFileDataImportForum();
+
+		return true;
+	}
+
+	function __initParserObject($a_xml_file)
+	{
+		include_once "classes/class.ilForumImportParser.php";
+
+		$this->parser_obj =& new ilForumImportParser($a_xml_file,$this->ref_id);
+
+		return true;
+	}
+
 } // END class.ilObjForumGUI
 ?>

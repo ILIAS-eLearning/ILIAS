@@ -330,7 +330,20 @@ class ilForum
 					
 		return $result;
 	}
+
+	function getPostById($a_id)
+	{
+		$query = "SELECT * FROM frm_posts WHERE pos_pk = '".$a_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $row;
+		}
+		return array();
+	}
 	
+
 	/**
 	* generate new dataset in frm_posts
 	* @param	integer	$topic
@@ -341,22 +354,24 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify)
+	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify,$subject,$date = "")
 	{
-	
+		$date = $date ? $date : date("Y-m-d H:i:s");
 		$pos_data = array(
 			"pos_top_fk"	=> $topic,
 			"pos_thr_fk"	=> $thread,
 			"pos_usr_id" 	=> $user,
 			"pos_message"=> strip_tags(addslashes($message)),
-			"pos_date"		=> date("Y-m-d H:i:s")            
+			"pos_subject"   => addslashes($subject),
+			"pos_date"		=> $date
 		);
 		
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,notify) ";
+		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_subject,pos_date,notify) ";
 		$q .= "VALUES ";
-		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."','".$notify."')";
+		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".
+			$pos_data["pos_message"]."','".$pos_data["pos_subject"]."','".$pos_data["pos_date"]."','".$notify."')";
 		$result = $this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -402,20 +417,23 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message,$notify)
+	function generateThread($topic, $user, $subject, $message,$notify,$date = '')
 	{
+		$date = $date ? $date : date("Y-m-d H:i:s");
+
 		$thr_data = array(
 			"thr_top_fk"	=> $topic,
 			"thr_usr_id"	=> $user,
 			"thr_subject"	=> addslashes($subject),
-			"thr_date"		=> date("Y-m-d H:i:s")
+			"thr_date"		=> $date
 		);
 		
 		// insert new thread into frm_threads
 		$q = "INSERT INTO frm_threads ";
-		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date) ";
+		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update) ";
 		$q .= "VALUES ";
-		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".$thr_data["thr_subject"]."','".$thr_data["thr_date"]."')";
+		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".
+			$thr_data["thr_subject"]."','".$thr_data["thr_date"]."','".$thr_data["thr_date"]."')";
 		$result = $this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -426,7 +444,7 @@ class ilForum
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
 
-		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify);
+		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify,$subject,$date);
 	}
 
 	/**
@@ -614,16 +632,21 @@ class ilForum
 	*/
 	function getThreadList($topic)
 	{
-		$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
-		$q .= "thr_top_fk ='".$topic."' AND ";
-		$q .= "thr_usr_id = usr_id";
+		$query = "SELECT frm_threads.* FROM frm_threads WHERE ".
+			"thr_top_fk = '".$topic."' ";
 
+		// DOES NOT WORK WITH UNKNOWN IMPORTED USERS
+		//
+		//$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
+		//$q .= "thr_top_fk ='".$topic."' AND ";
+		//$q .= "thr_usr_id = usr_id";
+		//
 		if ($this->orderField != "")
 		{
-			$q .= " ORDER BY ".$this->orderField;
+			$query .= " ORDER BY ".$this->orderField;
 		}
 	
-		$res = $this->ilias->db->query($q);			
+		$res = $this->ilias->db->query($query);			
 
 		return $res;
 	}
@@ -663,12 +686,13 @@ class ilForum
 	function getLastPost($lastPost)
 	{
 		$LP = explode("#", $lastPost);		
-		
-		$q = "SELECT DISTINCT frm_posts.*, usr_data.login FROM frm_posts, usr_data WHERE ";
+
+		$q = "SELECT DISTINCT frm_posts.* FROM frm_posts WHERE ";
+		//$q = "SELECT DISTINCT frm_posts.*, usr_data.login FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk = '".$LP[0]."' AND ";
 		$q .= "pos_thr_fk = '".$LP[1]."' AND ";
-		$q .= "pos_pk = '".$LP[2]."' AND ";
-		$q .= "pos_usr_id = usr_id";		
+		$q .= "pos_pk = '".$LP[2]."'";
+		//$q .= "pos_usr_id = usr_id";
 
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);		
 		
@@ -1010,9 +1034,12 @@ class ilForum
 	*/
 	function fetchPostNodeData($a_row)
 	{
+		global $lng;
+
 		require_once("./classes/class.ilObjUser.php");
 		$tmp_user = new ilObjUser($a_row->pos_usr_id);
 		$fullname = $tmp_user->getFullname();
+		$fullname = $fullname ? $fullname : $lng->txt("unknown");
 
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
@@ -1021,6 +1048,7 @@ class ilForum
 					"title"         => $fullname,
 					"type"          => "post",
 					"message"		=> $a_row->pos_message,
+					"subject"		=> $a_row->pos_subject,	
 					"pos_cens_com"	=> $a_row->pos_cens_com,
 					"pos_cens"		=> $a_row->pos_cens,
 					"date"			=> $a_row->date,
@@ -1302,5 +1330,27 @@ class ilForum
 
 		return $message;
 	}
-	
+
+	function getUserData($id)
+	{
+		global $lng;
+
+		if($id)
+		{
+			$query = "SELECT * FROM usr_data WHERE usr_id = '".$id."'";
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$tmp_array["usr_id"] = $row->usr_id;
+				$tmp_array["login"]  = $row->login;
+			}
+			return $tmp_array ? $tmp_array : array();
+		}
+		else
+		{
+			return array("usr_id" => 0,"login" => $lng->txt("unknown"));
+		}
+	}
+
+
 } // END class.Forum
