@@ -223,7 +223,7 @@ class ilLMObjectGUI
 
 	function showPossibleSubObjects($a_type)
 	{
-		$d = $this->objDefinition->getSubObjects($a_type);
+		$d = $this->objDefinition->getCreatableSubObjects($a_type);
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)

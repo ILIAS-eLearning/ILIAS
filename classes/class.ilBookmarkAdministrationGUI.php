@@ -786,7 +786,7 @@ class ilBookmarkAdministrationGUI
 	{
 		global $objDefinition;
 
-		$d = $objDefinition->getSubObjects("bmf");
+		$d = $objDefinition->getCreatableSubObjects("bmf");
 
 		if (count($d) > 0)
 		{

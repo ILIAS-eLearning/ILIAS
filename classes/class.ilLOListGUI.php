@@ -403,7 +403,7 @@ class ilLOListGUI
 	function showPossibleSubObjects()
 	{
 
-		$d = $this->objDefinition->getSubObjects("cat");
+		$d = $this->objDefinition->getCreatableSubObjects("cat");
 
 		if (count($d) > 0)
 		{

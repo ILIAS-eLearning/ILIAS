@@ -305,7 +305,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		$d = $this->objDefinition->getSubObjects($this->object->getType());
+		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		
 		if ($this->object->getRefId() != ROLE_FOLDER_ID)
 		{
