@@ -74,7 +74,7 @@ if(isset($_POST["cmd"]["delete"]))
 // SAVE OPTIONS
 if(isset($_POST["cmd"]["save"]))
 {
-	$umail->updateOptions($_POST["signature"],$_POST["linebreak"]);
+	$umail->mail_options->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
 	sendInfo($lng->txt("mail_options_saved"),true);
 	header("location: mail.php?mobj_id=$_GET[mobj_id]");
 	exit;
@@ -130,9 +130,21 @@ if(!isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock("options");
 
+	// BEGIN INCOMING
+	$tpl->setCurrentBlock("option_inc_line");
+
+	$inc = array($lng->txt("mail_incoming_local"),$lng->txt("mail_incoming_smtp"),$lng->txt("mail_incoming_both"));
+	foreach($inc as $key => $option)
+	{
+		$tpl->setVariable("OPTION_INC_VALUE",$key);
+		$tpl->setVariable("OPTION_INC_NAME",$option);
+		$tpl->setVariable("OPTION_INC_SELECTED",$umail->mail_options->getIncomingType() == $key ? "selected=\"selected\"" : "");
+		$tpl->parseCurrentBlock();
+	}
+
 	// BEGIN LINEBREAK_OPTIONS
 	$tpl->setCurrentBlock("option_line");
-	$linebreak = $umail->getLinebreak();
+	$linebreak = $umail->mail_options->getLinebreak();
 	
 	for($i = 50; $i <= 80;$i++)
 	{
@@ -145,9 +157,10 @@ if(!isset($_POST["cmd"]["delete"]))
 		$tpl->parseCurrentBlock();
 	}
 	$tpl->setVariable("GLOBAL_OPTIONS",$lng->txt("mail_global_options"));
+	$tpl->setVariable("TXT_INCOMING", $lng->txt("mail_incoming"));
 	$tpl->setVariable("TXT_LINEBREAK", $lng->txt("linebreak"));
 	$tpl->setVariable("TXT_SIGNATURE", $lng->txt("signature"));
-	$tpl->setVariable("CONTENT",$umail->getSignature());
+	$tpl->setVariable("CONTENT",$umail->mail_options->getSignature());
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 	$tpl->parseCurrentBlock();
 }

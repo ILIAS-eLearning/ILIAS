@@ -185,18 +185,6 @@ class ilMailExplorer extends ilExplorer
 	*/
 	function formatHeader($a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
-
-		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["title"]);
-		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_cat.gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_cat"));
-		$tpl->setVariable("TITLE", $a_option["title"]." ".strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
-		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
 	}
 
 	/**

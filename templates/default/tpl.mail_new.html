@@ -12,7 +12,8 @@ body { margin:0px; }
 <br />
 {MESSAGE}
 	<form action="{ACTION}" method="post">
-	  <table class="fullwidth">
+		<input type="hidden" name="m_type[]" value="normal" /> 
+		<table class="fullwidth">
 		<!-- BEGIN search -->
 		  <tr>
 			<td class="std" align="right">Suche nach:
@@ -68,18 +69,14 @@ body { margin:0px; }
 			<td class="std" align="right">{TXT_SUBJECT}</td>
 			<td class="std"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
 		  </tr>
+		  <!-- BEGIN system_message --> 
 		  <tr>
-			<td class="std" align="right">{TXT_TYPE}</td>
+			<td class="std" align="right">{SYSTEM_TXT_TYPE}</td>
 			<td class="std">
-			  <input type="checkbox" name="m_type[]" value="normal" {CHECKED_NORMAL}/>{TXT_NORMAL}
-			  <!-- BEGIN system_message --> 
 			  <input type="checkbox" name="m_type[]" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
-			  <!-- END system_message --> 
-			  <!-- BEGIN also_smtp -->
-			  <input type="checkbox" name="m_type[]" value="email" {CHECKED_EMAIL}/>{TXT_EMAIL}
-			  <!-- END also_smtp -->
 			</td>
 		  </tr>
+		  <!-- END system_message --> 
 		  <tr>
 			<td class="std" align="right" valign="top">{TXT_ATTACHMENT}</td>
 			<td class="std">

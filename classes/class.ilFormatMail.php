@@ -36,26 +36,6 @@ require_once "classes/class.ilMail.php";
 
 class ilFormatMail extends ilMail
 {
-	/**
-	* linebreak
-	* @var integer
-	* @access public
-	*/
-	var $linebreak;
-
-	/**
-	* signature
-	* @var string signature
-	* @access public
-	*/
-	var $signature;
-
-	/**
-	* table name of user options
-	* @var string
-	* @access private
-	*/
-	var $table_mail_options;
 
 	/**
 	* Constructor
@@ -66,85 +46,6 @@ class ilFormatMail extends ilMail
 	function ilFormatMail($a_user_id)
 	{
 		parent::ilMail($a_user_id);
-		
-		define("DEFAULT_LINEBREAK",60);
-		$this->table_mail_options = 'mail_options';
-		$this->getOptions();
-	}
-
-	/**
-	* create entry in table_mail_options for a new user
-	* this method should only be called from createUser()
-	* @access	public
-	* @return	boolean
-	*/
-	function createMailOptionsEntry()
-	{
-		$query = "INSERT INTO $this->table_mail_options ".
-			"VALUES('".$this->user_id."','".DEFAULT_LINEBREAK."','')";
-
-		$res = $this->ilias->db->query($query);
-		return true;
-	}
-
-	/**
-	* get options of user and set variables $signature and $linebreak
-	* this method shouldn't bew called from outside
-	* use getSignature() and getLinebreak()
-	* @access	private
-	* @return	boolean
-	*/
-	function getOptions()
-	{
-		$query = "SELECT * FROM $this->table_mail_options ".
-			"WHERE user_id = '".$this->user_id."'";
-
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-		
-		$this->signature = stripslashes($row->signature);
-		$this->linebreak = stripslashes($row->linebreak);
-
-		return true;
-	}
-
-	/**
-	* update user options
-	* @param string Signature
-	* @param int linebreak
-	* @return	boolean
-	*/
-	function updateOptions($a_signature, $a_linebreak)
-	{
-		$query = "UPDATE $this->table_mail_options ".
-			"SET signature = '".addslashes($a_signature)."',".
-			"linebreak = '".addslashes($a_linebreak)."' ".
-			"WHERE user_id = '".$this->user_id."'";
-
-		$res = $this->ilias->db->query($query);
-
-		$this->signature = $a_signature;
-		$this->linebreak = $a_linebreak;
-
-		return true;
-	}
-	/**
-	* get linebreak of user
-	* @access	public
-	* @return	array	mails
-	*/
-	function getLinebreak()
-	{
-		return $this->linebreak;
-	}
-
-	/**
-	* get signature of user
-	* @access	public
-	* @return	array	mails
-	*/
-	function getSignature()
-	{
-		return $this->signature;
 	}
 
 	/**
@@ -269,7 +170,7 @@ class ilFormatMail extends ilMail
 		$formatted = array();
 
 #		debug($a_message);
-		$linebreak = $this->getLinebreak();
+		$linebreak = $this->mail_options->getLinebreak();
 		// SPLIT INTO LINES returns always an array
 		$lines = explode(chr(13).chr(10),$a_message);
 		for($i=0;$i<count($lines);$i++)
@@ -297,7 +198,7 @@ class ilFormatMail extends ilMail
 	*/
 	function appendSignature()
 	{
-		return $this->mail_data["m_message"] .= $this->getSignature();
+		return $this->mail_data["m_message"] .= $this->mail_options->getSignature();
 	}
 } // END class.ilFormatMail
 ?>

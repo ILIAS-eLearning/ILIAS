@@ -1952,3 +1952,8 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+mail#:#mail_incoming#:#Incoming mails
+mail#:#mail_incoming_local#:#only local
+mail#:#mail_incoming_smtp#:#forward to email address
+mail#:#mail_incoming_both#:#local and forwarding
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails
