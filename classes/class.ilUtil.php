@@ -99,6 +99,28 @@ class ilUtil
 		return $dir.$default;
 	}
 
+    /**
+    * get url of path
+    *
+    * @author   Brandon Blackmoor <brandon.blackmoor@jfcom.mil>
+    * @access   public
+    * @param    $relative_path string     complete path to file, relative to web root
+    *                                       (e.g.  /data/pfplms103/mobs/mm_732/athena_standing.jpg)
+    */
+    function getHtmlPath($relative_path)
+    {
+        if (substr($relative_path, 0, 2) == './')
+        {
+            $relative_path = (substr($relative_path, 1));
+        }
+        if (substr($relative_path, 0, 1) != '/')
+        {
+            $relative_path = '/' . $relative_path;
+        }
+        $htmlpath = ILIAS_HTTP_PATH . $relative_path;
+        return $htmlpath;
+    }
+
 	function getJSPath($a_js)
 	{
 		global $ilias;
@@ -507,8 +529,8 @@ class ilUtil
 	* Diese Funktion erzeugt einen typischen Navigationsbalken mit
 	* "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
 	*
-	* die komplette LinkBar wird zur�ckgegeben
-	* der Variablenname f�r den offset ist "offset"
+	* die komplette LinkBar wird zur?ckgegeben
+	* der Variablenname f?r den offset ist "offset"
 	*
 	* @author Sascha Hofmann <shofmann@databay.de>
 	*
@@ -517,7 +539,7 @@ class ilUtil
 	* @param	integer	Anzahl der Elemente insgesamt
 	* @param	integer	Anzahl der Elemente pro Seite
 	* @param	integer	Das aktuelle erste Element in der Liste
-	* @param	array	Die zu �bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
+	* @param	array	Die zu ?bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
 	* @param	array	layout options (all optional)
 	* 					link	=> css name for <a>-tag
 	* 					prev	=> value for 'previous page' (default: '<<')
@@ -551,7 +573,7 @@ class ilUtil
 			}
 		}
 
-		// Wenn Hits gr�sser Limit, zeige Links an
+		// Wenn Hits gr?sser Limit, zeige Links an
 		if ($AHits > $ALimit)
 		{
 			if (!empty($AParams))
@@ -564,14 +586,14 @@ class ilUtil
 			// if ($params) $params = substr($params,0,-1);
 			$link = $AScript."?".$params."offset=";
 
-			// �bergehe "zurck"-link, wenn offset 0 ist.
+			// ?bergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
 				$LinkBar .= "<a".$layout_link." href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
 			}
 
-			// Ben�tigte Seitenzahl kalkulieren
+			// Ben?tigte Seitenzahl kalkulieren
 			$pages=intval($AHits/$ALimit);
 
 			// Wenn ein Rest bleibt, addiere eine Seite

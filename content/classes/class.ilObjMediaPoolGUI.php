@@ -435,6 +435,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->ctrl->setParameterByClass("ilobjmediaobjectgui", "obj_id", $obj["obj_id"]);
 						$this->tpl->setVariable("LINK_VIEW",
 							$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "edit"));
+                        $this->tpl->setVariable("OBJ_URL", ilUtil::getHtmlPath(ilObjMediaObject::_getDirectory($obj["obj_id"]) . '/'. $obj["title"]));
 						break;
 				}
 				$this->tpl->parseCurrentBlock();
