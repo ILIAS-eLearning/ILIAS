@@ -72,7 +72,17 @@ class ilObjGroup extends ilObject
 		$this->type = "grp";
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		$this->m_grpId = $a_id;
+		if($a_call_by_reference)
+		{
+			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+			$this->m_grpId = $a_id;
+		
+		}
+		else
+		{
+			$this->m_grpId = $a_id;		
+		}
+		
 		$this->tree = $tree;
 		
 	}
@@ -86,7 +96,7 @@ class ilObjGroup extends ilObject
 	function joinGroup($a_userId, $a_memStatus)
 	{
 		global $rbacadmin;
-		
+
 		if(isset($a_userId) && isset($a_memStatus))
 		{
 /*
@@ -99,10 +109,15 @@ class ilObjGroup extends ilObject
 			if(strcmp($a_memStatus,"member") == 0)			//member
 			{
 				$rbacadmin->assignUser($this->m_roleMemberId,$a_userId, false);			
+				$ops = array(2,3,7,8);
+				$rbacadmin->grantPermission($this->m_roleMemberId,$ops,$this->getRefId());		
+				
 			}
 			else if(strcmp($a_memStatus,"admin") == 0)		//admin
 			{
 				$rbacadmin->assignUser($this->m_roleAdminId,$a_userId, false);				
+				$ops = array(5,6,1,7,8,3,2,4);
+				$rbacadmin->grantPermission($this->m_roleAdminId,$ops,$this->getRefId());		
 			}
 			else											//request??
 			{
@@ -224,10 +239,32 @@ class ilObjGroup extends ilObject
 			$this->m_grpStatus = 2;				
 			}
 		
-		$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->m_grpId.",".$this->m_grpStatus.")";
-		$res = $this->ilias->db->query($sql_query);
 
+		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res		= $this->ilias->db->query($sql_query1);
+
+		if($res->numRows() == 0)
+			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$this->m_grpStatus.")";
+		else
+			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getId()."'";
+
+		$res = $this->ilias->db->query($sql_query);
 	}
+
+	/**
+	* get group status
+	* @access	public
+	* @param	integer	group id
+	*/
+	function getGroupStatus()
+	{
+		$sql_query = "SELECT status FROM grp_data WHERE grp_id=".$this->getId();
+		$res = $this->ilias->db->query($sql_query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $row["status"];
+	}
+
 
 	/**
 	* create Group Role
@@ -275,7 +312,7 @@ class ilObjGroup extends ilObject
 			//set permissions for admin-role
 			$ops = array(1,2,3,4,6,8);
 			$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
-			
+		
 			unset($roleObj);			
 
 			//request-role <=> group is private
@@ -325,16 +362,6 @@ class ilObjGroup extends ilObject
 			}
 		}
 		return NULL;		
-	}
-
-	/**
-	* get group status
-	* @access	public
-	* @param	integer	group id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function getGroupStatus($a_grpId="")
-	{
 	}
 
 	/**
