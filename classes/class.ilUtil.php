@@ -835,12 +835,28 @@ class ilUtil
 
 	/**
 	* get webspace directory
+	*
+	* @param	string		$mode		use "filesystem" for filesystem operations
+	*									and "output" for output operations, e.g. images
 	*/
-	function getWebspaceDir()
+	function getWebspaceDir($mode = "filesystem")
 	{
-		global $ilias;
-		
-		return "./data";
+		if ($mode == "filesystem")
+		{
+			return "./data";
+		}
+		else
+		{
+			if (defined("ILIAS_MODULE"))
+			{
+				return "../data";
+			}
+			else
+			{
+				return "./data";
+			}
+		}
+
 		//return $ilias->ini->readVariable("server","webspace_dir");
 	}
 
@@ -879,11 +895,14 @@ class ilUtil
 
 	/**
 	* create directory
+	*
+	* deprecated use makeDir() instead!
 	*/
 	function createDirectory($a_dir, $a_mod = 0755)
 	{
-		@mkdir($a_dir);
-		@chmod($a_dir, $a_mod);
+		ilUtil::makeDir($a_dir);
+		//@mkdir($a_dir);
+		//@chmod($a_dir, $a_mod);
 	}
 
 
@@ -995,7 +1014,7 @@ class ilUtil
 	/**
 	* creates a new directory and inherits all filesystem permissions of the parent directory
 	* You may pass only the name of your new directory or with the entire path or relative path information.
-	* 
+	*
 	* examples:
 	* a_dir = /tmp/test/your_dir
 	* a_dir = ../test/your_dir

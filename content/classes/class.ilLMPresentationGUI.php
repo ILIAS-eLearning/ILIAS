@@ -840,7 +840,7 @@ class ilLMPresentationGUI
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
-		$wb_path = "../".ilUtil::getWebspaceDir();
+		$wb_path = ilUtil::getWebspaceDir("output");
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => 'fullscreen',
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);

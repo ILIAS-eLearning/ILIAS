@@ -208,7 +208,6 @@ class ilContObjParser extends ilSaxParser
 			}
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$mob_id;
-//			$target_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$mob_id;
 
 //echo "copy from $source_dir to $target_dir <br>";
 			if (@is_dir($source_dir))

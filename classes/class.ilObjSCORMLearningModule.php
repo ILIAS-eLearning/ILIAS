@@ -54,8 +54,7 @@ class ilObjSCORMLearningModule extends ilObject
 
 	/**
 	* creates data directory for package files
-	* (webspace_dir/lm_data/lm_<id>, depending on webspace
-	* directory that is set in ILIAS setup/ini)
+	* ("./data/lm_data/lm_<id>")
 	*/
 	function createDataDirectory()
 	{
@@ -77,9 +76,9 @@ class ilObjSCORMLearningModule extends ilObject
 	/**
 	* get data directory of lm
 	*/
-	function getDataDirectory()
+	function getDataDirectory($mode = "filesystem")
 	{
-		$lm_data_dir = ilUtil::getWebspaceDir()."/lm_data";
+		$lm_data_dir = ilUtil::getWebspaceDir($mode)."/lm_data";
 
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
 		if(@is_dir($lm_dir))
@@ -92,13 +91,14 @@ class ilObjSCORMLearningModule extends ilObject
 		}
 	}
 
+	/*
 	function getWebDirectory() {
 	        $lm_data_dir = "/lm_data";
 
                 $lm_dir = $lm_data_dir."/lm_".$this->getId();
                         return $lm_dir;
                         return false;
-	}
+	}*/
 
 	/**
 	* copy all properties and subobjects of a SCROM LearningModule.

@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.46 2003/08/26 11:14:50 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.47 2003/09/24 19:33:22 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -915,9 +915,9 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($userObj->getPref("public_upload")=="y")
 		{
 			//Getting the flexible path of image form ini file
-			$webspace_dir = ilUtil::getWebspaceDir();
+			$webspace_dir = ilUtil::getWebspaceDir("output");
 			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
-			$this->tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
+			$this->tpl->setVariable("IMAGE_PATH",$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 		}
 		else
 		{

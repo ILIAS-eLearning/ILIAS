@@ -301,7 +301,7 @@ class ilObjStyleSheet extends ilObject
 		if ($a_style_id > 0)
 		{
 			$rand = rand(1,999999);
-			return "../".ilUtil::getWebspaceDir().
+			return ilUtil::getWebspaceDir("output").
 				"/css/style_".$a_style_id.".css?dummy=$rand";
 		}
 		else		// todo: work this out
