@@ -121,7 +121,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->$cmd();
 		
 		//var_dump($_GET);
-		
+
 	}
 	/**
 	* calls current view mode (tree frame or list)
@@ -162,13 +162,13 @@ class ilGroupGUI extends ilObjGroupGUI
 
 
 
-	$this->tpl->addBlockFile("CONTENT", "content", "tpl.groups_overview.html");
+	$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 	$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 	infoPanel();
 	$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 	$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
-	//$this->tpl->setCurrentBlock("content");
+	$this->tpl->setCurrentBlock("content");
 	$this->tpl->setVariable("TXT_PAGEHEADLINE",  $this->lng->txt("groups_overview"));
 
 	// set offset & limit
@@ -248,7 +248,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	
 
 	// load template for table
-	$this->tpl->addBlockfile("GROUP_TABLE", "group_table", "tpl.table.html");
+	$this->tpl->addBlockfile("GROUP_DETAILS_TABLE", "group_table", "tpl.table.html");
 	// load template for table content data
 	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
 	$cont_num = count($cont_arr);
@@ -271,11 +271,9 @@ class ilGroupGUI extends ilObjGroupGUI
 
 			$obj_link = "group.php?gateway=true&cmd=show_content&ref_id=".$cont_data["ref_id"];
 
-//			$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"];
 
 			$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-			$this->tpl->setVariable("CHECKBOX",
-				ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
+			$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 			$this->tpl->setVariable("TITLE", $cont_data["title"]);
 			$this->tpl->setVariable("LINK", $obj_link);
 			//$this->tpl->setVariable("LINK_TARGET", "_parent");
@@ -389,6 +387,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		infoPanel();
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+		
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_PAGEHEADLINE",  $this->lng->txt("group_details"));
 		// set offset & limit
@@ -450,8 +449,7 @@ class ilGroupGUI extends ilObjGroupGUI
 				$obj_link = $this->getURLbyType($cont_data);
 
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$this->tpl->setVariable("CHECKBOX",
-				ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
+				$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LO_LINK", $obj_link);
 
