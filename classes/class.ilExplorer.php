@@ -308,7 +308,7 @@ class ilExplorer
 	*
 	* @return	boolean		true if linking is activated
 	*/
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id = 0)
 	{
 		// in this standard implementation
 		// only the type determines, wether an object should be clickable or not
