@@ -31,9 +31,9 @@ require_once ("DB.php");
 *
 * this class should extend PEAR::DB, add error Management
 * in case of a db-error in any database query the ilDBx-class raises an error
-* 
+*
 * @author Peter Gabriel <peter@gabriel-online.net>
-* 
+*
 * @version $Id$
 * @package application
 * @access public
@@ -68,9 +68,9 @@ class ilDBx extends PEAR
 
 	/**
 	* constructor
-	* 
+	*
 	* set up database conncetion and the errorhandling
-	* 
+	*
 	* @param string dsn database-connection-string for pear-db
 	*/
 	function ilDBx($dsn)
@@ -89,7 +89,7 @@ class ilDBx extends PEAR
 
 		$this->dsn = $dsn;
 
-		//connect to database 	
+		//connect to database
 		$this->db = DB::connect($this->dsn, true);
 
 		//check error
@@ -130,7 +130,7 @@ class ilDBx extends PEAR
 	function query($sql)
 	{
 		$r = $this->db->query($sql);
-		
+
 		if (DB::isError($r))
 		{
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
@@ -141,19 +141,30 @@ class ilDBx extends PEAR
 		}
 	} //end function
 
+
 	/**
-	* getrow 
-	* 
+	* wrapper for quote method
+	*/
+	function quote($a_query)
+	{
+		// maybe quoteSmart should be used in the future
+		return $this->db->quote($a_query);
+	}
+
+
+	/**
+	* getrow
+	*
 	* this is the wrapper itself. query a string, and return the resultobject,
 	* or in case of an error, jump to errorpage
-	* 
+	*
 	* @param string
 	* @return object DB
 	*/
 	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
 	{
 		$r = $this->db->getrow($sql,$mode);
-		
+
 		if (DB::isError($r))
 		{
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);

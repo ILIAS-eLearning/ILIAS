@@ -460,6 +460,8 @@ class ilObject
 	*/
 	function create()
 	{
+		global $ilDB;
+
 		if (!isset($this->type))
 		{
 			$message = get_class($this)."::create(): No object type given!";
@@ -472,9 +474,10 @@ class ilObject
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
-			 "('".$this->type."','".ilUtil::prepareDBString($this->getTitle())."','".ilUtil::prepareDBString($this->getDescription())."',".
+			 "('".$this->type."',".$ilDB->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
 			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
-		$this->ilias->db->query($q);
+		//$this->ilias->db->query($q);
+		$ilDB->query($q);
 
 		$this->id = getLastInsertId();
 
