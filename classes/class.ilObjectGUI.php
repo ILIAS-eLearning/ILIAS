@@ -1211,10 +1211,11 @@ class ilObjectGUI
 			foreach ($_POST["stop_inherit"] as $stop_inherit)
 			{
 				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
-				if (!($rolf_id = $rolf_data["child"]))
+				
+				if (empty($rolf_data["child"]))
 				{
 					// CHECK ACCESS 'create' rolefolder
-					if ($rbacsystem->checkAccess('create', $_GET["ref_id"],'rolf'))
+					if ($rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
 					{
 						require_once ("classes/class.ilObjRoleFolder.php");
 						$rolfObj = new ilObjRoleFolder();
@@ -1224,18 +1225,19 @@ class ilObjectGUI
 						$rolfObj->createReference();
 						$rolfObj->putInTree($_GET["ref_id"]);
 						unset($rolfObj);
+						
+						$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
 					}
 					else
 					{
 						$this->ilias->raiseError("No permission to create Role Folder",$this->ilias->error_obj->WARNING);
 					}
 				}
+				
 				// CHECK ACCESS 'write' of role folder
-				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
-
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
-					$parentRoles = $rbacadmin->getParentRoleIds();
+					$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
 					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 												   $rolf_data["child"],$stop_inherit);
 					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');

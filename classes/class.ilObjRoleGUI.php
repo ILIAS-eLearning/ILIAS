@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.4 2003/03/31 09:38:20 akill Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.5 2003/03/31 11:17:45 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -270,11 +270,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			foreach ($_POST["template_perm"] as $key => $ops_array)
 			{
 				// sets new template permissions
-				//$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
+				$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
 			}
 
 			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
-			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPED
+			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
 			if ($_POST["recursive"])
 			{
 				$parent_obj = $_GET["ref_id"];
@@ -327,11 +327,11 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 				// NOW SET ALL PERMISSIONS
-				foreach($_POST["template_perm"] as $type => $a_perm)
+				foreach ($_POST["template_perm"] as $type => $a_perm)
 				{
-					foreach($valid_nodes as $node)
+					foreach ($valid_nodes as $node)
 					{
-						if($type == $node["type"])
+						if ($type == $node["type"])
 						{
 							$rbacadmin->revokePermission($node["child"],$this->object->getId());
 							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["child"]);

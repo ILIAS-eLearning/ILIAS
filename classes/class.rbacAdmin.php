@@ -784,7 +784,7 @@ class RbacAdmin
 
 		$childs = $tree->getChildsByType($a_ref_id,"rolf");
 
-		return $childs[0] ? $child[0] : array();
+		return $childs[0] ? $childs[0] : array();
 	}
 
 	/**

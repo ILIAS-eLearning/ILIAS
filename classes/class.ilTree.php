@@ -167,7 +167,12 @@ class ilTree
 		$this->obj_pk = $a_column_name;
 		return true;
 	}
-	
+
+	/**
+	* build join depending on table settings
+	* @access	private
+	* @return	string
+	*/
 	function buildJoin()
 	{
 		if ($this->table_obj_reference)
