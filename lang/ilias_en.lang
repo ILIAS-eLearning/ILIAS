@@ -2401,6 +2401,9 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
+content#:#cont_offline_versions#:#Offline Versions
+content#:#cont_create_html_version#:#Create HTML Package
+content#:#cont_offline_files#:#Offline versions
 content#:#cont_clean_frames#:#Clean additional frames on navigation
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
