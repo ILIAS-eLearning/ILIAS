@@ -1077,7 +1077,7 @@ common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
-common#:#edit_properties#:#editar propiedades
+common#:#edit_properties#:#Editar Propiedades
 common#:#edit_roleassignment#:#Editar asignación de rol
 common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#editado en
@@ -1353,7 +1353,7 @@ common#:#grp_err_last_member#:#El último miembro no pudo ser eliminado, por fav
 common#:#grp_err_member_could_not_be_removed#:#El Miembro no pudo ser eliminado. Por favor, verifique todas las dependencias de este usuario.
 common#:#grp_err_no_permission#:#No tiene permiso para esta operación.
 common#:#grp_err_registration_data#:#Por favor introduzca un password, la fecha de expiración y un período de registro válido!
-common#:#grp_header_edit_members#:#Editar miembros
+common#:#grp_header_edit_members#:#Editar Miembros
 common#:#grp_join#:#El Usuario puede unirse al Grupo
 common#:#grp_leave#:#El Usuario puede dejar el Grupo
 common#:#grp_list_users#:#Listar usuarios
@@ -1689,7 +1689,7 @@ common#:#matriculation#:#Número de Matriculación
 common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#member#:#Miembro
-common#:#members#:#miembros
+common#:#members#:#Miembros
 common#:#membership_annulled#:#Tu pertenencia ha sido cancelada
 common#:#mep#:#Depósito Multimedia
 common#:#mep_add#:#Añadir Depósito Multimedia
@@ -2703,7 +2703,7 @@ content#:#cont_ed_delete_col#:#eliminar columna
 content#:#cont_ed_delete_item#:#eliminar item
 content#:#cont_ed_delete_row#:#eliminar fila
 content#:#cont_ed_edit#:#editar
-content#:#cont_ed_edit_prop#:#editar propiedades
+content#:#cont_ed_edit_prop#:#Editar Propiedades
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#insertar código
 content#:#cont_ed_insert_filelist#:#insertar Lista de Ficheros
@@ -2847,7 +2847,7 @@ content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
 content#:#cont_page_header#:#Cabecera de Página
-content#:#cont_page_link#:#Enlace a Página
+content#:#cont_page_link#:#Enlace a Página Inicial
 content#:#cont_page_select_target_now#:#Página marcada para mover. A continuación seleccione destino.
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parámetro
@@ -3020,13 +3020,13 @@ crs#:#crs_added_starters#:#objeto(s) inicial(es) asignado(s)
 crs#:#crs_admin#:#Administrador
 crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificacion)
-crs#:#crs_allow_abo#:#Permitir suscripción de los items del curso
+crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
 crs#:#crs_archive#:#Archivos
 crs#:#crs_archive_disabled#:#Deshabilitado
 crs#:#crs_archive_download#:#Descargar
 crs#:#crs_archive_lang#:#Idioma
 crs#:#crs_archive_read#:#Acceso de Lectura
-crs#:#crs_archive_select_type#:#Tipo de Acceso al Archivo
+crs#:#crs_archive_select_type#:#Acceso a Archivos
 crs#:#crs_archive_type#:#Tipo de Archivo
 crs#:#crs_archive_type_disabled#:#Sin acceso
 crs#:#crs_archives_deleted#:#El/Los archivo(s) ha(n) sido eliminado(s)
@@ -3039,7 +3039,7 @@ crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso
 crs#:#crs_change_status#:#Modificar estado del objetivo:
 crs#:#crs_chapter_already_assigned#:#Estos capítulos ya están asignados
 crs#:#crs_contact#:#Contacto
-crs#:#crs_contact_consultation#:#Consultoría
+crs#:#crs_contact_consultation#:#Tutorías
 crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#Nombre
 crs#:#crs_contact_phone#:#Teléfono
@@ -3242,7 +3242,7 @@ crs#:#crs_sort_activation#:#Ordenar por activación
 crs#:#crs_sort_manual#:#Ordenación manual
 crs#:#crs_sort_title#:#Ordenar por título
 crs#:#crs_sortorder#:#Ordenar
-crs#:#crs_sortorder_abo#:#Ordenación por suscripción
+crs#:#crs_sortorder_abo#:#Tipo de Ordenación
 crs#:#crs_start#:#Comienzo
 crs#:#crs_start_objects#:#Objetos iniciales
 crs#:#crs_starter_deleted#:#Asignación eliminada
