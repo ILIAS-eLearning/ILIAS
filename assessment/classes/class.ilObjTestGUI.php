@@ -121,7 +121,21 @@ class ilObjTestGUI extends ilObjectGUI
   function propertiesObject()
   {
 		global $rbacsystem;
-		
+		// Set the patch for the image directory
+		setcookie("imagepath", $this->object->getImagePath());
+		if (!is_dir($this->object->getImagePath()))
+		{
+			ilUtil::makeDirParents($this->object->getImagePath());
+		}
+		setcookie("imagepathweb", $this->object->getImagePathWeb());
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "introduction");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
@@ -266,14 +280,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
-		$this->tpl->addBlockFile("RTE", "rte", "tpl.ilRTEEdit.html", true);
-		$this->tpl->setCurrentBlock("rte");
-		$this->tpl->setVariable("IMAGES_DIR", ilUtil::getImagePath("rte/", true));
-		$this->tpl->setVariable("JAVASCRIPT_PATH", "");
-		$this->tpl->setVariable("NAME_RTE", "introduction");
-		$this->tpl->setVariable("VALUE_RTE", $this->RTESafe($data["introduction"]));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
-		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("test_types");
 		foreach ($this->object->test_types as $key => $value) {
 			$this->tpl->setVariable("VALUE_TEST_TYPE", $key);
@@ -297,6 +303,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $data["description"]);
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
+		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_SEQUENCE", $this->lng->txt("tst_sequence"));
 		$this->tpl->setVariable("SEQUENCE_FIXED", $this->lng->txt("tst_sequence_fixed"));
