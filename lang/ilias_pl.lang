@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#Musisz zaakceptować zasady użytkowania.
 common#:#forename#:#Nazwisko
 common#:#form_empty_fields#:#Wypełnij te pola:
 common#:#forum#:#Forum
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#Fora
 common#:#forums_overview#:#Przegląd forów
 common#:#frm#:#Forum

@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
+common#:#forum_notification#:#Notification
+common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
 common#:#forums_overview#:#Forums Overview
 common#:#frm#:#Forum
@@ -2013,6 +2016,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#forum_post_replied#:#Your forum entry has been replied.
-common#:#forum_notify_me#:#Notify me when a reply is posted
-common#:#forum_notification#:#Notification

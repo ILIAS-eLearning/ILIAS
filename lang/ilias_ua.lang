@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#Ви маєте прийняти угод�
 common#:#forename#:#Ім'я
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
 common#:#forum#:#Форум
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#Форуми
 common#:#forums_overview#:#Огляд Форумів
 common#:#frm#:#Форум
