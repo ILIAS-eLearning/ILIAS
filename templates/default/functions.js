@@ -11,3 +11,15 @@ function popup_window(url, x1, x2, y1, y2)
 
 	return false;
 }
+
+function CheckAll(){
+	if(document.formmsg.all)
+	{
+		var c = document.formmsg.all.checked;
+	}
+	for (var i=0;i<document.formmsg.elements.length;i++)
+	{
+		var e = document.formmsg.elements[i];
+ 	  	if(e.name != 'all') e.checked = c;
+   	}
+}
