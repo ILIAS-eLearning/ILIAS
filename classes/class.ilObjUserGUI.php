@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.23 2003/06/11 09:14:49 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.24 2003/06/12 12:32:57 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -218,6 +218,24 @@ function public_email()
 			}
 }
 
+
+function public_hobbie()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_hobbie'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
 	// new method
 	// To display information according check box on Destop
 function insertPublicProfile($a_template_var, $a_template_block_name)
@@ -251,7 +269,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		$tpl->setVariable("FIRSTNAME","N /");
 		$tpl->setVariable("LASTNAME","A");
 		$tpl->setVariable("TXT_TITLE","Title");
-		$tpl->setVariable("TITLE","N/A");
+		$tpl->setVariable("TITLE","N / A");
 		}
 
 
@@ -264,8 +282,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		$mySetup = new ilSetup();
 		$mySetup->readIniFile();
 		$webspace_dir = $mySetup->image_path;
-		$tpl->setVariable("TXT_IMAGE","Image");
-		$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
+		$tpl->setVariable("TXT_IMAGE","Image");	$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 
 		}
 		else
@@ -356,6 +373,17 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		{
 		$tpl->setVariable("TXT_EMAIL","Email");
 		$tpl->setVariable("EMAIL","N / A");
+		}
+
+
+		if($this->public_hobbie()=="y") {
+		$tpl->setVariable("TXT_HOBBIE","Hobbie");
+		$tpl->setVariable("HOBBIE",$userObj->getHobbie());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_HOBBIE","Hobbie");
+		$tpl->setVariable("HOBBIE","N / A");
 		}
 	$tpl->parseCurrentBlock($a_template_block_name);
 }
