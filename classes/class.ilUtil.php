@@ -1116,6 +1116,34 @@ class ilUtil
 			return $a_str;
 		}
 	}
+	
+	/**
+	* removes object from all user's desktops
+	* @access	public
+	* @param	integer	ref_id
+	* @return	array	user_ids of all affected users
+	*/
+	function removeItemFromDesktops($a_id)
+	{
+		global $ilias;
 
+		$q = "SELECT user_id FROM desktop_item WHERE item_id = '".$a_id."'";
+		$r = $ilias->db->query($q);
+		
+		$users = array();
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$users[] = $row->user_id;
+		} // while
+		
+		if (count($users) > 0)
+		{
+			$q = "DELETE FROM desktop_item WHERE item_id = '".$a_id."'";
+			$ilias->db->query($q);
+		}
+		
+		return $users;
+	}
 } // END class.ilUtil
 ?>
