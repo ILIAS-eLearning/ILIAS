@@ -906,10 +906,6 @@ class ASS_Question
 			$this->ilias->db->quote($question_id)
 			);
 		$result = $this->ilias->db->query($query);
-		$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-			);
-		$result = $this->ilias->db->query($query);
 		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 			);
