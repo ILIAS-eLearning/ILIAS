@@ -1180,7 +1180,7 @@ class ilLMPresentationGUI
 
 	function downloadFile()
 	{
-		$file = explode($_GET["file_id"], "_");
+		$file = explode("_", $_GET["file_id"]);
 		require_once("classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[1], false);
 		$fileObj->sendFile();

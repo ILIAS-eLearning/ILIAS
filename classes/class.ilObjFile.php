@@ -70,7 +70,7 @@ class ilObjFile extends ilObject
 	{
 		//if (!is_dir
 		//ilUtil::makeDir($this->getDirectory());
-		return ilUtil::getWebspaceDir()."/files/file_".$this->getId();
+		return ilUtil::getDataDir()."/files/file_".$this->getId();
 	}
 
 	function createDirectory()
@@ -139,9 +139,11 @@ class ilObjFile extends ilObject
 		$file = $this->getDirectory()."/".$this->getFileName();
 		if(@is_file($file))
 		{
-echo "Hh"; exit;
 			// send file
-			header("Content-type: application/octet-stream");
+			$file_type = ($this->getFileType() != "")
+				? $this->getFileType()
+				: "application/octet-stream";
+			header("Content-type: ".$file_type);
 			header("Content-disposition: attachment; filename=\"".$this->getFileName()."\"");
 			//readfile($file);
 			$fp = @fopen($file, 'r');
@@ -152,7 +154,6 @@ echo "Hh"; exit;
 			@fclose($fp);
 			return true;
 		}
-echo "Buh!"; exit;
 		return false;
 	}
 

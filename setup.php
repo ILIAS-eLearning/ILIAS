@@ -178,7 +178,7 @@ switch ($_GET["step"])
 		$server_os = php_uname();
 		$server_web = $_SERVER["SERVER_SOFTWARE"];
 		$environment = $lng->txt("env_using")." ".$server_os." <br/>".$lng->txt("with")." ".$server_web;
-		
+
 		if ((stristr($server_os,"linux") || stristr($server_os,"windows")) && stristr($server_web,"apache"))
 		{
 			$env_comment = $lng->txt("env_ok");		
@@ -367,7 +367,7 @@ switch ($_GET["step"])
 		$tpl->setVariable("TXT_TITLE", $lng->txt("setup_mainmenu"));
 		$tpl->setVariable("TXT_SETUP_INTRO_INSTALL", $lng->txt("intro_install"));
 		$tpl->parseCurrentBlock();
-		
+
 		showMenulink();
 		break;
 
@@ -481,9 +481,16 @@ switch ($_GET["step"])
 						mkdir($mySetup->getDataPath().'/lm_data');
 					}
 
+					// PREPARE FILE DATA DIRECTORY (outside wb)
+					if(!@is_dir($mySetup->getDataPath().'/files'))
+					{
+						mkdir($mySetup->getDataPath().'/files');
+					}
+
 				}
 				chmod($mySetup->getDataPath().'/mail',0755);
 				chmod($mySetup->getDataPath().'/lm_data',0755);
+				chmod($mySetup->getDataPath().'/files',0755);
 			}
 
 			// PREPARE WEBSPACE DIRECTORIES
