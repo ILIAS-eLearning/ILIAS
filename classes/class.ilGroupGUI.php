@@ -1157,10 +1157,10 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 	function joinGroupObject()
-	{
+	{ 
 //		if ($this->object->join($this->ilias->account->getId(),0))
 //		if ($this->object->joinGroup(0))
-		if ($this->object->addMember($this->ilias->account->getId(), 0))
+		if ($this->object->addMember($this->ilias->account->getId(), $this->grp_object->getDefaultMemberRole()))
 		{
 			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("assignment_completed"),true);
