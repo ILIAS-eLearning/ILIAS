@@ -26,7 +26,7 @@
 * Class ilObjRoleFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$
+* @version $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -203,289 +203,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		return $this->__showRolesTable($result_set);
     }
 
-
-
-	/**
-	* view object
-	*
-	* @access	public
-	*/
-	function viewObject2()
-	{
-		global $rbacsystem, $rbacreview;
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		//prepare objectlist
-		$this->data = array();
-		$this->data["data"] = array();
-		$this->data["ctrl"] = array();
-
-		$this->data["cols"] = array("", "", "name", "type", "last_change");
-
-		if ($list = $rbacreview->getRoleListByObject($_GET["ref_id"],true))
-//		if ($list = $rbacreview->getAssignableRoles(true,false))
-		{
-			foreach ($list as $key => $val)
-			{
-				//visible data part
-				$this->data["data"][] = array(
-						"type"			=> $val["type"],
-						"name"			=> $val["title"]."#separator#".$val["desc"],
-						"role_type"		=> $val["role_type"],
-						"last_change"	=> $val["last_update"],
-						"obj_id"		=> $val["obj_id"]
-					);
-			}
-		} //if roledata
-
-		$this->maxcount = count($this->data["data"]);
-
-		// sorting array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
-		// now compute control information
-		foreach ($this->data["data"] as $key => $val)
-		{
-			$this->data["ctrl"][$key] = array(
-											"ref_id"	=> $this->object->getRefId(),
-											"obj_id"	=> $val["obj_id"],
-											"type"		=> $val["type"],
-											// DEFAULT ACTION IS 'permObject()'
-											"cmd"		=> "perm"
-											);
-
-			unset($this->data["data"][$key]["obj_id"]);
-			$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
-		}
-
-		$this->displayList();
-	} //function
-	
-	/**
-	* display object list
-	*
-	* @access	public
- 	*/
-	function displayList()
-	{
-		include_once "./classes/class.ilTableGUI.php";
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-		$num = 0;
-
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
-					   $this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		foreach ($this->data["cols"] as $val)
-		{
-			$header_names[] = $this->lng->txt($val);
-		}
-
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("15","15","65%","12%","23%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);
-
-		$this->showActions(true);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		#$tbl->disable("footer");
-
-		// render table
-		$tbl->render();
-
-		if (is_array($this->data["data"][0]))
-		{
-			//table cell
-			for ($i=0; $i < count($this->data["data"]); $i++)
-			{
-				$data = $this->data["data"][$i];
-				$ctrl = $this->data["ctrl"][$i];
-				
-				// color changing
-				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
-
-				// surpress checkbox for particular object types, the system role & anonymous role
-				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID
-					or ($ctrl["obj_id"] == ANONYMOUS_ROLE_ID and $this->object->getRefId() == ROLE_FOLDER_ID)
-					or strpos($data["name"],"il_") === 0)
-				{
-					$this->tpl->touchBlock("empty_cell");
-				}
-				else
-				{
-					// TODO: this object type depending 'if' could become really a problem!!
-					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role" or $ctrl["type"] == "rolt")
-					{
-						$link_id = $ctrl["obj_id"];
-					}
-					else
-					{
-						$link_id = $ctrl["ref_id"];
-					}
-	
-					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
-					$this->tpl->setVariable("CSS_ROW", $css_row);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
-				$this->tpl->parseCurrentBlock();
-
-				foreach ($data as $key => $val)
-				{
-					//build link
-					$link = "adm_object.php?";
-
-					$n = 0;
-
-					foreach ($ctrl as $key2 => $val2)
-					{
-						$link .= $key2."=".$val2;
-
-						if ($n < count($ctrl)-1)
-						{
-					    	$link .= "&";
-							$n++;
-						}
-					}
-
-					if ($key == "name")
-					{
-						$name_field = explode("#separator#",$val);
-					}
-					
-					if ($key == "type" || $key == "name")
-					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
-
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
-
-					$this->tpl->setCurrentBlock("text");
-
-					if ($key == "type")
-					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
-					}
-
-					if ($key == "name")
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
-						
-						$this->tpl->setCurrentBlock("subtitle");
-						$this->tpl->setVariable("DESC", $name_field[1]);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $val);
-					}
-
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-				} //foreach
-
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
-	/**
-	* show possible action (form buttons)
-	*
-	* @param	boolean
-	* @access	public
- 	*/
-	function showActions($with_subobjects = false)
-	{
-		global $rbacsystem;
-
-		$operations = array();
-
-		if ($this->actions == "")
-		{
-			$d = $this->objDefinition->getActions($_GET["type"]);
-		}
-		else
-		{
-			$d = $this->actions;
-		}
-
-		foreach ($d as $row)
-		{
-			if ($rbacsystem->checkAccess($row["name"],$this->object->getRefId()))
-			{
-				$operations[] = $row;
-			}
-		}
-
-		if (count($operations) > 0)
-		{
-			foreach ($operations as $val)
-			{
-				$this->tpl->setCurrentBlock("tbl_action_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["name"]);
-				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		if ($with_subobjects === true)
-		{
-			$subobjs = $this->showPossibleSubObjects();
-		}
-
-		if ((count($operations) > 0) or $subobjs === true)
-		{
-			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
 
 	/**
 	* confirmObject
@@ -731,11 +448,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$a_tpl->setVariable("BTN_NAME", "create");
 			$a_tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$a_tpl->parseCurrentBlock();
-			
-			return $a_tpl;
 		}
 		
-		return false;
+		return $a_tpl;
 	}
 
 	/**
@@ -771,8 +486,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
-		
-
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
@@ -782,6 +495,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("tbl_action_row");
 
 		$tpl->setVariable("COLUMN_COUNTS",($_SESSION["filtered_roles"] == 4) ? 4 : 5);
+
 		if ($_SESSION["filtered_roles"] != 4)
 		{
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
