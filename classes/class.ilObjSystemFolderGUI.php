@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.11 2003/10/27 15:04:22 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.12 2003/10/27 16:20:53 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -395,10 +395,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("ADMIN_COUNTRY",$settings["admin_country"]);
 		$tpl->setVariable("ADMIN_PHONE",$settings["admin_phone"]);
 		$tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
-
-		// common
-		$tpl->setVariable("TXT_DAYS",$lng->txt("days"));
-		$tpl->setVariable("TXT_KB",$lng->txt("kb"));
 
 		$tpl->parseCurrentBlock();
 
