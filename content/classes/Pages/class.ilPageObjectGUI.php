@@ -490,8 +490,8 @@ class ilPageObjectGUI
 				break;
 		}
 
-		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post".$typestr);
-		$tpl->setVariable("FORMACTION2", $this->getTargetScript()."&cmd=post".$typestr);
+		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&linkmode=".$_GET["linkmode"]."&cmd=post".$typestr);
+		$tpl->setVariable("FORMACTION2", $this->getTargetScript()."&linkmode=".$_GET["linkmode"]."&cmd=post".$typestr);
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),
@@ -505,6 +505,12 @@ class ilPageObjectGUI
 			"Media_Media" => $this->lng->txt("cont_lk_media_media"),
 			"Media_FAQ" => $this->lng->txt("cont_lk_media_faq"),
 			"Media_New" => $this->lng->txt("cont_lk_media_new"));
+
+		if ($_GET["linkmode"] == "map")
+		{
+			unset($ltypes["Media"]);
+		}
+
 		$select_ltype = ilUtil::formSelect ($ltype,
 			"ltype",$ltypes,false,true);
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
@@ -544,13 +550,36 @@ class ilPageObjectGUI
 					}
 					if($node["type"] == "pg")
 					{
-						$tpl->setCurrentBlock("chapter_row");
-						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-						$tpl->setVariable("ROWCLASS", "tblrow2");
-						$tpl->setVariable("LINK_CHAPTER",
-							"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
-						$tpl->parseCurrentBlock();
+						switch ($_GET["linkmode"])
+						{
+							case "map":
+								require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
+								ilMediaObjectGUI::_recoverParameters();
+								$tpl->setCurrentBlock("link_row");
+								$tpl->setVariable("ROWCLASS", "tblrow2");
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("LINK",
+									"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]
+									."&mode=page_edit&hier_id=".$_GET["hier_id"].
+									"&cmd=setInternalLink&linktype=PageObject".
+									"&linktarget=il__pg_".$node["obj_id"].
+									"&linktargetframe=".$link_target.
+									"&coords=".$_GET["coords"]);
+								$tpl->parseCurrentBlock();
+								break;
+
+							default:
+								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("ROWCLASS", "tblrow2");
+								$tpl->setVariable("LINK_CHAPTER",
+									"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+								$tpl->parseCurrentBlock();
+								break;
+						}
 					}
+					$tpl->setCurrentBlock("row");
+					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
@@ -579,13 +608,37 @@ class ilPageObjectGUI
 						$css_row = ($css_row =="tblrow1")
 							? "tblrow2"
 							: "tblrow1";
-						$tpl->setCurrentBlock("chapter_row");
-						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-						$tpl->setVariable("ROWCLASS", $css_row);
-						$tpl->setVariable("LINK_CHAPTER",
-							"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
-						$tpl->parseCurrentBlock();
+
+						switch ($_GET["linkmode"])
+						{
+							case "map":
+								require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
+								ilMediaObjectGUI::_recoverParameters();
+								$tpl->setCurrentBlock("link_row");
+								$tpl->setVariable("ROWCLASS", $css_row);
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("LINK",
+									"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]
+									."&mode=page_edit&hier_id=".$_GET["hier_id"].
+									"&cmd=setInternalLink&linktype=StructureObject".
+									"&linktarget=il__st_".$node["obj_id"].
+									"&linktargetframe=".$link_target.
+									"&coords=".$_GET["coords"]);
+								$tpl->parseCurrentBlock();
+								break;
+
+							default:
+								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setVariable("ROWCLASS", $css_row);
+								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								$tpl->setVariable("LINK_CHAPTER",
+									"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+								$tpl->parseCurrentBlock();
+								break;
+						}
 					}
+					$tpl->setCurrentBlock("row");
+					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
@@ -611,13 +664,38 @@ class ilPageObjectGUI
 					$css_row = ($css_row =="tblrow1")
 						? "tblrow2"
 						: "tblrow1";
-					$tpl->setCurrentBlock("chapter_row");
-					$tpl->setVariable("ROWCLASS", $css_row);
-					$tpl->setVariable("TXT_CHAPTER", $term["term"]);
-					$tpl->setVariable("LINK_CHAPTER",
-						"[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]");
-					$tpl->parseCurrentBlock();
+
+					switch ($_GET["linkmode"])
+					{
+						case "map":
+							require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
+							ilMediaObjectGUI::_recoverParameters();
+							$tpl->setCurrentBlock("link_row");
+							$tpl->setVariable("ROWCLASS", "tblrow2");
+							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
+							$tpl->setVariable("LINK",
+								"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]
+								."&mode=page_edit&hier_id=".$_GET["hier_id"].
+								"&cmd=setInternalLink&linktype=GlossaryItem".
+								"&linktarget=il__git_".$term["id"].
+								"&linktargetframe=".$link_target.
+								"&coords=".$_GET["coords"]);
+							$tpl->parseCurrentBlock();
+							break;
+
+						default:
+							$tpl->setCurrentBlock("chapter_row");
+							$tpl->setVariable("ROWCLASS", $css_row);
+							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
+							$tpl->setVariable("LINK_CHAPTER",
+								"[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]");
+							$tpl->parseCurrentBlock();
+							$tpl->setCurrentBlock("row");
+							$tpl->parseCurrentBlock();
+							break;
+					}
 				}
+
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
@@ -643,20 +721,43 @@ class ilPageObjectGUI
 
 				foreach($objs as $obj)
 				{
-					$tpl->setCurrentBlock("chapter_row");
-					$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-					$tpl->setVariable("ROWCLASS", "tblrow1");
-					if (!empty($target_str))
+					switch ($_GET["linkmode"])
 					{
-						$tpl->setVariable("LINK_CHAPTER",
-							"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+						case "map":
+							require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
+							ilMediaObjectGUI::_recoverParameters();
+							$tpl->setCurrentBlock("link_row");
+							$tpl->setVariable("ROWCLASS", "tblrow2");
+							$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+							$tpl->setVariable("LINK",
+								"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]
+								."&mode=page_edit&hier_id=".$_GET["hier_id"].
+								"&cmd=setInternalLink&linktype=MediaObject".
+								"&linktarget=il__mob_".$obj["id"].
+								"&linktargetframe=".$link_target.
+								"&coords=".$_GET["coords"]);
+							$tpl->parseCurrentBlock();
+							break;
+
+						default:
+							$tpl->setCurrentBlock("chapter_row");
+							$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+							$tpl->setVariable("ROWCLASS", "tblrow1");
+							if (!empty($target_str))
+							{
+								$tpl->setVariable("LINK_CHAPTER",
+									"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+							}
+							else
+							{
+								$tpl->setVariable("LINK_CHAPTER",
+									"[iln media=\"".$obj["id"]."\"/]");
+							}
+							$tpl->parseCurrentBlock();
+							$tpl->setCurrentBlock("row");
+							$tpl->parseCurrentBlock();
+							break;
 					}
-					else
-					{
-						$tpl->setVariable("LINK_CHAPTER",
-							"[iln media=\"".$obj["id"]."\"/]");
-					}
-					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
@@ -713,7 +814,7 @@ class ilPageObjectGUI
 		$exp->setTargetGet("sel_id");
 		$exp->setParamsGet(array("ref_id" => $_GET["ref_id"],
 			"cmd" => "changeTargetObject", "mode" => "page_edit", "obj_id" => $_GET["obj_id"],
-			"target_type" => $a_type));
+			"target_type" => $a_type, "linkmode" => $_GET["linkmode"]));
 
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
@@ -730,6 +831,7 @@ class ilPageObjectGUI
 			$exp->addFilter("glo");
 		}
 		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
 
 		$exp->setClickable("cat", false);
 		$exp->setClickable("grp", false);
@@ -739,6 +841,7 @@ class ilPageObjectGUI
 		$exp->setOutput(0);
 
 		$output = $exp->getOutput();
+//echo "<br><br><br>out:".$output.":<br>";
 
 		$tpl->setCurrentBlock("content");
 		if ($a_type != "glossary")
@@ -752,7 +855,7 @@ class ilPageObjectGUI
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", "lm_edit.php?expand=".$_GET["expand"].
 			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=post".
-			"&target_type=".$a_type);
+			"&target_type=".$a_type."&linkmode=".$_GET["linkmode"]);
 		$tpl->setVariable("BTN_REFRESH", "changeTargetObject");
 		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
 		$tpl->setVariable("BTN_RESET", "resetLinkList");

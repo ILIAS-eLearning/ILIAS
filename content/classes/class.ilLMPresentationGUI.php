@@ -581,6 +581,7 @@ class ilLMPresentationGUI
 		$exp->addFilter("du");
 		$exp->addFilter("st");
 		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
 
 		if ($_GET["lmexpand"] == "")
 		{
