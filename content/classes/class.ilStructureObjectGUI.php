@@ -355,7 +355,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
-		// cut selected object
+		// paste selected object
 		$id = ilEditClipboard::getContentObjectId();
 		if(!$tree->isInTree($id))
 		{
@@ -444,15 +444,21 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$target = $_POST["id"][0];
 		}
 
-		$tree->insertNode($id, $this->obj->getId(), $target);
-
-		foreach ($subnodes as $node)
+		if (!$tree->isInTree($id))
 		{
-			//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-			//$obj_data->putInTree($node["parent"]);
-			if($node["obj_id"] != $id)
+			$tree->insertNode($id, $this->obj->getId(), $target);
+
+			foreach ($subnodes as $node)
 			{
-				$tree->insertNode($node["obj_id"], $node["parent"]);
+				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+				//$obj_data->putInTree($node["parent"]);
+				if ($node["obj_id"] != $id)
+				{
+					if (!$tree->isInTree($node["obj_id"]))
+					{
+						$tree->insertNode($node["obj_id"], $node["parent"]);
+					}
+				}
 			}
 		}
 
