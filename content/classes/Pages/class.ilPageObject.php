@@ -760,6 +760,42 @@ class ilPageObject
 	}
 
 	/**
+	* add file sizes
+	*/
+	function addFileSizes()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$cnode =& $res->nodeset[$i];
+			$size_node =& $this->dom->create_element("Size");
+			$size_node =& $cnode->append_child($size_node);
+
+			$childs =& $cnode->child_nodes();
+			$size = "";
+			for($j = 0; $j < count($childs); $j++)
+			{
+				if ($childs[$j]->node_name() == "Identifier")
+				{
+					if ($childs[$j]->has_attribute("Entry"))
+					{
+						$entry = $childs[$j]->get_attribute("Entry");
+						$entry_arr = explode("_", $entry);
+						$id = $entry_arr[count($entry_arr) - 1];
+						require_once("classes/class.ilObjFile.php");
+						$size = ilObjFile::_lookupFileSize($id);
+					}
+				}
+			}
+			$size_node->set_content($size);
+		}
+
+		unset($xpc);
+	}
+
+	/**
 	* resolves all internal link targets of the page, if targets are available
 	*/
 	function resolveIntLinks()

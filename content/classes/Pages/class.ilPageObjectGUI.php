@@ -302,6 +302,7 @@ class ilPageObjectGUI
 		// get content
 		$builded = $this->obj->buildDom();
 
+		$this->obj->addFileSizes();
 		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();

@@ -137,6 +137,32 @@ class ilObjFile extends ilObject
 		return $this->filetype;
 	}
 
+
+	function _lookupFileName($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return ilUtil::stripSlashes($row->file_name);
+	}
+
+
+	function _lookupFileSize($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+
+		return filesize($file);
+	}
+
 	function sendFile()
 	{
 		$file = $this->getDirectory()."/".$this->getFileName();
