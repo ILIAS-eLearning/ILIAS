@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Editar Página
 common#:#pages#:#Páginas
 common#:#parameter#:#Parâmetro
 common#:#parse#:#Analisar
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Palavra-passe
 common#:#passwd_invalid#:#A nova palavra passe é inválida! Apenas os seguintes caracteres são permitidos(mínimo 6 caracteres): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#As suas entradas para a nova palavra-passe não são iguais! Por favor reinsira a sua nova palavra-passe.
@@ -2545,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#Please drag a definition/pict
 content#:#cont_max_time_allowed#:#adlcp:maxtempopermitido
 content#:#cont_media_source#:#Fonte de Média
 content#:#cont_mep_structure#:#Estrutura do Banco de Média
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Ficheiros de Objecto
 content#:#cont_mob_inst_prop#:#Propriedades de Instância
 content#:#cont_mob_prop#:#Propriedades de Objecto
@@ -2559,6 +2561,7 @@ content#:#cont_new_dir#:#Nova Directoria
 content#:#cont_new_file#:#Novo Ficheiro
 content#:#cont_new_media_obj#:#Novo Objecto Média
 content#:#cont_new_term#:#Novo Termo
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#O objecto não pode ser atribuído a si mesmo
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
 content#:#cont_no_object_found#:#Não pôde encontrar nenhum objecto com este título
@@ -2644,6 +2647,7 @@ content#:#cont_show_citation#:#Mostar com citação
 content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#Tamanho (Bytes)
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Fonte
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_src_other#:#other###18 Jun 2004 new variable

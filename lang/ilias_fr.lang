@@ -1841,6 +1841,7 @@ common#:#page_edit#:#Modifier page
 common#:#pages#:#Pages
 common#:#parameter#:#Paramètre
 common#:#parse#:#Analyser
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Mot de passe
 common#:#passwd_invalid#:#Le nouveau mot de passe n'est pas valide !  Veuillez en choisir un autre.
 common#:#passwd_not_match#:#Vos saisies pour le nouveau mot de passe ne correspondent pas !  Veuillez saisir votre nouveau mot de passe à nouveau.
@@ -2519,6 +2520,7 @@ content#:#cont_matching_question_javascript_hint#:#Veuillez faire glisser une d�
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Source de média
 content#:#cont_mep_structure#:#Structure du média pool
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Fichiers objets
 content#:#cont_mob_inst_prop#:#Propriétés de l'instance
 content#:#cont_mob_prop#:#Propriétés de l'objet
@@ -2533,6 +2535,7 @@ content#:#cont_new_dir#:#Nouveau répertoire
 content#:#cont_new_file#:#Nouveau fichier
 content#:#cont_new_media_obj#:#Nouvel objet média
 content#:#cont_new_term#:#Nouveau terme
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#L'objet ne peut pas être assigné à lui-même
 content#:#cont_no_manifest#:#Pas de fichier imsmanifest.xml trouvé dans le répertoire principal
 content#:#cont_no_object_found#:#Aucun objet portant ce titre n'a été trouvé
@@ -2618,6 +2621,7 @@ content#:#cont_show_citation#:#Afficher avec citation
 content#:#cont_show_line_numbers#:#Afficher numéros de lignes
 content#:#cont_show_print_view#:#Afficher vue imprimable
 content#:#cont_size#:#Taille (octets)
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Source
 content#:#cont_src#:#Code source
 content#:#cont_src_other#:#autre

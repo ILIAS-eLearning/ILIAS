@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Seite bearbeiten
 common#:#pages#:#Seiten
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
@@ -2545,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#Hinweis: Ziehen Sie eine Defi
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###05 Nov 2004 new variable
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
@@ -2559,6 +2561,7 @@ content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_term#:#Neuer Begriff
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
@@ -2644,6 +2647,7 @@ content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_show_print_view#:#Druckansicht
 content#:#cont_size#:#Größe
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
 content#:#cont_src_other#:#Andere
