@@ -136,11 +136,7 @@ class ilGroupGUI extends ilObjectGUI
 		$locatorscript = "group.php?cmd=choose_view&";
 		infoPanel();
 		sendInfo();
-
-
 		$this->setAdminTabs($tabs, $addtab);
-
-
 		$this->setLocator("", "",$locatorscript);
 	}
 
@@ -264,22 +260,30 @@ class ilGroupGUI extends ilObjectGUI
 			$_SESSION["viewmode"] = "flat";
 		}
 
-		//show "new group" button only if category or dlib objects were chosen(current object)
+
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
-		if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
+		//check if user got permission to create new groups
+
+
+		if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			//right solution
-			//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
-			//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-			//temp.solution
-			$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-			$this->tpl->parseCurrentBlock();
+			//show "new group" button only if category or dlib objects were chosen(current object)
+			if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				//right solution
+				//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
+				//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+				//temp.solution
+				$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
+				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
+
 
 /*		if ($this->tree->getSavedNodeData($this->ref_id))
 		{
@@ -341,7 +345,7 @@ class ilGroupGUI extends ilObjectGUI
 				// change row color
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$obj_link = "group.php?gateway=true&cmd=show_content&ref_id=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
+				$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LINK", $obj_link);
@@ -490,7 +494,7 @@ class ilGroupGUI extends ilObjectGUI
 		$objects = $this->grp_tree->getChilds($this->object->getId(),"title"); //provides variable with objects located under given node
 
 		if (count($objects) > 0)
-		{			
+		{
 			foreach ($objects as $key => $object)
 			{
 				if ($rbacsystem->checkAccess('visible',$object["ref_id"]))
@@ -507,7 +511,19 @@ class ilGroupGUI extends ilObjectGUI
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
+		$access = false;
+		
+		//check if user got "write" permissions; if so $access is set true to prevent further database queries in this function
+		if($rbacsystem->checkAccess("write", $this->object->getId() ))
+		{
+			 $access = true;
+			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
+		}
+		else
+		{
+			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
+		}
+
 		$cont_num = count($cont_arr);
 
 		// render table content data
@@ -537,8 +553,10 @@ class ilGroupGUI extends ilObjectGUI
 
 
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
-
+				if ($access)
+				{
+					$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
+				}
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LO_LINK", $obj_link);
 				$this->tpl->setVariable("LINK_TARGET", $link_target);
@@ -565,23 +583,34 @@ class ilGroupGUI extends ilObjectGUI
 
 		// create table
 		$tbl = new ilTableGUI();
+		// buttons in bottom-bar
+		if ($access)
+		{
+			$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
+			$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->SetVariable("COLUMN_COUNTS", "6");
+			$this->showActions(true);
+		}
+		else
+		{
+			$tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
+			$tbl->setHeaderVars(array("title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
+		}
 
 		// title & header columns
 		$tbl->setTitle($lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
-		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
-		$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
 		$tbl->setMaxCount($maxcount);
-		// buttons in bottom-bar
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->SetVariable("COLUMN_COUNTS", "6");
-		$this->showActions(true);
+
+
 		// footer
 		$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
 		// render table
@@ -591,7 +620,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	/**
 	* function chooses right view depending on what kind of object is selected in locator bar
-	* preferred view (treeview or flatview) if category is selected
+	* preferred view (treeview or flatview) if a category is selected
 	* flat view if group is selected
 	*@access	public
 	**/
@@ -1059,9 +1088,24 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
 
+		// set offset & limit
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+
+		if ($limit == 0)
+		{
+			$limit = 10;	// TODO: move to user settings
+		}
+		if ($offset == "")
+		{
+			$offset = 0;	// TODO: move to user settings
+		}
+
 		if(is_array($user_id))
 		{
 
+			$maxcount = count ($user_id);
 			foreach($user_id as $id)
 			{
 				if($call_by_reference == 'y')
@@ -1083,6 +1127,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{
+			$maxcount = 1;
 			if($call_by_reference == 'y')
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
@@ -1129,6 +1174,9 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
 		$tbl->setHeaderVars(array("typ","title","description","last_change"));
 		$tbl->setColumnWidth(array("3%","16%","22%","*"));
+		$tbl->setMaxcount($maxcount);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($limit);
 		$tbl->setTitle($this->lng->txt("confirm_action"),"icon_grp_b.gif",$this->lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1147,7 +1195,7 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		//check Access
-  		if(!$rbacsystem->checkAccess("read,leave",$this->object->getRefId() ))
+  		if(!$rbacsystem->checkAccess("read",$this->object->getRefId() ))
 		{
 			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
 		}
@@ -1358,7 +1406,7 @@ class ilGroupGUI extends ilObjectGUI
 			array_push($oid,$tmp->getRefId() );
 		}
 */
-//		$this->confirmationobject($_POST["id"], $confirm, $cancel, $info);
+
 		$this->confirmation($_POST["id"], $confirm, $cancel, $info,"","y");
 		$this->tpl->show();
 	}
@@ -1820,10 +1868,7 @@ class ilGroupGUI extends ilObjectGUI
 
 
 			$this->prepareOutput();
-			$_SESSION["LAST_LOCATION"] = "create";
-			//$this->getTemplateFile("new","group");
 			$this->tpl->addBlockFile("CONTENT", "newgroup", "tpl.group_new.html");
-
 			$this->tpl->setVariable("HEADER", $this->lng->txt("grp_new"));
 
 			$node = $this->tree->getNodeData($_GET["parent_ref_id"]);
@@ -1843,10 +1888,6 @@ class ilGroupGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-			//$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
-			//	"&new_type=".$_POST["new_type"]);
-
-
 			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&cmd=save"."&ref_id=".$_GET["parent_ref_id"]."&new_type=".$new_type);
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -1914,7 +1955,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
-		// load template for table content data
+		//load template for table content data
 		//$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
@@ -1931,7 +1972,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
 
@@ -2146,7 +2187,8 @@ class ilGroupGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+
+		header("location: group.php?cmd=choose_view&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
@@ -2315,7 +2357,7 @@ class ilGroupGUI extends ilObjectGUI
 		else
 		{
 			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
-			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]."target=\"bottom\"");
 		}
 
 	}
