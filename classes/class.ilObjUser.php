@@ -409,7 +409,7 @@ class ilObjUser extends ilObject
 				$pw_update = "passwd='', i2passwd='".$this->passwd."'";
 				break;
 		}
-echo "<br>update:pw-".$this->passwd_type."-".$this->passwd."-";
+//echo "<br>update:pw-".$this->passwd_type."-".$this->passwd."-";
 		$q = "UPDATE usr_data SET ".
             "gender='".$this->gender."', ".
             "title='".ilUtil::prepareDBString($this->utitle)."', ".
