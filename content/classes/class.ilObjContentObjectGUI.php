@@ -90,12 +90,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			include_once("content/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
 			$newObj->setType($this->type);
-			$newObj->setTitle("dummy");			// set by meta_gui->save
-			$newObj->setDescription("dummy");	// set by meta_gui->save
+			$newObj->setTitle("content object ".$newObj->getId());		// set by meta_gui->save
+			$newObj->setDescription("");	// set by meta_gui->save
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
+
+			// setup rolefolder & default local roles (moderator)
+			$roles = $newObj->initDefaultRoles();
+
+			// assign author role to creator of forum object
+			$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
+			ilObjUser::updateActiveRoles($newObj->getOwner());
 
 			// save meta data
 			include_once "classes/class.ilMetaDataGUI.php";
@@ -145,6 +152,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tree, $tpl;
 
+
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -176,6 +184,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
+
+		parent::viewObject();
+
+		/*
 		if ($this->object->getStyleSheetId() == 0)
 		{
 		}
@@ -214,9 +226,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					"lm_id" => $_GET["obj_id"],
 					"lo_id" => $val["child"]
 				);
-	    } //foreach
+	    } //foreach*/
 
-		parent::displayList();
+		//parent::displayList();
 	}
 
 	/**
