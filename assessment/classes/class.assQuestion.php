@@ -873,6 +873,7 @@ class ASS_Question
 	*/
 	function pcArrayShuffle($array)
 	{
+		mt_srand((double)microtime()*1000000);
 		$i = count($array);
 		if ($i > 0)
 		{

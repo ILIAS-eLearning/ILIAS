@@ -1255,6 +1255,7 @@ class ASS_MatchingQuestion extends ASS_Question
 
 	function get_random_id()
 	{
+		mt_srand((double)microtime()*1000000);
 		$random_number = mt_rand(1, 100000);
 		$found = FALSE;
 		while ($found)
@@ -1330,6 +1331,7 @@ class ASS_MatchingQuestion extends ASS_Question
 
 	function pc_array_shuffle($array) {
 		$i = count($array);
+		mt_srand((double)microtime()*1000000);
 		while(--$i) 
 		{
 			$j = mt_rand(0, $i);
