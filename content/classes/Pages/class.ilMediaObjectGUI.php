@@ -89,13 +89,14 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 	/**
-	* create new table in dom and update page in db
+	* create new media object in dom and update page in db
 	*/
 	function create()
 	{
 		// create dummy object in db (we need an id)
 		$this->content_obj = new ilMediaObject();
 		$dummy_meta =& new ilMetaData();
+		$dummy_meta->setObject($this->content_obj);
 		$this->content_obj->assignMetaData($dummy_meta);
 		$this->content_obj->setTitle("dummy");
 		$this->content_obj->setDescription("dummy");

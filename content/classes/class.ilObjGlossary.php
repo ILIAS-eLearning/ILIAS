@@ -58,9 +58,13 @@ class ilObjGlossary extends ilObject
 	function create()
 	{
 		parent::create();
+		/*
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
+		$this->meta_data->setObject($this);
+echo "H";
 		$this->meta_data->create();
+echo "G";*/
 	}
 
 	/**

@@ -53,7 +53,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function setStructureObject(&$a_st_object)
 	{
 		$this->obj =& $a_st_object;
-		$this->actions = $this->objDefinition->getActions($this->obj->getType());
+		$this->actions = $this->objDefinition->getActions("st");
 	}
 
 	/*

@@ -66,11 +66,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
+		parent::createObject();
+		return;
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		//$meta_gui->setObject($this->object);
 
-		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
+		$meta_gui->setTargetFrame("save", $this->getTargetFrame("save"));
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -105,7 +108,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
 			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"]);
-			
+
 			//$roles = $newObj->initDefaultRoles();
 
 			// assign author role to creator of forum object
@@ -113,6 +116,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
 
 			// save meta data
+			
 			include_once "classes/class.ilMetaDataGUI.php";
 			$meta_gui =& new ilMetaDataGUI();
 			$meta_gui->setObject($newObj);
