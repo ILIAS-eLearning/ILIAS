@@ -378,7 +378,7 @@ class Admin
 		$object = getObject($a_source_id);
 		$new_object_id = $this->callCloneMethod($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$object["type"]);
 
-		$saved_tree = new Tree($a_source_id,0,$a_tree_id);
+		$saved_tree = new Tree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
 
 		foreach ($childs as $child)
@@ -407,7 +407,7 @@ class Admin
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
 		}
 
-		$saved_tree = new Tree($a_source_id,0,$a_tree_id);
+		$saved_tree = new Tree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
 
 		foreach ($childs as $child)
@@ -538,7 +538,7 @@ class Admin
 		{
 
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$saved_tree = new Tree($id,0,-(int)$id);
+			$saved_tree = new Tree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
@@ -590,7 +590,7 @@ class Admin
 			// INSERT AND SET PERMISSIONS
 			$this->insertSavedNodes($id,$a_obj_id,$a_obj_id,$a_parent_id,-(int) $id);
 			// DELETE SAVED TREE
-			$saved_tree = new Tree($id,0,-(int)$id);
+			$saved_tree = new Tree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
 	}

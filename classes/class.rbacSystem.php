@@ -94,7 +94,7 @@ class RbacSystem
 				// TODO: maybe deprecated
 				if (!is_object($tree))
 				{
-					$tree = new Tree($a_ref_id);
+					$tree = new Tree(ROOT_FOLDER_ID);
 				}
 
 				$path_ids = $tree->getPathId($a_ref_id);

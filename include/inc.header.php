@@ -74,10 +74,12 @@ $objDefinition = new ObjectDefinition();
 $objDefinition->startParsing();
 //var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
+
 $ilias->account = new User();
 
 //but in login.php and index.php don't check for authentication 
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
+
 if ($script != "login.php" && $script != "index.php")
 {
 	//if not authenticated display login screen
@@ -99,9 +101,11 @@ if ($script != "login.php" && $script != "index.php")
 		// init user
 		$ilias->account->setId($_SESSION["AccountId"]);				
 	}
+
 	$ilias->account->getData();
 	
-	if ($script == "logout.php") {
+	if ($script == "logout.php")
+	{
 		$ilias->account->refreshLogin();		
 	}
 	
@@ -124,7 +128,7 @@ if ($script != "login.php" && $script != "index.php")
 	//$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
 	
 	// init tree
-	$tree = new Tree($_GET["ref_id"]);
+	$tree = new Tree(ROOT_FOLDER_ID);
 }	
 
 // instantiate main template

@@ -38,7 +38,7 @@ class LearningObjectObjectOut extends ObjectOut
 		}
 		
 		// TODO get rid of these $_GET variables
-		$lotree = new Tree($_GET["lo_id"],$_GET["lm_id"],$_GET["lm_id"]);
+		$lotree = new Tree($_GET["lm_id"],$_GET["lm_id"]);
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();

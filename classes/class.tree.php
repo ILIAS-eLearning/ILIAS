@@ -19,13 +19,6 @@ class Tree
 	var $ilias;
 
 	/**
-	* points to actual position in tree (node)
-	* @var		integer
-	* @access	public
-	*/
-	var $node_id;
-
-	/**
 	* points to root node (may be a subtree)
 	* @var		integer
 	* @access	public
@@ -77,36 +70,34 @@ class Tree
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_tree_id		tree_id
 	* @param	integer	$a_root_id		root_id (optional)
-	* @param	integer	$a_tree_id		tree_id (optional)
 	*/
-	function Tree($a_node_id, $a_root_id = 0, $a_tree_id = 0)
+	function Tree($a_tree_id, $a_root_id = 0)
 	{
 		global $ilias;
 
 		// set ilias
 		$this->ilias =& $ilias;
 		
-		if (!isset($a_node_id) or (func_num_args() == 0) )
+		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		//init variables
-		if (empty($a_tree_id))
+		if (func_num_args() > 2))
 		{
-			$a_tree_id = ROOT_FOLDER_ID;
+			$this->ilias->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilias->error_obj->WARNING);
 		}
+
 		//init variables
 		if (empty($a_root_id))
 		{
-            $a_root_id = $a_tree_id;
+			$a_root_id = ROOT_FOLDER_ID;
 		}
 
-		$this->node_id		  = $a_node_id;
-		$this->root_id		  = $a_root_id;		
 		$this->tree_id		  = $a_tree_id;
+		$this->root_id		  = $a_root_id;		
 		$this->table_tree     = 'tree';
 		$this->table_obj_data = 'object_data';
 		$this->table_obj_reference = 'object_reference';
@@ -963,13 +954,13 @@ class Tree
 	}
 
 	/**
-	* get the current node where object points to
+	* set the root id of tree
 	* @access	public
-	* @return	integer	current node id
+	* @param	integer	root id
 	*/
-	function getNodeId()
+	function setRootId($a_root_id)
 	{
-		return $this->node_id;
+		$this->root_id = $a_root_id;
 	}
 	
 	/**
@@ -980,6 +971,16 @@ class Tree
 	function getTreeId()
 	{
 		return $this->tree_id;
+	}
+
+	/**
+	* set tree id
+	* @access	public
+	* @return	integer	tree id
+	*/
+	function setTreeId($a_tree_id)
+	{
+		$this->tree_id = $a_tree_id;
 	}
 } // END class.tree
 ?>
