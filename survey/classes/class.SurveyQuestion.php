@@ -614,9 +614,76 @@ class SurveyQuestion {
 *
 * @access public
 */
-  function saveToDb() {
+  function saveToDb($original_id = "") {
     // Method body
   }
+
+/**
+* Duplicates a survey question
+*
+* Duplicates a survey question
+*
+* @access public
+*/
+	function duplicate($for_survey = true, $title = "", $author = "", $owner = "")
+	{
+		if ($this->getId() <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		$original_id = $this->getId();
+		$clone->setId(-1);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		if ($author)
+		{
+			$clone->setAuthor($author);
+		}
+		if ($owner)
+		{
+			$clone->setOwner($owner);
+		}
+		if ($for_survey)
+		{
+			$clone->saveToDb($original_id);
+		}
+		else
+		{
+			$clone->saveToDb();
+		}
+		// duplicate the materials
+		$clone->duplicateMaterials($original_id);
+		return $clone->getId();
+	}
+
+/**
+* Duplicates the materials of a question
+*
+* Duplicates the materials of a question
+*
+* @param integer $question_id The database id of the original survey question
+* @access public
+*/
+	function duplicateMaterials($question_id)
+	{
+		foreach ($this->materials as $filename)
+		{
+			$materialspath = $this->getMaterialsPath();
+			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
+			if (!file_exists($materialspath)) {
+				ilUtil::makeDirParents($materialspath);
+			}
+			if (!copy($materialspath_original . $filename, $materialspath . $filename)) {
+				print "material could not be duplicated!!!! ";
+			}
+		}
+	}
+
 
 /**
 * Loads a SurveyQuestion object from the database
@@ -641,37 +708,6 @@ class SurveyQuestion {
   function saveWorkingData($limit_to = LIMIT_NO_LIMIT) 
 	{
   }
-
-/**
-* Duplicates the question in the database
-*
-* Duplicates the question in the database
-*
-* @param integer $questionpool_reference The reference id of the questionpool in which the question should be stored
-* @access public
-*/
-  function duplicate($questionpool_reference = "") {
-    $clone = $this;
-    $clone->setId(-1);
-    if ($this->questionTitleExists($clone->getTitle(), $questionpool_reference)) {
-			$counter = 2;
-			while ($this->questionTitleExists($clone->getTitle() . " ($counter)", $questionpool_reference)) {
-				$counter++;
-			}
-			$clone->setTitle($clone->getTitle() . " ($counter)");
-		}
-		else
-		{
-			$clone->setTitle($clone->getTitle());
-		}
-    $clone->setOwner($this->ilias->account->id);
-    $clone->setAuthor($this->ilias->account->fullname);
-		if (strcmp($questionpool_reference, "") != 0)
-		{
-			$clone->setRefId($questionpool_reference);
-		}
-    $clone->saveToDb();
-}
 
 /**
 * Returns the image path for web accessable images of a question
@@ -849,6 +885,104 @@ class SurveyQuestion {
 			);
 			$result = $this->ilias->db->query($query);
 			return $this->ilias->db->getLastInsertId();
+		}
+	}
+
+/**
+* Deletes a question from the database
+* 
+* Deletes a question and all materials from the database
+*
+* @param integer $question_id The database id of the question
+* @access private
+*/
+  function delete($question_id) 
+  {
+    if ($question_id < 1)
+      return;
+      
+		$query = sprintf("SELECT ref_fi FROM survey_question WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$ref_id = $row["ref_fi"];
+		}
+		else
+		{
+			return;
+		}
+		
+		$query = sprintf("DELETE FROM survey_answer WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("SELECT constraint_id FROM survey_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s",
+				$this->ilias->db->quote($row->constraint_id)
+			);
+			$delresult = $this->ilias->db->query($query);
+		}
+		
+		$query = sprintf("DELETE FROM survey_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+				$this->ilias->db->quote($row->constraint_fi)
+			);
+			$delresult = $this->ilias->db->query($query);
+		}
+		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_questionblock_question WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_survey_question WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_question WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$directory = CLIENT_WEB_DIR . "/survey/" . $ref_id . "/$question_id";
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
 		}
 	}
 

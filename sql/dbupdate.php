@@ -3666,3 +3666,7 @@ UPDATE settings SET value = '3.0.1 2004/06/21' WHERE keyword = 'ilias_version' L
 
 <#222>
 ALTER  TABLE  `tst_tests`  ADD  `ending_time` varchar(14) default NULL AFTER  `starting_time` ;
+<#223>
+
+ALTER  TABLE  `survey_question`  CHANGE  `original_id`  `original_id` INT( 11  ) ;
+UPDATE `survey_question` SET `original_id` = NULL WHERE `original_id` = 0;

@@ -642,7 +642,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
         foreach ($checked_questions as $key => $value) {
-					$this->object->duplicate($value);
+					$this->object->duplicateQuestion($value);
         }
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_duplicate_select_none"));
@@ -788,7 +788,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 
     // display all questions in the question pool
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $_GET["ref_id"] . " $where$order";
+    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $_GET["ref_id"] . " AND ISNULL(survey_question.original_id) $where$order";
     $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;

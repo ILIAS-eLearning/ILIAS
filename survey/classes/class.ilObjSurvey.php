@@ -34,6 +34,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
+require_once "class.SurveyQuestion.php";
 require_once "class.SurveyNominalQuestionGUI.php";
 require_once "class.SurveyOrdinalQuestionGUI.php";
 require_once "class.SurveyTextQuestionGUI.php";
@@ -494,63 +495,9 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-    $result = $this->ilias->db->query($query);
-		if ($result->numRows() == 0)
-		{
-			return 0;
-		}
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		$query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP)" .
-			" VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote("$row->subtype"),
-			$this->ilias->db->quote("$row->questiontype_fi"),
-			$this->ilias->db->quote("0"),
-			$this->ilias->db->quote("$ilUser->id"),
-			$this->ilias->db->quote("$row->title"),
-			$this->ilias->db->quote("$row->description"),
-			$this->ilias->db->quote("$row->author"),
-			$this->ilias->db->quote("$row->questiontext"),
-			$this->ilias->db->quote("$row->obligatory"),
-			$this->ilias->db->quote("$row->complete"),
-			$this->ilias->db->quote("$row->created"),
-			$this->ilias->db->quote("$row->question_id")
-		);
-    $result = $this->ilias->db->query($query);
-		$duplicate_id = $this->ilias->db->getLastInsertId();
-		// copy question variables
-		$query = sprintf("SELECT * FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-    $result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$insertquery = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$row->category_fi"),
-				$this->ilias->db->quote("$duplicate_id"),
-				$this->ilias->db->quote("$row->value1"),
-				$this->ilias->db->quote("$row->value2"),
-				$this->ilias->db->quote("$row->sequence")
-			);
-	    $insertresult = $this->ilias->db->query($insertquery);
-		}
-
-		// copy question materials
-		$query = sprintf("SELECT * FROM survey_question_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-    $result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$insertquery = sprintf("INSERT INTO survey_question_material (material_id, question_fi, materials, materials_file) VALUES (NULL, %s, %s, %s)",
-				$this->ilias->db->quote("$duplicate_id"),
-				$this->ilias->db->quote("$row->materials"),
-				$this->ilias->db->quote("$row->materials_file")
-			);
-	    $insertresult = $this->ilias->db->query($insertquery);
-		}
+		$questiontype = $this->getQuestionType($question_id);
+		$question_gui = $this->getQuestionGUI($questiontype, $question_id);
+		$duplicate_id = $question_gui->object->duplicate(true);
 		return $duplicate_id;
 	}
 
@@ -733,7 +680,31 @@ class ilObjSurvey extends ilObject
 		$question->object->loadFromDb($question_id);
 		return $question;
 	}
-
+	
+/**
+* Returns the question type of a question with a given id
+* 
+* Returns the question type of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question type string
+* @access private
+*/
+  function getQuestionType($question_id) {
+    if ($question_id < 1)
+      return -1;
+    $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
+      $this->ilias->db->quote($question_id)
+    );
+    $result = $this->ilias->db->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      return $data->type_tag;
+    } else {
+      return "";
+    }
+  }
+	
 /**
 * Returns the survey database id
 * 
@@ -1473,23 +1444,8 @@ class ilObjSurvey extends ilObject
 */
 	function removeQuestion($question_id)
 	{
-		// Delete the question from the question table (don't worry, it's just a copy)
-		$query = sprintf("DELETE FROM survey_question WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		// Delete the materials link of the question
-		$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		// Delete the variables of the question
-		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		// Delete constraints of the question
-		$this->deleteConstraints($question_id);
+		$question = new SurveyQuestion();
+		$question->delete($question_id);
 	}
 		
 /**
