@@ -588,7 +588,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	function randomSelect()
 	{
 		global $ilUser;
@@ -618,7 +618,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	function randomQuestionOffer()
 	{
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
@@ -626,7 +626,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$questionpools =& $this->object->get_qpl_titles();	
+		$questionpools =& $this->object->get_qpl_titles();
 		foreach ($question_array as $question_id)
 		{
 			$dataset = $this->object->get_question_dataset($question_id);
@@ -668,7 +668,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
 
@@ -683,7 +683,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->questionpoolSelect();
 			return;
 		}
-		
+
 		if ($_POST["cmd"]["randomselect"])
 		{
 			$this->randomSelect();
@@ -695,7 +695,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->randomQuestionOffer();
 			return;
 		}
-		
+
 		if ($_POST["cmd"]["random_select_yes"])
 		{
 			$selected_array = split(",", $_POST["chosen_questions"]);
@@ -713,7 +713,7 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 			}
 		}
-		
+
 		if ($_POST["cmd"]["create_question_execute"])
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
@@ -1661,10 +1661,23 @@ class ilObjTestGUI extends ilObjectGUI
 			$xls->SendFile(); // close the stream
 		}
 		else if ($_POST["export_type"]==TYPE_SPSS){
-			print CLIENT_WEB_DIR . "/assessment/evaluation/evaluation.txt";
-			$file = fopen(CLIENT_WEB_DIR . "/assessment/evaluation/evaluation.txt","w++");
+
+			$filename=CLIENT_WEB_DIR . "/assessment/te.txt";
+
+			$file = fopen($filename,"w++");
 			fwrite($file,"This is where the contents of the text file goes");
 			fclose($file);
+
+			$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
+			header( "Content-type: application/force-download" );
+			if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
+			  header( "Content-Disposition: filename=".$filename);
+			} else {
+			  header( "Content-Disposition: attachment; filename=".$filename);
+			}
+			header( "Content-Description: File Transfert");
+			@readfile($filename);
+
 		}
 	}
 
