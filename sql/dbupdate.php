@@ -1,9 +1,7 @@
 <#1>
 #intial release of database
 <#2>
-#
-# Tabellenstruktur für Tabelle `frm_posts_tree`
-#
+# adding forum tables
 DROP TABLE IF EXISTS frm_posts_tree;
 CREATE TABLE frm_posts_tree (
   fpt_pk bigint(20) NOT NULL auto_increment,
@@ -16,10 +14,6 @@ CREATE TABLE frm_posts_tree (
   date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (fpt_pk)
 ) TYPE=MyISAM;
-
-#
-# Tabellenstruktur für Tabelle `frm_data`
-#
 
 DROP TABLE IF EXISTS frm_data;
 CREATE TABLE frm_data (
@@ -36,10 +30,6 @@ CREATE TABLE frm_data (
   PRIMARY KEY  (top_pk)
 ) TYPE=MyISAM;
 
-#
-# Tabellenstruktur für Tabelle `frm_posts`
-#
-
 DROP TABLE IF EXISTS frm_posts;
 CREATE TABLE frm_posts (
   pos_pk bigint(20) NOT NULL auto_increment,
@@ -51,10 +41,6 @@ CREATE TABLE frm_posts (
   pos_update datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (pos_pk)
 ) TYPE=MyISAM;
-
-#
-# Tabellenstruktur für Tabelle `frm_threads`
-#
 
 DROP TABLE IF EXISTS frm_threads;
 CREATE TABLE frm_threads (
@@ -93,7 +79,6 @@ ALTER TABLE `frm_data` ADD `top_usr_id` BIGINT( 20 ) NOT NULL ;
 
 # delete column in `frm_threads`
 ALTER TABLE `frm_threads` DROP `thr_last_modified`;
-
 
 <#5>
 # There are some old wrong entries in rbac_templates => delete them
@@ -164,3 +149,192 @@ CREATE TABLE note_data (
   PRIMARY KEY  (note_id)
 ) TYPE=MyISAM;
 
+<#12>
+# many changes in LO-repository
+
+# remove old tables
+ DROP TABLE IF EXISTS `lo_attribute` ,
+`lo_attribute_name_leaf` ,
+`lo_attribute_namespace_leaf` ,
+`lo_attribute_value_leaf` ,
+`lo_cdata_leaf` ,
+`lo_comment_leaf` ,
+`lo_element_name_leaf` ,
+`lo_element_namespace_leaf` ,
+`lo_entity_reference_leaf` ,
+`lo_pi_data_leaf` ,
+`lo_pi_target_leaf` ,
+`lo_text_leaf` ,
+`lo_tree` ;
+
+# add new tables
+DROP TABLE IF EXISTS lo_attribute_idx;
+CREATE TABLE lo_attribute_idx (
+  node_id int(10) unsigned NOT NULL default '0',
+  attribute_id smallint(5) unsigned NOT NULL default '0',
+  value_id smallint(5) unsigned NOT NULL default '0',
+  KEY node_id (node_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_attribute_name;
+CREATE TABLE lo_attribute_name (
+  attribute_id smallint(5) unsigned NOT NULL auto_increment,
+  attribute char(32) NOT NULL default '',
+  PRIMARY KEY  (attribute_id),
+  UNIQUE KEY attribute (attribute)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_attribute_namespace;
+CREATE TABLE lo_attribute_namespace (
+  attribute_id smallint(5) unsigned NOT NULL auto_increment,
+  node_id int(10) unsigned NOT NULL default '0',
+  namespace char(64) NOT NULL default '',
+  PRIMARY KEY  (attribute_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_attribute_value;
+CREATE TABLE lo_attribute_value (
+  value_id smallint(5) unsigned NOT NULL auto_increment,
+  value char(32) NOT NULL default '0',
+  PRIMARY KEY  (value_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_cdata;
+CREATE TABLE lo_cdata (
+  node_id int(10) unsigned NOT NULL auto_increment,
+  cdata text NOT NULL,
+  PRIMARY KEY  (node_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_comment;
+CREATE TABLE lo_comment (
+  node_id int(10) unsigned NOT NULL auto_increment,
+  comment text NOT NULL,
+  PRIMARY KEY  (node_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_element_idx;
+CREATE TABLE lo_element_idx (
+  node_id int(10) unsigned NOT NULL default '0',
+  element_id smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (node_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_element_name;
+CREATE TABLE lo_element_name (
+  element_id smallint(5) unsigned NOT NULL auto_increment,
+  element char(32) NOT NULL default '',
+  PRIMARY KEY  (element_id),
+  UNIQUE KEY element (element)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_element_namespace;
+CREATE TABLE lo_element_namespace (
+  element_id smallint(5) unsigned NOT NULL auto_increment,
+  node_id int(10) unsigned NOT NULL default '0',
+  namespace char(64) NOT NULL default '',
+  PRIMARY KEY  (element_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_entity_reference;
+CREATE TABLE lo_entity_reference (
+  element_id smallint(5) unsigned NOT NULL auto_increment,
+  node_id int(10) unsigned NOT NULL default '0',
+  entity_reference char(128) NOT NULL default '',
+  PRIMARY KEY  (element_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_pi_data;
+CREATE TABLE lo_pi_data (
+  leaf_id int(10) unsigned NOT NULL auto_increment,
+  node_id int(10) unsigned NOT NULL default '0',
+  leaf_text text NOT NULL,
+  PRIMARY KEY  (leaf_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_pi_target;
+CREATE TABLE lo_pi_target (
+  leaf_id int(10) unsigned NOT NULL auto_increment,
+  node_id int(10) unsigned NOT NULL default '0',
+  leaf_text text NOT NULL,
+  PRIMARY KEY  (leaf_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_text;
+CREATE TABLE lo_text (
+  node_id int(10) unsigned NOT NULL default '0',
+  textnode text NOT NULL,
+  PRIMARY KEY  (node_id),
+  FULLTEXT KEY textnode (textnode)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lo_tree;
+CREATE TABLE lo_tree (
+  node_id int(10) unsigned NOT NULL auto_increment,
+  lo_id mediumint(8) unsigned NOT NULL default '0',
+  parent_node_id int(10) unsigned NOT NULL default '0',
+  lft smallint(5) unsigned NOT NULL default '0',
+  rgt smallint(5) unsigned NOT NULL default '0',
+  node_type_id tinyint(3) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  prev_sibling_node_id int(10) unsigned NOT NULL default '0',
+  next_sibling_node_id int(10) unsigned NOT NULL default '0',
+  first_child_node_id int(10) unsigned NOT NULL default '0',
+  struct tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (node_id),
+  KEY lo_id (lo_id)
+) TYPE=MyISAM;
+
+# remove old LO entries
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'lo'";
+$result = $this->db->query($query);
+
+while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$obj_id = $data["obj_id"];
+	
+	$query = "DELETE FROM tree WHERE child = '".$obj_id."'";
+	$this->db->query($query);
+}
+
+$query = "DELETE FROM object_data WHERE type = 'lo'";
+$this->db->query($query); 
+?>
+# remove legacy forum objects
+DELETE FROM tree WHERE child = '172';
+DELETE FROM tree WHERE child = '174';
+DELETE FROM tree WHERE child = '178';
+DELETE FROM object_data WHERE obj_id = '172';
+DELETE FROM object_data WHERE obj_id = '174';
+DELETE FROM object_data WHERE obj_id = '178';
+DELETE FROM rbac_pa WHERE obj_id = '172';
+DELETE FROM rbac_pa WHERE obj_id = '174';
+DELETE FROM rbac_pa WHERE obj_id = '178';
+
+# db performance tuning: setting several indexes and shortened some data columns
+ALTER TABLE `object_data` ADD INDEX (`type`);
+ALTER TABLE `rbac_fa` DROP PRIMARY KEY;
+ALTER TABLE `rbac_fa` DROP PRIMARY KEY, ADD PRIMARY KEY (`rol_id`);
+ALTER TABLE `rbac_operations` CHANGE `operation` `operation` CHAR(32) NOT NULL;
+ALTER TABLE `rbac_operations` ADD UNIQUE (`operation`);
+ALTER TABLE `rbac_templates` ADD INDEX (`rol_id`);
+ALTER TABLE `rbac_templates` ADD INDEX (`type`);
+ALTER TABLE `rbac_templates` ADD INDEX (`ops_id`);
+ALTER TABLE `rbac_templates` ADD INDEX (`parent`);
+ALTER TABLE `rbac_ua` DROP PRIMARY KEY;
+ALTER TABLE `rbac_ua` ADD INDEX (`usr_id`);
+ALTER TABLE `rbac_ua` ADD INDEX (`rol_id`);
+ALTER TABLE `settings` DROP PRIMARY KEY;
+ALTER TABLE `settings` DROP PRIMARY KEY ,
+ADD PRIMARY KEY (`keyword`);
+ALTER TABLE `tree` CHANGE `tree` `tree` SMALLINT(5) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `tree` CHANGE `child` `child` INT(10) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `tree` CHANGE `parent` `parent` INT(10) UNSIGNED DEFAULT NULL;
+ALTER TABLE `tree` CHANGE `lft` `lft` INT(10) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `tree` CHANGE `rgt` `rgt` INT(10) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `tree` CHANGE `depth` `depth` SMALLINT(5) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `usr_data` CHANGE `usr_id` `usr_id` INT(10) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `usr_pref` CHANGE `usr_id` `usr_id` INT( 10 ) UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE `tree` ADD INDEX (`child`);
+ALTER TABLE `tree` ADD INDEX (`parent`);
