@@ -321,6 +321,7 @@ common#:#members#:#membri
 common#:#message#:#messaggio
 common#:#message_content#:#contenuto del messaggio
 common#:#message_to#:#messaggio a:
+common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
 common#:#migrate#:#migrare
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
@@ -570,7 +571,6 @@ content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
-content#:#cont_meta_data#:#Meta Data###14 May 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
