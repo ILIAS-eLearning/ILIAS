@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.74 2004/01/31 13:11:21 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.75 2004/01/31 17:05:52 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -723,9 +723,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$mbox = new ilMailbox($userObj->getId());
 		$mbox->createDefaultFolder();
 
-		include_once "classes/class.ilFormatMail.php";
-		$fmail = new ilFormatMail($userObj->getId());
-		$fmail->createMailOptionsEntry();
+		include_once "classes/class.ilMailOptions.php";
+		$mail_options = new ilMailOptions($userObj->getId());
+		$mail_options->createMailOptionsEntry();
 
 		// create personal bookmark folder tree
 		include_once "classes/class.ilBookmarkFolder.php";
