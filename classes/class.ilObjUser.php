@@ -763,6 +763,10 @@ class ilObjUser extends ilObject
 		$q = "DELETE FROM bookmark_data WHERE user_id='".$this->getId()."'";
 		$this->ilias->db->query($q);
 
+		// DELETE FORUM ENTRIES (not complete in the moment)
+		ilObjForum::_deleteUser($this->getId());
+
+
 		// delete object data
 		parent::delete();
 		return true;

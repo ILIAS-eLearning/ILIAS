@@ -404,8 +404,13 @@ class ilForum
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
 
+		// MARK READ
+		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
+		$forum_obj->markPostRead($user,$thread,$lastInsert);
+
 		// FINALLY SEND MESSAGE
 		$this->__sendMessage($parent_pos);
+
 
 		return $lastInsert;
 	}
@@ -495,7 +500,6 @@ class ilForum
 		return true;		
 	}
 	
-	
 	/**
 	* delete post and sub-posts
 	* @param	integer	$post: ID	
@@ -503,10 +507,18 @@ class ilForum
 	* @return	integer	0 or thread-ID
 	*/
 	function deletePost($post)
-	{		
+	{
+		include_once "./classes/class.ilObjForum.php";
+		
 		// delete tree and get id's of all posts to delete
 		$p_node = $this->getPostNode($post);	
 		$del_id = $this->deletePostTree($p_node);
+
+		// Delete User read entries
+		foreach($del_id as $post_id)
+		{
+			ilObjForum::_deleteReadEntries($post_id);
+		}
 
 		// DELETE ATTACHMENTS ASSIGNED TO POST
 		$this->__deletePostFiles($del_id);

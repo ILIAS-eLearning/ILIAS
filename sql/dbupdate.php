@@ -5061,3 +5061,37 @@ CREATE TABLE `frm_settings` (
   `default_view` int(2) NOT NULL default '0',
   PRIMARY KEY  (`obj_id`)
 ) TYPE=MyISAM;
+
+<#350>
+DROP TABLE IF EXISTS `frm_user_read`;
+CREATE TABLE `frm_user_read` (
+  `usr_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `thread_id` int(11) NOT NULL default '0',
+  `post_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`,`post_id`)
+) TYPE=MyISAM;
+
+<#351>
+<?php
+
+$query = "SELECT pos_pk,pos_usr_id,pos_thr_fk,pos_top_fk FROM frm_posts";
+$res = $this->db->query($query);
+while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "SELECT top_frm_fk FROM frm_data ".
+		"WHERE top_pk = '".$row1->pos_top_fk."'";
+
+	$res2 = $this->db->query($query);
+	while($row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$query = "INSERT INTO frm_user_read ".
+			"SET usr_id = '".$row1->pos_usr_id."', ".
+			"obj_id = '".$row2->top_frm_fk."', ".
+			"thread_id = '".$row1->pos_thr_fk."', ".
+			"post_id = '".$row1->pos_pk."'";
+
+		$this->db->query($query);
+	}
+}
+?>

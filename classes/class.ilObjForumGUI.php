@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.17 2004/11/26 12:08:43 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.18 2004/11/29 10:51:16 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -78,7 +78,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function showThreadsObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		$frm =& $this->object->Forum;
 		$frm->setForumId($this->object->getId());
@@ -165,10 +165,13 @@ class ilObjForumGUI extends ilObjectGUI
 						$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
 						$this->tpl->setVariable("DATE",$thrData["thr_date"]);
 						$this->tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".
-										  $thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".
-										  $thrData["thr_subject"]."</a>");
+												$thrData["thr_pk"]."&ref_id=".$this->object->getRefId()."\">".
+												$thrData["thr_subject"]."</a>");
 				
-						$this->tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
+
+						$num_unread = $this->object->getCountUnread($ilUser->getId(),$thrData['thr_pk']);
+						$this->tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"].' ('.$num_unread.')');
+
 				
 						$this->tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
 				
@@ -200,7 +203,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$lpCont = $lastPost["pos_date"]."<br/>".strtolower($this->lng->txt("from"))."&nbsp;";
 							$lpCont .= "<a href=\"forums_frameset.php?pos_pk=".
 								$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
-								$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$last_usr_data["login"]."</a>";
+								$this->object->getRefId()."#".$lastPost["pos_pk"]."\">".$last_usr_data["login"]."</a>";
 						}
 
 						$this->tpl->setVariable("LAST_POST", $lpCont);	
@@ -237,7 +240,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_TOPIC", $this->lng->txt("forums_thread"));
 		$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TXT_NUM_POSTS", $this->lng->txt("forums_articles"));
+		$this->tpl->setVariable("TXT_NUM_POSTS", $this->lng->txt("forums_articles").' ('.$this->lng->txt('unread').')');
 		$this->tpl->setVariable("TXT_NUM_VISITS", $this->lng->txt("visits"));
 		$this->tpl->setVariable("TXT_LAST_POST", $this->lng->txt("forums_last_post"));
 		$this->tpl->parseCurrentBlock("threadtable");

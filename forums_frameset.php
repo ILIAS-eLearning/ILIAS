@@ -47,7 +47,7 @@ if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 	$frm->setForumId($forumObj->getId());
 	$frm->setForumRefId($forumObj->getRefId());
 
-	$dead_thr = $frm->deletePost($_GET["pos_pk"]);		
+	$dead_thr = $frm->deletePost($_GET["pos_pk"]);
 		
 	// if complete thread was deleted ...
 	if ($dead_thr == $_GET["thr_pk"])
@@ -57,15 +57,16 @@ if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 
 		if ($topicData["top_num_threads"] > 0)
 		{
-			$thr_page = "liste";
+			$script = "repository.php";
 		}
 		else
 		{
-			$thr_page = "new";
+			$script = "forums_threads_new.php";
 		}
 
 		sendInfo($lng->txt("forums_post_deleted"),true);
-		header("location: forums_threads_".$thr_page.".php?ref_id=".$_GET["ref_id"]);
+
+		header("location: ".$script."?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 	sendInfo($lng->txt("forums_post_deleted"));

@@ -632,6 +632,18 @@ a.mailunread
 	color: #2255a0;
 	font-weight: bold;
 }
+/* ------------------- fora links ----------- */
+a.postread
+{
+	font-weight: normal;
+	color: #2255a0;
+}
+
+a.postunread
+{
+	color: #2255a0;
+	font-weight: bold;
+}
 
 /* ------------------ buttons -------------- */
 

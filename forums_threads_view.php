@@ -39,6 +39,17 @@ $lng->loadLanguageModule("forum");
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm =& $forumObj->Forum;
 
+// mark post read if explorer link was clicked
+if($_GET['thr_pk'] and $_GET['pos_pk'])
+{
+	$forumObj->markPostRead($ilUser->getId(),(int) $_GET['thr_pk'],(int) $_GET['pos_pk']);
+}
+if($_GET['mark_read'])
+{
+	$forumObj->markThreadRead($ilUser->getId(),(int) $_GET['thr_pk']);
+	sendInfo($lng->txt('forums_thread_marked'),true);
+}
+
 $file_obj =& new ilFileDataForum($forumObj->getId(),$_GET["pos_pk"]);
 
 $frm->setForumId($forumObj->getId());
@@ -169,8 +180,17 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TARGET", "bottom");
 	$tpl->parseCurrentBlock();
 
+
 	// menu template (contains linkbar, new topic and print thread button)
 	$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true);
+
+	if($forumObj->getCountUnread($ilUser->getId(),(int) $_GET['thr_pk']))
+	{
+		$menutpl->setCurrentBlock("btn_cell");
+		$menutpl->setVariable("BTN_LINK","forums_threads_view.php?mark_read=1&ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET['thr_pk']);
+		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_mark_read"));
+		$menutpl->parseCurrentBlock();
+	}
 
 	if ($rbacsystem->checkAccess("edit_post", $_GET["ref_id"]))
 	{
@@ -494,6 +514,17 @@ if (is_array($topicData = $frm->getOneTopic()))
 											  $node["pos_pk"]."\">".$lng->txt("censorship")."</a>");
 							$tpl->parseCurrentBlock("cens_cell");
 						}
+						// READ LINK
+						if(!$forumObj->isRead($ilUser->getId(),$node['pos_pk']))
+						{
+							$tpl->setCurrentBlock("read_cell");
+							$tpl->setVariable("READ_BUTTON","<a href=\"forums_threads_view.php?pos_pk=".
+											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".
+											  $Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
+											  $node["pos_pk"]."\">".$lng->txt("is_read")."</a>");
+							$tpl->parseCurrentBlock("read_cell");
+						}
+
 					} // if ($rbacsystem->checkAccess("delete post", $_GET["ref_id"]))
 
 					if (($_GET["cmd"] != "delete") || ($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]))
@@ -545,6 +576,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 			} // if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 			else
 			{
+				if(!$forumObj->isRead($ilUser->getId(),$node['pos_pk']))
+				{
+					$tpl->setCurrentBlock("read_cell");
+					$tpl->setVariable("READ_BUTTON","<a href=\"forums_threads_view.php?pos_pk=".
+									  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".
+									  $Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
+									  $node["pos_pk"]."\">".$lng->txt("is_read")."</a>");
+					$tpl->parseCurrentBlock("read_cell");
+				}
+
 				$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
 			}
 			// DOWNLOAD ATTACHMENTS
@@ -567,7 +608,6 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$tpl->parseCurrentBlock();
 				}
 			}
-
 
 			$tpl->setCurrentBlock("posts_row");
 			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
@@ -678,7 +718,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$node["message"] = ilUtil::makeClickable($node["message"]);
 
 			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
-			$tpl->setVariable("SUBJECT",$node["subject"]);
+
+			if($forumObj->isRead($ilUser->getId(),$node['pos_pk']))
+			{
+				$tpl->setVariable("SUBJECT",$node["subject"]);
+			}
+			else
+			{
+				$tpl->setVariable("SUBJECT","<b>".$node["subject"]."</b>");
+			}
+
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));
 			$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");
 			if ($node["pos_cens"] > 0)
@@ -712,7 +761,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 		} // if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 
-		$z ++;
+		$z++;
 
 	} // foreach($subtree_nodes as $node)
 }
@@ -725,6 +774,7 @@ else
 
 $tpl->setCurrentBlock("posttable");
 $tpl->setVariable("COUNT_POST", $lng->txt("forums_count_art").": ".$posNum);
+
 $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_POST", $lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 

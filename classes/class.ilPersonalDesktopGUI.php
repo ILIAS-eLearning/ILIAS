@@ -282,6 +282,19 @@ class ilPersonalDesktopGUI
 
 
 				}
+				// Show fora infos
+				if($a_type == 'frm')
+				{
+					global $ilUser;
+
+					$frm_obj = ilObjectFactory::getInstanceByRefId($item['id']);
+
+					$num_unread = $frm_obj->getCountUnread($ilUser->getId());
+
+					$tpl->setCurrentBlock("frm_info");
+					$tpl->setVariable("TXT_FRM_INFO",$this->lng->txt('articels_unread').' '.$num_unread);
+					$tpl->parseCurrentBlock();
+				}
 
 				// show link
 				if($a_type != 'crs' or ilRepositoryExplorer::isClickable($a_type,$item['id'],ilObject::_lookupObjId($item['id'])))
