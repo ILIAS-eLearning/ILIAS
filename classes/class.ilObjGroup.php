@@ -317,9 +317,12 @@ class ilObjGroup extends ilObject
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		//the (global)roles who must be considered when inheritance is stopped
 		//todo: query that fetches the considering global roles
-		$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
+		//$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
+		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"]));
 
-	  	if($a_grpStatus == 0 || $a_grpStatus == 1)
+		//var_dump("<pre>",$rolf_data,"</pre>");exit;
+		
+	  	if ($a_grpStatus == 0 || $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
@@ -338,10 +341,10 @@ class ilObjGroup extends ilObject
 
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
-				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$globalRole,$rolf_data["child"]);
+				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
 
 				//the assignment stops the inheritation
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
 			}//END foreach
 
 			$this->m_grpStatus = 0;
