@@ -622,8 +622,10 @@ common#:#err_no_param#:#Немає параметру!
 common#:#err_over_3_param#:#Більш ніж 3 параметри!
 common#:#err_role_not_assignable#:#Ви не можете призначити користувача на цю роль в цьому місці
 common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Причина: Невірний заголовок.
 common#:#err_wrong_login#:#Невірний Логін
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Помилка Отримувача
 common#:#exc#:#Вправа
@@ -796,6 +798,8 @@ common#:#grp#:#Група
 common#:#grp_a#:#Група
 common#:#grp_add#:#Додати Групу
 common#:#grp_added#:#Група додана
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Створити Групу
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#Користувач може завантажувати Файли###17 Apr 2004 content changed
@@ -821,6 +825,9 @@ common#:#grp_leave#:#Користувач може залишити групу
 common#:#grp_mem_change_status#:#Змінити статус члена
 common#:#grp_mem_leave#:#Виключити члена з групи
 common#:#grp_mem_send_mail#:#Послати члену повідомлення
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#Членство анульоване
 common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
 common#:#grp_new#:#Нова Група
@@ -1373,6 +1380,7 @@ common#:#recipient#:#Одержувач
 common#:#refresh#:#Обновити
 common#:#refresh_languages#:#Обновити Мови
 common#:#refresh_list#:#Обновити Список
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#Зареєструвати
 common#:#register_info#:#Будь ласка заповніть форму для реєстрації (Поля позначені зірочкою обов'язкові для заповнення).
 common#:#registered_since#:#Зареєстрований з

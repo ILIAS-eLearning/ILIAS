@@ -622,8 +622,10 @@ common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
 common#:#err_role_not_assignable#:#Non puoi assegnare utenti a questo ruolo in questo caso
 common#:#err_session_expired#:#La sessione &#232; scaduta!
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Errore nell'esecuzione del parser
 common#:#error_recipient#:#Destinatario per gli errori
 common#:#exc#:#Esercizio
@@ -796,6 +798,8 @@ common#:#grp#:#Gruppo
 common#:#grp_a#:#Un gruppo
 common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_chat#:#Creare Chat
 common#:#grp_create_file#:#Eseguire upload di file###17 Apr 2004 content changed
@@ -821,6 +825,9 @@ common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
@@ -1373,6 +1380,7 @@ common#:#recipient#:#Destinario
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#Registra
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).
 common#:#registered_since#:#Registrato dal

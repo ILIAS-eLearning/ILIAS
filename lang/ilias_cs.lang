@@ -622,8 +622,10 @@ common#:#err_no_param#:#Žádný parametr!
 common#:#err_over_3_param#:#Více než 3 parametry!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###16 Mar 2004 new variable
 common#:#err_session_expired#:#Vaše sezení vypršelo!
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Důvod: Chybná hlavička.
 common#:#err_wrong_login#:#Chybné přihlášení
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Příjemce chybových hlášení
 common#:#exc#:#Cvičení
@@ -796,6 +798,8 @@ common#:#grp#:#Skupina
 common#:#grp_a#:#skupina
 common#:#grp_add#:#Přidat skupinu
 common#:#grp_added#:#Skupina přidána
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Create Group###16 Mar 2004 new variable
 common#:#grp_create_chat#:#Create Chat###16 Mar 2004 new variable
 common#:#grp_create_file#:#User may upload Files###16 Mar 2004 new variable
@@ -821,6 +825,9 @@ common#:#grp_leave#:#User may leave Group###16 Mar 2004 new variable
 common#:#grp_mem_change_status#:#Změnit statut člena
 common#:#grp_mem_leave#:#Vyřadit člena ze skupiny
 common#:#grp_mem_send_mail#:#Poslat členovi zprávu
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#Členství zrušeno
 common#:#grp_name_exists#:#Skupina s tímto názvem již existuje! Zvolte prosím jiný.
 common#:#grp_new#:#Nová skupina
@@ -1373,6 +1380,7 @@ common#:#recipient#:#Příjemce
 common#:#refresh#:#Aktualizovat
 common#:#refresh_languages#:#Aktualizovat jazyky
 common#:#refresh_list#:#Aktualizovat seznam
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#Registrovat
 common#:#register_info#:#Vypnňte prosím registrační formulář (položky označené hvězdičkou jsou povinné).
 common#:#registered_since#:#Registrace od

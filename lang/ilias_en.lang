@@ -44,8 +44,6 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
-common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
@@ -56,9 +54,6 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
-common#:#err_wrong_password#:#Wrong Password
-common#:#grp_back#:#Back
-common#:#err_unknown_error#:#Unknown Error
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
@@ -100,13 +95,11 @@ assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
-common#:#refuse#:#Refuse
 assessment#:#by#:#by
 assessment#:#cloze_text#:#Cloze text
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_new#:#Create new
-common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
@@ -279,7 +272,6 @@ assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#working_time#:#Working Time
-common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
@@ -630,8 +622,10 @@ common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
 common#:#err_session_expired#:#Your session is expired!
+common#:#err_unknown_error#:#Unknown Error
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
+common#:#err_wrong_password#:#Wrong Password
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
 common#:#exc#:#Exercise
@@ -804,6 +798,8 @@ common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
+common#:#grp_back#:#Back
 common#:#grp_create#:#Create Group
 common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_file#:#Upload File
@@ -829,6 +825,9 @@ common#:#grp_leave#:#User may leave Group
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
@@ -1381,6 +1380,7 @@ common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh Languages
 common#:#refresh_list#:#Refresh List
+common#:#refuse#:#Refuse
 common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asterisk are required information).
 common#:#registered_since#:#Registered since
