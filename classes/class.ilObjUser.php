@@ -1240,8 +1240,8 @@ class ilObjUser extends ilObject
 			$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$a_user_id."'";
 			$this->ilias->db->query($q);
 		}
-		
-		return true;	
+
+		return true;
 	}
 
 	/**
@@ -1251,7 +1251,7 @@ class ilObjUser extends ilObject
 	*									(learning modules, forums) obj_id for others
 	* @param	string	$a_type			object type
 	*/
-	function addDesktopItem($a_item_id, $a_type)
+	function addDesktopItem($a_item_id, $a_type, $a_par = "")
 	{
 		$q = "SELECT * FROM desktop_item WHERE ".
 			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
@@ -1261,10 +1261,26 @@ class ilObjUser extends ilObject
 		// only insert if item is not already on desktop
 		if (!$d = $item_set->fetchRow())
 		{
-			$q = "INSERT INTO desktop_item (item_id, type, user_id) VALUES ".
-				" ('$a_item_id','$a_type','".$this->getId()."')";
+			$q = "INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
+				" ('$a_item_id','$a_type','".$this->getId()."' , '$a_par')";
 			$this->ilias->db->query($q);
 		}
+	}
+
+	/**
+	* set parameters of a desktop item entry
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	* @param	string	$a_par			parameters
+	*/
+	function setDesktopItemParameters($a_item_id, $a_type, $a_par)
+	{
+		$q = "UPDATE desktop_item SET parameters = '$a_par' ".
+			" WHERE item_id = '$a_item_id' AND type = '$a_type' ".
+			" AND user_id = '".$this->getId()."' ";
+		$this->ilias->db->query($q);
 	}
 
 	/**
@@ -1320,7 +1336,7 @@ class ilObjUser extends ilObject
 		switch ($a_type)
 		{
 			case "lm":
-				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+				$q = "SELECT oref.ref_id, obj.title, parameters FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
@@ -1331,7 +1347,9 @@ class ilObjUser extends ilObject
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-						"link" => "content/lm_presentation.php?ref_id=".$item_rec["ref_id"], "target" => "_top");
+						"parameters" => $item_rec["parameters"],
+						"link" => "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
+						"&obj_id=".$item_rec["parameters"], "target" => "_top");
 				}
 				break;
 
