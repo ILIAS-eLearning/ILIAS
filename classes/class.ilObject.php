@@ -669,6 +669,22 @@ class ilObject
 	}
 
 	/**
+	* lookup object id
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupObjectId($a_ref_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT obj_id FROM object_reference WHERE ref_id = '".$a_ref_id."'";
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["obj_id"];
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff
@@ -821,7 +837,7 @@ class ilObject
 
 	/**
 	* init default roles settings
-	* Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type 
+	* Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type
 	* If you want to setup default local roles you MUST overwrite this method in derived object classes (see ilObjForum for an example)
 	* @access	public
 	* @return	array	empty array
@@ -933,7 +949,7 @@ class ilObject
 	{
 		return false;
 	}
-	
+
 	function requireRegistration()
 	{
 		return $this->register;

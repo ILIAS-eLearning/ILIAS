@@ -1642,6 +1642,17 @@ class ilObjUser extends ilObject
 									}
 								}
 								break;
+
+							case "glo":
+								include_once("content/classes/class.ilObjGlossary.php");
+								if (!ilObjGlossary::_lookupOnline($item_rec["obj_id"]))
+								{
+									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+									{
+										$skip = true;
+									}
+								}
+								break;
 						}
 
 						if($a_type == "glo")

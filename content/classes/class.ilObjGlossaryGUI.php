@@ -475,7 +475,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// glossary properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glossary_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_glo_properties"));
 
 		// online
 		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
@@ -492,6 +492,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 	}
+
+	/**
+	* save properties
+	*/
+	function saveProperties()
+	{
+		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->update();
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+
 
 
 	/**
