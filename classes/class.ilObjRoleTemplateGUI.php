@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.23 2003/08/19 11:01:23 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.24 2003/10/29 15:01:09 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,6 +62,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"),$this->ilias->error_obj->WARNING);
+		}
+
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// check if rolt title is unique
@@ -348,20 +354,24 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"),$this->ilias->error_obj->WARNING);
 		}
-		else
+		
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
 		{
-			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-			}
-
-			// update
-			$this->object->setTitle($_POST["Fobject"]["title"]);
-			$this->object->setDescription($_POST["Fobject"]["desc"]);
-			$this->object->update();
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if role title is unique
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// update
+		$this->object->setTitle($_POST["Fobject"]["title"]);
+		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
