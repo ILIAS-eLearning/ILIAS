@@ -377,7 +377,7 @@ function initEditor(TextAreaName)
     cfg.registerButton(
 	{
       id        : "ilias-com",
-      tooltip   : "Kommentar",
+      tooltip   : "",	// Kommentar
       image     : "<span class=ilc_Comment>C</span>",
       textMode  : false,
       action    : function(editor, id) 
@@ -392,7 +392,7 @@ function initEditor(TextAreaName)
     cfg.registerButton(
 	{
       id        : "ilias-quot",
-      tooltip   : "Quotation",
+      tooltip   : "",	// Quotation
       image     : "<span class=ilc_Quotation>Q</span>",
       textMode  : false,
       action    : function(editor, id) 	
@@ -407,7 +407,7 @@ function initEditor(TextAreaName)
     cfg.registerButton(
 	{
       id        : "ilias-code",
-      tooltip   : "Code",
+      tooltip   : "",	// Code
       image     : "<code>Co</code>",
       textMode  : false,
       action    : function(editor, id) 
@@ -422,7 +422,7 @@ function initEditor(TextAreaName)
 	cfg.registerButton(
 	{
       id        : "ilias-fn",
-      tooltip   : "Footnote",
+      tooltip   : "",	// Footnote
       image     : "./htmlarea/images/ed_footnote.gif",
       textMode  : false,
       action    : function(editor, id) 
@@ -434,7 +434,7 @@ function initEditor(TextAreaName)
 	cfg.registerButton(
 	{
       id        : "ilias-xtl",
-      tooltip   : "External link",
+      tooltip   : "",	// External link
       image     : "./htmlarea/images/ed_xtl.gif",
       textMode  : false,
       action    : function(editor, id) 
@@ -445,7 +445,7 @@ function initEditor(TextAreaName)
 	cfg.registerButton(
 	{
       id        : "ilias-itl",
-      tooltip   : "Internal link",
+      tooltip   : "",	//Internal link
       image     : "./htmlarea/images/ed_itl.gif",
       textMode  : false,
       action    : function(editor, id) 
@@ -460,7 +460,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	//cfg.statusBar = false;
+	cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
 
@@ -566,6 +566,7 @@ function checkAllowTagInside(which)
 					H = H.replace("#!#*#!#",N2+S+N1);
 					//alert(H);
 					editor.setHTML(H);
+					editor.focusEditor();
 					//editor.surroundHTML(N2,N1);
 					// -------------------------------------------------------
 					
