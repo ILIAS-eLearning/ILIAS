@@ -120,7 +120,6 @@ common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
-common#:#objs_delete#:#Objekte löschen
 common#:#cont_object#:#Object###15 Sep 2003 new variable
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
@@ -154,6 +153,11 @@ common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
+common#:#dbk#:#Digilib-Buch
+common#:#dbk_a#:#ein Digilib-Buch
+common#:#dbk_add#:#Digilib-Buch anlegen
+common#:#dbk_added#:#Digilib-Buch angelegt
+common#:#dbk_new#:#Neues Digilib-Buch
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_role#:#Standardrolle
@@ -254,7 +258,7 @@ common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
-common#:#group_not_available#:#keine Gruppe verfügbar
+common#:#group_not_available#:#keine Gruppe verfügbar###02 Oct 2003 content changed
 common#:#group_objects#:#Gruppenobjekte
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
@@ -267,6 +271,9 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe bearbeiten
+common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
+common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
+common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_new#:#Neue Gruppe
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
@@ -313,11 +320,6 @@ common#:#ingmedia_welcome#:#, willkommen an Ihrem pers&ouml;nlichen Schreibtisch
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
 common#:#insert#:#Einfügen
-common#:#dbk#:#Digilib-Buch
-common#:#dbk_a#:#ein Digilib-Buch
-common#:#dbk_add#:#Digilib-Buch anlegen
-common#:#dbk_added#:#Digilib-Buch angelegt
-common#:#dbk_new#:#Neues Digilib-Buch
 common#:#inst_id#:#Installations-ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
@@ -531,6 +533,7 @@ common#:#obj_adm#:#Systemeinstellungen
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
+common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
@@ -539,7 +542,6 @@ common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
-common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
@@ -568,7 +570,8 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
-common#:#objf#:#Objektdefinitionen
+common#:#objf#:#Objektdefinitionen###02 Oct 2003 content changed
+common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
@@ -645,6 +648,7 @@ common#:#register#:#Anmelden
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registration#:#Neuanmeldung
+common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
@@ -986,10 +990,6 @@ forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten###01 Sep 2003 content changed
 forum#:#forums_the_post#:#Beitrag
-common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
-common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
-common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
-common#:#remove#:#Entfernen
 forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am

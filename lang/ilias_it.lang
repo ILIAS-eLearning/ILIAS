@@ -153,6 +153,11 @@ common#:#db_pass#:#Password database
 common#:#db_type#:#Tipo database
 common#:#db_user#:#Utente database
 common#:#db_version#:#Versione database
+common#:#dbk#:#Digilib Book###02 Oct 2003 new variable
+common#:#dbk_a#:#a Digilib Book###02 Oct 2003 new variable
+common#:#dbk_add#:#Add Digilib Book###02 Oct 2003 new variable
+common#:#dbk_added#:#Digilib Book added###02 Oct 2003 new variable
+common#:#dbk_new#:#New Digilib Book###02 Oct 2003 new variable
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita###20 Mar 2003 new variable
 common#:#default_role#:#Ruolo predefinito
@@ -266,6 +271,9 @@ common#:#grp_a#:#Un gruppo###06 Aug 2003 new variable
 common#:#grp_add#:#Aggiungi gruppo###06 Aug 2003 new variable
 common#:#grp_added#:#Aggiunto gruppo###16 Jul 2003 new variable
 common#:#grp_edit#:#Modifica gruppo###01 Sep 2003 new variable
+common#:#grp_mem_change_status#:#Change member status###02 Oct 2003 new variable
+common#:#grp_mem_leave#:#Dismiss member from group###02 Oct 2003 new variable
+common#:#grp_mem_send_mail#:#Send member a message###02 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
 common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
@@ -522,7 +530,9 @@ common#:#obj_adm#:#Impostazioni di sistema###15 May 2003 new variable
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###01 Oct 2003 new variable
 common#:#obj_cat#:#Categoria###15 May 2003 new variable
 common#:#obj_crs#:#Corso###15 May 2003 new variable
+common#:#obj_dbk#:#Digilib Book###02 Oct 2003 new variable
 common#:#obj_file#:#File###15 May 2003 new variable
+common#:#obj_fold#:#Folder###02 Oct 2003 new variable
 common#:#obj_frm#:#Forum###15 May 2003 new variable
 common#:#obj_glo#:#Glossario###15 Aug 2003 new variable
 common#:#obj_grp#:#Gruppo###15 May 2003 new variable
@@ -557,7 +567,8 @@ common#:#obj_usr#:#Utente###15 May 2003 new variable
 common#:#obj_usrf#:#Gestione utente###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Manage user accounts here.###01 Oct 2003 new variable
 common#:#objects#:#Oggetti
-common#:#objf#:#objf
+common#:#objf#:#objf###02 Oct 2003 content changed
+common#:#objs_delete#:#Delete objects###02 Oct 2003 new variable
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
 common#:#ok#:#OK###09 May 2003 new variable
@@ -634,6 +645,7 @@ common#:#register#:#Registra###12 Aug 2003 new variable
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&acute;asterisco sono obbligatori).###19 Aug 2003 new variable
 common#:#registered_since#:#Registrato dal###25 Mar 2003 content changed
 common#:#registration#:#Nuova registrazione###19 Aug 2003 new variable
+common#:#remove#:#Dismiss###02 Oct 2003 new variable
 common#:#remove_translation#:#Elimina la traduzione###01 Sep 2003 new variable
 common#:#rename#:#Renomina###28 Mar 2003 new variable
 common#:#reply#:#Rispondi
