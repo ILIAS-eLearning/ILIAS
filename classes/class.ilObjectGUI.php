@@ -2508,6 +2508,7 @@ class ilObjectGUI
 		foreach ($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->setVariable("BTN_NAME",$name);
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
