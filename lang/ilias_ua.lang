@@ -33,72 +33,72 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Dec 2003 content changed
+common#:#3rd_party_software#:#п�?ог�?амне забезпе�?енн�? �,�?е�,�-�? ви�?обник�-в###11 Dec 2003 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
-common#:#absolute_path#:#Абсолютний Шлях
-common#:#accept_usr_agreement#:#Прийняти угоду користувача?
-common#:#access#:#Доступ
-common#:#action_aborted#:#Дію перервано
-common#:#actions#:#Дії
-common#:#active_roles#:#Активні Ролі
-common#:#add#:#Додати
-common#:#add_author#:#Додати Автора
-common#:#add_member#:#Додати Члена
-common#:#add_translation#:#Додати переклад
+common#:#absolute_path#:#�?б�?ол�?�,ний Шл�?�?
+common#:#accept_usr_agreement#:#�Y�?ийн�?�,и �fгод�f ко�?и�?�,�fва�?а?
+common#:#access#:#�?о�?�,�fп
+common#:#action_aborted#:#�?�-�? пе�?е�?вано
+common#:#actions#:#�?�-�-
+common#:#active_roles#:#�?к�,ивн�- Рол�-
+common#:#add#:#�?ода�,и
+common#:#add_author#:#�?ода�,и �?в�,о�?а
+common#:#add_member#:#�?ода�,и Члена
+common#:#add_translation#:#�?ода�,и пе�?еклад
 common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
 common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
 common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
-common#:#administrate#:#Адмініструвати
-common#:#administration#:#Адміністрування
-common#:#administrator#:#Адміністратор
-common#:#adopt#:#прийняти
-common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
-common#:#all_objects#:#Усі Об'єкти
-common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
-common#:#and#:#та
-common#:#announce#:#Анонсувати
-common#:#announce_changes#:#Анонсувати Зміни
-common#:#answers#:#Відповіді
+common#:#administrate#:#�?дм�-н�-�?�,�?�fва�,и
+common#:#administration#:#�?дм�-н�-�?�,�?�fванн�?
+common#:#administrator#:#�?дм�-н�-�?�,�?а�,о�?
+common#:#adopt#:#п�?ийн�?�,и
+common#:#adopt_perm_from_template#:#�Y�?ийн�?�,и па�?аме�,�?и п�?ав з Шаблон�f Ролей
+common#:#all_objects#:#У�?�- �?б'�?к�,и
+common#:#allow_register#:#�?о�?�,�fпний в �?е�?�?�,�?а�?�-йн�-й �?о�?м�- дл�? нови�? ко�?и�?�,�fва�?�-в
+common#:#and#:#�,а
+common#:#announce#:#�?нон�?�fва�,и
+common#:#announce_changes#:#�?нон�?�fва�,и �-м�-ни
+common#:#answers#:#�?�-дпов�-д�-
 common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
-common#:#application_date#:#Дата програми
-common#:#appointment#:#Призначення
-common#:#appointment_list#:#Список Призначення
-common#:#archive#:#Архів
-common#:#are_you_sure#:#Ви впевнені?
-common#:#assign#:#Призначити
-common#:#assign_lo_forum#:#Призначити LO Форум
-common#:#assign_user_to_role#:#Призначити Користувачу Роль
-common#:#at_location#:#знаходиться
-common#:#attachment#:#Прикріплення
-common#:#attachments#:#Прикріплення
-common#:#author#:#Автор
-common#:#authors#:#Атвори
-common#:#available_languages#:#Доступні Мови
-common#:#back#:#Назад
-common#:#basedn#:#БазаDN
-common#:#basic_data#:#Базові Дані
-common#:#bm#:#Закладинка
-common#:#bmf#:#Папка Закладинок
-common#:#bookmark_edit#:#Редагувати Закладинку
-common#:#bookmark_folder_edit#:#Редагувати Папку Закладинок
-common#:#bookmark_folder_new#:#Нова Папка Закладинок
-common#:#bookmark_new#:#Нова Закладинка
-common#:#bookmark_target#:#Ціль
-common#:#bookmarks#:#Закладинки
-common#:#bookmarks_of#:#Закладинки
-common#:#btn_remove_system#:#Видалити з Системи
-common#:#btn_undelete#:#Відмінити видалення
+common#:#application_date#:#�?а�,а п�?ог�?ами
+common#:#appointment#:#�Y�?изна�?енн�?
+common#:#appointment_list#:#Спи�?ок �Y�?изна�?енн�?
+common#:#archive#:#�?�?�?�-в
+common#:#are_you_sure#:#�?и впевнен�-?
+common#:#assign#:#�Y�?изна�?и�,и
+common#:#assign_lo_forum#:#�Y�?изна�?и�,и LO Фо�?�fм
+common#:#assign_user_to_role#:#�Y�?изна�?и�,и �sо�?и�?�,�fва�?�f Рол�?
+common#:#at_location#:#зна�?оди�,�?�?�?
+common#:#attachment#:#�Y�?ик�?�-пленн�?
+common#:#attachments#:#�Y�?ик�?�-пленн�?
+common#:#author#:#�?в�,о�?
+common#:#authors#:#�?�,во�?и
+common#:#available_languages#:#�?о�?�,�fпн�- �?ови
+common#:#back#:#�?азад
+common#:#basedn#:#�?азаDN
+common#:#basic_data#:#�?азов�- �?ан�-
+common#:#bm#:#�-акладинка
+common#:#bmf#:#�Yапка �-акладинок
+common#:#bookmark_edit#:#Редаг�fва�,и �-акладинк�f
+common#:#bookmark_folder_edit#:#Редаг�fва�,и �Yапк�f �-акладинок
+common#:#bookmark_folder_new#:#�?ова �Yапка �-акладинок
+common#:#bookmark_new#:#�?ова �-акладинка
+common#:#bookmark_target#:#Ц�-л�?
+common#:#bookmarks#:#�-акладинки
+common#:#bookmarks_of#:#�-акладинки
+common#:#btn_remove_system#:#�?идали�,и з Си�?�,еми
+common#:#btn_undelete#:#�?�-дм�-ни�,и видаленн�?
 common#:#by#:#
-common#:#calendar#:#Календар
-common#:#cancel#:#Відмінити
-common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
-common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
-common#:#cat#:#Категорія
-common#:#cat_a#:#категорія###13 Jan 2004 content changed
-common#:#cat_add#:#Додати Категорію
-common#:#cat_added#:#Категорію додано
+common#:#calendar#:#�sаленда�?
+common#:#cancel#:#�?�-дм�-ни�,и
+common#:#cannot_uninstall_language_in_use#:#�?и не може�,е де�-н�?�,ал�?ва�,и мов�f, �?о в данний �?а�? вико�?и�?�,ов�f�?�,�?�?�?!
+common#:#cannot_uninstall_systemlanguage#:#�?и не може�,е де�-н�?�,ал�?ва�,и �?и�?�,емн�f мов�f!
+common#:#cat#:#�sа�,его�?�-�?
+common#:#cat_a#:#ка�,его�?�-�?###13 Jan 2004 content changed
+common#:#cat_add#:#�?ода�,и �sа�,его�?�-�?
+common#:#cat_added#:#�sа�,его�?�-�? додано
 common#:#cat_create#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
@@ -110,293 +110,293 @@ common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
 common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
-common#:#cat_edit#:#Редагувати Категорію
+common#:#cat_edit#:#Редаг�fва�,и �sа�,его�?�-�?
 common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#cat_new#:#Нова категорія###13 Jan 2004 content changed
+common#:#cat_new#:#�?ова ка�,его�?�-�?###13 Jan 2004 content changed
 common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
 common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
 common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
-common#:#categories#:#Категорії
+common#:#categories#:#�sа�,его�?�-�-
 common#:#cc#:#CC
-common#:#censorship#:#Цензура
-common#:#change#:#Змінити
-common#:#change_active_assignment#:#Змінити активне призначення
-common#:#change_assignment#:#Змінити призначення
-common#:#change_existing_objects#:#Змінити існуючі Об'єкти
-common#:#change_lo_info#:#Змінити LO Інформацію
-common#:#change_metadata#:#Змінити Метадані
-common#:#change_sort_direction#:#Змінити напрямок сортування
-common#:#changed_to#:#змінити на
-common#:#chapter#:#Глава
-common#:#chapter_number#:#Номер Глави
-common#:#chapter_title#:#Назва Глави
-common#:#check#:#Перевірити
-common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
-common#:#check_languages#:#Перевірити Мови
+common#:#censorship#:#Ценз�f�?а
+common#:#change#:#�-м�-ни�,и
+common#:#change_active_assignment#:#�-м�-ни�,и ак�,ивне п�?изна�?енн�?
+common#:#change_assignment#:#�-м�-ни�,и п�?изна�?енн�?
+common#:#change_existing_objects#:#�-м�-ни�,и �-�?н�f�?�?�- �?б'�?к�,и
+common#:#change_lo_info#:#�-м�-ни�,и LO �?н�?о�?ма�?�-�?
+common#:#change_metadata#:#�-м�-ни�,и �?е�,адан�-
+common#:#change_sort_direction#:#�-м�-ни�,и нап�?�?мок �?о�?�,�fванн�?
+common#:#changed_to#:#зм�-ни�,и на
+common#:#chapter#:#�?лава
+common#:#chapter_number#:#�?оме�? �?лави
+common#:#chapter_title#:#�?азва �?лави
+common#:#check#:#�Yе�?ев�-�?и�,и
+common#:#check_langfile#:#�?�fд�? ла�?ка пе�?ев�-�?�,е ва�^ мовний �?айл
+common#:#check_languages#:#�Yе�?ев�-�?и�,и �?ови
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
-common#:#chg_language#:#Змінити Мову
-common#:#chg_password#:#Змінити Пароль
-common#:#choose_language#:#Виберіть Вашу Мову
-common#:#choose_location#:#Виберіть Місце Знаходження
-common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
-common#:#city#:#Місто
-common#:#clear#:#Очистити
-common#:#client_id#:#ID Клієнта
-common#:#clipboard#:#Буфер обміну
-common#:#close#:#Закрити
-common#:#comma_separated#:#Розділений Комами
-common#:#comment#:#коментар
-common#:#compose#:#Створити
-common#:#confirm#:#Підтвердити
-common#:#cont_object#:#Об'єкт
-common#:#contact_data#:#Контактна Інформація
-common#:#context#:#Контекст
-common#:#copy#:#Копіювати
-common#:#copy_of#:#Копія
-common#:#country#:#Країна
-common#:#course#:#Курс
-common#:#courses#:#Курси
-common#:#create#:#Створити
-common#:#create_in#:#Створити в
-common#:#create_stylesheet#:#Створити Стиль
-common#:#crs#:#Курс
-common#:#crs_a#:#Курс
-common#:#crs_add#:#Додати Курс
-common#:#crs_added#:#Курс додано
-common#:#crs_available#:#Доступні Курси
+common#:#chg_language#:#�-м�-ни�,и �?ов�f
+common#:#chg_password#:#�-м�-ни�,и �Yа�?ол�?
+common#:#choose_language#:#�?ибе�?�-�,�? �?а�^�f �?ов�f
+common#:#choose_location#:#�?ибе�?�-�,�? �?�-�?�?е �-на�?одженн�?
+common#:#choose_only_one_language#:#�?�fд�? ла�?ка вибе�?�-�,�? �,�-л�?ки одн�f мов�f
+common#:#city#:#�?�-�?�,о
+common#:#clear#:#�?�?и�?�,и�,и
+common#:#client_id#:#ID �sл�-�?н�,а
+common#:#clipboard#:#�?�f�?е�? обм�-н�f
+common#:#close#:#�-ак�?и�,и
+common#:#comma_separated#:#Розд�-лений �sомами
+common#:#comment#:#комен�,а�?
+common#:#compose#:#С�,во�?и�,и
+common#:#confirm#:#�Y�-д�,ве�?ди�,и
+common#:#cont_object#:#�?б'�?к�,
+common#:#contact_data#:#�sон�,ак�,на �?н�?о�?ма�?�-�?
+common#:#context#:#�sон�,ек�?�,
+common#:#copy#:#�sоп�-�?ва�,и
+common#:#copy_of#:#�sоп�-�?
+common#:#country#:#�s�?а�-на
+common#:#course#:#�s�f�?�?
+common#:#courses#:#�s�f�?�?и
+common#:#create#:#С�,во�?и�,и
+common#:#create_in#:#С�,во�?и�,и в
+common#:#create_stylesheet#:#С�,во�?и�,и С�,ил�?
+common#:#crs#:#�s�f�?�?
+common#:#crs_a#:#�s�f�?�?
+common#:#crs_add#:#�?ода�,и �s�f�?�?
+common#:#crs_added#:#�s�f�?�? додано
+common#:#crs_available#:#�?о�?�,�fпн�- �s�f�?�?и
 common#:#crs_create#:#Create Course###13 Jan 2004 new variable
 common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
 common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
 common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
-common#:#crs_edit#:#Редагувати Курс
+common#:#crs_edit#:#Редаг�fва�,и �s�f�?�?
 common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
 common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
-common#:#crs_management_system#:#Система Управління Курсом
-common#:#crs_new#:#Новий Курс
+common#:#crs_management_system#:#Си�?�,ема Уп�?авл�-нн�? �s�f�?�?ом
+common#:#crs_new#:#�?овий �s�f�?�?
 common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
 common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
 common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
-common#:#current_password#:#Поточний Пароль
-common#:#cut#:#Вирізати
-common#:#cutPage#:#Вирізати
-common#:#database#:#База даних
-common#:#database_version#:#Поточна Версія Бази даних
-common#:#dataset#:#Пункт
-common#:#date#:#Дата
+common#:#current_password#:#�Yо�,о�?ний �Yа�?ол�?
+common#:#cut#:#�?и�?�-за�,и
+common#:#cutPage#:#�?и�?�-за�,и
+common#:#database#:#�?аза дани�?
+common#:#database_version#:#�Yо�,о�?на �?е�?�?�-�? �?ази дани�?
+common#:#dataset#:#�Y�fнк�,
+common#:#date#:#�?а�,а
 common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
-common#:#day#:#День
-common#:#days#:#Дні
-common#:#db_host#:#Хост з Базою даних
-common#:#db_name#:#Ім'я Бази даних
-common#:#db_need_update#:#База даних потребує оновлення!
-common#:#db_pass#:#Пароль до Бази даних
-common#:#db_type#:#Тип Бази даних
-common#:#db_user#:#Користувач Бази даних
-common#:#db_version#:#Версія Бази даних
+common#:#day#:#�?ен�?
+common#:#days#:#�?н�-
+common#:#db_host#:#Хо�?�, з �?азо�? дани�?
+common#:#db_name#:#�?м'�? �?ази дани�?
+common#:#db_need_update#:#�?аза дани�? по�,�?еб�f�? оновленн�?!
+common#:#db_pass#:#�Yа�?ол�? до �?ази дани�?
+common#:#db_type#:#Тип �?ази дани�?
+common#:#db_user#:#�sо�?и�?�,�fва�? �?ази дани�?
+common#:#db_version#:#�?е�?�?�-�? �?ази дани�?
 common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#a Digilib Book
-common#:#dbk_add#:#Додати Digilib Book
+common#:#dbk_add#:#�?ода�,и Digilib Book
 common#:#dbk_added#:#Digilib Book додана
 common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
 common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
 common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#dbk_new#:#Нова Digilib Book
+common#:#dbk_new#:#�?ова Digilib Book
 common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
 common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
-common#:#default#:#Умовчання
-common#:#default_language#:#Мова за Умовчанням
+common#:#default#:#Умов�?анн�?
+common#:#default_language#:#�?ова за Умов�?анн�?м
 common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
-common#:#default_role#:#Роль по Замовчанню
-common#:#default_roles#:#Ролі по Замовчанню
-common#:#default_skin#:#Вигляд по Замовчанню
-common#:#default_skin_style#:#Вигляд / Стиль по Замовчанню
-common#:#default_style#:#Стиль по Замовчанню
-common#:#delete#:#Видалити
-common#:#delete_all#:#Видалити Усе
-common#:#delete_object#:#Видалити Об'єкт(и)
-common#:#delete_selected#:#Видалити Відмічене
-common#:#deleted#:#Видалено
-common#:#department#:#Відділ
-common#:#desc#:#Опис
-common#:#description#:#Опис
-common#:#desired_password#:#Потрібний Пароль
-common#:#disabled#:#Відключений
-common#:#down#:#Вниз
-common#:#download#:#Зпвантажити
-common#:#drafts#:#Чернетки
-common#:#drop#:#Викинути
-common#:#edit#:#Редагувати
-common#:#edit_data#:#редагувати дані
-common#:#edit_operations#:#Редагувати Операції
-common#:#edit_properties#:#Редагувати Властивості
-common#:#edit_stylesheet#:#Редагувати Стиль
+common#:#default_role#:#Рол�? по �-амов�?анн�?
+common#:#default_roles#:#Рол�- по �-амов�?анн�?
+common#:#default_skin#:#�?игл�?д по �-амов�?анн�?
+common#:#default_skin_style#:#�?игл�?д / С�,ил�? по �-амов�?анн�?
+common#:#default_style#:#С�,ил�? по �-амов�?анн�?
+common#:#delete#:#�?идали�,и
+common#:#delete_all#:#�?идали�,и У�?е
+common#:#delete_object#:#�?идали�,и �?б'�?к�,(и)
+common#:#delete_selected#:#�?идали�,и �?�-дм�-�?ене
+common#:#deleted#:#�?идалено
+common#:#department#:#�?�-дд�-л
+common#:#desc#:#�?пи�?
+common#:#description#:#�?пи�?
+common#:#desired_password#:#�Yо�,�?�-бний �Yа�?ол�?
+common#:#disabled#:#�?�-дкл�?�?ений
+common#:#down#:#�?низ
+common#:#download#:#�-пван�,ажи�,и
+common#:#drafts#:#Че�?не�,ки
+common#:#drop#:#�?икин�f�,и
+common#:#edit#:#Редаг�fва�,и
+common#:#edit_data#:#�?едаг�fва�,и дан�-
+common#:#edit_operations#:#Редаг�fва�,и �?пе�?а�?�-�-
+common#:#edit_properties#:#Редаг�fва�,и �?ла�?�,иво�?�,�-
+common#:#edit_stylesheet#:#Редаг�fва�,и С�,ил�?
 common#:#edited_at#:#Редагований
-common#:#editor#:#Редактор
+common#:#editor#:#Редак�,о�?
 common#:#email#:#E-mail
-common#:#email_not_valid#:#Введена вами email адресa не є коректною!
-common#:#enable#:#Дозволити
-common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
-common#:#enabled#:#Дозволено
-common#:#enumerate#:#Перерахувати
-common#:#err_1_param#:#Тільки 1 параметр!
-common#:#err_2_param#:#Тільки 2 параметра!
-common#:#err_count_param#:#Причина: Невірна кількість параметрів
-common#:#err_in_line#:#Помилка в стрічці
-common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
-common#:#err_no_param#:#Немає параметру!
-common#:#err_over_3_param#:#Більш ніж 3 параметри!
+common#:#email_not_valid#:#�?ведена вами email ад�?е�?a не �? ко�?ек�,но�?!
+common#:#enable#:#�?озволи�,и
+common#:#enable_registration#:#�?озволи�,и �?е�?�?�,�?а�?�-�? нового ко�?и�,�?�fва�?а
+common#:#enabled#:#�?озволено
+common#:#enumerate#:#�Yе�?е�?а�?�fва�,и
+common#:#err_1_param#:#Т�-л�?ки 1 па�?аме�,�?!
+common#:#err_2_param#:#Т�-л�?ки 2 па�?аме�,�?а!
+common#:#err_count_param#:#�Y�?и�?ина: �?ев�-�?на к�-л�?к�-�?�,�? па�?аме�,�?�-в
+common#:#err_in_line#:#�Yомилка в �?�,�?�-�?�?�-
+common#:#err_no_langfile_found#:#�-одного �?айл�f мов не б�fло знайдено!
+common#:#err_no_param#:#�?ема�? па�?аме�,�?�f!
+common#:#err_over_3_param#:#�?�-л�?�^ н�-ж 3 па�?аме�,�?и!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
-common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
-common#:#err_wrong_header#:#Причина: Невірний заголовок.
-common#:#err_wrong_login#:#Невірний Логін
-common#:#error_recipient#:#Помилка Отримувача
-common#:#exc#:#Вправа
-common#:#exc_add#:#Додати Вправу
-common#:#exc_added#:#Вправу додано
-common#:#exc_ask_delete#:#Видалити файл?
-common#:#exc_assign_usr#:#Призначити Користувача
+common#:#err_session_expired#:#Те�?м�-н д�-�- ва�^о�- �?е�?�-�- �?к�-н�?ив�?�?!
+common#:#err_wrong_header#:#�Y�?и�?ина: �?ев�-�?ний заголовок.
+common#:#err_wrong_login#:#�?ев�-�?ний �>ог�-н
+common#:#error_recipient#:#�Yомилка �?�,�?им�fва�?а
+common#:#exc#:#�?п�?ава
+common#:#exc_add#:#�?ода�,и �?п�?ав�f
+common#:#exc_added#:#�?п�?ав�f додано
+common#:#exc_ask_delete#:#�?идали�,и �?айл?
+common#:#exc_assign_usr#:#�Y�?изна�?и�,и �sо�?и�?�,�fва�?а
 common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
-common#:#exc_date_not_valid#:#Дата не є корректною
-common#:#exc_deassign_members#:#Видалити члена(ів)
+common#:#exc_date_not_valid#:#�?а�,а не �? ко�?�?ек�,но�?
+common#:#exc_deassign_members#:#�?идали�,и �?лена(�-в)
 common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
-common#:#exc_edit#:#Нова вправа створена
-common#:#exc_edit_exercise#:#Редагувати вправу
+common#:#exc_edit#:#�?ова вп�?ава �?�,во�?ена
+common#:#exc_edit_exercise#:#Редаг�fва�,и вп�?ав�f
 common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#exc_edit_until#:#Редагувати поки
+common#:#exc_edit_until#:#Редаг�fва�,и поки
 common#:#exc_files#:#Файли
-common#:#exc_groups#:#Групи
-common#:#exc_header_members#:#Вправа(члени)
-common#:#exc_instruction#:#Робочі інструкції
-common#:#exc_members_already_assigned#:#Цей користувач вже призначений до цієї вправи
-common#:#exc_members_assigned#:#Члени призначені
-common#:#exc_new#:#Нова вправа
-common#:#exc_no_members_assigned#:#Жодного члену не призначено
-common#:#exc_notices#:#Повідомлення
-common#:#exc_obj#:#Вправа
+common#:#exc_groups#:#�?�?�fпи
+common#:#exc_header_members#:#�?п�?ава(�?лени)
+common#:#exc_instruction#:#Робо�?�- �-н�?�,�?�fк�?�-�-
+common#:#exc_members_already_assigned#:#Цей ко�?и�?�,�fва�? вже п�?изна�?ений до �?�-�?�- вп�?ави
+common#:#exc_members_assigned#:#Члени п�?изна�?ен�-
+common#:#exc_new#:#�?ова вп�?ава
+common#:#exc_no_members_assigned#:#�-одного �?лен�f не п�?изна�?ено
+common#:#exc_notices#:#�Yов�-домленн�?
+common#:#exc_obj#:#�?п�?ава
 common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
-common#:#exc_save_changes#:#Зберігти
-common#:#exc_search_for#:#Пошук
+common#:#exc_save_changes#:#�-бе�?�-г�,и
+common#:#exc_search_for#:#�Yо�^�fк
 common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
-common#:#exc_send_exercise#:#Послати вправу
-common#:#exc_sent#:#Вправу було послано відміченим користувачам
-common#:#exc_status_returned#:#Повернений
-common#:#exc_status_saved#:#Впарву обновлено
-common#:#exc_status_solved#:#Вирішено
-common#:#exc_upload_error#:#Помилка завантаження файлу
-common#:#exc_users#:#Коритсувачі
+common#:#exc_send_exercise#:#�Yо�?ла�,и вп�?ав�f
+common#:#exc_sent#:#�?п�?ав�f б�fло по�?лано в�-дм�-�?еним ко�?и�?�,�fва�?ам
+common#:#exc_status_returned#:#�Yове�?нений
+common#:#exc_status_saved#:#�?па�?в�f обновлено
+common#:#exc_status_solved#:#�?и�?�-�^ено
+common#:#exc_upload_error#:#�Yомилка заван�,аженн�? �?айл�f
+common#:#exc_users#:#�sо�?и�,�?�fва�?�-
 common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
 common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
 common#:#excs#:#Exercises###17 Dec 2003 new variable
-common#:#execute#:#Виконати
-common#:#export_html#:#експортувати як html файл
-common#:#export_xml#:#експортувати як xml файл
-common#:#faq_exercise#:#FAQ Вправа
-common#:#fax#:#Факс
-common#:#feedback#:#Зворотній зв'язокk
-common#:#feedback_recipient#:#Отримувач Зворотнього Зв'язку
+common#:#execute#:#�?икона�,и
+common#:#export_html#:#ек�?по�?�,�fва�,и �?к html �?айл
+common#:#export_xml#:#ек�?по�?�,�fва�,и �?к xml �?айл
+common#:#faq_exercise#:#FAQ �?п�?ава
+common#:#fax#:#Фак�?
+common#:#feedback#:#�-во�?о�,н�-й зв'�?зокk
+common#:#feedback_recipient#:#�?�,�?им�fва�? �-во�?о�,н�?ого �-в'�?зк�f
 common#:#file#:#Файл
 common#:#file_a#:#Файл
-common#:#file_add#:#Завантажити Файл
-common#:#file_added#:#Файл завантажено
-common#:#file_new#:#Новий Файл
-common#:#file_not_found#:#Файл Не Знайдений
-common#:#file_not_valid#:#Файл є пошкодженим!
-common#:#file_valid#:#Файл є корректним!
-common#:#file_version#:#Версія Знаходиться в Файлі
-common#:#files_location#:#Місцезнаходження Файлів
-common#:#fill_out_all_required_fields#:#Будь ласка заповніть усі потрібні поля
-common#:#firstname#:#Ім'я
-common#:#flatview#:#Плоский Огляд
-common#:#fold#:#Папка
-common#:#fold_a#:#Папка
-common#:#fold_add#:#Додати Папку
-common#:#fold_added#:#Папка додана
-common#:#fold_new#:#Нова Папка
+common#:#file_add#:#�-аван�,ажи�,и Файл
+common#:#file_added#:#Файл заван�,ажено
+common#:#file_new#:#�?овий Файл
+common#:#file_not_found#:#Файл �?е �-найдений
+common#:#file_not_valid#:#Файл �? по�^кодженим!
+common#:#file_valid#:#Файл �? ко�?�?ек�,ним!
+common#:#file_version#:#�?е�?�?�-�? �-на�?оди�,�?�?�? в Файл�-
+common#:#files_location#:#�?�-�?�?езна�?одженн�? Файл�-в
+common#:#fill_out_all_required_fields#:#�?�fд�? ла�?ка заповн�-�,�? �f�?�- по�,�?�-бн�- пол�?
+common#:#firstname#:#�?м'�?
+common#:#flatview#:#�Yло�?кий �?гл�?д
+common#:#fold#:#�Yапка
+common#:#fold_a#:#�Yапка
+common#:#fold_add#:#�?ода�,и �Yапк�f
+common#:#fold_added#:#�Yапка додана
+common#:#fold_new#:#�?ова �Yапка
 common#:#folder#:#folder###11 Dec 2003 new variable
-common#:#folders#:#Папки
-common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
-common#:#forename#:#Ім'я
-common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
-common#:#forum#:#Форум
-common#:#forums#:#Форуми
-common#:#forums_overview#:#Огляд Форумів
-common#:#frm#:#Форум
-common#:#frm_a#:#Форум
-common#:#frm_add#:#Додати Форум
-common#:#frm_added#:#Форум доданий
+common#:#folders#:#�Yапки
+common#:#force_accept_usr_agreement#:#�?и ма�?�,е п�?ийн�?�,и �fгод�f ко�?и�?�,�fва�?а!
+common#:#forename#:#�?м'�?
+common#:#form_empty_fields#:#�?ед�? ла�?ка заве�?�^�-�,�? �?�- пол�?:
+common#:#forum#:#Фо�?�fм
+common#:#forums#:#Фо�?�fми
+common#:#forums_overview#:#�?гл�?д Фо�?�fм�-в
+common#:#frm#:#Фо�?�fм
+common#:#frm_a#:#Фо�?�fм
+common#:#frm_add#:#�?ода�,и Фо�?�fм
+common#:#frm_added#:#Фо�?�fм доданий
 common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
 common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
 common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
-common#:#frm_edit#:#Редагувати Форум
+common#:#frm_edit#:#Редаг�fва�,и Фо�?�fм
 common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
-common#:#frm_new#:#Новий Форум
+common#:#frm_new#:#�?овий Фо�?�fм
 common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
 common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
 common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
-common#:#from#:#Від
-common#:#fullname#:#Повне ім'я
-common#:#functions#:#Функції
-common#:#gdf_add#:#Додати Визначення
-common#:#gdf_new#:#Нове Визначення
-common#:#gender#:#Пол
-common#:#gender_f#:#Жінка
-common#:#gender_m#:#Чоловік
-common#:#generate#:#Сгенерувати
-common#:#glo#:#Глосарій
-common#:#glo_a#:#Глосарій
-common#:#glo_add#:#Додати Глосарій
-common#:#glo_added#:#Глосарій доданий###13 Jan 2004 content changed
+common#:#from#:#�?�-д
+common#:#fullname#:#�Yовне �-м'�?
+common#:#functions#:#Ф�fнк�?�-�-
+common#:#gdf_add#:#�?ода�,и �?изна�?енн�?
+common#:#gdf_new#:#�?ове �?изна�?енн�?
+common#:#gender#:#�Yол
+common#:#gender_f#:#�-�-нка
+common#:#gender_m#:#Чолов�-к
+common#:#generate#:#Сгене�?�fва�,и
+common#:#glo#:#�?ло�?а�?�-й
+common#:#glo_a#:#�?ло�?а�?�-й
+common#:#glo_add#:#�?ода�,и �?ло�?а�?�-й
+common#:#glo_added#:#�?ло�?а�?�-й доданий###13 Jan 2004 content changed
 common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
 common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
 common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
 common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
-common#:#glo_new#:#Новий Глосарій
+common#:#glo_new#:#�?овий �?ло�?а�?�-й
 common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
 common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
 common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
-common#:#glossaries#:#Глосарії
-common#:#glossary#:#Глосарій
-common#:#glossary_added#:#Глосарій доданий
-common#:#group_access_denied#:#В Доступі Відмовлено
-common#:#group_any_objects#:#Жоден підоб'єкт не є доступним
-common#:#group_desc#:#Опис Групи
-common#:#group_details#:#Деталі Групи
-common#:#group_filesharing#:#Спільне Використання Файлу Групи
-common#:#group_members#:#Члени Групи
-common#:#group_memstat#:#Статус Члена
-common#:#group_memstat_admin#:#Адміністратор
+common#:#glossaries#:#�?ло�?а�?�-�-
+common#:#glossary#:#�?ло�?а�?�-й
+common#:#glossary_added#:#�?ло�?а�?�-й доданий
+common#:#group_access_denied#:#�? �?о�?�,�fп�- �?�-дмовлено
+common#:#group_any_objects#:#�-оден п�-доб'�?к�, не �? до�?�,�fпним
+common#:#group_desc#:#�?пи�? �?�?�fпи
+common#:#group_details#:#�?е�,ал�- �?�?�fпи
+common#:#group_filesharing#:#Сп�-л�?не �?ико�?и�?�,анн�? Файл�f �?�?�fпи
+common#:#group_members#:#Члени �?�?�fпи
+common#:#group_memstat#:#С�,а�,�f�? Члена
+common#:#group_memstat_admin#:#�?дм�-н�-�?�,�?а�,о�?
 common#:#group_memstat_member#:#Член
-common#:#group_name#:#Ім'я групи
-common#:#group_new_registrations#:#Нові Реєстрації
-common#:#group_no_registration#:#реєстрація непотрібна
-common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.
-common#:#group_not_available#:#Жодна група не є доступною
-common#:#group_objects#:#Об'єкти групи
-common#:#group_password_registration_expired_msg#:#Період реєстрації цієї групи скінчився, повідомлення більше не є можливими. Будь ласка зв'яжіться з власником відповідної групи або адміністратором.
-common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.
-common#:#group_registration_expiration_date#:#Дата закінчення терміну дії
+common#:#group_name#:#�?м'�? г�?�fпи
+common#:#group_new_registrations#:#�?ов�- Ре�?�?�,�?а�?�-�-
+common#:#group_no_registration#:#�?е�?�?�,�?а�?�-�? непо�,�?�-бна
+common#:#group_no_registration_msg#:#�?и поки не �?лен �?�-�?�- г�?�fпи. �Yо адм�-н�-�?�,�?а�,ивним п�?и�?инам необ�?�-дно �fв�-й�,и в г�?�fп�f �?ка вимага�?�,�?�?�?.<br> Як �?лен ви ма�?�,е на�?�,�fпн�- пе�?еваги:<br>- �?и о�,�?им�f�?�,е �-н�?о�?ма�?�-�? п�?о новини �,а оновленн�?<br>- Таким �?ином ви ма�?�,е до�?�,�fп до об'�?к�,�-в �,ип�f �?о�?�fм�-в, �f�?бови�? мод�fл�-в, �,о�?о.<br><br>�?и може�,е п�?ипини�,и �?во�? �?лен�?�,во в б�fд�? �?кий �?а�?.
+common#:#group_not_available#:#�-одна г�?�fпа не �? до�?�,�fпно�?
+common#:#group_objects#:#�?б'�?к�,и г�?�fпи
+common#:#group_password_registration_expired_msg#:#�Yе�?�-од �?е�?�?�,�?а�?�-�- �?�-�?�- г�?�fпи �?к�-н�?ив�?�?, пов�-домленн�? б�-л�?�^е не �? можливими. �?�fд�? ла�?ка зв'�?ж�-�,�?�?�? з вла�?ником в�-дпов�-дно�- г�?�fпи або адм�-н�-�?�,�?а�,о�?ом.
+common#:#group_password_registration_msg#:#Щоб �fв�-й�,и в �?�? г�?�fп�f ви ма�?�,е вве�?�,и па�?ол�? в�?�,ановлений адм�-н�-�?�,�?а�,о�?ом �?�-�?�- г�?�fпи.<br>�?а�? ав�,ома�,и�?но вкл�?�?а�,�? �f г�?�fп�f, �?к�?о ва�^ па�?ол�? �? ко�?ек�,ним.
+common#:#group_registration_expiration_date#:#�?а�,а зак�-н�?енн�? �,е�?м�-н�f д�-�-
 common#:#group_registration_expiration_time#:#Expiration Time##17 Dec 2003 new variable
-common#:#group_registration_expired#:#Період реєстрації скінчився
-common#:#group_registration_mode#:#Режим Реєстрації
-common#:#group_req_password#:#Потрібен реєстраційний пароль
-common#:#group_req_registration#:#Потрібна реєстрація
-common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.
+common#:#group_registration_expired#:#�Yе�?�-од �?е�?�?�,�?а�?�-�- �?к�-н�?ив�?�?
+common#:#group_registration_mode#:#Режим Ре�?�?�,�?а�?�-�-
+common#:#group_req_password#:#�Yо�,�?�-бен �?е�?�?�,�?а�?�-йний па�?ол�?
+common#:#group_req_registration#:#�Yо�,�?�-бна �?е�?�?�,�?а�?�-�?
+common#:#group_req_registration_msg#:#Щоб �fв�-й�,и �f г�?�fп�f ви ма�?�,е за�?е�?�?�,�?�fва�,и�?�?. �Yо�,�-м адм�-н�-�?�,�?а�,о�? г�?�fпи п�?изна�?�-�,�? ва�? до г�?�fпи. �?�fд�? ла�?ка вкаж�-�,�? �,ем�f �,а п�?и�?ин�f ва�^и�? дани�?.<br>�?и о�,�?има�?�,е пов�-домленн�? коли ва�? б�fде п�?изна�?ено до г�?�fпи.
 common#:#group_reset#:#Reset Group Permissions###17 Dec 2003 new variable
-common#:#group_status#:#Статус Групи
-common#:#group_status_closed#:#Закрита
-common#:#group_status_public#:#Публічна
-common#:#groups#:#Групи
-common#:#groups_overview#:#Огляд Груп
-common#:#grp#:#Група
-common#:#grp_a#:#Група
-common#:#grp_add#:#Додати Групу
-common#:#grp_added#:#Група додана
+common#:#group_status#:#С�,а�,�f�? �?�?�fпи
+common#:#group_status_closed#:#�-ак�?и�,а
+common#:#group_status_public#:#�Y�fбл�-�?на
+common#:#groups#:#�?�?�fпи
+common#:#groups_overview#:#�?гл�?д �?�?�fп
+common#:#grp#:#�?�?�fпа
+common#:#grp_a#:#�?�?�fпа
+common#:#grp_add#:#�?ода�,и �?�?�fп�f
+common#:#grp_added#:#�?�?�fпа додана
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
 common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
 common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
@@ -404,7 +404,7 @@ common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
-common#:#grp_edit#:#Редагувати Групу
+common#:#grp_edit#:#Редаг�fва�,и �?�?�fп�f
 common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###17 Dec 2003 new variable
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
@@ -415,479 +415,479 @@ common#:#grp_err_no_permission#:#You do not possess the permissions for this ope
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###17 Dec 2003 new variable
 common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
 common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
-common#:#grp_mem_change_status#:#Змінити статус члена
-common#:#grp_mem_leave#:#Виключити члена з групи
-common#:#grp_mem_send_mail#:#Послати члену повідомлення
+common#:#grp_mem_change_status#:#�-м�-ни�,и �?�,а�,�f�? �?лена
+common#:#grp_mem_leave#:#�?икл�?�?и�,и �?лена з г�?�fпи
+common#:#grp_mem_send_mail#:#�Yо�?ла�,и �?лен�f пов�-домленн�?
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
-common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
-common#:#grp_new#:#Нова Група
+common#:#grp_name_exists#:#�?же �? г�?�fпа з �,аким �-м'�?м! �?�fл�? ла�?ка вибе�?�-�,�? �-н�^е �-м'�?.
+common#:#grp_new#:#�?ова �?�?�fпа
 common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
-common#:#grp_register#:#Зареєструватись
-common#:#grp_registration_completed#:#Реєстрація закінчена
+common#:#grp_register#:#�-а�?е�?�?�,�?�fва�,и�?�?
+common#:#grp_registration_completed#:#Ре�?�?�,�?а�?�-�? зак�-н�?ена
 common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
 common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
-common#:#guest#:#Гість
-common#:#guests#:#Гості
-common#:#help#:#Допомога
-common#:#hide_details#:#сховати деталі
-common#:#hide_structure#:#Заборонити Структурований-Огляд
-common#:#hobby#:#Інтереси/Хоббі
-common#:#home#:#Дім
-common#:#host#:#Хост
-common#:#http_path#:#Http Шлях
+common#:#guest#:#�?�-�?�,�?
+common#:#guests#:#�?о�?�,�-
+common#:#help#:#�?опомога
+common#:#hide_details#:#�?�?ова�,и де�,ал�-
+common#:#hide_structure#:#�-або�?они�,и С�,�?�fк�,�f�?ований-�?гл�?д
+common#:#hobby#:#�?н�,е�?е�?и/Хобб�-
+common#:#home#:#�?�-м
+common#:#host#:#Хо�?�,
+common#:#http_path#:#Http Шл�?�?
 common#:#id#:#ID
-common#:#identifier#:#ідентифікатор
-common#:#ilias_version#:#ILIAS версія
-common#:#image#:#Зображення
-common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.
-common#:#import#:#Імпорт
-common#:#import_lm#:#Імпортувати Учбовий модуль
-common#:#import_slm#:#Імпортувати SCORM Пакет
+common#:#identifier#:#�-ден�,и�?�-ка�,о�?
+common#:#ilias_version#:#ILIAS ве�?�?�-�?
+common#:#image#:#�-об�?аженн�?
+common#:#image_gen_unsucc#:#�?ене�?�fванн�? зоб�?аженн�? в�-дб�fло�?�? невдало. �-в'�?ж�-�,�?�?�? з ва�^им �?и�?�,емним адм�-н�-�?�,�?а�,о�?ом �,а пе�?ев�-�?�,е �^л�?�? конве�?�,а�?�-�-.
+common#:#import#:#�?мпо�?�,
+common#:#import_lm#:#�?мпо�?�,�fва�,и У�?бовий мод�fл�?
+common#:#import_slm#:#�?мпо�?�,�fва�,и SCORM �Yаке�,
 common#:#in#:#в
-common#:#in_use#:#Мова Користувача
-common#:#inbox#:#Вхідні
-common#:#info_assign_sure#:#Ви впевнені що бажаєте призначити наступного користувача(користувачів)?
-common#:#info_delete_sure#:#Ви впевнені що бажаєете видалити наступний об'єкт(об'єкти)?
-common#:#info_deleted#:#Об'єкт(и) Видалений(і)
-common#:#info_trash#:#DВидалені Об'єкти
-common#:#inform_user_mail#:#Відіслати email щоб проінформувати користувачів про зміни
-common#:#information_abbr#:#Інформація
-common#:#ingmedia_all_offers#:#Усі LE
-common#:#ingmedia_back_to_le#:#Повернутись до LE
-common#:#ingmedia_good_afternoon#:#Доброго дня
-common#:#ingmedia_good_evening#:#Доброго вечора
-common#:#ingmedia_good_morning#:#Доброго ранку
-common#:#ingmedia_good_night#:#Доброї ночі
-common#:#ingmedia_hello#:#Привіт
-common#:#ingmedia_info_about_work1#:#Включити
-common#:#ingmedia_info_about_work2#:#, останнім часом ви працювали тут. Ви можете продовжити клікнувши тут:
-common#:#ingmedia_level_zero#:#Підвищити рівень
-common#:#ingmedia_pers_dates#:#Особисті дані
-common#:#ingmedia_reg_fo#:#Зареєстровані форуми
-common#:#ingmedia_reg_le#:#Зареєстровані LE
-common#:#ingmedia_use_info1#:#Тут ви можете змінити ваші особисті дані. Виключаючи з INGMEDIA ім'я користувача та пароль, ви не маєте заповнювати інші поля. Пам'ятайте, що загублений пароль може бути повернений тільки через e-mail (!).
-common#:#ingmedia_use_info2#:#Заборонено вживати спеціальні символи (такі як , ; . = - * + #) в вашому INGMEDIA імені користувача та паролі. Щоб мати дозвіл використовувати INGMEDIA платформу, ви маєте прийняти угоду користувача.
-common#:#ingmedia_use_info3#:#Будь ласка виберіть одне з посилань на краю панелі.
-common#:#ingmedia_use_title#:#Змінити дані користувача.
+common#:#in_use#:#�?ова �sо�?и�?�,�fва�?а
+common#:#inbox#:#�?�?�-дн�-
+common#:#info_assign_sure#:#�?и впевнен�- �?о бажа�?�,е п�?изна�?и�,и на�?�,�fпного ко�?и�?�,�fва�?а(ко�?и�?�,�fва�?�-в)?
+common#:#info_delete_sure#:#�?и впевнен�- �?о бажа�?е�,е видали�,и на�?�,�fпний об'�?к�,(об'�?к�,и)?
+common#:#info_deleted#:#�?б'�?к�,(и) �?идалений(�-)
+common#:#info_trash#:#D�?идален�- �?б'�?к�,и
+common#:#inform_user_mail#:#�?�-д�-�?ла�,и email �?об п�?о�-н�?о�?м�fва�,и ко�?и�?�,�fва�?�-в п�?о зм�-ни
+common#:#information_abbr#:#�?н�?о�?ма�?�-�?
+common#:#ingmedia_all_offers#:#У�?�- LE
+common#:#ingmedia_back_to_le#:#�Yове�?н�f�,и�?�? до LE
+common#:#ingmedia_good_afternoon#:#�?об�?ого дн�?
+common#:#ingmedia_good_evening#:#�?об�?ого ве�?о�?а
+common#:#ingmedia_good_morning#:#�?об�?ого �?анк�f
+common#:#ingmedia_good_night#:#�?об�?о�- но�?�-
+common#:#ingmedia_hello#:#�Y�?ив�-�,
+common#:#ingmedia_info_about_work1#:#�?кл�?�?и�,и
+common#:#ingmedia_info_about_work2#:#, о�?�,анн�-м �?а�?ом ви п�?а�?�?вали �,�f�,. �?и може�,е п�?одовжи�,и кл�-кн�fв�^и �,�f�,:
+common#:#ingmedia_level_zero#:#�Y�-дви�?и�,и �?�-вен�?
+common#:#ingmedia_pers_dates#:#�?�?оби�?�,�- дан�-
+common#:#ingmedia_reg_fo#:#�-а�?е�?�?�,�?ован�- �?о�?�fми
+common#:#ingmedia_reg_le#:#�-а�?е�?�?�,�?ован�- LE
+common#:#ingmedia_use_info1#:#Т�f�, ви може�,е зм�-ни�,и ва�^�- о�?оби�?�,�- дан�-. �?икл�?�?а�?�?и з INGMEDIA �-м'�? ко�?и�?�,�fва�?а �,а па�?ол�?, ви не ма�?�,е заповн�?ва�,и �-н�^�- пол�?. �Yам'�?�,ай�,е, �?о заг�fблений па�?ол�? може б�f�,и пове�?нений �,�-л�?ки �?е�?ез e-mail (!).
+common#:#ingmedia_use_info2#:#�-або�?онено вжива�,и �?пе�?�-ал�?н�- �?имволи (�,ак�- �?к , ; . = - * + #) в ва�^ом�f INGMEDIA �-мен�- ко�?и�?�,�fва�?а �,а па�?ол�-. Щоб ма�,и дозв�-л вико�?и�?�,ов�fва�,и INGMEDIA пла�,�?о�?м�f, ви ма�?�,е п�?ийн�?�,и �fгод�f ко�?и�?�,�fва�?а.
+common#:#ingmedia_use_info3#:#�?�fд�? ла�?ка вибе�?�-�,�? одне з по�?илан�? на к�?а�? панел�-.
+common#:#ingmedia_use_title#:#�-м�-ни�,и дан�- ко�?и�?�,�fва�?а.
 common#:#ingmedia_user_agree#:#Угода
-common#:#ingmedia_vis_le#:#Відвідані LE
-common#:#ingmedia_visited_le#:#Ви вже відвідали усі LE.
-common#:#ingmedia_welcome#:#, ласкаво просимо до вашого особистого робочого столу!!
+common#:#ingmedia_vis_le#:#�?�-дв�-дан�- LE
+common#:#ingmedia_visited_le#:#�?и вже в�-дв�-дали �f�?�- LE.
+common#:#ingmedia_welcome#:#, ла�?каво п�?о�?имо до ва�^ого о�?оби�?�,ого �?обо�?ого �?�,ол�f!!
 common#:#inifile#:#Ini-Файл
-common#:#input_error#:#Помилка вводу
-common#:#insert#:#Вставити
-common#:#inst_id#:#Інсталяційне ID
-common#:#inst_info#:#Інсталяційна Інформація
-common#:#inst_name#:#Інсталяційне Ім'я
-common#:#install#:#Інсталювати
-common#:#installed#:#Інстальовано
-common#:#institution#:#Інститут
-common#:#internal_system#:#Внутрішня система
-common#:#ip_address#:#IP Адреса
-common#:#is_already_your#:#вже ваша
-common#:#item#:#Елемент
-common#:#kb#:#КілоБайт
-common#:#keywords#:#Ключові слова
+common#:#input_error#:#�Yомилка ввод�f
+common#:#insert#:#�?�?�,ави�,и
+common#:#inst_id#:#�?н�?�,ал�?�?�-йне ID
+common#:#inst_info#:#�?н�?�,ал�?�?�-йна �?н�?о�?ма�?�-�?
+common#:#inst_name#:#�?н�?�,ал�?�?�-йне �?м'�?
+common#:#install#:#�?н�?�,ал�?ва�,и
+common#:#installed#:#�?н�?�,ал�?овано
+common#:#institution#:#�?н�?�,и�,�f�,
+common#:#internal_system#:#�?н�f�,�?�-�^н�? �?и�?�,ема
+common#:#ip_address#:#IP �?д�?е�?а
+common#:#is_already_your#:#вже ва�^а
+common#:#item#:#�*лемен�,
+common#:#kb#:#�s�-ло�?ай�,
+common#:#keywords#:#�sл�?�?ов�- �?лова
 common#:#lang_cz#:#Czech###11 Dec 2003 new variable
 common#:#lang_dateformat#:#Y-m-d
-common#:#lang_de#:#Німецька
-common#:#lang_dk#:#Датська
-common#:#lang_en#:#Англійська
-common#:#lang_es#:#Іспанська
+common#:#lang_de#:#�?�-ме�?�?ка
+common#:#lang_dk#:#�?а�,�?�?ка
+common#:#lang_en#:#�?нгл�-й�?�?ка
+common#:#lang_es#:#�?�?пан�?�?ка
 common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
-common#:#lang_fr#:#Французська
+common#:#lang_fr#:#Ф�?ан�?�fз�?�?ка
 common#:#lang_gr#:#Greek###11 Dec 2003 new variable
-common#:#lang_id#:#Індонезійська
-common#:#lang_it#:#Італійська
+common#:#lang_id#:#�?ндонез�-й�?�?ка
+common#:#lang_it#:#�?�,ал�-й�?�?ка
 common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
 common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
 common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
-common#:#lang_no#:#Норвезька###11 Dec 2003 content changed
-common#:#lang_path#:#Шлях до Мов
-common#:#lang_pl#:#Польська
+common#:#lang_no#:#�?о�?вез�?ка###11 Dec 2003 content changed
+common#:#lang_path#:#Шл�?�? до �?ов
+common#:#lang_pl#:#�Yол�?�?�?ка
 common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
-common#:#lang_se#:#Шведська
+common#:#lang_se#:#Швед�?�?ка
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
 common#:#lang_version#:#1
-common#:#lang_xx#:#Вибір
+common#:#lang_xx#:#�?иб�-�?
 common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
-common#:#langfile_found#:#Мовний файл знайдено
-common#:#language#:#Мова
-common#:#language_not_installed#:#не установлена. Будь ласка встановіть цю мову спочатку
-common#:#languages#:#Мови
-common#:#languages_already_installed#:#Вибрана мова(и) вже встановлена
-common#:#languages_already_uninstalled#:#Вибрана мова(и) вже деінстальовані
-common#:#languages_updated#:#Усі встановлені мови були обновлені
-common#:#last_change#:#Остання Зміна
-common#:#last_visit#:#Останній Візит
-common#:#lastname#:#Останнє ім'я
-common#:#launch#:#Запустити
+common#:#langfile_found#:#�?овний �?айл знайдено
+common#:#language#:#�?ова
+common#:#language_not_installed#:#не �f�?�,ановлена. �?�fд�? ла�?ка в�?�,анов�-�,�? �?�? мов�f �?по�?а�,к�f
+common#:#languages#:#�?ови
+common#:#languages_already_installed#:#�?иб�?ана мова(и) вже в�?�,ановлена
+common#:#languages_already_uninstalled#:#�?иб�?ана мова(и) вже де�-н�?�,ал�?ован�-
+common#:#languages_updated#:#У�?�- в�?�,ановлен�- мови б�fли обновлен�-
+common#:#last_change#:#�?�?�,анн�? �-м�-на
+common#:#last_visit#:#�?�?�,анн�-й �?�-зи�,
+common#:#lastname#:#�?�?�,анн�? �-м'�?
+common#:#launch#:#�-ап�f�?�,и�,и
 common#:#ldap#:#LDAP
 common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
 common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
 common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
-common#:#learning_objects#:#Учбові Об'єкти
-common#:#learning_resources#:#Учбові Ресурси
-common#:#level#:#Рівень
-common#:#link#:#Посилання
-common#:#linked_pages#:#Зв'язані Сторінки
-common#:#list_of_pages#:#Список Сторінок
-common#:#list_of_questions#:#Список Питань
-common#:#literature#:#Література
-common#:#literature_bookmarks#:#Літературні Закладки
-common#:#lm#:#Учбовий Модуль
-common#:#lm_a#:#Учбовий Модуль###13 Jan 2004 content changed
-common#:#lm_add#:#Додати Учбовий Модудь
-common#:#lm_added#:#Учбовий Модуль доданий###13 Jan 2004 content changed
+common#:#learning_objects#:#У�?бов�- �?б'�?к�,и
+common#:#learning_resources#:#У�?бов�- Ре�?�f�?�?и
+common#:#level#:#Р�-вен�?
+common#:#link#:#�Yо�?иланн�?
+common#:#linked_pages#:#�-в'�?зан�- С�,о�?�-нки
+common#:#list_of_pages#:#Спи�?ок С�,о�?�-нок
+common#:#list_of_questions#:#Спи�?ок �Yи�,ан�?
+common#:#literature#:#�>�-�,е�?а�,�f�?а
+common#:#literature_bookmarks#:#�>�-�,е�?а�,�f�?н�- �-акладки
+common#:#lm#:#У�?бовий �?од�fл�?
+common#:#lm_a#:#У�?бовий �?од�fл�?###13 Jan 2004 content changed
+common#:#lm_add#:#�?ода�,и У�?бовий �?од�fд�?
+common#:#lm_added#:#У�?бовий �?од�fл�? доданий###13 Jan 2004 content changed
 common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
 common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
 common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
 common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
-common#:#lm_new#:#Новий Учбовий Модуль
+common#:#lm_new#:#�?овий У�?бовий �?од�fл�?
 common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
 common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
 common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
-common#:#lng#:#Мова
-common#:#lngf#:#Папка з Мовами###13 Jan 2004 content changed
+common#:#lng#:#�?ова
+common#:#lngf#:#�Yапка з �?овами###13 Jan 2004 content changed
 common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
 common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
-common#:#lo#:#Учбовий Об'єкт
-common#:#lo_available#:#Огляд Учбових Модулів та Курсів
-common#:#lo_categories#:#LO Категорії
-common#:#lo_edit#:#Редагувати Учбовий Об'єкт
-common#:#lo_new#:#Новий Учбовий Об'єкт
-common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Доступним
-common#:#lo_other_langs#:#LO's в інших Мовах
-common#:#lo_overview#:#LO Огляд
-common#:#locator#:#Місцезнаходження:
-common#:#login#:#Логін
-common#:#login_as#:#Залогінений як
-common#:#login_data#:#Дата логіна
-common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть інше.
-common#:#login_time#:#Час онлайн
-common#:#login_to_ilias#:#Логін в ILIAS
-common#:#logout#:#Вихід
-common#:#logout_text#:#Ви вийшли з ILIAS. Ваша сессія була закрита.
-common#:#los#:#Учбові Об'єкти
-common#:#los_last_visited#:#Останні Відвідані Учбові Об'єкти
-common#:#mail#:#Пошта
-common#:#mail_a_root#:#Поштова Скринька
-common#:#mail_addressbook#:#Адресна книга
-common#:#mail_allow_smtp#:#Дозволити SMTP
-common#:#mail_b_inbox#:#Вхідні
-common#:#mail_c_trash#:#Смітник
-common#:#mail_d_drafts#:#Чернетки
-common#:#mail_delete_error#:#Помилка при видаленні
-common#:#mail_delete_error_file#:#Помилка видалення файлу
-common#:#mail_e_sent#:#Відіслати
+common#:#lo#:#У�?бовий �?б'�?к�,
+common#:#lo_available#:#�?гл�?д У�?бови�? �?од�fл�-в �,а �s�f�?�?�-в
+common#:#lo_categories#:#LO �sа�,его�?�-�-
+common#:#lo_edit#:#Редаг�fва�,и У�?бовий �?б'�?к�,
+common#:#lo_new#:#�?овий У�?бовий �?б'�?к�,
+common#:#lo_no_content#:#�-оден У�?бовий �?б'�?к�, не �? �?о�?�,�fпним
+common#:#lo_other_langs#:#LO's в �-н�^и�? �?ова�?
+common#:#lo_overview#:#LO �?гл�?д
+common#:#locator#:#�?�-�?�?езна�?одженн�?:
+common#:#login#:#�>ог�-н
+common#:#login_as#:#�-алог�-нений �?к
+common#:#login_data#:#�?а�,а лог�-на
+common#:#login_exists#:#�?же �? ко�?и�?�,�fва�? з �?им лог�-ном! �?�fд�? ла�?ка вибе�?�-�,�? �-н�^е.
+common#:#login_time#:#Ча�? онлайн
+common#:#login_to_ilias#:#�>ог�-н в ILIAS
+common#:#logout#:#�?и�?�-д
+common#:#logout_text#:#�?и вий�^ли з ILIAS. �?а�^а �?е�?�?�-�? б�fла зак�?и�,а.
+common#:#los#:#У�?бов�- �?б'�?к�,и
+common#:#los_last_visited#:#�?�?�,анн�- �?�-дв�-дан�- У�?бов�- �?б'�?к�,и
+common#:#mail#:#�Yо�^�,а
+common#:#mail_a_root#:#�Yо�^�,ова Ск�?ин�?ка
+common#:#mail_addressbook#:#�?д�?е�?на книга
+common#:#mail_allow_smtp#:#�?озволи�,и SMTP
+common#:#mail_b_inbox#:#�?�?�-дн�-
+common#:#mail_c_trash#:#См�-�,ник
+common#:#mail_d_drafts#:#Че�?не�,ки
+common#:#mail_delete_error#:#�Yомилка п�?и видаленн�-
+common#:#mail_delete_error_file#:#�Yомилка видаленн�? �?айл�f
+common#:#mail_e_sent#:#�?�-д�-�?ла�,и
 common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#mail_folders#:#Папка з Поштою
-common#:#mail_intern_enable#:#Дозволити
-common#:#mail_mails_of#:#Пошта
-common#:#mail_maxsize_attach#:#Максимальний розмір прикріплення
-common#:#mail_maxsize_box#:#Максимальний розмір поштової скриньки
-common#:#mail_maxsize_mail#:#Максимальний розмір пошти
-common#:#mail_maxtime_attach#:#Максимальна кількість днів для зберігання прикріплення
-common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти
-common#:#mail_not_sent#:#Пошта не видіслана!
+common#:#mail_folders#:#�Yапка з �Yо�^�,о�?
+common#:#mail_intern_enable#:#�?озволи�,и
+common#:#mail_mails_of#:#�Yо�^�,а
+common#:#mail_maxsize_attach#:#�?ак�?имал�?ний �?озм�-�? п�?ик�?�-пленн�?
+common#:#mail_maxsize_box#:#�?ак�?имал�?ний �?озм�-�? по�^�,ово�- �?к�?ин�?ки
+common#:#mail_maxsize_mail#:#�?ак�?имал�?ний �?озм�-�? по�^�,и
+common#:#mail_maxtime_attach#:#�?ак�?имал�?на к�-л�?к�-�?�,�? дн�-в дл�? збе�?�-ганн�? п�?ик�?�-пленн�?
+common#:#mail_maxtime_mail#:#�?ак�?имал�?на к�-л�?к�-�?�,�? дн�-в дл�? збе�?�-ганн�? по�^�,и
+common#:#mail_not_sent#:#�Yо�^�,а не вид�-�?лана!
 common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
-common#:#mail_search_no#:#Входжень не знайдено
-common#:#mail_search_word#:#Шукати слово
-common#:#mail_select_one#:#Ви маєте вибреати один лист
-common#:#mail_send_error#:#Помилка при відсиланні пошти
-common#:#mail_sent#:#Пошта відіслана!
+common#:#mail_search_no#:#�?�?оджен�? не знайдено
+common#:#mail_search_word#:#Ш�fка�,и �?лово
+common#:#mail_select_one#:#�?и ма�?�,е виб�?еа�,и один ли�?�,
+common#:#mail_send_error#:#�Yомилка п�?и в�-д�?иланн�- по�^�,и
+common#:#mail_sent#:#�Yо�^�,а в�-д�-�?лана!
 common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
-common#:#mail_system#:#Системне Повідомлення
+common#:#mail_system#:#Си�?�,емне �Yов�-домленн�?
 common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
 common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
 common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
-common#:#mail_z_local#:#Папки Користувача
-common#:#mails#:#Пошта
-common#:#mark_all_read#:#Помітити усе як прочитане
-common#:#mark_all_unread#:#Помітити усе як непрочитане
+common#:#mail_z_local#:#�Yапки �sо�?и�?�,�fва�?а
+common#:#mails#:#�Yо�^�,а
+common#:#mark_all_read#:#�Yом�-�,и�,и �f�?е �?к п�?о�?и�,ане
+common#:#mark_all_unread#:#�Yом�-�,и�,и �f�?е �?к неп�?о�?и�,ане
 common#:#member#:#Член
 common#:#members#:#Члени
-common#:#membership_annulled#:#Ваше членство було відмінено###11 Dec 2003 content changed
-common#:#message#:#Повідомлення
-common#:#message_content#:#Зміст Повідомлення
-common#:#message_to#:#Повідомлення для:
-common#:#meta_data#:#Мета Дані
-common#:#migrate#:#Мігрувати
-common#:#mob#:#Медіа Об'єкт
-common#:#module#:#модуль
-common#:#modules#:#Модулі
-common#:#month#:#Місяць
+common#:#membership_annulled#:#�?а�^е �?лен�?�,во б�fло в�-дм�-нено###11 Dec 2003 content changed
+common#:#message#:#�Yов�-домленн�?
+common#:#message_content#:#�-м�-�?�, �Yов�-домленн�?
+common#:#message_to#:#�Yов�-домленн�? дл�?:
+common#:#meta_data#:#�?е�,а �?ан�-
+common#:#migrate#:#�?�-г�?�fва�,и
+common#:#mob#:#�?ед�-а �?б'�?к�,
+common#:#module#:#мод�fл�?
+common#:#modules#:#�?од�fл�-
+common#:#month#:#�?�-�?�?�?�?
 common#:#move#:#Move###20 Jan 2004 new variable
-common#:#moveChapter#:#Перемістити
-common#:#movePage#:#Перемістити
-common#:#move_to#:#Перемістити в
-common#:#msg_cancel#:#Дія відмінена
-common#:#msg_changes_ok#:#Зміни відбулись добре
-common#:#msg_clear_clipboard#:#Буфер обміну очищений
-common#:#msg_cloned#:#Вибраний об'єкт(и) скопійований
-common#:#msg_copy_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: копіювати)
-common#:#msg_cut_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: вирізати)
-common#:#msg_cut_copied#:#Вибраний об'єкт(и) переміщений.
-common#:#msg_deleted_role#:#Роль видалена
-common#:#msg_deleted_roles#:#Ролі видалені
-common#:#msg_deleted_roles_rolts#:#Ролі та Шаблони Ролей видалені
-common#:#msg_deleted_rolt#:#Шаблон Ролі видалений
-common#:#msg_deleted_rolts#:#Шаблон Ролі видалений
-common#:#msg_error_copy#:#Помилка Копіювання
-common#:#msg_failed#:#Вибачте, дія невдалась
-common#:#msg_is_last_role#:#Ви відмінили призначення наступним користувачам з їхньої останньої глобальної ролі
-common#:#msg_link_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: зв'язати)
-common#:#msg_linked#:#Вибраний об'єкт(и) зв'язаний.
-common#:#msg_may_not_contain#:#Цей об'єкт може не містити об'єктів типу:
-common#:#msg_min_one_active_role#:#Кожний користувач повинен мати принаймні одну активну глобальну роль!
-common#:#msg_min_one_role#:#Кожний користувач повинен мати принаймні одну глобальну роль!
-common#:#msg_multi_language_selected#:#Ви вибрали одну і ту ж саму мову для різних перекладів!
-common#:#msg_no_default_language#:#Мова по замовчанню не вказана! Ви маєте визначити один переклад як переклад по замовчанню.
-common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
-common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
-common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
-common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
-common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
-common#:#msg_no_perm_create_object2#:#в цьому місці!
-common#:#msg_no_perm_create_role#:#Ви не маєте прав додавати ролі
-common#:#msg_no_perm_create_rolf#:#Ви не маєте прав створити Папку Ролей. Тому ви не можете зупинити наслідування ролей або додати локальну роль тут.
-common#:#msg_no_perm_create_rolt#:#Ви не маєте прав додавати шаблони ролі
-common#:#msg_no_perm_create_user#:#Ви не маєте прав додавати користувачів
-common#:#msg_no_perm_cut#:#Ви не маєте прав вирізати наступний об'єкт(и):
-common#:#msg_no_perm_delete#:#Ви не маєте прав видалити наступний об'єкт(и):
-common#:#msg_no_perm_link#:#Ви не маєте права стоврити посилання з наступниого об'єкту(ів):
-common#:#msg_no_perm_modify_role#:#Ви не маєте права змінювати ролі
-common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінювати шаблони ролей
-common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів
-common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
-common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
-common#:#msg_no_perm_undelete#:#Ви не маєте права відмінити видалення наступного об'єкту(ів):
-common#:#msg_no_perm_write#:#Ви не маєте права записувати
-common#:#msg_no_rolf_allowed1#:#Об'єкт
-common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Папку Ролі
-common#:#msg_no_search_result#:#Входжень не знайдено
-common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
-common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
-common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
-common#:#msg_not_possible_link#:#Не є можливим стоврити посилання об'єкта: Тип
-common#:#msg_nothing_found#:#msg_нічого_не_знайдено
-common#:#msg_obj_created#:#Об'єкт створений.
-common#:#msg_obj_exists#:#Цей об'єкт вже існує у цій папці
-common#:#msg_obj_modified#:#Зміни збережені.
-common#:#msg_perm_adopted_from1#:#Настройки прав наслідовані з
-common#:#msg_perm_adopted_from2#:#(Настройки були збережені!)
-common#:#msg_perm_adopted_from_itself#:#Ви не можете наслідувати настройки прав з поточної ролі/шаблонц ролі на себе самих.
-common#:#msg_removed#:#Об'єкт(и) видалений з системи.
-common#:#msg_role_exists1#:#Роль/шаблон ролі з ім'ям
-common#:#msg_role_exists2#:#вже існує! Будь ласка виберіть інше ім'я
-common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я
-common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено
-common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до збережених значень знову.
-common#:#msg_roleassignment_changed#:#Призначення ролі змінено
-common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена
-common#:#msg_sysrole_not_editable#:#Настройки прав сисемної ролі не можуть бути змінені. Системна роль гарантує усім призначенним користувачам необмежений доступ до усіх об'єктів та функцій.
-common#:#msg_trash_empty#:#Немає видалених об'єктів
-common#:#msg_undeleted#:#Відмінено видалення об'єкту(ів).
-common#:#msg_user_last_role1#:#Наступні користувачі призначені до ціїє ролі тільки:
-common#:#msg_user_last_role2#:#Будь ласка видаліть користувачів або призначте їм іншу роль для того щоб видалити цю роль.
-common#:#msg_userassignment_changed#:#Призначення користувача змінено
-common#:#multimedia#:#Мультимедіа
-common#:#my_bms#:#Мої Закладинки
-common#:#my_frms#:#Мої Форуми
-common#:#my_grps#:#Мої Групи
-common#:#my_los#:#Мої Учбові Об'єкти
-common#:#name#:#Ім'я
-common#:#new#:#Новий
-common#:#new_appointment#:#Нове Призначення
-common#:#new_folder#:#Нова Папка
-common#:#new_group#:#Нова Група
-common#:#new_language#:#Нова Мова
-common#:#new_mail#:#Нова пошта!
-common#:#news#:#Новини
-common#:#next#:#наступний
-common#:#nickname#:#Нікнейм
-common#:#no#:#Ні
-common#:#no_bm_in_personal_list#:#Жодної закладинки не визначено.
-common#:#no_checkbox#:#Жодного чекбоксу не вибрано!
-common#:#no_date#:#Немає дати
-common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
-common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
-common#:#no_import_available#:#Імпорт не доступний для цього типу
-common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
-common#:#no_objects#:#Немає об'єктів
+common#:#moveChapter#:#�Yе�?ем�-�?�,и�,и
+common#:#movePage#:#�Yе�?ем�-�?�,и�,и
+common#:#move_to#:#�Yе�?ем�-�?�,и�,и в
+common#:#msg_cancel#:#�?�-�? в�-дм�-нена
+common#:#msg_changes_ok#:#�-м�-ни в�-дб�fли�?�? доб�?е
+common#:#msg_clear_clipboard#:#�?�f�?е�? обм�-н�f о�?и�?ений
+common#:#msg_cloned#:#�?иб�?аний об'�?к�,(и) �?коп�-йований
+common#:#msg_copy_clipboard#:#�?иб�?аний об'�?к�,(и) збе�?�-га�?�,�?�?�? в б�f�?е�?�- обм�-н�f (�?�-�?: коп�-�?ва�,и)
+common#:#msg_cut_clipboard#:#�?иб�?аний об'�?к�,(и) збе�?�-га�?�,�?�?�? в б�f�?е�?�- обм�-н�f (�?�-�?: ви�?�-за�,и)
+common#:#msg_cut_copied#:#�?иб�?аний об'�?к�,(и) пе�?ем�-�?ений.
+common#:#msg_deleted_role#:#Рол�? видалена
+common#:#msg_deleted_roles#:#Рол�- видален�-
+common#:#msg_deleted_roles_rolts#:#Рол�- �,а Шаблони Ролей видален�-
+common#:#msg_deleted_rolt#:#Шаблон Рол�- видалений
+common#:#msg_deleted_rolts#:#Шаблон Рол�- видалений
+common#:#msg_error_copy#:#�Yомилка �sоп�-�?ванн�?
+common#:#msg_failed#:#�?иба�?�,е, д�-�? невдала�?�?
+common#:#msg_is_last_role#:#�?и в�-дм�-нили п�?изна�?енн�? на�?�,�fпним ко�?и�?�,�fва�?ам з �-�?н�?о�- о�?�,анн�?о�- глобал�?но�- �?ол�-
+common#:#msg_link_clipboard#:#�?иб�?аний об'�?к�,(и) збе�?�-га�?�,�?�?�? в б�f�?е�?�- обм�-н�f (�?�-�?: зв'�?за�,и)
+common#:#msg_linked#:#�?иб�?аний об'�?к�,(и) зв'�?заний.
+common#:#msg_may_not_contain#:#Цей об'�?к�, може не м�-�?�,и�,и об'�?к�,�-в �,ип�f:
+common#:#msg_min_one_active_role#:#�sожний ко�?и�?�,�fва�? повинен ма�,и п�?инаймн�- одн�f ак�,ивн�f глобал�?н�f �?ол�?!
+common#:#msg_min_one_role#:#�sожний ко�?и�?�,�fва�? повинен ма�,и п�?инаймн�- одн�f глобал�?н�f �?ол�?!
+common#:#msg_multi_language_selected#:#�?и виб�?али одн�f �- �,�f ж �?ам�f мов�f дл�? �?�-зни�? пе�?еклад�-в!
+common#:#msg_no_default_language#:#�?ова по замов�?анн�? не вказана! �?и ма�?�,е визна�?и�,и один пе�?еклад �?к пе�?еклад по замов�?анн�?.
+common#:#msg_no_delete_yourself#:#�?и не може�,е видали�,и ва�^ о�?оби�?�,ий ака�fн�, ко�?и�?�,�fва�?а.
+common#:#msg_no_language_selected#:#�?е вказана мова пе�?еклад�f! �?и ма�?�,е визна�?и�,и мов�f дл�? кожного пе�?еклад�f
+common#:#msg_no_perm_copy#:#�?и не ма�?�,е п�?ав �?�,ов�?и�,и коп�-�? на�?�,�fпного об'�?к�,�f(�-в):
+common#:#msg_no_perm_create#:#�?и не ма�?�,е п�?ав �?�,во�?и�,и на�?�,�fпний об'�?к�,(и):
+common#:#msg_no_perm_create_object1#:#�?и не ма�?�,е п�?ав �?�,во�?и�,и
+common#:#msg_no_perm_create_object2#:#в �?�?ом�f м�-�?�?�-!
+common#:#msg_no_perm_create_role#:#�?и не ма�?�,е п�?ав додава�,и �?ол�-
+common#:#msg_no_perm_create_rolf#:#�?и не ма�?�,е п�?ав �?�,во�?и�,и �Yапк�f Ролей. Том�f ви не може�,е з�fпини�,и на�?л�-д�fванн�? �?олей або дода�,и локал�?н�f �?ол�? �,�f�,.
+common#:#msg_no_perm_create_rolt#:#�?и не ма�?�,е п�?ав додава�,и �^аблони �?ол�-
+common#:#msg_no_perm_create_user#:#�?и не ма�?�,е п�?ав додава�,и ко�?и�?�,�fва�?�-в
+common#:#msg_no_perm_cut#:#�?и не ма�?�,е п�?ав ви�?�-за�,и на�?�,�fпний об'�?к�,(и):
+common#:#msg_no_perm_delete#:#�?и не ма�?�,е п�?ав видали�,и на�?�,�fпний об'�?к�,(и):
+common#:#msg_no_perm_link#:#�?и не ма�?�,е п�?ава �?�,ов�?и�,и по�?иланн�? з на�?�,�fпниого об'�?к�,�f(�-в):
+common#:#msg_no_perm_modify_role#:#�?и не ма�?�,е п�?ава зм�-н�?ва�,и �?ол�-
+common#:#msg_no_perm_modify_rolt#:#�?и не ма�?�,е п�?ава зм�-н�?ва�,и �^аблони �?олей
+common#:#msg_no_perm_modify_user#:#�?и не ма�?�,е п�?ава зм�-н�?ва�,и дан�- ко�?и�?�,�fва�?�-в
+common#:#msg_no_perm_paste#:#�?и не ма�?�,е п�?ава в�?�,авл�?�,и на�?�,�fпний об'�?к�,(и):
+common#:#msg_no_perm_perm#:#�?и не ма�?�,е п�?ава �?едаг�fва�,и на�?�,�?ойки п�?ав
+common#:#msg_no_perm_undelete#:#�?и не ма�?�,е п�?ава в�-дм�-ни�,и видаленн�? на�?�,�fпного об'�?к�,�f(�-в):
+common#:#msg_no_perm_write#:#�?и не ма�?�,е п�?ава запи�?�fва�,и
+common#:#msg_no_rolf_allowed1#:#�?б'�?к�,
+common#:#msg_no_rolf_allowed2#:#не �? дозволеним м�-�?�,и�,и �Yапк�f Рол�-
+common#:#msg_no_search_result#:#�?�?оджен�? не знайдено
+common#:#msg_no_search_string#:#�?�fд�? ла�?ка введ�-�,�? ва�^ запи�,
+common#:#msg_not_available_for_anon#:#С�,о�?�-нк�f �?о ви виб�?али �? до�?�,�fпно�? �,�-л�?ки дл�? за�?е�?�?�,�?ованим ко�?и�?�,�fва�?ам
+common#:#msg_not_in_itself#:#�?е �? можливим в�?�,ави�,и об'�?к�, в �?амого �?ебе
+common#:#msg_not_possible_link#:#�?е �? можливим �?�,ов�?и�,и по�?иланн�? об'�?к�,а: Тип
+common#:#msg_nothing_found#:#msg_н�-�?ого_не_знайдено
+common#:#msg_obj_created#:#�?б'�?к�, �?�,во�?ений.
+common#:#msg_obj_exists#:#Цей об'�?к�, вже �-�?н�f�? �f �?�-й пап�?�-
+common#:#msg_obj_modified#:#�-м�-ни збе�?ежен�-.
+common#:#msg_perm_adopted_from1#:#�?а�?�,�?ойки п�?ав на�?л�-дован�- з
+common#:#msg_perm_adopted_from2#:#(�?а�?�,�?ойки б�fли збе�?ежен�-!)
+common#:#msg_perm_adopted_from_itself#:#�?и не може�,е на�?л�-д�fва�,и на�?�,�?ойки п�?ав з по�,о�?но�- �?ол�-/�^аблон�? �?ол�- на �?ебе �?ами�?.
+common#:#msg_removed#:#�?б'�?к�,(и) видалений з �?и�?�,еми.
+common#:#msg_role_exists1#:#Рол�?/�^аблон �?ол�- з �-м'�?м
+common#:#msg_role_exists2#:#вже �-�?н�f�?! �?�fд�? ла�?ка вибе�?�-�,�? �-н�^е �-м'�?
+common#:#msg_role_reserved_prefix#:#�Y�?е�?�-к�? 'il_' за�?езе�?вований дл�? �?олей �?о ав�,ома�,и�?но �?�,во�?�?�?�,�?�?�?. �?�fд�? ла�?ка вибе�?�-�,�? �-н�^е �-м'�?
+common#:#msg_roleassignment_active_changed#:#�Y�?изна�?енн�? �?к�,ивно�- Рол�- зм�-нено
+common#:#msg_roleassignment_active_changed_comment#:#Ц�- на�?�,�?ойки не збе�?ежен�- дл�? п�?о�?айл�f ко�?и�?�,�fва�?а! Як�?о ко�?и�?�,�fва�? пе�?елог�-ни�,�?�?�? �f�?�- ак�,ивн�- п�?изна�?енн�? �?олей пове�?н�f�,�?�?�? до збе�?ежени�? зна�?ен�? знов�f.
+common#:#msg_roleassignment_changed#:#�Y�?изна�?енн�? �?ол�- зм�-нено
+common#:#msg_sysrole_not_deletable#:#Си�?�,емна �?ол�? не може б�f�,и видалена
+common#:#msg_sysrole_not_editable#:#�?а�?�,�?ойки п�?ав �?и�?емно�- �?ол�- не мож�f�,�? б�f�,и зм�-нен�-. Си�?�,емна �?ол�? га�?ан�,�f�? �f�?�-м п�?изна�?енним ко�?и�?�,�fва�?ам необмежений до�?�,�fп до �f�?�-�? об'�?к�,�-в �,а �?�fнк�?�-й.
+common#:#msg_trash_empty#:#�?ема�? видалени�? об'�?к�,�-в
+common#:#msg_undeleted#:#�?�-дм�-нено видаленн�? об'�?к�,�f(�-в).
+common#:#msg_user_last_role1#:#�?а�?�,�fпн�- ко�?и�?�,�fва�?�- п�?изна�?ен�- до �?�-�-�? �?ол�- �,�-л�?ки:
+common#:#msg_user_last_role2#:#�?�fд�? ла�?ка видал�-�,�? ко�?и�?�,�fва�?�-в або п�?изна�?�,е �-м �-н�^�f �?ол�? дл�? �,ого �?об видали�,и �?�? �?ол�?.
+common#:#msg_userassignment_changed#:#�Y�?изна�?енн�? ко�?и�?�,�fва�?а зм�-нено
+common#:#multimedia#:#�?�fл�?�,имед�-а
+common#:#my_bms#:#�?о�- �-акладинки
+common#:#my_frms#:#�?о�- Фо�?�fми
+common#:#my_grps#:#�?о�- �?�?�fпи
+common#:#my_los#:#�?о�- У�?бов�- �?б'�?к�,и
+common#:#name#:#�?м'�?
+common#:#new#:#�?овий
+common#:#new_appointment#:#�?ове �Y�?изна�?енн�?
+common#:#new_folder#:#�?ова �Yапка
+common#:#new_group#:#�?ова �?�?�fпа
+common#:#new_language#:#�?ова �?ова
+common#:#new_mail#:#�?ова по�^�,а!
+common#:#news#:#�?овини
+common#:#next#:#на�?�,�fпний
+common#:#nickname#:#�?�-кнейм
+common#:#no#:#�?�-
+common#:#no_bm_in_personal_list#:#�-одно�- закладинки не визна�?ено.
+common#:#no_checkbox#:#�-одного �?екбок�?�f не виб�?ано!
+common#:#no_date#:#�?ема�? да�,и
+common#:#no_frm_in_personal_list#:#�?ема�? �?о�?�fм�-в в о�?оби�?�,ом�f �?пи�?к�f.
+common#:#no_grp_in_personal_list#:#�?ема�? г�?�fп в о�?оби�?�,ом�f �?пи�?к�f.
+common#:#no_import_available#:#�?мпо�?�, не до�?�,�fпний дл�? �?�?ого �,ип�f
+common#:#no_lo_in_personal_list#:#�?ема�? жодного �f�?бового об'�?к�,�f в о�?оби�?�,ом�f �?пи�?к�f.
+common#:#no_objects#:#�?ема�? об'�?к�,�-в
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
-common#:#no_title#:#Немає Назви
-common#:#none#:#Ніщо
-common#:#normal#:#Нормальний
-common#:#not_installed#:#Не Інстальовано
-common#:#not_logged_in#:#Ви не залогінені в
-common#:#obj#:#Об'єкт
-common#:#obj_adm#:#Системні Настройки
-common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
-common#:#obj_cat#:#Категорія
-common#:#obj_crs#:#Курс
-common#:#obj_dbk#:#Digilib Книга
+common#:#no_title#:#�?ема�? �?азви
+common#:#none#:#�?�-�?о
+common#:#normal#:#�?о�?мал�?ний
+common#:#not_installed#:#�?е �?н�?�,ал�?овано
+common#:#not_logged_in#:#�?и не залог�-нен�- в
+common#:#obj#:#�?б'�?к�,
+common#:#obj_adm#:#Си�?�,емн�- �?а�?�,�?ойки
+common#:#obj_adm_desc#:#�Yапка з головними �?и�?�,емними на�?�,�?ойками м�-�?�,и�,�? �f�?�- панел�- дл�? адм�-н�-�?�,�?�fванн�? ва�^о�- �-н�?�,ал�?�?�-�- ILIAS.
+common#:#obj_cat#:#�sа�,его�?�-�?
+common#:#obj_crs#:#�s�f�?�?
+common#:#obj_dbk#:#Digilib �sнига
 common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
 common#:#obj_file#:#Файл
-common#:#obj_fold#:#Папка
-common#:#obj_frm#:#Форум
-common#:#obj_glo#:#Глосарій
-common#:#obj_grp#:#Група
-common#:#obj_ldap#:#LDAP Настройки
-common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
-common#:#obj_lm#:#Учбовий Модуль
-common#:#obj_lng#:#Мова
-common#:#obj_lngf#:#Мови
-common#:#obj_lngf_desc#:#Управляйте вашими системними мовами тут.
-common#:#obj_lo#:#Учбовий Об'єкт
-common#:#obj_mail#:#Настойки Пошти
-common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
+common#:#obj_fold#:#�Yапка
+common#:#obj_frm#:#Фо�?�fм
+common#:#obj_glo#:#�?ло�?а�?�-й
+common#:#obj_grp#:#�?�?�fпа
+common#:#obj_ldap#:#LDAP �?а�?�,�?ойки
+common#:#obj_ldap_desc#:#�sон�?�-г�f�?�fй�,е глобал�?н�- на�?�,�?ойки LDAP �,�f�,.
+common#:#obj_lm#:#У�?бовий �?од�fл�?
+common#:#obj_lng#:#�?ова
+common#:#obj_lngf#:#�?ови
+common#:#obj_lngf_desc#:#Уп�?авл�?й�,е ва�^ими �?и�?�,емними мовами �,�f�,.
+common#:#obj_lo#:#У�?бовий �?б'�?к�,
+common#:#obj_mail#:#�?а�?�,ойки �Yо�^�,и
+common#:#obj_mail_desc#:#�s�?н�?�-г�f�?�fй�,е глобал�?н�- по�^�,ов�- на�?�,�?ойки �,�f�,.
 common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
-common#:#obj_not_found#:#Об'єкт Не Знайдений
-common#:#obj_note#:#Примітка
-common#:#obj_notf#:#Адмініструввання Примітками
-common#:#obj_objf#:#Визначення об'єкта
-common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
-common#:#obj_owner#:#Цей Об'єкт належить
-common#:#obj_pg#:#Сторінка
-common#:#obj_role#:#Роль
-common#:#obj_rolf#:#Ролі
-common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
-common#:#obj_rolf_local#:#Локальні Ролі
-common#:#obj_rolf_local_desc#:#Містить локальні ролі об'єкта №
-common#:#obj_rolt#:#Шаблон Ролі
+common#:#obj_not_found#:#�?б'�?к�, �?е �-найдений
+common#:#obj_note#:#�Y�?им�-�,ка
+common#:#obj_notf#:#�?дм�-н�-�?�,�?�fвванн�? �Y�?им�-�,ками
+common#:#obj_objf#:#�?изна�?енн�? об'�?к�,а
+common#:#obj_objf_desc#:#Упоавл�-нн�? �,ипами об'�?к�,�-в �,а п�?авами об'�?к�,�-в в ILIAS. (�,�-л�?ки дл�? ек�?пе�?�,�-в!)
+common#:#obj_owner#:#Цей �?б'�?к�, належи�,�?
+common#:#obj_pg#:#С�,о�?�-нка
+common#:#obj_role#:#Рол�?
+common#:#obj_rolf#:#Рол�-
+common#:#obj_rolf_desc#:#Уп�?авл�?й�,е ва�^ими �?ол�?ми �,�f�,.
+common#:#obj_rolf_local#:#�>окал�?н�- Рол�-
+common#:#obj_rolf_local_desc#:#�?�-�?�,и�,�? локал�?н�- �?ол�- об'�?к�,а �?-
+common#:#obj_rolt#:#Шаблон Рол�-
 common#:#obj_root#:#root###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM LM
-common#:#obj_st#:#Глава
-common#:#obj_typ#:#Визначення Типу Об'єкта
-common#:#obj_type#:#Тип Об'єкта
-common#:#obj_uset#:#Настройки Користувача
-common#:#obj_usr#:#Користувач
-common#:#obj_usrf#:#Аккаунт користувача
-common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
-common#:#objects#:#Об'єкти
-common#:#objf#:#Визначення об'єктів
+common#:#obj_st#:#�?лава
+common#:#obj_typ#:#�?изна�?енн�? Тип�f �?б'�?к�,а
+common#:#obj_type#:#Тип �?б'�?к�,а
+common#:#obj_uset#:#�?а�?�,�?ойки �sо�?и�?�,�fва�?а
+common#:#obj_usr#:#�sо�?и�?�,�fва�?
+common#:#obj_usrf#:#�?кка�fн�, ко�?и�?�,�fва�?а
+common#:#obj_usrf_desc#:#Уп�?авл�?й�,е акка�fн�,ами ко�?и�?�,�fва�?�-в �,�f�,.
+common#:#objects#:#�?б'�?к�,и
+common#:#objf#:#�?изна�?енн�? об'�?к�,�-в
 common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
-common#:#objs_confirm#:#Підтвердити Видалення###11 Dec 2003 content changed
-common#:#objs_delete#:#Видалити об'єкти
+common#:#objs_confirm#:#�Y�-д�,ве�?ди�,и �?идаленн�?###11 Dec 2003 content changed
+common#:#objs_delete#:#�?идали�,и об'�?к�,и
 common#:#of#:#Of
-common#:#offline_version#:#Оффлайн Версія
+common#:#offline_version#:#�?�?�?лайн �?е�?�?�-�?
 common#:#ok#:#Так
-common#:#old#:#Старий
-common#:#online_chapter#:#Онлайн Глава
-common#:#online_version#:#Онлайн Версія
-common#:#operation#:#Операція
-common#:#optimize#:#Оптимізувати
-common#:#options#:#Опції
-common#:#order_by#:#Сортувати по
-common#:#other#:#Інші
-common#:#overview#:#Огляд
-common#:#owner#:#Власник
-common#:#page#:#Сторінка
-common#:#page_edit#:#Редагувати Сторінку
-common#:#pages#:#Сторінки
-common#:#parameter#:#Параметр
-common#:#parse#:#Синтаксичний Аналіз
-common#:#passwd#:#Пароль
-common#:#passwd_invalid#:#Новий пароль є невірним! Тільки наступні символи є дозволеними (мінімум 6 символів): A-Z a-z 0-9 _.-+*@!$%~
-common#:#passwd_not_match#:#Ваші строки для нового паролю не співпадають! Будь ласка, введіть заново ваш новий пароль.
-common#:#passwd_wrong#:#Введений пароль є невірним!
-common#:#password#:#Пароль
-common#:#paste#:#Вставити
-common#:#pasteChapter#:#Вставити
-common#:#pastePage#:#Вставити
-common#:#path#:#Шлях
-common#:#path_not_set#:#Шлях не встановлений
-common#:#path_to_babylon#:#Шлях до Babylon
-common#:#path_to_convert#:#Шлях до Конвертора
-common#:#path_to_htmldoc#:#Шлях до HTMLdoc
-common#:#path_to_java#:#Шлях до Java
-common#:#path_to_unzip#:#Шлях до Unzip
-common#:#path_to_zip#:#Шлях до Zip
-common#:#pathes#:#Шляхи
-common#:#payment_system#:#Платіжна Система
-common#:#perm_settings#:#Права
-common#:#permission#:#Права
-common#:#permission_denied#:#В Доступі Відмовлено
+common#:#old#:#С�,а�?ий
+common#:#online_chapter#:#�?нлайн �?лава
+common#:#online_version#:#�?нлайн �?е�?�?�-�?
+common#:#operation#:#�?пе�?а�?�-�?
+common#:#optimize#:#�?п�,им�-з�fва�,и
+common#:#options#:#�?п�?�-�-
+common#:#order_by#:#Со�?�,�fва�,и по
+common#:#other#:#�?н�^�-
+common#:#overview#:#�?гл�?д
+common#:#owner#:#�?ла�?ник
+common#:#page#:#С�,о�?�-нка
+common#:#page_edit#:#Редаг�fва�,и С�,о�?�-нк�f
+common#:#pages#:#С�,о�?�-нки
+common#:#parameter#:#�Yа�?аме�,�?
+common#:#parse#:#Син�,ак�?и�?ний �?нал�-з
+common#:#passwd#:#�Yа�?ол�?
+common#:#passwd_invalid#:#�?овий па�?ол�? �? нев�-�?ним! Т�-л�?ки на�?�,�fпн�- �?имволи �? дозволеними (м�-н�-м�fм 6 �?имвол�-в): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_not_match#:#�?а�^�- �?�,�?оки дл�? нового па�?ол�? не �?п�-впада�?�,�?! �?�fд�? ла�?ка, введ�-�,�? заново ва�^ новий па�?ол�?.
+common#:#passwd_wrong#:#�?ведений па�?ол�? �? нев�-�?ним!
+common#:#password#:#�Yа�?ол�?
+common#:#paste#:#�?�?�,ави�,и
+common#:#pasteChapter#:#�?�?�,ави�,и
+common#:#pastePage#:#�?�?�,ави�,и
+common#:#path#:#Шл�?�?
+common#:#path_not_set#:#Шл�?�? не в�?�,ановлений
+common#:#path_to_babylon#:#Шл�?�? до Babylon
+common#:#path_to_convert#:#Шл�?�? до �sонве�?�,о�?а
+common#:#path_to_htmldoc#:#Шл�?�? до HTMLdoc
+common#:#path_to_java#:#Шл�?�? до Java
+common#:#path_to_unzip#:#Шл�?�? до Unzip
+common#:#path_to_zip#:#Шл�?�? до Zip
+common#:#pathes#:#Шл�?�?и
+common#:#payment_system#:#�Yла�,�-жна Си�?�,ема
+common#:#perm_settings#:#�Y�?ава
+common#:#permission#:#�Y�?ава
+common#:#permission_denied#:#�? �?о�?�,�fп�- �?�-дмовлено
 common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
-common#:#personal_data#:#Особиста інформація
-common#:#personal_desktop#:#Особстий Робочий Стіл
-common#:#personal_picture#:#Особиста Картинка
-common#:#personal_profile#:#Особистий Профіль
+common#:#personal_data#:#�?�?оби�?�,а �-н�?о�?ма�?�-�?
+common#:#personal_desktop#:#�?�?об�?�,ий Робо�?ий С�,�-л
+common#:#personal_picture#:#�?�?оби�?�,а �sа�?�,инка
+common#:#personal_profile#:#�?�?оби�?�,ий �Y�?о�?�-л�?
 common#:#persons#:#Personen
-common#:#pg_a#:#сторінка
-common#:#pg_add#:#Додати сторінку
-common#:#pg_added#:#Сторінка додана
-common#:#pg_edit#:#Редагувати сторінку
-common#:#pg_new#:#Нова сторінка
-common#:#phone#:#Телефон
-common#:#phone_home#:#Телефон, Домашній
-common#:#phone_mobile#:#Телефон, Мобільний
-common#:#phone_office#:#Телефон, Робочий
-common#:#phrase#:#Фраза
-common#:#please_enter_target#:#Будь ласка введіть ціль
-common#:#please_enter_title#:#Будь ласка введіть назву
-common#:#port#:#Порт
-common#:#position#:#Позиція
-common#:#presentation_options#:#Опції Показу
-common#:#previous#:#попередній
-common#:#print#:#Друкувати
-common#:#profile_changed#:#Ваш провіль був змінений
-common#:#profile_of#:#Профіль
-common#:#properties#:#Параметри
-common#:#pub_section#:#Публічна Секція
-common#:#public_profile#:#Публічний Профіль
-common#:#publication#:#Публікація
-common#:#publication_date#:#Дата Публікації
-common#:#published#:#Опублікований
-common#:#publishing_organisation#:#Організація що Публікує
-common#:#question#:#Питання
-common#:#quit#:#Вихід
-common#:#quote#:#Цитата
-common#:#read#:#Читати
-common#:#recipient#:#Одержувач
-common#:#refresh#:#Обновити
-common#:#refresh_languages#:#Обновити Мови
-common#:#refresh_list#:#Обновити Список
-common#:#register#:#Зареєструвати
-common#:#register_info#:#Будь ласка заповніть форму реєстрації (Поля позначені зірочкою обов'язкові для заповнення).
-common#:#registered_since#:#Зареєстрований з
-common#:#registered_user#:#зареєстрований Користувач
-common#:#registered_users#:#зареєстровані Користувачі
-common#:#registration#:#Новий акаунт реєстрації
+common#:#pg_a#:#�?�,о�?�-нка
+common#:#pg_add#:#�?ода�,и �?�,о�?�-нк�f
+common#:#pg_added#:#С�,о�?�-нка додана
+common#:#pg_edit#:#Редаг�fва�,и �?�,о�?�-нк�f
+common#:#pg_new#:#�?ова �?�,о�?�-нка
+common#:#phone#:#Теле�?он
+common#:#phone_home#:#Теле�?он, �?ома�^н�-й
+common#:#phone_mobile#:#Теле�?он, �?об�-л�?ний
+common#:#phone_office#:#Теле�?он, Робо�?ий
+common#:#phrase#:#Ф�?аза
+common#:#please_enter_target#:#�?�fд�? ла�?ка введ�-�,�? �?�-л�?
+common#:#please_enter_title#:#�?�fд�? ла�?ка введ�-�,�? назв�f
+common#:#port#:#�Yо�?�,
+common#:#position#:#�Yози�?�-�?
+common#:#presentation_options#:#�?п�?�-�- �Yоказ�f
+common#:#previous#:#попе�?едн�-й
+common#:#print#:#�?�?�fк�fва�,и
+common#:#profile_changed#:#�?а�^ п�?ов�-л�? б�fв зм�-нений
+common#:#profile_of#:#�Y�?о�?�-л�?
+common#:#properties#:#�Yа�?аме�,�?и
+common#:#pub_section#:#�Y�fбл�-�?на Сек�?�-�?
+common#:#public_profile#:#�Y�fбл�-�?ний �Y�?о�?�-л�?
+common#:#publication#:#�Y�fбл�-ка�?�-�?
+common#:#publication_date#:#�?а�,а �Y�fбл�-ка�?�-�-
+common#:#published#:#�?п�fбл�-кований
+common#:#publishing_organisation#:#�?�?ган�-за�?�-�? �?о �Y�fбл�-к�f�?
+common#:#question#:#�Yи�,анн�?
+common#:#quit#:#�?и�?�-д
+common#:#quote#:#Ци�,а�,а
+common#:#read#:#Чи�,а�,и
+common#:#recipient#:#�?де�?ж�fва�?
+common#:#refresh#:#�?бнови�,и
+common#:#refresh_languages#:#�?бнови�,и �?ови
+common#:#refresh_list#:#�?бнови�,и Спи�?ок
+common#:#register#:#�-а�?е�?�?�,�?�fва�,и
+common#:#register_info#:#�?�fд�? ла�?ка заповн�-�,�? �?о�?м�f �?е�?�?�,�?а�?�-�- (�Yол�? позна�?ен�- з�-�?о�?ко�? обов'�?зков�- дл�? заповненн�?).
+common#:#registered_since#:#�-а�?е�?�?�,�?ований з
+common#:#registered_user#:#за�?е�?�?�,�?ований �sо�?и�?�,�fва�?
+common#:#registered_users#:#за�?е�?�?�,�?ован�- �sо�?и�?�,�fва�?�-
+common#:#registration#:#�?овий ака�fн�, �?е�?�?�,�?а�?�-�-
 common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
-common#:#remove#:#Вилучити
-common#:#remove_translation#:#Видалити переклад
-common#:#rename#:#Переіменувати
-common#:#reply#:#Відповісти
-common#:#repository#:#Репозиторій
-common#:#required_field#:#Потрібні Поля
-common#:#reset#:#Сбросити
-common#:#resources#:#Ресурси
-common#:#retype_password#:#Введіть Пароль ще раз
-common#:#right#:#Право
-common#:#rights#:#Права
-common#:#role#:#Роль
-common#:#role_a#:#Роль
-common#:#role_add#:#Додати Роль
-common#:#role_add_local#:#Додати локальну Роль
-common#:#role_added#:#Роль додана
-common#:#role_assignment#:#Призначення Ролі
-common#:#role_deleted#:#Роль видалена
-common#:#role_edit#:#Редагувати Роль
-common#:#role_new#:#Нова Роль
-common#:#roles#:#Ролі
-common#:#rolf#:#Папка з Ролями###13 Jan 2004 content changed
-common#:#rolf_added#:#Папка з Ролями додана
+common#:#remove#:#�?ил�f�?и�,и
+common#:#remove_translation#:#�?идали�,и пе�?еклад
+common#:#rename#:#�Yе�?е�-мен�fва�,и
+common#:#reply#:#�?�-дпов�-�?�,и
+common#:#repository#:#Репози�,о�?�-й
+common#:#required_field#:#�Yо�,�?�-бн�- �Yол�?
+common#:#reset#:#Сб�?о�?и�,и
+common#:#resources#:#Ре�?�f�?�?и
+common#:#retype_password#:#�?вед�-�,�? �Yа�?ол�? �?е �?аз
+common#:#right#:#�Y�?аво
+common#:#rights#:#�Y�?ава
+common#:#role#:#Рол�?
+common#:#role_a#:#Рол�?
+common#:#role_add#:#�?ода�,и Рол�?
+common#:#role_add_local#:#�?ода�,и локал�?н�f Рол�?
+common#:#role_added#:#Рол�? додана
+common#:#role_assignment#:#�Y�?изна�?енн�? Рол�-
+common#:#role_deleted#:#Рол�? видалена
+common#:#role_edit#:#Редаг�fва�,и Рол�?
+common#:#role_new#:#�?ова Рол�?
+common#:#roles#:#Рол�-
+common#:#rolf#:#�Yапка з Рол�?ми###13 Jan 2004 content changed
+common#:#rolf_added#:#�Yапка з Рол�?ми додана
 common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
 common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
 common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
@@ -895,61 +895,61 @@ common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new var
 common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
 common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
 common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
-common#:#rolt#:#Шаблон Ролі
-common#:#rolt_a#:#Шаблон Ролі
-common#:#rolt_add#:#Додати Шаблон Ролі
-common#:#rolt_added#:#Шаблон ролі доданий
-common#:#rolt_edit#:#Редагувати Шаблон Ролі
-common#:#rolt_new#:#Новий Шаблон Ролі
+common#:#rolt#:#Шаблон Рол�-
+common#:#rolt_a#:#Шаблон Рол�-
+common#:#rolt_add#:#�?ода�,и Шаблон Рол�-
+common#:#rolt_added#:#Шаблон �?ол�- доданий
+common#:#rolt_edit#:#Редаг�fва�,и Шаблон Рол�-
+common#:#rolt_new#:#�?овий Шаблон Рол�-
 common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
 common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
 common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
 common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
-common#:#salutation#:#Привітання
-common#:#salutation_f#:#Місс/Місіс
-common#:#salutation_m#:#Містер
-common#:#save#:#Зберігти
-common#:#save_and_back#:#Зберігти та Повернутись
-common#:#save_message#:#Зберігти Повідомлення
-common#:#save_refresh#:#Зберігти та Обновити
-common#:#save_return#:#Зберігти та Повернутись
-common#:#saved#:#Збережено
-common#:#saved_successfully#:#Збережено Вдало
-common#:#search#:#Пошук
-common#:#search_in#:#Пошук в
-common#:#search_new#:#Новий Пошук
-common#:#search_recipient#:#Шукати Одержувача
-common#:#search_result#:#Результат пошуку
-common#:#search_user#:#Шукати Користувача
-common#:#sections#:#Секції
-common#:#select#:#Вибрати
-common#:#select_all#:#Вибрати Усе
-common#:#select_file#:#Вибрати файл
-common#:#select_mode#:#Вибрати режим
-common#:#selected#:#Вибраний
-common#:#send#:#Відіслати
-common#:#sender#:#Відправник
-common#:#sent#:#Відісланий
-common#:#sequence#:#Послідовність
-common#:#sequences#:#Послідовності
-common#:#server#:#Сервер
-common#:#server_data#:#Дані серверу 
-common#:#server_software#:#Програмне Забезпечення Серверу
-common#:#set#:#Встановити
-common#:#setSystemLanguage#:#Встановити Системну Мову
-common#:#setUserLanguage#:#Встановити Мову Користувача
-common#:#set_offline#:#Встановити Оффлайн
-common#:#set_online#:#Встановити Онлайн
-common#:#settings#:#Настройки
-common#:#show_details#:#показати деталі
-common#:#show_list#:#Показати Список
-common#:#show_members#:#Показати Членів
-common#:#show_owner#:#Показати Власника
-common#:#show_structure#:#Дозволити Структурований Огляд
-common#:#signature#:#Сігнатура
+common#:#salutation#:#�Y�?ив�-�,анн�?
+common#:#salutation_f#:#�?�-�?�?/�?�-�?�-�?
+common#:#salutation_m#:#�?�-�?�,е�?
+common#:#save#:#�-бе�?�-г�,и
+common#:#save_and_back#:#�-бе�?�-г�,и �,а �Yове�?н�f�,и�?�?
+common#:#save_message#:#�-бе�?�-г�,и �Yов�-домленн�?
+common#:#save_refresh#:#�-бе�?�-г�,и �,а �?бнови�,и
+common#:#save_return#:#�-бе�?�-г�,и �,а �Yове�?н�f�,и�?�?
+common#:#saved#:#�-бе�?ежено
+common#:#saved_successfully#:#�-бе�?ежено �?дало
+common#:#search#:#�Yо�^�fк
+common#:#search_in#:#�Yо�^�fк в
+common#:#search_new#:#�?овий �Yо�^�fк
+common#:#search_recipient#:#Ш�fка�,и �?де�?ж�fва�?а
+common#:#search_result#:#Рез�fл�?�,а�, по�^�fк�f
+common#:#search_user#:#Ш�fка�,и �sо�?и�?�,�fва�?а
+common#:#sections#:#Сек�?�-�-
+common#:#select#:#�?иб�?а�,и
+common#:#select_all#:#�?иб�?а�,и У�?е
+common#:#select_file#:#�?иб�?а�,и �?айл
+common#:#select_mode#:#�?иб�?а�,и �?ежим
+common#:#selected#:#�?иб�?аний
+common#:#send#:#�?�-д�-�?ла�,и
+common#:#sender#:#�?�-дп�?авник
+common#:#sent#:#�?�-д�-�?ланий
+common#:#sequence#:#�Yо�?л�-довн�-�?�,�?
+common#:#sequences#:#�Yо�?л�-довно�?�,�-
+common#:#server#:#Се�?ве�?
+common#:#server_data#:#�?ан�- �?е�?ве�?�f 
+common#:#server_software#:#�Y�?ог�?амне �-абезпе�?енн�? Се�?ве�?�f
+common#:#set#:#�?�?�,анови�,и
+common#:#setSystemLanguage#:#�?�?�,анови�,и Си�?�,емн�f �?ов�f
+common#:#setUserLanguage#:#�?�?�,анови�,и �?ов�f �sо�?и�?�,�fва�?а
+common#:#set_offline#:#�?�?�,анови�,и �?�?�?лайн
+common#:#set_online#:#�?�?�,анови�,и �?нлайн
+common#:#settings#:#�?а�?�,�?ойки
+common#:#show_details#:#показа�,и де�,ал�-
+common#:#show_list#:#�Yоказа�,и Спи�?ок
+common#:#show_members#:#�Yоказа�,и Член�-в
+common#:#show_owner#:#�Yоказа�,и �?ла�?ника
+common#:#show_structure#:#�?озволи�,и С�,�?�fк�,�f�?ований �?гл�?д
+common#:#signature#:#С�-гна�,�f�?а
 common#:#slm#:#SCORM LM###13 Jan 2004 content changed
-common#:#slm_added#:#SCORM Учбовий модуль доданий###13 Jan 2004 content changed
+common#:#slm_added#:#SCORM У�?бовий мод�fл�? доданий###13 Jan 2004 content changed
 common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
 common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
@@ -959,432 +959,432 @@ common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new varia
 common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
 common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
 common#:#smtp#:#SMTP
-common#:#sort_by_this_column#:#Сортувати по цій колонці
+common#:#sort_by_this_column#:#Со�?�,�fва�,и по �?�-й колон�?�-
 common#:#st_a#:#глава
-common#:#st_add#:#Додати главу
-common#:#st_added#:#Глава додана
-common#:#st_edit#:#Редагувати главу
-common#:#st_new#:#Нова глава
-common#:#startpage#:#Початкова сторінка
-common#:#status#:#Статус
-common#:#step#:#Крок
-common#:#stop_inheritance#:#Зупинити наслідування
-common#:#street#:#Вулиця
-common#:#structure#:#Структура
-common#:#subcat_name#:#Ім'я Підкатегорії
-common#:#subchapter_new#:#Нова Підглава
+common#:#st_add#:#�?ода�,и глав�f
+common#:#st_added#:#�?лава додана
+common#:#st_edit#:#Редаг�fва�,и глав�f
+common#:#st_new#:#�?ова глава
+common#:#startpage#:#�Yо�?а�,кова �?�,о�?�-нка
+common#:#status#:#С�,а�,�f�?
+common#:#step#:#�s�?ок
+common#:#stop_inheritance#:#�-�fпини�,и на�?л�-д�fванн�?
+common#:#street#:#�?�fли�?�?
+common#:#structure#:#С�,�?�fк�,�f�?а
+common#:#subcat_name#:#�?м'�? �Y�-дка�,его�?�-�-
+common#:#subchapter_new#:#�?ова �Y�-дглава
 common#:#subject#:#Тема
-common#:#submit#:#Підтвердити
-common#:#subobjects#:#Підоб'єкти
-common#:#subscription#:#Підписка
-common#:#summary#:#Ітого
-common#:#system#:#Ситсема
-common#:#system_choose_language#:#Вибір системної Мови
-common#:#system_groups#:#Системна Групи
-common#:#system_grp#:#Системна Група
-common#:#system_language#:#Сисемна Мова
-common#:#system_message#:#Системне Повідомлення
-common#:#term#:#Термін
-common#:#test_intern#:#Тест Intern
-common#:#time#:#Час
-common#:#title#:#Назва
+common#:#submit#:#�Y�-д�,ве�?ди�,и
+common#:#subobjects#:#�Y�-доб'�?к�,и
+common#:#subscription#:#�Y�-дпи�?ка
+common#:#summary#:#�?�,ого
+common#:#system#:#Си�,�?ема
+common#:#system_choose_language#:#�?иб�-�? �?и�?�,емно�- �?ови
+common#:#system_groups#:#Си�?�,емна �?�?�fпи
+common#:#system_grp#:#Си�?�,емна �?�?�fпа
+common#:#system_language#:#Си�?емна �?ова
+common#:#system_message#:#Си�?�,емне �Yов�-домленн�?
+common#:#term#:#Те�?м�-н
+common#:#test_intern#:#Те�?�, Intern
+common#:#time#:#Ча�?
+common#:#title#:#�?азва
 common#:#to#:#
 common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
-common#:#to_desktop#:#Підписатися
-common#:#today#:#Сьогодні
-common#:#total#:#Загалом
-common#:#tpl_path#:#Шлях до Шаблона
-common#:#translation#:#Переклад
-common#:#trash#:#Смітник
-common#:#treeview#:#Огляд у вигляді дерева
-common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
+common#:#to_desktop#:#�Y�-дпи�?а�,и�?�?
+common#:#today#:#С�?огодн�-
+common#:#total#:#�-агалом
+common#:#tpl_path#:#Шл�?�? до Шаблона
+common#:#translation#:#�Yе�?еклад
+common#:#trash#:#См�-�,ник
+common#:#treeview#:#�?гл�?д �f вигл�?д�- де�?ева
+common#:#txt_add_object_instruction1#:#�?каж�-�,�? м�-�?�?е к�fди ви бажа�?�,е дода�,и
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.
-common#:#typ#:#Визначення Типу Об'єкту
+common#:#txt_registered#:#�?и вдало за�?е�?�?�,�fвали�?�? в ILIAS. �?�fд�? ла�?ка кл�-кн�-�,�? на кнопк�f вниз�f зоб �fв�-й�,и в ILIAS п�-д ва�^им акка�fн�,ом.
+common#:#typ#:#�?изна�?енн�? Тип�f �?б'�?к�,�f
 common#:#type#:#Тип
-common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
+common#:#type_your_message_here#:#�?вед�-�,�? �?а�^е �Yов�-домленн�? Т�f�,
 common#:#uid#:#UID
-common#:#uninstall#:#Деінсталювати
-common#:#uninstalled#:#деінстальовано.
-common#:#unknown#:#НЕВІДОМИЙ
-common#:#unread#:#Непрочитаний
-common#:#unsubscribe#:#відписатись
-common#:#up#:#Вгору
-common#:#update_applied#:#Обновлення Встановлено
-common#:#update_language#:#Обновити Мову
-common#:#upload#:#Завантажити
+common#:#uninstall#:#�?е�-н�?�,ал�?ва�,и
+common#:#uninstalled#:#де�-н�?�,ал�?овано.
+common#:#unknown#:#�?�*�?�?�?�?�?�~�?
+common#:#unread#:#�?еп�?о�?и�,аний
+common#:#unsubscribe#:#в�-дпи�?а�,и�?�?
+common#:#up#:#�?го�?�f
+common#:#update_applied#:#�?бновленн�? �?�?�,ановлено
+common#:#update_language#:#�?бнови�,и �?ов�f
+common#:#upload#:#�-аван�,ажи�,и
 common#:#url#:#URL
-common#:#url_description#:#URL Опис
-common#:#user#:#Користувач
-common#:#user_added#:#Користувач доданий
-common#:#user_assignment#:#Призначення Користувача
-common#:#user_deleted#:#Користувач Видалений
-common#:#user_language#:#Мова Користувача
+common#:#url_description#:#URL �?пи�?
+common#:#user#:#�sо�?и�?�,�fва�?
+common#:#user_added#:#�sо�?и�?�,�fва�? доданий
+common#:#user_assignment#:#�Y�?изна�?енн�? �sо�?и�?�,�fва�?а
+common#:#user_deleted#:#�sо�?и�?�,�fва�? �?идалений
+common#:#user_language#:#�?ова �sо�?и�?�,�fва�?а
 common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
-common#:#userdata#:#Дані користувача
-common#:#username#:#Ім'я користувача
-common#:#users#:#Користувачі
-common#:#users_online#:#Користувачі онлайн
-common#:#usr#:#Користувач
-common#:#usr_a#:#Користувач
-common#:#usr_add#:#Додати Користувача
-common#:#usr_added#:#Користувач доданий
-common#:#usr_agreement#:#Угода Користувача
-common#:#usr_agreement_empty#:#Угода не містить тексту
-common#:#usr_edit#:#Редагувати Користувача
-common#:#usr_new#:#Новий Користувач
-common#:#usr_skin_style#:#Скін / Стиль
-common#:#usr_style#:#Стиль Користувача
-common#:#usrf#:#Папка Користувача###13 Jan 2004 content changed
+common#:#userdata#:#�?ан�- ко�?и�?�,�fва�?а
+common#:#username#:#�?м'�? ко�?и�?�,�fва�?а
+common#:#users#:#�sо�?и�?�,�fва�?�-
+common#:#users_online#:#�sо�?и�?�,�fва�?�- онлайн
+common#:#usr#:#�sо�?и�?�,�fва�?
+common#:#usr_a#:#�sо�?и�?�,�fва�?
+common#:#usr_add#:#�?ода�,и �sо�?и�?�,�fва�?а
+common#:#usr_added#:#�sо�?и�?�,�fва�? доданий
+common#:#usr_agreement#:#Угода �sо�?и�?�,�fва�?а
+common#:#usr_agreement_empty#:#Угода не м�-�?�,и�,�? �,ек�?�,�f
+common#:#usr_edit#:#Редаг�fва�,и �sо�?и�?�,�fва�?а
+common#:#usr_new#:#�?овий �sо�?и�?�,�fва�?
+common#:#usr_skin_style#:#Ск�-н / С�,ил�?
+common#:#usr_style#:#С�,ил�? �sо�?и�?�,�fва�?а
+common#:#usrf#:#�Yапка �sо�?и�?�,�fва�?а###13 Jan 2004 content changed
 common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
 common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
 common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
 common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
 common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
-common#:#validate#:#Перевірити достовірність
-common#:#value#:#Значення
-common#:#version#:#Версія
-common#:#view#:#Огляд
-common#:#view_content#:#Огляд Вмісту
-common#:#visible_layers#:#Видимі Рівні
-common#:#visits#:#Візити
-common#:#week#:#Тиждень
+common#:#validate#:#�Yе�?ев�-�?и�,и до�?�,ов�-�?н�-�?�,�?
+common#:#value#:#�-на�?енн�?
+common#:#version#:#�?е�?�?�-�?
+common#:#view#:#�?гл�?д
+common#:#view_content#:#�?гл�?д �?м�-�?�,�f
+common#:#visible_layers#:#�?идим�- Р�-вн�-
+common#:#visits#:#�?�-зи�,и
+common#:#week#:#Тижден�?
 common#:#welcome#:#Welcome###20 Jan 2004 new variable
-common#:#who_is_online#:#Хто є онлайн?
+common#:#who_is_online#:#Х�,о �? онлайн?
 common#:#with#:#з
-common#:#write#:#Писати
+common#:#write#:#�Yи�?а�,и
 common#:#yes#:#Так
-common#:#you_may_add_local_roles#:#Ви Можете Додати Локальні Ролі
-common#:#your_message#:#Ваше Повідомлення
-common#:#zip#:#Поштовий Код
-common#:#zipcode#:#Поштовий Код
-content#:#HTML export#:#Експорт HTML
-content#:#PDF export#:#Експорт PDF
-content#:#Pages#:#Сторінки
-content#:#all#:#Асі
-content#:#cont_Alphabetic#:#Алфавіт A, B, ...
+common#:#you_may_add_local_roles#:#�?и �?оже�,е �?ода�,и �>окал�?н�- Рол�-
+common#:#your_message#:#�?а�^е �Yов�-домленн�?
+common#:#zip#:#�Yо�^�,овий �sод
+common#:#zipcode#:#�Yо�^�,овий �sод
+content#:#HTML export#:#�*к�?по�?�, HTML
+content#:#PDF export#:#�*к�?по�?�, PDF
+content#:#Pages#:#С�,о�?�-нки
+content#:#all#:#�?�?�-
+content#:#cont_Alphabetic#:#�?л�?ав�-�, A, B, ...
 content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
-content#:#cont_Citation#:#Цитата
-content#:#cont_Example#:#Приклад
-content#:#cont_Headline1#:#Заголовок 1
-content#:#cont_Headline2#:#Заголовок 2
-content#:#cont_Headline3#:#Заголовок 3
-content#:#cont_List#:#Список
-content#:#cont_LocalFile#:#Локальний Файл
-content#:#cont_Mnemonic#:#Мнемонічний
-content#:#cont_Number#:#Число
+content#:#cont_Citation#:#Ци�,а�,а
+content#:#cont_Example#:#�Y�?иклад
+content#:#cont_Headline1#:#�-аголовок 1
+content#:#cont_Headline2#:#�-аголовок 2
+content#:#cont_Headline3#:#�-аголовок 3
+content#:#cont_List#:#Спи�?ок
+content#:#cont_LocalFile#:#�>окал�?ний Файл
+content#:#cont_Mnemonic#:#�?немон�-�?ний
+content#:#cont_Number#:#Чи�?ло
 content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
 content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
-content#:#cont_Reference#:#Посилання
-content#:#cont_Remark#:#Ремарка
-content#:#cont_Roman#:#Римські I, II, ...
-content#:#cont_Unordered#:#Невпорядкований
+content#:#cont_Reference#:#�Yо�?иланн�?
+content#:#cont_Remark#:#Рема�?ка
+content#:#cont_Roman#:#Рим�?�?к�- I, II, ...
+content#:#cont_Unordered#:#�?евпо�?�?дкований
 content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
-content#:#cont_add_definition#:#Додати Визначення
-content#:#cont_added_term#:#Термін доданий
-content#:#cont_all_definitions#:#Усі Визначення
-content#:#cont_all_pages#:#Усі Сторінки
-content#:#cont_alphabetic#:#Алфавітн a, b, ...
-content#:#cont_assign_full#:#Призначити Повний Екран
-content#:#cont_assign_std#:#Призначити Стандарт
-content#:#cont_assign_translation#:#Призначити переклад
-content#:#cont_assignments_deleted#:#Призначення було видалено
-content#:#cont_back#:#Назад
-content#:#cont_booktitle#:#Назва книжки
-content#:#cont_bottom#:#Низ
-content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.
-content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.
-content#:#cont_caption#:#Заголовок
-content#:#cont_change_type#:#Змінити Тип
-content#:#cont_chap_and_pages#:#Глави та Сторінки
-content#:#cont_chap_select_target_now#:#Глави відмічені для переміщення. Виберіть зараз ціль.
-content#:#cont_chapters#:#Глави
-content#:#cont_characteristic#:#Характеристика
-content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмісту
-content#:#cont_choose_glossary#:#Виберіть Глосарій
-content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
-content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
-content#:#cont_citations#:#Цитати
-content#:#cont_content#:#Вміст
-content#:#cont_content_obj#:#Об'єкт Вмісту
+content#:#cont_add_definition#:#�?ода�,и �?изна�?енн�?
+content#:#cont_added_term#:#Те�?м�-н доданий
+content#:#cont_all_definitions#:#У�?�- �?изна�?енн�?
+content#:#cont_all_pages#:#У�?�- С�,о�?�-нки
+content#:#cont_alphabetic#:#�?л�?ав�-�,н a, b, ...
+content#:#cont_assign_full#:#�Y�?изна�?и�,и �Yовний �*к�?ан
+content#:#cont_assign_std#:#�Y�?изна�?и�,и С�,анда�?�,
+content#:#cont_assign_translation#:#�Y�?изна�?и�,и пе�?еклад
+content#:#cont_assignments_deleted#:#�Y�?изна�?енн�? б�fло видалено
+content#:#cont_back#:#�?азад
+content#:#cont_booktitle#:#�?азва книжки
+content#:#cont_bottom#:#�?из
+content#:#cont_cant_del_full#:#�?идаленн�? повноек�?анного �?айл�f �? неможливим.
+content#:#cont_cant_del_std#:#�?идаленн�? �?�,анда�?�,ного �?айл�f огл�?д�f �? неможливим.
+content#:#cont_caption#:#�-аголовок
+content#:#cont_change_type#:#�-м�-ни�,и Тип
+content#:#cont_chap_and_pages#:#�?лави �,а С�,о�?�-нки
+content#:#cont_chap_select_target_now#:#�?лави в�-дм�-�?ен�- дл�? пе�?ем�-�?енн�?. �?ибе�?�-�,�? за�?аз �?�-л�?.
+content#:#cont_chapters#:#�?лави
+content#:#cont_characteristic#:#Ха�?ак�,е�?и�?�,ика
+content#:#cont_choose_cont_obj#:#�?ибе�?�-�,�? �?б'�?к�, �?м�-�?�,�f
+content#:#cont_choose_glossary#:#�?ибе�?�-�,�? �?ло�?а�?�-й
+content#:#cont_citation_err_one#:#�?и ма�?�,е виб�?а�,и �?�-вно одне виданн�?
+content#:#cont_citation_selection_not_valid#:#�?а�^ виб�-�? �? неко�?�?ек�,ним
+content#:#cont_citations#:#Ци�,а�,и
+content#:#cont_content#:#�?м�-�?�,
+content#:#cont_content_obj#:#�?б'�?к�, �?м�-�?�,�f
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
-content#:#cont_create_dir#:#Створити Директорію
-content#:#cont_cross_reference#:#Перехресне посилання
-content#:#cont_data_from_lms#:#adlcp:дані з lms
-content#:#cont_def_layout#:#Розміщення по Замовчанню
-content#:#cont_def_organization#:#по замовчанню
-content#:#cont_definition#:#Визначення
-content#:#cont_definitions#:#Визначення
-content#:#cont_del_assignment#:#Видалити призначення
-content#:#cont_dependencies#:#Залежності
-content#:#cont_details#:#Деталі
-content#:#cont_dir_file#:#Директорія/Файл
-content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів
-content#:#cont_edit_mob#:#Редагувати Медіа Об'єкт
-content#:#cont_edit_mob_alias_prop#:#Редагувати Властивості Екземмпляр Медіа Об'єкта
-content#:#cont_edit_mob_files#:#Файли Об'єкта
-content#:#cont_edit_mob_properties#:#Редагувати Властивості Медіа Об'єкта
-content#:#cont_edit_par#:#Редагувати Параграф
-content#:#cont_edit_tab_properties#:#Властивості Таблиці
-content#:#cont_edit_term#:#Редагувати Термін
-content#:#cont_edition#:#Випуск
+content#:#cont_create_dir#:#С�,во�?и�,и �?и�?ек�,о�?�-�?
+content#:#cont_cross_reference#:#�Yе�?е�?�?е�?не по�?иланн�?
+content#:#cont_data_from_lms#:#adlcp:дан�- з lms
+content#:#cont_def_layout#:#Розм�-�?енн�? по �-амов�?анн�?
+content#:#cont_def_organization#:#по замов�?анн�?
+content#:#cont_definition#:#�?изна�?енн�?
+content#:#cont_definitions#:#�?изна�?енн�?
+content#:#cont_del_assignment#:#�?идали�,и п�?изна�?енн�?
+content#:#cont_dependencies#:#�-алежно�?�,�-
+content#:#cont_details#:#�?е�,ал�-
+content#:#cont_dir_file#:#�?и�?ек�,о�?�-�?/Файл
+content#:#cont_edit_file_list_properties#:#Редаг�fва�,и �?ла�?�,ивл�?�,�- Спи�?к�f Файл�-в
+content#:#cont_edit_mob#:#Редаг�fва�,и �?ед�-а �?б'�?к�,
+content#:#cont_edit_mob_alias_prop#:#Редаг�fва�,и �?ла�?�,иво�?�,�- �*кземмпл�?�? �?ед�-а �?б'�?к�,а
+content#:#cont_edit_mob_files#:#Файли �?б'�?к�,а
+content#:#cont_edit_mob_properties#:#Редаг�fва�,и �?ла�?�,иво�?�,�- �?ед�-а �?б'�?к�,а
+content#:#cont_edit_par#:#Редаг�fва�,и �Yа�?аг�?а�?
+content#:#cont_edit_tab_properties#:#�?ла�?�,иво�?�,�- Табли�?�-
+content#:#cont_edit_term#:#Редаг�fва�,и Те�?м�-н
+content#:#cont_edition#:#�?ип�f�?к
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли
-content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
-content#:#cont_fullscreen#:#Повний екран
-content#:#cont_height#:#Висота
-content#:#cont_how_published#:#Як опублікувати
+content#:#cont_full_is_in_dir#:#�?идаленн�? неможливе. �Yовноек�?анний �?айл �? в ди�?ек�,о�?�-�-.
+content#:#cont_fullscreen#:#�Yовний ек�?ан
+content#:#cont_height#:#�?и�?о�,а
+content#:#cont_how_published#:#Як оп�fбл�-к�fва�,и
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
-content#:#cont_import_id#:#ідентифікатор
-content#:#cont_insert_file_item#:#Вставити Елемент Файлу
-content#:#cont_insert_file_list#:#Вставити Список Файлів
-content#:#cont_insert_list#:#Вставити Список
-content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
-content#:#cont_insert_par#:#Вставити Параграф
-content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
-content#:#cont_insert_table#:#Вставити Таблицю
-content#:#cont_internal_link#:#внутрішнє посилання
-content#:#cont_is_visible#:#є видимим
+content#:#cont_import_id#:#�-ден�,и�?�-ка�,о�?
+content#:#cont_insert_file_item#:#�?�?�,ави�,и �*лемен�, Файл�f
+content#:#cont_insert_file_list#:#�?�?�,ави�,и Спи�?ок Файл�-в
+content#:#cont_insert_list#:#�?�?�,ави�,и Спи�?ок
+content#:#cont_insert_mob#:#�?�?�,ави�,и �?ед�-а �?б'�?к�,
+content#:#cont_insert_par#:#�?�?�,ави�,и �Yа�?аг�?а�?
+content#:#cont_insert_search#:#�?�fд�? ла�?ка в�?�,ав�,е по�^�fковий �,е�?м�-н
+content#:#cont_insert_table#:#�?�?�,ави�,и Табли�?�?
+content#:#cont_internal_link#:#вн�f�,�?�-�^н�? по�?иланн�?
+content#:#cont_is_visible#:#�? видимим
 content#:#cont_isbn#:#ISBN
 content#:#cont_issn#:#ISSN
-content#:#cont_item#:#Пункт
-content#:#cont_journal#:#Журнал
-content#:#cont_keyword#:#Ключове слово
+content#:#cont_item#:#�Y�fнк�,
+content#:#cont_journal#:#�-�f�?нал
+content#:#cont_keyword#:#�sл�?�?ове �?лово
 content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_select#:#Внутрішнє Посилання
-content#:#cont_link_type#:#Тип Посилання
-content#:#cont_list_properties#:#Властивості Списку
-content#:#cont_lk_chapter#:#Глава
-content#:#cont_lk_chapter_new#:#Глава (Новий Фрейм)
-content#:#cont_lk_media_faq#:#Медіа (FAQ Фрейм)
-content#:#cont_lk_media_inline#:#Медіа (Інлайн)
-content#:#cont_lk_media_media#:#Медіа (Медіа Фрейм)
-content#:#cont_lk_media_new#:#Медіа (Новий Фрейм)
-content#:#cont_lk_page#:#Сторінка
-content#:#cont_lk_page_faq#:#Сторінка (FAQ Фрейм)
-content#:#cont_lk_page_new#:#Сторінка (Новий Фрейм)
-content#:#cont_lk_term#:#Термін Глосарія
-content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
-content#:#cont_lm_properties#:#Властивості Учбового Модуля
-content#:#cont_manifest#:#Маніфест
+content#:#cont_link_select#:#�?н�f�,�?�-�^н�? �Yо�?иланн�?
+content#:#cont_link_type#:#Тип �Yо�?иланн�?
+content#:#cont_list_properties#:#�?ла�?�,иво�?�,�- Спи�?к�f
+content#:#cont_lk_chapter#:#�?лава
+content#:#cont_lk_chapter_new#:#�?лава (�?овий Ф�?ейм)
+content#:#cont_lk_media_faq#:#�?ед�-а (FAQ Ф�?ейм)
+content#:#cont_lk_media_inline#:#�?ед�-а (�?нлайн)
+content#:#cont_lk_media_media#:#�?ед�-а (�?ед�-а Ф�?ейм)
+content#:#cont_lk_media_new#:#�?ед�-а (�?овий Ф�?ейм)
+content#:#cont_lk_page#:#С�,о�?�-нка
+content#:#cont_lk_page_faq#:#С�,о�?�-нка (FAQ Ф�?ейм)
+content#:#cont_lk_page_new#:#С�,о�?�-нка (�?овий Ф�?ейм)
+content#:#cont_lk_term#:#Те�?м�-н �?ло�?а�?�-�?
+content#:#cont_lk_term_new#:#Те�?м�-н �?ло�?а�?�-�? (�?овий Ф�?ейм)
+content#:#cont_lm_properties#:#�?ла�?�,иво�?�,�- У�?бового �?од�fл�?
+content#:#cont_manifest#:#�?ан�-�?е�?�,
 content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_mob_files#:#Файли Об'єкта
-content#:#cont_mob_inst_prop#:#Властивості Екземпляру
-content#:#cont_mob_prop#:#Властивості Об'єкта
+content#:#cont_mob_files#:#Файли �?б'�?к�,а
+content#:#cont_mob_inst_prop#:#�?ла�?�,иво�?�,�- �*кземпл�?�?�f
+content#:#cont_mob_prop#:#�?ла�?�,иво�?�,�- �?б'�?к�,а
 content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
-content#:#cont_month#:#Місяць
-content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
+content#:#cont_month#:#�?�-�?�?�?�?
+content#:#cont_msg_multiple_editions#:#�? неможливим показа�,и де�,ал�- �?пл�?ного �?едаг�fванн�?
 content#:#cont_name#:#Name###14 Jan 2004 new variable
-content#:#cont_new_assignment#:#Нове призначення
-content#:#cont_new_dir#:#Нова Директорія
-content#:#cont_new_file#:#Новий Файл
-content#:#cont_new_media_obj#:#Новий Медіа Об'єкт
-content#:#cont_new_term#:#Новий Термін
-content#:#cont_no_assign_itself#:#Об'єкт не може бути призначений сам собі
-content#:#cont_no_object_found#:#Неможливо знайти жоден об'єкт з цією назвою
-content#:#cont_no_page#:#Сторінка не знайдена.
-content#:#cont_none#:#Нічого
-content#:#cont_nr_cols#:#Кількість Колонок
-content#:#cont_nr_items#:#Кількість Пунктів
-content#:#cont_nr_rows#:#Кількість Рядків
-content#:#cont_online#:#Онлайн
-content#:#cont_order#:#Тип Сортування
-content#:#cont_organization#:#Організація
-content#:#cont_organizations#:#Організації
-content#:#cont_orig_size#:#Оригінальний Розмір
-content#:#cont_page_header#:#Шапка Сторінки
-content#:#cont_page_select_target_now#:#Сторінка помічена для переміщення. Виберіть ціль зараз.
-content#:#cont_pages#:#Сторінки
-content#:#cont_parameter#:#Параметр
-content#:#cont_parameters#:#параметри
-content#:#cont_personal_clipboard#:#Особистий Буфер Обміну
-content#:#cont_pg_content#:#Вміст Сторінки
-content#:#cont_pg_title#:#Назва Сторінки
+content#:#cont_new_assignment#:#�?ове п�?изна�?енн�?
+content#:#cont_new_dir#:#�?ова �?и�?ек�,о�?�-�?
+content#:#cont_new_file#:#�?овий Файл
+content#:#cont_new_media_obj#:#�?овий �?ед�-а �?б'�?к�,
+content#:#cont_new_term#:#�?овий Те�?м�-н
+content#:#cont_no_assign_itself#:#�?б'�?к�, не може б�f�,и п�?изна�?ений �?ам �?об�-
+content#:#cont_no_object_found#:#�?еможливо знай�,и жоден об'�?к�, з �?�-�?�? назво�?
+content#:#cont_no_page#:#С�,о�?�-нка не знайдена.
+content#:#cont_none#:#�?�-�?ого
+content#:#cont_nr_cols#:#�s�-л�?к�-�?�,�? �sолонок
+content#:#cont_nr_items#:#�s�-л�?к�-�?�,�? �Y�fнк�,�-в
+content#:#cont_nr_rows#:#�s�-л�?к�-�?�,�? Р�?дк�-в
+content#:#cont_online#:#�?нлайн
+content#:#cont_order#:#Тип Со�?�,�fванн�?
+content#:#cont_organization#:#�?�?ган�-за�?�-�?
+content#:#cont_organizations#:#�?�?ган�-за�?�-�-
+content#:#cont_orig_size#:#�?�?иг�-нал�?ний Розм�-�?
+content#:#cont_page_header#:#Шапка С�,о�?�-нки
+content#:#cont_page_select_target_now#:#С�,о�?�-нка пом�-�?ена дл�? пе�?ем�-�?енн�?. �?ибе�?�-�,�? �?�-л�? за�?аз.
+content#:#cont_pages#:#С�,о�?�-нки
+content#:#cont_parameter#:#�Yа�?аме�,�?
+content#:#cont_parameters#:#па�?аме�,�?и
+content#:#cont_personal_clipboard#:#�?�?оби�?�,ий �?�f�?е�? �?бм�-н�f
+content#:#cont_pg_content#:#�?м�-�?�, С�,о�?�-нки
+content#:#cont_pg_title#:#�?азва С�,о�?�-нки
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
-content#:#cont_preview#:#Попередній Огляд
-content#:#cont_publisher#:#Видавник
-content#:#cont_purpose#:#Призначення
-content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
-content#:#cont_reference#:#Посилання
-content#:#cont_resource#:#Ресурс
-content#:#cont_resource_type#:#тип
-content#:#cont_resources#:#Ресурси
-content#:#cont_roman#:#Римські i, ii, ...
+content#:#cont_preview#:#�Yопе�?едн�-й �?гл�?д
+content#:#cont_publisher#:#�?идавник
+content#:#cont_purpose#:#�Y�?изна�?енн�?
+content#:#cont_ref_helptext#:#(нап�?иклад http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#�Yо�?иланн�?
+content#:#cont_resource#:#Ре�?�f�?�?
+content#:#cont_resource_type#:#�,ип
+content#:#cont_resources#:#Ре�?�f�?�?и
+content#:#cont_roman#:#Рим�?�?к�- i, ii, ...
 content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
-content#:#cont_select_max_one_term#:#Будь ласка виберіть тільки один термін
+content#:#cont_select_max_one_item#:#�?�fд�? ла�?ка вибе�?�-�,�? �,�-л�?ки один п�fнк�,
+content#:#cont_select_max_one_term#:#�?�fд�? ла�?ка вибе�?�-�,�? �,�-л�?ки один �,е�?м�-н
 content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
-content#:#cont_select_one_translation#:#Будь ласка виберіть тільки один переклад
+content#:#cont_select_one_translation#:#�?�fд�? ла�?ка вибе�?�-�,�? �,�-л�?ки один пе�?еклад
 content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
-content#:#cont_select_term#:#Виберіть термін
-content#:#cont_select_translation#:#Будь ласка виберіть призначення зі списку вище
-content#:#cont_series#:#Серії
-content#:#cont_series_editor#:#Редактор Серій
-content#:#cont_series_title#:#Назва серій
-content#:#cont_series_volume#:#Гучність серій
-content#:#cont_set_class#:#Встановити Класс
-content#:#cont_set_width#:#Встановити Ширину
+content#:#cont_select_term#:#�?ибе�?�-�,�? �,е�?м�-н
+content#:#cont_select_translation#:#�?�fд�? ла�?ка вибе�?�-�,�? п�?изна�?енн�? з�- �?пи�?к�f ви�?е
+content#:#cont_series#:#Се�?�-�-
+content#:#cont_series_editor#:#Редак�,о�? Се�?�-й
+content#:#cont_series_title#:#�?азва �?е�?�-й
+content#:#cont_series_volume#:#�?�f�?н�-�?�,�? �?е�?�-й
+content#:#cont_set_class#:#�?�?�,анови�,и �sла�?�?
+content#:#cont_set_width#:#�?�?�,анови�,и Ши�?ин�f
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
-content#:#cont_show#:#Показати
-content#:#cont_show_citation#:#Показати з цитуванням
-content#:#cont_size#:#Розмір (Байтів)
+content#:#cont_show#:#�Yоказа�,и
+content#:#cont_show_citation#:#�Yоказа�,и з �?и�,�fванн�?м
+content#:#cont_size#:#Розм�-�? (�?ай�,�-в)
 content#:#cont_source#:#Quelle
-content#:#cont_st_title#:#Назва Глави
-content#:#cont_std_is_in_dir#:#Видалення неможливе. Стандартний файл огляду є в директорії.
-content#:#cont_std_view#:#Стандартний Вид
-content#:#cont_structure#:#структура
-content#:#cont_subchapters#:#Підглави
-content#:#cont_table#:#Таблиця
-content#:#cont_table_border#:#Рамка Таблиці
-content#:#cont_table_cellpadding#:#Клітинний Відступ у Таблиці
-content#:#cont_table_cellspacing#:#Міжклітинний Відступ у Таблиці
-content#:#cont_table_width#:#Ширина Таблиці
-content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
-content#:#cont_term#:#Термін
-content#:#cont_terms#:#Терміни
+content#:#cont_st_title#:#�?азва �?лави
+content#:#cont_std_is_in_dir#:#�?идаленн�? неможливе. С�,анда�?�,ний �?айл огл�?д�f �? в ди�?ек�,о�?�-�-.
+content#:#cont_std_view#:#С�,анда�?�,ний �?ид
+content#:#cont_structure#:#�?�,�?�fк�,�f�?а
+content#:#cont_subchapters#:#�Y�-дглави
+content#:#cont_table#:#Табли�?�?
+content#:#cont_table_border#:#Рамка Табли�?�-
+content#:#cont_table_cellpadding#:#�sл�-�,инний �?�-д�?�,�fп �f Табли�?�-
+content#:#cont_table_cellspacing#:#�?�-жкл�-�,инний �?�-д�?�,�fп �f Табли�?�-
+content#:#cont_table_width#:#Ши�?ина Табли�?�-
+content#:#cont_target_within_source#:#Ц�-л�? не повинна б�f�,и в�?е�?един�- ви�?�-дного об'�?к�,�f.
+content#:#cont_term#:#Те�?м�-н
+content#:#cont_terms#:#Те�?м�-ни
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
-content#:#cont_toc#:#Зміст
-content#:#cont_top#:#Вершина
-content#:#cont_translations#:#Переклад(и)
-content#:#cont_translations_assigned#:#Переклад(и) були призначені
+content#:#cont_toc#:#�-м�-�?�,
+content#:#cont_top#:#�?е�?�^ина
+content#:#cont_translations#:#�Yе�?еклад(и)
+content#:#cont_translations_assigned#:#�Yе�?еклад(и) б�fли п�?изна�?ен�-
 content#:#cont_update#:#Update###15 Jan 2004 new variable
-content#:#cont_upload_file#:#Завантажити Файл
+content#:#cont_upload_file#:#�-аван�,ажи�,и Файл
 content#:#cont_url#:#URL
-content#:#cont_version#:#версія
-content#:#cont_where_published#:#Де опублікований
-content#:#cont_width#:#Ширина
-content#:#cont_wysiwyg#:#Вміст Wysiwyg
+content#:#cont_version#:#ве�?�?�-�?
+content#:#cont_where_published#:#�?е оп�fбл�-кований
+content#:#cont_width#:#Ши�?ина
+content#:#cont_wysiwyg#:#�?м�-�?�, Wysiwyg
 content#:#cont_xml_base#:#xml:base
-content#:#cont_year#:#Рік
-content#:#pages from#:#Сторінки З
-content#:#par#:#Параграф
-content#:#pg#:#Сторінка
-content#:#read offline#:#Прочитати Оффлайн
-content#:#st#:#Глава
-content#:#start export#:#Почати Експорт
-forum#:#forums#:#Форуми
-forum#:#forums_articles#:#Пост
-forum#:#forums_attachments#:#Прикріплення
-forum#:#forums_attachments_add#:#Додати прикріплення
-forum#:#forums_attachments_edit#:#Редагувати прикріплення
-forum#:#forums_available#:#Доступні Форуми
-forum#:#forums_censor_comment#:#Коментар Цензора
-forum#:#forums_count#:#Кількість Форумів
-forum#:#forums_count_art#:#Кілкість Постів
-forum#:#forums_count_thr#:#Кількість Віток
-forum#:#forums_delete_file#:#Видалити прикріплення
-forum#:#forums_download_attachment#:#Завантажити файл
-forum#:#forums_edit_post#:#Редагувати Пост
-forum#:#forums_info_censor2_post#:#Відмінити права на Цензуру?
-forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте сховати цей пост?
-forum#:#forums_info_delete_post#:#Ви впевнені що ви бажаєте видалитти цей пост разом з усіма відповідями на нього?
-forum#:#forums_last_post#:#Останній Пост
-forum#:#forums_moderators#:#Модератори
-forum#:#forums_new_entries#:#Нові Надходження в Форуми
-forum#:#forums_new_thread#:#Нова Тема
-forum#:#forums_not_available#:#Форуми Недоступні
-forum#:#forums_overview#:#Огляд Форумів
-forum#:#forums_post_deleted#:#Пост був видалений
-forum#:#forums_post_modified#:#Пост був відредагований
-forum#:#forums_post_new_entry#:#Новий пост був зареєстрований
-forum#:#forums_posts#:#Усі пости
-forum#:#forums_posts_not_available#:#Пост Недосупний
-forum#:#forums_print_thread#:#Друкувати Вітку
-forum#:#forums_quote#:#Цитата
-forum#:#forums_respond#:#Надіслати Відповідь
-forum#:#forums_the_post#:#Пост
+content#:#cont_year#:#Р�-к
+content#:#pages from#:#С�,о�?�-нки �-
+content#:#par#:#�Yа�?аг�?а�?
+content#:#pg#:#С�,о�?�-нка
+content#:#read offline#:#�Y�?о�?и�,а�,и �?�?�?лайн
+content#:#st#:#�?лава
+content#:#start export#:#�Yо�?а�,и �*к�?по�?�,
+forum#:#forums#:#Фо�?�fми
+forum#:#forums_articles#:#�Yо�?�,
+forum#:#forums_attachments#:#�Y�?ик�?�-пленн�?
+forum#:#forums_attachments_add#:#�?ода�,и п�?ик�?�-пленн�?
+forum#:#forums_attachments_edit#:#Редаг�fва�,и п�?ик�?�-пленн�?
+forum#:#forums_available#:#�?о�?�,�fпн�- Фо�?�fми
+forum#:#forums_censor_comment#:#�sомен�,а�? Цензо�?а
+forum#:#forums_count#:#�s�-л�?к�-�?�,�? Фо�?�fм�-в
+forum#:#forums_count_art#:#�s�-лк�-�?�,�? �Yо�?�,�-в
+forum#:#forums_count_thr#:#�s�-л�?к�-�?�,�? �?�-�,ок
+forum#:#forums_delete_file#:#�?идали�,и п�?ик�?�-пленн�?
+forum#:#forums_download_attachment#:#�-аван�,ажи�,и �?айл
+forum#:#forums_edit_post#:#Редаг�fва�,и �Yо�?�,
+forum#:#forums_info_censor2_post#:#�?�-дм�-ни�,и п�?ава на Ценз�f�?�f?
+forum#:#forums_info_censor_post#:#�?и впевнен�- �?о ви бажа�?�,е �?�?ова�,и �?ей по�?�,?
+forum#:#forums_info_delete_post#:#�?и впевнен�- �?о ви бажа�?�,е видали�,�,и �?ей по�?�, �?азом з �f�?�-ма в�-дпов�-д�?ми на н�?ого?
+forum#:#forums_last_post#:#�?�?�,анн�-й �Yо�?�,
+forum#:#forums_moderators#:#�?оде�?а�,о�?и
+forum#:#forums_new_entries#:#�?ов�- �?ад�?одженн�? в Фо�?�fми
+forum#:#forums_new_thread#:#�?ова Тема
+forum#:#forums_not_available#:#Фо�?�fми �?едо�?�,�fпн�-
+forum#:#forums_overview#:#�?гл�?д Фо�?�fм�-в
+forum#:#forums_post_deleted#:#�Yо�?�, б�fв видалений
+forum#:#forums_post_modified#:#�Yо�?�, б�fв в�-д�?едагований
+forum#:#forums_post_new_entry#:#�?овий по�?�, б�fв за�?е�?�?�,�?ований
+forum#:#forums_posts#:#У�?�- по�?�,и
+forum#:#forums_posts_not_available#:#�Yо�?�, �?едо�?�fпний
+forum#:#forums_print_thread#:#�?�?�fк�fва�,и �?�-�,к�f
+forum#:#forums_quote#:#Ци�,а�,а
+forum#:#forums_respond#:#�?ад�-�?ла�,и �?�-дпов�-д�?
+forum#:#forums_the_post#:#�Yо�?�,
 forum#:#forums_thread#:#Тема
-forum#:#forums_thread_articles#:#Пости до теми
-forum#:#forums_thread_create_date#:#Створений
-forum#:#forums_thread_create_from#:#Стоврений з
-forum#:#forums_thread_new_entry#:#Нова тема була зареєстрована
-forum#:#forums_threads#:#Вітки
-forum#:#forums_threads_not_available#:#Теми Недоступні
-forum#:#forums_topics_overview#:#Огляд Тем
-forum#:#forums_your_reply#:#Ваша Відповідь
+forum#:#forums_thread_articles#:#�Yо�?�,и до �,еми
+forum#:#forums_thread_create_date#:#С�,во�?ений
+forum#:#forums_thread_create_from#:#С�,ов�?ений з
+forum#:#forums_thread_new_entry#:#�?ова �,ема б�fла за�?е�?�?�,�?ована
+forum#:#forums_threads#:#�?�-�,ки
+forum#:#forums_threads_not_available#:#Теми �?едо�?�,�fпн�-
+forum#:#forums_topics_overview#:#�?гл�?д Тем
+forum#:#forums_your_reply#:#�?а�^а �?�-дпов�-д�?
 mail#:#also_as_email#:#Також по Email
 mail#:#bc#:#BC
-mail#:#forward#:#Переслати
-mail#:#linebreak#:#Розрив лінії
-mail#:#mail_add_recipient#:#Будь ласка введіть одержувача
-mail#:#mail_add_subfolder#:#Додати Підпапку
-mail#:#mail_add_subject#:#Будь ласка введіть тему
-mail#:#mail_add_to_addressbook#:#Доданий в адресну книжку
-mail#:#mail_add_type#:#Будь ласка введіть тип листа що ви бажаєте відіслати
-mail#:#mail_addr_entries#:#Входження
-mail#:#mail_attachments#:#Прикріплення
-mail#:#mail_bc_not_valid#:#Bc одержувач є некорректним
-mail#:#mail_bc_search#:#BC пошук
-mail#:#mail_byte#:#Байт
-mail#:#mail_cc_not_valid#:#Cc одержувач є некорректним
-mail#:#mail_cc_search#:#CC пошук
-mail#:#mail_change_to_folder#:#Перемкнути в папку:
-mail#:#mail_check_your_email_addr#:#Ваша email адреса є некорректною
-mail#:#mail_compose#:#Створити Повідомлення
-mail#:#mail_deleted#:#Пошта видалена
-mail#:#mail_deleted_entry#:#Входження видалені
-mail#:#mail_email_forbidden#:#Вам не дозволено відсилати email
-mail#:#mail_entry_added#:#Додати новий Запис
-mail#:#mail_entry_changed#:#Запис змінений
-mail#:#mail_file_name#:#Ім'я файлу
-mail#:#mail_file_size#:#Розмір файлу
+mail#:#forward#:#�Yе�?е�?ла�,и
+mail#:#linebreak#:#Роз�?ив л�-н�-�-
+mail#:#mail_add_recipient#:#�?�fд�? ла�?ка введ�-�,�? оде�?ж�fва�?а
+mail#:#mail_add_subfolder#:#�?ода�,и �Y�-дпапк�f
+mail#:#mail_add_subject#:#�?�fд�? ла�?ка введ�-�,�? �,ем�f
+mail#:#mail_add_to_addressbook#:#�?оданий в ад�?е�?н�f книжк�f
+mail#:#mail_add_type#:#�?�fд�? ла�?ка введ�-�,�? �,ип ли�?�,а �?о ви бажа�?�,е в�-д�-�?ла�,и
+mail#:#mail_addr_entries#:#�?�?одженн�?
+mail#:#mail_attachments#:#�Y�?ик�?�-пленн�?
+mail#:#mail_bc_not_valid#:#Bc оде�?ж�fва�? �? неко�?�?ек�,ним
+mail#:#mail_bc_search#:#BC по�^�fк
+mail#:#mail_byte#:#�?ай�,
+mail#:#mail_cc_not_valid#:#Cc оде�?ж�fва�? �? неко�?�?ек�,ним
+mail#:#mail_cc_search#:#CC по�^�fк
+mail#:#mail_change_to_folder#:#�Yе�?емкн�f�,и в папк�f:
+mail#:#mail_check_your_email_addr#:#�?а�^а email ад�?е�?а �? неко�?�?ек�,но�?
+mail#:#mail_compose#:#С�,во�?и�,и �Yов�-домленн�?
+mail#:#mail_deleted#:#�Yо�^�,а видалена
+mail#:#mail_deleted_entry#:#�?�?одженн�? видален�-
+mail#:#mail_email_forbidden#:#�?ам не дозволено в�-д�?ила�,и email
+mail#:#mail_entry_added#:#�?ода�,и новий �-апи�?
+mail#:#mail_entry_changed#:#�-апи�? зм�-нений
+mail#:#mail_file_name#:#�?м'�? �?айл�f
+mail#:#mail_file_size#:#Розм�-�? �?айл�f
 mail#:#mail_files_deleted#:#Файл(и) видалено
-mail#:#mail_folder_created#:#Нова папку була створена
-mail#:#mail_folder_deleted#:#Папка була видалена
-mail#:#mail_folder_exists#:#Папка вже існує з цим ім'ям
-mail#:#mail_folder_name#:#Ім'я папки
-mail#:#mail_folder_name_changed#:#Папка була переіменована
-mail#:#mail_folder_options#:#Опції Папки
-mail#:#mail_following_rcp_not_valid#:#Наступний одержувач є некорректним:
-mail#:#mail_global_options#:#Глобальні опції
-mail#:#mail_insert_folder_name#:#Будь ласка вставте ім'я папки
-mail#:#mail_insert_query#:#Будь ласка вставте запит
-mail#:#mail_intern#:#Внутрішній
-mail#:#mail_mark_read#:#Помітити пошту як прочитану
-mail#:#mail_mark_unread#:#Помітити пошту як непрочитану
-mail#:#mail_maxsize_attachment_error#:#Ліміт на завантаження:
-mail#:#mail_message_send#:#Повідомлення відіслане
-mail#:#mail_move_error#:#Помилка переміщення пошти
-mail#:#mail_move_to#:#Перемістити в:
-mail#:#mail_moved#:#Пошта була переміщена
-mail#:#mail_moved_to_trash#:#Пошта була переміщена в смітник
-mail#:#mail_new_file#:#Додати новий файл:
-mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
-mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
-mail#:#mail_options_of#:#Опції
-mail#:#mail_options_saved#:#Опції збережені
-mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
-mail#:#mail_s#:#Пошта
-mail#:#mail_s_unread#:#Непрочитана пошта
-mail#:#mail_saved#:#Повідомлення було збережено
-mail#:#mail_search_addressbook#:#пошук в адресній книзі
-mail#:#mail_search_system#:#пошук в системі
-mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис
-mail#:#mail_select_one_file#:#Ви маєте вибрати один файл
-mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту
-mail#:#mail_sure_delete_entry#:#Ви впевнені що бажаєте видалити наступні входження
-mail#:#mail_sure_delete_file#:#Файл буде остаточно видалено
-mail#:#mail_sure_delete_folder#:#Папка та її вміст буде остаточно видалена
-mail#:#mail_to_search#:#Шукати
-mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси
-mail#:#search_bc_recipient#:#Шукати BC Одержувача
-mail#:#search_cc_recipient#:#Шукати CC Одержувача
-meta#:#meta_accessibility_restrictions#:#Доступність Обмежень
-meta#:#meta_active#:#Активний
-meta#:#meta_add#:#Додати
-meta#:#meta_annotation#:#Аннотація
-meta#:#meta_atomic#:#Атомарний
-meta#:#meta_author#:#Автор
-meta#:#meta_browser#:#Браузер
+mail#:#mail_folder_created#:#�?ова папк�f б�fла �?�,во�?ена
+mail#:#mail_folder_deleted#:#�Yапка б�fла видалена
+mail#:#mail_folder_exists#:#�Yапка вже �-�?н�f�? з �?им �-м'�?м
+mail#:#mail_folder_name#:#�?м'�? папки
+mail#:#mail_folder_name_changed#:#�Yапка б�fла пе�?е�-менована
+mail#:#mail_folder_options#:#�?п�?�-�- �Yапки
+mail#:#mail_following_rcp_not_valid#:#�?а�?�,�fпний оде�?ж�fва�? �? неко�?�?ек�,ним:
+mail#:#mail_global_options#:#�?лобал�?н�- оп�?�-�-
+mail#:#mail_insert_folder_name#:#�?�fд�? ла�?ка в�?�,ав�,е �-м'�? папки
+mail#:#mail_insert_query#:#�?�fд�? ла�?ка в�?�,ав�,е запи�,
+mail#:#mail_intern#:#�?н�f�,�?�-�^н�-й
+mail#:#mail_mark_read#:#�Yом�-�,и�,и по�^�,�f �?к п�?о�?и�,ан�f
+mail#:#mail_mark_unread#:#�Yом�-�,и�,и по�^�,�f �?к неп�?о�?и�,ан�f
+mail#:#mail_maxsize_attachment_error#:#�>�-м�-�, на заван�,аженн�?:
+mail#:#mail_message_send#:#�Yов�-домленн�? в�-д�-�?лане
+mail#:#mail_move_error#:#�Yомилка пе�?ем�-�?енн�? по�^�,и
+mail#:#mail_move_to#:#�Yе�?ем�-�?�,и�,и в:
+mail#:#mail_moved#:#�Yо�^�,а б�fла пе�?ем�-�?ена
+mail#:#mail_moved_to_trash#:#�Yо�^�,а б�fла пе�?ем�-�?ена в �?м�-�,ник
+mail#:#mail_new_file#:#�?ода�,и новий �?айл:
+mail#:#mail_no_attach_allowed#:#Си�?�,емном�f пов�-домленн�? не дозволено м�-�?�,и�,и п�?ик�?�-пленн�?
+mail#:#mail_no_attachments_found#:#�Y�?ик�?�-пленн�? не знайдене
+mail#:#mail_options_of#:#�?п�?�-�-
+mail#:#mail_options_saved#:#�?п�?�-�- збе�?ежен�-
+mail#:#mail_recipient_not_valid#:#�?�,�?им�fва�? �? неко�?�?ек�,ним
+mail#:#mail_s#:#�Yо�^�,а
+mail#:#mail_s_unread#:#�?еп�?о�?и�,ана по�^�,а
+mail#:#mail_saved#:#�Yов�-домленн�? б�fло збе�?ежено
+mail#:#mail_search_addressbook#:#по�^�fк в ад�?е�?н�-й книз�-
+mail#:#mail_search_system#:#по�^�fк в �?и�?�,ем�-
+mail#:#mail_select_one_entry#:#�?и ма�?�,е виб�?а�,и один запи�?
+mail#:#mail_select_one_file#:#�?и ма�?�,е виб�?а�,и один �?айл
+mail#:#mail_sure_delete#:#�?и впевнен�- �?о бажа�?�,е видали�,и в�-дм�-�?ен�f по�^�,�f
+mail#:#mail_sure_delete_entry#:#�?и впевнен�- �?о бажа�?�,е видали�,и на�?�,�fпн�- в�?одженн�?
+mail#:#mail_sure_delete_file#:#Файл б�fде о�?�,а�,о�?но видалено
+mail#:#mail_sure_delete_folder#:#�Yапка �,а �-�- вм�-�?�, б�fде о�?�,а�,о�?но видалена
+mail#:#mail_to_search#:#Ш�fка�,и
+mail#:#mail_user_addr_n_valid#:#�?а�?�,�fпн�- ко�?и�?�,�fва�?�- не ма�?�,�? ко�?ек�,но�- email ад�?е�?и
+mail#:#search_bc_recipient#:#Ш�fка�,и BC �?де�?ж�fва�?а
+mail#:#search_cc_recipient#:#Ш�fка�,и CC �?де�?ж�fва�?а
+meta#:#meta_accessibility_restrictions#:#�?о�?�,�fпн�-�?�,�? �?бмежен�?
+meta#:#meta_active#:#�?к�,ивний
+meta#:#meta_add#:#�?ода�,и
+meta#:#meta_annotation#:#�?нно�,а�?�-�?
+meta#:#meta_atomic#:#�?�,ома�?ний
+meta#:#meta_author#:#�?в�,о�?
+meta#:#meta_browser#:#�?�?а�fзе�?
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#United Arab Emirates
 meta#:#meta_c_AF#:#Afghanistan
@@ -1622,64 +1622,64 @@ meta#:#meta_c_ZA#:#South Africa
 meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZR#:#Zaire
 meta#:#meta_c_ZW#:#Zimbabwe
-meta#:#meta_c_ZZ#:#Інша Країна
-meta#:#meta_catalog#:#Каталог
-meta#:#meta_choose_element#:#Будь ласка виберіть елемент що ви бажаєте додати!
-meta#:#meta_choose_language#:#Будь ласка виберіть іншу мову
-meta#:#meta_choose_section#:#Будь ласка виберіть секцію
-meta#:#meta_classification#:#Класифікація
-meta#:#meta_collection#:#Коллекція
-meta#:#meta_competency#:#Компетенція
-meta#:#meta_context#:#Контекст
-meta#:#meta_contribute#:#Сприяти
-meta#:#meta_copyright_and_other_restrictions#:#Авторські Права та Інші Обмеження
-meta#:#meta_cost#:#Ціна
-meta#:#meta_coverage#:#Покриття
-meta#:#meta_date#:#Дата
-meta#:#meta_delete#:#Видалити
-meta#:#meta_description#:#Опис
-meta#:#meta_diagramm#:#Діаграма
-meta#:#meta_difficulty#:#Складність
+meta#:#meta_c_ZZ#:#�?н�^а �s�?а�-на
+meta#:#meta_catalog#:#�sа�,алог
+meta#:#meta_choose_element#:#�?�fд�? ла�?ка вибе�?�-�,�? елемен�, �?о ви бажа�?�,е дода�,и!
+meta#:#meta_choose_language#:#�?�fд�? ла�?ка вибе�?�-�,�? �-н�^�f мов�f
+meta#:#meta_choose_section#:#�?�fд�? ла�?ка вибе�?�-�,�? �?ек�?�-�?
+meta#:#meta_classification#:#�sла�?и�?�-ка�?�-�?
+meta#:#meta_collection#:#�sоллек�?�-�?
+meta#:#meta_competency#:#�sомпе�,ен�?�-�?
+meta#:#meta_context#:#�sон�,ек�?�,
+meta#:#meta_contribute#:#Сп�?и�?�,и
+meta#:#meta_copyright_and_other_restrictions#:#�?в�,о�?�?�?к�- �Y�?ава �,а �?н�^�- �?бмеженн�?
+meta#:#meta_cost#:#Ц�-на
+meta#:#meta_coverage#:#�Yок�?и�,�,�?
+meta#:#meta_date#:#�?а�,а
+meta#:#meta_delete#:#�?идали�,и
+meta#:#meta_description#:#�?пи�?
+meta#:#meta_diagramm#:#�?�-аг�?ама
+meta#:#meta_difficulty#:#Складн�-�?�,�?
 meta#:#meta_dificult#:#Складний
-meta#:#meta_draft#:#Чернетка
-meta#:#meta_duration#:#Тривалість
-meta#:#meta_easy#:#Легкий
-meta#:#meta_education#:#Навчання
-meta#:#meta_educational_level#:#Рівень Освіти
-meta#:#meta_educational_objective#:#Освітня Ціль
-meta#:#meta_entity#:#Об'єкт
-meta#:#meta_entry#:#Ввод
-meta#:#meta_exam#:#Екзамен
-meta#:#meta_exercise#:#Вправа
-meta#:#meta_experiment#:#Експеримент
-meta#:#meta_expositive#:#Описовий
-meta#:#meta_figure#:#Фігура
-meta#:#meta_final#:#Фінал
-meta#:#meta_format#:#Формат
-meta#:#meta_general#:#Загальний
-meta#:#meta_graph#:#Графік
+meta#:#meta_draft#:#Че�?не�,ка
+meta#:#meta_duration#:#Т�?ивал�-�?�,�?
+meta#:#meta_easy#:#�>егкий
+meta#:#meta_education#:#�?ав�?анн�?
+meta#:#meta_educational_level#:#Р�-вен�? �?�?в�-�,и
+meta#:#meta_educational_objective#:#�?�?в�-�,н�? Ц�-л�?
+meta#:#meta_entity#:#�?б'�?к�,
+meta#:#meta_entry#:#�?вод
+meta#:#meta_exam#:#�*кзамен
+meta#:#meta_exercise#:#�?п�?ава
+meta#:#meta_experiment#:#�*к�?пе�?имен�,
+meta#:#meta_expositive#:#�?пи�?овий
+meta#:#meta_figure#:#Ф�-г�f�?а
+meta#:#meta_final#:#Ф�-нал
+meta#:#meta_format#:#Фо�?ма�,
+meta#:#meta_general#:#�-агал�?ний
+meta#:#meta_graph#:#�?�?а�?�-к
 meta#:#meta_has_format#:#Has Format
 meta#:#meta_has_part#:#Has Part
 meta#:#meta_has_version#:#Has Version
-meta#:#meta_hierarchical#:#Ієрархічний
-meta#:#meta_high#:#Високий
-meta#:#meta_higher_education#:#Вища Освіта
+meta#:#meta_hierarchical#:#�?�?�?а�?�?�-�?ний
+meta#:#meta_high#:#�?и�?окий
+meta#:#meta_higher_education#:#�?и�?а �?�?в�-�,а
 meta#:#meta_id#:#Id
-meta#:#meta_idea#:#Ідея
-meta#:#meta_identifier#:#Ідентифікатор
-meta#:#meta_index#:#Індекс
-meta#:#meta_installation_remarks#:#Інсталяційні Зауваження
-meta#:#meta_intended_end_user_role#:#Планована Кінцева Роль Користувача
-meta#:#meta_interactivity_level#:#Рівень Інтерактивності
-meta#:#meta_interactivity_type#:#Тип Інтерактивності
-meta#:#meta_is_based_on#:#Базується на
-meta#:#meta_is_basis_for#:#Є Основою Для
-meta#:#meta_is_format_of#:#Є Форматом
-meta#:#meta_is_part_of#:#Є Частниою
-meta#:#meta_is_referenced_by#:#Посилається На
-meta#:#meta_is_required_by#:#Потребується
-meta#:#meta_is_version_of#:#Є Версією
-meta#:#meta_keyword#:#Ключові слова
+meta#:#meta_idea#:#�?де�?
+meta#:#meta_identifier#:#�?ден�,и�?�-ка�,о�?
+meta#:#meta_index#:#�?ндек�?
+meta#:#meta_installation_remarks#:#�?н�?�,ал�?�?�-йн�- �-а�fваженн�?
+meta#:#meta_intended_end_user_role#:#�Yланована �s�-н�?ева Рол�? �sо�?и�?�,�fва�?а
+meta#:#meta_interactivity_level#:#Р�-вен�? �?н�,е�?ак�,ивно�?�,�-
+meta#:#meta_interactivity_type#:#Тип �?н�,е�?ак�,ивно�?�,�-
+meta#:#meta_is_based_on#:#�?аз�f�?�,�?�?�? на
+meta#:#meta_is_basis_for#:#�? �?�?ново�? �?л�?
+meta#:#meta_is_format_of#:#�? Фо�?ма�,ом
+meta#:#meta_is_part_of#:#�? Ча�?�,нио�?
+meta#:#meta_is_referenced_by#:#�Yо�?ила�?�,�?�?�? �?а
+meta#:#meta_is_required_by#:#�Yо�,�?еб�f�?�,�?�?�?
+meta#:#meta_is_version_of#:#�? �?е�?�?�-�?�?
+meta#:#meta_keyword#:#�sл�?�?ов�- �?лова
 meta#:#meta_kind#:#Тип
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
@@ -1820,109 +1820,109 @@ meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
-meta#:#meta_language#:#Мова
-meta#:#meta_learner#:#Учень
-meta#:#meta_learning_resource_type#:#Учбовий Тип Ресурса
-meta#:#meta_lecture#:#Лекія
-meta#:#meta_lifecycle#:#Життєвий цикл
-meta#:#meta_linear#:#Лінійний
-meta#:#meta_local_file#:#Локальний Файл
-meta#:#meta_location#:#Місцезнаходження
-meta#:#meta_low#:#Низький
+meta#:#meta_language#:#�?ова
+meta#:#meta_learner#:#У�?ен�?
+meta#:#meta_learning_resource_type#:#У�?бовий Тип Ре�?�f�?�?а
+meta#:#meta_lecture#:#�>ек�-�?
+meta#:#meta_lifecycle#:#�-и�,�,�?вий �?икл
+meta#:#meta_linear#:#�>�-н�-йний
+meta#:#meta_local_file#:#�>окал�?ний Файл
+meta#:#meta_location#:#�?�-�?�?езна�?одженн�?
+meta#:#meta_low#:#�?из�?кий
 meta#:#meta_mac_os#:#MacOS
-meta#:#meta_manager#:#Менеджер
-meta#:#meta_maximum_version#:#Максимальна Версія
-meta#:#meta_medium#:#Середній
-meta#:#meta_meta_metadata#:#Мета-Метадані
-meta#:#meta_metadatascheme#:#Схема Метаданих
-meta#:#meta_minimum_version#:#Мінімальна Версія
-meta#:#meta_mixed#:#Змішаний
+meta#:#meta_manager#:#�?енедже�?
+meta#:#meta_maximum_version#:#�?ак�?имал�?на �?е�?�?�-�?
+meta#:#meta_medium#:#Се�?едн�-й
+meta#:#meta_meta_metadata#:#�?е�,а-�?е�,адан�-
+meta#:#meta_metadatascheme#:#С�?ема �?е�,адани�?
+meta#:#meta_minimum_version#:#�?�-н�-мал�?на �?е�?�?�-�?
+meta#:#meta_mixed#:#�-м�-�^аний
 meta#:#meta_ms_windows#:#MS-Windows
 meta#:#meta_multi_os#:#Multi-OS
-meta#:#meta_name#:#Ім'я
-meta#:#meta_narrative_text#:#Описовий Текст
-meta#:#meta_networked#:#Мережевий
-meta#:#meta_new_element#:#Новий Елемент
-meta#:#meta_no#:#Ні
-meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.
-meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.
-meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.
-meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.
-meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.
-meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.
-meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.
-meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.
-meta#:#meta_none#:#Ніщо
-meta#:#meta_operating_system#:#Операційна Система
-meta#:#meta_or_composite#:#Або Композиція
-meta#:#meta_other#:#Інші
-meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа
+meta#:#meta_name#:#�?м'�?
+meta#:#meta_narrative_text#:#�?пи�?овий Тек�?�,
+meta#:#meta_networked#:#�?е�?ежевий
+meta#:#meta_new_element#:#�?овий �*лемен�,
+meta#:#meta_no#:#�?�-
+meta#:#meta_no_annotation#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- �?нно�,а�?�-�-.
+meta#:#meta_no_classification#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- �sла�?и�?�-ка�?�-�-.
+meta#:#meta_no_educational#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?�?в�-�,н�?о�- �?ек�?�-�-.
+meta#:#meta_no_lifecycle#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- дл�? �?ек�?�-�- �-и�,�,�?вого �?икл�f.
+meta#:#meta_no_meta_metadata#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- �?е�,а-�?е�,адани.
+meta#:#meta_no_relation#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- �?�-дно�^енн�?.
+meta#:#meta_no_rights#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? �?ек�?�-�- �Y�?ав.
+meta#:#meta_no_technical#:#�?ема�? до�?�,�fпни�? ме�,а дани�? дл�? Те�?н�-�?но�- �?ек�?�-�-.
+meta#:#meta_none#:#�?�-�?о
+meta#:#meta_operating_system#:#�?пе�?а�?�-йна Си�?�,ема
+meta#:#meta_or_composite#:#�?бо �sомпози�?�-�?
+meta#:#meta_other#:#�?н�^�-
+meta#:#meta_other_plattform_requirements#:#�Yо�,�?еб�f�?�,�?�?�? �?н�^а �Yла�,�?о�?ма
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Будь ласка виберіть
-meta#:#meta_prerequisite#:#Попередня умова
-meta#:#meta_problem_statement#:#Постанова Задачі
-meta#:#meta_publisher#:#Видавник
-meta#:#meta_purpose#:#Призначення
-meta#:#meta_questionnaire#:#Анкета
-meta#:#meta_reference#:#Посилання
-meta#:#meta_references#:#Посилання
-meta#:#meta_relation#:#Відношення
-meta#:#meta_requirement#:#Вимога
-meta#:#meta_requires#:#Вимоги
-meta#:#meta_resource#:#Ресурс
-meta#:#meta_revised#:#Виправлений
-meta#:#meta_rights#:#Права
-meta#:#meta_role#:#Роль
+meta#:#meta_please_select#:#�?�fд�? ла�?ка вибе�?�-�,�?
+meta#:#meta_prerequisite#:#�Yопе�?едн�? �fмова
+meta#:#meta_problem_statement#:#�Yо�?�,анова �-ада�?�-
+meta#:#meta_publisher#:#�?идавник
+meta#:#meta_purpose#:#�Y�?изна�?енн�?
+meta#:#meta_questionnaire#:#�?нке�,а
+meta#:#meta_reference#:#�Yо�?иланн�?
+meta#:#meta_references#:#�Yо�?иланн�?
+meta#:#meta_relation#:#�?�-дно�^енн�?
+meta#:#meta_requirement#:#�?имога
+meta#:#meta_requires#:#�?имоги
+meta#:#meta_resource#:#Ре�?�f�?�?
+meta#:#meta_revised#:#�?ип�?авлений
+meta#:#meta_rights#:#�Y�?ава
+meta#:#meta_role#:#Рол�?
 meta#:#meta_school#:#Школа
-meta#:#meta_security_level#:#Рівень Безпеки
-meta#:#meta_self_assessment#:#Особиста Оцінка
-meta#:#meta_semantic_density#:#Сематнична Інтенсивність
-meta#:#meta_simulation#:#Моделювання
-meta#:#meta_size#:#Розмір
-meta#:#meta_skill_level#:#Рівень Кваліфікації
-meta#:#meta_slide#:#Повзунок
-meta#:#meta_source#:#Джерело
-meta#:#meta_status#:#Статус
-meta#:#meta_structure#:#Структура
-meta#:#meta_table#:#Таблиця
-meta#:#meta_taxon#:#Таксон
-meta#:#meta_taxon_path#:#Шлях до Таксона
-meta#:#meta_teacher#:#Вчитель
-meta#:#meta_technical#:#Технічний
-meta#:#meta_title#:#Назва
-meta#:#meta_training#:#Тренування
+meta#:#meta_security_level#:#Р�-вен�? �?езпеки
+meta#:#meta_self_assessment#:#�?�?оби�?�,а �?�?�-нка
+meta#:#meta_semantic_density#:#Сема�,ни�?на �?н�,ен�?ивн�-�?�,�?
+meta#:#meta_simulation#:#�?одел�?ванн�?
+meta#:#meta_size#:#Розм�-�?
+meta#:#meta_skill_level#:#Р�-вен�? �sвал�-�?�-ка�?�-�-
+meta#:#meta_slide#:#�Yовз�fнок
+meta#:#meta_source#:#�?же�?ело
+meta#:#meta_status#:#С�,а�,�f�?
+meta#:#meta_structure#:#С�,�?�fк�,�f�?а
+meta#:#meta_table#:#Табли�?�?
+meta#:#meta_taxon#:#Так�?он
+meta#:#meta_taxon_path#:#Шл�?�? до Так�?она
+meta#:#meta_teacher#:#�?�?и�,ел�?
+meta#:#meta_technical#:#Те�?н�-�?ний
+meta#:#meta_title#:#�?азва
+meta#:#meta_training#:#Т�?ен�fванн�?
 meta#:#meta_type#:#Тип
-meta#:#meta_typical_age_range#:#Типовий Діапазон Віку
-meta#:#meta_typical_learning_time#:#Типовий Час Навчання
-meta#:#meta_unavailable#:#Недоступний
+meta#:#meta_typical_age_range#:#Типовий �?�-апазон �?�-к�f
+meta#:#meta_typical_learning_time#:#Типовий Ча�? �?ав�?анн�?
+meta#:#meta_unavailable#:#�?едо�?�,�fпний
 meta#:#meta_unix#:#Unix
-meta#:#meta_value#:#Значення
-meta#:#meta_version#:#Версія
-meta#:#meta_very_difficult#:#Дуже Складний
-meta#:#meta_very_easy#:#Дуже Легкий
-meta#:#meta_very_high#:#Даже Високий
-meta#:#meta_very_low#:#Дуже Низький
+meta#:#meta_value#:#�-на�?енн�?
+meta#:#meta_version#:#�?е�?�?�-�?
+meta#:#meta_very_difficult#:#�?�fже Складний
+meta#:#meta_very_easy#:#�?�fже �>егкий
+meta#:#meta_very_high#:#�?аже �?и�?окий
+meta#:#meta_very_low#:#�?�fже �?из�?кий
 meta#:#meta_yes#:#Так
-search#:#search_all_results#:#Усі результати
-search#:#search_concatenation#:#Об'єднання
-search#:#search_content#:#Вміст Сторінки
-search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
-search#:#search_dbk_meta#:#Цифрова Бібліотека (мета дані)
+search#:#search_all_results#:#У�?�- �?ез�fл�?�,а�,и
+search#:#search_concatenation#:#�?б'�?днанн�?
+search#:#search_content#:#�?м�-�?�, С�,о�?�-нки
+search#:#search_dbk_content#:#Ци�?�?ова �?�-бл�-о�,ека (вм�-�?�,)
+search#:#search_dbk_meta#:#Ци�?�?ова �?�-бл�-о�,ека (ме�,а дан�-)
 search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
 search#:#search_group#:#Groups###11 Dec 2003 new variable
-search#:#search_in_result#:#Пошук всередині результатів
-search#:#search_lm_content#:#Учбові матеріали (вміст)
-search#:#search_lm_meta#:#Учбові матеріали (мета дані)
-search#:#search_meta#:#Мета дані
-search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
+search#:#search_in_result#:#�Yо�^�fк в�?е�?един�- �?ез�fл�?�,а�,�-в
+search#:#search_lm_content#:#У�?бов�- ма�,е�?�-али (вм�-�?�,)
+search#:#search_lm_meta#:#У�?бов�- ма�,е�?�-али (ме�,а дан�-)
+search#:#search_meta#:#�?е�,а дан�-
+search#:#search_minimum_three#:#�?а�^ по�^�fк повинен б�f�,и п�?инаймн�- �,�?и �?имволи довжино�?
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
 search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
 search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
 search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
-search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку
-search#:#search_no_match#:#Ваш пошук не приніс жодного результату
+search#:#search_no_category#:#�?и не виб�?али жодно�- ка�,его�?�-�- дл�? по�^�fк�f
+search#:#search_no_match#:#�?а�^ по�^�fк не п�?ин�-�? жодного �?ез�fл�?�,а�,�f
 search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
-search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну
+search#:#search_no_search_term#:#�?и не виб�?али жодного по�^�fкового �,е�?м�-н�f
 search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
 search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
 search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
@@ -1931,15 +1931,15 @@ search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
 search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
 search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
 search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
-search#:#search_search_for#:#Шукати
+search#:#search_search_for#:#Ш�fка�,и
 search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
 search#:#search_search_results#:#Search results###11 Dec 2003 new variable
-search#:#search_search_term#:#Пошуковий термін
+search#:#search_search_term#:#�Yо�^�fковий �,е�?м�-н
 search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
 search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
 search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
 search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
 search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
 search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_show_result#:#Показати
-search#:#search_user#:#Користувачі
+search#:#search_show_result#:#�Yоказа�,и
+search#:#search_user#:#�sо�?и�?�,�fва�?�-
