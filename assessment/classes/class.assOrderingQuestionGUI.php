@@ -180,7 +180,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
 		}
-		// call to other question data i.e. material, estimated working time block
+		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
 
 		$this->tpl->setCurrentBlock("question_data");
@@ -287,49 +287,19 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
 	* @access private
 	*/
 	function outOtherQuestionData()
 	{
-		$colspan = " colspan=\"3\"";
-
-		if (!empty($this->object->materials))
-		{
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
-			$this->tpl->parse("mainselect_block");
-		}
-
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
-		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -355,7 +325,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
 
-		// adding estimated working time and materials uris
+		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 		$this->object->set_ordering_type($_POST["ordering_type"]);
 
@@ -424,86 +394,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setVariable("ORDERING_QUESTION", $output);
-
-		if (!empty($this->object->materials))
-		{
-			$i = 1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
-		}
-		return;
-
-		$this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
-		$solutions = array();
-		$postponed = "";
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id);
-		}
-		if ($is_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-		if (!empty($this->object->materials))
-		{
-			$i = 1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("orderingQuestion");
-		$keys = array_keys($this->object->answers);
-		if ($this->object->shuffle)
-		{
-			$keys = $this->object->pcArrayShuffle($keys);
-		}
-		foreach ($keys as $key)
-		{
-			$value = $this->object->answers[$key];
-			$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
-			foreach ($solutions as $idx => $solution)
-			{
-				if ($solution->value1 == $key)
-				{
-					$this->tpl->setVariable("VALUE_ORDER", $solution->value2);
-				}
-			}
-			if ($this->object->get_ordering_type() == OQ_PICTURES)
-			{
-				$imagepath = $this->object->getImagePathWeb() . $value->get_answertext();
-				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE_IMAGE", $key);
-				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_IMAGE", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
-			}
-			else
-			{
-				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE_TEXT", $key);
-				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("ordering");
-		$this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->object->getTitle() . $postponed);
-		$this->tpl->setVariable("ORDERING_QUESTION", $this->object->get_question());
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**

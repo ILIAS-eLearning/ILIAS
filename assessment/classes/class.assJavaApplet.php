@@ -27,7 +27,7 @@ require_once "./assessment/classes/class.assQuestion.php";
 *
 * ASS_JavaApplet is a class for Java Applet Questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assJavaApplet.php
 * @modulegroup   Assessment
@@ -298,7 +298,7 @@ class ASS_JavaApplet extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -321,11 +321,6 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
-		}
-		if ($result == DB_OK)
-		{
-			// saving material uris in the database
-			$this->saveMaterialsToDb();
 		}
 	}
 
@@ -365,9 +360,6 @@ class ASS_JavaApplet extends ASS_Question
 				$this->setShuffle($data->shuffle);
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
-
-			// loads materials uris from database
-			$this->loadMaterialFromDb($question_id);
 		}
 	}
 
@@ -417,8 +409,6 @@ class ASS_JavaApplet extends ASS_Question
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 
-		// duplicate the materials
-		$clone->duplicateMaterials($original_id);
 		// duplicate the image
 		$clone->duplicateApplet($original_id);
 		return $clone->id;

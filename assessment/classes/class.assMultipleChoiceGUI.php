@@ -139,7 +139,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->parseCurrentBlock();
 			}*/
-			// call to other question data i.e. material, estimated working time block
+			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
 
 			$this->tpl->setCurrentBlock("question_data");
@@ -222,7 +222,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}*/
 
-			// call to other question data i.e. material, estimated working time block
+			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
 
 			$this->tpl->setCurrentBlock("question_data");
@@ -263,50 +263,20 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
 	* @access private
 	*/
 	function outOtherQuestionData()
 	{
 //echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
-		$colspan = " colspan=\"3\"";
-
-		if (!empty($this->object->materials))
-		{
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
-			$this->tpl->parse("mainselect_block");
-		}
-
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
-		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -417,16 +387,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 
-		$this->editQuestion();
-	}
-
-	/**
-	* upload material
-	*/
-	function uploadingMaterial()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
 		$this->editQuestion();
 	}
 
@@ -579,7 +539,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
 
-		// adding materials uris
 		$saved = $this->writeOtherPostData($result);
 
 		// Delete all existing answers and create new answers from the form data
@@ -710,67 +669,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput);
-
-		//$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
-
-		if (!empty($this->object->materials))
-		{
-			$i = 1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
-		}
-		return;
-
-		if ($this->object->response == RESPONSE_SINGLE)
-		{
-			$this->tpl->setCurrentBlock("single");
-			$akeys = array_keys($this->object->answers);
-
-			if ($this->object->shuffle)
-			{
-				$akeys = $this->object->pcArrayShuffle($akeys);
-			}
-
-			foreach ($akeys as $key)
-			{
-				$value = $this->object->answers[$key];
-				$this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
-				$this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
-				foreach ($solutions as $idx => $solution_value)
-				{
-					if ($solution_value->value1 == $key)
-					{
-						$this->tpl->setVariable("VALUE_CHECKED", " checked=\"checked\"");
-					}
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			//$this->tpl->setCurrentBlock("multiple");
-			$akeys = array_keys($this->object->answers);
-			/*
-			if ($this->object->shuffle)
-			{
-				$akeys = $this->object->pcArrayShuffle($akeys);
-			}*/
-		}
-
-		/*
-		$this->tpl->setCurrentBlock("multiple_choice");
-		$this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->object->getTitle() . $postponed);
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->object->get_question());
-		$this->tpl->parseCurrentBlock();*/
 	}
 
 	/**

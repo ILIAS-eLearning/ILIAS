@@ -544,9 +544,6 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		if ($result == DB_OK)
 		{
-			// saving material uris in the database
-			$this->saveMaterialsToDb();
-
 			// Antworten schreiben
 			// alte Antworten l�schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
@@ -603,9 +600,6 @@ class ASS_MultipleChoice extends ASS_Question
 				$this->setShuffle($data->shuffle);
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
-
-			// loads materials uris from database
-			$this->loadMaterialFromDb($question_id);
 
 			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
 				$db->quote($question_id));
@@ -670,8 +664,6 @@ class ASS_MultipleChoice extends ASS_Question
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 
-		// duplicate the materials
-		$clone->duplicateMaterials($original_id);
 		return $clone->id;
 	}
 
