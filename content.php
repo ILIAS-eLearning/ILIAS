@@ -72,6 +72,15 @@ if ($tree->getChilds())
 			$css_row = "row_low";
 		}
 		
+		if ($val["type"] == "adm")
+		{
+			$checkbox = "&nbsp;";
+		}
+		else
+		{
+			$checkbox = "<input type=\"checkbox\" name=\"id[]\" value=\"{OBJ_ID}\"/>\n";
+		}
+
 		$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 		$tplContent->setVariable("LINK_TARGET",$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]);
 		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
@@ -80,6 +89,7 @@ if ($tree->getChilds())
 		$tplContent->setVariable("ALT_IMG_TYPE","Category");
 		$tplContent->setVariable("CSS_ROW",$css_row);
 		$tplContent->setVariable("OBJ_ID",$val["id"]);
+		$tplContent->setVariable("CHECKBOX",$checkbox);
 		$tplContent->parseCurrentBlock();
     }
 	$tplContent->touchBlock("options");
