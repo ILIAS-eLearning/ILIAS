@@ -338,6 +338,11 @@ class RoleObject extends Object
 			// delete all template entries
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 
+			if (empty($_POST["template_perm"]))
+			{
+			    $_POST["template_perm"] = array();
+			}
+			
 			foreach ($_POST["template_perm"] as $key => $ops_array)
 			{
 				// sets new template permissions
