@@ -27,6 +27,13 @@ class Language
 	var $LANGUAGESDIR = "./lang";
 
 	/**
+	* master lang file
+	* @var string
+	* @access private
+	*/
+	var $MASTERLANGFILE = "languages.txt";
+	
+	/**
 	 * default date format
 	 * @var string
 	 * @access private
@@ -64,6 +71,7 @@ class Language
 	{
 		global $log;
     
+		$this->setMasterFile($this->MASTERLANGFILE);
 	    $txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
         $this->log = $log;
 		$this->text = array();
@@ -121,7 +129,7 @@ class Language
 	 * @author Peter Gabriel <pgabriel@databay.de>
 	 * @version 1.0
 	 */
-	function getAllLanguages()
+	function getInstalledLanguages()
 	{
 		//initialization
 		$langs = array();
@@ -263,6 +271,19 @@ class Language
 	}
 
 	/**
+	* set MasterFile	
+	* @param string
+	* @acess public
+	*/
+	function setMasterFile($langfile)
+	{
+		if ($langfile != "")
+		{
+			$this->MASTERLANGFILE = $this->LANGUAGESDIR."/".$langfile;
+		}
+	}
+
+	/**
 	 * generate all language files from masterfile
 	 * 
 	 * input is a string, the masterfile. the masterfile is used for 
@@ -273,13 +294,13 @@ class Language
 	 * @author Peter Gabriel <pgabriel@databay.de>
 	 * @version 1.0
 	 */
-	function generateLanguageFiles($langfile)
+	function generateLanguageFiles()
 	{
-		$l_file = @file("./lang/".$langfile);
+		$l_file = @file($this->MASTERLANGFILE);
 
 		if ($l_file == false)
 		{
-			$this->error = "Input-file '".$langfile."' not found!";
+			$this->error = "Input-file '".$this->MASTERLANGFILE."' not found!";
 			return false;
 		} //if
 	
@@ -346,6 +367,181 @@ class Language
 		return true;
 		
 	} //function
+	
+	/**
+	* get all languages from the master textfile
+	* 
+	* if you want to install new languages you want to know which languages you can install
+	* this function gives back an array with all languages the masterfile contains
+	* 
+ 	* @return array
+	* @access public
+	* @version 1.0
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function getAvailableLanguages()
+	{
+		//initialization
+		$langs = array();
+
+		//try to open the masterlangfile
+		$l_file = @file($this->MASTERLANGFILE);
+
+		if ($l_file == false)
+		{
+			$this->error = "Input-file '".$this->MASTERLANGFILE."' not found!";
+			return false;
+		} //if
+
+		$ids = explode("\t",$l_file[1]);
+		$names = explode("\t",$l_file[2]);
+
+		for ($i = 1; $i<count($ids); $i++)
+		{
+			unset($status);
+			//get status of language, is language installed on the system?
+			if (file_exists($this->LANGUAGESDIR."/".trim($ids[$i]).".lang"))
+			{
+				$status = "installed";
+			}
+			else
+			{
+				$status = "not_installed";
+			}
+			
+			unset($lastchange);
+			if ($status == "installed")
+			{
+				$lastchange = date("Y-m-d H:i:s",filectime($this->LANGUAGESDIR."/".trim($ids[$i]).".lang"));
+			}
+
+			//build arrayentry
+			$langs[] = array(
+				"id" => $ids[$i],
+				"name" => $names[$i],
+				"status" => $status,
+				"lastchange" => $lastchange
+			);
+		} //for
+		
+		return $langs;
+	}
+
+	/**
+	* install a language
+	* 
+	* @param string
+ 	* @return boolean
+	* @access public
+	* @version 1.0
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function installLanguage($id)
+	{
+		$id = trim($id);
+		
+		$l_file = @file($this->MASTERLANGFILE);
+
+		if ($l_file == false)
+		{
+			$this->error = "Input-file '".$this->MASTERLANGFILE."' not found!";
+			return false;
+		} //if
+	
+		$ids = explode("\t",$l_file[1]);
+
+		//search for the given id
+		unset($index);
+		for ($i=1; $i<count($ids); $i++)
+		{
+			if ($id == trim($ids[$i]))
+			{
+				$index = $i;
+				break;
+			}
+		}
+		
+		if ($index == 0)
+		{
+			//language not found
+			return false;
+		}
+		
+		//open file and write
+		$fp = @fopen("./lang/".$id.".lang", "w");
+		if ($fp == false)
+		{
+			$this->error = "Could not open output-file '".$id.".lang'";
+			return false;
+		}
+		
+		//write name to file
+		$row = explode("\t",$l_file[2]);
+
+		if (fputs($fp, trim($row[$index])."\n")==false)
+		{
+			$this->error = "Could not write to file";
+			return false;
+		}
+
+		//write topics
+		for ($i = 3; $i<count($l_file); $i++)
+		{
+			$row = explode("\t",$l_file[$i]);
+
+			$translation = trim($row[$index]);
+			//check content of translation, if no translation present
+			// the topic itself is returned
+			if ($translation=="")
+			{
+				$translation = $row[0];	
+				$this->log->write("Language: '".$row[0]."' not defined in Language '".$names[$index]."'");
+			}
+			fputs($fp, trim($row[0])."#:#". $translation ."\n");
+
+		} //for
+
+		fclose($fp);
+	} //function
+	
+	/**
+	* deinstall a language
+	* 
+	* this function removes the language from the system
+	* 
+ 	* @return boolean
+	* @access public
+	* @version 1.0
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function deinstallLanguage($id)
+	{
+		$id = trim($id);
+		//TODO: check if anybody uses this language
+		//delete file and return success or failure		
+		if (file_exists($this->LANGUAGESDIR."/".$id.".lang"))
+		{
+			if ($id == $this->systemLang || $id == $this->userLang) {
+			    return false;
+			}
+		    return unlink($this->LANGUAGESDIR."/".$id.".lang");
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	
+	function setSystemLanguage($id)
+	{
+		$this->systemLang = $id;
+	}
+
+	function setUserLanguage($id)
+	{
+		$this->userLang = $id;
+	}
 	
 } //class
 ?>

@@ -21,7 +21,7 @@ if ($lang == "")
 	$lang = $ilias->ini->readVariable("language","default");
 //instantiate language
 $lng = new Language($lang);
-$langs = $lng->getAllLanguages();
+$langs = $lng->getInstalledLanguages();
 
 foreach ($langs as $row)
 {

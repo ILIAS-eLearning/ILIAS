@@ -44,7 +44,7 @@ if ($_GET[$lang] == "")
 
 $lng = new Language($lang);
 
-$langs = $lng->getAllLanguages();
+$langs = $lng->getInstalledLanguages();
 
 foreach ($langs as $row)
 {
