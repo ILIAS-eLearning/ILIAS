@@ -28,6 +28,7 @@ require_once("classes/class.ilMetaData.php");
 require_once("content/classes/class.ilParagraph.php");
 require_once("content/classes/class.ilLMTable.php");
 require_once("content/classes/class.ilMediaObject.php");
+require_once("content/classes/class.ilMediaItem.php");
 
 /**
 * Learning Module Parser
@@ -62,6 +63,8 @@ class ilLMParser extends ilSaxParser
 	var $pages_with_int_links;
 	var $mob_mapping;
 	var $subdir;
+	var $media_item;		// current media item
+	var $loc_type;			// current location type
 
 
 	/**
@@ -319,18 +322,24 @@ class ilLMParser extends ilSaxParser
 				$this->media_object->setOriginID($a_attribs["OriginId"]);
 				break;
 
+			case "MediaItem":
+				$this->media_item =& new ilMediaItem();
+				$this->media_item->setPurpose($a_attribs["Purpose"]);
+				break;
+
 			case "Layout":
 				if (is_object($this->media_object) && $this->in_media_object)
 				{
-					$this->media_object->setWidth($a_attribs["Width"]);
-					$this->media_object->setHeight($a_attribs["Height"]);
+					$this->media_item->setWidth($a_attribs["Width"]);
+					$this->media_item->setHeight($a_attribs["Height"]);
+					$this->media_item->setHAlign($a_attribs["HorizontalAlign"]);
 				}
 				break;
 
 			case "Parameter":
 				if (is_object($this->media_object) && $this->in_media_object)
 				{
-					$this->media_object->setParameter($a_attribs["Name"], $a_attribs["Value"]);
+					$this->media_item->setParameter($a_attribs["Name"], $a_attribs["Value"]);
 				}
 				break;
 
@@ -383,13 +392,16 @@ class ilLMParser extends ilSaxParser
 			case "Technical":
 				$this->meta_technical =& new ilMetaTechnical($this->meta_data);
 				$this->meta_data->addTechnicalSection($this->meta_technical);
-				$this->meta_technical->setFormat($a_attribs["Format"]);
 //echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
 				break;
 
 			// TECHNICAL: Size
 			case "Size":
 				$this->meta_technical->setSize($a_attribs["Size"]);
+				break;
+
+			case "Location":
+				$this->loc_type = $a_attribs["Type"];
 				break;
 
 			// TECHNICAL: Requirement
@@ -548,6 +560,10 @@ class ilLMParser extends ilSaxParser
 
 				break;
 
+			case "MediaItem":
+				$this->media_object->addMediaItem($this->media_item);
+				break;
+
 			case "MetaData":
 				$this->in_meta_data = false;
 				// save structure object at the end of its meta block
@@ -627,6 +643,12 @@ class ilLMParser extends ilSaxParser
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
 
+				case "Caption":
+					if ($this->in_media_object)
+					{
+						$this->media_item->setCaption($a_data);
+					}
+					break;
 
 				///////////////////////////
 				/// MetaData Section
@@ -648,6 +670,11 @@ class ilLMParser extends ilSaxParser
 //echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
 					break;
 
+				// TECHNICAL: Format
+				case "Format":
+					$this->meta_technical->addFormat($a_data);
+					break;
+
 				// TECHNICAL: Size
 				case "Size":
 					$this->meta_technical->setSize($a_data);
@@ -655,9 +682,9 @@ class ilLMParser extends ilSaxParser
 
 				// TECHNICAL: Location
 				case "Location":
-//echo "Adding a location:".$a_data.":<br>";
+//echo "Adding a location:".$this->loc_type.":".$a_data.":<br>";
 					// TODO: adapt for files in "real" subdirectories
-					$this->meta_technical->addLocation($a_data);
+					$this->meta_technical->addLocation($this->loc_type, $a_data);
 					break;
 
 				// TECHNICAL: InstallationRemarks

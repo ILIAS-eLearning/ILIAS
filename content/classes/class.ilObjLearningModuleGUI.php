@@ -218,6 +218,6 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 			$this->object->getRefId()."&cmd=post");
 		$style_id = $style_gui->deleteStyleParameterObject();
 	}
-
 }
+
 ?>

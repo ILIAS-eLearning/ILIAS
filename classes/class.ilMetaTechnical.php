@@ -61,6 +61,7 @@ class ilMetaTechnical
 		$this->ilias =& $ilias;
 		$this->meta_data =& $a_meta_data;
 		$this->locations = array();
+		$this->formats = array();
 		$this->requirement_sets = array();
 	}
 
@@ -90,6 +91,9 @@ class ilMetaTechnical
 		while ($tech_rec = $tech_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$q = "DELETE FROM meta_techn_loc WHERE tech_id = '".$tech_rec["tech_id"]."'";
+			$this->ilias->db->query($q);
+
+			$q = "DELETE FROM meta_techn_format WHERE tech_id = '".$tech_rec["tech_id"]."'";
 			$this->ilias->db->query($q);
 		}
 
@@ -122,11 +126,22 @@ class ilMetaTechnical
 
 		$this->tech_id =  $row["tech_id"];
 //echo "saving...tech_id:".$row["tech_id"].":<br>";
+		$i = 1;
 		foreach ($this->locations as $location)
 		{
 //echo "INSERT INTO meta_techn_loc<br>";
-			$q = "INSERT INTO meta_techn_loc (tech_id, location) VALUES
-				('".$this->tech_id."','".$location."')";
+			$q = "INSERT INTO meta_techn_loc (tech_id, type, location, nr) VALUES".
+				" ('".$this->tech_id."','".$location["type"]."', '".
+				$location["loc"]."', '".$i++."')";
+			$this->ilias->db->query($q);
+		}
+
+		$i = 1;
+		foreach ($this->formats as $format)
+		{
+//echo "INSERT INTO meta_techn_loc<br>";
+			$q = "INSERT INTO meta_techn_format (tech_id, format, nr) VALUES
+				('".$this->tech_id."','".$format."', '".$i++."')";
 			$this->ilias->db->query($q);
 		}
 
@@ -134,6 +149,7 @@ class ilMetaTechnical
 
 	/**
 	* reads all technical sections from db into a meta data object
+	* note: there should be max. one technical section now, dtd has changed
 	* static
 	*/
 	function readTechnicalSections(&$a_meta_obj)
@@ -146,7 +162,6 @@ class ilMetaTechnical
 		{
 //echo "---tech---";
 			$tech_obj =& new ilMetaTechnical($a_meta_obj);
-			$tech_obj->setFormat($tech_rec["format"]);
 			$tech_obj->setSize($tech_rec["size"]);
 			$tech_obj->setInstallationRemarks($tech_rec["install_remarks"]);
 			$tech_obj->setInstallationRemarksLanguage($tech_rec["install_remarks_lang"]);
@@ -155,7 +170,8 @@ class ilMetaTechnical
 			$tech_obj->setDuration($tech_rec["duration"]);
 
 			// get formats
-			$query = "SELECT * FROM meta_techn_format WHERE tech_id='".$tech_rec["tech_id"]."'";
+			$query = "SELECT * FROM meta_techn_format WHERE tech_id='".$tech_rec["tech_id"]."'".
+				" ORDER BY nr";
 			$format_set = $this->ilias->db->query($query);
 			while ($format_rec = $format_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
@@ -163,11 +179,12 @@ class ilMetaTechnical
 			}
 
 			// get locations
-			$query = "SELECT * FROM meta_techn_loc WHERE tech_id='".$tech_rec["tech_id"]."'";
+			$query = "SELECT * FROM meta_techn_loc WHERE tech_id='".$tech_rec["tech_id"]."'".
+				" ORDER BY nr";
 			$loc_set = $this->ilias->db->query($query);
 			while ($loc_rec = $loc_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$tech_obj->addLocation($loc_rec["location"]);
+				$tech_obj->addLocation($loc_rec["type"], $loc_rec["location"]);
 			}
 
 			$a_meta_obj->addTechnicalSection($tech_obj);
@@ -207,9 +224,9 @@ class ilMetaTechnical
 	/**
 	* Location
 	*/
-	function addLocation($a_loc)
+	function addLocation($a_type, $a_loc)
 	{
-		$this->locations[] = $a_loc;
+		$this->locations[] = array("type" => $a_type, "loc" => $a_loc);
 	}
 
 	function getLocations()
@@ -305,11 +322,15 @@ class ilMetaTechnical
 	// get xml string of this meta technical section
 	function getXML()
 	{
-		$xml = "<Technical Format=\"".$this->getFormat()."\">\n";
+		$xml = "<Technical>\n";
+		foreach ($this->formats as $format)
+		{
+			$xml.= "<Format>".$format."</Format>\n";
+		}
 		$xml.= "<Size>".$this->getSize()."</Size>\n";
 		foreach ($this->locations as $location)
 		{
-			$xml.= "<Location>".$location."</Location>\n";
+			$xml.= "<Location Type=\"".$location["type"]."\">".$location["loc"]."</Location>\n";
 		}
 		$req_sets =& $this->getRequirementSets();
 		foreach ($req_sets as $req_set)

@@ -26,6 +26,7 @@ define ("IL_MODE_OUTPUT", 2);
 define ("IL_MODE_FULL", 3);
 
 require_once("classes/class.ilObjMediaObject.php");
+require_once("content/classes/class.ilMediaItem.php");
 
 /**
 * Class ilMediaObject
@@ -44,19 +45,12 @@ class ilMediaObject extends ilObjMediaObject
 	var $is_alias;
 	var $origin_id;
 	var $id;
-	var $width;
-	var $height;
-	var $parameters;
-	/*
-	var $mime;
-	var $file;
-	var $caption;*/
-	var $halign;
 
 	var $dom;
 	var $hier_id;
 	var $node;
 	var $mob_node;
+	var $media_items;
 
 	/**
 	* Constructor
@@ -64,16 +58,25 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function ilMediaObject($a_id = 0)
 	{
-
 		parent::ilObjMediaObject($a_id);
 
 		$this->is_alias = false;
-		$this->parameters = array();
+		$this->media_items = array();
 
 		if($a_id != 0)
 		{
 			$this->read();
 		}
+	}
+
+	function addMediaItem(&$a_item)
+	{
+		$this->media_items[] =& $a_item;
+	}
+
+	function &getMediaItems()
+	{
+		return $this->media_items;
 	}
 
 	/**
@@ -82,20 +85,32 @@ class ilMediaObject extends ilObjMediaObject
 	function read()
 	{
 		// read media_object record
-		$query = "SELECT * FROM media_object WHERE id = '".$this->getId()."'";
-		$mob_set = $this->ilias->db->query($query);
-		$mob_rec = $mob_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setWidth($mob_rec["width"]);
-		$this->setHeight($mob_rec["height"]);
-		$this->setHAlign($mob_rec["halign"]);
-
-		// read mob parameters
-		$query = "SELECT * FROM mob_parameter WHERE mob_id = '".$this->getId()."'";
-		$par_set = $this->ilias->db->query($query);
-		while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getId()."' ".
+			"ORDER BY nr";
+		$item_set = $this->ilias->db->query($query);
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$this->parameters[$par_rec["name"]] = $par_rec["value"];
+			$media_item =& new ilMediaItem();
+
+			$media_item->setWidth($item_rec["width"]);
+			$media_item->setHeight($item_rec["height"]);
+			$media_item->setHAlign($item_rec["halign"]);
+			$media_item->setCaption($item_rec["caption"]);
+			$media_item->setPurpose($item_rec["purpose"]);
+
+			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
+				$item_rec["id"]."'";
+			$par_set = $this->ilias->db->query($query);
+			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$media_item->setParameter($par_rec["name"], $par_rec["value"]);
+			}
+
+			// todo: get mapareas
+
+			$this->addMediaItem($media_item);
 		}
+
 
 		// get meta data
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
@@ -143,120 +158,6 @@ class ilMediaObject extends ilObjMediaObject
 		return $this->meta_data->getImportIdentifierEntryID();
 	}*/
 
-	/**
-	* get width
-	*/
-	function getWidth()
-	{
-		return $this->width;
-	}
-
-	/**
-	* set width
-	*/
-	function setWidth($a_width)
-	{
-		$this->width = $a_width;
-	}
-
-	/**
-	* get height
-	*/
-	function getHeight()
-	{
-		return $this->height;
-	}
-
-	/**
-	* set height
-	*/
-	function setHeight($a_height)
-	{
-		$this->height = $a_height;
-	}
-
-	/*
-	function setMime($a_mime)
-	{
-		$this->mime = $a_mime;
-	}
-
-	function getMime()
-	{
-		return $this->mime;
-	}
-
-	function setFile($a_file)
-	{
-		$this->file = $a_file;
-	}
-
-	function getFile()
-	{
-		return $this->file;
-	}*/
-
-
-	function setCaption($a_caption)
-	{
-		$this->setParameter("il_Caption", $a_caption);
-	}
-
-	function getCaption()
-	{
-		return $this->getParameter("il_Caption");
-	}
-
-	function setHAlign($a_halign)
-	{
-		$this->halign = $a_halign;
-	}
-
-	function getHAlign()
-	{
-		return $this->halign;
-	}
-
-
-	/**
-	* set parameter
-	*/
-	function setParameter($a_name, $a_value)
-	{
-		$this->parameters[$a_name] = $a_value;
-	}
-
-	/**
-	* get all parameters
-	*/
-	function getParameters()
-	{
-		return $this->parameters;
-	}
-
-	/**
-	* get a single parameter
-	*/
-	function getParameter($a_name)
-	{
-		return $this->parameters[$a_name];
-	}
-
-	/**
-	* set standard type
-	*/
-	function setStandardType($a_type)
-	{
-		$this->setParameter("il_StandardType", $a_type);
-	}
-
-	/**
-	* set standard type
-	*/
-	function getStandardType($a_type)
-	{
-		$this->getParameter("il_StandardType");
-	}
 
 	/**
 	* get import id
@@ -282,18 +183,31 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// create mob
 		parent::create();
-		$query = "INSERT INTO media_object (id, width, height, halign) VALUES ".
-			"('".$this->getId()."','".$this->getWidth()."','".$this->getHeight().
-			"','".$this->getHAlign()."')";
-		$this->ilias->db->query($query);
 
-		// create mob parameters
-		foreach($this->parameters as $name => $value)
+		$media_items =& $this->getMediaItems();
+		for($i=0; $i<count($media_items); $i++)
 		{
-			$query = "INSERT INTO mob_parameter(mob_id, name, value) VALUES ".
-				"('".$this->getId()."', '$name','$value')";
+			$item =& $media_items[$i];
+			$query = "INSERT INTO media_item (mob_id, purpose, width, ".
+				"height, halign, caption, nr) VALUES ".
+				"('".$this->getId()."',".
+				"'".$item->getPurpose()."','".$item->getWidth().
+				"','".$item->getHeight()."','".$item->getHAlign().
+				"','".$item->getCaption()."','".($i+1)."')";
 			$this->ilias->db->query($query);
+
+			$item_id = getLastInsertId();
+
+			// create mob parameters
+			$params = $item->getParameters();
+			foreach($params as $name => $value)
+			{
+				$query = "INSERT INTO mob_parameter(med_item_id, name, value) VALUES ".
+					"('".$item_id."', '$name','$value')";
+				$this->ilias->db->query($query);
+			}
 		}
+
 	}
 
 	/**
@@ -303,22 +217,47 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// update mob
 		parent::update();
-		$query = "UPDATE media_object SET ".
-			" width = '".$this->getWidth."',".
-			" height = '".$this->getHeight."',".
-			" halign = '".$this->getHAlign."' ".
-			" WHERE id = '".$this->getId()."'";
-		$this->ilias->db->query($query);
-//echo "<b>".$query."</b>";
 
-		// update mob parameters
-		$query = "DELETE FROM mob_parameter WHERE mob_id = '".$this->getId()."'";
-		$this->ilias->db->query($query);
-		foreach($this->parameters as $name => $value)
+		// delete media parameter
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getId()."'";
+		$item_set = $this->ilias->db->query($query);
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$query = "INSERT INTO mob_parameter(mob_id, name, value) VALUES ".
-				"('".$this->getId()."', '$name','$value')";
+			$query = "DELETE FROM mob_parameter WHERE med_item_id = '".$item_rec["id"]."'";
 			$this->ilias->db->query($query);
+		}
+
+		// delete media items
+		$query = "DELETE FROM media_item WHERE mob_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+
+		// iterate all items
+		$media_items =& $this->getMediaItems();
+		for($i=0; $i<count($media_items); $i++)
+		{
+			$item =& $media_items[$i];
+	//echo "<b>".$query."</b>";
+
+			// create item
+			$query = "INSERT INTO media_item (mob_id, purpose, width, ".
+				"height, halign, caption, nr) VALUES ".
+				"('".$this->getId()."',".
+				"'".$item->getPurpose()."','".$item->getWidth().
+				"','".$item->getHeight()."','".$item->getHAlign().
+				"','".$item->getCaption()."','".($i+1)."')";
+			$this->ilias->db->query($query);
+
+			$item_id = getLastInsertId();
+
+			// create parameters
+			$params = $item->getParameters();
+			foreach($params as $name => $value)
+			{
+				$query = "INSERT INTO mob_parameter(med_item_id, name, value) VALUES ".
+					"('".$item_id."', '$name','$value')";
+				$this->ilias->db->query($query);
+			}
+
 		}
 	}
 
@@ -335,11 +274,31 @@ class ilMediaObject extends ilObjMediaObject
 			case IL_MODE_ALIAS:
 				$xml = "<MediaObject>\n";
 				$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
-				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
-				$parameters = $this->getParameters();
-				foreach ($parameters as $name => $value)
+				$media_items =& $this->getMediaItems();
+				for($i=0; $i<count($media_items); $i++)
 				{
-					$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+					$item =& $media_items[$i];
+					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+
+					// Layout
+					$xml .= "<Layout Width=\"".$item->getWidth().
+						"\" Height=\"".$item->getHeight()."\" ".
+						"HorizontalAlign=\"".$item->getHAlign()."\"/>\n";
+
+					// Caption
+					if ($item->getCaption() != "")
+					{
+						$xml .= "<Caption Align=\"bottom\">".
+							$item->getCaption()."</Caption>\n";
+					}
+
+					// Parameter
+					$parameters = $item->getParameters();
+					foreach ($parameters as $name => $value)
+					{
+						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+					}
+					$xml .= "</MediaItem>";
 				}
 				break;
 
@@ -357,11 +316,31 @@ class ilMediaObject extends ilObjMediaObject
 //echo "<b>got technical</b>".$this->getId();
 					$xml .= $technical->getXML();
 				}
-				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
-				$parameters = $this->getParameters();
-				foreach ($parameters as $name => $value)
+				$media_items =& $this->getMediaItems();
+				for($i=0; $i<count($media_items); $i++)
 				{
-					$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+					$item =& $media_items[$i];
+					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+
+					// Layout
+					$xml .= "<Layout Width=\"".$item->getWidth().
+						"\" Height=\"".$item->getHeight()."\" ".
+						"HorizontalAlign=\"".$item->getHAlign()."\"/>\n";
+
+					// Caption
+					if ($item->getCaption() != "")
+					{
+						$xml .= "<Caption Align=\"bottom\">".
+							$item->getCaption()."</Caption>\n";
+					}
+
+					// Parameter
+					$parameters = $item->getParameters();
+					foreach ($parameters as $name => $value)
+					{
+						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+					}
+					$xml .= "</MediaItem>";
 				}
 				break;
 		}
