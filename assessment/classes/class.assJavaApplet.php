@@ -22,6 +22,8 @@
 */
 require_once "./assessment/classes/class.assQuestion.php";
 
+define ("JAVAAPPLET_QUESTION_IDENTIFIER", "JAVA APPLET QUESTION");
+
 /**
 * Class for Java Applet Questions
 *
@@ -128,9 +130,66 @@ class ASS_JavaApplet extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false)
 	{
-		/*
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$this->domxml = domxml_open_mem($xml_header);
+		$root = $this->domxml->document_element();
+
+		// qti comment with version information
+		$qtiComment = $this->domxml->create_element("qticomment");
+
+		// qti ident
+		$qtiIdent = $this->domxml->create_element("item");
+		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
+		$root->append_child($qtiIdent);
+
+		// add qti comment
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".JAVAAPPLET_QUESTION_IDENTIFIER);
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		// add estimated working time
+		$qtiIdent->append_child($qtiComment);
+		$qtiDuration = $this->domxml->create_element("duration");
+		$workingtime = $this->getEstimatedWorkingTime();
+		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));
+		$qtiDuration->append_child($qtiDurationText);
+		$qtiIdent->append_child($qtiDuration);
+
+		// PART I: qti presentation
+		$qtiPresentation = $this->domxml->create_element("presentation");
+		$qtiPresentation->set_attribute("label", $this->getTitle());
+
+		// add flow to presentation
+		$qtiFlow = $this->domxml->create_element("flow");
+
+		// add material with question text to presentation
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatText = $this->domxml->create_element("mattext");
+		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiFlow->append_child($qtiMaterial);
+
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatApplet = $this->domxml->create_element("matapplet");
+		$qtiMaterial->append_child($qtiMatApplet);
+		$qtiFlow->append_child($qtiMaterial);
+
 		$xml = $this->domxml->dump_mem(true);
 		if (!$a_include_header)
 		{
@@ -138,9 +197,8 @@ class ASS_JavaApplet extends ASS_Question
 			$xml = substr($xml, $pos + 2);
 		}
 //echo htmlentities($xml);
-		return $xml;*/
+		return $xml;
 
-		return "";
 	}
 
 	/**
