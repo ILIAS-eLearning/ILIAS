@@ -77,7 +77,7 @@ $tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
-$tpl->setVariable("FORMACTION", basename($PHP_SELF)."?cmd=replypost&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$posData["pos_thr_fk"]);
+$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=replypost&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$posData["pos_thr_fk"]);
 $tpl->parseCurrentBlock("reply_post");
 
 $tpl->setCurrentBlock("posttable");

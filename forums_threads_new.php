@@ -56,7 +56,7 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
-$tpl->setVariable("FORMACTION", basename($PHP_SELF)."?cmd=newthread&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
+$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
 $tpl->parseCurrentBlock("new_thread");
 
 
