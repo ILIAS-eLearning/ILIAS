@@ -108,5 +108,27 @@ class DBx extends PEAR
 		}
 	} //end function
 
+	/**
+	* getrow 
+	* 
+	* this is the wrapper itself. query a string, and return the resultobject,
+	* or in case of an error, jump to errorpage
+	* 
+	* @param string
+	* @return object DB
+	*/
+	function getRow($sql)
+	{
+		$r = $this->db->getrow($sql);
+		
+		if (DB::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	} //end function	
 } //end Class
 ?>
