@@ -83,6 +83,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		
 		if ($this->object->get_answer_count())
 		{
+			$this->tpl->setCurrentBlock("deletebutton");
+			$this->tpl->setVariable("DELETE_AREA", $this->lng->txt("delete_area"));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answerheader");
 			$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
 			$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
@@ -105,7 +108,18 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
 			}
-			$this->tpl->setVariable("COORDINATES", $answer->get_coords());
+			$coords = "";
+			switch ($answer->get_area())
+			{
+				case "poly":
+				case "rect":
+					$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->get_coords());
+					break;
+				case "circle":
+					$coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $answer->get_coords());
+					break;
+			}
+			$this->tpl->setVariable("COORDINATES", $coords);
 			$this->tpl->setVariable("AREA", $answer->get_area());
 			$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->get_area()));
 			$this->tpl->parseCurrentBlock();
@@ -301,6 +315,22 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				else if (($_POST["cmd"]["uploadingImagemap"]) and (!empty($_FILES['imagemapName']['tmp_name'])))
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
+			}
+		}
+		if ($_POST["cmd"]["deletearea"])
+		{
+			$checked_areas = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					array_push($checked_areas, $matches[1]);
+				}
+			}
+			rsort($checked_areas, SORT_NUMERIC);
+			foreach ($checked_areas as $index)
+			{
+				$this->object->deleteArea($index);
 			}
 		}
 		return $result;

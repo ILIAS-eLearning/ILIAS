@@ -519,14 +519,14 @@ class ASS_ImagemapQuestion extends ASS_Question {
 /**
 * Deletes an answer
 *
-* Deletes an answer with a given index. The index of the first
-* answer is 0, the index of the second answer is 1 and so on.
+* Deletes an area with a given index. The index of the first
+* area is 0, the index of the second area is 1 and so on.
 *
 * @param integer $index A nonnegative index of the n-th answer
 * @access public
 * @see $answers
 */
-  function delete_answer($index = 0) {
+  function deleteArea($index = 0) {
     if ($index < 0) return;
     if (count($this->answers) < 1) return;
     if ($index >= count($this->answers)) return;
