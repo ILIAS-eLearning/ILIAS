@@ -1276,6 +1276,7 @@ common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
+common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następujących obiektów:
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
