@@ -45,7 +45,7 @@ if ($_POST["cmd"] != "")
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 		case 'mark_unread':
@@ -55,7 +55,7 @@ if ($_POST["cmd"] != "")
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 
@@ -64,15 +64,15 @@ if ($_POST["cmd"] != "")
 			{
 				if(!is_array($_POST["mail_id"]))
 				{
-					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+					$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 				}
 				else if($umail->deleteMails($_POST["mail_id"]))
 				{
-					$ilias->error_obj->sendInfo("Die Mail(s) wurde(n) gelöscht.");
+					$ilias->error_obj->sendInfo($lng->txt("mail_deleted"));
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo("Fehler beim Löschen der Mail(s).");
+					$ilias->error_obj->sendInfo($lng->txt("mail_delete_error"));
 				}
 				break;
 			}
@@ -80,12 +80,12 @@ if ($_POST["cmd"] != "")
 			{ 
 				if(!is_array($_POST["mail_id"]))
 				{
-					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+					$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 					$error_delete = true;
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo("Sollen die markierten Mails wirklich gelöscht werden?");
+					$ilias->error_obj->sendInfo($lng->txt("mail_sure_delete"));
 				}
 			}
 			else if(isset($_POST["cancel"]))
@@ -97,15 +97,15 @@ if ($_POST["cmd"] != "")
 		case 'move':
 			if(!is_array($_POST["mail_id"]))
 			{
-				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 			}
 			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["move_to"]))
 			{
-				$ilias->error_obj->sendInfo("Die Mail(s) wurde(n) verschoben.");
+				$ilias->error_obj->sendInfo($lng->txt("mail_moved"));
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo("Fehler beim Verschieben der Mail(s).");
+				$ilias->error_obj->sendInfo($lng->txt("mail_move_error"));
 			}
 
 			break;
