@@ -65,7 +65,7 @@ class ilLMObjectGUI
 		{
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-
+			//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
