@@ -190,6 +190,15 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "p", "class" => "Remark", "parameter" => "background-color" ,"value" => "#D0D0D0"),
 			array("tag" => "p", "class" => "Remark", "parameter" => "text-align" ,"value" => "right"),
 
+			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-left" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-right" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-top" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "margin-bottom" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-left" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-right" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-top" ,"value" => "0px"),
+			array("tag" => "p", "class" => "TableContent", "parameter" => "padding-bottom" ,"value" => "0px"),
+
 			array("tag" => "table", "class" => "Media", "parameter" => "background-color" ,"value" => "#F5F5F5"),
 			array("tag" => "table", "class" => "Media", "parameter" => "padding" ,"value" => "0px"),
 			array("tag" => "table", "class" => "Media", "parameter" => "margin" ,"value" => "10px"),
@@ -345,6 +354,7 @@ class ilObjStyleSheet extends ilObject
 			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",
 			"p.Standard", "p.List", "p.Headline1", "p.Headline2", "p.Headline3",
 			"p.Example", "p.Citation", "p.Mnemonic", "p.Additional", "p.Remark",
+			"p.TableContent",
 			"table.Media", "td.MediaCaption");
 
 		return $tags;
