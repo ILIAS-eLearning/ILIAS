@@ -34,14 +34,14 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###09 Mar 2004 new variable
-administration#:#analyzing#:#Analyzing...###09 Mar 2004 new variable
-administration#:#clean#:#Clean up###09 Mar 2004 new variable
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###09 Mar 2004 new variable
-administration#:#cleaning#:#Cleaning...###09 Mar 2004 new variable
-administration#:#cleaning_final#:#Final cleaning...###09 Mar 2004 new variable
-administration#:#closing_gaps#:#Closing gaps in tree...###09 Mar 2004 new variable
+administration#:#analyze_data#:#Аналіз Інтеграції даних
+administration#:#analyze_desc#:#Сканування системи на пошкоджені/невірні/пропущені/вільні об'єкти.
+administration#:#analyzing#:#Аналіз...
+administration#:#clean#:#Очистка
+administration#:#clean_desc#:#Видалення невірних посилань та входжень. Закрийти проміжківа у деревоподібній структурі.
+administration#:#cleaning#:#Очистка...
+administration#:#cleaning_final#:#Фінальна очистка...
+administration#:#closing_gaps#:#Закривання проміжків у дереві...
 administration#:#disabled#:#disabled###09 Mar 2004 new variable
 administration#:#done#:#Done###09 Mar 2004 new variable
 administration#:#found#:#found.###09 Mar 2004 new variable
