@@ -10,26 +10,32 @@
  */
 class User extends PEAR
 {
-    /**
-     * User Id
-     *
-	 * @var integer
-     */
-    var $Id;					
+	/**
+	* User Id
+	*
+	* @var integer
+	*/
+	var $Id;					
 
 	/**
-     * Contains all Userdata
-     *
-     * @var array
-     */
-    var $data;
+	* Contains all Userdata
+	*
+	* @var array
+	*/
+	var $data;
 	
-    /**
-     * database handler
-     *
-     * @var object DB
-     */	
-    var $db;
+	/**
+	* database handler
+	*
+	* @var object DB
+	*/	
+	var $db;
+	
+	/**
+	* error handling
+	* @var object error
+	*/
+	var $error_class;
 
     /**
      * Constructor
@@ -41,6 +47,9 @@ class User extends PEAR
      */
     function User(&$dbhandle, $AUsrId = "")
     {
+		$this->PEAR();
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
 
 		// Initiate variables
 		$this->db =& $dbhandle;

@@ -33,3 +33,18 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilias->db->query("UPDATE tree SET depth = '".$row->depth."' WHERE child = '".$row->child."'"); 
 }
 ?>
+<#5>
+CREATE TABLE bookmarks (
+  usr_fk int(11) NOT NULL default '0',
+  id int(11) NOT NULL default '0',
+  pos int(11) NOT NULL default '0',
+  url varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  folder varchar(255) NOT NULL default 'top',
+  timest timestamp(14) NOT NULL,
+  KEY usr_fk (usr_fk),
+  KEY id (id),
+  KEY pos (pos)
+) TYPE=MyISAM;
+INSERT INTO bookmarks VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
+INSERT INTO bookmarks VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);

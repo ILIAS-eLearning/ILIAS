@@ -33,8 +33,10 @@ if ($_GET["func"]=="migrate")
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("database"));
 $tpl->setVariable("TXT_VERSION", $lng->txt("version"));
-$tpl->setVariable("TXT_DATABASE_VERSION", $lng->txt("database_version").": ".$myDB->currentVersion);
-$tpl->setVariable("TXT_FILE_VERSION", $lng->txt("file_version").": ".$myDB->fileVersion);
+$tpl->setVariable("TXT_DATABASE_VERSION", $lng->txt("database_version"));
+$tpl->setVariable("DATABASE_VERSION", $myDB->currentVersion);
+$tpl->setVariable("TXT_FILE_VERSION", $lng->txt("file_version"));
+$tpl->setVariable("FILE_VERSION", $myDB->fileVersion);
 $tpl->setVariable("TXT_DATABASE_VERSION_STATUS", $lng->txt($myDB->getDBVersionStatus()));
 
 if ($myDB->getDBVersionStatus()=="database_needs_update")

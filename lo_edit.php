@@ -54,7 +54,21 @@ else
 	$switchstatus = "on";
 $tpl->setVariable("LINK_SWITCHSTATUS", "lo_edit.php?set=".$switchstatus."&amp;lo=".$lo."&amp;id=".$row["nr"]);
 $tpl->setVariable("TXT_STATUS", $lng->txt("set_".$switchstatus."line"));
+
+//subchapter
+$tpl->setVariable("TXT_NEWSUBCHAPTER", $lng->txt("subchapter_new"));
+$tpl->setVariable("LINK_NEWSUBCHAPTER", "lo_edit.php?func=newsubchapter&amp;lo=".$lo."&amp;id=".$row["nr"]);
+
+//edit title
+$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+$tpl->setVariable("LINK_EDIT", "lo_edit.php?func=edittitle&amp;lo=".$lo."&amp;id=".$row["nr"]);
+
+
+//enumeration
 $tpl->setVariable("ENUMERATE_STATUS", "on");
+$tpl->setVariable("TXT_ENUMERATE", $lng->txt("enumerate"));
+$tpl->setVariable("LINK_ENUMERATE", "lo_edit.php?func=setenumeration&amp;value=1&amp;lo=".$lo."&amp;id=".$row["nr"]);
+
 $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
