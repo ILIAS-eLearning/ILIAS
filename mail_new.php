@@ -243,6 +243,7 @@ if(isset($_POST["cmd"]["rcp_to"]) or
 #   isset($_POST["cmd"][""] == $lng->txt("search"))
 {
 	$tpl->setCurrentBlock("search");
+	$tpl->setVariable("TXT_SEARCH_FOR",$lng->txt("search_for"));
 	$tpl->setVariable("TXT_SEARCH_SYSTEM",$lng->txt("mail_search_system"));
 	$tpl->setVariable("TXT_SEARCH_ADDRESS",$lng->txt("mail_search_addressbook"));
 	$tpl->setVariable("BUTTON_SEARCH",$lng->txt("search"));
