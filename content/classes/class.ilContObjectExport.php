@@ -58,6 +58,12 @@ class ilContObjectExport
 		$settings = $this->ilias->getAllSettings();
 		$this->inst_id = $settings["inst_id"];
 
+		$date = time();
+		$this->export_dir = $this->cont_obj->getExportDirectory();
+		$this->subdir = $date."__".$this->inst_id."__".
+			$this->cont_obj->getType()."_".$this->cont_obj->getId();
+		$this->filename = $this->subdir.".xml";
+
 	}
 
 	function getInstId()
@@ -326,41 +332,56 @@ class ilContObjectExport
 
 	}
 
-}
 
-
-function buildExportFile()
-{
-	require_once("classes/class.ilXmlWriter.php");
-
-	$this->xml = new ilXmlWriter;
-
-	// set dtd definition
-	$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
-
-	// set generated comment
-	$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".
-		$this->cont_obj->getId()." of installation ".$this->inst.".");
-
-	// set xml header
-	$this->xml->xmlHeader();
-
-	//
-	$this->cont_obj->getXML($this->xml);
-
-	// dump xml document to screen (only for debugging reasons)
-	/*
-	echo "<PRE>";
-	echo htmlentities($this->xml->xmlDumpMem($format));
-	echo "</PRE>";
+	/**
+	* build export file (complete zip file)
 	*/
+	function buildExportFile()
+	{
+		require_once("classes/class.ilXmlWriter.php");
 
-	// dump xml document to file
-	$this->xml->xmlDumpFile($this->file, $format);
+		$this->xml = new ilXmlWriter;
 
-	// destroy writer object
-	$this->xml->_XmlWriter;
+		// set dtd definition
+		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
+
+		// set generated comment
+		$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".
+			$this->cont_obj->getId()." of installation ".$this->inst.".");
+
+		// set xml header
+		$this->xml->xmlHeader();
+
+		// get xml content
+		$this->cont_obj->exportXML($this->xml, $this->inst_id);
+
+		// dump xml document to screen (only for debugging reasons)
+		/*
+		echo "<PRE>";
+		echo htmlentities($this->xml->xmlDumpMem($format));
+		echo "</PRE>";
+		*/
+
+		// create directories
+		ilUtil::makeDir($this->export_dir."/".$this->subdir);
+		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
+
+		// dump xml document to file
+		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
+			, false);
+
+		// zip the file
+		ilUtil::zip($this->export_dir."/".$this->subdir,
+			$this->export_dir."/".$this->subdir.".zip");
+
+		// destroy writer object
+		$this->xml->_XmlWriter;
+
+		// send file to user
+		ilUtil::deliverFile($this->export_dir."/".$this->subdir,
+			$this->export_dir."/".$this->subdir.".zip", $this->subdir.".zip");
+	}
+
 }
-
 
 ?>

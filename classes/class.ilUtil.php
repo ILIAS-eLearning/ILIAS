@@ -1135,7 +1135,7 @@ class ilUtil
         // $htmldoc .= "--right 200 ";
         $htmldoc .= $html_file;
         exec($htmldoc);
-        
+
     }
 
     /**
@@ -1145,7 +1145,7 @@ class ilUtil
     {
           $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
           $mime = "application/octet-stream"; // or whatever the mime type is
-         
+
           if (isset($_SERVER["HTTPS"])) {
               /**
                * We need to set the following headers to make downloads work using IE in HTTPS mode.
@@ -1157,11 +1157,11 @@ class ilUtil
               header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
               header("Cache-Control: post-check=0, pre-check=0", false);
           }
-          else if ($disposition == "attachment") 
+          else if ($disposition == "attachment")
           {
                   header("Cache-control: private");
           }
-          else 
+          else
           {
               header("Cache-Control: no-cache, must-revalidate");
               header("Pragma: no-cache");
@@ -1171,48 +1171,49 @@ class ilUtil
           header("Content-Description: ".trim(htmlentities($a_filename)));
           header("Content-Length: ".(string)(strlen($a_data)));
           header("Connection: close");
-        
+
         echo $a_data;
-        
+
     }
-    
-    /**
-    *   deliver file for download via browser.
-    */
-    function deliverFile($a_file, $a_filename)
-    {
-          $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
-          $mime = "application/octet-stream"; // or whatever the mime type is
-         
-          if (isset($_SERVER["HTTPS"])) {
-              /**
-               * We need to set the following headers to make downloads work using IE in HTTPS mode.
-               */
-              header("Pragma: ");
-              header("Cache-Control: ");
-              header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-              header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-              header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-              header("Cache-Control: post-check=0, pre-check=0", false);
-          }
-          else if ($disposition == "attachment") 
-          {
-                  header("Cache-control: private");
-          }
-          else 
-          {
-              header("Cache-Control: no-cache, must-revalidate");
-              header("Pragma: no-cache");
-          }
-          header("Content-Type: $mime");
-          header("Content-Disposition:$disposition; filename=\"".trim(htmlentities($a_filename))."\"");
-          header("Content-Description: ".trim(htmlentities($a_filename)));
-          header("Content-Length: ".(string)(filesize($a_file)));
-          header("Connection: close");
-        
-          readfile( $a_file );
-    }
-    
+
+	/**
+	*   deliver file for download via browser.
+	*/
+	function deliverFile($a_file, $a_filename)
+	{
+		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
+		$mime = "application/octet-stream"; // or whatever the mime type is
+
+		if (isset($_SERVER["HTTPS"]))
+		{
+			/**
+			* We need to set the following headers to make downloads work using IE in HTTPS mode.
+			*/
+			header("Pragma: ");
+			header("Cache-Control: ");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+			header("Cache-Control: post-check=0, pre-check=0", false);
+		}
+		else if ($disposition == "attachment")
+		{
+			header("Cache-control: private");
+		}
+		else
+		{
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Pragma: no-cache");
+		}
+		header("Content-Type: $mime");
+		header("Content-Disposition:$disposition; filename=\"".trim(htmlentities($a_filename))."\"");
+		header("Content-Description: ".trim(htmlentities($a_filename)));
+		header("Content-Length: ".(string)(filesize($a_file)));
+		header("Connection: close");
+
+		readfile( $a_file );
+	}
+
 	/**
 	* get full java path (dir + java command)
 	*/
@@ -1254,25 +1255,25 @@ class ilUtil
 	function makeDir($a_dir)
 	{
 		$a_dir = trim($a_dir);
-		
+
 		// remove trailing slash (bugfix for php 4.2.x)
 		if (substr($a_dir,-1) == "/")
 		{
 			$a_dir = substr($a_dir,0,-1);
 		}
-		
+
 		// check if a_dir comes with a path
 		if (!($path = substr($a_dir,0, strrpos($a_dir,"/") - strlen($a_dir))))
 		{
 			$path = ".";
 		}
-	
+
 		// create directory with file permissions of parent directory
 		umask(0000);
 		return @mkdir($a_dir,fileperms($path));
 	}
-	
-	
+
+
 /**
 * Create a new directory and all parent directories
 *

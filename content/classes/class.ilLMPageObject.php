@@ -69,6 +69,7 @@ class ilLMPageObject extends ilLMObject
 
 		$this->is_alias = false;
 		$this->contains_int_link = false;
+		$this->mobs_contained  = array();
 
 		if($a_id != 0)
 		{
@@ -219,7 +220,7 @@ class ilLMPageObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer, $a_mode = "normal")
+	function exportXML(&$a_xml_writer, $a_mode = "normal", $a_inst = 0)
 	{
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);
@@ -231,12 +232,12 @@ class ilLMPageObject extends ilLMObject
 				$this->exportXMLMetaData($a_xml_writer);
 
 				// PageContent
-				$this->exportXMLPageContent($a_xml_writer);
+				$this->exportXMLPageContent($a_xml_writer, $a_inst);
 				break;
 
 			case "alias":
 				$attrs = array();
-				$attrs["OriginId"] = "il_".$a_xml_writer->getInstId().
+				$attrs["OriginId"] = "il_".$a_inst.
 					"_pg_".$this->getId();
 				$a_xml_writer->xmlElement("PageAlias", $attrs);
 				break;
@@ -269,16 +270,27 @@ class ilLMPageObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLPageContent(&$a_xml_writer)
+	function exportXMLPageContent(&$a_xml_writer, $a_inst = 0)
 	{
 		$cont_obj =& $this->getContentObject();
 		//$page_obj = new ilPageObject($cont_obj->getType(), $this->getId());
 
-		$this->page_obj->buildDom();
-		$this->page_obj->insertInstIntoIDs($a_xml_writer->getInstId());
-		$this->page_obj->getXMLFromDom(false, false, false, "", true);
+		$this->page_object->buildDom();
+		$this->page_object->insertInstIntoIDs($a_inst);
+		$this->mobs_contained = $this->page_object->collectMediaObjects();
+		$this->page_object->getXMLFromDom(false, false, false, "", true);
 
-		$this->page_obj->freeDom();
+		$this->page_object->freeDom();
+	}
+
+	/**
+	* get ids of all media objects within the page
+	*
+	* note: this method must be called afer exportXMLPageContent
+	*/
+	function getMediaObjectIds()
+	{
+		return $this->mobs_contained;
 	}
 
 }

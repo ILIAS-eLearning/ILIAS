@@ -55,6 +55,7 @@ class ilLMObject
 		$this->ilias =& $ilias;
 		$this->id = $a_id;
 		$this->setContentObject($a_content_obj);
+		$this->setLMId($a_content_obj->getId());
 		if($a_id != 0)
 		{
 			$this->read();
