@@ -51,9 +51,13 @@ if ($_POST["u_id"]!="")
 	}
 	else
 	{
-		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("MSG", $lng->txt("msg_changes_ok"));
-		$tpl->parseCurrentBlock();		
+//	commented out by pgabriel 2002-08-06: 
+// better use header location for eventual language change (then languages change
+// have direct effect)
+		header("location: ./usr_profile.php");
+//		$tpl->setCurrentBlock("message");
+//		$tpl->setVariable("MSG", $lng->txt("msg_changes_ok"));
+//		$tpl->parseCurrentBlock();		
 	}
 }
 
