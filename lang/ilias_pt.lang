@@ -117,9 +117,11 @@ assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Criar novo
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplicar
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
+assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_cloze_result#:#Número do espaço %s com o valor %s é %s. Você recebeu %s pontos.
@@ -237,6 +239,7 @@ assessment#:#tst_already_taken#:#Testes já feitos
 assessment#:#tst_anon_eval#:#Resultados agregados anónimos
 assessment#:#tst_browse_for_questions#:#Procurar por questões
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione pelo menos um avanço de nota para apagá-lo
+assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ninguém ainda entrou no teste. Não existem resultados agregados de testes disponíveis.
 assessment#:#tst_eval_total_finished#:#Total de testes acabados###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Tempo médio de realização para os testes acabados###12 Jun 2004 content changed

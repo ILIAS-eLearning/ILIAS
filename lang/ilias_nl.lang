@@ -117,9 +117,11 @@ assessment#:#create_gaps#:#Creëer gaten
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Creëer een nieuwe
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplikaat
 assessment#:#end_tag#:#Eind tag
+assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
 assessment#:#eval_cloze_result#:#Opening-nummer %s met waarde %s is %s. U ontving %s punten.
@@ -237,6 +239,7 @@ assessment#:#tst_already_taken#:#Testen al gedaan
 assessment#:#tst_anon_eval#:#Anoniem geaggregeerde resultaten
 assessment#:#tst_browse_for_questions#:#Blader voor vragen
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
+assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nu toe de test gedaan. Er zijn geen anoniem geaggregeerde resultaten beschikbaar
 assessment#:#tst_eval_total_finished#:#Totaal aantal afgeronde testen###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde verwerkingstijd voor afgeronde testen###12 Jun 2004 content changed

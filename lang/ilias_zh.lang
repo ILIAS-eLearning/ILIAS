@@ -134,9 +134,11 @@ assessment#:#create_gaps#:#创建间隔
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#创建新的
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#复制
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
+assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
@@ -254,6 +256,7 @@ assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
+assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
@@ -641,6 +644,7 @@ common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市
 common#:#clear#:#清除
 common#:#client ip#:#用户地址
+common#:#client ip#:#用户地址
 common#:#client_id#:#客户身份
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
@@ -656,6 +660,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#拷贝
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#的拷贝
+common#:#count#:#数目
 common#:#count#:#数目
 common#:#country#:#国家
 common#:#course#:#课程
@@ -1110,6 +1115,7 @@ common#:#ldap_edit_permission#:#更改许可设置
 common#:#ldap_read#:#LDAP设置为读访问
 common#:#ldap_visible#:#LDAP设置可视
 common#:#ldap_write#:#编辑LDAP设置
+common#:#learning module#:#学习模块
 common#:#learning module#:#学习模块
 common#:#learning_objects#:#学习对象
 common#:#learning_resources#:#学习资源
@@ -1614,6 +1620,7 @@ common#:#saved#:#已保存
 common#:#saved_successfully#:#成功保存
 common#:#search#:#搜索
 common#:#search_for#:#搜索方式
+common#:#search_for#:#搜索方式
 common#:#search_in#:#搜索于
 common#:#search_new#:#新搜索
 common#:#search_recipient#:#搜索收件人
@@ -1683,6 +1690,7 @@ common#:#subcat_name#:#子类名
 common#:#subchapter_new#:#新子章节
 common#:#subject#:#题目
 common#:#subject_module#:#课程模块
+common#:#subject_module#:#课程模块
 common#:#submit#:#提交
 common#:#subobjects#:#子对象
 common#:#subscription#:#订阅
@@ -1716,12 +1724,17 @@ common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#术语
 common#:#test#:#考试
+common#:#test#:#考试
 common#:#test_intern#:#内部测试
+common#:#test_module#:#考试模块
 common#:#test_module#:#考试模块
 common#:#tests#:#测试
 common#:#time#:#时间
 common#:#time_d#:#按天
+common#:#time_d#:#按天
 common#:#time_h#:#按小时
+common#:#time_h#:#按小时
+common#:#time_segment#:#时间段
 common#:#time_segment#:#时间段
 common#:#title#:#标题
 common#:#to#:#到
@@ -1774,16 +1787,6 @@ common#:#users#:#用户
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#用户在线
 common#:#usertracking#:#用户访问统计
-common#:#subject_module#:#课程模块
-common#:#test_module#:#考试模块
-common#:#time_segment#:#时间段
-common#:#search_for#:#搜索方式
-common#:#time_h#:#按小时
-common#:#time_d#:#按天
-common#:#test#:#考试
-common#:#learning module#:#学习模块
-common#:#client ip#:#用户地址
-common#:#count#:#数目
 common#:#usr#:#用户
 common#:#usr_a#:#一个用户
 common#:#usr_add#:#增加用户
