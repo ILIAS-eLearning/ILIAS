@@ -26,10 +26,13 @@ class ilWysiwygUtil
 {
     
 	var $tpl;
+	var $lng;
 	
 	function ilWysiwygUtil() 
 	{
-		
+		global $lng;
+		$this->lng =& $lng;
+		$this->lng->loadLanguageModule("content");
 	}
 	
 	function show($ptype) 
@@ -61,12 +64,27 @@ class ilWysiwygUtil
 	function showMoveCopyQuestion() {
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+		
+		$this->tpl->setVariable("TXT_SET_AFTER", $this->lng->txt("cont_set_after"));
+		$this->tpl->setVariable("TXT_SET_BEFORE", $this->lng->txt("cont_set_before"));
+		
+		$this->tpl->setVariable("TXT_MOVE_OBJECT", $this->lng->txt("cont_move_object"));
+		$this->tpl->setVariable("TXT_COPY_OBJECT", $this->lng->txt("cont_copy_object"));
+		
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 	}
 	
 	function showXtl() 
 	{
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_xtl.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+		
+		
+		$this->tpl->setVariable("TXT_EXTERNAL_URL", $this->lng->txt("cont_external_url"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("cont_title"));
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 	}
 	
 	function showItl() 
@@ -79,6 +97,11 @@ class ilWysiwygUtil
 	{
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+		
+		$this->tpl->setVariable("TXT_FOOTNOTES", $this->lng->txt("cont_title_footnotes"));
+		$this->tpl->setVariable("TXT_INSERT_NEW_FOOTNOTES", $this->lng->txt("cont_insert_new_footnote"));
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 	}
 	
 	
