@@ -96,7 +96,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-
+			$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
+			
 			// setup rolefolder & default local roles (moderator)
 			$roles = $newObj->initDefaultRoles();
 

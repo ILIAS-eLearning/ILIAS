@@ -101,7 +101,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-
+			$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
+			
 			//$roles = $newObj->initDefaultRoles();
 
 			// assign author role to creator of forum object
