@@ -1445,7 +1445,11 @@ class ilObjTest extends ilObject
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$res =& $this->get_test_result($row->user_fi);
-			$percentage = ($res["test"]["total_max_points"] / $res["test"]["total_reached_points"]) * 100.0;
+			if (!$res["test"]["total_reached_points"]) {
+				$percentage = 0.0;
+			} else {
+				$percentage = ($res["test"]["total_max_points"] / $res["test"]["total_reached_points"]) * 100.0;
+			}
 			$mark_obj = $res["test"]["test"]->mark_schema->get_matching_mark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
 			if ($mark_obj->get_passed()) {
