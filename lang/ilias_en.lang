@@ -874,10 +874,12 @@ common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
+common#:#import_grp_finished#:#Imported group without any error
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
 common#:#import_users#:#Import Users
+common#:#imported#:#imported
 common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
@@ -2780,5 +2782,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#import_grp_finished#:#Imported group without any error
-common#:#imported#:#imported

@@ -265,9 +265,9 @@ assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
 assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
 assessment#:#tst_status_completed#:#completato
-assessment#:#tst_status_completed_more_tries_possible#:#(completato)
-assessment#:#tst_status_not_entered#:#non inserito
-assessment#:#tst_status_progress#:#in esecuzione
+assessment#:#tst_status_completed_more_tries_possible#:#(completato)###30 Apr 2004 content changed
+assessment#:#tst_status_not_entered#:#non inserito###30 Apr 2004 content changed
+assessment#:#tst_status_progress#:#in esecuzione###30 Apr 2004 content changed
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_types#:#Tipi di test
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
@@ -874,10 +874,12 @@ common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
+common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa SCORM Package
 common#:#import_users#:#Importa utenti
+common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
@@ -1025,7 +1027,7 @@ common#:#mail_e_sent#:#Inviate
 common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi della posta
 common#:#mail_folders#:#Cartelle di posta
 common#:#mail_import#:#Importazione
-common#:#mail_import_file#:#File di eportazione di ILIAS 2
+common#:#mail_import_file#:#File di eportazione di ILIAS 2###30 Apr 2004 content changed
 common#:#mail_intern_enable#:#Abilita
 common#:#mail_mail_visible#:#L'utente pu&#242; usare la posta di sistema
 common#:#mail_mails_of#:#La tua posta
@@ -1524,7 +1526,7 @@ common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
-common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
+common#:#table_mail_import#:#Importazione delle mail da ILIAS 2###30 Apr 2004 content changed
 common#:#term#:#Termine
 common#:#test_intern#:#Test interno
 common#:#tests#:#Test

@@ -265,9 +265,9 @@ assessment#:#tst_stat_selected_users#:#Geselecteerde gebruikers
 assessment#:#tst_stat_users_intro#:#Laat statistische evaluatie zien voor
 assessment#:#tst_statistical_evaluation#:#Statistisch evaluatie-gereedschap
 assessment#:#tst_status_completed#:#compleet
-assessment#:#tst_status_completed_more_tries_possible#:#(compleet)
-assessment#:#tst_status_not_entered#:#Niet ingevoerd
-assessment#:#tst_status_progress#:#werkend
+assessment#:#tst_status_completed_more_tries_possible#:#(compleet)###30 Apr 2004 content changed
+assessment#:#tst_status_not_entered#:#Niet ingevoerd###30 Apr 2004 content changed
+assessment#:#tst_status_progress#:#werkend###30 Apr 2004 content changed
 assessment#:#tst_type#:#Test-type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Uw cijfer is
@@ -874,10 +874,12 @@ common#:#import_file#:#Importeren Bestand
 common#:#import_file_not_valid#:#Het import-bestand is niet goed.
 common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Importeer Root-gebruiker
 common#:#import_slm#:#SCORM-package importeren
 common#:#import_users#:#Importeer Gebruikers
+common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Gebruikers-taal
 common#:#inbox#:#Inbox
@@ -1025,7 +1027,7 @@ common#:#mail_e_sent#:#Gezonden
 common#:#mail_edit_permission#:#Wijzig rechten-instellingen
 common#:#mail_folders#:#Post-mappen
 common#:#mail_import#:#Importeren
-common#:#mail_import_file#:#ILIAS 2 export- bestand
+common#:#mail_import_file#:#ILIAS 2 export- bestand###30 Apr 2004 content changed
 common#:#mail_intern_enable#:#Inschakelen
 common#:#mail_mail_visible#:#Gebruiker mag mail-systeem gebruiken
 common#:#mail_mails_of#:#Mails
@@ -1524,7 +1526,7 @@ common#:#system_groups#:#Systeem-groepen
 common#:#system_grp#:#Systeem-groep
 common#:#system_language#:#Systeem-taal
 common#:#system_message#:#Systeem-bericht
-common#:#table_mail_import#:#Importeren van ILIAS 2 Mails
+common#:#table_mail_import#:#Importeren van ILIAS 2 Mails###30 Apr 2004 content changed
 common#:#term#:#Begrip
 common#:#test_intern#:#Interne test
 common#:#tests#:#Testen
