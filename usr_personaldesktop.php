@@ -126,7 +126,7 @@ if (count($courses)>0)
                 $tpl->setVariable("CRS_DESC", $row["desc"]);
                 $tpl->setVariable("CRS_LINK", "course.php?id=".$row["id"]);
                 $tpl->setVariable("TXT_QUIT", $lng->txt("quit"));
-                $tpl->setVariable("CRS_LINK_QUIT", "course.php?id=".$row["id"]."&amp;func=quit");
+                $tpl->setVariable("CRS_LINK_QUIT", "course.php?id=".$row["id"]."&amp;cmd=quit");
                 $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("tbl_crs");

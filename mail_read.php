@@ -21,9 +21,9 @@ $myMails = new UserMail($ilias->db, $ilias->account->Id);
 $mail = $myMails->getOneMail($id);
 
 
-if ($_POST["func"] != "")
+if ($_POST["cmd"] != "")
 {
-	switch ($_POST["func"])
+	switch ($_POST["cmd"])
 	{
 		case "reply":
 			//reply
@@ -45,12 +45,12 @@ $tpl->setVariable("TXT_URL",$lng->txt("url"));
 //buttons
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./mail_new.php?func=reply&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_LINK","./mail_new.php?cmd=reply&amp;id=".$mail["id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("reply"));
 
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_new.php?func=forward&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_LINK", "mail_new.php?cmd=forward&amp;id=".$mail["id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("forward"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
@@ -58,7 +58,7 @@ $tplbtn->setVariable("BTN_LINK", "mail_print.php?id=".$mail["id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("print"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail.php?func=del&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_LINK", "mail.php?cmd=del&amp;id=".$mail["id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("delete"));
 $tplbtn->parseCurrentBlock();
 
