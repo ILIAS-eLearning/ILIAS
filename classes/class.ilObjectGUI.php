@@ -91,10 +91,10 @@ class ilObjectGUI
 	* @param	integer	object id
 	* @param	boolean	call be reference
 	*/
-	function ilObjectGUI($a_data, $a_id, $a_call_by_reference)
+	function ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
-		
+
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
@@ -120,21 +120,24 @@ class ilObjectGUI
 			$this->link_params = "ref_id=".$this->ref_id;
 			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 		}
-		
+
 		//prepare output
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$title = $this->object->getTitle();
-		
-		// catch feedback message
-		sendInfo();
-
-		if (!empty($title))
+		if ($a_prepare_output)
 		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
+			$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$title = $this->object->getTitle();
 
-		$this->setAdminTabs();
-		$this->setLocator();
+			// catch feedback message
+			sendInfo();
+
+			if (!empty($title))
+			{
+				$this->tpl->setVariable("HEADER", $title);
+			}
+
+			$this->setAdminTabs();
+			$this->setLocator();
+		}
 	}
 
 	/**
