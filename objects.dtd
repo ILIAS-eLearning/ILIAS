@@ -1,1 +1,1 @@
-// add document type definition for ilias object definition here :-)
+<!ELEMENT objects (object*)>
