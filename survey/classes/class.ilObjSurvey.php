@@ -231,6 +231,11 @@ class ilObjSurvey extends ilObject
 		return true;
 	}
 	
+	function createReference() {
+		parent::createReference();
+		$this->saveToDb();
+	}
+
 /**
 	* read object data from db into object
 	* @param	boolean
