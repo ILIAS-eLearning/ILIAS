@@ -5352,4 +5352,12 @@ INDEX ( `user_fi` , `obj_fi` )
 ) COMMENT = 'Logging of Test&Assessment object changes';
 <#378>
 ALTER TABLE `ass_log` ADD `original_fi` INT AFTER `question_fi` ;
+<#379>
+INSERT INTO `qpl_question_type` ( `question_type_id` , `type_tag` ) VALUES ('8', 'qt_text') ;
+ALTER TABLE `qpl_questions` ADD `maxNrOfChars` INT DEFAULT '0' NOT NULL AFTER `params` ;
+ALTER TABLE `tst_solutions` CHANGE `value1` `value1` TEXT DEFAULT NULL ;
+<#380>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

@@ -31,6 +31,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
