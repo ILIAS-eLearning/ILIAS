@@ -1,4 +1,10 @@
 <?php
+/**
+* Class for importing XML documents into a relational database
+*  
+* @author	Sascha Hofmann <shofmann@databay.de>
+* @version	$Id$
+*/
 class xml2sql
 {
 	/**
