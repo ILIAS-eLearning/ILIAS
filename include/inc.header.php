@@ -26,7 +26,6 @@ require_once "classes/class.IniFile.php";
 require_once "classes/class.ilDBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
-require_once "classes/class.ilAdmTabsGUI.php";
 require_once "classes/class.User.php";
 require_once "classes/class.format.php";
 require_once "classes/class.ObjectDefinition.php";
