@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.82 2004/05/14 10:27:49 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.83 2004/07/30 17:21:35 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -688,7 +688,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacsystem, $rbacadmin;
 
 		if (!$rbacsystem->checkAccess('create_user',$this->usrf_ref_id))
 		{
