@@ -864,10 +864,22 @@ class ilObjCourse extends ilObject
 		}
 		return false;
 	}
-		
-		
-		
-		
 
+	// static method for condition handler
+	function _checkCondition($a_obj_id,$a_operator,$a_value)
+	{
+		global $ilias;
+
+		include_once "./course/classes/class.ilCourseMembers.php";
+		
+		switch($a_operator)
+		{
+			case 'passed':
+				return ilCourseMembers::_hasPassed($a_obj_id,$ilias->account->getId());
+				
+			default:
+				return false;
+		}
+	}
 } //END class.ilObjCourse
 ?>

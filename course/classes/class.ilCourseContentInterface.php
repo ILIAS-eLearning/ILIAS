@@ -102,7 +102,10 @@ class ilCourseContentInterface
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
-				if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($cont_data['obj_id']);
+				
+				if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
+					($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
 				{
 					$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
 					$tpl->setCurrentBlock("crs_read");
@@ -127,7 +130,13 @@ class ilCourseContentInterface
 					$tpl->setVariable("FILE_LINK",$this->ctrl->getLinkTargetByClass('ilObjFileGUI'));
 					$tpl->parseCurrentBlock();
 				}
-
+				if(!$conditions_ok)
+				{
+					$tpl->setCurrentBlock("crs_preconditions");
+					$tpl->setVariable("PRECONDITIONS_LINK",'');
+					$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('preconditions'));
+					$tpl->parseCurrentBlock();
+				}
 
 				if($rbacsystem->checkAccess('write',$cont_data['ref_id']))
 				{
