@@ -43,7 +43,6 @@ common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#msg_no_delete_yourself#:#Depressiv? Lebensmüde? Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_objects#:#Alle Objekte
@@ -157,6 +156,7 @@ common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#download#:#Herunterladen
 common#:#drafts#:#Entwürfe
+common#:#drop#:#Drop###19 Aug 2003 new variable
 common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
@@ -310,7 +310,6 @@ common#:#lm_added#:#Lernmodul angelegt
 common#:#lm_new#:#Neues Lernmodul
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
-common#:#registration#:#Neuanmeldung
 common#:#lo#:#Lerneinheit
 common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
@@ -328,7 +327,6 @@ common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
-common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
@@ -388,6 +386,7 @@ common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
 common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
+common#:#msg_no_delete_yourself#:#Depressiv? Lebensmüde? Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
@@ -421,6 +420,7 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstel
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen###09 Aug 2003 content changed
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte!
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
@@ -428,6 +428,8 @@ common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Roll
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
+common#:#my_frms#:#My Forums###19 Aug 2003 new variable
+common#:#my_los#:#My Learning Objects###19 Aug 2003 new variable
 common#:#name#:#Name
 common#:#new#:#Neu
 common#:#new_folder#:#Neuer Ordner
@@ -440,7 +442,9 @@ common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
+common#:#no_frm_in_personal_list#:#No forums in personal list.###19 Aug 2003 new variable
 common#:#no_import_available#:#Import nicht verfügbar für Typ
+common#:#no_lo_in_personal_list#:#No learning objects in personal list.###19 Aug 2003 new variable
 common#:#no_objects#:#Keine Objekte
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
@@ -545,7 +549,9 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#register#:#Anmelden
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
+common#:#registration#:#Neuanmeldung
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
@@ -629,6 +635,7 @@ common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
+common#:#to_desktop#:#To Desktop###19 Aug 2003 new variable
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
@@ -636,6 +643,7 @@ common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einf&uuml;gen m&ouml;chten.
+common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
@@ -652,7 +660,6 @@ common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
@@ -673,7 +680,6 @@ common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
 common#:#welcome#:#Willkommen
-common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
