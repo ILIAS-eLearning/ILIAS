@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.18 2003/06/25 14:13:37 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.19 2003/07/01 15:11:38 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -160,7 +160,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		//add template for buttons
+		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
@@ -169,11 +169,16 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
 
+		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","content/lm_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
+
+		if ($this->object->getStyleSheetId() == 0)
+		{
+		}
 
 
 		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);

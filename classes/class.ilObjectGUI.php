@@ -94,7 +94,7 @@ class ilObjectGUI
 	* @param	integer	object id
 	* @param	boolean	call be reference
 	*/
-	function ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
 
@@ -114,16 +114,19 @@ class ilObjectGUI
 		$this->obj_id = $_GET["obj_id"];
 
 		// TODO: it seems that we always have to pass only the ref_id
-		if ($this->call_by_reference)
+		if ($a_id != 0)
 		{
-			$this->link_params = "ref_id=".$this->ref_id;
-			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
+			if ($this->call_by_reference)
+			{
+				$this->link_params = "ref_id=".$this->ref_id;
+				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
 
-		}
-		else
-		{
-			$this->link_params = "ref_id=".$this->ref_id;
-			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($a_id);
+			}
+			else
+			{
+				$this->link_params = "ref_id=".$this->ref_id;
+				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($a_id);
+			}
 		}
 
 		//prepare output
@@ -217,7 +220,7 @@ class ilObjectGUI
 			}
 
 			$show = true;
-			
+
 			// only check permissions for tabs if object is a permission object
 			if ($this->call_by_reference)
 			{
@@ -327,7 +330,7 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			
 		}
-		
+
 		if (isset($_GET["obj_id"]))
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
@@ -513,7 +516,7 @@ class ilObjectGUI
 
 				// get node data
 				$top_node = $tree->getNodeData($ref_id);
-			
+
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $tree->getSubtree($top_node);
 			
@@ -546,7 +549,7 @@ class ilObjectGUI
 				}
 			}
 		} // END IF 'cut & paste'
-		
+
 		// PASTE IF CMD WAS 'linkt' (TODO: Could be merged with 'cut' routine above)
 		if ($_SESSION["clipboard"]["cmd"] == "link")
 		{
@@ -1153,8 +1156,9 @@ class ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"].
-				"&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
+				"adm_object.php?cmd=save&ref_id=".$_GET["ref_id"].
+				"&new_type=".$_POST["new_type"]));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
@@ -1188,8 +1192,8 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
-
-		header("Location: adm_object.php?".$this->link_params);
+		header("Location:".$this->getReturnLocation("save",
+			"adm_object.php?".$this->link_params));
 		exit();
 	}
 
@@ -1588,7 +1592,7 @@ class ilObjectGUI
 			}// END FOREACH
 		}// END STOP INHERIT
 	
-		sendinfo($this->lng->txt("saved_successfully"),true);	
+		sendinfo($this->lng->txt("saved_successfully"),true);
 		header("Location: ".$this->getReturnLocation("permSave",
 			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();

@@ -40,6 +40,7 @@ class ilObjLearningModule extends ilObject
 	var $lm_tree;
 	var $meta_data;
 	var $layout;
+	var $style_id;
 
 	/**
 	* Constructor
@@ -138,12 +139,23 @@ class ilObjLearningModule extends ilObject
 		$this->layout = $a_layout;
 	}
 
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
 	function readProperties()
 	{
 		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setLayout($lm_rec["default_layout"]);
+		$this->setStyleSheetId($lm_rec["stylesheet"]);
 	}
 
 	function updateProperties()

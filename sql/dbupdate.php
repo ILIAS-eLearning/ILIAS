@@ -1190,3 +1190,15 @@ ALTER TABLE media_object ADD COLUMN halign ENUM('Left', 'Center', 'Right') NOT N
 
 <#54>
 ALTER TABLE meta_technical ADD COLUMN format VARCHAR(200) NOT NULL DEFAULT '';
+
+<#55>
+ALTER TABLE learning_module ADD COLUMN stylesheet INT NOT NULL DEFAULT '0';
+
+<#56>
+CREATE TABLE style (
+	style_id	INT NOT NULL,
+	tag			VARCHAR(100),
+	class		VARCHAR(100),
+	parameter	VARCHAR(100),
+	value		VARCHAR(100)
+);

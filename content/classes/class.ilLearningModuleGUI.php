@@ -74,11 +74,30 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
+
+		// test purpose: create stylesheet
+		if ($this->object->getStyleSheetId() == 0)
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=createStyle&ref_id=".$this->object->getRefID());
+			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create stylesheet"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else // test purpose: edit stylesheet
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=editStyle&ref_id=".$this->object->getRefID());
+			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit stylesheet"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
@@ -101,6 +120,25 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->updateProperties();
 		$this->view();
+	}
+
+	function createStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), false);
+		$style_gui->setFormAction("save", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=saveStyle");
+		$style_gui->createObject();
+
+	}
+
+	function saveStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), false);
+		$style_gui->setReturnLocation("save", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=view");
+		$style_gui->saveObject();
 	}
 
 	function chapters()
