@@ -1929,9 +1929,9 @@ dateplaner#:#freetime#:#free Time in group
 dateplaner#:#group#:#group
 dateplaner#:#help_day#:#Dateplaner dayview
 dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.
-dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate#:#Enddate - syntax[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
-dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation#:#Endtime syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.
@@ -1964,7 +1964,7 @@ dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters
 dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.
-dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate#:#Startdate - syntax[dd/mm/yyyy]
 dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
 dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format
 dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.
