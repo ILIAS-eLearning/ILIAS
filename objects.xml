@@ -95,6 +95,20 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
+<object name="fold" class_name="Folder" checkbox="0" inherit="0">
+	<subobj name="frm">frm</subobj>
+	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="crs">crs</subobj>
+	<subobj name="file" max="1">file</subobj>
+	<subobj name="fold">fold</subobj>
+	<property name="view">view_content</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>	
+</object>
 <object name="frm" class_name="Forum" checkbox="1" inherit="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
@@ -114,6 +128,7 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
+	<subobj name="fold">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
