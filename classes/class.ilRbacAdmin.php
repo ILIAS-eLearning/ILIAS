@@ -257,7 +257,13 @@ class ilRbacAdmin
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
 			return true;
-		}		
+		}
+		
+		// convert all values to integer
+		foreach ($a_ops as $key => $operation)
+		{
+			$a_ops[$key] = (int) $operation;
+		}
 
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
