@@ -29,7 +29,9 @@ class ilObjAICCCourseInterchangeFiles {
 		
 		//check for required files
 		$missingFiles = array_diff ($this->requiredFiles, array_keys($this->coursefiles));
-		if (count($missingFiles)>0)
+		if (count($missingFiles)==4)
+			$this->errorText[]="Missing all required files.<br>You want to check if your learning module is of a different type.";
+		else if (count($missingFiles)>0)
 			$this->errorText[]="Missing required file(s): ".implode("<bR>", $missingFiles);
 	}
 

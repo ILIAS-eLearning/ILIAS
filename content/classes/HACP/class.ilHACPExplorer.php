@@ -21,84 +21,10 @@ class ilHACPExplorer extends ilAICCExplorer
 		$this->tree = new ilAICCTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
 		$this->checkPermissions(false);
-		$this->outputIcons(false);
+		$this->outputIcons(true);
 		$this->setOrderColumn("");
 	}
-
-	function isClickable($a_type, $a_id = 0)
-	{
-		if ($a_type=="sbl") {
-			$block_object =& new ilAICCBlock($a_id);
-			return (strlen($block_object->getDescription())>0);
-		}
-		
-		if ($a_type != "sau")
-		{
-			return false;
-		}
-		else
-		{
-			$sc_object =& new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				return true;
-			//}
-		}
-		return false;
-	}
-
-	function formatItemTable(&$tpl, $a_id, $a_type)
-	{
-		global $lng;
-/*
-		if ($a_type != "sau")
-		{
-			return;
-		}
-		else
-		{
-			$sc_object =& new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				$trdata = $sc_object->getTrackingDataOfUser();
-
-				// status
-				$status = ($trdata["lesson_status"] == "")
-					? "not attempted"
-					: $trdata["lesson_status"];
-				$tpl->setCurrentBlock("item_row");
-				$tpl->setVariable("TXT_KEY", $lng->txt("cont_status"));
-				$tpl->setVariable("TXT_VALUE",
-					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status)));
-				$tpl->parseCurrentBlock();
-
-				// credits
-				if ($trdata["mastery_score"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_credits"));
-					$tpl->setVariable("TXT_VALUE", $trdata["mastery_score"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				// total time
-				if ($trdata["total_time"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_total_time"));
-					$tpl->setVariable("TXT_VALUE", $trdata["total_time"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock("item_table");
-				$tpl->parseCurrentBlock();
-			//}
-		}
-*/		
-	}
-
-
-
+	
 /**
 	* Creates output
 	* recursive method
@@ -110,6 +36,7 @@ class ilHACPExplorer extends ilAICCExplorer
 	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
+		//echo "hacp: ".$a_option["title"]." >> ".implode(", ",$a_option["tab"])."<br>";
 
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -156,14 +83,12 @@ class ilHACPExplorer extends ilAICCExplorer
 				}
 			}
 		}
-
-		if ($this->output_icons)
-		{
-			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-			$tpl->parseCurrentBlock();
+		
+		if ($this->output_icons)	{
+			if ($this->isClickable($a_option["type"], $a_node_id) && $a_option["type"]!="sbl")
+				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
 		}
+
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
 		{
@@ -197,6 +122,7 @@ class ilHACPExplorer extends ilAICCExplorer
 						$url=$unit->getCommand_line();
 						if (strlen($url)==0)
 							$url=$unit->getFilename();
+
 						
 						//relative path?	
 						if (substr($url,0,7)!="http://")

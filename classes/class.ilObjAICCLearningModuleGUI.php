@@ -113,7 +113,7 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.sahs_track_items.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", true);
 
 		$num = 1;
 
