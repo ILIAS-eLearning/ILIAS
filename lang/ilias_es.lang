@@ -620,6 +620,7 @@ common#:#system_groups#:#system groups
 common#:#system_grp#:#system group
 common#:#system_language#:#system language
 common#:#system_message#:#system message
+common#:#term#:#Term###16 Aug 2003 new variable
 common#:#test_intern#:#test intern
 common#:#time#:#time
 common#:#title#:#title
@@ -686,6 +687,7 @@ content#:#cont_Number#:#Number###12 Jul 2003 new variable
 content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
+content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
@@ -703,6 +705,7 @@ content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
+content#:#cont_edit_term#:#Edit Term###16 Aug 2003 new variable
 content#:#cont_file#:#File###08 Jul 2003 new variable
 content#:#cont_files#:#Files###04 Aug 2003 new variable
 content#:#cont_fullscreen#:#Fullscreen###04 Aug 2003 new variable
@@ -721,6 +724,7 @@ content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new vari
 content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
+content#:#cont_new_term#:#New Term###16 Aug 2003 new variable
 content#:#cont_none#:#None###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
