@@ -1,6 +1,6 @@
 <?php
 /**
-* start page of ilias
+* start page of ilias 
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version *Id*
