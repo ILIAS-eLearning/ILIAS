@@ -2115,11 +2115,15 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tst_visible");
 					$tpl->setVariable("V_TITLE", $tst_data["title"]);
 					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("tst_warning");
-					$tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
-					$tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_test_not_complete"));
-					$tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_test_not_complete"));
-					$tpl->parseCurrentBlock();
+					if (($this->rbacsystem->checkAccess('write', $tst_data["ref_id"])) || ($this->rbacsystem->checkAccess('read', $tst_data["ref_id"])))
+					{
+						$tpl->setCurrentBlock("tst_warning");
+						$tpl->setVariable("HREF_WARNING", $obj_link . "&cmd=status");
+						$tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+						$tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_test_not_complete"));
+						$tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_test_not_complete"));
+						$tpl->parseCurrentBlock();
+					}
 				}
 
 				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))

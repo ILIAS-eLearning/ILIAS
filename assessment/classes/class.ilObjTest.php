@@ -254,12 +254,13 @@ class ilObjTest extends ilObject
 	*/
 	function ilObjTest($a_id = 0,$a_call_by_reference = true)
 	{
+		global $ilUser;
 		$this->type = "tst";
 		$this->mark_schema = new ASS_MarkSchema();
 		//$this->ilObject($a_id, $a_call_by_reference);
 		$this->retrieveTestTypes();
 		$this->test_id = -1;
-		$this->author = $this->ilias->account->fullname;
+		$this->author = $ilUser->fullname;
 		$this->introduction = "";
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
