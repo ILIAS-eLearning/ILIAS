@@ -819,6 +819,8 @@ content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_assign_full#:#Assign Fullscreen###23 Oct 2003 new variable
+content#:#cont_assign_std#:#Assign Standard###23 Oct 2003 new variable
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_booktitle#:#Buchtitel
@@ -899,6 +901,8 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich Details mehrerer Ausgaben anzuzeigen
 content#:#cont_new_assignment#:#Neue Zuordnung
+content#:#cont_new_dir#:#New Directory###23 Oct 2003 new variable
+content#:#cont_new_file#:#New File###23 Oct 2003 new variable
 content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
