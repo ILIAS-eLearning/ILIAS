@@ -5684,7 +5684,7 @@ CREATE TABLE IF NOT EXISTS `crs_groupings` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
-
-
+<#404>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

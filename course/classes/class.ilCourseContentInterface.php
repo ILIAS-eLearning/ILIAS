@@ -1051,7 +1051,7 @@ class ilCourseContentInterface
 				$this->tpl->setCurrentBlock("tst_read");
 				$this->tpl->setVariable("READ_TITLE_TST",$tmp_tst->getTitle());
 				$this->tpl->setVariable("READ_TARGET_TST",$obj_frame);
-				$this->tpl->setVariable("READ_LINK_TST", $obj_link);
+				$this->tpl->setVariable("READ_LINK_TST", $obj_link.'&crs_show_result='.$this->cci_ref_id);
 				$this->tpl->parseCurrentBlock();
 			}
 			else

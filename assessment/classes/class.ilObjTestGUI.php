@@ -28,6 +28,9 @@
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 *
+* @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI
+*
+*
 * @extends ilObjectGUI
 * @package ilias-core
 * @package assessment
@@ -69,6 +72,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
+
+		// Added parameter if called from crs_objectives
+		if((int) $_GET['crs_show_result'])
+		{
+			$this->ctrl->saveParameter($this,'crs_show_result',(int) $_GET['crs_show_result']);
+		}
 	}
 
 	/**
@@ -80,7 +89,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
 
-		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
+		#echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
 			default:
@@ -199,7 +208,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function getAddParameter()
 	{
-		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
+		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"] . '&crs_show_result='. (int) $_GET['crs_show_result'];
 	}
 
 	/*
@@ -2817,6 +2826,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 				$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
 				unset($tmp_obj_res);
+
+				if($_GET['crs_show_result'])
+				{
+					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+				}
+				
 			}
 		}
 	}
