@@ -491,7 +491,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$returnlocation = "adm_object.php";
 		}
-		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 
@@ -502,15 +502,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		unset($_SESSION["ass_q_id"]);
-		$location = $this->getReturnLocation("cancel");
-		if (strcmp($location, "") == 0)
-		{
-			$this->ctrl->redirect($this, "questions");
-		}
-		else
-		{
-			header("Location:$location");
-		}
+		$this->ctrl->redirect($this, "questions");
 	}
 
 	

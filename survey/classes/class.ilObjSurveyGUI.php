@@ -108,7 +108,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$returnlocation = "adm_object.php";
 		}
-		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 
@@ -200,7 +200,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["exit"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -662,7 +662,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
     }
 
@@ -2171,7 +2171,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["create_question_execute"])
 		{
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
+			ilUtil::redirect("questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
 			exit();
 		}
 
@@ -3323,7 +3323,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["cancel"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		if (count($_POST))

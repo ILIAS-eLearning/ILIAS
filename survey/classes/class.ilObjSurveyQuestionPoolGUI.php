@@ -101,7 +101,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$returnlocation = "adm_object.php";
 		}
-		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 	
