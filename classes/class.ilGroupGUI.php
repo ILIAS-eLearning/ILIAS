@@ -898,22 +898,11 @@ class ilGroupGUI extends ilObjectGUI
 	function newMembersObject()
 	{
 
-		$tab = array();
+
 
 		//create additional tabs for tab-bar
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
-		$tab[0]["ftabtype"] = 'tabinactive';
-		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'group_objects';
 
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
-		$tab[1]["ftabtype"] = 'tabinactive';
-		$tab[1]["target"] = "bottom";
-		$tab[1]["tab_text"] = 'group_members';
-
-		$this->prepareOutput(false, $tab);
+		$this->prepareOutput(true, 0);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
 
@@ -1035,6 +1024,195 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->show();
 	}
+	
+	function permObject()
+	{
+		global $rbacsystem, $rbacreview;
+
+		static $num = 0;
+
+		if (!$rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+
+
+			// only display superordinate roles; local roles with other scope are not displayed
+			$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+
+			$data = array();
+
+			// GET ALL LOCAL ROLE IDS
+			$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+
+			$local_roles = array();
+
+			if ($role_folder)
+			{
+				$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+			}
+
+			foreach ($parentRoles as $r)
+			{
+				$data["rolenames"][] = $r["title"];
+
+				if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
+				{
+					$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+				}
+				else
+				{
+					// don't display a checkbox for local roles AND system role
+					if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
+					{
+						$data["check_inherit"][] = "&nbsp;";
+					}
+					else
+					{
+						// linked local roles with stopped inheritance
+						$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
+					}
+				}
+			}
+
+			$ope_list = getOperationList($this->object->getType());
+
+			// BEGIN TABLE_DATA_OUTER
+			foreach ($ope_list as $key => $operation)
+			{
+				$opdata = array();
+
+				// skip 'create' permission because an object permission 'create' makes no sense
+				if ($operation["operation"] != "create")
+				{
+					$opdata["name"] = $operation["operation"];
+
+					foreach ($parentRoles as $role)
+					{
+						if ($role["obj_id"] == SYSTEM_ROLE_ID)
+						{
+							$checked = true;
+							$disabled = true;
+						}
+						else
+						{
+							$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+							$disabled = false;
+						}
+
+						// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
+						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
+						$opdata["values"][] = $box;
+					}
+
+					$data["permission"][] = $opdata;
+				}
+			}
+		}
+
+		/////////////////////
+		// START DATA OUTPUT
+		/////////////////////
+		$this->prepareOutput(true, 5);
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
+		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
+		$this->tpl->setCurrentBlock("tableheader");
+		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
+		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
+		$this->tpl->parseCurrentBlock();
+
+		$num = 0;
+
+		foreach($data["rolenames"] as $name)
+		{
+			// BLOCK ROLENAMES
+			$this->tpl->setCurrentBlock("ROLENAMES");
+			$this->tpl->setVariable("ROLE_NAME",$name);
+			$this->tpl->parseCurrentBlock();
+
+			// BLOCK CHECK INHERIT
+			if ($this->objDefinition->stopInheritance($this->type))
+			{
+				$this->tpl->setCurrentBLock("CHECK_INHERIT");
+				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$num++;
+		}
+
+		// save num for required column span and the end of parsing
+		$colspan = $num + 1;
+		$num = 0;
+
+		// offer option 'stop inheritance' only to those objects where this option is permitted
+		if ($this->objDefinition->stopInheritance($this->type))
+		{
+			$this->tpl->setCurrentBLock("STOP_INHERIT");
+			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		foreach ($data["permission"] as $ar_perm)
+		{
+			foreach ($ar_perm["values"] as $box)
+			{
+				// BEGIN TABLE CHECK PERM
+				$this->tpl->setCurrentBlock("CHECK_PERM");
+				$this->tpl->setVariable("CHECK_PERMISSION",$box);
+				$this->tpl->parseCurrentBlock();
+				// END CHECK PERM
+			}
+
+			// BEGIN TABLE DATA OUTER
+			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
+			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
+			$this->tpl->setVariable("CSS_ROW",$css_row);
+			$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
+			$this->tpl->parseCurrentBlock();
+			// END TABLE DATA OUTER
+		}
+
+		// ADD LOCAL ROLE
+		if ($this->object->getRefId() != ROLE_FOLDER_ID)
+		{
+			$this->tpl->setCurrentBlock("LOCAL_ROLE");
+
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+			}
+
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// PARSE BLOCKFILE
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION",
+		$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("COL_ANZ",$colspan);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
+
+
+
 
 	/**
 	* loads basic template file for group-enviroment
@@ -1102,7 +1280,7 @@ class ilGroupGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission', ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[6] = array ();
-			$tab[6]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"]."&active=6";		//link for tab
+			$tab[6]["tab_cmd"]  = 'cmd=permobject&ref_id='.$_GET["ref_id"]."&active=6";		//link for tab
 			$tab[6]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[6]["target"]   = "_self";						//target-frame of tab_cmd
 			$tab[6]["tab_text"] = "permission";				//tab -text
