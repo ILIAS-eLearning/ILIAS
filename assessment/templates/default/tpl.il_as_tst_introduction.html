@@ -6,14 +6,18 @@
 </table>
 <!-- END info -->
 <p>{TEXT_INTRODUCTION}</p>
+<p class="warning">{MAXIMUM_NUMBER_OF_TRIES_REACHED}</p>
 <table class="fullwidth_invisible">
 <tr>
 <td align="right">
+<!-- BEGIN results -->
+<input type="submit" class="submit" name="cmd[showresults]" value="{BTN_RESULTS}"{DISABLED} />
+<!-- END results -->
 <!-- BEGIN start -->
-<input type="submit" class="submit" name="cmd[start]" value="{BTN_START}" />
+<input type="submit" class="submit" name="cmd[start]" value="{BTN_START}"{DISABLED} />
 <!-- END start -->
 <!-- BEGIN resume -->
-<input type="submit" class="submit" name="cmd[resume]" value="{BTN_RESUME}" />
+<input type="submit" class="submit" name="cmd[resume]" value="{BTN_RESUME}"{DISABLED} />
 <!-- END resume -->
 </td>
 </tr>

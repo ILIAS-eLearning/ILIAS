@@ -611,6 +611,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
+		if ($_GET["showresults"]) {
+			$this->out_test_results();
+			return;
+		}
+
 		if (!$this->sequence) {
 			// show introduction page
 			$active = $this->object->get_active_test_user();
@@ -647,20 +652,43 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("info");
 			$this->tpl->parseCurrentBlock();
-			if ($active) {
-				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_resume_test"));
-			} else {
-				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
-			}
-			$this->tpl->setCurrentBlock("adm_content");
-			$introduction = $this->object->get_introduction();
-			$introduction = preg_replace("/0n/i", "<br />", $introduction);
-			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+			$add_show_results = "";
 			$seq = 1;
 			if ($active) {
 				$seq = $active->lastindex;
 			}
-			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=$seq");
+			$add_sequence = "&sequence=$seq";
+			$test_disabled = false;
+			if ($active) {
+				$this->tpl->setCurrentBlock("resume");
+				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
+				if (($active->tries >= $this->object->get_nr_of_tries()) and ($this->object->get_nr_of_tries() != 0)) {
+					$this->tpl->setVariable("DISABLED", " disabled");
+					$test_disabled = true;
+					$add_sequence = "";
+				}
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("results");
+				if ($active->tries > 0) {
+					$add_show_results = "&showresults=".$this->object->get_test_id();
+				} else {
+					$this->tpl->setVariable("DISABLED", " disabled");
+				}
+				$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));
+				$this->tpl->parseCurrentBlock();
+			} else {
+				$this->tpl->setCurrentBlock("start");
+				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("adm_content");
+			if ($test_disabled) {
+				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
+			}
+			$introduction = $this->object->get_introduction();
+			$introduction = preg_replace("/0n/i", "<br />", $introduction);
+			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=$add_sequence$add_show_results");
 			$this->tpl->parseCurrentBlock();
 		} else {
 			if ($this->sequence <= $this->object->get_question_count()) {
@@ -686,11 +714,7 @@ class ilObjTestGUI extends ilObjectGUI
 			} else {
 				// finish test
 				$this->object->set_active_test_user(1, "", true);
-				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 				$this->out_test_results();
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 	}
@@ -704,6 +728,8 @@ class ilObjTestGUI extends ilObjectGUI
 */
   function out_test_results() {
 		global $ilUser;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 		$user_id = $ilUser->id;
     $color_class = array("tblrow1", "tblrow2");
     $counter = 0;
@@ -759,6 +785,9 @@ class ilObjTestGUI extends ilObjectGUI
     $mark = "<br>Your mark is: &quot;" . $mark_obj->get_official_name() . "&quot;";
     $this->tpl->setVariable("USER_FEEDBACK", sprintf("You have reached $total_reached_points out of $total_max_points points, this is %2.2f percent of the test.$mark", $percentage));
     $this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
+		$this->tpl->parseCurrentBlock();
   }
 		
 	/**
