@@ -3117,3 +3117,9 @@ survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the fo
 survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#finished#:#finished
 survey#:#not_finished#:#not finished
+survey#:#save_phrase#:#Save as phrase
+survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
+survey#:#enter_phrase_title#:#Please enter a phrase title
+survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
+survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
+survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!

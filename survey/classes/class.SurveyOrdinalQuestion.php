@@ -219,7 +219,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
     $result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if ($row->defaultvalue)
+			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
 				$phrases[$row->phrase_id] = $this->lng->txt($row->title);
 			}
@@ -249,7 +249,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
     $result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if ($row->defaultvalue == 1)
+			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
 				$categories[$row->category_id] = $this->lng->txt($row->title);
 			}
@@ -262,6 +262,50 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 	}
 	
 /**
+* Saves a set of categories to a default phrase
+*
+* Saves a set of categories to a default phrase
+*
+* @param array $phrases The database ids of the seleted phrases
+* @param string $title The title of the default phrase
+* @access public
+*/
+	function savePhrase($phrases, $title)
+	{
+		global $ilUser;
+		
+		$query = sprintf("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($title),
+			$this->ilias->db->quote("1"),
+			$this->ilias->db->quote($ilUser->id)
+		);
+    $result = $this->ilias->db->query($query);
+		$phrase_id = $this->ilias->db->getLastInsertId();
+				
+		$counter = 1;
+	  foreach ($this->categories as $key => $value) 
+		{
+			if (in_array($key, $phrases))
+			{
+				$query = sprintf("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+					$this->ilias->db->quote($value),
+					$this->ilias->db->quote("1"),
+					$this->ilias->db->quote($ilUser->id)
+				);
+		    $result = $this->ilias->db->query($query);
+				$category_id = $this->ilias->db->getLastInsertId();
+				$query = sprintf("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (NULL, %s, %s, %s)",
+					$this->ilias->db->quote($phrase_id),
+					$this->ilias->db->quote($category_id),
+					$this->ilias->db->quote("$counter")
+				);
+		    $result = $this->ilias->db->query($query);
+				$counter++;
+			}
+		}
+	}
+	
+/**
 * Adds a phrase to the question
 *
 * Adds a phrase to the question
@@ -271,13 +315,16 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 */
 	function addPhrase($phrase_id)
 	{
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
-      $this->ilias->db->quote($phrase_id)
+		global $ilUser;
+		
+    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = 0 OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
+      $this->ilias->db->quote($phrase_id),
+			$this->ilias->db->quote($ilUser->id)
     );
     $result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if ($row->defaultvalue == 1)
+			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
 				array_push($this->categories, $this->lng->txt($row->title));
 			}
@@ -423,5 +470,32 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
     }
   }
 
+/**
+* Returns true if the phrase title already exists for the current user
+*
+* Returns true if the phrase title already exists for the current user
+*
+* @param string $title The title of the phrase
+* @result boolean True, if the title exists, otherwise False
+* @access public
+*/
+	function phraseExists($title)
+	{
+		global $ilUser;
+		
+		$query = sprintf("SELECT phrase_id FROM survey_phrase WHERE title = %s AND owner_fi = %s",
+			$this->ilias->db->quote($title),
+			$this->ilias->db->quote($ilUser->id)
+		);
+    $result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }
 ?>
