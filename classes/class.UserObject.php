@@ -75,20 +75,32 @@ class UserObject extends Object
 	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacadmin;
+		global $rbacsystem,$rbacadmin,$tree;
 		
 		$Fuserdata = $_POST["Fuserdata"];
 
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
+			
 			// create object
 			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
 			$Fobject["desc"] = $Fuserdata["Email"];
+			//create new Object, return ObjectID of new Object
 			$Fuserdata["Id"] = createNewObject("usr",$Fobject);
 
-			// insert user data
+			//insert user data in table user_data
 			$rbacadmin->addUser($Fuserdata);
+			//set role entries
 			$rbacadmin->assignUser($Fuserdata["Role"],$Fuserdata["Id"]);
+			
+			//create new usersetting entry 
+			$Fobject2["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
+			$Fobject2["desc"]  = "User Setting Folder";
+			$Fusetdata["Id"]   = createNewObject("uset",$Fobject2);
+			
+			//create usertree from class.user.php	
+			$tree->addTree($Fuserdata["Id"], $Fusetdata["Id"]);
+			
 		}
 		else
 		{
