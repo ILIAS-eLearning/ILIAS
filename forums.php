@@ -1,14 +1,13 @@
 <?php
 /**
- * forums
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* forums
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.forums.html", true, true);
 
@@ -37,5 +36,4 @@ $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

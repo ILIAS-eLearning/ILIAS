@@ -1,13 +1,13 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.lo_data.html", false, false);
 
@@ -39,5 +39,4 @@ $tpl->setVariable("TXT_OTHER", $lng->txt("other"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

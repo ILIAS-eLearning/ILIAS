@@ -2,17 +2,17 @@
 require_once "include/ilias_header.inc";
 
 // Template generieren
-$tplContent = new Template("content_user.html",true,true);
+$tplContent = new Template("content_lang.html",true,true);
 
-$tplContent->setVariable("OBJ_SELF","content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tplContent->setVariable("OBJ_SELF","content_lang.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);
 
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
-$tplContent->setVariable("MESSAGE","<h5>Click on the name of a user to edit that user</h5>");
-$tplContent->setVariable("TYPE","user");
+$tplContent->setVariable("MESSAGE","<h5>Click on a language to install/deinstall this language</h5>");
+$tplContent->setVariable("TYPE","lang");
 
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
@@ -35,7 +35,7 @@ $tplContent->setCurrentBlock("row",true);
 
 if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if ($user_data = getUserList($_GET["order"],$_GET["direction"]) )
+	if ($lang_data = getLangList($_GET["order"],$_GET["direction"]) )
 	{
 		foreach ($user_data as $key => $val)
 		{
@@ -46,7 +46,7 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"]."&cmd=edit");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-			$tplContent->setVariable("IMG_TYPE","icon_user_b.gif");
+			$tplContent->setVariable("IMG_TYPE","icon_lang_b.gif");
 			$tplContent->setVariable("ALT_IMG_TYPE","user");
 			$tplContent->setVariable("CSS_ROW",$css_row);
 			$tplContent->setVariable("OBJ",$val["obj_id"]);

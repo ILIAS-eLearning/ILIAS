@@ -1,7 +1,5 @@
 <?php
-
 require_once "./include/ilias_header.inc";
-require_once "./include/inc.main.php";
 require_once "./classes/class.Search.php";
 
 $tpl = new Template("tpl.search.html", true, true);

@@ -1,6 +1,6 @@
 <?php
 /**
-* Class ObjectFolderObject
+* Class SystemFolderObject
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$

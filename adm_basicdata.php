@@ -149,9 +149,7 @@ $tpl->setVariable("TXT_PHONE", $lng->txt("phone"));
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-
 //values
-
 $tpl->setVariable("FORMACTION", $PHP_SELF);
 
 $tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"]));
@@ -204,6 +202,6 @@ $tpl->setVariable("EMAIL",$settings["email"]);
 $tpl->setCurrentBlock("sys_message");
 $tpl->parseCurrentBlock();
 
-//$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tpl->show();
+$tplmain->setVariable("PAGECONTENT",$tpl->get());
+$tplmain->show();
 ?>

@@ -1,14 +1,13 @@
 <?php
-
 /**
- * user view of courses
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias-layout
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* user view of courses
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias-layout
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.courses.html", true, true);
 
@@ -42,5 +41,4 @@ for ($i = 0; $i<2; $i++)
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

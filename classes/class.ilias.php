@@ -149,9 +149,9 @@ class ILIAS extends PEAR
 	}
 
 	/**
-	* destructor
+	* Destructor
 	* @access	private
-	* @return boolean
+	* @return	boolean
 	*/
 	function _ILIAS()
 	{
@@ -175,7 +175,6 @@ class ILIAS extends PEAR
 		$res = $this->db->query($query);
 
 		if ($res->numRows() > 0)
-
 		{
 			$row = $res->fetchRow();
 			return $row[0];
@@ -189,7 +188,6 @@ class ILIAS extends PEAR
 	/**
 	* read all values from settingstable
 	* @access	public
-	* @param	void	keyword
 	* @return	array	value
 	*/
 	function getAllSettings()
@@ -204,7 +202,6 @@ class ILIAS extends PEAR
 		
 		return $rueckgabe;
 	}
-
 
 	/**
 	* write one value to settingstable

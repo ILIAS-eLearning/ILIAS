@@ -1,13 +1,13 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.editor.html", false, true);
 
@@ -65,5 +65,4 @@ for ($i = 0; $i < 5; $i++)
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -1,6 +1,5 @@
 <?php
-include_once "include/ilias_header.inc";
-
+require_once "include/ilias_header.inc";
 
 $tplMsg->setVariable(MESSAGE,"<br><br><br><br><br><br><br>Willkommen bei ILIAS");
 $tplMsg->parseCurrentBlock();
@@ -86,5 +85,5 @@ switch ($cmd)
     break;
 }
 
-include_once "include/ilias_footer.inc";
+$tplContent->show();
 ?>

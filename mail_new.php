@@ -1,19 +1,19 @@
 <?php
 /**
- * mail
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* mail
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.mail_new.html", true, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
-include("./include/inc.mail_buttons.php");
+include "./include/inc.mail_buttons.php";
 
 $myMails = new UserMail($ilias->account->Id);
 
@@ -61,8 +61,6 @@ $tpl->setVariable("RECIPIENT", $rcp);
 $tpl->setVariable("CONTENT", $body);
 $tpl->setVariable("SUBJECT", $subject);
 
-
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -1,13 +1,13 @@
 <?php
 /**
- * admin interface
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include_once("./include/inc.main.php");
+* admin interface
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 

@@ -76,5 +76,5 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
-include_once "include/ilias_footer.inc";
+$tplContent->show();
 ?>

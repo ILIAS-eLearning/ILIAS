@@ -1,7 +1,6 @@
 <?php
-
-include_once "include/ilias_header.inc";
-include_once "classes/class.Explorer.php";
+require_once "include/ilias_header.inc";
+require_once "classes/class.Explorer.php";
 
 $tplContent = new Template("explorer.html",true,true);
 
@@ -22,5 +21,5 @@ $output = $exp->getOutput();
 $tplContent->setVariable("EXPLORER",$output);
 $tplContent->setVariable("EXPAND", "1");
 
-include_once "include/ilias_footer.inc";
+$tplContent->show();
 ?>
