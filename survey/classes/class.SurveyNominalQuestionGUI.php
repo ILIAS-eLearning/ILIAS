@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyNominalQuestion.php";
 * The SurveyNominalQuestionGUI class encapsulates the GUI representation
 * for nominal survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyNominalQuestionGUI.php
 * @modulegroup   Survey

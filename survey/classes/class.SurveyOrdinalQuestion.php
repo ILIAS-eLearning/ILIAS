@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyQuestion.php";
 * The SurveyOrdinalQuestion class defines and encapsulates basic methods and attributes
 * for ordinal survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyOrdinalQuestion.php
 * @modulegroup   Survey

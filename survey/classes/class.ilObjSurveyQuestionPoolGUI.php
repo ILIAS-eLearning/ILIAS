@@ -31,7 +31,7 @@ require_once "./classes/class.ilMetaDataGUI.php";
 /**
 * Class ilObjSurveyQuestionPoolGUI
 *
-* @author Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI

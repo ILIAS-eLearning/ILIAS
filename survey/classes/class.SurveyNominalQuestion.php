@@ -32,7 +32,7 @@ define("SUBTYPE_MCMR", 2);
 * The SurveyNominalQuestion class defines and encapsulates basic methods and attributes
 * for nominal survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyNominalQuestion.php
 * @modulegroup   Survey

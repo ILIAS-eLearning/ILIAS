@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyQuestion.php";
 * The SurveyTextQuestion class defines and encapsulates basic methods and attributes
 * for text survey question types.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyTextQuestion.php
 * @modulegroup   Survey

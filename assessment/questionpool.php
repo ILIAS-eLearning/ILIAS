@@ -25,7 +25,7 @@
 /**
 * questionpool script used to call the questionpool objects
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version $Id$
 *
 * @package assessment

@@ -25,7 +25,7 @@
 /**
 * assessment test script used to call the test objects
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version $Id$
 *
 * @package assessment
