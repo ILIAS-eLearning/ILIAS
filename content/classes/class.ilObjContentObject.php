@@ -742,7 +742,7 @@ class ilObjContentObject extends ilObject
 		switch ($a_event)
 		{
 			case "link":
-				
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Content Object ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
@@ -773,7 +773,7 @@ class ilObjContentObject extends ilObject
 				//exit;
 				break;
 		}
-		
+
 		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
 		if ($a_node_id==$_GET["ref_id"])
 		{	
@@ -952,6 +952,29 @@ class ilObjContentObject extends ilObject
 		$tree->checkTree();
 		$tree->checkTreeChilds();
 //echo "checked";
+	}
+
+	/**
+	* fix tree
+	*/
+	function fixTree()
+	{
+		global $ilDB;
+
+		$tree =& $this->getLMTree();
+
+		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		foreach ($nodes as $node)
+		{
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["child"]);
+			$obj_set = $ilDB->query($q);
+			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			if (!$obj_rec)
+			{
+				$node_data = $tree->getNodeData($node["child"]);
+				$tree->deleteTree($node_data);
+			}
+		}
 	}
 
 

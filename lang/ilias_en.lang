@@ -602,6 +602,7 @@ common#:#benchmark_settings#:#Benchmark Settings
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographical Data
 common#:#bm#:#Bookmark
+common#:#confirmation#:#Confirmation
 common#:#bmf#:#Bookmark Folder
 common#:#bookmark_edit#:#Edit Bookmark
 common#:#bookmark_folder_edit#:#Edit Bookmark Folder
@@ -2010,6 +2011,9 @@ content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
+content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
+content#:#cont_fix_tree#:#Fix tree
+content#:#cont_tree_fixed#:#Tree structure has been fixed.
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference

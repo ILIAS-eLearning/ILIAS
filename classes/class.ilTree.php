@@ -734,12 +734,12 @@ class ilTree
 		}
 
 		$r = $this->fetchPath($a_endnode_id, $a_startnode_id);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$arr[] = $row->child;
 		}
-		
+
 		return $arr;
 	}
 
@@ -857,10 +857,10 @@ class ilTree
 		$r = $this->ilDB->query($q);
 
 		$row = $r->fetchRow();
-		
+
 		return $row[0];
 	}
-	
+
 	/**
 	* return depth of a node in tree
 	* @access	private
@@ -877,7 +877,7 @@ class ilTree
 
 			$res = $this->ilDB->query($q);
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-	
+
 			return $row->depth;
 		}
 		else
@@ -921,7 +921,7 @@ class ilTree
 			 "GROUP BY s.child ".
 			 "ORDER BY s.lft";
 		$r = $this->ilDB->query($q);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$arr[] = array(
@@ -957,8 +957,8 @@ class ilTree
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
-
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row[$this->tree_pk] = $this->tree_id;
 
 		return $this->fetchNodeData($row);
 	}
@@ -1511,7 +1511,7 @@ class ilTree
 			return $this->fetchNodeData($row);
 		}
 	}
-	
+
 	/**
 	* renumber left/right values and close the gaps in numbers
 	* (recursive)
@@ -1524,18 +1524,18 @@ class ilTree
 	{
 		$q = "UPDATE ".$this->table_tree." SET lft='".$i."' WHERE child='".$node_id."'";
 		$this->ilDB->query($q);
-				
+
 		$childs = $this->getChilds($node_id);
-		
+
 		foreach ($childs as $child)
 		{
 			$i = $this->renumber($child["child"],$i+1);
 		}
-		
+
 		$i++;
 		$q = "UPDATE ".$this->table_tree." SET rgt='".$i."' WHERE child='".$node_id."'";
 		$this->ilDB->query($q);
-		
+
 		return $i;
 	}
 
@@ -1565,7 +1565,7 @@ class ilTree
 			}
 		}
 		return 0;
-	}		
+	}
 
 	/**
 	* STATIC METHOD
