@@ -16,7 +16,7 @@ $myDB = new DBUpdate();
 $lng = new Language($ilias->account->data["language"]);
 $tpl = new Template("tpl.adm_database.html", true, true);
 
-if ($_GET["func"]=="migrate")
+if ($_GET["cmd"]=="migrate")
 {
 	$myDB->applyUpdate();
 	
