@@ -140,9 +140,12 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function storeTree()
 	{
+//echo "<b>Storing the tree</b><br>";
 		foreach($this->st_into_tree as $st)
 		{
+//echo "insert st id: ".$st["id"].", parent:".$st["parent"]."<br>";
 			$this->lm_tree->insertNode($st["id"], $st["parent"]);
+//echo "done<br>";
 			if (is_array($this->pg_into_tree[$st["id"]]))
 			{
 				foreach($this->pg_into_tree[$st["id"]] as $pg)
@@ -150,19 +153,27 @@ class ilContObjParser extends ilSaxParser
 					switch ($pg["type"])
 					{
 						case "pg_alias":
-//echo "storeTree.pg_alias:".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
+							if ($this->pg_mapping[$pg["id"]] == "")
+							{
+								echo "No PageObject for PageAlias ".$pg["id"]." found! Aborting.";
+								exit;
+							}
+//echo "storeTree.pg_alias:".$pg["id"].":".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
 							$this->lm_tree->insertNode($this->pg_mapping[$pg["id"]], $st["id"]);
+//echo "done<br>";
 							break;
 
 						case "pg":
 //echo "storeTree.pg:".$pg["id"].":".$st["id"].":<br>";
 							$this->lm_tree->insertNode($pg["id"], $st["id"]);
+//echo "done<br>";
 							break;
 					}
 				}
 			}
 		}
 //echo "6";
+//echo "<b>END: storing the tree</b>";
 	}
 
 
