@@ -104,7 +104,8 @@ class ilObjForum extends ilObject
 		$roles = $forumObj->initDefaultRoles();
 
 		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");		
+		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");
+		ilObjUser::updateActiveRoles($forumObj->getOwner());
 
 		// get forum data
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
