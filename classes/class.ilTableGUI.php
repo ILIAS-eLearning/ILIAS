@@ -465,11 +465,35 @@ class ilTableGUI
 			}
 			if (($key == $this->order_column) && ($this->order_direction != ""))
 			{
-				$this->tpl->setCurrentBlock("tbl_order_image");
-				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
-				$this->tpl->parseCurrentBlock();
+				if (strcmp($this->header_vars[$key], "") != 0)
+				{
+					$this->tpl->setCurrentBlock("tbl_order_image");
+					$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
+			if (strcmp($this->header_vars[$key], "") != 0)
+			{
+				$this->tpl->setCurrentBlock("tbl_header_link_start");
+				$lng_sort_column = ($this->lang_support) ? $this->lng->txt("sort_by_this_column") : "Sort by this column";
+				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
+			
+				$order_dir = "asc";
+			
+				if ($key == $this->order_column)
+				{ 
+					$order_dir = $this->sort_order;
+	
+					$lng_change_sort = ($this->lang_support) ? $this->lng->txt("change_sort_direction") : "Change sort direction";
+					$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
+				}
+			
+				$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("tbl_header_link_end");
+			}
+			
 			$this->tpl->setCurrentBlock("tbl_header_cell");
 			$this->tpl->setVariable("TBL_HEADER_CELL",$tbl_header_cell);
 			
@@ -479,20 +503,6 @@ class ilTableGUI
 				$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$this->column_width[$key]."\"");
 			}
 
-			$lng_sort_column = ($this->lang_support) ? $this->lng->txt("sort_by_this_column") : "Sort by this column";
-			$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
-		
-			$order_dir = "asc";
-		
-			if ($key == $this->order_column)
-			{ 
-				$order_dir = $this->sort_order;
-
-				$lng_change_sort = ($this->lang_support) ? $this->lng->txt("change_sort_direction") : "Change sort direction";
-				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
-			}
-		
-			$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
 			$this->tpl->parseCurrentBlock();
 		}
 		}

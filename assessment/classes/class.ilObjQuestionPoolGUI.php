@@ -1359,13 +1359,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("ass_export_files"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
+		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("ass_file"),
 			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
 
-		$cols = array("", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"],
-			"cmd" => "export", "cmdClass" => strtolower(get_class($this)));
-		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
 		// control
