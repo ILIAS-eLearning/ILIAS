@@ -48,7 +48,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		$this->setTabTargetScript("surveypool.php");
+		$this->setTabTargetScript("questionpool.php");
 		if ($a_prepare_output) {
 			$this->prepareOutput();
 		}
@@ -76,7 +76,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","surveypool.php?".$this->link_params));
+		header("Location:".$this->getReturnLocation("save","questionpool.php?".$this->link_params));
 		exit();
 	}
 } // END class.ilObjSurveyGUI
