@@ -149,6 +149,7 @@ chat#:#chat_chatroom_rename#:#Edit chatroom###05 Mar 2004 new variable
 chat#:#chat_chatrooms#:#Chatrooms###05 Mar 2004 new variable
 chat#:#chat_color#:#Font color###05 Mar 2004 new variable
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###05 Mar 2004 new variable
+chat#:#chat_drop_user#:#User kicked###09 Mar 2004 new variable
 chat#:#chat_edit#:#Edit chat ###05 Mar 2004 new variable
 chat#:#chat_face#:#Font type###05 Mar 2004 new variable
 chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
@@ -934,6 +935,7 @@ common#:#next#:#next###30 May 2003 new variable
 common#:#nickname#:#nickname
 common#:#no#:#no
 common#:#no_bm_in_personal_list#:#No bookmarks defined.###29 Oct 2003 new variable
+common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date###25 Mar 2003 new variable
 common#:#no_frm_in_personal_list#:#No forums in personal list.###19 Aug 2003 new variable

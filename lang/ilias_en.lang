@@ -149,6 +149,7 @@ chat#:#chat_chatroom_rename#:#Edit chatroom
 chat#:#chat_chatrooms#:#Chatrooms
 chat#:#chat_color#:#Font color
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
+chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat 
 chat#:#chat_face#:#Font type
 chat#:#chat_fuchsia#:#fuchsia
@@ -934,6 +935,7 @@ common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
+common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
@@ -2246,5 +2248,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#no_chat_in_personal_list#:#No chats in personal list
-chat#:#chat_drop_user#:#User kicked

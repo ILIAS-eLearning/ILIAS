@@ -223,6 +223,7 @@ lang_no#:#挪威语
 lang_none_installed#:#未安装语言 
 lang_not_installed_default#:#您选择的缺省语言未安装！
 lang_pl#:#波兰语 
+lang_pt#:#Portuguese###09 Mar 2004 new variable
 lang_se#:#瑞典语 
 lang_ua#:#乌克兰语
 lang_xx#:#自定义
