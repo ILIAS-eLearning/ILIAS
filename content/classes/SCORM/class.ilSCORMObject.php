@@ -114,7 +114,7 @@ class ilSCORMObject
 			"('".$this->getTitle()."', '".$this->getType()."',".
 			"'".$this->getSLMId()."')";
 		$this->ilias->db->query($q);
-		$this->setId(getLastInsertId());
+		$this->setId($this->ilias->db->getLastInsertId());
 	}
 
 	function update()
