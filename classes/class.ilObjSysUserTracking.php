@@ -24,7 +24,9 @@
 /**
 * Class ilObjSysUserTracking
 *
+* @author Arlon Yin <arlon_yin@sina.com.cn>
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @extends ilObject
