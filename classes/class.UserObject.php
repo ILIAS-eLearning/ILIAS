@@ -11,8 +11,17 @@ include_once("classes/class.Object.php");
 
 class UserObject extends Object
 {
+/**
+ * array of gender abbreviations
+ * @var array
+ **/
 	var $gender;
 
+/**
+ * contructor
+ * @param object ilias
+ * @access public
+ **/
 	function UserObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
@@ -20,6 +29,10 @@ class UserObject extends Object
 			'm'    => 'Herr',
 			'f'    => 'Frau');
 	}
+/**
+ * create user
+ * @access public
+ **/
 	function createObject()
 	{
 		global $tree;
@@ -69,6 +82,10 @@ class UserObject extends Object
 			exit();
 		}
 	}
+/**
+ * save user data
+ * @access public
+ **/
 	function saveObject()
 	{
 		$Fuserdata = $_POST["Fuserdata"];
@@ -93,6 +110,10 @@ class UserObject extends Object
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
+/**
+ * delete user
+ * @access public
+ **/
 	function deleteObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db);
@@ -110,6 +131,10 @@ class UserObject extends Object
 		}
 		header("Location: content_user.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
+/**
+ * edit user data
+ * @access public
+ **/
 	function editObject()
 	{
 		global $tplContent;
@@ -158,6 +183,10 @@ class UserObject extends Object
 			exit();
 		}
 	}
+/**
+ * update user data
+ * @access public
+ **/
 	function updateObject()
 	{
 		$Fuserdata = $_POST["Fuserdata"];

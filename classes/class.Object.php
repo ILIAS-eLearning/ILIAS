@@ -11,15 +11,29 @@ class Object
 {
 // PUBLIC METHODEN
 /**
- * Constructor
- * @params object ilias
- *
- * 
- */
+ * ilias object
+ * @var object ilias
+ * @access private
+ **/
 	var $ilias;
+/**
+ * object id of system folder
+ * @var int
+ * @access private
+ **/
 	var $SYSTEM_FOLDER_ID;
+/**
+ * object id of root folder
+ * @var int
+ * @access private
+ **/
 	var $ROOT_FOLDER_ID;
 
+/**
+ * Constructor
+ * @param object ilias
+ * @access public
+ **/
 	function Object(&$a_ilias)
 	{
 
@@ -27,9 +41,11 @@ class Object
 		$this->SYSTEM_FOLDER_ID = "9";
 		$this->ROOT_FOLDER_ID = "1";
 	}
-	function ownerObject()
-	{
-	}
+/**
+ * create object in admin interface
+ * @access public
+ *
+ **/
 	function createObject()
 	{
 		// Creates a child object
@@ -54,6 +70,11 @@ class Object
 			exit();
 		}
 	}
+/**
+ * saves new object in admin interface
+ * @access public
+ *
+ **/
 	function saveObject()
 	{
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -83,6 +104,11 @@ class Object
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
+/**
+ * edit object
+ * @access public
+ * 
+ **/
 	function editObject()
 	{
 		global $tplContent;
@@ -110,6 +136,10 @@ class Object
 		}
 			
 	}
+/**
+ * update an object
+ * @access public
+ **/
 	function updateObject()
 	{
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -125,6 +155,10 @@ class Object
 			exit();
 		}
 	}
+/**
+ * show permissions of object
+ * @access public
+ **/
 	function permObject()
 	{
 		global $tplContent;
@@ -211,6 +245,10 @@ class Object
 			$tplContent->parseCurrentBlock();
 		}
 	}
+/**
+ * save permissions of object
+ * @access public
+ **/
 	function permSaveObject()
 	{
 		global $tplContent;
@@ -301,6 +339,11 @@ class Object
 		}
 		header ("location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 	}
+/**
+ * add a new local role
+ * @access public
+ *
+ **/
 	function addRoleObject()
 	{
 		global $ilias;
@@ -350,6 +393,10 @@ class Object
 		}
 		header("location:object.php?cmd=perm&obj_id=$new_obj_id&parent=$rolf_id");
 	}
+/**
+ * show owner of object
+ * @access public
+ **/
 	function ownerObject()
 	{
 		global $ilias;
@@ -375,6 +422,11 @@ class Object
 			$tplContent->setVariable("OWNER_NAME","UNKNOWN");
 		}
 	}
+/**
+ * add a new permission to an object
+ * @public
+ * 
+ **/
 	function addPermissionObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db);
@@ -401,6 +453,12 @@ class Object
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 // PRIVATE METHODEN
+/**
+ * create path
+ * @access private
+ * @param int object id of an object
+ * @return string
+ **/
 	function getPath($a_id = "")
 	{		
 		if(!$a_id)
@@ -410,6 +468,12 @@ class Object
 		$tree = new Tree($a_id,1,1);
 		return $tree->showPath($tree->getPathFull($a_id,$this->ROOT_FOLDER_ID),"content.php");
 	}
+/**
+ * get role ids of all parent roles
+ * @access private
+ * @param int object id of start node
+ * @return string 
+ **/
 	function getParentRoleIds($a_start_node = '')
 	{
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
@@ -422,9 +486,8 @@ class Object
 	}
 /**
  * returns the parent object id of $_GET["parent"]
- * @params void
+ * @access private
  * @return int
- * 
  */
 	function getParentObjectId()
 	{
@@ -433,6 +496,5 @@ class Object
 		array_pop($path_ids);
 		return array_pop($path_ids);
 	}
-
 }
 ?>

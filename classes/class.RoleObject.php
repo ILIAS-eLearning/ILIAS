@@ -11,6 +11,11 @@ include_once("classes/class.Object.php");
 
 class RoleObject extends Object
 {
+/**
+ * Constructor
+ * @param object ilias
+ * @access public
+ **/
 	function RoleObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
@@ -19,6 +24,10 @@ class RoleObject extends Object
 	// Überschriebene Methoden:
 	//
 	// PUBLIC METHODEN
+/**
+ * create a role object 
+ * @access public
+ **/
 	function createObject()
 	{
 		// Creates a child object
@@ -36,12 +45,17 @@ class RoleObject extends Object
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("TYPE",$_POST["type"]);
+			$tplContent->setVariable("VALUE",$_POST["role"]);
 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 	}
+/**
+ * save new role
+ * @access public
+ **/
 	function saveObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db); 
@@ -54,7 +68,14 @@ class RoleObject extends Object
 				$this->ilias->raiseError("Role Exists",$this->ilias->error_class->WARNING);
 			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
+			if($_POST["role"] == 'true')
+			{
+				$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
+			}
+			if($_POST["role"] == 'false')
+			{
+				$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'n');
+			}
 		}
 		else
 		{
@@ -62,7 +83,10 @@ class RoleObject extends Object
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
-
+/**
+ * delete role 
+ * @access public
+ **/
 	function deleteObject()
 	{
 
@@ -71,7 +95,6 @@ class RoleObject extends Object
 		// => alle Id's sind Kinder oder es gibt keine anderen RoleFolder
 		//    deleteRole()
 		// => sonst deleteLocalRole() für alle Kinder und den zu löschenden RoleFolder
-
 		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
@@ -123,6 +146,10 @@ class RoleObject extends Object
 		}
 		header("Location: content_role.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
+/**
+ * show permission templates of role
+ * @access public
+ **/
 	function permObject() 
 	{
 		global $tree;
@@ -150,7 +177,7 @@ class RoleObject extends Object
 			$tplContent->setCurrentBlock("OBJECT_TYPES");
 			foreach($obj_data as $data)
 			{
-				$tplContent->setVariable("OBJ_TYPES",$data["type"]);
+				$tplContent->setVariable("OBJ_TYPES",$data["title"]);
 				$tplContent->parseCurrentBlock();
 			}
 			// END OBJECT TYPES
@@ -164,10 +191,10 @@ class RoleObject extends Object
 				{
 					if(in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["type"],$_GET["parent"]);
+						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["title"],$_GET["parent"]);
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = TUtil::formCheckBox($checked,"template_perm[".$data["type"]."][]",$operations["ops_id"]);
+						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
 						$tplContent->setVariable("CHECK_PERMISSION",$box);
 					}
 					else
@@ -230,6 +257,10 @@ class RoleObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 	}
+/**
+ * save permission templates of role 
+ * @access public
+ **/
 	function permSaveObject()
 	{
 		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
@@ -265,7 +296,7 @@ class RoleObject extends Object
 				$types = getTypeList();
 				foreach($types as $type)
 				{
-					$typ = $type["type"];
+					$typ = $type["title"];
 					if(!is_array($_POST["template_perm"][$typ]))
 					{
 						$objects = $tree->getAllChildsByType($object_id,$parent,$typ);
@@ -293,6 +324,10 @@ class RoleObject extends Object
 		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 
 	}
+/**
+ * copy permissions from role
+ * @access public
+ **/
 	function adoptPermSaveObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db);
@@ -313,6 +348,10 @@ class RoleObject extends Object
 		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 		exit();
 	}
+/**
+ * assign user to role
+ * @access public
+ **/
 	function assignSaveObject()
 	{
 		global $tree;

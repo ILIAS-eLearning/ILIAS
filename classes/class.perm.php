@@ -435,7 +435,7 @@
 				"LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
 				"LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
 				"WHERE object_data.title='".$Aobj_type."' AND object_data.type='type' ".
-				"ORDER BY rbac_operation.".$a_order." ".$a_direction; 
+				"ORDER BY rbac_operations.".$a_order." ".$a_direction; 
 		}
 		else
 		{
