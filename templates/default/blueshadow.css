@@ -16,13 +16,12 @@ td {
 	color:#ffffff;
 }
 
-a.menu {
-	color:#f7f7f7;
-	text-decoration:underline;
+a.menu:link, a.menu:visited {
+	color:#a0c0ff;
 }
 
 a.menu:hover {
-	color:#2255a0;
+	color:#DDDDFF;
 }
 
 input, textarea {
