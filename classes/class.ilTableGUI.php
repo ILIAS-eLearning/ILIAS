@@ -31,6 +31,10 @@
 *
 * @package	ilias-core
 */
+
+// for sorting content array
+include_once "./include/inc.sort.php";
+
 class ilTableGUI
 {
 	var $title;					// table title name
@@ -60,6 +64,8 @@ class ilTableGUI
 	var	$footer_previous;		// value of previous link
 	var	$footer_next;			// value of next link
 	
+	var $lang_support = true;	// if a lang object is included
+	
 	// default settings for enabled/disabled table modules 
 	var $enabled = array(
 							"title"			=>	true,
@@ -71,9 +77,17 @@ class ilTableGUI
 							"linkbar"		=>	true,
 							"numinfo"		=>	true
 						);
+						
+	// tpl styles (only one so far)
+	var $styles = array(
+							"table"		=> "fullwidth"
+						);
 	
 	/**
 	* Constructor
+	* 
+	* @param	array	content data (optional)
+	* @param	boolean	use global template (default)
 	* @access	public
 	*/
 	function ilTableGUI($a_data = 0,$a_global_tpl = true)
@@ -81,7 +95,8 @@ class ilTableGUI
 		global $ilias, $tpl, $lng;
 		
 		$this->ilias =& $ilias;
-		if($a_global_tpl)
+
+		if ($a_global_tpl)
 		{
 			$this->tpl =& $tpl;
 		}
@@ -89,7 +104,13 @@ class ilTableGUI
 		{
 			$this->tpl = new ilTemplate("tpl.table.html",true,true);
 		}
+
 		$this->lng =& $lng;
+		
+		if (!$this->lng)
+		{
+			$this->lang_support = false;
+		}
 		
 		$this->setData($a_data);
 	}
@@ -211,22 +232,35 @@ class ilTableGUI
 
 	/**
 	* set max. count of database query
+	* you don't need to set max count if using integrated content rendering feature
+	* if max_limit is true, no limit is given -> set limit to max_count
 	* @access	public
 	* @param	integer	max_count
 	*/
 	function setMaxCount($a_max_count)
 	{
 		$this->max_count = $a_max_count;
+
+		if ($this->max_limit)
+		{ 
+			$this->limit = $this->max_count;
+		}
 	}
 	
 	/**
 	* set max. datasets displayed per page
 	* @access	public
 	* @param	integer	limit
+	* @param	integer default limit
 	*/
-	function setLimit($a_limit)
+	function setLimit($a_limit = 0, $a_default_limit = 0)
 	{
-		$this->limit = $a_limit;
+		$this->limit = ($a_limit) ? $a_limit : $a_default_limit;
+		
+		if ($this->limit == 0)
+		{
+			$this->max_limit = true;
+		}
 	}
 	
 	/**
@@ -236,24 +270,34 @@ class ilTableGUI
 	*/
 	function setOffset($a_offset)
 	{
-		$this->offset = $a_offset;
+		$this->offset = ($a_offset) ? $a_offset : 0;
 	}
 	
 	/**
 	* set order column
 	* @access	public
 	* @param	string	order column
+	* @param	string	default column
 	*/
-	function setOrderColumn($a_order_column = 0)
+	function setOrderColumn($a_order_column = 0,$a_default_column = 0)
 	{
 		// set default sort column to first column
 		if (empty($a_order_column))
 		{
-			$this->order_column = 0;
-			return;
+			if (!empty($a_default_column))
+			{
+				$this->order_column = array_search($a_default_column,$this->header_vars);	
+			}
+			else
+			{
+				$this->order_column = 0;
+				return;
+			}
 		}
-
-		$this->order_column = array_search($a_order_column,$this->header_vars);
+		else
+		{
+			$this->order_column = array_search($a_order_column,$this->header_vars);
+		}
 
 		if ($this->order_column === false)
 		{
@@ -288,11 +332,12 @@ class ilTableGUI
 	* @param	string	value of previous link
 	* @param	string	value of next link
 	*/
-	function setFooter($a_style,$a_previous,$a_next)
+	function setFooter($a_style,$a_previous = 0,$a_next = 0)
 	{
 		$this->footer_style = $a_style;
-		$this->footer_previous = $a_previous;
-		$this->footer_next = $a_next;
+
+		$this->footer_previous = ($a_previous) ? $a_previous : "<<<";
+		$this->footer_next = ($a_next) ? $a_next : ">>>";
 	}
 
 	/**
@@ -331,6 +376,8 @@ class ilTableGUI
 	*/
 	function render()
 	{
+		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		
 		// table title icon
 		if ($this->enabled["icon"] && $this->enabled["title"])
 		{
@@ -376,14 +423,17 @@ class ilTableGUI
 				$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$this->column_width[$key]."\"");
 			}
 
-			$this->tpl->setVariable("TBL_ORDER_ALT",$this->lng->txt("sort_by_this_column"));
+			$lng_sort_column = ($this->lang_support) ? $this->lng->txt("sort_by_this_column") : "Sort by this column";
+			$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
 		
 			$order_dir = "asc";
 		
 			if ($key == $this->order_column)
 			{ 
 				$order_dir = $this->sort_order;
-				$this->tpl->setVariable("TBL_ORDER_ALT",$this->lng->txt("change_sort_direction"));
+
+				$lng_change_sort = ($this->lang_support) ? $this->lng->txt("change_sort_direction") : "Change sort direction";
+				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
 			}
 		
 			$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
@@ -396,6 +446,11 @@ class ilTableGUI
 		// The template block name for the blockfile MUST be 'TBL_CONTENT'
 		if ($this->enabled["content"] && is_array($this->data))
 		{
+			$this->setMaxCount(count($this->data));
+			
+			$this->data = sortArray($this->data,$this->order_column,$this->sort_direction);
+			$this->data = array_slice($this->data,$this->offset,$this->limit);
+
 			$count = 0;
 					
 			foreach ($this->data as $tbl_content_row)
@@ -419,7 +474,6 @@ class ilTableGUI
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
-
 			$start = $this->offset + 1;				// compute num info
 			$end = $this->offset + $this->limit;
 			
@@ -428,7 +482,14 @@ class ilTableGUI
 				$end = $this->max_count;
 			}
 			
-			$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
+			if ($this->lang_support)
+			{
+				$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
+			}
+			else
+			{
+				$numinfo = "(Dataset ".$start." - ".$end." of ".$this->max_count.")";
+			}
 	
 			$this->tpl->setCurrentBlock("tbl_footer_numinfo");
 			$this->tpl->setVariable("NUMINFO", $numinfo);
@@ -466,6 +527,27 @@ class ilTableGUI
 		$this->tpl->touchBlock("tbl_form_footer");
 		
 		return $this->tpl->get();
+	}
+	
+	/*
+	* set a tpl stylesheet
+	* @access	public
+	* @param	string	table element
+	* @param	string	CSS definition
+	*/
+	function setStyle($a_element,$a_style)
+	{
+		$this->styles[$a_element] = $a_style;
+	}
+
+	/*
+	* get a tpl stylesheet
+	* @access	public
+	* @param	string	table element
+	*/
+	function getStyle($a_element)
+	{
+		return $this->styles[$a_element];
 	}
 }
 ?>
