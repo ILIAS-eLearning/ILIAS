@@ -192,6 +192,14 @@ span.il_LocatorTitle
 	font-weight: bold;
 }
 
+/* form */
+form.il_Form
+{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
 /* Tabs */
 
 div.il_Tab{

@@ -137,6 +137,7 @@ class ilRepositoryGUI
 		// display infopanel if something happened
 		infoPanel();
 
+		// set header
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
@@ -146,6 +147,7 @@ class ilRepositoryGUI
 			require_once("classes/class.ilObjCategory.php");
 			$cat =& new ilObjCategory($this->cur_ref_id, true);
 			$this->tpl->setVariable("HEADER",  $cat->getTitle());
+			$this->tpl->setVariable("H_DESCRIPTION",  $cat->getDescription());
 		}
 
 		$this->tpl->setCurrentBlock("content");
