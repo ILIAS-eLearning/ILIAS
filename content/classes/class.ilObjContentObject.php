@@ -131,7 +131,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function getTitle()
 	{
-		#return parent::getTitle();
+//		return parent::getTitle();
 		return $this->meta_data->getTitle();
 	}
 
@@ -140,6 +140,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function setTitle($a_title)
 	{
+//		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
 	}
 
