@@ -26,6 +26,7 @@ require_once "assessment/classes/class.assMultipleChoice.php";
 require_once "assessment/classes/class.assClozeTest.php";
 require_once "assessment/classes/class.assMatchingQuestion.php";
 require_once "assessment/classes/class.assOrderingQuestion.php";
+require_once "assessment/classes/class.assImagemapQuestion.php";
 
 /**
 * GUI Handler class for every assessment question type
@@ -125,6 +126,9 @@ class ASS_QuestionGUI extends PEAR {
       case "qt_ordering":
         $this->question =& new ASS_OrderingQuestion();
         break;
+      case "qt_imagemap":
+        $this->question =& new ASS_ImagemapQuestion();
+        break;
     }
     if ($question_id > 0) {
       $this->question->load_from_db($question_id);
@@ -166,6 +170,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "ass_matchingquestion":
         return "qt_matching";
+        break;
+      case "ass_imagemapquestion":
+        return "qt_imagemap";
         break;
     }
   }
@@ -556,6 +563,102 @@ class ASS_QuestionGUI extends PEAR {
   }
   
 /**
+* Sets the fields of a imagemap create/edit form
+*
+* Sets the fields of a imagemap create/edit form
+*
+* @access private
+*/
+  function out_imagemap_question_data() {
+
+
+      $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
+
+
+      // Create gap between head and answers
+      if ($this->question->get_answer_count() >0) {
+        $this->tpl->setCurrentBlock("gape");
+        $this->tpl->parseCurrentBlock();
+      }
+      for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
+        $this->tpl->setCurrentBlock("answers");
+        $answer = $this->question->get_answer($i);
+        $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
+        $this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
+        $this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
+        $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+        $this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
+        $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
+        if ($answer->is_true()) {
+          $this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+        }
+        $this->tpl->setVariable("COORDINATES", $answer->get_coords());
+        $this->tpl->setVariable("AREA", $answer->get_area());
+        $this->tpl->parseCurrentBlock();
+      }
+
+      if (strlen($_POST["cmd"]["add"]) > 0) {
+        // Template f¸r neue Antwort erzeugen
+        $this->tpl->setCurrentBlock("answers");
+        $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->question->get_answer_count() + 1);
+        $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
+        $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
+        $this->tpl->parseCurrentBlock();
+      }
+
+		if ($this->question->get_id() > 0) {
+			// image block
+			$this->tpl->setCurrentBlock("post_save");
+			$img = $this->question->get_image_filename();
+			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
+			if (!empty($img)) {
+				$this->tpl->setVariable("IMAGE_FILENAME", $img);
+				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
+				$this->tpl->setCurrentBlock("imageupload");
+				$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+				$this->tpl->parse("imageupload");
+			} else {
+				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
+			}
+	
+			// imagemap block
+			$imgmap = $this->question->get_imagemap_filename();
+	    $this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
+			if (!empty($imgmap)) {
+				$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
+				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
+				$this->tpl->setCurrentBlock("imagemapupload");
+				$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
+				$this->tpl->parse("imagemapupload");
+			} else {
+				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
+			}
+			$this->tpl->parseCurrentBlock();
+		} else {
+			$this->tpl->setCurrentBlock("pre_save");
+			$this->tpl->setVariable("APPLY_MESSAGE", "You must apply your changes before you can upload an image map!");
+			$this->tpl->parseCurrentBlock();
+		}
+
+    $this->tpl->setCurrentBlock("question_data");
+    $this->tpl->setVariable("IMAGEMAP_ID", $this->question->get_id());
+    $this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->question->get_title());
+    $this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->question->get_comment());
+    $this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->question->get_author());
+    $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
+    $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+    $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+    $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+    $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+	  $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+    $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
+    $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
+    $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
+    $this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",$_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_imagemap");
+		$this->tpl->parseCurrentBlock();
+  }
+
+/**
 * Sets the content of a question from a posted create/edit form
 * 
 * Sets the content of a question from a posted create/edit form
@@ -576,6 +679,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "qt_ordering":
         $this->out_ordering_question_data();
+        break;
+      case "qt_imagemap":
+        $this->out_imagemap_question_data();
         break;
     }
   }
@@ -852,6 +958,62 @@ class ASS_QuestionGUI extends PEAR {
   }
 
 /**
+* Sets the content of a imagemap question from a posted create/edit form
+*
+* Sets the content of a imagemap question from a posted create/edit form
+*
+* @access private
+*/
+  function set_question_data_from_imagemap_question_template() {
+   $result = 0;
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+      $result = 1;
+
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+
+		if ($_POST["id"] > 0) {
+			// Question is already saved, so imagemaps and images can be uploaded
+			//setting image file
+			if (empty($_FILES['imageName']['tmp_name'])) {
+				$this->question->set_image_filename(ilUtil::stripSlashes($_POST["uploaded_image"]));
+			}
+			else {
+				$this->question->set_image_filename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
+			}
+
+			//setting imagemap
+			if (empty($_FILES['imagemapName']['tmp_name'])) {
+				$this->question->set_imagemap_filename(ilUtil::stripSlashes($_POST['uploaded_imagemap']));
+				// Add all answers from the form into the object
+				$this->question->flush_answers();
+				foreach ($_POST as $key => $value) {
+					if (preg_match("/answer_(\d+)/", $key, $matches)) {
+						if ($_POST["radio"] == $matches[1]) {
+							$is_true = TRUE;
+						} else {
+							$is_true = FALSE;
+						}
+						$this->question->add_answer(
+							ilUtil::stripSlashes($_POST["$key"]),
+							ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+							ilUtil::stripSlashes($is_true, $matches[1]),
+							$matches[1],
+							ilUtil::stripSlashes($_POST["coords_$matches[1]"]),
+							ilUtil::stripSlashes($_POST["area_$matches[1]"])
+						);
+					}
+				}
+			}
+			else {
+				$this->question->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
+			}
+		}
+  }
+
+/**
 * Sets the content of a question from a posted create/edit form
 * 
 * Sets the content of a question from a posted create/edit form
@@ -875,6 +1037,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "qt_ordering":
         $result = $this->set_question_data_from_ordering_question_template();
+        break;
+      case "qt_imagemap":
+        $result = $this->set_question_data_from_imagemap_question_template();
         break;
     }
     return $result;
@@ -1065,6 +1230,25 @@ class ASS_QuestionGUI extends PEAR {
   }
   
 /**
+* Creates the learners output of a imagemap question
+*
+* Creates the learners output of a imagemap question
+*
+* @access public
+*/
+  function out_working_imagemap_question() {
+    $this->tpl->addBlockFile("ORDERING_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
+    $this->tpl->setCurrentBlock("imagemapblock");
+    $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
+    $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents());
+    $this->tpl->setVariable("IMAGE", "../".$this->question->get_image_filename());
+    $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title());
+
+    $this->tpl->parseCurrentBlock();
+  }
+
+/**
 * Creates the learners output of a question
 *
 * Creates the learners output of a question
@@ -1088,6 +1272,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "qt_matching":
         $this->out_working_matching_question();
+        break;
+      case "qt_imagemap":
+        $this->out_working_imagemap_question();
         break;
     }
   }
@@ -1117,6 +1304,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "qt_matching":
         $this->out_working_matching_question();
+        break;
+      case "qt_imagemap":
+        $this->out_working_imagemap_question();
         break;
     }
     $this->tpl->setCurrentBlock("adm_content");

@@ -1201,6 +1201,58 @@ class ilUtil
 		umask(0000);
 		return @mkdir($a_dir,fileperms($path));
 	}
+	
+	
+/**
+* Create a new directory and all parent directories
+*
+* Creates a new directory and inherits all filesystem permissions of the parent directory
+* If the parent directories doesn't exist, they will be created recursively.
+* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
+* are not working with PHP's file_exists function.
+*
+* @author Helmut Schottmüller <hschottm@tzi.de>
+* @param string $a_dir The directory name to be created
+* @access public
+*/
+function makeDir_parents($a_dir) {
+    $dirs = array($a_dir);
+    $a_dir = dirname($a_dir);
+    $last_dirname = '';
+    while($last_dirname != $a_dir) { 
+        array_unshift($dirs, $a_dir);
+        $last_dirname = $a_dir;
+        $a_dir = dirname($a_dir);
+    }
+
+		$umask = -1;
+		umask(0000);
+    foreach ($dirs as $dir) {
+        if (! file_exists($dir)) {
+					if ($umask < 0) 
+					{
+						// check if dir comes with a path
+						if (!($path = substr($dir, 0, strrpos($dir, "/") - strlen($dir))))
+						{
+							$path = ".";
+						}
+						// retrieve the umask of the parent directory
+						$umask = fileperms($path);
+					}
+					if (! mkdir($dir, $umask)) 
+					{
+							error_log("Can't make directory: $dir");
+							return false;
+					}
+        } 
+				elseif (! is_dir($dir)) 
+				{
+            error_log("$dir is not a directory");
+            return false;
+        }
+    }
+    return true;
+}
 
 	/**
 	* removes a dir and all its content (subdirs and files) recursively

@@ -1,0 +1,75 @@
+<form name="frm_imagemap" action="{ACTION_IMAGEMAP_QUESTION}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="id" value="{IMAGEMAP_ID}">
+<table class="std">
+<tr>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_IMAGEMAP_TITLE}" size="50" /></td>
+</tr>
+<tr>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_IMAGEMAP_AUTHOR}" size="50" /></td>
+</tr>
+<tr>
+  <td class="option">{TEXT_COMMENT}:</td>
+  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_IMAGEMAP_COMMENT}" id="comment" size="50" /></td>
+</tr>
+<tr>
+	<td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+</tr>
+<!-- BEGIN post_save -->
+<tr>
+	<td class="option">{TEXT_IMAGE}<span class="asterisk">*</span>:</td>
+	<td class="option_value">
+  <!-- BEGIN imageupload -->
+	{UPLOADED_IMAGE} <br>
+  <!-- END imageupload -->
+  <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
+  <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+  <input name="imageName" type="file" id="image" size="30" />
+ 	</td>
+ 	<td class="option_value" colspan="3" > <input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value={VALUE_IMAGE_UPLOAD} /></td>
+</tr>
+<tr>
+	<td class="option">{TEXT_IMAGEMAP}<span class="asterisk">*</span>:</td>
+	<td class="option_value">
+  <!-- BEGIN imagemapupload -->
+	{UPLOADED_IMAGEMAP} <br>
+  <!-- END imagemapupload -->
+  <input type="hidden" name="uploaded_imagemap" value="{IMAGEMAP_FILENAME}">
+  <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+  <input name="imagemapName" type="file" id="imagemap" size="30" />
+	</td>
+	<td class="option_value" colspan="3" > <input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value={VALUE_IMAGEMAP_UPLOAD} /></td>
+</tr>
+<!-- END post_save -->
+<!-- BEGIN gape -->
+<tr><td class="option_value"><br></td></tr>
+<!-- END gape -->
+<!-- BEGIN answers -->
+<tr><td colspan="5" class="tblheader">Region {VALUE_ANSWER_COUNTER}</td></tr>
+
+<tr>
+
+  <td class="option">Name: </td>
+
+  <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
+  <td class="option_value"><input type="radio" name="radio" id="radio_{ANSWER_ORDER}" value="{ANSWER_ORDER}"{CHECKED_ANSWER} /><label for="radio_{ANSWER_ORDER}">&nbsp;{VALUE_TRUE}</label></td>
+  <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_IMAGEMAP_POINTS}" /></td>
+  <input type="hidden" name="coords_{ANSWER_ORDER}" id="coords_{ANSWER_ORDER}" value="{COORDINATES}">
+  <input type="hidden" name="area_{ANSWER_ORDER}" id="area_{ANSWER_ORDER}" value="{AREA}">
+</tr>
+
+<!-- END answers -->
+<!-- BEGIN pre_save -->
+<tr><td colspan="5" class="std">{APPLY_MESSAGE}</td></tr>
+<!-- END pre_save -->
+<tr><td colspan="5" class="submit">
+<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<div align="right">
+<input name="cmd[apply]" type="submit" class="submit" id="apply_imagemap" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_imagemap" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+</td></tr>
+</table>
+
+</form>
