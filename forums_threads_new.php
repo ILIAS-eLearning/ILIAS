@@ -9,12 +9,16 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
+require_once "classes/class.Object.php";
+require_once "classes/class.ForumObject.php";
 
 $frm = new Forum();
+$forumObj = new ForumObject($_GET["obj_id"]);
 
 $frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
-$topicData = $frm->getOneTopic();	
+$topicData = $frm->getOneTopic();
 
+$tpl->setVariable("HEADER", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 

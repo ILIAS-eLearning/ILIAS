@@ -1,3 +1,4 @@
+<h1>{HEADER}</h1>
 {LOCATOR}
 
 <table width="100%" cellpadding="0" cellsapcing="0" border="0">
@@ -14,25 +15,25 @@
 
 <table width="100%" cellpadding="3" cellspacing="1" border="0">
 <tr>
-	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>	
+	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>
 	<td valign="top">
 		<!-- BEGIN linkbar -->
 		<table cellpadding="3" cellspacing="1" border="0">
 		<tr><td>{LINKBAR}</td></tr>
 		</table>
 		<!-- END linkbar -->
-	</td>	
+	</td>
 </tr>
 </table>
 
 {MESSAGE}
 
 <!-- BEGIN posttable -->
-<table width="100%" cellpadding="3" cellspacing="1" border="0">
+<table class="fullwidth">
 
-<tr class="tblheader" valign="top">  
-  <td width="25%"><b>{TXT_AUTHOR}</b></td>
-  <td><b>{TXT_POST}</b></td>  
+<tr class="tblheader" valign="top">
+  <td class="std" width="25%"><b>{TXT_AUTHOR}</b></td>
+  <td class="std"><b>{TXT_POST}</b></td>
 </tr>
 
 <!-- BEGIN posts_row -->
@@ -42,28 +43,28 @@
  <!-- BEGIN reply_cell -->
  {SPACER}
  &nbsp;<b>></b>{REPLY_BUTTON}&nbsp;
- 
+
  <!-- BEGIN edit_cell -->
  &nbsp;<b>></b>{EDIT_BUTTON}&nbsp;
  <!-- END edit_cell -->
- 
+
   <!-- BEGIN del_cell -->
  &nbsp;<b>></b>{DEL_BUTTON}&nbsp;
  <!-- END del_cell -->
  <br/>
  <!-- END reply_cell -->
- 
+
  <!-- BEGIN kill_cell -->
  <form name="formular2" action="{DEL_FORMACTION}" method="post">
  {KILL_SPACER}<a name="{KILL_ANKER}"></a>
  <p><b><font color="red">{TXT_KILL}</font></b></p>
- <input type="submit" name="cancel" value="{CANCEL_BUTTON}">
+ <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}">
  &nbsp;&nbsp;
- <input type="submit" name="confirm" value="{CONFIRM_BUTTON}"> 
+ <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}">
  </form>
  <br/>
  <!-- END kill_cell -->
- 
+
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
 <table cellpadding="3" cellspacing="1" border="0">
@@ -71,14 +72,14 @@
 		<td valign=top>
 			<br/><p><b>{TXT_FORM_HEADER}</b></p>
 			<form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
-			
-			<table cellspacing="0" cellpadding="3" border="0">		
-			<tr>			    
+
+			<table cellspacing="0" cellpadding="3" border="0">
+			<tr>
 			    <td valign="top">
 				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
 			</tr>
-			<tr>			    
-			    <td nowrap="nowrap"><input type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input type="Reset" value ="{RESET}"></td>
+			<tr>
+			    <td nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"></td>
 			</tr>
 			</table>
 			</form>

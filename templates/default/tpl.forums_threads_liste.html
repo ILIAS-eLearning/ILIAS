@@ -1,3 +1,4 @@
+<h1>{HEADER}</h1>
 {LOCATOR}
 
 <table width="100%" cellpadding="0" cellpadding="0" border="0">
@@ -19,31 +20,31 @@
 </table>
 <!-- END linkbar -->
 
-<table width="100%" cellpadding="3" cellspacing="1" border="0">
+<table class="fullwidth">
 
-<tr class="tblheader" valign="top">  
-  <td width=20%><b>{TXT_TITLE}</b></td>
-  <td><b>{TXT_AUTHOR}</b></td>
-  <td><b>{TXT_DATE}</b></td>
-  <td><b>{TXT_NUM_POSTS}</b></td>
-  <td><b>{TXT_NUM_VISITS}</b></td>
-  <td><b>{TXT_LAST_POST}</b></td>  
+<tr class="tblheader" valign="top">
+  <td class="std" width=20%><b>{TXT_TITLE}</b></td>
+  <td class="std"><b>{TXT_AUTHOR}</b></td>
+  <td class="std"><b>{TXT_DATE}</b></td>
+  <td class="std"><b>{TXT_NUM_POSTS}</b></td>
+  <td class="std"><b>{TXT_NUM_VISITS}</b></td>
+  <td class="std"><b>{TXT_LAST_POST}</b></td>
 </tr>
 
 <!-- BEGIN threads_row -->
-<tr> 
+<tr>
  <td valign="top" class="{ROWCOL}" width="20%">{TITLE}</td>
  <td valign="top" class="{ROWCOL}">{AUTHOR}</td>
  <td valign="top" class="{ROWCOL}">{DATE}</td>
  <td valign="top" class="{ROWCOL}">{NUM_POSTS}</td>
  <td valign="top" class="{ROWCOL}">{NUM_VISITS}</td>
- <td valign="top" class="{ROWCOL}">{LAST_POST}</td> 
+ <td valign="top" class="{ROWCOL}">{LAST_POST}</td>
 </tr>
 <!-- END threads_row -->
 
 <!-- BEGIN threads_no -->
-<tr>
- <td colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
+<tr class="std">
+ <td  class="std" colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
 </tr>
 <!-- END threads_no -->
 </table>

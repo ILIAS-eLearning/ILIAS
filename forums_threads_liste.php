@@ -9,9 +9,13 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
+require_once "classes/class.Object.php";
+require_once "classes/class.ForumObject.php";
 
 $frm = new Forum();
+$forumObj = new ForumObject($_GET["obj_id"]);
 
+$tpl->setVariable("HEADER", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -30,12 +34,12 @@ $tpl->parseCurrentBlock();
 
 $frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
 if (is_array($topicData = $frm->getOneTopic())) {
-	
+
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 	$tpl->parseCurrentBlock();
-	
+
 	if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
@@ -43,10 +47,10 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		$tpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$tpl->parseCurrentBlock();
 	}
-	else $tpl->setVariable("NO_BTN", "<br><br>"); 
-	
+	else $tpl->setVariable("NO_BTN", "<br><br>");
+
 	// ********************************************************************************
-	
+
 	// Visit-Counter
 	$frm->setDbTable("frm_data");
 	$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
