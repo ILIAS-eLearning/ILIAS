@@ -360,9 +360,12 @@ class ilPageObjectGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
 
-		// prevent curly brackets from being swallowed up by template engine
-		//$output = str_replace("{", "&#123;", $output);
-		//$output = str_replace("}", "&#125;", $output);
+		// (horrible) workaround for preventing template engine
+		// from hiding paragraph text that is enclosed
+		// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
+		$output = str_replace("{", "&#123;", $output);
+		$output = str_replace("}", "&#125;", $output);
+
 //echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
 		// remove all newlines (important for code / pre output)

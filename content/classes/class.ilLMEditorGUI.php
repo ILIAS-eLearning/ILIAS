@@ -141,14 +141,28 @@ class ilLMEditorGUI
 				$this->main_header($this->lm_obj->getType());
 				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				$ret =& $book_gui->executeCommand();
-				$this->tpl->show();
+
+				// (horrible) workaround for preventing template engine
+				// from hiding paragraph text that is enclosed
+				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+				$output =  $this->tpl->get();
+				$output = str_replace("&#123;", "{", $output);
+				$output = str_replace("&#125;", "}", $output);
+				echo $output;
 				break;
 
 			case "ilobjlearningmodulegui":
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				$ret =& $lm_gui->executeCommand();
-				$this->tpl->show();
+
+				// (horrible) workaround for preventing template engine
+				// from hiding paragraph text that is enclosed
+				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+				$output =  $this->tpl->get();
+				$output = str_replace("&#123;", "{", $output);
+				$output = str_replace("&#125;", "}", $output);
+				echo $output;
 				break;
 
 			default:
