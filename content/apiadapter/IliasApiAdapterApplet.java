@@ -137,6 +137,7 @@ public	class IliasApiAdapterApplet
 				+ "&api=2" 
 				+ "&user_id="+IliasStudentId
 				+ "&sco_id=" +IliasScoId
+				+ "&ref_id=" +IliasRefId
 			)).openConnection();
 
 			http.setRequestProperty (
@@ -191,10 +192,10 @@ public	class IliasApiAdapterApplet
 	 */
 
 	public	final String LMSInitialize (String s) { 
-		core.reset();
 		String rv = core.LMSInitialize(s);
-		IliasInitialize ();
 		say ("LMSInitialize("+s+")="+rv);
+		if (rv.equals("false")) return rv;
+		IliasInitialize ();
 		return rv;
 	}
 
