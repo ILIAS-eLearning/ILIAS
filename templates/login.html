@@ -8,26 +8,30 @@
 <br>
 <img src="./images/ilias_logo_big.jpg" border="0">
 <br><br>
-
 <form method="post" action="{PHP_SELF}">
 <table border="0" cellpadding="2" cellspacing="0">
 	<tr>
-	<td colspan="2" bgcolor="#eeeeee" align="center"><b>Login to ILIAS</b></td>
+	<td colspan="2" bgcolor="#eeeeee" align="center"><b>{TXT_ILIAS_LOGIN}</b></td>
 	</tr>
 	<tr>
-	<td>Username:</td>
+	<td>{TXT_USERNAME}</td>
 	<td><input type="text" name="username" value="{USERNAME}"></td>
 	</tr>
 	<tr>
-	<td>Password:</td>
+	<td>{TXT_PASSWORD}</td>
 	<td><input type="password" name="password"></td>
 	</tr>
 	<tr>
-	<td colspan="2" bgcolor="#eeeeee"><input type="submit"></td>
+	<td colspan="2" bgcolor="#eeeeee"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></td>
 	</tr>
 </table>
+<p>{TXT_CHOOSE_LANGUAGES}:<br>
+<!-- BEGIN languages -->
+<a href="./login.php?lang={LANG_ID}"><img src="{LANG_IMG}" border=0 alt="{LANG_DESC}"></a>
+<!-- END languages -->
+</p>
 <br>
-<font color="red"><i>{LOGIN_FAILED_MSG}</i></font>
+<font color="red"><i>{TXT_MSG_LOGIN_FAILED}</i></font>
 </center>
 </body>
 </html>
