@@ -1109,34 +1109,15 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		/*
-		foreach ($_POST["trash_id"] as $id)
-		{
-			//$obj_data = getObject($id);
-			//$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-			if (!$rbacsystem->checkAccess('delete',$_GET["ref_id"]))
-			{
-				$no_delete[] = $id;
-			}
-		}
-
-		if (count($no_delete))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-									 implode(',',$no_delete),$this->ilias->error_obj->MESSAGE);
-		}
-*/
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
-
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$saved_tree = new ilTree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
-			// FIRST DELETE AL ENTRIES IN TREE
+			// FIRST DELETE ALL ENTRIES IN RBAC TREE
 			$this->tree->deleteTree($node_data);
 
 			foreach ($subtree_nodes as $node)

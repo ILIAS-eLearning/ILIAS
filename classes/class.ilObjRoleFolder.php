@@ -106,26 +106,22 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function delete()
 	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-		
 		// put here rolefolder specific stuff
-		global $rbacadmin, $rbacreview;
+		global $rbacreview;
 
 		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
-
+		
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
-		foreach ($roles as $role)
+		foreach ($roles as $role_id)
 		{
-			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role);
+			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+			$roleObj->setParent($this->getRefId());
 			$roleObj->delete();
 			unset($roleObj);
 		}
 		
-		return true;
+		// always call parent delete function at the end!!
+		return (parent::delete()) ? true : false;
 	}
 
 	/**

@@ -79,14 +79,14 @@ class ilObject
 
 	/**
 	* max title length
-	* @var int
+	* @var integer
 	*/
 	var $max_title;
 
 
 	/**
 	* max description length
-	* @var int
+	* @var integer
 	*/
 	var $max_desc;
 
