@@ -57,3 +57,15 @@ ALTER TABLE glossary_definition ADD COLUMN short_text VARCHAR(200) NOT NULL DEFA
 
 <#12>
 UPDATE settings SET value = '3.0.0_alpha5' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#13>
+DROP TABLE IF EXISTS object_translation;
+CREATE TABLE object_translation (
+ obj_id int(11) NOT NULL default '0',
+ title char(70) NOT NULL default '',
+ description char(128) default NULL,
+ lang_code char(2) NOT NULL default '',
+ lang_default tinyint(1) NOT NULL default '0',
+ PRIMARY KEY  (obj_id,lang_code)
+) TYPE=MyISAM;
+
