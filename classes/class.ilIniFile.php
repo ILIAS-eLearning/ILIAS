@@ -87,16 +87,16 @@ class ilIniFile
 	* @access	public
 	* @param	string		name of file to be parsed
 	*/
-	function ilIniFile($a_iniFileName)
+	function ilIniFile($a_ini_file_name)
 	{
 		//check if a filename is given
-		if (empty($a_iniFileName))
+		if (empty($a_ini_file_name))
 		{
 			$this->error("no_file_given");
 			return false;
 		}
 
-		$this->INI_FILE_NAME = $a_iniFileName;
+		$this->INI_FILE_NAME = $a_ini_file_name;
 		return true;
 	}
 
@@ -115,11 +115,13 @@ class ilIniFile
 		else
 		{
 			//parse the file
-			if ($this->parse()==false)
+			if ($this->parse() == false)
 			{
 				return false;
 			}
 		}
+
+//		$this->parse();
 
 		return true;
 	}
@@ -189,7 +191,7 @@ class ilIniFile
 		}
 
 		//write php tags (security issue)
-		$result = fwrite($fp, "<?php\n");
+		$result = fwrite($fp, "<?php /*\r\n");
 
 		$groups = $this->readGroups();
 		$group_cnt = count($groups);
@@ -280,6 +282,7 @@ class ilIniFile
 	function readGroups()
 	{
 		$groups = array();
+
 		for (reset($this->GROUPS);$key=key($this->GROUPS);next($this->GROUPS))
 		{
 			$groups[]=$key;
@@ -295,16 +298,12 @@ class ilIniFile
 	*/
 	function groupExists($a_group_name)
 	{
-		$group = $this->GROUPS[$a_group_name];
-
-		if (!is_array($group))
+		if (!isset($this->GROUPS[$a_group_name]))
 		{
-			 return false;
+			return false;
 		}
-		else
-		{
-			return true;
-		}
+		
+		return true;
 	}
 	
 	/**
@@ -314,16 +313,13 @@ class ilIniFile
 	*/
 	function readGroup($a_group)
 	{
-		$group_array = $this->GROUPS[$a_group];
-		if (!empty($group_array))
+		if (!isset($this->GROUPS[$a_group]))
 		{
-			return $group_array;
+			$this->error("Group '".$a_group."' does not exist");
+			return false;		
 		}
-		else 
-		{
-			$this->Error("Group '".$a_group."' does not exist");
-			return false;
-		}
+		
+		return $this->GROUPS[$a_group];
 	}
 	
 	/**
@@ -333,16 +329,13 @@ class ilIniFile
 	*/
 	function addGroup($a_group_name)
 	{
-		$new_group = $this->GROUPS[$a_group_name];
+		if (isset($this->GROUPS[$a_group_name]))
+		{
+			$this->error("Group '".$a_group_name."' exists");
+			return false;		
+		}
 
-		if (empty($new_group))
-		{
-			$this->GROUPS[$a_group_name] = array();
-		}
-		else
-		{
-			$this->Error("Group '".$a_group_name."' exists");
-		}
+		$this->GROUPS[$a_group_name] = array();
 	}
 	
 	/**
@@ -353,17 +346,13 @@ class ilIniFile
 	*/
 	function readVariable($a_group, $a_var_name)
 	{
-		$var_value = trim($this->GROUPS[$a_group][$a_var_name]);
-
-		if (!empty($var_value))
+		if (!isset($this->GROUPS[$a_group][$a_var_name]))
 		{
-			return $var_value;
-		}
-		else
-		{
-			$this->Error("'".$a_var_name."' does not exist in '".$a_group."'");
+			$this->error("'".$a_var_name."' does not exist in '".$a_group."'");
 			return false;
 		}
+		
+		return trim($this->GROUPS[$a_group][$a_var_name]);
 	}
 	
 	/**
@@ -389,7 +378,8 @@ class ilIniFile
 	function error($a_errmsg)
 	{
 		$this->ERROR = $a_errmsg;
+
 		return true;
 	}
-} //END class.IniFile
+} //END class.ilIniFile
 ?>
