@@ -1895,6 +1895,10 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction($this->lng->txt("log_user_data_removed"));
+		}
 	}
 	
 /**
@@ -5136,6 +5140,31 @@ class ilObjTest extends ilObject
 			$object_id = $row["obj_fi"];
 		}
 		return $object_id;
+	}
+
+/**
+* Returns the ILIAS test id for a given object id
+* 
+* Returns the ILIAS test id for a given object id
+*
+* @param integer $object_id The object id
+* @return mixed The ILIAS test id or FALSE if the query was not successful
+* @access public
+*/
+	function _getTestIDFromObjectID($object_id)
+	{
+		global $ilDB;
+		$test_id = FALSE;
+		$query = sprintf("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
+			$ilDB->quote($object_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$test_id = $row["test_id"];
+		}
+		return $test_id;
 	}
 } // END class.ilObjTest
 ?>

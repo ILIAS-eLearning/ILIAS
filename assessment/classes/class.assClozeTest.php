@@ -125,6 +125,122 @@ class ASS_ClozeTest extends ASS_Question
 	}
 
 	/**
+	* Creates an associative array from the close text
+	*
+	* Creates an associative array from the close text
+	*
+	* @return array Associative array containing all separated close text parts
+	* @access public
+	*/
+	function &createCloseTextArray()
+	{
+		$result = array();
+		$search_pattern = "|<gap([^>]*?)>(.*?)</gap>|i";
+		preg_match_all($search_pattern, $this->cloze_text, $gaps);
+		if (count($gaps[0]))
+		{
+			// found at least one gap
+			$delimiters = preg_split($search_pattern, $this->cloze_text, -1, PREG_SPLIT_OFFSET_CAPTURE);
+			$result["gaps"] = array();
+			foreach ($gaps[0] as $index => $gap)
+			{
+				$result["gaps"][$index] = array();
+				$result["gaps"][$index]["gap"] = $gap;
+				$result["gaps"][$index]["params"] = array();
+				$result["gaps"][$index]["params"]["text"] = $gaps[1][$index];
+				// separate gap params
+				if (preg_match("/name\=\"([^\"]*?)\"/", $gaps[1][$index], $params))
+				{
+					$result["gaps"][$index]["params"]["name"] = $params[1];
+				}
+				else
+				{
+					$result["gaps"][$index]["params"]["name"] = $lng->txt("gap") . " " . ($index+1);
+				}
+				if (preg_match("/type\=\"([^\"]*?)\"/", $gaps[1][$index], $params))
+				{
+					$result["gaps"][$index]["params"]["type"] = $params[1];
+				}
+				else
+				{
+					$result["gaps"][$index]["params"]["type"] = "text";
+				}
+				if (preg_match("/shuffle\=\"([^\"]*?)\"/", $gaps[1][$index], $params))
+				{
+					$result["gaps"][$index]["params"]["shuffle"] = $params[1];
+				}
+				else
+				{
+					if (strcmp(strtolower($result["gaps"][$index]["params"]["type"]), "select") == 0)
+					{
+						$result["gaps"][$index]["params"]["shuffle"] = "yes";
+					}
+				}
+				$result["gaps"][$index]["text"] = array();
+				$result["gaps"][$index]["text"]["text"] = $gaps[2][$index];
+				$textparams = preg_split("/(?<!\\\\),/", $gaps[2][$index]);
+				foreach ($textparams as $key => $value)
+				{
+					$result["gaps"][$index]["text"][$key] = $value;
+				}
+			}
+			$result["delimiters"] = $delimiters;
+		}
+		//echo str_replace("\n", "<br />", str_replace(" ", "&nbsp;", ilUtil::prepareFormOutput(print_r($result, true))));
+		return $result;		
+	}
+
+	/**
+	* Re-creates the close text from an an associative array
+	*
+	* Re-creates the close text from an an associative array
+	*
+	* @param array $assoc_array Associative array containing all separated close text parts
+	* @access public
+	*/
+	function createCloseTextFromArray($assoc_array)
+	{
+		$this->cloze_text = "";
+		if (count($assoc_array))
+		{
+			$gap = 0;
+			foreach ($assoc_array["delimiters"] as $key => $value)
+			{
+				if (($key > 0) && ($key < count($assoc_array["delimiters"])))
+				{
+					if (strcmp($assoc_array["gaps"][$gap]["params"]["shuffle"], "") == 0)
+					{
+						$shuffle = "";
+					}
+					else
+					{
+						$shuffle = " shuffle=\"" . $assoc_array["gaps"][$gap]["params"]["shuffle"] . "\"";
+					}
+					if (strlen($assoc_array["gaps"][$gap]["text"]["text"]))
+					{
+						$textarray = array();
+						foreach ($assoc_array["gaps"][$gap]["text"] as $textindex => $textvalue)
+						{
+							if (preg_match("/\d+/", $textindex))
+							{
+								array_push($textarray, $textvalue);
+							}
+						}
+						$this->cloze_text .= sprintf("<gap name=\"%s\" type=\"%s\"%s>%s</gap>",
+							$assoc_array["gaps"][$gap]["params"]["name"],
+							$assoc_array["gaps"][$gap]["params"]["type"],
+							$shuffle,
+							join(",", $textarray)
+						);
+					}
+					$gap++;
+				}
+				$this->cloze_text .= $value[0];
+			}
+		}
+	}
+	
+	/**
 	* Saves a ASS_ClozeTest object to a database
 	*
 	* Saves a ASS_ClozeTest object to a database (experimental)
@@ -885,61 +1001,49 @@ class ASS_ClozeTest extends ASS_Question
 	*/
 	function set_cloze_text($cloze_text = "")
 	{
-		$this->cloze_text = $cloze_text;
-		preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
-		foreach ($matches[2] as $key => $value)
+		$this->gaps = array();
+		$this->cloze_text =& $cloze_text;
+		$close = $this->createCloseTextArray();
+		if (count($close))
 		{
-			$value = str_replace("\,", "__VAR__comma__VAR__", $value);
-			$cloze_words = split(",", $value);
-			$answer_array = array();
-			$name = "";
-			if (preg_match("/name\=\"(.*?)\"/", $matches[1][$key], $param))
+			foreach ($close["gaps"] as $key => $value)
 			{
-				// name param
-				$name = $param[1];
-			}
-			$type = "text";
-			if (preg_match("/type\=\"(.*?)\"/", $matches[1][$key], $param))
-			{
-				// name param
-				$type = $param[1];
-			}
-			$shuffle = "yes";
-			if (preg_match("/shuffle\=\"(.*?)\"/", $matches[1][$key], $param))
-			{
-				// name param
-				$shuffle = $param[1];
-			}
-			if (strcmp(strtolower($type), "select") == 0)
-			{
-				$type = CLOZE_SELECT;
-			}
+				if (strcmp(strtolower($value["params"]["type"]), "select") == 0)
+				{
+					$type = CLOZE_SELECT;
+				}
+					else
+				{
+					$type = CLOZE_TEXT;
+				}
+				if ($type == CLOZE_TEXT)
+				{
+					$default_state = 1;
+				}
 				else
-			{
-				$type = CLOZE_TEXT;
+				{
+					$default_state = 0;
+				}
+				$name = $value["params"]["name"];
+				if (strcmp(strtolower($value["params"]["shuffle"]), "no") == 0)
+				{
+					$shuffle = 0;
+				}
+					else
+				{
+					$shuffle = 1;
+				}
+				$answer_array = array();
+				foreach ($value["text"] as $index => $textvalue)
+				{
+					if (preg_match("/\d+/", $index))
+					{
+						$textvalue = str_replace("\,", ",", $textvalue);
+						array_push($answer_array, new ASS_AnswerCloze($textvalue, 0, $index, $default_state, $type, $name, $shuffle));
+					}
+				}
+				array_push($this->gaps, $answer_array);
 			}
-			if (strcmp(strtolower($shuffle), "no") == 0)
-			{
-				$shuffle = 0;
-			}
-				else
-			{
-				$shuffle = 1;
-			}
-			if ($type == CLOZE_TEXT)
-			{
-				$default_state = 1;
-			}
-			else
-			{
-				$default_state = 0;
-			}
-			foreach ($cloze_words as $index => $text)
-			{
-				$text = str_replace("__VAR__comma__VAR__", ",", $text);
-				array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_state, $type, $name, $shuffle));
-			}
-			array_push($this->gaps, $answer_array);
 		}
 	}
 
@@ -1010,24 +1114,31 @@ class ASS_ClozeTest extends ASS_Question
   }
 
 /**
-* Rebuilds the cloze text from the gaps array
+* Replaces the gap values with the values of the gaps array
 *
-* Rebuilds the cloze text from the gaps array
+* Replaces the gap values with the values of the gaps array
 *
 * @access public
 * @see $cloze_text
 */
-  function rebuild_cloze_text() {
-
-    preg_match_all("/" . "<gap.*?>(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
-    foreach ($matches[1] as $key => $value) {
-    	if (strlen($value) == 0) {
-				$this->cloze_text = preg_replace("/>" . preg_quote($value) . "</", ">".$this->get_gap_text_list($key)."<", $this->cloze_text);
-    	}
-    	else {
-   			$this->cloze_text = preg_replace("/" . preg_quote($value) . "/", $this->get_gap_text_list($key), $this->cloze_text);
-   		}
-    }
+  function rebuild_cloze_text() 
+	{
+		$close =& $this->createCloseTextArray();
+		if (count($close))
+		{
+			for ($i = 0; $i < count($this->gaps); $i++)
+			{
+				$gaptext = $this->get_gap_text_list($i);
+				$textparams = preg_split("/(?<!\\\\),/", $gaptext);
+				$close["gaps"][$i]["text"] = array();
+				$close["gaps"][$i]["text"]["text"] = $gaptext;
+				foreach ($textparams as $key => $value)
+				{
+					$close["gaps"][$i]["text"][$key] = $value;
+				}
+			}
+		}
+		$this->createCloseTextFromArray($close);
   }
 
 /**
@@ -1112,11 +1223,11 @@ class ASS_ClozeTest extends ASS_Question
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
-    $old_text = $this->get_gap_text_list($index);
+		$close = $this->createCloseTextArray();
+		unset($close["gaps"][$index]);
+		$this->createCloseTextFromArray($close);
     unset($this->gaps[$index]);
     $this->gaps = array_values($this->gaps);
-
-    $this->cloze_text = preg_replace("/" . "<gap[^<]*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
   }
 
 /**
@@ -1150,14 +1261,11 @@ class ASS_ClozeTest extends ASS_Question
 		if (count($this->gaps[$gap_index]) == 1) {
 			$this->delete_gap($gap_index);
 		} else {
+			$close = $this->createCloseTextArray();
 			unset($this->gaps[$gap_index][$answertext_index]);
       $this->gaps[$gap_index] = array_values($this->gaps[$gap_index]);
-			$gap_params = "";
-			if (preg_match("/" . "<gap(.*?)>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches))
-			{
-				$gap_params = $matches[1];
-			}
-      $this->cloze_text = preg_replace("/" . "<gap.*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "<gap" . $gap_params . ">" . $this->get_gap_text_list($gap_index) . "$this->end_tag", $this->cloze_text);
+			unset($close["gaps"][$gap_index]["text"][$answertext_index]);
+			$this->createCloseTextFromArray($close);
 		}
   }
 
@@ -1217,57 +1325,38 @@ class ASS_ClozeTest extends ASS_Question
 */
 	function update_all_gap_params() {
 		global $lng;
-
+		$close = $this->createCloseTextArray();
 		for ($i = 0; $i < $this->get_gap_count(); $i++)
 		{
-	    $gaptext = $this->get_gap_text_list($i);
+			$gaptext = $this->get_gap_text_list($i);
 			if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_TEXT)
 			{
-				$strType = "text";
-			}
-				else
-			{
-				$strType = "select";
-			}
-			if ($this->gaps[$i][0]->get_shuffle() == 0)
-			{
-				$shuffle = "no";
-			}
-				else
-			{
-				$shuffle = "yes";
-			}
-			if (preg_match("/" . "<gap[^<]*?" . "type\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
-				// change the type attribute
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "type\=\"[^\"]+\"" . "([^<]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1type=\"$strType\"\$2>$gaptext</gap>", $this->cloze_text);
-			} else {
-				// create a type attribute
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap type=\"$strType\"\$1>$gaptext", $this->cloze_text);
-			}
-			if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_SELECT) {
-				if (preg_match("/" . "<gap[^<]*?" . "shuffle\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
-					// change the shuffle attribute
-					$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "shuffle\=\"[^\"]+\"" . "([^>]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1shuffle=\"$shuffle\"\$2>$gaptext</gap>", $this->cloze_text);
-				} else {
-					// create a shuffle attribute
-					$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap shuffle=\"$shuffle\"\$1>$gaptext", $this->cloze_text);
-				}
-			}
-				else
-			{
-				// remove the shuffle attribute
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . "shuffle\=\"[^\"]+\"" . "([^>]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1\$2>$gaptext</gap>", $this->cloze_text);
-			}
-			if (!preg_match("/" . "<gap[^<]*?" . "name\=\"[^\"]+\"" . "[^>]*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
-				// create a name attribute
-				$name = $this->gaps[$i][0]->get_name();
-				if (!$name)
+				$close["gaps"][$i]["params"]["type"] = "text";
+				if (array_key_exists("shuffle", $close["gaps"][$i]["params"]))
 				{
-					$name = $lng->txt("gap") . " " . ($i+1);
+					unset($close["gaps"][$i]["params"]["shuffle"]);
 				}
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap name=\"" . $name . "\"\$1>$gaptext", $this->cloze_text);
 			}
+				else
+			{
+				$close["gaps"][$i]["params"]["type"] = "select";
+				if ($this->gaps[$i][0]->get_shuffle() == 0)
+				{
+					$close["gaps"][$i]["params"]["shuffle"] = "no";
+				}
+					else
+				{
+					$close["gaps"][$i]["params"]["shuffle"] = "yes";
+				}
+			}
+			$name = $this->gaps[$i][0]->get_name();
+			if (!$name)
+			{
+				$name = $lng->txt("gap") . " " . ($i+1);
+			}
+			$close["gaps"][$i]["params"]["name"] = $name;
 		}
+		$this->createCloseTextFromArray($close);
 	}
 
 /**
@@ -1284,37 +1373,25 @@ class ASS_ClozeTest extends ASS_Question
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
-		if ($this->gaps[$index][0]->get_cloze_type() != $cloze_type) {
-			// change all answer objects
-			foreach ($this->gaps[$index] as $key => $value) {
-				$this->gaps[$index][$key]->set_cloze_type($cloze_type);
-				$this->gaps[$index][$key]->set_points(0);
-				if ($cloze_type == CLOZE_TEXT) {
-					$this->gaps[$index][$key]->setState(1);
-				} else {
-					$this->gaps[$index][$key]->setState(0);
-				}
-			}
-			// change/add the <gap> attribute
-	    $gaptext = $this->get_gap_text_list($index);
-			if ($cloze_type == CLOZE_TEXT)
-			{
-				$strType = "text";
-				$strOldType = "select";
-			}
-				else
-			{
-				$strType = "select";
-				$strOldType = "text";
-			}
-			if (preg_match("/" . "<gap[^<]*?" . preg_quote("type=\"$strOldType\"") . ".*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
-				// change the type attribute
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . preg_quote("type=\"$strOldType\"") . "([^<]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1type=\"$strType\"\$2>$gaptext</gap>", $this->cloze_text);
+		$close = $this->createCloseTextArray();
+		foreach ($this->gaps[$index] as $key => $value) {
+			$this->gaps[$index][$key]->set_cloze_type($cloze_type);
+			if ($cloze_type == CLOZE_TEXT) {
+				$this->gaps[$index][$key]->setState(1);
 			} else {
-				// create a type attribute
-				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap type=\"$strType\"\$1>$gaptext", $this->cloze_text);
+				$this->gaps[$index][$key]->setState(0);
 			}
 		}
+		if ($cloze_type == CLOZE_TEXT)
+		{
+			$type = "text";
+		}
+		else
+		{
+			$type = "select";
+		}
+		$close["gaps"][$index]["type"] = $type;
+		$this->createCloseTextFromArray($close);
 	}
 
 /**

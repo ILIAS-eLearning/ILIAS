@@ -72,6 +72,22 @@ textarea.fullwidth {
 	padding:3px;
 }
 
+.tblrow2light {
+	background-color:#f7f7f7;
+	color:#808080;
+	font-size:13px;
+	padding:3px;
+	vertical-align:top;
+}
+
+.tblrow1light {
+	background-color:#eeeeee;
+	color:#808080;
+	font-size:13px;
+	padding:3px;
+	vertical-align:top;
+}
+
 .tblrowmarked {
 	background-color:#ffe0e0;
 	color:#222222;

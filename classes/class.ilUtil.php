@@ -713,7 +713,7 @@ class ilUtil
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeDateSelect($prefix, $year = "", $month = "", $day = "")
+	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "")
 	{
 		global $lng;
 
@@ -751,8 +751,11 @@ class ilUtil
 
 		// build year select
 		$sel_year .= "<select name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
-
-		for ($i = $year; $i <= $year + 3; $i++)
+		if ((strlen($startyear) == 0) || ($startyear > $year))
+		{
+			$startyear = $year;
+		}
+		for ($i = $startyear; $i <= $year + 3; $i++)
 		{
 			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
 		}
