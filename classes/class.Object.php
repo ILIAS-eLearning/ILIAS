@@ -109,10 +109,9 @@ class Object
 			
 			$data = array();
 			$data["fields"] = array();
-			
+			$data["fields"]["title"] = $obj["title"];
+			$data["fields"]["desc"] = $obj["desc"];
 			$data["cmd"] = "update";
-			$data["title"] = $obj["title"];
-			$data["desc"] = $obj["desc"];
 			return $data;
  		}
 		else
@@ -173,7 +172,7 @@ class Object
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+		if($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
 			updateObject($this->id, $this->type, $_POST["Fobject"]);
 			$this->update = true;
