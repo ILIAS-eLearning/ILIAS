@@ -199,7 +199,7 @@ class ilParagraphGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->pg_obj->moveContent($this->cont_cnt, $_POST["target"][0] + 1);
+		$this->pg_obj->moveContentAfter($this->cont_cnt, $_POST["target"][0]);
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
@@ -214,7 +214,7 @@ class ilParagraphGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->pg_obj->moveContent($this->cont_cnt, $_POST["target"][0]);
+		$this->pg_obj->moveContentBefore($this->cont_cnt, $_POST["target"][0]);
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
 	}

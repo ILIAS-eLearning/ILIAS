@@ -24,6 +24,7 @@
 require_once("content/classes/class.ilMetaData.php");
 require_once("content/classes/class.ilLMObject.php");
 require_once("content/classes/class.ilPageParser.php");
+require_once("content/classes/class.ilPageContent.php");
 
 /**
 * Class ilPageObject
@@ -42,6 +43,7 @@ class ilPageObject extends ilLMObject
 	var $content;		// array of objects (ilParagraph or ilMediaObject)
 	var $id;
 	var $ilias;
+	var $dom;
 
 	/**
 	* Constructor
@@ -76,9 +78,19 @@ class ilPageObject extends ilLMObject
 		$pg_set = $this->ilias->db->query($query);
 		$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->xml_content = $this->page_record["content"];
+
+		// todo: this is for testing only
+//echo htmlentities($this->xml_content);
+		$this->dom =& domxml_open_mem(utf8_encode($this->xml_content));
+
 		$page_parser = new ilPageParser($this, $this->xml_content);
 		$page_parser->startParsing();
 
+	}
+
+	function &getDom()
+	{
+		return $this->dom;
 	}
 
 	/**
@@ -218,14 +230,15 @@ class ilPageObject extends ilLMObject
 	}
 
 
-	function insertContent(&$a_cont_obj, $a_pos)
+	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_AFTER_PRED)
 	{
 		$pos = explode("_", $a_pos);
 		if(isset($pos[1]))		// content should be child of a container
 		{
 			$pos_0 = $pos[0];
 			unset($pos[0]);
-			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"));
+			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"), $a_mode);
+//echo "content:".htmlentities($this->content[$pos_0 - 1]->getXML());
 		}
 		else		// content should be child of page
 		{
@@ -251,17 +264,32 @@ class ilPageObject extends ilLMObject
 
 
 	/**
-	* move content object from position $a_pos to position $a_target
+	* move content object from position $a_source before position $a_target
+	* (both hierarchical content ids)
 	*/
-	function moveContent($a_pos, $a_target)
+	function moveContentBefore($a_source, $a_target)
 	{
-		if($a_pos < $a_target)
+		// check if source and target are within same
+		// container context and source precedes target
+		// -> target position must be decreased by one
+		// because source is deleted
+		if(ilPageContent::haveSameContainer($a_source, $a_target))
 		{
-			$a_target--;
+			$source = explode("_", $a_source);
+			$target = explode("_", $a_target);
+			$child_source = $source[count($source) - 1];
+			$child_target = $target[count($target) - 1];
+//echo "same container";
+			if($child_source <= $child_target)
+			{
+//echo "decreased!:".$a_target.":";
+				$a_target = ilPageContent::decEdId($a_target);
+//echo $a_target.":<br>";
+			}
 		}
-		$content =& $this->content[$a_pos - 1];
-		$this->deleteContent($a_pos);
-		$this->insertContent($content, $a_target);
+		$content =& $this->getContent($a_source);
+		$this->deleteContent($a_source);
+		$this->insertContent($content, $a_target, IL_BEFORE_SUCC);
 		$this->update();
 	}
 

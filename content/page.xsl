@@ -92,6 +92,22 @@
 		</tr>
 	</xsl:for-each>
 	</table>
+	<!-- command selectbox -->
+	<xsl:if test="$mode = 'edit'">
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="@ed_id"/>
+			</xsl:attribute>
+		<option value="edit">edit properties</option>
+		<option value="insert">insert</option>
+		<option value="delete">delete</option>
+		<option value="moveAfter">move after</option>
+		<option value="moveBefore">move before</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@ed_id"/>]
+			</xsl:attribute>
+		</input>
+	</xsl:if>
 </xsl:template>
 
 
