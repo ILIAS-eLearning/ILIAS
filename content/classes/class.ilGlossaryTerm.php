@@ -321,6 +321,35 @@ class ilGlossaryTerm
 
 		$a_xml_writer->xmlEndTag("GlossaryItem");
 	}
+	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng;
+
+		// determine learning object
+		$glo_id = ilGlossaryTerm::_lookGlossaryID ($a_target);//::_lookupContObjID($a_target);
+
+		// get all references
+		$ref_ids = ilObject::_getAllReferences($glo_id);
+
+		// check read permissions
+		foreach ($ref_ids as $ref_id)
+		{
+			if ($rbacsystem->checkAccess("read", $ref_id))
+			{
+				ilUtil::redirect(
+					"./content/glossary_presentation.php?cmd=listDefinitions&term_id=".$a_target."&ref_id=".$ref_id);				
+			}
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
 
 } // END class ilGlossaryTerm
 
