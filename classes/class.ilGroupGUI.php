@@ -1,7 +1,7 @@
 <?php
-/*
+/**
 	+-----------------------------------------------------------------------------+
-		| ILIAS open source                                                           |
+	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
 	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
@@ -1666,7 +1666,7 @@ class ilGroupGUI extends ilObjectGUI
 			$counter ++;
 		}
 
-		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])))
+		if( $rbacsystem->checkAccess('edit',ilUtil::getGroupId($_GET["ref_id"])))
 		{
 			$tab[3] = array ();
 			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$this->grp_id;	//link for tab
