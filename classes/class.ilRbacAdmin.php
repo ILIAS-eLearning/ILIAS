@@ -1,6 +1,6 @@
 <?php
 /**
-* Class RbacAdmin 
+* Class ilRbacAdmin 
 * core functions for role based access control
 *
 * @author Stefan Meyer <smeyer@databay.de>
@@ -8,7 +8,7 @@
 *
 * @package rbac
 */
-class RbacAdmin
+class ilRbacAdmin
 {
 	/**
 	* ilias object
@@ -21,7 +21,7 @@ class RbacAdmin
 	* Constructor
 	* @access	public
 	*/
-	function RbacAdmin()
+	function ilRbacAdmin()
 	{
 		global $ilias;
 
@@ -903,5 +903,5 @@ class RbacAdmin
 
 		return $arr;
 	}
-} // END class.rbacAdmin
+} // END class.ilRbacAdmin
 ?>

@@ -6,10 +6,10 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends RbacAdmin
+* @extends ilRbacAdmin
 * @package rbac
 */
-class ilRbacAdminH extends RbacAdmin
+class ilRbacAdminH extends ilRbacAdmin
 {
 	/**
 	* Constructor
@@ -17,7 +17,7 @@ class ilRbacAdminH extends RbacAdmin
 	*/
 	function ilRbacAdminH()
 	{
-		$this->RbacAdmin();
+		$this->ilRbacAdmin();
 	}
 
 	/**
