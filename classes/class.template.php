@@ -286,6 +286,16 @@ class Template extends IntegratedTemplateExtension
 	{
 		return file_exists($this->tplPath."/".$filename);
 	}
+	
+	function addBlockFile($var, $block, $tplname)
+	{
+		if (file_exists($this->tplPath."/".$tplname) == false)
+		{
+		    echo "Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...<br>";
+			return false;
+		}
+		return parent::addBlockFile($var, $block, $tplname);
+	}
 }
 
 ?>
