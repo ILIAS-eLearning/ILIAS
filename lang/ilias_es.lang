@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09
 content#:#cont_citations#:#Citations###09 Oct 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
 content#:#cont_cross_reference#:#Cross reference###19 Sep 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Height###08 Jul 2003 new variable
 content#:#cont_how_published#:#How published###19 Sep 2003 new variable
 content#:#cont_href#:#href###04 Aug 2003 new variable
 content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifier###04 Aug 2003 new variable
 content#:#cont_insert_file_item#:#Insert File Item###14 Oct 2003 new variable
 content#:#cont_insert_file_list#:#Insert File List###14 Oct 2003 new variable
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN###19 Sep 2003 new variable
 content#:#cont_item#:#Item###04 Aug 2003 new variable
 content#:#cont_journal#:#Journal###19 Sep 2003 new variable
 content#:#cont_keyword#:#Keyword###19 Sep 2003 new variable
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Internal Link###06 Sep 2003 new variable
 content#:#cont_link_type#:#Link Type###06 Sep 2003 new variable
 content#:#cont_list_properties#:#List Properties###16 Jul 2003 new variable
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Glossary Term###06 Sep 2003 new variable
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)###06 Sep 2003 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
 content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
 content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Object Properties###27 Oct 2003 new variable
 content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
 content#:#cont_month#:#Month###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions###27 Sep 2003 new variable
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#New assignment###26 Sep 2003 new variable
 content#:#cont_new_dir#:#New Directory###23 Oct 2003 new variable
 content#:#cont_new_file#:#New File###23 Oct 2003 new variable
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Series title###19 Sep 2003 new variable
 content#:#cont_series_volume#:#Series volume###19 Sep 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Show###19 Sep 2003 new variable
 content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
 content#:#cont_size#:#Size###22 Oct 2003 new variable

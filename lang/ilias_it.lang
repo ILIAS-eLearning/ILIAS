@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Come pubblicato
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identificatore riferito
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#Identificatore
 content#:#cont_insert_file_item#:#Inserisci il file.
 content#:#cont_insert_file_list#:#Inserisci l'elenco di file.
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Elemento
 content#:#cont_journal#:#Giornaliero
 content#:#cont_keyword#:#Chiave
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
 content#:#cont_list_properties#:#Elenca le propriet&#224;
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
 content#:#cont_lm_properties#:#Propriet&#224; del Modulo
 content#:#cont_manifest#:#Manifesto
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_mob_files#:#File oggetto
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
 content#:#cont_mob_usages#:#Utilizzo
 content#:#cont_month#:#Mese
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione
 content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Titolo della serie
 content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
 content#:#cont_set_width#:#Imposta larghezza
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_size#:#Dimensioni

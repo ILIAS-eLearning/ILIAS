@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Insert File Item###17 Dec 2003 new variable
 content#:#cont_insert_file_list#:#Wstaw listę plików
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
 content#:#cont_keyword#:#Słowo kluczowe
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
 content#:#cont_list_properties#:#Lista właściwości
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Hasło słownika
 content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
 content#:#cont_lm_properties#:#Właściwiści modułu nauczania
 content#:#cont_manifest#:#Manifest
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_mob_files#:#Pliki obiektowe
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Właściwości obiektu
 content#:#cont_mob_usages#:#Użycie
 content#:#cont_month#:#Miesiąc
 content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Nowy przydział
 content#:#cont_new_dir#:#Nowy katalog
 content#:#cont_new_file#:#Nowy plik
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
 content#:#cont_set_width#:#Ustaw szerokość
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_size#:#Rozmiar (Bajtów)

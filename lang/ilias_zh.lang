@@ -1114,6 +1114,7 @@ content#:#cont_citation_selection_not_valid#:#您的选择无效
 content#:#cont_citations#:#引用
 content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#创建目录
 content#:#cont_cross_reference#:#交叉参考
 content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
@@ -1142,6 +1143,7 @@ content#:#cont_height#:#高
 content#:#cont_how_published#:#如何发行的
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#标识
 content#:#cont_insert_file_item#:#插入文件项
 content#:#cont_insert_file_list#:#插入文件列表
@@ -1157,6 +1159,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#项
 content#:#cont_journal#:#杂志
 content#:#cont_keyword#:#关键字
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#内部链接
 content#:#cont_link_type#:#链接类型
 content#:#cont_list_properties#:#列表属性
@@ -1173,6 +1176,7 @@ content#:#cont_lk_term#:#术语表中的术语
 content#:#cont_lk_term_new#:#术语表中的术语（新框架）
 content#:#cont_lm_properties#:#学习模块属性
 content#:#cont_manifest#:#声明
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp技能分数
 content#:#cont_max_time_allowed#:#adlcp允许的最长时间
 content#:#cont_mob_files#:#对象文件
@@ -1181,6 +1185,7 @@ content#:#cont_mob_prop#:#对象属性
 content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
 content#:#cont_month#:#月
 content#:#cont_msg_multiple_editions#:#不能显示多个版本的详细情况
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#新作业
 content#:#cont_new_dir#:#新目录
 content#:#cont_new_file#:#新文件
@@ -1233,6 +1238,7 @@ content#:#cont_series_title#:#系列标题
 content#:#cont_series_volume#:#系列卷
 content#:#cont_set_class#:#设置班级
 content#:#cont_set_width#:#设置宽度
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#显示
 content#:#cont_show_citation#:#具有引用的显示
 content#:#cont_size#:#大小（字节）

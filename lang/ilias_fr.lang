@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
 content#:#cont_citations#:#Citations
 content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_cross_reference#:#Référence croisée
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Hauteur
 content#:#cont_how_published#:#Publié comment
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifiant
 content#:#cont_insert_file_item#:#Insérer objet fichier
 content#:#cont_insert_file_list#:#Insérer liste de fichiers
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Objet
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Mot-clé
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_type#:#Type de lien
 content#:#cont_list_properties#:#Propriétés de la liste
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Terme de glossaire
 content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
 content#:#cont_lm_properties#:#Propriété du module d'apprentissage
 content#:#cont_manifest#:#Manifeste
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Fichiers objets
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Propriétés de l'objet
 content#:#cont_mob_usages#:#Usage###26 Nov 2003 new variable
 content#:#cont_month#:#Mois
 content#:#cont_msg_multiple_editions#:#Il n'est pas possible d'afficher les détails de plusieurs éditions
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Nouvelle assignation
 content#:#cont_new_dir#:#Nouveau répertoire
 content#:#cont_new_file#:#Nouveau fichier
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Titre de collection
 content#:#cont_series_volume#:#Volume de collection
 content#:#cont_set_class#:#Fixer la classe
 content#:#cont_set_width#:#Fixer la largeur
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Afficher
 content#:#cont_show_citation#:#Afficher avec citation
 content#:#cont_size#:#Taille (octets)
