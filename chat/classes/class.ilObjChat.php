@@ -36,6 +36,7 @@ require_once "chat/classes/class.ilChatServerConfig.php";
 require_once "chat/classes/class.ilChatServerCommunicator.php";
 require_once "chat/classes/class.ilChatUser.php";
 require_once "chat/classes/class.ilChatRoom.php";
+require_once "chat/classes/class.ilFileDataChat.php";
 
 class ilObjChat extends ilObject
 {
@@ -126,6 +127,22 @@ class ilObjChat extends ilObject
 		unset($tmp_user);
 
 		return true;
+	}
+
+	function getHTMLDirectory()
+	{
+		$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true);
+		
+		$this->chat_room->setRoomId(0);
+
+		$tmp_tpl->setVariable("CHAT_NAME",$this->getTitle());
+		$tmp_tpl->setVariable("CHAT_DATE",strftime("%c",time()));
+		$tmp_tpl->setVariable("CONTENT",$this->chat_room->getAllMessages());
+
+		$file_obj =& new ilFileDataChat($this);
+		
+		// return directory name of index.html
+		return $file_obj->addFile('index.html',$tmp_tpl->get());
 	}
 
 	// PRIVATE

@@ -126,6 +126,13 @@ class ilFileDataCourse extends ilFileData
 		return false;
 	}
 
+	function rCopy($a_from,$a_to)
+	{
+		ilUtil::rCopy($a_from,$this->getCoursePath().'/'.$a_to);
+
+		return true;
+	}
+
 
 	function addDirectory($a_rel_name)
 	{

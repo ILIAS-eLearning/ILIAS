@@ -537,8 +537,6 @@ class ilObjChatGUI extends ilObjectGUI
 		ilUtil::deliverData($tmp_tpl->get(),"1.html");
 		exit;
 	}
-		
-		
 
 	// PRIVATE
 	function __showOnlineUsers()

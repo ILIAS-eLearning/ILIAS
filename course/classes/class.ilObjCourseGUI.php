@@ -767,11 +767,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->object->initCourseArchiveObject();
-		$this->object->archives_obj->setName("test");
-		$this->object->archives_obj->setDate(time());
-		$this->object->archives_obj->setSize((int) (768370 / 1024));
-		$this->object->archives_obj->setType($this->object->archives_obj->ARCHIVE_XML);
-
 		$this->object->archives_obj->addXML();
 		
 		sendInfo($this->lng->txt("crs_added_new_archive"));
@@ -779,6 +774,24 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		return true;
 	}
+	function addHTMLArchiveObject()
+	{
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'write'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->object->initCourseArchiveObject();
+		$this->object->archives_obj->addHTML();
+
+		sendInfo($this->lng->txt("crs_added_new_archive"));
+		$this->archiveAdminObject();
+
+		return true;
+	}		
 
 
 

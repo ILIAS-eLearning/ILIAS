@@ -176,6 +176,33 @@ class ilCourseArchives
 		return true;
 	}
 
+	function addHTML()
+	{
+		$this->setType($this->ARCHIVE_HTML);
+		$this->setDate(time());
+		$this->setName($this->getDate().'__'.$this->ilias->getSetting('inst_id').'__crs_'.$this->course_obj->getId());
+		
+		// Step one create folder
+		$this->initCourseFilesObject();
+		$this->course_files_obj->addDirectory($this->getName());
+
+		// Step two, create child html
+		$this->course_files_obj->addDirectory($this->getName().'/objects');
+		$this->__addHTMLFiles($this->course_obj->getRefId());
+		
+		// Step three create course html
+		$this->__addCourseHTML();
+
+		// Step four zip
+		$this->setSize($this->course_files_obj->zipFile($this->getName(),$this->getName().'.zip'));
+
+		// Finally add entry in crs_archives table
+		$this->add();
+		
+		return true;
+	}
+
+
 	function add()
 	{
 		$query = "INSERT INTO crs_archives ".
@@ -252,10 +279,103 @@ class ilCourseArchives
 			
 			if($abs_file_name = $tmp_obj->getXMLZip())
 			{
-				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['child'].'.zip';
+				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';
 				$this->course_files_obj->copy($abs_file_name,$this->getName().'/objects/'.$new_name);
 			}
 			$this->__addZipFiles($item['child']);
+			unset($tmp_obj);
+		}
+		return true;
+	}
+
+	function __addHTMLFiles($a_parent_id)
+	{
+		$this->course_obj->initCourseItemObject();
+		$this->course_obj->items_obj->setParentId($a_parent_id);
+		
+		foreach($this->course_obj->items_obj->getAllItems() as $item)
+		{
+			if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($item['child'],false))
+			{
+				continue;
+			}
+			if($abs_dir_name = $tmp_obj->getHTMLDirectory())
+			{
+				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'];
+
+				$this->course_files_obj->addDirectory($this->getName().'/objects/'.$new_name);
+				$this->course_files_obj->rCopy($abs_dir_name,$this->getName().'/objects/'.$new_name);
+
+				// Store filename in hashtable (used for create course html tree)
+				$this->html_files["$item[obj_id]"] = "objects/".$new_name."/index.html";
+			}
+			$this->__addHTMLFiles($item['child']);
+			unset($tmp_obj);
+		}
+		return true;
+	}
+
+	function __addCourseHTML()
+	{
+		global $tpl;
+
+		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,true);
+
+		$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
+
+		$tmp_tpl->setVariable('TITLE','Course export');
+		$tmp_tpl->setVariable("CRS_STRUCTURE",$this->lng->txt('crs_structure'));
+		
+		$this->structure = '';
+		$this->__buildStructure($tmp_tpl,$this->course_obj->getRefId());
+		$tmp_tpl->setVariable("STRUCTURE",$this->structure);
+
+		$this->course_files_obj->writeToFile($tmp_tpl->get(),$this->getName().'/index.html');
+
+		return true;
+	}
+
+	function __buildStructure(&$tmp_tpl,$a_parent_id)
+	{
+		$this->course_obj->initCourseItemObject();
+		$this->course_obj->items_obj->setParentId($a_parent_id);
+		
+		$items = $this->course_obj->items_obj->getAllItems();
+
+		foreach($items as $key => $item)
+		{
+			if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($item['child'],false))
+			{
+				continue;
+			}
+
+
+			if($key == 0)
+			{
+				$this->structure .= "<ul>";
+			}
+
+			$this->structure .= "<li>";
+
+			if(isset($this->html_files["$item[obj_id]"]))
+			{
+				$link = "<a href=\"./".$this->html_files["$item[obj_id]"]."\">".$item["title"]."</a>";
+			}
+			else
+			{
+				$link = $item['title'];
+			}
+			$this->structure .= $link;
+			$this->structure .= "</li>";
+
+			$this->__buildStructure($tmp_tpl,$item['child']);
+
+			if($key == (count($items) - 1))
+			{
+				$this->structure .= "</ul>";
+			}
+		
+
 			unset($tmp_obj);
 		}
 		return true;
