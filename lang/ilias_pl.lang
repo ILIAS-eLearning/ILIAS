@@ -303,16 +303,20 @@ assessment#:#tst_starting_time#:#Czas rozpoczęcia
 assessment#:#tst_stat_all_users#:#Wszyscy użytkownicy
 assessment#:#tst_stat_choose_users#:#(wybierz jednego lub więcej użytkowników z listy)
 assessment#:#tst_stat_result_atimeofwork#:#Średni czas pracy
-assessment#:#tst_stat_result_distancemean#:#Odległość od średniej arytmetycznej
-assessment#:#tst_stat_result_distancequintile#:#Odległość od piątej części całości
+assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Pierwsza wizyta
 assessment#:#tst_stat_result_lastvisit#:#Ostatnia wizyta
+assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
 assessment#:#tst_stat_result_pworkedthrough#:#Procent wykonanych załadowań
 assessment#:#tst_stat_result_qworkedthrough#:#Pytania już przerobione
+assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
 assessment#:#tst_stat_result_resultsmarks#:#Rezultaty testu w znakach
 assessment#:#tst_stat_result_resultspoints#:#Rezultaty testu w punktach
 assessment#:#tst_stat_result_specification#:#Specyfikacja daty końca
 assessment#:#tst_stat_result_timeofwork#:#Czas pracy
+assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
 assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
 assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
 assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
@@ -1496,6 +1500,8 @@ common#:#obj_notf#:#Notatka administracyjna
 common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
+common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
+common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 new variable
 common#:#obj_pg#:#Strona
 common#:#obj_qpl#:#Pula pytań
 common#:#obj_recf#:#Odtworzone Obiekty
@@ -1600,6 +1606,10 @@ common#:#path_to_unzip#:#Ściezka do Unzip
 common#:#path_to_zip#:#Ścieżka do Zip
 common#:#pathes#:#Ścieżki
 common#:#payment_system#:#System płatności
+common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
+common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
+common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
+common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
 common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
