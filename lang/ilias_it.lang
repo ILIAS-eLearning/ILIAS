@@ -161,6 +161,7 @@ common#:#dbk_added#:#Libro digitale aggiunto###02 Oct 2003 new variable
 common#:#dbk_new#:#Nuovo libro digitale###02 Oct 2003 new variable
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita###20 Mar 2003 new variable
+common#:#default_role#:#Default Role###05 Nov 2003 new variable
 common#:#default_roles#:#Ruoli predefiniti###01 Nov 2003 new variable
 common#:#default_skin#:#Tema predefinito###20 Mar 2003 new variable
 common#:#default_style#:#Stile predefinito###20 Mar 2003 new variable
