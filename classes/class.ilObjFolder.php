@@ -33,37 +33,10 @@
 */
 
 require_once "class.ilObject.php";
+require_once "class.ilGroupTree.php";
 
 class ilObjFolder extends ilObject
 {
-	/**
-	* tree object
-	* @var object tree
-	* @access private
-	*/
-	var $gtree;
-
-	/**
-	* group_id
-	* @var int group_id
-	* @access private
-	*/
-	var $group_id;
-
-	/**
-	* table name of table mail object data
-	* @var string
-	* @access private
-	*/
-	var $table_obj_data;
-
-	/**
-	* table name of tree table
-	* @var string
-	* @access private
-	*/
-	var $table_tree;
-
 	/**
 	* Constructor
 	* @access	public
@@ -76,25 +49,6 @@ class ilObjFolder extends ilObject
 		$this->ilObject($a_id,false);
 	}
 	
-	//todo make it more flexible; it should be useful also for categories  
-	/*
-	function putInGrpTree($local_table,$parent_id)
-	{  
-		//echo "type".$parent_type."type";
-		$this->ilias = &$ilias;
-		$this->lng = &$lng;
-		//$this->group_id = $a_group_id;
-		
-		$this->table_obj_data = 'object_data';
-		$this->tree_table = $tree_table;
-		//$this->table_obj_reference = 'object_reference';
-		
-		$this->gtree = new ilTree($tree_id);
-		$this->gtree->setTableNames($this->table_tree,$this->table_obj_data);
-		
-		$local_tree->insertNode($this->getId(), $parent_id);
-	}*/
-	
 	/**
 	* insert folder into grp_tree
 	*
@@ -103,15 +57,14 @@ class ilObjFolder extends ilObject
 	{
 		$grp_id = $this->getGroupId($a_parent_ref);
 		
-		$gtree = new ilTree($grp_id,$grp_id);
-		$gtree->setTableNames("grp_tree","object_data","object_reference");
+		$gtree = new ilGroupTree($grp_id);
 		
 		$gtree->insertNode($this->getRefId(), $a_parent_ref);
 	}
 	
 	/**
 	* get the tree_id of group where folder belongs to
-	* 
+	* TODO: function is also in ilGroupGUI and ilObjFile. merge them!!
 	* @param	string	ref_id of parent under which folder is inserted
 	* @access	private
 	*/
@@ -127,18 +80,6 @@ class ilObjFolder extends ilObject
 		$row = $r->fetchRow();
 		
 		return $row[0];
-	}
-	
-	function getRBACParentInGroupTree()
-	{
-		$grp_id = $this->getGroupId($this->getRefId());
-		
-		$gtree = new ilTree($grp_id,$grp_id);
-		$gtree->setTableNames("grp_tree","object_data","object_reference");
-		
-		$path = $gtree->getPathFull($this->getRefId());
-		
-		var_dump("<pre>",$path,"</pre>");
 	}
 } // END class.ilObjFolder
 ?>

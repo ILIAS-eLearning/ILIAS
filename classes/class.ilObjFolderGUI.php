@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.5 2003/09/29 12:18:33 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.6 2003/09/29 21:10:23 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -38,16 +38,6 @@ require_once "class.ilObjectGUI.php";
 class ilObjFolderGUI extends ilObjectGUI
 {
 	/**
-	* (ref_)id of the table where the folder is included
-	*/
-	var $tree_id;
-	
-	/**
-	* name of the database table where the folder is included (e.g. grp_tree)
-	*/
-	var $tree_table;
-	
-	/**
 	* Constructor
 	* @access	public
 	*/
@@ -56,25 +46,8 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->type = "fold";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		//echo "hier";exit;
-
-		if ($_GET["tree_id"])
-		{
-			$this->tree_id = $_GET["tree_id"];
-			
-		}
-		else
-		{
-		 	$this->tree_id = $_GET["ref_id"];
-			
-		}
-		
-		//temporary substituted
-		//$this->tree_table = $_GET["tree_table"];
-		$this->tree_table = "grp_tree";
-		
-		$this->local_tree = new ilTree($this->tree_id);
-		$this->local_tree->setTableNames($this->tree_table,"object_data","object_reference");
 	}
+
 	/**
 	* create new object form
 	*
