@@ -436,6 +436,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		$questionpools =& $this->object->get_qpl_titles();
 		if ($query_result->numRows() > 0)
 		{
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -453,8 +454,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
-				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
+				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->ref_fi]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -486,8 +486,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("QUESTION_CREATED", $this->lng->txt("tst_question_create_date"));
-		$this->tpl->setVariable("QUESTION_UPDATED", $this->lng->txt("tst_question_last_update"));
+		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 		$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
 		$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
 		$this->tpl->setVariable("TEXT_CREATE_NEW", $this->lng->txt("create_new"));
