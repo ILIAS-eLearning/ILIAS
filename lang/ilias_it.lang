@@ -107,6 +107,7 @@ assessment#:#applet_parameter#:#Parametri
 assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
 assessment#:#ass_questions#:#Domande
+assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#da
 assessment#:#checkbox_checked#:#Selezionato
 assessment#:#checkbox_unchecked#:#Deselezionato
@@ -130,6 +131,20 @@ assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
+assessment#:#ects_grade_a#:#outstanding performance with only minor errors###20 Sep 2004 new variable
+assessment#:#ects_grade_a_short#:#EXCELLENT###20 Sep 2004 new variable
+assessment#:#ects_grade_b#:#above the average standard but with some errors###20 Sep 2004 new variable
+assessment#:#ects_grade_b_short#:#VERY GOOD###20 Sep 2004 new variable
+assessment#:#ects_grade_c#:#generally sound work with a number of notable errors###20 Sep 2004 new variable
+assessment#:#ects_grade_c_short#:#GOOD###20 Sep 2004 new variable
+assessment#:#ects_grade_d#:#fair but with significant shortcomings###20 Sep 2004 new variable
+assessment#:#ects_grade_d_short#:#SATISFACTORY###20 Sep 2004 new variable
+assessment#:#ects_grade_e#:#performance meets the minimum criteria###20 Sep 2004 new variable
+assessment#:#ects_grade_e_short#:#SUFFICIENT###20 Sep 2004 new variable
+assessment#:#ects_grade_f#:#considerable further work is required###20 Sep 2004 new variable
+assessment#:#ects_grade_f_short#:#FAIL###20 Sep 2004 new variable
+assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded###20 Sep 2004 new variable
+assessment#:#ects_grade_fx_short#:#FAIL###20 Sep 2004 new variable
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
@@ -137,6 +152,7 @@ assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
+assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
 assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
