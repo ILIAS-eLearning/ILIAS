@@ -802,6 +802,102 @@ class ilObjContentObject extends ilObject
 		return $layouts;
 	}
 
+	/**
+	* checks wether the preconditions of a page are fulfilled or not
+	*/
+	function _checkPreconditionsOfPage($cont_obj_id, $page_id)
+	{
+		$lm_tree = new ilTree($cont_obj_id);
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+
+		if ($lm_tree->isInTree($page_id))
+		{
+			$path = $lm_tree->getPathFull($page_id, $lm_tree->readRootId());
+			foreach ($path as $node)
+			{
+				if ($node["type"] == "st")
+				{
+					if (!ilConditionHandler::_checkAllConditionsOfTarget($node["child"], "st"))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+	* gets all missing preconditions of page
+	*/
+	function _getMissingPreconditionsOfPage($cont_obj_id, $page_id)
+	{
+		$lm_tree = new ilTree($cont_obj_id);
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+
+		$conds = array();
+		if ($lm_tree->isInTree($page_id))
+		{
+			// get full path of page
+			$path = $lm_tree->getPathFull($page_id, $lm_tree->readRootId());
+			foreach ($path as $node)
+			{
+				if ($node["type"] == "st")
+				{
+					// get all preconditions of upper chapters
+					$tconds = ilConditionHandler::_getConditionsOfTarget($node["child"], "st");
+					foreach ($tconds as $tcond)
+					{
+						// store all missing preconditions
+						if (!ilConditionHandler::_checkCondition($tcond["id"]))
+						{
+							$conds[] = $tcond;
+						}
+					}
+				}
+			}
+		}
+		
+		return $conds;
+	}
+
+	/**
+	* get top chapter of page for that any precondition is missing
+	*/
+	function _getMissingPreconditionsTopChapter($cont_obj_id, $page_id)
+	{
+		$lm_tree = new ilTree($cont_obj_id);
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+
+		$conds = array();
+		if ($lm_tree->isInTree($page_id))
+		{
+			// get full path of page
+			$path = $lm_tree->getPathFull($page_id, $lm_tree->readRootId());
+			foreach ($path as $node)
+			{
+				if ($node["type"] == "st")
+				{
+					// get all preconditions of upper chapters
+					$tconds = ilConditionHandler::_getConditionsOfTarget($node["child"], "st");
+					foreach ($tconds as $tcond)
+					{
+						// look for missing precondition
+						if (!ilConditionHandler::_checkCondition($tcond["id"]))
+						{
+							return $node["child"];
+						}
+					}
+				}
+			}
+		}
+		
+		return "";
+	}
 
 	/**
 	* notifys an object about an event occured

@@ -60,6 +60,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->obj =& $a_st_object;
 		$this->actions = $this->objDefinition->getActions("st");
 	}
+	
+	
+	/**
+	* this function is called by condition handler gui interface
+	*/
+	function getType()
+	{
+		return "st";
+	}
 
 	/**
 	* execute command
@@ -579,7 +588,74 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->ctrl->redirect($this, "subchap");
 	}
+	
+	
+	//
+	// Condition handling stuff
+	//
+	
+	function initConditionHandlerInterface()
+	{
+		include_once("classes/class.ilConditionHandlerInterface.php");
+		$this->condHI =& new ilConditionHandlerInterface($this);
+		$this->condHI->setTargetType("st");
+		$this->condHI->setTargetId($this->obj->getId());
+		$this->condHI->setTargetTitle($this->obj->getTitle());
+	}
+	
+	/**
+	* list preconditions of chapter
+	*/
+	function preconditions()
+	{
+		$this->setTabs();		
+		$this->initConditionHandlerInterface();
+		
+		$condList =& $this->condHI->chi_list();
+		$this->tpl->setVariable("ADM_CONTENT", $condList);
+		$this->tpl->parseCurrentBlock();
+		
+	}
+	
+	/**
+	* condition trigger object selection
+	*/
+	function chi_selector()
+	{
+		$this->setTabs();
+		$this->initConditionHandlerInterface();
+		$this->condHI->chi_selector("content", "ADM_CONTENT");
+	}		
 
+	/**
+	* assign trigger object to chapter
+	*/
+	function chi_assign()
+	{
+		$this->initConditionHandlerInterface();
+		$this->condHI->chi_assign(false);
+		$this->preconditions();
+	}
+
+	/**
+	* update conditions of chapter
+	*/
+	function chi_update()
+	{
+		$this->initConditionHandlerInterface();
+		$this->condHI->chi_update();
+		$this->preconditions();
+	}
+	
+	/**
+	* delete precondition(s)
+	*/
+	function chi_delete()
+	{
+		$this->initConditionHandlerInterface();
+		$this->condHI->chi_delete();
+		$this->preconditions();
+	}
 
 	/**
 	* cancel creation of new page or chapter

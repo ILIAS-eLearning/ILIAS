@@ -2261,7 +2261,6 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 	
-	
 /**
 * Calculates the results of a test for a given user
 * 

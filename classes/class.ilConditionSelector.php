@@ -71,7 +71,8 @@ class ilConditionSelector extends ilExplorer
 		$this->addFilter("grp");
 		$this->addFilter("fold");
 		$this->addFilter("crs");
-		$this->addFilter('exc');
+		$this->addFilter("exc");
+		$this->addFilter("tst");
 
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->setFiltered(true);
