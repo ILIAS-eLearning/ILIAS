@@ -728,8 +728,7 @@ if ($migrate)
 		$settings[$row->keyword] = $row->value;
 	}
 
-	mt_srand ((double)microtime()*1000000);
-	$client_id = md5(uniqid(mt_rand()));
+	$client_id = "default";
 
 	rename(ILIAS_ABSOLUTE_PATH."/ilias.ini.php",ILIAS_ABSOLUTE_PATH."/ilias.ini_copied.php");
 
