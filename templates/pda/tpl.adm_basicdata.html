@@ -28,7 +28,7 @@
       <td class="option_value">{IP_ADDRESS}</td>
     </tr>
     <tr>
-      <td class="option">{TXT_PORT}</td>
+      <td class="option">{TXT_SERVER_PORT}</td>
       <td class="option_value">{SERVER_PORT}</td>
     </tr>
     <tr>
@@ -175,20 +175,38 @@
       <td class="std" colspan="2">{TXT_LDAP}</td>
     </tr>
     <tr>
-      <td class="option">{TXT_ENABLE}</td>
+      <td class="option">{TXT_LDAP_ENABLE}</td>
       <td class="option_value"><input type="checkbox" name="ldap_enable"  value="y" {LDAP_ENABLE} /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_SERVER}</td>
+      <td class="option">{TXT_LDAP_SERVER}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_server" value="{LDAP_SERVER}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_PORT}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_port" value="{LDAP_PORT}" /></td>
+      <td class="option">{TXT_LDAP_PORT}</td>
+      <td class="option_value"><input type="text" size="5" maxlength="5" name="ldap_port" value="{LDAP_PORT}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_BASEDN}</td>
+      <td class="option">{TXT_LDAP_BASEDN}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_basedn" value="{LDAP_BASEDN}" /></td>
+    </tr>
+	<tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+ 	<tr class="tblheader">
+      <td class="std" colspan="2">{TXT_MAIL}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_MAIL_ENABLE}</td>
+      <td class="option_value"><input type="checkbox" name="mail_enable"  value="y" {MAIL_ENABLE} /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_MAIL_SERVER}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="mail_server" value="{MAIL_SERVER}" /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_MAIL_PORT}</td>
+      <td class="option_value"><input type="text" size="5" maxlength="5" name="mail_port" value="{MAIL_PORT}" /></td>
     </tr>
 	<tr>
       <td colspan="2">&nbsp;</td>
