@@ -6,7 +6,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-core
+* @package ilias-mail
 */
 
 class Addressbook
@@ -41,7 +41,7 @@ class Addressbook
 
 	/**
 	* Constructor
-	* @param $a_user_id    user_id of mailbox
+	* @param integer user_id of mailbox
 	* @access	public
 	*/
 	function Addressbook($a_user_id = 0)
@@ -89,7 +89,7 @@ class Addressbook
 	}
 	/**
 	* add entry
-	* @param login
+	* @param string login
 	* @param string firstname
 	* @param string lastname
 	* @param string email 
@@ -112,8 +112,8 @@ class Addressbook
 
 	/**
 	* update entry
-	* @param login
 	* @param integer addr_id
+	* @param string login
 	* @param string firstname
 	* @param string lastname
 	* @param string email 
@@ -160,6 +160,7 @@ class Addressbook
 	}
 	/**
 	* get all entries the user
+	* @param integer address id
 	* @return array array of entry data
 	* @access	public
 	*/

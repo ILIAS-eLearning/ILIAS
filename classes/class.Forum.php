@@ -27,7 +27,7 @@ class Forum
 	
 	/**
 	* class name
-	* @var object
+	* @var string class name
 	* @access private
 	*/
 	var $className="Forum";
@@ -262,7 +262,8 @@ class Forum
 	
 	/**
 	* get one post-dataset 
-	* @return	array	$result dataset of the post
+	* @param    integer post id 
+	* @return	array result dataset of the post
 	* @access	public
 	*/
 	function getOnePost($post)
@@ -376,8 +377,8 @@ class Forum
 	
 	/**
 	* update dataset in frm_posts
-	* @param	integer	$pos_pk	
-	* @param	string	$message	
+	* @param	string	message	
+	* @param	integer	pos_pk	
 	* @return	boolean
 	* @access	public
 	*/
@@ -527,8 +528,8 @@ class Forum
 	
 	/**
 	* get all threads of given forum
-	* @param	integer	$topic: forum-ID
-	* @return	object	$res result identifier for use with fetchRow
+	* @param	integer	topic: forum-ID
+	* @return	object	res result identifier for use with fetchRow
 	* @access	public
 	*/
 	function getThreadList($topic)
@@ -551,9 +552,9 @@ class Forum
 	/**
 	* get all posts of given thread
 	*
-	* @param	integer	$topic: forum-ID
-	* @param	integer	$thread: thread-ID
-	* @return	object	$res result identifier for use with fetchRow
+	* @param	integer	topic: forum-ID
+	* @param	integer	thread: thread-ID
+	* @return	object	res result identifier for use with fetchRow
 	* @access	public
 	*/
 	function getPostList($topic, $thread)
@@ -677,8 +678,7 @@ class Forum
 	
 	/**
    	* builds a string to show the forum-context
-	* @param	integer	$ref_id
-	* @param	integer	$parent_id //OBSOLETE
+	* @param	integer	ref_id
 	* @return	string
 	* @access	public
    	*/

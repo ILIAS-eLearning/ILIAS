@@ -1,89 +1,75 @@
 <?php
-
-/*
-
-
-this class encapsulates the PHP mail() function.
-	implements CC, Bcc, Priority headers
-
-
-@version	1.3 
-
-- added ReplyTo( $address ) method
-- added Receipt() method - to add a mail receipt
-- added optionnal charset parameter to Body() method. this should fix charset problem on some mail clients
-	     
-@example
-
-	include "libmail.php";
-	
-	$m= new Mail; // create the mail
-	$m->From( "leo@isp.com" );
-	$m->To( "destination@somewhere.fr" );
-	$m->Subject( "the subject of the mail" );	
-
-	$message= "Hello world!\nthis is a test of the Mail class\nplease ignore\nThanks.";
-	$m->Body( $message);	// set the body
-	$m->Cc( "someone@somewhere.fr");
-	$m->Bcc( "someoneelse@somewhere.fr");
-	$m->Priority(4) ;	// set the priority to Low 
-	$m->Attach( "/home/leo/toto.gif", "image/gif" ) ;	// attach a file of type image/gif
-	$m->Send();	// send the mail
-	echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
-
-	
-LASTMOD
-	Fri Oct  6 15:46:12 UTC 2000
-
-@author	Leo West - lwest@free.fr
-
-*/
-
-
+/**
+ * this class encapsulates the PHP mail() function.
+ * implements CC, Bcc, Priority headers
+ *  include "libmail.php";
+ *  $m= new Mail; // create the mail
+ *  $m->From( "leo@isp.com" );
+ *  $m->To( "destination@somewhere.fr" );
+ *  $m->Subject( "the subject of the mail" );	
+ *  $message= "Hello world!\nthis is a test of the Mail class\nplease ignore\nThanks.";
+ *  $m->Body( $message);	// set the body
+ *  $m->Cc( "someone@somewhere.fr");
+ *  $m->Bcc( "someoneelse@somewhere.fr");
+ *  $m->Priority(4) ;	// set the priority to Low 
+ *  m->Attach( "/home/leo/toto.gif", "image/gif" ) ;	// attach a file of type image/gif
+ *  $m->Send();	// send the mail
+ *  echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
+ * 
+ * @author	Leo West - lwest@free.fr  
+ * @version $Id$
+ * 
+ *
+ * 	@package ilias-mail
+ */
 class MimeMail
 {
-	/*
-	list of To addresses
-	@var	array
-	*/
+	/**
+	 * list of To addresses
+	 * @var	array
+	 */
 	var $sendto = array();
-	/*
-	@var	array
-	*/
+	
+	/**
+	 * @var	array
+	 */
 	var $acc = array();
-	/*
-	@var	array
-	*/
+
+	/**
+	 * @var	array
+	 */
 	var $abcc = array();
-	/*
-	paths of attached files
-	@var array
-	*/
+
+	/**
+	 * 	paths of attached files
+	 * 	@var array
+	 */
 	var $aattach = array();
-	/*
-	list of message headers
-	@var array
-	*/
+
+	/**
+	 * 	list of message headers
+	 * 	@var array
+	 */
 	var $xheaders = array();
-	/*
-	message priorities referential
-	@var array
-	*/
+
+	/**
+	 * 	message priorities referential
+	 * 	@var array
+	 */
 	var $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
-	/*
-	character set of message
-	@var string
-	*/
+
+	/**
+	 * 	character set of message
+	 * 	@var string
+	 */
 	var $charset = "us-ascii";
 	var $ctencoding = "7bit";
 	var $receipt = 0;
 	
 
-/*
-
-Mail contructor
-	
-*/
+	/**
+	 * Mail contructor
+	 */
 
 	function MimeMail()
 	{
@@ -92,16 +78,14 @@ Mail contructor
 	}
 
 
-/*		
-
-activate or desactivate the email addresses validator
-ex: autoCheck( true ) turn the validator on
-by default autoCheck feature is on
-
-@param boolean	$bool set to true to turn on the auto validation
-@access public
-*/
-	function autoCheck( $bool )
+	/**		
+	 * activate or desactivate the email addresses validator
+	 * ex: autoCheck( true ) turn the validator on
+	 * by default autoCheck feature is on
+	 * @param boolean	set to true to turn on the auto validation
+	 * @access public
+	 */
+	function autoCheck($bool )
 	{
 		if( $bool )
 			$this->checkAddress = true;
@@ -110,26 +94,22 @@ by default autoCheck feature is on
 	}
 
 
-/*
-
-Define the subject line of the email
-@param string $subject any monoline string
-
-*/
-	function Subject( $subject )
+	/**
+	 * Define the subject line of the email
+	 * @param string subject any monoline string
+	 */
+	function Subject($subject )
 	{
 		$this->xheaders['Subject'] = strtr( $subject, "\r\n" , "  " );
 	}
 
 
-/*
-
-set the sender of the mail
-@param string $from should be an email address
-
-*/
+	/**
+	 * set the sender of the mail
+	 * @param string from should be an email address
+	 */
  
-	function From( $from )
+	function From($from )
 	{
 
 		if( ! is_string($from) ) {
@@ -139,11 +119,10 @@ set the sender of the mail
 		$this->xheaders['From'] = $from;
 	}
 
-/*
- set the Reply-to header 
- @param string $email should be an email address
-
-*/ 
+	/**
+	 *  set the Reply-to header 
+	 *  @param string address should be an email address
+	 */ 
 	function ReplyTo( $address )
 	{
 
@@ -155,13 +134,11 @@ set the sender of the mail
 	}
 
 
-/*
-add a receipt to the mail ie.  a confirmation is returned to the "From" address (or "ReplyTo" if defined) 
-when the receiver opens the message.
-
-@warning this functionality is *not* a standard, thus only some mail clients are compliants.
-
-*/
+	/**
+	 * add a receipt to the mail ie.  a confirmation is returned to the "From" address (or "ReplyTo" if defined) 
+	 * when the receiver opens the message.
+	 * @warning this functionality is *not* a standard, thus only some mail clients are compliants.
+	 */
  
 	function Receipt()
 	{
@@ -169,11 +146,10 @@ when the receiver opens the message.
 	}
 
 
-/*
-set the mail recipient
-@param string $to email address, accept both a single address or an array of addresses
-
-*/
+	/**
+	 * set the mail recipient
+	 * @param string to email address, accept both a single address or an array of addresses
+	 */
 
 	function To( $to )
 	{
@@ -190,12 +166,13 @@ set the mail recipient
 	}
 
 
-/*		Cc()
- *		set the CC headers ( carbon copy )
- *		$cc : email address(es), accept both array and string
- */
+	/**		
+	 *  Cc()
+	 *	cc : email address(es), accept both array and string
+	 *	@param string cc set the CC headers ( carbon copy )
+	 */
 
-	function Cc( $cc )
+	function Cc($cc)
 	{
 		if( is_array($cc) )
 			$this->acc= $cc;
@@ -209,10 +186,12 @@ set the mail recipient
 
 
 
-/*		Bcc()
- *		set the Bcc headers ( blank carbon copy ). 
- *		$bcc : email address(es), accept both array and string
- */
+	/**	
+	 * Bcc()
+	 * set the Bcc headers ( blank carbon copy ). 
+	 * bcc : email address(es), accept both array and string
+	 * @param string bcc
+	 */
 
 	function Bcc( $bcc )
 	{
@@ -227,12 +206,15 @@ set the mail recipient
 	}
 
 
-/*		Body( text [, charset] )
- *		set the body (message) of the mail
- *		define the charset if the message contains extended characters (accents)
- *		default to us-ascii
- *		$mail->Body( "mél en français avec des accents", "iso-8859-1" );
- */
+	/**		
+	 * Body( text [, charset] )
+	 * set the body (message) of the mail
+	 * define the charset if the message contains extended characters (accents)
+	 * default to us-ascii
+	 * $mail->Body( "mél en français avec des accents", "iso-8859-1" );
+	 * @param string body
+	 * @param string charset (optional)
+	 */
 	function Body( $body, $charset="" )
 	{
 		$this->body = $body;
@@ -245,10 +227,11 @@ set the mail recipient
 	}
 
 
-/*		Organization( $org )
- *		set the Organization header
- */
- 
+	/**		
+	 * Organization( $org )
+	 * set the Organization header
+	 * @param string organization
+	 */
 	function Organization( $org )
 	{
 		if( trim( $org != "" )  )
@@ -256,12 +239,13 @@ set the mail recipient
 	}
 
 
-/*		Priority( $priority )
- *		set the mail priority 
- *		$priority : integer taken between 1 (highest) and 5 ( lowest )
- *		ex: $mail->Priority(1) ; => Highest
- */
- 
+	/**		
+	 * Priority( $priority )
+	 * set the mail priority 
+	 * $priority : integer taken between 1 (highest) and 5 ( lowest )
+	 * ex: $mail->Priority(1) ; => Highest
+	 * @param integer priority
+	 */
 	function Priority( $priority )
 	{
 		if( ! intval( $priority ) )
@@ -277,13 +261,12 @@ set the mail recipient
 	}
 
 
-/*	
- Attach a file to the mail
- 
- @param string $filename : path of the file to attach
- @param string $filetype : MIME-type of the file. default to 'application/x-unknown-content-type'
- @param string $disposition : instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
-*/
+	/**	
+	 *  Attach a file to the mail
+	 *  @param string filename : path of the file to attach
+	 *  @param string filetype : MIME-type of the file. default to 'application/x-unknown-content-type'
+	 *  @param string disposition : instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+	 */
 
 	function Attach( $filename, $filetype = "", $disposition = "inline" )
 	{
@@ -296,19 +279,16 @@ set the mail recipient
 		$this->adispo[] = $disposition;
 	}
 
-/*
-
-Build the email message
-
-@access protected
-
-*/
+	/**
+	 * Build the email message
+	 * @access public
+	 */
 	function BuildMail()
 	{
 
 		// build the headers
 		$this->headers = "";
-//	$this->xheaders['To'] = implode( ", ", $this->sendto );
+		//	$this->xheaders['To'] = implode( ", ", $this->sendto );
 	
 		if( count($this->acc) > 0 )
 			$this->xheaders['CC'] = implode( ", ", $this->acc );
@@ -348,11 +328,10 @@ Build the email message
 
 	}
 
-/*		
-	fornat and send the mail
-	@access public
-	
-*/ 
+	/**		
+	 * 	fornat and send the mail
+	 * 	@access public
+	 */ 
 	function Send()
 	{
 		$this->BuildMail();
@@ -366,10 +345,10 @@ Build the email message
 
 
 
-/*
- *		return the whole e-mail , headers + message
- *		can be used for displaying the message in plain text or logging it
- */
+	/**
+	 *		return the whole e-mail , headers + message
+	 *		can be used for displaying the message in plain text or logging it
+	 */
 
 	function Get()
 	{
@@ -381,12 +360,12 @@ Build the email message
 	}
 
 
-/*
-	check an email address validity
-	@access public
-	@param string $address : email address to check
-	@return true if email adress is ok
-*/
+	/**
+	 * 	check an email address validity
+	 * 	@access public
+	 * 	@param string address : email address to check
+	 * 	@return boolean true if email adress is ok
+	 */
  
 	function ValidEmail($address)
 	{
@@ -400,13 +379,11 @@ Build the email message
 	}
 
 
-/*
-
-check validity of email addresses 
-	@param	array $aad - 
-	@return if unvalid, output an error message and exit, this may -should- be customized
-
-*/
+	/**
+	 * check validity of email addresses 
+	 * return if unvalid, output an error message and exit, this may -should- be customized
+	 * @param	array aad - 
+	 */
  
 	function CheckAdresses( $aad )
 	{
@@ -419,10 +396,10 @@ check validity of email addresses
 	}
 
 
-/*
- check and encode attach file(s) . internal use only
- @access private
-*/
+	/**
+	 *  check and encode attach file(s) . internal use only
+	 *  @access private
+	 */
 
 	function _build_attachement()
 	{
@@ -430,7 +407,8 @@ check validity of email addresses
 		$this->xheaders["Content-Type"] = "multipart/mixed;\n boundary=\"$this->boundary\"";
 
 		$this->fullBody = "This is a multi-part message in MIME format.\n--$this->boundary\n";
-		$this->fullBody .= "Content-Type: text/plain; charset=$this->charset\nContent-Transfer-Encoding: $this->ctencoding\n\n" . $this->body ."\n";
+		$this->fullBody .= "Content-Type: text/plain; charset=$this->charset\nContent-Transfer-Encoding: $this->ctencoding\n\n".
+			$this->body ."\n";
 	
 		$sep= chr(13) . chr(10);
 	
@@ -448,7 +426,8 @@ check validity of email addresses
 			if( ! file_exists( $filename) ) {
 				echo "Class Mail, method attach : file $filename can't be found"; exit;
 			}
-			$subhdr= "--$this->boundary\nContent-type: $ctype;\n name=\"$basename\"\nContent-Transfer-Encoding: base64\nContent-Disposition: $disposition;\n  filename=\"$basename\"\n";
+			$subhdr= "--$this->boundary\nContent-type: $ctype;\n name=\"$basename\"\nContent-Transfer-Encoding:".
+				"base64\nContent-Disposition: $disposition;\n  filename=\"$basename\"\n";
 			$ata[$k++] = $subhdr;
 			// non encoded line length
 			$linesz= filesize( $filename)+1;
@@ -458,9 +437,5 @@ check validity of email addresses
 		}
 		$this->fullBody .= implode($sep, $ata);
 	}
-
-
 } // class Mail
-
-
 ?>

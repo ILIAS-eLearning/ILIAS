@@ -7,13 +7,11 @@
 * 
 * @package	mail
 */
-require_once("classes/class.ilFileData.php");
-
 class ilFileDataMail extends ilFileData
 {
 	/**
 	* user id
-	* @var int user_id
+	* @var integer user_id
 	* @access private
 	*/
 	var $user_id;
@@ -27,12 +25,15 @@ class ilFileDataMail extends ilFileData
 
 	/**
 	* Constructor
-	* setup an mail object
-	* @param int user_id
+	* call base constructors
+	* checks if directory is writable and sets the optional user_id
+	* @param integereger user_id
 	* @access	public
 	*/
 	function ilFileDataMail($a_user_id = 0)
 	{
+		require_once("classes/class.ilFileData.php");
+		
 		define('MAILPATH','mail');
 		parent::ilFileData();
 		$this->mail_path = parent::getPath()."/".MAILPATH;
@@ -73,10 +74,9 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	* get Attachment path
+	* get the path of a specific attachment
 	* @param string filename
-	* @param int sender_id
-	* @param int mail_id
+	* @param integer mail_id
 	* @access	public
 	* @return string path
 	*/
@@ -101,7 +101,7 @@ class ilFileDataMail extends ilFileData
 	/**
 	* adopt attachments (in case of forwarding a mail)
 	* @param array attachments
-	* @param mail_id
+	* @param integer mail_id
 	* @access	public
 	* @return string error message
 	*/
@@ -127,6 +127,7 @@ class ilFileDataMail extends ilFileData
 
 	/**
 	* check if directory is writable
+	* overwritten method from base class
 	* @access	private
 	* @return bool
 	*/
@@ -142,7 +143,7 @@ class ilFileDataMail extends ilFileData
 		}
 	}
 	/**
-	* get all files of a specific user
+	* get all attachments of a specific user
 	* @access	public
 	* @return bool
 	*/
@@ -222,7 +223,7 @@ class ilFileDataMail extends ilFileData
 		return true;
 	}
 	/**
-	* unlink uploaded files
+	* unlink files: expects an array of filenames e.g. array('foo','bar')
 	* @param array filenames to delete
 	* @access	public
 	* @return string error message with filename that couldn't be deleted
@@ -242,7 +243,7 @@ class ilFileDataMail extends ilFileData
 		return '';
 	}
 	/**
-	* unlink uploaded file
+	* unlink one uploaded file expects a filename e.g 'foo'
 	* @param string filename to delete
 	* @access	public
 	* @return bool
@@ -267,7 +268,7 @@ class ilFileDataMail extends ilFileData
 
 	/**
 	* save all attachment files in a specific mail directory .../mail/<user_id>_<mail_id>/...
-	* @param int mail id of mail in sent box
+	* @param integer mail id of mail in sent box
 	* @param array filenames to save
 	* @access	public
 	* @return string error message
@@ -296,7 +297,7 @@ class ilFileDataMail extends ilFileData
 	}
 	/**
 	* save attachment file in a specific mail directory .../mail/<user_id>_<mail_id>/...
-	* @param int mail id of mail in sent box
+	* @param integer mail id of mail in sent box
 	* @param array filenames to save
 	* @access	public
 	* @return bool
@@ -340,9 +341,8 @@ class ilFileDataMail extends ilFileData
 	}
 	/**
 	* assign attachments to mail directory
-	* @param int mail_id
-	* @param int key for directory assignment
-	* @param array of attachments
+	* @param integer mail_id
+	* @param integer key for directory assignment
 	* @access	public
 	* @return bool
 	*/
@@ -355,7 +355,7 @@ class ilFileDataMail extends ilFileData
 	}
 	/**
 	* dassign attachments from mail directory
-	* @param int mail_id
+	* @param integer mail_id
 	* @access	public
 	* @return bool
 	*/
@@ -366,6 +366,4 @@ class ilFileDataMail extends ilFileData
 		$res = $this->ilias->db->query($query);
 		return true;
 	}
-
 }
-

@@ -6,10 +6,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package ilias-core
+* @package ilias-mail
 */
-require_once("classes/class.Explorer.php");
-
 class MailExplorer extends Explorer
 {
 	/**
@@ -34,6 +32,7 @@ class MailExplorer extends Explorer
 	*/
 	function MailExplorer($a_target,$a_user_id)
 	{
+		require_once("classes/class.Explorer.php");
 		parent::Explorer($a_target);
 		$this->tree = new Tree($a_user_id);
 		$this->tree->setTableNames('mail_tree','mail_obj_data');
@@ -152,6 +151,13 @@ class MailExplorer extends Explorer
 		} //if
 	} //function
 
+	/**
+	* overwritten method from base class
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	* @return	string
+	*/
 	function formatHeader($a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
@@ -166,15 +172,7 @@ class MailExplorer extends Explorer
 
 		$this->output[] = $tpl->get();
 	}
-		
 
-	/**
-	* Overwritten method from base class 
-	* @access	public
-	* @param	integer
-	* @param	integer
-	* @return	string
-	*/
 	/**
 	* set the expand option
 	* this value is stored in a SESSION variable to save it different view (lo view, frm view,...)

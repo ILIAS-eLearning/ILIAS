@@ -7,25 +7,25 @@
 * 
 * @package	mail
 */
-require_once("classes/class.ilFile.php");
-
 class ilFileData extends ilFile
 {
 
 	/**
 	* Constructor
+	* class bas constructor and read path of directory from ilias.ini
 	* setup an mail object
-	* @param int user_id
 	* @access	public
 	*/
 	function ilFileData()
 	{
+		require_once("classes/class.ilFile.php");
 		parent::ilFile();
 		$this->readPath();
 	}
 
 	/**
 	* check if path exists and is writable
+	* @param string path to check
 	* @access	public
 	* @return bool
 	*/
@@ -41,8 +41,8 @@ class ilFileData extends ilFile
 		}
 	}
 	/**
-	* read path from ... TODO
-	* @param string path
+	* read path from ilias_ini
+	* the path is set during the setup routine
 	* @access	public
 	* @return string path
 	*/
