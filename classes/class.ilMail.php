@@ -513,7 +513,23 @@ class ilMail
 		{
 			if(substr($tmp_names[$i],0,1) == '#')
 			{
+				include_once("./classes/class.ilGroup.php");
+				include_once("./classes/class.ilObjectFactory.php");
+
 				// GET GROUP MEMBER IDS
+				$grp_data = ilGroup::searchGroups(substr($tmp_names[$i],1));
+
+				// INSTATIATE GROUP OBJECT
+				foreach($grp_data as $grp)
+				{
+					$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
+					break;
+				}
+				// STORE MEMBER IDS IN $ids
+				foreach($grp_object->getGroupMemberIds() as $id)
+				{
+					$ids[] = $id;
+				} 
 			}
 			else if(!empty($tmp_names[$i]))
 			{
@@ -597,6 +613,25 @@ class ilMail
 			else
 			{
 				// GROUP THINGS
+				include_once("./classes/class.ilObjectFactory.php");
+
+				// GET GROUP MEMBER IDS
+				$grp_data = ilGroup::searchGroups(substr($rcp,1));
+
+				// INSTATIATE GROUP OBJECT
+				foreach($grp_data as $grp)
+				{
+					$grp_object = ilObjectFactory::getInstanceByRefId($grp["ref_id"]);
+					break;
+				}
+				// GET EMAIL OF MEMBERS AND STORE THEM IN $addresses
+				foreach($grp_object->getGroupMemberIds() as $id)
+				{
+					$tmp_user = new ilObjUser($id);
+					$addresses[] = $tmp_user->getEmail();
+				} 
+
+				
 			}
 		}
 		return $addresses;
@@ -661,7 +696,10 @@ class ilMail
 			else
 			{
 				if(!$group->groupNameExists(addslashes(substr($rcp,1))))
-					return false;
+				{
+					$wrong_rcps .= "<BR/>".$rcp;
+					continue;
+				}
 			}
 		}
 		return $wrong_rcps;
@@ -947,7 +985,9 @@ class ilMail
 	function explodeRecipients($a_recipients)
 	{
 		$a_recipients = trim($a_recipients);
-		$a_recipients = preg_replace("/ /",",",$a_recipients);
+
+		// WHITESPACE IS NOT ALLOWED AS SEPERATOR
+		#$a_recipients = preg_replace("/ /",",",$a_recipients);
 		$a_recipients = preg_replace("/;/",",",$a_recipients);
 		return explode(',',$a_recipients);
 	}
