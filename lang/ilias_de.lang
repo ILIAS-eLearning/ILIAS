@@ -536,7 +536,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#all_authors#:#All authors###21 Jul 2004 new variable
+common#:#all_authors#:#Alle Autoren
 common#:#all_lms#:#Alle Lernmodule
 common#:#all_objects#:#Alle Objekte
 common#:#all_tsts#:#Alle Tests
@@ -580,10 +580,10 @@ common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
 common#:#auth_mode_not_changed#:#(Keine änderung)
-common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
+common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
-common#:#auth_read#:#Lesezugrif auf Authentifizierung###10 Aug 2004 content changed
-common#:#auth_remark_non_local_auth#:#Bei Authentifizierungsmethoden ausser Standard sind Benutzerlogin und -passwort nicht mehr änderbar und die Option zur Neuanmeldung ist deaktiviert.###10 Aug 2004 content changed
+common#:#auth_read#:#Lesezugrif auf Authentifizierung
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausser Standard sind Benutzerlogin und -passwort nicht mehr änderbar und die Option zur Neuanmeldung ist deaktiviert.
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
@@ -701,7 +701,7 @@ common#:#city#:#Ort
 common#:#clear#:#Abbrechen
 common#:#client ip#:#Client IP
 common#:#client_id#:#Mandanten ID
-common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
+common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
@@ -718,7 +718,7 @@ common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
 common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
-common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
+common#:#confirmation#:#Aktion bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
@@ -1054,8 +1054,8 @@ common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
-common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
-common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.###19 Jun 2004 content changed
+common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
+common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
@@ -1117,7 +1117,7 @@ common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
-common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt ###14 May 2004 content changed
+common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -1223,13 +1223,13 @@ common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten
 common#:#ldap_passwd#:#Ihr aktuelles Passwort
-common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
+common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
 common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
 common#:#ldap_tls#:#Benutze LDAP TLS
-common#:#ldap_v2#:#LDAPv2###07 Aug 2004 new variable
-common#:#ldap_v3#:#LDAPv3###07 Aug 2004 new variable
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP Protokollversion
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
@@ -1255,7 +1255,7 @@ common#:#lm_join#:#Lernmodul abonnieren
 common#:#lm_leave#:#Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues Lernmodul
 common#:#lm_read#:#Lernmodul lesen
-common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
+common#:#lm_type_scorm#:#SCORM
 common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
 common#:#lng#:#Sprache
@@ -1272,8 +1272,8 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Position:
-common#:#logic_and#:#and###26 Aug 2004 new variable
-common#:#logic_or#:#or###26 Aug 2004 new variable
+common#:#logic_and#:#und
+common#:#logic_or#:#oder
 common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
@@ -1561,7 +1561,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#object#:#Object###21 Jul 2004 new variable
+common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
@@ -1643,7 +1643,7 @@ common#:#pays_edit_permission#:#Rechteeinstellungen ändern
 common#:#pays_read#:#Lesezugrif auf Paymenteinstellungen
 common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
-common#:#per_object#:#Access per object###29 Jul 2004 new variable
+common#:#per_object#:#Zugriff per Objekt
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
@@ -1933,7 +1933,7 @@ common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
-common#:#unselected#:#Unselected###30 Aug 2004 new variable
+common#:#unselected#:#Auswahl aufheben
 common#:#unsubscribe#:#Abo beenden
 common#:#unzip#:#Entzippen
 common#:#up#:#Hoch
@@ -1948,11 +1948,11 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht
-common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
+common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
-common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
+common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
@@ -2096,7 +2096,7 @@ content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
 content#:#cont_ed_align_right#:#Rechts ausrichten
 content#:#cont_ed_align_right_float#:#Rechts ausr., Text umfl.
-content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
+content#:#cont_ed_class#:#Style
 content#:#cont_ed_copy_clip#:#In Ablage kopieren
 content#:#cont_ed_delete#:#Löschen
 content#:#cont_ed_delete_col#:#Spalte löschen
@@ -2137,8 +2137,8 @@ content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
-content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
-content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
+content#:#cont_fix_tree#:#Struktur reparieren
+content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
@@ -2220,7 +2220,7 @@ content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
-content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
+content#:#cont_offline#:#Offline Versionen
 content#:#cont_online#:#Online
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
@@ -2315,7 +2315,7 @@ content#:#cont_tracking_data#:#Protokolldaten
 content#:#cont_tracking_items#:#Protokollierte Inhalte
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
-content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
+content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_update#:#Update
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
@@ -2351,7 +2351,7 @@ crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
 crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
-crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
+crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
 crs#:#crs_archive#:#Archivierung
@@ -2371,8 +2371,8 @@ crs#:#crs_cancel_subscription#:#Kursabmeldung
 crs#:#crs_cancel_subscription_body#:#Ein Benutzer hat sich vom Kurs abgemeldet.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Sprechstunde
-crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
-crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
+crs#:#crs_contact_email#:#E-Mail
+crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
 crs#:#crs_content#:#Kursinhalt
@@ -2380,7 +2380,7 @@ crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_dates#:#Termine
-crs#:#crs_delete_member#:#Mitglied(er) austragen###18 Aug 2004 content changed
+crs#:#crs_delete_member#:#Mitglied(er) austragen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
 crs#:#crs_delete_subscribers#:#Anmeldungen löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
@@ -2396,7 +2396,7 @@ crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Mitglieder löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
-crs#:#crs_html#:#HTML###07 Aug 2004 new variable
+crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
 crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
@@ -2435,12 +2435,12 @@ crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:###18 Aug 2004 content changed
-crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
+crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
+crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Aktionen
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt.
-crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
+crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
@@ -2468,8 +2468,8 @@ crs#:#crs_sort_activation#:#Nach Aktivierung
 crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
-crs#:#crs_start#:#Start###07 Aug 2004 new variable
-crs#:#crs_status#:#Status###07 Aug 2004 new variable
+crs#:#crs_start#:#Start
+crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Kursstatus
 crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert.
 crs#:#crs_structure#:#Kursstruktur
@@ -2488,7 +2488,7 @@ crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählte
 crs#:#crs_syllabus#:#Lernziel
 crs#:#crs_time#:#Datum der Anmeldung
 crs#:#crs_to#:#Bis:
-crs#:#crs_tutor#:#Tutor###07 Aug 2004 new variable
+crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_unblocked#:#Freigeschaltet
@@ -2500,7 +2500,7 @@ crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abme
 crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
-crs#:#crs_xml#:#XML###07 Aug 2004 new variable
+crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
@@ -2815,7 +2815,7 @@ mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb versch
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
-mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.###15 May 2004 content changed
+mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
@@ -3392,7 +3392,7 @@ search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
 search#:#search_new_folder#:#Neuer Ordner
-search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt###26 Aug 2004 content changed
+search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt.
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
 search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
 search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
