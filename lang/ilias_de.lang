@@ -600,14 +600,14 @@ common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
-common#:#alm#:#AICC Lernmodul
+common#:#alm#:#Lernmodul AICC
 common#:#alm_create#:#Neues AICC Lernmodul anlegen
 common#:#alm_delete#:#AICC Lernmodul löschen
 common#:#alm_edit_permission#:#Rechteeinstellungen ändern
 common#:#alm_join#:#AICC Lernmodul abonnieren
 common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
 common#:#alm_read#:#AICC Lernmodul lesen
-common#:#alm_visible#:#Lernmodul ist sichtbar
+common#:#alm_visible#:#AICC Lernmodul ist sichtbar
 common#:#alm_write#:#AICC Lernmodul bearbeiten
 common#:#and#:#und
 common#:#announce#:#Ankündigen
@@ -700,11 +700,11 @@ common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#cat_create_htlm#:#Lege HTML-Lernmodul an
-common#:#cat_create_lm#:#Neues Lernmodul anlegen
+common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
+common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
-common#:#cat_create_qpl#:#Neuen Fragenpool für Assessment anlegen
-common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
+common#:#cat_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -817,8 +817,8 @@ common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#crs_create_lm#:#Neues Lernmodul anlegen
-common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1008,8 +1008,8 @@ common#:#fold_create_fold#:#Neuen Ordner anlegen
 common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#fold_create_lm#:#Neues Lernmodul anlegen
-common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen###11 Sep 2004 new variable
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1126,9 +1126,9 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_lm#:#Neues Lernmodul anlegen
+common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
-common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?###02 Sep 2004 content changed
@@ -1173,28 +1173,28 @@ common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hits_per_page#:#Treffer/Seite
-common#:#hlm#:#HACP Lernmodul
+common#:#hlm#:#Lernmodul HACP
 common#:#hlm_create#:#Neues HACP Lernmodul anlegen
 common#:#hlm_delete#:#HACP Lernmodul löschen
 common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#hlm_join#:#HACP Lernmodul abonnieren
 common#:#hlm_leave#:#HACP Lernmodulabonnement aufheben
 common#:#hlm_read#:#HACP Lernmodul lesen
-common#:#hlm_visible#:#Lernmodul ist sichtbar
+common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
 common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
 common#:#hours_of_day#:#24 Stunden
-common#:#htlm#:#HTML-Lernmodul
-common#:#htlm_add#:#HTML-Lernmodul hinzufügen
-common#:#htlm_delete#:#HTML-Lernmodul löschen
-common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
+common#:#htlm#:#Lernmodul HTML
+common#:#htlm_add#:#HTML Lernmodul hinzufügen
+common#:#htlm_delete#:#HTML Lernmodul löschen
+common#:#htlm_edit#:#Eigenschaften des HTML Lernmoduls bearbeiten
 common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
-common#:#htlm_new#:#Neues HTML-Lernmodul
-common#:#htlm_read#:#HTML-Lernmodul ansehen
-common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
-common#:#htlm_write#:#HTML-Lernmodul bearbeiten
+common#:#htlm_new#:#Neues HTML Lernmodul
+common#:#htlm_read#:#HTML Lernmodul ansehen
+common#:#htlm_visible#:#HTML Lernmodul ist sichtbar
+common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#id#:#ID
@@ -1329,22 +1329,22 @@ common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
-common#:#lm#:#Lernmodul
-common#:#lm_a#:#ein Lernmodul
-common#:#lm_add#:#Lernmodul anlegen
-common#:#lm_added#:#Lernmodul angelegt
-common#:#lm_create#:#Neues Lernmodul anlegen
-common#:#lm_delete#:#Lernmodul löschen
+common#:#lm#:#Lernmodul ILIAS
+common#:#lm_a#:#ein ILIAS Lernmodul
+common#:#lm_add#:#ILIAS Lernmodul anlegen
+common#:#lm_added#:#ILIAS Lernmodul angelegt
+common#:#lm_create#:#Neues ILIAS Lernmodul anlegen
+common#:#lm_delete#:#ILIAS Lernmodul löschen
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
-common#:#lm_join#:#Lernmodul abonnieren
-common#:#lm_leave#:#Lernmodulabonnement aufheben
-common#:#lm_new#:#Neues Lernmodul
-common#:#lm_read#:#Lernmodul lesen
+common#:#lm_join#:#ILIAS Lernmodul abonnieren
+common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben
+common#:#lm_new#:#Neues ILIAS Lernmodul
+common#:#lm_read#:#ILIAS Lernmodul lesen
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Lernmodul ist sichtbar
-common#:#lm_write#:#Lernmodul bearbeiten
+common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar
+common#:#lm_write#:#ILIAS Lernmodul bearbeiten
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
@@ -1590,7 +1590,7 @@ common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
-common#:#obj_alm#:#AICC Lernmodul
+common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_auth#:#Authentifizierung
 common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
 common#:#obj_cat#:#Kategorie
@@ -1606,11 +1606,11 @@ common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
-common#:#obj_hlm#:#HACP Lernmodul
-common#:#obj_htlm#:#HTML-Lernmodul
+common#:#obj_hlm#:#Lernmodul HACP
+common#:#obj_htlm#:#Lernmodul HTML
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
-common#:#obj_lm#:#Lernmodul
+common#:#obj_lm#:#Lernmodul ILIAS
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
@@ -1628,7 +1628,7 @@ common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays#:#Paymenteinstellungen
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Fragenpool für Assessment
+common#:#obj_qpl#:#Fragenpool für Test
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck###14 Sep 2004 content changed
 common#:#obj_role#:#Rolle
@@ -1638,7 +1638,7 @@ common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
-common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#obj_sahs#:#Lernmodul SCORM/AICC###11 Sep 2004 new variable
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
@@ -1677,17 +1677,17 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_lm#:#Lernmodule
+common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
 common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Fragenpools für Assessment
+common#:#objs_qpl#:#Fragenpools für Tests
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
-common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
+common#:#objs_sahs#:#SCORM/AICC Lernmodule
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
@@ -1775,11 +1775,11 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation###14 Sep 2004 content changed
-common#:#qpl#:#Fragenpool für Assessment
+common#:#qpl#:#Fragenpool für Test
 common#:#qpl_add#:#Fragenpool anfügen
 common#:#qpl_delete#:#Fragenpool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
-common#:#qpl_new#:#Neuer Fragenpool
+common#:#qpl_new#:#Neuer Fragenpool für Test
 common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
@@ -1887,16 +1887,16 @@ common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_write#:#Daten des Systemknotens bearbeiten
-common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
-common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
-common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs#:#Lernmodul SCORM/AICC
+common#:#sahs_added#:#SCORM/AICC Lernmodul angelegt
+common#:#sahs_create#:#Neues SCORM/AICC Lernmodul anlegen
+common#:#sahs_delete#:#SCORM/AICC Lernmodul löschen
+common#:#sahs_edit_permission#:#Rechteeinstellungen ändern
+common#:#sahs_join#:#SCORM/AICC Lernmodul abonnieren
+common#:#sahs_leave#:#SCORM/AICC Lernmodulabonnement aufheben
+common#:#sahs_read#:#SCORM/AICC Lernmodul lesen
+common#:#sahs_visible#:#SCORM/AICC Lernmodul ist sichtbar
+common#:#sahs_write#:#SCORM/AICC Lernmodul bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -1956,7 +1956,7 @@ common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool anfügen
 common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
-common#:#spl_new#:#Neuer Fragenpool
+common#:#spl_new#:#Neuer Fragenpool für Umfrage
 common#:#spl_read#:#Lesezugriff auf Fragenpool
 common#:#spl_visible#:#Fragenpool ist sichtbar
 common#:#spl_write#:#Fragenpool kann bearbeitet werden
