@@ -491,12 +491,21 @@ class ASS_QuestionGUI extends PEAR {
       $thispair = $this->question->get_matchingpair($i);
 			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
 				$this->tpl->setCurrentBlock("pictures");
+				$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+				$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
+				$filename = $thispair->get_matchingtext();
+				if ($filename) {
+					$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
+					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
+					$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+				}
+				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			} elseif ($this->question->get_matching_type() == MT_TERMS_DEFINITIONS) {
 				$this->tpl->setCurrentBlock("definitions");
+				$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+				$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
+				$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
 			}
-			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
-			$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
-			$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
 			$this->tpl->parseCurrentBlock();
       $this->tpl->setCurrentBlock("answers");
       $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
@@ -516,12 +525,16 @@ class ASS_QuestionGUI extends PEAR {
       // Template für neue Antwort erzeugen
 			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
 				$this->tpl->setCurrentBlock("pictures");
+				$this->tpl->setVariable("A_ANSWER_ORDER", $this->question->get_matchingpair_count());
+				$this->tpl->setVariable("A_MATCHING_ID", $this->question->get_random_id("matching"));
+				$this->tpl->setVariable("A_VALUE_RIGHT", "");
+				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			} elseif ($this->question->get_matching_type() == MT_TERMS_DEFINITIONS) {
 				$this->tpl->setCurrentBlock("definitions");
+				$this->tpl->setVariable("A_ANSWER_ORDER", $this->question->get_matchingpair_count());
+				$this->tpl->setVariable("A_MATCHING_ID", $this->question->get_random_id("matching"));
+				$this->tpl->setVariable("A_VALUE_RIGHT", "");
 			}
-			$this->tpl->setVariable("A_ANSWER_ORDER", $this->question->get_matchingpair_count());
-			$this->tpl->setVariable("A_MATCHING_ID", $this->question->get_random_id("matching"));
-			$this->tpl->setVariable("A_VALUE_RIGHT", "");
 			$this->tpl->parseCurrentBlock();
       $this->tpl->setCurrentBlock("answers");
       $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->question->get_matchingpair_count() + 1);
@@ -889,11 +902,22 @@ class ASS_QuestionGUI extends PEAR {
     // Add all answers from the form into the object
     foreach ($_POST as $key => $value) {
       if (preg_match("/left_(\d+)_(\d+)/", $key, $matches)) {
-        foreach ($_POST as $key2 => $value2) {
-          if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2)) {
-            $matchingtext_id = $matches2[1];
-          }
-        }
+				foreach ($_POST as $key2 => $value2) {
+					if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2)) {
+						$matchingtext_id = $matches2[1];
+					}
+				}
+				if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
+					foreach ($_FILES as $key2 => $value2) {
+						if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2)) {
+							if ($value["tmp_name"]) {
+								// upload the matching picture
+								$this->question->set_image_file($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
+								$_POST["right_$matches[1]_$matchingtext_id"] = $_FILES['imageName']['name'];
+							}
+						}
+					}
+				}
         $this->question->add_matchingpair(
           ilUtil::stripSlashes($_POST["$key"]), 
           ilUtil::stripSlashes($_POST["right_$matches[1]_$matchingtext_id"]), 
