@@ -400,9 +400,56 @@ class ilFileDataMail extends ilFileData
 	*/
 	function deassignAttachmentFromDirectory($a_mail_id)
 	{
+		// IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
+		$query = "SELECT path FROM mail_attachment ".
+			"WHERE mail_id = '".$a_mail_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$path = $row->path;
+		}
+		if($path)
+		{
+			$query = "SELECT COUNT(mail_id) AS count_mail_id FROM mail_attachment ".
+				"WHERE path = '".$path."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$cnt_mail_id = $row->count_mail_id;
+			}
+			if($cnt_mail_id == 1)
+			{
+				$this->__deleteAttachmentDirectory($path);
+			}
+		}
+
 		$query = "DELETE FROM mail_attachment ".
 			"WHERE mail_id = '".$a_mail_id."'";
 		$res = $this->ilias->db->query($query);
+		return true;
+	}
+
+	function __deleteAttachmentDirectory($a_rel_path)
+	{
+		$dp = opendir($this->mail_path."/".$a_rel_path);
+
+		while($file = readdir($dp))
+		{
+			if($file == '.' or $file == '..')
+			{
+				continue;
+			}
+			if(is_dir($file))
+			{
+				$this->__deleteAttachmentDirectory($file);
+			}
+			unlink($this->mail_path."/".$a_rel_path."/".$file);
+		}
+		rmdir($this->mail_path."/".$a_rel_path);
+		closedir($dp);
+
 		return true;
 	}
 }
