@@ -27,6 +27,7 @@ require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTermGUI.php");
 require_once("content/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
+require_once("content/classes/Pages/class.ilPCParagraph.php");
 
 /**
 * Class ilGlossaryGUI
@@ -268,13 +269,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			{
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
 				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-				for($j=0; $j<=count($defs); $j++)
+				for($j=0; $j<count($defs); $j++)
 				{
 					$def = $defs[$j];
 					$this->tpl->setCurrentBlock("definition");
 					$this->tpl->setVariable("DEF_LINK",
 						"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
 					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+					$short_str = ilPCParagraph::xml2output($def["short_text"]);
+					$short_str = str_replace("<", "&lt;", $short_str);
+					$short_str = str_replace(">", "&gt;", $short_str);
+					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -301,6 +306,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		$this->admin_tabs[] = array("cont_definitions","listDefinitions");
 		$this->admin_tabs[] = array("meta_data","editTerm");
+
+
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setTemplateTargetVar("ADM_CONTENT");
+		$page_gui->setOutputMode("edit");
+		$page_gui->setPresentationTitle($this->term->getTerm());
+		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
+			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
+		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
+			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
+
 	}
 
 	/**
