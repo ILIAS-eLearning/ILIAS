@@ -42,13 +42,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObjectGUI(&$a_lm_object, &$a_tree, &$a_st_object = NULL)
+	function ilStructureObjectGUI(&$a_lm_object, &$a_tree)
 	{
 		global $ilias, $tpl, $lng;
 
 		parent::ilLMObjectGUI($a_lm_object);
 		$this->st_obj =& $a_st_object;
 		$this->tree =& $a_tree;
+	}
+
+	function setStructureObject(&$a_st_object)
+	{
+		$this->st_obj =& $a_st_object;
 	}
 
 	/*

@@ -98,12 +98,14 @@ class ilLMEditorGUI
 					switch ($obj->getType())
 					{
 						case "pg":
-							$pg_gui =& new ilPageObjectGUI($this->lm_obj, $obj);
+							$pg_gui =& new ilPageObjectGUI($this->lm_obj);
+							$pg_gui->setPageObject($obj);
 							$pg_gui->$cmd();
 							break;
 
 						case "st":
-							$st_gui =& new ilStructureObjectGUI($this->lm_obj, $this->tree, $obj);
+							$st_gui =& new ilStructureObjectGUI($this->lm_obj, $this->tree);
+							$st_gui->setStructureObject($obj);
 							$st_gui->$cmd();
 							break;
 					}
