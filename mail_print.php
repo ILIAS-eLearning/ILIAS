@@ -47,7 +47,7 @@ $tplprint->setVariable("DATE", ilFormat::formatDate($mail_data["send_time"]));
 
 // MESSAGE
 $tplprint->setVariable("TXT_MESSAGE", $lng->txt("message"));
-$tplprint->setVariable("MAIL_MESSAGE", nl2br(htmlentities($mail_data["m_message"])));
+$tplprint->setVariable("MAIL_MESSAGE", nl2br($mail_data["m_message"]));
 
 
 $tplprint->show();
