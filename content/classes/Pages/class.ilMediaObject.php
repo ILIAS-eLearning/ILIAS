@@ -71,11 +71,23 @@ class ilMediaObject extends ilObjMediaObject
 		}
 	}
 
+
+	/**
+	* add media item to media object
+	*
+	* @param	object		$a_item		media item object
+	*/
 	function addMediaItem(&$a_item)
 	{
 		$this->media_items[] =& $a_item;
 	}
 
+
+	/**
+	* get all media items
+	*
+	* @return	array		array of media item objects
+	*/
 	function &getMediaItems()
 	{
 		return $this->media_items;
@@ -92,6 +104,22 @@ class ilMediaObject extends ilObjMediaObject
 		}
 		return false;
 	}
+
+
+	/**
+	*
+	*/
+	function removeMediaItem($a_purpose)
+	{
+		for($i=0; $i<count($this->media_items); $i++)
+		{
+			if($this->media_items[$i]->getPurpose() == $a_purpose)
+			{
+				unset($this->media_items[$i]);
+			}
+		}
+	}
+
 
 	function getMediaItemNr($a_purpose)
 	{
@@ -234,12 +262,17 @@ class ilMediaObject extends ilObjMediaObject
 
 		// iterate all items
 		$media_items =& $this->getMediaItems();
-		for($i=0; $i<count($media_items); $i++)
+		$j = 1;
+		foreach($media_items as $key => $val)
 		{
-			$item =& $media_items[$i];
-			$item->setMobId($this->getId());
-			$item->setNr($i+1);
-			$item->create();
+			$item =& $media_items[$key];
+			if (is_object($item))
+			{
+				$item->setMobId($this->getId());
+				$item->setNr($j);
+				$item->create();
+				$j++;
+			}
 		}
 	}
 

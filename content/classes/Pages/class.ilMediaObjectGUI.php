@@ -294,6 +294,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
+		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
+		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
 			"hier_id=".$this->hier_id."&cmd=edpost"));
@@ -333,6 +335,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
 			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+
+			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
+			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
 
 			// width
 			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
@@ -424,6 +429,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
+		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
+		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
 			"hier_id=".$this->hier_id."&cmd=edpost"));
@@ -466,6 +473,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
 			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
+			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
 
 			// width
 			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
@@ -491,6 +500,14 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		// operations
+		if($this->content_obj->hasFullScreenItem())
+		{
+			$this->tpl->setCurrentBlock("remove_full");
+			$this->tpl->setVariable("CMD_REMOVE_FULL", "removeFullscreen");
+			$this->tpl->setVariable("TXT_REMOVE_FULL", $this->lng->txt("cont_remove_fullscreen"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -801,6 +818,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_item->setLocationType("LocalFile");
 		$std_item->setLocation($location);
 		$format = ilMediaObject::getMimeType($file);
+		$std_item->setFormat($format);
 		$this->content_obj->update();
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
@@ -848,9 +866,21 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$full_item->setLocationType("LocalFile");
 		$full_item->setLocation($location);
 		$format = ilMediaObject::getMimeType($file);
+		$full_item->setFormat($format);
 		$this->content_obj->update();
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* remove fullscreen view
+	*/
+	function removeFullscreen()
+	{
+		$this->content_obj->removeMediaItem("Fullscreen");
+		$this->content_obj->update();
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 
