@@ -1,18 +1,19 @@
 <?php
 
 include_once "include/ilias_header.inc";
-include_once "classes/class.Explorer2.php";
-
-$ilias =& new ILIAS;
+include_once "classes/class.Explorer.php";
 
 $tplContent = new Template("explorer.html",true,true);
 
+$exp = new Explorer("lo_content.php");
 
-$exp = new Explorer2($ilias,1);
-
+$exp->setExpand($_GET["expand"]);
 //filter object types
+$exp->addFilter("cat");
 $exp->addFilter("grp");
-$exp->addFilter("lo");
+$exp->addFilter("crs");
+$exp->addFilter("le");
+$exp->setFiltered(true);
 
 //build html-output
 $exp->setOutput(0);
