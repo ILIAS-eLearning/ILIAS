@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.30 2003/03/07 17:14:49 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.31 2003/03/10 10:51:59 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -53,6 +53,13 @@ class ObjectOut
 	var $data;
 
 	/**
+	* object
+	* @var          object
+	* @access       private
+	*/
+	var $object;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -65,22 +72,27 @@ class ObjectOut
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
-		
+
 		$this->data = $a_data;
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
-		
+
 		if ($this->call_by_reference)
 		{
 			$this->id_name = "ref_id";
+			$this->object =& new Object($_GET["ref_id"], true);
 		}
 		else
 		{
 			$this->id_name = "obj_id";
+			$this->object =& new Object($_GET["obj_id"]);
 		}
-		
+
 		//prepare output of administration view
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$title = $this->object->getTitle();
+		if(!empty($title))
+			$this->tpl->setVariable("HEADER", $title);
 
 		$this->setAdminTabs();
 		$this->setLocator();
@@ -142,7 +154,7 @@ class ObjectOut
 		{
 			$a_id = $_GET["ref_id"]; 
 		}
-		
+
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		$path = $a_tree->getPathFull($a_id);
@@ -817,3 +829,4 @@ class ObjectOut
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 }
+
