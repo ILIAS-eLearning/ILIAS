@@ -163,8 +163,10 @@ class ilObjGlossary extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
+		global $ilDB;
+
 		$q = "SELECT * FROM glossary WHERE id = '".$a_id."'";
-		$lm_set = $this->ilias->db->query($q);
+		$lm_set = $ilDB->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
