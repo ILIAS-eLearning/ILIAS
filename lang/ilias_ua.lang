@@ -879,64 +879,64 @@ common#:#check_link#:#Перевірка посилання
 common#:#check_link_desc#:#Якщо включено, усі зовнішні посилання в учбових модулях ILIAS будуть перевірені, чи вони активні.
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
 common#:#check_user_accounts#:#Перевірити акаунти користувачів
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
-common#:#checked_files#:#Importable files###31 Mar 2004 new variable
+common#:#check_user_accounts_desc#:#Якщо cron роботи активовані та ця опція включена, усі користувачі, у яких скінчився термін дії акаунтів, будуть проінформавані через email.
+common#:#checked_files#:#Імпортовані файли
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
 common#:#choose_language#:#Виберіть Вашу Мову
 common#:#choose_location#:#Виберіть Місце Знаходження
 common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
-common#:#city#:#Місто###14 Sep 2004 content changed
-common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
-common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
+common#:#city#:#Місто
+common#:#cleaned_file#:#Файл був очищений.
+common#:#cleaning_failed#:#Очищення завершилось невдало.
 common#:#clear#:#Очистити
-common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
-common#:#client ip#:#Client Ip###24 Jun 2004 new variable
+common#:#clear_clipboard#:#Очистити Буфір Обміну
+common#:#client ip#:#Ip Клієнта
 common#:#client_id#:#ID Клієнта
-common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
+common#:#client_ip#:#Ip Клієнта
 common#:#clipboard#:#Буфер обміну
 common#:#close#:#Закрити
 common#:#comma_separated#:#Розділений Комами
 common#:#comment#:#коментар
 common#:#compose#:#Створити
-common#:#condition#:#Condition###14 Aug 2004 new variable
-common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
-common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
-common#:#condition_deleted#:#Condition deleted.###25 Aug 2004 new variable
-common#:#condition_passed#:#Passed###14 Aug 2004 new variable
-common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
-common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
-common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
-common#:#condition_update#:#Save###14 Aug 2004 new variable
-common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
+common#:#condition#:#Умова
+common#:#condition_already_assigned#:#Об'єкт вже призначений.
+common#:#condition_circle_created#:#Ця асоціація не є можливою, поки об'єкти будуть залежні один від одного.
+common#:#condition_deleted#:#Умова видалена.
+common#:#condition_passed#:#Пройдений
+common#:#condition_precondition#:#Попередні умови:
+common#:#condition_select_object#:#Будь ласка виберіть один об'єкт.
+common#:#condition_select_one#:#-Будь ласка виберіть одну умову-
+common#:#condition_update#:#Зберегти
+common#:#conditions_updated#:#Умови збережені
 common#:#confirm#:#Підтвердити
-common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
+common#:#confirmation#:#Підтвердження
 common#:#cont_object#:#Об'єкт
 common#:#contact_data#:#Контактна Інформація
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#Контейнер
 common#:#context#:#Контекст
-common#:#continue_work#:#Continue###16 Jun 2004 new variable
-common#:#copied_object#:#Copied object###07 Aug 2004 new variable
+common#:#continue_work#:#Продовжити
+common#:#copied_object#:#Скопійовані об'єкти
 common#:#copy#:#Копіювати
-common#:#copyPage#:#Copy###10 May 2004 new variable
+common#:#copyPage#:#Копіювати
 common#:#copy_of#:#Копія
-common#:#copy_to#:#to###07 Aug 2004 new variable
-common#:#count#:#Count###24 Jun 2004 new variable
+common#:#copy_to#:#для
+common#:#count#:#Кількість
 common#:#country#:#Країна
 common#:#course#:#Курс
 common#:#courses#:#Курси
 common#:#create#:#Створити
-common#:#create_date#:#Created On###14 Sep 2004 new variable
+common#:#create_date#:#Створено
 common#:#create_in#:#Створити в
 common#:#create_stylesheet#:#Створити Стиль
-common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
+common#:#cron_jobs#:#Cron задачі
+common#:#cron_jobs_desc#:#Cron задача це автоматизований процес, що виконується в напередзадані часові інтервали. Ви знайдете інформацію стосовно установки в 'INSTALL Documentation'.
 common#:#crs#:#Курс
 common#:#crs_a#:#Курс
 common#:#crs_add#:#Додати Курс
 common#:#crs_added#:#Курс додано
-common#:#crs_archives#:#Archives###07 Aug 2004 new variable
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
+common#:#crs_archives#:#Архіви
+common#:#crs_at_least_one_admin#:#Повинен бути принаймні один адміністратор курсу.
 common#:#crs_available#:#Доступні Курси
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Створити Курс
