@@ -45,6 +45,7 @@ foreach ($lessons as $row)
 	$tpl->setCurrentBlock("subcategory");
 	$tpl->setVariable("ROWCOL","tblrow".(($j%2)+1));
 	$tpl->setVariable("TITLE", $row["title"]);
+	$tpl->setVariable("LINK_LO", "lo_content.php?id=".$row["id"]);
 	$tpl->setVariable("IMG_AND_LINK","img".$j);
 	$tpl->parseCurrentBlock();
 }
@@ -85,8 +86,8 @@ if ($tpl->includeTree() == true)
 	$tplTree->setVariable("ACTION", "lo_content.php?expand=".$_GET["expand"]);
 	
 	$tpl->setVariable("TREE", $tplTree->get());
-	
 }
+
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
