@@ -1,12 +1,22 @@
+var stopHigh = false;
 /**
 *   On mouse over highlight the current block with colored border.
 */
-function doMouseOver(id) {
+function doMouseOver(id) 
+{
+	
+	if(stopHigh) return;
+	stopHigh=true;
 	overId = id;
-    if (document.getElementById) {
+	setTimeout("stopHigh=false",10);
+	
+    if (document.getElementById) 
+	{
         obj = document.getElementById(id);
         obj.style.border="solid red 1px";
-    } else if(document.layers){
+    } 
+	else if(document.layers)
+	{
         obj = eval("document."+id); 
         obj.border="solid red 1px";
     }
@@ -15,8 +25,12 @@ function doMouseOver(id) {
 /**
 *   On mouse out turn highligh of current border off
 */
-function doMouseOut(id, dotted) {
-    if (document.getElementById) {
+function doMouseOut(id, dotted) 
+{
+	if (id!=overId) return;
+	stopHigh = false;
+    if (document.getElementById) 
+	{
         obj = document.getElementById(id);
 		if(dotted == true)
 		{
@@ -26,7 +40,8 @@ function doMouseOut(id, dotted) {
 		{
 			obj.style.border="0px";
 		}
-    } else if(document.layers){
+    } else if(document.layers)
+	{
         obj = eval("document."+id); 
         obj.border="solid gray 1px";
     }
@@ -40,7 +55,8 @@ var Mposy = 0;
 var dragId = "";
 var overId = "";
 
-function doMouseDown(id) {
+function doMouseDown(id) 
+{
 	//dd.elements.contextmenu.hide();
 	
 	if (!mouseIsDown) dragId = id;
