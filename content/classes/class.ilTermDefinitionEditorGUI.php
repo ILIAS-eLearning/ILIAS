@@ -109,6 +109,11 @@ class ilTermDefinitionEditorGUI
 			$cmd = $_GET["cmd"]; // don't move to top
 			$this->setAdminTabs();
 
+			if($cmd == "post")
+			{
+				$cmd = key($_POST["cmd"]);
+			}
+
 			switch ($cmd)
 			{
 				case "editDefinitionMetaData":
@@ -116,6 +121,7 @@ class ilTermDefinitionEditorGUI
 					$this->editMeta();
 					break;
 
+				case "saveMeta":
 				case "saveDefinitionMetaData":
 					$this->saveMeta();
 					break;
@@ -167,36 +173,32 @@ class ilTermDefinitionEditorGUI
 
 	function cancelDefinitionDeletion()
 	{
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
 			"&term_id=".$this->term->getId());
-		exit;
 	}
 
 
 	function deleteDefinition()
 	{
 		$this->definition->delete();
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
 			"&term_id=".$this->term->getId());
-		exit;
 	}
 
 
 	function moveUp()
 	{
 		$this->definition->moveUp();
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
 			"&term_id=".$this->term->getId());
-		exit;
 	}
 
 
 	function moveDown()
 	{
 		$this->definition->moveDown();
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
 			"&term_id=".$this->term->getId());
-		exit;
 	}
 
 
@@ -222,7 +224,7 @@ class ilTermDefinitionEditorGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->definition);
 		$meta_gui->save();
-		header("Location: glossary_edit.php?cmd=view&ref_id=".$_GET["ref_id"].
+		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$_GET["ref_id"].
 			"&def=".$_GET["def"]);
 	}
 

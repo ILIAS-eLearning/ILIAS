@@ -268,7 +268,12 @@ class ilGlossaryDefinition
 
 		// delete page and meta data
 		$this->page_object->delete();
-		$this->meta_data->delete();
+		//$this->meta_data->delete();
+
+		// delete meta data
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
 
 	}
 

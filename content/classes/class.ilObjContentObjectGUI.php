@@ -154,8 +154,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setStyleSheetId($style_id);
 		$this->object->update();
 
-		header("Location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
-		exit;
+		ilUtil::redirect("lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
 	}
 
 	function editStyle()
@@ -273,8 +272,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			// always send a message
 			sendInfo($this->lng->txt("lm_added"), true);
-			header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-			exit();
+			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		}
 	}
 
@@ -381,8 +379,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->save($_POST["meta_section"]);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
-#		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
-#		exit;
+#		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 
@@ -576,8 +573,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
 		$this->ilias->db->query($q);
 
-		header("Location: adm_object.php?".$this->link_params);
-		exit();
+		ilUtil::redirect("adm_object.php?".$this->link_params);
 
 	}
 
@@ -827,8 +823,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		session_unregister("saved_post");
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
-		exit();
+		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
 
 	}
 
@@ -873,9 +868,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$obj_str = ($a_parent_subobj_id != 0)
 			? "&obj_id=".$a_parent_subobj_id
 			: "";
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".
+		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".
 			$this->object->getRefId().$obj_str);
-		exit();
 	}
 
 
@@ -967,7 +961,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
-		header("location: lm_edit.php?cmd=editMeta&ref_id=".$this->object->getRefId()."&meta_section=".$_POST["meta_section"]);
+		ilUtil::redirect("lm_edit.php?cmd=editMeta&ref_id=".$this->object->getRefId()."&meta_section=".$_POST["meta_section"]);
 	}
 
 
@@ -1043,7 +1037,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if ($a_parent_subobj_id == 0)
 		{
 			//$this->chapters();
-			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
 
@@ -1080,9 +1074,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if($_POST["id"][0] == $id)
 		{
 			ilEditClipboard::clear();
-			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
-			//$this->chapters();
-			return;
+			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 
 
@@ -1137,7 +1129,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if ($a_parent_subobj_id == 0)
 		{
 			//$this->chapters();
-			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
 
@@ -1159,19 +1151,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		ilEditClipboard::storeContentObject("pg", $_POST["id"][0]);
 
 		sendInfo($this->lng->txt("cont_page_select_target_now"), true);
-		header("Location: lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
-		//$this->pages();
+		ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
 	}
 
 	function cancel()
 	{
 		if ($_GET["new_type"] == "pg")
 		{
-			header("Location: lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
 		}
 		else
 		{
-			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
 		}
 	}
 

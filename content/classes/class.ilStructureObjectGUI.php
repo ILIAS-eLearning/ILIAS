@@ -268,12 +268,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		if (!empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
+			ilUtil::redirect("lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 		else
 		{
-			header("location: lm_edit.php?cmd=chapters&ref_id=".$this->content_object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->content_object->getRefId());
 		}
 
 	}
@@ -355,7 +355,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		}
 		//$this->view();
-		header("Location: lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
+		ilUtil::redirect("lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
 			"&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -392,7 +392,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// check the tree
 		$this->checkTree();
 
-		header("Location: lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
+		ilUtil::redirect("lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
 			"&ref_id=".$_GET["ref_id"]);
 
 		//$this->view();
@@ -407,9 +407,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->moveChapter($this->obj->getId());
-		header("Location: lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
+		ilUtil::redirect("lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
 			"&ref_id=".$_GET["ref_id"]);
-		//$this->subchap();
 	}
 
 
@@ -429,45 +428,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			true, false);
 		$cont_obj_gui->pasteChapter($this->obj->getId());
 
-		//echo ":".$id.":";
-		// delete old tree entries
-		/*
-		$tree->deleteTree($node);
-
-		if(!isset($_POST["id"]))
-		{
-			$target = IL_LAST_NODE;
-		}
-		else
-		{
-			$target = $_POST["id"][0];
-		}
-
-		if (!$tree->isInTree($id))
-		{
-			$tree->insertNode($id, $this->obj->getId(), $target);
-
-			foreach ($subnodes as $node)
-			{
-				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-				//$obj_data->putInTree($node["parent"]);
-				if ($node["obj_id"] != $id)
-				{
-					if (!$tree->isInTree($node["obj_id"]))
-					{
-						$tree->insertNode($node["obj_id"], $node["parent"]);
-					}
-				}
-			}
-		}
-
-		ilEditClipboard::clear();
-
-		// check the tree
-		$this->checkTree();*/
-
-		//$this->subchap();
-		header("Location: lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
+		ilUtil::redirect("lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
 			"&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -475,12 +436,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		if ($_GET["new_type"] == "pg")
 		{
-			header("Location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
+			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 		else
 		{
-			header("Location: lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
+			ilUtil::redirect("lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}

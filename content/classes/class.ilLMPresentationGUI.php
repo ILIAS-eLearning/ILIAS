@@ -116,12 +116,11 @@ class ilLMPresentationGUI
 
 	function offlineexport() {
 
-        if ($_POST["cmd"]["cancel"] != "")
-        {
-            header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=".$_GET["ref_id"]);
-            exit;
-        }
-        
+		if ($_POST["cmd"]["cancel"] != "")
+		{
+			ilUtil::redirect("lm_presentation.php?cmd=layout&frame=maincontent&ref_id=".$_GET["ref_id"]);
+		}
+
 		switch($this->lm->getType())
 		{
 			case "dbk":
