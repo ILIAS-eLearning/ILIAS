@@ -127,7 +127,7 @@ assessment#:#available_points#:#Puntos disponibles
 assessment#:#average_reached_points#:#Puntuación media alcanzada
 assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#by#:#por
-assessment#:#cancel_test#:#Cancelar el test
+assessment#:#cancel_test#:#Cancelar el test###30 Mar 2005 content changed
 assessment#:#cannot_edit_test#:#¡No posee permisos suficientes para editar el test!
 assessment#:#cannot_execute_test#:#¡No posee permisos suficientes para lanzar el test!
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!
@@ -2479,12 +2479,14 @@ common#:#users_online#:#Usuarios conectados
 common#:#usertracking#:#Seguimiento de usuarios
 common#:#usr#:#usuario
 common#:#usr_a#:#un Usuario
+common#:#usr_active_only#:#Sólo Usuarios Activos
 common#:#usr_add#:#Añadir Usuario
 common#:#usr_added#:#Usuario añadido
 common#:#usr_agreement#:#acuerdo de usuario
 common#:#usr_agreement_empty#:#El acuerdo de usuario no contiene texto.
 common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#items/página en tablas
+common#:#usr_inactive_only#:#Sólo Usuarios Inactivos
 common#:#usr_new#:#Nuevo Usuario
 common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario
@@ -2492,8 +2494,6 @@ common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!
 common#:#usr_skin_style#:#Tema / Estilo
 common#:#usr_style#:#estilo de usuario
-common#:#usr_active_only#:#Sólo Usuarios Activos
-common#:#usr_inactive_only#:#Sólo Usuarios Inactivos
 common#:#usrf#:#Cuentas de usuario
 common#:#usrf_create_user#:#Crear nueva cuenta de usuario
 common#:#usrf_delete#:#Eliminar cuentas de usuario
