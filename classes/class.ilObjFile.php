@@ -206,7 +206,7 @@ class ilObjFile extends ilObject
 		return false;
 	}
 
-	function ilClone()
+	function ilClone($a_parent_ref)
 	{
 		// always call parent clone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
@@ -214,7 +214,14 @@ class ilObjFile extends ilObject
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$fileObj->createDirectory();
 
-		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$fileObj->getFileName());
+		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
+
+
+		$query = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$fileObj->getId()."','".
+			ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."')";
+
+		$this->ilias->db->query($query);
+
 
 		unset($fileObj);
 

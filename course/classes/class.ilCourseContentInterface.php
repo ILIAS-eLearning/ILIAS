@@ -113,6 +113,18 @@ class ilCourseContentInterface
 					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				if($cont_data["type"] == "file")
+				{
+					$this->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
+					$this->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
+
+					$tpl->setCurrentBlock("crs_file");
+					$tpl->setVariable("FILE_TITLE",$this->lng->txt('download'));
+					$tpl->setVariable("FILE_LINK",$this->ctrl->getLinkTargetByClass('ilObjFileGUI'));
+					$tpl->parseCurrentBlock();
+				}
+
+
 				if($rbacsystem->checkAccess('write',$cont_data['ref_id']))
 				{
 					if($obj_link = ilRepositoryExplorer::buildEditLinkTarget($cont_data["child"],$cont_data["type"]))

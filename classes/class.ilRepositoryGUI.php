@@ -2857,7 +2857,7 @@ class ilRepositoryGUI
 
 		if (is_array($subobj))
 		{
-			if($this->tree->checkForParentType($this->cur_ref_id,'crs'))
+			if($this->tree->checkForParentType($this->cur_ref_id,'crs') or 1)
 			{
 				$this->tpl->setCurrentBlock("get_from_repos");
 				$this->tpl->setVariable("GET_REPOS_CMD",'copySelector');
@@ -3090,6 +3090,12 @@ class ilRepositoryGUI
 		{
 			$_SESSION["copy_new_type"] = $_POST["new_type"];
 		}
+		if($_POST['new_type'] == 'cat')
+		{
+			sendInfo($this->lng->txt('crs_copy_cat_not_allowed'),true);
+			$this->ctrl->redirect($this);
+		}
+
 
 		include_once ("classes/class.ilRepositoryCopySelector.php");
 
@@ -3161,6 +3167,11 @@ class ilRepositoryGUI
 				{
 					$actions['copy'] = $this->lng->txt("copy");
 				}
+				if($type == 'grp')
+				{
+					$actions['no_content'] = $this->lng->txt('crs_no_content');
+				}
+				
 
 				$this->tpl->setCurrentBlock("object_options");
 				$this->tpl->setVariable("OBJECT_TYPE",$this->lng->txt("obj_".$type));
@@ -3219,10 +3230,19 @@ class ilRepositoryGUI
 			case "link":
 				$new_ref = $this->linkObject($a_target,$a_source);
 				break;
+			case "no_content":
+				$stop_recursion = true;
+				$new_ref = $this->copyObject($a_target,$a_source);
+				break;
+
 			default:
 				echo "ilRepositoryGUI:: duplicate(): not possible";
 		}
 
+		if($stop_recursion)
+		{
+			return true;
+		}
 		foreach($this->tree->getFilteredChilds(array('rolf'),$a_source) as $child)
 		{
 			$this->duplicate($post,$new_ref,$child["child"]);
