@@ -20,6 +20,8 @@ if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
+// ********************************************************************************
+// build location-links
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
@@ -43,11 +45,14 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	}
 	else $tpl->setVariable("NO_BTN", "<br><br>"); 
 	
+	// ********************************************************************************
+	
 	// Visit-Counter
 	$frm->setDbTable("frm_data");
 	$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
 	$frm->updateVisits($topicData["top_pk"]);
 	
+	// get list of threads
 	$frm->setOrderField("thr_date DESC");
 	$resThreads = $frm->getThreadList($topicData["top_pk"]);
 	$thrNum = $resThreads->numRows();
@@ -57,7 +62,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	{
 		$z = 0;
 		
-		// Navigation zum Blättern der Seiten
+		// navigation to browse
 		if ($thrNum > $pageHits)
 		{
 			$params = array(
@@ -74,6 +79,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 				$tpl->setVariable("LINKBAR", $linkbar);
 		}
 		
+		// get threads dates
 		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			
@@ -91,14 +97,16 @@ if (is_array($topicData = $frm->getOneTopic())) {
 				$tpl->setVariable("DATE",$thrData["thr_date"]);
 				$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."\">".$thrData["thr_subject"]."</a>");
 				
-				unset($author);
-				$author = $frm->getModerator($thrData["thr_usr_id"]);	
-				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author["SurName"]."</a>"); 
-				
 				$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
 				
 				$tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
 				
+				// get author data
+				unset($author);
+				$author = $frm->getModerator($thrData["thr_usr_id"]);	
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author["SurName"]."</a>"); 
+								
+				// get last-post data
 				$lpCont = "";				
 				if ($thrData["thr_last_post"] != "") $lastPost = $frm->getLastPost($thrData["thr_last_post"]);	
 				if (is_array($lastPost)) {				

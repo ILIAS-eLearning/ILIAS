@@ -1,6 +1,6 @@
 <?php
 /**
-* forums_threads_new
+* forums_user_view
 *
 * @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
@@ -26,6 +26,7 @@ if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
 
 $tpl->setVariable("TXT_FORUM_USER", $lng->txt("userdata"));
 
+// get user data
 $author = $frm->getModerator($_GET["user"]);	
 
 $tpl->setCurrentBlock("usertable");
@@ -55,6 +56,7 @@ else $tpl->setVariable("EMAIL",$author["Email"]);
 $tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
 $tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["CreateDate"]));
 
+// count articles of user
 $numPosts = $frm->countUserArticles($_GET["user"]);
 $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
 $tpl->setVariable("NUM_POSTS",$numPosts);

@@ -22,6 +22,8 @@ if (!$rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
+// ********************************************************************************
+// build location-links
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
@@ -43,30 +45,36 @@ if (!$_GET["backurl"]) $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?ob
 else $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
 $tpl->parseCurrentBlock();
 
+// ********************************************************************************
+
+// form processing
 if ($_GET["cmd"] == "newthread")
 {		
 	$formData = $_POST["formData"];
 	
-	// Check Formular-Daten
+	// check form-dates
 	$checkEmptyFields = array(
 		$lng->txt("subject")   => $formData["subject"],
 		$lng->txt("message")   => $formData["message"]	
 	);
+	
 	$errors = TUtil::checkFormEmpty($checkEmptyFields);
+	
 	if ($errors != "")
 	{
 		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br>".$errors);
 	}
 	else
 	{		
-		$newPost = $frm->generateThread($_GET["obj_id"], $_GET["parent"], $topicData["top_pk"], $_SESSION["AccountId"], $formData["subject"], $formData["message"]);
+		// build new thread
+		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], $formData["subject"], $formData["message"]);
 		
 		// Visit-Counter
 		$frm->setDbTable("frm_data");
 		$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
 		$frm->updateVisits($topicData["top_pk"]);
-			
-		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = '".$formData["subject"]."' AND thr_num_posts = 1");
+		// on success: change location
+		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = '".$formData["subject"]."' AND thr_num_posts = 1");		
 		if (is_array($thrData = $frm->getOneThread())) {
 			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&feedback=".urlencode($lng->txt("forums_thread_new_entry")));
 			exit();

@@ -17,13 +17,14 @@ $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 $frm_obj = TUtil::getObjectsByOperations('frm','visible');
 $frmNum = count($frm_obj);
+
 $pageHits = $frm->getPageHits();
 
 if ($frmNum > 0)
 {
 	$z = 0;	
 	
-	// Navigation zum Blättern der Seiten
+	// navigation to browse
 	if ($frmNum > $pageHits)
 	{
 		$params = array(
@@ -40,7 +41,7 @@ if ($frmNum > 0)
 			$tpl->setVariable("LINKBAR", $linkbar);
 	}	
 		
-	
+	// get forums dates
 	foreach($frm_obj as $data)
 	{		
 		if ($frmNum > $pageHits && $z >= ($Start+$pageHits))
@@ -64,21 +65,23 @@ if ($frmNum > 0)
 			$moderators = "";		
 			$lpCont = "";
 			$lastPost = "";
-					
+			
+			// get last-post data
 			if ($topicData["top_last_post"] != "") {
 				$lastPost = $frm->getLastPost($topicData["top_last_post"]);
 				$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
 			}
-					
+			
+			// read-access	
 			if ($rbacsystem->checkAccess("read", $data["obj_id"], $data["parent"])) 
 			{			
-				// Titel des Forums
+				// forum title
 				if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("write", $data["obj_id"], $data["parent"]))) {
 					$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
 				}
 				else $tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				
-				// Startdaten des Forums
+				// create-dates of forum
 				if ($topicData["top_usr_id"] > 0)
 				{			
 					$startData = $frm->getModerator($topicData["top_usr_id"]);	
@@ -89,7 +92,7 @@ if ($frmNum > 0)
 					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$topicData["top_usr_id"]."&backurl=forums&offset=".$Start."\">".$startData["SurName"]."</a>"); 										
 				}
 				
-				// wenn Forum verändert wurde ...
+				// when forum was changed ...
 				if ($topicData["update_user"] > 0)
 				{			
 					$updData = $frm->getModerator($topicData["update_user"]);	
@@ -100,6 +103,7 @@ if ($frmNum > 0)
 					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$topicData["update_user"]."&backurl=forums&offset=".$Start."\">".$updData["SurName"]."</a>"); 										
 				}
 				
+				// show content of last-post
 				if (is_array($lastPost)) {					
 					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
 					$lpCont .= "<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["surname"]."</a><br>";
@@ -107,6 +111,7 @@ if ($frmNum > 0)
 				}
 				$tpl->setVariable("LAST_POST", $lpCont);
 				
+				// get dates of moderators
 				if ($topicData["top_mods"] > 0)
 				{			
 					$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);											
@@ -117,13 +122,13 @@ if ($frmNum > 0)
 						if ($moderators != "") $moderators .= ", ";
 						$moderators .= "<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$modData["SurName"]."</a>";
 					}
-				}
-							
+				}							
 				$tpl->setVariable("MODS",$moderators); 
 				
 			}
 			else 
 			{
+				// only visible-access	
 				$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
 				
 				if (is_array($lastPost)) {
@@ -144,9 +149,9 @@ if ($frmNum > 0)
 				}
 				$tpl->setVariable("MODS",$moderators); 
 			}		
-								
-			$PATH = $frm->getForumPath($data["obj_id"], $data["parent"]);
 			
+			// get context of forum			
+			$PATH = $frm->getForumPath($data["obj_id"], $data["parent"]);			
 			$tpl->setVariable("FORUMPATH",$PATH);
 			
 			$tpl->setVariable("DESCRIPTION",$topicData["top_description"]);
@@ -154,10 +159,7 @@ if ($frmNum > 0)
 			$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);		
 			$tpl->setVariable("NUM_VISITS",$topicData["visits"]);		
 			
-	        $tpl->parseCurrentBlock("forum_row");
-			
-			$objID = $data["obj_id"];
-			$parentID = $data["parent"];
+	        $tpl->parseCurrentBlock("forum_row");			
 			
 		}
 		
@@ -172,6 +174,8 @@ else
 }
 
 $tpl->setCurrentBlock("forum");
+if ($_GET["feedback"] != "")
+	$tpl->setVariable("TXT_FEEDBACK", $_GET["feedback"]);
 $tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
