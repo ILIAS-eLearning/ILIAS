@@ -30,33 +30,37 @@ var Mposx = 0;
 var Mposy = 0;
 
 function doMouseDown(id) {
-    //dd.elements.contextmenu.hide();
-    
-    oldMposx = Mposx;
-    oldMposy = Mposy;
-    mouseIsDown = true;
+	//dd.elements.contextmenu.hide();
+	
+	oldMposx = Mposx;
+	oldMposy = Mposy;
+	mouseIsDown = true;
 }
 
-function beginDrag() {
-    dd.elements.dragdropsymbol.show();
-    dragDropShow = true;
-    moveDragDropSymbol();
+function beginDrag() 
+{
+	dd.elements.dragdropsymbol.show();
+	dragDropShow = true;
+	moveDragDropSymbol();
 }
 
-function doMouseUp(id) {
-    mouseIsDown = false;
-    dd.elements.dragdropsymbol.hide();
-    dd.elements.dragdropsymbol.moveTo(-1000,-1000);
-    setTimeout("dragDropShow = false",500);
-    
+function doMouseUp(id) 
+{
+	mouseIsDown = false;
+	dd.elements.dragdropsymbol.hide();
+	dd.elements.dragdropsymbol.moveTo(-1000,-1000);
+	setTimeout("dragDropShow = false",500);
+	
 }
 
-function moveDragDropSymbol() {
-    
-    if (dragDropShow) {
-        dd.elements.dragdropsymbol.moveTo(Mposx+5,Mposy-5);
-    }
-    //setTimeout("moveDragDropSymbol()",100);
+function moveDragDropSymbol() 
+{
+	
+	if (dragDropShow) 
+	{
+		dd.elements.dragdropsymbol.moveTo(Mposx+5,Mposy-5);
+	}
+	//setTimeout("moveDragDropSymbol()",100);
 }
 //setTimeout("moveDragDropSymbol()",1000);
 
@@ -64,12 +68,13 @@ function moveDragDropSymbol() {
 *   on Click show context-menu at mouse-position
 */
 var openedMenu="";
-function doMouseClick(e,id,ctype) {
-    if (!e) var e = window.event;
+function doMouseClick(e,id,ctype) 
+{
+	if (!e) var e = window.event;
     
-    clickcmdid = id.substr(7);
-    
-    if (e.pageX || e.pageY)
+	clickcmdid = id.substr(7);
+	
+	if (e.pageX || e.pageY)
 	{
 		Mposx = e.pageX;
 		Mposy = e.pageY;
@@ -79,47 +84,56 @@ function doMouseClick(e,id,ctype) {
 		Mposx = e.clientX + document.body.scrollLeft;
 		Mposy = e.clientY + document.body.scrollTop;
 	}
-    if (!dragDropShow) {
-
-        if (openedMenu!="") {
-            dd.elements[openedMenu].hide();
-            openedMenu = "";
-        }
-        
-        dd.elements["contextmenu_"+clickcmdid].moveTo(Mposx,Mposy-10);
-        dd.elements["contextmenu_"+clickcmdid].show();
-        openedMenu = "contextmenu_"+clickcmdid;
-        doCloseContextMenuCounter=20;
-    }
+	if (!dragDropShow) 
+	{
+	
+		if (openedMenu!="") 
+		{
+			dd.elements[openedMenu].hide();
+			openedMenu = "";
+		}
+		
+		dd.elements["contextmenu_"+clickcmdid].moveTo(Mposx,Mposy-10);
+		dd.elements["contextmenu_"+clickcmdid].show();
+		openedMenu = "contextmenu_"+clickcmdid;
+		doCloseContextMenuCounter=20;
+	}
 }
 
 /**
 *   on MouseOut of context-menu hide context-menu 
 */
 var doCloseContextMenuCounter = -1;
-function doCloseContextMenu() {
-    if (doCloseContextMenuCounter>-1) {
-        doCloseContextMenuCounter--;
-        if(doCloseContextMenuCounter==0) {
-            if(openedMenu!="") {
-                dd.elements[openedMenu].hide();
-                openedMenu = "";
-            }
-            doCloseContextMenuCounter=-1;
-        }
-    }
-    setTimeout("doCloseContextMenu()",100);
+function doCloseContextMenu() 
+{
+	if (doCloseContextMenuCounter>-1) 
+	{
+		doCloseContextMenuCounter--;
+		if(doCloseContextMenuCounter==0) 
+		{
+			if(openedMenu!="") 
+			{
+				dd.elements[openedMenu].hide();
+				openedMenu = "";
+			}
+			doCloseContextMenuCounter=-1;
+		}
+	}
+	setTimeout("doCloseContextMenu()",100);
 }
 setTimeout("doCloseContextMenu()",200);
 
 var clickcmdid = 0;
-function doActionForm(cmd,command,value) {
+function doActionForm(cmd,command,value) 
+{
     
-    if(cmd=="cmd[exec]") {
+    if(cmd=="cmd[exec]") 
+	{
         cmd = "cmd[exec_"+clickcmdid+"]";
     }
     
-    if (command=="command") {
+    if (command=="command") 
+	{
         command += clickcmdid;
     }
     
@@ -137,19 +151,22 @@ function doActionForm(cmd,command,value) {
     
 }
 
-function M_in(cell) {
+function M_in(cell) 
+{
     cell.style.cursor='pointer';
     cell.bgColor='gray';
     doCloseContextMenuCounter=-1;
 }
-function M_out(cell) {
+function M_out(cell) 
+{
     cell.bgColor='';
     doCloseContextMenuCounter=5;
 }
 
 var oldMposx = -1;
 var oldMposy = -1;    
-function followmouse1(e) {
+function followmouse1(e) 
+{
 
     if (!e) var e = window.event;
     
@@ -166,7 +183,8 @@ function followmouse1(e) {
     
     if (mouseIsDown) {
         
-        if ( Math.sqrt((Mposx-oldMposx)*(Mposx-oldMposx) + (Mposy-oldMposy)*(Mposy-oldMposy)) > 4 ) {
+        if ( Math.sqrt((Mposx-oldMposx)*(Mposx-oldMposx) + (Mposy-oldMposy)*(Mposy-oldMposy)) > 4 ) 
+		{
             beginDrag();
         }
         
@@ -176,11 +194,13 @@ function followmouse1(e) {
     
 }
 
-function doKeyDown(e) {
+function doKeyDown(e) 
+{
     if (!e) var e = window.event;
     kc = e.keyCode;
     kc = kc*1;
-    if(kc==17) {
+    if(kc==17) 
+	{
         dd.elements.contextmenu.hide();
         oldMposx = Mposx;
         oldMposy = Mposy;
@@ -188,12 +208,14 @@ function doKeyDown(e) {
     }
 }
 
-function doKeyUp(e) {
+function doKeyUp(e) 
+{
     if (!e) var e = window.event;
     kc = e.keyCode;
 
     kc = kc*1;
-    if(kc==17) {
+    if(kc==17) 
+	{
         mouseIsDown = false;
         dd.elements.dragdropsymbol.hide();
         dd.elements.dragdropsymbol.moveTo(-1000,-1000);
