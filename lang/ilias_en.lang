@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Questionpool Test
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
+common#:#import_spl#:#Import Questionpool Survey
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Delete Question Pool for Survey
 common#:#spl_edit_permission#:#Change permission settings
 common#:#spl_new#:#New question pool for survey
 common#:#spl_read#:#Read access to Question Pool for Survey
+common#:#spl_upload_file#:#Upload file
 common#:#spl_visible#:#Question Pool for Survey is visible
 common#:#spl_write#:#Edit Question Pool for Survey
 common#:#st_a#:#a chapter
@@ -3795,6 +3797,7 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
 survey#:#cannot_maintain_survey#:#You do not possess sufficient permissions to maintain the survey!
 survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
 survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Please select a target position to mo
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
+survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey

@@ -29,7 +29,7 @@
 *
 * @extends ilObject
 * @package ilias-core
-* @package assessment
+* @package survey
 */
 
 require_once "./classes/class.ilObjectGUI.php";
@@ -626,6 +626,317 @@ class ilObjSurveyQuestionPool extends ilObject
 			"step" => $maxentries,
 			"rowcount" => $max
 		);
+	}
+	
+	/**
+	* creates data directory for export files
+	* (data_dir/spl_data/spl_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
+		ilUtil::makeDir($spl_data_dir);
+		if(!is_writable($spl_data_dir))
+		{
+			$this->ilias->raiseError("Survey Questionpool Data Directory (".$spl_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$spl_dir = $spl_data_dir."/spl_".$this->getId();
+		ilUtil::makeDir($spl_dir);
+		if(!@is_dir($spl_dir))
+		{
+			$this->ilias->raiseError("Creation of Survey Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
+		$export_dir = $spl_dir."/export";
+		ilUtil::makeDir($export_dir);
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of survey
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = ilUtil::getDataDir()."/spl_data"."/spl_".$this->getId()."/export";
+
+		return $export_dir;
+	}
+	
+	/**
+	* get export files
+	*/
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+			// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".xml" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl_)*[0-9]+\.xml\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+	/**
+	* creates data directory for import files
+	* (data_dir/spl_data/spl_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createImportDirectory()
+	{
+		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
+		ilUtil::makeDir($spl_data_dir);
+		
+		if(!is_writable($spl_data_dir))
+		{
+			$this->ilias->raiseError("Survey Questionpool Data Directory (".$spl_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create test directory (data_dir/spl_data/spl_<id>)
+		$spl_dir = $spl_data_dir."/spl_".$this->getId();
+		ilUtil::makeDir($spl_dir);
+		if(!@is_dir($spl_dir))
+		{
+			$this->ilias->raiseError("Creation of Survey Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create import subdirectory (data_dir/spl_data/spl_<id>/import)
+		$import_dir = $spl_dir."/import";
+		ilUtil::makeDir($import_dir);
+		if(!@is_dir($import_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get import directory of survey
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/spl_data".
+			"/spl_".$this->getId()."/import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function to_xml($questions)
+	{
+		if (!is_array($questions))
+		{
+			$questions =& $this->getQuestions();
+		}
+		if (count($questions) == 0)
+		{
+			$questions =& $this->getQuestions();
+		}
+		$xml = "";
+		foreach ($questions as $key => $value)
+		{
+			$questiontype = $this->getQuestiontype($value);
+			switch ($questiontype)
+			{
+				case "qt_nominal":
+					$question = new SurveyNominalQuestion();
+					break;
+				case "qt_ordinal":
+					$question = new SurveyOrdinalQuestion();
+					break;
+				case "qt_metric":
+					$question = new SurveyMetricQuestion();
+					break;
+				case "qt_text":
+					$question = new SurveyTextQuestion();
+					break;
+			}
+			$question->loadFromDb($value);
+			$xml .= $question->to_xml(false);
+		}
+		if (count($questions) > 1)
+		{
+			$xml = preg_replace("/<\/questestinterop>\s*<questestinterop>/", "", $xml);
+		}
+		$xml = str_replace("<questestinterop>", "", $xml);
+		$xml = str_replace("</questestinterop>", "", $xml);
+		
+		// export questionpool metadata
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		$xml_header .= "<questestinterop></questestinterop>\n";
+		$domxml = domxml_open_mem($xml_header);
+		$root = $domxml->document_element();
+		// qti section
+		$qtiSection = $domxml->create_element("section");
+		$qtiSection->set_attribute("ident", "qpl_" . $this->getId());
+		$qtiSection->set_attribute("title", $this->getTitle());
+		// qti metadata
+		$qtiMetadata = $domxml->create_element("qtimetadata");
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldlabel = $domxml->create_element("fieldlabel");
+		$qtiFieldlabelText = $domxml->create_text_node("SCORM");
+		$qtiFieldlabel->append_child($qtiFieldlabelText);
+		$qtiFieldentry = $domxml->create_element("fieldentry");
+		$this->initMeta();
+		$metadata = $this->meta_data->nested_obj->dom->dump_mem(0);
+		$qtiFieldentryText = $domxml->create_CDATA_Section($metadata);
+		$qtiFieldentry->append_child($qtiFieldentryText);
+		$qtiMetadatafield->append_child($qtiFieldlabel);
+		$qtiMetadatafield->append_child($qtiFieldentry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		$qtiSection->append_child($qtiMetadata);
+		$root->append_child($qtiSection);
+		$qtixml = $domxml->dump_mem(true);
+		$qtixml = str_replace("</section>", $xml . "\n</section>", $qtixml);
+		$domxml->free();
+		return $qtixml;
+	}
+	
+	function &getQuestions()
+	{
+		$questions = array();
+		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($questions, $row["question_id"]);
+			}
+		}
+		return $questions;
+	}
+
+	function importObject($source)
+	{	
+		$metadata = "";
+		if (is_file($source))
+		{
+			$fh = fopen($source, "r") or die("");
+			$xml = fread($fh, filesize($source));
+			fclose($fh) or die("");
+
+			// read questionpool metadata from xml file
+			$xml = preg_replace("/>\s*?</", "><", $xml);
+			$domxml = domxml_open_mem($xml);
+			if (!empty($domxml))
+			{
+				$nodeList = $domxml->get_elements_by_tagname("fieldlabel");
+				foreach ($nodeList as $node)
+				{
+					switch ($node->get_content())
+					{
+						case "SCORM":
+							$metanode = $node->next_sibling();
+							if (strcmp($metanode->node_name(), "fieldentry") == 0)
+							{
+								$metadata = $metanode->get_content();
+							}
+					}
+				}
+				$domxml->free();
+			}
+
+			// import file into questionpool
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					// get identifier
+					if (preg_match("/(<item[^>]*>)/is", $item, $start_tag))
+					{
+						if (preg_match("/(ident=\"([^\"]*)\")/is", $start_tag[1], $ident))
+						{
+							$ident = $ident[2];
+						}
+					}
+					$question = "";
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case NOMINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyNominalQuestion();
+								break;
+							case ORDINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyOrdinalQuestion();
+								break;
+							case METRIC_QUESTION_IDENTIFIER:
+								$question = new SurveyMetricQuestion();
+								break;
+							case TEXT_QUESTION_IDENTIFIER:
+								$question = new SurveyTextQuestion();
+								break;
+						}
+						if ($question)
+						{
+							$question->setObjId($this->getId());
+							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
+							{
+								$question->saveToDb();
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+				}
+			}
+			
+			if ($metadata)
+			{
+				include_once("./classes/class.ilNestedSetXML.php");
+				$nested = new ilNestedSetXML();
+				$nested->dom = domxml_open_mem($metadata);
+				$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+				if (is_array($nodes))
+				{
+					$nodes[0]["Entry"] = "il__" . $this->getType() . "_" . $this->getId();
+					$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+				}
+				$xml = $nested->dom->dump_mem(0);
+				$nested->import($xml, $this->getId(), $this->getType());
+			}
+		}
 	}
 	
 } // END class.ilSurveyObjQuestionPool
