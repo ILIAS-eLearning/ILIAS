@@ -518,7 +518,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 		foreach ($parentRoles as $parRol)
 		{
-			$ops = $rbacreview->getOperations($parRol["obj_id"], $this->getType(), $parRol["parent"]);
+			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
 		}
 	}
@@ -600,7 +600,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 		foreach ($parentRoles as $parRol)
 		{
 			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-			$ops = $rbacreview->getOperations($parRol["obj_id"], $this->getType(), $parRol["parent"]);
+			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id);
 		}
 		return $new_id;
