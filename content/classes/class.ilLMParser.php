@@ -452,7 +452,7 @@ class ilLMParser extends ilSaxParser
 // echo "<br>---NEW BIBLIOGRAPHY---<br>";
 				$this->bib_item =& new ilBibItem();
 				break;
-                
+
 		}
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
@@ -615,11 +615,14 @@ class ilLMParser extends ilSaxParser
                 if(get_class($this->current_object) == "ilpageobject" && !$this->in_media_object)
 				{
 					// Metadaten eines PageObjects sichern in NestedSet
-                    $this->page_object->createFromXML();
+					if (is_object($this->page_object))
+					{
+						$this->page_object->createFromXML();
 
-                    include_once("./classes/class.ilNestedSetXML.php");
-                    $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");
+						include_once("./classes/class.ilNestedSetXML.php");
+						$nested = new ilNestedSetXML();
+						$nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");
+					}
                 }
 				else if(get_class($this->current_object) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
@@ -644,7 +647,7 @@ class ilLMParser extends ilSaxParser
                     $nested = new ilNestedSetXML();
                     $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");                    
 				}
-                else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule") 
+                else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule")
                 {
                     // Metadaten eines ContentObjects sichern in NestedSet
                     include_once("./classes/class.ilNestedSetXML.php");

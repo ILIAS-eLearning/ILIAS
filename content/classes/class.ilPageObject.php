@@ -343,21 +343,28 @@ class ilPageObject extends ilLMObject
 			// append multimedia object elements
 			if ($a_append_mobs || $a_append_bib)
 			{
-                $mobs = "";
-                $bibs = "";
-                if ($a_append_mobs)
-                {
-                    $mobs =& $this->getMultimediaXML();
-                }
-                if ($a_append_bib)
-                {
-                    $bibs =& $this->getBibliographyXML();
-                }
+				$mobs = "";
+				$bibs = "";
+				if ($a_append_mobs)
+				{
+					$mobs =& $this->getMultimediaXML();
+				}
+				if ($a_append_bib)
+				{
+					$bibs =& $this->getBibliographyXML();
+				}
 				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs."</dummy>";
 			}
 			else
 			{
-				return $this->dom->dump_node($this->node);
+				if (is_object($this->dom))
+				{
+					return $this->dom->dump_node($this->node);
+				}
+				else
+				{
+					return "";
+				}
 			}
 		}
 	}

@@ -95,7 +95,7 @@ class ilNestedSetXML
         *   Eintragen des neues NestedSet eintrags mit den neuen Rändern.
         */
         $Q = "INSERT INTO NestedSetTemp (ns_book_fk,ns_type,ns_tag_fk,ns_l,ns_r) VALUES ('".$this->obj_id."','".$this->obj_type."','".$pk."',".$this->LEFT.",".$this->RIGHT.") ";
-        
+
         $this->db->query($Q);
         
         
@@ -123,7 +123,7 @@ class ilNestedSetXML
     function characterData($parser, $data) 
 	{
         // {{{
-        
+
         static $value_pk;
         
         if(trim($data)!="") {
@@ -154,23 +154,23 @@ class ilNestedSetXML
     /**
     *   Methode die aufgerufen wird, bei einem ausleitenden Tag
     */
-    function endElement($parser, $name) 
+    function endElement($parser, $name)
 	{
         // {{{
-        
+
         $this->DEPTH--;
         $this->LEFT += 1;
         $this->lastTag = "";
         //vd(array("/".$name,$this->LEFT));
         // }}}
     }
-    
+
     /**
     *   Import-Funktion.
     *   @param  String  xmldata Die XML-Struktur als Text
     *   @obj_id int     Die Buch-ID
     */
-    function import($xmldata, $obj_id, $obj_type) 
+    function import($xmldata, $obj_id, $obj_type)
 	{
         // {{{
         $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
@@ -186,7 +186,7 @@ class ilNestedSetXML
           KEY ns_book_fk (ns_book_fk)
         ) TYPE=MyISAM ";
         $this->db->query($Q);
-        
+
         $this->obj_id = $obj_id;
         $this->obj_type = $obj_type;
 		$this->DEPTH = 0;
@@ -199,47 +199,47 @@ class ilNestedSetXML
         $this->db->query("DELETE FROM XmlParam");
         $this->db->query("DELETE FROM XmlValue");
         */
-        
+
         $this->db->query("DELETE FROM NestedSetTemp");
 
-        $this->xml_parser = xml_parser_create();
+        $this->xml_parser = xml_parser_create("UTF-8");
         xml_parser_set_option($this->xml_parser, XML_OPTION_CASE_FOLDING, false);
         xml_set_object($this->xml_parser,$this);
         xml_set_element_handler($this->xml_parser, "startElement", "endElement");
         xml_set_character_data_handler($this->xml_parser, "characterData");
-        
+
         if (!xml_parse($this->xml_parser, $xmldata)) {
             die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
         }
         xml_parser_free($this->xml_parser);
-    
+
         $this->db->query("INSERT INTO XmlNestedSet SELECT * FROM NestedSetTemp");
         $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
         // }}}
     }
-    
+
     /**
     *   Export-Funktion.
     *   @param  obj_id  int Buchid
     *   @return String  Die Xml-Struktur als Text
     */
-    function export($obj_id, $type) 
+    function export($obj_id, $type)
 	{
         // {{{
 		$query = "SELECT * FROM XmlNestedSet,XmlTags WHERE ns_tag_fk=tag_pk AND ns_book_fk='$obj_id' AND ns_type='$type' ORDER BY ns_l";
-		
+
         $result = $this->db->query($query);
 		if (DB::isError($result))
 		{
        	    die($this->className."::checkTable(): ".$result->getMessage().":<br>".$q);
 		}
-        
+
         $xml = "";
 		$lastDepth = -1;
-        
+
         while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) {
-            
-			// {{{ Anfang & Endtag 
+
+			// {{{ Anfang & Endtag
             $Anfang = "<".$row[tag_name];
             $result_param = $this->db->query("SELECT * FROM XmlParam WHERE tag_fk='$row[tag_pk]'");
             while (is_array($row_param = $result_param->fetchRow(DB_FETCHMODE_ASSOC) ) ) {
@@ -249,14 +249,14 @@ class ilNestedSetXML
             $Anfang .= ">";
             $Ende = "</".$row[tag_name].">";
             // }}}
-			
+
 			// {{{ TagValue
             if ($row[tag_name]=="TAGVALUE") {
                 $result_value = $this->db->query("SELECT * FROM XmlValue WHERE tag_fk='$row[tag_pk]' ");
                 $row_value = $result_value->fetchRow(DB_FETCHMODE_ASSOC);
                 $Anfang = $row_value["tag_value"];
                 $Ende = "";
-                
+
                 /*
                 $Anfang = str_replace("<","&lt;",$Anfang);
                 $Anfang = str_replace(">","&gt;",$Anfang);
@@ -265,7 +265,7 @@ class ilNestedSetXML
                 // $Anfang = utf8_encode($Anfang);
             }
 			// }}}
-            
+
 			/*
             if ( $row[tag_depth] == $lastDepth ) {
                 $xml .= $E[$lastDepth];
@@ -273,15 +273,15 @@ class ilNestedSetXML
             } else if ( $row[tag_depth] < $lastDepth ) {
                 $xml .= $E[$lastDepth];
                 unset($E[$lastDepth]);
-                
+
                 $xml .= $E[$row[tag_depth]];
                 unset($E[$row[tag_depth]]);
-            } 
+            }
             */
-			
-			
+
+
 			$D = $row[tag_depth];
-			
+
 			if ($D==$lastDepth) {
 				$xml .= $xmlE[$D];
 				$xml .= $Anfang;
@@ -350,7 +350,7 @@ class ilNestedSetXML
     // ------------------------------------------------------------------------------------------------------------------------------
     function getTagName() 
 	{
-        
+
         $query = "SELECT * FROM XmlNestedSet,XmlTags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk LIMIT 1";
 		$result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -413,7 +413,7 @@ class ilNestedSetXML
 	function setTagValue($value) 
 	{
         $V = array();
-        
+
         $query = "SELECT * FROM XmlNestedSet,XmlTags
 						LEFT JOIN XmlValue ON XmlTags.tag_pk=XmlValue.tag_fk
 						WHERE ns_tag_fk=tag_pk AND 
@@ -508,7 +508,7 @@ class ilNestedSetXML
                         B.tag_pk=Nb.ns_tag_fk AND 
                         Nb.ns_l>Na.ns_l AND Nb.ns_r<Na.ns_r AND
 						Nb.ns_book_fk='".$this->obj_id."' AND Nb.ns_type='".$this->obj_type."' 
-                          
+
                         
                        ";	//AND V.tag_value='".$needle."'
                 $res = $this->db->query($Q);
@@ -540,7 +540,7 @@ class ilNestedSetXML
 			
             while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) 
 			{
-                
+
                 if (count($path)==$depth+1) 
 				{
                     // $ret[] = $row;
@@ -603,7 +603,7 @@ class ilNestedSetXML
 			{
                 // Solange man nicht am Ende der Kette angekommen ist, werden nur Tag mit Parent-Tag vergleichen.
                 $Q = "SELECT Nb.* FROM 
-                        XmlNestedSet AS Na, 
+                        XmlNestedSet AS Na,
                         XmlNestedSet AS Nb,
                         XmlTags AS A,
                         XmlTags AS B 
@@ -728,7 +728,7 @@ class ilNestedSetXML
 	}
 
 	/**
-	*	returns first content of this node 
+	*	returns first content of this node
 	*/
 	function getFirstDomContent($xPath) 
 	{
@@ -749,13 +749,13 @@ class ilNestedSetXML
 	/**
 	*	imports xml-data from dom new into nestedSet
 	*/
-	function updateFromDom() 
+	function updateFromDom()
 	{
-		
+
 		$this->deleteAllDbData();
-		
+
 		$xml = $this->dom->dump_mem(0);
-		
+
 		$this->import($xml,$this->obj_id,$this->obj_type);
 		
 		// echo htmlspecialchars($xml);

@@ -92,8 +92,8 @@ class ilSaxParser extends PEAR
 	*/
 	function createParser()
 	{
-		$xml_parser = xml_parser_create();
-		
+		$xml_parser = xml_parser_create("UTF-8");
+
 		if($xml_parser == false)
 		{
 			$this->ilias->raiseError("Cannot create an XML parser handle",$this->ilias->error_obj->FATAL);
