@@ -1,111 +1,143 @@
+    <form action="{ACTION}" method="post">
+
+    <h1>{TXT_EDIT_DATA}: {LO_TITLE}</h1>
+	<table cellpadding=2 cellspacing=0 border=0>
 
 
-    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <form action="/projekte/uni-koeln/ilias/ed_meta.php" method=post>
-    <input type=hidden name=back value="/projekte/uni-koeln/ilias/ed_le.php?id=5">
-    <input type=hidden name=cmd value="meta"><input type=hidden name=inst value="">
-    <input type=hidden name=typ value="le"><input type=hidden name=id value="5">
+    <tr class="tblheader">
+      <td colspan=2>{TXT_TITLE}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td colspan=2><input type="text" name="title" value="{TITLE}" size=45></td>
+    </tr>
+    <tr class="tblrow1">
+      <td colspan=2>{TXT_UID}</td>
+    </tr>
+    <tr>
+      <td colspan=2>&nbsp;</td>
+    </tr>
 
-    <h2>Metadaten zur Lerneinheit editieren "Kein Titel" [5]</h2><TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0>
+
+    <tr class="tblheader">
+      <td colspan=2>{TXT_PUBLISHING_ORGANISATION}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td colspan=2><input type="text" name="publishing_organisation" value="{PUBLISHING_ORGANISATION}" size=45></td>
+    </tr>	
     <tr>
-      <td COLSPAN=2>{TXT_TITLE}</TD>
+      <td colspan=2>&nbsp;</td>
+    </tr>
+
+
+    <tr class="tblheader">
+      <td colspan=2>{TXT_SUMMARY}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td colspan=2><textarea name="description" cols=45 rows=10 WRAP="virtual"></textarea></td>
     </tr>
     <tr>
-      <td COLSPAN=2><input type=text name=title value="{NON_TITLE}" size=45></TD>
+      <td colspan=2>&nbsp;</td>
     </tr>
-    <TR>
-      <TD COLSPAN=2>{TXT_UID}</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>&nbsp;</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>{TXT_PUBLISHING_ORGANISATION}</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>{TXT_SUMMARY}</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2 ><textarea name=description cols=45 rows=10 WRAP=virtual></textarea></TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2 HEIGHT=0></TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>{TXT_AUTHORS}</TD>
-    </TR>
-    <TR>
-      <TD><small><select name="sel_auths[]" size=8 multiple>
-      <option value="2" >Autor 1 Autor 1 (2)
-      <option value="5" selected>ADMIN1 ADMIN1 (5)
-      </select></small></TD>
-      <TD>{TXT_FIRSTNAME}<br><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size="20"><br>{TXT_LASTNAME}<br><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size="20"><br><input type="submit" name="new_author" value="{ADD_NEW_AUTHOR}"></TD>
+
+	
+    <tr class="tblheader">
+      <td colspan=2>{TXT_AUTHORS}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td>
+	  	<select name="sel_auths[]" size=8 multiple>
+<!-- BEGIN selauthors -->
+	      <option value="{SELAUTHOR_ID}" {SELAUTHOR_SEL}>{SELAUTHOR}</option>
+<!-- END selauthors -->
+        </select>
+	  </td>
+      <td>{TXT_FIRSTNAME}<br><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size="20"><br>{TXT_LASTNAME}<br><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size="20"><br><input type="submit" name="new_author" value="{TXT_ADD_AUTHOR}"></td>
     </tr>
     <tr>
-      <td COLSPAN=2 HEIGHT=0></td>
+      <td colspan=2>&nbsp;</td>
+    </tr>
+
+
+    <tr class="tblheader">
+      <td colspan=2>{TXT_MEMBERS}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td>
+	    <select name="sel_cons[]" size=8 multiple>
+<!-- BEGIN selmembers -->
+	      <option value="{SELMEMBER_ID}" {SELMEMBER_SEL}>{SELMEMBER}</option>
+<!-- END selmembers -->
+        </select>
+	  </td>
+      <td>
+	    {TXT_FIRSTNAME}<br>
+	    <input type="text" name="contrib_firstname" value="{FIRSTNAME}" size="20"><br>
+        {TXT_LASTNAME}<br>
+		<input type="text" name="contrib_surname" value="{LASTNAME}" size="20"><br>
+        <input type="submit" name="new_contrib" value="{TXT_ADD_MEMBER}">
+	  </td>
     </tr>
     <tr>
-      <td COLSPAN=2>{TXT_MEMBERS}</td>
+      <td colspan=2 height=0></td>
+	</tr>
+    <tr class="tblrow1">
+      <td colspan=2>In den Auswahllisten k&ouml;nnen ganze Bereiche mittels <br>SHIFT + Mausklick, bzw. mehrere einzelne oder keine Eintr&auml;ge <br>durch CTRL + Mausklick selektiert werden (Windows)<br>Falls die gew&uuml;nschte Person nicht in der Liste auftaucht,<br>k&ouml;nnen Sie in den Textfelder rechts einen neuen<br>Autoren/Mitwirkenden eingeben.</td>
     </tr>
     <tr>
-      <td><select name="sel_cons[]" size=8 multiple>
-    <option value="2" >Autor 1 Autor 1 (2)
-    <option value="5" >ADMIN1 ADMIN1 (5)
-    </select></TD>
-      <TD>{TXT_FIRSTNAME}<br><input type="text" name="contrib_firstname" value="{FIRSTNAME}" size="20"><br>
-      {TXT_LASTNAME}<br><input type="text" name="contrib_surname" value="{LASTNAME}" size="20"><br>
-      <input type="submit" name="new_contrib" value="{ADD_NEW_MEMBER}"></TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2 HEIGHT=0></TD></TR>
-    <TR>
-    <TD COLSPAN=2>In den Auswahllisten k&ouml;nnen ganze Bereiche mittels <br>SHIFT + Mausklick, bzw. mehrere einzelne oder keine Eintr&auml;ge <br>durch CTRL + Mausklick selektiert werden (Windows)<br>Falls die gew&uuml;nschte Person nicht in der Liste auftaucht,<br>k&ouml;nnen Sie in den Textfelder rechts einen neuen<br>Autoren/Mitwirkenden eingeben.</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>Schlagworte(durch Kommata getrennt)</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2 ><input type=text name=keys value="" size=45 maxlength=3000></TD>
-    </TR>
-    <TR>
-      <TD>{TXT_LANGUAGE}</TD>
-      <TD>{TXT_LEVEL}</TD>
-    </TR>
-    <TR>
-      <TD><select name="metalang">
+      <td colspan=2>&nbsp;</td>
+    </tr>
+
+
+    <tr class="tblheader">
+      <td colspan=2>{TXT_KEYWORDS} {TXT_COMMA_SEPARATED}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td colspan=2 ><input type=text name=keys value="" size=45 maxlength=3000></td>
+    </tr>
+    <tr>
+      <td class="tblheader">{TXT_LANGUAGE}</td>
+      <td class="tblheader">{TXT_LEVEL}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td>
+	    <select name="lang">
 <!-- BEGIN language -->
-      <option value="{LANG_ABBR}">{LANG_NAME}</option>
+          <option value="{LANG_ABBR}">{LANG_NAME}</option>
 <!-- END language -->
-      <option value="-">{TXT_NONE}</option>
-      <option value="other">{TXT_OTHER}</option>
-      </select></TD>
-      <TD ><select name="level">
-      <option value="0">{TXT_NONE}</option>
+          <option value="-">{TXT_NONE}</option>
+          <option value="other">{TXT_OTHER}</option>
+        </select>
+	  </td>
+      <td>
+	    <select name="level">
+          <option value="0">{TXT_NONE}</option>
 <!-- BEGIN level -->
-      <option value="{LEVEL_ABBR}">{LEVEL_NAME}</option>
+          <option value="{LEVEL_ABBR}">{LEVEL_NAME}</option>
 <!-- END level -->
-      </select></TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>{TXT_LO_CATEGORIES}</TD>
-    </TR>
-    <TR>
-      <TD COLSPAN=2>
+        </select>
+	  </td>
+    </tr>
+    <tr>
+      <td colspan=2>&nbsp;</td>
+    </tr>
+
+
+    <tr class="tblheader">
+      <td colspan=2>{TXT_CATEGORIES}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td colspan=2>
 <!-- BEGIN category -->
-      {TXT_CAT_NAME}<br>
-      <input type=checkbox name="{SUBCAT_ID}" value=1>
-      {TXT_SUBCAT_NAME}<br>
+        {TXT_NAME}<br>
+        <input type=checkbox name="{SUBCAT_ID}" value=1> {TXT_SUBCAT_NAME}<br>
 <!-- END category -->
-      </TD>
-    </TR>
+      </td>
+    </tr>
     <input type=hidden name="status" value="draft">
-    </TABLE>
-<small><br></small>
-    <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <TR>
-      <TD><input type=submit name="save_exit" value="{SAVE_AND_BACK_TO_LO}"></TD>
-    </TR>
-    </TABLE>
+    </table>
+	
+	<br>
+
+    <input type=submit name="save_exit" value="{TXT_SAVE_AND_BACK}">
+	
     </form>
-    </BODY>
-    </HTML>

@@ -19,11 +19,11 @@
 <tr class="{ROWCOL}">
   <td>&nbsp;{TITLE}&nbsp;</td>
   <td align="center">&nbsp;<font size=-1>{DATE}</font>&nbsp;</td>
-  <td align="center">&nbsp;<a href="" onMouseOver="window.status='Set course draft';return true;"><img VSPACE=0 BORDER=0 SRC="./images/editor/on.gif" WIDTH=16 HEIGHT=16 ALT="Set course draft" TITLE="Set course draft" ></a>&nbsp;</td>
+  <td align="center">&nbsp;<a href="{LINK_STATUS}"><img VSPACE=0 BORDER=0 SRC="./images/{STATUS}.gif" WIDTH=16 HEIGHT=16 ALT="{TXT_LO_SET_STATUS}"></a>&nbsp;</td>
   <td align="center">&nbsp;<font size=-1>{DATE}</font>&nbsp;</td>
-  <td>&nbsp;<a href="" ONCLICK="return popup_window('', 50, 100, 0, 75);"  TARGET="_blank"><img VSPACE=0 BORDER=0 SRC="images/editor/generate.gif" ALT="Generate Offline course" TITLE="Generate Offline course" ></a>&nbsp;</td>
-  <td align="center">&nbsp;<a HREF="" onMouseOver="window.status='Announce Changes';return true;"><img VSPACE=0 BORDER=0 SRC="./images/editor/announce.gif" WIDTH=16 HEIGHT=16 ALT="Announce Changes" TITLE="Announce Changes" ></a>&nbsp;</td>
-  <td align="center">&nbsp;<a href="" onMouseOver="window.status='Change';return true;"><img VSPACE=0 BORDER=0 SRC="./images/layout/change.gif" WIDTH=16 HEIGHT=16 ALT="Change" TITLE="Change"></a>&nbsp;</td>
+  <td align="center">&nbsp;<a href="{LINK_GENERATE}" onMouseOver="window.status='{TXT_GENERATE}';return true;" onClick="return popup_window('', 50, 100, 0, 75);"  TARGET="_blank"><img VSPACE=0 BORDER=0 SRC="images/generate.gif" ALT="Generate Offline course" TITLE="{TXT_GENERATE}" ></a>&nbsp;</td>
+  <td align="center">&nbsp;<a HREF="{LINK_ANNOUNCE}" onMouseOver="window.status='{TXT_ANNOUNCE}';return true;"><img VSPACE=0 BORDER=0 SRC="./images/announce.gif" WIDTH=16 HEIGHT=16 ALT="{TXT_ANNOUNCE}"></a>&nbsp;</td>
+  <td align="center">&nbsp;<a href="{LINK_EDIT}" onMouseOver="window.status='{TXT_EDIT}';return true;"><img VSPACE=0 BORDER=0 SRC="./images/edit.gif" WIDTH=16 HEIGHT=16 ALT="{TXT_EDIT}"></a>&nbsp;</td>
 </tr>
 <!-- END row -->
 
