@@ -3094,6 +3094,10 @@ class ilObjSurvey extends ilObject
 		return 0;
 	}
 
+	function getEvaluationForAllUsers()
+	{
+	}
+	
 /**
 * Calculates the evaluation data for a given user or anonymous id
 *

@@ -2554,12 +2554,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function evaluationuserObject()
 	{
+		//$this->object->getEvaluationByUser();
 	}
 	
 	function evaluationdetailsObject()
 	{
-//		$this->ctrl->setCmd("evaluationdetails");
-//		$this->ctrl->setCmdClass("ilobjsurveygui");
 		$this->evaluationObject(1);
 	}
 	

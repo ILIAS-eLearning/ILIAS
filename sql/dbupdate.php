@@ -5144,4 +5144,6 @@ CREATE TABLE `tst_test_random` (
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`test_random_id`)
 ) TYPE=MyISAM COMMENT='Questionpools taken for a random test';
+<#358>
+ALTER TABLE `survey_finished` ADD `anonymous_id` VARCHAR(32) AFTER  `user_fi` ;
 
