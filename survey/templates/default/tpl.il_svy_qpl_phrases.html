@@ -1,9 +1,9 @@
 <!-- BEGIN manage_phrases -->
 <p>{INTRODUCTION_MANAGE_PHRASES}</p>
-<form name="form_questions" method="POST" action="{FORM_ACTION}">
+<form name="form_phrases" method="POST" action="{FORM_ACTION}">
 <table class="fullwidth">
 <tr class="tblheader">
-<td></td>
+<td><input type="checkbox" name="chb_check_all" value="1" onclick="setCheckboxes('form_phrases', 'phrase_', document.form_phrases.chb_check_all.checked);" /></td>
 <td>{TEXT_PHRASE_TITLE}</td>
 <td>{TEXT_PHRASE_CONTENT}</td>
 </tr>
