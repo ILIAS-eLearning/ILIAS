@@ -66,14 +66,19 @@ class ilObjContentObject extends ilObject
 	/**
 	* create content object
 	*/
-	function create()
+	function create($a_upload = false)
 	{
 		parent::create();
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->setObject($this);
-		$this->meta_data->create();
 		$this->createProperties();
+		if (!$a_upload)
+		{
+			$this->meta_data->setId($this->getId());
+			$this->meta_data->setType($this->getType());
+			$this->meta_data->setTitle($this->getTitle());
+			$this->meta_data->setDescription($this->getDescription());
+			$this->meta_data->setObject($this);
+			$this->meta_data->create();
+		}
 	}
 
 	/**
@@ -143,6 +148,26 @@ class ilObjContentObject extends ilObject
 	{
 //		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*/
+	function setDescription($a_description)
+	{
+//		parent::setTitle($a_title);
+		$this->meta_data->setDescription($a_description);
 	}
 
 	/**

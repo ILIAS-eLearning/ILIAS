@@ -687,7 +687,7 @@ class ilContObjParser extends ilSaxParser
 					// Metadaten eines PageObjects sichern in NestedSet
 					if (is_object($this->lm_page_object))
 					{
-						$this->lm_page_object->create();
+						$this->lm_page_object->create(true);
 						//$this->page_object->createFromXML();
 
 						include_once("./classes/class.ilNestedSetXML.php");
@@ -709,7 +709,7 @@ class ilContObjParser extends ilSaxParser
 					}
 
 					// create structure object and put it in tree
-					$this->current_object->create();
+					$this->current_object->create(true);
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
 
@@ -718,7 +718,7 @@ class ilContObjParser extends ilSaxParser
 					$nested = new ilNestedSetXML();
 					$nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");
 				}
-				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule")
+				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjcontentobject")
 				{
 					// Metadaten eines ContentObjects sichern in NestedSet
 					include_once("./classes/class.ilNestedSetXML.php");

@@ -520,7 +520,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle("dummy");
 		$newObj->setDescription("dummy");
-		$newObj->create();
+		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
@@ -548,6 +548,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
+
+			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
+		$this->ilias->db->query($q);
 
 		header("Location: adm_object.php?".$this->link_params);
 		exit();

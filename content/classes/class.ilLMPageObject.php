@@ -86,16 +86,16 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object =& new ilPageObject($this->content_object->getType(), $this->id);
 	}
 
-	function create()
+	function create($a_upload = false)
 	{
-		parent::create();
+		parent::create($a_upload);
 		if(!is_object($this->page_object))
 		{
 			$this->page_object =& new ilPageObject($this->content_object->getType());
 		}
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($this->getLMId());
-		$this->page_object->create();
+		$this->page_object->create($a_upload);
 	}
 
 	/**

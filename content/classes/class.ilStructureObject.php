@@ -49,9 +49,9 @@ class ilStructureObject extends ilLMObject
 		parent::ilLMObject($a_content_obj, $a_id);
 	}
 
-	function create()
+	function create($a_upload = false)
 	{
-		parent::create();
+		parent::create($a_upload);
 	}
 
 	/**
