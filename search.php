@@ -19,7 +19,13 @@ if ($_POST["search"] != "")
 	if ($mySearch->execute() == true)
 	{
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("MSG", $mySearch->hits." ".$lng->txt("treffer"));
+
+		if ($mySearch->hits == 1)
+			$msg = "1 ".$lng->txt("hit");
+		else
+			$msg = $mySearch->hits." ".$lng->txt("hits");
+		
+		$tpl->setVariable("MSG", $msg);
 		$tpl->parseCurrentBlock();
 
 		foreach ($mySearch->result as $row)
