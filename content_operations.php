@@ -1,5 +1,5 @@
 <?php
-include_once "include/ilias_header.inc";
+require_once "include/ilias_header.inc";
 
 // Template generieren
 $tplContent = new Template("content_operations.html",true,true);
@@ -16,11 +16,11 @@ $tplContent->setVariable("TPOS",$_GET["parent"]);
 $tplContent->setVariable("PAR",$_GET["parent_parent"]);
 
 // determine sort direction
-if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+if (!$_GET["direction"] || $_GET["direction"] == 'ASC')
 {
 	$tplContent->setVariable("DIR",'DESC');
 }
-if($_GET["direction"] == 'DESC')
+if ($_GET["direction"] == 'DESC')
 {
 	$tplContent->setVariable("DIR",'ASC');
 }
@@ -33,6 +33,7 @@ $ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
 if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 {
 	$options = array("e" => "enabled","d" => "disabled");
+
 	foreach ($ops_arr as $key => $ops)
 	{
 		if (in_array($ops["ops_id"],$ops_valid))
@@ -60,6 +61,7 @@ if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 		$tplContent->setVariable("OPS_STATUS",$ops_options);
 		$tplContent->parseCurrentBlock("row");
 	}
+
 	$tplContent->touchBlock("options");
 }
 else
