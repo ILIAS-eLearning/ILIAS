@@ -480,7 +480,7 @@ class ilGroupGUI extends ilObjectGUI
 				"login"        => $member->getLogin(),
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
-				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3)
+				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,false,true,0)
 				);
 			unset($member);
 		}
@@ -2493,7 +2493,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
 
-			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
+			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$member->getLogin();
 			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 
 			if($member_id == $account_id)
