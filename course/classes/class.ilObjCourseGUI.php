@@ -1159,7 +1159,9 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status,(int) $_POST['passed']);
 
 		// NOTIFICATION
-		if($user_data["role"] != $role or $user_data["status"] != $status)
+		if($user_data["role"] != $role or 
+		   $user_data["status"] != $status or 
+		   $user_data['passed'] != (bool) $_POST['passed'])
 		{
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_STATUS_CHANGED,$_GET["member_id"]);
 		}
