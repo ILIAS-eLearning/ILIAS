@@ -189,10 +189,15 @@ class Mailbox
 	* add folder
 	* @param int id of parent folder
 	* @param string name of folder
+	* @param boolean
 	* @access	public
 	*/
 	function addFolder($a_parent_id,$a_folder_name)
 	{
+		if($this->folderNameExists($a_folder_name))
+		{
+			return false;
+		}
 		// ENTRY IN mail_obj_data
 		$query = "INSERT INTO $this->table_mail_obj_data ".
 			"SET user_id = '$this->user_id',".
@@ -207,19 +212,40 @@ class Mailbox
 	}
 
 	/**
-	* rename folder
+	* rename folder and check if the name already exists
 	* @param int id folder
 	* @param string new name of folder
+	* @return boolean
 	* @access	public
 	*/
 	function renameFolder($a_obj_id, $a_new_folder_name)
 	{
+		if($this->folderNameExists($a_new_folder_name))
+		{
+			return false;
+		}
 		$query = "UPDATE $this->table_mail_obj_data ".
 			"SET title = '".addslashes($a_new_folder_name)."' ".
 			"WHERE obj_id = '".$a_obj_id."'";
 		$res = $this->ilias->db->query($query);
 		
 		return true;
+	}
+
+	/**
+	* rename folder and check if the name already exists
+	* @param string new name of folder
+	* @return boolean
+	* @access	public
+	*/
+	function folderNameExists($a_folder_name)
+	{
+		$query = "SELECT obj_id FROM $this->table_mail_obj_data ".
+			"WHERE user_id = '".$this->user_id."' ".
+			"AND title = '".addslashes($a_folder_name)."'";
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+		return $row->obj_id ? true : false;
 	}
 
 	/**
@@ -241,13 +267,8 @@ class Mailbox
 		// DELETE ENTRY IN mobj_data
 		foreach($subtree as $node)
 		{
-			// DELETE mobj_data entries
-			$query = "DELETE FROM $this->table_mail_obj_data ".
-				"WHERE obj_id = '".$node["obj_id"]."'";
-			$res = $this->ilias->db->query($query);
-			
 			// DELETE mail(s) of folder(s)
-			$mails = $umail->getMailsOfFolder($a_folder_id);
+			$mails = $umail->getMailsOfFolder($node["obj_id"]);
 			foreach($mails as $mail)
 			{
 				$mail_ids[] = $mail["mail_id"];
@@ -256,6 +277,10 @@ class Mailbox
 			{
 				$umail->deleteMails($mail_ids);
 			}
+			// DELETE mobj_data entries
+			$query = "DELETE FROM $this->table_mail_obj_data ".
+				"WHERE obj_id = '".$node["obj_id"]."'";
+			$res = $this->ilias->db->query($query);
 		}
 		return true;
 	}
