@@ -95,6 +95,9 @@ table.fullwidth_invisible {
 
 td.std {
 	padding:4px;
+	border:solid;
+	border-color:#222222;
+	border-width:1px;
 }
 
 th.il_invisible, td.il_invisible {
@@ -154,6 +157,9 @@ td.option {
 	font-weight : bold;
 	vertical-align:top;
 	text-align:right;
+	border:solid;
+	border-color:#222222;
+	border-width:1px;
 }
 
 td.sub_option {
@@ -174,6 +180,9 @@ td.option_value {
 	font-size:13px;
 	vertical-align:top;
 	text-align:left;
+	border:solid;
+	border-color:#222222;
+	border-width:1px;
 }
 
 td.option_desc {
@@ -783,6 +792,9 @@ td.ilc_FileItem
 	border-right-width: 0px;
 	background-color: #FFFFFF;
 	padding: 3px;
+	border:solid;
+	border-color:#222222;
+	border-width:1px;
 }
 
 a.ilc_LMMenu
