@@ -36,7 +36,7 @@
 common#:#3rd_party_software#:#Oprogramowanie innych firm###09 Jan 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
-common#:#absolute_path#:#ÅscieÅ¼ka bezwzglÄ?dna
+common#:#absolute_path#:#ÅšcieÅ¼ka bezwzglÄ™dna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Akces
 common#:#action_aborted#:#Akcja anulowana
@@ -44,8 +44,8 @@ common#:#actions#:#Akcje
 common#:#active_roles#:#Aktywnne stanowiska
 common#:#add#:#Dodaj
 common#:#add_author#:#dodaj autora
-common#:#add_member#:#dodaj czÅ,onka
-common#:#add_translation#:#dodaj tÅ,umaczenie
+common#:#add_member#:#dodaj czÅ‚onka
+common#:#add_translation#:#dodaj tÅ‚umaczenie
 common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
 common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
@@ -56,48 +56,48 @@ common#:#administrator#:#Administrator
 common#:#adopt#:#Przejmij
 common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu stanowiska
 common#:#all_objects#:#Wszystkie obiekty
-common#:#allow_register#:#dostÄ?pne na formularzu rejestracyjnym dla nowego uÅ¼ytkownika
+common#:#allow_register#:#dostÄ™pne na formularzu rejestracyjnym dla nowego uÅ¼ytkownika
 common#:#and#:#i
-common#:#announce#:#OgÅ,oÅ>
-common#:#announce_changes#:#OgÅ,oÅ> zmiany
+common#:#announce#:#OgÅ‚oÅ›
+common#:#announce_changes#:#OgÅ‚oÅ› zmiany
 common#:#answers#:#Odpowiedzi
 common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
 common#:#application_date#:#Data utworzenia aplikacji
 common#:#appointment#:#UmÃ³wiony termin
-common#:#appointment_list#:#Lista umÃ³wionych spotkaÅ?
+common#:#appointment_list#:#Lista umÃ³wionych spotkaÅ„
 common#:#archive#:#Archiwuj
-common#:#are_you_sure#:#JesteÅ> pewien?
+common#:#are_you_sure#:#JesteÅ› pewien?
 common#:#assign#:#Przydziel
 common#:#assign_lo_forum#:#Przydziel forum (PN)
 common#:#assign_user_to_role#:#Przydziel uÅ¼ytkownikowi stanowisko
 common#:#at_location#:#w miejscu
-common#:#attachment#:#ZaÅ,Ä?cznik
-common#:#attachments#:#ZaÅ,Ä?czniki
+common#:#attachment#:#ZaÅ‚Ä…cznik
+common#:#attachments#:#ZaÅ‚Ä…czniki
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
-common#:#available_languages#:#dostÄ?pne jÄ?zyki
+common#:#available_languages#:#dostÄ™pne jÄ™zyki
 common#:#back#:#PowrÃ³t
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dane podstawowe
-common#:#bm#:#ZakÅ,adka
-common#:#bmf#:#Folder zakÅ,adek
-common#:#bookmark_edit#:#Edytuj zakÅ,adkÄ?
-common#:#bookmark_folder_edit#:#Edytuj folder zakÅ,adek
-common#:#bookmark_folder_new#:#Nowy folder zakÅ,adek
-common#:#bookmark_new#:#Nowa zakÅ,adka
+common#:#bm#:#ZakÅ‚adka
+common#:#bmf#:#Folder zakÅ‚adek
+common#:#bookmark_edit#:#Edytuj zakÅ‚adkÄ™
+common#:#bookmark_folder_edit#:#Edytuj folder zakÅ‚adek
+common#:#bookmark_folder_new#:#Nowy folder zakÅ‚adek
+common#:#bookmark_new#:#Nowa zakÅ‚adka
 common#:#bookmark_target#:#Przeznacznie
-common#:#bookmarks#:#ZakÅ,adki
-common#:#bookmarks_of#:#ZakÅ,adki do
-common#:#btn_remove_system#:#UsuÅ? z systemu
-common#:#btn_undelete#:#PrzywrÃ³Ä?
+common#:#bookmarks#:#ZakÅ‚adki
+common#:#bookmarks_of#:#ZakÅ‚adki do
+common#:#btn_remove_system#:#UsuÅ„ z systemu
+common#:#btn_undelete#:#PrzywrÃ³Ä‡
 common#:#by#:#Przez
 common#:#calendar#:#Kalendarz
 common#:#cancel#:#Anuluj
-common#:#cannot_uninstall_language_in_use#:#Nie moÅ¼esz odinstalowaÄ? uÅ¼ywanego jÄ?zyka!
-common#:#cannot_uninstall_systemlanguage#:#Nie moÅ¼esz odinstalowaÄ? jÄ?zyka systemu!
+common#:#cannot_uninstall_language_in_use#:#Nie moÅ¼esz odinstalowaÄ‡ uÅ¼ywanego jÄ™zyka!
+common#:#cannot_uninstall_systemlanguage#:#Nie moÅ¼esz odinstalowaÄ‡ jÄ™zyka systemu!
 common#:#cat#:#Kategoria
 common#:#cat_a#:#kategoria###13 Jan 2004 content changed
-common#:#cat_add#:#Dodaj kategoriÄ?
+common#:#cat_add#:#Dodaj kategoriÄ™
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_create#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
@@ -110,7 +110,7 @@ common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
 common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
-common#:#cat_edit#:#Edytuj kategoriÄ?
+common#:#cat_edit#:#Edytuj kategoriÄ™
 common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#cat_new#:#Nowa kategoria###13 Jan 2004 content changed
 common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
@@ -119,34 +119,34 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#Kategorie
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
-common#:#change#:#ZmieÅ?
-common#:#change_active_assignment#:#ZmieÅ? aktywny przydziaÅ,
-common#:#change_assignment#:#ZmieÅ? przydziaÅ,
-common#:#change_existing_objects#:#zmieÅ? istniejÄ?ce obiekty
-common#:#change_lo_info#:#ZmieÅ? Informacje (PN)
-common#:#change_metadata#:#ZmieÅ? Metadane
-common#:#change_sort_direction#:#ZmieÅ? kierunek sortowania
+common#:#change#:#ZmieÅ„
+common#:#change_active_assignment#:#ZmieÅ„ aktywny przydziaÅ‚
+common#:#change_assignment#:#ZmieÅ„ przydziaÅ‚
+common#:#change_existing_objects#:#zmieÅ„ istniejÄ…ce obiekty
+common#:#change_lo_info#:#ZmieÅ„ Informacje (PN)
+common#:#change_metadata#:#ZmieÅ„ Metadane
+common#:#change_sort_direction#:#ZmieÅ„ kierunek sortowania
 common#:#changed_to#:#zmienione na
-common#:#chapter#:#RozdziaÅ,
-common#:#chapter_number#:#Numer rozdziaÅ,u
-common#:#chapter_title#:#TytuÅ, rozdziaÅ,u
+common#:#chapter#:#RozdziaÅ‚
+common#:#chapter_number#:#Numer rozdziaÅ‚u
+common#:#chapter_title#:#TytuÅ‚ rozdziaÅ‚u
 common#:#check#:#SprawdÅº
-common#:#check_langfile#:#SprawdÅº swÃ³j plik jÄ?zykowy
-common#:#check_languages#:#SprawdÅº jÄ?zyki
+common#:#check_langfile#:#SprawdÅº swÃ³j plik jÄ™zykowy
+common#:#check_languages#:#SprawdÅº jÄ™zyki
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
-common#:#chg_language#:#ZmieÅ? jÄ?zyk
-common#:#chg_password#:#ZmieÅ? hasÅ,o
-common#:#choose_language#:#wybierz swÃ³j jÄ?zyk
+common#:#chg_language#:#ZmieÅ„ jÄ™zyk
+common#:#chg_password#:#ZmieÅ„ hasÅ‚o
+common#:#choose_language#:#wybierz swÃ³j jÄ™zyk
 common#:#choose_location#:#wybierz miejsce
-common#:#choose_only_one_language#:#Wybierz tylko jeden jÄ?zyk
+common#:#choose_only_one_language#:#Wybierz tylko jeden jÄ™zyk
 common#:#city#:#Miasto
-common#:#clear#:#WyczyÅ>Ä?
+common#:#clear#:#WyczyÅ›Ä‡
 common#:#client_id#:#ID Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#comma_separated#:#Odzielony przecinkiem
 common#:#comment#:#komentarz
-common#:#compose#:#UtwÃ³rz nowÄ?
+common#:#compose#:#UtwÃ³rz nowÄ…
 common#:#confirm#:#ZatwierdÅº
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
@@ -162,8 +162,8 @@ common#:#create_stylesheet#:#TwÃ³rz styl
 common#:#crs#:#Kurs
 common#:#crs_a#:#Kurs
 common#:#crs_add#:#Dodaj kurs
-common#:#crs_added#:#Kurs zostaÅ, dodany
-common#:#crs_available#:#DostÄ?pne kursy
+common#:#crs_added#:#Kurs zostaÅ‚ dodany
+common#:#crs_available#:#DostÄ™pne kursy
 common#:#crs_create#:#Create Course###13 Jan 2004 new variable
 common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
 common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
@@ -174,57 +174,57 @@ common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
 common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
-common#:#crs_management_system#:#System zarzÄ?dzania kursami
+common#:#crs_management_system#:#System zarzÄ…dzania kursami
 common#:#crs_new#:#Nowy kurs
 common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
 common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
 common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
-common#:#current_password#:#Aktualne hasÅ,o
+common#:#current_password#:#Aktualne hasÅ‚o
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
 common#:#database#:#Baza danych
-common#:#database_version#:#Wersja biezÄ?cej bazy danych
+common#:#database_version#:#Wersja biezÄ…cej bazy danych
 common#:#dataset#:#Zestaw Danych
 common#:#date#:#Data
 common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
-common#:#day#:#DzieÅ?
+common#:#day#:#DzieÅ„
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
 common#:#db_need_update#:#Baza danych wymaga uaktualnienia!
-common#:#db_pass#:#HasÅ,o do bazy danych
+common#:#db_pass#:#HasÅ‚o do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#UÅ¼ytkownik bazy danych
 common#:#db_version#:#Wersja bazy danych
-common#:#dbk#:#KsiÄ?Å¼ka Digilib
-common#:#dbk_a#:#KsiÄ?Å¼ka Digilib
-common#:#dbk_add#:#Dodaj KsiÄ?Å¼kÄ? Digilib
-common#:#dbk_added#:#KsiÄ?Å¼ka Digilib zostaÅ,a dodana
+common#:#dbk#:#KsiÄ…Å¼ka Digilib
+common#:#dbk_a#:#KsiÄ…Å¼ka Digilib
+common#:#dbk_add#:#Dodaj KsiÄ…Å¼kÄ™ Digilib
+common#:#dbk_added#:#KsiÄ…Å¼ka Digilib zostaÅ‚a dodana
 common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
 common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
 common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#dbk_new#:#Nowa ksiÄ?Å¼ka Digilib
+common#:#dbk_new#:#Nowa ksiÄ…Å¼ka Digilib
 common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
 common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
-common#:#default#:#DomyÅ>lne
-common#:#default_language#:#DomyÅ>lny jÄ?zyk
+common#:#default#:#DomyÅ›lne
+common#:#default_language#:#DomyÅ›lny jÄ™zyk
 common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
-common#:#default_role#:#DomyÅ>lne stanowisko
-common#:#default_roles#:#DomyÅ>lne stanowiska
-common#:#default_skin#:#DomyÅ>lna skÃ³rka
-common#:#default_skin_style#:#DomyÅ>lna SkÃ³rka / Styl
-common#:#default_style#:#DomyÅ>lny styl
-common#:#delete#:#UsuÅ?
-common#:#delete_all#:#UsuÅ? wszystko
-common#:#delete_object#:#UsuÅ? obiekt(y)
-common#:#delete_selected#:#UsuÅ? wybrane
-common#:#deleted#:#UsuniÄ?te
+common#:#default_role#:#DomyÅ›lne stanowisko
+common#:#default_roles#:#DomyÅ›lne stanowiska
+common#:#default_skin#:#DomyÅ›lna skÃ³rka
+common#:#default_skin_style#:#DomyÅ›lna SkÃ³rka / Styl
+common#:#default_style#:#DomyÅ›lny styl
+common#:#delete#:#UsuÅ„
+common#:#delete_all#:#UsuÅ„ wszystko
+common#:#delete_object#:#UsuÅ„ obiekt(y)
+common#:#delete_selected#:#UsuÅ„ wybrane
+common#:#deleted#:#UsuniÄ™te
 common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#description#:#Opis
-common#:#desired_password#:#Nowe hasÅ,o
-common#:#disabled#:#WyÅ,Ä?czony
+common#:#desired_password#:#Nowe hasÅ‚o
+common#:#disabled#:#WyÅ‚Ä…czony
 common#:#down#:#Down
 common#:#download#:#Pobierz
 common#:#drafts#:#Szkice
@@ -232,61 +232,61 @@ common#:#drop#:#Drop
 common#:#edit#:#Edytuj
 common#:#edit_data#:#edytuj dane
 common#:#edit_operations#:#Edytuj operacje
-common#:#edit_properties#:#Edytuj wÅ,aÅ>ciwoÅ>ci
+common#:#edit_properties#:#Edytuj wÅ‚aÅ›ciwoÅ›ci
 common#:#edit_stylesheet#:#Edytuj styl
 common#:#edited_at#:#Edytowany
 common#:#editor#:#Edytor
 common#:#email#:#Poczta elektroniczna
-common#:#email_not_valid#:#Wprowadzony adres email jest nieprawidÅ,owy!
+common#:#email_not_valid#:#Wprowadzony adres email jest nieprawidÅ‚owy!
 common#:#enable#:#Wybierz
-common#:#enable_registration#:#Wybierz rejestracjÄ? nowego uÅ¼ytkownika
+common#:#enable_registration#:#Wybierz rejestracjÄ™ nowego uÅ¼ytkownika
 common#:#enabled#:#Wybrany
 common#:#enumerate#:#Wylicz
 common#:#err_1_param#:#Tylko 1 parametr!
 common#:#err_2_param#:#Tylko 2 parametr!
-common#:#err_count_param#:#PowÃ³d: ZÅ,a iloÅ>Ä? parametrÃ³w
-common#:#err_in_line#:#BlÄ?d w linii
-common#:#err_no_langfile_found#:#Nie znaleziono pliku jÄ?zykowego!
+common#:#err_count_param#:#PowÃ³d: ZÅ‚a iloÅ›Ä‡ parametrÃ³w
+common#:#err_in_line#:#BlÄ…d w linii
+common#:#err_no_langfile_found#:#Nie znaleziono pliku jÄ™zykowego!
 common#:#err_no_param#:#Brak parametru!
-common#:#err_over_3_param#:#WiÄ?cej niÅ¼ 3 parametry!
+common#:#err_over_3_param#:#WiÄ™cej niÅ¼ 3 parametry!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
-common#:#err_session_expired#:#YTwoja sesja siÄ? zakoÅ?czyÅ,a!
-common#:#err_wrong_header#:#PowÃ³d: ZÅ,y nagÅ,Ã³wek.
-common#:#err_wrong_login#:#ZÅ,y login (pseudonim)
-common#:#error_recipient#:#Odbiorca bÅ,Ä?du
-common#:#exc#:#Ä?wiczenie
-common#:#exc_add#:#Dodaj Ä?wiczenie
-common#:#exc_added#:#Ä?wiczenie zostaÅ,o dodane
-common#:#exc_ask_delete#:#UsunÄ?Ä? plik?
+common#:#err_session_expired#:#YTwoja sesja siÄ™ zakoÅ„czyÅ‚a!
+common#:#err_wrong_header#:#PowÃ³d: ZÅ‚y nagÅ‚Ã³wek.
+common#:#err_wrong_login#:#ZÅ‚y login (pseudonim)
+common#:#error_recipient#:#Odbiorca bÅ‚Ä™du
+common#:#exc#:#Ä†wiczenie
+common#:#exc_add#:#Dodaj Ä‡wiczenie
+common#:#exc_added#:#Ä†wiczenie zostaÅ‚o dodane
+common#:#exc_ask_delete#:#UsunÄ…Ä‡ plik?
 common#:#exc_assign_usr#:#Przydziel uÅ¼ytkownika
 common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
-common#:#exc_date_not_valid#:#Data jest nieprawidÅ,owa
-common#:#exc_deassign_members#:#UsuÅ? czÅ,onka(Ã³w)
+common#:#exc_date_not_valid#:#Data jest nieprawidÅ‚owa
+common#:#exc_deassign_members#:#UsuÅ„ czÅ‚onka(Ã³w)
 common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
-common#:#exc_edit#:#Nowe Ä?wiczenie zostaÅ,o utworzone
-common#:#exc_edit_exercise#:#Edytuj Ä?wiczenie
+common#:#exc_edit#:#Nowe Ä‡wiczenie zostaÅ‚o utworzone
+common#:#exc_edit_exercise#:#Edytuj Ä‡wiczenie
 common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#exc_edit_until#:#Edytuj aÅ¼ do
 common#:#exc_files#:#Pliki
 common#:#exc_groups#:#Grupy
-common#:#exc_header_members#:#Ä?wiczenie(czÅ,onkowie)
-common#:#exc_instruction#:#Instrukcja obsÅ,ugi
-common#:#exc_members_already_assigned#:#Ten uÅ¼ytkownik jest juÅ¼ przydzielony do tego Ä?wiczenia
-common#:#exc_members_assigned#:#Przydzieleni czÅ,onkowie
-common#:#exc_new#:#Nowe Ä?wiczenie
-common#:#exc_no_members_assigned#:#Brak przydzielonych czÅ,onkÃ³w
+common#:#exc_header_members#:#Ä†wiczenie(czÅ‚onkowie)
+common#:#exc_instruction#:#Instrukcja obsÅ‚ugi
+common#:#exc_members_already_assigned#:#Ten uÅ¼ytkownik jest juÅ¼ przydzielony do tego Ä‡wiczenia
+common#:#exc_members_assigned#:#Przydzieleni czÅ‚onkowie
+common#:#exc_new#:#Nowe Ä‡wiczenie
+common#:#exc_no_members_assigned#:#Brak przydzielonych czÅ‚onkÃ³w
 common#:#exc_notices#:#Uwagi
-common#:#exc_obj#:#Ä?wiczenie
+common#:#exc_obj#:#Ä†wiczenie
 common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
 common#:#exc_save_changes#:#Zachowaj
 common#:#exc_search_for#:#Szukaj
 common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
-common#:#exc_send_exercise#:#WyÅ>lij Ä?wiczenie
-common#:#exc_sent#:#Ä?wiczenie zostaÅ,o wysÅ,ane do wybranego uÅ¼ytkownika.
+common#:#exc_send_exercise#:#WyÅ›lij Ä‡wiczenie
+common#:#exc_sent#:#Ä†wiczenie zostaÅ‚o wysÅ‚ane do wybranego uÅ¼ytkownika.
 common#:#exc_status_returned#:#ZwrÃ³cone
-common#:#exc_status_saved#:#Ä?wiczenie zostaÅ,o uaktualnione
-common#:#exc_status_solved#:#RozwiÄ?zane
-common#:#exc_upload_error#:#BÅ,Ä?d podczas wysyÅ,ania Ä?wiczenia.
+common#:#exc_status_saved#:#Ä†wiczenie zostaÅ‚o uaktualnione
+common#:#exc_status_solved#:#RozwiÄ…zane
+common#:#exc_upload_error#:#BÅ‚Ä…d podczas wysyÅ‚ania Ä‡wiczenia.
 common#:#exc_users#:#UÅ¼ytkownicy
 common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
 common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
@@ -294,23 +294,23 @@ common#:#excs#:#Exercises###17 Dec 2003 new variable
 common#:#execute#:#Wykonaj
 common#:#export_html#:#eksportuj jako plik html
 common#:#export_xml#:#eksportuj jako plik xml
-common#:#faq_exercise#:#Ä?wiczenie (FAQ)
+common#:#faq_exercise#:#Ä†wiczenie (FAQ)
 common#:#fax#:#Faks
 common#:#feedback#:#Informacja systemowa
 common#:#feedback_recipient#:#Odbiorca
 common#:#file#:#Plik
 common#:#file_a#:#Plik
-common#:#file_add#:#WyÅ>lij plik
-common#:#file_added#:#Plik zaÅ,adowany
+common#:#file_add#:#WyÅ›lij plik
+common#:#file_added#:#Plik zaÅ‚adowany
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik niewaÅ¼ny!
 common#:#file_valid#:#Plik waÅ¼ny!
 common#:#file_version#:#Versja podana w pliku
 common#:#files_location#:#Miejsce plikÃ³w
-common#:#fill_out_all_required_fields#:#WypÄ?Å,nij wszystkie konieczne pola
-common#:#firstname#:#ImiÄ?
-common#:#flatview#:#Widok pÅ,aski
+common#:#fill_out_all_required_fields#:#WypÄ™Å‚nij wszystkie konieczne pola
+common#:#firstname#:#ImiÄ™
+common#:#flatview#:#Widok pÅ‚aski
 common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
@@ -318,12 +318,12 @@ common#:#fold_added#:#Folder dodany
 common#:#fold_new#:#Nowy Folder
 common#:#folder#:#folder###11 Dec 2003 new variable
 common#:#folders#:#Foldery
-common#:#force_accept_usr_agreement#:#Musisz zaakceptowaÄ? zgodÄ? uÅ¼ytkownika.
+common#:#force_accept_usr_agreement#:#Musisz zaakceptowaÄ‡ zgodÄ™ uÅ¼ytkownika.
 common#:#forename#:#Nazwisko
-common#:#form_empty_fields#:#WypeÅ,nij te pola:
+common#:#form_empty_fields#:#WypeÅ‚nij te pola:
 common#:#forum#:#Forum
 common#:#forums#:#Fora
-common#:#forums_overview#:#PrzeglÄ?d forÃ³w
+common#:#forums_overview#:#PrzeglÄ…d forÃ³w
 common#:#frm#:#Forum
 common#:#frm_a#:#Forum
 common#:#frm_add#:#dodaj Forum
@@ -339,64 +339,64 @@ common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
 common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
 common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
 common#:#from#:#Od
-common#:#fullname#:#PeÅ,na nazwa
+common#:#fullname#:#PeÅ‚na nazwa
 common#:#functions#:#Funkcje
-common#:#gdf_add#:#dodaj DefinicjÄ?
+common#:#gdf_add#:#dodaj DefinicjÄ™
 common#:#gdf_new#:#Nowa Definicja
-common#:#gender#:#PÅ,eÄ?
+common#:#gender#:#PÅ‚eÄ‡
 common#:#gender_f#:#Kobieta
-common#:#gender_m#:#MÄ?Å¼czyzna
+common#:#gender_m#:#MÄ™Å¼czyzna
 common#:#generate#:#Generuj
-common#:#glo#:#SÅ,ownik
-common#:#glo_a#:#SÅ,ownik
-common#:#glo_add#:#Dodaj sÅ,ownia
-common#:#glo_added#:#SÅ,ownik zostaÅ, dodany###13 Jan 2004 content changed
+common#:#glo#:#SÅ‚ownik
+common#:#glo_a#:#SÅ‚ownik
+common#:#glo_add#:#Dodaj sÅ‚ownia
+common#:#glo_added#:#SÅ‚ownik zostaÅ‚ dodany###13 Jan 2004 content changed
 common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
 common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
 common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
 common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
-common#:#glo_new#:#Nowy sÅ,ownik
+common#:#glo_new#:#Nowy sÅ‚ownik
 common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
 common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
 common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
-common#:#glossaries#:#SÅ,owniki
-common#:#glossary#:#SÅ,ownik
-common#:#glossary_added#:#SÅ,ownik zostaÅ, dodany
-common#:#group_access_denied#:#DostÄ?p zabroniony
-common#:#group_any_objects#:#Obiekty podrzÄ?dne niedostÄ?pne
+common#:#glossaries#:#SÅ‚owniki
+common#:#glossary#:#SÅ‚ownik
+common#:#glossary_added#:#SÅ‚ownik zostaÅ‚ dodany
+common#:#group_access_denied#:#DostÄ™p zabroniony
+common#:#group_any_objects#:#Obiekty podrzÄ™dne niedostÄ™pne
 common#:#group_desc#:#Opis grupy
-common#:#group_details#:#SzczegÃ³Å,y grupy
+common#:#group_details#:#SzczegÃ³Å‚y grupy
 common#:#group_filesharing#:#Group File Sharing
-common#:#group_members#:#CzÅ,onkowie grupy
-common#:#group_memstat#:#Status czÅ,onka
+common#:#group_members#:#CzÅ‚onkowie grupy
+common#:#group_memstat#:#Status czÅ‚onka
 common#:#group_memstat_admin#:#Administrator
-common#:#group_memstat_member#:#CzÅ,onek
+common#:#group_memstat_member#:#CzÅ‚onek
 common#:#group_name#:#Nazwa grupy
 common#:#group_new_registrations#:#Nowe rejestracje
 common#:#group_no_registration#:#Rejestracja nie jest konieczna
-common#:#group_no_registration_msg#:#Nie jesteÅ> czÅ,onkiem tej grupy. Jest poÅ¼Ä?dane aby naleÅ¼eÄ? do grupy.<br> Jako czÅ,onek masz przywileje:<br>- Dostaniesz informacjÄ? o nowych uaktualnieniach.<br>- Masz dostÄ?p np do forum, moduÅ,Ã³w nauczania, itp.<br><br>MoÅ¼esz zrezygnowaÄ? z czÅ,onkostwa w kaÅ¼dej chwili.
-common#:#group_not_available#:#Å»adna grupa nie jest dostÄ?pna
+common#:#group_no_registration_msg#:#Nie jesteÅ› czÅ‚onkiem tej grupy. Jest poÅ¼Ä…dane aby naleÅ¼eÄ‡ do grupy.<br> Jako czÅ‚onek masz przywileje:<br>- Dostaniesz informacjÄ™ o nowych uaktualnieniach.<br>- Masz dostÄ™p np do forum, moduÅ‚Ã³w nauczania, itp.<br><br>MoÅ¼esz zrezygnowaÄ‡ z czÅ‚onkostwa w kaÅ¼dej chwili.
+common#:#group_not_available#:#Å»adna grupa nie jest dostÄ™pna
 common#:#group_objects#:#Obiekty grupy
-common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minÄ?Å,.  Skontakuj siÄ? z wÅ,aÅ>cicielem grupy lub administratorem
-common#:#group_password_registration_msg#:#Aby przystÄ?piÄ? do tej grupy musisz podaÄ? hasÅ,o dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeÅ>li hasÅ,o bÄ?dzie poprawne.
+common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minÄ…Å‚.  Skontakuj siÄ™ z wÅ‚aÅ›cicielem grupy lub administratorem
+common#:#group_password_registration_msg#:#Aby przystÄ…piÄ‡ do tej grupy musisz podaÄ‡ hasÅ‚o dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeÅ›li hasÅ‚o bÄ™dzie poprawne.
 common#:#group_registration_expiration_date#:#Rejestracja do
-common#:#group_registration_expiration_time#:#Data waÅ¼noÅ>ci
-common#:#group_registration_expired#:#Okres rejestracji minÄ?Å,.
+common#:#group_registration_expiration_time#:#Data waÅ¼noÅ›ci
+common#:#group_registration_expired#:#Okres rejestracji minÄ…Å‚.
 common#:#group_registration_mode#:#Tryb rejestracji
-common#:#group_req_password#:#Wymagane hasÅ,o rejestracji
+common#:#group_req_password#:#Wymagane hasÅ‚o rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
-common#:#group_req_registration_msg#:#aby przystÄ?piÄ? do tej grupy, musisz siÄ? zarejestrowaÄ?. Administrator grupy przydzieli CiÄ? do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomoÅ>Ä? o przydziale do grupy.
-common#:#group_reset#:#PrzywrÃ³Ä? ustawienia domyslne grupy
+common#:#group_req_registration_msg#:#aby przystÄ…piÄ‡ do tej grupy, musisz siÄ™ zarejestrowaÄ‡. Administrator grupy przydzieli CiÄ™ do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomoÅ›Ä‡ o przydziale do grupy.
+common#:#group_reset#:#PrzywrÃ³Ä‡ ustawienia domyslne grupy
 common#:#group_status#:#Status grupy
-common#:#group_status_closed#:#ZamkniÄ?ta
+common#:#group_status_closed#:#ZamkniÄ™ta
 common#:#group_status_public#:#Publiczna
 common#:#groups#:#Grupy
-common#:#groups_overview#:#PrzeglÄ?d grup
+common#:#groups_overview#:#PrzeglÄ…d grup
 common#:#grp#:#Grupa
 common#:#grp_a#:#Grupa
-common#:#grp_add#:#Dodaj GrupÄ?
-common#:#grp_added#:#Grupa zostaÅ,a dodana
+common#:#grp_add#:#Dodaj GrupÄ™
+common#:#grp_added#:#Grupa zostaÅ‚a dodana
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
 common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
 common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
@@ -404,77 +404,77 @@ common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
-common#:#grp_edit#:#Edytuj GrupÄ?
+common#:#grp_edit#:#Edytuj GrupÄ™
 common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#grp_err_administrator_required#:#Ten czÅ,onek grupy nie moÅ¼e byÄ? usuniÄ?ty, powinien byÄ? conajmniej jeden admninistrator grupy!
+common#:#grp_err_administrator_required#:#Ten czÅ‚onek grupy nie moÅ¼e byÄ‡ usuniÄ™ty, powinien byÄ‡ conajmniej jeden admninistrator grupy!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
 common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
-common#:#grp_err_last_member#:#Ostatni czÅ,onek grupy nie moÅ¼e byÄ? usuniÄ?ty, usuÅ? raczej grupÄ?.
-common#:#grp_err_member_could_not_be_removed#:#CzÅ,onek grupy nie moÅ¼e byÄ? usuniÄ?ty. SprawdÅº wszystkie zaleÅ¼noÅ>ci dotyczÄ?ce tego uÅ¼ytkownika.
-common#:#grp_err_no_permission#:#Nie masz uprawnieÅ? do wykonania tej operacji.
-common#:#grp_err_registration_data#:#Podaj hasÅ,o, datÄ? i czas waÅ¼noÅ>ci dla okresu rejestracji!
+common#:#grp_err_last_member#:#Ostatni czÅ‚onek grupy nie moÅ¼e byÄ‡ usuniÄ™ty, usuÅ„ raczej grupÄ™.
+common#:#grp_err_member_could_not_be_removed#:#CzÅ‚onek grupy nie moÅ¼e byÄ‡ usuniÄ™ty. SprawdÅº wszystkie zaleÅ¼noÅ›ci dotyczÄ…ce tego uÅ¼ytkownika.
+common#:#grp_err_no_permission#:#Nie masz uprawnieÅ„ do wykonania tej operacji.
+common#:#grp_err_registration_data#:#Podaj hasÅ‚o, datÄ™ i czas waÅ¼noÅ›ci dla okresu rejestracji!
 common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
 common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
-common#:#grp_mem_change_status#:#ZmieÅ? status czÅ,onka
-common#:#grp_mem_leave#:#Wyklucz czÅ,onka grupy
-common#:#grp_mem_send_mail#:#WyÅ>lij czÅ,onkowi wiadomoÅ>Ä?
+common#:#grp_mem_change_status#:#ZmieÅ„ status czÅ‚onka
+common#:#grp_mem_leave#:#Wyklucz czÅ‚onka grupy
+common#:#grp_mem_send_mail#:#WyÅ›lij czÅ‚onkowi wiadomoÅ›Ä‡
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
-common#:#grp_name_exists#:#JuÅ¼ jest grupa o takiej samej nazwie! Wybierz innÄ? nazwÄ?.
+common#:#grp_name_exists#:#JuÅ¼ jest grupa o takiej samej nazwie! Wybierz innÄ… nazwÄ™.
 common#:#grp_new#:#Nowa Grupa
 common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
-common#:#grp_register#:#Zarejestruj siÄ?
+common#:#grp_register#:#Zarejestruj siÄ™
 common#:#grp_registration_completed#:#Rejestracja dokonana
 common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
 common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
-common#:#guest#:#GoÅ>Ä?
-common#:#guests#:#GoÅ>cie
+common#:#guest#:#GoÅ›Ä‡
+common#:#guests#:#GoÅ›cie
 common#:#help#:#Pomoc
-common#:#hide_details#:#ukryj szczegÃ³Å,y
-common#:#hide_structure#:#WyÅ,Ä?cz widok strukturalny
+common#:#hide_details#:#ukryj szczegÃ³Å‚y
+common#:#hide_structure#:#WyÅ‚Ä…cz widok strukturalny
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
-common#:#http_path#:#ÅscieÅ¼ka http
+common#:#http_path#:#ÅšcieÅ¼ka http
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
-common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj siÄ? z administratorem systemu i sprawdÅº Å>cieÅ¼kÄ? konwersji.
+common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj siÄ™ z administratorem systemu i sprawdÅº Å›cieÅ¼kÄ™ konwersji.
 common#:#import#:#Import
-common#:#import_lm#:#Importuj moduÅ, nauczania
+common#:#import_lm#:#Importuj moduÅ‚ nauczania
 common#:#import_slm#:#Importuj pakiet SCORM
 common#:#in#:#w
-common#:#in_use#:#jÄ?zyk uÅ¼ytkownika
+common#:#in_use#:#jÄ™zyk uÅ¼ytkownika
 common#:#inbox#:#Skrzynka odbiorcza
-common#:#info_assign_sure#:#JesteÅ> pewien, Å¼e chcesz przydzieliÄ? nastÄ?pujÄ?cych uÅ¼ytkownikÃ³w?
-common#:#info_delete_sure#:#JesteÅ> pewien, Å¼e chcesz usunÄ?Ä?  nastÄ?pujÄ?ce obiekty?
-common#:#info_deleted#:#Obiekty zostaÅ,y usuniÄ?te
-common#:#info_trash#:#UsuniÄ?te obiekty
-common#:#inform_user_mail#:#WyÅ>lij email aby poinformowaÄ? uÅ¼ytkownika o zmianach
+common#:#info_assign_sure#:#JesteÅ› pewien, Å¼e chcesz przydzieliÄ‡ nastÄ™pujÄ…cych uÅ¼ytkownikÃ³w?
+common#:#info_delete_sure#:#JesteÅ› pewien, Å¼e chcesz usunÄ…Ä‡  nastÄ™pujÄ…ce obiekty?
+common#:#info_deleted#:#Obiekty zostaÅ‚y usuniÄ™te
+common#:#info_trash#:#UsuniÄ™te obiekty
+common#:#inform_user_mail#:#WyÅ›lij email aby poinformowaÄ‡ uÅ¼ytkownika o zmianach
 common#:#information_abbr#:#Informacje
 common#:#ingmedia_all_offers#:#Wszystkie LE
 common#:#ingmedia_back_to_le#:#PowrÃ³t do LE
-common#:#ingmedia_good_afternoon#:#DzieÅ? dobry
+common#:#ingmedia_good_afternoon#:#DzieÅ„ dobry
 common#:#ingmedia_good_evening#:#Dobry wieczÃ³r
-common#:#ingmedia_good_morning#:#DzieÅ? dobry
+common#:#ingmedia_good_morning#:#DzieÅ„ dobry
 common#:#ingmedia_good_night#:#Dobranoc
-common#:#ingmedia_hello#:#CzeÅ>Ä?
+common#:#ingmedia_hello#:#CzeÅ›Ä‡
 common#:#ingmedia_info_about_work1#:#Na
 common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
 common#:#ingmedia_level_zero#:#Poziom wyÅ¼ej
 common#:#ingmedia_pers_dates#:#Dane osobowe
 common#:#ingmedia_reg_fo#:#Zarejestrowane fora
 common#:#ingmedia_reg_le#:#Zarejestrowane LE
-common#:#ingmedia_use_info1#:#Tu moÅ¼esz zmieniÄ? swoje dane osobowe. OprÃ³cz nazwy uÅ¼ytkownika INGMEDIA i hasÅ,a nie musisz wypeÅ,niaÄ? innych pÃ³l. PamiÄ?taj, Å¼e zapomniane hasÅ,o moÅ¼e byÄ? tylko otrzymane za pomocÄ? poczty elektronicznej (!).
-common#:#ingmedia_use_info2#:#Nie moÅ¼na stosowaÄ? znakÃ³w specjalnych (takich jak , ; . = - * + #) w twojej nazwie uÅ¼ytkownika INGMEDIA i haÅ>le. Aby mÃ³c uÅ¼ywaÄ? platformy INGMEDIA musisz zaakceptowaÄ? zgodÄ? uÅ¼ytkownika.
-common#:#ingmedia_use_info3#:#Wybierz jedno z poÅ,Ä?czeÅ? z listy.
-common#:#ingmedia_use_title#:#ZmieÅ? dane uÅ¼ytkownika.
+common#:#ingmedia_use_info1#:#Tu moÅ¼esz zmieniÄ‡ swoje dane osobowe. OprÃ³cz nazwy uÅ¼ytkownika INGMEDIA i hasÅ‚a nie musisz wypeÅ‚niaÄ‡ innych pÃ³l. PamiÄ™taj, Å¼e zapomniane hasÅ‚o moÅ¼e byÄ‡ tylko otrzymane za pomocÄ… poczty elektronicznej (!).
+common#:#ingmedia_use_info2#:#Nie moÅ¼na stosowaÄ‡ znakÃ³w specjalnych (takich jak , ; . = - * + #) w twojej nazwie uÅ¼ytkownika INGMEDIA i haÅ›le. Aby mÃ³c uÅ¼ywaÄ‡ platformy INGMEDIA musisz zaakceptowaÄ‡ zgodÄ™ uÅ¼ytkownika.
+common#:#ingmedia_use_info3#:#Wybierz jedno z poÅ‚Ä…czeÅ„ z listy.
+common#:#ingmedia_use_title#:#ZmieÅ„ dane uÅ¼ytkownika.
 common#:#ingmedia_user_agree#:#Zgoda
 common#:#ingmedia_vis_le#:#Odwiedzane LE
-common#:#ingmedia_visited_le#:#Wszystkie LE ktÃ³re odwiedzaÅ,eÅ> ostatnio.
+common#:#ingmedia_visited_le#:#Wszystkie LE ktÃ³re odwiedzaÅ‚eÅ› ostatnio.
 common#:#ingmedia_welcome#:#, witaj na swoim pulpicie!!
 common#:#inifile#:#Plik-Ini
-common#:#input_error#:#BÅ,Ä?d wejÅ>cia
+common#:#input_error#:#BÅ‚Ä…d wejÅ›cia
 common#:#insert#:#Wstaw
 common#:#inst_id#:#ID instalacji
 common#:#inst_info#:#Informacja o instalacji
@@ -482,7 +482,7 @@ common#:#inst_name#:#Nazwa instalacji
 common#:#install#:#Instaluj
 common#:#installed#:#Zainstalowane
 common#:#institution#:#Instytucja
-common#:#internal_system#:#System wewnÄ?trzny
+common#:#internal_system#:#System wewnÄ™trzny
 common#:#ip_address#:#Numer IP
 common#:#is_already_your#:#jest juÅ¼ twÃ³j
 common#:#item#:#Pozycja
@@ -491,19 +491,19 @@ common#:#keywords#:#Klucze
 common#:#lang_cz#:#Czech###11 Dec 2003 new variable
 common#:#lang_dateformat#:#y-m-d
 common#:#lang_de#:#Niemiecki
-common#:#lang_dk#:#DuÅ?ski
+common#:#lang_dk#:#DuÅ„ski
 common#:#lang_en#:#Angielski
-common#:#lang_es#:#HiszpaÅ?ski
+common#:#lang_es#:#HiszpaÅ„ski
 common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
 common#:#lang_fr#:#Francuski
 common#:#lang_gr#:#Greek###11 Dec 2003 new variable
 common#:#lang_id#:#Indonezyjski
-common#:#lang_it#:#WÅ,oski
+common#:#lang_it#:#WÅ‚oski
 common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
 common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
 common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
 common#:#lang_no#:#Norweski
-common#:#lang_path#:#ÅscieÅ¼ka jÄ?zyka
+common#:#lang_path#:#ÅšcieÅ¼ka jÄ™zyka
 common#:#lang_pl#:#Polski
 common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
 common#:#lang_se#:#Szwedzki
@@ -514,13 +514,13 @@ common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
 common#:#lang_version#:#1
 common#:#lang_xx#:#Inny
 common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
-common#:#langfile_found#:#Plik jÄ?zykowy zostaÅ, odnaleziony
-common#:#language#:#JÄ?zyk
-common#:#language_not_installed#:#nie jest zainstalowany. Najpierw zainstaluj ten jÄ?zyk.
-common#:#languages#:#JÄ?zyki
-common#:#languages_already_installed#:#Wybrany jÄ?zyk jest juz zainstalowany.
-common#:#languages_already_uninstalled#:#Wybrany jÄ?zyk nie jest zainstalowany.
-common#:#languages_updated#:#Wszystkie zainstalowane jÄ?zyki zostaÅ,y uaktualnione.
+common#:#langfile_found#:#Plik jÄ™zykowy zostaÅ‚ odnaleziony
+common#:#language#:#JÄ™zyk
+common#:#language_not_installed#:#nie jest zainstalowany. Najpierw zainstaluj ten jÄ™zyk.
+common#:#languages#:#JÄ™zyki
+common#:#languages_already_installed#:#Wybrany jÄ™zyk jest juz zainstalowany.
+common#:#languages_already_uninstalled#:#Wybrany jÄ™zyk nie jest zainstalowany.
+common#:#languages_updated#:#Wszystkie zainstalowane jÄ™zyki zostaÅ‚y uaktualnione.
 common#:#last_change#:#Ostatnia zmiana
 common#:#last_visit#:#Ostania wizyta
 common#:#lastname#:#Nazwisko
@@ -533,172 +533,172 @@ common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
 common#:#learning_objects#:#Przedmioty Nauczania (PN)
 common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
-common#:#link#:#Å?Ä?cznik
-common#:#linked_pages#:#Strony poÅ,aczone
+common#:#link#:#ÅÄ…cznik
+common#:#linked_pages#:#Strony poÅ‚aczone
 common#:#list_of_pages#:#Lista stron
-common#:#list_of_questions#:#Lista pytaÅ?
+common#:#list_of_questions#:#Lista pytaÅ„
 common#:#literature#:#Literatura
-common#:#literature_bookmarks#:#ZakÅ,adki literatury
-common#:#lm#:#ModuÅ, nauczania
-common#:#lm_a#:#ModuÅ, nauczania###13 Jan 2004 content changed
-common#:#lm_add#:#Dodaj moduÅ, nauczania
-common#:#lm_added#:#ModuÅ, nauczania zostaÅ, dodany###13 Jan 2004 content changed
+common#:#literature_bookmarks#:#ZakÅ‚adki literatury
+common#:#lm#:#ModuÅ‚ nauczania
+common#:#lm_a#:#ModuÅ‚ nauczania###13 Jan 2004 content changed
+common#:#lm_add#:#Dodaj moduÅ‚ nauczania
+common#:#lm_added#:#ModuÅ‚ nauczania zostaÅ‚ dodany###13 Jan 2004 content changed
 common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
 common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
 common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
 common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
-common#:#lm_new#:#Nowy moduÅ, nauczania
+common#:#lm_new#:#Nowy moduÅ‚ nauczania
 common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
 common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
 common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
-common#:#lng#:#JÄ?zyk
-common#:#lngf#:#Folder jÄ?zyka###13 Jan 2004 content changed
+common#:#lng#:#JÄ™zyk
+common#:#lngf#:#Folder jÄ™zyka###13 Jan 2004 content changed
 common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
 common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
 common#:#lo#:#Przedmiot Nauczania (PN)
-common#:#lo_available#:#PrzeglÄ?d moduÅ,Ã³w nauczania i kursÃ³w
+common#:#lo_available#:#PrzeglÄ…d moduÅ‚Ã³w nauczania i kursÃ³w
 common#:#lo_categories#:#Kategorie (PN)
 common#:#lo_edit#:#Edytuj przedmiot nauczania
 common#:#lo_new#:#Nowy przedmiot nauczania
 common#:#lo_no_content#:#Brak dostepnych zasobÃ³w nauczania
-common#:#lo_other_langs#:#PN w innym jÄ?zyku
-common#:#lo_overview#:#PrzeglÄ?d PN
-common#:#locator#:#Wybrana czynnoÅ>Ä?:
+common#:#lo_other_langs#:#PN w innym jÄ™zyku
+common#:#lo_overview#:#PrzeglÄ…d PN
+common#:#locator#:#Wybrana czynnoÅ›Ä‡:
 common#:#login#:#Loguj
 common#:#login_as#:#Zalogowany jako
 common#:#login_data#:#Data zalogowania
-common#:#login_exists#:#JuÅ¼ jest uÅ¼ytkownik z takÄ? nazwÄ? (pseudonim)! Wybierz innÄ?.
-common#:#login_time#:#BiezÄ?cy czas pracy
+common#:#login_exists#:#JuÅ¼ jest uÅ¼ytkownik z takÄ… nazwÄ… (pseudonim)! Wybierz innÄ….
+common#:#login_time#:#BiezÄ…cy czas pracy
 common#:#login_to_ilias#:#Logowanie do ILIAS-a
 common#:#logout#:#Wyloguj
-common#:#logout_text#:#OpuÅ>ciÅ,eÅ> system ILIAS. Twoja sesja zostaÅ,a zamkniÄ?ta.
+common#:#logout_text#:#OpuÅ›ciÅ‚eÅ› system ILIAS. Twoja sesja zostaÅ‚a zamkniÄ™ta.
 common#:#los#:#Przedmioty Nauczania (PN)
 common#:#los_last_visited#:#Ostatnio odwiedzane przedmioty nauczania
 common#:#mail#:#Poczta elektroniczna
 common#:#mail_a_root#:#Skrzynka pocztowa
-common#:#mail_addressbook#:#KsiÄ?Å¼ka adresowa
+common#:#mail_addressbook#:#KsiÄ…Å¼ka adresowa
 common#:#mail_allow_smtp#:#Zezwolenie na SMTP
 common#:#mail_b_inbox#:#Skrzynka odbiorcza
 common#:#mail_c_trash#:#Kosz
 common#:#mail_d_drafts#:#Szkice
-common#:#mail_delete_error#:#BÅ,Ä?d podczas usuwania
-common#:#mail_delete_error_file#:#BÅ,Ä?d usuwania pliku
-common#:#mail_e_sent#:#WysÅ,ane
+common#:#mail_delete_error#:#BÅ‚Ä…d podczas usuwania
+common#:#mail_delete_error_file#:#BÅ‚Ä…d usuwania pliku
+common#:#mail_e_sent#:#WysÅ‚ane
 common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#mail_folders#:#Foldery pocztowe
 common#:#mail_intern_enable#:#Wybierz
 common#:#mail_mails_of#:#Poczta
-common#:#mail_maxsize_attach#:#Maks. rozmiar zaÅ,Ä?cznika
+common#:#mail_maxsize_attach#:#Maks. rozmiar zaÅ‚Ä…cznika
 common#:#mail_maxsize_box#:#Maks. rozmiar skrzynki pocztowej
-common#:#mail_maxsize_mail#:#Maks. rozmiar wiadomoÅ>ci
-common#:#mail_maxtime_attach#:#Maks. okres trzymania zaÅ,Ä?cznikÃ³w (dni)
-common#:#mail_maxtime_mail#:#Maks. okres trzymania wiadomoÅ>ci (dni)
-common#:#mail_not_sent#:#poczta nie zostaÅ,a wysÅ,ana!
+common#:#mail_maxsize_mail#:#Maks. rozmiar wiadomoÅ›ci
+common#:#mail_maxtime_attach#:#Maks. okres trzymania zaÅ‚Ä…cznikÃ³w (dni)
+common#:#mail_maxtime_mail#:#Maks. okres trzymania wiadomoÅ›ci (dni)
+common#:#mail_not_sent#:#poczta nie zostaÅ‚a wysÅ‚ana!
 common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
 common#:#mail_search_no#:#Nie znaleziono pozycji
-common#:#mail_search_word#:#Szukaj sÅ,owa
-common#:#mail_select_one#:#Musisz wybraÄ? jednÄ? wiadomoÅ>Ä?
-common#:#mail_send_error#:#BÅ,Ä?d wysyÅ,ania wiadomoÅ>ci
-common#:#mail_sent#:#WiadomoÅ>Ä? zostaÅ,a wysÅ,ana!
+common#:#mail_search_word#:#Szukaj sÅ‚owa
+common#:#mail_select_one#:#Musisz wybraÄ‡ jednÄ… wiadomoÅ›Ä‡
+common#:#mail_send_error#:#BÅ‚Ä…d wysyÅ‚ania wiadomoÅ›ci
+common#:#mail_sent#:#WiadomoÅ›Ä‡ zostaÅ‚a wysÅ‚ana!
 common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
-common#:#mail_system#:#WiadomoÅ>Ä? systemowa
+common#:#mail_system#:#WiadomoÅ›Ä‡ systemowa
 common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
 common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
 common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
 common#:#mail_z_local#:#Foldery uÅ¼ytkownika
-common#:#mails#:#WiadomoÅ>ci
+common#:#mails#:#WiadomoÅ›ci
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
-common#:#member#:#CzÅ,onek
-common#:#members#:#CzÅ,onkowie
-common#:#membership_annulled#:#Twoje czÅ,onkostwo zostaÅ,o anulowane.
-common#:#message#:#WiadomoÅ>Ä?
-common#:#message_content#:#ZawartoÅ>Ä? wiadomoÅ>ci
-common#:#message_to#:#WiadomoÅ>Ä? do:
+common#:#member#:#CzÅ‚onek
+common#:#members#:#CzÅ‚onkowie
+common#:#membership_annulled#:#Twoje czÅ‚onkostwo zostaÅ‚o anulowane.
+common#:#message#:#WiadomoÅ›Ä‡
+common#:#message_content#:#ZawartoÅ›Ä‡ wiadomoÅ›ci
+common#:#message_to#:#WiadomoÅ›Ä‡ do:
 common#:#meta_data#:#Meta dane
 common#:#migrate#:#Migrate
 common#:#mob#:#Obiekt multimedialny
-common#:#module#:#moduÅ,
-common#:#modules#:#ModuÅ,y
-common#:#month#:#MiesiÄ?c
-common#:#move#:#Move###20 Jan 2004 new variable
-common#:#moveChapter#:#PrzesuÅ? rozdziaÅ,
-common#:#movePage#:#PrzesuÅ? stronÄ?
-common#:#move_to#:#PrzesuÅ? do
+common#:#module#:#moduÅ‚
+common#:#modules#:#ModuÅ‚y
+common#:#month#:#MiesiÄ…c
+common#:#move#:#Move###16 Dec 2003 new variable
+common#:#moveChapter#:#PrzesuÅ„ rozdziaÅ‚
+common#:#movePage#:#PrzesuÅ„ stronÄ™
+common#:#move_to#:#PrzesuÅ„ do
 common#:#msg_cancel#:#akcja przerwana
-common#:#msg_changes_ok#:#zmiany sÄ? w porzÄ?dku
-common#:#msg_clear_clipboard#:#Schowek zostaÅ, wyczyszczony
-common#:#msg_cloned#:#Wybrane obiety zostaÅ,y skopiowane
-common#:#msg_copy_clipboard#:#Wybrane obiekty zostaÅ,y zapamiÄ?tane w schowku (Akcja: Kopiuj).
-common#:#msg_cut_clipboard#:#Wybrane obiekty zostaÅ,y zapamiÄ?tane w schowku (Akcja: Wytnij).
-common#:#msg_cut_copied#:#Wybrane obiekty zostaÅ,y przesunniÄ?te.
-common#:#msg_deleted_role#:#Stanowisko zostaÅ,o usuniÄ?te.
-common#:#msg_deleted_roles#:#stanowiska zostaÅ,y usuniÄ?te.
-common#:#msg_deleted_roles_rolts#:#Stanowiska i szablony stanowisk zostaÅ,y usuniÄ?te.
-common#:#msg_deleted_rolt#:#Szablon stanowiska zostaÅ, usuniÄ?ty.
-common#:#msg_deleted_rolts#:#Szablony stanowisk zostaÅ,y usuniÄ?te.
-common#:#msg_error_copy#:#BÅ,Ä?d kopiowania
-common#:#msg_failed#:#Niestety, bÅ,Ä?dna akcja.
-common#:#msg_is_last_role#:#PozbawiÅ,eÅ> nastÄ?pujÄ?cych uÅ¼ytkownikÃ³w ich stanowiska.
-common#:#msg_link_clipboard#:#Wybrane obiekty zostaÅ,y zapamiÄ?tane w schowku (Akcja: Å,Ä?czenie).
-common#:#msg_linked#:#Wybrane obiekty zostaÅ,y poÅ,Ä?czone.
-common#:#msg_may_not_contain#:#Ten obiekt nie moÅ¼e zawieraÄ? obiektÃ³w typu:
-common#:#msg_min_one_active_role#:#KaÅ¼dy uÅ¼ytkownik musi posiadaÄ? conajmniej jedno aktywne stanowisko!
-common#:#msg_min_one_role#:#KaÅ¼dy uÅ¼ytkownik musi posiadaÄ? conajmniej jedno stanowisko!
-common#:#msg_multi_language_selected#:#WybraÅ,eÅ> ten sam jÄ?zyk dla rÃ³Å¼nych tÅ,umaczeÅ?!
-common#:#msg_no_default_language#:#DomyÅ>lny jÄ?zyk nie zostaÅ, wybrany! Musisz zdefiniowaÄ? jedno tÅ,umaczenie jako tÅ,umaczenie domyÅ>lne.
-common#:#msg_no_delete_yourself#:#Nie moÅ¼esz usunÄ?Ä? swojego konta.
-common#:#msg_no_language_selected#:#Nie podano jÄ?zyka tÅ,umaczenia! Musisz zdefiniowaÄ? jÄ?zyk dla kaÅ¼dego tÅ,umaczenia.
-common#:#msg_no_perm_copy#:#Nie masz uprawnieÅ? do tworzenia kopii nastÄ?pujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_create#:#Nie masz uprawnieÅ? do tworzenia nastÄ?pujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_create_object1#:#Nie masz uprawnieÅ? do tworzenia
+common#:#msg_changes_ok#:#zmiany sÄ… w porzÄ…dku
+common#:#msg_clear_clipboard#:#Schowek zostaÅ‚ wyczyszczony
+common#:#msg_cloned#:#Wybrane obiety zostaÅ‚y skopiowane
+common#:#msg_copy_clipboard#:#Wybrane obiekty zostaÅ‚y zapamiÄ™tane w schowku (Akcja: Kopiuj).
+common#:#msg_cut_clipboard#:#Wybrane obiekty zostaÅ‚y zapamiÄ™tane w schowku (Akcja: Wytnij).
+common#:#msg_cut_copied#:#Wybrane obiekty zostaÅ‚y przesunniÄ™te.
+common#:#msg_deleted_role#:#Stanowisko zostaÅ‚o usuniÄ™te.
+common#:#msg_deleted_roles#:#stanowiska zostaÅ‚y usuniÄ™te.
+common#:#msg_deleted_roles_rolts#:#Stanowiska i szablony stanowisk zostaÅ‚y usuniÄ™te.
+common#:#msg_deleted_rolt#:#Szablon stanowiska zostaÅ‚ usuniÄ™ty.
+common#:#msg_deleted_rolts#:#Szablony stanowisk zostaÅ‚y usuniÄ™te.
+common#:#msg_error_copy#:#BÅ‚Ä…d kopiowania
+common#:#msg_failed#:#Niestety, bÅ‚Ä™dna akcja.
+common#:#msg_is_last_role#:#PozbawiÅ‚eÅ› nastÄ™pujÄ…cych uÅ¼ytkownikÃ³w ich stanowiska.
+common#:#msg_link_clipboard#:#Wybrane obiekty zostaÅ‚y zapamiÄ™tane w schowku (Akcja: Å‚Ä…czenie).
+common#:#msg_linked#:#Wybrane obiekty zostaÅ‚y poÅ‚Ä…czone.
+common#:#msg_may_not_contain#:#Ten obiekt nie moÅ¼e zawieraÄ‡ obiektÃ³w typu:
+common#:#msg_min_one_active_role#:#KaÅ¼dy uÅ¼ytkownik musi posiadaÄ‡ conajmniej jedno aktywne stanowisko!
+common#:#msg_min_one_role#:#KaÅ¼dy uÅ¼ytkownik musi posiadaÄ‡ conajmniej jedno stanowisko!
+common#:#msg_multi_language_selected#:#WybraÅ‚eÅ› ten sam jÄ™zyk dla rÃ³Å¼nych tÅ‚umaczeÅ„!
+common#:#msg_no_default_language#:#DomyÅ›lny jÄ™zyk nie zostaÅ‚ wybrany! Musisz zdefiniowaÄ‡ jedno tÅ‚umaczenie jako tÅ‚umaczenie domyÅ›lne.
+common#:#msg_no_delete_yourself#:#Nie moÅ¼esz usunÄ…Ä‡ swojego konta.
+common#:#msg_no_language_selected#:#Nie podano jÄ™zyka tÅ‚umaczenia! Musisz zdefiniowaÄ‡ jÄ™zyk dla kaÅ¼dego tÅ‚umaczenia.
+common#:#msg_no_perm_copy#:#Nie masz uprawnieÅ„ do tworzenia kopii nastÄ™pujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_create#:#Nie masz uprawnieÅ„ do tworzenia nastÄ™pujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_create_object1#:#Nie masz uprawnieÅ„ do tworzenia
 common#:#msg_no_perm_create_object2#:#w tym miejscu!
-common#:#msg_no_perm_create_role#:#Nie masz uprawnieÅ? do dodawania stanowisk.
-common#:#msg_no_perm_create_rolf#:#Nie masz uprawnieÅ? do tworzenia folderu stanowiska. Nie moÅ¼esz tutaj przerwaÄ? dziedziczenia stanowisk lub dodaÄ? lokalnego stanowiska.
-common#:#msg_no_perm_create_rolt#:#Nie masz uprawnieÅ? do dodawania szablonu stanowiska.
-common#:#msg_no_perm_create_user#:#Nie masz uprawnieÅ? do dodawania uzytkownikÃ³w.
-common#:#msg_no_perm_cut#:#Nie masz uprawnieÅ? do wycinania nastÄ?pujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_delete#:#Nie masz uprawnieÅ? do usuwania nastÄ?pujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_link#:#Nie masz uprawnieÅ? do tworzenia poÅ,Ä?czenia z nastÄ?pujÄ?cymi obiektami:
-common#:#msg_no_perm_modify_role#:#Nie masz uprawnieÅ? do modyfikacji stanowisk.
-common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnieÅ? do modyfikacji szablonÃ³w stanowisk.
-common#:#msg_no_perm_modify_user#:#Nie masz uprawnieÅ? do modyfikacji danych uÅ¼ytkownika.
-common#:#msg_no_perm_paste#:#Nie masz uprawnieÅ? do wklejania nastepujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_perm#:#Nie moÅ¼esz modyfikowaÄ? uprawnieÅ?.
-common#:#msg_no_perm_undelete#:#Nie masz uprawnienieÅ? do odzyskania nastÄ?pujÄ?cych obiektÃ³w:
-common#:#msg_no_perm_write#:#Nie masz uprawnieÅ? do pisania.
+common#:#msg_no_perm_create_role#:#Nie masz uprawnieÅ„ do dodawania stanowisk.
+common#:#msg_no_perm_create_rolf#:#Nie masz uprawnieÅ„ do tworzenia folderu stanowiska. Nie moÅ¼esz tutaj przerwaÄ‡ dziedziczenia stanowisk lub dodaÄ‡ lokalnego stanowiska.
+common#:#msg_no_perm_create_rolt#:#Nie masz uprawnieÅ„ do dodawania szablonu stanowiska.
+common#:#msg_no_perm_create_user#:#Nie masz uprawnieÅ„ do dodawania uzytkownikÃ³w.
+common#:#msg_no_perm_cut#:#Nie masz uprawnieÅ„ do wycinania nastÄ™pujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_delete#:#Nie masz uprawnieÅ„ do usuwania nastÄ™pujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_link#:#Nie masz uprawnieÅ„ do tworzenia poÅ‚Ä…czenia z nastÄ™pujÄ…cymi obiektami:
+common#:#msg_no_perm_modify_role#:#Nie masz uprawnieÅ„ do modyfikacji stanowisk.
+common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnieÅ„ do modyfikacji szablonÃ³w stanowisk.
+common#:#msg_no_perm_modify_user#:#Nie masz uprawnieÅ„ do modyfikacji danych uÅ¼ytkownika.
+common#:#msg_no_perm_paste#:#Nie masz uprawnieÅ„ do wklejania nastepujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_perm#:#Nie moÅ¼esz modyfikowaÄ‡ uprawnieÅ„.
+common#:#msg_no_perm_undelete#:#Nie masz uprawnienieÅ„ do odzyskania nastÄ™pujÄ…cych obiektÃ³w:
+common#:#msg_no_perm_write#:#Nie masz uprawnieÅ„ do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
-common#:#msg_no_rolf_allowed2#:#nie moÅ¼e zawieraÄ? Folderu Stanowiska.
+common#:#msg_no_rolf_allowed2#:#nie moÅ¼e zawieraÄ‡ Folderu Stanowiska.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
-common#:#msg_not_available_for_anon#:#Strona ktÃ³rÄ?,wybraÅ,eÅ> jest dostÄ?pna tylko dla zarejestrowanych uÅ¼ytkownikÃ³w.
-common#:#msg_not_in_itself#:#Nie moÅ¼na wkleiÄ? obiektu do samego siebie.
-common#:#msg_not_possible_link#:#Nie moÅ¼na utworzyÄ? poÅ,Ä?czenia do obiektu: Typu
+common#:#msg_not_available_for_anon#:#Strona ktÃ³rÄ…,wybraÅ‚eÅ› jest dostÄ™pna tylko dla zarejestrowanych uÅ¼ytkownikÃ³w.
+common#:#msg_not_in_itself#:#Nie moÅ¼na wkleiÄ‡ obiektu do samego siebie.
+common#:#msg_not_possible_link#:#Nie moÅ¼na utworzyÄ‡ poÅ‚Ä…czenia do obiektu: Typu
 common#:#msg_nothing_found#:#Nic nie znaleziono.
-common#:#msg_obj_created#:#Obiekt zostaÅ, utworzony.
+common#:#msg_obj_created#:#Obiekt zostaÅ‚ utworzony.
 common#:#msg_obj_exists#:#Tem obiekt juÅ¼ istnieje w tym folderze.
-common#:#msg_obj_modified#:#Zmiany zostaÅ,y zachowane.
-common#:#msg_perm_adopted_from1#:#Ustawienia uprawnieÅ? zostaÅ,y przejÄ?te od
-common#:#msg_perm_adopted_from2#:#(Ustawienia zostaÅ,y zachowane!)
-common#:#msg_perm_adopted_from_itself#:#Nie moÅ¼esz przejÄ?Ä? uprawnieÅ? z bieÅ¼Ä?cego stanowiska/szablonu stanowiska.
-common#:#msg_removed#:#Obiekty zostaÅ,y usuniÄ?te z systemu.
-common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwÄ?
-common#:#msg_role_exists2#:#juÅ¼ ustnieje! Wybierz innÄ? nazwÄ?.
-common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz innÄ? nazwÄ?.
-common#:#msg_roleassignment_active_changed#:#Zmieniono przydziaÅ, aktywnych stanowisk.
-common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie sÄ? pamiÄ?tane w profilu uÅ¼ytkownika! JeÅ>li uÅ¼ytkownik siÄ? przeloguje to przydziaÅ, aktywnych stanowisk zostanie przywrÃ³cony do zapamiÄ?tanych ustawieÅ?.
-common#:#msg_roleassignment_changed#:#PrzydziaÅ, stanowisk zostaÅ, zmieniony.
-common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie moÅ¼e byÄ? usuniÄ?te.
-common#:#msg_sysrole_not_editable#:#Ustawienia uprawnieÅ? stanowiska systemowego nie mogÄ? byÄ? zmieniane. Wszyscy przydzieleni uÅ¼ytkownicy do stanowiska systemowego posiadajÄ? nielimitowany dostÄ?p do wszystkich obiektÃ³w i funkcji.
-common#:#msg_trash_empty#:#Brak usuniÄ?tych obiektÃ³w.
-common#:#msg_undeleted#:#Obiekty zostaÅ,y przywrÃ³cone.
-common#:#msg_user_last_role1#:#NastepujÄ?cym uÅ¼ytkownikom przydzielono tylko to stanowisko:
-common#:#msg_user_last_role2#:#Aby usunÄ?Ä? to stanowisko usuÅ? tych uÅ¼ytkownikÃ³w lub przydziel im inne stanowisko.
-common#:#msg_userassignment_changed#:#PrzydziaÅ, uÅ¼ytkownikÃ³w zostaÅ, zmieniony.
+common#:#msg_obj_modified#:#Zmiany zostaÅ‚y zachowane.
+common#:#msg_perm_adopted_from1#:#Ustawienia uprawnieÅ„ zostaÅ‚y przejÄ™te od
+common#:#msg_perm_adopted_from2#:#(Ustawienia zostaÅ‚y zachowane!)
+common#:#msg_perm_adopted_from_itself#:#Nie moÅ¼esz przejÄ…Ä‡ uprawnieÅ„ z bieÅ¼Ä…cego stanowiska/szablonu stanowiska.
+common#:#msg_removed#:#Obiekty zostaÅ‚y usuniÄ™te z systemu.
+common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwÄ…
+common#:#msg_role_exists2#:#juÅ¼ ustnieje! Wybierz innÄ… nazwÄ™.
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz innÄ… nazwÄ™.
+common#:#msg_roleassignment_active_changed#:#Zmieniono przydziaÅ‚ aktywnych stanowisk.
+common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie sÄ… pamiÄ™tane w profilu uÅ¼ytkownika! JeÅ›li uÅ¼ytkownik siÄ™ przeloguje to przydziaÅ‚ aktywnych stanowisk zostanie przywrÃ³cony do zapamiÄ™tanych ustawieÅ„.
+common#:#msg_roleassignment_changed#:#PrzydziaÅ‚ stanowisk zostaÅ‚ zmieniony.
+common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie moÅ¼e byÄ‡ usuniÄ™te.
+common#:#msg_sysrole_not_editable#:#Ustawienia uprawnieÅ„ stanowiska systemowego nie mogÄ… byÄ‡ zmieniane. Wszyscy przydzieleni uÅ¼ytkownicy do stanowiska systemowego posiadajÄ… nielimitowany dostÄ™p do wszystkich obiektÃ³w i funkcji.
+common#:#msg_trash_empty#:#Brak usuniÄ™tych obiektÃ³w.
+common#:#msg_undeleted#:#Obiekty zostaÅ‚y przywrÃ³cone.
+common#:#msg_user_last_role1#:#NastepujÄ…cym uÅ¼ytkownikom przydzielono tylko to stanowisko:
+common#:#msg_user_last_role2#:#Aby usunÄ…Ä‡ to stanowisko usuÅ„ tych uÅ¼ytkownikÃ³w lub przydziel im inne stanowisko.
+common#:#msg_userassignment_changed#:#PrzydziaÅ‚ uÅ¼ytkownikÃ³w zostaÅ‚ zmieniony.
 common#:#multimedia#:#Multimedia
-common#:#my_bms#:#Moje zakÅ,adki
+common#:#my_bms#:#Moje zakÅ‚adki
 common#:#my_frms#:#Moje Fora
 common#:#my_grps#:#Moje grupy
 common#:#my_los#:#Moje Przedmioty Nauczania
@@ -707,117 +707,117 @@ common#:#new#:#Nowy
 common#:#new_appointment#:#Nowe spotkanie
 common#:#new_folder#:#Nowy Folder
 common#:#new_group#:#Nowa Grupa
-common#:#new_language#:#Nowy JÄ?zyk
+common#:#new_language#:#Nowy JÄ™zyk
 common#:#new_mail#:#Nowa poczta!
-common#:#news#:#WieÅ>ci
-common#:#next#:#nastÄ?pny
+common#:#news#:#WieÅ›ci
+common#:#next#:#nastÄ™pny
 common#:#nickname#:#Pseudonim
 common#:#no#:#Nie
-common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakÅ,adek.
+common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakÅ‚adek.
 common#:#no_checkbox#:#Nie wybrano opcji!
 common#:#no_date#:#Brak daty.
-common#:#no_frm_in_personal_list#:#Brak forÃ³w na liÅ>cie osobistej.
-common#:#no_grp_in_personal_list#:#Brah grup w liÅ>cie prywatnej.
+common#:#no_frm_in_personal_list#:#Brak forÃ³w na liÅ›cie osobistej.
+common#:#no_grp_in_personal_list#:#Brah grup w liÅ›cie prywatnej.
 common#:#no_import_available#:#Import nie jest dostepny dla typu
-common#:#no_lo_in_personal_list#:#Brak PrzedmiotÃ³w Nauczania na liÅ>cie osobistej.
+common#:#no_lo_in_personal_list#:#Brak PrzedmiotÃ³w Nauczania na liÅ›cie osobistej.
 common#:#no_objects#:#Brak obiektÃ³w
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
-common#:#no_title#:#Brak tytuÅ,u
+common#:#no_title#:#Brak tytuÅ‚u
 common#:#none#:#Brak
 common#:#normal#:#Normalny
 common#:#not_installed#:#Nie zainstalowany
-common#:#not_logged_in#:#Nie jesteÅ> zalogowany.
+common#:#not_logged_in#:#Nie jesteÅ› zalogowany.
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
-common#:#obj_adm_desc#:#GÅ,Ã³wny folder ustawieÅ? systemowych zawierajÄ?cy wszystkie panele sÅ,uÅ¼Ä?ce do admministracji instalacjÄ? ILIAS-a.
+common#:#obj_adm_desc#:#GÅ‚Ã³wny folder ustawieÅ„ systemowych zawierajÄ…cy wszystkie panele sÅ‚uÅ¼Ä…ce do admministracji instalacjÄ… ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_crs#:#Kurs
-common#:#obj_dbk#:#KsiÄ?Å¼ka Digilib
+common#:#obj_dbk#:#KsiÄ…Å¼ka Digilib
 common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
 common#:#obj_file#:#plik
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
-common#:#obj_glo#:#SÅ,ownik
+common#:#obj_glo#:#SÅ‚ownik
 common#:#obj_grp#:#Grupa
 common#:#obj_ldap#:#Ustawienia LDAP
-common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawieÅ? LDAP.
-common#:#obj_lm#:#ModuÅ, Nauczania (MN)
-common#:#obj_lng#:#JÄ?zyk
-common#:#obj_lngf#:#JÄ?zyki
-common#:#obj_lngf_desc#:#ZarzÄ?dzanie jÄ?zykami systemowymi.
+common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawieÅ„ LDAP.
+common#:#obj_lm#:#ModuÅ‚ Nauczania (MN)
+common#:#obj_lng#:#JÄ™zyk
+common#:#obj_lngf#:#JÄ™zyki
+common#:#obj_lngf_desc#:#ZarzÄ…dzanie jÄ™zykami systemowymi.
 common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
-common#:#obj_mail_desc#:#Konfiguracja globalnych ustawieÅ? poczty elektronicznej.
+common#:#obj_mail_desc#:#Konfiguracja globalnych ustawieÅ„ poczty elektronicznej.
 common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
-common#:#obj_not_found#:#Obiekt nie zostaÅ, odnaleziony.
+common#:#obj_not_found#:#Obiekt nie zostaÅ‚ odnaleziony.
 common#:#obj_note#:#Notatka
 common#:#obj_notf#:#Notatka administracyjna
 common#:#obj_objf#:#Definicja obiektu
-common#:#obj_objf_desc#:#ZarzÄ?dzanie typami obiektÃ³w ILIAS i uprawnieniami do nich. (tylko dla ekspertÃ³w!)
-common#:#obj_owner#:#Ten obiekt jest wÅ,asnoÅ>ciÄ?
+common#:#obj_objf_desc#:#ZarzÄ…dzanie typami obiektÃ³w ILIAS i uprawnieniami do nich. (tylko dla ekspertÃ³w!)
+common#:#obj_owner#:#Ten obiekt jest wÅ‚asnoÅ›ciÄ…
 common#:#obj_pg#:#Strona
 common#:#obj_role#:#Stanowisko
 common#:#obj_rolf#:#Stanowiska
-common#:#obj_rolf_desc#:#ZarzÄ?dzanie stanowiskami.
+common#:#obj_rolf_desc#:#ZarzÄ…dzanie stanowiskami.
 common#:#obj_rolf_local#:#Lokalne stanowiska
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych stanowisk.
 common#:#obj_rolt#:#Szablon stanowiska
 common#:#obj_root#:#root###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM (MN)
-common#:#obj_st#:#RozdziaÅ,
+common#:#obj_st#:#RozdziaÅ‚
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
 common#:#obj_uset#:#Ustawienia uÅ¼ytkownika
 common#:#obj_usr#:#UÅ¼ytkownik
 common#:#obj_usrf#:#Konta uÅ¼ytkownikÃ³w
-common#:#obj_usrf_desc#:#ZarzÄ?dzanie kontami uÅ¼ytkownikÃ³w.
+common#:#obj_usrf_desc#:#ZarzÄ…dzanie kontami uÅ¼ytkownikÃ³w.
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
 common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
-common#:#objs_confirm#:#PotwierdÅº usuniÄ?cie
-common#:#objs_delete#:#UsuÅ? obiekty
+common#:#objs_confirm#:#PotwierdÅº usuniÄ™cie
+common#:#objs_delete#:#UsuÅ„ obiekty
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
 common#:#ok#:#OK
 common#:#old#:#Stary
-common#:#online_chapter#:#RozdziaÅ, Online
+common#:#online_chapter#:#RozdziaÅ‚ Online
 common#:#online_version#:#Wersja Online
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#options#:#Opcje
-common#:#order_by#:#UporzÄ?dkowany przez
+common#:#order_by#:#UporzÄ…dkowany przez
 common#:#other#:#Inne
-common#:#overview#:#PrzeglÄ?d
-common#:#owner#:#WÅ,aÅ>ciciel
+common#:#overview#:#PrzeglÄ…d
+common#:#owner#:#WÅ‚aÅ›ciciel
 common#:#page#:#Strona
-common#:#page_edit#:#Edytuj stronÄ?
+common#:#page_edit#:#Edytuj stronÄ™
 common#:#pages#:#Strony
 common#:#parameter#:#Parametr
 common#:#parse#:#Wykonaj
-common#:#passwd#:#HasÅ,o
-common#:#passwd_invalid#:#Nowe hasÅ,o jest niewÅ,aÅ>ciwe! Wybierz inne hasÅ,o.
-common#:#passwd_not_match#:#Wpisy dla nowego hasÅ,a siÄ? nie zgadzajÄ?! Podaj ponownie nowe hasÅ,o.
-common#:#passwd_wrong#:#HasÅ,o, ktÃ³re podaÅ,eÅ> jest bÅ,Ä?dne!
-common#:#password#:#HasÅ,o
+common#:#passwd#:#HasÅ‚o
+common#:#passwd_invalid#:#Nowe hasÅ‚o jest niewÅ‚aÅ›ciwe! Wybierz inne hasÅ‚o.
+common#:#passwd_not_match#:#Wpisy dla nowego hasÅ‚a siÄ™ nie zgadzajÄ…! Podaj ponownie nowe hasÅ‚o.
+common#:#passwd_wrong#:#HasÅ‚o, ktÃ³re podaÅ‚eÅ› jest bÅ‚Ä™dne!
+common#:#password#:#HasÅ‚o
 common#:#paste#:#Wklej
-common#:#pasteChapter#:#Wklej rozdziaÅ,
-common#:#pastePage#:#Wklej stronÄ?
+common#:#pasteChapter#:#Wklej rozdziaÅ‚
+common#:#pastePage#:#Wklej stronÄ™
 common#:#path#:#ScieÅ¼ka
-common#:#path_not_set#:#ÅscieÅ¼ka nie zostaÅ,a ustawiona.
-common#:#path_to_babylon#:#ÅscieÅ¼ka do Babylon
-common#:#path_to_convert#:#Åsciezka do Convert
-common#:#path_to_htmldoc#:#ÅscieÅ¼ka do HTMLdoc
-common#:#path_to_java#:#ÅscieÅ¼ka do Javy
-common#:#path_to_unzip#:#Åsciezka do Unzip
-common#:#path_to_zip#:#ÅscieÅ¼ka do Zip
-common#:#pathes#:#ÅscieÅ¼ki
-common#:#payment_system#:#System pÅ,atnoÅ>ci
+common#:#path_not_set#:#ÅšcieÅ¼ka nie zostaÅ‚a ustawiona.
+common#:#path_to_babylon#:#ÅšcieÅ¼ka do Babylon
+common#:#path_to_convert#:#Åšciezka do Convert
+common#:#path_to_htmldoc#:#ÅšcieÅ¼ka do HTMLdoc
+common#:#path_to_java#:#ÅšcieÅ¼ka do Javy
+common#:#path_to_unzip#:#Åšciezka do Unzip
+common#:#path_to_zip#:#ÅšcieÅ¼ka do Zip
+common#:#pathes#:#ÅšcieÅ¼ki
+common#:#payment_system#:#System pÅ‚atnoÅ›ci
 common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
-common#:#permission_denied#:#DostÄ?p zabroniony
+common#:#permission_denied#:#DostÄ™p zabroniony
 common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Dane osobowe
 common#:#personal_desktop#:#Pulpit osobisty
@@ -825,9 +825,9 @@ common#:#personal_picture#:#Osobista fotografia
 common#:#personal_profile#:#Profil osobisty
 common#:#persons#:#Osoby
 common#:#pg_a#:#strona
-common#:#pg_add#:#Dodaj stronÄ?
+common#:#pg_add#:#Dodaj stronÄ™
 common#:#pg_added#:#Strona dodana
-common#:#pg_edit#:#Edytuj stronÄ?
+common#:#pg_edit#:#Edytuj stronÄ™
 common#:#pg_new#:#Nowa strona
 common#:#phone#:#Telefon
 common#:#phone_home#:#Telefon domowy
@@ -835,45 +835,45 @@ common#:#phone_mobile#:#Telefon komÃ³rkowy
 common#:#phone_office#:#Telefon w pracy
 common#:#phrase#:#Fraza
 common#:#please_enter_target#:#Podaj przeznaczenie
-common#:#please_enter_title#:#Podaj tytuÅ,
+common#:#please_enter_title#:#Podaj tytuÅ‚
 common#:#port#:#Port
 common#:#position#:#Pozycja
 common#:#presentation_options#:#Opcje prezentacji
 common#:#previous#:#poprzedni
 common#:#print#:#Drukuj
-common#:#profile_changed#:#TwÃ³j profil zostaÅ, zmieniony.
+common#:#profile_changed#:#TwÃ³j profil zostaÅ‚ zmieniony.
 common#:#profile_of#:#Profil
-common#:#properties#:#WÅ,aÅ>ciwoÅ>ci
+common#:#properties#:#WÅ‚aÅ›ciwoÅ›ci
 common#:#pub_section#:#Sekcja publiczna
 common#:#public_profile#:#Profil publiczny
 common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
-common#:#publishing_organisation#:#Organizacja publikujÄ?ca
+common#:#publishing_organisation#:#Organizacja publikujÄ…ca
 common#:#question#:#Pytanie
-common#:#quit#:#WyjÅ>cie
+common#:#quit#:#WyjÅ›cie
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
 common#:#recipient#:#Odbiorca
-common#:#refresh#:#OdÅ>wieÅ¼
-common#:#refresh_languages#:#OdÅ>wieÅ¼ jÄ?zyki
-common#:#refresh_list#:#Lista odÅ>wieÅ¼ona
+common#:#refresh#:#OdÅ›wieÅ¼
+common#:#refresh_languages#:#OdÅ›wieÅ¼ jÄ™zyki
+common#:#refresh_list#:#Lista odÅ›wieÅ¼ona
 common#:#register#:#Rejestruj
-common#:#register_info#:#WypeÅ,nij formularz do rejestracji (Pola zaznaczone gwiazdkÄ? sÄ? niezbÄ?dne).
+common#:#register_info#:#WypeÅ‚nij formularz do rejestracji (Pola zaznaczone gwiazdkÄ… sÄ… niezbÄ™dne).
 common#:#registered_since#:#Zarejestrowany od
 common#:#registered_user#:#zarejestrowany uÅ¼ytkownik
 common#:#registered_users#:#zarejestrowani uÅ¼ytkownicy
 common#:#registration#:#Rejestracja nowego konta
 common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
 common#:#remove#:#Wyklucz
-common#:#remove_translation#:#UsuÅ? tÅ,umaczenie
-common#:#rename#:#ZmieÅ? nazwÄ?
+common#:#remove_translation#:#UsuÅ„ tÅ‚umaczenie
+common#:#rename#:#ZmieÅ„ nazwÄ™
 common#:#reply#:#Odpowiedz
 common#:#repository#:#Repozytorium
-common#:#required_field#:#Pole niezbÄ?dne
-common#:#reset#:#PrzywrÃ³Ä?
-common#:#resources#:#Å¹rÃ³dÅ,a
-common#:#retype_password#:#PowtÃ³rz hasÅ,o
+common#:#required_field#:#Pole niezbÄ™dne
+common#:#reset#:#PrzywrÃ³Ä‡
+common#:#resources#:#Å¹rÃ³dÅ‚a
+common#:#retype_password#:#PowtÃ³rz hasÅ‚o
 common#:#right#:#Prawo
 common#:#rights#:#Prawa
 common#:#role#:#Stanowisko
@@ -881,13 +881,13 @@ common#:#role_a#:#stanowisko
 common#:#role_add#:#Dodaj stanowisko
 common#:#role_add_local#:#Dodaj lokalne stanowisko
 common#:#role_added#:#Stanowisko dodane
-common#:#role_assignment#:#PrzydziaÅ, stanowiska
-common#:#role_deleted#:#Stanowisko usuniÄ?te
+common#:#role_assignment#:#PrzydziaÅ‚ stanowiska
+common#:#role_deleted#:#Stanowisko usuniÄ™te
 common#:#role_edit#:#Edytuj stanowisko
 common#:#role_new#:#Nowe stanowisko
 common#:#roles#:#Stanowiska
 common#:#rolf#:#Folder stanowiska###13 Jan 2004 content changed
-common#:#rolf_added#:#Folder stanowiska zostaÅ, dodany
+common#:#rolf_added#:#Folder stanowiska zostaÅ‚ dodany
 common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
 common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
 common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
@@ -898,7 +898,7 @@ common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
 common#:#rolt#:#Szablon stanowiska
 common#:#rolt_a#:#Szablon stanowiska
 common#:#rolt_add#:#dodaj szablon stanowiska
-common#:#rolt_added#:#Szablon stanowiska zostaÅ, dodany
+common#:#rolt_added#:#Szablon stanowiska zostaÅ‚ dodany
 common#:#rolt_edit#:#Edytuj szablon stanowiska
 common#:#rolt_new#:#Nowy szablon stanowiska
 common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
@@ -910,16 +910,16 @@ common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
 common#:#save#:#Zapisz
-common#:#save_and_back#:#Zapisz i WrÃ³Ä?
-common#:#save_message#:#Zapisz wiadomoÅ>Ä?
-common#:#save_refresh#:#Zapisz i OdÅ>wieÅ¼
-common#:#save_return#:#Zapisz i PowrÃ³Ä?
+common#:#save_and_back#:#Zapisz i WrÃ³Ä‡
+common#:#save_message#:#Zapisz wiadomoÅ›Ä‡
+common#:#save_refresh#:#Zapisz i OdÅ›wieÅ¼
+common#:#save_return#:#Zapisz i PowrÃ³Ä‡
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
 common#:#search#:#Szukaj
 common#:#search_in#:#Szukaj w
 common#:#search_new#:#Nowe szukanie
-common#:#search_recipient#:#Wyszukaj OdbiorcÄ?
+common#:#search_recipient#:#Wyszukaj OdbiorcÄ™
 common#:#search_result#:#Wynik szukania
 common#:#search_user#:#Wyszukaj uÅ¼ytkownika
 common#:#sections#:#Sekcje
@@ -928,28 +928,28 @@ common#:#select_all#:#Wybierz wszystkie
 common#:#select_file#:#Wybierz plik
 common#:#select_mode#:#Wybierz tryb
 common#:#selected#:#Wybrany
-common#:#send#:#WyÅ>lij
+common#:#send#:#WyÅ›lij
 common#:#sender#:#Nadawca
-common#:#sent#:#WyÅ>lij
+common#:#sent#:#WyÅ›lij
 common#:#sequence#:#Sekwencja
 common#:#sequences#:#Sekwencje
 common#:#server#:#Serwer
 common#:#server_data#:#Dane serwera
 common#:#server_software#:#Oprogramowanie serwera
 common#:#set#:#Ustaw
-common#:#setSystemLanguage#:#Ustaw jÄ?zyk systemowy
-common#:#setUserLanguage#:#Ustaw jÄ?zyk uÅ¼ytkownika
+common#:#setSystemLanguage#:#Ustaw jÄ™zyk systemowy
+common#:#setUserLanguage#:#Ustaw jÄ™zyk uÅ¼ytkownika
 common#:#set_offline#:#Ustaw Offline
 common#:#set_online#:#Ustaw Online
 common#:#settings#:#Ustawienia
-common#:#show_details#:#PokaÅ¼ szczegÃ³Å,y
-common#:#show_list#:#PokaÅ¼ listÄ?
-common#:#show_members#:#WyÅ>wietl uÅ¼ytkownikÃ³w
-common#:#show_owner#:#PokaÅ¼ wÅ,aÅ>ciciela
-common#:#show_structure#:#WÅ,Ä?cz widok strukturalny
+common#:#show_details#:#PokaÅ¼ szczegÃ³Å‚y
+common#:#show_list#:#PokaÅ¼ listÄ™
+common#:#show_members#:#WyÅ›wietl uÅ¼ytkownikÃ³w
+common#:#show_owner#:#PokaÅ¼ wÅ‚aÅ›ciciela
+common#:#show_structure#:#WÅ‚Ä…cz widok strukturalny
 common#:#signature#:#Podpis
 common#:#slm#:#SCORM (MN)###13 Jan 2004 content changed
-common#:#slm_added#:#ModuÅ, Nauczania SCORM zostaÅ, dodany.###13 Jan 2004 content changed
+common#:#slm_added#:#ModuÅ‚ Nauczania SCORM zostaÅ‚ dodany.###13 Jan 2004 content changed
 common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
 common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
@@ -960,11 +960,11 @@ common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variab
 common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
-common#:#st_a#:#rozdziaÅ,
-common#:#st_add#:#dodaj rozdziaÅ,
-common#:#st_added#:#RozdziaÅ, dodany
-common#:#st_edit#:#Edytuj rozdziaÅ,
-common#:#st_new#:#Nowy rozdziaÅ,
+common#:#st_a#:#rozdziaÅ‚
+common#:#st_add#:#dodaj rozdziaÅ‚
+common#:#st_added#:#RozdziaÅ‚ dodany
+common#:#st_edit#:#Edytuj rozdziaÅ‚
+common#:#st_new#:#Nowy rozdziaÅ‚
 common#:#startpage#:#Strona startowa
 common#:#status#:#Status
 common#:#step#:#Krok
@@ -972,54 +972,54 @@ common#:#stop_inheritance#:#Przerwij dziedziczenie
 common#:#street#:#Ulica
 common#:#structure#:#Struktura
 common#:#subcat_name#:#Nazwa podkategorii
-common#:#subchapter_new#:#Nowy podrozdziaÅ,
+common#:#subchapter_new#:#Nowy podrozdziaÅ‚
 common#:#subject#:#Temat
 common#:#submit#:#Wykonaj
 common#:#subobjects#:#Podobiekty
 common#:#subscription#:#Subskrypcja
 common#:#summary#:#Podsumowanie
 common#:#system#:#System
-common#:#system_choose_language#:#WybÃ³r jÄ?zyka systemowego
+common#:#system_choose_language#:#WybÃ³r jÄ™zyka systemowego
 common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
-common#:#system_language#:#JÄ?zyk systemowy
-common#:#system_message#:#WiadomoÅ>Ä? systemowa
+common#:#system_language#:#JÄ™zyk systemowy
+common#:#system_message#:#WiadomoÅ›Ä‡ systemowa
 common#:#term#:#Termin
-common#:#test_intern#:#Test wewnÄ?trzny
+common#:#test_intern#:#Test wewnÄ™trzny
 common#:#time#:#Czas
-common#:#title#:#TytuÅ,
+common#:#title#:#TytuÅ‚
 common#:#to#:#Do
 common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
 common#:#to_desktop#:#Subskrybuj
 common#:#today#:#Dzisiaj
 common#:#total#:#Razem
 common#:#tpl_path#:#ScieÅ¼ka do szablonu
-common#:#translation#:#TÅ,umaczenmie
+common#:#translation#:#TÅ‚umaczenmie
 common#:#trash#:#Kosz
 common#:#treeview#:#Widok drzewa
-common#:#txt_add_object_instruction1#:#PrzejdÅº do miejsca gdzie chcesz dodaÄ?
+common#:#txt_add_object_instruction1#:#PrzejdÅº do miejsca gdzie chcesz dodaÄ‡
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#ZostaÅ,eÅ> zarejestrowany w systemie ILIAS. Kliknij na przycisk poniÅ¼ej aby siÄ? zalogowaÄ? do ILIAS na swoje konto.
+common#:#txt_registered#:#ZostaÅ‚eÅ› zarejestrowany w systemie ILIAS. Kliknij na przycisk poniÅ¼ej aby siÄ™ zalogowaÄ‡ do ILIAS na swoje konto.
 common#:#typ#:#Definicja typu obiektu
 common#:#type#:#Typ
-common#:#type_your_message_here#:#Tu wpisz swojÄ? wiadomoÅ>Ä?
+common#:#type_your_message_here#:#Tu wpisz swojÄ… wiadomoÅ›Ä‡
 common#:#uid#:#UID
 common#:#uninstall#:#Odinstaluj
 common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
 common#:#unread#:#Nie czytany
-common#:#unsubscribe#:#przerwij subskrybcjÄ?
-common#:#up#:#W gÃ³rÄ?
+common#:#unsubscribe#:#przerwij subskrybcjÄ™
+common#:#up#:#W gÃ³rÄ™
 common#:#update_applied#:#Uaktualnienie wykonane
-common#:#update_language#:#Uaktualnij jÄ?zyk
-common#:#upload#:#WyÅ>lij
+common#:#update_language#:#Uaktualnij jÄ™zyk
+common#:#upload#:#WyÅ›lij
 common#:#url#:#URL
 common#:#url_description#:#Opis URL
 common#:#user#:#UÅ¼ytkownik
 common#:#user_added#:#UÅ¼ytkownik dodany
-common#:#user_assignment#:#PrzydziaÅ, uÅ¼ytkownika
-common#:#user_deleted#:#UÅ¼ytkownik usuniÄ?ty
-common#:#user_language#:#JÄ?zyk uÅ¼ytkownika
+common#:#user_assignment#:#PrzydziaÅ‚ uÅ¼ytkownika
+common#:#user_deleted#:#UÅ¼ytkownik usuniÄ™ty
+common#:#user_language#:#JÄ™zyk uÅ¼ytkownika
 common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
 common#:#userdata#:#Dane uÅ¼ytkownika
 common#:#username#:#Login (pseudonim)
@@ -1028,7 +1028,7 @@ common#:#users_online#:#UÅ¼ytkownicy zalogowani
 common#:#usr#:#UÅ¼ytkownik
 common#:#usr_a#:#UÅ¼ytkownik
 common#:#usr_add#:#dodaj uÅ¼ytkownika
-common#:#usr_added#:#UÅ¼ytkownik zostaÅ, dodany
+common#:#usr_added#:#UÅ¼ytkownik zostaÅ‚ dodany
 common#:#usr_agreement#:#Zgoda uÅ¼ytkownika
 common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
 common#:#usr_edit#:#Edytuj uÅ¼ytkownika
@@ -1043,20 +1043,20 @@ common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
 common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
 common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
 common#:#validate#:#ZatwierdÅº
-common#:#value#:#WartoÅ>Ä?
+common#:#value#:#WartoÅ›Ä‡
 common#:#version#:#Wersja
 common#:#view#:#Widok
-common#:#view_content#:#ZawartoÅ>Ä? widoku
+common#:#view_content#:#ZawartoÅ›Ä‡ widoku
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
-common#:#week#:#TydzieÅ?
-common#:#welcome#:#Welcome###20 Jan 2004 new variable
+common#:#week#:#TydzieÅ
+common#:#welcome#:#Welcome###17 Dec 2003 new variable
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
 common#:#yes#:#Tak
-common#:#you_may_add_local_roles#:#MoÅ¼esz dodaÄ? lokalne stanowisko
-common#:#your_message#:#Twoja wiadomoÅ>Ä?
+common#:#you_may_add_local_roles#:#MoÅ¼esz dodaÄ‡ lokalne stanowisko
+common#:#your_message#:#Twoja wiadomoÅ›Ä‡
 common#:#zip#:#Postal Code###17 Dec 2003 new variable
 common#:#zipcode#:#Kod pocztowy
 content#:#HTML export#:#Eksport HTML
@@ -1066,13 +1066,13 @@ content#:#all#:#Wszystko
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Cytat
-content#:#cont_Example#:#PrzykÅ,ad
-content#:#cont_Headline1#:#NagÅ,Ã³wek 1
-content#:#cont_Headline2#:#NagÅ,Ã³wek 2
-content#:#cont_Headline3#:#NagÅ,Ã³wek 3
+content#:#cont_Example#:#PrzykÅ‚ad
+content#:#cont_Headline1#:#NagÅ‚Ã³wek 1
+content#:#cont_Headline2#:#NagÅ‚Ã³wek 2
+content#:#cont_Headline3#:#NagÅ‚Ã³wek 3
 content#:#cont_List#:#Lista
 content#:#cont_LocalFile#:#Plik lokalny
-content#:#cont_Mnemonic#:#PamiÄ?ciowy
+content#:#cont_Mnemonic#:#PamiÄ™ciowy
 content#:#cont_Number#:#Liczba
 content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
 content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
@@ -1081,133 +1081,133 @@ content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
-content#:#cont_add_definition#:#dodaj definicjÄ?
+content#:#cont_add_definition#:#dodaj definicjÄ™
 content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
 content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
-content#:#cont_assign_full#:#Przydziel peÅ,ny widok
+content#:#cont_assign_full#:#Przydziel peÅ‚ny widok
 content#:#cont_assign_std#:#Przydziel standardowy widok
-content#:#cont_assign_translation#:#Wyznacz tÅ,umaczenie
-content#:#cont_assignments_deleted#:#PrzydziaÅ,y zostaÅ,y usuniÄ?te
+content#:#cont_assign_translation#:#Wyznacz tÅ‚umaczenie
+content#:#cont_assignments_deleted#:#PrzydziaÅ‚y zostaÅ‚y usuniÄ™te
 content#:#cont_back#:#PowrÃ³t
-content#:#cont_booktitle#:#TytuÅ, ksiÄ?Å¼ki
+content#:#cont_booktitle#:#TytuÅ‚ ksiÄ…Å¼ki
 content#:#cont_bottom#:#SpÃ³d
-content#:#cont_cant_del_full#:#UsuniÄ?cie pliku peÅ,noekranowego widoku nie jest moÅ¼liwe.
-content#:#cont_cant_del_std#:#UsuniÄ?cie pliku standardowego widoku nie jest moÅ¼liwe
-content#:#cont_caption#:#NagÅ,Ã³wek
-content#:#cont_change_type#:#ZmieÅ? typ
-content#:#cont_chap_and_pages#:#RozdziaÅ,y i strony
-content#:#cont_chap_select_target_now#:#RozdziaÅ, zaznaczony do przesuniÄ?cia. Teraz wybierz przeznaczenie.
-content#:#cont_chapters#:#RozdziaÅ,y
+content#:#cont_cant_del_full#:#UsuniÄ™cie pliku peÅ‚noekranowego widoku nie jest moÅ¼liwe.
+content#:#cont_cant_del_std#:#UsuniÄ™cie pliku standardowego widoku nie jest moÅ¼liwe
+content#:#cont_caption#:#NagÅ‚Ã³wek
+content#:#cont_change_type#:#ZmieÅ„ typ
+content#:#cont_chap_and_pages#:#RozdziaÅ‚y i strony
+content#:#cont_chap_select_target_now#:#RozdziaÅ‚ zaznaczony do przesuniÄ™cia. Teraz wybierz przeznaczenie.
+content#:#cont_chapters#:#RozdziaÅ‚y
 content#:#cont_characteristic#:#Charakterystyka
-content#:#cont_choose_cont_obj#:#Wybierz zawartoÅ>Ä? obiektu
-content#:#cont_choose_glossary#:#Wybierz sÅ,ownik
-content#:#cont_citation_err_one#:#Musisz wybraÄ? dokÅ,adnie jednÄ? edycjÄ?
-content#:#cont_citation_selection_not_valid#:#TwÃ³j wybÃ³r nie jest prawidÅ,owy
+content#:#cont_choose_cont_obj#:#Wybierz zawartoÅ›Ä‡ obiektu
+content#:#cont_choose_glossary#:#Wybierz sÅ‚ownik
+content#:#cont_citation_err_one#:#Musisz wybraÄ‡ dokÅ‚adnie jednÄ… edycjÄ™
+content#:#cont_citation_selection_not_valid#:#TwÃ³j wybÃ³r nie jest prawidÅ‚owy
 content#:#cont_citations#:#Cytaty
-content#:#cont_content#:#ZawartoÅ>Ä?
-content#:#cont_content_obj#:#ZawartoÅ>Ä? obiektu
+content#:#cont_content#:#ZawartoÅ›Ä‡
+content#:#cont_content_obj#:#ZawartoÅ›Ä‡ obiektu
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#UtwÃ³rz katalog
-content#:#cont_cross_reference#:#OdsyÅ,acz
+content#:#cont_cross_reference#:#OdsyÅ‚acz
 content#:#cont_data_from_lms#:#Dane z lms
-content#:#cont_def_layout#:#DomyÅ>lny wyglÄ?d
-content#:#cont_def_organization#:#domyÅ>lny
+content#:#cont_def_layout#:#DomyÅ›lny wyglÄ…d
+content#:#cont_def_organization#:#domyÅ›lny
 content#:#cont_definition#:#Definicja
 content#:#cont_definitions#:#Definicje
-content#:#cont_del_assignment#:#UsuÅ? przydziaÅ,
-content#:#cont_dependencies#:#ZaleÅ¼noÅ>ci
-content#:#cont_details#:#SzczegÃ³Å,y
+content#:#cont_del_assignment#:#UsuÅ„ przydziaÅ‚
+content#:#cont_dependencies#:#ZaleÅ¼noÅ›ci
+content#:#cont_details#:#SzczegÃ³Å‚y
 content#:#cont_dir_file#:#Katalog/Plik
-content#:#cont_edit_file_list_properties#:#Edytuj listÄ? wÅ,aÅ>ciwoÅ>ci pliku
+content#:#cont_edit_file_list_properties#:#Edytuj listÄ™ wÅ‚aÅ›ciwoÅ›ci pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
-content#:#cont_edit_mob_alias_prop#:#Edytuj wÅ,aÅ>ciwoÅ>ci instancji obiektu multimedialnego
+content#:#cont_edit_mob_alias_prop#:#Edytuj wÅ‚aÅ›ciwoÅ›ci instancji obiektu multimedialnego
 content#:#cont_edit_mob_files#:#Pliki obiektowe
-content#:#cont_edit_mob_properties#:#Edytuj wÅ,aÅ>ciwoÅ>ci obiektu multimedialnego
+content#:#cont_edit_mob_properties#:#Edytuj wÅ‚aÅ›ciwoÅ›ci obiektu multimedialnego
 content#:#cont_edit_par#:#Edytuj Paragraf
-content#:#cont_edit_tab_properties#:#WÅ,aÅ>ciwoÅ>ci tablicy
+content#:#cont_edit_tab_properties#:#WÅ‚aÅ›ciwoÅ›ci tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
-content#:#cont_full_is_in_dir#:#UsuniÄ?cie nie jest moÅ¼liwe. Plik peÅ,noekranowy jest w katalogu.
-content#:#cont_fullscreen#:#PeÅ,en ekran
-content#:#cont_height#:#WysokoÅ>Ä?
+content#:#cont_full_is_in_dir#:#UsuniÄ™cie nie jest moÅ¼liwe. Plik peÅ‚noekranowy jest w katalogu.
+content#:#cont_fullscreen#:#PeÅ‚en ekran
+content#:#cont_height#:#WysokoÅ›Ä‡
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Insert File Item###17 Dec 2003 new variable
-content#:#cont_insert_file_list#:#Wstaw listÄ? plikÃ³w
-content#:#cont_insert_list#:#Wstaw listÄ?
+content#:#cont_insert_file_list#:#Wstaw listÄ™ plikÃ³w
+content#:#cont_insert_list#:#Wstaw listÄ™
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
 content#:#cont_insert_par#:#Wstaw paragraf
 content#:#cont_insert_search#:#Wstaw szukany termin
-content#:#cont_insert_table#:#Wstaw tablicÄ?
-content#:#cont_internal_link#:#Å?Ä?cznik wewnÄ?trzny
+content#:#cont_insert_table#:#Wstaw tablicÄ™
+content#:#cont_internal_link#:#ÅÄ…cznik wewnÄ™trzny
 content#:#cont_is_visible#:#niewidoczny
 content#:#cont_isbn#:#ISBN
 content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
-content#:#cont_keyword#:#SÅ,owo kluczowe
+content#:#cont_keyword#:#SÅ‚owo kluczowe
 content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_select#:#Å?Ä?cznik wewnÄ?trzny
-content#:#cont_link_type#:#Typ Å,Ä?cznika
-content#:#cont_list_properties#:#Lista wÅ,aÅ>ciwoÅ>ci
-content#:#cont_lk_chapter#:#RozdziaÅ,
-content#:#cont_lk_chapter_new#:#RozdziaÅ, (nowa ramka)
+content#:#cont_link_select#:#ÅÄ…cznik wewnÄ™trzny
+content#:#cont_link_type#:#Typ Å‚Ä…cznika
+content#:#cont_list_properties#:#Lista wÅ‚aÅ›ciwoÅ›ci
+content#:#cont_lk_chapter#:#RozdziaÅ‚
+content#:#cont_lk_chapter_new#:#RozdziaÅ‚ (nowa ramka)
 content#:#cont_lk_media_faq#:#Multimedia (ramka FAQ)
-content#:#cont_lk_media_inline#:#Multimedia (wewnÄ?trz)
+content#:#cont_lk_media_inline#:#Multimedia (wewnÄ…trz)
 content#:#cont_lk_media_media#:#Multimedia (ramka medialna)
 content#:#cont_lk_media_new#:#Multimedia (nowa ramka)
 content#:#cont_lk_page#:#Strona
 content#:#cont_lk_page_faq#:#Strona (ramka FAQ)
 content#:#cont_lk_page_new#:#Strona (nowa ramka)
-content#:#cont_lk_term#:#HasÅ,o sÅ,ownika
-content#:#cont_lk_term_new#:#HasÅ,o sÅ,ownika (nowa ramka)
-content#:#cont_lm_properties#:#WÅ,aÅ>ciwiÅ>ci moduÅ,u nauczania
+content#:#cont_lk_term#:#HasÅ‚o sÅ‚ownika
+content#:#cont_lk_term_new#:#HasÅ‚o sÅ‚ownika (nowa ramka)
+content#:#cont_lm_properties#:#WÅ‚aÅ›ciwiÅ›ci moduÅ‚u nauczania
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_max_time_allowed#:#Maks. dostÄ?pny czas
+content#:#cont_max_time_allowed#:#Maks. dostÄ™pny czas
 content#:#cont_mob_files#:#Pliki obiektowe
-content#:#cont_mob_inst_prop#:#WÅ,aÅ>ciwoÅ>ci instancji
-content#:#cont_mob_prop#:#WÅ,aÅ>ciwoÅ>ci obiektu
+content#:#cont_mob_inst_prop#:#WÅ‚aÅ›ciwoÅ›ci instancji
+content#:#cont_mob_prop#:#WÅ‚aÅ›ciwoÅ›ci obiektu
 content#:#cont_mob_usages#:#UÅ¼ycie
-content#:#cont_month#:#MiesiÄ?c
-content#:#cont_msg_multiple_editions#:#Nie moÅ¼na pokazaÄ? szczegÃ³Å,Ã³w zÅ,oÅ¼onego obiektu
+content#:#cont_month#:#MiesiÄ…c
+content#:#cont_msg_multiple_editions#:#Nie moÅ¼na pokazaÄ‡ szczegÃ³Å‚Ã³w zÅ‚oÅ¼onego obiektu
 content#:#cont_name#:#Name###14 Jan 2004 new variable
-content#:#cont_new_assignment#:#Nowy przydziaÅ,
+content#:#cont_new_assignment#:#Nowy przydziaÅ‚
 content#:#cont_new_dir#:#Nowy katalog
 content#:#cont_new_file#:#Nowy plik
 content#:#cont_new_media_obj#:#Nowy obiekt multimedialny
 content#:#cont_new_term#:#Nowy termin
-content#:#cont_no_assign_itself#:#Obiekt nie moÅ¼e byÄ? przydzielony do samego siebie.
-content#:#cont_no_object_found#:#Nie moÅ¼na znaleÅºÄ? Å¼adnego obiektu o takim tytule
-content#:#cont_no_page#:#Å»adna strona nie zostaÅ,a odnaleziona.
+content#:#cont_no_assign_itself#:#Obiekt nie moÅ¼e byÄ‡ przydzielony do samego siebie.
+content#:#cont_no_object_found#:#Nie moÅ¼na znaleÅºÄ‡ Å¼adnego obiektu o takim tytule
+content#:#cont_no_page#:#Å»adna strona nie zostaÅ‚a odnaleziona.
 content#:#cont_none#:#Brak
 content#:#cont_nr_cols#:#Liczba kolumn
 content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
 content#:#cont_online#:#Online
-content#:#cont_order#:#Typ porzÄ?dkowy
+content#:#cont_order#:#Typ porzÄ…dkowy
 content#:#cont_organization#:#Organizacja
 content#:#cont_organizations#:#Organizacje
 content#:#cont_orig_size#:#Originalny rozmiar
-content#:#cont_page_header#:#NagÅ,Ã³wek strony
-content#:#cont_page_select_target_now#:#Strona zostaÅ,a zaznaczona do przesunniÄ?cia. Teraz wybierz przeznaczenie.
+content#:#cont_page_header#:#NagÅ‚Ã³wek strony
+content#:#cont_page_select_target_now#:#Strona zostaÅ‚a zaznaczona do przesunniÄ™cia. Teraz wybierz przeznaczenie.
 content#:#cont_pages#:#Strony
 content#:#cont_parameter#:#Parametr
 content#:#cont_parameters#:#parametry
 content#:#cont_personal_clipboard#:#Osobisty pulpit
-content#:#cont_pg_content#:#ZawartoÅ>Ä? strony
-content#:#cont_pg_title#:#TytuÅ, strony
-content#:#cont_prereq_type#:#Typ warunkÃ³w wstÄ?pnych
-content#:#cont_prerequisites#:#Warunki wstÄ?pne
-content#:#cont_preview#:#PodglÄ?d
+content#:#cont_pg_content#:#ZawartoÅ›Ä‡ strony
+content#:#cont_pg_title#:#TytuÅ‚ strony
+content#:#cont_prereq_type#:#Typ warunkÃ³w wstÄ™pnych
+content#:#cont_prerequisites#:#Warunki wstÄ™pne
+content#:#cont_preview#:#PodglÄ…d
 content#:#cont_publisher#:#Wydawca
 content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/myimage.jpg)
@@ -1217,174 +1217,174 @@ content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
 content#:#cont_roman#:#Rzymskie i, ii, ...
 content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
-content#:#cont_sc_title#:#tytuÅ,
-content#:#cont_school#:#SzkoÅ,a
+content#:#cont_sc_title#:#tytuÅ‚
+content#:#cont_school#:#SzkoÅ‚a
 content#:#cont_scorm_type#:#Typ SCORM
-content#:#cont_select_max_one_item#:#Wybierz tylko jednÄ? pozycjÄ?.
+content#:#cont_select_max_one_item#:#Wybierz tylko jednÄ… pozycjÄ™.
 content#:#cont_select_max_one_term#:#Wybierz tylko jeden termin.
 content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
-content#:#cont_select_one_translation#:#wybierz jedno tÅ,umaczenie.
+content#:#cont_select_one_translation#:#wybierz jedno tÅ‚umaczenie.
 content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
 content#:#cont_select_term#:#Wybierz termin
-content#:#cont_select_translation#:#Wybierz przydziaÅ, z listy powyÅ¼ej
+content#:#cont_select_translation#:#Wybierz przydziaÅ‚ z listy powyÅ¼ej
 content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Edytor serii
-content#:#cont_series_title#:#TyuÅ, serii
+content#:#cont_series_title#:#TyuÅ‚ serii
 content#:#cont_series_volume#:#Wolumen serii
-content#:#cont_set_class#:#Ustaw klasÄ?
-content#:#cont_set_width#:#Ustaw szerokoÅ>Ä?
+content#:#cont_set_class#:#Ustaw klasÄ™
+content#:#cont_set_width#:#Ustaw szerokoÅ›Ä‡
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#PokaÅ¼
 content#:#cont_show_citation#:#PokaÅ¼ z cytatem
 content#:#cont_size#:#Rozmiar (BajtÃ³w)
-content#:#cont_source#:#Å¹rÃ³dÅ,o
-content#:#cont_st_title#:#TytuÅ, rozdziaÅ,u 
-content#:#cont_std_is_in_dir#:#UsuniÄ?cie nie jest moÅ¼liwe. Plik widoku standardowego jest w katalogu.
+content#:#cont_source#:#Å¹rÃ³dÅ‚o
+content#:#cont_st_title#:#TytuÅ‚ rozdziaÅ‚u 
+content#:#cont_std_is_in_dir#:#UsuniÄ™cie nie jest moÅ¼liwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
-content#:#cont_subchapters#:#PodrozdziaÅ,y
+content#:#cont_subchapters#:#PodrozdziaÅ‚y
 content#:#cont_table#:#Tablica
 content#:#cont_table_border#:#Ramka tablicy
-content#:#cont_table_cellpadding#:#RozciÄ?gniÄ?cie komÃ³rek
-content#:#cont_table_cellspacing#:#OdstÄ?p komÃ³rkowy
-content#:#cont_table_width#:#SzerokoÅ>Ä? tablicy
-content#:#cont_target_within_source#:#Przeznaczenie nie moÅ¼e byÄ? wewnÄ?trz obiektu ÅºrÃ³dÅ,owego.
+content#:#cont_table_cellpadding#:#RozciÄ…gniÄ™cie komÃ³rek
+content#:#cont_table_cellspacing#:#OdstÄ™p komÃ³rkowy
+content#:#cont_table_width#:#SzerokoÅ›Ä‡ tablicy
+content#:#cont_target_within_source#:#Przeznaczenie nie moÅ¼e byÄ‡ wewnÄ…trz obiektu ÅºrÃ³dÅ‚owego.
 content#:#cont_term#:#Termin
 content#:#cont_terms#:#Terminy
 content#:#cont_time_limit_action#:#Limit czasu
-content#:#cont_toc#:#Spis treÅ>ci
+content#:#cont_toc#:#Spis treÅ›ci
 content#:#cont_top#:#GÃ³ra
-content#:#cont_translations#:#TÅ,umaczenia
-content#:#cont_translations_assigned#:#TÅ,umaczenia zostaÅ,y przydzielone
+content#:#cont_translations#:#TÅ‚umaczenia
+content#:#cont_translations_assigned#:#TÅ‚umaczenia zostaÅ‚y przydzielone
 content#:#cont_update#:#Update###15 Jan 2004 new variable
-content#:#cont_upload_file#:#WyÅ>lij plik
+content#:#cont_upload_file#:#WyÅ›lij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja
 content#:#cont_where_published#:#Gdzie opublikowane
-content#:#cont_width#:#SzerokoÅ>Ä?
-content#:#cont_wysiwyg#:#ZawartoÅ>Ä? WYSIWYG
+content#:#cont_width#:#SzerokoÅ›Ä‡
+content#:#cont_wysiwyg#:#ZawartoÅ›Ä‡ WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Rok
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#pg#:#Strona
 content#:#read offline#:#Czytaj Offline
-content#:#st#:#RozdziaÅ,
+content#:#st#:#RozdziaÅ‚
 content#:#start export#:#Start Eksport
 forum#:#forums#:#Fora
-forum#:#forums_articles#:#ArtykuÅ,y
-forum#:#forums_attachments#:#ZaÅ,Ä?czniki
-forum#:#forums_attachments_add#:#Dodaj zaÅ,Ä?czniki
-forum#:#forums_attachments_edit#:#Edytuj zaÅ,Ä?cznik
+forum#:#forums_articles#:#ArtykuÅ‚y
+forum#:#forums_attachments#:#ZaÅ‚Ä…czniki
+forum#:#forums_attachments_add#:#Dodaj zaÅ‚Ä…czniki
+forum#:#forums_attachments_edit#:#Edytuj zaÅ‚Ä…cznik
 forum#:#forums_available#:#Dostepne Fora
 forum#:#forums_censor_comment#:#Komentarz cenzora
-forum#:#forums_count#:#IloÅ>Ä? ForÃ³w
-forum#:#forums_count_art#:#IloÅ>Ä? artykuÅ,Ã³w
-forum#:#forums_count_thr#:#IloÅ>Ä? wÄ?tkÃ³w
-forum#:#forums_delete_file#:#UsuÅ? zaÅ,Ä?cznik
+forum#:#forums_count#:#IloÅ›Ä‡ ForÃ³w
+forum#:#forums_count_art#:#IloÅ›Ä‡ artykuÅ‚Ã³w
+forum#:#forums_count_thr#:#IloÅ›Ä‡ wÄ…tkÃ³w
+forum#:#forums_delete_file#:#UsuÅ„ zaÅ‚Ä…cznik
 forum#:#forums_download_attachment#:#Pobierz plik
-forum#:#forums_edit_post#:#Edytuj artykuÅ,
-forum#:#forums_info_censor2_post#:#JesteÅ> pewien, Å¼e chcesz kontynuowaÄ? ukrycie tego artykuÅ,u?
-forum#:#forums_info_censor_post#:#JesteÅ> pewien, Å¼e chcesz ukryÄ? ten artykuÅ,?
-forum#:#forums_info_delete_post#:#JesteÅ> pewien, Å¼e chcesz usunÄ?Ä? ten artykuÅ, wÅ,Ä?cznie z odpowiedziami?
-forum#:#forums_last_post#:#Ostatni artykuÅ,
+forum#:#forums_edit_post#:#Edytuj artykuÅ‚
+forum#:#forums_info_censor2_post#:#JesteÅ› pewien, Å¼e chcesz kontynuowaÄ‡ ukrycie tego artykuÅ‚u?
+forum#:#forums_info_censor_post#:#JesteÅ› pewien, Å¼e chcesz ukryÄ‡ ten artykuÅ‚?
+forum#:#forums_info_delete_post#:#JesteÅ› pewien, Å¼e chcesz usunÄ…Ä‡ ten artykuÅ‚ wÅ‚Ä…cznie z odpowiedziami?
+forum#:#forums_last_post#:#Ostatni artykuÅ‚
 forum#:#forums_moderators#:#Moderatorzy
 forum#:#forums_new_entries#:#Nowe   pozycje forÃ³w
 forum#:#forums_new_thread#:#Nowy temat
-forum#:#forums_not_available#:#Fora sÄ? niedostÄ?pne
-forum#:#forums_overview#:#PrzeglÄ?d forÃ³w
-forum#:#forums_post_deleted#:#ArtykuÅ, zostaÅ, usuniÄ?ty.
-forum#:#forums_post_modified#:#ArtykuÅ, zostaÅ, zmodyfikowany.
-forum#:#forums_post_new_entry#:#Nowy artykuÅ, zostaÅ, napisany.
-forum#:#forums_posts#:#Wszystkie artykuÅ,y
-forum#:#forums_posts_not_available#:#ArtykuÅ,y nie sÄ? dostÄ?pne
-forum#:#forums_print_thread#:#Drukuj wÄ?tek
+forum#:#forums_not_available#:#Fora sÄ… niedostÄ™pne
+forum#:#forums_overview#:#PrzeglÄ…d forÃ³w
+forum#:#forums_post_deleted#:#ArtykuÅ‚ zostaÅ‚ usuniÄ™ty.
+forum#:#forums_post_modified#:#ArtykuÅ‚ zostaÅ‚ zmodyfikowany.
+forum#:#forums_post_new_entry#:#Nowy artykuÅ‚ zostaÅ‚ napisany.
+forum#:#forums_posts#:#Wszystkie artykuÅ‚y
+forum#:#forums_posts_not_available#:#ArtykuÅ‚y nie sÄ… dostÄ™pne
+forum#:#forums_print_thread#:#Drukuj wÄ…tek
 forum#:#forums_quote#:#Kwota
-forum#:#forums_respond#:#WyÅ>lij odpowiedÅº
-forum#:#forums_the_post#:#ArtykuÅ,
+forum#:#forums_respond#:#WyÅ›lij odpowiedÅº
+forum#:#forums_the_post#:#ArtykuÅ‚
 forum#:#forums_thread#:#Temat
-forum#:#forums_thread_articles#:#ArtykuÅ,y do tematu
+forum#:#forums_thread_articles#:#ArtykuÅ‚y do tematu
 forum#:#forums_thread_create_date#:#Utworzone dnia
 forum#:#forums_thread_create_from#:#Utworzone przez
-forum#:#forums_thread_new_entry#:#ZostaÅ, zapisany nowy temat.
-forum#:#forums_threads#:#WÄ?tki
-forum#:#forums_threads_not_available#:#Tematy nie sÄ? dostÄ?pne
-forum#:#forums_topics_overview#:#PrzeglÄ?d tematÃ³w
+forum#:#forums_thread_new_entry#:#ZostaÅ‚ zapisany nowy temat.
+forum#:#forums_threads#:#WÄ…tki
+forum#:#forums_threads_not_available#:#Tematy nie sÄ… dostÄ™pne
+forum#:#forums_topics_overview#:#PrzeglÄ…d tematÃ³w
 forum#:#forums_your_reply#:#Twoja odpowiedÅº
-mail#:#also_as_email#:#rownieÅ¼ pocztÄ?
+mail#:#also_as_email#:#rownieÅ¼ pocztÄ…
 mail#:#bc#:#BC
-mail#:#forward#:#PrzeÅ>lij dalej
-mail#:#linebreak#:#Linia rozdzielajÄ?ca
-mail#:#mail_add_recipient#:#Podaj odbiorcÄ?
+mail#:#forward#:#PrzeÅ›lij dalej
+mail#:#linebreak#:#Linia rozdzielajÄ…ca
+mail#:#mail_add_recipient#:#Podaj odbiorcÄ™
 mail#:#mail_add_subfolder#:#Dodaj podfolder
 mail#:#mail_add_subject#:#Podaj temat
-mail#:#mail_add_to_addressbook#:#Dodaj do ksiÄ?Å¼ki adresowej
-mail#:#mail_add_type#:#Dodaj typ poczty, ktÃ³rÄ? chcesz wysÅ,aÄ?.
+mail#:#mail_add_to_addressbook#:#Dodaj do ksiÄ…Å¼ki adresowej
+mail#:#mail_add_type#:#Dodaj typ poczty, ktÃ³rÄ… chcesz wysÅ‚aÄ‡.
 mail#:#mail_addr_entries#:#Pozycje
-mail#:#mail_attachments#:#ZaÅ,Ä?czniki
-mail#:#mail_bc_not_valid#:#Odbiorca BC nie jest prawidÅ,owy
+mail#:#mail_attachments#:#ZaÅ‚Ä…czniki
+mail#:#mail_bc_not_valid#:#Odbiorca BC nie jest prawidÅ‚owy
 mail#:#mail_bc_search#:#Szukaj BC
 mail#:#mail_byte#:#BajtÃ³w
-mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidÅ,owy
+mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidÅ‚owy
 mail#:#mail_cc_search#:#Szukaj CC
 mail#:#mail_change_to_folder#:#PrzejdÅº do folderu:
-mail#:#mail_check_your_email_addr#:#TwÃ³j adres email nie jest prawidÅ,owy.
-mail#:#mail_compose#:#Napisz wiadomoÅ>Ä? 
-mail#:#mail_deleted#:#WiadomoÅ>ci zostaÅ,y usuniÄ?te.
-mail#:#mail_deleted_entry#:#Pozycje zostaÅ,y usuniÄ?te.
-mail#:#mail_email_forbidden#:#Nie moÅ¼esz wysyÅ,aÄ? poczty.
-mail#:#mail_entry_added#:#Dodano nowÄ? pozycjÄ?.
-mail#:#mail_entry_changed#:#Pozycja zostaÅ,a zmieniona.
+mail#:#mail_check_your_email_addr#:#TwÃ³j adres email nie jest prawidÅ‚owy.
+mail#:#mail_compose#:#Napisz wiadomoÅ›Ä‡ 
+mail#:#mail_deleted#:#WiadomoÅ›ci zostaÅ‚y usuniÄ™te.
+mail#:#mail_deleted_entry#:#Pozycje zostaÅ‚y usuniÄ™te.
+mail#:#mail_email_forbidden#:#Nie moÅ¼esz wysyÅ‚aÄ‡ poczty.
+mail#:#mail_entry_added#:#Dodano nowÄ… pozycjÄ™.
+mail#:#mail_entry_changed#:#Pozycja zostaÅ‚a zmieniona.
 mail#:#mail_file_name#:#Nazwa pliku
 mail#:#mail_file_size#:#Rozmiar pliku
-mail#:#mail_files_deleted#:#Pliki zostaÅ,y usuniÄ?te.
-mail#:#mail_folder_created#:#Nowy folder zostaÅ, utworzony.
-mail#:#mail_folder_deleted#:#Folder zostaÅ, usuniÄ?ty.
-mail#:#mail_folder_exists#:#Folder z tÄ? samÄ? nazwÄ? juÅ¼ istnieje.
+mail#:#mail_files_deleted#:#Pliki zostaÅ‚y usuniÄ™te.
+mail#:#mail_folder_created#:#Nowy folder zostaÅ‚ utworzony.
+mail#:#mail_folder_deleted#:#Folder zostaÅ‚ usuniÄ™ty.
+mail#:#mail_folder_exists#:#Folder z tÄ… samÄ… nazwÄ… juÅ¼ istnieje.
 mail#:#mail_folder_name#:#Nazwa folderu
-mail#:#mail_folder_name_changed#:#Zmieniono nazwÄ? folderu
+mail#:#mail_folder_name_changed#:#Zmieniono nazwÄ™ folderu
 mail#:#mail_folder_options#:#Opcje Folderu
-mail#:#mail_following_rcp_not_valid#:#NastÄ?pujÄ?cy odbiorcy nie sÄ? prawidÅ,owi:
+mail#:#mail_following_rcp_not_valid#:#NastÄ™pujÄ…cy odbiorcy nie sÄ… prawidÅ‚owi:
 mail#:#mail_global_options#:#Opcje globalne
-mail#:#mail_insert_folder_name#:#Wstaw nazwÄ? folderu
+mail#:#mail_insert_folder_name#:#Wstaw nazwÄ™ folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
-mail#:#mail_intern#:#WewnÄ?trzny
-mail#:#mail_mark_read#:#Zaznacz wiadomoÅ>ci jako przeczytane
-mail#:#mail_mark_unread#:#Zaznacz wiadomoÅ>ci jako nieprzeczytane 
-mail#:#mail_maxsize_attachment_error#:#Limit wysyÅ,ania to:
-mail#:#mail_message_send#:#WiadomoÅ>Ä? zostaÅ,a wysÅ,ana.
-mail#:#mail_move_error#:#BÅ,Ä?d podczas przesuwania wiadomoÅ>ci
-mail#:#mail_move_to#:#PrzesuÅ? do:
-mail#:#mail_moved#:#WiadomoÅ>ci zostaÅ,y przesuniÄ?te.
-mail#:#mail_moved_to_trash#:#WiadomoÅ>ci zostaÅ,y przeniesione do kosza.
+mail#:#mail_intern#:#WewnÄ™trzny
+mail#:#mail_mark_read#:#Zaznacz wiadomoÅ›ci jako przeczytane
+mail#:#mail_mark_unread#:#Zaznacz wiadomoÅ›ci jako nieprzeczytane 
+mail#:#mail_maxsize_attachment_error#:#Limit wysyÅ‚ania to:
+mail#:#mail_message_send#:#WiadomoÅ›Ä‡ zostaÅ‚a wysÅ‚ana.
+mail#:#mail_move_error#:#BÅ‚Ä…d podczas przesuwania wiadomoÅ›ci
+mail#:#mail_move_to#:#PrzesuÅ„ do:
+mail#:#mail_moved#:#WiadomoÅ›ci zostaÅ‚y przesuniÄ™te.
+mail#:#mail_moved_to_trash#:#WiadomoÅ›ci zostaÅ‚y przeniesione do kosza.
 mail#:#mail_new_file#:#Dodaj nowy plik:
-mail#:#mail_no_attach_allowed#:#WiadomoÅ>ci systemowe nie mogÄ? zawieraÄ? zaÅ,Ä?cznikÃ³w
-mail#:#mail_no_attachments_found#:#Nie znaleziono zaÅ,Ä?cznikÃ³w
+mail#:#mail_no_attach_allowed#:#WiadomoÅ›ci systemowe nie mogÄ… zawieraÄ‡ zaÅ‚Ä…cznikÃ³w
+mail#:#mail_no_attachments_found#:#Nie znaleziono zaÅ‚Ä…cznikÃ³w
 mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
-mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidÅ,owy.
-mail#:#mail_s#:#WiadomoÅ>ci
-mail#:#mail_s_unread#:#Nieprzeczytane wiadomoÅ>ci
-mail#:#mail_saved#:#WiadomoÅ>Ä? zostaÅ,a zachowana.
-mail#:#mail_search_addressbook#:#szukaj w ksiÄ?Å¼ce adresowej
+mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidÅ‚owy.
+mail#:#mail_s#:#WiadomoÅ›ci
+mail#:#mail_s_unread#:#Nieprzeczytane wiadomoÅ›ci
+mail#:#mail_saved#:#WiadomoÅ›Ä‡ zostaÅ‚a zachowana.
+mail#:#mail_search_addressbook#:#szukaj w ksiÄ…Å¼ce adresowej
 mail#:#mail_search_system#:#szukaj w systemie
-mail#:#mail_select_one_entry#:#Musisz wybraÄ? jednÄ? pozycjÄ?
-mail#:#mail_select_one_file#:#Musisz wybraÄ? jeden plik
-mail#:#mail_sure_delete#:#JesteÅ> pewien, Å¼e chcesz usunÄ?Ä? zaznaczone wiadomoÅ>ci?
-mail#:#mail_sure_delete_entry#:#JesteÅ> pewien, Å¼e chcesz usunÄ?Ä? nasÄ?pujÄ?ce pozycje?
-mail#:#mail_sure_delete_file#:#Plik zostaÅ, ostatecznie usuniÄ?ty.
-mail#:#mail_sure_delete_folder#:#Folder wraz z caÅ,Ä? zawartoÅ>ciÄ? zostaÅ, ostatecznie usuniÄ?ty. 
+mail#:#mail_select_one_entry#:#Musisz wybraÄ‡ jednÄ… pozycjÄ™
+mail#:#mail_select_one_file#:#Musisz wybraÄ‡ jeden plik
+mail#:#mail_sure_delete#:#JesteÅ› pewien, Å¼e chcesz usunÄ…Ä‡ zaznaczone wiadomoÅ›ci?
+mail#:#mail_sure_delete_entry#:#JesteÅ› pewien, Å¼e chcesz usunÄ…Ä‡ nasÄ™pujÄ…ce pozycje?
+mail#:#mail_sure_delete_file#:#Plik zostaÅ‚ ostatecznie usuniÄ™ty.
+mail#:#mail_sure_delete_folder#:#Folder wraz z caÅ‚Ä… zawartoÅ›ciÄ… zostaÅ‚ ostatecznie usuniÄ™ty. 
 mail#:#mail_to_search#:#Szukanie odbiorcy
-mail#:#mail_user_addr_n_valid#:#NastÄ?pujÄ?cy uÅ¼ytkownicy nie majÄ? prawidÅ,owych adresÃ³w poczty elektronicznej.
+mail#:#mail_user_addr_n_valid#:#NastÄ™pujÄ…cy uÅ¼ytkownicy nie majÄ… prawidÅ‚owych adresÃ³w poczty elektronicznej.
 mail#:#search_bc_recipient#:#Szukaj odbiorcy BC
 mail#:#search_cc_recipient#:#Szukaj odbiorcy CC
-meta#:#meta_accessibility_restrictions#:#Restrykcje dostÄ?pu
+meta#:#meta_accessibility_restrictions#:#Restrykcje dostÄ™pu
 meta#:#meta_active#:#Aktywuj
 meta#:#meta_add#:#Dodaj
 meta#:#meta_annotation#:#Annotacja
 meta#:#meta_atomic#:#Atomowy
 meta#:#meta_author#:#Autor
-meta#:#meta_browser#:#PrzeglÄ?darka
+meta#:#meta_browser#:#PrzeglÄ…darka
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Zjednoczone Emiraty Arabskie
 meta#:#meta_c_AF#:#Afganistan
@@ -1396,17 +1396,17 @@ meta#:#meta_c_AN#:#Antyle Holenderskie
 meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antarktyka
 meta#:#meta_c_AR#:#Argentyna
-meta#:#meta_c_AS#:#Samoa AmerykaÅ?skie
+meta#:#meta_c_AS#:#Samoa AmerykaÅ„skie
 meta#:#meta_c_AT#:#Austria
 meta#:#meta_c_AU#:#Australia
 meta#:#meta_c_AW#:#Aruba
 meta#:#meta_c_AZ#:#AzerbejdÅ¼an
-meta#:#meta_c_BA#:#BoÅ>nia i Herzegowina
+meta#:#meta_c_BA#:#BoÅ›nia i Herzegowina
 meta#:#meta_c_BB#:#Barbados
 meta#:#meta_c_BD#:#Bangladesz
 meta#:#meta_c_BE#:#Belgia
 meta#:#meta_c_BF#:#Burkina Faso
-meta#:#meta_c_BG#:#BuÅ,garia
+meta#:#meta_c_BG#:#BuÅ‚garia
 meta#:#meta_c_BH#:#Bahrain
 meta#:#meta_c_BI#:#Burundi
 meta#:#meta_c_BJ#:#Benin
@@ -1418,11 +1418,11 @@ meta#:#meta_c_BS#:#Bahamy
 meta#:#meta_c_BT#:#Bhutan
 meta#:#meta_c_BV#:#Wyspy Bouvet
 meta#:#meta_c_BW#:#Botswana
-meta#:#meta_c_BY#:#BiaÅ,oruÅ>
+meta#:#meta_c_BY#:#BiaÅ‚oruÅ›
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Wyspy Cocos (Keeling)
-meta#:#meta_c_CF#:#Republika ÅsrodkowoafrykaÅ?ska
+meta#:#meta_c_CF#:#Republika ÅšrodkowoafrykaÅ„ska
 meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Szwajcaria
 meta#:#meta_c_CI#:#Cote D' Ivoire
@@ -1441,7 +1441,7 @@ meta#:#meta_c_DE#:#Niemcy
 meta#:#meta_c_DJ#:#DÅ¼ibutti
 meta#:#meta_c_DK#:#Dania
 meta#:#meta_c_DM#:#Dominika
-meta#:#meta_c_DO#:#Republika DominikaÅ?ska
+meta#:#meta_c_DO#:#Republika DominikaÅ„ska
 meta#:#meta_c_DZ#:#Algieria
 meta#:#meta_c_EC#:#Ekwador
 meta#:#meta_c_EE#:#Estonia
@@ -1470,7 +1470,7 @@ meta#:#meta_c_GN#:#Gwinea
 meta#:#meta_c_GP#:#Guadelupa
 meta#:#meta_c_GQ#:#Gwinea RÃ³wnikowa
 meta#:#meta_c_GR#:#Grecja
-meta#:#meta_c_GS#:#PoÅ,udniowa Georgia i PoÅ,udniowe Wyspy Sandwich
+meta#:#meta_c_GS#:#PoÅ‚udniowa Georgia i PoÅ‚udniowe Wyspy Sandwich
 meta#:#meta_c_GT#:#Gwatemala
 meta#:#meta_c_GU#:#Guam
 meta#:#meta_c_GW#:#Gwinea-Bissau
@@ -1479,7 +1479,7 @@ meta#:#meta_c_HM#:#Wyspy Heard i Nc Donald
 meta#:#meta_c_HN#:#Honduras
 meta#:#meta_c_HR#:#Horwacja
 meta#:#meta_c_HT#:#Haiti
-meta#:#meta_c_HU#:#WÄ?gry
+meta#:#meta_c_HU#:#WÄ™gry
 meta#:#meta_c_ID#:#Indonesja
 meta#:#meta_c_IE#:#Irlandia
 meta#:#meta_c_IL#:#Izrael
@@ -1488,7 +1488,7 @@ meta#:#meta_c_IO#:#Brityjskie Terytorium Oceanu Indyjskiego
 meta#:#meta_c_IQ#:#Irak
 meta#:#meta_c_IR#:#Iran
 meta#:#meta_c_IS#:#Islandia
-meta#:#meta_c_IT#:#WÅ,ochy
+meta#:#meta_c_IT#:#WÅ‚ochy
 meta#:#meta_c_JM#:#Jamajka
 meta#:#meta_c_JO#:#Jordannia
 meta#:#meta_c_JP#:#Japonia
@@ -1499,7 +1499,7 @@ meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
 meta#:#meta_c_KP#:#PÃ³lnocna Korea (Ludowa Republika Korei)
-meta#:#meta_c_KR#:#PoÅ,udniowa Korea (Republika Korei)
+meta#:#meta_c_KR#:#PoÅ‚udniowa Korea (Republika Korei)
 meta#:#meta_c_KW#:#Kuwejt
 meta#:#meta_c_KY#:#Wyspy Caymana
 meta#:#meta_c_KZ#:#Kazahstan
@@ -1512,11 +1512,11 @@ meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesoto
 meta#:#meta_c_LT#:#Litwa
 meta#:#meta_c_LU#:#Luksemburg
-meta#:#meta_c_LV#:#Å?otwa
+meta#:#meta_c_LV#:#Åotwa
 meta#:#meta_c_LY#:#Libia Arabska Jamahiriya
 meta#:#meta_c_MA#:#Maroko
 meta#:#meta_c_MC#:#Monaco
-meta#:#meta_c_MD#:#MoÅ,dawia
+meta#:#meta_c_MD#:#MoÅ‚dawia
 meta#:#meta_c_MG#:#Madagaskar
 meta#:#meta_c_MH#:#Wyspy Marshalla
 meta#:#meta_c_MK#:#Macedonia
@@ -1524,7 +1524,7 @@ meta#:#meta_c_ML#:#Mali
 meta#:#meta_c_MM#:#Myanmar
 meta#:#meta_c_MN#:#Mongolia
 meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#PÃ³Å,nocne Wyspy Mariany
+meta#:#meta_c_MP#:#PÃ³Å‚nocne Wyspy Mariany
 meta#:#meta_c_MQ#:#Martynika
 meta#:#meta_c_MR#:#Mauretania
 meta#:#meta_c_MS#:#Montserrat
@@ -1572,10 +1572,10 @@ meta#:#meta_c_SC#:#Seszele
 meta#:#meta_c_SD#:#Sudan
 meta#:#meta_c_SE#:#Szwecja
 meta#:#meta_c_SG#:#SingapÃ³r
-meta#:#meta_c_SH#:#ÅswiÄ?ta Helena
-meta#:#meta_c_SI#:#SÅ,owenia
+meta#:#meta_c_SH#:#ÅšwiÄ™ta Helena
+meta#:#meta_c_SI#:#SÅ‚owenia
 meta#:#meta_c_SJ#:#Wyspy Svalbard I Jan Mayen
-meta#:#meta_c_SK#:#SÅ,owacja
+meta#:#meta_c_SK#:#SÅ‚owacja
 meta#:#meta_c_SL#:#Siearra Leone
 meta#:#meta_c_SM#:#San Marino
 meta#:#meta_c_SN#:#Senegal
@@ -1587,7 +1587,7 @@ meta#:#meta_c_SY#:#Syryjska Republika Arabska
 meta#:#meta_c_SZ#:#Suazi
 meta#:#meta_c_TC#:#Wyspy Turks i Caicos
 meta#:#meta_c_TD#:#Czad
-meta#:#meta_c_TF#:#Frencuskie Terytorium PoÅ,udniowe
+meta#:#meta_c_TF#:#Frencuskie Terytorium PoÅ‚udniowe
 meta#:#meta_c_TG#:#Togo
 meta#:#meta_c_TH#:#Tajlandia
 meta#:#meta_c_TJ#:#TadÅ¼ykistan
@@ -1618,39 +1618,39 @@ meta#:#meta_c_WF#:#Wyspy Wallis i Futuna
 meta#:#meta_c_WS#:#Samoa
 meta#:#meta_c_YE#:#Jemen
 meta#:#meta_c_YT#:#Mayotte
-meta#:#meta_c_ZA#:#PoÅ,udniowa Afryka
+meta#:#meta_c_ZA#:#PoÅ‚udniowa Afryka
 meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZR#:#Zair
 meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_c_ZZ#:#Inny kraj
 meta#:#meta_catalog#:#Katalog
-meta#:#meta_choose_element#:#Wybierz element, ktÃ³ry chcesz dodaÄ?!
-meta#:#meta_choose_language#:#Wybierz jÄ?zyk
-meta#:#meta_choose_section#:#Wybierz sekcjÄ?
+meta#:#meta_choose_element#:#Wybierz element, ktÃ³ry chcesz dodaÄ‡!
+meta#:#meta_choose_language#:#Wybierz jÄ™zyk
+meta#:#meta_choose_section#:#Wybierz sekcjÄ™
 meta#:#meta_classification#:#Klasyfikacja
 meta#:#meta_collection#:#Kolekcja
 meta#:#meta_competency#:#Kompetecje
 meta#:#meta_context#:#Contekst
-meta#:#meta_contribute#:#WeÅº udziaÅ,
+meta#:#meta_contribute#:#WeÅº udziaÅ‚
 meta#:#meta_copyright_and_other_restrictions#:#Prawa autorskie i inne restrykcje
 meta#:#meta_cost#:#Koszt
-meta#:#meta_coverage#:#ObsÅ,uga sprawozdawcza
+meta#:#meta_coverage#:#ObsÅ‚uga sprawozdawcza
 meta#:#meta_date#:#Data
-meta#:#meta_delete#:#UsuÅ?
+meta#:#meta_delete#:#UsuÅ„
 meta#:#meta_description#:#Opis
 meta#:#meta_diagramm#:#Diagram
-meta#:#meta_difficulty#:#TrudnoÅ>Ä?
+meta#:#meta_difficulty#:#TrudnoÅ›Ä‡
 meta#:#meta_dificult#:#Trudny
 meta#:#meta_draft#:#Szkic
 meta#:#meta_duration#:#Czas trwania
-meta#:#meta_easy#:#Å?atwy
+meta#:#meta_easy#:#Åatwy
 meta#:#meta_education#:#Edukacja
 meta#:#meta_educational_level#:#Poziom edukacyjny
 meta#:#meta_educational_objective#:#Educational Objective
 meta#:#meta_entity#:#Istnienie
 meta#:#meta_entry#:#Pozycja
 meta#:#meta_exam#:#Egzamin
-meta#:#meta_exercise#:#Ä?wiczenie
+meta#:#meta_exercise#:#Ä†wiczenie
 meta#:#meta_experiment#:#Eksperyment
 meta#:#meta_expositive#:#Ekspozycja
 meta#:#meta_figure#:#Figura
@@ -1659,27 +1659,27 @@ meta#:#meta_format#:#Format
 meta#:#meta_general#:#OgÃ³lne
 meta#:#meta_graph#:#Wykres
 meta#:#meta_has_format#:#Ma Format
-meta#:#meta_has_part#:#Ma czÄ?Å>Ä?
-meta#:#meta_has_version#:#MA wersjÄ?
+meta#:#meta_has_part#:#Ma czÄ™Å›Ä‡
+meta#:#meta_has_version#:#MA wersjÄ™
 meta#:#meta_hierarchical#:#Hierarchicznie
-meta#:#meta_high#:#WysokoÅ>Ä?
+meta#:#meta_high#:#WysokoÅ›Ä‡
 meta#:#meta_higher_education#:#Nauczanie wyÅ¼sze
 meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identyfikator
 meta#:#meta_index#:#Indeks
 meta#:#meta_installation_remarks#:#Uwagi instalacyjne
-meta#:#meta_intended_end_user_role#:#Stanowisko uÅ¼ytkownika koÅ?cowego
-meta#:#meta_interactivity_level#:#Poziom interaktywnoÅ>ci
-meta#:#meta_interactivity_type#:#Typ interaktywnoÅ>ci
+meta#:#meta_intended_end_user_role#:#Stanowisko uÅ¼ytkownika koÅ„cowego
+meta#:#meta_interactivity_level#:#Poziom interaktywnoÅ›ci
+meta#:#meta_interactivity_type#:#Typ interaktywnoÅ›ci
 meta#:#meta_is_based_on#:#Jest oparty na
-meta#:#meta_is_basis_for#:#Jest bazÄ? dla
+meta#:#meta_is_basis_for#:#Jest bazÄ… dla
 meta#:#meta_is_format_of#:#Jest formatem
-meta#:#meta_is_part_of#:#Jest czÄ?Å>ciÄ?
+meta#:#meta_is_part_of#:#Jest czÄ™Å›ciÄ…
 meta#:#meta_is_referenced_by#:#Jest rekomendowany przez
 meta#:#meta_is_required_by#:#Jest wymagany przez
-meta#:#meta_is_version_of#:#Jest wersjÄ?
-meta#:#meta_keyword#:#SÅ,owo kluczowe
+meta#:#meta_is_version_of#:#Jest wersjÄ…
+meta#:#meta_keyword#:#SÅ‚owo kluczowe
 meta#:#meta_kind#:#Rodzaj
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abhaski
@@ -1688,30 +1688,30 @@ meta#:#meta_l_am#:#amharic
 meta#:#meta_l_ar#:#arabski
 meta#:#meta_l_as#:#assamese
 meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbejdÅ¼aÅ?ski
+meta#:#meta_l_az#:#azerbejdÅ¼aÅ„ski
 meta#:#meta_l_ba#:#baszkirski
-meta#:#meta_l_be#:#biaÅ,oruski
-meta#:#meta_l_bg#:#buÅ,garski
+meta#:#meta_l_be#:#biaÅ‚oruski
+meta#:#meta_l_bg#:#buÅ‚garski
 meta#:#meta_l_bh#:#bihari
 meta#:#meta_l_bi#:#bislama
 meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tybetaÅ?ski
-meta#:#meta_l_br#:#bretoÅ?ski
-meta#:#meta_l_ca#:#kataloÅ?ski
-meta#:#meta_l_co#:#korsykaÅ?ski
+meta#:#meta_l_bo#:#tybetaÅ„ski
+meta#:#meta_l_br#:#bretoÅ„ski
+meta#:#meta_l_ca#:#kataloÅ„ski
+meta#:#meta_l_co#:#korsykaÅ„ski
 meta#:#meta_l_cs#:#czeski
 meta#:#meta_l_cy#:#welsh
-meta#:#meta_l_da#:#duÅ?ski
+meta#:#meta_l_da#:#duÅ„ski
 meta#:#meta_l_de#:#niemiecki
 meta#:#meta_l_dz#:#bhutani
 meta#:#meta_l_el#:#grecki
 meta#:#meta_l_en#:#angielski
 meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#hiszpaÅ?ski
-meta#:#meta_l_et#:#estoÅ?ski
+meta#:#meta_l_es#:#hiszpaÅ„ski
+meta#:#meta_l_et#:#estoÅ„ski
 meta#:#meta_l_eu#:#baskijski
 meta#:#meta_l_fa#:#perski (farsi)
-meta#:#meta_l_fi#:#fiÅ?ski
+meta#:#meta_l_fi#:#fiÅ„ski
 meta#:#meta_l_fj#:#fiji
 meta#:#meta_l_fo#:#faroese
 meta#:#meta_l_fr#:#francuski
@@ -1725,37 +1725,37 @@ meta#:#meta_l_ha#:#hausa
 meta#:#meta_l_he#:#hebrajski
 meta#:#meta_l_hi#:#hindi
 meta#:#meta_l_hr#:#horwacki
-meta#:#meta_l_hu#:#wÄ?gierski
-meta#:#meta_l_hy#:#armeÅ?ski
+meta#:#meta_l_hu#:#wÄ™gierski
+meta#:#meta_l_hy#:#armeÅ„ski
 meta#:#meta_l_ia#:#interlingua
 meta#:#meta_l_id#:#indonezyjski
 meta#:#meta_l_ie#:#interlingue
 meta#:#meta_l_ik#:#inupiak
 meta#:#meta_l_is#:#islandzki
-meta#:#meta_l_it#:#wÅ,oski
+meta#:#meta_l_it#:#wÅ‚oski
 meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#japoÅ?ski
+meta#:#meta_l_ja#:#japoÅ„ski
 meta#:#meta_l_jv#:#jawajski
 meta#:#meta_l_ka#:#georgian
 meta#:#meta_l_kk#:#kazahski
 meta#:#meta_l_kl#:#grenlandzki
-meta#:#meta_l_km#:#kambodÅ¼aÅ?ski
+meta#:#meta_l_km#:#kambodÅ¼aÅ„ski
 meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#koreaÅ?ski
+meta#:#meta_l_ko#:#koreaÅ„ski
 meta#:#meta_l_ks#:#kashmiri
 meta#:#meta_l_ku#:#kurdyjski
 meta#:#meta_l_ky#:#kirgiski
-meta#:#meta_l_la#:#Å,aciÅ?ski
+meta#:#meta_l_la#:#Å‚aciÅ„ski
 meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laotaÅ?ski
+meta#:#meta_l_lo#:#laotaÅ„ski
 meta#:#meta_l_lt#:#litewski
-meta#:#meta_l_lv#:#Å,otewski
+meta#:#meta_l_lv#:#Å‚otewski
 meta#:#meta_l_mg#:#malagasy
 meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedoÅ?ski
+meta#:#meta_l_mk#:#macedoÅ„ski
 meta#:#meta_l_ml#:#malayalam
 meta#:#meta_l_mn#:#mongolski
-meta#:#meta_l_mo#:#moÅ,dawski
+meta#:#meta_l_mo#:#moÅ‚dawski
 meta#:#meta_l_mr#:#marathi
 meta#:#meta_l_ms#:#malajski
 meta#:#meta_l_mt#:#maltese
@@ -1774,7 +1774,7 @@ meta#:#meta_l_pt#:#portugalski
 meta#:#meta_l_qu#:#quechua
 meta#:#meta_l_rm#:#rhaeto-romance
 meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#rumuÅ?ski
+meta#:#meta_l_ro#:#rumuÅ„ski
 meta#:#meta_l_ru#:#rosyjski
 meta#:#meta_l_rw#:#kinyarwanda
 meta#:#meta_l_sa#:#sanskryt
@@ -1782,12 +1782,12 @@ meta#:#meta_l_sd#:#sindhi
 meta#:#meta_l_sg#:#sangho
 meta#:#meta_l_sh#:#serbo-chorwacki
 meta#:#meta_l_si#:#singalezyjski
-meta#:#meta_l_sk#:#sÅ,owacki
-meta#:#meta_l_sl#:#sÅ,oweÅ?ski
-meta#:#meta_l_sm#:#samoaÅ?ski
+meta#:#meta_l_sk#:#sÅ‚owacki
+meta#:#meta_l_sl#:#sÅ‚oweÅ„ski
+meta#:#meta_l_sm#:#samoaÅ„ski
 meta#:#meta_l_sn#:#shona
 meta#:#meta_l_so#:#somalijski
-meta#:#meta_l_sq#:#albaÅ?ski
+meta#:#meta_l_sq#:#albaÅ„ski
 meta#:#meta_l_sr#:#serbski
 meta#:#meta_l_ss#:#siswati
 meta#:#meta_l_st#:#sesotho
@@ -1799,7 +1799,7 @@ meta#:#meta_l_te#:#telugu
 meta#:#meta_l_tg#:#tajik
 meta#:#meta_l_th#:#tajski
 meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmeÅ?ski
+meta#:#meta_l_tk#:#turkmeÅ„ski
 meta#:#meta_l_tl#:#tagalog
 meta#:#meta_l_tn#:#setswana
 meta#:#meta_l_to#:#tongijski
@@ -1808,7 +1808,7 @@ meta#:#meta_l_ts#:#tsonga
 meta#:#meta_l_tt#:#tatarski
 meta#:#meta_l_tw#:#twi
 meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ukraiÅ?ski
+meta#:#meta_l_uk#:#ukraiÅ„ski
 meta#:#meta_l_ur#:#urdu
 meta#:#meta_l_uz#:#uzbecki
 meta#:#meta_l_vi#:#wietnamski
@@ -1818,13 +1818,13 @@ meta#:#meta_l_xh#:#xhosa
 meta#:#meta_l_yi#:#jiddisz
 meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#chiÅ?ski
+meta#:#meta_l_zh#:#chiÅ„ski
 meta#:#meta_l_zu#:#zuluski
-meta#:#meta_language#:#JÄ?zyk
-meta#:#meta_learner#:#UczeÅ?
+meta#:#meta_language#:#JÄ™zyk
+meta#:#meta_learner#:#UczeÅ„
 meta#:#meta_learning_resource_type#:#Typ zasobu nauczania
 meta#:#meta_lecture#:#Lektura
-meta#:#meta_lifecycle#:#Okres DziaÅ,ania
+meta#:#meta_lifecycle#:#Okres DziaÅ‚ania
 meta#:#meta_linear#:#Liniowy
 meta#:#meta_local_file#:#Plik lokalny
 meta#:#meta_location#:#Miejsce
@@ -1832,7 +1832,7 @@ meta#:#meta_low#:#Niski
 meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#MenedÅ¼er
 meta#:#meta_maximum_version#:#Maksymalna wersja
-meta#:#meta_medium#:#Åsredni
+meta#:#meta_medium#:#Åšredni
 meta#:#meta_meta_metadata#:#Meta-Metadane
 meta#:#meta_metadatascheme#:#Metadane-schemat
 meta#:#meta_minimum_version#:#Minimalna wersja
@@ -1844,14 +1844,14 @@ meta#:#meta_narrative_text#:#Tekst narracyjny
 meta#:#meta_networked#:#Sieciowy
 meta#:#meta_new_element#:#Nowy element
 meta#:#meta_no#:#Nie
-meta#:#meta_no_annotation#:#Dla sekcji PrzypisÃ³w meta dane nie sÄ? dostÄ?pne.
-meta#:#meta_no_classification#:#Dla sekcji Klasyfikacji meta dane nie sÄ? dostÄ?pne.
-meta#:#meta_no_educational#:#Meta dane dla sekcji edukacyjnej nie sÄ? dostepne.
-meta#:#meta_no_lifecycle#:#Meta dane dla sekcji Okres DziaÅ,ania nie sÄ? dostÄ?pne.
-meta#:#meta_no_meta_metadata#:#Meta dane dla sekcji Meta-Metadane nie sÄ? dostÄ?pne.
-meta#:#meta_no_relation#:#Meta dane dla sekcji Relacji nie sÄ? dostÄ?pne.
-meta#:#meta_no_rights#:#Meta dane dla sekcji UprawnieÅ? nie sÄ? dostÄ?pne.
-meta#:#meta_no_technical#:#Meta dane dla sekcji Technicznej nie sÄ? dostÄ?pne.
+meta#:#meta_no_annotation#:#Dla sekcji PrzypisÃ³w meta dane nie sÄ… dostÄ™pne.
+meta#:#meta_no_classification#:#Dla sekcji Klasyfikacji meta dane nie sÄ… dostÄ™pne.
+meta#:#meta_no_educational#:#Meta dane dla sekcji edukacyjnej nie sÄ… dostepne.
+meta#:#meta_no_lifecycle#:#Meta dane dla sekcji Okres DziaÅ‚ania nie sÄ… dostÄ™pne.
+meta#:#meta_no_meta_metadata#:#Meta dane dla sekcji Meta-Metadane nie sÄ… dostÄ™pne.
+meta#:#meta_no_relation#:#Meta dane dla sekcji Relacji nie sÄ… dostÄ™pne.
+meta#:#meta_no_rights#:#Meta dane dla sekcji UprawnieÅ„ nie sÄ… dostÄ™pne.
+meta#:#meta_no_technical#:#Meta dane dla sekcji Technicznej nie sÄ… dostÄ™pne.
 meta#:#meta_none#:#Brak
 meta#:#meta_operating_system#:#System operacyjny
 meta#:#meta_or_composite#:#Lub zespolony
@@ -1859,7 +1859,7 @@ meta#:#meta_other#:#Inny
 meta#:#meta_other_plattform_requirements#:#Wymagania na inne platformy
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Wybierz
-meta#:#meta_prerequisite#:#Warunki wstÄ?pne
+meta#:#meta_prerequisite#:#Warunki wstÄ™pne
 meta#:#meta_problem_statement#:#Przedstawienie problemu
 meta#:#meta_publisher#:#Wydawca
 meta#:#meta_purpose#:#Cel
@@ -1869,60 +1869,60 @@ meta#:#meta_references#:#Rekomendacje
 meta#:#meta_relation#:#Relacja
 meta#:#meta_requirement#:#Wymagania
 meta#:#meta_requires#:#Wymaga
-meta#:#meta_resource#:#Å¹rÃ³dÅ,o
+meta#:#meta_resource#:#Å¹rÃ³dÅ‚o
 meta#:#meta_revised#:#Zrewidowany
 meta#:#meta_rights#:#Prawa
 meta#:#meta_role#:#stanowisko
-meta#:#meta_school#:#SzkoÅ,a
-meta#:#meta_security_level#:#Poziom bezpieczeÅ?stwa
+meta#:#meta_school#:#SzkoÅ‚a
+meta#:#meta_security_level#:#Poziom bezpieczeÅ„stwa
 meta#:#meta_self_assessment#:#Samo oszacowanie
-meta#:#meta_semantic_density#:#GÄ?stoÅ>Ä? Semantyczna
+meta#:#meta_semantic_density#:#GÄ™stoÅ›Ä‡ Semantyczna
 meta#:#meta_simulation#:#Symulacja
 meta#:#meta_size#:#Rozmiar
 meta#:#meta_skill_level#:#Poziom wprawy
 meta#:#meta_slide#:#Slajd
-meta#:#meta_source#:#Å¹rÃ³dÅ,o
+meta#:#meta_source#:#Å¹rÃ³dÅ‚o
 meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktura
 meta#:#meta_table#:#Tabela
 meta#:#meta_taxon#:#Taxon
-meta#:#meta_taxon_path#:#ÅscieÅ¼ka do Taxon
+meta#:#meta_taxon_path#:#ÅšcieÅ¼ka do Taxon
 meta#:#meta_teacher#:#Nauczyciel
 meta#:#meta_technical#:#Techniczny
-meta#:#meta_title#:#TytuÅ,
+meta#:#meta_title#:#TytuÅ‚
 meta#:#meta_training#:#Trening
 meta#:#meta_type#:#Typ
 meta#:#meta_typical_age_range#:#Typowy zakres wieku
 meta#:#meta_typical_learning_time#:#Typowy czas uczenia
-meta#:#meta_unavailable#:#niedostÄ?pny
+meta#:#meta_unavailable#:#niedostÄ™pny
 meta#:#meta_unix#:#Unix
-meta#:#meta_value#:#WartoÅ>Ä?
+meta#:#meta_value#:#WartoÅ›Ä‡
 meta#:#meta_version#:#Wersja
 meta#:#meta_very_difficult#:#Bardzo trudny
-meta#:#meta_very_easy#:#Bardzo Å,atwy
+meta#:#meta_very_easy#:#Bardzo Å‚atwy
 meta#:#meta_very_high#:#Bardzo wysoki
 meta#:#meta_very_low#:#Bardzo niski
 meta#:#meta_yes#:#Tak
 search#:#search_all_results#:#Wszystkie wyniki
-search#:#search_concatenation#:#PowiÄ?zanie
-search#:#search_content#:#ZawartoÅ>Ä? strony
-search#:#search_dbk_content#:#Biblioteka cyfrowa (zawartoÅ>Ä?)
+search#:#search_concatenation#:#PowiÄ…zanie
+search#:#search_content#:#ZawartoÅ›Ä‡ strony
+search#:#search_dbk_content#:#Biblioteka cyfrowa (zawartoÅ›Ä‡)
 search#:#search_dbk_meta#:#Biblioteka cyfrowa (meta dane)
 search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
 search#:#search_group#:#Groups###11 Dec 2003 new variable
 search#:#search_in_result#:#Szukaj w wynikach
-search#:#search_lm_content#:#MateriaÅ,y nauczania (zawartoÅ>Ä?)
-search#:#search_lm_meta#:#MateriaÅ,y nauczania (meta dane)
+search#:#search_lm_content#:#MateriaÅ‚y nauczania (zawartoÅ›Ä‡)
+search#:#search_lm_meta#:#MateriaÅ‚y nauczania (meta dane)
 search#:#search_meta#:#Meta dane
-search#:#search_minimum_three#:#Element szukany musi mieÄ? conajmniej trzy znaki.
+search#:#search_minimum_three#:#Element szukany musi mieÄ‡ conajmniej trzy znaki.
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
 search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
 search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
 search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
-search#:#search_no_category#:#nie wybraÅ,eÅ> Å¼adnej kategorii przeszukania.
-search#:#search_no_match#:#Twoje szukanie nie daÅ,o Å¼adnych rezultatÃ³w.
+search#:#search_no_category#:#nie wybraÅ‚eÅ› Å¼adnej kategorii przeszukania.
+search#:#search_no_match#:#Twoje szukanie nie daÅ‚o Å¼adnych rezultatÃ³w.
 search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
-search#:#search_no_search_term#:#Nie wybraÅ,eÅ> Å¼adnego terminu do szukania.
+search#:#search_no_search_term#:#Nie wybraÅ‚eÅ› Å¼adnego terminu do szukania.
 search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
 search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
 search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
