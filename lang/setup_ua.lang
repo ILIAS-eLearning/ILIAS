@@ -82,7 +82,7 @@ database_install#:#Інсталювати базу даних
 database_installed#:#Базу даних встановлено
 database_is_uptodate#:#Ваша база даних оновлена
 database_needs_update#:#Ваша база даних потребує оновлення
-database_not_exists_create_first#:#База даних не існує. Будь ласка створіть спочатку базу даних.
+database_not_exists_create_first#:#База даних не існує. Будь ласка створіть спочатку базу даних.###15 Sep 2004 content changed
 database_ready#:#базща даних готова.
 database_update#:#оновити базу даних
 database_version#:#поточна версія бази даних

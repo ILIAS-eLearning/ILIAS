@@ -82,7 +82,7 @@ database_install#:#Instaluj bazę danych
 database_installed#:#Baza danych została zainstalowana.
 database_is_uptodate#:#Wersja twojej bazy danych jest prawidłowa.
 database_needs_update#:#Twoja baza danych wymaga aktualizacji.
-database_not_exists_create_first#:#Baza danych nie istnieje. Najpierw utwórz ją.
+database_not_exists_create_first#:#Baza danych nie istnieje. Najpierw utwórz ją.###15 Sep 2004 content changed
 database_ready#:#Baza danych jest gotowa
 database_update#:#Aktualizuj bazę danych
 database_version#:#Wersja bieżącej bazy danych

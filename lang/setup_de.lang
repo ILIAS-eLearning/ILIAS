@@ -82,7 +82,7 @@ database_install#:#Datenbank installieren
 database_installed#:#Datenbank installiert
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
 database_needs_update#:#Datenbank benötigt ein Update
-database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
+database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.###15 Sep 2004 content changed
 database_ready#:#Datenbank ist eingerichtet
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion

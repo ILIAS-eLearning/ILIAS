@@ -98,7 +98,7 @@ database_install#:#安装数据库
 database_installed#:#数据库已安装 
 database_is_uptodate#:#数据库是已更新的
 database_needs_update#:#数据库需要更新 
-database_not_exists_create_first#:#数据库不存在。请先创建数据库。
+database_not_exists_create_first#:#数据库不存在。请先创建数据库。###15 Sep 2004 content changed
 database_ready#:#数据库已准备完毕。 
 database_update#:#更新数据库 
 database_version#:#当前数据库版本 
