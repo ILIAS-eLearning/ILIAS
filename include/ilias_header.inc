@@ -56,8 +56,9 @@ $ilias->auth->start();
 // start logging
 $log = new Log("ilias.log");
 
-//check for logged in user
-if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
+//check for logged in user except in index.php and login.php
+$script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
+if ($script != "login.php" && $script != "index.php")
 {
 	//if not authenticated display login screen
 	if (!$ilias->auth->getAuth())
