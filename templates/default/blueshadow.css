@@ -461,6 +461,8 @@ a.btn:hover {
 	color:#000000;
 }
 
+
+/*
 input {
 	background-color:#ffffff;
 	color:#000000;
@@ -469,6 +471,7 @@ input {
 	border-style:inset;
 	font-size:13px;
 }
+*/
 
 
 input.submit, a.submit {
