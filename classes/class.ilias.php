@@ -328,6 +328,11 @@ class ILIAS
 	*/
 	function getSetting($a_keyword)
 	{
+		if ($a_keyword == "ilias_version")
+		{
+			return ILIAS_VERSION;
+		}
+		
 		$query = "SELECT value FROM settings WHERE keyword='".$a_keyword."'";
 		$res = $this->db->query($query);
 
