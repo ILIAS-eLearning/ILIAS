@@ -34,6 +34,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#3rd party software###26 Nov 2003 new variable
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
+common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?
 common#:#access#:#Accès
@@ -621,6 +623,7 @@ common#:#mob#:#Objet média
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Mois
+common#:#move#:#Move###20 Jan 2004 new variable
 common#:#moveChapter#:#Déplacer
 common#:#movePage#:#Déplacer
 common#:#move_to#:#Déplacer vers
@@ -1047,6 +1050,7 @@ common#:#view_content#:#Voir contenu
 common#:#visible_layers#:#Couches visibles
 common#:#visits#:#Visites
 common#:#week#:#Semaine
+common#:#welcome#:#Welcome###20 Jan 2004 new variable
 common#:#who_is_online#:#Qui est connecté
 common#:#with#:#avec
 common#:#write#:#Ecrire

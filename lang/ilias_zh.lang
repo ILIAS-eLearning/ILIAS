@@ -51,6 +51,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#3rd party software###17 Dec 2003 new variable
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
+common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
 common#:#absolute_path#:#绝对路径
 common#:#accept_usr_agreement#:#接受用户协议？
 common#:#access#:#访问
@@ -638,6 +640,7 @@ common#:#mob#:#媒体对象
 common#:#module#:#模块
 common#:#modules#:#模块
 common#:#month#:#月
+common#:#move#:#Move###20 Jan 2004 new variable
 common#:#moveChapter#:#移
 common#:#movePage#:#移
 common#:#move_to#:#移到
@@ -1064,6 +1067,7 @@ common#:#view_content#:#视图内容
 common#:#visible_layers#:#可见层
 common#:#visits#:#访问
 common#:#week#:#星期
+common#:#welcome#:#Welcome###20 Jan 2004 new variable
 common#:#who_is_online#:#谁在线？
 common#:#with#:#同
 common#:#write#:#白色

@@ -34,13 +34,13 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#Drittanbieter-Software###09 Jan 2004 content changed
+common#:#DD.MM.YYYY#:#TT.MM.JJJJ
+common#:#HH:MM#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
-common#:#move#:#Verschieben
-common#:#welcome#:#Willkommen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -207,8 +207,6 @@ common#:#dbk_new#:#Neues Digilib-Buch
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
-common#:#DD.MM.YYYY#:#TT.MM.JJJJ
-common#:#HH:MM#:#SS:MM
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
@@ -625,6 +623,7 @@ common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Monat
+common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_to#:#Ablegen in
@@ -1051,6 +1050,7 @@ common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
 common#:#week#:#Woche
+common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
