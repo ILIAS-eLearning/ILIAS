@@ -1147,3 +1147,6 @@ if(!$got_hobby)
 }
 
 ?>
+
+<#49>
+ALTER TABLE lm_page_object MODIFY COLUMN content LONGTEXT NOT NULL DEFAULT '';
