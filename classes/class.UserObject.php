@@ -191,7 +191,7 @@ class UserObject extends Object
 				foreach ($assigned_roles as $key => $role)
 				{
 					$obj = getObject($role);
-					$tplContent->setVariable("CSS_ROW_ROLE",$key % 2 ? 'row_low' : 'row_high');
+					$tplContent->setVariable("CSS_ROW_ROLE",$key % 2 ? 'tblrow1' : 'tblrow2');
 					$box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
 					$tplContent->setVariable("CHECK_ROLE",$box);
 					$tplContent->setVariable("ROLENAME",$obj["title"]);

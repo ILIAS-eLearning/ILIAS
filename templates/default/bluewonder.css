@@ -1,22 +1,29 @@
+/**
+* alternative stylesheet in blue colors
+* @access public
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*/
 body {
-        color:#222222;
-        background-color:#ffffff;
-        font-family:Verdana,Arial,Helvetica,sans-serif;
+        color:#2222aa;
+        background-color:#fafaff;
+        font-family:Times,serif;
         font-size:x-small;
+		margin:10px;
 }
 td {
         font-size:x-small;
 }
 
 .btnbar {
-        background-color:#006699;
+        background-color:#ccccff;
 }
 
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
         color:#222222;
-        background-color:#eeeeff;
+        background-color:#ddddee;
 }
 
 .tblrow1 {
@@ -34,12 +41,12 @@ td {
 /* ---------------- headlines ------------------ */
 
 h1 {
-   font-size:medium;
+   font-size:large;
    color:#222233;
 }
 
 h2 {
-   font-size:medium;
+   font-size:large;
    color:#222233;
 }
 
@@ -53,11 +60,11 @@ a {
 }
 
 a:hover {
-        color:#ff6600;
+        color:#000022;
 }
 
 a:visited {
-        color:#ff6600;
+        color:#000022;
 }
 
 /* ------------------- mail links ----------- */
@@ -76,17 +83,45 @@ a.mailunread
 /* ------------------ buttons -------------- */
 
 .btn {
-        background-color:#006699;
-        color:#ffffff;
+        background-color:#ccccff;
+        color:#0000ff;
 }
 
 a.btn {
-        color:#ffffff;
+        color:#000022;
         text-decoration:none;
         font-size:x-small;
 }
 
-a.btn:hover {
-        color:#66ccff;
+a.btn:hover, a.btn:visited {
+        color:#ccccff;
 }
 
+a.tblheader:visited, a.tblheader:hover {
+		color:#ffffff;
+}
+
+input {
+	background-color:#eeeeff;
+}
+
+select {
+	background-color:#eeeeff;
+}
+
+textarea {
+	background-color:#eeeeff;
+}
+
+.message {
+  color: #dd0000;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ------------------ tabs -------------- */
+.tab {
+	font-size: x-small;
+	color: #000000;
+	font-weight: bold;
+}

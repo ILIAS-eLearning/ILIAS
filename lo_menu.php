@@ -2,7 +2,7 @@
 require_once "include/ilias_header.inc";
 require_once "classes/class.Explorer.php";
 
-$tplContent = new Template("explorer.html",true,true);
+$tplContent = new Template("tpl.explorer.html",true,true);
 
 $exp = new Explorer("lo_content.php");
 

@@ -101,7 +101,7 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		$num++;
 		
 		// color changing
-		$css_row = TUtil::switchColor($num,"row_high","row_low");
+		$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 		
 		if ($val["type"] == "adm")
 		{
@@ -184,6 +184,8 @@ $flat_tree .= "</table>\n";
 
 $tplContent->setVariable("TESTING",$flat_tree);
 */
-	
-$tplContent->show();
+
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
+
 ?>

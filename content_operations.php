@@ -49,7 +49,7 @@ if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 		$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
 		
 		// color changing
-		$css_row = TUtil::switchColor($key,"row_high","row_low");
+		$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
 
 		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");	
 		$tplContent->setVariable("OPS_TITLE",$ops["operation"]);
@@ -78,5 +78,7 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
+
 ?>

@@ -1,14 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html>
-<head>
-
-<title>ILIAS admin interface</title>
-<link rel="stylesheet" type="text/css" href="ilias.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body>
+<!-- @version $Id$ -->
+<style>
+body { margin:0px; }
+</style>
 <table cellpadding="0" cellspacing="0" width="100%" border="0">
-
 <tr>
   <td bgcolor="#000000" rowspan="5" width="10%" valign="bottom" 
    align="left">&nbsp;&nbsp;<img src="images/spacer.gif" 
@@ -120,19 +114,18 @@
 <!-- END sys_message -->
 <br><br>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr class="header">
+<tr class="tblheader">
   <td width="8%" align="left" colspan=2>
-    <div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"><strong>Type</strong></a>
-    </div>
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"><strong>Type</strong></a>
   </td>
-  <td width="25%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
-   <strong>Name</strong></a></div>
+  <td width="25%" align="left">
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"><strong>Name</strong></a>
   </td>
-   <td width="42%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
-   <strong>Description</strong></a></div>
+  <td width="42%" align="left">
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"><strong>Description</strong></a>
   </td>
-  <td width="25%" align="right"><div class="list-item">
-  <a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}">Last modified</a></div>
+  <td width="25%" align="right">
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}"><strong>Last modified</strong></a>
   </td>
 </tr>
 
@@ -200,7 +193,3 @@
 	</td>
   </tr>
 </table>
-
-
-</body>
-</html>

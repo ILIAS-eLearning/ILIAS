@@ -111,5 +111,7 @@ switch ($type)
 		break;
 }
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
+
 ?>

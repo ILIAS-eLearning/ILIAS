@@ -17,11 +17,17 @@ if ($ilias->auth->getAuth())
 	exit;
 }
 
-
 //instantiate login template
-$tplContent = new Template("login.html", true, true);
+$tplContent = new Template("tpl.login.html", true, true);
+
+
 
 //language handling
+if ($_GET["lang"] != "")
+{
+	$lang = $_GET["lang"];
+}
+
 if ($lang == "")
 {
 	$lang = $ilias->ini->readVariable("language","default");
@@ -41,6 +47,7 @@ foreach ($langs as $row)
 }
 $tplContent->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tplContent->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
+$tplContent->setVariable("FORMACTION", "login.php?lang=".$lang);
 $tplContent->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tplContent->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tplContent->setVariable("TXT_SUBMIT", $lng->txt("submit"));
@@ -48,19 +55,21 @@ $tplContent->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
 if (!empty($ilias->auth->status) && $ilias->auth->status == AUTH_EXPIRED)
 {
-	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED,"Your session expired. Please login again!");
+	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
 }
 else if (!empty($ilias->auth->status) && $ilias->auth->status == AUTH_IDLED)
 {
-	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED,"You have been idle for too long. Please login again!");
+	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
 } 
 else if (!empty ($ilias->auth->status) && $ilias->auth->status == AUTH_WRONG_LOGIN)
 {
-	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED,"Wrong login data!");
+	$tplContent->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));
 }
 
 $tplContent->setVariable(PHP_SELF,$_SERVER['PHP_SELF']);
 $tplContent->setVariable(USERNAME,$username);
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());
+//$tplContent->show();
+$tplmain->show();
 ?>

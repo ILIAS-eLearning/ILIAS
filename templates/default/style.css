@@ -3,6 +3,7 @@ body {
         background-color:#dddddd;
         font-family:Verdana,Arial,Helvetica,sans-serif;
         font-size:x-small;
+		margin:10px;
 }
 td {
         font-size:x-small;
@@ -49,15 +50,15 @@ h2 {
 a {
         font-weight:bold;
         text-decoration:none;
-        color:#ff6600;
+        color:#0066ff;
 }
 
 a:hover {
-        color:#ff6600;
+        color:#0066ff;
 }
 
 a:visited {
-        color:#ff6600;
+        color:#0066ff;
 }
 
 /* ------------------- mail links ----------- */
@@ -86,7 +87,29 @@ a.btn {
         font-size:x-small;
 }
 
+a.tblheader:visited, a.tblheader:hover {
+		color:#ffffff;
+}
+
+a.btn:visited {
+        color:#ffffff;
+        text-decoration:none;
+        font-size:x-small;
+}
+
 a.btn:hover {
         color:#eeeeff;
 }
 
+.message {
+  color: #dd0000;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ------------------ tabs -------------- */
+.tab {
+	font-size: x-small;
+	color: #000000;
+	font-weight: bold;
+}

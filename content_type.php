@@ -41,7 +41,7 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 		foreach ($type_data as $key => $val)
 		{
 			// color changing
-			$css_row = TUtil::switchColor($key,"row_high","row_low");
+			$css_row = TUtil::switchColor($key,"tblrow1", "tblrow2");
 
 			$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".
@@ -70,5 +70,7 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
+
 ?>
