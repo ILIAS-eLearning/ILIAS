@@ -63,19 +63,24 @@ body { margin:0px; }
 </table>
 <!-- END tbl_frm -->
 </td>
-
-</tr></table>
-
+</tr>
+</table>
 
 <!-- BEGIN tbl_users -->
 <h2>{TXT_USERS_ONLINE}</h2>
     <table class="fullwidth">
+	<tr class="std">
+      <td class="std" valign="top" colspan="5">{USER_LIST}</td>
+	</tr>
+<!-- BEGIN tbl_users_header -->
 	<tr class="tblheader">
       <td class="std" valign="top"><b>{TXT_USR_LOGIN}</b></td>
       <td class="std" valign="top"><b>{TXT_USR_TITLE}</b></td>
-      <td class="std" valign="top"><b>{TXT_USR_FIRSTNAME}</b></td>
-      <td class="std" valign="top"><b>{TXT_USR_LASTNAME}</b></td>
+      <td class="std" valign="top"><b>{TXT_USR_FIRSTNAME}</b></td> 
+      <td class="std" valign="top"><b>{TXT_USR_LASTNAME}</b></td> 
       <td class="std" valign="top"><b>{TXT_USR_LOGIN_TIME}</b></td>
+	</tr>
+<!-- END tbl_users_header -->
 <!-- BEGIN tbl_users_row -->
     <tr class="{ROWCOL}">
       <td class="std" valign="top">{USR_LOGIN}</td>

@@ -38,6 +38,11 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#guest#:#Guest
+common#:#guests#:#Guests
+common#:#and#:#and
+common#:#show_details#:#show details
+common#:#hide_details#:#hide details
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
