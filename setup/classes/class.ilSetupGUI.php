@@ -1334,8 +1334,6 @@ class ilSetupGUI extends ilSetup
 
 	function checkPanelMode()
 	{
-		
-		var_dump($this->display_mode);
 		switch ($this->display_mode)
 		{
 			case "view":
