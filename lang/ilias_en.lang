@@ -45,8 +45,6 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
-common#:#up#:#Up
-common#:#down#:#Down
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
@@ -164,6 +162,7 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
+common#:#down#:#Down
 common#:#download#:#Download
 common#:#drafts#:#Drafts
 common#:#drop#:#Drop
@@ -684,6 +683,7 @@ common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
+common#:#up#:#Up
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
 common#:#upload#:#Upload
@@ -721,7 +721,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
-content#:#cont_all_definitions#:#All Definitions
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -735,6 +734,7 @@ content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_added_term#:#Term added
+content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_bottom#:#Bottom

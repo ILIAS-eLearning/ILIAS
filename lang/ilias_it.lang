@@ -162,6 +162,7 @@ common#:#desc#:#descrizione
 common#:#description#:#descrizione
 common#:#desired_password#:#nuova password
 common#:#disabled#:#disabled
+common#:#down#:#Down###02 Sep 2003 new variable
 common#:#download#:#Download###28 Mar 2003 new variable
 common#:#drafts#:#bozze
 common#:#drop#:#Drop###19 Aug 2003 new variable
@@ -679,6 +680,7 @@ common#:#uninstall#:#uninstall
 common#:#uninstalled#:#uninstalled.###20 Mar 2003 new variable
 common#:#unknown#:#IGNOTO
 common#:#unread#:#non letto
+common#:#up#:#Up###02 Sep 2003 new variable
 common#:#update_applied#:#update riuscito
 common#:#update_language#:#update language
 common#:#upload#:#Upload###04 Mar 2003 new variable
@@ -729,6 +731,7 @@ content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
+content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
