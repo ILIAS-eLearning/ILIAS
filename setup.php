@@ -48,8 +48,8 @@ $REVISION = "$Revision$";
 $VERSION = substr(substr($REVISION,2),0,-2);
 
 // set ilias pathes
-define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"])));
-define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"])));
+define ("ILIAS_HTTP_PATH","http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]));
+define ("ILIAS_ABSOLUTE_PATH",dirname($_SERVER["SCRIPT_FILENAME"]));
 
 //instantiate template - later in the program please use own Templateclass
 $tpl = new $tpl_class_name ("./templates/default");
