@@ -3103,7 +3103,7 @@ class ilRepositoryGUI
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_selector.html");
 
-		sendInfo($this->lng->txt("step_one")." ".$this->lng->txt("select_object_to_copy"));
+		sendInfo($this->lng->txt("select_object_to_copy"));
 
 		$exp = new ilRepositoryCopySelector($this->ctrl->getLinkTarget($this,'copySelector'));
 		$exp->setExpand($_GET["rep_copy_expand"] ? $_GET["rep_copy_expand"] : $this->tree->readRootId());
@@ -3135,7 +3135,8 @@ class ilRepositoryGUI
 			$tmp_target =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
 			$tmp_source =& ilObjectFactory::getInstanceByRefId((int) $_GET["source_id"]);
 		
-			$info = $this->lng->txt("copy").": '".$tmp_source->getTitle()."' ".$this->lng->txt("to")." '".$tmp_target->getTitle()."' ?";
+			$info = $this->lng->txt("copy").": '".$tmp_source->getTitle()."' ".
+				$this->lng->txt("copy_to")." '".$tmp_target->getTitle()."' ?";
 			sendInfo($info);
 
 			$this->tpl->setCurrentBlock("confirm");

@@ -542,7 +542,7 @@ common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#attend#:#Teilnehmen
 common#:#auth_configure#:#konfigurieren...
-common#:#auth_edit_permission#:#Rechteeinstellungen �dern
+common#:#auth_edit_permission#:#Rechteeinstellungen �ndern
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_local#:#ILIAS Datenbank
@@ -3507,3 +3507,9 @@ crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
 crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nocht begonnen.
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Migliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
+common#:#crs_archives#:#Archive
+common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
+common#:#copy_to#:#nach
+common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
+common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
+common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
