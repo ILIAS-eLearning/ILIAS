@@ -28,7 +28,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
-* $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core

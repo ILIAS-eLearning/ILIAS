@@ -233,7 +233,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("output_row");
 				$this->tpl->setVariable("ROW_CLASS", $tblrow[$key % 2]);
-				$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["TIMESTAMP"]), "datetime"));
+				$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["TIMESTAMP14"]), "datetime"));
 				if ($log["question_fi"] || $log["original_fi"])
 				{
 					$title = ASS_Question::_getQuestionTitle($log["question_fi"]);
