@@ -91,30 +91,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* save objects
-	*/
-	function save()
-	{
-		switch($_GET["cmdClass"])
-		{
-			case "ilObjFolderGUI":
-				$folder_gui = new ilObjFolderGUI("", 0, false, false);
-				$folder_gui->setReturnLocation("save", "mep_edit.php?ref_id=".$_GET["ref_id"].
-					"&obj_id=".$_GET["obj_id"]."&cmd=listMedia");
-				$tree =& $this->object->getTree();
-				$parent = ($_GET["obj_id"] == "")
-					? $tree->getRootId()
-					: $_GET["obj_id"];
-				$folder_gui->setFolderTree($tree);
-				$folder_gui->saveObject($parent);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	/**
 	* edit properties of object (admin form)
 	*
 	* @access	public
@@ -237,14 +213,14 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// create folder form button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","mep_edit.php?ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]."&cmd=createFolderForm");
+			"&obj_id=".$_GET["obj_id"]."&cmd=create&cmdClass=ilObjFolderGUI");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_folder"));
 		$this->tpl->parseCurrentBlock();
 
 		// create mob form button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","mep_edit.php?ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]."&cmd=create&cmdClass=ilMediaObjectGUI");
+			"&obj_id=".$_GET["obj_id"]."&cmd=create&cmdClass=ilObjMediaObjectGUI");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_mob"));
 		$this->tpl->parseCurrentBlock();
 
@@ -312,34 +288,28 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$i=0;
 			foreach($objs as $obj)
 			{
+				$this->tpl->setCurrentBlock("tbl_content");
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
+				$this->tpl->setVariable("TXT_TITLE", $obj["title"]);
+
 				switch($obj["type"])
 				{
 					case "fold":
-						$this->tpl->setCurrentBlock("folder_row");
-						$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_fold_b.gif"));
-						$this->tpl->setVariable("TXT_FOLDER", $obj["title"]);
-						$this->tpl->setVariable("LINK_FOLDER",
+						$this->tpl->setVariable("LINK_VIEW",
 							"mep_edit.php?cmd=ListMedia&ref_id=".$_GET["ref_id"].
 							"&obj_id=".$obj["obj_id"]);
-
-						$this->tpl->setVariable("CSS_ROW", $css_row);
-
-						$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
 						break;
 
 					case "mob":
-						$this->tpl->setCurrentBlock("mob_row");
-						$this->tpl->setVariable("TXT_MOB", $obj["title"]);
-
-						$this->tpl->setVariable("CSS_ROW", $css_row);
-
-						$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
+						$this->tpl->setVariable("LINK_VIEW",
+							"mep_edit.php?cmdClass=ilObjMediaObjectGUI&cmd=edit&ref_id=".$_GET["ref_id"].
+							"&obj_id=".$obj["obj_id"]);
 						break;
 				}
 
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			}
 		} //if is_array
@@ -371,6 +341,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$cmd = "frameset";
 		}
 
+		$this->cmd = $cmd;
+
 		if ($_GET["cmdClass"] == "")
 		{
 			$this->$cmd();
@@ -383,17 +355,74 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 	function forwardCommand()
 	{
+		$cmd = $this->cmd;
+		$tree =& $this->object->getTree();
+
 		switch($_GET["cmdClass"])
 		{
-			case "ilMediaObjectGUI":
+			case "ilObjMediaObjectGUI":
 				require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
 				$cmd.="Object";
-				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("");
-				$ilObjMediaObjectGUI->$cmd();
+				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
+				$ilObjMediaObjectGUI->setTargetScript("mep_edit.php?cmdClass=ilObjMediaObjectGUI&ref_id=".
+					$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$ilObjMediaObjectGUI->setReturnLocation("mep_edit.php?cmd=listMedia&ref_id=".
+					$_GET["ref_id"]."&obj_id=".$tree->getParentId($_GET["obj_id"]));
+				$this->getTemplate();
+				$ilObjMediaObjectGUI->setAdminTabs();
+				$this->setLocator();
+//echo ":".$tree->getParentId($_GET["obj_id"]).":";
+				$ret =& $ilObjMediaObjectGUI->$cmd();
+
+				switch($cmd)
+				{
+					case "saveObject":
+						$parent = ($_GET["obj_id"] == "")
+							? $tree->getRootId()
+							: $_GET["obj_id"];
+						$tree->insertNode($ret->getId(), $parent);
+						$this->listMedia();
+						break;
+
+					default:
+						$this->tpl->show();
+						break;
+				}
 				break;
+
+			case "ilObjFolderGUI":
+				$folder_gui = new ilObjFolderGUI("", 0, false, false);
+				$cmd.="Object";
+				switch($cmd)
+				{
+					case "createObject":
+						$this->prepareOutput();
+						$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+						$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
+							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+						$folder_gui->createObject();
+						break;
+
+					case "saveObject":
+						$folder_gui->setReturnLocation("save", "mep_edit.php?ref_id=".$_GET["ref_id"].
+							"&obj_id=".$_GET["obj_id"]."&cmd=listMedia");
+						$parent = ($_GET["obj_id"] == "")
+							? $tree->getRootId()
+							: $_GET["obj_id"];
+						$folder_gui->setFolderTree($tree);
+						$folder_gui->saveObject($parent);
+						break;
+				}
+				break;
+
 		}
 	}
 
+	function getTemplate()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+	}
 
 	/**
 	* output main frameset of media pool
@@ -567,6 +596,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$folder_gui->createObject();
 		//$this->tpl->show();
 	}
+
 
 }
 ?>
