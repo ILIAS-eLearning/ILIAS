@@ -81,6 +81,7 @@ employee#:#employee
 enable#:#enable
 enumerate#:#enumerate
 err_create_database_failed#:#creation of database failed
+err_wrong_login#:#wrong login
 error_recipient#:#error recipient
 execute#:#execute
 faq_exercise#:#faq exercise

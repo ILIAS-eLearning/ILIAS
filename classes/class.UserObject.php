@@ -45,15 +45,17 @@ class UserObject extends Object
 
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tplContent = new Template("user_form.html",true,true);
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_usr_form.html");
+			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
-			$tplContent->setVariable($this->ilias->ini["layout"]); 
+			$tpl->setVariable($this->ilias->ini["layout"]); 
 
-			$tplContent->setVariable("STATUS","Add User");
-			$tplContent->setVariable("CMD","save");
-			$tplContent->setVariable("TYPE","user");
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
+			$tpl->setVariable("STATUS","Add User");
+			$tpl->setVariable("CMD","save");
+			$tpl->setVariable("TYPE","user");
+			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+			$tpl->setVariable("TPOS",$_GET["parent"]);
 
 			//show tabs
 			$o = array();
@@ -61,31 +63,34 @@ class UserObject extends Object
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
-			$tplContent->setVariable("TABS", TUtil::showTabs(2, $o));
+			$tpl->setVariable("TABS", TUtil::showTabs(2, $o));
 			
-			// set Path
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-
+			// display path
+			$tpl->setCurrentBlock("locator");
+			$tpl->setVariable("TREEPATH",$this->getPath());
+			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+			$tpl->parseCurrentBlock();
+			
 			// gender selection
-			$tplContent->setCurrentBlock("gender");
+			$tpl->setCurrentBlock("gender");
 			$opts = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
-			$tplContent->setVariable("GENDER",$opts);
-			$tplContent->parseCurrentBlock();
+			$tpl->setVariable("GENDER",$opts);
+			$tpl->parseCurrentBlock();
 
 			// role selection
-			$tplContent->setCurrentBlock("role");
+			$tpl->setCurrentBlock("role");
 			$role = TUtil::getRoles();
 			$opts = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$role);
-			$tplContent->setVariable("ROLE",$opts);
-			$tplContent->parseCurrentBlock();
+			$tpl->setVariable("ROLE",$opts);
+			$tpl->parseCurrentBlock();
 
-			$tplContent->setVariable("USR_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("USR_LOGIN",$Fuserdata["Login"]);
-			$tplContent->setVariable("USR_PASSWD",$Fuserdata["Passwd"]);
-			$tplContent->setVariable("USR_TITLE",$Fuserdata["Title"]);
-			$tplContent->setVariable("USR_FIRSTNAME",$Fuserdata["FirstName"]);
-			$tplContent->setVariable("USR_SURNAME",$Fuserdata["SurName"]);
-			$tplContent->setVariable("USR_EMAIL",$Fuserdata["Email"]);
+			$tpl->setVariable("USR_ID",$_GET["obj_id"]);
+			$tpl->setVariable("USR_LOGIN",$Fuserdata["Login"]);
+			$tpl->setVariable("USR_PASSWD",$Fuserdata["Passwd"]);
+			$tpl->setVariable("USR_TITLE",$Fuserdata["Title"]);
+			$tpl->setVariable("USR_FIRSTNAME",$Fuserdata["FirstName"]);
+			$tpl->setVariable("USR_SURNAME",$Fuserdata["SurName"]);
+			$tpl->setVariable("USR_EMAIL",$Fuserdata["Email"]);
 		}
 		else
 		{
@@ -151,76 +156,74 @@ class UserObject extends Object
 	*/
 	function editObject()
 	{
-		global $tplContent,$rbacsystem,$rbacreview;
+		global $tpl, $rbacsystem, $rbacreview, $lng;
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
 			$user = new User($_GET["obj_id"]);
 
-			$tplContent = new Template("user_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
-			
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_usr_form.html");
+			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
+
 			//show tabs
 			$o = array();
 			$o["LINK1"] = "object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
-			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
-			$o["LINK3"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=perm";
-			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
-			$tplContent->setVariable("TABS", TUtil::showTabs(2, $o));
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=owner";
+			$tpl->setVariable("TABS", TUtil::showTabs(1,$o));
 
-			$tplContent->setVariable("CMD","update");
-			$tplContent->setVariable("TYPE","user");
-
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
-
+			// display path
+			$tpl->setCurrentBlock("locator");
+			$tpl->setVariable("TREEPATH", $this->getPath($_GET["parent"],$_GET["parent_parent"]));
+			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+			$tpl->parseCurrentBlock();			
+			
+			$tpl->setVariable("FORMACTION", "object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&Fuserdata[Id]=".$_GET["obj_id"]."&type=user&cmd=update");
 			// gender selection
-			$tplContent->setCurrentBlock("gender");
+			$tpl->setCurrentBlock("gender");
 			$opts = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
-			$tplContent->setVariable("GENDER",$opts);
-			$tplContent->parseCurrentBlock();	
+			$tpl->setVariable("GENDER",$opts);
+			$tpl->parseCurrentBlock();	
 
 			// role selection
-			$tplContent->setCurrentBlock("role");
+			$tpl->setCurrentBlock("role");
 			$role = TUtil::getRoles();
 			$opts = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$role);
-			$tplContent->setVariable("ROLE",$opts);
-			$tplContent->parseCurrentBlock();
+			$tpl->setVariable("ROLE", $opts);
+			$tpl->parseCurrentBlock();
 	
-			$tplContent->setVariable("USR_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("USR_LOGIN",$user->data["login"]);
-			$tplContent->setVariable("USR_PASSWD","******");
-			$tplContent->setVariable("USR_TITLE",$user->data["Title"]);
-			$tplContent->setVariable("USR_FIRSTNAME",$user->data["FirstName"]);
-			$tplContent->setVariable("USR_SURNAME",$user->data["SurName"]);
-			$tplContent->setVariable("USR_EMAIL",$user->data["Email"]);
+			$tpl->setVariable("USR_LOGIN",$user->data["login"]);
+			$tpl->setVariable("USR_PASSWD","******");
+			$tpl->setVariable("USR_TITLE",$user->data["Title"]);
+			$tpl->setVariable("USR_FIRSTNAME",$user->data["FirstName"]);
+			$tpl->setVariable("USR_SURNAME",$user->data["SurName"]);
+			$tpl->setVariable("USR_EMAIL",$user->data["Email"]);
 
 			if ($_GET["obj_id"] == $_SESSION["AccountId"])
 			{
 				// BEGIN AVTIVE ROLE
-
-				// BEGIN TABLE_ROLES
-				$tplContent->setCurrentBlock("TABLE_ROLES");
 				$assigned_roles = $rbacreview->assignedRoles($_GET["obj_id"]);
 				
 				foreach ($assigned_roles as $key => $role)
 				{
+					// BEGIN TABLE_ROLES
+					$tpl->setCurrentBlock("TABLE_ROLES");
 					$obj = getObject($role);
-					$tplContent->setVariable("CSS_ROW_ROLE",$key % 2 ? 'tblrow1' : 'tblrow2');
+					$tpl->setVariable("CSS_ROW_ROLE",$key % 2 ? 'tblrow1' : 'tblrow2');
 					$box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
-					$tplContent->setVariable("CHECK_ROLE",$box);
-					$tplContent->setVariable("ROLENAME",$obj["title"]);
-					$tplContent->parseCurrentBlock();
+					$tpl->setVariable("CHECK_ROLE",$box);
+					$tpl->setVariable("ROLENAME",$obj["title"]);
+					$tpl->parseCurrentBlock();
 				}
 				
-				$tplContent->setCurrentBlock("ACTIVE_ROLE");
-				$tplContent->setVariable("ACTIVE_ROLE_OBJ_ID",$_GET["obj_id"]);
-				$tplContent->setVariable("ACTIVE_ROLE_TPOS",$_GET["parent"]);
-				$tplContent->setVariable("ACTIVE_ROLE_PAR",$_GET["parent_parent"]);
-				$tplContent->parseCurrentBlock();
+				$tpl->setCurrentBlock("ACTIVE_ROLE");
+				$tpl->setVariable("ACTIVE_ROLE_OBJ_ID",$_GET["obj_id"]);
+				$tpl->setVariable("ACTIVE_ROLE_TPOS",$_GET["parent"]);
+				$tpl->setVariable("ACTIVE_ROLE_PAR",$_GET["parent_parent"]);
+				$tpl->parseCurrentBlock();
 			}
 		}
 		else
