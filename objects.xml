@@ -75,6 +75,7 @@
 	<action name="delete">delete</action>
 </object>
 <object name="frm" class_name="Forum" checkbox="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
