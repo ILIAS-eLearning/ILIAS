@@ -1,14 +1,12 @@
 <?php
-
-include_once("classes/class.Object.php");
-
 /**
 * Class CategoryObject
-* @extends class.Object.php
-* @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
-* @package ilias-core
 * 
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$
+*
+* @extends Object
+* @package ilias-core
 */
 class CategoryObject extends Object
 {

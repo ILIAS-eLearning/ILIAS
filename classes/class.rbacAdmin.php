@@ -1,17 +1,12 @@
 <?php
-
-include_once "classes/class.Object.php";
-
 /**
  * Class RbacAdmin 
  * core functions for role based access control
+ *
  * @author Stefan Meyer <smeyer@databay.de>
-<<<<<<< class.rbacAdmin.php
  * @version $Id$
+ *
  * @extends PEAR
-=======
- * @version $Id$
->>>>>>> 1.18
  * @package rbac
  */
 class RbacAdmin extends PEAR
@@ -739,13 +734,13 @@ class RbacAdmin extends PEAR
 	*/
 	function getParentRoleIds($a_start_node = 0,$a_start_parent = 0,$a_templates = false)
 	{
-		global $ilias;
-
+		global $ilias, $tree;
+		
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
 		$a_start_parent = $a_start_parent ? $a_start_parent : $_GET["parent"];
 
-		$a_tree =  new Tree($a_start_node,$a_start_parent,ROOT_FOLDER_ID,1);
-		$pathIds  = $a_tree->getPathId($a_start_node,$a_start_parent);
+		//$a_tree =  new Tree($a_start_node,$a_start_parent,ROOT_FOLDER_ID,1);
+		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 
 		return $this->getParentRoles($pathIds,$a_templates);

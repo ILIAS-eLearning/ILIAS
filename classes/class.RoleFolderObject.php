@@ -1,18 +1,18 @@
 <?php
-include_once("classes/class.Object.php");
-
 /**
 * Class RoleFolderObject
-* @extends class.Object.php
+*
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$ 
+* $Id$
 * 
+* @extends Object
+* @package ilias-core
 */
 class RoleFolderObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
 	function RoleFolderObject()
 	{

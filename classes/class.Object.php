@@ -2,10 +2,11 @@
 /**
 * Class Object
 * Basic functions for all objects
+*
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
+* @version $Id$
+*
 * @package ilias-core
-* 
 */
 class Object
 {
@@ -57,7 +58,6 @@ class Object
 	/**
 	* saves new object in admin interface
 	* @access	public
-	*
 	**/
 	function saveObject()
 	{
@@ -90,7 +90,6 @@ class Object
 	/**
 	* edit object
 	* @access	public
-	* 
 	**/
 	function editObject()
 	{
@@ -336,7 +335,6 @@ class Object
 	/**
 	* add a new local role
 	* @access public
-	*
 	**/
 	function addRoleObject()
 	{
@@ -440,6 +438,7 @@ class Object
 					$rbacreview->assignPermissionToObject($_GET["obj_id"],$ops_id);
 				}
 			}
+
 			if ($status == 'd')
 			{
 				if (in_array($ops_id,$ops_valid))
@@ -475,6 +474,7 @@ class Object
 			$a_id_parent = $_GET["parent"];
 		}
 		$path = $tree->getPathFull($a_id,$a_id_parent);
+
 		return $tree->showPath($path,"content.php");
 	}
 
@@ -484,7 +484,7 @@ class Object
 	* @param	integer		node_id where to start
 	* @return	integer
 	*/
-	function getParentObjectId($a_start = '')
+	function getParentObjectId($a_start = 0)
 	{
 		global $tree;
 		

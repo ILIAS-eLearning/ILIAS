@@ -1,19 +1,18 @@
 <?php
-include_once("classes/class.Object.php");
-
 /**
 * Class RoleObject
-* @extends class.Object.php
+*
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
-* @package ilias-core
+* @version $Id$
 * 
+* @extends Object
+* @package ilias-core
 */
 class RoleObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
 	function RoleObject()
 	{
@@ -26,7 +25,7 @@ class RoleObject extends Object
 	
 	/**
 	* create a role object 
-	* @access public
+	* @access	public
 	*/
 	function createObject()
 	{
@@ -52,8 +51,8 @@ class RoleObject extends Object
 	}
 
 	/**
-	* save new role
-	* @access public
+	* save a new role object
+	* @access	public
 	**/
 	function saveObject()
 	{
@@ -80,8 +79,8 @@ class RoleObject extends Object
 	}
 
 	/**
-	* delete role 
-	* @access public
+	* delete a role object
+	* @access	public
 	**/
 	function deleteObject()
 	{
@@ -148,16 +147,15 @@ class RoleObject extends Object
 	}
 
 	/**
-	* edit object
-	* @access public
+	* edit a role object
+	* @access	public
 	* 
 	**/
 	function editObject()
 	{
 		global $tplContent, $rbacsystem;
 
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
@@ -182,27 +180,28 @@ class RoleObject extends Object
 	}
 
 	/**
-	* update an object
-	* @access public
+	* update a role object
+	* @access	public
 	**/
 	function updateObject()
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$_GET[parent_parent]");
+			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
+			exit;
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 	}
 
 	/**
-	* show permission templates of role
-	* @access public
+	* show permission templates of role object
+	* @access	public
 	**/
 	function permObject() 
 	{
@@ -283,6 +282,7 @@ class RoleObject extends Object
 				$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
 				$tplContent->setCurrentBLock("TABLE_USER");
 				$tplContent->setVariable("ASSIGN_PAR",$_GET["parent_parent"]);
+
 				foreach ($users as $key => $user)
 				{
 					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
@@ -322,8 +322,8 @@ class RoleObject extends Object
 	}
 
 	/**
-	* save permission templates of role 
-	* @access public
+	* save permission templates of a role object
+	* @access	public
 	**/
 	function permSaveObject()
 	{
@@ -387,18 +387,19 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
+		
+		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 		exit;
-
 	}
 
 	/**
 	* copy permissions from role
-	* @access public
+	* @access	public
 	**/
 	function adoptPermSaveObject()
 	{
 		global $rbacadmin, $rbacsystem;
+
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
@@ -409,13 +410,14 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
+
+		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 		exit;
 	}
 
 	/**
 	* assign user to role
-	* @access public
+	* @access	public
 	**/
 	function assignSaveObject()
 	{
@@ -442,7 +444,8 @@ class RoleObject extends Object
 			{
 				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 			}
-			header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
+
+			header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 			exit;
 		}
 		else

@@ -1,25 +1,27 @@
 <?php
-include_once("classes/class.Object.php");
-
 /**
 * Class UserObject
-* @extends class.Object.php
+*
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
-* @package ilias-core
+* @version $Id$
 * 
+* @extends Object
+* @package ilias-core
+* @see User
+* @see rbacAdmin
 */
 class UserObject extends Object
 {
 	/**
 	* array of gender abbreviations
 	* @var array
+	* @access public
 	*/
 	var $gender;
 
 	/**
 	* Contructor
-	* @access public
+	* @access	public
 	*/
 	function UserObject()
 	{
@@ -35,7 +37,7 @@ class UserObject extends Object
 
 	/**
 	* create user
-	* @access public
+	* @access	public
 	*/
 	function createObject()
 	{
@@ -86,7 +88,7 @@ class UserObject extends Object
 
 	/**
 	* save user data
-	* @access public
+	* @access	public
 	*/
 	function saveObject()
 	{
@@ -98,7 +100,7 @@ class UserObject extends Object
 		{
 			// create object
 			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
-			$Fobject["desc"] = "nix";
+			$Fobject["desc"] = $Fuserdata["Email"];
 			$Fuserdata["Id"] = createNewObject("user",$Fobject);
 
 			// insert user data
@@ -116,7 +118,7 @@ class UserObject extends Object
 	
 	/**
 	* delete user
-	* @access public
+	* @access	public
 	*/
 	function deleteObject()
 	{
@@ -138,7 +140,7 @@ class UserObject extends Object
 	
 	/**
 	* edit user data
-	* @access public
+	* @access	public
 	*/
 	function editObject()
 	{
@@ -213,8 +215,8 @@ class UserObject extends Object
 
 	/**
 	* update user data
-	* TODO: The entrry in object_data must be changed too!!
-	* @access public
+	* TODO: The entry in object_data must be changed too!!
+	* @access	public
 	*/
 	function updateObject()
 	{
@@ -238,17 +240,17 @@ class UserObject extends Object
 	
 	/**
 	* add active role in session
-	* @access public
-	*
+	* @access	public
 	**/
 	function activeRoleSaveObject()
 	{
-		if($_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($_GET["obj_id"] == $_SESSION["AccountId"])
 		{
-			if(!count($_POST["active"]))
+			if (!count($_POST["active"]))
 			{
 				$this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->WARNING);
 			}
+
 			$_SESSION["RoleId"] = $_POST["active"];
 		}
 		else
@@ -256,7 +258,7 @@ class UserObject extends Object
 			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=edit");
+		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit");
 		exit;
 	}
 } //end class.UserObject
