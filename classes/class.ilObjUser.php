@@ -1725,7 +1725,7 @@ class ilObjUser extends ilObject
 						{
 							$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
 							$target = "bottom";
-							$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
+							$whereclause .= sprintf("obj_fi = %s OR ", $this->ilias->db->quote($item_rec["obj_id"]));
 							$edit_link = "";
 						}
 						elseif ($a_type == "svy")
@@ -1883,7 +1883,7 @@ class ilObjUser extends ilObject
 				if ($whereclause) {
 					$status_array = array();
 					$whereclause = "WHERE ($whereclause) AND ";
-					$q = sprintf("SELECT tst_tests.test_type_fi, tst_tests.starting_time, tst_tests.ref_fi as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active $whereclause tst_tests.test_id = tst_active.test_fi AND tst_active.user_fi = %s",
+					$q = sprintf("SELECT tst_tests.test_type_fi, tst_tests.starting_time, object_reference.ref_id as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active, object_reference $whereclause tst_tests.test_id = tst_active.test_fi AND object_reference.obj_id = tst_tests.obj_fi AND tst_active.user_fi = %s",
 						$this->ilias->db->quote($ilUser->id)
 					);
 					$item_set = $this->ilias->db->query($q);

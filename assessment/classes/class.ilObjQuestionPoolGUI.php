@@ -95,42 +95,42 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_multiplechoicegui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_clozetestgui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_orderingquestiongui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_matchingquestiongui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_imagemapquestiongui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_javaappletgui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setRefId($_GET["ref_id"]);
+				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
@@ -165,9 +165,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
-//echo "<br>create--".$_POST["sel_question_types"];
+// echo "<br>create--".$_POST["sel_question_types"];
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
-
+		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
 
@@ -303,7 +303,7 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 			exit();
 		}
 
-		$question->object->setRefId($_GET["ref_id"]);
+		$question->object->setObjId($this->obj_id);
 		$question_type = $question->getQuestionType();
 
 		// set screen title (Edit/Create Question)

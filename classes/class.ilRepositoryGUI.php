@@ -1805,7 +1805,6 @@ class ilRepositoryGUI
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
 		$test_num = count($tests);
-
 		// render table content data
 		if ($test_num > 0)
 		{
@@ -1814,8 +1813,8 @@ class ilRepositoryGUI
 			$num = 0;
 			global $ilDB;
 			foreach ($tests as $key => $tst_data) {
-				$q = sprintf("SELECT * FROM tst_tests WHERE ref_fi=%s",
-					$ilDB->quote($tst_data["ref_id"])
+				$q = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",
+					$ilDB->quote($tst_data["obj_id"])
 				);
 				$result = $ilDB->query($q);
 				if ($result->numRows() == 1) {

@@ -54,13 +54,13 @@ $ilias_locator->navigate($i++, $lng->txt("tst_already_taken"), ILIAS_HTTP_PATH .
 $ilias_locator->output();
 $tpl->setVariable("HEADER", $lng->txt("tst_already_taken"));
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_taken.html", true);
-$q = sprintf("SELECT tst_active.tries, tst_active.test_fi, tst_tests.nr_of_tries, tst_tests.ref_fi FROM tst_active, tst_tests WHERE tst_active.user_fi = %s AND tst_active.test_fi = tst_tests.test_id",
+$q = sprintf("SELECT tst_active.tries, tst_active.test_fi, tst_tests.nr_of_tries, tst_tests.obj_fi FROM tst_active, tst_tests WHERE tst_active.user_fi = %s AND tst_active.test_fi = tst_tests.test_id",
 	$ilDB->quote($ilUser->id)
 );
 $result = $ilDB->query($q);
 $taken_array = array();
 while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-	$test = new ilObjTestGUI("", $row->ref_fi, true, false);
+	$test = new ilObjTestGUI("", $row->obj_fi, false, false);
 	$test->object->loadFromDb();
 	$array_result =& $test->object->get_test_result($ilUser->id);
 	$mark = $test->object->mark_schema->get_matching_mark(100*($array_result["test"]["total_reached_points"]/$array_result["test"]["total_max_points"]));

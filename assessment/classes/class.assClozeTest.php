@@ -158,9 +158,9 @@ class ASS_ClozeTest extends ASS_Question {
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote(3),
-        $db->quote($this->ref_id),
+        $db->quote($this->obj_id),
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
@@ -248,7 +248,7 @@ class ASS_ClozeTest extends ASS_Question {
       if ($result->numRows() == 1) {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
         $this->id = $question_id;
-        $this->ref_id = $data->ref_fi;
+        $this->obj_id = $data->obj_fi;
         $this->title = $data->title;
         $this->comment = $data->comment;
         $this->author = $data->author;
