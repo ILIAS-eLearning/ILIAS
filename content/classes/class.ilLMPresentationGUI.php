@@ -373,6 +373,7 @@ class ilLMPresentationGUI
 		$found = $result->nodeset;
 		if (count($found) != 1) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$node = $found[0];
+
 		$ilBench->stop("ContentPresentation", "layout_getFrameNode");
 
 		// ProcessFrameset
@@ -391,10 +392,12 @@ class ilLMPresentationGUI
 		}
 		else	// node is frame -> process the content tags
 		{
+//echo "<br>1node:".$node->node_name();
 			// ProcessContentTag
 			$ilBench->start("ContentPresentation", "layout_processContentTag");
+			//if ((empty($attributes["template"]) || !empty($_GET["obj_type"])))
 			if ((empty($attributes["template"]) || !empty($_GET["obj_type"]))
-				&& ($_GET["frame"] != "_new"))
+				&& ($_GET["frame"] != "_new" || $_GET["obj_type"] != "MediaObject"))
 			{
 				// we got a variable content frame (can display different
 				// object types (PageObject, MediaObject, GlossarItem)
@@ -420,6 +423,7 @@ class ilLMPresentationGUI
 						$found = true;
 						$attributes = $this->attrib2arr($child->attributes());
 						$node =& $child;
+//echo "<br>2node:".$node->node_name();
 						break;
 					}
 				}
