@@ -60,6 +60,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* Constructor
+	* 
 	* setup ILIAS global object
 	* @access	public
 	*/
@@ -69,9 +70,11 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 // PUBLIC METHODS
+
 	/**
 	* get object definition by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getDefinition($a_obj_name)
@@ -82,6 +85,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get class name by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getClassName($a_obj_name)
@@ -93,6 +97,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get class name by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getModule($a_obj_name)
@@ -137,6 +142,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get properties by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getProperties($a_obj_name)
@@ -160,19 +166,36 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
-	* get subobjects by type
+	* get all subobjects by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getSubObjects($a_obj_name)
 	{
 		return $this->obj_data[$a_obj_name]["subobjects"];
 	}
+	
+	/**
+	* get only creatable subobjects by type
+	*
+	* @param	string	object type
+ 	* @access	public
+	*/
+	function getCreatableSubObjects($a_obj_name)
+	{
+		$subobjects = $this->getSubObjects($a_obj_name);
+		
+		unset($subobjects["rolf"]);
+		
+		return $subobjects;
+	}
 
 	/**
 	* get possible actions by type
 	*
-	* @access	public
+	* @param	string	object type
+ 	* @access	public
 	*/
 	function getActions($a_obj_name)
 	{
@@ -185,6 +208,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get default property by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getFirstProperty($a_obj_name)
@@ -209,6 +233,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get name of property by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getPropertyName($a_cmd, $a_obj_name)
@@ -219,6 +244,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get a string of all subobjects by type
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getSubObjectsAsString($a_obj_type)
@@ -237,6 +263,7 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* get all subobjects that may be imported
 	*
+	* @param	string	object type
 	* @access	public
 	*/
 	function getImportObjects($a_obj_type)
@@ -257,9 +284,11 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 // PRIVATE METHODS
+
 	/**
 	* set event handler
 	*
+	* @param	ressouce	internal xml_parser_handler
 	* @access	private
 	*/
 	function setHandlers($a_xml_parser)
@@ -272,6 +301,9 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* start tag handler
 	*
+	* @param	ressouce	internal xml_parser_handler
+	* @param	string		element tag name
+	* @param	array		element attributes
 	* @access	private
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
@@ -319,6 +351,8 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* end tag handler
 	* 
+	* @param	ressouce	internal xml_parser_handler
+	* @param	string		data
 	* @access	private
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
@@ -326,6 +360,7 @@ class ilObjectDefinition extends ilSaxParser
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
+
 		if(!empty($a_data))
 		{
 			switch($this->current_tag)
@@ -348,6 +383,8 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* end tag handler
 	* 
+	* @param	ressouce	internal xml_parser_handler
+	* @param	string		element tag name
 	* @access	private
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
