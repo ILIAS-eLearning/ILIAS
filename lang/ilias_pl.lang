@@ -122,6 +122,7 @@ assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_java_result#:#Odpowiedź dla zmiennej %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_legend_link#:#Zajrzyj do legendy aby sprawdzić znaczenie nagłówków.
@@ -3154,7 +3155,7 @@ survey#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usuwania pytań!
 survey#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia!
 survey#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do powielenia!
 survey#:#qpl_past_questions_confirmation#:#Chcesz wkleić wybrane pytania do puli pytań?
-survey#:#qpl_phrases_deleted#:#Frazy usunięte.
+survey#:#qpl_phrases_deleted#:#Frazy usunięte.###04 Jul 2004 content changed
 survey#:#qpl_questions_deleted#:#Pytania usunięte.
 survey#:#qpl_questions_pasted#:#Pytania wklejone.
 survey#:#qpl_savephrase_empty#:#Podaj frazę tytułową!

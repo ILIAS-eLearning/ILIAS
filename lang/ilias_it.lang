@@ -126,6 +126,7 @@ assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
+assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
 assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
@@ -3180,7 +3181,7 @@ survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le d
 survey#:#qpl_delete_select_none#:#Per favore, seleziona almeno una domanda da cancellare!
 survey#:#qpl_duplicate_select_none#:#Per favore, seleziona almeno una domanda da duplicare!
 survey#:#qpl_past_questions_confirmation#:#Sei sicuro di voler incollare le seguenti domande nella raccolta?
-survey#:#qpl_phrases_deleted#:#Frasi cancellate
+survey#:#qpl_phrases_deleted#:#Frasi cancellate###04 Jul 2004 content changed
 survey#:#qpl_questions_deleted#:#Domande cancellate
 survey#:#qpl_questions_pasted#:#Domande incollate
 survey#:#qpl_savephrase_empty#:#Per favore, indica il titolo!

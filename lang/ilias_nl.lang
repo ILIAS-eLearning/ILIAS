@@ -126,6 +126,7 @@ assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 200
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
 assessment#:#eval_cloze_result#:#Opening-nummer %s met waarde %s is %s. U ontving %s punten.
+assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
 assessment#:#eval_imagemap_result#:#De selectie van de figuur-kaart is %s. U ontving %s punten.
 assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
 assessment#:#eval_legend_link#:#Kijk in de legende voor de betekenis van de symbolen in de kolom-koppen.
