@@ -17,8 +17,18 @@ $tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id")
 
 $tplContent->setCurrentBlock("row",true);
 
+// determine sort direction
+if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+{
+	$tplContent->setVariable("DIR",'DESC');
+}
+if($_GET["direction"] == 'DESC')
+{
+	$tplContent->setVariable("DIR",'ASC');
+}
+
 $rbacsystem = new RbacSystemH($ilias->db);
-if ($tree->getChilds())
+if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
 	$zaehler = 0;
 	
@@ -45,6 +55,7 @@ if ($tree->getChilds())
 		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
 		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
+		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
 		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
 		$tplContent->setVariable("IMG_TYPE","icon_".$val["type"].".gif");
 		$tplContent->setVariable("ALT_IMG_TYPE","Category");
@@ -73,5 +84,13 @@ if (!empty($ilias->typedefinition[$type]))
 $tplContent->setVariable("OBJ_EDIT","object.php?parent=$parent&obj_id=$obj_id&type=admin");
 $tplContent->setVariable("OBJ_ID",$obj_id);
 $tplContent->setVariable("TPOS",$parent);
+
+if($_GET["message"])
+{
+	$tplContent->setCurrentBlock("sys_message");
+	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->parseCurrentBlock();
+}
+
 include_once "include/ilias_footer.inc";
 ?>

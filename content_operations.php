@@ -16,11 +16,21 @@ $tplContent->setVariable("CMD","save");
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);		
 
+// determine sort direction
+if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+{
+	$tplContent->setVariable("DIR",'DESC');
+}
+if($_GET["direction"] == 'DESC')
+{
+	$tplContent->setVariable("DIR",'ASC');
+}
+
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 
 $ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
-if($ops_arr = getOperationList())
+if($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 {
 	$options = array("e" => "enabled","d" => "disabled");
 	foreach ($ops_arr as $key => $ops)
@@ -64,5 +74,12 @@ else
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
 }
+if($_GET["message"])
+{
+	$tplContent->setCurrentBlock("sys_message");
+	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->parseCurrentBlock();
+}
+
 include_once "include/ilias_footer.inc";
 ?>

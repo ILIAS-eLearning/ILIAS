@@ -112,10 +112,14 @@ class RoleObject extends Object
 					}
 				}
 			}
+			else
+			{
+				$this->ilias->raiseError("No check box checked, nothing happened ;-).",$this->ilias->error_class->MESSAGE);
+			}
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->MESSAGE);
 		}
 		header("Location: content_role.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
@@ -184,18 +188,25 @@ class RoleObject extends Object
 			$tplContent->setVariable("CHECK_BOTTOM",$box);
 		
 			// USER ASSIGNMENT
-			$users = getUserList();
-			$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
-
-			$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
-			$tplContent->setCurrentBLock("TABLE_USER");
-			foreach($users as $key => $user)
+			if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 			{
-				$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
-				$checked = in_array($user["obj_id"],$assigned_users);
-				$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
-				$tplContent->setVariable("CHECK_USER",$box);
-				$tplContent->setVariable("USERNAME",$user["title"]);
+				$tplContent->setCurrentBlock("ASSIGN");
+				$users = getUserList();
+				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+
+				$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
+				$tplContent->setCurrentBLock("TABLE_USER");
+				foreach($users as $key => $user)
+				{
+					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
+					$checked = in_array($user["obj_id"],$assigned_users);
+					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
+					$tplContent->setVariable("CHECK_USER",$box);
+					$tplContent->setVariable("USERNAME",$user["title"]);
+					$tplContent->parseCurrentBlock();
+				}
+				$tplContent->setVariable("ASSIGN_OBJ_ID",$_GET["obj_id"]);
+				$tplContent->setVariable("ASSIGN_TPOS",$_GET["parent"]);
 				$tplContent->parseCurrentBlock();
 			}
 			// ADOPT PERMISSIONS
@@ -310,35 +321,34 @@ class RoleObject extends Object
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 		{
-		 
-			$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
-			$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
-			foreach( array_diff($assigned_users,$_POST["user"]) as $user)
-			{
-				$rbacadmin->deassignUser($_GET["obj_id"],$user);
-			}
-			foreach( array_diff($_POST["user"],$assigned_users) as $user)
-			{
+			$parent_obj_id = $this->getParentObjectId();
 
-				if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+			if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+			{
+		 
+				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
+				foreach( array_diff($assigned_users,$_POST["user"]) as $user)
+				{
+					$rbacadmin->deassignUser($_GET["obj_id"],$user);
+				}
+				foreach( array_diff($_POST["user"],$assigned_users) as $user)
 				{
 					$rbacadmin->assignUser($_GET["obj_id"],$user);
 				}
-				else
-				{
-					$this->ilias->raiseError("It's only possible to assign users to local roles",$this->ilias->error_class->WARNING);
-				}
 			}
+			else
+			{
+				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
+			}
+			header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_class->WARNING);
 		}
-		header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 	// PRIVATE
 }

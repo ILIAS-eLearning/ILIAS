@@ -30,10 +30,6 @@ class RbacReview extends PEAR
         $usr = array();
 
         $res = $this->db->query("SELECT usr_id FROM rbac_ua WHERE rol_id = $Arol_id");
-        if (DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }
         while($row = $res->fetchRow())
         {
 		    array_push($usr,$row[0]);
@@ -43,10 +39,6 @@ class RbacReview extends PEAR
     function getUserData($Ausr_id)
     {
 		$res = $this->db->query("SELECT * FROM user_data WHERE usr_id='".$Ausr_id."'");	
-		if (DB::isError($res))		
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{	
 			$arr = array(
@@ -72,10 +64,6 @@ class RbacReview extends PEAR
     {
         $rol = array();
         $res = $this->db->query("SELECT rol_id FROM rbac_ua WHERE usr_id = '".$Ausr_id . "'");
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
 		    $rol[] = $row->rol_id;
@@ -94,10 +82,6 @@ class RbacReview extends PEAR
     function assignedRoleTitles($Ausr_id)
     {
         $res = $this->db->query("SELECT title FROM object_data JOIN rbac_ua WHERE object_data.obj_id = rbac_ua.rol_id AND rbac_ua.usr_id = '".$Ausr_id . "'");
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow())
         {
 		    $role_title[] = $row[0];
@@ -122,10 +106,6 @@ class RbacReview extends PEAR
 		    $query .= " AND obj_id = $Aobj_id";
 	    
         $res = $this->db->query($query);
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow())
         {
 		    array_push($ops,$row[0],$row[1]);
@@ -148,10 +128,6 @@ class RbacReview extends PEAR
 
         $query = "SELECT ops_id,obj_id FROM rbac_pa JOIN rbac_ua WHERE rbac_ua.usr_id=$Ausr_id";
         $res = $this->db->query($query);
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow())
         {
 		    array_push($ops,$row[0]);
@@ -187,10 +163,6 @@ class RbacReview extends PEAR
     {
         $query = "SELECT ops_id FROM rbac_pa WHERE rol_id = '".$Arol_id."' AND obj_id = '".$Aobj_id."'";
         $res = $this->db->query($query);
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
 			$ops = unserialize(stripslashes($row->ops_id));
@@ -214,10 +186,6 @@ class RbacReview extends PEAR
 			"WHERE type ='".$Atype."' ".
 			"AND rol_id = '".$Arol_id."' ".
 			"AND parent = '".$Aparent."'";
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
 		$res  = $this->db->query($query);
 //		if($res->numRows == 0)
 //		{
@@ -241,10 +209,6 @@ class RbacReview extends PEAR
         $query = "SELECT ops_id FROM rbac_pa JOIN rbac_ua WHERE rbac_ua.usr_id = $Ausr_id";
 
         $res = $this->db->query($query);
-        if(DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-        }    
         while($row = $res->fetchRow())
         {
 		    array_push($ops,$row[0]);
@@ -267,10 +231,6 @@ class RbacReview extends PEAR
 			"VALUES('".$a_type_id."','".$a_ops_id."')";
 
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return true;
 	}
 } // END class.RBac

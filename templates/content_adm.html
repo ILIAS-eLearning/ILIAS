@@ -109,34 +109,39 @@
     </td>
   </tr>
 </table>
-	<span style="color: #000000;">
-	  <strong>
-		{MESSAGE}
+<!-- BEGIN sys_message -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+  <tr class="message">
+	<td align="center" valign="top" height="30">
+      <strong>
+            {ERROR_MESSAGE}
 	  </strong>
-	</span>
+    </td>
+  </tr>
+</table>
+<!-- END sys_message -->
+<br><br>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="header">
-  <td width="8%" align="right" colspan="2">
-    <div class="list-item"><a href="void">&nbsp;</a>
+  <td width="8%" align="left" colspan=2>
+    <div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"><strong>Type</strong></a>
     </div>
   </td>
-  <td width="15%" align="left"><div class="list-item"><a 
-   href="./{OBJ_SELF}&sort=name"
+  <td width="15%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
    <strong>Name</strong></a></div>
   </td>
-   <td width="47%" align="left"><div class="list-item"><a 
-   href="./{OBJ_SELF}&sort=desc"
+   <td width="47%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
    <strong>Description</strong></a></div>
   </td>
   <td width="30%" align="right"><div class="list-item">
-  <a href="void">Last modified</a></div>
+  <a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}">Last modified</a></div>
   </td>
 </tr>
 
 
 <!-- BEGIN row -->
 <tr class="{CSS_ROW}">
-  <td align="left" valign="top" width="16">
+  <td align="left" valign="top" >
     &nbsp;
   </td>
   <td align="left" valign="top" nowrap="1">

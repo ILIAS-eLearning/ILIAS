@@ -150,7 +150,7 @@ class Tree extends PEAR
 	* @access	public
 	* @return	boolean	true when node has childs, otherwise false
 	*/
-	function getChilds($a_node_id = "")
+	function getChilds($a_node_id = "",$a_order = '',$a_direction = '')
 	{
 		// number of childs
 		$count = 0;
@@ -158,15 +158,20 @@ class Tree extends PEAR
 		// init childs
 		$this->Childs = array();
 		
+		if(!$a_order)
+		{
+			$a_order = 'type';
+		}
 		if (empty($a_node_id))
 		{
 			$a_node_id = $this->node_id;
 		}
-		
+
 		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-				 "WHERE parent = '".$a_node_id."' ".
-				 "AND tree = '".$this->tree_id."'";
+			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+			"WHERE parent = '".$a_node_id."' ".
+			"AND tree = '".$this->tree_id."' ".
+			"ORDER BY '".$a_order."'".$a_direction;
 				 
 		$res = $this->db->query($query);
 

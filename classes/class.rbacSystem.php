@@ -44,9 +44,12 @@ class RbacSystem extends PEAR
     function deleteSession()
     {
     }
-// @access public
-// @params 
-// @return 
+/**
+ * adds an active role in $_SESSION["RoleId"]
+ * @param int
+ * @return bool
+ * 
+ */
     function addActiveRole()
     {
     }
@@ -77,10 +80,6 @@ class RbacSystem extends PEAR
 
 		
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			//echo $row->ops_id."<br>";
@@ -120,10 +119,6 @@ class RbacSystem extends PEAR
 			"AND set_id = '".$a_parent."'";
 		
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
@@ -145,10 +140,6 @@ class RbacSystem extends PEAR
 
 		
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			//echo $row->ops_id."<br>";
@@ -171,10 +162,6 @@ class RbacSystem extends PEAR
 			$and;
 		
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));

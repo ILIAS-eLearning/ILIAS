@@ -109,11 +109,19 @@
     </td>
   </tr>
 </table>
-	<span style="color: #000000;">
-	  <strong>
-		{MESSAGE}
+<!-- BEGIN sys_message -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+  <tr class="message">
+	<td align="center" valign="top" height="30">
+      <strong>
+            {ERROR_MESSAGE}
 	  </strong>
-	</span>
+    </td>
+  </tr>
+</table>
+<br><br>
+<!-- END sys_message -->
+{MESSAGE}
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <input type="HIDDEN" name="type" value="{TYPE}">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
@@ -122,12 +130,11 @@
     <div class="list-item"><a href="void">&nbsp;</a>
     </div>
   </td>
-  <td width="62%" align="left"><div class="list-item"><a 
-   href="./{OBJ_SELF}&sort=name"
+  <td width="62%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
    <strong>Name</strong></a></div>
   </td>
   <td width="30%" align="right"><div class="list-item"> 
-  <a href="void">Last modified</a></div>
+  <a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}">Last modified</a></div>
   </td>
 </tr>
 
@@ -151,15 +158,6 @@
   </td>
 </tr>
 <!-- END row -->
-
-<!-- BEGIN notfound -->
-<tr>
-  <td colspan="5" align="center" valign="top">
-    <i>{MESSAGE}</i>
-  </td>
-</tr>
-<!-- END notfound -->
-
 </table>
 	  <!-- BEGIN options -->
 	  <table cellspacing="0" cellpadding="2" border="0">
