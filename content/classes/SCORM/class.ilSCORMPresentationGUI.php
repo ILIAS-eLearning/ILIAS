@@ -109,7 +109,9 @@ class ilSCORMPresentationGUI
 		$exp->setExpand($expanded);
 
 		// build html-output
+		//666$exp->setOutput(0);
 		$exp->setOutput(0);
+
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());

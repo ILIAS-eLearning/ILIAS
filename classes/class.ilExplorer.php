@@ -518,7 +518,7 @@ class ilExplorer
 				$this->formatObject($options["child"],$options);
 			}
 			if ($key == 0)
-			{
+			{				
 				$this->formatHeader($options["child"],$options);
 			}
 		}

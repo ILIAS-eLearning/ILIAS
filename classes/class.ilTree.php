@@ -313,6 +313,7 @@ class ilTree
 			$order_clause = "ORDER BY ".$this->table_tree.".lft";
 		}
 
+	//666
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
@@ -322,6 +323,7 @@ class ilTree
 		$r = $this->ilDB->query($q);
 
 		$count = $r->numRows();
+		
 
 		if ($count > 0)
 		{
@@ -371,6 +373,7 @@ class ilTree
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
+		
 
 		return $childs;
 	}
@@ -1453,7 +1456,7 @@ class ilTree
 	{
 		$q = "UPDATE ".$this->table_tree." SET lft='".$i."' WHERE child='".$node_id."'";
 		$this->ilDB->query($q);
-		
+				
 		$childs = $this->getChilds($node_id);
 		
 		foreach ($childs as $child)
