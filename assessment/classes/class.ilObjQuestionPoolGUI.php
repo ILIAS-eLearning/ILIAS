@@ -390,9 +390,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
-		if (!strcmp($_POST["meta_section"], "General")) {
-			$this->updateObject();
-		}
 		ilUtil::redirect("questionpool.php?ref_id=".$_GET["ref_id"]);
 	}
 
@@ -469,8 +466,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	function updateObject() {
-		$this->update = $this->object->update();
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		$this->update = $this->object->updateMetaData();
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/**

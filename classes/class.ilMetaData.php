@@ -603,6 +603,8 @@ class ilMetaData
 			if ($this->getType() == "lm" ||
 					 $this->getType() == "dbk" ||
 					 $this->getType() == "glo" ||
+					 $this->getType() == "tst" ||
+					 $this->getType() == "qpl" ||
 					 $this->getType() == "st" ||
 					 $this->getType() == "pg")
 			{
