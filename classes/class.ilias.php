@@ -161,7 +161,7 @@ class ILIAS extends PEAR
 	 * @param string key
 	 * @return string value
 	 */
-	function readSettingsStr($key)
+	function getSettingsStr($key)
 	{
 		$sql = "SELECT value_str FROM settings WHERE keyword='".$key."'";
 		$r = $this->db->query($sql);
@@ -182,7 +182,7 @@ class ILIAS extends PEAR
 	 * @param string key
 	 * @return int value
 	 */
-	function readSettingsInt($key)
+	function getSettingsInt($key)
 	{
 		$sql = "SELECT value_int FROM settings WHERE keyword='".$key."'";
 		$r = $this->db->query($sql);
@@ -196,6 +196,23 @@ class ILIAS extends PEAR
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * write integer value to settingstable
+	 * @access public
+	 * @param string key
+	 * @param int value
+	 * @return int value
+	 */
+	function setSettingsInt($key, $value)
+	{
+		$sql = "DELETE FROM settings WHERE keyword='".$key."'";
+		$r = $this->db->query($sql);
+
+		$sql = "INSERT INTO settings (keyword, value_int) VALUES ('".$key."','".$value."')";
+		$r = $this->db->query($sql);
+		return true;
 	}
 }
 ?>
