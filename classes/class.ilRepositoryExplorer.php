@@ -90,6 +90,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "glo":
 				return "content/glossary_presentation.php?ref_id=".$a_node_id;
+
+			case "exc":
+				return "exercise.php?cmd=view&ref_id=".$a_node_id;
 		}
 	}
 
@@ -111,6 +114,9 @@ class ilRepositoryExplorer extends ilExplorer
 				return "";
 
 			case "glo":
+				return "";
+
+			default:
 				return "";
 		}
 	}

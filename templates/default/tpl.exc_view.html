@@ -1,0 +1,32 @@
+<form action="{FORM_DOWNLOAD_ACTION}" method="post">
+	<table class="std">
+		<tr class="tblheader">
+		  <td class="std" colspan="3">{TITLE} <div class="ilDescription">{DESCRIPTION}</div></td>
+		</tr>
+		<tr class="std">
+		  <td class="option" colspan="2">{INSTRUCTION_TXT}</td>
+		  <td class="option_value">{INSTRUCTION}</td>
+		</tr>
+		<tr class="std">
+		  <td class="option" colspan="2">{EDIT_UNTIL_TXT}</td>
+		  <td class="option_value">{EDIT_UNTIL}</td>
+		</tr>
+		<!-- BEGIN FILES -->
+		<tr class="std">
+		  <td class="option" colspan="2">{FILES_TXT}</td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<!-- BEGIN FILES_ROW -->
+		<tr class="std">
+		  <td class="option" width="1%">&nbsp;</td>
+		  <td class="sub_option">&nbsp;</td>
+		  <td class="option_value">{FILE_CHECK} {FILE_DATA}</td>
+		</tr>
+		<!-- END FILES_ROW -->
+		<tr class="tblfooter">
+		  <td class="option" colspan="2">&nbsp;</td>
+		  <td class="std"><img src="{IMG}" /> <input class="submit" type="submit" name="cmd[download]" value="{TXT_DOWNLOAD}" /></td>
+		</tr>
+		<!-- END FILES -->
+	</table>
+</form>

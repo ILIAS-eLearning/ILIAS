@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.2 2003/11/06 13:59:54 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.1 2003/12/16 15:53:43 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -103,6 +103,7 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 		$this->gui_obj->setFormAction("gateway","exercise.php?cmd=gateway&ref_id=".$this->getId());
 		$this->gui_obj->setFormAction("updateMembers","exercise.php?cmd=updateMembers&ref_id=".$this->getId());
 		$this->gui_obj->setFormAction("newMembers","exercise.php?cmd=newMembers&ref_id=".$this->getId());
+		$this->gui_obj->setFormAction("downloadFile","exercise.php?cmd=downloadFile&ref_id=".$this->getId());
 	}
 	function __showLocator()
 	{

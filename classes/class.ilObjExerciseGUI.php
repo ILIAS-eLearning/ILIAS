@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.2 2003/11/06 13:59:54 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.3 2003/12/16 15:53:43 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,6 +65,79 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",(int) date("d",time())));
 		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",(int) date("m",time())));
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",1));
+
+		return true;
+	}
+
+	function viewObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->getTemplateFile("view","exc");
+
+		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION",$this->getFormAction("downloadFile",
+																			"adm_object.php?cmd=downloadFile&ref_id=".$this->ref_id));
+		$this->tpl->setVariable("TITLE",$this->object->getTitle());
+		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
+		$this->tpl->setVariable("INSTRUCTION_TXT",$this->lng->txt("exc_instruction"));
+		$this->tpl->setVariable("INSTRUCTION",nl2br($this->object->getInstruction()));
+		$this->tpl->setVariable("EDIT_UNTIL_TXT",$this->lng->txt("exc_edit_until"));
+		$this->tpl->setVariable("EDIT_UNTIL",date("d.m.Y",$this->object->getTimestamp()));
+
+		foreach($this->object->getFiles() as $file)
+		{
+			$this->tpl->setCurrentBlock("FILES_ROW");
+			$this->tpl->setVariable("FILE_DATA",$file["name"]);
+			$this->tpl->setVariable("FILE_CHECK",ilUtil::formRadioButton(0,"file",urlencode($file["name"])));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("FILES");
+		$this->tpl->setVariable("FILES_TXT",$this->lng->txt("exc_files"));
+		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
+		$this->tpl->setVariable("IMG",ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->parseCurrentBlock();
+
+		return true;
+	}
+
+	function downloadFileObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!isset($_POST["file"]))
+		{
+			sendInfo($this->lng->txt("exc_select_one_file"),true);
+			header("location: ".$this->getReturnLocation("view",
+														 "adm_object.php?cmd=view&ref_id=".$this->ref_id));
+			exit;
+		}
+		$files = $this->object->getFiles();
+		$file_exist = false;
+
+		foreach($this->object->getFiles() as $file)
+		{
+			if($file["name"] == urldecode($_POST["file"]))
+			{
+				$file_exist = true;
+				break;
+			}
+		}
+		if(!$file_exist)
+		{
+			echo "FILE DOES NOT EXIST";
+			exit;
+		}
+		ilUtil::deliverFile($this->object->file_obj->getAbsolutePath(urldecode($_POST["file"])),
+							urldecode($_POST["file"]));
 
 		return true;
 	}
