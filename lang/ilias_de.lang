@@ -51,6 +51,8 @@ assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
+assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
+assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#matches###05 Feb 2004 new variable
 assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
@@ -70,14 +72,17 @@ assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
 assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
 assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
 assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
@@ -86,8 +91,12 @@ assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
 assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
 assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
+assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
+assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
+assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
@@ -1282,6 +1291,7 @@ content#:#cont_edition#:#Ausgabe
 content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
+content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#get link
@@ -1368,6 +1378,7 @@ content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
+content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
@@ -1390,6 +1401,7 @@ content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
+content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
@@ -1415,6 +1427,7 @@ content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_update#:#Update
+content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
