@@ -303,8 +303,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						if ($question)
 						{
 							$question->setObjId($this->object->getId());
-							$question->from_xml("<questestinterop>$item</questestinterop>");
-							$question->saveToDb();
+							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
+							{
+								$question->saveToDb();
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
 						}
 					}
 				}
