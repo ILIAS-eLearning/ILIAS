@@ -189,7 +189,7 @@ assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku p
 assessment#:#error_open_image_file#:#Błąd otwarcia pliku graficznego!
 assessment#:#error_open_java_file#:#Błąd otwarcia apletu jawy!
 assessment#:#error_save_image_file#:#Błąd zapisu pliku graficznego!
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Evaluation for all users
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
@@ -457,9 +457,9 @@ assessment#:#tst_stat_result_resultspoints#:#Rezultaty testu w punktach
 assessment#:#tst_stat_result_specification#:#Specyfikacja daty końca
 assessment#:#tst_stat_result_timeofwork#:#Czas pracy
 assessment#:#tst_stat_result_total_participants#:#Liczba uczestników
-assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy###15 Dec 2004 content changed
+assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
 assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
-assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej###15 Dec 2004 content changed
+assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
 assessment#:#tst_status_completed#:#ukończony
 assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
 assessment#:#tst_status_missing#:#W tym teście brak niezbędnych elementów!
