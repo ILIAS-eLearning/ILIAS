@@ -838,11 +838,16 @@ class ilObjGroup extends ilObject
 	*/
 	function delete()
 	{
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
 
 		// put here group specific stuff
 
 		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		return true;
 	}
 
 	/**

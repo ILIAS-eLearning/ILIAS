@@ -92,10 +92,16 @@ class ilObjObjectFolder extends ilObject
 		// DISABLED
 		return false;
 
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
 		// put here objectfolder specific stuff
 		
 		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		return true;
 	}
 } // END class.ilObjObjectFolder
 ?>

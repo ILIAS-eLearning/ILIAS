@@ -80,6 +80,12 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function delete()
 	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+
 		// put here rolefolder specific stuff
 		global $rbacreview;
 
@@ -95,7 +101,7 @@ class ilObjRoleFolder extends ilObject
 		}
 		
 		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		return true;
 	}
 
 	/**
