@@ -1386,9 +1386,9 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Creates a question block for the question pool
+* Creates a question block for the survey
 * 
-* Creates a question block for the question pool
+* Creates a question block for the survey
 *
 * @param string $title The title of the question block
 * @param boolean $obligatory True, if the question block is obligatory, otherwise false
