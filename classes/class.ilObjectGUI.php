@@ -1291,6 +1291,10 @@ class ilObjectGUI
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
 			foreach ($subtree_nodes as $node)
 			{
+				if($node['type'] == 'rolf')
+				{
+					continue;
+				}
 				if (!$rbacsystem->checkAccess('delete',$node["child"]))
 				{
 					$not_deletable[] = $node["child"];
