@@ -55,8 +55,14 @@ if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->r
 	// catch reload
 	if ($_GET["reload"])
 	{
-		echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n";
-	
+        if ($_GET["inactive"])
+        {
+            echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?inactive=true\";\n</script>\n";
+        }
+        else
+        {
+            echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n";
+        }
 	}
 
 	include_once "./include/inc.client_list.php";
@@ -102,8 +108,15 @@ $connector = "?";
 // catch reload
 if ($_GET["reload"])
 {
-	$start .= "?reload=true";
-	$connector = "&";
+    if ($_GET["inactive"])
+    {
+        $start .= "?reload=true&inactive=true";
+    }
+    else
+    {
+        $start .= "?reload=true";
+    }
+    $connector = "&";
 }
 
 ilUtil::redirect($start.$connector."return_to=".$_GET["return_to"]);

@@ -170,7 +170,7 @@ if (AUTH_CURRENT == AUTH_LOCAL && !$ilias->auth->getAuth() && $script == "login.
 	}
 }
 
-if ($ilias->auth->getAuth())
+if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 {
 	$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 
@@ -208,7 +208,7 @@ if ($ilias->auth->getAuth())
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
-	//phpinfo();exit;
+	// phpinfo();exit;
 
 
 	$dirname = dirname($_SERVER["PHP_SELF"]);
@@ -226,12 +226,24 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 		}
 	}
 
+    if ($ilias->auth->getAuth() && !$ilias->account->isCurrentUserActive())
+    {
+        $inactive = true;
+    }
+
 	session_unset();
 	session_destroy();
 
 	$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
 
-	ilUtil::redirect($updir."index.php?reload=true&return_to=".$return_to);
+    if (($_GET["inactive"]) || $inactive)
+    {
+        ilUtil::redirect($updir."index.php?reload=true&inactive=true&return_to=".$return_to);
+    }
+    else
+    {
+        ilUtil::redirect($updir."index.php?reload=true&return_to=".$return_to);
+    }
 }
 
 //init language

@@ -555,6 +555,30 @@ class ilObject
 		return true;
 	}
 
+    /**
+     * update owner of object in db
+     *
+     * @access   public
+     * @return   boolean true on success
+     */
+    function updateOwner()
+    {
+        $q = "UPDATE object_data ".
+            "SET ".
+            "owner = '".$this->getOwner()."', ".
+            "last_update = now() ".
+            "WHERE obj_id = '".$this->getId()."'";
+        $this->ilias->db->query($q);
+
+        $q = "SELECT last_update FROM object_data".
+             " WHERE obj_id = '".$this->getId()."'";
+        $obj_set = $this->ilias->db->query($q);
+        $obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+        $this->last_update = $obj_rec["last_update"];
+
+        return true;
+    }
+
 	/**
 	* get current object id for import id (static)
 	*

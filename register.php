@@ -66,7 +66,14 @@ function loginPage()
 	$tpl->setVariable("TARGET","target=\"_parent\"");
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".urldecode(ilUtil::stripSlashes($_GET["name"]))."!");
-	$tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
+    if ($ilias->getSetting("auto_registration"))
+    {
+        $tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
+    }
+    else
+    {
+        $tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
+    }
 	$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
 	$tpl->setVariable("USERNAME", base64_decode($_GET["user"]));
 	$tpl->setVariable("PASSWORD", base64_decode($_GET["pass"]));
@@ -81,6 +88,9 @@ function saveForm()
 {
 	global $tpl, $ilias, $lng, $rbacadmin;
 
+    //load ILIAS settings
+    $settings = $ilias->getAllSettings();
+
 	//$tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 	//sendInfo();
 	//InfoPanel();
@@ -89,19 +99,29 @@ function saveForm()
 	if (! ($_POST["status"]=="accepted") )
 	{
 		$ilias->raiseError($lng->txt("force_accept_usr_agreement"),$ilias->error_obj->MESSAGE);
+    }
 
-	}
+    // check dynamically required fields
+    foreach ($settings as $key => $val)
+    {
+        if (substr($key,0,8) == "require_")
+        {
+            $require_keys[] = substr($key,8);
+        }
+    }
 
-	// check required fields
-	if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-		or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-		or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
-		or empty($_POST["Fobject"]["gender"]))
-	{
-		$ilias->raiseError($lng->txt("fill_out_all_required_fields"),$ilias->error_obj->MESSAGE);
-	}
+    foreach ($require_keys as $key => $val)
+    {
+        if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+        {
+            if (empty($_POST["Fobject"][$val]))
+            {
+                $ilias->raiseError($lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),$ilias->error_obj->MESSAGE);
+            }
+        }
+    }
 
-	// validate useername
+    // validate username
 	if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
 	{
 		$ilias->raiseError($lng->txt("login_invalid"),$ilias->error_obj->MESSAGE);
@@ -149,6 +169,17 @@ function saveForm()
 
 	$userObj->create();
 
+    if (isset($settings["auto_registration"]) && ($settings["auto_registration"] == 1))
+    {
+        $userObj->setActive(1, 6);
+    }
+    else
+    {
+        $userObj->setActive(0, 0);
+    }
+
+    $userObj->updateOwner();
+
 	//insert user data in table user_data
 	$userObj->saveAsNew();
 
@@ -174,13 +205,57 @@ function saveForm()
 	$bmf = new ilBookmarkFolder(0, $userObj->getId());
 	$bmf->createNewBookmarkTree();*/
 
+    if (!$ilias->getSetting("auto_registration"))
+    {
+        $approve_recipient = $ilias->getSetting("approve_recipient");
+        if (empty($approve_recipient))
+        {
+            $approve_recipient = $userObj->getLoginByUserId(6);
+        }
+
+        include_once "classes/class.ilFormatMail.php";
+
+        $umail = new ilFormatMail($userObj->getId());
+
+        // mail subject
+        $subject = $lng->txt("client_id") . " " . $ilias->client_id . ": " . $lng->txt("usr_new");
+
+        // mail body
+        $body = $lng->txt("login").": ".$userObj->getLogin()."\n\r".
+                $lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
+                $lng->txt("title").": ".$userObj->getTitle()."\n\r".
+                $lng->txt("gender").": ".$userObj->getGender()."\n\r".
+                $lng->txt("firstname").": ".$userObj->getFirstname()."\n\r".
+                $lng->txt("lastname").": ".$userObj->getLastname()."\n\r".
+                $lng->txt("institution").": ".$userObj->getInstitution()."\n\r".
+                $lng->txt("department").": ".$userObj->getDepartment()."\n\r".
+                $lng->txt("street").": ".$userObj->getStreet()."\n\r".
+                $lng->txt("city").": ".$userObj->getCity()."\n\r".
+                $lng->txt("zipcode").": ".$userObj->getZipcode()."\n\r".
+                $lng->txt("country").": ".$userObj->getCountry()."\n\r".
+                $lng->txt("phone_office").": ".$userObj->getPhoneOffice()."\n\r".
+                $lng->txt("phone_home").": ".$userObj->getPhoneHome()."\n\r".
+                $lng->txt("phone_mobile").": ".$userObj->getPhoneMobile()."\n\r".
+                $lng->txt("fax").": ".$userObj->getFax()."\n\r".
+                $lng->txt("email").": ".$userObj->getEmail()."\n\r".
+                $lng->txt("hobby").": ".$userObj->getHobby()."\n\r".
+                $lng->txt("referral_comment").": ".$userObj->getComment()."\n\r".
+                $lng->txt("create_date").": ".$userObj->getCreateDate()."\n\r".
+                $lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+
+        $error_message = $umail->sendMail($approve_recipient,"","",$subject,$body,array(),array("normal"));
+    }
+
 	ilUtil::redirect("register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 }
 
 
-function displayForm ()
+function displayForm()
 {
 	global $tpl,$ilias,$lng,$ObjDefinition;
+
+    //load ILIAS settings
+    $settings = $ilias->getAllSettings();
 
 	// load login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
@@ -231,6 +306,7 @@ function displayForm ()
 	$data["fields"]["fax"] = "";
 	$data["fields"]["email"] = "";
 	$data["fields"]["hobby"] = "";
+    $data["fields"]["referral_comment"] = "";
 	$data["fields"]["default_role"] = $role;
 
 	// fill presets
@@ -241,6 +317,13 @@ function displayForm ()
 		{
 			$str = $lng->txt("person_title");
 		}
+
+        // check to see if dynamically required
+        if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+        {
+            $str = $str . '<span class="asterisk">*</span>';
+        }
+
 		$tpl->setVariable("TXT_".strtoupper($key), $str);
 
 		if ($key == "default_role")
@@ -253,6 +336,14 @@ function displayForm ()
 		}
 	}
 
+    // text label for passwd2 is nonstandard
+    $str = $lng->txt("retype_password");
+    if (isset($settings["require_passwd2"]) && $settings["require_passwd2"])
+    {
+        $str = $str . '<span class="asterisk">*</span>';
+    }
+    $tpl->setVariable("TXT_PASSWD2", $str);
+
 	$tpl->setVariable("FORMACTION", "register.php?cmd=save&lang=".$_GET["lang"]);
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 	$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
@@ -260,7 +351,6 @@ function displayForm ()
 	$tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 	$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 	$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
-	$tpl->setVariable("TXT_PASSWD2", $lng->txt("retype_password"));
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 	$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
 	$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
@@ -340,7 +430,7 @@ function displayForm ()
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
 	$tpl->setVariable("AGREEMENT", getUserAgreement());
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
-	$tpl->setVariable("ACCEPT_AGREEMENT",$lng->txt("accept_usr_agreement") );
+    $tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement") . '<span class="asterisk">*</span>');
 
 	$tpl->show();
 

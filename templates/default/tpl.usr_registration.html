@@ -6,27 +6,27 @@ body { margin:0px; }
 <!--<div class="invisible_border">-->
 <div class="il_Header">
 <table border="0" cellpadding="0" cellspacing="7" width="100%">
-	<tr>
-	<td><h1>{TXT_PAGEHEADLINE}</h1></td>
-	<td nowrap="1" align="right">
-	<table align="right">
-	<tr>
+    <tr>
+    <td><h1>{TXT_PAGEHEADLINE}</h1></td>
+    <td nowrap="1" align="right">
+    <table align="right">
+    <tr>
 <!-- BEGIN languages -->
-		<td>
-		<a href="{LINK_LANG}"><img src="./images/flags/{LANG_ICON}.gif" border="{BORDER}" vspace="{VSPACE}" hspace="0" title="{LANG_NAME}" alt="{LANG_NAME}"/></a> 
-	    </td>
+        <td>
+        <a href="{LINK_LANG}"><img src="./images/flags/{LANG_ICON}.gif" border="{BORDER}" vspace="{VSPACE}" hspace="0" title="{LANG_NAME}" alt="{LANG_NAME}" /></a>
+        </td>
 <!-- BEGIN lng_new_row -->
-	</tr><tr>
+    </tr><tr>
 <!-- END lng_new_row -->
 <!-- END languages -->
 <!-- BEGIN lng_empty_cell -->
-	<td>&nbsp;</td>
+    <td>&nbsp;</td>
 <!-- END lng_empty_cell -->
-	</tr>
-	</table>
-	</td>
-	</tr>
-	</table>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
 </div>
 <p>{TXT_WELCOME}</p>
 {MESSAGE}
@@ -36,33 +36,33 @@ body { margin:0px; }
     <td class="std" colspan="2" >{TXT_LOGIN_DATA}</td>
   </tr>
   <tr>
-    <td class="option">{TXT_LOGIN}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_LOGIN}</td>
     <td class="option_value"><input type="text" name="Fobject[login]"  value="{LOGIN}" size="40" maxlength="80" /></td>
   </tr>
   <tr>
-    <td class="option" >{TXT_PASSWD}<span class="asterisk">*</span></td>
+    <td class="option" >{TXT_PASSWD}</td>
     <td class="option_value"><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_PASSWD2}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_PASSWD2}</td>
     <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
   </tr>
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
   </tr>
   <tr>
-    <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_GENDER}</td>
     <td class="option_value">
-	<input type="radio" name="Fobject[gender]" value="f" id="gender_f" {BTN_GENDER_F}/> <label for="gender_f">{TXT_GENDER_F}</label>
-	&nbsp;&nbsp;&nbsp;<input type="radio" name="Fobject[gender]" value="m" id="gender_m" {BTN_GENDER_M}/> <label for="gender_m">{TXT_GENDER_M}</label>
+    <input type="radio" name="Fobject[gender]" value="f" id="gender_f" {BTN_GENDER_F} /> <label for="gender_f">{TXT_GENDER_F}</label>
+    &nbsp;&nbsp;&nbsp;<input type="radio" name="Fobject[gender]" value="m" id="gender_m" {BTN_GENDER_M} /> <label for="gender_m">{TXT_GENDER_M}</label>
     </td>
   </tr>
   <tr>
-    <td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_FIRSTNAME}</td>
     <td class="option_value"><input type="text" name="Fobject[firstname]" value="{FIRSTNAME}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_LASTNAME}</td>
     <td class="option_value"><input type="text" name="Fobject[lastname]" value="{LASTNAME}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
@@ -113,51 +113,57 @@ body { margin:0px; }
     <td class="option_value"><input type="text" name="Fobject[fax]" value="{FAX}" size="40" maxlength="30" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_EMAIL}</td>
     <td class="option_value"><input type="text" name="Fobject[email]" value="{EMAIL}" size="40" maxlength="80" /></td>
   </tr>
   <tr>
-	<td class="option">{TXT_HOBBY}</td>
-	<td class="option_value">
-	<textarea name="Fobject[hobby]" rows="3" cols="40">{HOBBY}</textarea>
-  </td>
+    <td class="option">{TXT_HOBBY}</td>
+    <td class="option_value">
+    <textarea name="Fobject[hobby]" rows="3" cols="40">{HOBBY}</textarea>
+    </td>
   </tr>
+    <tr>
+        <td class="option">{TXT_REFERRAL_COMMENT}</td>
+        <td class="option_value">
+        <textarea name="Fobject[referral_comment]" rows="3" cols="40">{REFERRAL_COMMENT}</textarea>
+        </td>
+    </tr>
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_SETTINGS}</td>
   </tr>
 <!-- BEGIN role -->
   <tr>
-    <td class="option">{TXT_DEFAULT_ROLE}<span class="asterisk">*</span></td>
+    <td class="option">{TXT_DEFAULT_ROLE}</td>
     <td class="option_value">
         {DEFAULT_ROLE}
     </td>
   </tr>
 <!-- END role -->
   <tr>
-	<td class="option">{TXT_LANGUAGE}</td>
-	<td class="option_value">
-	<select name="Fobject[language]">
-<!-- BEGIN language_selection -->
-		<option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
-<!-- END language_selection -->
-	</select>
-	</td>
-  </tr>
-  <tr>
-  	<td colspan="2" width="600">
-		{AGREEMENT}
-	</td>
-  </tr>
-  <tr>
-  	<td class="option"><label for="status">{ACCEPT_AGREEMENT}</label></td>
+    <td class="option">{TXT_LANGUAGE}</td>
     <td class="option_value">
-	{ACCEPT_CHECKBOX}
+    <select name="Fobject[language]">
+<!-- BEGIN language_selection -->
+        <option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
+<!-- END language_selection -->
+    </select>
     </td>
   </tr>
   <tr>
-	<td class="submit" colspan="2">
-	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
-	<div align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
+    <td colspan="2" width="600">
+        {AGREEMENT}
+    </td>
+  </tr>
+  <tr>
+    <td class="option"><label for="status">{ACCEPT_AGREEMENT}</label></td>
+    <td class="option_value">
+    {ACCEPT_CHECKBOX}
+    </td>
+  </tr>
+  <tr>
+    <td class="submit" colspan="2">
+    <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
+    <div align="right"><input class="submit" type="submit" value="{TXT_SAVE}" /></div></td>
   </tr>
 </form>
 </table>

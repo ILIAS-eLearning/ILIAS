@@ -66,7 +66,15 @@ if ($_GET["reload"])
 		$return_to = "&return_to=".$_GET["return_to"];
 	}
 
-	echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true".$return_to."\";\n</script>\n";
+    if ($_GET["inactive"])
+    {
+        echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?inactive=true".$return_to."\";\n</script>\n";
+    }
+    else
+    {
+        echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true".$return_to."\";\n</script>\n";
+    }
+
 	exit();
 }
 

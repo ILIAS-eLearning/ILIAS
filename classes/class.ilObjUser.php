@@ -66,7 +66,9 @@ class ilObjUser extends ilObject
 	var $fax;
 	var $email;
 	var $hobby;
-
+    var $referral_comment;
+    var $approve_date;
+    var $active;
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -155,7 +157,7 @@ class ilObjUser extends ilObject
 	* loads a record "user" from database
 	* @access private
 	*/
-	function read ()
+	function read()
 	{
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM usr_data ".
@@ -250,15 +252,16 @@ class ilObjUser extends ilObject
 		$this->setLastLogin($a_data["last_login"]);
 		$this->setLastUpdate($a_data["last_update"]);
 		$this->create_date	= $a_data["create_date"];
+        $this->setComment($a_data["referral_comment"]);
+        $this->approve_date = $a_data["approve_date"];
+        $this->active = $a_data["active"];
 
-       // time limitation
+        // time limitation
         $this->setTimeLimitOwner($a_data["time_limit_owner"]);
         $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
-
-
 	}
 
 	/**
@@ -267,7 +270,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	boolean	user data from formular (addSlashes) or not (prepareDBString)
 	*/
-	function saveAsNew ($a_from_formular = true)
+	function saveAsNew($a_from_formular = true)
 	{
 		switch ($this->passwd_type)
 		{
@@ -289,42 +292,47 @@ class ilObjUser extends ilObject
 
 		if ($a_from_formular)
 		{
-           $q = "INSERT INTO usr_data ".
-			   "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
-			   "email,hobby,institution,department,street,city,zipcode,country,".
-			   "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,".
-			   "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) ".
-			   "VALUES ".
-			   "('".$this->id."','".$this->login."','".$pw_value."', ".
-			   "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
-			   "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
-			   "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
-			   "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".
-			   ilUtil::addSlashes($this->street)."', ".
-			   "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
-			   "'".$this->phone_office."','".$this->phone_home."',".
-			   "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(),'".$this->getTimeLimitUnlimited()."','".
-			   $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."')";
-
+            $q = "INSERT INTO usr_data "
+                . "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
+                . "email,hobby,institution,department,street,city,zipcode,country,"
+                . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
+                . "referral_comment,approve_date,active,"
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
+                . "VALUES "
+                . "('".$this->id."','".$this->login."','".$pw_value."', "
+                . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
+                . "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', "
+                . "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', "
+                . "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."', "
+                . "'".ilUtil::addSlashes($this->street)."', "
+                . "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', "
+                . "'".$this->phone_office."','".$this->phone_home."', "
+                . "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(), "
+                . "'".ilUtil::addSlashes($this->referral_comment)."', '".$this->approve_date."', '".$this->active."', "
+                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
+                . ")";
 		}
 		else
 		{
             $q = "INSERT INTO usr_data ".
-				"(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
-				"email,hobby,institution,department,street,city,zipcode,country,".
-				"phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,".
-				"time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) ".
-				"VALUES ".
-				"('".$this->id."','".$this->login."','".$pw_value."', ".
-				"'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', ".
-				"'".ilUtil::prepareDBString($this->utitle)."','".$this->gender."', ".
-				"'".$this->email."','".ilUtil::prepareDBString($this->hobby)."', ".
-				"'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."','".
-				ilUtil::prepareDBString($this->street)."', ".
-				"'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', ".
-				"'".$this->phone_office."','".$this->phone_home."',".
-				"'".$this->phone_mobile."','".$this->fax."', 0, now(), now(),'".$this->getTimeLimitUnlimited()."','".
-				$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."')";
+                "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
+                . "email,hobby,institution,department,street,city,zipcode,country,"
+                . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
+                . "referral_comment,approve_date,active,"
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
+                . "VALUES "
+                . "('".$this->id."','".$this->login."','".$pw_value."', "
+                . "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', "
+                . "'".ilUtil::prepareDBString($this->utitle)."','".$this->gender."', "
+                . "'".$this->email."','".ilUtil::prepareDBString($this->hobby)."', "
+                . "'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."', "
+                . "'".ilUtil::prepareDBString($this->street)."', "
+                . "'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', "
+                . "'".$this->phone_office."','".$this->phone_home."', "
+                . "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(), "
+                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".$this->approve_date."','".$this->active."', "
+                . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
+                . ")";
 		}
 
 		$this->ilias->db->query($q);
@@ -349,40 +357,46 @@ class ilObjUser extends ilObject
 	* updates a record "user" and write it into database
 	* @access	public
 	*/
-	function update ()
+	function update()
 	{
 		//$this->id = $this->data["Id"];
 
+        $this->syncActive();
+
 		$q = "UPDATE usr_data SET ".
-			"gender='".$this->gender."', ".
-			"title='".ilUtil::prepareDBString($this->utitle)."', ".
-			"firstname='".ilUtil::prepareDBString($this->firstname)."', ".
-			"lastname='".ilUtil::prepareDBString($this->lastname)."', ".
-			"email='".ilUtil::prepareDBString($this->email)."', ".
-			"hobby='".ilUtil::prepareDBString($this->hobby)."', ".
-			"institution='".ilUtil::prepareDBString($this->institution)."', ".
-			"department='".ilUtil::prepareDBString($this->department)."', ".
-			"street='".ilUtil::prepareDBString($this->street)."', ".
-			"city='".ilUtil::prepareDBString($this->city)."', ".
-			"zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
-			"country='".ilUtil::prepareDBString($this->country)."', ".
-			"phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
-			"phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
-			"phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
-			"fax='".ilUtil::prepareDBString($this->fax)."', ".
-			"last_update=now(), ".
+            "gender='".$this->gender."', ".
+            "title='".ilUtil::prepareDBString($this->utitle)."', ".
+            "firstname='".ilUtil::prepareDBString($this->firstname)."', ".
+            "lastname='".ilUtil::prepareDBString($this->lastname)."', ".
+            "email='".ilUtil::prepareDBString($this->email)."', ".
+            "hobby='".ilUtil::prepareDBString($this->hobby)."', ".
+            "institution='".ilUtil::prepareDBString($this->institution)."', ".
+            "department='".ilUtil::prepareDBString($this->department)."', ".
+            "street='".ilUtil::prepareDBString($this->street)."', ".
+            "city='".ilUtil::prepareDBString($this->city)."', ".
+            "zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
+            "country='".ilUtil::prepareDBString($this->country)."', ".
+            "phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
+            "phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
+            "phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
+            "fax='".ilUtil::prepareDBString($this->fax)."', ".
+            "referral_comment='".ilUtil::prepareDBString($this->referral_comment)."', ".
+            "approve_date='".ilUtil::prepareDBString($this->approve_date)."', ".
+            "active='".ilUtil::prepareDBString($this->active)."', ".
             "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
-			"time_limit_unlimited='".ilUtil::prepareDBString($this->getTimeLimitUnlimited())."', ".
-			"time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
-			"time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
-			"time_limit_message='".$this->getTimeLimitMessage()."' ".
-			"WHERE usr_id='".$this->id."'";
+            "time_limit_unlimited='".ilUtil::prepareDBString($this->getTimeLimitUnlimited())."', ".
+            "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
+            "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
+            "time_limit_message='".$this->getTimeLimitMessage()."', ".
+            "last_update=now() ".
+            "WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
 
 		$this->writePrefs();
 
 		parent::update();
+        parent::updateOwner();
 
 		$this->read();
 
@@ -411,7 +425,7 @@ class ilObjUser extends ilObject
 	* // TODO set date with now() should be enough
 	* @access	public
 	*/
-	function refreshLogin ()
+	function refreshLogin()
 	{
 		$q = "UPDATE usr_data SET ".
 			 "last_login = now() ".
@@ -703,7 +717,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	integer		user_id
 	*/
-	function delete ()
+	function delete()
 	{
 		global $rbacadmin;
 
@@ -745,7 +759,7 @@ class ilObjUser extends ilObject
 	* @param	string	firstname (opt.)
 	* @param	string	lastname (opt.)
 	*/
-	function setFullname ($a_title = "",$a_firstname = "",$a_lastname = "")
+	function setFullname($a_title = "",$a_firstname = "",$a_lastname = "")
 	{
 		$this->fullname = "";
 
@@ -1219,9 +1233,9 @@ class ilObjUser extends ilObject
 
 
 	/**
-	* set hobbie
+	* set hobby
 	* @access	public
-	* @param	string	hobbie
+    * @param    string  hobby
 	*/
 	function setHobby($a_str)
 	{
@@ -1229,13 +1243,14 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* get hobbie
+    * get hobby
 	* @access	public
 	*/
 	function getHobby()
 	{
 		return $this->hobby;
 	}
+
 	/**
 	* set user language
 	* @access	public
@@ -1251,7 +1266,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @return	string	language
 	*/
-	function getLanguage ()
+	function getLanguage()
 	{
 		 return $this->prefs["language"];
 	}
@@ -1271,7 +1286,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @return	string	date
 	*/
-	function getLastLogin ()
+	function getLastLogin()
 	{
 		 return $this->last_login;
 	}
@@ -1286,6 +1301,125 @@ class ilObjUser extends ilObject
 		$this->last_update = $a_str;
 	}
 
+    /**
+    * set referral comment
+    * @access   public
+    * @param    string  hobby
+    */
+    function setComment($a_str)
+    {
+        $this->referral_comment = $a_str;
+    }
+
+    /**
+    * get referral comment
+    * @access   public
+    */
+    function getComment()
+    {
+        return $this->referral_comment;
+    }
+
+    /**
+    * set date the user account was activated
+    * 0000-00-00 00:00:00 indicates that the user has not yet been activated
+    * @access   public
+    * @return   string      date of last update
+    */
+    function setApproveDate($a_str)
+    {
+        $this->approve_date = $a_str;
+    }
+
+    /**
+    * get date the user account was activated
+    * @access   public
+    * @return   string      date of last update
+    */
+    function getApproveDate()
+    {
+        return $this->approve_date;
+    }
+
+    /**
+    * set user active state and updates system fields appropriately
+    * @access   public
+    * @param    string  $a_active the active state of the user account
+    * @param    string  $a_owner the id of the person who approved the account, defaults to 6 (root)
+    */
+    function setActive($a_active, $a_owner = 6)
+    {
+        if (empty($a_owner))
+        {
+            $a_owner = 0;
+        }
+
+        if ($a_active)
+        {
+            $this->active = 1;
+            $this->setApproveDate(date('Y-m-d H:i:s'));
+            $this->setOwner($a_owner);
+        }
+        else
+        {
+            $this->active = 0;
+            $this->setApproveDate('0000-00-00 00:00:00');
+            $this->setOwner(0);
+        }
+    }
+
+    /**
+    * get user active state
+    * @access   public
+    */
+    function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+    * synchronizes current and stored user active values
+    * for the owner value to be set correctly, this function should only be called when an admin is approving a user account
+    * @access  public
+    */
+    function syncActive()
+    {
+        $storedActive   = 0;
+        if ($this->getStoredActive($this->id))
+        {
+            $storedActive   = 1;
+        }
+
+        $currentActive  = 0;
+        if ($this->active)
+        {
+            $currentActive  = 1;
+        }
+
+        if ((!empty($storedActive) && empty($currentActive)) ||
+                (empty($storedActive) && !empty($currentActive)))
+        {
+            $this->setActive($currentActive, $this->getUserIdByLogin($this->ilias->auth->getUsername()));
+        }
+    }
+
+    /**
+    * get user active state
+    * @param   integer $a_id user id
+    * @access  public
+    * @return  true if active, otherwise false
+    */
+    function getStoredActive($a_id)
+    {
+        global $ilias;
+
+        $query = "SELECT active FROM usr_data ".
+            "WHERE usr_id = '".$a_id."'";
+
+        $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+        return $row->active ? true : false;
+    }
 
 	/**
 	* set user skin (template set)
@@ -1298,8 +1432,7 @@ class ilObjUser extends ilObject
 		$this->skin = $a_str;
 	}
 
-
-   function setTimeLimitOwner($a_owner)
+    function setTimeLimitOwner($a_owner)
     {
         $this->time_limit_owner = $a_owner;
     }
@@ -1392,9 +1525,9 @@ class ilObjUser extends ilObject
 	}
 
 	/*
-	* check user id with login name
-	* @access	public
-	*/
+     * check user id with login name
+     * @access  public
+     */
 	function checkUserId()
 	{
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
@@ -1410,7 +1543,28 @@ class ilObjUser extends ilObject
 		return false;
 	}
 
-	/*
+    /*
+     * check to see if current user has been made active
+     * @access  public
+     * @return  true if active, otherwise false
+     */
+    function isCurrentUserActive()
+    {
+        $r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
+        //query has got a result
+        if ($r->numRows() > 0)
+        {
+            $data = $r->fetchRow();
+            if (!empty($data[0]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /*
 	 * STATIC METHOD
 	 * get the user_id of a login name
 	 * @param	string login name
@@ -1447,6 +1601,26 @@ class ilObjUser extends ilObject
 		return $row->usr_id ? $row->usr_id : 0;
 	}
 
+    /*
+     * STATIC METHOD
+     * get the login name of a user_id
+     * @param   integer id of user
+     * @return  string login name; false if not found
+     * @static
+     * @access  public
+     */
+    function getLoginByUserId($a_userid)
+    {
+        global $ilias;
+
+        $query = "SELECT login FROM usr_data ".
+            "WHERE usr_id = '".$a_userid."'";
+
+        $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+        return $row->login ? $row->login : false;
+    }
+
 	/**
 	 * STATIC METHOD
 	 * get the user_ids which correspond a search string
@@ -1459,37 +1633,39 @@ class ilObjUser extends ilObject
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias;
 
-		// This is a temporary hack to search users by their role
-		// See Mantis #338. This is a hack due to Mantis #337.
-		if (strtolower(substr($a_search_str, 0, 5)) == "role:") 
-		{ 
-			$query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ". 
-			       "FROM object_data,rbac_ua,usr_data ". 
-			 "WHERE object_data.title LIKE '%".substr($a_search_str,5)."%' and object_data.type = 'role' ". 
-			 "and rbac_ua.rol_id = object_data.obj_id ". 
-			 "and usr_data.usr_id = rbac_ua.usr_id ". 
-			 "AND rbac_ua.usr_id != '".ANONYMOUS_USER_ID."'"; 
-		} 
-		else
-		{ 
-			$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ". 
-			 "WHERE (login LIKE '%".$a_search_str."%' ". 
-			 "OR firstname LIKE '%".$a_search_str."%' ". 
-			 "OR lastname LIKE '%".$a_search_str."%' ". 
-			 "OR email LIKE '%".$a_search_str."%') ". 
-			 "AND usr_id != '".ANONYMOUS_USER_ID."'"; 
-		} 
+        // This is a temporary hack to search users by their role
+        // See Mantis #338. This is a hack due to Mantis #337.
+        if (strtolower(substr($a_search_str, 0, 5)) == "role:") 
+        { 
+            $query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ". 
+                   "FROM object_data,rbac_ua,usr_data ". 
+             "WHERE object_data.title LIKE '%".substr($a_search_str,5)."%' and object_data.type = 'role' ". 
+             "and rbac_ua.rol_id = object_data.obj_id ". 
+             "and usr_data.usr_id = rbac_ua.usr_id ". 
+             "AND rbac_ua.usr_id != '".ANONYMOUS_USER_ID."'"; 
+        } 
+        else
+        { 
+            $query = "SELECT usr_id,login,firstname,lastname,email,active FROM usr_data ".
+                "WHERE (login LIKE '%".$a_search_str."%' ".
+                "OR firstname LIKE '%".$a_search_str."%' ".
+                "OR lastname LIKE '%".$a_search_str."%' ".
+                "OR email LIKE '%".$a_search_str."%') ".
+                "AND usr_id != '".ANONYMOUS_USER_ID."'";
+        }
 
-		$res = $ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$ids[] = array(
-				"usr_id"     => $row->usr_id,
-				"login"      => $row->login,
-				"firstname"  => $row->firstname,
-				"lastname"   => $row->lastname,
-				"email"      => $row->email);
-		}
+        $res = $ilias->db->query($query);
+        while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+        {
+            $ids[] = array(
+                "usr_id"    => $row->usr_id,
+                "login"     => $row->login,
+                "firstname" => $row->firstname,
+                "lastname"  => $row->lastname,
+                "email"     => $row->email,
+                "active"    => $row->active);
+        }
+
 		return $ids ? $ids : array();
 	}
 
@@ -1613,7 +1789,7 @@ class ilObjUser extends ilObject
 	*/
 	function updateActiveRoles($a_user_id)
 	{
-		global $rbacreview,$ilDB;
+		global $rbacreview, $ilDB;
 		
 		if (!count($user_online = ilUtil::getUsersOnline($a_user_id)) == 1)
 		{
@@ -1659,13 +1835,13 @@ class ilObjUser extends ilObject
 	}
 	
 	/**
-	* STATIC METHOD
-	* get all user data
-	* @param	array desired columns
-	* @static
-	* @return	array of user data
-	* @access	public
-	*/
+     * STATIC METHOD
+     * get all user data
+     * @param	array desired columns
+     * @static
+     * @return	array of user data
+     * @access	public
+     */
 	function _getAllUserData($a_fields = NULL)
 	{
         global $ilDB;
@@ -1697,7 +1873,6 @@ class ilObjUser extends ilObject
         
    		return $result_arr;
 	}
-	
 
 	/**
 	* add an item to user's personal desktop

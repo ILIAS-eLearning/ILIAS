@@ -91,7 +91,14 @@ $lng = new ilLanguage($_GET["lang"]);
 // catch reload
 if ($_GET["reload"])
 {
-	$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n");
+    if ($_GET["inactive"])
+    {
+        $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?inactive=true\";\n</script>\n");
+    }
+    else
+    {
+        $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n");
+    }
 }
 
 $languages = $lng->getInstalledLanguages();
@@ -124,9 +131,13 @@ $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 $tpl->setVariable("LANG_ID", $_GET["lang"]);
 
-if ($_GET["expired"])
+if ($_GET["inactive"])
 {
-	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
+    $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_inactive"));
+}
+elseif ($_GET["expired"])
+{
+    $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
 }
 
 // TODO: Move this to header.inc since an expired session could not detected in login script 

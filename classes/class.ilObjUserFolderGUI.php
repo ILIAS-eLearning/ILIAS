@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.30 2004/08/24 12:15:01 smeyer Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.31 2004/09/15 05:52:54 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -471,10 +471,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 	
 	/**
-	* displays user search form
-	*
-	*
-	*/
+     * displays user search form
+     *
+     *
+     */
 	function searchUserFormObject ()
 	{
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
@@ -486,11 +486,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SEARCH_FIRSTNAME",$this->lng->txt("firstname"));
 		$this->tpl->setVariable("TXT_SEARCH_LASTNAME",$this->lng->txt("lastname"));
 		$this->tpl->setVariable("TXT_SEARCH_EMAIL",$this->lng->txt("email"));
+        $this->tpl->setVariable("TXT_SEARCH_ACTIVE",$this->lng->txt("search_active"));
+        $this->tpl->setVariable("TXT_SEARCH_INACTIVE",$this->lng->txt("search_inactive"));
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+        $this->tpl->setVariable("TXT_SEARCH_NOTE",$this->lng->txt("search_note"));
 	}
 
-	function searchCancelledObject ()
+	function searchCancelledObject()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
@@ -498,21 +501,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		exit();
 	}
 
-	function searchUserObject ()
+	function searchUserObject()
 	{
 		global $rbacreview;
 
 		$obj_str = "&obj_id=".$this->obj_id;
 	
 		$_POST["search_string"] = $_POST["search_string"] ? $_POST["search_string"] : urldecode($_GET["search_string"]);
+        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : urldecode($_GET["search_fields"]);
 
-		if (empty($_POST["search_string"]))
-		{
-			sendInfo($this->lng->txt("msg_no_search_string"),true);
-
-			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
-			exit();
-		}
+        if (empty($_POST["search_string"]))
+        {
+            $_POST["search_string"] = "%";
+        }
 
 		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"])) == 0)
 		{
@@ -531,18 +532,38 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_new"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->data["cols"] = array("", "login", "firstname", "lastname", "email");
+        $this->data["cols"] = array("", "login", "firstname", "lastname", "email", "active");
+
+        if (in_array("active", $_POST["search_fields"]))
+        {
+            $searchActive = true;
+        }
+        if (in_array("inactive", $_POST["search_fields"]))
+        {
+            $searchInactive = true;
+        }
 
 		foreach ($search_result as $key => $val)
 		{
-			//visible data part
-			$this->data["data"][] = array(
-							"login"			=> $val["login"],
-							"firstname"		=> $val["firstname"],
-							"lastname"		=> $val["lastname"],
-							"email"			=> $val["email"],
-							"obj_id"		=> $val["usr_id"]
-						);
+            $val["active_text"] = $this->lng->txt("inactive");
+            if ($val["active"])
+            {
+                $val["active_text"] = $this->lng->txt("active");
+            }
+
+            if (($val["active"] == 1) && ($searchActive == true) ||
+                    ($val["active"] == 0) && ($searchInactive == true))
+            {
+                //visible data part
+                $this->data["data"][] = array(
+                        "login"         => $val["login"],
+                        "firstname"     => $val["firstname"],
+                        "lastname"      => $val["lastname"],
+                        "email"         => $val["email"],
+                        "active"        => $val["active_text"],
+                        "obj_id"        => $val["usr_id"]
+                        );
+            }
 		}
 
 		$this->maxcount = count($this->data["data"]);
