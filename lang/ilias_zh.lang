@@ -1613,6 +1613,7 @@ content#:#cont_Reference#:#参考
 content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...
 content#:#cont_Unordered#:#未排序的
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#增加区域
 content#:#cont_add_definition#:#增加定义
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
@@ -1652,6 +1653,7 @@ content#:#cont_click_starting_point#:#请点击此多边形的起始点。
 content#:#cont_click_tl_corner#:#请点击目标区域的左上角。
 content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#坐标
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#创建目录
@@ -1728,6 +1730,7 @@ content#:#cont_lk_page_faq#:#页（常见问题解答框架）
 content#:#cont_lk_page_new#:#页（新框架）
 content#:#cont_lk_term#:#术语表中的术语
 content#:#cont_lk_term_new#:#术语表中的术语（新框架）
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#学习模块属性
 content#:#cont_manifest#:#声明
 content#:#cont_map_areas#:#链接区域

@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Dodaj powierzchnię
 content#:#cont_add_definition#:#Dodaj definicję
 content#:#cont_add_fullscreen#:#dodaj Pełny widok
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Kliknij na punkt startowy wielokąta.
 content#:#cont_click_tl_corner#:#Kliknij na lewy górny róg określanej powierzchni.
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Koordynaty
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Utwórz katalog
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Strona (ramka FAQ)
 content#:#cont_lk_page_new#:#Strona (nowa ramka)
 content#:#cont_lk_term#:#Hasło słownika
 content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Właściwiści modułu nauczania
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Pole Łącznikowe
@@ -1929,9 +1932,9 @@ dateplaner#:#freetime#:#Czas wolny grupy
 dateplaner#:#group#:#Grupa
 dateplaner#:#help_day#:#Terminarz - widok dnia
 dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.
-dateplaner#:#help_enddate#:#Data końcowa - format[dd//mm/rrrr]
+dateplaner#:#help_enddate#:#Data końcowa - format[dd//mm/rrrr]###14 Apr 2004 content changed
 dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
-dateplaner#:#help_endrotation#:#Czas końca format[dd//mm/rrrr]
+dateplaner#:#help_endrotation#:#Czas końca format[dd//mm/rrrr]###14 Apr 2004 content changed
 dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_endtime#:#Czas końca - format[gg/mm] 24g
 dateplaner#:#help_endtime_l#:#Zawiera punkt końcowy spotkania w formacie 24 godzinnym.
@@ -1964,7 +1967,7 @@ dateplaner#:#help_rotation#:#Cykl
 dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
 dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
 dateplaner#:#help_shorttext_l#:#Tu można podać krótki opis terminu.
-dateplaner#:#help_startdate#:#Data początkowaa - format[dd//mm/rrrr]
+dateplaner#:#help_startdate#:#Data początkowaa - format[dd//mm/rrrr]###14 Apr 2004 content changed
 dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
 dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.

@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Referentie
 content#:#cont_Remark#:#Opmerking
 content#:#cont_Roman#:#Romeins I, II, ...
 content#:#cont_Unordered#:#Ongesorteerd
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Toevoegen gebied
 content#:#cont_add_definition#:#Definitie toevoegen
 content#:#cont_add_fullscreen#:#Toevoegen Fullscreen
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Klik op het startpunt van de polygoon.
 content#:#cont_click_tl_corner#:#Klik in de linker bovenhoek van het gewenste gebied.
 content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coördinaten
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Creëer directory
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)
 content#:#cont_lk_page_new#:#Pagina (Nieuw Frame)
 content#:#cont_lk_term#:#Woordenlijst begrip
 content#:#cont_lk_term_new#:#Woordenlijst begrip (Nieuw Frame)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Eigenschappen leermodule
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link gebieden
@@ -1929,9 +1932,9 @@ dateplaner#:#freetime#:#Vrije tijd in de groep
 dateplaner#:#group#:#groep
 dateplaner#:#help_day#:#Datum-planner dag-overzicht
 dateplaner#:#help_day_l#:#In een dag-overzicht worden alle afspraken op een gekozen dag zichtbaar gemaakt.
-dateplaner#:#help_enddate#:#Einddatum - syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate#:#Einddatum - syntax[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_enddate_l#:#Bevat het eindpunt van de afspraak.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.
-dateplaner#:#help_endrotation#:#Eindtijd syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation#:#Eindtijd syntax[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_endrotation_l#:#Op deze dag stopt de herhaling.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.
 dateplaner#:#help_endtime#:#Eindtijd - syntax[hh/mm] 24h formaat
 dateplaner#:#help_endtime_l#:#Bevat de eindtijd van de afspraak in het 24h formaat.
@@ -1964,7 +1967,7 @@ dateplaner#:#help_rotation#:#Roteren
 dateplaner#:#help_rotation_l#:#Bevat het type van de ratatie/herhaling.
 dateplaner#:#help_shorttext#:#Shorttext met max. 50 characters
 dateplaner#:#help_shorttext_l#:#Hier kan de shorttext voor een bepaalde afspraak ingegeven worden.
-dateplaner#:#help_startdate#:#Startdatum - syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate#:#Startdatum - syntax[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_startdate_l#:#Bevat het startmoment van de afspraak. <br> Het symbool opent een kleine kalender om de geschikte datum te kiezen.
 dateplaner#:#help_starttime#:#Starttijd - syntax[hh/mm] 24h formaat
 dateplaner#:#help_starttime_l#:#Bevat het startmoment van de afspraak gebruikmakend van het 24h formaat.

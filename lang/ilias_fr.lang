@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Référence
 content#:#cont_Remark#:#Remarque
 content#:#cont_Roman#:#Romain I, II, ...
 content#:#cont_Unordered#:#Non trié
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Ajouter définition
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Créer répertoire
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Page (cadre FAQ)
 content#:#cont_lk_page_new#:#Page (nouveau cadre)
 content#:#cont_lk_term#:#Terme de glossaire
 content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Propriété du module d'apprentissage
 content#:#cont_manifest#:#Manifeste
 content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable

@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...
 content#:#cont_Unordered#:#Невпорядкований
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Додати Область
 content#:#cont_add_definition#:#Додати Визначення
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Будь ласка клікніть на 
 content#:#cont_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Координати
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Створити Директорію
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Сторінка (FAQ Фрейм)
 content#:#cont_lk_page_new#:#Сторінка (Новий Фрейм)
 content#:#cont_lk_term#:#Термін Глосарія
 content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Властивості Учбового Модуля
 content#:#cont_manifest#:#Маніфест
 content#:#cont_map_areas#:#Області Посилання

@@ -1596,13 +1596,13 @@ content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
-content#:#cont_contents#:#Inhalt
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
@@ -1636,6 +1636,7 @@ content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des P
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
+content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Verzeichnis anlegen
@@ -1712,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
 content#:#cont_lk_page_new#:#Seite (Neuer Frame)
 content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
@@ -1930,9 +1932,9 @@ dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
-dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
+dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
@@ -1965,7 +1967,7 @@ dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
-dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
+dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
