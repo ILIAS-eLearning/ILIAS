@@ -1634,8 +1634,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function __buildUserFilterSelect()
 	{
 		$action[-1] = $this->lng->txt('all_users');
-		$action[1] = $this->lng->txt('active_users_only');
-		$action[0] = $this->lng->txt('inactive_users_only');
+		$action[1] = $this->lng->txt('usr_active_only');
+		$action[0] = $this->lng->txt('usr_inactive_only');
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
 	}
