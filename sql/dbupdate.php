@@ -346,3 +346,81 @@ DELETE FROM settings WHERE keyword='payment_system';
 
 <#45>
 ALTER TABLE grp_data CHANGE status register INTEGER DEFAULT '1';
+
+<#46>
+<?php
+// adding new object type LDAP
+
+// INSERT LDAP TYPE DEFINITION in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'ldap', 'LDAP settings object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow(); 
+$typ_id = $row[0];
+
+// ADD OPERATION assignment to ldap object definition
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+
+// INSERT LDAP OBJECT in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('ldap','LDAP settings','Folder contains all LDAP settings','-1',now(),now())";
+$this->db->query($query);
+
+// fetch obj id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow(); 
+$obj_id = $row[0];
+
+// CREATE OBJECT REFERENCE ENTRY for ldap object
+$query = "INSERT INTO object_reference (obj_id) VALUES ('".$obj_id."')";
+$this->db->query($query);
+
+// fetch ref id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow(); 
+$ref_id = $row[0];
+
+// INSERT LDAP OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
+$query = "SELECT * FROM tree".
+     "WHERE child = '9' ".
+     "AND tree = '1'";
+$res = $this->db->getRow($query);
+
+$left = $res->lft;
+$lft = $left + 1;
+$rgt = $left + 2;
+
+// SPREAD TREE
+$query = "UPDATE tree SET ".
+     "lft = CASE ".
+	 "WHEN lft > ".$left." ".
+	 "THEN lft + 2 ".
+	 "ELSE lft ".
+	 "END, ".
+	 "rgt = CASE ".
+	 "WHEN rgt > ".$left." ".
+	 "THEN rgt + 2 ".
+	 "ELSE rgt ".
+	 "END ".
+	 "WHERE tree = '1'";
+$this->db->query($query);
+
+// INSERT NODE
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
+     "VALUES ".
+	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
+$this->db->query($query);
+?>
