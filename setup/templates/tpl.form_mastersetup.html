@@ -25,6 +25,19 @@
       <td class="option_desc" colspan="2">cannot be changed in this setup version</td>
     </tr>
 <!-- END display_datadir -->
+
+<!-- BEGIN setup_log -->
+	<tr class="tblheader">
+      <td class="std" colspan="4">{TXT_LOG_TITLE}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_LOG_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[log_path]" value="{LOG_PATH}" /></td>
+      <td class="option_value"><input type="checkbox" name="form[chk_log_status]" value="1" {CHK_LOG_STATUS}/>disable logging</td>
+      <td class="option_desc">&nbsp;</td>
+    </tr>
+<!-- END setup_log -->
+
 <!-- BEGIN setup_tools -->
 	<tr class="tblheader">
       <td class="std" colspan="4">{TXT_TOOLS_TITLE}</td>

@@ -756,16 +756,23 @@ class ilSetup extends PEAR
 				return false;
 			}			
 		}
-
+		
+		$form_log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
+		$log_file = substr($form_log_path,strlen($log_path)+1);
+		
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
-		$this->ini->setVariable("clients", "datadir", $a_formdata["datadir_path"]);
-		$this->ini->setVariable("tools", "convert", $a_formdata["convert_path"]);
-		$this->ini->setVariable("tools", "zip", $a_formdata["zip_path"]);
-		$this->ini->setVariable("tools", "unzip", $a_formdata["unzip_path"]);
-		$this->ini->setVariable("tools", "java", $a_formdata["java_path"]);
-		$this->ini->setVariable("tools", "htmldoc", $a_formdata["htmldoc"]);
+		$this->ini->setVariable("clients", "datadir", ilFile::deleteTrailingSlash($a_formdata["datadir_path"]));
+		$this->ini->setVariable("tools", "convert", ilFile::deleteTrailingSlash($a_formdata["convert_path"]));
+		$this->ini->setVariable("tools", "zip", ilFile::deleteTrailingSlash($a_formdata["zip_path"]));
+		$this->ini->setVariable("tools", "unzip", ilFile::deleteTrailingSlash($a_formdata["unzip_path"]));
+		$this->ini->setVariable("tools", "java", ilFile::deleteTrailingSlash($a_formdata["java_path"]));
+		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]));
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
+		$this->ini->setVariable("log", "path", $log_path);
+		$this->ini->setVariable("log", "file", $log_file);
+		$this->ini->setVariable("log", "enabled", (isset($a_formdata["chk_log_status"])) ? "0" : 1);
 
 		if (!$this->ini->write())
 		{
@@ -783,11 +790,19 @@ class ilSetup extends PEAR
 	// updates settings
 	function updateMasterSettings($a_formdata)
 	{
-		$this->ini->setVariable("tools", "convert", $a_formdata["convert_path"]);
-		$this->ini->setVariable("tools", "zip", $a_formdata["zip_path"]);
-		$this->ini->setVariable("tools", "unzip", $a_formdata["unzip_path"]);
-		$this->ini->setVariable("tools", "java", $a_formdata["java_path"]);
-		$this->ini->setVariable("tools", "htmldoc", $a_formdata["htmldoc"]);
+		$this->ini->setVariable("tools", "convert", ilFile::deleteTrailingSlash($a_formdata["convert_path"]));
+		$this->ini->setVariable("tools", "zip", ilFile::deleteTrailingSlash($a_formdata["zip_path"]));
+		$this->ini->setVariable("tools", "unzip", ilFile::deleteTrailingSlash($a_formdata["unzip_path"]));
+		$this->ini->setVariable("tools", "java", ilFile::deleteTrailingSlash($a_formdata["java_path"]));
+		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc"]));
+
+		$form_log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
+		$log_file = substr($form_log_path,strlen($log_path)+1);
+
+		$this->ini->setVariable("log", "path", $log_path);
+		$this->ini->setVariable("log", "file", $log_file);
+		$this->ini->setVariable("log", "enabled", (isset($a_formdata["chk_log_status"])) ? "0" : 1);
 
 		if (!$this->ini->write())
 		{
@@ -997,6 +1012,30 @@ class ilSetup extends PEAR
 		{
 			$this->error = "pass_does_not_match";
 			return false;
+		}
+		
+		return true;
+	}
+	
+	function checkLogSetup($a_formdata)
+	{
+		// log path
+		if (!isset($a_formdata["chk_log_status"]))
+		{
+			// remove trailing slash
+			$log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+
+			if (empty($log_path))
+			{
+				$this->error = "no_path_given_log";
+				return false;
+			}
+
+			if (!touch($log_path))
+			{
+				$this->error = "could_not create_logfile";
+				return false;
+			}
 		}
 		
 		return true;
