@@ -14,7 +14,7 @@ require_once "./include/inc.sort.php";
 // TODO: this function is common and belongs to class util!
 /**
 * builds a path string to show the context
-* you may leave startnode blank. root node of tree is used then
+* you may leave startnode blank. root node of tree is used instead
 * @param	integer	endnode_id
 * @param	integer	startnode_id
 * @return	string	path
@@ -92,8 +92,8 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;		
 		
-				$obj_link = "lo_view.php?lm_id=".$lr_data["obj_id"];
-				$obj_icon = "icon_".$lr_data["type"].".gif";
+				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
+				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 		 
 				$tpl->setVariable("TITLE", $lr_data["title"]);
 				$tpl->setVariable("LO_LINK", $obj_link);
@@ -103,7 +103,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"]));
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
@@ -111,7 +111,7 @@ switch ($_SESSION["viewmode"])
 		else
 		{
 			$tpl->setCurrentBlock("no_content");
-			$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
+			$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock("no_content");
 		}
 		
@@ -134,20 +134,20 @@ switch ($_SESSION["viewmode"])
 		break;
 		
 	case "tree":
-//go through valid objects and filter out the lessons only
-$lessons = array();
-$objects = $tree->getChilds($_GET["obj_id"],"title");
-
-if (count($objects) > 0)
-{
-	foreach ($objects as $key => $object)
-	{
-		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"]))
+		//go through valid objects and filter out the lessons only
+		$lessons = array();
+		$objects = $tree->getChilds($_GET["ref_id"],"title");
+		
+		if (count($objects) > 0)
 		{
-			$lessons[$key] = $object;
+			foreach ($objects as $key => $object)
+			{
+				if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"]))
+				{
+					$lessons[$key] = $object;
+				}
+			}
 		}
-	}
-}
 
 //TODO: maybe move the code above to this method
 //$lessons = $ilias->account->getLessons();
@@ -167,8 +167,8 @@ if (count($objects) > 0)
 				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;		
 		
-				$obj_link = "lo_view.php?lm_id=".$lr_data["obj_id"];
-				$obj_icon = "icon_".$lr_data["type"].".gif";
+				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
+				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 		 
 				$tpl->setVariable("TITLE", $lr_data["title"]);
 				$tpl->setVariable("LO_LINK", $obj_link);
@@ -178,7 +178,7 @@ if (count($objects) > 0)
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"]));
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
@@ -198,60 +198,7 @@ if (count($objects) > 0)
 		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
 		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
 		$tpl->parseCurrentBlock("learningstuff");
-
-/*
-foreach ($lessons as $row)
-{
-	$tpl->setCurrentBlock("subcategory");
-	$tpl->setVariable("ROWCOL","tblrow".(($j%2)+1));
-	$tpl->setVariable("TITLE", $row["title"]);
-	$tpl->setVariable("LINK_LO", "lo_view.php?lm_id=".$row["id"]);
-	$tpl->setVariable("IMG_AND_LINK","img".$j);
-	$tpl->parseCurrentBlock();
-}
-$tpl->setCurrentBlock("subcategory_others");
-$tpl->setVariable("TXT_LO_OTHER_LANGS", $lng->txt("lo_other_langs"));
-$tpl->parseCurrentBlock();
-
-//language stuff
-$tpl->setCurrentBlock("category");
-$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TXT_SUBSCRIPTION", $lng->txt("subscription"));
-$tpl->parseCurrentBlock();
-*/
-
-/*
-if ($tpl->includeTree() == true)
-{
-	if ($_GET["expand"] == "")
-	{
-		$expanded = "1";
-	}
-	else
-		$expanded = $_GET["expand"];
-	
-	$tplTree = new Template("tpl.explorer.html",true,true);
-	$exp = new Explorer("lo_content.php");
-	$exp->setExpand($expanded);
-	
-	//filter object types
-	$exp->addFilter("cat");
-	$exp->addFilter("grp");
-	$exp->addFilter("crs");
-	$exp->setFiltered(true);
-	$exp->setFrameTarget("");
-	//build html-output
-	$exp->setOutput(0);
-	$output = $exp->getOutput();
-	
-	$tplTree->setVariable("EXPLORER",$output);
-	$tplTree->setVariable("ACTION", "lo_content.php?expand=".$_GET["expand"]);
-	
-	$tpl->setVariable("TREE", $tplTree->get());
-}
-*/
 		break;
 }
-
 $tpl->show();
 ?>
