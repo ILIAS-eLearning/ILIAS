@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.17 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.18 2003/05/30 13:05:45 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,7 +68,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $tree,$tpl,$rbacsystem;
 
-		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"], $_POST["new_type"]))
+		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $_POST["new_type"]))
 		{
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
