@@ -1104,7 +1104,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	{
 		//result of the function
 		$URL;
-		
+
 		if ($mode == "view")
 		{
 			switch ($cont_data["type"])
@@ -2108,7 +2108,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			{
 				if ($rbacsystem->checkAccess('visible',$object["ref_id"]) or $object["type"] == "fold" or $object["type"] == "file")
 				{
-					
+
 					// hide object types in devmode
 					if (!$objDefinition->getDevMode($object["type"]))
 					{
@@ -2155,7 +2155,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 					if ($cont_data["type"] == "lm")
 					{
-						$link_target = "_top";
+						$link_target = "ilContObj".$cont_data["obj_id"];
 					}
 					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo" or $cont_data["type"] == "slm")
 					{
