@@ -479,5 +479,21 @@ class ilObjSurveyQuestionPool extends ilObject
 		$question->duplicate(false, $question->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
   }
 	
+/**
+* Delete phrases from the database
+*
+* Delete phrases from the database
+*
+* @param array $phrase_array An array containing phrase id's to delete
+* @access public
+*/
+	function deletePhrases($phrase_array)
+	{
+		$query = "DELETE FROM survey_phrase WHERE phrase_id IN (" . join($phrase_array, ",") . ")";
+		$result = $this->ilias->db->query($query);
+		$query = "DELETE FROM survey_phrase_category WHERE phrase_fi IN (" . join($phrase_array, ",") . ")";
+		$result = $this->ilias->db->query($query);
+	}
+	
 } // END class.ilSurveyObjQuestionPool
 ?>

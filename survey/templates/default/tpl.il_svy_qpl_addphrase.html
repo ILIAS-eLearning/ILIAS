@@ -1,25 +1,19 @@
 <h2>{TEXT_ADD_PHRASE}</h2>
 <form name="addPhrases" method="post" action="{FORM_ACTION}">
+<p>{TEXT_INTRODUCTION} <input type="submit" name="cmd[select_phrase]" value="{TEXT_ADD_PHRASE}" class="submit" /> <input type="submit" name="cmd[cancel_viewphrase]" value="{TEXT_CANCEL}" class="submit" /></p>
 <table class="fullwidth_invisible">
-<tr>
-<td>{TEXT_INTRODUCTION}</td>
-<td>
-<select name="phrases" size="1">
-<!-- BEGIN phrases -->
-<option value="{ID_PHRASE}"{SELECTED_PHRASE}>{TEXT_PHRASE}</option>
-<!-- END phrases -->
-</select>
-</td>
-<td>
-<input type="submit" name="cmd[view_phrase]" value="{TEXT_VIEW_PHRASE}" class="submit" />
-<input type="submit" name="cmd[select_phrase]" value="{TEXT_ADD_PHRASE}" class="submit" />
-</td>
+<tr class="tblheader">
+<td></td>
+<td>{TEXT_PHRASE}</td>
+<td>{TEXT_CONTENT}</td>
 </tr>
-<tr><td></td><td>
-<!-- BEGIN categories -->
-{VALUE_CATEGORY}. {TEXT_CATEGORY}<br />
-<!-- END categories -->
-</td><td></td></tr>
+<!-- BEGIN phraserow -->
+<tr class="{COLOR_CLASS}" valign="top">
+<td><input type="radio" name="phrases" id="phrase_{PHRASE_VALUE}" value="{PHRASE_VALUE}" /></td>
+<td><label for="phrase_{PHRASE_VALUE}">{PHRASE_NAME}</label></td>
+<td>{PHRASE_CONTENT}</td>
+</tr>
+<!-- END phraserow -->
 </table>
 <!-- BEGIN hidden -->
 <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />

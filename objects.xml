@@ -44,8 +44,6 @@
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
 	<subobj name="svy">svy</subobj>
-	<subobj name="spl">spl</subobj>
-	<subobj name="svy">svy</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="mep">mep</subobj>
 	<subobj name="htlm">htlm</subobj>
@@ -375,6 +373,7 @@
 <object name="spl" class_name="SurveyQuestionPool" module="survey" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
 	<property name="questions" module="1">survey_questions</property>
+	<property name="phrases" module="1">manage_phrases</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

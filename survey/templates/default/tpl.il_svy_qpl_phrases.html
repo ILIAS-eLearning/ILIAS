@@ -1,0 +1,23 @@
+<p>{INTRODUCTION_MANAGE_PHRASES}</p>
+<form name="form_questions" method="POST" action="{FORM_ACTION}">
+<table class="fullwidth">
+<tr class="tblheader">
+<td></td>
+<td>{TEXT_PHRASE_TITLE}</td>
+<td>{TEXT_PHRASE_CONTENT}</td>
+</tr>
+<!-- BEGIN phraserow --> 
+<tr class="{COLOR_CLASS}" valign="top">
+<td width="20"><input type="checkbox" name="phrase_{PHRASE_ID}" value="1" /></td>
+<td>{PHRASE_TITLE}</td>
+<td>{PHRASE_CONTENT}</td>
+</tr>
+<!-- END phraserow -->
+<!-- BEGIN Emptytable -->
+<tr><td class="option_value" colspan="3">{TEXT_EMPTYTABLE}</td></tr>
+<!-- END Emptytable -->
+<!-- BEGIN Footer -->
+<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="9"><input type="submit" class="submit" name="cmd[delete_phrase]" value="{TEXT_DELETE}" /></td></tr>
+<!-- END Footer -->
+</table>
+</form>

@@ -104,37 +104,25 @@ class SurveyOrdinalQuestionGUI {
 		$this->tpl->parseCurrentBlock();
 
 		$phrases =& $this->object->getAvailablePhrases();
-		foreach ($phrases as $phrase_id => $phrase_text)
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($phrases as $phrase_id => $phrase_array)
 		{
-			$this->tpl->setCurrentBlock("phrases");
-			$this->tpl->setVariable("ID_PHRASE", $phrase_id);
-			$this->tpl->setVariable("TEXT_PHRASE", $phrase_text);
-			if ($phrase_id == $_POST["phrases"])
-			{
-				$this->tpl->setVariable("SELECTED_PHRASE", " selected=\"selected\"");
-			}
+			$this->tpl->setCurrentBlock("phraserow");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
+			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
+			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
+			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($_POST["cmd"]["view_phrase"])
-		{
-			$categories =& $this->object->getCategoriesForPhrase($_POST["phrases"]);
-			$i = 1;
-			foreach ($categories as $categoriy_id => $category_text)
-			{
-				$this->tpl->setCurrentBlock("categories");
-				$this->tpl->setVariable("TEXT_CATEGORY", $category_text);
-				$this->tpl->setVariable("VALUE_CATEGORY", $i);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-		}
-				
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
+		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
 		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-		$this->tpl->setVariable("TEXT_VIEW_PHRASE",$this->lng->txt("view_phrase"));
-		$this->tpl->setVariable("TEXT_ADD_PHRASE",$this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
 		$this->tpl->parseCurrentBlock();
 	}
