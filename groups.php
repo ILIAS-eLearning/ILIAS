@@ -34,6 +34,9 @@ if ($objects = $tree->getChilds(1,"title"))
 $tpl->addBlockFile("CONTENT", "content", "tpl.groups.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
+$ilias->error_obj->sendInfo("Not available in this release.",$ilias->error_obj->MESSAGE);
+
+/*
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","group_new.php");
 $tpl->setVariable("BTN_TXT", $lng->txt("new_group"));
@@ -64,8 +67,6 @@ $tpl->parseCurrentBlock("group");
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
 $tpl->parseCurrentBlock();
-
+*/
 $tpl->show();
-
-session_unregister("Error_Message");
 ?>
