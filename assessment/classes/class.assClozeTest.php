@@ -1652,7 +1652,7 @@ class ASS_ClozeTest extends ASS_Question
 					$db->quote($test_id),
           $db->quote($this->getId()),
           $db->quote($matches[1]),
-          $db->quote($value)
+          $db->quote(ilUtil::stripSlashes($value))
         );
         $result = $db->query($query);
       }
