@@ -1,7 +1,7 @@
 <?php
 /**
 * Class for exporting XML documents stored in a relational database to a domxml representation
-*  
+*
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
