@@ -859,6 +859,10 @@ common#:#err_count_param#:#原因错误参数计算！
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#行内出错
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
+common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
+common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
+common#:#err_ldap_search_failed#:#Connection to LDAP server failed! PLease check BaseDN and Search base###02 Sep 2004 new variable
+common#:#err_ldap_user_not_found#:#User not found on LDAP server! Please check attribute for login name and Objectclass###02 Sep 2004 new variable
 common#:#err_no_langfile_found#:#未找到语言文件！
 common#:#err_no_param#:#无参数！
 common#:#err_over_3_param#:#多于三个参数！
@@ -1238,6 +1242,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#更改许可设置
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_objectclass#:#ObjectClass of user accounts###02 Sep 2004 new variable
 common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#LDAP设置为读访问
