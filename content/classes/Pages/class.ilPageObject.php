@@ -1055,6 +1055,7 @@ class ilPageObject
 //echo "update:".htmlentities(ilUtil::prepareDBString(($this->getXMLContent()))).":<br>";
 		$query = "UPDATE page_object ".
 			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
+			", parent_id='".$this->getParentId()."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
 
 		if(!$this->ilias->db->checkQuerySize($query))
@@ -1086,7 +1087,8 @@ class ilPageObject
 		{
 			$query = "UPDATE page_object ".
 				"SET content = '".ilUtil::prepareDBString(($this->getXMLFromDom()))."' ".
-				"WHERE page_id = '".$this->getId().
+				", parent_id='".$this->getParentId()."' ".
+				" WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
 			if(!$this->ilias->db->checkQuerySize($query))
 			{
