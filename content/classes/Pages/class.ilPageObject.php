@@ -53,6 +53,7 @@ class ilPageObject
 	var $node;
 	var $cur_dtd = "ilias_pg_0_1.dtd";
 	var $contains_int_link;
+	var $needs_parsing;
 	var $parent_type;
 	var $parent_id;
 	var $update_listeners;
@@ -72,6 +73,7 @@ class ilPageObject
 		$this->ilias =& $ilias;
 
 		$this->contains_int_link = false;
+		$this->needs_parsing = false;
 		$this->update_listeners = array();
 		$this->update_listener_cnt = 0;
 		$this->dom_builded = false;
@@ -483,6 +485,20 @@ class ilPageObject
 		return $this->contains_int_link;
 	}
 
+	function needsImportParsing($a_parse = "")
+	{
+
+		if ($a_parse === true)
+		{
+			$this->needs_parsing = true;
+		}
+		if ($a_parse === false)
+		{
+			$this->needs_parsing = false;
+		}
+		return $this->needs_parsing;
+	}
+
 	/**
 	* get a xml string that contains all Bibliography elements, that
 	* are referenced by any bibitem alias in the page
@@ -553,6 +569,7 @@ class ilPageObject
 	*/
 	function getInternalLinks()
 	{
+//echo "<br>PageObject::getInternalLinks[".$this->getId()."]";
 		// get all internal links of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -601,6 +618,7 @@ class ilPageObject
 	*/
 	function collectFileItems()
 	{
+//echo "<br>PageObject::collectFileItems[".$this->getId()."]";
 		// determine all media aliases of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//FileItem/Identifier";
@@ -651,8 +669,9 @@ class ilPageObject
 
 	function validateDom()
 	{
+//echo "<br>PageObject::validateDom[".$this->getId()."]";
+
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
-//echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
 		$this->stripHierIDs();
 		@$this->dom->validate($error);
 		return $error;
@@ -841,6 +860,8 @@ class ilPageObject
 	{
 		global $lng;
 
+//echo "<br>PageObject::createFromXML[".$this->getId()."]";
+
 		if($this->getXMLContent() == "")
 		{
 			$this->setXMLContent("<PageObject></PageObject>");
@@ -874,7 +895,7 @@ class ilPageObject
 	function updateFromXML()
 	{
 		global $lng;
-
+//echo "<br>PageObject::updateFromXML[".$this->getId()."]";
 		$query = "UPDATE page_object ".
 			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
@@ -895,7 +916,7 @@ class ilPageObject
 	function update($a_validate = true)
 	{
 		global $lng;
-
+//echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		// test validating
@@ -978,6 +999,8 @@ class ilPageObject
 	*/
 	function saveMobUsage($a_xml)
 	{
+//echo "<br>PageObject::saveMobUsage[".$this->getId()."]";
+
 		$doc = domxml_open_mem($a_xml);
 
 		// media aliases
@@ -1038,6 +1061,7 @@ class ilPageObject
 	*/
 	function saveFileUsage()
 	{
+//echo "<br>PageObject::saveFileUsage[".$this->getId()."]";
 		$file_ids = $this->collectFileItems();
 		include_once("classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
@@ -1055,6 +1079,7 @@ class ilPageObject
 	*/
 	function saveInternalLinks($a_xml)
 	{
+//echo "<br>PageObject::saveInternalLinks[".$this->getId()."]";
 		$doc = domxml_open_mem($a_xml);
 
 
