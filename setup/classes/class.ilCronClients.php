@@ -44,6 +44,7 @@ class ilCronClients extends PEAR
 	function ilCronClients()
 	{
 		define('INI_FILE_PATH','../ilias.ini.php');
+		define('CRON_DEBUG',1);
 
 		$this->__createLock();
 		$this->__readClients();
@@ -76,7 +77,7 @@ class ilCronClients extends PEAR
 
 			(int) $timest = fread($fp,filesize('cron.lock'));
 			
-			if($timest > time() - 60 * 60 * 12)
+			if(!CRON_DEBUG and ($timest > time() - 60 * 60 * 12))
 			{
 				return true;
 			}
@@ -157,7 +158,6 @@ class ilCronClients extends PEAR
 			}
 			else
 			{
-				
 			}
 		}
 	}
