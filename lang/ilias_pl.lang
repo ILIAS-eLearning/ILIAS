@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Przywróć
 common#:#by#:#Przez
 common#:#calendar#:#Kalendarz
 common#:#cancel#:#Anuluj
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Nie możesz odinstalować używanego języka!
 common#:#cannot_uninstall_systemlanguage#:#Nie możesz odinstalować języka systemu!
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#Kategoria
 common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
@@ -467,6 +469,7 @@ common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
 common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
 common#:#choose_language#:#Wybierz swój język
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#W tym miejscu nie możesz przydzielić użytk
 common#:#err_session_expired#:#Twoja sesja się zakończyła!
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Odbiorca błędu
 common#:#exc#:#Ćwiczenie
 common#:#exc_add#:#Dodaj ćwiczenie
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z admi
 common#:#import#:#Import
 common#:#import_categories#:#Import kategorii
 common#:#import_file#:#Plik Importowy
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_slm#:#Importuj pakiet SCORM
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Błąd usuwania pliku
 common#:#mail_e_sent#:#Wysłane
 common#:#mail_edit_permission#:#Zmień ustawienia uprawnień
 common#:#mail_folders#:#Foldery pocztowe
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Wybierz
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Poczta
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
 common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Termin
 common#:#test_intern#:#Test wewnętrzny
 common#:#tests#:#Testy
@@ -1461,6 +1470,7 @@ common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
 common#:#upload#:#Wyślij
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
 common#:#url_description#:#Opis URL
 common#:#user#:#Użytkownik
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Użytkownicy zalogowani
 common#:#usr#:#Użytkownik
 common#:#usr_a#:#Użytkownik

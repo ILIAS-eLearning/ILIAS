@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Відмінити видалення
 common#:#by#:#
 common#:#calendar#:#Календар
 common#:#cancel#:#Відмінити
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
 common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#Категорія
 common#:#cat_a#:#Категорія
 common#:#cat_add#:#Додати Категорію
@@ -467,6 +469,7 @@ common#:#check#:#Перевірити
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
 common#:#choose_language#:#Виберіть Вашу Мову
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#Ви не можете призначити �
 common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
 common#:#err_wrong_header#:#Причина: Невірний заголовок.
 common#:#err_wrong_login#:#Невірний Логін
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Помилка Отримувача
 common#:#exc#:#Вправа
 common#:#exc_add#:#Додати Вправу
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Генерування зображення відб
 common#:#import#:#Імпорт
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Імпортувати Учбовий модуль
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Імпортувати SCORM Пакет
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Помилка видалення файлу
 common#:#mail_e_sent#:#Відіслати
 common#:#mail_edit_permission#:#Змінити настройки прав
 common#:#mail_folders#:#Папка з Поштою
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Дозволити
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Пошта
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Системна Групи
 common#:#system_grp#:#Системна Група
 common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Термін
 common#:#test_intern#:#Тест Intern
 common#:#tests#:#Тести
@@ -1461,6 +1470,7 @@ common#:#up#:#Вгору
 common#:#update_applied#:#Обновлення Встановлено
 common#:#update_language#:#Обновити Мову
 common#:#upload#:#Завантажити
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
 common#:#url_description#:#URL Опис
 common#:#user#:#Користувач
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#Ви не вибрали члена групи!
 common#:#userdata#:#Дані користувача
 common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Користувачі онлайн
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач

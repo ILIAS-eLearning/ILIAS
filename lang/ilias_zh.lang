@@ -426,8 +426,10 @@ common#:#btn_undelete#:#恢复删除
 common#:#by#:#由
 common#:#calendar#:#日历
 common#:#cancel#:#撤销
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#您不可能卸载当前正使用的语言！
 common#:#cannot_uninstall_systemlanguage#:#您不能卸载系统语言！
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#类别
 common#:#cat_a#:#一个类别
 common#:#cat_add#:#增加类别
@@ -484,6 +486,7 @@ common#:#check#:#检查
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
 common#:#check_max_allowed_packet_size#:#页内容太长。
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#更改语言
 common#:#chg_password#:#更改口令
 common#:#choose_language#:#选择语言
@@ -606,6 +609,7 @@ common#:#err_role_not_assignable#:#您不能在此处将用户设置为此角色
 common#:#err_session_expired#:#您的对话已过期！
 common#:#err_wrong_header#:#原因错误文件头！
 common#:#err_wrong_login#:#错误登录。
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#错误收件人
 common#:#exc#:#练习
 common#:#exc_add#:#增加练习
@@ -804,6 +808,8 @@ common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转�
 common#:#import#:#导入
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#导入学习模块
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#导入SCORM包
@@ -953,6 +959,8 @@ common#:#mail_delete_error_file#:#删除文件时出错
 common#:#mail_e_sent#:#发送
 common#:#mail_edit_permission#:#更改语言设置
 common#:#mail_folders#:#邮件夹
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#激活
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#邮件
@@ -1440,6 +1448,7 @@ common#:#system_groups#:#系统组
 common#:#system_grp#:#系统组
 common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#术语
 common#:#test_intern#:#内部测试
 common#:#tests#:#测试
@@ -1478,6 +1487,7 @@ common#:#up#:#向上
 common#:#update_applied#:#更新已生效
 common#:#update_language#:#更新语言
 common#:#upload#:#上载
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
 common#:#url_description#:#URL描述
 common#:#user#:#用户
@@ -1490,6 +1500,7 @@ common#:#user_not_chosen#:#您没有选择一个组成员！
 common#:#userdata#:#用户数据
 common#:#username#:#用户名
 common#:#users#:#用户
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#用户在线
 common#:#usr#:#用户
 common#:#usr_a#:#一个用户
