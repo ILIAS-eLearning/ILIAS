@@ -132,6 +132,7 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		
 		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("cont_confirm_delete"));
+		$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 		
 	}
 	
@@ -208,6 +209,9 @@ class ilWysiwygUtil
         $this->newXml = str_replace("<xml>","",$this->newXml);
         $this->newXml = str_replace("</xml>","",$this->newXml);
         
+		$this->newXml = str_replace("<span>","",$this->newXml);
+		$this->newXml = str_replace("</span>","",$this->newXml);
+		
         return($this->newXml);
     }
 

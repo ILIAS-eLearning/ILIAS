@@ -558,10 +558,21 @@ HTMLArea.prototype._createToolbar = function () {
 			});
 			
 			if (btn[1].indexOf(".gif")>0) {
+/*
 				var img = document.createElement("img");
 				img.src = btn[1];
 				img.style.width = "18px";
 				img.style.height = "18px";
+*/
+				var img = document.createElement("div");
+				H = "<table width=18 height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center><img src='"+btn[1]+"'></td></tr></table>";
+
+				H += "<div style='position:relative;left:0;top:-18;'>";
+				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width=18 height=18 border=1></div>";
+				H += "</div>";
+				
+				img.innerHTML = H;
+
 			} else {
 				
 				var img = document.createElement("div");
@@ -953,7 +964,7 @@ HTMLArea.loadStyle("htmlarea.css");
 // by Weeezl (user @ InteractiveTools forums).
 HTMLArea.prototype._wordClean = function() {
 	var D = this.getInnerHTML();
-	if (D.indexOf('class=Mso') >= 0) {
+	if (D.indexOf('class=Mso') >= 0 || D.indexOf('mso-') >= 0 ) {
 
 		// make one line
 		D = D.replace(/\r\n/g, ' ').
@@ -961,32 +972,35 @@ HTMLArea.prototype._wordClean = function() {
 			replace(/\r/g, ' ').
 			replace(/\&nbsp\;/g,' ');
 
-		// keep tags, strip attributes
-		D = D.replace(/ class=[^\s|>]*/gi,'').
-			//replace(/<p [^>]*TEXT-ALIGN: justify[^>]*>/gi,'<p align="justify">').
-			replace(/ style=\"[^>]*\"/gi,'').
-			replace(/ align=[^\s|>]*/gi,'');
 
+// keep tags, strip attributes
+//		D = D.replace(/ class=[^\s|>]*/gi,'').
+			//replace(/<p [^>]*TEXT-ALIGN: justify[^>]*>/gi,'<p align="justify">').
+//			replace(/ style=\"[^>]*\"/gi,'').
+//			replace(/ align=[^\s|>]*/gi,'');
+
+		// keep tags, strip attributes
+		D = D.replace(/ style=\"[^>]*\"/gi,'').
+			replace(/ align=[^\s|>]*/gi,'');
+			
+			/*
 		//clean up tags
 		D = D.replace(/<b [^>]*>/gi,'<b>').
 			replace(/<i [^>]*>/gi,'<i>').
 			replace(/<li [^>]*>/gi,'<li>').
 			replace(/<ul [^>]*>/gi,'<ul>');
-
-		// replace outdated tags
-		D = D.replace(/<b>/gi,'<strong>').
-			replace(/<\/b>/gi,'</strong>');
-
-		// mozilla doesn't like <em> tags
-		D = D.replace(/<em>/gi,'<i>').
-			replace(/<\/em>/gi,'</i>');
+			*/
+		D = D.replace(/<b [^>]*>/gi,'').
+			replace(/<i [^>]*>/gi,'').
+			replace(/<li [^>]*>/gi,'').
+			replace(/<ul [^>]*>/gi,'');
 
 		// kill unwanted tags
 		D = D.replace(/<\?xml:[^>]*>/g, '').       // Word xml
 			replace(/<\/?st1:[^>]*>/g,'').     // Word SmartTags
 			replace(/<\/?[a-z]\:[^>]*>/g,'').  // All other funny Word non-HTML stuff
 			replace(/<\/?font[^>]*>/gi,'').    // Disable if you want to keep font formatting
-			replace(/<\/?span[^>]*>/gi,' ').
+			//replace(/<\/?span[^>]*>/gi,' ').
 			replace(/<\/?div[^>]*>/gi,' ').
 			replace(/<\/?pre[^>]*>/gi,' ').
 			replace(/<\/?h[1-6][^>]*>/gi,' ');
@@ -1010,6 +1024,33 @@ HTMLArea.prototype._wordClean = function() {
 		// nuke double spaces
 		D = D.replace(/  */gi,' ');
 
+		/*
+		// replace outdated tags
+		D = D.replace(/<b>/gi,'<span class=\"ilc_Strong\">').
+			replace(/<\/b>/gi,'</span>');
+
+		// mozilla doesn't like <em> tags
+		D = D.replace(/<em>/gi,'<span class=\"ilc_Emph\">').
+			replace(/<\/em>/gi,'</span>');
+
+		D = D.replace(/<i>/gi,'<span class=\"ilc_Emph\">').
+			replace(/<\/i>/gi,'</span>');
+		*/	
+		// replace outdated tags
+		D = D.replace(/<b>/gi,'').
+			replace(/<\/b>/gi,'');
+
+		// mozilla doesn't like <em> tags
+		D = D.replace(/<em>/gi,'').
+			replace(/<\/em>/gi,'');
+
+		D = D.replace(/<i>/gi,'').
+			replace(/<\/i>/gi,'');
+			
+		//D = replaceAll("<strong>","","");
+		
+		
+		
 		this.setHTML(D);
 		this.updateToolbar();
 	}

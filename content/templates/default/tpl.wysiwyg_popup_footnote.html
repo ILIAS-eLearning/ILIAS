@@ -20,7 +20,8 @@
 		if(opener.fussnoten[i]!="") {
 			foundf++;
 			document.write( "["+j+"]&nbsp;<input type='text' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\" size=40>");
-			document.write( "[<a href='#' onClick=\"if(confirm('{DELETE_QUESTION}')) {deleteFootnote("+i+");}\">X</a>]");
+			//document.write( "[<a href='#' onClick=\"if(confirm('{DELETE_QUESTION}')) {deleteFootnote("+i+");}\">X</a>]");
+			document.write("<input type=\"button\" value=\"{BTN_DELETE}\" onClick=\"if(confirm('{DELETE_QUESTION}')) {deleteFootnote("+i+");}\" name=\"deletelink\">");
 			document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
 			document.write( "<br>");
 		} else {
@@ -103,7 +104,10 @@ function deleteFootnote(i)
 	
 	opener.editor.setHTML(TX);
 	opener.refreshFootnotelist();
-	window.close();
+	
+	window.location = "lm_edit.php?cmd=popup&ptype=footnote";
+	
+	//window.close();
 }
 
 </script>
