@@ -999,7 +999,43 @@ class ilUtil
 		
 		chdir($cdir);
 	}
-	
+
+	/**
+	*	produce pdf out of html with htmldoc
+    *   @param  html    String  HTML-Data given to create pdf-file
+    *   @param  pdf_file    String  Filename to save pdf in
+	*/
+	function html2pdf($html, $pdf_file) {
+        global $ilias;
+        
+        $html_file = str_replace(".pdf",".html",$pdf_file);
+        
+        $fp = fopen( $html_file ,"wb");
+        fwrite($fp, $html);
+        fclose($fp);
+        
+        $htmldoc_path = $ilias->getSetting("htmldoc_path");
+
+        $htmldoc = $htmldoc_path." ";
+        $htmldoc .= "--no-toc ";
+        $htmldoc .= "--no-jpeg ";
+        $htmldoc .= "--webpage ";
+        $htmldoc .= "--outfile " . $pdf_file . " ";
+        $htmldoc .= "--bodyfont Arial ";
+        $htmldoc .= "--charset iso-8859-15 ";
+        $htmldoc .= "--color ";
+        $htmldoc .= "--size A4  ";      // --landscape
+        $htmldoc .= "--format pdf ";
+        $htmldoc .= "--footer ... ";
+        $htmldoc .= "--header ... ";
+        $htmldoc .= "--left 60 ";
+        // $htmldoc .= "--right 200 ";
+        $htmldoc .= $html_file;
+        exec($htmldoc);
+        
+    }
+    
+    
 	/**
 	* get full java path (dir + java command)
 	*/
