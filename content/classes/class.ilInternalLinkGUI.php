@@ -61,26 +61,29 @@ class ilInternalLinkGUI
 		// determine link type and target
 		$this->determineLinkType();
 
+		$def_type = ilObject::_lookupType($this->default_obj, true);
+
 		// determine content object id
 		switch($this->link_type)
 		{
 			case "PageObject":
 			case "StructureObject":
-				if  (empty($_SESSION["il_link_cont_obj"]))
+				if  (empty($_SESSION["il_link_cont_obj"]) &&
+					($def_type != "mep" && $def_type != "glo"))
 				{
 					$_SESSION["il_link_cont_obj"] = $this->default_obj;
 				}
 				break;
 
 			case "GlossaryItem":
-				if  (empty($_SESSION["il_link_glossary"]))
+				if  (empty($_SESSION["il_link_glossary"]) && $def_type == "glo")
 				{
 					$_SESSION["il_link_glossary"] = $this->default_obj;
 				}
 				break;
 
 			case "Media":
-				if  (empty($_SESSION["il_link_mep"]))
+				if  (empty($_SESSION["il_link_mep"]) && $def_type == "mep")
 				{
 					$_SESSION["il_link_mep"] = $this->default_obj;
 				}
@@ -193,6 +196,9 @@ class ilInternalLinkGUI
 				break;
 		}
 //echo "<br><br>:".$this->ctrl->getFormAction($this).":";
+//echo "<br>link_type:".$this->link_type;
+//echo "<br>cont_obj:".$_SESSION["il_link_cont_obj"];
+//echo "<br>link_mep".$_SESSION["il_link_mep"];
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
@@ -461,7 +467,6 @@ class ilInternalLinkGUI
 			// media object
 			case "Media":
 				//$tpl->setVariable("TARGET2", " target=\"content\" ");
-
 				// content object id = 0 --> get clipboard objects
 				if ($_SESSION["il_link_mep"] == 0)
 				{
@@ -746,6 +751,20 @@ class ilInternalLinkGUI
 		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
 		$tpl->setVariable("BTN_RESET", "resetLinkList");
 		$tpl->setVariable("TXT_RESET", $this->lng->txt("reset"));
+
+		if ($a_type == "mep")
+		{
+			$tpl->setCurrentBlock("sel_clipboard");
+			$this->ctrl->setParameter($this, "do", "set");
+			//$this->ctrl->setParameter($this, "sel_id", 0);
+			//$this->ctrl->setParameter($this, "target_type", "mep");
+			//$this->ctrl->setParameter($this, "linkmode", "");
+			//$this->ctrl->setParameter($this, "obj_id", "");
+			$tpl->setVariable("LINK_CLIPBOARD", $this->ctrl->getLinkTarget($this, "changeTargetObject"));
+			$tpl->setVariable("TXT_PERS_CLIPBOARD", $this->lng->txt("clipboard"));
+			$tpl->parseCurrentBlock();
+		}
+
 		/*
 		$tpl->setVariable("BTN_STRUCTURE", "resetLinkList");
 		$tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("reset"));*/
