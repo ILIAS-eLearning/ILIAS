@@ -371,6 +371,7 @@ common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
 common#:#add_author#:#Aggiungi autore
 common#:#add_member#:#Aggiungi membro
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Aggiungi traduzione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
@@ -673,11 +674,13 @@ common#:#file#:#File
 common#:#file_a#:#un file
 common#:#file_add#:#Upload del file
 common#:#file_added#:#Upload del file eseguito
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
 common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#firstname#:#Nome
@@ -686,6 +689,7 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nuova cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle

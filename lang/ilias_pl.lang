@@ -371,6 +371,7 @@ common#:#active_roles#:#Aktywnne role
 common#:#add#:#Dodaj
 common#:#add_author#:#Dodaj autora
 common#:#add_member#:#Dodaj członka
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Dodaj tłumaczenie
 common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
@@ -673,11 +674,13 @@ common#:#file#:#Plik
 common#:#file_a#:#Plik
 common#:#file_add#:#Wyślij plik
 common#:#file_added#:#Plik załadowany
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
 common#:#file_valid#:#Plik ważny!
 common#:#file_version#:#Wersja podana w pliku
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Miejsce plików
 common#:#fill_out_all_required_fields#:#Wypęłnij wszystkie konieczne pola
 common#:#firstname#:#Imię
@@ -686,6 +689,7 @@ common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nowy Folder
 common#:#folder#:#Folder
 common#:#folders#:#Foldery

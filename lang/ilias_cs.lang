@@ -371,6 +371,7 @@ common#:#active_roles#:#Aktivovat role
 common#:#add#:#Přidat
 common#:#add_author#:#Přidat authora
 common#:#add_member#:#Přidat člena
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Přidat překlad
 common#:#adm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#adm_read#:#Read access to System settings###16 Mar 2004 new variable
@@ -673,11 +674,13 @@ common#:#file#:#Soubor
 common#:#file_a#:#soubor
 common#:#file_add#:#Nahrát soubor
 common#:#file_added#:#Soubor přijat
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Nový Soubor
 common#:#file_not_found#:#Soubor nenalezen
 common#:#file_not_valid#:#Soubor není validní!
 common#:#file_valid#:#Soubor je v pořádku!
 common#:#file_version#:#Soubor neobsahuje verzi
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Umístění souborů
 common#:#fill_out_all_required_fields#:#Vyplňte prosím všechny povinné položky
 common#:#firstname#:#Křestní jméno
@@ -686,6 +689,7 @@ common#:#fold#:#Složka
 common#:#fold_a#:#složka
 common#:#fold_add#:#Přidat složku
 common#:#fold_added#:#Složka přidána
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nová složka
 common#:#folder#:#složka
 common#:#folders#:#Složky

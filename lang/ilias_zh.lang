@@ -388,6 +388,7 @@ common#:#active_roles#:#活动角色
 common#:#add#:#增加
 common#:#add_author#:#增加作者
 common#:#add_member#:#增加成员
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#增加翻译
 common#:#adm_edit_permission#:#更改许可设置
 common#:#adm_read#:#基本系统设置为读访问
@@ -690,11 +691,13 @@ common#:#file#:#文件
 common#:#file_a#:#一个文件
 common#:#file_add#:#上载文件
 common#:#file_added#:#文件已上载
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#新文件
 common#:#file_not_found#:#未找到文件！
 common#:#file_not_valid#:#文件无效！
 common#:#file_valid#:#文件有效！
 common#:#file_version#:#文件中提供的版本
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#文件地点
 common#:#fill_out_all_required_fields#:#请填充全部要求的域
 common#:#firstname#:#名
@@ -703,6 +706,7 @@ common#:#fold#:#文件夹
 common#:#fold_a#:#一个文件夹
 common#:#fold_add#:#增加文件夹
 common#:#fold_added#:#文件夹已增加
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#新文件夹
 common#:#folder#:#文件夹
 common#:#folders#:#文件夹
