@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/Pages/class.ilMapArea.php");
 
 /**
 * Class ilMediaItem
@@ -35,6 +36,7 @@
 class ilMediaItem
 {
 	var $ilias;
+	var $id;
 	var $purpose;
 	var $location;
 	var $location_type;
@@ -46,6 +48,8 @@ class ilMediaItem
 	var $parameters;
 	var $mob_id;
 	var $nr;
+	var $mapareas;
+	var $map_cnt;
 
 	function ilMediaItem()
 	{
@@ -53,18 +57,53 @@ class ilMediaItem
 
 		$this->ilias =& $ilias;
 		$this->parameters = array();
+		$this->mapareas = array();
+		$this->map_cnt = 0;
 	}
 
+	/**
+	* set media item id
+	*
+	* @param	int		$a_id		media item id
+	*/
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	/**
+	* get media item id
+	*
+	* @return	int		media item id
+	*/
+	function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	* set id of parent media object
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
 	function setMobId($a_mob_id)
 	{
 		$this->mob_id = $a_mob_id;
 	}
 
+	/**
+	* get id of parent media object
+	*
+	* @return	int		media object id
+	*/
 	function getMobId()
 	{
 		return $this->mob_id;
 	}
 
+	/**
+	* set number of media item within media object
+	*/
 	function setNr($a_nr)
 	{
 		$this->nr = $a_nr;
@@ -75,6 +114,9 @@ class ilMediaItem
 		return $this->nr;
 	}
 
+	/**
+	* create persistent media item
+	*/
 	function create()
 	{
 		$query = "INSERT INTO media_item (mob_id, purpose, location, ".
@@ -84,10 +126,11 @@ class ilMediaItem
 			"'".$this->getPurpose()."','".ilUtil::prepareDBString($this->getLocation())."','".
 			$this->getLocationType()."','".$this->getFormat()."','".
 			$this->getWidth()."','".$this->getHeight()."','".$this->getHAlign().
-			"','".$this->getCaption()."','".($i+1)."')";
+			"','".$this->getCaption()."','".$this->getNr()."')";
 		$this->ilias->db->query($query);
 //echo "create_mob:$query:<br>";
 		$item_id = getLastInsertId();
+		$this->setId($item_id);
 
 		// create mob parameters
 		$params = $this->getParameters();
@@ -97,6 +140,99 @@ class ilMediaItem
 				"('".$item_id."', '".$name."', '".$value."')";
 			$this->ilias->db->query($query);
 		}
+
+		// create map areas
+		for ($i=0; $i < count($this->mapareas); $i++)
+		{
+			$this->mapareas[$i]->setItemId($this->getId());
+			$this->mapareas[$i]->setNr($i + 1);
+			$this->mapareas[$i]->create();
+		}
+	}
+
+	/**
+	* read media item data (item id or (mob_id and nr) must be set)
+	*/
+	/*
+	function read()
+	{
+		$item_id = $this->getId();
+		$mob_id = $this->getMobId();
+		$nr = $this->getNr();
+		$query = "";
+		if($item_id > 0)
+		{
+			$query = "SELECT * FROM media_item WHERE id = '".$this->getId()."'";
+		}
+		else if ($mob_id > 0 && $nr > 0)
+		{
+			$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getMobId()."' ".
+				"AND nr='".$this->getNr()."'";
+		}
+		if ($query != "")
+		{
+			$item_set = $this->ilias->db->query($query);
+			$item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC)
+
+			$this->setLocation($item_rec["location"]);
+			$this->setLocationType($item_rec["location_type"]);
+			$this->setFormat($item_rec["format"]);
+			$this->setWidth($item_rec["width"]);
+			$this->setHeight($item_rec["height"]);
+			$this->setHAlign($item_rec["halign"]);
+			$this->setCaption($item_rec["caption"]);
+			$this->setPurpose($item_rec["purpose"]);
+			$this->setNr($item_rec["nr"]);
+			$this->setMobId($item_rec["mob_id"]);
+			$this->setId($item_rec["id"]);
+		}
+	}*/
+
+	/**
+	* read media items into media objects (static)
+	*
+	* @param	object		$a_mob	 	media object
+	*/
+	function _getMediaItemsOfMOb(&$a_mob)
+	{
+		// read media_object record
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob->getId()."' ".
+			"ORDER BY nr";
+		$item_set = $this->ilias->db->query($query);
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$media_item =& new ilMediaItem();
+			$media_item->setNr($item_rec["nr"]);
+			$media_item->setId($item_rec["id"]);
+			$media_item->setLocation($item_rec["location"]);
+			$media_item->setLocationType($item_rec["location_type"]);
+			$media_item->setFormat($item_rec["format"]);
+			$media_item->setWidth($item_rec["width"]);
+			$media_item->setHeight($item_rec["height"]);
+			$media_item->setHAlign($item_rec["halign"]);
+			$media_item->setCaption($item_rec["caption"]);
+			$media_item->setPurpose($item_rec["purpose"]);
+
+			// get item parameter
+			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
+				$item_rec["id"]."'";
+			$par_set = $this->ilias->db->query($query);
+			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$media_item->setParameter($par_rec["name"], $par_rec["value"]);
+			}
+
+			// get item map areas
+			$max = ilMapArea::_getMaxNr($media_item->getId());
+			for ($i = 1; $i <= $max; $i++)
+			{
+				$area =& new ilMapArea($media_item->getId(), $i);
+				$media_item->addMapArea($area);
+			}
+
+			// add media item to media object
+			$a_mob->addMediaItem($media_item);
+		}
 	}
 
 	/**
@@ -104,12 +240,17 @@ class ilMediaItem
 	*/
 	function deleteAllItemsOfMob($a_mob_id)
 	{
-			// delete media parameter
+		// iterate all media items ob mob
 		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."'";
 		$item_set = $this->ilias->db->query($query);
 		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			// delete all parameters of media item
 			$query = "DELETE FROM mob_parameter WHERE med_item_id = '".$item_rec["id"]."'";
+			$this->ilias->db->query($query);
+
+			// delete all map areas of media item
+			$query = "DELETE FROM map_area WHERE item_id = '".$item_rec["id"]."'";
 			$this->ilias->db->query($query);
 		}
 
@@ -156,6 +297,12 @@ class ilMediaItem
 	function getFormat()
 	{
 		return $this->format;
+	}
+
+	function addMapArea(&$a_map_area)
+	{
+		$this->mapareas[$this->map_cnt] =& $a_map_area;
+		$this->map_cnt++;
 	}
 
 	/**
@@ -285,6 +432,56 @@ class ilMediaItem
 	function getParameter($a_name)
 	{
 		return $this->parameters[$a_name];
+	}
+
+	/**
+	* get xml code of media items' areas
+	*/
+	function getMapAreasXML()
+	{
+		$xml = "";
+
+		// create map areas
+		for ($i=0; $i < count($this->mapareas); $i++)
+		{
+			$area =& $this->mapareas[$i];
+			$xml .= "<MapArea Shape=\"".$area->getShape()."\" Coords=\"".$area->getCoords()."\">";
+			if ($area->getLinkType() == IL_INT_LINK)
+			{
+				$xml .= "<IntLink Target=\"".$area->getTarget()."\" Type=\"".
+					$area->getType()."\" TargetFrame=\"".$area->getTargetFrame()."\">";
+				$xml .= $area->getTitle();
+				$xml .="</IntLink>";
+			}
+			else
+			{
+				$xml .= "<ExtLink Href=\"".$area->getHref()."\" Title=\"".
+					$area->getExtTitle()."\">";
+				$xml .= $area->getTitle();
+				$xml .="</ExtLink>";
+			}
+			$xml .= "</MapArea>";
+		}
+
+		return $xml;
+	}
+
+	/**
+	* resolve internal links of all media items of a media object
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	function _resolveMapAreaLinks($a_mob_id)
+	{
+//echo "mediaItems::resolve<br>";
+		// read media_object record
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."' ".
+			"ORDER BY nr";
+		$item_set = $this->ilias->db->query($query);
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			ilMapArea::_resolveIntLinks($item_rec["id"]);
+		}
 	}
 
 }

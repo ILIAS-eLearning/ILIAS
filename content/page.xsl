@@ -52,21 +52,23 @@
 		</input>
 		<br/>
 	</xsl:if>
-      <xsl:if test="$citation = 1">
-        <xsl:if test="count(//PageTurn) &gt; 0">
-          <input type="checkbox" name="pgt_id[0]">
-            <xsl:attribute name="value">
-              <xsl:call-template name="getFirstPageNumber" />
-            </xsl:attribute>
-          </input>
-          <xsl:call-template name="showCitationSelect">
-            <xsl:with-param name="pos" select="0" />
-          </xsl:call-template>
-          <xsl:text> </xsl:text>
-          <span class="ilc_Strong">[Page <xsl:call-template name="getFirstPageNumber"/>]</span>
-        </xsl:if>
-      </xsl:if>
-    <xsl:apply-templates/>
+	<xsl:if test="$citation = 1">
+		<xsl:if test="count(//PageTurn) &gt; 0">
+		<input type="checkbox" name="pgt_id[0]">
+			<xsl:attribute name="value">
+			<xsl:call-template name="getFirstPageNumber" />
+			</xsl:attribute>
+		</input>
+		<xsl:call-template name="showCitationSelect">
+			<xsl:with-param name="pos" select="0" />
+		</xsl:call-template>
+		<xsl:text> </xsl:text>
+		<span class="ilc_Strong">[Page <xsl:call-template name="getFirstPageNumber"/>]</span>
+		</xsl:if>
+	</xsl:if>
+
+	<xsl:apply-templates/>
+
     <!-- Footnote List -->
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
@@ -82,30 +84,61 @@
 	</xsl:if>
 
 	<!-- Pageturn List -->
-    <xsl:if test="count(//PageTurn) > 0">
-      <hr />
-      <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-      <xsl:for-each select="//PageTurn">
-        <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
-        <xsl:if test="contains($entry_two,$entry_one)">
-          <div class="ilc_PageTurn">
-            <a>
-              <xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
-              <span class="ilc_Strong">[Pagebreak <xsl:number count="PageTurn" level="multiple"/>] </span>
-            </a>
-            <xsl:call-template name="searchEdition">
-              <xsl:with-param name="Entry">
-                <xsl:value-of select="$entry_one" />
-              </xsl:with-param>
-            </xsl:call-template>
-          </div>
-        </xsl:if>
-      </xsl:for-each>
-      <xsl:if test="$citation = 1">
-        <xsl:call-template name="showCitationSubmit" />
-      </xsl:if>
-    </xsl:if>
-  </xsl:template>
+	<xsl:if test="count(//PageTurn) > 0">
+		<hr />
+		<xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+		<xsl:for-each select="//PageTurn">
+			<xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
+			<xsl:if test="contains($entry_two,$entry_one)">
+			<div class="ilc_PageTurn">
+				<a>
+				<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
+				<span class="ilc_Strong">[Pagebreak <xsl:number count="PageTurn" level="multiple"/>] </span>
+				</a>
+				<xsl:call-template name="searchEdition">
+				<xsl:with-param name="Entry">
+					<xsl:value-of select="$entry_one" />
+				</xsl:with-param>
+				</xsl:call-template>
+			</div>
+			</xsl:if>
+		</xsl:for-each>
+		<xsl:if test="$citation = 1">
+			<xsl:call-template name="showCitationSubmit" />
+		</xsl:if>
+	</xsl:if>
+
+    <!-- image map data -->
+	<xsl:for-each select="//MediaItem/MapArea[1]">
+		<map>
+			<xsl:attribute name="name">map_<xsl:value-of select="../../@Id"/>_<xsl:value-of select="../@Purpose"/></xsl:attribute>
+			<xsl:for-each select="../MapArea">
+				<area>
+					<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
+					<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
+					<xsl:for-each select="./IntLink">
+						<xsl:variable name="frametype" select="@TargetFrame"/>
+						<xsl:variable name="targetframe">
+							<xsl:value-of select="//LinkTargets/LinkTarget[@Type=$frametype]/@Frame"/>
+						</xsl:variable>
+						<xsl:if test="$targetframe != ''">
+							<xsl:attribute name="target"><xsl:value-of select="$targetframe"/></xsl:attribute>
+						</xsl:if>
+						<xsl:call-template name="IntLinkHref"/>
+						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+					</xsl:for-each>
+					<xsl:for-each select="./ExtLink">
+						<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+					</xsl:for-each>
+				</area>
+			</xsl:for-each>
+		</map>
+	</xsl:for-each>
+
+</xsl:template>
 
 <!-- SHOW SELECTBOX OF CITATIONS -->
 <xsl:template name="showCitationSelect">
@@ -154,7 +187,7 @@
       </xsl:choose>
     </xsl:if>
   </xsl:for-each>
-</xsl:template> 
+</xsl:template>
 
 <!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
 <xsl:template name="searchEdition">
@@ -306,48 +339,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<!-- Page Objects -->
-				<xsl:if test="@Type = 'PageObject'">
-					<xsl:if test="$mode = 'edit'">
-						<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'preview'">
-						<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'presentation'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<!-- Structure Objects -->
-				<xsl:if test="@Type = 'StructureObject'">
-					<xsl:if test="$mode = 'edit'">
-						<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'preview'">
-						<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'presentation'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<!-- Glossary Items -->
-				<xsl:if test="@Type = 'GlossaryItem'">
-					<xsl:if test="$mode = 'edit' or $mode = 'preview'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'presentation'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<!-- Media Objects -->
-				<xsl:if test="@Type = 'MediaObject'">
-					<xsl:if test="$mode = 'edit' or $mode = 'preview'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$mode = 'presentation'">
-						<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
-					</xsl:if>
-				</xsl:if>
+				<xsl:call-template name="IntLinkHref"/>
 				<xsl:apply-templates/>
 			</a>
 		</xsl:when>
@@ -385,6 +377,51 @@
 	</xsl:choose>
 </xsl:template>
 
+<!-- build href attribute for interna links -->
+<xsl:template name="IntLinkHref">
+	<!-- Page Objects -->
+	<xsl:if test="@Type = 'PageObject'">
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'preview'">
+			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'presentation'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
+	<!-- Structure Objects -->
+	<xsl:if test="@Type = 'StructureObject'">
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'preview'">
+			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'presentation'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
+	<!-- Glossary Items -->
+	<xsl:if test="@Type = 'GlossaryItem'">
+		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'presentation'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
+	<!-- Media Objects -->
+	<xsl:if test="@Type = 'MediaObject'">
+		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode = 'presentation'">
+			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
+</xsl:template>
 
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
@@ -713,59 +750,114 @@
 		</xsl:choose></xsl:variable>
 
 		<!-- build object tag -->
-		<tr><td class="ilc_Mob"><object>
+		<tr><td class="ilc_Mob">
 			<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
 				<!-- data / Location -->
 				<xsl:variable name="curItemNr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
-				<xsl:choose>
-					<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location != ''">
-						<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Location/@Type"/>
-						<xsl:if test="$curType = 'LocalFile'">
-							<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$curType = 'Reference'">
-							<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
-						</xsl:if>
-						<!-- type / Format -->
-						<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Format"/></xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
-						<xsl:if test="$curType = 'LocalFile'">
-							<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$curType = 'Reference'">
-							<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-						</xsl:if>
-						<!-- type / Format -->
-						<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/></xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
 
-				<!-- width and height -->
-				<xsl:choose>
-					<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or ../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">
-						<xsl:attribute name="width"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:attribute>
-					</xsl:when>
-					<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
-						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">
-						<xsl:attribute name="width"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:attribute>
-					</xsl:when>
-				</xsl:choose>
+				<!-- determine location mode (curpurpose, standard) -->
+				<xsl:variable name="location_mode">
+					<xsl:choose>
+						<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location != ''">curpurpose</xsl:when>
+						<xsl:otherwise>standard</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine location type (LocalFile, Reference) -->
+				<xsl:variable name="curType">
+					<xsl:choose>
+						<xsl:when test="$location_mode = 'curpurpose'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Location/@Type"/>
+						</xsl:when>
+						<xsl:when test="$location_mode = 'standard'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine format (mime type) -->
+				<xsl:variable name="type">
+					<xsl:choose>
+						<xsl:when test="$location_mode = 'curpurpose'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Format"/>
+						</xsl:when>
+						<xsl:when test="$location_mode = 'standard'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine location -->
+				<xsl:variable name="data">
+					<xsl:choose>
+						<xsl:when test="$location_mode = 'curpurpose'">
+							<xsl:if test="$curType = 'LocalFile'">
+								<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+							</xsl:if>
+							<xsl:if test="$curType = 'Reference'">
+								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="$location_mode = 'standard'">
+							<xsl:if test="$curType = 'LocalFile'">
+								<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+							</xsl:if>
+							<xsl:if test="$curType = 'Reference'">
+								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+							</xsl:if>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine size mode (alias, mob or none) -->
+				<xsl:variable name="sizemode">
+					<xsl:choose>
+						<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
+							../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">alias</xsl:when>
+						<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
+							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">mob</xsl:when>
+						<xsl:otherwise>none</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine width -->
+				<xsl:variable name="width">
+					<xsl:choose>
+						<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
+						<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:when>
+						<xsl:otherwise></xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<!-- determine height -->
+				<xsl:variable name="height">
+					<xsl:choose>
+						<xsl:when test="$sizemode = 'alias'"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
+						<xsl:when test="$sizemode = 'mob'"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:when>
+						<xsl:otherwise></xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<xsl:call-template name="MOBTag">
+					<xsl:with-param name="data" select="$data" />
+					<xsl:with-param name="type" select="$type" />
+					<xsl:with-param name="width" select="$width" />
+					<xsl:with-param name="height" select="$height" />
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
 
 				<!-- parameter -->
+				<!--
 				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
 					<param>
 					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
 					</param>
-				</xsl:for-each>
+				</xsl:for-each>-->
 
-			</xsl:for-each>
-		</object></td></tr>
+			</xsl:for-each></td></tr>
 
 		<!-- mob caption -->
 		<xsl:choose>			<!-- derive -->
@@ -831,6 +923,49 @@
 
 	</table>
 </xsl:template>
+
+
+<!-- MOBTag: display media object tag -->
+<xsl:template name="MOBTag">
+	<xsl:param name="data"/>
+	<xsl:param name="type"/>
+	<xsl:param name="width"/>
+	<xsl:param name="height"/>
+	<xsl:param name="cmobid"/>
+	<xsl:param name="curPurpose"/>
+	<xsl:choose>
+
+		<!-- all image mime types -->
+		<xsl:when test="substring($type, 1, 5) = 'image'">
+			<img border="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
+					<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+				</xsl:if>
+			</img>
+		</xsl:when>
+
+		<!-- all other mime types: output standard object tag -->
+		<xsl:otherwise>
+			<object>
+				<xsl:attribute name="data"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+					<param>
+					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+					</param>
+				</xsl:for-each>
+			</object>
+		</xsl:otherwise>
+
+	</xsl:choose>
+</xsl:template>
+
 
 <!-- Fullscreen Link -->
 <xsl:template name="FullscreenLink">

@@ -49,6 +49,7 @@ class ilPageEditorGUI
 	var $return_location;
 	var $header;
 	var $tabs;
+	var $cont_obj;
 
 	/**
 	* Constructor
@@ -200,6 +201,8 @@ class ilPageEditorGUI
 
 //echo "2"; exit;
 //echo "type:$type:cmd:$cmd:ctype:$ctype:<br>";
+		$this->cont_obj =& $cont_obj;
+
 		switch($ctype)
 		{
 			// Paragraph
@@ -346,12 +349,32 @@ class ilPageEditorGUI
 			$tabs_gui->setTargetScript(
 				ilUtil::appendUrlParameterString($tabs_gui->getTargetScript(),
 				"hier_id=".$a_hier_id));
+			$tabs[] = array("cont_mob_inst_prop", "editAlias");
+			$tabs[] = array("cont_mob_prop", "edit");
+			$tabs[] = array("cont_mob_files", "editFiles");
+			$tabs[] = array("cont_mob_usages", "showUsages");
+			if (is_object($this->cont_obj))
+			{
+				$st_item =& $this->cont_obj->getMediaItem("Standard");
+				if (is_object($st_item))
+				{
+/*
+					$format = $st_item->getFormat();
+					if (substr($format, 0, 5) == "image")
+					{
+						$tabs[] = array("cont_map_areas", "editMapAreas");
+					}*/
+				}
+			}
+			$tabs[] = array("cont_back", "returnToContext");
+			/*
 			$tabs_gui->setTabs(array(array("cont_mob_inst_prop", "editAlias"),
 				array("cont_mob_prop", "edit"),
 				array("cont_mob_files", "editFiles"),
 				array("cont_mob_usages", "showUsages"),
 				array("cont_back", "returnToContext")
-				));
+				));*/
+			$tabs_gui->setTabs($tabs);
 		}
 		$tabs_gui->display();
 	}

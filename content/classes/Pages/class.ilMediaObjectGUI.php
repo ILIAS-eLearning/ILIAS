@@ -1036,6 +1036,121 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* edit map areas
+	*/
+	function editMapAreas()
+	{
+		if($_GET["limit"] == 0 )
+		{
+			$_GET["limit"] = 500;
+		}
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_usage_row.html", true);
+
+		$num = 0;
+
+		$tbl->setTitle($this->lng->txt("cont_mob_usages"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		$tbl->setHeaderNames(array($this->lng->txt("cont_object"),
+			$this->lng->txt("context")));
+
+		$cols = array("object", "context");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"]);
+		$tbl->setHeaderVars($cols, $header_params);
+		//$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		//$this->tpl->setVariable("COLUMN_COUNTS", 2);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		//require_once("./content/classes/class.ilObjMediaObject.php");
+		//$cont_obj =& new ilObjContentObject($content_obj, true);
+
+		//$entries = ilUtil::getDir($cur_dir);
+		$usages = $this->content_obj->getUsages();
+
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tbl->setMaxCount(count($usages));
+		$usages = array_slice($usages, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($usages) > 0)
+		{
+			$i=0;
+			foreach($usages as $usage)
+			{
+
+				$this->tpl->setCurrentBlock("tbl_content");
+
+				// set color
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				if(is_int(strpos($usage["type"], ":")))
+				{
+					$us_arr = explode(":", $usage["type"]);
+					$usage["type"] = $us_arr[1];
+					$cont_type = $us_arr[0];
+				}
+
+				switch($usage["type"])
+				{
+					case "pg":
+
+						require_once("content/classes/Pages/class.ilPageObject.php");
+						$page_obj = new ilPageObject($cont_type, $usage["id"]);
+
+						//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
+						switch ($cont_type)
+						{
+							case "lm":
+							case "dbk":
+								require_once("content/classes/class.ilObjContentObject.php");
+								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
+								$this->tpl->setVariable("TXT_OBJECT", $lm_obj->getTitle());
+								break;
+						}
+						break;
+				}
+				// set usage link / text
+				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
+				$this->tpl->setVariable("TXT_CONTEXT", "-");
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 	function copyToClipboard()
 	{
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()

@@ -102,7 +102,7 @@ class ilPageObject
 	function buildDom()
 	{
 
-//echo $this->getId().":xml:".htmlentities($this->getXMLContent(true)).":";
+//echo "<br><br>".$this->getId().":xml:".htmlentities($this->getXMLContent(true)).":<br>";
 		$this->dom = domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 
 		$xpc = xpath_new_context($this->dom);
@@ -209,7 +209,9 @@ class ilPageObject
 
 					case "MediaObject":
 						require_once("content/classes/Pages/class.ilMediaObject.php");
+//echo "ilPageObject::getContentObject:nodename:".$child_node->node_name().":<br>";
 						$mal_node =& $child_node->first_child();
+//echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
 						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
 						$mob_id = $id_arr[count($id_arr) - 1];
 						$mob =& new ilMediaObject($mob_id);
@@ -632,6 +634,7 @@ class ilPageObject
 	*/
 	function resolveIntLinks()
 	{
+		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
 		$res =& xpath_eval($xpc, $path);
@@ -639,49 +642,29 @@ class ilPageObject
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
-			switch($type)
+
+			$new_target = ilInternalLink::_getIdForImportId($type, $target);
+
+			if ($new_target !== false)
 			{
-				case "PageObject":
-					/*
-					if(!empty($a_mapping[$target]))
-					{
-						$res->nodeset[$i]->set_attribute("Target", $a_mapping[$target]);
-					}*/
-					$id = ilLMObject::_getIdForImportId($target);
-					if($id > 0)
-					{
-						$res->nodeset[$i]->set_attribute("Target", "il__pg_".$id);
-					}
-					break;
-
-				case "StructureObject":
-					$id = ilLMObject::_getIdForImportId($target);
-					if($id > 0)
-					{
-						$res->nodeset[$i]->set_attribute("Target", "il__pg_".$id);
-					}
-					break;
-
-				case "GlossaryItem":
-					$id = ilGlossaryTerm::_getIdForImportId($target);
-					if($id > 0)
-					{
-						$res->nodeset[$i]->set_attribute("Target", "il__git_".$id);
-					}
-					break;
-
-				case "MediaObject":
-					$id = ilMediaObject::_getIdForImportId($target);
-					if($id > 0)
-					{
-						$res->nodeset[$i]->set_attribute("Target", "il__mob_".$id);
-					}
-					break;
-
-
+				$res->nodeset[$i]->set_attribute("Target", $new_target);
 			}
 		}
 		unset($xpc);
+
+		// resolve internal links in map areas
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+//echo "<br><b>page::resolve</b><br>";
+//echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$orig_id = $res->nodeset[$i]->get_attribute("OriginId");
+			$id_arr = explode("_", $orig_id);
+			$mob_id = $id_arr[count($id_arr) - 1];
+			ilMediaItem::_resolveMapAreaLinks($mob_id);
+		}
 	}
 
 	/**

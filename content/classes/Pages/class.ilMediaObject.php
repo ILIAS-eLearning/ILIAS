@@ -51,6 +51,7 @@ class ilMediaObject extends ilObjMediaObject
 	var $node;
 	var $mob_node;
 	var $media_items;
+	var $contains_int_link;
 
 	/**
 	* Constructor
@@ -62,6 +63,7 @@ class ilMediaObject extends ilObjMediaObject
 
 		$this->is_alias = false;
 		$this->media_items = array();
+		$this->contains_int_link = false;
 
 		if($a_id != 0)
 		{
@@ -121,34 +123,9 @@ class ilMediaObject extends ilObjMediaObject
 	function read()
 	{
 		parent::read();
-		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getId()."' ".
-			"ORDER BY nr";
-		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$media_item =& new ilMediaItem();
 
-			$media_item->setLocation($item_rec["location"]);
-			$media_item->setLocationType($item_rec["location_type"]);
-			$media_item->setFormat($item_rec["format"]);
-			$media_item->setWidth($item_rec["width"]);
-			$media_item->setHeight($item_rec["height"]);
-			$media_item->setHAlign($item_rec["halign"]);
-			$media_item->setCaption($item_rec["caption"]);
-			$media_item->setPurpose($item_rec["purpose"]);
-
-			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
-				$item_rec["id"]."'";
-			$par_set = $this->ilias->db->query($query);
-			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$media_item->setParameter($par_rec["name"], $par_rec["value"]);
-			}
-
-			// todo: get mapareas
-			$this->addMediaItem($media_item);
-		}
+		// get media items
+		ilMediaItem::_getMediaItemsOfMOb($this);
 
 		// get meta data
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
@@ -277,8 +254,8 @@ class ilMediaObject extends ilObjMediaObject
 		switch ($a_mode)
 		{
 			case IL_MODE_ALIAS:
-				$xml = "<MediaObject>\n";
-				$xml .= "<MediaAlias OriginId=\"il__mob_".$this->getId()."\"/>\n";
+				$xml = "<MediaObject>";
+				$xml .= "<MediaAlias OriginId=\"il__mob_".$this->getId()."\"/>";
 				$media_items =& $this->getMediaItems();
 //echo "MediaItems:".count($media_items).":<br>";
 				for($i=0; $i<count($media_items); $i++)
@@ -296,20 +273,20 @@ class ilMediaObject extends ilObjMediaObject
 					$halign = ($item->getHAlign() != "")
 						? "HorizontalAlign=\"".$item->getHAlign()."\""
 						: "";
-					$xml .= "<Layout $width $height $halign />\n";
+					$xml .= "<Layout $width $height $halign />";
 
 					// Caption
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							$item->getCaption()."</Caption>\n";
+							$item->getCaption()."</Caption>";
 					}
 
 					// Parameter
 					$parameters = $item->getParameters();
 					foreach ($parameters as $name => $value)
 					{
-						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
 					}
 					$xml .= "</MediaAliasItem>";
 				}
@@ -320,7 +297,7 @@ class ilMediaObject extends ilObjMediaObject
 				// get first technical section
 //echo "ilMediaObject::getXML:getMetaData:id:".$this->getId().":<br>";
 				$meta =& $this->getMetaData();
-				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">\n";
+				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">";
 //echo "count techs2:".count($meta->technicals).":<br>";
 				/*
 				$technical =& $meta->getTechnicalSection(1);
@@ -353,21 +330,22 @@ class ilMediaObject extends ilObjMediaObject
 					$halign = ($item->getHAlign() != "")
 						? "HorizontalAlign=\"".$item->getHAlign()."\""
 						: "";
-					$xml .= "<Layout $width $height $halign />\n";
+					$xml .= "<Layout $width $height $halign />";
 
 					// Caption
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							$item->getCaption()."</Caption>\n";
+							$item->getCaption()."</Caption>";
 					}
 
 					// Parameter
 					$parameters = $item->getParameters();
 					foreach ($parameters as $name => $value)
 					{
-						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
 					}
+					$xml .= $item->getMapAreasXML();
 					$xml .= "</MediaItem>";
 				}
 				break;
@@ -413,6 +391,27 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		$this->hier_id = $a_hier_id;
 	}
+
+	/**
+	* content parser set this flag to true, if the media object contains internal links
+	* (this method should only be called by the import parser)
+	*
+	* @param	boolean		$a_contains_link		true, if page contains intern link tag(s)
+	*/
+	function setContainsIntLink($a_contains_link)
+	{
+		$this->contains_int_link = $a_contains_link;
+	}
+
+	/**
+	* returns true, if mob was marked as containing an intern link (via setContainsIntLink)
+	* (this method should only be called by the import parser)
+	*/
+	function containsIntLink()
+	{
+		return $this->contains_int_link;
+	}
+
 
 	function createAlias(&$a_pg_obj, $a_hier_id)
 	{

@@ -30,6 +30,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 require_once("content/classes/Pages/class.ilPCTable.php");
 require_once("content/classes/Pages/class.ilMediaObject.php");
 require_once("content/classes/Pages/class.ilMediaItem.php");
+require_once("content/classes/Pages/class.ilMapArea.php");
 require_once("content/classes/class.ilBibItem.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTerm.php");
@@ -70,6 +71,7 @@ class ilContObjParser extends ilSaxParser
 	var $in_media_object;
 	var $in_file_item;
 	var $in_glossary;
+	var $in_map_area;
 	var $content_object;
 	var $glossary_object;
 	var $file_item;
@@ -81,6 +83,7 @@ class ilContObjParser extends ilSaxParser
 	var $media_item;		// current media item
 	var $loc_type;			// current location type
 	var $bib_item;			// current bib item object
+	var $map_area;			// current map area
 	var $in_bib_item;		// are we currently within BibItem? true/false
 	var $link_targets;		// stores all objects by import id
 
@@ -105,6 +108,7 @@ class ilContObjParser extends ilSaxParser
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
 		$this->pages_with_int_links = array();
+		$this->mobs_with_int_links = array();
 		$this->mob_mapping = array();
 		$this->file_item_mapping = array();
 		$this->pg_mapping = array();
@@ -194,8 +198,8 @@ class ilContObjParser extends ilSaxParser
 		{
 			$pg_mapping[$key] = "il__pg_".$value;
 		}*/
-
-		// outgoins internal links
+//echo "<br><b>processIntLinks</b>";
+		// outgoin internal links
 		foreach($this->pages_with_int_links as $page_id)
 		{
 			$page_obj =& new ilPageObject($this->content_object->getType(), $page_id);
@@ -203,6 +207,12 @@ class ilContObjParser extends ilSaxParser
 			$page_obj->resolveIntLinks();
 			$page_obj->update(false);
 			unset($page_obj);
+		}
+
+		// outgoins map area (mob) internal links
+		foreach($this->mobs_with_int_links as $mob_id)
+		{
+			ilMediaItem::_resolveMapAreaLinks($mob_id);
 		}
 
 		// incoming internal links
@@ -461,6 +471,13 @@ class ilContObjParser extends ilSaxParser
 				}
 				break;
 
+			case "MapArea":
+				$this->in_map_area = true;
+				$this->map_area =& new ilMapArea();
+				$this->map_area->setShape($a_attribs["Shape"]);
+				$this->map_area->setCoords($a_attribs["Coords"]);
+				break;
+
 			case "Glossary":
 				$this->in_glossary = true;
 				$this->glossary_object =& new ilObjGlossary();
@@ -542,10 +559,34 @@ class ilContObjParser extends ilSaxParser
 				$this->keyword_language = $a_attribs["Language"];
 				break;
 
+			// Internal Link
 			case "IntLink":
-				if(is_object($this->page_object))
+				if (is_object($this->page_object))
 				{
 					$this->page_object->setContainsIntLink(true);
+				}
+				if ($this->in_map_area)
+				{
+//echo "intlink:maparea:<br>";
+					$this->map_area->setLinkType(IL_INT_LINK);
+					$this->map_area->setTarget($a_attribs["Target"]);
+					$this->map_area->setType($a_attribs["Type"]);
+					$this->map_area->setTargetFrame($a_attribs["TargetFrame"]);
+					if (is_object($this->media_object))
+					{
+//echo ":setContainsLink:<br>";
+						$this->media_object->setContainsIntLink(true);
+					}
+				}
+				break;
+
+			// External Link
+			case "ExtLink":
+				if ($this->in_map_area)
+				{
+					$this->map_area->setLinkType(IL_EXT_LINK);
+					$this->map_area->setHref($a_attribs["Href"]);
+					$this->map_area->setExtTitle($a_attribs["Title"]);
 				}
 				break;
 
@@ -641,15 +682,15 @@ class ilContObjParser extends ilSaxParser
 //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
 		}
 		// append content to meta data xml content
-        if ($this->in_meta_data )   // && !$this->in_page_object && !$this->in_media_object
-        {
-            $this->meta_data->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
-        }
+		if ($this->in_meta_data )   // && !$this->in_page_object && !$this->in_media_object
+		{
+			$this->meta_data->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
+		}
 		// append content to bibitem xml content
-        if ($this->in_bib_item)   // && !$this->in_page_object && !$this->in_media_object
-        {
-            $this->bib_item->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
-        }
+		if ($this->in_bib_item)   // && !$this->in_page_object && !$this->in_media_object
+		{
+			$this->bib_item->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
+		}
 	}
 
 
@@ -712,6 +753,8 @@ class ilContObjParser extends ilSaxParser
 					$this->page_object->updateFromXML();
 					$this->pg_mapping[$this->lm_page_object->getImportId()]
 						= $this->lm_page_object->getId();
+
+					// collect pages with internal links
 					if ($this->page_object->containsIntLink())
 					{
 						$this->pages_with_int_links[] = $this->page_object->getId();
@@ -755,7 +798,17 @@ class ilContObjParser extends ilSaxParser
 						$this->media_object->setTitle("dummy");
 						$this->media_object->setDescription("dummy");
 					}
+
+					// create media object
 					$this->media_object->create();
+//echo "creating media object<br>";
+					// collect mobs with internal links
+					if ($this->media_object->containsIntLink())
+					{
+//echo "got int link :".$this->media_object->getId().":<br>";
+						$this->mobs_with_int_links[] = $this->media_object->getId();
+					}
+
 					$this->mob_mapping[$this->media_object->getImportId()]
 							= $this->media_object->getId();
 //echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
@@ -775,7 +828,17 @@ class ilContObjParser extends ilSaxParser
 //echo "<b>REAL UPDATING STARTS HERE</b><br>";
 //echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
 //echo "origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
+
+						// update media object
 						$this->media_object->update();
+//echo "update media object :".$this->media_object->getId().":<br>";
+
+						// collect mobs with internal links
+						if ($this->media_object->containsIntLink())
+						{
+//echo "got int link :".$this->media_object->getId().":<br>";
+							$this->mobs_with_int_links[] = $this->media_object->getId();
+						}
 					}
 				}
 
@@ -794,6 +857,12 @@ class ilContObjParser extends ilSaxParser
 				$this->media_object->addMediaItem($this->media_item);
 //echo "adding media item";
 				break;
+
+			case "MapArea":
+				$this->in_map_area = false;
+				$this->media_item->addMapArea($this->map_area);
+				break;
+
 
 			case "MetaData":
 				$this->in_meta_data = false;
@@ -1008,6 +1077,14 @@ class ilContObjParser extends ilSaxParser
 
 				case "GlossaryTerm":
 					$this->glossary_term->setTerm($a_data);
+					break;
+
+				case "IntLink":
+				case "ExtLink":
+					if($this->in_map_area)
+					{
+						$this->map_area->appendTitle($a_data);
+					}
 					break;
 
 				///////////////////////////

@@ -92,5 +92,53 @@ class ilInternalLink
 
 		return $sources;
 	}
+
+	/**
+	* get current id for an import id
+	*
+	* @param	string		$a_type			target type ("PageObject" | "StructureObject" |
+	*										"GlossaryItem" | "MediaObject")
+	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	*
+	* @return	string		current target id (e.g. "il__pg_244")
+	*/
+	function _getIdForImportId($a_type, $a_target)
+	{
+		switch($a_type)
+		{
+			case "PageObject":
+				$id = ilLMObject::_getIdForImportId($a_target);
+				if($id > 0)
+				{
+					return "il__pg_".$id;
+				}
+				break;
+
+			case "StructureObject":
+				$id = ilLMObject::_getIdForImportId($a_target);
+				if($id > 0)
+				{
+					return "il__pg_".$id;
+				}
+				break;
+
+			case "GlossaryItem":
+				$id = ilGlossaryTerm::_getIdForImportId($a_target);
+				if($id > 0)
+				{
+					return "il__git_".$id;
+				}
+				break;
+
+			case "MediaObject":
+				$id = ilMediaObject::_getIdForImportId($a_target);
+				if($id > 0)
+				{
+					return "il__mob_".$id;
+				}
+				break;
+		}
+		return false;
+	}
 }
 ?>
