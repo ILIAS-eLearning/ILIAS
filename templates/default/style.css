@@ -3,7 +3,7 @@ body {
         background-color:#dddddd;
         font-family:Verdana,Arial,Helvetica,sans-serif;
         font-size:x-small;
-		margin:10px;
+                margin:10px;
 }
 td {
         font-size:x-small;
@@ -64,14 +64,14 @@ a:visited {
 /* ------------------- mail links ----------- */
 a.mailread
 {
-	font-weight: normal;
-	color: blue;
+        font-weight: normal;
+        color: blue;
 }
 
 a.mailunread
 {
-	color: blue;
-	font-weight: bold;
+        color: blue;
+        font-weight: bold;
 }
 
 /* ------------------ buttons -------------- */
@@ -88,7 +88,7 @@ a.btn {
 }
 
 a.tblheader:visited, a.tblheader:hover {
-		color:#ffffff;
+                color:#ffffff;
 }
 
 a.btn:visited {
@@ -109,25 +109,25 @@ a.btn:hover {
 
 /* ------------------ tabs -------------- */
 .tab {
-	font-size: x-small;
-	color: #000000;
-	font-weight: bold;
-	background-color:#000000;
+        font-size: x-small;
+        color: #000000;
+        font-weight: bold;
+        background-color:#000000;
 }
 
 .tabactive {
-	background-color:#dddddd;
+        background-color:#dddddd;
 }
 .tabinactive {
-	background-color:#bbbbbb;
+        background-color:#bbbbbb;
 }
 
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
-	margin:0px;
+        margin:0px;
 }
 
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
-	display: block;
+        display: block;
 }
