@@ -438,7 +438,7 @@ class ilObject
 
 		if (!isset($this->type))
 		{
-			$message = "Object->create(): No object type given!";
+			$message = get_class($this)."::create(): No object type given!";
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
@@ -447,7 +447,7 @@ class ilObject
 		// assigned meta object, not in $this->title
 		if ($this->getTitle() == "")
 		{
-			$message = "Object->create(): No title given! A title is required!";
+			$message = get_class($this)."::create(): No title given! A title is required!";
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
