@@ -657,7 +657,7 @@ class ilLMParser extends ilSaxParser
 				case "Location":
 //echo "Adding a location:".$a_data.":<br>";
 					// TODO: adapt for files in "real" subdirectories
-					$this->meta_technical->addLocation(basename($a_data));
+					$this->meta_technical->addLocation($a_data);
 					break;
 
 				// TECHNICAL: InstallationRemarks

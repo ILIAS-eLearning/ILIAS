@@ -333,17 +333,34 @@
 
 
 		<tr><td class="ilc_Mob"><object>
-			<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+			<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'File'">
+				<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'Reference'">
+				<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+			</xsl:if>
 			<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
 			<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
 			<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
 		</object></td></tr>
 
-		<xsl:if test="count(../Parameter[@Name='caption']) = 1">
-			<tr><td class="ilc_MobCaption">
-			<xsl:value-of select="../Parameter[@Name='caption']/@Value"/>
-			</td></tr>
-		</xsl:if>
+		<!-- mob caption -->
+		<xsl:choose>			<!-- derive -->
+			<xsl:when test="../Parameter[@Name='il_DeriveCaption'][1]/@Value = 'y'">
+				<xsl:if test="count(//MediaObject[@Id=$cmobid]/Parameter[@Name='il_Caption']) = 1">
+				<tr><td class="ilc_MobCaption">
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_Caption']/@Value"/>
+				</td></tr>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="count(../Parameter[@Name='il_Caption']) = 1">
+				<tr><td class="ilc_MobCaption">
+				<xsl:value-of select="../Parameter[@Name='il_Caption']/@Value"/>
+				</td></tr>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
 
 		<tr><td>
 			<!-- command selectbox -->
