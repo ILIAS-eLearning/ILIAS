@@ -153,8 +153,14 @@ class ilUtil
 
 		foreach ($options as $key => $val)
 		{
-
-			$str .= " <option value=\"".$val."\"";
+			if($direct_text)
+			{
+				$str .= " <option value=\"".$key."\"";
+			}
+			else
+			{
+				$str .= " <option value=\"".$val."\"";
+			}
 
 			if ($selected == $key)
 			{

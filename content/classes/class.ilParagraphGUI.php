@@ -62,7 +62,7 @@ class ilParagraphGUI
 
 	function edit()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		$content = $this->pg_obj->getContent();
 		$cnt = 1;
 
@@ -73,7 +73,6 @@ class ilParagraphGUI
 		// content edit
 		$cur_content_obj = $content[$this->cont_cnt - 1];
 
-		$this->tpl->addBlockFile("EDIT_CONTENT", "paragraph_edit", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		//echo htmlentities($this->para_obj->getText());
 		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2output($this->para_obj->getText()));
@@ -93,7 +92,7 @@ class ilParagraphGUI
 		}
 		$this->tpl->setCurrentBlock("content_selection");
 		$this->tpl->setVariable("SELECT_CONTENT" ,
-			ilUtil::formSelect($this->cont_cnt, "cont_cnt",$cont_sel, false, true));
+			ilUtil::formSelect($this->cont_cnt, "new_cont_cnt",$cont_sel, false, true));
 		$this->tpl->setVariable("BTN_NAME", "edit");
 		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt("select"));
 		$this->tpl->parseCurrentBlock();
