@@ -89,6 +89,56 @@ class Object
 		return $new_id;
 	}
 	/**
+	* gateway for all button actions
+	* @access	public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+
+		switch($_POST["cmd"])
+		{
+			case $lng->txt("cut"):
+				return $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+			case $lng->txt("copy"):
+				return $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+			case $lng->txt("link"):
+				return $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+			case $lng->txt("paste"):
+				return $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
+				break;
+			case $lng->txt("clear"):
+				return $admin->clearObject();
+				break;
+			case $lng->txt("delete"):
+				return $this->confirmDeleteAdmObject();
+				break;
+			case $lng->txt("btn_undelete"):
+				return $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
+				break;
+			case $lng->txt("btn_remove_system"):
+				return $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
+				break;
+			case $lng->txt("cancel"):
+				session_unregister("saved_post");
+				break;
+			case $lng->txt("confirm"):
+				return $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
+				break;
+			default: 
+				return false;
+		}
+
+
+	}
+	/**
 	* create object in admin interface
 	* @access	public
 	*/
@@ -276,7 +326,7 @@ class Object
 				}
 				else
 				{
-					$data["check_inherit"][] = '';
+					$data["check_inherit"][] = TUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
 			
@@ -497,6 +547,12 @@ class Object
 		return true;
 	}
 
+	/**
+	* This method is called automatically from class.Admin.php
+	* It removes all object entries for a specific object
+	* This method should be overwritten by all object types
+	* @access public
+	**/
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{
 		global $rbacadmin, $tree;
@@ -512,40 +568,6 @@ class Object
 		$rbacadmin->revokePermission($a_obj_id,$a_parent_id);
 
 		return true;
-	}
-	function cutAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		
-		$admin = new Admin();
-		return $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-	}
-	function copyAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		
-		$admin = new Admin();
-		return $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-	}
-	function linkAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		
-		$admin = new Admin();
-		return $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-	}
-	function pasteAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		$admin = new Admin();
-		return $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
-	}
-	function deleteAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		
-		$admin = new Admin();
-		return $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
 	}
 	function confirmDeleteAdmObject()
 	{
@@ -605,32 +627,6 @@ class Object
 			return $data;
 		}
 	}		
-	function cancelDeleteObject()
-	{
-		session_unregister("saved_post");
-	}
-
-	function undeleteAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-
-		$admin = new Admin();
-		return $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
-	}
-	function removeAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-
-		$admin = new Admin();
-		return $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
-	}
-	function clearAdmObject()
-	{
-		include_once ("classes/class.Admin.php");
-		
-		$admin = new Admin();
-		return $admin->clearObject();
-	}
 
 	/**
 	* returns the parent object id of $_GET["parent"]
