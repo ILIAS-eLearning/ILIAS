@@ -502,11 +502,11 @@ class ilSetupGUI extends ilSetup
 		{
 			if ($this->ini_ilias_exists and $this->display_mode == "setup" and isset($_SESSION["ClientId"]))
 			{
-				//$this->tpl->setVariable("TXT_CLIENT_ID","<br/>(Client: ".$this->client->getName().", Id: ".$this->client->getId().")");
+				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("client_id").": ".$this->client->getId().")");
 			}
 			elseif ($this->isAdmin())
 			{
-				$this->tpl->setVariable("TXT_CLIENT_ID","(root access)");
+				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("root_access").")");
 			}
 		
 			$this->displayNavButtons();
@@ -1469,7 +1469,7 @@ class ilSetupGUI extends ilSetup
 				// display tabs
 				include "./include/inc.client_tabs.php";
 				$client_name = ($this->client->getName()) ? $this->client->getName() : $this->lng->txt("no_client_name");
-				$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("client")." \"".$client_name."\" (ID: ".$this->client->getId().")");		
+				$this->tpl->setVariable("TXT_HEADER",$client_name." (".$this->lng->txt("client_id").": ".$this->client->getId().")");		
 				break;
 			
 			case "setup":
