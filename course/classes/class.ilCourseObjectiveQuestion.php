@@ -368,6 +368,7 @@ class ilCourseObjectiveQuestion
 			$qst['obj_id'] = $row->obj_id;
 			$qst['question_id'] = $row->question_id;
 			$qst['qst_ass_id'] = $row->qst_ass_id;
+			$qst['title'] = $question->getTitle();
 
 			$this->questions[$row->qst_ass_id] = $qst;
 		}
