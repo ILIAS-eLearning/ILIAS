@@ -1,0 +1,56 @@
+<table class="fullwidth">
+<!-- BEGIN tbl_header_title -->
+  <tr class="tbltitle">
+    <td colspan="{CELL_COUNT}">
+	<table class="fullwidth_invisible">
+	  <tr class="tbltitle">
+<!-- BEGIN tbl_header_title_icon -->
+	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
+<!-- END tbl_header_title_icon -->
+		<td class="tbltitle" align="left">{TBL_TITLE}</td>
+<!-- BEGIN tbl_header_title_help -->
+		<td align="right"><a href="#" onclick="popup_window('{TBL_HELP_LINK}',60,90,20,80);"><img src="{TBL_HELP_IMG}" alt="{TBL_HELP_IMG_ALT}" title="{TBL_HELP_IMG_ALT}" border="0" align="right" /></a></td>
+<!-- END tbl_header_title_help -->
+	  </tr>
+	</table>
+    </td>
+  </tr>
+<!-- END tbl_header_title -->
+  <tr class="tblheader">
+<!-- BEGIN tbl_header_cell -->
+    <td class="std"{TBL_COLUMN_WIDTH}>
+	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">{TBL_HEADER_CELL}
+<!-- BEGIN tbl_order_image -->
+	  <img src="./images/{IMG_ORDER_DIR}" border="0" valign="absmiddle" />
+<!-- END tbl_order_image -->
+	  </a>
+	</td>
+<!-- END tbl_header_cell -->
+  </tr>
+<!-- BEGIN tbl_content_row -->
+  <tr class="{ROWCOLOR}">
+<!-- BEGIN tbl_content_cell -->
+    <td class="std">{TBL_CONTENT_CELL}</td>
+<!-- END tbl_content_cell -->
+  </tr>
+<!-- END tbl_content_row -->
+{TBL_CONTENT}
+<!-- BEGIN tbl_footer -->
+  <tr class="tblfooter">
+    <td colspan="{CELL_COUNT}">
+	<table class="fullwidth_invisible">
+	  <tr class="tblfooter">
+	    <td>
+<!-- BEGIN tbl_footer_numinfo -->
+          {NUMINFO}
+<!-- END tbl_footer_numinfo -->
+	    </td>
+<!-- BEGIN tbl_footer_linkbar -->
+	    <td class="tblfooter" align="right">{LINKBAR}</td>
+<!-- END tbl_footer_linkbar -->
+	  </tr>
+	</table>	
+	</td>
+  </tr>
+<!-- END tbl_footer -->
+</table>
