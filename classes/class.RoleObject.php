@@ -304,6 +304,9 @@ class RoleObject extends Object
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 
+			// sort output for correct color changing
+			ksort($parent_role_ids);
+
 			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);

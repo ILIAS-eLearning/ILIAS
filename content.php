@@ -88,7 +88,7 @@ $tplContent->setCurrentBlock("row",true);
 
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
-	$num = 0;
+	$num = 1;
 	
 	foreach ($tree->Childs as $key => $val)
     {
