@@ -31,7 +31,7 @@
 */
 
 
-class ilTemplate extends IntegratedTemplateExtension
+class ilTemplate extends ilTemplateX
 {
 	/**
 	* variablen die immer in jedem block ersetzt werden sollen
@@ -95,7 +95,7 @@ class ilTemplate extends IntegratedTemplateExtension
 		}
 
 		//$this->IntegratedTemplateExtension(dirname($fname));
-		$this->IntegratedTemplateExtension();
+		$this->callConstructor();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 
