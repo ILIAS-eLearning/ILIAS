@@ -156,6 +156,7 @@ $tpl->setVariable("TXT_DB_VERSION", $lng->txt("db_version"));
 $tpl->setVariable("TXT_INST_ID", $lng->txt("inst_id"));
 $tpl->setVariable("TXT_HOSTNAME", $lng->txt("host"));
 $tpl->setVariable("TXT_IP_ADDRESS", $lng->txt("ip_address"));
+$tpl->setVariable("TXT_SERVER_PORT", $lng->txt("port"));
 $tpl->setVariable("TXT_SERVER_SOFTWARE", $lng->txt("server_software"));
 $tpl->setVariable("TXT_HTTP_PATH", $lng->txt("http_path"));
 $tpl->setVariable("TXT_ABSOLUTE_PATH", $lng->txt("absolute_path"));
@@ -218,7 +219,7 @@ $tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVE
 $tpl->setVariable("ABSOLUTE_PATH", dirname($_SERVER["SCRIPT_FILENAME"]));
 $tpl->setVariable("HOSTNAME", $_SERVER["SERVER_NAME"]);
 $tpl->setVariable("SERVER_PORT", $_SERVER["SERVER_PORT"]);
-$tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);
+$tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);	// not used
 $tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 $tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
 
