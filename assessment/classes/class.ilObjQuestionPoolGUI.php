@@ -130,7 +130,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
-
+				$count = $question->isInUse();
+				if ($count)
+				{
+					sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+				}
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
 				$this->setPageEditorTabs();

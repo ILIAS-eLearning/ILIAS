@@ -788,12 +788,12 @@ class ASS_Question
 	*/
 	function isInUse()
 	{
-		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
+		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE original_id = %s",
 			$this->ilias->db->quote("$this->id")
 			);
 		$result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->solution_count;
+		return $row->question_count;
 	}
 
 	/**
