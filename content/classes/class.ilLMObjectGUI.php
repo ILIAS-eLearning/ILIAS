@@ -42,6 +42,7 @@ class ilLMObjectGUI
 	var $obj;
 	var $objDefinition;
 	var $content_object;
+	var $actions;
 
 	function ilLMObjectGUI(&$a_content_obj)
 	{
@@ -53,6 +54,22 @@ class ilLMObjectGUI
 		$this->objDefinition =& $objDefinition;
 		$this->content_object =& $a_content_obj;
 	}
+
+	function setActions($a_actions = "")
+	{
+		if (is_array($a_actions))
+		{
+			foreach ($a_actions as $name => $lng)
+			{
+				$this->actions[$name] = array("name" => $name, "lng" => $lng);
+			}
+		}
+		else
+		{
+			$this->actions = "";
+		}
+	}
+
 
 	function addMeta()
 	{
@@ -420,31 +437,17 @@ class ilLMObjectGUI
 	function showActions()
 	{
 		$notoperations = array();
-		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
-		if (empty($_SESSION["clipboard"]))
-		{
-			$notoperations[] = "paste";
-			$notoperations[] = "clear";
-		}
-		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
-		if ($_SESSION["clipboard"])
-		{
-			$notoperations[] = "cut";
-			$notoperations[] = "copy";
-			$notoperations[] = "link";
-		}
-
 		$operations = array();
 
-		$d = $this->objDefinition->getActions($this->obj->getType());
-
+		$operations = $this->actions;
+		/*
 		foreach ($d as $row)
 		{
 			if (!in_array($row["name"], $notoperations))
 			{
 				$operations[] = $row;
 			}
-		}
+		}*/
 
 		if (count($operations)>0)
 		{

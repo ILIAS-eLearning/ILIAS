@@ -837,6 +837,7 @@ content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_sc_title#:#title
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_term#:#Select a term
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width

@@ -53,6 +53,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function setStructureObject(&$a_st_object)
 	{
 		$this->obj =& $a_st_object;
+		$this->actions = $this->objDefinition->getActions($this->obj->getType());
 	}
 
 	/*
@@ -109,6 +110,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
+			//$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
+			$acts = array("delete" => "delete", "cut" => "cut");
+			if(!empty($_SESSION["ilEditClipboard"]))
+			{
+				$acts["paste"] = "paste";
+			}
+			$this->setActions($acts);
 			$this->showActions();
 		}
 
@@ -285,5 +293,77 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		parent::putInTree();
 	}
+
+	/**
+	* cut
+	*/
+	function cut()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["ilEditClipboard"] = $_POST["id"];
+
+		$tree = new ilTree($this->content_object->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		// cut selected object
+		foreach ($_POST["id"] as $id)
+		{
+			$obj =& ilLMObjectFactory::getInstance($this->content_object, $id);
+			$obj->setLMId($this->content_object->getId());
+			$node_data = $tree->getNodeData($id);
+			//$obj->delete();
+			if($tree->isInTree($id))
+			{
+				$tree->deleteTree($node_data);
+			}
+		}
+		sendInfo($this->lng->txt("msg_cut_clipboard"));
+		$this->view();
+	}
+
+	function paste()
+	{
+		if(!isset($_SESSION["ilEditClipboard"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_SESSION["ilEditClipboard"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$tree = new ilTree($this->content_object->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		// cut selected object
+		foreach ($_SESSION["ilEditClipboard"] as $id)
+		{
+			if(!$tree->isInTree($id))
+			{
+				if(!isset($_POST["id"]))
+				{
+					$target = IL_FIRST_NODE;
+				}
+				else
+				{
+					$target = $_POST["id"][0];
+				}
+				$tree->insertNode($id, $this->obj->getId(), $target);
+				unset($_SESSION["ilEditClipboard"]);
+			}
+		}
+		$this->view();
+	}
+
 }
 ?>
