@@ -418,7 +418,7 @@ common#:#mail_search_no#:#No entries found
 common#:#mail_search_word#:#Search word
 common#:#mail_select_one#:#You have to select one mail
 common#:#mail_send_error#:#Error sending mail
-common#:#mail_sent#:#Mail successfully sent!
+common#:#mail_sent#:#Mail sent!
 common#:#mail_system#:#System Message
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
@@ -1047,7 +1047,7 @@ mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your email address is not valid
 mail#:#mail_compose#:#Compose Message
-mail#:#mail_deleted#:#The mail(s) have been deleted
+mail#:#mail_deleted#:#The mail(s) are deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_email_forbidden#:#You are not allowed to send email
 mail#:#mail_entry_added#:#Added new Entry
@@ -1055,11 +1055,11 @@ mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_file_name#:#Filename
 mail#:#mail_file_size#:#Filesize
 mail#:#mail_files_deleted#:#The file(s) are deleted
-mail#:#mail_folder_created#:#A new folder is created
+mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
 mail#:#mail_folder_exists#:#A folder already exists with this name
 mail#:#mail_folder_name#:#Folder name
-mail#:#mail_folder_name_changed#:#The folder is renamed
+mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
@@ -1068,7 +1068,7 @@ mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
 mail#:#mail_mark_read#:#Mark mails read
 mail#:#mail_mark_unread#:#Mark mails unread
-mail#:#mail_message_send#:#The message is send
+mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail(s)
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail(s) have been moved
@@ -1080,12 +1080,12 @@ mail#:#mail_options_of#:#Options
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_s_unread#:#Unread Mail(s)
-mail#:#mail_saved#:#The message is saved
+mail#:#mail_saved#:#The message has been saved
 mail#:#mail_search_addressbook#:#search in addressbook
 mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You have to select one entry
 mail#:#mail_select_one_file#:#You have to select one file
-mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail(s)
 mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
