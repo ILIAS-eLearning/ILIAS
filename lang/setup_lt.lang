@@ -155,6 +155,7 @@ lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Lenkų
 lang_se#:#Swedish###28 Nov 2003 new variable
 lang_se#:#Švedų
+lang_ua#:#Ukrainian
 lang_xx#:#(kita)
 language#:#kalba
 languages#:#kalbos
