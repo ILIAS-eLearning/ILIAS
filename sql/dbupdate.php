@@ -146,3 +146,10 @@ DELETE FROM glossary_definition;
 DELETE FROM meta_data WHERE obj_type='gdf';
 DELETE FROM page_object WHERE parent_type='gdf';
 ALTER TABLE glossary_definition ADD COLUMN nr INT NOT NULL;
+
+<#22>
+CREATE TABLE usr_search (
+usr_id INT NOT NULL ,
+search_result TEXT,
+PRIMARY KEY ( usr_id )
+);
