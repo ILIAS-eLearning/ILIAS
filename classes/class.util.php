@@ -11,6 +11,8 @@ class TUtil
 {
 	/**
 	* Fetch system_roles and return them in array(role_id => role_name)
+	* @access	public
+	* @return	array
 	*/
 	function getRoles ()
 	{
@@ -37,7 +39,8 @@ class TUtil
 	
 	/**
 	* Fetch loaded modules or possible modules in context
-	* @param string
+	* @access	public
+	* @param	string
 	*/
 	function getModules ($a_objname)
 	{
@@ -85,6 +88,7 @@ class TUtil
 	   
 		return $arr;
 	}
+
 	/**
 	* Builds an html image tag
 	* @param	string	object type
@@ -128,6 +132,15 @@ class TUtil
 		return $str;
 	}
 
+	/**
+	* ???
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	array
+	* @param	boolean
+	* @return	string 
+	*/
 	function formSelectWoTranslation ($selected,$varname,$options,$multiple = false)
 	{
 		$multiple ? $multiple = " multiple=\"multiple\"" : "";
@@ -163,9 +176,11 @@ class TUtil
 
 	/**
 	* ???
-	* @param string	 
-	* @param string	 
-	* @param string	 
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	string
+	* @return	string
 	*/
 	function formCheckbox ($checked,$varname,$value)
 	{
@@ -183,9 +198,11 @@ class TUtil
 
 	/**
 	* ???
-	* @param string	 
-	* @param string	 
-	* @param string	 
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	string
+	* @return	string
 	*/
 	function formRadioButton($checked,$varname,$value)
 	{
@@ -212,7 +229,8 @@ class TUtil
 
 	/**
 	* ???
-	* @param string	 
+	* @access	public
+	* @param	string
 	*/
 	function setPathStr ($a_path)
 	{
@@ -228,7 +246,9 @@ class TUtil
 	
 	/**
 	* liefert den owner des objektes $Aobj_id als user_objekt zurück
-	* @param string	 
+	* @access	public
+	* @param	string
+	* @return	object	UserObject
 	*/
 	function getOwner ($Aobj_id)
 	{
@@ -287,8 +307,10 @@ class TUtil
 	
 	/**
 	* show the tabs in admin section
-	* @param integer column to highlight
-	* @param array array with templatereplacements
+	* 
+	* @access	public
+	* @param	integer	column to highlight
+	* @param	array	array with templatereplacements
 	*/
 	function showTabs($a_hl, $a_o)
 	{
@@ -301,7 +323,7 @@ class TUtil
 			$tpltab->setCurrentBlock("tab");
 			if ($a_hl == $i)
 			{
-		    	$tabtype = "tabactive";
+				$tabtype = "tabactive";
 				$tab = $tabtype;
 			}
 			else
@@ -334,11 +356,14 @@ class TUtil
 
 		return $tpltab->get();
 	}
+
 	/**
 	* Get all objejects of a specific type and check access
-    * recursive method
-	* @param string type
-	* @param string permissions to check e.g. 'visible','read'
+	* recursive method
+	* 
+	* @access	public
+	* @param	string	type
+	* @param	string	permissions to check e.g. 'visible','read'
 	*/
 	function getObjectsByOperations($a_type,$a_operation,$a_node = 0)
 	{
@@ -366,9 +391,13 @@ class TUtil
 		}
 		return $objects;
 	}
-
 	
-	
+	/**
+	* ??? 
+	* @access	public
+	* @param	array
+	* @return	string
+	*/
 	function checkFormEmpty ($emptyFields)
 	{		
 		
@@ -386,9 +415,6 @@ class TUtil
 		return $feedback;
 	}
 	
-	
-
-	
 	/**
 	* Linkbar
 	* Diese Funktion erzeugt einen typischen Navigationsbalken mit
@@ -400,12 +426,12 @@ class TUtil
 	* @author Sascha Hofmann <shofmann@databay.de>
 	* 
 	* @access	public
-	* @param	integer		Name der Skriptdatei (z.B. test.php)
-	* @param	integer		Anzahl der Elemente insgesamt
-	* @param	integer		Anzahl der Elemente pro Seite
-	* @param	integer		Das aktuelle erste Element in der Liste
-	* @param	array		Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
-	* @return	array		linkbar or false on error
+	* @param	integer	Name der Skriptdatei (z.B. test.php)
+	* @param	integer	Anzahl der Elemente insgesamt
+	* @param	integer	Anzahl der Elemente pro Seite
+	* @param	integer	Das aktuelle erste Element in der Liste
+	* @param	array	Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
+	* @return	array	linkbar or false on error
 	*/
 	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array())
 	{
@@ -476,10 +502,11 @@ class TUtil
 	
 	/**
 	* makeClickable
-	* In Texten enthaltene URLs und Mail-Adressen klickbar machen	
+	* In Texten enthaltene URLs und Mail-Adressen klickbar machen
 	* 
 	* @access	public
-	* @param	string		$text: Der Text	
+	* @param	string	$text: Der Text
+	* @return	string	clickable link
 	*/
 	function makeClickable($text)
 	{
@@ -491,14 +518,40 @@ class TUtil
 		
 		// ftp-URL ohne ://-Angabe
 		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.]+)", "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-	    
+		
 		// E-Mail
 		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",  "<a  href=\"mailto:\\1\">\\1</a>", $ret);
-	    
+		
 		return($ret);
 	}
 	
+	/**
+	* StopWatch
+	* benchmark scriptcode
+	* 
+	* Usage:
+	* $t1 = StopWatch(); // starts the StopWatch
+	* // your code you want to benchmark
+	* $diff = StopWatch($t1); // stops the StopWatch
+	* 
+	* $diff contains the time elapsed so far from the point where you set the marker $t1
+	* in microseconds	
+	* 
+	* @access	public
+	* @param	float	starttime in microseconds
+	* @return	float	time in microseconds
+	*/
+	function StopWatch($begin = -1)
+	{
+		$m = explode(" ",microtime());
+		$m = $m[0] + $m[1];
 	
-
+		if ($begin != -1)
+		{
+			$m = $m - $begin;
+		}
+	
+		return($m);
+	}
 } // END class.util
 ?>
