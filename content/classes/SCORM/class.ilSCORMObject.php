@@ -99,7 +99,7 @@ class ilSCORMObject
 
 	function read()
 	{
-		$q = "SELECT * FROM scorm_object WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM scorm_object WHERE obj_id = '" . $this->getId() . "'";
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -108,32 +108,42 @@ class ilSCORMObject
 		$this->setSLMId($obj_rec["slm_id"]);
 	}
 
-	function create()
-	{
-		$q = "INSERT INTO scorm_object (title, type, slm_id) VALUES ".
-			"('".$this->getTitle()."', '".$this->getType()."',".
-			"'".$this->getSLMId()."')";
-		$this->ilias->db->query($q);
-		$this->setId($this->ilias->db->getLastInsertId());
-	}
+    /**
+    * Create database record for SCORM object.
+    *
+    */
+    function create()
+    {
+        global $ilDB;
 
-	function update()
-	{
-		global $ilDB;
+        $q = "INSERT INTO scorm_object (title, type, slm_id) VALUES "
+            . "(" . $ilDB->quote($this->getTitle()) . ", " . $ilDB->quote($this->getType()) . ","
+            . "'" . $this->getSLMId() . "')";
+        $this->ilias->db->query($q);
+        $this->setId($this->ilias->db->getLastInsertId());
+    }
 
-		$q = "UPDATE scorm_object SET ".
-			"title = ".$ilDB->quote($this->getTitle()).", ".
-			"type = '".$this->getType()."', ".
-			"slm_id = '".$this->getSLMId()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
-	}
+    /**
+    * Updates database record for SCORM object.
+    *
+    */
+    function update()
+    {
+        global $ilDB;
+
+        $q = "UPDATE scorm_object SET " . 
+            "title = " . $ilDB->quote($this->getTitle()) . ", "
+            . "type = " . $ilDB->quote($this->getType()) . ", "
+            . "slm_id = '" . $this->getSLMId() . "' "
+            . "WHERE obj_id = '" . $this->getId() . "'";
+        $this->ilias->db->query($q);
+    } 
 
 	function delete()
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM scorm_object WHERE obj_id =".$ilDB->quote($this->getId());
+		$q = "DELETE FROM scorm_object WHERE obj_id =" . $ilDB->quote($this->getId());
 		$ilDB->query($q);
 	}
 
@@ -146,7 +156,7 @@ class ilSCORMObject
 	{
 		global $ilDB;
 
-		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =".$ilDB->quote($a_id));
+		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =" . $ilDB->quote($a_id));
 		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		switch($sc_rec["type"])
