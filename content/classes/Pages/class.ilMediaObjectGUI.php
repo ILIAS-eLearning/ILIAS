@@ -1372,6 +1372,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	function editMapAreas()
 	{
 		//$this->initMapParameters();
+		$this->handleMapParameters();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
 
@@ -1477,15 +1478,15 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function handleMapParameters()
 	{
-		if($_POST["areatype"] != "")
+		/*if($_POST["areatype"] != "")
 		{
 			$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
-		}
+		}*/
 //echo "AT:".$_SESSION["il_map_edit_area_type"].":";
-		if($_GET["areatype"] != "")
+		/*if($_GET["areatype"] != "")
 		{
 			$_SESSION["il_map_edit_area_type"] = $_GET["areatype"];
-		}
+		}*/
 
 		if($_GET["ref_id"] != "")
 		{
