@@ -69,15 +69,36 @@
 	
 	<!-- BEGIN show_list -->
 	<tr class="tblheader">
-      <td  class="std" valign=top width="60%"><b>{TXT_TITLE}</b></td>
-      <td  class="std" valign=top><b>{TXT_LASTPOST}</b></td> 
+      <td class="std" valign="top" width="60%"><b>{TXT_TITLE}</b></td>
+      <td class="std" valign="top"><b>{TXT_LASTPOST}</b></td> 
 	<!-- END show_list -->     
     </tr>
 <!-- BEGIN tbl_frm_row -->
     <tr class="{ROWCOL}">
-      <td  class="std" valign=top width="60%">{FRM_TITLE}</td>
-      <td  class="std" valign=top>{LAST_POST}</td>      
+      <td class="std" valign="top" width="60%">{FRM_TITLE}</td>
+      <td class="std" valign="top">{LAST_POST}</td>      
     </tr>
 <!-- END tbl_frm_row -->
     </table>
 <!-- END tbl_frm -->
+
+<!-- BEGIN tbl_users -->
+<h2>{TXT_USERS_ONLINE}</h2>
+    <table class="fullwidth">
+	<tr class="tblheader">
+      <td class="std" valign="top"><b>{TXT_USR_LOGIN}</b></td>
+      <td class="std" valign="top"><b>{TXT_USR_TITLE}</b></td>
+      <td class="std" valign="top"><b>{TXT_USR_FIRSTNAME}</b></td> 
+      <td class="std" valign="top"><b>{TXT_USR_LASTNAME}</b></td> 
+      <td class="std" valign="top"><b>{TXT_USR_LOGIN_TIME}</b></td> 
+<!-- BEGIN tbl_users_row -->
+    <tr class="{ROWCOL}">
+      <td class="std" valign="top">{USR_LOGIN}</td>
+      <td class="std" valign="top">{USR_TITLE}</td>
+	  <td class="std" valign="top">{USR_FIRSTNAME}</td>
+      <td class="std" valign="top">{USR_LASTNAME}</td>
+      <td class="std" valign="top">{USR_LOGIN_TIME}</td>
+    </tr>
+<!-- END tbl_users_row -->
+    </table>
+<!-- END tbl_users -->

@@ -72,6 +72,7 @@ $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
+// TODO: Move this to header.inc since an expired session could not detected in login script 
 if (!empty($ilias->auth->status))
 {
 	switch($ilias->auth->status)

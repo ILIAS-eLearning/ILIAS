@@ -837,5 +837,26 @@ class ilUtil
 		return $ilias->ini->readVariable("server","webspace_dir");
 	}
 
+	/**
+	* reads all active sessions from db and returns users that are online
+	*
+	* @return	array
+	*/
+	function getUsersOnline()
+	{
+		global $ilias;
+		
+		$q = "SELECT DISTINCT user_id,firstname,lastname,title,login,last_login FROM usr_session ".
+			 "LEFT JOIN usr_data ON user_id=usr_id ".
+			 "WHERE user_id != 0";
+		$r = $ilias->db->query($q);
+		
+		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$users[] = $user;
+		}
+		
+		return $users ? $users : array();
+	}
 } // END class.util
 ?>
