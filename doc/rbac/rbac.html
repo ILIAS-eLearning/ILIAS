@@ -1,0 +1,41 @@
+<A HREF="#01"><LI>Overview of Role Based Access Control</LI></A>
+<A HREF="#02"><LI>Object permissions</LI></A>
+<A HREF="#03"><LI>Roles and Templates</LI></A>
+<A HREF="#04"><LI>System Roles</LI></A>
+<A HREF="#05"><LI>Local Roles</LI></A>
+<A HREF="#06"><LI>Stop Inheritance of Roles</LI></A>
+<A HREF="#07"><LI>Strategy of Permission Administration</LI></A>
+
+<A NAME="01">&nbsp;<BR><H2>Overview of Role Based Access Control</H2></A>
+<P>Role Based Access Control (RBAC) has been developed by the National Institute Of Standards And Technology (NIST). It is based on the idea that a specific user does not have any permission to access any object directly, but he/she is assigned to a role. These roles contain exactly defined permissions to protect objects and data against unauthorized access. A specific user may be assigned to one or more roles. Every user has the possibility to add or drop one or more roles he/she is assigned to (Concept of Active Roles during a session) </P>
+<A NAME="02">&nbsp;<BR><H2>Object Permissions</H2></A>
+<img src="./images/screenshot1.jpg" width="800" height="600"><BR />
+Figure 1:
+<P>A specific operation (visible, read, write ...) is assigned to each object (Category, Learning Object, Role Folder).For each specific object exists a data base entry, which role may exercise which operation on this object. In order to keep the data set small, the operations are serialized, put down thus as string, in the table rbac_pa (Rbac by permission assignment). For roles and users there are no permission entries. The permissions of these object are administrated by the containers (Role Folder ,User Folder) in which they are stored.
+</P>
+
+<A NAME="03">&nbsp;<BR><H2>Roles and Templates</H2></A>
+<P>It is possible to set the permissions of every new object for each role individually. However, since this means a substantial administrative expenditure, Ilias3 offers a possibility to set a so called Permission Template for each role. That means you can create default permissions for every object type. If a specific object is created, the permissions are set accordingly to these template permissions. Futhermore it is possible to accomodate the permissions of all existing objects after changing the role template. You can also de/assign users to roles<BR />
+In addition to it, Role Folders, the container of roles, can contain real templates. These templates do not create any permission entries and it is not possible to assign users to them. To understand the profit of these templates see chapter lokal roles.</P> 
+
+<A NAME="04">&nbsp;<BR><H2>System Roles</H2></A>
+<img src="./images/screenshot2.jpg" width="800" height="600"><BR />
+Figure 2
+<P>The so called System Roles (administrator, author, learner, guest ...) are roles, which are stored in the role folder beneath the folder System Settings. They do have a 'global' influence on all objects of ILIAS3. If a new object is created, it 'inherits' ( see description above) its permissions from these System Roles. If the Checkbox 'Change existing objects' is activated all objects in the tree-structure beneath the Category 'Ilias Open Source' are accomodated accordingly to the permission template of the specific role.</P>
+
+<A NAME="05">&nbsp;<BR><H2>Local Roles</H2></A>
+<P>Every object (except roles, users which do have no permission entries) can posess there own role folder. It is also possible to assign users and set the permissions of Role Templates. In opposition to the System Roles the influence of these Local Roles reaches only for objects beneath the folder in which they are stored. For instance in illustration 3 only objects beneath the Category 'Uni-Koeln'.<BR />
+To make the administration of local roles easier, it is possible by means of the form 'Adopt permissions from roles, templates' to copy the permissions from existing Role Templates or Templates. 
+</P>
+
+<A NAME="06">&nbsp;<BR><H2>Stop Inheritance of Roles</H2></A>
+<img src="./images/screenshot3.jpg" width="800" height="600"><BR />
+Figure 3
+<P>Figure 1 shows that all users assigned to the role 'learner' posess the permission to read Learning Objects. This permission is inherited from the System Role 'learner'. if this is undesired, you can set the permissions individually only for this object or , which is easier for a large amount of objects, you can stop the inheritance of a role.<BR />
+Therefor a new Role Template of the specific role is created and stored in the actual Role Folder. Now it is possible (Figure 3) to set the permissions for all objects beneath the actual Container Object. The main advantage of this strategy is that all objects which are created in the future do not inherit there permissions from the System Role Template but from the Role Template over it. It is theoretically possible to stop the inheritance of a specific role arbitrarily often. It is not possible to assign or deassign users to these Role Templates. 
+</P>
+
+<A NAME="07">&nbsp;<BR><H2>Strategy of Permission Administration</H2></A>
+<P>It is easy to revoke permissions from a System or Local Role (Stop Inheritance). Therefor the permission settings for all base role should be large-scaled, which means a specific role should be granted many permission. For instance all User assigned to the role 'learner' should get the permission 'read' and 'visible' for Learning Objects. In the case of a Closed Group (not all Learners have the permission to read Learning Objects) you can stop the inheritance of System Role 'learner' and revoke the permission 'read'.<BR />
+On the other hand, if specific users should get special permissions, you have to create a new Local role (in the example above: 'Subscriber') which allows users who are assigned to this role to for instance read this object.
+
