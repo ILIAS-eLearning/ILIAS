@@ -1336,6 +1336,8 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function out_working_imagemap_question($test_id = "", $is_postponed = false, &$formaction) {
+		global $ilUser;
+		
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) {
@@ -1350,20 +1352,20 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents($formaction));
 		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) {
-			$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("region_already_selected"));
+			//$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("region_already_selected"));
 			$formaction .= "&selimage=" . $solutions[0]->value1;
 			if (strcmp($this->question->answers[$solutions[0]->value1]->get_area(), "rect") == 0) {
 				$imagepath_working = $this->question->get_image_path() . $this->question->get_image_filename();
 				$coords = $this->question->answers[$solutions[0]->value1]->get_coords();
 				$coords = preg_replace("/(\d+,\d+),(\d+,\d+)/", "$1 $2", $coords);
-				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.selected.jpg";
+				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				system($convert_cmd);
 			}
 		} else {
-			$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("no_region_selected"));
+			//$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("no_region_selected"));
 		}
-		if (file_exists($this->question->get_image_path() . $this->question->get_image_filename() . ".selected.jpg")) {
-			$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename() . ".selected.jpg";
+		if (file_exists($this->question->get_image_path() . $this->question->get_image_filename() . ".sel" . $ilUser->id . ".jpg")) {
+			$imagepath = "displaytempimage.php?gfx=" . $this->question->get_image_path() . $this->question->get_image_filename() . ".sel" . $ilUser->id . ".jpg";
 		} else {
 			$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename();
 		}
@@ -1399,7 +1401,8 @@ class ASS_QuestionGUI extends PEAR {
         $this->out_working_matching_question();
         break;
       case "qt_imagemap":
-        $this->out_working_imagemap_question();
+				$formaction = "#";
+        $this->out_working_imagemap_question("", false, $formaction);
         break;
     }
     $this->tpl->setCurrentBlock("adm_content");
