@@ -141,7 +141,7 @@ class ilRepositoryGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree;
+		global $tree, $rbacsystem, $ilias, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -269,12 +269,13 @@ class ilRepositoryGUI
 				$class_constr = "ilObj".$class_name."GUI";
 				include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 				$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-
+								
 				// execute repository cmd
 				if (empty($cmd))
 				{
 					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp')
 					{
+//echo "<br>--grp";
 						$this->prepareOutput();
 						$this->ctrl->forwardCommand($this->gui_obj);
 						$this->tpl->show();
@@ -286,8 +287,19 @@ class ilRepositoryGUI
 					}
 					//$next_class = "";
 				}
-				$this->cmd = $cmd;
-				$this->$cmd();
+				
+				// check read access for category
+				if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
+				{
+					$_SESSION["il_rep_ref_id"] = "";
+					$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+					$this->tpl->show();
+				}
+				else
+				{
+					$this->cmd = $cmd;
+					$this->$cmd();
+				}
 				break;
 		}
 	}
