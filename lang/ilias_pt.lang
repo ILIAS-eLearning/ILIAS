@@ -572,7 +572,8 @@ bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
 chat#:#chat_active#:#Activo###14 Sep 2004 content changed
 chat#:#chat_active_users#:#Utilizador (activo)###14 Sep 2004 content changed
 chat#:#chat_add_allowed_hosts#:#Por favor adicione os endereços dos anfitriões que são permitidos aceder ao servidor de chat.
-chat#:#chat_add_ip#:#Por favor adicione o IP do servidor.###14 Sep 2004 content changed
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Por favor adicione uma palavra-passe do moderador.
 chat#:#chat_add_port#:#Por favor adicione o Porto do servidor.
 chat#:#chat_aqua#:#aqua###05 Nov 2004 new variable
@@ -633,7 +634,8 @@ chat#:#chat_rooms_deleted#:#Sala(s) de Chat apagadas.###14 Sep 2004 content chan
 chat#:#chat_select_one_room#:#Por favor seleccione uma sala de chat###14 Sep 2004 content changed
 chat#:#chat_server_allowed#:#Anfitriões permitidos
 chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###14 Sep 2004 content changed
-chat#:#chat_server_ip#:#IP do Servidor###14 Sep 2004 content changed
+chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
+chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
 chat#:#chat_server_logfile#:#Caminho do ficheiro de Log###14 Sep 2004 content changed
 chat#:#chat_server_loglevel#:#Nível de Log###14 Sep 2004 content changed
 chat#:#chat_server_not_active#:#O servidor de chat não está ectivo###14 Sep 2004 content changed
