@@ -19,10 +19,25 @@ if (isset($_GET["viewmode"]))
 if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 {
 	$tpl = new Template("tpl.mail_frameset.html", false, false);
+	if(isset($_GET["target"]))
+	{
+		$tpl->setVariable("FRAME_RIGHT_SRC",urldecode($_GET["target"]));
+	}
+	else
+	{
+		$tpl->setVariable("FRAME_RIGHT_SRC","mail.php");
+	}
 	$tpl->show();
 }
 else
 {
-	header("location: mail.php");
+	if(isset($_GET["target"]))
+	{
+		header("location: ".urldecode($_GET["target"]));
+	}
+	else
+	{
+		header("location: mail.php");
+	}
 }
 ?>

@@ -356,9 +356,10 @@ class Mail
 	* @param    string subject
 	* @param    string message
 	* @param    int id of mail which is stored in sentbox
+	* @param    string 'normal' or 'system'
 	* @return	bool
 	*/
-	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id)
+	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type = 'normal')
 	{
 		require_once "classes/class.Mailbox.php";
 
@@ -367,8 +368,15 @@ class Mail
 		$rcp_ids = $this->getUserIds(trim($a_rcp_to).",".trim($a_rcp_cc).",".trim($a_rcp_bcc));
 		foreach($rcp_ids as $id)
 		{
-			$mbox->setUserId($id);
-			$inbox_id = $mbox->getInboxFolder();
+			if($a_type == 'normal')
+			{
+				$mbox->setUserId($id);
+				$inbox_id = $mbox->getInboxFolder();
+			}
+			else
+			{
+				$inbox_id = 0;
+			}
 			$mail_id = $this->sendInternalMail($inbox_id,$this->user_id,
 								  $a_attachments,$a_rcp_to,
 								  $a_rcp_cc,'','unread','normal',
@@ -702,6 +710,7 @@ class Mail
 	*/
 	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$a_type,$a_as_email)
 	{
+		global $lng;
 		$error_message = '';
 
 		if($a_attachment)
@@ -764,6 +773,40 @@ class Mail
 				// SAVE IN SENTBOX
 				$sent_id = $this->saveInSentbox(array(),$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'email',
 												$a_as_email,$a_m_subject,$a_m_message);
+				break;
+
+			case 'system':
+				if($error_message = $this->checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message))
+				{
+					return $error_message;
+				}
+				if(!empty($a_attachment))
+				{
+					return $lng->txt("mail_no_attach_allowed");
+				}
+				if($a_as_email)
+				{
+					if(!$this->getEmailOfSender())
+					{
+						return "You have no valid email address";
+					}
+					if($logins = $this->checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc))
+					{
+						$error_message = "The following users have no valid email address:<BR>";
+						$error_message .= implode("<BR>",$logins);
+
+						return $error_message;
+					}
+					$this->sendMimeMail(implode(',',$this->email_rcp_to),implode(',',$this->email_rcp_cc),
+										implode(',',$this->email_rcp_bcc),$a_m_subject,$a_m_message,$a_attachment);
+				}
+				$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'system',
+												$a_as_email,$a_m_subject,$a_m_message);
+				
+				if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,'system'))
+				{
+					return "Error sending mail";
+				}
 				break;
 		}
 		return $error_message;
