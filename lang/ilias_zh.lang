@@ -496,6 +496,7 @@ common#:#basic_data#:#基本数据
 common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
 common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
 common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#书签
 common#:#bmf#:#书签夹
 common#:#bookmark_edit#:#编辑书签
@@ -530,8 +531,10 @@ common#:#cat_create_grp#:#创建组
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#创建学习模块
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
-common#:#cat_create_qpl#:#创建问题集
+common#:#cat_create_qpl#:#创建问题集###07 May 2004 content changed
 common#:#cat_create_slm#:#创建SCORM学习模块
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#创建测试
 common#:#cat_delete#:#删除类别
 common#:#cat_edit#:#编辑类别
@@ -842,6 +845,7 @@ common#:#glo_join#:#注册术语表
 common#:#glo_leave#:#注销术语表
 common#:#glo_new#:#新词汇表
 common#:#glo_read#:#术语表设为读访问
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#术语表可视
 common#:#glo_write#:#编辑术语表
 common#:#glossaries#:#术语表
@@ -943,6 +947,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Http路径
 common#:#id#:#身份
 common#:#identifier#:# 标识符
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS版本
 common#:#image#:#图象
 common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。
@@ -952,6 +957,7 @@ common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#导入学习模块
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
@@ -1328,7 +1334,7 @@ common#:#obj_objf#:#对象定义
 common#:#obj_objf_desc#:#管理ILIAS对象类型和对象权限。（只适用于专家！）
 common#:#obj_owner#:#此对象拥有者为
 common#:#obj_pg#:#页
-common#:#obj_qpl#:#问题集
+common#:#obj_qpl#:#问题集###07 May 2004 content changed
 common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
 common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
 common#:#obj_role#:#角色
@@ -1339,7 +1345,9 @@ common#:#obj_rolf_local_desc#:#所包含的局部角色的对象为
 common#:#obj_rolt#:#角色模板
 common#:#obj_root#:#根目录
 common#:#obj_slm#:#SCORM学习模块
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#章
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#测试
 common#:#obj_typ#:#对象类型定义
 common#:#obj_type#:#对象类型定义
@@ -1378,7 +1386,9 @@ common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Roles###18 Feb 2004 new variable
 common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
 common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###18 Feb 2004 new variable
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
@@ -1453,7 +1463,7 @@ common#:#publication#:#公布
 common#:#publication_date#:#公布日期
 common#:#published#:#已出版
 common#:#publishing_organisation#:#出版组织
-common#:#qpl#:#问题集
+common#:#qpl#:#问题集###07 May 2004 content changed
 common#:#qpl_add#:#增加问题集
 common#:#qpl_delete#:#删除问题集
 common#:#qpl_edit_permission#:#更改许可设置
@@ -1580,6 +1590,14 @@ common#:#slm_visible#:#SCORM学习模块可视
 common#:#slm_write#:#编辑SCORM学习模块
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#根据此列分类
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#一章
 common#:#st_add#:#增加章
 common#:#st_added#:#已增加章
@@ -1598,6 +1616,14 @@ common#:#submit#:#提交
 common#:#subobjects#:#子对象
 common#:#subscription#:#订阅
 common#:#summary#:#摘要
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#系统
 common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#系统选择语言

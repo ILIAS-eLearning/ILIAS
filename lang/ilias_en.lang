@@ -39,7 +39,6 @@ administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unboun
 administration#:#analyzing#:#Analyzing...
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
-common#:#if_no_title_then_filename#:#Leave blank to display the file name 
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
@@ -480,6 +479,7 @@ common#:#basic_data#:#Basic Data
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Settings
 common#:#benchmarks#:#Benchmarks
+common#:#bib_data#:#Bibliographical Data
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bookmark_edit#:#Edit Bookmark
@@ -515,9 +515,9 @@ common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool (Assessment)
+common#:#cat_create_slm#:#Create SCORM Learning Module
 common#:#cat_create_spl#:#Create Question Pool (Survey)
 common#:#cat_create_svy#:#Create Survey
-common#:#cat_create_slm#:#Create SCORM Learning Module
 common#:#cat_create_tst#:#Create Test
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
@@ -588,7 +588,6 @@ common#:#contact_data#:#Contact Information
 common#:#container#:#Container
 common#:#context#:#Context
 common#:#copy#:#Copy
-common#:#bib_data#:#Bibliographical Data
 common#:#copy_of#:#Copy of
 common#:#country#:#Country
 common#:#course#:#Course
@@ -829,6 +828,7 @@ common#:#glo_join#:#Subscribe to Glossary
 common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_new#:#New Glossary
 common#:#glo_read#:#Read access to Glossary
+common#:#glo_upload_file#:#File
 common#:#glo_visible#:#Glossary is visible
 common#:#glo_write#:#Edit Glossary
 common#:#glossaries#:#Glossaries
@@ -930,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module
 common#:#http_path#:#Http Path
 common#:#id#:#ID
 common#:#identifier#:#identifier
+common#:#if_no_title_then_filename#:#Leave blank to display the file name 
 common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
@@ -939,6 +940,7 @@ common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
+common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
@@ -1316,8 +1318,6 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool (Assessment)
-common#:#obj_spl#:#Question Pool (Survey)
-common#:#obj_svy#:#Survey
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.
 common#:#obj_role#:#Role
@@ -1328,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
+common#:#obj_spl#:#Question Pool (Survey)
 common#:#obj_st#:#Chapter
+common#:#obj_svy#:#Survey
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
@@ -1364,12 +1366,12 @@ common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools (Assessment)
-common#:#objs_spl#:#Question Pools (Surveys)
-common#:#objs_svy#:#Surveys
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_slm#:#SCORM Learning Modules
+common#:#objs_spl#:#Question Pools (Surveys)
 common#:#objs_st#:#Chapters
+common#:#objs_svy#:#Surveys
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objecttypes
 common#:#objs_usr#:#Users
@@ -1452,22 +1454,6 @@ common#:#qpl_new#:#New question pool
 common#:#qpl_read#:#Read access to Question Pool
 common#:#qpl_visible#:#Question Pool is visible
 common#:#qpl_write#:#Edit Question Pool
-common#:#spl#:#Question pool (Survey)
-common#:#spl_add#:#Add question pool
-common#:#spl_delete#:#Delete Question Pool
-common#:#spl_edit_permission#:#Change permission settings
-common#:#spl_new#:#New question pool
-common#:#spl_read#:#Read access to Question Pool
-common#:#spl_visible#:#Question Pool is visible
-common#:#spl_write#:#Edit Question Pool
-common#:#svy#:#Survey
-common#:#svy_add#:#Add survey
-common#:#svy_delete#:#Delete survey
-common#:#svy_edit_permission#:#Change permission settings
-common#:#svy_new#:#New survey
-common#:#svy_read#:#Read access to survey
-common#:#svy_visible#:#Survey is visible
-common#:#svy_write#:#Edit survey
 common#:#question#:#Question
 common#:#question_pools#:#Question pools
 common#:#quit#:#Quit
@@ -1587,6 +1573,14 @@ common#:#slm_visible#:#SCORM Learning Module is visible
 common#:#slm_write#:#Edit SCORM Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
+common#:#spl#:#Question pool (Survey)
+common#:#spl_add#:#Add question pool
+common#:#spl_delete#:#Delete Question Pool
+common#:#spl_edit_permission#:#Change permission settings
+common#:#spl_new#:#New question pool
+common#:#spl_read#:#Read access to Question Pool
+common#:#spl_visible#:#Question Pool is visible
+common#:#spl_write#:#Edit Question Pool
 common#:#st_a#:#a chapter
 common#:#st_add#:#Add chapter
 common#:#st_added#:#Chapter added
@@ -1605,6 +1599,14 @@ common#:#submit#:#Submit
 common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
 common#:#summary#:#Summary
+common#:#svy#:#Survey
+common#:#svy_add#:#Add survey
+common#:#svy_delete#:#Delete survey
+common#:#svy_edit_permission#:#Change permission settings
+common#:#svy_new#:#New survey
+common#:#svy_read#:#Read access to survey
+common#:#svy_visible#:#Survey is visible
+common#:#svy_write#:#Edit survey
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -1716,8 +1718,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-common#:#import_glossary#:#Import Glossary
-common#:#glo_upload_file#:#File
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number

@@ -479,6 +479,7 @@ common#:#basic_data#:#Základní údaje
 common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
 common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
 common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Záložka
 common#:#bmf#:#Složka záložek
 common#:#bookmark_edit#:#Upravit záložku
@@ -515,6 +516,8 @@ common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###16 Mar 2004 new variable
 common#:#cat_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Create Test###16 Mar 2004 new variable
 common#:#cat_delete#:#Delete Category###16 Mar 2004 new variable
 common#:#cat_edit#:#Upravit kategorii
@@ -825,6 +828,7 @@ common#:#glo_join#:#Subscribe to Glossary###16 Mar 2004 new variable
 common#:#glo_leave#:#Unsubscribe from Glossary###16 Mar 2004 new variable
 common#:#glo_new#:#Nový glosář
 common#:#glo_read#:#Read access to Glossary###16 Mar 2004 new variable
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Glossary is visible###16 Mar 2004 new variable
 common#:#glo_write#:#Edit Glossary###16 Mar 2004 new variable
 common#:#glossaries#:#Glosáře
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Http cesta
 common#:#id#:#ID### identical translation
 common#:#identifier#:#identifikátor
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Verze ILIASu
 common#:#image#:#Obrázek
 common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.
@@ -935,6 +940,7 @@ common#:#import_file#:#Import File###16 Mar 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Obsahuje lokální role objektu č.
 common#:#obj_rolt#:#Šablona role
 common#:#obj_root#:#kořen
 common#:#obj_slm#:#Modul SCORM
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Kapitola
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test###16 Mar 2004 new variable
 common#:#obj_typ#:#Definice typů objektů
 common#:#obj_type#:#Typ objektu
@@ -1361,7 +1369,9 @@ common#:#objs_qpl#:#Question Pools###16 Mar 2004 new variable
 common#:#objs_role#:#Roles###16 Mar 2004 new variable
 common#:#objs_rolt#:#Role Templates###16 Mar 2004 new variable
 common#:#objs_slm#:#SCORM Learning Modules###16 Mar 2004 new variable
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###16 Mar 2004 new variable
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###16 Mar 2004 new variable
 common#:#objs_type#:#Objecttypes###16 Mar 2004 new variable
 common#:#objs_usr#:#Users###16 Mar 2004 new variable
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#SCORM Learning Module is visible###16 Mar 2004 new variab
 common#:#slm_write#:#Edit SCORM Learning Module###16 Mar 2004 new variable
 common#:#smtp#:#SMTP### identical translation
 common#:#sort_by_this_column#:#Setřídit podle tohoto sloupce
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#kapitola
 common#:#st_add#:#Přidat kapitolu
 common#:#st_added#:#Kapitola přidána
@@ -1581,6 +1599,14 @@ common#:#submit#:#Odeslat
 common#:#subobjects#:#Podřízené objekty
 common#:#subscription#:#Přihlášení
 common#:#summary#:#Přehled
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Systém
 common#:#system_check#:#System Check###16 Mar 2004 new variable
 common#:#system_choose_language#:#Vybrat systémový jazyk
