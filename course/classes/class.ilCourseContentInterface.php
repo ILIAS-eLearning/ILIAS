@@ -43,6 +43,28 @@ class ilCourseContentInterface
 
 	var $chi_obj;
 	
+
+	function ilCourseContentInterface(&$client_class,$a_ref_id)
+	{
+		global $lng,$tpl,$ilCtrl;
+
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
+		$this->ctrl =& $ilCtrl;
+
+		$this->cci_ref_id = $a_ref_id;
+		$this->cci_read();
+		$this->cci_client_class = strtolower(get_class($client_class));
+
+		$this->cci_client_obj =& $client_class;
+		$this->cci_course_obj =& ilObjectFactory::getInstanceByRefId($this->cci_course_id);
+		$this->cci_course_obj->initCourseItemObject($this->cci_ref_id);
+
+		$this->lng->loadLanguageModule('crs');
+		
+		return true;
+	}
+
 	
 	function cci_init(&$client_class,$a_ref_id)
 	{
@@ -68,7 +90,7 @@ class ilCourseContentInterface
 			
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html",true);
-		#$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		#$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
 		
 		if($write_perm)
 		{
@@ -124,12 +146,12 @@ class ilCourseContentInterface
 				}
 				if($cont_data["type"] == "file")
 				{
-					$this->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
-					$this->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
+					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
+					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
 
 					$tpl->setCurrentBlock("crs_file");
 					$tpl->setVariable("FILE_TITLE",$this->lng->txt('download'));
-					$tpl->setVariable("FILE_LINK",$this->ctrl->getLinkTargetByClass('ilObjFileGUI'));
+					$tpl->setVariable("FILE_LINK",$this->cci_client_obj->ctrl->getLinkTargetByClass('ilObjFileGUI'));
 					$tpl->parseCurrentBlock();
 				}
 				if(!$conditions_ok)
@@ -182,9 +204,10 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_up.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_up");
-							$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
-							$this->ctrl->setParameter($this,"item_id",$cont_data["child"]);
-							$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciMove");
+							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",
+																	  $this->cci_client_obj->object->getRefId());
+							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
+							$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciMove");
 							$tmp_array["tar"] = "";
 
 							$images[] = $tmp_array;
@@ -193,9 +216,10 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_down.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_down");
-							$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
-							$this->ctrl->setParameter($this,"item_id",-$cont_data["child"]);
-							$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciMove");
+							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",
+																	  $this->cci_client_obj->object->getRefId());
+							$this->cci_client_obj->ctrl->setParameter($this,"item_id",-$cont_data["child"]);
+							$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciMove");
 							$tmp_array["tar"] = "";
 
 							$images[] = $tmp_array;
@@ -203,9 +227,9 @@ class ilCourseContentInterface
 					}
 					$tmp_array["gif"] = ilUtil::getImagePath("edit.gif");
 					$tmp_array["lng"] = $this->lng->txt("edit");
-					$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
-					$this->ctrl->setParameter($this,"item_id",$cont_data["child"]);
-					$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciEdit");
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
+					$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit");
 					$tmp_array["tar"] = "";
 					
 					$images[] = $tmp_array;
@@ -214,8 +238,8 @@ class ilCourseContentInterface
 					{
 						$tmp_array["gif"] = ilUtil::getImagePath("delete.gif");
 						$tmp_array["lng"] = $this->lng->txt("delete");
-						$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["child"]);
-						$tmp_array["lnk"] = $this->ctrl->getLinkTargetByClass("ilRepositoryGUI","delete");
+						$this->cci_client_obj->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["child"]);
+						$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTargetByClass("ilRepositoryGUI","delete");
 						$tmp_array["tar"] = "";
 
 						$images[] = $tmp_array;
@@ -318,8 +342,8 @@ class ilCourseContentInterface
 		}
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editItem.html",true);
-		$this->ctrl->setParameter($this,"item_id",$_GET["item_id"]);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$_GET["item_id"]);
+		$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
 
 		$item_data = $this->cci_course_obj->items_obj->getItem((int) $_GET["item_id"]);
 
@@ -374,8 +398,8 @@ class ilCourseContentInterface
 																					  date("G",$activation_end)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->cciGetDateSelect("minute","crs[activation_end][minute]",
 																					  date("i",$activation_end)));
-		$this->initConditionHandlerGUI($_GET['item_id']);
-		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_list());
+		$this->cci_client_obj->initConditionHandlerGUI($_GET['item_id']);
+		$this->tpl->setVariable("PRECONDITION_TABLE",$this->cci_client_obj->chi_obj->chi_list());
 
 	}
 

@@ -36,11 +36,40 @@
 
 class ilConditionHandlerInterface
 {
+	var $lng;
+	var $tpl;
+	var $tree;
+
 	var $ch_obj;
 	var $target_obj;
+	var $client_obj;
 
-	function chi_init($a_ref_id = null)
+	function ilConditionHandlerInterface(&$gui_obj,$a_ref_id = null)
 	{
+		global $lng,$tpl,$tree;
+
+		include_once "./classes/class.ilConditionHandler.php";
+
+		$this->ch_obj =& new ilConditionHandler();
+
+		$this->gui_obj =& $gui_obj;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
+		$this->tree =& $tree;
+		
+		if($a_ref_id)
+		{
+			$this->target_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
+		}
+		else
+		{
+			$this->target_obj =& $this->gui_obj->object;
+		}
+	}
+	function chi_init(&$chi_target_obj,$a_ref_id = null)
+	{
+		echo 'deprecated';
+		
 		include_once "./classes/class.ilConditionHandler.php";
 
 		$this->ch_obj =& new ilConditionHandler();
@@ -68,7 +97,7 @@ class ilConditionHandlerInterface
 
 
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION",$this->gui_obj->ctrl->getFormAction($this->gui_obj));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -180,14 +209,14 @@ class ilConditionHandlerInterface
 
 		sendInfo($this->lng->txt("condition_select_object"));
 
-		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
+		$exp = new ilConditionSelector($this->gui_obj->ctrl->getLinkTarget($this->gui_obj,'copySelector'));
 		$exp->setExpand($_GET["condition_selector_expand"] ? $_GET["condition_selector_expand"] : $this->tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'chi_selector'));
+		$exp->setExpandTarget($this->gui_obj->ctrl->getLinkTarget($this->gui_obj,'chi_selector'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->target_obj->getRefId());
 		$exp->addFilter('crs');
 		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
-		$exp->setControlClass($this);
+		$exp->setControlClass($this->gui_obj);
 		// build html-output
 		$exp->setOutput(0);
 

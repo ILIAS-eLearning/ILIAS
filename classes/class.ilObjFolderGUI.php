@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.25 2004/07/13 13:51:01 smeyer Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.26 2004/07/19 15:39:24 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -66,7 +66,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		else
 		{
 			$this->initCourseContentInterface();
-			$this->cci_view();
+			$this->cci_obj->cci_view();
 		}
 		return true;
 	}
@@ -226,8 +226,11 @@ class ilObjFolderGUI extends ilObjectGUI
 	{
 		include_once "./course/classes/class.ilCourseContentInterface.php";
 			
-		aggregate($this,"ilCourseContentInterface");
-		$this->cci_init($this,$this->object->getRefId());
+		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
+
+
+		#aggregate($this,"ilCourseContentInterface");
+		#$this->cci_init($this,$this->object->getRefId());
 	}
 
 	function cciEditObject()
@@ -241,7 +244,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_edit();
+		$this->cci_obj->cci_edit();
 
 		return true;;
 	}
@@ -257,7 +260,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_update();
+		$this->cci_obj->cci_update();
 
 		return true;;
 	}
@@ -272,9 +275,78 @@ class ilObjFolderGUI extends ilObjectGUI
 		}
 
 		$this->initCourseContentInterface();
-		$this->cci_move();
+		$this->cci_obj->cci_move();
 
 		return true;;
+	}
+	// Methods for ConditionHandlerInterface
+	function initConditionHandlerGUI($item_id)
+	{
+		include_once './classes/class.ilConditionHandlerInterface.php';
+
+		if(!is_object($this->chi_obj))
+		{
+			if($_GET['item_id'])
+			{
+				$this->chi_obj =& new ilConditionHandlerInterface($this,$item_id);
+				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+			}
+			else
+			{
+				$this->chi_obj =& new ilConditionHandlerInterface($this);
+			}
+		}
+		return true;
+	}
+
+	function chi_updateObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_update();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}		
+	function chi_deleteObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_delete();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}
+
+	function chi_selectorObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_selector();
+	}		
+
+	function chi_assignObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_assign();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
 	}
 } // END class.ilObjFolderGUI
 ?>
