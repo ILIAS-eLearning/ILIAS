@@ -275,7 +275,7 @@
 <object name="st">
 	<property name="view">cont_pages</property>
 	<property name="subchap">cont_subchapters</property>
-	<property name="edit_meta">meta_data</property>
+	<property name="editMeta">meta_data</property>
 	<subobj name="st">st</subobj>
 	<subobj name="pg">pg</subobj>
 	<action name="delete">delete</action>
@@ -283,7 +283,7 @@
 <object name="pg">
 	<property name="view">edit</property>
 	<property name="preview">cont_preview</property>
-	<property name="edit_meta">meta_data</property>
+	<property name="editMeta">meta_data</property>
 	<subobj name="par">par</subobj>
 </object>
 <object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0">

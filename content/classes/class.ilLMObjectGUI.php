@@ -88,7 +88,7 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
 	}
 
-	function edit_meta()
+	function editMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
