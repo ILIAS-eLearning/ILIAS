@@ -305,20 +305,20 @@ class ASS_ClozeTest extends ASS_Question {
 				// name param
 				$shuffle = $param[1];
 			}
-			if (strcmp(strtolower($type), "select") == 0) 
+			if (strcmp(strtolower($type), "select") == 0)
 			{
 				$type = CLOZE_SELECT;
 			}
 				else
-			{ 
+			{
 				$type = CLOZE_TEXT;
 			}
-			if (strcmp(strtolower($shuffle), "no") == 0) 
+			if (strcmp(strtolower($shuffle), "no") == 0)
 			{
 				$shuffle = 0;
 			}
 				else
-			{ 
+			{
 				$shuffle = 1;
 			}
 			if ($type == CLOZE_TEXT) {
@@ -384,7 +384,7 @@ class ASS_ClozeTest extends ASS_Question {
   function set_start_tag($start_tag = "<gap>") {
     $this->start_tag = $start_tag;
   }
-	
+
 
 /**
 * Sets the end tag of a cloze gap
@@ -467,7 +467,21 @@ class ASS_ClozeTest extends ASS_Question {
     }
     return join($separator, $result);
   }
-
+/**
+* Returns a count of all answers of a gap
+*
+* Returns a count of all answers of a gap
+*
+* @param integer $index A nonnegative index of the n-th gap
+* @access public
+* @see $gaps
+*/
+  function get_gap_text_count($index = 0) {
+    if ($index < 0) return 0;
+    if (count($this->gaps) < 1) return 0;
+    if ($index >= count($this->gaps)) return 0;
+    return count($this->gaps[$index]);
+  }
 /**
 * Deletes a gap
 *
@@ -523,7 +537,7 @@ class ASS_ClozeTest extends ASS_Question {
 			unset($this->gaps[$gap_index][$answertext_index]);
       $this->gaps[$gap_index] = array_values($this->gaps[$gap_index]);
 			$gap_params = "";
-			if (preg_match("/" . "<gap(.*?)>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches)) 
+			if (preg_match("/" . "<gap(.*?)>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches))
 			{
 				$gap_params = $matches[1];
 			}
@@ -543,7 +557,17 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $gaps
 */
-  function set_answertext($index = 0, $answertext_index = 0, $answertext = "") {
+  function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) {
+    if ($add_gaptext == 1)    {
+    	$arr = $this->gaps[$index][0];
+    	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) {
+    		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, 0, count($this->gaps[$index]),
+    			$arr->get_correctness(), $arr->get_cloze_type(),
+    			$arr->get_name(), $arr->get_shuffle()));
+    		$this->rebuild_cloze_text();
+    	}
+    	return;
+    }
     if ($index < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index >= count($this->gaps)) return;
@@ -558,7 +582,7 @@ class ASS_ClozeTest extends ASS_Question {
       $this->rebuild_cloze_text();
     }
   }
-	
+
 /**
 * Updates the cloze text setting the cloze type for every gap
 *
@@ -569,7 +593,7 @@ class ASS_ClozeTest extends ASS_Question {
 */
 	function update_all_gap_params() {
 		global $lng;
-		
+
 		for ($i = 0; $i < $this->get_gap_count(); $i++)
 		{
 	    $gaptext = $this->get_gap_text_list($i);
@@ -649,7 +673,7 @@ class ASS_ClozeTest extends ASS_Question {
 			}
 			// change/add the <gap> attribute
 	    $gaptext = $this->get_gap_text_list($index);
-			if ($cloze_type == CLOZE_TEXT) 
+			if ($cloze_type == CLOZE_TEXT)
 			{
 				$strType = "text";
 				$strOldType = "select";
@@ -668,7 +692,7 @@ class ASS_ClozeTest extends ASS_Question {
 			}
 		}
 	}
-	
+
 /**
 * Sets the points of a gap
 *

@@ -415,15 +415,26 @@ class ASS_QuestionGUI extends PEAR {
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+				/*$j = $i+1;
+				$key1 = $key+1;
+				if (strlen($_POST["textgap_add_".$j]) > 0) {
+					$this->tpl->setVariable("VALUE_TEXT_GAP", "");
+					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key1");
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
+				}*/
+
 				$this->tpl->setCurrentBlock("textgap");
 				$answer_array = $this->question->get_gap($i);
 				$answer_points = $answer_array[0]->get_points();
 				$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
+				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
 				$this->tpl->parseCurrentBlock();
-			} 
-				elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT) 
+			}
+			elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
 				$this->tpl->setCurrentBlock("selectgap_value");
 				foreach ($gap as $key => $value) {
@@ -441,7 +452,25 @@ class ASS_QuestionGUI extends PEAR {
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+				/*$key1 = $key+1;
+				if (strlen($_POST["selectgap_add_".$i]) > 0) {
+					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_SELECT_GAP", "");
+					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key1");
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("VALUE_INDEX", $key1);
+					$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
+					if ($value->is_true()) {
+						$this->tpl->setVariable("SELECTED_CORRECTNESS_TRUE", " checked=\"checked\"");
+					}
+					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", "0");
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
+				}*/
+
 				$this->tpl->setCurrentBlock("selectgap");
+				$this->tpl->setVariable("ADD_SELECT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				if ($gap[0]->get_shuffle())
@@ -476,7 +505,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
     // call to other question data i.e. material, estimated working time block
 		$this->out_other_question_data();
 
@@ -1015,7 +1044,7 @@ class ASS_QuestionGUI extends PEAR {
   function set_question_data_from_cloze_question_template() {
 		$saved = false;
     $result = 0;
-		
+
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 
@@ -1023,7 +1052,7 @@ class ASS_QuestionGUI extends PEAR {
 		{
       $result = 1;
 		}
-		
+
 		if (($result) and ($_POST["cmd"]["add"])) {
 			// You cannot create gaps before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
@@ -1084,7 +1113,7 @@ class ASS_QuestionGUI extends PEAR {
 						// Display errormessage: You've tried to set an gap value to an empty string!
 					}
 				}
-				
+
 				// Set text gap points
 				if (preg_match("/^points_(\d+)$/", $key, $matches)) {
 					$points = $value or 0.0;
@@ -1096,7 +1125,7 @@ class ASS_QuestionGUI extends PEAR {
 					$this->question->set_gap_shuffle($matches[1], $value);
 				}
 			}
-			
+
 			foreach ($_POST as $key => $value) {
 				// Set the cloze type of the gap
 				if (preg_match("/clozetype_(\d+)/", $key, $matches)) {
@@ -1111,6 +1140,52 @@ class ASS_QuestionGUI extends PEAR {
 					$this->question->delete_answertext_by_index($matches[1], $matches[2]);
 				}
 			}
+			for ($i=0; $i<=$this->question->get_gap_count();$i++) {
+				if (strlen($_POST["textgap_add_".$i]) > 0) {
+					$j = $i-1;
+					$this->question->set_answertext(
+						ilUtil::stripSlashes($j),
+						ilUtil::stripSlashes($this->question->get_gap_text_count($j)), "", 1);
+				}
+				elseif (strlen($_POST["selectgap_add_".$i]) > 0) {
+					$this->question->set_answertext(
+						ilUtil::stripSlashes($i),
+						ilUtil::stripSlashes($this->question->get_gap_text_count($i)), "", 1);
+				}
+
+			}
+    }
+    else
+    {
+		foreach ($_POST as $key => $value) {
+			// Set gap values
+			if (preg_match("/selectgap_(\d+)_(\d+)/", $key, $matches)) {
+				$answer_array = $this->question->get_gap($matches[1]);
+				if (strlen($value) > 0) {
+					// Only change gap values <> empty string
+					if (array_key_exists($matches[2], $answer_array)) {
+						$points = $_POST["points_$matches[1]_$matches[2]"] or 0.0;
+						$this->question->set_single_answer_points($matches[1], $matches[2], $points);
+					}
+					if ($_POST["correctness_$matches[1]"] == $matches[2]) {
+						$this->question->set_single_answer_correctness($matches[1], $matches[2], TRUE);
+					}
+					else {
+						$this->question->set_single_answer_correctness($matches[1], $matches[2], FALSE);
+					}
+				}
+			}
+
+			// Set text gap points
+			if (preg_match("/^points_(\d+)$/", $key, $matches)) {
+				$points = $value or 0.0;
+				$this->question->set_gap_points($matches[1]-1, $value);
+			}
+			// Set select gap shuffle state
+			if (preg_match("/^shuffle_(\d+)$/", $key, $matches)) {
+				$this->question->set_gap_shuffle($matches[1], $value);
+			}
+		}
     }
 		$this->question->update_all_gap_params();
 		if ($saved) {
@@ -1532,37 +1607,37 @@ class ASS_QuestionGUI extends PEAR {
 
 		$this->tpl->setCurrentBlock("cloze");
 		$output = $this->question->get_cloze_text();
-		for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) 
+		for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++)
 		{
 			$gap = $this->question->get_gap($gapIndex);
-			if ($gap[0]->get_cloze_type() == CLOZE_TEXT) 
+			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
 			{
 				$solution_value = "";
-				foreach ($solutions as $idx => $solution) 
+				foreach ($solutions as $idx => $solution)
 				{
-					if ($solution->value1 == $gapIndex) 
+					if ($solution->value1 == $gapIndex)
 					{
 						$solution_value = $solution->value2;
 					}
 				}
 				$output = preg_replace("/" . "<gap[^>]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
-			} 
-				else 
+			}
+				else
 			{
 				$select = "<select name=\"gap_$gapIndex\">";
 				$solution_value = "";
-				foreach ($solutions as $idx => $solution) 
+				foreach ($solutions as $idx => $solution)
 				{
-					if ($solution->value1 == $gapIndex) 
+					if ($solution->value1 == $gapIndex)
 					{
 						$solution_value = $solution->value2;
 					}
 				}
 				$select .= "<option value=\"-1\" selected=\"selected\">" . $this->lng->txt("please_select") . "</option>";
-				foreach ($gap as $key => $value) 
+				foreach ($gap as $key => $value)
 				{
 					$selected = "";
-					if ($solution_value == $value->get_order()) 
+					if ($solution_value == $value->get_order())
 					{
 						$selected = " selected=\"selected\"";
 					}
@@ -1755,9 +1830,9 @@ class ASS_QuestionGUI extends PEAR {
 				$y1 = $matches[4];
 				// draw a rect around the selection
 				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
-				"-stroke white -fill none -linewidth 5 -draw \"rectangle " . 
+				"-stroke white -fill none -linewidth 5 -draw \"rectangle " .
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
-				"-stroke red -fill none -linewidth 3 -draw \"rectangle " . 
+				"-stroke red -fill none -linewidth 3 -draw \"rectangle " .
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
 				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				system($convert_cmd);
@@ -1770,9 +1845,9 @@ class ASS_QuestionGUI extends PEAR {
 				$r = $matches[3];
 				// draw a circle around the selection
 				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
-				"-stroke white -fill none -linewidth 5 -draw \"circle " . 
+				"-stroke white -fill none -linewidth 5 -draw \"circle " .
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
-				"-stroke red -fill none -linewidth 3 -draw \"circle " . 
+				"-stroke red -fill none -linewidth 3 -draw \"circle " .
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
 				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				system($convert_cmd);
