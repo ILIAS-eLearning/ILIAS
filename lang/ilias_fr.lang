@@ -109,7 +109,7 @@ assessment#:#apply#:#Appliquer
 assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Points disponibles
 assessment#:#by#:#par
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
+assessment#:#cannot_maintain_test#:#Vous n'avez pas de permission suffisante pour assurer la maintenance du test
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -253,7 +253,7 @@ assessment#:#qt_ordering#:#Question de remise en ordre
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Type de Question
-assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
+assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
 assessment#:#radio_set#:#Sélectionné
 assessment#:#radio_unset#:#Déselectionné
 assessment#:#random_accept_sample#:#Accepter échantillon
@@ -294,7 +294,7 @@ assessment#:#tst_browse_for_questions#:#Parcourir les questions
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer
 assessment#:#tst_ending_time#:#Date de fin
-assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
+assessment#:#tst_enter_questionpool#:#Veuillez saisir un nom pour un jeu de questions dans lequel la nouvelle question sera stockée.
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles
 assessment#:#tst_eval_total_finished#:#Total des tests finis
 assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis
@@ -594,7 +594,7 @@ common#:#all_tsts#:#Tous les tests
 common#:#all_users#:#Tous les utilisateurs
 common#:#allow_assign_users#:#Permettre l'assignation à des utilisateur par les administrateurs locaux
 common#:#allow_register#:#Disponible dans le formulaire d'enregistrement pour les nouveaux utilisateurs
-common#:#alm#:# Module d'apprentissage AICC###24 Sep 2004 content changed
+common#:#alm#:# Module d'apprentissage AICC
 common#:#alm_added#:#Module d'apprentissage AICC ajouté
 common#:#alm_create#:#Créer module d'apprentissage AICC
 common#:#alm_delete#:#Détruire module d'apprentissage AICC
@@ -688,7 +688,7 @@ common#:#cat_create_alm#:#Créer module d'apprentissage AICC
 common#:#cat_create_cat#:#Créer catégorie
 common#:#cat_create_chat#:#Créer chat
 common#:#cat_create_crs#:#Créer cours
-common#:#cat_create_dbk#:#Créer digibook###24 Sep 2004 content changed
+common#:#cat_create_dbk#:#Créer livre digilib
 common#:#cat_create_exc#:#Créer exercice
 common#:#cat_create_file#:#Télécharger fichier
 common#:#cat_create_frm#:#Créer forum
@@ -696,11 +696,11 @@ common#:#cat_create_glo#:#Créer glossaire
 common#:#cat_create_grp#:#Créer groupe
 common#:#cat_create_hlm#:#Créer  module d'apprentissage HACP
 common#:#cat_create_htlm#:#Créer  module d'apprentissage HTML
-common#:#cat_create_lm#:#Créer  module d'apprentissage###24 Sep 2004 content changed
+common#:#cat_create_lm#:#Créer  module d'apprentissage ILIAS
 common#:#cat_create_mep#:#Créer jeu de ressources multimédia
-common#:#cat_create_qpl#:#Créer jeu de questions###24 Sep 2004 content changed
+common#:#cat_create_qpl#:#Créer jeu de questions pour test
 common#:#cat_create_sahs#:#Créer  module d'apprentissage SCORM/AICC
-common#:#cat_create_spl#:#Créer jeu de questions (sondage)###24 Sep 2004 content changed
+common#:#cat_create_spl#:#Créer jeu de questions pour sondage
 common#:#cat_create_svy#:#Créer sondage
 common#:#cat_create_tst#:#Créer test
 common#:#cat_delete#:#Détruire catégorie
@@ -811,7 +811,7 @@ common#:#crs_create_alm#:#Créer module d'apprentissage AICC
 common#:#crs_create_frm#:#Créer forum
 common#:#crs_create_glo#:#Créer glossaire
 common#:#crs_create_hlm#:#Créer  module d'apprentissage HACP
-common#:#crs_create_lm#:#Créer  module d'apprentissage###24 Sep 2004 content changed
+common#:#crs_create_lm#:#Créer  module d'apprentissage ILIAS
 common#:#crs_create_sahs#:#Créer module d'apprentissage SCORM/AICC
 common#:#crs_delete#:#Détruire cours
 common#:#crs_edit#:#Modifier cours
@@ -853,13 +853,13 @@ common#:#dbk#:#Livre Digilib
 common#:#dbk_a#:#un livre Digilib
 common#:#dbk_add#:#Ajouter un livre Digilib
 common#:#dbk_added#:#Livre Digilib ajouté
-common#:#dbk_create#:#Créer digibook###24 Sep 2004 content changed
-common#:#dbk_delete#:#Détruire Digibook###24 Sep 2004 content changed
+common#:#dbk_create#:#Créer livre Digilib
+common#:#dbk_delete#:#Détruire livre Digilib
 common#:#dbk_edit_permission#:#Modifier paramètres de permission
 common#:#dbk_new#:#Nouveau livre Digilib
-common#:#dbk_read#:#Accès en lecture au Digibook###24 Sep 2004 content changed
-common#:#dbk_visible#:#Le Digibook est visible###24 Sep 2004 content changed
-common#:#dbk_write#:#Modifier Digibook###24 Sep 2004 content changed
+common#:#dbk_read#:#Accès en lecture au livre Digilib
+common#:#dbk_visible#:#Le livre Digilib est visible
+common#:#dbk_write#:#Modifier livre Digilib
 common#:#default#:#Défaut
 common#:#default_language#:#Langue par défaut
 common#:#default_perm_settings#:#Permissions par défaut
@@ -1002,7 +1002,7 @@ common#:#fold_create_fold#:#Créer répertoire
 common#:#fold_create_frm#:#Créer forum
 common#:#fold_create_glo#:#Créer glossaire
 common#:#fold_create_hlm#:#Créer module d'apprentissage HACP
-common#:#fold_create_lm#:#Créer module d'apprentissage###24 Sep 2004 content changed
+common#:#fold_create_lm#:#Créer module d'apprentissage ILIAS
 common#:#fold_create_sahs#:#Créer module d'apprentissage SCORM/AICC
 common#:#fold_delete#:#Détruire répertoire
 common#:#fold_edit#:#Modifier répertoire
@@ -1112,7 +1112,7 @@ common#:#grp_count_members#:#Nombre de membres
 common#:#grp_create#:#Créer groupe
 common#:#grp_create_alm#:#Créer module d'apprentissage
 common#:#grp_create_chat#:#Créer chat
-common#:#grp_create_dbk#:#Créer digibook###24 Sep 2004 content changed
+common#:#grp_create_dbk#:#Créer livre Digilib
 common#:#grp_create_exc#:#Créer exercice
 common#:#grp_create_file#:#L'utilisateur peut téléverser des fichiers
 common#:#grp_create_fold#:#L'utilisateur peut créer des répertoires
@@ -1120,7 +1120,7 @@ common#:#grp_create_frm#:#Créer Forum
 common#:#grp_create_glo#:#Créer glossaire
 common#:#grp_create_hlm#:#Créer module d'apprentissage HACP 
 common#:#grp_create_htlm#:#Créer module d'apprentissage HTML 
-common#:#grp_create_lm#:#Créer module d'apprentissage###24 Sep 2004 content changed
+common#:#grp_create_lm#:#Créer module d'apprentissage ILIAS
 common#:#grp_create_mep#:#Créer media pool
 common#:#grp_create_sahs#:#Créer module d'apprentissage  SCORM/AICC
 common#:#grp_delete#:#Détruire groupe
@@ -1167,7 +1167,7 @@ common#:#help#:#Aide
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
 common#:#hits_per_page#:#Hits/Page
-common#:#hlm#:#Module d'apprentissage HACP###24 Sep 2004 content changed
+common#:#hlm#:#Module d'apprentissage HACP
 common#:#hlm_added#:#Module d'apprentissage  HACP ajouté
 common#:#hlm_create#:#Créer module d'apprentissage HACP 
 common#:#hlm_delete#:#Détruire module d'apprentissage HACP 
@@ -1181,7 +1181,7 @@ common#:#hobby#:#Intérêts/hobbies
 common#:#home#:#Home
 common#:#host#:#Hôte
 common#:#hours_of_day#:#Heures du jour
-common#:#htlm#:#Module d'apprentissage HTML###24 Sep 2004 content changed
+common#:#htlm#:#Module d'apprentissage HTML
 common#:#htlm_add#:#Ajouter module d'apprentissage HTML
 common#:#htlm_delete#:#Détruire module d'apprentissage HTML
 common#:#htlm_edit#:#Modifier propriétés du module d'apprentissage HTML
@@ -1190,7 +1190,7 @@ common#:#htlm_new#:#Nouveau module d'apprentissage HTML
 common#:#htlm_read#:#Lire module d'apprentissage HTML
 common#:#htlm_visible#:#Le module d'apprentissage HTML est visible
 common#:#htlm_write#:#Modifier module d'apprentissage HTML
-common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
+common#:#http_not_possible#:#Ce serveur ne permet pas les connexions HTTP.
 common#:#http_path#:#Chemin HTTP
 common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.
 common#:#id#:#ID
@@ -1209,7 +1209,7 @@ common#:#import_forum_finished#:#Le forum a été importé
 common#:#import_glossary#:#Importer glossaire
 common#:#import_grp_finished#:#Groupe importé sans erreur
 common#:#import_hlm#:#Importer paquet HACP
-common#:#import_lm#:#Importation de cours###24 Sep 2004 content changed
+common#:#import_lm#:#Importation de module d'apprentissage ILIAS
 common#:#import_root_user#:#Importer utilisateur root
 common#:#import_sahs#:#Importer paquet SCORM/AICC
 common#:#import_users#:#Importer utilisateurs
@@ -1327,22 +1327,22 @@ common#:#list_of_pages#:#Liste des pages
 common#:#list_of_questions#:#Liste des questions
 common#:#literature#:#Bibliographie
 common#:#literature_bookmarks#:#Signets de bibliographie
-common#:#lm#:#Module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_a#:#un module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_add#:#Ajouter module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_added#:#Module d'apprentissage ajouté###24 Sep 2004 content changed
-common#:#lm_create#:#Créer module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_delete#:#Détruire module d'apprentissage###24 Sep 2004 content changed
+common#:#lm#:#Module d'apprentissage ILIAS
+common#:#lm_a#:#un module d'apprentissage ILIAS
+common#:#lm_add#:#Ajouter module d'apprentissage ILIAS
+common#:#lm_added#:#Module d'apprentissage ILIAS ajouté
+common#:#lm_create#:#Créer module d'apprentissage ILIAS
+common#:#lm_delete#:#Détruire module d'apprentissage ILIAS
 common#:#lm_edit_permission#:#Changer paramètres de permission
-common#:#lm_join#:#S'abonner au module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_leave#:#Se désabonner du module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_new#:#Module d'apprentissage###24 Sep 2004 content changed
-common#:#lm_read#:#Accès en lecture au module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_join#:#S'abonner au module d'apprentissage ILIAS
+common#:#lm_leave#:#Se désabonner du module d'apprentissage ILIAS
+common#:#lm_new#:#Module d'apprentissage ILIAS
+common#:#lm_read#:#Accès en lecture au module d'apprentissage ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Le module d'apprentissage est visible###24 Sep 2004 content changed
-common#:#lm_write#:#Modifier module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_visible#:#Le module d'apprentissage ILIAS est visible
+common#:#lm_write#:#Modifier module d'apprentissage ILIAS
 common#:#lng#:#Langue
 common#:#lngf#:#Dossier de langues
 common#:#lngf_edit_permission#:#Changer paramètres de permission
@@ -1588,7 +1588,7 @@ common#:#number_of_records#:#Nombre d'enregistrements
 common#:#obj#:#Objet
 common#:#obj_adm#:#Paramètres système
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
-common#:#obj_alm#:#Module d'apprentissage AICC###24 Sep 2004 content changed
+common#:#obj_alm#:#Module d'apprentissage AICC
 common#:#obj_auth#:#Authentification
 common#:#obj_auth_desc#:#Configurer votre mode d'authentification (local, LDAP, ...)
 common#:#obj_cat#:#Catégorie
@@ -1604,11 +1604,11 @@ common#:#obj_fold#:#Dossier
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossaire
 common#:#obj_grp#:#Groupe
-common#:#obj_hlm#:#Module d'apprentissage HACP###24 Sep 2004 content changed
-common#:#obj_htlm#:#Module d'apprentissage HTML###24 Sep 2004 content changed
+common#:#obj_hlm#:#Module d'apprentissage HACP
+common#:#obj_htlm#:#Module d'apprentissage HTML
 common#:#obj_ldap#:#Paramètres LDAP
 common#:#obj_ldap_desc#:#Configurez les paramètres LDAP globaux ici.
-common#:#obj_lm#:#Module d'apprentissage###24 Sep 2004 content changed
+common#:#obj_lm#:#Module d'apprentissage ILIAS
 common#:#obj_lng#:#Langue
 common#:#obj_lngf#:#Langues
 common#:#obj_lngf_desc#:#Gérez les langues de votre système ici.
@@ -1626,7 +1626,7 @@ common#:#obj_owner#:#Le propriétaire de cet objet est
 common#:#obj_pays#:#Paramètres de paiement
 common#:#obj_pays_desc#:#Configurer les paramètres de paiement et les vendeurs
 common#:#obj_pg#:#Page
-common#:#obj_qpl#:#Jeu de questions###24 Sep 2004 content changed
+common#:#obj_qpl#:#Jeu de questions (test)
 common#:#obj_recf#:#Objets restaurés
 common#:#obj_recf_desc#:#Contient les objets restaurés lors de la vérification du système
 common#:#obj_role#:#Rôle
@@ -1636,8 +1636,8 @@ common#:#obj_rolf_local#:#Rôles locaux
 common#:#obj_rolf_local_desc#:#Contient les rôles locaux de l'objet n°
 common#:#obj_rolt#:#Modèle de rôle
 common#:#obj_root#:#racine
-common#:#obj_sahs#:#Module d'apprentissage  SCORM/AICC###24 Sep 2004 content changed
-common#:#obj_spl#:#Jeu de questions (sondage)###24 Sep 2004 content changed
+common#:#obj_sahs#:#Module d'apprentissage  SCORM/AICC
+common#:#obj_spl#:#Jeu de questions (sondage)
 common#:#obj_st#:#Chapitre
 common#:#obj_svy#:#Sondage
 common#:#obj_tax#:#Taxinomie
@@ -1675,18 +1675,18 @@ common#:#objs_glo#:#Glossaires
 common#:#objs_grp#:#Groupes
 common#:#objs_hlm#:#Modules d'apprentissage  HACP
 common#:#objs_htlm#:#Modules d'apprentissage HTML
-common#:#objs_lm#:#module d'apprentissage###24 Sep 2004 content changed
+common#:#objs_lm#:#module d'apprentissage ILIAS
 common#:#objs_lng#:#Langues
 common#:#objs_lo#:#Objets d'apprentissage
 common#:#objs_mep#:#Media pools
 common#:#objs_mob#:#Objets multimédia
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
-common#:#objs_qpl#:#Jeux de questions###24 Sep 2004 content changed
+common#:#objs_qpl#:#Jeux de questions (test)
 common#:#objs_role#:#Rôles
 common#:#objs_rolt#:#Modèles de rôle
 common#:#objs_sahs#:#Module d'apprentissage SCORM/AICC
-common#:#objs_spl#:#Jeux de questions (sondage)###24 Sep 2004 content changed
+common#:#objs_spl#:#Jeux de questions (sondage)
 common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Sondages
 common#:#objs_tst#:#Tests
@@ -1773,14 +1773,14 @@ common#:#publication#:#Publication
 common#:#publication_date#:#Date de publication
 common#:#published#:#Publié
 common#:#publishing_organisation#:#Organisation de publication
-common#:#qpl#:#Jeu de questions###24 Sep 2004 content changed
-common#:#qpl_add#:#Ajouter jeu de questions###24 Sep 2004 content changed
-common#:#qpl_delete#:#Détruire jeu de questions###24 Sep 2004 content changed
+common#:#qpl#:#Jeu de questions (test)
+common#:#qpl_add#:#Ajouter jeu de questions (test)
+common#:#qpl_delete#:#Détruire jeu de questions (test)
 common#:#qpl_edit_permission#:#Changer paramètres de permission
-common#:#qpl_new#:#Nouveau jeu de questions###24 Sep 2004 content changed
-common#:#qpl_read#:#Accès en lecture au jeu de questions###24 Sep 2004 content changed
-common#:#qpl_visible#:#Le jeu de questions est visible###24 Sep 2004 content changed
-common#:#qpl_write#:#Modifier jeu de questions###24 Sep 2004 content changed
+common#:#qpl_new#:#Nouveau jeu de questions (test)
+common#:#qpl_read#:#Accès en lecture au jeu de questions (test)
+common#:#qpl_visible#:#Le jeu de questions (test) est visible
+common#:#qpl_write#:#Modifier jeu de questions (test)
 common#:#query_data#:#Lancer la requête
 common#:#question#:#Question
 common#:#question_pools#:#Jeux de questions
@@ -1885,7 +1885,7 @@ common#:#root_edit_permission#:#Changer paramètres de permission
 common#:#root_read#:#Accès en lecture au système ILIAS
 common#:#root_visible#:#Le système ILIAS est visible
 common#:#root_write#:#Modifier données du noeud racine d'ILIAS
-common#:#sahs#:#Module d'apprentissage SCORM/AICC###24 Sep 2004 content changed
+common#:#sahs#:#Module d'apprentissage SCORM/AICC
 common#:#sahs_added#:#Module d'apprentissage SCORM/AICC ajouté
 common#:#sahs_create#:#Créer module d'apprentissage SCORM/AICC
 common#:#sahs_delete#:#Détruire module d'apprentissage SCORM/AICC
@@ -1950,14 +1950,14 @@ common#:#show_users_online#:#Afficher les utilisateurs connectés
 common#:#signature#:#Signature
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Trié selon cette colonne
-common#:#spl#:#Jeu de questions (sondage)###24 Sep 2004 content changed
-common#:#spl_add#:#Ajouter jeu de questions###24 Sep 2004 content changed
-common#:#spl_delete#:#Détruire jeu de questions###24 Sep 2004 content changed
+common#:#spl#:#Jeu de questions (sondage)
+common#:#spl_add#:#Ajouter jeu de questions (sondage)
+common#:#spl_delete#:#Détruire jeu de questions (sondage)
 common#:#spl_edit_permission#:#Changer paramètres de permission
-common#:#spl_new#:#Nouveau jeu de questions###24 Sep 2004 content changed
-common#:#spl_read#:#Accès en lecture au jeu de questions###24 Sep 2004 content changed
-common#:#spl_visible#:#Le jeu de questions est visible###24 Sep 2004 content changed
-common#:#spl_write#:#Modifier jeu de questions###24 Sep 2004 content changed
+common#:#spl_new#:#Nouveau jeu de questions (sondage)
+common#:#spl_read#:#Accès en lecture au jeu de questions (sondage)
+common#:#spl_visible#:#Le jeu de questions (sondage) est visible
+common#:#spl_write#:#Modifier jeu de questions (sondage)
 common#:#st_a#:#un chapitre
 common#:#st_add#:#Ajouter chapitre
 common#:#st_added#:#Chapitre ajouté
