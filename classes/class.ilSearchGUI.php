@@ -68,17 +68,20 @@ class ilSearchGUI
 		global $ilias,$tpl,$lng;
 
 		// DEFINE SOME CONSTANTS
-		define("RESULT_LIMIT",2);
+		define("RESULT_LIMIT",10);
 
-		$_SESSION["viewmode"] = "flat";
 		
 		// Initiate variables
 		$this->ilias	=& $ilias;
 		$this->tpl		=& $tpl;
 		$this->lng		=& $lng;
+		$this->lng->loadLanguageModule("search");
 
-		$this->res_type = $_GET["res_type"];
-		$this->offset   = $_GET["offset"];
+
+		$this->res_type   = $_GET["res_type"];
+		$this->offset	  = $_GET["offset"];
+		$this->sort_by	  = $_GET["sort_by"];
+		$this->sort_order = $_GET["sort_order"];
 		
 		// INITIATE SEARCH OBJECT
 		$this->search =& new ilSearch($a_user_id);
@@ -119,10 +122,6 @@ class ilSearchGUI
 			$this->search->performSearch();
 		}
 		// TEMP MESSAGE
-		if(in_array("grp",$_POST["search_for"]))
-		{
-			$this->message .= "Search in groups NOT IMPLEMENTED YET<br />";
-		}
 		$this->__show();
 	}
 
@@ -134,102 +133,123 @@ class ilSearchGUI
 	// PRIVATE METHODS
 	function __showResult()
 	{
-		if(!$this->search->getResults())
+		if(!$this->search->getNumberOfResults() && $this->search->getSearchFor())
 		{
-			$this->message .= "Nothing found<br />";
+			$this->message .= $this->lng->txt("search_no_match")."<br />";
 			return false;
 		}
 		if($this->search->getResultByType("usr") and ( !$this->res_type or $this->res_type == 'usr'))
 		{
-			$this->__showUserResult();
+			$this->__showResultTable("usr");
 		}
-		if($this->search->getResultByType("dbk") and ( !$this->res_type or $this->res_type == 'dbk'))
+		if($res = $this->search->getResultByType("dbk") and ( !$this->res_type or $this->res_type == 'dbk'))
 		{
-			$this->__showDigiLibResult();
+			if(count($res["meta"]))
+			{
+				$this->__showResultTable("dbk","meta");
+			}
+			if(count($res["content"]))
+			{
+				$this->__showResultTable("dbk","content");
+			}
 		}
-		if($this->search->getResultByType("lm") and ( !$this->res_type or $this->res_type == 'lm'))
+		if($res = $this->search->getResultByType("lm") and ( !$this->res_type or $this->res_type == 'lm'))
 		{
-			$this->__showLearningModuleResult();
+			if(count($res["meta"]))
+			{
+				$this->__showResultTable("lm","meta");
+			}
+			if(count($res["content"]))
+			{
+				$this->__showResultTable("lm","content");
+			}
 		}
-	}
-	function __showUserResult()
-	{
-		$tbl = new ilTableGUI(0,false);
-
-		$tbl->setTitle("User search","icon_usr_b.gif","User search");
-		$tbl->setHeaderNames(array($this->lng->txt("login"),$this->lng->txt("firstname")
-								   ,$this->lng->txt("lastname"),"Anzeigen"));
-		$tbl->setHeaderVars(array("login","firstname","lastname",""),array("res_type" => "usr"));
-
-		$tbl->setColumnWidth(array("25%","25%","25%","25%"));
-
-		$tbl->setData($this->__formatUserResult($this->search->getResultByType("usr")));
-
-		// control
-		$tbl->setOrderColumn($this->sort_by);
-		$tbl->setOrderDirection($this->sort_order);
-		$tbl->setLimit(RESULT_LIMIT);
-		$tbl->setOffset($this->offset);
-		$tbl->setMaxCount(count($this->search->getResultByType("usr")));
-
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$this->tpl->setVariable("USER",$tbl->render());
-		unset($tbl);
 	}
 		
-	function __showDigiLibResult()
+	function __showResultTable($a_type,$a_search_in_type = '')
 	{
+		// FOR ALL TYPES
 		$tbl = new ilTableGUI(0,false);
 
-		$tbl->setTitle("Digital Library search","icon_dbk_b.gif","Digital Library search");
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("context"),
-								   "Anzeigen"));
-		$tbl->setHeaderVars(array("title","context",""),array("res_type" => "dbk"));
+		// SWITCH 'usr','dbk','lm'
+		switch($a_type)
+		{
+			case "usr":
+				$tbl->setTitle($this->lng->txt("search_user"),"icon_usr_b.gif",$this->lng->txt("search_user"));
+				$tbl->setHeaderNames(array($this->lng->txt("login"),$this->lng->txt("firstname")
+										   ,$this->lng->txt("lastname"),$this->lng->txt("search_show_result")));
+				$tbl->setHeaderVars(array("login","firstname","lastname",""),array("res_type" => "usr"));
+				$tbl->setColumnWidth(array("25%","25%","25%","25%"));
+				$tbl->setData(array_values($this->__formatUserResult($this->search->getResultByType("usr"))));
+				break;
+				
+			case "dbk":
+				// SWITCH 'meta','content'
+				switch($a_search_in_type)
+				{
+					case "meta":
+						$tbl->setTitle($this->lng->txt("search_dbk_meta"),"icon_dbk_b.gif",$this->lng->txt("search_dbk_meta"));
+						$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("context"),
+												   $this->lng->txt("search_show_result")));
+						$tbl->setHeaderVars(array("title","context",""),array("res_type" => "dbk"));
+						
+						$tbl->setColumnWidth(array("50%","30%","20%"));
+						
+						$tmp_res = $this->search->getResultByType("dbk");
+						$tbl->setData($this->__formatDigiLibResult($tmp_res["meta"],"meta"));
+						break;
 
-		$tbl->setColumnWidth(array("50%","25%","25%"));
+					case "content":
+						$tbl->setTitle($this->lng->txt("search_dbk_content"),"icon_dbk_b.gif",$this->lng->txt("search_dbk_content"));
+						$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("page"),$this->lng->txt("context"),
+												   $this->lng->txt("search_show_result")));
+						$tbl->setHeaderVars(array("title","page","context",""),array("res_type" => "dbk"));
+						
+						$tbl->setColumnWidth(array("30%","20%","30%","20%"));
+						
+						$tmp_res = $this->search->getResultByType("dbk");
+						$tbl->setData($this->__formatDigiLibResult($tmp_res["content"],"content"));
+						break;
+				}
+				break;
+			
+			case "lm":
 
-		$tbl->setData($this->__formatDigiLibResult($this->search->getResultByType("dbk")));
+				// SWITCH 'meta','content'
+				switch($a_search_in_type)
+				{
+					case "meta":
+						$tbl->setTitle($this->lng->txt("search_lm_meta"),"icon_lm_b.gif",$this->lng->txt("search_lm_meta"));
+						$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("context"),
+												   $this->lng->txt("search_show_result")));
+						$tbl->setHeaderVars(array("title","context",""),array("res_type" => "lm"));
+						
+						$tbl->setColumnWidth(array("50%","30%","20%"));
+						
+						$tmp_res = $this->search->getResultByType("lm");
+						$tbl->setData($this->__formatLearningModuleResult($tmp_res["meta"],"meta"));
+						break;
 
-		// control
+					case "content":
+						$tbl->setTitle($this->lng->txt("search_lm_content"),"icon_lm_b.gif",$this->lng->txt("search_lm_content"));
+						$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("page"),$this->lng->txt("context"),
+												   $this->lng->txt("search_show_result")));
+						$tbl->setHeaderVars(array("title","page","context",""),array("res_type" => "lm"));
+						
+						$tbl->setColumnWidth(array("30%","20%","30%","20%"));
+						
+						$tmp_res = $this->search->getResultByType("lm");
+						$tbl->setData($this->__formatLearningModuleResult($tmp_res["content"],"content"));
+						break;
+				}
+				break;
+		}
 		$tbl->setOrderColumn($this->sort_by);
 		$tbl->setOrderDirection($this->sort_order);
 		$tbl->setLimit(RESULT_LIMIT);
 		$tbl->setOffset($this->offset);
-		$tbl->setMaxCount(count($this->search->getResultByType("dbk")));
-
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$this->tpl->setVariable("DIGILIB",$tbl->render());
-		unset($tbl);
-	}
-
-	function __showLearningModuleResult()
-	{
-		$tbl = new ilTableGUI(0,false);
-
-		$tbl->setTitle("Content Object search","icon_lm_b.gif","Content Object search");
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("context"),
-								   "Anzeigen"));
-		$tbl->setHeaderVars(array("title","context",""),array("res_type" => "lm"));
-
-		$tbl->setColumnWidth(array("50%","25%","25%"));
-
-		$tbl->setData($this->__formatDigiLibResult($this->search->getResultByType("lm")));
-
-		// control
-		$tbl->setOrderColumn($this->sort_by);
-		$tbl->setOrderDirection($this->sort_order);
-		$tbl->setLimit(RESULT_LIMIT);
-		$tbl->setOffset($this->offset);
-		$tbl->setMaxCount(count($this->search->getResultByType("lm")));
-
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$this->tpl->setVariable("LEARNING_MODULE",$tbl->render());
+		$this->tpl->setVariable(strtoupper($a_type),$tbl->render());
 		unset($tbl);
 	}
 
@@ -241,6 +261,10 @@ class ilSearchGUI
 		$this->tpl->setVariable("SEARCH_ACTION","./search.php");
 		$this->tpl->setVariable("TXT_SEARCH",$this->lng->txt("search"));
 		
+		$this->__showLocator();
+		$this->__showTabs();
+		$this->__showResult();
+
 		if($this->message)
 		{
 			sendInfo($this->message);
@@ -256,15 +280,27 @@ class ilSearchGUI
 		$this->tpl->setVariable("LM_CHECKED",in_array("lm",$search_for) ? "checked=\"checked\"" : "");
 		$this->tpl->setVariable("DBK_CHECKED",in_array("dbk",$search_for) ? "checked=\"checked\"" : "");
 
-		$search_in = array("meta" => $this->lng->txt("meta"),"content" => $this->lng->txt("content"));
+		$search_in = array("meta" => $this->lng->txt("search_meta"),"content" => $this->lng->txt("search_content"));
 
-		$this->tpl->setVariable("LM_SELECT",ilUtil::formSelect("","search_in[lm]",$search_in,false,true));
-		$this->tpl->setVariable("DBK_SELECT",ilUtil::formSelect("","search_in[dbk]",$search_in,false,true));
-		
-		$this->__showLocator();
-		$this->__showTabs();
-		$this->__showResult();
-		
+		$this->tpl->setVariable("LM_SELECT",ilUtil::formSelect($this->search->getSearchInByType("lm")
+															   ,"search_in[lm]",$search_in,false,true));
+		$this->tpl->setVariable("DBK_SELECT",ilUtil::formSelect($this->search->getSearchInByType("dbk")
+																,"search_in[dbk]",$search_in,false,true));
+		// TABLE TEXT
+		$this->tpl->setVariable("TXT_USER",$this->lng->txt("obj_usr"));
+		$this->tpl->setVariable("TXT_GROUPS",$this->lng->txt("obj_grp"));
+		$this->tpl->setVariable("TXT_LM",$this->lng->txt("obj_lm"));
+		$this->tpl->setVariable("TXT_DBK",$this->lng->txt("obj_dbk"));
+
+
+		// TEXT VARIABLES
+		$this->tpl->setVariable("TXT_SEARCHTERM",$this->lng->txt("search_search_term"));
+		$this->tpl->setVariable("TXT_CONCATENATION",$this->lng->txt("search_concatenation"));
+		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_search_for"));
+
+		// BUTTONS
+		$this->tpl->setVariable("BTN_SEARCH",$this->lng->txt("search"));
+		$this->tpl->setVariable("BTN_SEARCH_RESULT",$this->lng->txt("search_in_result"));
 	}
 
 	function __setReferer()
@@ -291,30 +327,21 @@ class ilSearchGUI
 		
 	function __showTabs()
 	{
-		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
-
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE","tabinactive");
-		$this->tpl->setVariable("TAB_LINK",$this->getReferer());
-		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-
+		if($this->res_type)
+		{
+			$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
+			
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE","tabinactive");
+			$this->tpl->setVariable("TAB_LINK","search.php");
+			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_all_results"));
+			$this->tpl->parseCurrentBlock();
+		}
 		return true;
 	}
-	function __formatLink($res_data)
+	function __formatLink($a_link,$a_target)
 	{
-		if(is_array($res_data))
-		{
-			for($ii = 0; $ii < count($res_data); ++$ii)
-			{
-				if($res_data[$ii]["link"])
-				{
-					$res_data[$ii]["link"] = "<a href=\"".$res_data[$ii]["link"]."\" target=\"".$res_data[$ii]["target"]."\".>Show";
-				}
-				unset($res_data[$ii]["target"]);
-			}
-		}
-		return $res_data;
+		return "<a href=\"".$a_link."\" target=\"".$a_target."\".>".$this->lng->txt("search_show_result");
 	}
 
 	function __formatUserResult($a_res)
@@ -330,19 +357,18 @@ class ilSearchGUI
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"]);
 			
-			$f_result[$counter]["login"]		= $tmp_obj->getLogin();
-			$f_result[$counter]["firstname"]	= $tmp_obj->getFirstname();
-			$f_result[$counter]["lastname"]		= $tmp_obj->getLastname();
-			$f_result[$counter]["link"]			= $user["link"];
-			$f_result[$counter]["target"]       = $user["target"];
-			
+			$f_result[$counter][]	= $tmp_obj->getLogin();
+			$f_result[$counter][]	= $tmp_obj->getFirstname();
+			$f_result[$counter][]	= $tmp_obj->getLastname();
+			$f_result[$counter][]	= $this->__formatLink($user["link"],$user["target"]);
+
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $this->__sortAndLimit($this->__formatLink($f_result));
+		return $f_result;
 	}
-	
-	function __formatDigiLibResult($a_res)
+
+	function __formatDigiLibResult($a_res,$a_search_in)
 	{
 		if(!is_array($a_res))
 		{
@@ -354,19 +380,38 @@ class ilSearchGUI
 		foreach($a_res as $book)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
-			
-			$f_result[$counter]["title"]		= $tmp_obj->getTitle();
-			$f_result[$counter]["context"]		= $this->__getContextPath($book["id"]);
-			$f_result[$counter]["link"]			= $book["link"];
-			$f_result[$counter]["target"]       = $book["target"];
-			
+			switch($a_search_in)
+			{
+				case "meta":
+					$f_result[$counter][]		= $tmp_obj->getTitle();
+					$f_result[$counter][]		= $this->__getContextPath($book["id"]);
+					break;
+					
+				case "content":
+					$f_result[$counter][]		= $tmp_obj->getTitle();
+
+					// GET INSTANCE OF PAGE OBJECT
+					include_once ("content/classes/class.ilLMObjectFactory.php");
+
+					$tmp_page_obj = ilLMObjectFactory::getInstance($tmp_obj, $book["page_id"]);
+					$tmp_page_obj->setLMId($book["id"]);
+
+					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					$f_result[$counter][]		= $this->__getContextPath($book["id"]);
+
+					unset($tmp_page_obj);
+					break;
+			}
+			$f_result[$counter][] = $this->__formatLink($book["link"],$book["target"]);
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $this->__sortAndLimit($this->__formatLink($f_result));
+
+		return $f_result;
+
 	}
 
-	function __formatLearningModuleResult($a_res)
+	function __formatLearningModuleResult($a_res,$a_search_in)
 	{
 		if(!is_array($a_res))
 		{
@@ -378,24 +423,33 @@ class ilSearchGUI
 		foreach($a_res as $book)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
-			
-			$f_result[$counter]["title"]		= $tmp_obj->getTitle();
-			$f_result[$counter]["context"]		= $this->__getContextPath($book["id"]);
-			$f_result[$counter]["link"]			= $book["link"];
-			$f_result[$counter]["target"]       = $book["target"];
-			
+			switch($a_search_in)
+			{
+				case "meta":
+					$f_result[$counter][]		= $tmp_obj->getTitle();
+					$f_result[$counter][]		= $this->__getContextPath($book["id"]);
+					break;
+					
+				case "content":
+					$f_result[$counter][]		= $tmp_obj->getTitle();
+
+					// GET INSTANCE OF PAGE OBJECT
+					include_once ("content/classes/class.ilLMObjectFactory.php");
+
+					$tmp_page_obj = ilLMObjectFactory::getInstance($tmp_obj, $book["page_id"]);
+					$tmp_page_obj->setLMId($book["id"]);
+
+					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					$f_result[$counter][] = $this->__getContextPath($book["id"]);
+
+					unset($tmp_page_obj);
+					break;
+			}
+			$f_result[$counter][] = $this->__formatLink($book["link"],$book["target"]);
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $this->__sortAndLimit($this->__formatLink($f_result));
-	}
-
-	function __sortAndLimit($a_res)
-	{
-		include_once "./include/inc.sort.php";
-
-		$a_res = sortArray($a_res,$this->sort_by,$this->sort_order);
-		return array_slice($a_res,$this->offset,RESULT_LIMIT);
+		return $f_result;
 	}
 
 	function __getContextPath($a_endnode_id, $a_startnode_id = 1)

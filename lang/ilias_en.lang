@@ -1322,3 +1322,20 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
+search#:#search_no_match#:#Your search didn't match any results
+search#:#search_user#:#Users
+search#:#search_dbk_meta#:#Digital Library (meta data)
+search#:#search_dbk_content#:#Digital Library (content)
+search#:#search_lm_meta#:#Learning materials (meta data)
+search#:#search_lm_content#:#Learning materials (content)
+search#:#search_all_results#:#All results
+search#:#search_show_result#:#Show
+search#:#search_search_term#:#Search term
+search#:#search_concatenation#:#Concatenation
+search#:#search_search_for#:#Search for
+search#:#search_in_result#:#Search within results
+search#:#search_no_search_term#:#You haven't selected any search term
+search#:#search_no_category#:#You haven't selected any search category
+search#:#search_minimum_three#:#Your search has to be at least three characters long
+search#:#search_meta#:#Meta data
+search#:#search_content#:#Page Content
