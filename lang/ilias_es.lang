@@ -31,7 +31,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-commo#:#dataset#:#Dataset###30 May 2003 new variable
 common#:#absolute_path#:#absolute path
 common#:#accept_usr_agreement#:#accept user agreement?
 common#:#access#:#access
@@ -116,6 +115,7 @@ common#:#current_password#:#current password
 common#:#cut#:#cut
 common#:#database#:#database
 common#:#database_version#:#current database version
+common#:#dataset#:#Dataset###04 Jun 2003 new variable
 common#:#date#:#date
 common#:#days#:#Days###25 Mar 2003 new variable
 common#:#db_host#:#database host
@@ -369,7 +369,7 @@ common#:#obj_not_found#:#object_not_found
 common#:#obj_note#:#Note###15 May 2003 new variable
 common#:#obj_notf#:#Note Administration###15 May 2003 new variable
 common#:#obj_objf#:#Object Administration###15 May 2003 new variable
-common#:#obj_owner#:#This Object is owned by
+common#:#obj_owner#:#This Object is owned by###04 Jun 2003 content changed
 common#:#obj_role#:#Role###15 May 2003 new variable
 common#:#obj_rolf#:#Role Administration###15 May 2003 new variable
 common#:#obj_rolt#:#Role Template###15 May 2003 new variable
