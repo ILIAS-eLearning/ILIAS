@@ -121,10 +121,10 @@ class ilObjForum extends ilObject
 		$q .= "VALUES ";
 		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$roles[0]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
 		$this->ilias->db->query($q);
-		
+
 		// get last insert id and return it
-		$new_top_pk = getLastInsertId();
-		
+		$new_top_pk = $this->ilias->db->getLastInsertId();
+
 		// get threads from old forum and insert them as copys
 		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
 		
@@ -137,7 +137,7 @@ class ilObjForum extends ilObject
 			$this->ilias->db->query($q);
 			
 			// get last insert id and return it
-			$new_thr_pk = getLastInsertId();
+			$new_thr_pk = $this->ilias->db->getLastInsertId();
 						
 			// get posts from old thread and insert them as copys
 			$resPosts = $this->Forum->getPostList($topData["top_pk"], $thrData["thr_pk"]);
@@ -149,9 +149,9 @@ class ilObjForum extends ilObject
 				$q2 .= "VALUES ";
 				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".addslashes($posData["pos_message"])."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
 				$this->ilias->db->query($q2);
-				
+
 				// get last insert id and return it
-				$new_pos_pk = getLastInsertId();	
+				$new_pos_pk = $this->ilias->db->getLastInsertId();
 
 				// CLONE POST ATTACHMENTS
 				$tmp_file_obj->setPosId($posData["pos_pk"]);

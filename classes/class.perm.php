@@ -278,20 +278,20 @@ function getOperationList ($a_type = "",$a_order= "",$a_direction = "")
 function createNewOperation ($a_operation,$a_description)
 {
 	global $ilias;
-	
+
 	if (!isset($a_operation))
 	{
 		$message = "perm::createNewOperation(): No operation name given!";
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);
 	}
-	
+
 	// check if operation exists
 	$ops_id = getOperationId($a_operation);
-	// quit in case operation already exists 	
+	// quit in case operation already exists
 	if (!empty($ops_id))
 	{
 		$message = "perm::createNewOperation(): An operation '".$a_operation."' is already defined!";
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);
 	}
 
 	$q = "INSERT INTO operations ".
@@ -299,8 +299,8 @@ function createNewOperation ($a_operation,$a_description)
 		 "VALUES ".
 		 "('".ilUtil::addSlashes($a_operation)."','".ilUtil::addSlashes($a_description)."')";
 	$ilias->db->query($q);
-	
-	return getLastInsertId();
+
+	return $ilias->db->getLastInsertId();
 }
 
 /**
@@ -337,7 +337,7 @@ function getLastInsertId()
 
 	$r = $ilias->db->query("SELECT LAST_INSERT_ID()");
 	$row = $r->fetchRow();
-	
+
 	return $row[0];
 }
 
