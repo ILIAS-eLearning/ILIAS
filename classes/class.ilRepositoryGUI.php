@@ -27,7 +27,7 @@ include_once("classes/class.ilObjFolderGUI.php");
 include_once("classes/class.ilObjFolder.php");
 include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
-include_once("course/classes/class.ilObjCourseGUI.php");
+include_once("classes/class.ilObjCourseGUI.php");
 include_once("classes/class.ilTabsGUI.php");
 include_once("classes/class.ilObjUserGUI.php");
 include_once("classes/class.ilObjRoleGUI.php");
