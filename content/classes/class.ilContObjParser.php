@@ -835,8 +835,14 @@ class ilContObjParser extends ilSaxParser
 						$this->media_object->setTitle("dummy");
 						$this->media_object->setDescription("dummy");
 					}
+					else
+					{
+						$this->media_object->setTitle($this->meta_data->getTitle());
+					}
 
 					// create media object
+//echo "creating media object:title:".$this->media_object->getTitle().":".
+//	$this->meta_data->getTitle().":<br>";
 					$this->media_object->create();
 //echo "creating media object<br>";
 					// collect mobs with internal links
