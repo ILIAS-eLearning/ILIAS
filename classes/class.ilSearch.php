@@ -342,7 +342,6 @@ class ilSearch
 
 		return $where;
 	}
-
 	function __createFulltextCondition($a_fields)
 	{
 		$where = "WHERE (";
