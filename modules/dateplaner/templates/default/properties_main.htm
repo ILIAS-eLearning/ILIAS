@@ -1,5 +1,5 @@
-<table style="border-width:0; BORDER-COLLAPSE: collapse"  cellSpacing="0" cellPadding="2" border="0" class="fullwidth" >
-<form name='propertiesForm' action = 'dateplaner.php?app=properties' method='post'>
+<form name="propertiesForm" action="dateplaner.php?app=properties" method="post">
+<table style="border-width: 0; border-collapse: collapse;" cellspacing="0" cellpadding="2" border="0" class="fullwidth"> 
   <tr class="tblheader">
 	<td align="middle"  colspan=2>
 		<b>$DP_language[properties]</b>
@@ -22,7 +22,7 @@
 		</select>
 	</td>
 	<td align="left" valign="bottom" width="50%"><input type='submit' name='btn_delete' value='$DP_language[delete]'>
-<!-- Hilfe Funktion Start -->
+<!-- start help function -->
 {jsscriptIn}
 <a onMouseOver=show('302') onMouseOut=hide('302') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013352" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
@@ -39,14 +39,14 @@
 </div>
 {jsscriptOut}
 <noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013352" target="_blank" TITLE="$DP_language[help_properties_del]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
-<!-- Hilfe Funktion End -->
+<!-- end help function -->
 	<br><br>
 	</td>
   </tr>
   <tr class="tblrow2">
 	<td align="left" valign="top" >$DP_language[changeTo]<br>
 		<input name='changedKeyword' type='text' size='20' maxlength='20'>&nbsp;<input type='submit' name='btn_accept' value='OK'>
-<!-- Hilfe Funktion Start -->
+<!-- start help function -->
 {jsscriptIn}
 <a onMouseOver=show('303') onMouseOut=hide('303') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013351" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
@@ -63,7 +63,7 @@
 </div>
 {jsscriptOut}
 <noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013351" target="_blank" TITLE="$DP_language[help_properties_alt]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
-<!-- Hilfe Funktion End -->
+<!-- end help function -->
 	</td>
   </tr>
   <tr class="tblrow2">
@@ -71,7 +71,7 @@
 	</td>
 	<td align="left"  >
 		<input name='newKeyword' type='text' size='20' maxlength='20'>&nbsp;<input type='submit' name='btn_accept' value='OK'>
-<!-- Hilfe Funktion Start -->
+<!-- start help function -->
 {jsscriptIn}
 <a onMouseOver=show('304') onMouseOut=hide('304') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013350" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
@@ -88,7 +88,7 @@
 </div>
 {jsscriptOut}
 <noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013350" target="_blank" TITLE="$DP_language[help_properties_new]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
-<!-- Hilfe Funktion End -->
+<!-- end help function -->
 	</td>
   </tr>
   <tr>
@@ -142,7 +142,7 @@
   <tr class="tblrow2">
 	<td align="middle" height="50" colspan=2>
 		<input type='submit' name='btn_time' value='OK'>
-<!-- Hilfe Funktion Start -->
+<!-- start help function -->
 {jsscriptIn}
 <a onMouseOver=show('305') onMouseOut=hide('305') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
@@ -159,12 +159,14 @@
 </div>
 {jsscriptOut}
 <noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]" target="_blank" TITLE="$DP_language[help_properties_time]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
-<!-- Hilfe Funktion End -->
+<!-- end help function -->
 	</td>
   </tr>
-</form>	
-<form name='parseInput' action = 'dateplaner.php?app=properties' method='post' enctype="multipart/form-data">
-  </tr> 
+</table>
+</form>   
+<form name="parseInput" action="dateplaner.php?app=properties" method="post" enctype="multipart/form-data">
+<table style="border-width: 0; border-collapse: collapse;" cellspacing="0" cellpadding="2" border="0" class="fullwidth">
+  </tr>
 	<td align="middle"  colspan=2>
 		&nbsp;
 	</td>
@@ -182,7 +184,7 @@
 		<br>		
 		<br>
 		<input type="submit" value="$DP_language[readimportfile]">
-<!-- Hilfe Funktion Start -->
+<!-- start help function -->
 {jsscriptIn}
 <a onMouseOver=show('306') onMouseOut=hide('306') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
@@ -199,12 +201,11 @@
 </div>
 {jsscriptOut}
 <noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]" target="_blank" TITLE="$DP_language[help_properties_import]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
-<!-- Hilfe Funktion End -->
+<!-- end help function -->
 
 		<br>&nbsp;
 
 	</td>
   </tr>
-</form>	
-
 </table>
+</form> 
