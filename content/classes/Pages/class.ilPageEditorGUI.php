@@ -47,6 +47,7 @@ class ilPageEditorGUI
 	var $page;
 	var $target_script;
 	var $return_location;
+	var $header;
 
 	/**
 	* Constructor
@@ -75,6 +76,16 @@ class ilPageEditorGUI
 		return $this->target_script;
 	}
 
+	function setHeader($a_header)
+	{
+		$this->header = $a_header;
+	}
+
+	function getHeader()
+	{
+		return $this->header;
+	}
+
 	function setReturnLocation($a_location)
 	{
 		$this->return_location = $a_location;
@@ -85,8 +96,18 @@ class ilPageEditorGUI
 		return $this->return_location;
 	}
 
+	function setLocator(&$a_locator)
+	{
+		$this->locator =& $a_locator;
+	}
+
 	function executeCommand()
 	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->setVariable("HEADER", $this->getHeader());
+		$this->displayLocator();
+		$this->setAdminTabs($a_type);
+
 		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
 		{
 			return;
@@ -236,6 +257,17 @@ class ilPageEditorGUI
 
 	}
 
+	function displayLocator()
+	{
+		/*
+		require_once("content/classes/class.ilContObjLocatorGUI.php");
+		$contObjLocator =& new ilContObjLocatorGUI($this->tree);
+		$contObjLocator->setObject($this->page);*/
+
+		//$cont_obj = ilObjContentObject$this->page->getParentId()
+		//$contObjLocator->setContentObject($this->page->getParentId());
+		$this->locator->display();
+	}
 
 	/**
 	* output main header (title and locator)
@@ -251,7 +283,17 @@ class ilPageEditorGUI
 		$this->setAdminTabs($a_type);
 	}*/
 
+	function setAdminTabs()
+	{
+		include_once("classes/class.ilTabsGUI.php");
 
+		$tabs_gui =& new ilTabsGUI;
+
+		$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
+			$_GET["obj_id"]);
+		$tabs_gui->setObjectType("pg");
+		$tabs_gui->display();
+	}
 
 }
 ?>

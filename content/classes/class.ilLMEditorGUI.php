@@ -146,34 +146,13 @@ class ilLMEditorGUI
 					$this->obj =& $obj;
 					if (is_object($obj))
 					{
-						$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
 //echo "1c";
 						if($type != "content")
 						{
 							$type = ($cmd == "create" || $cmd == "save")
 								? $new_type
 								: $obj->getType();
-						}
-						else
-						{
-							/*
-							$obj->buildDom();
-							$obj->addHierIDs();
-//echo "hier_id:$hier_id:";
-							// determine command and content object
-							$com = explode("_", $cmd);
-							$cmd = $com[0];
-				 			$cont_obj =& $obj->getContentObject($hier_id);
-
-							// determine content type
-							if ($cmd == "insert" || $cmd == "create")
-							{
-								$ctype = $com[1];
-							}
-							else
-							{
-								$ctype = $cont_obj->getType();
-							}*/
+							$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
 						}
 					}
 				}
@@ -192,60 +171,6 @@ class ilLMEditorGUI
 					$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
 					$pg_gui->setLMPageObject($obj);
 					$pg_gui->showPageEditor();
-
-					/*
-					require_once ("content/classes/class.ilPageEditorGUI.php");
-					$page_editor =& new ilPageEditorGUI($obj->getPageObject());
-					$page_editor->executeCommand();
-					break;*/
-
-				/*
-					switch($ctype)
-					{
-						// Paragraph
-						case "par":
-							require_once ("content/classes/class.ilParagraphGUI.php");
-							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$par_gui->$cmd();
-							break;
-
-						// Table
-						case "tab":
-							require_once ("content/classes/class.ilLMTableGUI.php");
-							$tab_gui =& new ilLMTableGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$tab_gui->$cmd();
-							break;
-
-						// Table Cell
-						case "td":
-							require_once ("content/classes/class.ilLMTableDataGUI.php");
-							$td_gui =& new ilLMTableDataGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$td_gui->$cmd();
-							break;
-
-						// Media Object
-						case "mob":
-							require_once ("content/classes/class.ilMediaObjectGUI.php");
-							$mob_gui =& new ilMediaObjectGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$mob_gui->$cmd();
-							break;
-
-						// List
-						case "list":
-							require_once ("content/classes/class.ilLMListGUI.php");
-							$list_gui =& new ilLMListGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$list_gui->$cmd();
-							break;
-
-						// List Item
-						case "li":
-							require_once ("content/classes/class.ilLMListItemGUI.php");
-							$list_item_gui =& new ilLMListItemGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
-							$list_item_gui->$cmd();
-							break;
-
-					}
-					*/
 				}
 				else
 				{
@@ -394,6 +319,13 @@ class ilLMEditorGUI
 	*/
 	function displayLocator()
 	{
+		require_once("content/classes/class.ilContObjLocatorGUI.php");
+		$contObjLocator =& new ilContObjLocatorGUI($this->tree);
+		$contObjLocator->setObject($this->obj);
+		$contObjLocator->setContentObject($this->lm_obj);
+		$contObjLocator->display();
+
+		/*
 		global $lng;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -441,7 +373,7 @@ class ilLMEditorGUI
 				$this->ref_id.$obj_str);
 			$this->tpl->parseCurrentBlock();
 
-		}
+		}*/
 
 		/*
 		if (isset($_GET["obj_id"]))
@@ -455,13 +387,24 @@ class ilLMEditorGUI
 			$this->tpl->parseCurrentBlock();
 		}*/
 
+		/*
 		$this->tpl->setCurrentBlock("locator");
 
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 	}
 
 	function setAdminTabs($a_type)
 	{
+		include_once("classes/class.ilTabsGUI.php");
+
+		$tabs_gui =& new ilTabsGUI;
+
+		$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
+			$_GET["obj_id"]);
+		$tabs_gui->setObjectType($a_type);
+		$tabs_gui->display();
+
+		/*
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		$d = $this->objDefinition->getProperties($a_type);
@@ -500,7 +443,7 @@ class ilLMEditorGUI
 				$_GET["obj_id"]."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 	}
 
 

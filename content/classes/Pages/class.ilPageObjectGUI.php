@@ -147,6 +147,16 @@ class ilPageObjectGUI
 		return $this->presentation_title;
 	}
 
+	function setHeader($a_title = "")
+	{
+		$this->header = $a_title;
+	}
+
+	function getHeader()
+	{
+		return $this->header;
+	}
+
 	function setLinkParams($l_params = "")
 	{
 		$this->link_params = $l_params;
@@ -217,6 +227,11 @@ class ilPageObjectGUI
 	function isEnabledCitation()
 	{
 		return $this->citation;
+	}
+
+	function setLocator(&$a_locator)
+	{
+		$this->locator =& $a_locator;
 	}
 
 	/*
@@ -411,6 +426,8 @@ class ilPageObjectGUI
 		require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 		$page_editor =& new ilPageEditorGUI($this->getPageObject());
 		$page_editor->setTargetScript($this->getTargetScript());
+		$page_editor->setLocator($this->locator);
+		$page_editor->setHeader($this->getHeader());
 		$page_editor->setReturnLocation($this->getReturnLocation());
 		$page_editor->executeCommand();
 	}
