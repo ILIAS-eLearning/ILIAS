@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.44 2003/08/15 11:04:47 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.45 2003/08/15 13:06:27 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -107,6 +107,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// check if role title has il_ prefix
+		if (substr($_POST["Fobject"]["title"],0,3))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
+		}		
 
 		// save
 		include_once("./classes/class.ilObjRole.php");

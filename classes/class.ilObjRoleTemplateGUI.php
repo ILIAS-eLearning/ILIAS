@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.20 2003/08/08 10:10:47 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.21 2003/08/15 13:06:27 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -63,23 +63,27 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"),$this->ilias->error_obj->WARNING);
 		}
-		else
-		{
-			// check if rolt title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-			}
 
-			// create new rolt object
-			include_once("./classes/class.ilObjRoleTemplate.php");
-			$roltObj = new ilObjRoleTemplate();
-			$roltObj->setTitle($_POST["Fobject"]["title"]);
-			$roltObj->setDescription($_POST["Fobject"]["desc"]);
-			$roltObj->create();
-			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],'n');
+		// check if rolt title is unique
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if role title has il_ prefix
+		if (substr($_POST["Fobject"]["title"],0,3))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// create new rolt object
+		include_once("./classes/class.ilObjRoleTemplate.php");
+		$roltObj = new ilObjRoleTemplate();
+		$roltObj->setTitle($_POST["Fobject"]["title"]);
+		$roltObj->setDescription($_POST["Fobject"]["desc"]);
+		$roltObj->create();
+		$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],'n');
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
 
