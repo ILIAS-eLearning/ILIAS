@@ -163,7 +163,7 @@ class ilGroupGUI extends ilObjectGUI
 			case 0:
 				$stat = $this->lng->txt("group_no_registration");
 				$msg  = $this->lng->txt("group_no_registratoin_msg");
-				
+
 				$readonly ="readonly";
 				$subject ="";
 				$cmd_submit = "joinGroup";
@@ -178,7 +178,7 @@ class ilGroupGUI extends ilObjectGUI
 			case 2:
 				if($this->object->registrationPossible() == true)
 				{
-					$stat = $this->lng->txt("group_req_password");//"Registrierungpasswort erforderlich";				
+					$stat = $this->lng->txt("group_req_password");//"Registrierungpasswort erforderlich";
 					$msg = $this->lng->txt("group_password_registration_msg");
 					$txt_subject =$this->lng->txt("password").":";
 					$textfield = "<input name=\"subject\" value=\"{SUBJECT}\" type=\"password\" size=\"40\" maxlength=\"70\" style=\"width:300px;\"/>";
@@ -213,10 +213,10 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
 		$this->tpl->setVariable("SUBJECT",$textfield);
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("apply"));		
-		$this->tpl->setVariable("CMD_CANCEL","groupList");		
-		$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);						
-		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&user_id=".$this->ilias->account->getId());		
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("apply"));
+		$this->tpl->setVariable("CMD_CANCEL","groupList");
+		$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&user_id=".$this->ilias->account->getId());
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
@@ -1169,7 +1169,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function groupListObject()
 	{
-		header("location: repository.php");
+		header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 	}
 	
 	function joinGroupObject()
