@@ -117,7 +117,11 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		$xsl = $tmp_tpl->get();
 		$xml = $this->object->bib_obj->getXML();
-
+		
+		if(empty($xml))
+		{
+			return true;
+		}
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
