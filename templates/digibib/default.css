@@ -1,83 +1,25 @@
 body {
         color:#222222;
-        background-color:#dddddd;
+        background-color:#ffcc66;
         font-family:Verdana,Arial,Helvetica,sans-serif;
-        font-size:small;
-                margin:10px;
-}
-td {
-        font-size:small;
+        font-size: 13px;
+        margin: 10px;
 }
 
-.btnbar {
-        background-color:#006699;
-}
-
-input, textarea {
-        font-family:Verdana,Arial,Helvetica,sans-serif;
-}
-/* ---------------- alternating tablerowcolors ----------------- */
-
-.tblrow2 {
-        color:#222222;
-        background-color:#eeeeee;
-}
-
-.tblrow1 {
-        color:#222222;
-        background-color:#bbbbbb;
-}
-
-/* -------------------- table formatting ------------------ */
-
-.tblheader {
-     color:#ffffff;
-     background-color:#666677;
-}
-
-/* ---------------- headlines ------------------ */
-
-h1 {
-   font-size:medium;
-   color:#222222;
-}
-
-h2 {
-   font-size:medium;
-   color:#222222;
-}
-
-/* ----------------- alternative text styles ------------- */
-.small {
-        text-decoration:none;
-        font-size:x-small;
-}
-
-.smallgreen {
-        text-decoration:none;
-        font-size:x-small;
-	color:green;
-}
-
-.smallred {
-        text-decoration:none;
-        font-size:x-small;
-	color:red;
-}
 
 /* ----------------- normal links ------------- */
 a {
         font-weight:bold;
         text-decoration:none;
-        color:#0066ff;
+        color:#000000;
 }
 
 a:hover {
-        color:#0066ff;
+        color:#000000;
 }
 
 a:visited {
-        color:#0066ff;
+        color:#000000;
 }
 
 /* ------------------- mail links ----------- */
@@ -93,17 +35,13 @@ a.mailunread
         font-weight: bold;
 }
 
-/* ------------------ buttons -------------- */
-
-.btn {
-        background-color:#006699;
-        color:#ffffff;
-}
+/* ------------------ anchor stlyes for buttons -------------- */
 
 a.btn {
-        color:#ffffff;
+        color:#000000;
         text-decoration:none;
-        font-size:small;
+        font-size: 13px;
+		font-weight:700;
 }
 
 a.tblheader:visited, a.tblheader:hover {
@@ -113,13 +51,165 @@ a.tblheader:visited, a.tblheader:hover {
 a.btn:visited {
         color:#ffffff;
         text-decoration:none;
-        font-size:small;
+        font-size: 13px;
 }
 
 a.btn:hover {
         color:#eeeeff;
 }
 
+
+
+/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
+img {
+	display: block;
+}
+
+sup {
+	color:ff0000;
+}
+
+/* ---------------- headlines ------------------ */
+
+h1 {
+	font-size: 18px;
+	color:#222222;
+}
+
+h2 {
+	font-size: 16px;
+	color:#222222;
+}
+
+input, textarea {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+table {
+	padding: 0px;
+	margin: 0px;
+	border-style: none;
+	border-width: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	
+}
+
+tr.treeTopline {
+	height: 5px;
+}
+
+td {
+	font-size: 13px;
+}
+
+
+/* ----------------- background images for tree-elements ------------- */
+
+td.treeTlc, td.treeTlc, td.treeBlc, td.treeBrc {
+	width: 5px;
+}
+
+td.treeTlc {
+	background-image:url(images/treeElem_tlc.gif);
+	height: 8px;
+}
+
+td.treeTrc {
+	background-image:url(images/treeElem_trc.gif);
+	height: 8px;
+}
+
+td.treeBlc {
+	background-image:url(images/treeElem_blc.gif);
+	height: 5px;
+}
+
+td.treeBrc {
+	background-image:url(images/treeElem_brc.gif);
+	height: 5px;
+}
+
+td.treeTop {
+	background-image:url(images/treeElem_top.gif);
+	height: 8px;
+}
+
+td.treeBottom {
+	background-image:url(images/treeElem_bottom.gif);
+	height: 5px;
+}
+
+td.treeLeft {
+	background-image:url(images/treeElem_left.gif);
+}
+
+td.treeRight {
+	background-image:url(images/treeElem_right.gif);
+}
+td.treeCenter {
+	background-color: #ffcc66;
+	font-size: 13px;
+}
+
+/*---------------------------------------------------------------
+----------------- independent style-classes----------------------
+---------------------------------------------------------------*/
+
+
+
+/*------------- style for buttons ------------------------------*/
+.btn {
+/*        background-color:#006699; */
+        background-color: #ff9900; 
+        color:#ffffff;
+}
+
+.btnbar {
+/*        background-color:#006699;*/
+	background-color: #ff9900;
+}
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+        margin:0px;
+}
+
+/* ---------------- alternating tablerowcolors ----------------- */
+.tblrow2 {
+        color:#222222;
+        background-color:#ffcc66;
+}
+
+.tblrow1 {
+        color:#222222;
+        background-color:#FDE5B6;
+}
+
+/* -------------------- table formatting ------------------ */
+
+.tblheader {
+     color:#ffffff;
+     background-color:#ff9900;
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+        text-decoration:none;
+        font-size: 11px;
+}
+
+.smallgreen {
+        text-decoration:none;
+        font-size: 11px;
+	color:green;
+}
+
+.smallred {
+        text-decoration:none;
+        font-size: 11px;
+	color:red;
+}
 .message {
   color: #dd0000;
   font-weight: bold;
@@ -128,29 +218,17 @@ a.btn:hover {
 
 /* ------------------ tabs -------------- */
 .tab {
-        font-size: x-small;
+        font-size: 11px;
         color: #000000;
         font-weight: bold;
-        background-color:#000000;
+        background-color:#cc9933;
 }
 
 .tabactive {
-        background-color:#dddddd;
+        background-color:#FDE5B6;
 }
 .tabinactive {
-        background-color:#bbbbbb;
+        background-color:#ff9900;
 }
 
-/* ------------------ content window body tag (not used yet) -------------- */
-.content {
-        margin:0px;
-}
 
-/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
-img {
-        display: block;
-}
-
-sup {
-	color:ff0000;
-}
