@@ -8,9 +8,12 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
+require_once "./classes/class.ilObjUser.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
+
 
 // display infopanel if something happened
 infoPanel();
@@ -28,14 +31,69 @@ $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
+
 $tpl->setCurrentBlock("btn_row");
 $tpl->parseCurrentBlock();
 
 //if data are posted
 if ($_GET["cmd"] == "save")
 {
+
 	//init checking var
 	$form_valid = true;
+
+// testing by ratana ty:
+// if people check on check box it will
+// write some datata to table usr_pref
+	// if check on Public Profile
+        if (($_POST["chk_pub"])=="on"){
+	$ilias->account->setPref("public_profile","y");
+	} else {
+        $ilias->account->setPref("public_profile","n");
+	}
+	// if check on Institute
+        if (($_POST["chk_institute"])=="on"){
+	$ilias->account->setPref("public_institution","y");
+	} else {
+        $ilias->account->setPref("public_institution","n");
+	}
+	// if check on Street
+        if (($_POST["chk_street"])=="on"){
+	$ilias->account->setPref("public_street","y");
+	} else {
+        $ilias->account->setPref("public_street","n");
+	}
+	// if check on Zip Code
+        if (($_POST["chk_zip"])=="on"){
+	$ilias->account->setPref("public_zip","y");
+	} else {
+        $ilias->account->setPref("public_zip","n");
+	}
+	// if check on City
+        if (($_POST["chk_city"])=="on"){
+	$ilias->account->setPref("public_city","y");
+	} else {
+        $ilias->account->setPref("public_city","n");
+	}
+	// if check on Country
+        if (($_POST["chk_country"])=="on"){
+	$ilias->account->setPref("public_country","y");
+	} else {
+        $ilias->account->setPref("public_country","n");
+	}
+	// if check on Phone
+        if (($_POST["chk_phone"])=="on"){
+	$ilias->account->setPref("public_phone","y");
+	} else {
+        $ilias->account->setPref("public_phone","n");
+	}
+	// if check on Email address
+        if (($_POST["chk_email"])=="on"){
+	$ilias->account->setPref("public_email","y");
+	} else {
+        $ilias->account->setPref("public_email","n");
+	}
+// end of testing by ratana ty
 
 	// check required fields
 	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
@@ -64,14 +122,14 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setCountry($_POST["usr_country"]);
 	$ilias->account->setPhone($_POST["usr_phone"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
-	$ilias->account->setLanguage($_POST["usr_language"]);	
+	$ilias->account->setLanguage($_POST["usr_language"]);
 
 	// everthing's ok. save form data
 	if ($form_valid)
 	{
 		// init reload var. page should only be reloaded if skin or style were changed
 		$reload = false;
-		
+
 		//set user skin
 		if ($_POST["usr_skin"] != "" and $_POST["usr_skin"] != $ilias->account->getPref("skin"))
 		{
@@ -86,17 +144,17 @@ if ($_GET["cmd"] == "save")
 				$reload = true;
 			}
 		}
-		
+
 		// save user data
 		$ilias->account->update();
-		
+
 		// update object_data
 		require_once "classes/class.ilObjUser.php";
 		$userObj = new ilObjUser($ilias->account->getId());
 		$userObj->setTitle($ilias->account->getFullname());
 		$userObj->setDescription($ilias->account->getEmail());
 		$userObj->update();
-		
+
 		// feedback
 		sendInfo($lng->txt("saved_successfully"),true);
 
@@ -107,7 +165,7 @@ if ($_GET["cmd"] == "save")
 		}
 		else
 		{
-			header ("Location: usr_personaldesktop.php");			
+			header ("Location: usr_personaldesktop.php");
 			exit;
 		}
 	}
@@ -174,6 +232,7 @@ $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 
 $tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
 $tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
+$tpl->setVariable("TXT_PUBLIC_PROFILE", $lng->txt("Public Profile"));
 $tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
 $tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
 $tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
@@ -200,6 +259,7 @@ $tpl->setVariable("NICKNAME", $ilias->account->getLogin());
 $tpl->setVariable("SELECTED_".strtoupper($ilias->account->getGender()), "selected");
 $tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
 $tpl->setVariable("LASTNAME", $ilias->account->getLastname());
+
 $tpl->setVariable("TITLE", $ilias->account->getTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
 $tpl->setVariable("STREET", $ilias->account->getStreet());
@@ -217,7 +277,39 @@ $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 
-$tpl->parseCurrentBlock();
 
+// Testing by ratana ty
+// Show check if value in table usr_pref is y
+//
+if($ilias->account->prefs["public_profile"]=="y") {
+$tpl->setVariable("CHK_PUB","checked");
+}
+if($ilias->account->prefs["public_institution"]=="y") {
+$tpl->setVariable("CHK_INSTITUTE","checked");
+}
+if($ilias->account->prefs["public_street"]=="y") {
+$tpl->setVariable("CHK_STREET","checked");
+}
+if($ilias->account->prefs["public_zip"]=="y") {
+$tpl->setVariable("CHK_ZIP","checked");
+}
+if($ilias->account->prefs["public_city"]=="y") {
+$tpl->setVariable("CHK_CITY","checked");
+}
+if($ilias->account->prefs["public_country"]=="y") {
+$tpl->setVariable("CHK_COUNTRY","checked");
+}
+if($ilias->account->prefs["public_phone"]=="y") {
+$tpl->setVariable("CHK_PHONE","checked");
+}
+if($ilias->account->prefs["public_email"]=="y") {
+$tpl->setVariable("CHK_EMAIL","checked");
+}
+// End of shwing
+// Testing by ratana ty
+//
+
+$tpl->parseCurrentBlock();
 $tpl->show();
 
+?>
