@@ -42,6 +42,9 @@ function initForm()
 			P = P.replace("<BR>","");
 			P = P.replace("<BR />","");
 		}
+		var re= /<\S[^>]*>/g; 
+		P = P.replace(re,"");
+
 		document.form.externaltitle.value = P;
 		document.form.externalurl.focus();
 	}
