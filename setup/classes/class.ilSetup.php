@@ -801,7 +801,9 @@ class ilSetup extends PEAR
 	{
 		if ($a_formdata["chk_datadir_path"] == 1)	// mode create dir 
 		{
-			if (!ilUtil::makeDir($a_formdata["datadir_path"]))
+			$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
+
+			if (!ilUtil::makeDir($datadir_path))
 			{
 				$this->error = "create_datadir_failed";
 				return false;
@@ -818,18 +820,18 @@ class ilSetup extends PEAR
 			}			
 		}
 		
-		$form_log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
 		
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
-		$this->ini->setVariable("clients", "datadir", ilFile::deleteTrailingSlash($a_formdata["datadir_path"]));
-		$this->ini->setVariable("tools", "convert", ilFile::deleteTrailingSlash($a_formdata["convert_path"]));
-		$this->ini->setVariable("tools", "zip", ilFile::deleteTrailingSlash($a_formdata["zip_path"]));
-		$this->ini->setVariable("tools", "unzip", ilFile::deleteTrailingSlash($a_formdata["unzip_path"]));
-		$this->ini->setVariable("tools", "java", ilFile::deleteTrailingSlash($a_formdata["java_path"]));
-		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]));
+		$this->ini->setVariable("clients", "datadir", $datadir_path);
+		$this->ini->setVariable("tools", "convert", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
+		$this->ini->setVariable("tools", "zip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"]));
+		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
+		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
+		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
@@ -851,13 +853,19 @@ class ilSetup extends PEAR
 	// updates settings
 	function updateMasterSettings($a_formdata)
 	{
-		$this->ini->setVariable("tools", "convert", ilFile::deleteTrailingSlash($a_formdata["convert_path"]));
-		$this->ini->setVariable("tools", "zip", ilFile::deleteTrailingSlash($a_formdata["zip_path"]));
-		$this->ini->setVariable("tools", "unzip", ilFile::deleteTrailingSlash($a_formdata["unzip_path"]));
-		$this->ini->setVariable("tools", "java", ilFile::deleteTrailingSlash($a_formdata["java_path"]));
-		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]));
+		$convert_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
+		$zip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"]));
+		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
+		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
+		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 
-		$form_log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+		$this->ini->setVariable("tools", "convert", $convert_path);
+		$this->ini->setVariable("tools", "zip", $zip_path);
+		$this->ini->setVariable("tools", "unzip", $unzip_path);
+		$this->ini->setVariable("tools", "java", $java_path);
+		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
+
+		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
 
@@ -879,8 +887,8 @@ class ilSetup extends PEAR
 		// convert path
 		if (!isset($a_formdata["chk_convert_path"]))
 		{
-			// remove trailing slash
-			$convert_path = ilFile::deleteTrailingSlash($a_formdata["convert_path"]);
+			// convert backslashes to forwardslashes
+			$convert_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
 
 			if (empty($convert_path))
 			{
@@ -898,8 +906,8 @@ class ilSetup extends PEAR
 		// zip path
 		if (!isset($a_formdata["chk_zip_path"]))
 		{
-			// remove trailing slash
-			$zip_path = ilFile::deleteTrailingSlash($a_formdata["zip_path"]);
+			// convert backslashes to forwardslashes
+			$zip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"]));
 			
 			if (empty($zip_path))
 			{
@@ -917,8 +925,8 @@ class ilSetup extends PEAR
 		// unzip path
 		if (!isset($a_formdata["chk_unzip_path"]))
 		{
-			// remove trailing slash
-			$unzip_path = ilFile::deleteTrailingSlash($a_formdata["unzip_path"]);
+			// convert backslashes to forwardslashes
+			$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 
 			if (empty($unzip_path))
 			{
@@ -936,8 +944,8 @@ class ilSetup extends PEAR
 		// java path
 		if (!isset($a_formdata["chk_java_path"]))
 		{
-			// remove trailing slash
-			$java_path = ilFile::deleteTrailingSlash($a_formdata["java_path"]);
+			// convert backslashes to forwardslashes
+			$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 
 			if (empty($java_path))
 			{
@@ -955,8 +963,8 @@ class ilSetup extends PEAR
 		// htmldoc path
 		if (!isset($a_formdata["chk_htmldoc_path"]))
 		{
-			// remove trailing slash
-			$htmldoc_path = ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]);
+			// convert backslashes to forwardslashes
+			$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 
 			if (empty($htmldoc_path))
 			{
@@ -977,8 +985,9 @@ class ilSetup extends PEAR
 	// datadir path
 	function checkDataDirSetup($a_formdata)
 	{
-		// remove trailing slash
-		$datadir_path = ilFile::deleteTrailingSlash($a_formdata["datadir_path"]);
+		// remove trailing slash & convert backslashes to forwardslashes
+		$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
+
 
 		if (empty($datadir_path))
 		{
@@ -1038,8 +1047,8 @@ class ilSetup extends PEAR
 		// log path
 		if (!isset($a_formdata["chk_log_status"]))
 		{
-			// remove trailing slash
-			$log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
+			// remove trailing slash & convert backslashes to forwardslashes
+			$log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 
 			if (empty($log_path))
 			{
