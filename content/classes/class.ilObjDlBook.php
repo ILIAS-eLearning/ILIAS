@@ -186,6 +186,48 @@ class ilObjDlBook extends ilObjContentObject
 		readfile( $export_dir."/".$fileName.".zip" );
 		
 	}
+	/**
+	 * STATIC METHOD
+	 * search for dbk data. This method is called from class.ilSearch
+	 * @param	object reference on object of search class
+	 * @static
+	 * @access	public
+	 */
+	function _search(&$search_obj,$a_search_in)
+	{
+		switch($a_search_in)
+		{
+			case 'meta':
+				// FILTER ALL DBK OBJECTS
+				$in		= $search_obj->getInStatement("r.ref_id");
+				$where	= $search_obj->getWhereCondition("like",array("xv.tag_value"));
+
+
+				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
+					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
+					"INNER JOIN lm_data AS l ON l.lm_id = o.obj_id ".
+					"INNER JOIN xmlnestedset AS xm ON (xm.ns_book_fk = l.obj_id OR xm.ns_type IN ('dbk','bib')) ".
+					"INNER JOIN xmlvalue AS xv ON xm.ns_tag_fk = xv.tag_fk ".
+					$where.
+					$in.
+					"AND o.type = 'dbk'";
+				$res = $search_obj->ilias->db->query($query);
+				$counter = 0;
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$result[$counter]["id"]		=  $row->ref_id;
+					$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
+					$result[$counter]["target"]	=  "_top";
+					
+					++$counter;
+				}
+				break;
+
+			case 'content':
+				break;
+		}
+		return $result ? $result : array();
+	}
 
 	
 	
