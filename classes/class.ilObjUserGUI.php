@@ -992,6 +992,16 @@ class ilObjUserGUI extends ilObjectGUI
         {
             $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
         }
+		if(!$this->ilias->account->getTimeLimitUnlimited())
+		{
+			if($this->__toUnix($_POST["time_limit"]["from"]) < $this->ilias->account->getTimeLimitFrom() or
+			   $this->__toUnix($_POST["time_limit"]["until"])> $this->ilias->account->getTimeLimitUntil() or
+			   $_POST['time_limit']['unlimited'])
+			{
+				$this->ilias->raiseError($this->lng->txt("time_limit_not_within_owners"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
 
 
 		// TODO: check if login or passwd already exists
@@ -1189,18 +1199,20 @@ class ilObjUserGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
         }
 
-		// time_limit modifications are only allowed for the childs of a user
-		#if($start != $this->object->getTimeLimitFrom() or
-		#   $end	  != $this->object->getTimeLimitUntil() or
-		#   $_POST['time_limit']['unlimited'] != $this->object->getTimeLimitUnlimited())
-		#{
-		#	if(!$this->ilias->account->isChild($this->object->getId()))
-		#	{
-		#		$this->ilias->raiseError($this->lng->txt("time_limit_modification_not_allowed"),$this->ilias->error_obj->MESSAGE);
-		#	}
-		#}
-				
+		if(!$this->ilias->account->getTimeLimitUnlimited())
+		{
+			if($start < $this->ilias->account->getTimeLimitFrom() or
+			   $end > $this->ilias->account->getTimeLimitUntil() or
+			   $_POST['time_limit']['unlimited'])
+			{
+				$_SESSION['error_post_vars'] = $_POST;
 
+				sendInfo($this->lng->txt('time_limit_not_within_owners'));
+				$this->editObject();
+
+				return false;
+			}
+		}
 
 		// TODO: check length of login and passwd
 
