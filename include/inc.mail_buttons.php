@@ -33,50 +33,55 @@
 $lng->loadLanguageModule("mail");
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-$script_name = basename($_SERVER["PATH_TRANSLATED"]);
+$script_name = basename($_SERVER["SCRIPT_FILENAME"]);
 
-$file_name = basename($_SERVER["PATH_INFO"]);
+$file_name = basename($_SERVER["SCRIPT_NAME"]);
 
 // FOLDER
-$inc_type = $script_name == "mail.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"mail.php?mobj_id=$_GET[mobj_id]&type=new",$lng->txt("fold"),"bottom");
+$tpl->setCurrentBlock("tab");
+$tpl->setVariable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail.php?mobj_id=$_GET[mobj_id]&type=new");
+$tpl->setVariable("TAB_TEXT", $lng->txt("fold"));
+$tpl->parseCurrentBlock();
+
 
 // COMPOSE
-$inc_type = $script_name == "mail_new.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"mail_new.php?mobj_id=$_GET[mobj_id]&type=new",$lng->txt("compose"),"bottom");
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_new.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&type=new");
+$tpl->setVariable("TAB_TEXT", $lng->txt("compose"));
+$tpl->parseCurrentBlock();
 
 // ADDRESSBOOK
-$inc_type = $script_name == "mail_addressbook.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"mail_addressbook.php?mobj_id=$_GET[mobj_id]",$lng->txt("mail_addressbook"),"bottom");
-
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_addressbook.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("TAB_TEXT", $lng->txt("mail_addressbook"));
+$tpl->parseCurrentBlock();
 
 // OPTIONS
-$inc_type = $script_name == "mail_options.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"mail_options.php?mobj_id=$_GET[mobj_id]",$lng->txt("options"),"bottom");
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_options.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_options.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("TAB_TEXT", $lng->txt("options"));
+$tpl->parseCurrentBlock();
 
 // FLATVIEW <-> TREEVIEW
-
-$inc_type = $script_name == "tabinactive";
-	
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
-	$inhalt1[] = array($inc_type,"mail_frameset.php?viewmode=tree",$lng->txt("treeview"),"bottom");
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVAriable("TAB_TYPE","tabinactive");
+	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=tree");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("treeview"));
+	$tpl->parseCurrentBlock();
 }
 else
 {
-	$inhalt1[] = array($inc_type,"mail_frameset.php?viewmode=flat",$lng->txt("flatview"),"bottom");
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVAriable("TAB_TYPE","tabinactive");
+	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=flat");
+	$tpl->setVariable("TAB_TARGET","bottom");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
+	$tpl->parseCurrentBlock();
 }
-		  
-for ( $i=0; $i<sizeof($inhalt1); $i++)
-{
-	if ($inhalt1[$i][1] != "")
-	{	$tpl->setCurrentBlock("tab");
-		$tpl->setVariable("TAB_TYPE",$inhalt1[$i][0]);
-		$tpl->setVariable("TAB_LINK",$inhalt1[$i][1]);
-		$tpl->setVariable("TAB_TEXT",$inhalt1[$i][2]);
-		$tpl->setVariable("TAB_TARGET",$inhalt1[$i][3]);
-		$tpl->parseCurrentBlock();
-	}
-}
-
 ?>
