@@ -11,8 +11,8 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.NoteObject.php";
 require_once "./classes/class.NoteFolderObject.php";
 
+$myNote = new NoteObject();
 $myNoteFolder = new NoteFolderObject($ilias->account->Id);
-//$myNoteFolder = new NoteFolderObject(202);
 
 //form has been submitted
 if ($_POST["submit"] = "delete")
@@ -20,18 +20,29 @@ if ($_POST["submit"] = "delete")
 
 	if ($_POST["id"] != "")
 	{
-		echo "Lösche Notizen !";
 		$myNoteFolder->deleteNotes($id);
 	}
 }
+
+
 
 if ($_GET["cmd"] != "")
 {
 	switch ($_GET["cmd"])
 	{
-		case "view":
-			echo "DELETE!";
+		case "save":
+			//create new note
+			$obj_id = $myNote->createObject($_POST["lo_title"], $_POST["note_text"]);
+			//save to database
+			$myNote->saveNote($obj_id, $_POST["lo_id"], $_POST["lo_title"], $_POST ["note_text"]);
+			//save in table tree
+			$myNoteFolder->addNote($obj_id);
 			break;
+
+		case "update":
+			$myNote->updateNote($_GET["id"], $_POST["note_text"]);
+			break;
+
 		case "edit":
 			break;
 	}
@@ -39,6 +50,7 @@ if ($_GET["cmd"] != "")
 	header("location: notes.php");
 	exit;
 }
+
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.notes.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -54,21 +66,18 @@ $tpl->parseCurrentBlock();
 
 $myNotes = $myNoteFolder->getNotes();
 
-
 foreach ($myNotes as $row)
 {
 	$i++;
 	$tpl->setCurrentBlock("noterow");
 	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
 	$tpl->setVariable("NOTE_ID", $row->note_id);		//perhaps lo's title is display here
-	$tpl->setVariable("TITLE", $row->lo_id);		//perhaps lo's title is display here
+	$tpl->setVariable("TITLE", $row->lo_title);		//perhaps lo's title is display here
 	$tpl->setVariable("DESC", $row->text);
 	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 	$tpl->setVariable("TXT_VIEW", $lng->txt("view"));
-//	$tpl->setVariable("LINK_DEL", "notes.php?cmd=del&amp;id=".$row->note_id);
-//	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+	$tpl->setVariable("LINK_VIEW", "note_view.php?cmd=view&amp;id=".$row->note_id);
 	$tpl->setVariable("LINK_EDIT", "note_new.php?cmd=edit&amp;id=".$row->note_id);
-
 	$tpl->parseCurrentBlock();
 }
 
