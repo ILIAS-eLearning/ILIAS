@@ -1,11 +1,2 @@
 <#2>
-CREATE TABLE mail (
-froms VARCHAR(255) NOT NULL, 
-value VARCHAR(255) NOT NULL 
-);
-<?php
-for ($i = 1; $i<10; $i++)
-{
-	echo $i;
-}
-?>
+ALTER TABLE user_data ADD language VARCHAR(10) DEFAULT 'en' NOT NULL AFTER email; 
