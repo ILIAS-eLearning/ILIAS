@@ -78,7 +78,7 @@ ILIAS itself, all these programs are available as Open Source software.
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
     - IJG JPEG (libjpeg) 6b    ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-    - ImageMagick 4.2.9        http://www.imagemagick.org
+    - ImageMagick 6.0.1        http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
 
 For running ILIAS 3 additional software is required:
@@ -229,7 +229,7 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/jpegsrc.v6b.tar.gz
     tar -xzf tarballs/libpng-1.2.5.tar.gz
     tar -xzf tarballs/gd-2.0.15.tar.gz
-    tar -xzf tarballs/ImageMagick-4.2.9.tar.gz
+    tar -xzf tarballs/ImageMagick-6.0.1-2.tar.gz
     tar -xzf tarballs/zip23.tar.gz
     tar -xzf tarballs/unzip550.tar.gz
     tar -xzf tarballs/mysql-4.0.15a.tar.gz
@@ -382,7 +382,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (e) ImageMagick
 
-        cd /opt/ilias/src/ImageMagick-4.2.9
+        cd /opt/ilias/src/ImageMagick-6.0.1
         ./configure \
         --prefix=/opt/ilias \
         --without-perl \
@@ -401,7 +401,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
     in ILIAS such as editing a clickable imagemap or when thumbnail pictures
     are being created.
 
-    Note on building ImageMagick 4.2.9 under SuSE Linux: The build process might
+    Note on building ImageMagick under SuSE Linux: The build process might
     fail with an error message claiming that the file 'byteorder.h' cannot be
     found in /usr/include/sys/. Under SuSE it is located in /usr/include/asm/.
     Creating a symbolic link will solve the problem:
