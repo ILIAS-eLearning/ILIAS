@@ -910,6 +910,8 @@ class ilRepositoryGUI
 	*/
 	function setLocator()
 	{
+		global $ilias_locator;
+		
 		$a_tree =& $this->tree;
 		$a_id = $this->cur_ref_id;
 

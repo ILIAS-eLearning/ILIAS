@@ -354,6 +354,7 @@ class ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
+		global $ilias_locator;
 
 		if (!is_object($a_tree))
 		{
@@ -392,7 +393,7 @@ class ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		
+
 		foreach ($path as $key => $row)
 		{
 			if ($key < count($path)-$modifier)
@@ -417,10 +418,10 @@ class ilObjectGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-			
+
 			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$this->tpl->parseCurrentBlock();
-			
+
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
 			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
