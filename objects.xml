@@ -136,9 +136,9 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
+	<property name="editMeta">meta_data</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
