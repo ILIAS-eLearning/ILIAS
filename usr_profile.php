@@ -42,58 +42,89 @@ if ($_GET["cmd"] == "save")
 	//init checking var
 	$form_valid = true;
 
-// testing by ratana ty:
-// if people check on check box it will
-// write some datata to table usr_pref
+	// testing by ratana ty:
+	// if people check on check box it will
+	// write some datata to table usr_pref
 	// if check on Public Profile
-        if (($_POST["chk_pub"])=="on"){
-	$ilias->account->setPref("public_profile","y");
-	} else {
-        $ilias->account->setPref("public_profile","n");
+	if (($_POST["chk_pub"])=="on")
+	{
+		$ilias->account->setPref("public_profile","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_profile","n");
+	}
+
 	// if check on Institute
-        if (($_POST["chk_institute"])=="on"){
-	$ilias->account->setPref("public_institution","y");
-	} else {
-        $ilias->account->setPref("public_institution","n");
+	if (($_POST["chk_institute"])=="on")
+	{
+		$ilias->account->setPref("public_institution","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_institution","n");
+	}
+
 	// if check on Street
-        if (($_POST["chk_street"])=="on"){
-	$ilias->account->setPref("public_street","y");
-	} else {
-        $ilias->account->setPref("public_street","n");
+	if (($_POST["chk_street"])=="on")
+	{
+		$ilias->account->setPref("public_street","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_street","n");
+	}
+
 	// if check on Zip Code
-        if (($_POST["chk_zip"])=="on"){
-	$ilias->account->setPref("public_zip","y");
-	} else {
-        $ilias->account->setPref("public_zip","n");
+	if (($_POST["chk_zip"])=="on")
+	{
+		$ilias->account->setPref("public_zip","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_zip","n");
+	}
+
 	// if check on City
-        if (($_POST["chk_city"])=="on"){
-	$ilias->account->setPref("public_city","y");
-	} else {
-        $ilias->account->setPref("public_city","n");
+	if (($_POST["chk_city"])=="on")
+	{
+		$ilias->account->setPref("public_city","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_city","n");
+	}
+
 	// if check on Country
-        if (($_POST["chk_country"])=="on"){
-	$ilias->account->setPref("public_country","y");
-	} else {
-        $ilias->account->setPref("public_country","n");
+	if (($_POST["chk_country"])=="on")
+	{
+		$ilias->account->setPref("public_country","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_country","n");
+	}
+
 	// if check on Phone
-        if (($_POST["chk_phone"])=="on"){
-	$ilias->account->setPref("public_phone","y");
-	} else {
-        $ilias->account->setPref("public_phone","n");
+	if (($_POST["chk_phone"])=="on")
+	{
+		$ilias->account->setPref("public_phone","y");
 	}
+	else
+	{
+		$ilias->account->setPref("public_phone","n");
+	}
+
 	// if check on Email address
-        if (($_POST["chk_email"])=="on"){
-	$ilias->account->setPref("public_email","y");
-	} else {
-        $ilias->account->setPref("public_email","n");
+	if (($_POST["chk_email"])=="on")
+	{
+		$ilias->account->setPref("public_email","y");
 	}
-// end of testing by ratana ty
+	else
+	{
+		$ilias->account->setPref("public_email","n");
+	}
+	// end of testing by ratana ty
 
 	// check required fields
 	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
@@ -281,33 +312,40 @@ $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 // Testing by ratana ty
 // Show check if value in table usr_pref is y
 //
-if($ilias->account->prefs["public_profile"]=="y") {
-$tpl->setVariable("CHK_PUB","checked");
+if($ilias->account->prefs["public_profile"]=="y")
+{
+	$tpl->setVariable("CHK_PUB","checked");
 }
-if($ilias->account->prefs["public_institution"]=="y") {
-$tpl->setVariable("CHK_INSTITUTE","checked");
+if($ilias->account->prefs["public_institution"]=="y")
+{
+	$tpl->setVariable("CHK_INSTITUTE","checked");
 }
-if($ilias->account->prefs["public_street"]=="y") {
-$tpl->setVariable("CHK_STREET","checked");
+if($ilias->account->prefs["public_street"]=="y")
+{
+	$tpl->setVariable("CHK_STREET","checked");
 }
-if($ilias->account->prefs["public_zip"]=="y") {
-$tpl->setVariable("CHK_ZIP","checked");
+if($ilias->account->prefs["public_zip"]=="y")
+{
+	$tpl->setVariable("CHK_ZIP","checked");
 }
-if($ilias->account->prefs["public_city"]=="y") {
-$tpl->setVariable("CHK_CITY","checked");
+if($ilias->account->prefs["public_city"]=="y")
+{
+	$tpl->setVariable("CHK_CITY","checked");
 }
-if($ilias->account->prefs["public_country"]=="y") {
-$tpl->setVariable("CHK_COUNTRY","checked");
+if($ilias->account->prefs["public_country"]=="y")
+{
+	$tpl->setVariable("CHK_COUNTRY","checked");
 }
-if($ilias->account->prefs["public_phone"]=="y") {
-$tpl->setVariable("CHK_PHONE","checked");
+if($ilias->account->prefs["public_phone"]=="y")
+{
+	$tpl->setVariable("CHK_PHONE","checked");
 }
-if($ilias->account->prefs["public_email"]=="y") {
-$tpl->setVariable("CHK_EMAIL","checked");
+if($ilias->account->prefs["public_email"]=="y")
+{
+	$tpl->setVariable("CHK_EMAIL","checked");
 }
 // End of shwing
 // Testing by ratana ty
-//
 
 $tpl->parseCurrentBlock();
 $tpl->show();
