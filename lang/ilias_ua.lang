@@ -902,6 +902,7 @@ common#:#rolt_added#:#Шаблон ролі доданий
 common#:#rolt_edit#:#Редагувати Шаблон Ролі
 common#:#rolt_new#:#Новий Шаблон Ролі
 common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
+common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
 common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
 common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
@@ -1107,6 +1108,10 @@ content#:#cont_choose_glossary#:#Виберіть Глосарій
 content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
 content#:#cont_citations#:#Цитати
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable

@@ -903,6 +903,7 @@ common#:#rolt_added#:#Rol-sjabloon toegevoegd
 common#:#rolt_edit#:#Wijzigen rol-sjabloon
 common#:#rolt_new#:#Nieuwe rol-sjabloon
 common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
+common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
 common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
 common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
@@ -1108,6 +1109,10 @@ content#:#cont_choose_glossary#:#Kies de woordenlijst
 content#:#cont_citation_err_one#:#U moet exact één editie kiezen
 content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
 content#:#cont_citations#:#Citaten
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable

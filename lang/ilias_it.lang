@@ -903,10 +903,11 @@ common#:#rolt_added#:#Template di ruolo aggiunto
 common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
 common#:#root_create_cat#:#Creare nuove categorie
+common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
 common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sistema
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
-common#:#root_write#:#Modificare il nodo radice di ILIAS3
+common#:#root_write#:#Modificare il nodo radice di ILIAS3###29 Jan 2004 content changed
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
@@ -1108,6 +1109,10 @@ content#:#cont_choose_glossary#:#Scegli il glossario
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
+content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
 content#:#cont_coords#:#Coordinate
