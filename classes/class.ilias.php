@@ -220,5 +220,40 @@ class ILIAS extends PEAR
 		$r = $this->db->query($sql);
 		return true;
 	}
+	
+	/**
+	* skin system: get all available skins from template directory
+	* @access public
+	* @return array
+	* @version 0.1
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function getSkins()
+	{
+		$skins = array();
+		
+		//open directory for reading and search for subdirectories
+		if ($dp = @opendir($this->ini->readVariable("server", "tpl_path")))
+		{
+			while (($file = readdir($dp)) != false)
+			{
+				echo is_dir($file)."----".$file."<br>";
+				if (is_dir($file) && $file != "." && $file != ".." && $file != "CVS")
+				{
+					$skins[] = array(
+						"name" => $file
+					);
+				}
+			} // while
+		}
+		else
+		{
+			return false;
+		}
+		vd($skins);
+		$this->skins = $skins;
+		return true;
+	}
+	
 } // END class.ILIAS
 ?>

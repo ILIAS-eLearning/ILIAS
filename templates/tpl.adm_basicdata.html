@@ -50,6 +50,16 @@
       <td>{TXT_INST_INFO}</td>
       <td><input type="text" SIZE=40 maxlength=128 name="inst_info" value="{INST_INFO}"></td>
     </tr>
+
+    <tr class="tblrow1">
+      <td>{TXT_TPL_PATH}</td>
+      <td><input type="text" SIZE=40 maxlength=128 name="tpl_path" value="{TPL_PATH}"></td>
+    </tr>
+    <tr class="tblrow2">
+      <td>{TXT_LANG_PATH}</td>
+      <td><input type="text" SIZE=40 maxlength=128 name="lang_path" value="{LANG_PATH}"></td>
+    </tr>
+
     <tr class="tblrow1">
       <td>{TXT_CONVERT_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="convert_path" value="{CONVERT_PATH}"></td>
@@ -111,11 +121,11 @@
     <tr class="tblrow1">
         <td>{TXT_USR_SKIN}</td>
         <td>
-                <select name="usr_skin">
-                        <option {SELECTED_DEFAULT} value="m">{TXT_DEFAULT}</option>
-                        <option {SELECTED_PDA} value="f">{TXT_PDA}</option>
-                        <option {SELECTED_PORTAL} value="m">{TXT_PORTAL}</option>
-                </select>
+          <select name="usr_skin">
+<!-- BEGIN selectskin -->
+             <option value="{SKINVALUE}" {SKINSELECTED}>{SKIN_OPTION}</option>
+<!-- END selectskin -->
+          </select>
         </td>
     </tr>
     </table>

@@ -287,5 +287,5 @@ position#:#position
 inst_name#:#installation name
 usr_skin#:#user skin
 default#:#default
-pda#:#pda
-portal#:#portal
+tpl_path#:#template path
+lang_path#:#language path
