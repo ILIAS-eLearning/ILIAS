@@ -1156,6 +1156,7 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_areas_deleted#:#Map areas deleted.
 content#:#cont_assign_full#:#Assign Fullscreen
 content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
@@ -1166,7 +1167,6 @@ content#:#cont_bottom#:#Bottom
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
-content#:#cont_areas_deleted#:#Map areas deleted.
 content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
@@ -1180,10 +1180,10 @@ content#:#cont_citations#:#Citations
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
+content#:#cont_click_next_point#:#Please click on the next point of the polygon.
+content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
+content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Coordinates
@@ -1258,12 +1258,12 @@ content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_name#:#Name
+content#:#cont_new_area#:#New Link Area
 content#:#cont_new_assignment#:#New assignment
 content#:#cont_new_dir#:#New Directory
 content#:#cont_new_file#:#New File
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
-content#:#cont_new_area#:#New Link Area
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
@@ -1295,8 +1295,8 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
-content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_saved_map_area#:#Saved map area
+content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype

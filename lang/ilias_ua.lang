@@ -55,6 +55,12 @@ assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
+assessment#:#preview#:#Preview###07 Feb 2004 new variable
+assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
+assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
 assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
@@ -1148,6 +1154,7 @@ content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
 content#:#cont_all_pages#:#Усі Сторінки
 content#:#cont_alphabetic#:#Алфавітн a, b, ...
+content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
 content#:#cont_assign_full#:#Призначити Повний Екран
 content#:#cont_assign_std#:#Призначити Стандарт
 content#:#cont_assign_translation#:#Призначити переклад
@@ -1171,6 +1178,9 @@ content#:#cont_citations#:#Цитати
 content#:#cont_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
 content#:#cont_click_center#:#Будь ласка клікніть на центр бажаної області.
 content#:#cont_click_circle#:#Будь ласка клікніть на точку на колі вибраної області.
+content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
+content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
+content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
 content#:#cont_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
@@ -1246,6 +1256,7 @@ content#:#cont_mob_usages#:#Використання
 content#:#cont_month#:#Місяць
 content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
 content#:#cont_name#:#Ім'я
+content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
 content#:#cont_new_assignment#:#Нове призначення
 content#:#cont_new_dir#:#Нова Директорія
 content#:#cont_new_file#:#Новий Файл
@@ -1282,6 +1293,7 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
+content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
 content#:#cont_saved_map_data#:#Зберегти дані карти
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа

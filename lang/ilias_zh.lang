@@ -72,6 +72,12 @@ assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
+assessment#:#preview#:#Preview###07 Feb 2004 new variable
+assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
+assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
 assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
@@ -1167,6 +1173,7 @@ content#:#cont_added_term#:#术语已增加
 content#:#cont_all_definitions#:#全部定义
 content#:#cont_all_pages#:#全部页
 content#:#cont_alphabetic#:#按照字母次序 a, b, ...
+content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
 content#:#cont_assign_full#:#指定全屏幕
 content#:#cont_assign_std#:#指定标准
 content#:#cont_assign_translation#:#指定翻译
@@ -1190,6 +1197,9 @@ content#:#cont_citations#:#引用
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
+content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
+content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
@@ -1265,6 +1275,7 @@ content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
 content#:#cont_month#:#月
 content#:#cont_msg_multiple_editions#:#不能显示多个版本的详细情况
 content#:#cont_name#:#Name###14 Jan 2004 new variable
+content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
 content#:#cont_new_assignment#:#新作业
 content#:#cont_new_dir#:#新目录
 content#:#cont_new_file#:#新文件
@@ -1301,6 +1312,7 @@ content#:#cont_resource#:#资源
 content#:#cont_resource_type#:#类型
 content#:#cont_resources#:#资源
 content#:#cont_roman#:#罗马数字 i, ii, …
+content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
 content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校

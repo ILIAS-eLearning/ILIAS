@@ -55,6 +55,12 @@ assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
+assessment#:#preview#:#Preview###07 Feb 2004 new variable
+assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
+assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
+assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
 assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
@@ -1150,6 +1156,7 @@ content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
 content#:#cont_alphabetic#:#Alfabetico a, b, ...
+content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
 content#:#cont_assign_full#:#Imposta a schermo pieno
 content#:#cont_assign_std#:#Imposta a schermo standard
 content#:#cont_assign_translation#:#Assegna la traduzione
@@ -1173,6 +1180,9 @@ content#:#cont_citations#:#Citazioni
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
+content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
+content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
@@ -1248,6 +1258,7 @@ content#:#cont_mob_usages#:#Utilizzo
 content#:#cont_month#:#Mese
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple
 content#:#cont_name#:#Nome
+content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione
 content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
@@ -1284,6 +1295,7 @@ content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
+content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
 content#:#cont_saved_map_data#:#Dati salvati
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
