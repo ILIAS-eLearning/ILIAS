@@ -59,6 +59,10 @@ class ilLOListGUI
 		{
 			$cmd = "view";
 		}
+		if($cmd == "post")
+		{
+			$cmd = key($_POST["cmd"]);
+		}
 
 		$this->$cmd();
 	}
@@ -187,6 +191,7 @@ class ilLOListGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		/*
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=lm&from=lo_list.php");
 		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
@@ -197,7 +202,7 @@ class ilLOListGUI
 		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=crs&from=lo_list.php");
 		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("crs_new"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 		// display different content depending on viewmode
 		switch ($_SESSION["viewmode"])
@@ -237,6 +242,7 @@ class ilLOListGUI
 		// load template for table
 		$this->tpl->addBlockfile("LO_TABLE", "lo_table", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "lo_list.php?cmd=post&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("ACTIONTARGET", "bottom");
 
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lo_tbl_rows.html");
@@ -309,11 +315,7 @@ class ilLOListGUI
 			$this->tpl->parseCurrentBlock("no_content");
 		}
 
-		// add object only in tree mode, we need a ref_id!
-		if ($_SESSION["viewmode"] == "tree")
-		{
-			$this->showPossibleSubObjects();
-		}
+		$this->showPossibleSubObjects();
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -342,6 +344,12 @@ class ilLOListGUI
 		$tbl->render();
 
 		$this->tpl->show();
+	}
+
+	function create()
+	{
+		header("Location: obj_location_new.php?new_type=".$_POST["new_type"]."&from=lo_list.php");
+		exit;
 	}
 
 	function addToDesk()
@@ -409,7 +417,7 @@ class ilLOListGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if($row["name"] == "le" || $row["name"] == "crs")
+					if($row["name"] == "lm" || $row["name"] == "crs")
 					{
 						$subobj[] = $row["name"];
 					}
