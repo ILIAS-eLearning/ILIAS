@@ -1225,9 +1225,6 @@ common#:#lm_new#:#Neues Lernmodul
 common#:#lm_read#:#Lernmodul lesen
 common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
-common#:#lm_type_aicc#:#AICC (API)
-common#:#lm_type_hacp#:#AICC (HACP)
-common#:#lm_type_scorm#:#SCORM
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
@@ -1766,7 +1763,6 @@ common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
-common#:#sahslm#:#SCORM/AICC/HACP Lernmodul
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_create#:#Neues SCORM Lernmodul anlegen
 common#:#slm_delete#:#SCORM Lernmodul löschen
