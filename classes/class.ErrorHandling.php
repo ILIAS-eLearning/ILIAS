@@ -1,14 +1,13 @@
 <?php
 /**
-* Error Handling
+* Error Handling & global info handling
 * uses PEAR error class
 *
-* @version $Id$
-* @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
-*
-* @package application
-* @todo when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
+* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Sascha Hofmann <shofmann@databay.de>
+* @version	$Id$
+* @package	application
+* @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
 class ErrorHandling
 {
@@ -80,10 +79,13 @@ class ErrorHandling
 			{
 				$message = "Under Construction";
 			}
+
 			$_SESSION["message"] = $message;
+
 			header("location: error.php");
 			exit;
 		}
+
 		if ($a_error_obj->getCode() == $this->MESSAGE)
 		{	
 			// check if already GET-Parameters exists in Referer-URI
@@ -95,30 +97,32 @@ class ErrorHandling
 			{
 				$glue = "&";
 			}
+
 			$_SESSION["message"] = $a_error_obj->getMessage();
+
 			header("location: ".$_SESSION["referer"].$glue);
 			exit;
 		}
 	}
+
 	/**
-	* sends a message to the actual page
+	* sends a message to the recent page
 	* @access	public
-    * @param string message
+    * @param	string	message
 	*/
 	function sendInfo($a_info)
 	{
 		global $tpl;
 
-		if(!$_SESSION["info"])
+		if (!$_SESSION["info"])
 		{
 			$_SESSION["info"] = $a_info;
 			$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("INFO",$_SESSION["info"]);
+			$tpl->setVariable("MSG",$_SESSION["info"]);
 			session_unregister("info");
 			$tpl->parseCurrentBlock();
 		}
 	}
-		
 } // END class.ErrorHandling
 ?>
