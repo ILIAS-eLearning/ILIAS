@@ -47,7 +47,7 @@ class ilLMParser extends ilSaxParser
 	var $meta_data;			// current meta data object
 	var $paragraph;
 	var $lm_id;
-	var $structure_tree;
+	var $lm_tree;
 
 	/**
 	* Constructor
@@ -62,15 +62,24 @@ class ilLMParser extends ilSaxParser
 		$this->lm_id = $a_lm_id;
 
 		// Todo: The following has to go to other places
-		$query = "DELETE FROM lm_structure_object WHERE lm_id ='".$a_lm_id."'";
+		$query = "DELETE FROM lm_tree WHERE lm_id ='".$a_lm_id."'";
+		$this->ilias->db->query($query);
+		$query = "DELETE FROM lm_data WHERE lm_id ='".$a_lm_id."'";
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM lm_page_object WHERE lm_id ='".$a_lm_id."'";
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM meta_data";
 		$this->ilias->db->query($query);
 
-		$this->structure_tree = new ilTree($a_lm_id);
-		$this->tree->setTableNames('lm_structure_object','lm_page_object');
+echo "1";
+		$this->lm_tree = new ilTree($a_lm_id);
+echo "2";
+		$this->lm_tree->setTreeTablePK("lm_id");
+echo "3";
+		$this->lm_tree->setTableNames('lm_tree','lm_data');
+echo "4";
+		$this->lm_tree->addTree($a_lm_id);
+echo "5"; //exit;
 
 	}
 
@@ -134,7 +143,7 @@ class ilLMParser extends ilSaxParser
 		}
 
 	}
-
+	
 	/**
 	* generate a tag with given name and attributes
 	*
@@ -174,10 +183,11 @@ class ilLMParser extends ilSaxParser
 				$this->current_object =& $this->learning_module;
 				break;
 
-			case "StructurObject":
+			case "StructureObject":
 				$this->structure_objects[count($this->structure_objects)]
 					=& new ilStructureObject();
 				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
+				$this->current_object->setLMId($this->lm_id);
 				break;
 
 			case "PageObject":
@@ -233,6 +243,8 @@ class ilLMParser extends ilSaxParser
 							echo nl2br($co_object->getText())."<br><br>";
 						}
 					}
+					//$this->page_object->create();
+echo "create page object:".$this->page_object->getId()."<br>";
 					$this->page_object->create();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
@@ -242,6 +254,26 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "MetaData":
+				// save structure object at the end of its meta block
+				if(get_class($this->current_object) == "ilstructureobject")
+				{
+					// determine parent
+					$cnt = count($this->structure_objects);
+					if ($cnt > 1)
+					{
+						$parent_id = $this->structure_objects[$cnt - 2]->getId();
+					}
+					else
+					{
+						$parent_id = $this->lm_tree->getRootId();
+					}
+					
+					// create structure object and put it in tree
+echo "create structure object:".$this->current_object->getId().":".
+	$this->current_object->getType()."<br>";
+					$this->current_object->create();
+					$this->lm_tree->insertNode($this->current_object->getId(), $parent_id);
+				}
 				break;
 
 			case "Paragraph":

@@ -22,7 +22,6 @@
 */
 
 require_once("content/classes/class.ilMetaData.php");
-require_once("content/classes/class.ilLMObject.php");
 
 /**
 * Class ilStructreObject
@@ -34,26 +33,83 @@ require_once("content/classes/class.ilLMObject.php");
 *
 * @package application
 */
-class ilStructureObject extends ilLMObject
+class ilLMObject
 {
-	var $is_alias;
-	var $origin_id;
+	var $ilias;
+	var $title;
+	var $lm_id;
+	var $type;
+	var $id;
+	var $meta_data;
 
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilStructureObject()
+	function ilLMObject($a_id = 0)
 	{
-		parent::ilLMObject();
-		$this->setType("st");
+		global $ilias;
+	
+		$this->ilias =& $ilias;
 	}
 	
-	function create()
+	function setTitle($a_title)
 	{
-		parent::create();
+		$this->title = $a_title;
+	}
+
+	function getTitle()
+	{
+		return $this->title;
+	}
+
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	function getType()
+	{
+		return $this->type;
+	}
+
+	function setLMId($a_lm_id)
+	{
+		$this->lm_id = $a_lm_id;
 		
 	}
 
+	function getLMId()
+	{
+		return $this->lm_id;
+	}
+	
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+	
+	function getId()
+	{
+		return $this->id;
+	}
+
+	function create()
+	{
+		// insert object data
+		$query = "INSERT INTO lm_data (title, type, lm_id) ".
+			"VALUES ('".$this->getTitle()."','".$this->getType()."', ".$this->getLMId().")";
+		$this->ilias->db->query($query);
+		$this->setId(getLastInsertId());
+		
+		// create meta data
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType("pg");
+		$this->meta_data->create();
+
+	}
+	
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	
 }
 ?>
