@@ -47,31 +47,31 @@ if(isset($_POST["cmd"]))
 		case "delete":
 			if(isset($_POST["confirm"]))
 			{
-				if(!is_array($_POST["filename"]))
+				if(!$_POST["filename"])
 				{
-					sendInfo("Sie müssen mindestens eine Datei auswählen.");
+					sendInfo($lng->txt("mail_select_one_mail"));
 				}
 
 				else if($error = $mfile->unlinkFiles($_POST["filename"]))
 				{
-					sendInfo("Fehler beim Löschen der Datei $error.");
+					sendInfo($lng->txt("mail_error_delete_file")." ".$error);
 				}
 				else
 				{
-					sendInfo("Die Datei(en) wurde(n) gelöscht.");
+					sendInfo($lng->txt("mail_files_deleted"));
 				}
 				break;
 			}
 			else if(!isset($_POST["cancel"]))
 			{
-				if(!is_array($_POST["filename"]))
+				if(!$_POST["filename"])
 				{
-					sendInfo("Sie müssen mindestens eine Datei auswählen.");
+					sendInfo($lng->txt("mail_select_one_file"));
 					$error_delete = true;
 				}
 				else
 				{
-					sendInfo("Sollen die markierten Dateien wirklich gelöscht werden?");
+					sendInfo($lng->txt("mail_sure_delete_file"));
 				}
 			}
 			else if(isset($_POST["cancel"]))
@@ -147,7 +147,7 @@ if($files = $mfile->getUserFilesData())
 else
 {
 	$tpl->setCurrentBlock("no_content");
-	$tpl->setVariable("TXT_ATTACHMENT_NO",$lng->txt("No Attachments found"));
+	$tpl->setVariable("TXT_ATTACHMENT_NO",$lng->txt("mail_no_attachments_found"));
 	$tpl->parseCurrentBlock();
 }
 $tpl->show();

@@ -585,3 +585,7 @@ common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
 common#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
+common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
+common#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
+common#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
+common#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
