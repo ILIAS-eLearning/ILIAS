@@ -1226,20 +1226,9 @@ function makeDirParents($a_dir) {
         $a_dir = dirname($a_dir);
     }
 
-		$umask = -1;
 		umask(0000);
     foreach ($dirs as $dir) {
         if (! file_exists($dir)) {
-					if ($umask < 0) 
-					{
-						// check if dir comes with a path
-						if (!($path = substr($dir, 0, strrpos($dir, "/") - strlen($dir))))
-						{
-							$path = ".";
-						}
-						// retrieve the umask of the parent directory
-						$umask = fileperms($path);
-					}
 					if (! mkdir($dir, $umask)) 
 					{
 							error_log("Can't make directory: $dir");
@@ -1251,6 +1240,11 @@ function makeDirParents($a_dir) {
             error_log("$dir is not a directory");
             return false;
         }
+				else 
+				{
+					// get umask of the last existing parent directory
+					$umask = fileperms($dir);
+				}
     }
     return true;
 }
