@@ -524,7 +524,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $lng->txt("repository"));
 		$tpl->setVariable("LINK_TARGET", "repository.php");
-		$tpl->setVariable("TARGET", " target=\"content\"");
+		$tpl->setVariable("TARGET", " target=\"rep_content\"");
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("row");
