@@ -92,10 +92,18 @@ class sql2xml
 		global $sum; //only for debugging
 
 		$this->lo_struct = $this->getStructure($this->lo_id);
+		
+		// build path information for DTD location
+		if (strstr(php_uname(), "Windows"))
+		{
+			$path = "file://";
+		}
 
+		$path .= getcwd();
+		
 		// create the xml string (workaround for domxml_new_doc) ***
 		$xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>". // *** ISO-8859-1
-					 "<!DOCTYPE LearningObject SYSTEM \"file://c:/htdocs/ilias3/xml/ilias_lo.dtd\">".
+					 "<!DOCTYPE LearningObject SYSTEM \"".$path."/xml/ilias_lo.dtd\">".
 					 "<root />"; // dummy node
 		
 		// create a domxml document object
