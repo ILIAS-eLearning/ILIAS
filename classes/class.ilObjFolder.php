@@ -33,7 +33,7 @@
 */
 
 require_once "class.ilObject.php";
-require_once "class.ilGroupTree.php";
+//require_once "class.ilGroupTree.php";
 
 class ilObjFolder extends ilObject
 {
@@ -48,7 +48,7 @@ class ilObjFolder extends ilObject
 	function ilObjFolder($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "fold";
-		$this->ilObject($a_id,false);
+		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
 	function setFolderTree($a_tree)
@@ -62,26 +62,22 @@ class ilObjFolder extends ilObject
 	*/
 	function putInTree($a_parent)
 	{
-		if (is_object($this->folder_tree))
+		global $tree;
+		
+		if (!is_object($this->folder_tree))
 		{
-			if($this->withReferences())
-			{
-				// put reference id into tree
-				$this->folder_tree->insertNode($this->getRefId(), $a_parent);
-			}
-			else
-			{
-				// put object id into tree
-				$this->folder_tree->insertNode($this->getId(), $a_parent);
-			}
+			$this->folder_tree =& $tree; 
+		}
+//vd($this->withReferences());exit;
+		if ($this->withReferences())
+		{
+			// put reference id into tree
+			$this->folder_tree->insertNode($this->getRefId(), $a_parent);
 		}
 		else
 		{
-			// that's not reusable!
-			// use setTree, to allow folder in other contexts (e.g. media pools), too
-			$grp_id = ilUtil::getGroupId($a_parent);
-			$gtree = new ilGroupTree($grp_id);
-			$gtree->insertNode($this->getRefId(), $a_parent);
+			// put object id into tree
+			$this->folder_tree->insertNode($this->getId(), $a_parent);
 		}
 	}
 
@@ -98,6 +94,27 @@ class ilObjFolder extends ilObject
 	
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
+	}
+	
+	/**
+	* statical function to get the group id where the folder is
+	* 
+	*/
+	function __getGroupId($a_folder_ref_id)
+	{
+		global $ilias, $tree;
+		
+		$path = $tree->getPathFull($a_folder_ref_id);
+		
+		foreach ($path as $node)
+		{
+			if ($node["type"] == "grp")
+			{
+				return $node["child"];
+			}
+		}
+		
+		return false;
 	}
 } // END class.ilObjFolder
 ?>

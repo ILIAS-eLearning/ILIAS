@@ -34,7 +34,17 @@
 * @package ilias-core
 */
 
+require_once "./include/inc.header.php";
+require_once "./classes/class.ilObjGroupGUIAdapter.php";
+
+$grp_adapter =& new ilObjGroupGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
+
+$tpl->show();
+
+
+
 //var_dump($_POST)."#".var_dump($_GET);
+/*
 require_once "include/inc.header.php";
 require_once "./classes/class.ilGroupGUI.php";
 
@@ -143,5 +153,6 @@ else
 
 	exit();
 }
+*/
 ?>
 

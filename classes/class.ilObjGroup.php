@@ -33,7 +33,6 @@
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
 require_once "class.ilObject.php";
-require_once "class.ilGroupTree.php";
 
 class ilObjGroup extends ilObject
 {
@@ -63,6 +62,7 @@ class ilObjGroup extends ilObject
 
 		$this->type = "grp";
 		$this->ilObject($a_id,$a_call_by_reference);
+		$this->setRegisterMode(true);
 	}
 
 	/**
@@ -140,11 +140,12 @@ class ilObjGroup extends ilObject
 		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->getId();
 		$res = $this->ilias->db->query($q);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($appList,$row);
 		}
-		return $appList;
+
+		return ($appList) ? $appList : false;
 	}
 
 	/**
@@ -904,9 +905,6 @@ class ilObjGroup extends ilObject
 			unset($obj);
 		}
 
-		$query = "DELETE FROM grp_tree WHERE tree=".$this->getRefId();
-		$this->ilias->db->query($query);
-		
 		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getId();
 		$this->ilias->db->query($query);
 
@@ -1329,6 +1327,7 @@ class ilObjGroup extends ilObject
 	*/
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
+		return;
 		// object specific event handling
 		global $tree;
 		//var_dump("<pre>",$a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params,"</pre>");exit;
@@ -1588,6 +1587,23 @@ class ilObjGroup extends ilObject
 	function _getLinkToObject($a_id)
 	{
 		return array("group.php?cmd=view&ref_id=".$a_id,"");
+	}
+	
+	function isUserRegistered($a_user_id = 0)
+	{
+		global $rbacsystem;
+
+		if (!$this->isMember() && $rbacsystem->checkAccess("join", $this->ref_id))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function callRegisterGUI($a_return_script)
+	{
+		ilUtil::redirect("group_subscribe.php?ref_id=".$this->getRefId()."&return_to=".$a_return_script);
 	}
 } //END class.ilObjGroup
 ?>

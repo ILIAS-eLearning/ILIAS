@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.16 2004/03/23 00:24:29 akill Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.17 2004/03/23 09:54:45 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -43,16 +43,15 @@ class ilObjFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
+	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng;
-
 		$this->type = "fold";
 		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng =& $lng;
 
-		$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		/*$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
@@ -62,6 +61,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		* */
 	}
 
 	/**
@@ -79,14 +79,16 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
 		// creates a child object
 		global $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("create_fold", $_GET["ref_id"]))
+		/*if (!$rbacsystem->checkAccess("create_fold", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 			exit();
-		}
+		}*/
 
 		// fill in saved values in case of error
 		$data = array();
@@ -94,7 +96,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-		$this->getTemplateFile("edit");
+		$this->getTemplateFile("edit",$new_type);
 
 		foreach ($data["fields"] as $key => $val)
 		{
@@ -103,7 +105,8 @@ class ilObjFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$this->type."&parent_non_rbac_id=".$_GET["obj_id"]));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$this->type."&parent_non_rbac_id=".$_GET["obj_id"]));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 		//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -111,7 +114,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->show();
+		//$this->tpl->show();
 	}
 
 	/**
@@ -134,24 +137,28 @@ class ilObjFolderGUI extends ilObjectGUI
 		$folderObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$folderObj->create();
 		$this->object =& $folderObj;
-		if($this->withReferences())		// check if this folders use references
-		{								// note: e.g. folders in media pools don't
-			$folderObj->createReference();
-		}
 
-		if(is_object($this->folder_tree))		// groups gui should call ObjFolderGUI->setFolderTree also
+		if (is_object($this->folder_tree))		// groups gui should call ObjFolderGUI->setFolderTree also
 		{
 			$folderObj->setFolderTree($this->folder_tree);
 		}
+		else
+		{
+			$folderObj->setFolderTree($this->tree);
+		}
 
-		//insert folder in grp_tree
-		$folderObj->putInTree($a_parent);
+		if ($this->withReferences())		// check if this folders use references
+		{								// note: e.g. folders in media pools don't
+			$folderObj->createReference();
+			$folderObj->putInTree($a_parent);
+		}
 
 		// no notify for folders
 		//$folderObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$folderObj->getRefId());
 
 		sendInfo($this->lng->txt("fold_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]));
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		//ilUtil::redirect($this->getReturnLocation("save", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]));
 	}
 } // END class.ilObjFolderGUI
 ?>

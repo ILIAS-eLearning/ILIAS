@@ -38,6 +38,8 @@ require_once "include/inc.header.php";
 // for security
 unset($id);
 
+$ilCtrl->setTargetScript("adm_object.php");
+
 //determine call mode for object classes
 //TODO: don't use same var $id for both
 if (isset($_GET["obj_id"]))

@@ -101,11 +101,32 @@ class ilObjectGUI
 	*/
 	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilias, $objDefinition, $tpl, $tree;
+		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr;
+
+		if (!isset($ilErr))
+		{
+			$ilErr = new ilErrorHandling();
+			$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+		}
+		else
+		{
+			$this->ilErr =& $ilErr;
+		}
 
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
+
+		$this->ctrl =& $ilCtrl;
+		$params = array("ref_id");
+		
+		if (!$a_call_by_reference)
+		{
+			$params = array("ref_id","obj_id");
+		}
+		
+		$this->ctrl->saveParameter($this, $params);
+
 		//$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->formaction = array();
@@ -210,6 +231,18 @@ class ilObjectGUI
 	*/
 	function setAdminTabs($a_new_type = 0)
 	{
+		if ($this->object->getType() == "grp")
+		{
+			include_once "./classes/class.ilTabsGUI.php";
+			$tabs_gui =& new ilTabsGUI();
+			$this->getTabs($tabs_gui);
+
+			// output tabs
+			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		}
+		else
+		{
+
 		global $rbacsystem;
 
 		$tabs = array();
@@ -320,6 +353,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
+		}
 		}
 	}
 
@@ -661,12 +695,12 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+			//$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 
 			// inform other objects in hierarchy about cut operation
 			// the parent object where cut occured
 			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
-			$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$_SESSION["clipboard"]["ref_ids"]);
+			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$_SESSION["clipboard"]["ref_ids"]);
 			unset($tmp_object);
 		} // END CUT
 
@@ -1321,6 +1355,7 @@ class ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
+
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
@@ -1701,7 +1736,7 @@ class ilObjectGUI
 
 			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
+			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->parseCurrentBlock();
@@ -2625,7 +2660,7 @@ class ilObjectGUI
 	{
 		if (!$a_type)
 		{
-			$a_type = $_GET["type"];
+			$a_type = $this->type;
 		}
 
 		$template = "tpl.".$a_type."_".$a_cmd.".html";
@@ -2634,6 +2669,7 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template,$a_in_module);
 
 	}
@@ -2657,6 +2693,18 @@ class ilObjectGUI
 		}
 
 		return $title ? $title : array();
+	}
+	
+	/**
+	* get tabs
+	* abstract method. 
+	* @abstract	overwrite in derived GUI class of your object type
+	* @access	public
+	* @param	object	instance of ilTabsGUI
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// please define your tabs here
 	}
 } // END class.ilObjectGUI
 ?>

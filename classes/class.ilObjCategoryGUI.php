@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.14 2004/03/05 17:16:07 akill Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.15 2004/03/05 22:55:51 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -612,6 +612,5 @@ class ilObjCategoryGUI extends ilObjectGUI
 		sendInfo($lng->txt("categories_imported"), true);
 		ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
 	}
-
 } // END class.ilObjCategoryGUI
 ?>

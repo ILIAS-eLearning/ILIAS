@@ -35,10 +35,8 @@ require_once "include/inc.header.php";
 require_once "classes/class.ilRepositoryGUI.php";
 
 $repository_gui =& new ilRepositoryGUI();
-$ilCtrl->setTargetScript("repository.php");
 
-$ilCtrl->getCallStructure("ilRepositoryGUI");
-
+//$repository_gui->prepareOutput();
 $repository_gui->executeCommand();
 
 $ilBench->save();

@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.4 2004/03/05 22:55:51 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -41,10 +41,10 @@ class ilObjRootFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRootFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjRootFolderGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "root";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 	/**

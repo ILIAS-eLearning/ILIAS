@@ -64,6 +64,7 @@ class ilGroup
 	
 	/**
 	* checks if group name already exists. Groupnames must be unique for mailing purposes
+	* static function; move to better place (ilObjGroup or ilUtil)
 	* @access	public
 	* @param	string	groupname
 	* @param	integer	obj_id of group to exclude from the check. 
@@ -71,10 +72,12 @@ class ilGroup
 	*/
 	function groupNameExists($a_group_name,$a_id = 0)
 	{
+		global $ilDB,$ilErr;
+		
 		if (empty($a_group_name))
 		{
 			$message = get_class($this)."::groupNameExists(): No groupname given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
@@ -83,7 +86,7 @@ class ilGroup
 			 "WHERE title = '".addslashes($a_group_name)."' ".
 			 "AND type = 'grp'".
 			 $clause;
-		$r = $this->ilias->db->query($q);
+		$r = $ilDB->query($q);
 
 		if ($r->numRows() == 1)
 		{
@@ -95,20 +98,24 @@ class ilGroup
 		}
 	}
 	/*
-	* get the user_ids which correspond a search string 
+	* get the user_ids which correspond a search string
+	* static function; move to better place (ilObjGroup or ilUtil) 
 	* @param	string search string
 	* @access	public
 	*/
 	function searchGroups($a_search_str)
 	{
-		$query = "SELECT * ".
+		global $ilDB;
+
+		$q = "SELECT * ".
 			"FROM object_data ,object_reference ".
 			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
 			"OR object_data.description LIKE '%".$a_search_str."%') ".
 			"AND object_data.type = 'grp' ".
 			"AND object_data.obj_id = object_reference.obj_id";
 
-		$res = $this->ilias->db->query($query);
+		$res = $ilDB->query($q);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// STORE DATA IN ARRAY WITH KEY obj_id

@@ -281,31 +281,15 @@ class ilObjectDefinition extends ilSaxParser
 			// Filter some objects e.g chat object are creatable if chat is active
 			$this->__filterObjects($subobjects);
 
-			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
-			if ((preg_match("/adm_object.php/",$_SERVER["REQUEST_URI"]) and $a_obj_type == "grp"))
+			foreach ($subobjects as $data => $sub)
 			{
-				foreach ($subobjects as $data => $sub)
+				if ($sub["module"] != "n")
 				{
-					if ($sub["module"] != 1)
-					{
-						$subs[$data] = $sub;
-					}
+					$subs[$data] = $sub;
 				}
-
-				return $subs;
 			}
-			else
-			{
-				foreach ($subobjects as $data => $sub)
-				{
-					if ($sub["module"] != "n")
-					{
-						$subs[$data] = $sub;
-					}
-				}
 
-				return $subs;
-			}
+			return $subs;
 		}
 
 		return $subs;

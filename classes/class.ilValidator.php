@@ -359,7 +359,7 @@ class ilValidator extends PEAR
 
 		if (count($this->invalid_references) > 0)
 		{
-			$this->writeScanLogLine("obj_id\t\tref_id");
+			$this->writeScanLogLine("ref_id\t\tobj_id");
 			$this->writeScanLogArray($this->invalid_references);
 			return true;
 		}

@@ -1382,12 +1382,15 @@ class ilUtil
 
 	/**
 	* get the tree_id of a group where an object with the passed ref_id belongs to.
+	* DEPRECATED
 	* @param	string	ref_id of an object that is in a group
 	* @access	public
 	* @return	integer	the ref_id of the group or boolean false if no group was found
 	*/
 	function getGroupId($a_parent_ref)
 	{
+		return false;
+		
 		global $ilias;
 
 		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
