@@ -578,7 +578,7 @@ class ilGroupGUI extends ilObjectGUI
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 
-					if ($access and $cont_data["type"] != "fold")
+					if ($access and $cont_data["type"] != "fold" and $cont_data["type"] != "file")
 					{
 						$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 					}
