@@ -2865,6 +2865,60 @@ class ilObjTestGUI extends ilObjectGUI
 	}	
 
 	/**
+	* Creates the status output for a test
+	*
+	* Creates the status output for a test
+	*
+	* @access	public
+	*/
+	function statusObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", true);
+		if (!$this->object->isComplete())
+		{
+			if (count($this->object->questions) == 0)
+			{
+				$this->tpl->setCurrentBlock("list_element");
+				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_questions"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (count($this->object->mark_schema->mark_steps) == 0)
+			{
+				$this->tpl->setCurrentBlock("list_element");
+				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_marks"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($this->object->author, "") == 0)
+			{
+				$this->tpl->setCurrentBlock("list_element");
+				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_author"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($this->object->title, "") == 0)
+			{
+				$this->tpl->setCurrentBlock("list_element");
+				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_author"));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("status_list");
+			$this->tpl->setVariable("TEXT_MISSING_ELEMENTS", $this->lng->txt("tst_status_missing_elements"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		if ($this->object->isComplete())
+		{
+			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("tst_status_ok"));
+			$this->tpl->setVariable("STATUS_CLASS", "bold");
+		}
+		else
+		{
+			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("tst_status_missing"));
+			$this->tpl->setVariable("STATUS_CLASS", "warning");
+		}
+		$this->tpl->parseCurrentBlock();
+	}	
+
+	/**
 	* set Locator
 	*
 	* @param	object	tree object

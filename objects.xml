@@ -359,6 +359,7 @@
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
 	<property name="maintenance" module="1">maintenance</property>
+	<property name="status" module="1">status</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

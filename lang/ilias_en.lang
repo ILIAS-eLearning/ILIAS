@@ -290,6 +290,10 @@ assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_maximum_points#:#Maximum points
+assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.
+assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.
+assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.
+assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
@@ -352,6 +356,9 @@ assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_not_entered#:#Not started
 assessment#:#tst_status_progress#:#In progress
+assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.
+assessment#:#tst_status_missing#:#There are required elements missing in this test!
+assessment#:#tst_status_missing_elements#:#The following elements are missing:
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
