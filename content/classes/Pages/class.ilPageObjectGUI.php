@@ -231,7 +231,8 @@ class ilPageObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$wb_path = "../".ilUtil::getWebspaceDir();
+//		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'bib_id' => $this->getBibId());

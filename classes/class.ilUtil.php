@@ -839,8 +839,9 @@ class ilUtil
 	function getWebspaceDir()
 	{
 		global $ilias;
-
-		return $ilias->ini->readVariable("server","webspace_dir");
+		
+		return "./data";
+		//return $ilias->ini->readVariable("server","webspace_dir");
 	}
 
 	/**
@@ -1009,7 +1010,7 @@ class ilUtil
 	{
 		$a_dir = trim($a_dir);
 		
-		// remove trailing slash
+		// remove trailing slash (bugfix for php 4.2.x)
 		if (substr($a_dir,-1) == "/")
 		{
 			$a_dir = substr($a_dir,0,-1);
@@ -1031,7 +1032,7 @@ class ilUtil
 	* 
 	* @access	public
 	* @param	string	dir to delete
-	* @author	 <flexer@cutephp.com> (taken from the annotated php manual)
+	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
 	*/
 	function delDir($a_dir)
 	{
