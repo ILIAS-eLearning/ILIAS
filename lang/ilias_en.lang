@@ -2926,6 +2926,7 @@ survey#:#already_completed_survey#:#You have already completed the survey! You a
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic mean
+survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
@@ -2935,6 +2936,7 @@ survey#:#category_delete_select_none#:#Please check at least one category to del
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#concatenation#:#Concatenation
 survey#:#constraints#:#Constraints
+survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
@@ -2975,6 +2977,7 @@ survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define question block
 survey#:#disinvite#:#Disinvite
+survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
@@ -3010,11 +3013,14 @@ survey#:#fill_out_all_category_fields#:#Please fill out all category fields befo
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
 survey#:#finished#:#finished
+survey#:#found_questions#:#Found questions
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
 survey#:#harmonic_mean#:#Harmonic mean
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
+survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
+survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
 survey#:#introduction#:#Introduction
 survey#:#invitation#:#Invitation
 survey#:#invitation_mode#:#Invitation mode
@@ -3039,7 +3045,9 @@ survey#:#no_category_selected_for_move#:#Please check at least one category to m
 survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
+survey#:#no_questionblocks_available#:#There are no questionblocks available
 survey#:#no_questions_available#:#There are no questions available!
+survey#:#no_search_results#:#There are no search results!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
@@ -3078,6 +3086,8 @@ survey#:#question_saved_for_upload#:#The question was saved automatically in ord
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
 survey#:#questionblock_has_constraints#:#Constraints
+survey#:#questionblocks#:#Questionblocks
+survey#:#questions#:#Questions
 survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#questions_removed#:#Question(s) and/or question block(s) removed!
 survey#:#questiontype#:#Question type
@@ -3090,10 +3100,13 @@ survey#:#resume_survey#:#Resume the survey
 survey#:#save_phrase#:#Save as phrase
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!
 survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
+survey#:#search_field_all#:#Search in all fields
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Groups
 survey#:#search_invitation#:#Search for users or groups to invite
+survey#:#search_questions#:#Search questions
 survey#:#search_term#:#Search term
+survey#:#search_type_all#:#Search in all question types
 survey#:#search_users#:#Users
 survey#:#select_prior_question#:#Select a prior question
 survey#:#select_questionpool#:#Please select a question pool to store the created question
@@ -3129,16 +3142,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#display_all_available#:#Display all available
-survey#:#questions#:#Questions
-survey#:#questionblocks#:#Questionblocks
-survey#:#no_questionblocks_available#:#There are no questionblocks available
-survey#:#contains#:#Contains
-survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
-survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
-survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?
-survey#:#search_questions#:#Search questions
-survey#:#search_field_all#:#Search in all fields
-survey#:#search_type_all#:#Search in all question types
-survey#:#no_search_results#:#There are no search results!
-survey#:#found_questions#:#Found questions
