@@ -2027,6 +2027,8 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 				
+				$tpl->setCurrentBlock("tbl_content");
+				
 				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("file_dl");
@@ -2037,15 +2039,18 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 				
+				$tpl->setCurrentBlock("tbl_content");
+
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("file_delete");
+					//$tpl->setCurrentBlock("file_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("DELELTE_TARGET","bottom");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					$tpl->parseCurrentBlock();
+					//$tpl->parseCurrentBlock();
 				}
-			
+
+				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
@@ -2133,7 +2138,9 @@ class ilRepositoryGUI
 					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				
+
+				$tpl->setCurrentBlock("tbl_content");
+
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("fold_delete");
@@ -2142,7 +2149,8 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
-			
+
+				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
