@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.53 2003/10/27 17:50:21 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.54 2003/10/27 22:19:01 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -157,16 +157,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
 
 			// gender selection
-			if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
+			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
+			
+			if (!empty($gender))
 			{
-				$gender_sel = "BTN_GENDER_F";
+				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
-			else
-			{
-				$gender_sel = "BTN_GENDER_M";
-			}
-
-			$this->tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 			// language selection
 			$languages = $this->lng->getInstalledLanguages();
@@ -300,18 +296,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
-
 		// gender selection
-		if ($data["fields"]["gender"] == "f")
+		$gender = strtoupper($data["fields"]["gender"]);
+		
+		if (!empty($gender))
 		{
-			$gender_sel = "BTN_GENDER_F";
+			$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 		}
-		else
-		{
-			$gender_sel = "BTN_GENDER_M";
-		}
-
-		$this->tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
@@ -391,7 +382,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
+			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
+			or empty($_POST["Fobject"]["gender"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}

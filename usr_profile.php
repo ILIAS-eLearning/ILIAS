@@ -33,6 +33,11 @@
 
 require_once "./include/inc.header.php";
 
+// catch hack attempts
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+{
+	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+}
 
 $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
 
@@ -50,10 +55,10 @@ function upload_file()
 	global $target_file, $return_path;
 
 	$image_dir = $webspace_dir."/usr_images";
-	if(!@is_dir($image_dir))		// this is done in setup.php, line 518
+	
+	if(!@is_dir($image_dir))		// this is done in setup.php, line 518. Dir creation could be removed...
 	{
-		mkdir($image_dir);
-		chmod($image_dir, 0770);
+		ilUtil::makeDir($image_dir);
 	}
 
 	$path_info = pathinfo($_FILES["userfile"]["name"]);
@@ -84,23 +89,13 @@ function upload_file()
 // change user password
 function change_password()
 {	
-	
 	global $ilias, $lng, $tpl, $password_error;
-	
-	// catch hack attempts
-	if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-	{
-		
-		$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
-		
-	}
 	
 	// check old password
 	if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
 	{ 
 		$password_error=$lng->txt("passwd_wrong");
 		//$ilias->raiseError($lng->txt("passwd_wrong"),$ilias->error_obj->MESSAGE);
-		
 	}
 	
 	// check new password
@@ -132,7 +127,6 @@ function change_password()
 			
 		}*/
 	}
-
 }
 // End of function chnage_password
 
@@ -162,17 +156,15 @@ infoPanel();
 // display tabs
 include "./include/inc.personaldesktop_buttons.php";
 
-
 // To display picture after Uploaded
 //$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
 
 // if data are posted check on upload button
 
-
 //if data are posted
 if ($_GET["cmd"] == "save")
 {
-	if(!empty($_POST["usr_upload"]))
+	if (!empty($_POST["usr_upload"]))
 	{
 	upload_file();
 	//echo "./".$target_file;
@@ -185,15 +177,15 @@ if ($_GET["cmd"] == "save")
 	
 	// error content
 	$password_error;
+
 	//change password
-	if(!empty($_POST["usr_change_password"]))
+	if (!empty($_POST["usr_change_password"]))
 	{
 		change_password();
 	}
 
 	//init checking var
 	$form_valid = true;
-
 
 	// testing by ratana ty:
 	// if people check on check box it will
@@ -212,6 +204,7 @@ if ($_GET["cmd"] == "save")
 	$val_array = array("institution", "department", "upload", "street",
 		"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
 		"fax", "email", "hobby");
+
 	foreach ($val_array as $key => $value)
 	{
 		if (($_POST["chk_".$value]) == "on")
@@ -226,7 +219,7 @@ if ($_GET["cmd"] == "save")
 
 	// check required fields
 	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
-		 or empty($_POST["usr_email"]))
+		 or empty($_POST["usr_email"]) or empty($_POST["usr_gender"]))
 	{
 		sendInfo($lng->txt("fill_out_all_required_fields"));
 		$form_valid = false;
@@ -304,9 +297,6 @@ if ($_GET["cmd"] == "save")
 		//$userObj->setDescription($ilias->account->getEmail());
 		//$userObj->update();
 
-
-
-
 		// reload page only if skin or style were changed
 		if ($reload)
 		{
@@ -317,7 +307,7 @@ if ($_GET["cmd"] == "save")
 		else
 		{
 			// feedback
-			if(!empty($password_error))
+			if (!empty($password_error))
 			{
 				sendInfo($password_error,true);
 			}
@@ -325,13 +315,13 @@ if ($_GET["cmd"] == "save")
 			{
 				sendInfo($lng->txt("saved_successfully"),true);
 			}
+
 			header ("Location: usr_profile.php");
 			exit();
 		}
 
 	}
 }
-
 
 //get all languages
 $languages = $lng->getInstalledLanguages();
@@ -389,7 +379,6 @@ $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
-//$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("personal_profile"));
 $tpl->setVariable("TXT_OF",strtolower($lng->txt("of")));
 $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 
@@ -411,7 +400,6 @@ $tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
 $tpl->setVariable("UPLOAD",$lng->txt("upload"));
 $tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 $tpl->setVariable("USER_FILE", $lng->txt("user_file"));
-
 
 $tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
 $tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
@@ -445,17 +433,12 @@ $tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
 $tpl->setVariable("LASTNAME", $ilias->account->getLastname());
 
 // gender selection
-if ($ilias->account->getGender() == "f")
+$gender = strtoupper($ilias->account->getGender());
+			
+if (!empty($gender))
 {
-	$gender_sel = "BTN_GENDER_F";
+	$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 }
-elseif ($ilias->account->getGender() == "m")
-{
-	$gender_sel = "BTN_GENDER_M";
-}
-
-$tpl->setVariable($gender_sel,"checked=\"checked\"");
-
 
 $tpl->setVariable("TITLE", $ilias->account->getUTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
@@ -484,14 +467,16 @@ $tpl->setVariable("UPLOAD", $lng->txt("upload"));
 // Testing by ratana ty
 // Show check if value in table usr_pref is y
 //
-if($ilias->account->prefs["public_profile"]=="y")
+if ($ilias->account->prefs["public_profile"]=="y")
 {
 	$tpl->setVariable("CHK_PUB","checked");
 }
+
 $val_array = array("institution", "department", "upload", "street",
 	"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
 	"fax", "email", "hobby");
-foreach($val_array as $key => $value)
+
+foreach ($val_array as $key => $value)
 {
 	if ($ilias->account->prefs["public_".$value] == "y")
 	{
