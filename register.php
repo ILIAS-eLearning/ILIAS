@@ -279,7 +279,7 @@ function displayForm ()
 		*/
 
 	// preselect previous chosen language otherwise default language
-	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $ilias->getSetting("language");
+	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $lng->lang_key;
 
 	foreach ($languages as $lang_key)
 	{
