@@ -557,3 +557,7 @@ CREATE TABLE mob_usage
 
 <#55>
 INSERT INTO settings (keyword,value) VALUES ('system_user_id','6');
+
+<#56>
+ALTER TABLE `exc_members` ADD `notice` TEXT AFTER `usr_id` ,
+ADD `returned` TINYINT( 1 ) AFTER `notice` ;
