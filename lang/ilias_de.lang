@@ -2835,7 +2835,7 @@ forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass dieser Beitrag auch weiterhin nicht angezeigt werden soll?
+forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
