@@ -636,7 +636,7 @@ class ilObjContentObject extends ilObject
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
 
-				$query = "SELECT r.ref_id AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
+				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
 					"INNER JOIN object_reference AS r ON pg.parent_id = r.obj_id ".
 					$where.
 					$in.
