@@ -1,0 +1,61 @@
+<!-- BEGIN confirm_delete -->
+  <form action="{CONFIRM_FORMACTION}" method="post">
+	<table class="fullwidth_invisible">
+	  <tr>
+		<td align="center">
+		  <input class="submit" type="submit" name="cmd[editStatistic]" value="{TXT_CANCEL}" />
+			<input class="submit" type="submit" name="cmd[{CONFIRM_CMD}]" value="{TXT_CONFIRM}" />
+		</td>
+	  </tr>
+	</table>
+  </form>
+  <!-- END confirm_delete -->
+  <form action="{STAT_FORMACTION}" method="post">
+	<table class="std" width="40%">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}&nbsp;({DESCRIPTION})</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_TRANSACTION}</td>
+		<td class="option_value">{TRANSACTION}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_VENDOR}</td>
+		<td class="option_value">{VENDOR}</td>
+	  </tr>
+	  <tr>
+		<td class="option" >{TXT_PAY_METHOD}</td>
+		<td class="option_value">{PAY_METHOD}</td>
+	  </tr>
+	  <tr>
+		<td class="option" >{TXT_ORDER_DATE}</td>
+		<td class="option_value">{ORDER_DATE}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_DURATION}</td>
+		<td class="option_value">{DURATION}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_PRICE}</td>
+		<td class="option_value">{PRICE}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_PAYED}</td>
+		<td class="option_value">{PAYED}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_ACCESS}</td>
+		<td class="option_value">{ACCESS}</td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" />&nbsp;<input class="submit" type="submit" name="cmd[{DELETE_CMD}]" value="{DELETE_VALUE}" /></td>
+	  </tr>
+	</table>
+</form>
