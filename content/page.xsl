@@ -767,8 +767,8 @@
 	<tr class="ilc_FileItem">
 		<td class="ilc_FileItem">
 		<xsl:call-template name="EditReturnAnchors"/>
-		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
-			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+		<a>
+			<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
 			<xsl:if test="./Size">
 				<xsl:choose>
