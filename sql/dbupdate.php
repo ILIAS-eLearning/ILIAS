@@ -3522,4 +3522,4 @@ INSERT INTO `survey_phrase_category` (`phrase_category_id`,`phrase_fi`,`category
 INSERT INTO `survey_phrase_category` (`phrase_category_id`,`phrase_fi`,`category_fi`,`sequence`) VALUES (NULL,'21','34','4');
 INSERT INTO `survey_phrase_category` (`phrase_category_id`,`phrase_fi`,`category_fi`,`sequence`) VALUES (NULL,'21','35','5');
 <#211>
-ALTER  TABLE  `qpl_questions`  CHANGE  `question_id`  `question_id` INT( 11  ) DEFAULT  '0' NOT  NULL  AUTO_INCREMENT
+ALTER  TABLE  `qpl_questions`  CHANGE  `question_id`  `question_id` INT( 11  ) DEFAULT  '0' NOT  NULL  AUTO_INCREMENT;
