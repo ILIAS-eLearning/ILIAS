@@ -32,6 +32,9 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
+common#:#who_is_online#:#Who is online?
+common#:#users_online#:#Users online
+common#:#login_time#:#Current online time
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!

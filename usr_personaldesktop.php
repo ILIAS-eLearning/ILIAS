@@ -70,6 +70,11 @@ $tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
 $tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
 $tpl->parseCurrentBlock();
 
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
+$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
+$tpl->parseCurrentBlock();
+
 $tpl->touchBlock("btn_row");
 
 $tpl->setCurrentBlock("content");
@@ -224,7 +229,7 @@ if ($frmNum > 0)
 					$tpl->setVariable("ROWCOL", $rowCol);				
 					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?ref_id=".$frm_data["ref_id"]."\">".$topicData["top_name"]."</a>");								
 					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
-					$tpl->parseCurrentBlock("tbl_frm_row");
+					$tpl->parseCurrentBlock();
 				}
 				
 				$z ++;
@@ -241,15 +246,52 @@ if ($frmNum > 0)
 		$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_new_entries"));
 		
 		if ($_GET["cmd"] == "list_forum") {
-			$tpl->setVariable("TXT_TITLE", $lng->txt("forum"));
-			$tpl->setVariable("TXT_LASTPOST", $lng->txt("forums_last_post"));
+			$tpl->setVariable("TXT_TITLE", ucfirst($lng->txt("forum")));
+			$tpl->setVariable("TXT_LASTPOST", ucfirst($lng->txt("forums_last_post")));
 		}
-		else {
+		else
+		{
 			$tpl->setVariable("LIST_BUTTON", "<a href=\"usr_personaldesktop.php?cmd=list_forum\">".$lng->txt("show_list")."</a>");
 		}
-		$tpl->parseCurrentBlock("tbl_frm");
+		
+		$tpl->parseCurrentBlock();
 	}
 	
+}
+
+if ($_GET["cmd"] == "whois")
+{
+	$users = ilUtil::getUsersOnline();
+	
+		//var_dump("<pre>",$users,"</pre>");
+	$z = 0;
+	
+	foreach ($users as $user)
+	{
+		$tpl->setCurrentBlock("tbl_users_row");
+		$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
+		$tpl->setVariable("ROWCOL",$rowCol);		
+		$tpl->setVariable("USR_LOGIN",$user["login"]);	
+		$tpl->setVariable("USR_TITLE",$user["title"]);
+		$tpl->setVariable("USR_FIRSTNAME",$user["firstname"]);
+		$tpl->setVariable("USR_LASTNAME",$user["lastname"]);
+		
+		$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
+		
+		$tpl->setVariable("USR_LOGIN_TIME",$login_time);
+		$tpl->parseCurrentBlock();
+		
+		$z++;	
+	}
+
+	$tpl->setCurrentBlock("tbl_users");
+	$tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));
+	$tpl->setVariable("TXT_USR_LOGIN",ucfirst($lng->txt("username")));	
+	$tpl->setVariable("TXT_USR_TITLE",ucfirst($lng->txt("title")));
+	$tpl->setVariable("TXT_USR_FIRSTNAME",ucfirst($lng->txt("firstname")));
+	$tpl->setVariable("TXT_USR_LASTNAME",ucfirst($lng->txt("lastname")));
+	$tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($lng->txt("login_time")));
+	$tpl->parseCurrentBlock();
 }
 // output
 $tpl->show();
