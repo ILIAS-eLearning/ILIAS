@@ -839,16 +839,26 @@ class ilUtil
 
 	/**
 	* reads all active sessions from db and returns users that are online
+	* OR returns only one active user if a user_id is given
 	*
+	* @param	integer	user_id (optional)
 	* @return	array
 	*/
-	function getUsersOnline()
+	function getUsersOnline($a_user_id = 0)
 	{
 		global $ilias;
 		
+		if ($a_user_id == 0)
+		{
+			$where = "WHERE user_id != 0";
+		}
+		else
+		{
+			$where = "WHERE user_id = '".$a_user_id."'";
+		}
+		
 		$q = "SELECT DISTINCT user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
-			 "LEFT JOIN usr_data ON user_id=usr_id ".
-			 "WHERE user_id != 0";
+			 "LEFT JOIN usr_data ON user_id=usr_id ".$where;
 		$r = $ilias->db->query($q);
 
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
