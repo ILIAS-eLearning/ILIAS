@@ -98,3 +98,10 @@ setup_ready#:#setup is ready
 database_exists#:#database exists
 languages_generate_from_file#:#generate languages from file
 languages_generate_from_upload#:#generate languages from uploaded file
+update_applied#:#update applied
+database_version#:#current database version
+file_version#:#version provided in file
+database_is_uptodate#:#the database is up-to-date
+version#:#version
+database_needs_update#:#database needs an update
+database_update#:#update database
