@@ -25,6 +25,9 @@ define ("IL_PASSWD_PLAIN", "plain");
 define ("IL_PASSWD_MD5", "md5");			// ILIAS 3 Password
 define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 
+// only used by assignData() method
+define ("IL_NO_PASSWD", "");
+
 require_once "classes/class.ilObject.php";
 
 /**
@@ -173,13 +176,13 @@ class ilObjUser extends ilObject
 
 			// fill member vars in one shot
 			$this->assignData($data);
-			if ($a_data["i2passwd"] != "" && $a_data["passwd"] == "")
+			if ($data["i2passwd"] != "" && $data["passwd"] == "")
 			{
-				$this->setPasswd($a_data["i2passwd"], IL_PASSWD_CRYPT);
+				$this->setPasswd($data["i2passwd"], IL_PASSWD_CRYPT);
 			}
 			else
 			{
-				$this->setPasswd($a_data["passwd"], IL_PASSWD_MD5);
+				$this->setPasswd($data["passwd"], IL_PASSWD_MD5);
 			}
 
 			//get userpreferences from usr_pref table
@@ -237,7 +240,12 @@ class ilObjUser extends ilObject
 	{
 		// basic personal data
 		$this->setLogin($a_data["login"]);
-		$this->setPasswd($a_data["passwd"]);
+
+		if ($a_passwd_type != IL_NO_PASSWD)
+		{
+			$this->setPasswd($a_data["passwd"], $a_passwd_type);
+		}
+
 		/*
 		if ($a_data["passwd"])
 		{
@@ -283,7 +291,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
-		
+
 		//iLinc
 		$this->setiLincID($a_data['ilinc_id']);
 	}
@@ -401,7 +409,7 @@ class ilObjUser extends ilObject
 				$pw_update = "passwd='', i2passwd='".$this->passwd."'";
 				break;
 		}
-
+echo "<br>update:pw-".$this->passwd_type."-".$this->passwd."-";
 		$q = "UPDATE usr_data SET ".
             "gender='".$this->gender."', ".
             "title='".ilUtil::prepareDBString($this->utitle)."', ".
