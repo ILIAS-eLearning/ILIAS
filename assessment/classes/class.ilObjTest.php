@@ -1781,11 +1781,11 @@ class ilObjTest extends ilObject
 */
 	function removeQuestion($question_id) {
 		$question = new ASS_Question();
-		$question->delete($question_id);
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction($this->lng->txt("log_question_removed"), $question_id);
 		}
+		$question->delete($question_id);
 		$this->removeAllTestEditings($question_id);
 		$this->loadQuestions();
 		$this->saveQuestionsToDb();
@@ -4847,8 +4847,8 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
-			$question_id = $this->ilias->db->quote($question_id . "");
 			$original_id = ASS_Question::_getOriginalId($question_id);
+			$question_id = $this->ilias->db->quote($question_id . "");
 		}
 		if (strcmp($original_id, "") == 0)
 		{
