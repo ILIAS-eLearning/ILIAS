@@ -121,7 +121,7 @@ class ilContObjParser extends ilSaxParser
 		$this->qst_mapping = array();
 		$this->coType = $this->content_object->getType();
 
-		if ($this->coType != "tst")
+		if (($this->coType != "tst") and ($this->coType != "qpl"))
 		{
 			$this->lm_tree = new ilTree($this->content_object->getId());
 			$this->lm_tree->setTreeTablePK("lm_id");
@@ -145,6 +145,7 @@ class ilContObjParser extends ilSaxParser
 
 	function startParsing()
 	{
+//echo "<b>start parsing</b><br>";
 		parent::startParsing();
 //echo "<b>storeTree</b><br>";
 		$this->storeTree();
@@ -176,7 +177,7 @@ class ilContObjParser extends ilSaxParser
 						case "pg_alias":
 							if ($this->pg_mapping[$pg["id"]] == "")
 							{
-								echo "No PageObject for PageAlias ".$pg["id"]." found! Aborting.";
+//								echo "No PageObject for PageAlias ".$pg["id"]." found! Aborting.";
 								exit;
 							}
 							$pg_id = $this->pg_mapping[$pg["id"]];
@@ -475,7 +476,7 @@ class ilContObjParser extends ilSaxParser
 			case "PageObject":
 				$this->in_page_object = true;
 				$this->cur_qid = "";
-				if ($this->coType != "tst")
+				if (($this->coType != "tst") and ($this->coType != "qpl"))
 				{
 					$this->lm_page_object =& new ilLMPageObject($this->content_object);
 					$this->page_object =& new ilPageObject($this->content_object->getType());
@@ -490,7 +491,7 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "PageAlias":
-				if ($this->coType != "tst")
+				if (($this->coType != "tst") and ($this->coType != "qpl"))
 				{
 					$this->lm_page_object->setAlias(true);
 					$this->lm_page_object->setOriginID($a_attribs["OriginId"]);
@@ -599,12 +600,12 @@ class ilContObjParser extends ilSaxParser
 			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
-#echo "<br>---NEW METADATA---<br>";
+//echo "<br>---NEW METADATA---<br>";
 				$this->meta_data =& new ilMetaData();
 				if(!$this->in_media_object)
 				{
 //echo "<br><b>assign to current object</b>";
-					if ($this->coType != "tst")
+					if (($this->coType != "tst") and ($this->coType != "qpl"))
 					{
 						$this->current_object->assignMetaData($this->meta_data);
 						if (strtolower(get_class($this->current_object)) == "ilobjlearningmodule")
@@ -837,7 +838,7 @@ class ilContObjParser extends ilSaxParser
 			case "PageObject":
 
 				$this->in_page_object = false;
-				if ($this->coType != "tst")
+				if (($this->coType != "tst") and ($this->coType != "qpl"))
 				{
 					if (!$this->lm_page_object->isAlias())
 					{

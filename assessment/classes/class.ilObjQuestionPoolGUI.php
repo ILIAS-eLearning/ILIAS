@@ -284,69 +284,71 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function uploadObject()
 	{
 		// check if file was uploaded
-		$source = $_FILES["qtidoc"]["tmp_name"];
+		$source = $_FILES["xmldoc"]["tmp_name"];
 		$error = 0;
-		if (($source == 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK)
+		if (($source == 'none') || (!$source) || $_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
 //			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
 		// check correct file type
-		if (strcmp($_FILES["qtidoc"]["type"], "text/xml") != 0)
+		if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0)
 		{
-//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
-			$error = 1;
-		}
-		if (!$error)
-		{
-			// import file into questionpool
-			$fh = fopen($source, "r") or die("");
-			$xml = fread($fh, filesize($source));
-			fclose($fh) or die("");
-			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			if (!$error)
 			{
-				foreach ($matches[1] as $index => $item)
-				{
-					$question = "";
-					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
-					{
-						switch ($questiontype[1])
-						{
-							case CLOZE_TEST_IDENTIFIER:
-								$question = new ASS_ClozeTest();
-								break;
-							case IMAGEMAP_QUESTION_IDENTIFIER:
-								$question = new ASS_ImagemapQuestion();
-								break;
-							case MATCHING_QUESTION_IDENTIFIER:
-								$question = new ASS_MatchingQuestion();
-								break;
-							case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-								$question = new ASS_MultipleChoice();
-								break;
-							case ORDERING_QUESTION_IDENTIFIER:
-								$question = new ASS_OrderingQuestion();
-								break;
-							case JAVAAPPLET_QUESTION_IDENTIFIER:
-								$question = new ASS_JavaApplet();
-								break;
-						}
-						if ($question)
-						{
-							$question->setObjId($this->object->getId());
-							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
-							{
-								$question->saveToDb();
-							}
-							else
-							{
-								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
-							}
-						}
-					}
-				}
+				$this->object->importObject($source);
 			}
 		}
+		else
+		{
+/*			include_once("./assessment/classes/class.ilObjTest.php");
+			$newObj = new ilObjTest();
+			$newObj->setType($_GET["new_type"]);
+			$newObj->setTitle("dummy");
+			$newObj->setDescription("dummy");
+			$newObj->create(true);
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
+			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+*/	
+			// create import directory
+			$this->object->createImportDirectory();
+	
+			// copy uploaded file to import directory
+			$file = pathinfo($_FILES["xmldoc"]["name"]);
+			$full_path = $this->object->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+	
+			// unzip file
+			ilUtil::unzip($full_path);
+	
+			// determine filename of xml file
+			$subdir = basename($file["basename"],".".$file["extension"]);
+			$xml_file = $this->object->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+			$qti_file = $this->object->getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+			// import qti data
+			$qtiresult = $this->object->importObject($qti_file);
+			//$tmp_title = $this->object->getTitle();
+			//$tmp_descr = $this->object->getDescription();
+			// import page data
+			include_once ("content/classes/class.ilContObjParser.php");
+			$contParser = new ilContObjParser($this->object, $xml_file, $subdir);
+			$contParser->setQuestionMapping($this->object->getImportMapping());
+			$contParser->startParsing();
+	
+			/* update title and description in object data */
+			/*if (is_object($this->object->meta_data))
+			{
+				$this->object->setTitle($tmp_title);
+				$this->object->setDescription($tmp_descr);
+				$this->object->updateTitleAndDescription();
+			}
+	
+			$this->object->update();
+			$this->object->saveToDb();*/
+		}
+		
 		$this->questionsObject();
 	}
 	

@@ -1269,6 +1269,9 @@ class ASS_Question
 			require_once "./content/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
+				case "lm":
+					$resolved_link = ilLMObject::_getIdForImportId($internal_link);
+					break;
 				case "pg":
 					$resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
 					break;
