@@ -152,7 +152,7 @@ class ILIAS2To3Converter
 			case "img":
 				
 				// reset type (img -> el)
-				// images are treated as a particual element type 
+				// images are treated as a particular element type 
 				$type = "el";
 				
 				// table 'el_bild'
@@ -178,6 +178,38 @@ class ILIAS2To3Converter
 				}
 				
 				// set mimetype, size and location for the image file into an array
+				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/imagemap".$id."/".$id.".".$map["type"]);
+				
+				/* ***
+				echo "<pre>";
+				print_r($tech);
+				echo "</pre>";
+				*/
+				break;
+			
+			case "imap":
+				
+				// reset type (imap -> el)
+				// imagemaps are treated as a particular element type 
+				$type = "el";
+				
+				// table 'el_map'
+				$sql =	"SELECT type ".
+						"FROM el_map ".
+						"WHERE id = ".$id.";";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// set mimetype, size and location for the imagemap file into an array
 				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
 				
 				/* ***
@@ -190,7 +222,7 @@ class ILIAS2To3Converter
 			case "mm":
 				
 				// table 'multimedia'
-				$sql =	"SELECT caption, startklasse, st_type, file, verweis, ". // *** some are unsed yet
+				$sql =	"SELECT st_type, file, verweis, startklasse ". // *** some are unsed yet
 								" full_view, full_type, full_file, full_ref ".
 						"FROM multimedia ".
 						"WHERE id = ".$id.";";
@@ -610,13 +642,13 @@ class ILIAS2To3Converter
 			foreach ($tech as $value) 
 			{
 				$attrs = array(	"Format" => $value["Format"]);
-				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+				$Technical = $this->writeNode($MetaData, "Technical", $attrs, NULL, $refnode);
 				
 				// 4.2 ..Technical..Size
-				$Size = $this->writeNode($Technical, "Size", Null, $value["Size"]);
+				$Size = $this->writeNode($Technical, "Size", NULL, $value["Size"]);
 				
 				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", Null, $value["Location"]);
+				$Location = $this->writeNode($Technical, "Location", NULL, $value["Location"]);
 				
 				// 4.4 ..Technical..(Requirement | OrComposite) ***
 				
@@ -738,12 +770,66 @@ class ILIAS2To3Converter
 		// MediaObject..Layout ***
 		// *** align
 		
-		// MediaObject..Parameter --> unavailable in for images ILIAS 2
+		// MediaObject..Parameter --> unavailable for images in ILIAS 2
 		
 		//-------------
 		// free memory: ***
 		//-------------
 		unset($sql, $image);
+		
+		//-------------------------
+		// return MediaObject tree:
+		//-------------------------
+		return $MediaObject;
+	}
+	
+	// ILIAS 2 Imagemap (element) --> ILIAS 3 MediaObject
+	function exportImagemap ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------		
+		// table 'element' not needed at all!
+		
+		// table 'el_map'
+		$sql =	"SELECT align, borderspace, type ". // *** layout
+				"FROM el_map ".
+				"WHERE id = ".$id.";";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row
+		$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		//--------------
+		// copy file(s): ***
+		//--------------
+		$this->utils->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
+		
+		//-------------------------
+		// create MediaObject tree:
+		//-------------------------		
+		// MediaObject
+		$MediaObject = $this->writeNode($parent, "MediaObject");
+		
+		// MediaObject..MetaData
+		$MetaData = $this->exportMetadata($id, "imap", $MediaObject);
+		
+		// MediaObject..Layout ***
+		// *** align, ...
+		
+		// MediaObject..Parameter --> unavailable for imagemaps in ILIAS 2
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $map);
 		
 		//-------------------------
 		// return MediaObject tree:
@@ -758,7 +844,9 @@ class ILIAS2To3Converter
 		// get data from db tables:
 		//-------------------------		
 		// table 'multimedia'
-		$sql =	"SELECT st_type, full_type, width, height, defparam ".
+		$sql =	"SELECT st_type, orig_size, width, height, ".
+						"full_type, full_orig_size, full_width, full_height, ".
+						"defparam, caption ".
 				"FROM multimedia ".
 				"WHERE id = ".$id.";";
 		
@@ -793,18 +881,46 @@ class ILIAS2To3Converter
 		// MediaObject..MetaData
 		$MetaData = $this->exportMetadata($id, "mm", $MediaObject);
 		
-		// MediaObject..Layout
-		$attrs = array(	"Width" => $mm["width"],
-						"Height" => $mm["height"]);
-		$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
+		// MediaObject..Layout (special size)
+		if (!$this->utils->selectBool($mm["org_size"]))
+		{
+			$attrs = array();
+			$attrs["Width"]		= $mm["width"];
+			$attrs["Height"]	= $mm["height"];
+			$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
+		}
 		
-		// MediaObject..Parameter
+		// MediaObject..Parameter (= full special size)
+		if (!$this->utils->selectBool($mm["full_org_size"]))
+		{
+			$attrs = array();
+			$attrs["Name"]	= "full_width";
+			$attrs["Value"]	= $mm["full_width"];
+			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+			
+			$attrs = array();
+			$attrs["Name"]	= "full_height";
+			$attrs["Value"]	= $mm["full_height"];
+			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+		}
+		
+		// MediaObject..Parameter (= caption)
+		if (!empty($mm["caption"]))
+		{
+			$attrs = array();
+			$attrs["Name"]	= "caption";
+			$attrs["Value"]	= $mm["caption"];
+			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+		}
+		
+		// MediaObject..Parameter (= parameters)
 		if ($params = $this->utils->fetchParams($mm["defparam"]))
 		{
 		    foreach ($params as $value)
 			{
-				$attrs = array(	"Name" => $value["Name"],
-								"Value" => $value["Value"]);
+				$attrs = array();
+				$attrs["Name"]	= $value["Name"];
+				$attrs["Value"]	= $value["Value"];
 				$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
 			}
 		}
@@ -914,7 +1030,7 @@ class ILIAS2To3Converter
 		// table 'element'
 		$sql =	"SELECT typ, page, nr, src, bsp ".
 				"FROM element ".
-				"WHERE id = $id ".
+				"WHERE id = ".$id." ".
 				"AND deleted = '0000-00-00 00:00:00'";
 		
 		$result = $this->db->query($sql);		
@@ -935,7 +1051,7 @@ class ILIAS2To3Converter
 				// table 'el_text'
 				$sql =	"SELECT text, align ".
 						"FROM el_text ".
-						"WHERE id = $id;";
+						"WHERE id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -948,11 +1064,11 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				//--------------------------
-				// create Paragraph subtree:
-				// *** (convert VRIs, HTML and Layout (alignment))
-				//--------------------------
+				//-----------------------
+				// create Paragraph tree:
+				//-----------------------
 				
+				// *** (convert VRIs, HTML and Layout (alignment))
 				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
 				
 				/* ***
@@ -968,26 +1084,22 @@ class ILIAS2To3Converter
 			
 			// image (bild)
 			case 2:
-				/* ***
-				// table 'el_bild'
-				$sql =	"SELECT datei, align ".
-						"FROM el_bild ".
-						"WHERE id = $id;";
+				// table 'el_bild' not needed at all!
 				
-				$result = $this->db->query($sql);		
-				// check $result for error
-				if (DB::isError($result))
-				{
-					die ($result->getMessage());
-				}
-				// get row(s)
-				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
-				// free result set
-				$result->free();
-				*/
+				//-------------------------
+				// create MediaObject tree:
+				//-------------------------		
+				// MediaObject
+				$MediaObject = $this->writeNode($parent, "MediaObject");
 				
-				// *** change to MediaAlias
-				$this->exportImage($id, $parent);				
+				// MediaObject..MediaAlias
+				$attrs = array(); // ***
+				$attrs["OriginId"] = "el_".$id;
+				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
+				
+				// MediaObject..Layout --> default used
+				
+				// MediaObject..Parameter --> default used
 				break;
 			
 			// title
@@ -995,7 +1107,7 @@ class ILIAS2To3Converter
 				// table 'el_title'
 				$sql =	"SELECT text ".
 						"FROM el_titel ".
-						"WHERE id = $id;";
+						"WHERE id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1027,7 +1139,7 @@ class ILIAS2To3Converter
 				// table 'el_table'
 				$sql =	"SELECT rows, border, caption, capalign, width ". // *** auf weiter checken
 						"FROM el_table ".
-						"WHERE id = $id;";
+						"WHERE id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1043,7 +1155,7 @@ class ILIAS2To3Converter
 				// table 'table_cell' and 'table_rowcol'
 				$sql =	"SELECT tc.row, tc.text, tc.textform, tr.width ". // *** textform not implemented yet
 						"FROM table_cell AS tc, table_rowcol AS tr ".
-						"WHERE tc.id = $id ".
+						"WHERE tc.id = ".$id." ".
 						"AND tc.id = tr.id ".
 						"AND tr.rowcol = 'c' ".
 						"AND tc.col = tr.nr ".
@@ -1087,14 +1199,14 @@ class ILIAS2To3Converter
 				if ($table["capalign"] == 0 and
 					$table["caption"] <> "")
 				{
-					$HeaderCaption = $this->writeNode($Table, "HeaderCaption",Null,$table["caption"]);
+					$HeaderCaption = $this->writeNode($Table, "HeaderCaption", NULL,$table["caption"]);
 				}
 				
 				// ..Table..FooterCaption ***
 				if ($table["capalign"] == 1 and
 					$table["caption"] <> "")
 				{
-					$FooterCaption = $this->writeNode($Table, "FooterCaption",Null,$table["caption"]);
+					$FooterCaption = $this->writeNode($Table, "FooterCaption", NULL,$table["caption"]);
 				}
 				
 				// ..Table..Summary  --> unavailable in ILIAS2
@@ -1130,26 +1242,12 @@ class ILIAS2To3Converter
 			
 			// imagemap
 			case 5:
-				// table 'el_map'
-				$sql =	"SELECT align, borderspace, type ".
-						"FROM el_map ".
-						"WHERE id = $id;";
-				
-				$result = $this->db->query($sql);		
-				// check $result for error
-				if (DB::isError($result))
-				{
-					die ($result->getMessage());
-				}
-				// get row
-				$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
-				// free result set
-				$result->free();
+				// table 'el_map' not needed at all!
 				
 				// table 'maparea'
 				$sql =	"SELECT shape, coords, href, alt ".
 						"FROM maparea ".
-						"WHERE id = $id ".
+						"WHERE id = ".$id." ".
 						"ORDER BY nr;";
 				
 				$result = $this->db->query($sql);		
@@ -1161,84 +1259,42 @@ class ILIAS2To3Converter
 				// get row(s)
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$maparea[] = $row;
+					$area[] = $row;
 				}
 				// free result set
 				$result->free();
 				
-				// set full path of the main file ***
-				$fileName = $this->iliasDir."imagemaps/".$id.".".$map["type"];
+				//-------------------------
+				// create Paragraph tree:
+				//-------------------------		
+				// Paragraph
+				$attrs = array(); // ***
+				$attrs["Language"] = "de"; // *** aus meta
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
 				
-				// proceed only if at least one file was found, else no subtrewill be created ***
-				if (file_exists($fileName))
+				// Paragraph..ImageMap
+				$attrs = array(); // ***
+				$attrs["Id"]		= "map_".$id;
+				$attrs["ImageId"]	= "el_".$id;  // exported earlier in the process ***
+				$ImageMap = $this->writeNode($Paragraph, "ImageMap", $attrs);
+				
+				// Paragraph..ImageMap..MapArea *** fetch VRI for href
+				if (is_array($area))
 				{
-					// get (image) file size and mimetype ***
-					$fileSize = filesize($fileName);
-					$mimetype = $this->utils->getMimeType($fileName);
-				
-					//--------------------------------------------------
-					// create LearningObject AggregationLevel 1 subtree:
-					//--------------------------------------------------
-					
-					// LearningObject
-					$LearningObject = $this->writeNode($parent, "LearningObject");
-					
-					// LearningObject..MetaData ***
-					$MetaData = $this->exportMetadata($id, "el", $LearningObject);
-					
-					// complete Metadata:
-					
-					// get position within the metadata tree to insert the additional information to
-					$elements = $MetaData->get_elements_by_tagname("Educational");
-					$refnode = $elements[0];
-					
-					// 4 MetaData..Technical ***
-					$attrs = array(	"Format" => $mimetype);
-					$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
-					
-					// 4.2 ..Technical..Size
-					$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
-					
-					// 4.3 ..Technical..Location
-					$Location = $this->writeNode($Technical, "Location", Null, "./objects/imagemap".$id."/".$id.".".$map["type"]);
-					
-					// 4.4 ..Technical..(Requirement | OrComposite) ***
-					
-					// 4.5 ..Technical..InstallationRemarks ***
-					
-					// 4.6 ..Technical..OtherPlatformRequirements ***
-					
-					// 4.7 ..Technical..Duration ***
-					
-					// LearningObject..Layout --> unavailable for file
-					
-					// LearningObject..Parameter VRI-Links
-					if (is_array($maparea))
+					foreach ($area as $value)
 					{
-						$Parameter = $this->writeNode($LearningObject, "Parameter");
-						
-						foreach ($maparea as $value)
-						{
-							// ..ParameterName
-							$ParameterName = $this->writeNode($Parameter, "ParameterName", Null, "Maparea");
-							
-							// ..ParameterValue
-							$ParameterValue = $this->writeNode($Parameter, "ParameterValue", Null, "<area shape=\"".$value["shape"]."\" coords=\"".$value["coords"]."\" href=\"".$value["href"]."\" alt=\"".$value["alt"]."\"");
-						}
+						$attrs = array(); // ***
+						$attrs["Shape"]		= $value["shape"];
+						$attrs["Coords"]	= $value["coords"];
+						$attrs["Href"]		= $value["href"];
+						$attrs["Alt"]		= $value["alt"];
+						$MapArea = $this->writeNode($ImageMap, "MapArea", $attrs);
 					}
-					
-					// LearningObject..Content --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Test --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Glossary --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Bibliography --> unavailable for AggregationLevel 1
-					
-					// *** copy file(s)
-					$this->utils->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
 				}
-				
+				else // default ***
+				{
+					// to be competetd ***
+				}
 				break;
 			
 			// multiple choice
@@ -1246,7 +1302,7 @@ class ILIAS2To3Converter
 				// table 'el_mc'
 				$sql =	"SELECT type, text, answer, vristr ".
 						"FROM el_mc ".
-						"WHERE id = $id;";
+						"WHERE id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1265,7 +1321,7 @@ class ILIAS2To3Converter
 					// table 'mc_answer'
 					$sql =	"SELECT text, mright ".
 							"FROM mc_answer ".
-							"WHERE id = $id ".
+							"WHERE id = ".$id." ".
 							"ORDER BY nr;";
 					
 					$result = $this->db->query($sql);		
@@ -1331,11 +1387,14 @@ class ILIAS2To3Converter
 			
 			// multimedia
 			case 7:
-				// table 'el_multimedia' and 'multimedia'
-				$sql =	"SELECT el.mm_id, el.align, mm.st_type, mm.file, mm.verweis ".
-						"FROM el_multimedia AS el, multimedia AS mm ".
-						"WHERE el.id = $id ".
-						"AND el.mm_id = mm.id;";
+				// table 'el_multimedia'
+				$sql =	"SELECT mm_id, align, ". // *** align
+								"derive_size, width, height, ".
+								"derive_full_size, full_width, full_height, ".
+								"derive_defparam, paras, ".
+								"derive_caption, caption ".
+						"FROM el_multimedia ".
+						"WHERE id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1348,48 +1407,73 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// get filename or reference *** um Test ob vorhanden ergänzen
-				if ($mm["st_type"] == "file")
+				//-------------------------
+				// create MediaObject tree:
+				//-------------------------		
+				// MediaObject (ILIAS 2 MetaData is not used here!)
+				$MediaObject = $this->writeNode($parent, "MediaObject");
+				
+				// MediaObject..MediaAlias
+				$attrs = array();
+				$attrs["OriginId"] = "mm_".$mm["mm_id"];
+				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
+				
+				// MediaObject..Layout (special size)
+				if (!$this->utils->selectBool($mm["derive_size"]))
 				{
-					$refText = $mm["file"];
+					$attrs = array();
+					$attrs["Width"]		= $mm["width"];
+					$attrs["Height"]	= $mm["height"];
+					$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
 				}
-				elseif ($mm["st_type"] == "reference")
+				
+				// MediaObject..Parameter (= full special size)
+				if (!$this->utils->selectBool($mm["derive_full_size"]))
 				{
-					$refText = $mm["verweis"];
+					$attrs = array();
+					$attrs["Name"]	= "full_width";
+					$attrs["Value"]	= $mm["full_width"];
+					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+					
+					$attrs = array();
+					$attrs["Name"]	= "full_height";
+					$attrs["Value"]	= $mm["full_height"];
+					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
 				}
 				
-				//--------------------------
-				// create Paragraph subtree:
-				//--------------------------
+				// MediaObject..Parameter (= caption)
+				if (!$this->utils->selectBool($mm["derive_caption"]))
+				{
+					$attrs = array();
+					$attrs["Name"]	= "caption";
+					$attrs["Value"]	= $mm["caption"];
+					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+				}
 				
-				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
-				
-				// Paragraph ***
-				$attrs = array(	"Language" => "de", // *** aus meta holen
-								"Characteristic" => "Example"); // *** aus bsp holen
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
-				
-				// Paragraph..Reference ***
-				$attrs = array(	"Reference_to" => "mm_".$mm["mm_id"],
-								"Type" => "LearningObject");
-				$Reference = $this->writeNode($Paragraph, "Reference", $attrs, $refText);
-				
+				// MediaObject..Parameter (= parameters)
+				if (!$this->utils->selectBool($mm["derive_defparam"]))
+				{
+					if ($params = $this->utils->fetchParams($mm["paras"]))
+					{
+					    foreach ($params as $value)
+						{
+							$attrs = array();
+							$attrs["Name"]	= $value["Name"];
+							$attrs["Value"]	= $value["Value"];
+							$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+						}
+					}
+				}
 				break;
 			
 			case 8: // filelist
-				// table 'el_filelist' 
-				/* *** not needed
-				$sql =	"SELECT sort ".
-						"FROM el_filelist ".
-						"WHERE id = $id;";
-				*/
+				// table 'el_filelist' not needed at all!
 				
-				// table 'filelist_entry' and 'file'
-				$sql =	"SELECT fe.file_id, f.file ".
-						"FROM filelist_entry AS fe, file AS f ".
-						"WHERE fe.el_id = $id ".
-						"AND fe.file_id = f.id ".
-						"ORDER BY fe.nr;";
+				// table 'filelist_entry'
+				$sql =	"SELECT file_id ".
+						"FROM filelist_entry ".
+						"WHERE el_id = ".$id." ".
+						"ORDER BY nr;";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1405,28 +1489,20 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				//--------------------------
-				// create Paragraph subtree:
-				//--------------------------
+				//-------------------------
+				// create MediaObject tree:
+				//-------------------------		
+				// MediaObject (ILIAS 2 MetaData is not used here!)
+				$MediaObject = $this->writeNode($parent, "MediaObject");
 				
-				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
+				// MediaObject..MediaAlias
+				$attrs = array(); // ***
+				$attrs["OriginId"] = "file_".$value["file_id"];
+				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
 				
-				// Paragraph ***
-				$attrs = array(	"Language" => "de", // *** aus meta holen
-								"Characteristic" => "Example"); // *** aus bsp holen
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				// MediaObject..Layout --> default used
 				
-				// Paragraph..Reference ***
-				if (is_array($entry))
-				{
-					foreach ($entry as $value) 
-					{
-						$attrs = array(	"Reference_to" => "file_".$value["file_id"],
-										"Type" => "LearningObject");
-						$Reference = $this->writeNode($Paragraph, "Reference", $attrs, $value["file"]);
-					}
-				}
-				
+				// MediaObject..Parameter --> default used
 				break;
 			
 			/*
@@ -1440,14 +1516,13 @@ class ILIAS2To3Converter
 			// temporary dummy ***
 			default:
 				// Paragraph
-				$attrs = array(	"Language" => "en");
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "Object not supported yet.");
+				$Paragraph = $this->writeNode($parent, "Paragraph", NULL, "Object not supported yet.");
 		}
 		
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer, $mm, $refText);
+		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $area, $mc, $answer, $mm, $refText);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
@@ -1497,7 +1572,7 @@ class ILIAS2To3Converter
 		$MetaData = $this->exportMetadata($gloss["page"], "pg", $GlossaryItem);
 		
 		// GlossaryItem..GlossaryTerm
-		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", Null, $gloss["begriff"]);
+		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", NULL, $gloss["begriff"]);
 		
 		// GlossaryItem..Definition
 		$Definition = $this->writeNode($GlossaryItem, "Definition");
@@ -1902,6 +1977,52 @@ class ILIAS2To3Converter
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$PageObject = $this->exportPage($row["id"], $LearningModule);
+		}
+		// free result set
+		$result->free();
+		
+		// LearningModule..MediaObject(s) (= image elements) ***
+		$sql =	"SELECT DISTINCT el.id AS id ".
+				"FROM lerneinheit AS le, page AS pg, element AS el ".
+				"WHERE le.id = ".$id." ".
+				"AND pg.lerneinheit = le.id ".
+				"AND el.page = pg.id ".
+				"AND el.typ = 2 ".
+				"AND el.deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$MediaObject = $this->exportImage($row["id"], $LearningModule);
+		}
+		// free result set
+		$result->free();
+		
+		// LearningModule..MediaObject(s) (= imagemap elements) ***
+		$sql =	"SELECT DISTINCT el.id AS id ".
+				"FROM lerneinheit AS le, page AS pg, element AS el ".
+				"WHERE le.id = ".$id." ".
+				"AND pg.lerneinheit = le.id ".
+				"AND el.page = pg.id ".
+				"AND el.typ = 5 ".
+				"AND el.deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$MediaObject = $this->exportImagemap($row["id"], $LearningModule);
 		}
 		// free result set
 		$result->free();
