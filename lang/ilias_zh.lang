@@ -2222,6 +2222,8 @@ common#:#signature#:#签名
 common#:#size#:#Size###29 Nov 2004 new variable
 common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
+common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
+common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
 common#:#sort_by_this_column#:#根据此列分类
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
 common#:#spl_add#:#Add question pool###07 May 2004 new variable
@@ -2422,6 +2424,7 @@ common#:#view#:#视图
 common#:#view_content#:#视图内容
 common#:#visible_layers#:#可见层
 common#:#visits#:#访问
+common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#星期
 common#:#welcome#:#欢迎
 common#:#who_is_online#:#谁在线？

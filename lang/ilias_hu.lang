@@ -2204,6 +2204,8 @@ common#:#signature#:#Aláírás
 common#:#size#:#Size###29 Nov 2004 new variable
 common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
+common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
+common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
 common#:#sort_by_this_column#:#Rendezés erre az oszlopra
 common#:#spl#:#Kérdésgyűjtemény (felmérés)
 common#:#spl_add#:#Kérdésgyűjtemény hozzáadása
@@ -2404,6 +2406,7 @@ common#:#view#:#Nézet
 common#:#view_content#:#Tartalom nézet
 common#:#visible_layers#:#Látható rétegek
 common#:#visits#:#Látogatók
+common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Hét
 common#:#welcome#:#Üdvözöljük 
 common#:#who_is_online#:#Ki van on-line?

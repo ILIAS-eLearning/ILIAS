@@ -2205,6 +2205,8 @@ common#:#signature#:#firma
 common#:#size#:#Size###29 Nov 2004 new variable
 common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP
+common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
+common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
 common#:#sort_by_this_column#:#Ordenar por esta columna
 common#:#spl#:#Repositorio de Preguntas (Encuesta)
 common#:#spl_add#:#Añadir repositorio de preguntas
@@ -2405,6 +2407,7 @@ common#:#view#:#-Ver-
 common#:#view_content#:#ver contenido
 common#:#visible_layers#:#capas visibles
 common#:#visits#:#visitas
+common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Semana
 common#:#welcome#:#Bienvenido
 common#:#who_is_online#:#Who's online?
