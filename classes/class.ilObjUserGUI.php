@@ -124,24 +124,24 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 	/**
-     * display user create form
-     */
+	* display user create form
+	*/
 	function createObject()
 	{
-        global $ilias, $rbacsystem, $rbacreview, $styleDefinition;
-
-        //load ILIAS settings
-        $settings = $ilias->getAllSettings();
-
+		global $ilias, $rbacsystem, $rbacreview, $styleDefinition;
+		
+		//load ILIAS settings
+		$settings = $ilias->getAllSettings();
+		
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
 		// role selection
 		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-
+		
 		$rol = array();
 		foreach ($obj_list as $obj_data)
 		{
@@ -149,7 +149,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->object->getRefId() != USER_FOLDER_ID)
 			{
 				include_once './classes/class.ilObjRole.php';
-
+		
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
 					continue;
@@ -165,15 +165,15 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 		}
-
+		
 		// raise error if there is no global role user can be assigned to
 		if(!count($rol))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
 		$keys = array_keys($rol);
-
+		
 		// set pre defined user role to default
 		if (in_array(4,$keys))
 		{
@@ -186,14 +186,14 @@ class ilObjUserGUI extends ilObjectGUI
 				$key = key($keys[2]);
 				unset($keys[$key]);
 			}
-
+		
 			$default_role = array_shift($keys);
 		}
-
+		
 		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
-
+		
 		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
-
+		
 		$data = array();
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
@@ -215,14 +215,14 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = "";
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
-        $data["fields"]["referral_comment"] = "";
-        $data["fields"]["create_date"] = "";
-        $data["fields"]["approve_date"] = "";
-        $data["fields"]["active"] = "";
+		$data["fields"]["referral_comment"] = "";
+		$data["fields"]["create_date"] = "";
+		$data["fields"]["approve_date"] = "";
+		$data["fields"]["active"] = "";
 		$data["fields"]["default_role"] = $roles;
-
+		
 		$this->getTemplateFile("edit","usr");
-
+		
 		// fill presets
 		foreach ($data["fields"] as $key => $val)
 		{
@@ -231,15 +231,15 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$str = $this->lng->txt("person_title");
 			}
-
-            // check to see if dynamically required
-            if (isset($settings["require_" . $key]) && $settings["require_" . $key])
-            {
-                $str = $str . '<span class="asterisk">*</span>';
-            }
-
+		
+			// check to see if dynamically required
+			if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+			{
+				$str = $str . '<span class="asterisk">*</span>';
+			}
+		
 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
-
+		
 			if ($key == "default_role")
 			{
 				$this->tpl->setVariable(strtoupper($key), $val);
@@ -248,25 +248,24 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			}
-
+		
 			if ($this->prepare_output)
 			{
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-
-		$this->ctrl->setParameter($this,'new_type',$this->type);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		
+		$this->ctrl->setParameter($this,'new_type',$this->type);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));		
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
+		
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
-        $this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
+		$this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
@@ -275,15 +274,15 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
-
+		
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
 		{
-            if (!isset($_SESSION["error_post_vars"]["Fobject"]["active"]))
-            {
-                $_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
-            }
-
+			if (!isset($_SESSION["error_post_vars"]["Fobject"]["active"]))
+			{
+				$_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
+			}
+		
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
 				if ($key != "default_role" and $key != "language" and $key != "skin_style")
@@ -291,51 +290,51 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
 			}
-
+		
 			// gender selection
 			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-
+		
 			if (!empty($gender))
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
-
-            $active = $_SESSION["error_post_vars"]["Fobject"]["active"];
-            if ($active)
-            {
-                $this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
-            }
+		
+			$active = $_SESSION["error_post_vars"]["Fobject"]["active"];
+			if ($active)
+			{
+				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+			}
 		}
-
+		
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
-
+		
 		// preselect previous chosen language otherwise default language
 		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
-
+		
 		foreach ($languages as $lang_key)
 		{
 			$this->tpl->setCurrentBlock("language_selection");
 			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
 			$this->tpl->setVariable("LANGSHORT", $lang_key);
-
+		
 			if ($selected_lang == $lang_key)
 			{
 				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 			}
-
+		
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
-
+		
 		// skin & style selection
 		$templates = $styleDefinition->getAllTemplates();
 		//$this->ilias->getSkins();
-
+		
 		// preselect previous chosen skin/style otherwise default skin/style
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
 		{
 			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
-
+		
 			$selected_style = $sknst[1];
 			$selected_skin = $sknst[0];
 		}
@@ -344,7 +343,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_style = $this->object->prefs["style"];
 			$selected_skin = $this->object->skin;
 		}
-
+		
 		foreach ($templates as $template)
 		{
 			// get styles for skin
@@ -352,70 +351,70 @@ class ilObjUserGUI extends ilObjectGUI
 			$styleDef =& new ilStyleDefinition($template["id"]);
 			$styleDef->startParsing();
 			$styles = $styleDef->getStyles();
-
+		
 			foreach($styles as $style)
 			{
 				$this->tpl->setCurrentBlock("selectskin");
-
+		
 				if ($selected_skin == $template["id"] &&
 					$selected_style == $style["id"])
 				{
 					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 				}
-
+		
 				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
 				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection
-
-
+		
+		
 		// time limit
 		if (is_array($_SESSION["error_post_vars"]))
-        {
-            $time_limit_unlimited = $_SESSION["error_post_vars"]["time_limit"]["unlimited"];
-        }
-        else
-        {
-            $time_limit_unlimited = 1;
-        }
-
-        $time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
-            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
-            time();
-
-        $time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
-            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
-            time();
-
+		{
+			$time_limit_unlimited = $_SESSION["error_post_vars"]["time_limit"]["unlimited"];
+		}
+		else
+		{
+			$time_limit_unlimited = 1;
+		}
+		
+		$time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
+			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
+			time();
+		
+		$time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
+			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
+			time();
+		
 		$this->lng->loadLanguageModule('crs');
-
+		
 		$this->tpl->setCurrentBlock("time_limit");
-        $this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
-        $this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
-        $this->tpl->setVariable("TXT_TIME_LIMIT_FROM", $this->lng->txt("crs_from"));
-        $this->tpl->setVariable("TXT_TIME_LIMIT_UNTIL", $this->lng->txt("crs_to"));
-        $this->tpl->setVariable("TXT_TIME_LIMIT_CLOCK", $this->lng->txt("clock"));
-        $this->tpl->setVariable("TIME_LIMIT_UNLIMITED",ilUtil::formCheckbox($time_limit_unlimited,"time_limit[unlimited]",1));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MINUTE",$this->__getDateSelect("minute","time_limit[from][minute]",
-																					   date("i",$time_limit_from)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_HOUR",$this->__getDateSelect("hour","time_limit[from][hour]",
-                                                                                     date("G",$time_limit_from)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_DAY",$this->__getDateSelect("day","time_limit[from][day]",
+		$this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
+		$this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
+		$this->tpl->setVariable("TXT_TIME_LIMIT_FROM", $this->lng->txt("crs_from"));
+		$this->tpl->setVariable("TXT_TIME_LIMIT_UNTIL", $this->lng->txt("crs_to"));
+		$this->tpl->setVariable("TXT_TIME_LIMIT_CLOCK", $this->lng->txt("clock"));
+		$this->tpl->setVariable("TIME_LIMIT_UNLIMITED",ilUtil::formCheckbox($time_limit_unlimited,"time_limit[unlimited]",1));
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MINUTE",$this->__getDateSelect("minute","time_limit[from][minute]",
+			date("i",$time_limit_from)));
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_HOUR",$this->__getDateSelect("hour","time_limit[from][hour]",
+																					 date("G",$time_limit_from)));
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_DAY",$this->__getDateSelect("day","time_limit[from][day]",
 																					date("d",$time_limit_from)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MONTH",$this->__getDateSelect("month","time_limit[from][month]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MONTH",$this->__getDateSelect("month","time_limit[from][month]",
 																					  date("m",$time_limit_from)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_YEAR",$this->__getDateSelect("year","time_limit[from][year]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_YEAR",$this->__getDateSelect("year","time_limit[from][year]",
 																					 date("Y",$time_limit_from)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MINUTE",$this->__getDateSelect("minute","time_limit[until][minute]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MINUTE",$this->__getDateSelect("minute","time_limit[until][minute]",
 																						date("i",$time_limit_until)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_HOUR",$this->__getDateSelect("hour","time_limit[until][hour]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_HOUR",$this->__getDateSelect("hour","time_limit[until][hour]",
 																					  date("G",$time_limit_until)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_DAY",$this->__getDateSelect("day","time_limit[until][day]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_DAY",$this->__getDateSelect("day","time_limit[until][day]",
 																					 date("d",$time_limit_until)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MONTH",$this->__getDateSelect("month","time_limit[until][month]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MONTH",$this->__getDateSelect("month","time_limit[until][month]",
 																					   date("m",$time_limit_until)));
-        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
+		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
 																					  date("Y",$time_limit_until)));
 		$this->tpl->parseCurrentBlock();
 

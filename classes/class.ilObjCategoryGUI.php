@@ -699,10 +699,16 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// display button
+		// add user button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjusergui','create'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('add_user'));
+		$this->tpl->parseCurrentBlock();
+
+		// import user button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui','importUserForm'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('import_users'));
 		$this->tpl->parseCurrentBlock();
 
 		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'])))

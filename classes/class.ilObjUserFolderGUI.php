@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.31 2004/09/15 05:52:54 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.32 2004/09/15 23:52:30 bblackmoor Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -40,10 +40,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
 
 	/**
@@ -699,7 +699,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
 
 		$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
 		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
@@ -717,9 +718,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importCancelledObject()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			$return_location = $_GET["cmd_return_location"];
+			ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
+
 	}
 
 	/**
