@@ -121,14 +121,14 @@ class ilLMEditorGUI
 		switch($next_class)
 		{
 			case "ilobjdlbookgui":
-				$this->main_header();
+				$this->main_header($this->lm_obj->getType());
 				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				$ret =& $book_gui->executeCommand();
 				$this->tpl->show();
 				break;
 
 			case "ilobjlearningmodulegui":
-				$this->main_header();
+				$this->main_header($this->lm_obj->getType());
 				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				$ret =& $lm_gui->executeCommand();
 				$this->tpl->show();
@@ -138,116 +138,6 @@ class ilLMEditorGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		return;
-
-/*
-		$new_type = (isset($_GET["new_type"]))
-			? $_GET["new_type"]
-			: $_POST["new_type"];
-
-
-		switch($cmd)
-		{
-			case "explorer":
-			case "frameset":
-				$this->$cmd();
-				break;
-
-			case "showImageMap":
-				$this->showImageMap();
-				break;
-
-			default:
-				$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
-#				$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
-
-				$this->tpl->setCurrentBlock("ContentStyle");
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath($this->lm_obj->getStyleSheetId()));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-
-				if(!empty($_GET["obj_id"]))		// we got a page or structure object
-				{
-					$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
-					$this->obj =& $obj;
-					if (is_object($obj))
-					{
-//echo "1c";
-						if($type != "content")
-						{
-							$type = ($cmd == "create" || $cmd == "save")
-								? $new_type
-								: $obj->getType();
-							$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
-						}
-					}
-				}
-				else		// command belongs to learning module
-				{
-					$this->main_header($this->lng->txt($this->lm_obj->getType()).": ".$this->lm_obj->getTitle(),$this->lm_obj->getType());
-					$type = ($cmd == "create" || $cmd == "save")
-							? $new_type
-							: $this->lm_obj->getType();
-				}
-
-//echo "2"; exit;
-//echo "type:$type:cmd:$cmd:ctype:$ctype:";
-				if($type == "content")
-				{
-					$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
-					$pg_gui->setLMPageObject($obj);
-					$pg_gui->showPageEditor();
-				}
-				else
-				{
-//echo "type:$type:cmd:$cmd:<br>";
-					switch ($type)
-					{
-						case "pg":
-							$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
-							if (is_object($obj))
-							{
-								$pg_gui->setLMPageObject($obj);
-							}
-
-							$pg_gui->$cmd();
-							break;
-
-						case "st":
-							if (!is_object($obj))
-							{
-								$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $this->ref_id);
-							}
-							$st_gui =& new ilStructureObjectGUI($this->lm_obj, $this->tree);
-							$st_gui->setStructureObject($obj);
-							$st_gui->$cmd();
-							break;
-
-						case "dbk":
-							$lm_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
-							$lm_gui->$cmd();
-							break;
-
-						case "lm":
-							$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
-							$lm_gui->$cmd();
-							break;
-
-						case "meta":
-							require_once ("classes/class.ilMetaDataGUI.php");
-							$meta_gui =& new ilMetaDataGUI($obj->getMetaData());
-							$meta_gui->setLMObject($this->lm_obj);
-							$meta_gui->setObject($obj);
-							$meta_gui->$cmd();
-							break;
-
-					}
-				}
-				$this->tpl->show();
-				break;
-		}*/
 	}
 
 	function _forwards()
@@ -340,7 +230,7 @@ class ilLMEditorGUI
 	/**
 	* output main header (title and locator)
 	*/
-	function main_header()
+	function main_header($a_type)
 	{
 		global $lng;
 
@@ -348,60 +238,39 @@ class ilLMEditorGUI
 		//$this->tpl->setVariable("HEADER", $a_header_title);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-		$this->displayLocator();
+		$this->displayLocator($a_type);
 
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm_obj->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
-
-
-		//$this->setAdminTabs($a_type);
 	}
-
-
-	/**
-	* output a cell in object list
-	*/
-	/*
-	function add_cell($val, $link = "")
-	{
-		if(!empty($link))
-		{
-			$this->tpl->setCurrentBlock("begin_link");
-			$this->tpl->setVariable("LINK_TARGET", $link);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("end_link");
-		}
-
-		$this->tpl->setCurrentBlock("text");
-		$this->tpl->setVariable("TEXT_CONTENT", $val);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("table_cell");
-		$this->tpl->parseCurrentBlock();
-	}*/
 
 	/**
 	* display locator
 	*/
-	function displayLocator()
+	function displayLocator($a_type)
 	{
+		switch ($a_type)
+		{
+			case "lm":
+				$a_gui_class = "ilobjlearningmodulegui";
+				break;
+
+			default:
+				$a_gui_class = "ilobjdlbookgui";
+				break;
+		}
+
 		require_once("content/classes/class.ilContObjLocatorGUI.php");
 		$contObjLocator =& new ilContObjLocatorGUI($this->tree);
-		$contObjLocator->setObject($this->obj);
+		if ($_GET["obj_id"] != "")
+		{
+			$contObjLocator->setObjectID($_GET["obj_id"]);
+		}
 		$contObjLocator->setContentObject($this->lm_obj);
-		$contObjLocator->display();
+		$contObjLocator->display($a_gui_class);
 	}
-
-	/*
-	function setAdminTabs($a_type)
-	{
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI;
-		$tabs_gui->getTargetsByObjectType($this, $a_type);
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}*/
-
 
 }
 ?>

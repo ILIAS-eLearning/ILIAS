@@ -88,10 +88,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		{
 			case "ilpageobjectgui":
 				$this->ctrl->setReturn($this, "view");
-				require_once("content/classes/class.ilContObjLocatorGUI.php");
-				$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
-				$contObjLocator->setObject($this->obj);
-				$contObjLocator->setContentObject($this->content_object);
+				//require_once("content/classes/class.ilContObjLocatorGUI.php");
+				//$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
+				//$contObjLocator->setObject($this->obj);
+				//$contObjLocator->setContentObject($this->content_object);
 
 				$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
