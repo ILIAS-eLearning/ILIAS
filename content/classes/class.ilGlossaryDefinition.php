@@ -209,6 +209,92 @@ class ilGlossaryDefinition
 
 	}
 
+
+	function moveUp()
+	{
+		// lock glossary_definition table
+		$q = "LOCK TABLES glossary_definition WRITE";
+		$this->ilias->db->query($q);
+
+		// be sure to get the right number
+		$q = "SELECT * FROM glossary_definition WHERE id = '".$this->id."'";
+		$def_set = $this->ilias->db->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setNr($def_rec["nr"]);
+
+		if ($this->getNr() < 2)
+		{
+			$q = "UNLOCK TABLES";
+			$this->ilias->db->query($q);
+			return;
+		}
+
+		// update numbers of other definitions
+		$q = "UPDATE glossary_definition SET ".
+			" nr = nr + 1 ".
+			" WHERE term_id = '".$this->getTermId()."' ".
+			" AND nr = ".($this->getNr() - 1);
+		$this->ilias->db->query($q);
+
+		// delete current definition
+		$q = "UPDATE glossary_definition SET ".
+			" nr = nr - 1 ".
+			" WHERE term_id = '".$this->getTermId()."' ".
+			" AND id = ".$this->getId();
+		$this->ilias->db->query($q);
+
+		// unlock glossary_definition table
+		$q = "UNLOCK TABLES";
+		$this->ilias->db->query($q);
+
+	}
+
+
+	function moveDown()
+	{
+		// lock glossary_definition table
+		$q = "LOCK TABLES glossary_definition WRITE";
+		$this->ilias->db->query($q);
+
+		// be sure to get the right number
+		$q = "SELECT * FROM glossary_definition WHERE id = '".$this->id."'";
+		$def_set = $this->ilias->db->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setNr($def_rec["nr"]);
+
+		// get max number
+		$q = "SELECT max(nr) as max_nr FROM glossary_definition WHERE term_id = '".$this->getTermId()."'";
+		$max_set = $this->ilias->db->query($q);
+		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		if ($this->getNr() >= $max_rec["max_nr"])
+		{
+			$q = "UNLOCK TABLES";
+			$this->ilias->db->query($q);
+			return;
+		}
+
+		// update numbers of other definitions
+		$q = "UPDATE glossary_definition SET ".
+			" nr = nr - 1 ".
+			" WHERE term_id = '".$this->getTermId()."' ".
+			" AND nr = ".($this->getNr() + 1);
+		$this->ilias->db->query($q);
+
+		// delete current definition
+		$q = "UPDATE glossary_definition SET ".
+			" nr = nr + 1 ".
+			" WHERE term_id = '".$this->getTermId()."' ".
+			" AND id = ".$this->getId();
+		$this->ilias->db->query($q);
+
+		// unlock glossary_definition table
+		$q = "UNLOCK TABLES";
+		$this->ilias->db->query($q);
+
+	}
+
+
 	function update()
 	{
 		$q = "UPDATE glossary_definition SET ".

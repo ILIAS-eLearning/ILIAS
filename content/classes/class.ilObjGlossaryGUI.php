@@ -322,6 +322,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_HEADER",
 			$this->lng->txt("cont_term").": ".$term->getTerm());
 
+		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=post&term_id=".$_GET["term_id"]);
+		$this->tpl->setVariable("TXT_ADD_DEFINITION",
+			$this->lng->txt("cont_add_definition"));
+		$this->tpl->setVariable("BTN_ADD", "addDefinition");
+
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
 		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
@@ -341,6 +347,24 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("definition_header");
 						$this->tpl->setVariable("TXT_DEFINITION",
 				$this->lng->txt("cont_definition")." ".($j+1));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($j > 0)
+			{
+				$this->tpl->setCurrentBlock("up");
+				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
+				$this->tpl->setVariable("LINK_UP",
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($j+1 < count($defs))
+			{
+				$this->tpl->setCurrentBlock("down");
+				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
+				$this->tpl->setVariable("LINK_DOWN",
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -501,22 +525,29 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function addDefinition()
 	{
-
-		if (count($_POST["id"]) < 1)
+		if (empty($_GET["term_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
+			if (count($_POST["id"]) < 1)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			if (count($_POST["id"]) > 1)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
-		if (count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
-		}
+		$term_id = empty($_GET["term_id"])
+			? $_POST["id"][0]
+			: $_GET["term_id"];
 
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$_POST["id"][0]."&cmd=saveDefinition");
+			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
+
 	}
 
 	function saveDefinition()
