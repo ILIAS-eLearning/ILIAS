@@ -70,7 +70,7 @@ class ilLMEditorGUI
 		$this->lm_id = $_GET["lm_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		$hier_id = $_GET["hier_id"];		// Position of content object (starting with 1)
+		$hier_id = $_GET["hier_id"];
 		if(isset($_POST["new_hier_id"]))
 		{
 			$hier_id = $_POST["new_hier_id"];

@@ -58,6 +58,39 @@ class ilLMTableGUI extends ilPageContentGUI
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
 
+		// table
+		$this->tpl->setVariable("TXT_TABLE", $this->lng->txt("cont_table"));
+		$this->tpl->setVariable("INPUT_TD_WIDTH", "td_width");
+		$this->tpl->setVariable("BTN_WIDTH", "setWidth");
+		$this->tpl->setVariable("BTN_TXT_WIDTH", $this->lng->txt("cont_set_width"));
+		// todo: we need a css concept here!
+		$select_class = ilUtil::formSelect ("","td_class",
+			array("" => $this->lng->txt("none"), "ilc_red" => "ilc_red", "ilc_blue" => "ilc_blue",
+			"ilc_green" => "ilc_green", "ilc_yellow" => "ilc_yellow"),false,true);
+		$this->tpl->setVariable("SELECT_CLASS", $select_class);
+		$this->tpl->setVariable("BTN_CLASS", "setClass");
+		$this->tpl->setVariable("BTN_TXT_CLASS", $this->lng->txt("cont_set_class"));
+		$tab_node = $this->content_obj->getNode();
+		$content = $this->dom->dump_node($tab_node);
+		//$dom2 =& domxml_open_mem($this->xml);
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		$params = array ('mode' => 'table_edit');
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$output = str_replace("&lt;","<",$output);
+		$output = str_replace("&gt;",">",$output);
+//echo "<b>HTML</b>".htmlentities($output);
+		$this->tpl->setVariable("CONT_TABLE", $output);
+
+
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMetaData::getLanguages();
@@ -84,15 +117,13 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("INPUT_TABLE_SPACING", "tab_spacing");
 		$this->tpl->setVariable("VAL_TABLE_SPACING", $this->content_obj->getCellSpacing());
 
-		// header caption
-		$this->tpl->setVariable("TXT_HEADER_CAPTION", $this->lng->txt("cont_header_caption"));
-		$this->tpl->setVariable("INPUT_HEADER_CAPTION", "header_caption");
-		$this->tpl->setVariable("VAL_HEADER_CAPTION", $this->content_obj->getHeaderCaption());
-
-		// footer caption
-		$this->tpl->setVariable("TXT_FOOTER_CAPTION", $this->lng->txt("cont_footer_caption"));
-		$this->tpl->setVariable("INPUT_FOOTER_CAPTION", "footer_caption");
-		$this->tpl->setVariable("VAL_FOOTER_CAPTION", $this->content_obj->getFooterCaption());
+		// caption
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("INPUT_CAPTION", "tab_caption");
+		$this->tpl->setVariable("VAL_CAPTION", $this->content_obj->getCaption());
+		$select_align = ilUtil::formSelect ($this->content_obj->getCaptionAlign(),"tab_cap_align",
+			array("top" => $this->lng->txt("cont_top"), "bottom" => $this->lng->txt("cont_bottom")),false,true);
+		$this->tpl->setVariable("SELECT_CAPTION", $select_align);
 
 		$this->tpl->parseCurrentBlock();
 
@@ -104,6 +135,41 @@ class ilLMTableGUI extends ilPageContentGUI
 
 	}
 
+	/**
+	* set width of selected table data cells
+	*/
+	function setWidth()
+	{
+		if (is_array($_POST["target"]))
+		{
+			foreach ($_POST["target"] as $hier_id)
+			{
+				$this->content_obj->setTDWidth($hier_id, $_POST["td_width"]);
+			}
+		}
+		$this->pg_obj->update();
+		$this->edit();
+	}
+
+	/**
+	* set class of selected table data cells
+	*/
+	function setClass()
+	{
+		if (is_array($_POST["target"]))
+		{
+			foreach ($_POST["target"] as $hier_id)
+			{
+				$this->content_obj->setTDClass($hier_id, $_POST["td_class"]);
+			}
+		}
+		$this->pg_obj->update();
+		$this->edit();
+	}
+
+	/**
+	* save table properties and return to page edit screen
+	*/
 	function saveProperties()
 	{
 		$this->content_obj->setLanguage($_POST["tab_language"]);
@@ -111,8 +177,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->content_obj->setBorder($_POST["tab_border"]);
 		$this->content_obj->setCellSpacing($_POST["tab_spacing"]);
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
-		$this->content_obj->setHeaderCaption($_POST["header_caption"]);
-		$this->content_obj->setFooterCaption($_POST["footer_caption"]);
+		$this->content_obj->setCaption($_POST["tab_caption"], $_POST["tab_cap_align"]);
 		$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -122,7 +187,7 @@ class ilLMTableGUI extends ilPageContentGUI
 
 	function insert()
 	{
-		// add paragraph edit template
+		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".

@@ -33,7 +33,7 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
-		<xsl:value-of select="@HierId"/>
+		<!-- <xsl:value-of select="@HierId"/> -->
 		<!-- checkbox -->
 		<!--
 		<xsl:if test="$mode = 'edit'">
@@ -91,13 +91,14 @@
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
 	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
-	<xsl:for-each select="HeaderCaption">
+	<!--<xsl:for-each select="HeaderCaption">
 		<caption align="top">
 		<xsl:value-of select="."/>
 		</caption>
-	</xsl:for-each>
-	<xsl:for-each select="FooterCaption">
-		<caption align="bottom">
+	</xsl:for-each>-->
+	<xsl:for-each select="Caption">
+		<caption>
+		<xsl:attribute name="align"><xsl:value-of select="@Align"/></xsl:attribute>
 		<xsl:value-of select="."/>
 		</caption>
 	</xsl:for-each>
@@ -109,25 +110,31 @@
 					<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
-					<xsl:if test="$mode = 'edit'">
+					<xsl:if test="$mode = 'edit' or $mode = 'table_edit'">
 						<!-- checkbox -->
-						<xsl:if test="$mode = 'edit'">
-							<input type="checkbox" name="target[]">
-								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
-								</xsl:attribute>
-							</input>
-						</xsl:if>
-						<!-- insert select list -->
-						<select size="1" class="ilEditSelect">
-							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+						<input type="checkbox" name="target[]">
+							<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
 							</xsl:attribute>
-							<option value="insert_par">insert Paragr.</option>
-							<option value="insert_tab">insert Table</option>
-						</select>
-						<input class="ilEditSubmit" type="submit" value="Go">
-							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 						</input>
-						<br/>
+						<!-- insert select list -->
+						<xsl:if test="$mode = 'edit'">
+							<select size="1" class="ilEditSelect">
+								<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+								</xsl:attribute>
+								<option value="insert_par">insert Paragr.</option>
+								<option value="insert_tab">insert Table</option>
+							</select>
+							<input class="ilEditSubmit" type="submit" value="Go">
+								<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+							</input>
+							<br/>
+						</xsl:if>
+					</xsl:if>
+					<!-- class and width output for table edit -->
+					<xsl:if test="$mode = 'table_edit'">
+					<br />
+					<b>Class: <xsl:value-of select="@Class"/></b><br />
+					<b>Width: <xsl:value-of select="@Width"/></b><br />
 					</xsl:if>
 					<!-- content -->
 					<xsl:apply-templates/>
@@ -138,7 +145,7 @@
 	</table>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
-		<xsl:value-of select="@HierId"/>
+		<!-- <xsl:value-of select="@HierId"/> -->
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
 			</xsl:attribute>

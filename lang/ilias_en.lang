@@ -555,6 +555,12 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_set_width#:#Set Width
+content#:#cont_set_class#:#Set Class
+content#:#cont_table#:#Table
+content#:#cont_caption#:#Caption
+content#:#cont_top#:#Top
+content#:#cont_bottom#:#Bottom
 content#:#cont_all_pages#:#All Pages
 content#:#cont_chapters#:#Chapters
 content#:#cont_content#:#Content

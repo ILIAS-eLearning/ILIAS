@@ -1,4 +1,29 @@
 <form action="{FORMACTION}" name="post" method="post">
+<!-- Table -->
+<table class="std">
+<tr class="tblheader">
+	<td class="std">
+		{TXT_TABLE}
+	</td>
+</tr>
+<tr>
+	<td class="option_value">
+		{CONT_TABLE}
+	</td>
+</tr>
+<tr>
+	<td class="submit">
+	<input name="{INPUT_TD_WIDTH}" value="" size="8" maxlength="8" />
+	<input class="submit" type="submit" name="cmd[{BTN_WIDTH}]" value="{BTN_TXT_WIDTH}" />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	{SELECT_CLASS}
+	<input class="submit" type="submit" name="cmd[{BTN_CLASS}]" value="{BTN_TXT_CLASS}" />
+	</td>
+</tr>
+
+</table>
+<br />
+
 <table class="std">
 <tr class="tblheader">
 	<td class="std" colspan="2">
@@ -50,22 +75,14 @@
 	<input name="{INPUT_TABLE_SPACING}" value="{VAL_TABLE_SPACING}" size="8" maxlength="8" />
 	</td>
 </tr>
-<!-- Header Caption -->
+<!-- Caption -->
 <tr class="std">
 	<td class="option">
-	{TXT_HEADER_CAPTION}
+	{TXT_CAPTION}
 	</td>
 	<td class="option_value">
-	<input name="{INPUT_HEADER_CAPTION}" value="{VAL_HEADER_CAPTION}" size="40" maxlength="100" />
-	</td>
-</tr>
-<!-- Footer Caption -->
-<tr class="std">
-	<td class="option">
-	{TXT_FOOTER_CAPTION}
-	</td>
-	<td class="option_value">
-	<input name="{INPUT_FOOTER_CAPTION}" value="{VAL_FOOTER_CAPTION}" size="40" maxlength="100" />
+	<input name="{INPUT_CAPTION}" value="{VAL_CAPTION}" size="40" maxlength="100" />
+	{SELECT_CAPTION}
 	</td>
 </tr>
 <!-- BEGIN commands -->
