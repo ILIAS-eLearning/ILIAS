@@ -377,9 +377,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
+		global $ilUser;
+		
 		$output = $this->outQuestionPage("ORDERING_QUESTION", $is_postponed);
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 
 		// set solutions
 		if ($test_id)
@@ -393,7 +397,24 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			}
 		}
 
-		$this->tpl->setVariable("ORDERING_QUESTION", $output);
+		foreach ($this->object->answers as $idx => $answer)
+		{
+			$repl_str = "dummy=\"solution_ord$idx\"";
+			$solutionoutput = str_replace($repl_str, $repl_str." value=\"" . $answer->get_solution_order() . "\"", $solutionoutput);
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+		}
+
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
+		{
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+		}
+		if (!$showsolution)
+		{
+			$solutionoutput = "";
+			$received_points = "";
+		}
+		$this->tpl->setVariable("ORDERING_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	/**

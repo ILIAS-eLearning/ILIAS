@@ -661,7 +661,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 //		$solutionoutput = $matches[1];
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
-		$solutionoutput = preg_replace("/multiple_choice_result/", "\"solution_multiple_choice_result", $solutionoutput);
+		$solutionoutput = preg_replace("/multiple_choice_result/", "solution_multiple_choice_result", $solutionoutput);
 		// set solutions
 		if ($test_id)
 		{
