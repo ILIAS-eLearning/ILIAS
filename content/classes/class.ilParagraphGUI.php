@@ -138,14 +138,16 @@ class ilParagraphGUI extends ilPageContentGUI
 		$new_par->createNode();
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_AFTER);
-		//$this->pg_obj->update();
+		$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
+		exit;
 	}
 
 	/**
 	* create paragraph as first child of a container (e.g. a TableData Element)
 	*/
+	/*
 	function create_child()
 	{
 		$new_par = new ilParagraph($this->dom);
@@ -155,7 +157,7 @@ class ilParagraphGUI extends ilPageContentGUI
 		//$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
-	}
+	}*/
 
 }
 ?>

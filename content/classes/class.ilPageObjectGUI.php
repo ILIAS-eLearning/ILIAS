@@ -164,7 +164,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
-echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$params = array ('mode' => 'preview');
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);

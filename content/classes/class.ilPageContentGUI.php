@@ -83,13 +83,13 @@ class ilPageContentGUI
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// todo: make this check work and copy to moveBefore
 		// check if target is within source
-		if($this->hier_id == substr($_POST["target"], 0, strlen($this->hier_id)))
+		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
 		{
-			$this->ilias->raiseError($this->lng->txt("target_within_source"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
-
+//echo "PCGUItarget:".$_POST["target"][0]."<br>";
+		// move
 		$this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -97,14 +97,25 @@ class ilPageContentGUI
 
 	function moveBefore()
 	{
+		// check if a target is selected
 		if(!isset($_POST["target"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if target is within source
 		if(count($_POST["target"]) > 1)
 		{
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if target is within source
+		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// move
 		$this->pg_obj->moveContentBefore($this->hier_id, $_POST["target"][0]);
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());

@@ -386,6 +386,7 @@ class ilPageObject extends ilLMObject
 	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER)
 	{
 		// move mode into container elements is always INSERT_CHILD
+//echo "get node at $a_pos";
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject"))
@@ -426,6 +427,7 @@ class ilPageObject extends ilLMObject
 				$new_node =& $a_cont_obj->getNode();
 				//$a_pos = ilPageContent::incEdId($a_pos);
 				//$curr_node =& $this->getContentNode($a_pos);
+//echo "behind $a_pos:";
 				if($succ_node =& $curr_node->next_sibling())
 				{
 					$new_node =& $succ_node->insert_before($new_node, $succ_node);
@@ -442,6 +444,7 @@ class ilPageObject extends ilLMObject
 				$new_node =& $a_cont_obj->getNode();
 				$succ_node =& $this->getContentNode($a_pos);
 				$new_node =& $succ_node->insert_before($new_node, $succ_node);
+				$a_cont_obj->setNode($new_node);
 				break;
 
 			// insert new node as first child of parent $a_pos (= $a_parent)
@@ -454,12 +457,12 @@ class ilPageObject extends ilLMObject
 				}
 				else
 				{
-					$parent_childs[0]->insert_before($new_node, $parent_childs[0]);
+					$new_node =& $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
 				}
+				$a_cont_obj->setNode($new_node);
 				break;
 		}
 
-		$this->update();
 	}
 
 	/**
@@ -504,10 +507,9 @@ class ilPageObject extends ilLMObject
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
-		$this->insertContent($content, $a_target, $mode);
+		$this->insertContent($content, $a_target, IL_INSERT_BEFORE);
 		$this->update();
 
-		$this->update();
 	}
 
 	/**
@@ -516,6 +518,7 @@ class ilPageObject extends ilLMObject
 	*/
 	function moveContentAfter($a_source, $a_target)
 	{
+//echo "source:$a_source:target:$a_target:<br>";
 		if($a_source == $a_target)
 		{
 			return;
@@ -545,8 +548,7 @@ class ilPageObject extends ilLMObject
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
-		$this->insertContent($content, $a_target, $mode);
-
+		$this->insertContent($content, $a_target, IL_INSERT_AFTER);
 		$this->update();
 	}
 
