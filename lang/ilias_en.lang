@@ -2079,6 +2079,7 @@ common#:#qpl_visible#:#Question Pool for Test is visible
 common#:#qpl_write#:#Edit Question Pool for Test
 common#:#query_data#:#Query data
 common#:#question#:#Question
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
 common#:#question_pools#:#Question pools
 common#:#quit#:#Quit
 common#:#quote#:#Quote
@@ -2538,6 +2539,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_paste_from_clipboard#:#Paste from clipboard
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -2545,6 +2547,7 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
+content#:#cont_copy_to_media_pool#:#Copy to media pool
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered

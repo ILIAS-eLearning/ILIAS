@@ -53,6 +53,7 @@ class ilEditClipboardGUI
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->multiple = false;
 		if ($_GET["returnCommand"] != "")
 		{
 			$this->mode = "getObject";
@@ -116,7 +117,22 @@ class ilEditClipboardGUI
 
 		return $ret;
 	}
+	
+	/**
+	* set, if multiple selections are enabled
+	*/
+	function setMultipleSelections($a_multiple = true)
+	{
+		$this->multiple = $a_multiple;
+	}
 
+	/**
+	* check wether multiple selections are enabled
+	*/
+	function getMultipleSelections()
+	{
+		return $this->multiple;
+	}
 
 	/*
 	* display clipboard content
@@ -304,15 +320,23 @@ class ilEditClipboardGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		if(count($_POST["id"]) > 1)
+		
+		if (!$this->getMultipleSelections())
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			if(count($_POST["id"]) > 1)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
+		$_SESSION["ilEditClipboard_mob_id"] = $_POST["id"];
 		ilUtil::redirect(ilUtil::appendUrlParameterString(
 			$_GET["returnCommand"], "clip_obj_type=mob&clip_obj_id=".$_POST["id"][0]));
-
-
+	}
+	
+	function _getSelectedIDs()
+	{
+		return $_SESSION["ilEditClipboard_mob_id"];
 	}
 
 	/**

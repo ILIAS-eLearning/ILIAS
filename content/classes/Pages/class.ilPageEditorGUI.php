@@ -214,6 +214,7 @@ class ilPageEditorGUI
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
+				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
@@ -517,6 +518,17 @@ class ilPageEditorGUI
 		sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
 		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* copy linked media object to media pool
+	*/
+	function copyLinkedMediaToMediaPool()
+	{
+		global $ilUser;
+		
+		$this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $_POST["mob_id"]); 
+		$this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
 	}
 	
 	/**
