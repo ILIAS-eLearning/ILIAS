@@ -83,9 +83,9 @@ class ASS_Question extends PEAR {
   var $author;
 
 /**
-* Contains uris to additional materials
+* Contains uris name and uris to additional materials
 *
-* Contains uris to additional materials
+* Contains uris name and uris to additional materials
 *
 * @var array
 */
@@ -269,15 +269,40 @@ class ASS_Question extends PEAR {
 *
 * Sets the materials uri
 *
-* @param string $materials An uri to additional materials
+* @param string $materials_file An uri to additional materials
+* @param string $materials_name An uri name to additional materials
 * @access public
 * @see $materials
 */
-  function add_materials($material) {
-    if ((!empty($material))&&(!in_array($material, $this->materials))) {
-      array_push($this->materials, $material);
+  function add_materials($materials_file, $materials_name="") {
+  	if(empty($materials_name)) {
+    	$materials_name = $materials_file;
+    }
+    if ((!empty($materials_name))&&(!$this->key_in_array($materials_name, $this->materials))) {
+      $this->materials[$materials_name] = $materials_file;
     }
 
+  }
+
+/**
+* returns TRUE if the key occurs in an array
+*
+* returns TRUE if the key occurs in an array
+*
+* @param string $arraykey A key to an element in array
+* @param array $array An array to be searched
+* @access public
+* @see $materials
+*/
+  function key_in_array($searchkey, $array) {
+	  if ($searchKey) {
+		   foreach ($array as $key => $value) {
+			   if (strcmp($key, $searchkey)==0) {
+				   return true;
+			   }
+		   }
+	   }
+	   return false;
   }
 
 /**
@@ -285,10 +310,10 @@ class ASS_Question extends PEAR {
 *
 * Sets and uploads the materials uri
 *
-* @param string $materials_filename, string $materials_tempfilename
+* @param string $materials_filename, string $materials_tempfilename, string $materials
 * @access public
 * @see $materials
-*/  function set_materialsfile($materials_filename, $materials_tempfilename="") {
+*/  function set_materialsfile($materials_filename, $materials_tempfilename="", $materials_name="") {
 		if (!empty($materials_filename)) {
 			$materialspath = $this->get_materials_path();
 			if (!file_exists($materialspath)) {
@@ -297,28 +322,27 @@ class ASS_Question extends PEAR {
 			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
 				print "image not uploaded!!!! ";
 			} else {
-				$this->add_materials($materials_filename);
+				$this->add_materials($materials_filename, $materials_name);
 			}
 		}
 	}
 
 /**
-* Deletes a material uri
+* Deletes a materials uri
 *
-* Deletes a material uri with a given index. The index of the first
-* material uri is 0, the index of the second material uri is 1 and so on.
+* Deletes a materials uri with a given name.
 *
-* @param integer $index A nonnegative index of the n-th material uri
+* @param string $index A materials_name of the materials uri
 * @access public
 * @see $materials
 */
-  function delete_material($material = "") {
+  function delete_material($materials_name = "") {
 	foreach ($this->materials as $key => $value) {
-		if (strcmp($value, $material)==0) {
-			unset($this->materials[$key]);
-			if (file_exists($this->get_materials_path().$material)) {
-				unlink($this->get_materials_path().$material);
+		if (strcmp($key, $materials_name)==0) {
+			if (file_exists($this->get_materials_path().$value)) {
+				unlink($this->get_materials_path().$value);
 			}
+			unset($this->materials[$key]);
 		}
 	}
   }
@@ -665,8 +689,9 @@ class ASS_Question extends PEAR {
  	    $result = $db->query($query);
 		if (!empty($this->materials)) {
 			foreach ($this->materials as $key => $value) {
-				$query = sprintf("INSERT INTO qpl_question_material (question_id, materials) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO qpl_question_material (question_id, materials, materials_file) VALUES (%s, %s, %s)",
 					$db->quote($this->id),
+					$db->quote($key),
 					$db->quote($value)
 				);
 				$result = $db->query($query);
@@ -695,7 +720,7 @@ class ASS_Question extends PEAR {
     if (strcmp(get_class($result), db_result) == 0) {
     	$this->materials = array();
     	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        	$this->add_materials($data->materials);
+        	$this->add_materials($data->materials_file, $data->materials);
 
         }
     }
@@ -705,19 +730,19 @@ class ASS_Question extends PEAR {
 
 /**
 * Loads solutions of the active user from the database an returns it
-* 
+*
 * Loads solutions of the active user from the database an returns it
 *
 * @param integer $test_id The database id of the test containing this question
 * @access public
 * @see $answers
 */
-	function &get_solution_values($test_id) { 
+	function &get_solution_values($test_id) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->get_id())
