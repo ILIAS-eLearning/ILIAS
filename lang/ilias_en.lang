@@ -1,5 +1,3 @@
-
-
 /**
 * ILIAS language file
 *
@@ -321,7 +319,7 @@ common#:#group_registration_mode#:#Registration Mode
 common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.
-common#:#group_reset#:#Reset Group
+common#:#group_reset#:#Reset Group Permissions
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_public#:#Public
@@ -333,6 +331,8 @@ common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
+common#:#grp_err_error#:#An error occured
 common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
@@ -340,6 +340,7 @@ common#:#grp_err_registration_data#:#Please enter a password, the expiration dat
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
+common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
 common#:#grp_register#:#Register
@@ -745,6 +746,7 @@ common#:#registered_since#:#Registered since
 common#:#registered_user#:#registered User
 common#:#registered_users#:#registered Users
 common#:#registration#:#New account registration
+common#:#registration_expired#:#Registration period expired...
 common#:#remove#:#Dismiss
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
