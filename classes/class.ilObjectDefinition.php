@@ -237,14 +237,15 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		$subs = array();
 
-		if($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
+		if ($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
 		{
+
 			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
-			if((basename($_SERVER["PATH_INFO"]) == "adm_object.php" and $a_obj_type == "grp"))
+			if ((preg_match("/adm_object.php/",$_SERVER["REQUEST_URI"]) and $a_obj_type == "grp"))
 			{
 				foreach ($subobjects as $data => $sub)
 				{
-					if($sub["module"] != 1)
+					if ($sub["module"] != 1)
 					{
 						$subs[$data] = $sub;
 					}
@@ -256,7 +257,7 @@ class ilObjectDefinition extends ilSaxParser
 			{
 				foreach ($subobjects as $data => $sub)
 				{
-					if($sub["module"] != "n")
+					if ($sub["module"] != "n")
 					{
 						$subs[$data] = $sub;
 					}
