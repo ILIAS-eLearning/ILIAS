@@ -83,16 +83,14 @@ class ilObjectGUI
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		// TODO: id_name is wrong & useless. In case of a given obj_id BOTH ids are needed!!
+		// TODO: it seems that we always have to pass only the ref_id
 		if ($this->call_by_reference)
 		{
-			//$this->id_name = "ref_id";
-			$this->link_params = "ref_id=".$this->ref_id."&obj_id=".$this->obj_id;
+			$this->link_params = "ref_id=".$this->ref_id;
 
 		}
 		else
 		{
-			//$this->id_name = "obj_id";
 			$this->link_params = "ref_id=".$this->ref_id;
 		}
 	}
