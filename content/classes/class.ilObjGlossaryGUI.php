@@ -42,6 +42,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 class ilObjGlossaryGUI extends ilObjectGUI
 {
 	var $admin_tabs;
+	var $mode;
 
 	/**
 	* Constructor
@@ -60,6 +61,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->prepareOutput();
 		}
 	}
+
 
 	/**
 	* form for new content object creation
@@ -144,7 +146,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	}
 
 
-
 	function viewObject()
 	{
 		global $rbacsystem;
@@ -165,6 +166,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
 
 		parent::viewObject();
 	}
@@ -471,7 +478,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function setLocator($a_tree = "", $a_id = "")
 	{
 		global $ilias_locator;
-		
+
 		if(!defined("ILIAS_MODULE"))
 		{
 			parent::setLocator($a_tree, $a_id);
@@ -483,7 +490,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				// ### AA 03.11.10 added new locator GUI class ###
 				$i = 1;
-				
+
 				$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 				if (!empty($_GET["term_id"]))
@@ -496,10 +503,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 				$this->tpl->parseCurrentBlock();
-				
+
 				// ### AA 03.11.10 added new locator GUI class ###
 				// navigate locator
-				$ilias_locator->navigate($i++,$this->object->getTitle(),"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms"),"bottom");
+				$ilias_locator->navigate($i++,$this->object->getTitle(),"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms","bottom");
 
 				if (!empty($_GET["term_id"]))
 				{

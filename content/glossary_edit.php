@@ -35,11 +35,11 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
-/*
-if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
+// check write permission
+if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-}*/
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
 
 
 // editor GUI class does the rest
