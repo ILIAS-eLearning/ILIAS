@@ -143,21 +143,29 @@ class ilCronClients extends PEAR
 			$this->db_data = $ini_file_obj->readGroup('db');
 
 			$this->__readFileDBVersion();
-			if($this->__openDb() and $this->__checkDBVersion())
+
+			if($this->__openDb())
 			{
 				include_once './classes/class.ilCron.php';
-
+				
 				$cron_obj =& new ilCron($this->db);
 				if($this->log['enabled'])
 				{
 					$cron_obj->initLog($this->log['path'],$this->log['file'],$client_data['name']);
 				}
-				$cron_obj->start();
-
+				
+				if($this->__checkDBVersion())
+				{
+					$cron_obj->start();
+				}
+				else
+				{
+					include_once '../classes/class.ilLog.php';
+					
+					$log =& new ilLog($this->log['path'],$this->log['file']);
+					$log->write('Cron: Database not up to date. Aborting');
+				}
 				$this->db->disconnect();
-			}
-			else
-			{
 			}
 		}
 	}

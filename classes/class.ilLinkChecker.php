@@ -185,6 +185,16 @@ class ilLinkChecker
 		return $this->getInvalidLinks();
 	}
 
+	function checkPear()
+	{
+		if(!@include_once('HTTP/Request.php'))
+		{
+			return false;
+		}
+		return true;
+	}
+		
+
 	// PRIVATE
 	function __txt($language,$key,$module = 'common')
 	{
@@ -279,7 +289,7 @@ class ilLinkChecker
 					}
 					++$counter;
 
-					$body .= $this->__txt($usr_data['lang'],'learning_module');
+					$body .= $this->__txt($usr_data['lang'],'lo');
 					$body .= ': ';
 					$body .= $this->__getTitle($obj_id)."\r\n";
 
