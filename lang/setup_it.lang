@@ -106,7 +106,7 @@ delete#:#Elimina
 delete_confirm#:#Confermi la cancellazione del client
 delete_info#:#Sei sicuro?
 details#:#Dettagli
-dir_exists_create#:#La cartella gi&#224; esiste . Non selezionare 'crea' per questa cartella
+dir_exists_create#:#La cartella &#232; gi&#224; presente. Non selezionare 'crea' per questa cartella.
 disable#:#disabilita
 disable_check#:#disabilita il controllo
 disable_logging#:#Disabilita la scrittura dei file di log
@@ -157,8 +157,8 @@ info_text_ini#:#Per favore, definisci un client ID. Il client ID deve essere cos
 info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
 info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
-info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3. Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca qui
-info_text_nic2#:#invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, inseriscilo nel campo appropriato e seleziona 'registrati tramite Email'.
+info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3.<br/>Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca qui
+info_text_nic2#:#invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inseriscilo nel campo appropriato.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo nic-id &#232;
 info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
 info_text_pathes#:#ILIAS3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso del database, la posizione dei file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
@@ -191,7 +191,7 @@ intro_install#:#Questa &#232; la pagina principale del processo di installazione
 ip_address#:#Indirizzo IP
 java_path#:#Percorso a Java
 java_path_comment#:#Richiesto per i Learning module di tipo SCORM
-lang_cs#:#Czech###09 Mar 2004 new variable
+lang_cs#:#Ceco
 lang_de#:#Tedesco
 lang_dk#:#Danese
 lang_en#:#Inglese
@@ -207,7 +207,7 @@ lang_no#:#Norvegese
 lang_no#:#Norvegese
 lang_none_installed#:#Nessuna lingua installata
 lang_pl#:#Polacco
-lang_pt#:#Portuguese###09 Mar 2004 new variable
+lang_pt#:#Portoghese
 lang_se#:#Svedese
 lang_ua#:#Ucraino
 lang_xx#:#Custom
@@ -217,7 +217,7 @@ language#:#Lingua
 languages#:#Lingue
 languages_installed#:#Lingue installate.
 lastname#:#Cognome
-list#:#Lista_client
+list#:#Lista_dei_client
 list_disabled#:#La selezione dei client &#232; disabilitata
 list_enabled#:#La selezione dei client &#232; abilitata
 log_path#:#Percorso del file di Log
@@ -232,7 +232,7 @@ main_datadir_outside_webspace#:#Cartella principale dei dati
 missing_data#:#Dati non trovati
 name#:#Nome
 new#:#nuovo
-next#:#Successivo
+next#:#Prosegui
 nic_not_disabled#:#No NIC-ID & not disabled
 nic_reg_disable#:#disabilita la registrazione NIC
 nic_reg_disable_comment#:#(registra successivamente)
