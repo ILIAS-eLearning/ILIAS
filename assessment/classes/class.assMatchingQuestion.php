@@ -143,7 +143,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     {
       $this->domxml->free();
     }
-    $xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+/*    $xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
     $this->domxml = domxml_open_mem($xml_header);		
     $root = $this->domxml->document_element();
     // qti ident
@@ -172,7 +172,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     // left side
     $qtiFlow_mat = $this->domxml->create_element("flow_mat");
 
-    foreach ($this->answers as $index => $answer)
+    foreach ($this->matchingpairs as $index => $answer)
     {
       $qtiMaterial = $this->domxml->create_element("material");
       $qtiMatText = $this->domxml->create_element("mattext");
@@ -199,7 +199,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 
     //right side
     $qtiFlow_mat = $this->domxml->create_element("flow_mat");
-    foreach ($this->answers as $index => $answer)
+    foreach ($this->matchingpairs as $index => $answer)
     {		    
       $qtiMaterial = $this->domxml->create_element("material");
       $qtiMatText = $this->domxml->create_element("mattext");
@@ -233,7 +233,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     $qtiOutcomes->append_child($qtiDecvar);
     $qtiResprocessing->append_child($qtiOutcomes);
     // add response conditions for true
-    foreach ($this->answers as $index => $answer)
+    foreach ($this->matchingpairs as $index => $answer)
     {
       $qtiRespcondition = $this->domxml->create_element("respcondition");
       $qtiRespcondition->set_attribute("title", $answer->get_ansertext());
@@ -262,7 +262,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     $qtiRespcondition->set_attribute("title", "false");
     $qtiConditionvar = $this->domxml->create_element("conditionvar");
     $qtiOr  = $this->domxml->create_element("or");
-    foreach ($this->answers as $index => $answer)
+    foreach ($this->matchingpairs as $index => $answer)
     {
       $qtiNot = $this->domxml->create_element("not");
       $qtiVarsubset = $this->domxml->create_element("varsubset");
@@ -287,7 +287,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     $qtiIdent->append_child($qtiResprocessing);
 	    
     // PART III: qti itemfeedback for true
-    foreach ($this->answers as $index => $answer)
+    foreach ($this->matchingpairs as $index => $answer)
     {	
       $qtiItemfeedback = $this->domxml->create_element("itemfeedback");
       $qtiItemfeedback->set_attribute("ident", $answer->get_ansertext());
@@ -308,7 +308,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     $qtiMaterial->append_child($qtiMattext);
     $qtiItemfeedback->append_child($qtiMaterial);
     $qtiIdent->append_child($qtiItemfeedback);
-	}
+*/	}
     
 /**
 * Saves a ASS_MatchingQuestion object to a database
