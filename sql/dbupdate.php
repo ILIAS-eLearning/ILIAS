@@ -342,3 +342,9 @@ ALTER TABLE `tree` ADD INDEX (`parent`);
 <#13>
 #due to problems changed index back for rbac_fa
 ALTER TABLE `rbac_fa` DROP PRIMARY KEY, ADD PRIMARY KEY (rol_id,parent);
+
+<#14>
+#fixed bug of update #12
+#tree tree shouldn't be unsigned, otherwise trash bin doesn't work
+ALTER TABLE `tree` CHANGE `tree` `tree` INT(10) DEFAULT '0' NOT NULL;
+
