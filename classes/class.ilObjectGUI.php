@@ -147,7 +147,7 @@ class ilObjectGUI
 
 		// get the object
 		$this->assignObject();
-		
+
 		// use global $lng instead, when creating new objects object is not available
 		//$this->lng =& $this->object->lng;
 
@@ -2660,7 +2660,7 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
-		
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template,$a_in_module);
 
 	}

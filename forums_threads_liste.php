@@ -33,6 +33,27 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjForum.php";
 
+function prepOutput($frm)
+{
+	global $tpl, $lng;
+
+	$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+	$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+	sendInfo();
+	require_once("classes/class.ilForumTabsGUI.php");
+	$frm_tab =& new ilForumTabsGUI();
+	$frm_tab->setRefId($_GET["ref_id"]);
+	$frm_tab->setForum($frm);
+	$frm_tab->setTabs();
+
+	require_once("classes/class.ilForumLocatorGUI.php");
+	$frm_loc =& new ilForumLocatorGUI();
+	$frm_loc->setRefId($_GET["ref_id"]);
+	$frm_loc->setForum($frm);
+	$frm_loc->display();
+
+}
+
 $lng->loadLanguageModule("forum");
 
 $forumObj = new ilObjForum($_GET["ref_id"]);
@@ -41,6 +62,79 @@ $frm =& $forumObj->Forum;
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
 
+if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
+
+// should go to a gui class
+if ($_GET["cmd"] != "")
+{
+	$cmd = $_GET["cmd"];
+}
+else
+{
+	if (is_array($_POST["cmd"]))
+	{
+		$cmd = key($_POST["cmd"]);
+	}
+}
+
+switch ($cmd)
+{
+	case "properties":
+		prepOutput($frm);
+		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
+
+		//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		include_once("classes/class.ilObjForumGUI.php");
+		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
+		$forum_gui->properties();
+		$tpl->show();
+		exit;
+		break;
+
+	case "saveProperties":
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilObjForumGUI.php");
+		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
+		$forum_gui->saveProperties();
+		break;
+
+	case "permissions":
+		prepOutput($frm);
+		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
+		include_once("classes/class.ilObjForumGUI.php");
+		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
+		$forum_gui->setFormAction("permSave","forums_threads_liste?ref_id=".$_GET["ref_id"].
+			"&cmd=permSave");
+		$forum_gui->permObject();
+		$tpl->show();
+		exit;
+		break;
+
+	case "permSave":
+		include_once("classes/class.ilObjForumGUI.php");
+		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
+		$forum_gui->setReturnLocation("permSave","forums_threads_liste?ref_id=".$_GET["ref_id"]);
+		$forum_gui->permSaveObject();
+		exit;
+		break;
+
+	case "addRole":
+		include_once("classes/class.ilObjForumGUI.php");
+		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
+		$forum_gui->setReturnLocation("addRole","forums_threads_liste?ref_id=".$_GET["ref_id"]."&cmd=permissions");
+		$forum_gui->addRoleObject();
+		exit;
+		break;
+
+}
+
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -48,11 +142,6 @@ $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 // display infopanel if something happened
 infoPanel();
-
-if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))
-{
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-}
 
 // start: form operations
 if (isset($_POST["cmd"]["submit"]))
@@ -78,6 +167,12 @@ $frm_loc =& new ilForumLocatorGUI();
 $frm_loc->setRefId($_GET["ref_id"]);
 $frm_loc->setForum($frm);
 $frm_loc->display();
+
+require_once("classes/class.ilForumTabsGUI.php");
+$frm_tab =& new ilForumTabsGUI();
+$frm_tab->setRefId($_GET["ref_id"]);
+$frm_tab->setForum($frm);
+$frm_tab->setTabs();
 
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
