@@ -159,6 +159,7 @@ common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
+common#:#cat_create_chat#:#Neuen Chat anlegen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#cat_create_exc#:#Neue Übung anlegen
@@ -179,6 +180,10 @@ common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
+common#:#chac_edit_permission#:#Rechteeinstellungen ändern
+common#:#chac_read#:#Lesezugriff auf Chateinstellungen
+common#:#chac_visible#:#Chateinstellungen sind sichtbar
+common#:#chac_write#:#Chateinstellungen bearbeiten
 common#:#change#:#Ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
@@ -190,6 +195,11 @@ common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
+common#:#chat_delete#:#Chat löschen
+common#:#chat_edit_permission#:#Rechteeinstellungen ändern
+common#:#chat_read#:#Lese/Schreibzugriff auf Chat
+common#:#chat_visible#:#Chat ist sichtbar
+common#:#chat_write#:#Chat bearbeiten
 common#:#check#:#Prüfen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
@@ -428,6 +438,7 @@ common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
 common#:#group_access_denied#:#Zugriff verweigert
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden
+common#:#group_create_chat#:#Neuen Chat anlegen
 common#:#group_desc#:#Gruppenbeschreibung
 common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
@@ -798,6 +809,8 @@ common#:#obj#:#Objekt
 common#:#obj_adm#:#Systemeinstellungen
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
+common#:#obj_chac#:#Chatinstellungen
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
@@ -2076,16 +2089,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#obj_chac#:#Chatinstellungen
-common#:#chac_edit_permission#:#Rechteeinstellungen ändern
-common#:#chac_visible#:#Chateinstellungen sind sichtbar
-common#:#chac_read#:#Lesezugriff auf Chateinstellungen
-common#:#chac_write#:#Chateinstellungen bearbeiten
-common#:#obj_chat#:#Chat
-common#:#chat_visible#:#Chat ist sichtbar
-common#:#chat_read#:#Lese/Schreibzugriff auf Chat
-common#:#chat_write#:#Chat bearbeiten
-common#:#chat_delete#:#Chat löschen
-common#:#chat_edit_permission#:#Rechteeinstellungen ändern
-common#:#cat_create_chat#:#Neuen Chat anlegen
-common#:#group_create_chat#:#Neuen Chat anlegen

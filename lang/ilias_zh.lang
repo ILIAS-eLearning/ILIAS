@@ -176,6 +176,7 @@ common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
 common#:#cat_create#:#创建类别
 common#:#cat_create_cat#:#创建类别
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#创建课程
 common#:#cat_create_dbk#:#创建电子图书
 common#:#cat_create_exc#:#创建练习
@@ -196,6 +197,10 @@ common#:#cat_write#:#编辑类别
 common#:#categories#:#类别
 common#:#cc#:#抄送
 common#:#censorship#:#审查
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#更改
 common#:#change_active_assignment#:#更改当前任务
 common#:#change_assignment#:#更改任务
@@ -207,6 +212,11 @@ common#:#changed_to#:#已更改为
 common#:#chapter#:#章
 common#:#chapter_number#:#章号
 common#:#chapter_title#:#章标题
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#检查
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
@@ -445,6 +455,7 @@ common#:#glossary#:#词汇表
 common#:#glossary_added#:#词汇表已增加
 common#:#group_access_denied#:#拒绝访问
 common#:#group_any_objects#:#无子对象可用
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#组描述
 common#:#group_details#:#组详情
 common#:#group_filesharing#:#组文件共享
@@ -815,6 +826,8 @@ common#:#obj#:#对象
 common#:#obj_adm#:#系统设置
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
 common#:#obj_cat#:#类别
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#课程
 common#:#obj_dbk#:#数字图书
 common#:#obj_exc#:#练习

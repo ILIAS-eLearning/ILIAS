@@ -159,6 +159,7 @@ common#:#cat_add#:#Kategorie toevoegen
 common#:#cat_added#:#Kategorie toegevoegd
 common#:#cat_create#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
 common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
 common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
@@ -179,6 +180,10 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#Kategoriën
 common#:#cc#:#CC
 common#:#censorship#:#Censuur
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#Wijzigen
 common#:#change_active_assignment#:#wijzig de actieve toewijziging
 common#:#change_assignment#:#Toewijzing wijzigen
@@ -190,6 +195,11 @@ common#:#changed_to#:#gewijzigd in
 common#:#chapter#:#Hoofdstuk
 common#:#chapter_number#:#Hoofdstuk-nummer
 common#:#chapter_title#:#Hoofdstuk titel
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Controleer
 common#:#check_langfile#:#Controleer A.u.b. uw taal-bestand
 common#:#check_languages#:#Talen controleren
@@ -428,6 +438,7 @@ common#:#glossary#:#Woordenlijst
 common#:#glossary_added#:#Woordenlijst toegevoegd
 common#:#group_access_denied#:#Toegang gewijgerd
 common#:#group_any_objects#:#Geen sub-objecten beschikbaar
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Groeps-beschrijving
 common#:#group_details#:#Groep File Sharing
 common#:#group_filesharing#:#Groeps-file-sharing
@@ -798,6 +809,8 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Systeem-instellingen
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
 common#:#obj_cat#:#Kategorie
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Cursus
 common#:#obj_dbk#:#Digilib-boek
 common#:#obj_exc#:#Exercise###13 Jan 2004 new variable

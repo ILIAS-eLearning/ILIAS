@@ -159,6 +159,7 @@ common#:#cat_add#:#Ajouter catégorie
 common#:#cat_added#:#Categorie ajoutée
 common#:#cat_create#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
 common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
 common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
@@ -179,6 +180,10 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#Catégories
 common#:#cc#:#CC
 common#:#censorship#:#censure
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#Changer
 common#:#change_active_assignment#:#Changer attribution active
 common#:#change_assignment#:#Changer attribution 
@@ -190,6 +195,11 @@ common#:#changed_to#:#changé en
 common#:#chapter#:#Chapitre
 common#:#chapter_number#:#Numéro de chapitre
 common#:#chapter_title#:#Titre du chapitre
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Vérifier
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier les langues
@@ -428,6 +438,7 @@ common#:#glossary#:#Glossaire
 common#:#glossary_added#:#Glossaire ajouté
 common#:#group_access_denied#:#Accès refusé
 common#:#group_any_objects#:#Aucun sous-objet disponible
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Description de groupe
 common#:#group_details#:#Détails de groupe
 common#:#group_filesharing#:#Partage de fichiers par groupe
@@ -798,6 +809,8 @@ common#:#obj#:#Objet
 common#:#obj_adm#:#Paramètres système
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
 common#:#obj_cat#:#Catégorie
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Cours
 common#:#obj_dbk#:#Livre Digilib
 common#:#obj_exc#:#Exercise###13 Jan 2004 new variable

@@ -159,6 +159,7 @@ common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_create#:#Twórz Kategorię
 common#:#cat_create_cat#:#Twórz Kategorię
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Twórz Kurs
 common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
 common#:#cat_create_exc#:#Twórz Ćwiczenie
@@ -179,6 +180,10 @@ common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#Zmień
 common#:#change_active_assignment#:#Zmień aktywny przydział
 common#:#change_assignment#:#Zmień przydział
@@ -190,6 +195,11 @@ common#:#changed_to#:#zmienione na
 common#:#chapter#:#Rozdział
 common#:#chapter_number#:#Numer rozdziału
 common#:#chapter_title#:#Tytuł rozdziału
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
@@ -428,6 +438,7 @@ common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
 common#:#group_access_denied#:#Dostęp zabroniony
 common#:#group_any_objects#:#Obiekty podrzędne niedostępne
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Opis grupy
 common#:#group_details#:#Szczegóły grupy
 common#:#group_filesharing#:#Group File Sharing
@@ -798,6 +809,8 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
 common#:#obj_exc#:#Ćwiczenie

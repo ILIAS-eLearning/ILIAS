@@ -159,6 +159,7 @@ common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
 common#:#cat_create_cat#:#Create Category
+common#:#cat_create_chat#:#Create chat
 common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
@@ -179,6 +180,10 @@ common#:#cat_write#:#Edit Category
 common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#Censorship
+common#:#chac_edit_permission#:#Change permission settings
+common#:#chac_read#:#Read access to chat settings
+common#:#chac_visible#:#Chat settings are visible
+common#:#chac_write#:#Edit chat settings
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
@@ -190,6 +195,11 @@ common#:#changed_to#:#changed to
 common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
+common#:#chat_delete#:#Delete chat
+common#:#chat_edit_permission#:#Change permission settings
+common#:#chat_read#:#Read/Write access to chat
+common#:#chat_visible#:#Chat is visible
+common#:#chat_write#:#Edit chat
 common#:#check#:#Check
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
@@ -428,6 +438,7 @@ common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
 common#:#group_access_denied#:#Access Denied
 common#:#group_any_objects#:#No Subobjects available
+common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
@@ -798,6 +809,8 @@ common#:#obj#:#Object
 common#:#obj_adm#:#System Settings
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
+common#:#obj_chac#:#Chat settings
+common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
@@ -2076,16 +2089,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#obj_chac#:#Chat settings
-common#:#chac_edit_permission#:#Change permission settings
-common#:#chac_visible#:#Chat settings are visible
-common#:#chac_read#:#Read access to chat settings
-common#:#chac_write#:#Edit chat settings
-common#:#obj_chat#:#Chat
-common#:#chat_visible#:#Chat is visible
-common#:#chat_read#:#Read/Write access to chat
-common#:#chat_write#:#Edit chat
-common#:#chat_delete#:#Delete chat
-common#:#chat_edit_permission#:#Change permission settings
-common#:#cat_create_chat#:#Create chat
-common#:#group_create_chat#:#Create chat
