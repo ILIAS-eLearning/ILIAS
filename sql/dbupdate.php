@@ -4812,4 +4812,7 @@ PRIMARY KEY ( `returned_id` ) ,
 INDEX ( `obj_id` ),
 INDEX ( `user_id` )
 );
-
+<#317>
+ALTER TABLE `object_reference` ADD INDEX ( `obj_id` );
+ALTER TABLE `xmlnestedset` DROP INDEX `ns_l`;
+ALTER TABLE `xmlnestedset` DROP INDEX `ns_r`;
