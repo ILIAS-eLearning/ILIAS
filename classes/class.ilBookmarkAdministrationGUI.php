@@ -139,10 +139,15 @@ class ilBookmarkAdministrationGUI
 	*/
 	function main_header()
 	{
-		global $lng;
+		global $lng, $tpl;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.bookmarks.html");
-		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
+		$this->tpl->setVariable("TXT_PAGEHEADLINE", $this->lng->txt("personal_desktop"));
+		//$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
+
+		// display tabs
+		include "./include/inc.personaldesktop_buttons.php";
+
 		$this->displayLocator();
 	}
 

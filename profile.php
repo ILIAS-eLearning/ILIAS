@@ -61,12 +61,15 @@ $tpl->parseCurrentBlock();
 $_GET["obj_id"] = $_GET["user"];
 $user = new ilObjUserGUI("",$_GET["user"], false, false);
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("userdata")." ".strtolower($lng->txt("of")." ".$user->object->getLogin()));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 
 // catch feedback message
 sendInfo();
 // display infopanel if something happened
 infoPanel();
+
+// display tabs
+include "./include/inc.personaldesktop_buttons.php";
 
 $user->insertPublicProfile("USR_PROFILE","usr_profile");
 
