@@ -131,6 +131,8 @@ assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
+assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
+assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
 assessment#:#ects_grade_a#:#outstanding performance with only minor errors###20 Sep 2004 new variable
 assessment#:#ects_grade_a_short#:#EXCELLENT###20 Sep 2004 new variable
 assessment#:#ects_grade_b#:#above the average standard but with some errors###20 Sep 2004 new variable
@@ -146,6 +148,11 @@ assessment#:#ects_grade_f_short#:#FAIL###20 Sep 2004 new variable
 assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded###20 Sep 2004 new variable
 assessment#:#ects_grade_fx_short#:#FAIL###20 Sep 2004 new variable
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
+assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!###23 Sep 2004 new variable
+assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!###23 Sep 2004 new variable
+assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!###23 Sep 2004 new variable
+assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!###23 Sep 2004 new variable
+assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
@@ -218,6 +225,7 @@ assessment#:#order_terms#:#Ordenar termos
 assessment#:#passed_official#:#passed###04 Sep 2004 new variable
 assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
+assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Pontos
 assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
