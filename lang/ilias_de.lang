@@ -1415,3 +1415,15 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+content#:#cont_new_assignment#:#Neue Zuordnung
+content#:#cont_del_assignment#:#Zuordnung löschen
+content#:#cont_translations#:#Übersetzung(en)
+content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
+content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
+content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
+content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
+content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
+content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
+content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
+common#:#assign#:#Zuordnen
+content#:#cont_assign_translation#:#Übersetzung zuordnen
