@@ -237,7 +237,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setCurrentBlock("answers");
 				$answer = $this->object->get_answer($i);
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
@@ -300,10 +300,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("add_imagemap"));
 			$this->tpl->setCurrentBlock("questioneditor");
-			$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->object->getTitle());
-			$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->object->getComment());
-			$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->object->getAuthor());
-			$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
+			$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", htmlspecialchars($this->object->getTitle()));
+			$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", htmlspecialchars($this->object->getComment()));
+			$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));

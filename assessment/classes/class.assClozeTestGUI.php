@@ -111,7 +111,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setCurrentBlock("textgap_value");
 				foreach ($gap	 as $key => $value)
 				{
-					$this->tpl->setVariable("VALUE_TEXT_GAP", $value->get_answertext());
+					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->get_answertext()));
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
@@ -132,7 +132,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP", $value->get_answertext());
+					$this->tpl->setVariable("VALUE_SELECT_GAP", htmlspecialchars($value->get_answertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
@@ -192,9 +192,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->outOtherQuestionData();
 
 		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", $this->object->getComment());
-		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", $this->object->getAuthor());
+		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->get_cloze_text());
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
 		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());

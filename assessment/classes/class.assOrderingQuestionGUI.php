@@ -120,7 +120,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $thisanswer->get_answertext();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", $thisanswer->get_answertext());
+					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->get_answertext()));
 					$this->tpl->setVariable("VALUE_ANSWER", "");
 					//$thisanswer->get_answertext()
 				}
@@ -132,7 +132,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER", $thisanswer->get_answertext());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($thisanswer->get_answertext()));
 			}
 			$this->tpl->parseCurrentBlock();
 
@@ -200,10 +200,10 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 		}
 		$this->tpl->setVariable("ORDERING_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->object->getComment());
-		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", $this->object->getAuthor());
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
+		$this->tpl->setVariable("VALUE_ORDERING_TITLE", htmlspecialchars($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", htmlspecialchars($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));

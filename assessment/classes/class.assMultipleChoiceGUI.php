@@ -114,7 +114,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$answer = $this->object->get_answer($i);
 				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
 				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
 				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
@@ -144,10 +144,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 			$this->tpl->setCurrentBlock("question_data");
 			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->getTitle());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->getComment());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->getAuthor());
-			$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER_YN", $this->lng->txt("add_answer_yn"));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER_TF", $this->lng->txt("add_answer_tf"));
@@ -198,7 +198,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("checkbox_unchecked"));
 				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("checkbox_checked"));
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-				$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
+				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				if ($answer->isStateChecked())
@@ -232,10 +232,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 			$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->getTitle());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->getComment());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->getAuthor());
-			$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
