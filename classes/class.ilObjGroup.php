@@ -679,6 +679,15 @@ class ilObjGroup extends ilObject
 			return false;
 		}
 		
+		$nodes = $this->getNoneRbacObjects();
+		
+		foreach ($nodes as $node)
+		{
+			$obj = $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+			$obj->delete();
+			unset($obj);
+		}
+
 		$query = "DELETE FROM grp_tree WHERE tree=".$this->getRefId();
 		$this->ilias->db->query($query);
 		

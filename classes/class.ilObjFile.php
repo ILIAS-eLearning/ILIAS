@@ -184,5 +184,31 @@ class ilObjFile extends ilObject
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
 	}
+
+	/**
+	* delete file and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// delete file data entry
+		$q = "DELETE FROM file_data WHERE file_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+		
+		// unlink file
+		$file = $this->getDirectory()."/".$this->getFileName();
+		unlink($file);
+		rmdir($this->getDirectory());
+		
+		return true;
+	}
 } // END class.ilObjFile
 ?>
