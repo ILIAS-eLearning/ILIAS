@@ -132,9 +132,9 @@ class ilLOListGUI
 		// add everywhere wegen sparkassen skin
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");		
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		// set locator 
+		// set locator
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
@@ -184,7 +184,7 @@ class ilLOListGUI
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("flatview"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=lm&from=lo_list.php");
 		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
@@ -196,13 +196,13 @@ class ilLOListGUI
 		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("crs_new"));
 		$this->tpl->parseCurrentBlock();
-		
+
 		// display different content depending on viewmode
 		switch ($_SESSION["viewmode"])
 		{
 			case "flat":
 				$lr_arr = ilUtil::getObjectsByOperations('lm','visible');
-				$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
+				$lr_arr = ilUtil::getObjectsByOperations('slm','visible');
 				break;
 
 			case "tree":
@@ -214,7 +214,9 @@ class ilLOListGUI
 				{
 					foreach ($objects as $key => $object)
 					{
-						if ($object["type"] == "lm" && $this->rbacsystem->checkAccess('visible',$object["child"]))
+						if ((($object["type"] == "lm") ||
+							($object["type"] == "slm"))
+							&& $this->rbacsystem->checkAccess('visible',$object["child"]))
 						{
 							$lr_arr[$key] = $object;
 						}
@@ -251,18 +253,27 @@ class ilLOListGUI
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 
-				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 
 				$this->tpl->setVariable("TITLE", $lr_data["title"]);
-				$this->tpl->setVariable("LO_LINK", $obj_link);
 
-				if ($lr_data["type"] == "lm")		// Test
+				// learning modules
+				if ($lr_data["type"] == "lm")
 				{
+					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
+					$this->tpl->setVariable("VIEW_LINK", $obj_link);
+					$this->tpl->setVariable("VIEW_TARGET", "_top");
 					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
+					$this->tpl->setVariable("EDIT_TARGET","bottom");
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
-					$this->tpl->setVariable("VIEW_LINK","content/lm_presentation.php?ref_id=".$lr_data["ref_id"]);
-					$this->tpl->setVariable("TXT_VIEW", "(".$this->lng->txt("view").")");
+				}
+
+				// scorm learning modules
+				if ($lr_data["type"] == "slm")
+				{
+					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
+					$this->tpl->setVariable("VIEW_LINK", $obj_link);
+					$this->tpl->setVariable("VIEW_TARGET", "bottom");
 				}
 
 				$this->tpl->setVariable("IMG", $obj_icon);

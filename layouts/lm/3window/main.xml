@@ -26,7 +26,16 @@
 					</ilPage>
 				</PageObject>
 			</ilFrame>
-			<ilFrame name="botright" template="tpl.blank.html" template_location="module"/>
+			<ilFrame name="botright" template="tpl.blank.html" template_location="module">
+				<GlossaryItem template="tpl.page.html" template_location="module">
+					<ilPage>
+						<LinkTarget Type="New" Frame="_new" />
+						<LinkTarget Type="FAQ" Frame="topright" />
+						<LinkTarget Type="Glossary" Frame="botright" />
+						<LinkTarget Type="Media" Frame="topright" />
+					</ilPage>
+				</GlossaryItem>
+			</ilFrame>
 		</ilFrame>
 	</ilFrame>
 </ilFrame>

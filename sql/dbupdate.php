@@ -1536,3 +1536,7 @@ CREATE TABLE `scorm_tracking` (
 ALTER TABLE media_item ADD COLUMN location VARCHAR(200);
 ALTER TABLE media_item ADD COLUMN location_type ENUM('LocalFile', 'Reference') NOT NULL DEFAULT 'LocalFile';
 ALTER TABLE media_item ADD COLUMN format VARCHAR(200);
+
+<#88>
+ALTER TABLE lm_page_object CHANGE lm_id parent_id int;
+ALTER TABLE lm_page_object ADD COLUMN parent_type CHAR(4) DEFAULT 'lm';
