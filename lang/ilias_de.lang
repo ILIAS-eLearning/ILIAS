@@ -388,13 +388,13 @@ assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
-assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
+assessment#:#tst_eval_show_answer#:#Antwort anzeigen
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
-assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
+assessment#:#tst_eval_user_answer#:#User-Antwort
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -737,7 +737,7 @@ common#:#approve_date#:#Freigegeben am
 common#:#approve_recipient#:#Freigegeben durch (Login ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
-common#:#articels_unread#:#Ungelesene Beiträge###14 Feb 2005 content changed
+common#:#articels_unread#:#Ungelesene Beiträge
 common#:#as_of#:#Stand
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
@@ -1252,8 +1252,8 @@ common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#global#:#Global
-common#:#global_default#:#Global Default###01 Mar 2005 new variable
-common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
+common#:#global_default#:#Standard-Style (global)
+common#:#global_fixed#:#Einheits-Style (global)
 common#:#global_settings#:#Globale Einstellungen
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
@@ -1296,7 +1296,7 @@ common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
-common#:#grp_add_member#:#Mitglied(er) hinzufügen###01 Mar 2005 content changed
+common#:#grp_add_member#:#Mitglied(er) hinzufügen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
 common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
@@ -1902,8 +1902,8 @@ common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
-common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
-common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
+common#:#obj_styf#:#Style-Ordner
+common#:#obj_styf_desc#:#Verwalten Sie hier System-Styles
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
@@ -2050,7 +2050,7 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
-common#:#purpose#:#Purpose###01 Mar 2005 new variable
+common#:#purpose#:#Verwendung
 common#:#qpl#:#Fragenpool für Test
 common#:#qpl_add#:#Fragenpool hinzufügen
 common#:#qpl_delete#:#Fragenpool löschen
@@ -2211,7 +2211,7 @@ common#:#sections#:#Bereiche
 common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
-common#:#select_max_one_item#:#Please select one item only###01 Mar 2005 new variable
+common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
@@ -2269,7 +2269,7 @@ common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
-common#:#sty#:#Style###01 Mar 2005 new variable
+common#:#sty#:#Style
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
@@ -2335,8 +2335,8 @@ common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Abo
 common#:#today#:#Heute
-common#:#toggleGlobalDefault#:#Toggle Global Default###01 Mar 2005 new variable
-common#:#toggleGlobalFixed#:#Toggle Global Fixed###01 Mar 2005 new variable
+common#:#toggleGlobalDefault#:#Standard-Style umschalten
+common#:#toggleGlobalFixed#:#Einheits-Style umschalten
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trac_delete#:#Tracking-Daten löschen
@@ -2431,7 +2431,7 @@ common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
 common#:#usr_skin_style#:#Skin / Style
-common#:#usr_style#:#Stil
+common#:#usr_style#:#Style
 common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
 common#:#usrf_delete#:#Benutzerkonten löschen
@@ -2551,7 +2551,7 @@ content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
-content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###01 Mar 2005 new variable
+content#:#cont_create_export_file_scorm#:#Erzeuge SCORM-Exportdatei
 content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
@@ -2751,12 +2751,12 @@ content#:#cont_public_access#:#Öffentlicher Zugriff
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
-content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
+content#:#cont_ref_images#:#Referenzierte Bilder
 content#:#cont_reference#:#Referenz
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
-content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
-content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
+content#:#cont_repository_item#:#Objekt in Magazin
+content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
 content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
 content#:#cont_resource#:#Ressource
@@ -2819,7 +2819,7 @@ content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
-content#:#cont_style#:#Style###01 Mar 2005 new variable
+content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_table#:#Tabelle
 content#:#cont_table_border#:#Tabellenrand
@@ -2888,10 +2888,10 @@ crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
-crs#:#crs_add_member#:#Mitglied(er) hinzufügen###01 Mar 2005 content changed
+crs#:#crs_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_objective#:#Lernziel hinzufügen
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
-crs#:#crs_add_subscribers#:#Benutzer hinzufügen###01 Mar 2005 content changed
+crs#:#crs_add_subscribers#:#Benutzer hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
 crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
@@ -2938,7 +2938,7 @@ crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglied
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_delete_subscribers#:#Anmeldungen löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
-crs#:#crs_details#:#Kursdetails###01 Mar 2005 content changed
+crs#:#crs_details#:#Kursdetails
 crs#:#crs_dismiss_member#:#Kursmitgliedschaft
 crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft wurde beendet.
 crs#:#crs_edit_archive#:#Archive bearbeiten
@@ -3032,7 +3032,7 @@ crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
+crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_objective_accomplished#:#Erledigt
 crs#:#crs_objective_assign_chapter#:#Kapitel zuordnen
