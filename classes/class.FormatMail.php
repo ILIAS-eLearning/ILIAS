@@ -233,6 +233,34 @@ class FormatMail extends Mail
 		}
 		return $this->mail_data;
 	}
+	/**
+	* format message according to linebreak option
+	* @param string message
+	* @access	public
+	* @return string formatted message
+	*/
+	function formatLinebreakMessage($a_message)
+	{
+		$formatted = '';
+
+		$linebreak = $this->getLinebreak();
+		// SPLIT INTO LINES returns always an array
+		$lines = explode("\n",$a_message);
+		foreach($lines as $line)
+		{
+			if(substr($line,0,1) != '>')
+			{
+				$formatted .= wordwrap($line,$linebreak);
+			}
+			else
+			{
+				$formatted .= $line.'\n';
+			}
+		}
+		return $formatted;
+	}
+					
+				
 
 	/**
 	* append signature to mail body
