@@ -527,5 +527,57 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->outWorkingForm();
 	}
 
+	/**
+	* Creates an output of the user's solution
+	*
+	* Creates an output of the user's solution
+	*
+	* @access public
+	*/
+	function outUserSolution($user_id, $test_id)
+	{
+		$results = $this->object->getReachedInformation($user_id, $test_id);
+		foreach ($this->object->gaps as $key => $gap)
+		{
+			$this->tpl->setCurrentBlock("tablerow");
+			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			{
+				if ($gap[$results[$key]["value"]]->isStateChecked())
+				{
+					$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
+					$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
+				}
+				else
+				{
+					$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
+					$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
+				}
+				$this->tpl->setVariable("ANSWER_DESCRIPTION", $this->lng->txt("gap") . " " . ($key+1) . ": " . "&quot;<em>" . $gap[$results[$key]["value"]]->get_answertext() . "</em>&quot;");
+			}
+			else
+			{
+				$right = 0;
+				foreach ($gap as $gapkey => $answer)
+				{
+					if (strcmp($results[$key]["value"], $answer->get_answertext()) == 0)
+					{
+						$right = 1;
+					}
+				}
+				if ($right)
+				{
+					$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
+					$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
+				}
+				else
+				{
+					$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
+					$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
+				}
+				$this->tpl->setVariable("ANSWER_DESCRIPTION", $this->lng->txt("gap") . " " . ($key+1) . ": " . "&quot;<em>" . $results[$key]["value"] . "</em>&quot;");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 }
 ?>

@@ -1403,7 +1403,7 @@ class ASS_ClozeTest extends ASS_Question
         }
       }
 			$counter++;
-			array_push($user_result, $solution);
+			$user_result[$value] = $solution;
     }
     return $user_result;
   }

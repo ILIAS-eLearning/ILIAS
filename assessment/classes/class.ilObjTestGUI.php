@@ -1340,6 +1340,9 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					$this->tpl->setVariable("PERCENTAGE_SOLVED", sprintf($this->lng->txt("percentage_solved"), $percentage));
 					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
+					$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
 				}
 			}
 		}
