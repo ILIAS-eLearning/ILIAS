@@ -2,6 +2,9 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
 <table class="fullwidth">
 <tr class="tblheader">
+	<td class="std" valign="top" width="1">
+	<input class="std" type="checkbox" name="id[]" value="{CHECKBOX_TOP}" />
+	</td>
  	<td class="std" colspan="2"><strong>{HEADER_TEXT}</strong></td>
 </tr>
 <!-- BEGIN table_row -->
@@ -9,8 +12,13 @@
 	<td class="std" valign="top">
 	<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
 	</td>
+	<td width="1">
+	<a href="{LINK_TARGET}">
+	<img src="{IMG_OBJ}" border="0" />
+	</a>
+	</td>
 	<td class="std" valign="top">
-    <a href="{LINK_TARGET}">
+	<a href="{LINK_TARGET}">
 	{TEXT_CONTENT}
 	</a>
 	</td>
