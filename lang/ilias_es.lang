@@ -842,7 +842,6 @@ common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_create_url#:#Crear URL
-common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -898,8 +897,6 @@ common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los mó
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
 common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
-common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
-common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
@@ -949,7 +946,6 @@ common#:#create#:#create
 common#:#create_date#:#Creado el
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
-common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
 common#:#crs#:#crs
@@ -979,7 +975,6 @@ common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#crs_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#crs_create_svy#:#Crear Encuesta
 common#:#crs_create_tst#:#Crear Test
-common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_permission#:#Modificar configuración de Permisos
@@ -1001,7 +996,6 @@ common#:#cur_number_rec#:#Número actual de registros
 common#:#current_password#:#contraseña actual
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
-common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Base de Datos
 common#:#database_version#:#versión actual de la base de datos
 common#:#dataset#:#Conjunto de Datos
@@ -1049,9 +1043,7 @@ common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
 common#:#desired_password#:#contraseña deseada
-common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#deshabilitar
-common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
 common#:#down#:#-Abajo-
@@ -1060,7 +1052,6 @@ common#:#download_all_returned_files#:#Descargar todos los ficheros -devueltos-.
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
-common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
@@ -1325,7 +1316,6 @@ common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 common#:#grp_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#grp_create_svy#:#Crear Encuesta
 common#:#grp_create_tst#:#Crear Test
-common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
@@ -1381,9 +1371,6 @@ common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
 common#:#hist_lm:pg_update#:#Página modificada
 common#:#hist_no_entries#:#No hay entradas en la historia.
-common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
-common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -1661,7 +1648,6 @@ common#:#mep_delete#:#Eliminar Depósito Multimedia
 common#:#mep_edit#:#Editar propiedades de Depósito Multimedia
 common#:#mep_edit_permission#:#Modificar configuración de permisos
 common#:#mep_new#:#Nuevo Depósito Multimedia
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Leer contenido del Depósito Multimedia
 common#:#mep_visible#:#Nuevo Depósito Multimedia visible
 common#:#mep_write#:#Editar contenido del Depósito Multimedia
@@ -1701,7 +1687,6 @@ common#:#month_11_long#:#Noviembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Diciembre
 common#:#month_12_short#:#Dic
-common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
@@ -1793,7 +1778,6 @@ common#:#my_grps#:#Mis Grupos
 common#:#my_los#:#Mis Objetos de Aprendizaje
 common#:#my_tsts#:#Mis Tests
 common#:#name#:#nombre
-common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#nuevo
 common#:#new_appointment#:#Nueva Cita
 common#:#new_folder#:#nueva carpeta
@@ -1816,7 +1800,6 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
-common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No se encontraron enlaces inválidos.
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
@@ -1907,7 +1890,6 @@ common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
 common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
-common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Objeto
 common#:#object_added#:#Objeto añadido
 common#:#objects#:#objetos
@@ -1949,7 +1931,6 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#tipo de Objeto
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Usuarios
-common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#de
 common#:#offline#:#offline
 common#:#offline_version#:#versión offline
@@ -2048,7 +2029,6 @@ common#:#qpl_read#:#Acceso de Lectura a Repositorio de Preguntas
 common#:#qpl_upload_file#:#Cargar fichero
 common#:#qpl_visible#:#Repositorio de Preguntas visible
 common#:#qpl_write#:#Editar Repositorio de Preguntas
-common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Consultar datos
 common#:#question#:#question
 common#:#question_pools#:#Repositorio de preguntas
@@ -2286,7 +2266,6 @@ common#:#system_information#:#Información de Sistema
 common#:#system_language#:#idioma de sistema
 common#:#system_message#:#mensaje de sistema
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
-common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomía
 common#:#tax_add#:#Añadir Taxonomía
 common#:#tax_delete#:#Eliminar taxonomías
@@ -2425,7 +2404,6 @@ common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario
 common#:#usrf_read_users#:#Asignación de rol para administradores locales
 common#:#usrf_visible#:#Cuentas de usuario visibles
 common#:#usrf_write#:#Editar cuentas de usuario
-common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Validar
 common#:#value#:#valor
 common#:#vcard#:#Tarjeta de visita
@@ -2437,32 +2415,8 @@ common#:#view#:#-Ver-
 common#:#view_content#:#ver contenido
 common#:#visible_layers#:#capas visibles
 common#:#visits#:#visitas
-common#:#web_resources#:#Web resources###11 Mar 2005 new variable
-common#:#webr#:#Web resource###11 Mar 2005 new variable
-common#:#webr_active#:#Active###11 Mar 2005 new variable
-common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
-common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
-common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
-common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
-common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
-common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
-common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
-common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
-common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
-common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
-common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
-common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
-common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
-common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
-common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
-common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
-common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
-common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
-common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
-common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Servicios Web (SOAP)
 common#:#week#:#Semana
-common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Bienvenido
 common#:#who_is_online#:#Who's online?
 common#:#with#:#con
@@ -2557,7 +2511,6 @@ content#:#cont_contents#:#Contenidos
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_object#:#copiar objeto
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
-content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Crear Directorio
 content#:#cont_create_export_file#:#Crear Fichero de Exportación
 content#:#cont_create_export_file_html#:#Crear Fichero de Exportación (HTML)
@@ -2744,12 +2697,10 @@ content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
 content#:#cont_page_header#:#Cabecera de Página
-content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
 content#:#cont_page_select_target_now#:#Página marcada para mover. A continuación seleccione destino.
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parámetro
 content#:#cont_parameters#:#Parámetros
-content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
@@ -2767,9 +2718,6 @@ content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
 content#:#cont_reset_definitions#:#Resetear posiciones de definición
 content#:#cont_reset_pictures#:#Resetear posiciones de imagen
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
@@ -3184,8 +3132,8 @@ dateplaner#:#help_properties_import#:#Importar desde ficheros CSV, Outlook
 dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene Fechas de Outlook. Estas citas serán importadas en el calendario.
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres
 dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". Importante: máx. 20 caracteres
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
+dateplaner#:#help_properties_time#:#Fecha mostrada para vista diaria / vista semanal
+dateplaner#:#help_properties_time_l#:#La vista estándar de hora mostrada para la vista diaria y mensual puede ser modificada. Si las fechas están fuera de la hora mostrada para un día dado o semana, la hora mostrada será modificada para ese período de tiempo. El estandar de hora mostrada es de 8h -18h.
 dateplaner#:#help_rotation#:#Cita Periódica
 dateplaner#:#help_rotation_l#:#Contiene el tipo de rotación / repetición
 dateplaner#:#help_shorttext#:#Asunto con un máximo de 50 caracteres
@@ -3263,7 +3211,7 @@ dateplaner#:#short_10#:#Oct
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Texto corto
-dateplaner#:#singleDate#:#-single date-###16 Mar 2004 new variable
+dateplaner#:#singleDate#:#fecha única
 dateplaner#:#starttime_for_view#:#hora inicial para vista:
 dateplaner#:#timedate#:#Hora / Fecha
 dateplaner#:#timeslice#:#Hora:
@@ -3997,74 +3945,74 @@ payment#:#pay_bmf_check_terms_conditions#:#Por favor confirme que ha leído los 
 payment#:#pay_bmf_credit_card#:#Tarjeta de crédito
 payment#:#pay_bmf_credit_card_data#:#Tarjeta de crédito
 payment#:#pay_bmf_credit_card_not_valid#:#La tarjeta de crédito que ha introducido no es válida. Por favor compruebe si todos los campos han sido rellenados correctamente.
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)###01 Feb 2005 new variable
+payment#:#pay_bmf_debit_entry#:#Debit entry (sólo para cuentas bancarias alemanas)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry###01 Feb 2005 new variable
 payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.###01 Feb 2005 new variable
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###01 Feb 2005 new variable
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###01 Feb 2005 new variable
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###01 Feb 2005 new variable
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###01 Feb 2005 new variable
-payment#:#pay_bmf_house_number#:#House number###01 Feb 2005 new variable
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###01 Feb 2005 new variable
-payment#:#pay_bmf_optional#:#optional###01 Feb 2005 new variable
-payment#:#pay_bmf_or#:#or###01 Feb 2005 new variable
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.###01 Feb 2005 new variable
-payment#:#pay_bmf_payment_type#:#Kind of paying###01 Feb 2005 new variable
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.###01 Feb 2005 new variable
-payment#:#pay_bmf_personal_data#:#Your personal data###01 Feb 2005 new variable
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.###01 Feb 2005 new variable
-payment#:#pay_bmf_please_select#:#Please select###01 Feb 2005 new variable
-payment#:#pay_bmf_po_box#:#PO Box###01 Feb 2005 new variable
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code###01 Feb 2005 new variable
-payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.###01 Feb 2005 new variable
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.###01 Feb 2005 new variable
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.###01 Feb 2005 new variable
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.###01 Feb 2005 new variable
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions###01 Feb 2005 new variable
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.###01 Feb 2005 new variable
-payment#:#pay_bmf_terms_conditions_show#:#show###01 Feb 2005 new variable
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.###01 Feb 2005 new variable
-payment#:#pay_bmf_total_amount#:#Total amount###01 Feb 2005 new variable
-payment#:#pay_bmf_validity#:#valid until###01 Feb 2005 new variable
-payment#:#pay_bmf_vat_included#:#VAT included###01 Feb 2005 new variable
-payment#:#pay_bmf_your_order#:#Your order###01 Feb 2005 new variable
-payment#:#pay_click_to_buy#:#Buy now###01 Feb 2005 new variable
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.###01 Feb 2005 new variable
-payment#:#pay_customer_no#:#Customer no.###01 Feb 2005 new variable
+payment#:#pay_bmf_description_credit_card#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra. Rellenando su tarjeta de crédito y haciendo click en el botón "Guardar" usted confirmará que quiere realizar su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos.
+payment#:#pay_bmf_description_debit_entry#:#Por favor compruebe si todos los artículos que quiere comprar están en el carrito de la compra.  Rellenando sus datos para la -debit entry- y haciendo click en el botón "Guardar" usted confirmará que desea hacer su pedido, y el proceso comenzará de inmediato. La comprobación de datos puede tardar algunos segundos.
+payment#:#pay_bmf_description_payment_type#:#Por favor seleccione cómo realizar el pago.
+payment#:#pay_bmf_description_personal_data#:#Por favor rellene el siguiente formulario completamente.
+payment#:#pay_bmf_house_number#:#-Número (vivienda)-
+payment#:#pay_bmf_info#:#El acceso al siguiente material no es libre. Si quiere tener acceso a un determinado objeto de aprendizaje, por favor seleccione un producto. Usted puede comprar algunos objetos de aprendizaje usando el botón "carrito de la compra" en su escritorio personal. Usted ganará acceso inmediato a los productos elegidos durante un período determinado.
+payment#:#pay_bmf_optional#:#opcional
+payment#:#pay_bmf_or#:#o
+payment#:#pay_bmf_password_not_valid#:#Su contraseña no es válida
+payment#:#pay_bmf_payment_type#:#Forma de Pago
+payment#:#pay_bmf_payment_type_not_valid#:#La forma de pago escogida no es válida. Por favor seleccione otra opción.
+payment#:#pay_bmf_personal_data#:#Sus datos personales.
+payment#:#pay_bmf_personal_data_not_valid#:#Sus datos personales no son válidos. Por favor compruebe si todos los campos hans sido rellenados correctamente.
+payment#:#pay_bmf_please_select#:#Por favor seleccione
+payment#:#pay_bmf_po_box#:#-PO Box-
+payment#:#pay_bmf_server_error_code#:#El servidor de pago devolvió un código de error
+payment#:#pay_bmf_server_error_communication#:#Error en la comunicación con el servidor de pago.
+payment#:#pay_bmf_server_error_sysadmin#:#Por favor contacte con el administrador del sistema para más información.
+payment#:#pay_bmf_shopping_cart_empty#:#Su carrito de la compra está vacío.
+payment#:#pay_bmf_street_or_pobox#:#Por favor introduzca la calle y nº
+payment#:#pay_bmf_terms_conditions#:#Términos Generales y Condiciones
+payment#:#pay_bmf_terms_conditions_read#:#He leido los términos generales y condiciones y voy a aceptarlas.
+payment#:#pay_bmf_terms_conditions_show#:#mostrar
+payment#:#pay_bmf_thanks#:#Gracias. Su pedido ha sido enviado.
+payment#:#pay_bmf_total_amount#:#Cantidad Total
+payment#:#pay_bmf_validity#:#válido hasta
+payment#:#pay_bmf_vat_included#:#IVA incluído
+payment#:#pay_bmf_your_order#:#Su pedido
+payment#:#pay_click_to_buy#:#Comprar ahora
+payment#:#pay_confirm_order#:#Por favor confirme su pedido introduciendo su contraseña.
+payment#:#pay_customer_no#:#Cliente nº.
 payment#:#pay_deleted_booking#:#La entrada ha sido eliminada.
-payment#:#pay_deleted_items#:#The selected items have been deleted.###01 Feb 2005 new variable
-payment#:#pay_ending#:#ends with###01 Feb 2005 new variable
+payment#:#pay_deleted_items#:#Los items seleccionados han sido eliminados.
+payment#:#pay_ending#:#-termina con-
 payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###01 Feb 2005 new variable
 payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.###01 Feb 2005 new variable
-payment#:#pay_filter#:#Filter###01 Feb 2005 new variable
-payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###01 Feb 2005 new variable
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###01 Feb 2005 new variable
+payment#:#pay_filter#:#Filtrar
+payment#:#pay_goto_buyed_objects#:#Mostrar productos comprados
+payment#:#pay_goto_shopping_cart#:#Ir al carrito de la compra
 payment#:#pay_header#:#Pago
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###01 Feb 2005 new variable
+payment#:#pay_item_already_in_sc#:#Este objeto ya existe en su carrito de la compra.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###01 Feb 2005 new variable
 payment#:#pay_locator#:#Pago
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.###01 Feb 2005 new variable
-payment#:#pay_message_hello#:#Dear###01 Feb 2005 new variable
-payment#:#pay_message_regards#:#Yours sincerely###01 Feb 2005 new variable
-payment#:#pay_message_subject#:#Your ILIAS order###01 Feb 2005 new variable
-payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.###01 Feb 2005 new variable
+payment#:#pay_message_attachment#:#Como confirmación de su pedido le enviaremos una factura (formato PDF) como adjunto.
+payment#:#pay_message_hello#:#Querido/a
+payment#:#pay_message_regards#:#Atentamenet
+payment#:#pay_message_subject#:#Su pedido ILIAS
+payment#:#pay_message_thanks#:#Gracias por realizar su pedido en ILIAS 3
 payment#:#pay_no_vendors_created#:#No se han creado proveedores
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.###01 Feb 2005 new variable
-payment#:#pay_order_date_from#:#Order date from###01 Feb 2005 new variable
-payment#:#pay_order_date_til#:#Order date til###01 Feb 2005 new variable
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.###01 Feb 2005 new variable
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.###01 Feb 2005 new variable
-payment#:#pay_reset_filter#:#Reset filter###01 Feb 2005 new variable
-payment#:#pay_select_one_item#:#Please select one item.###01 Feb 2005 new variable
-payment#:#pay_select_price#:#Please select a new price.###01 Feb 2005 new variable
-payment#:#pay_send_order#:#Send order###01 Feb 2005 new variable
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.###01 Feb 2005 new variable
-payment#:#pay_starting#:#starts with###01 Feb 2005 new variable
-payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data###01 Feb 2005 new variable
-payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment###01 Feb 2005 new variable
-payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order###01 Feb 2005 new variable
-payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###01 Feb 2005 new variable
-payment#:#pay_update_view#:#Update view###01 Feb 2005 new variable
+payment#:#pay_not_buyed_any_object#:#No ha comprado ningún objeto.
+payment#:#pay_order_date_from#:#Fecha de pedido desde
+payment#:#pay_order_date_til#:#Fecha de pedido hasta
+payment#:#pay_payed_credit_card#:#El pedido se pagó mediante tarjeta de crédito.
+payment#:#pay_payed_debit_entry#:#El pedido se pagó mediante débito.
+payment#:#pay_reset_filter#:#Reiniciar Filtro
+payment#:#pay_select_one_item#:#Por favor seleccione un item
+payment#:#pay_select_price#:#Por favor seleccione un nuevo precio.
+payment#:#pay_send_order#:#Enviar pedidoi
+payment#:#pay_shopping_cart_empty#:#Su carrito de la compra está vacío.
+payment#:#pay_starting#:#comienza con
+payment#:#pay_step1#:#Su pedido - Paso 1/3: Introduzca su información personal
+payment#:#pay_step2#:#Su pedido - Paso 2/3: Elija la forma de pago
+payment#:#pay_step3_credit_card#:#Su pedido - Paso 3/3: Introduzca sus datos de la tarjeta de crédito y envíe su pedido
+payment#:#pay_step3_debit_entry#:#Su pedido - Paso 3/3: Introduzca sus datos bancarios y envíe su pedido
+payment#:#pay_update_view#:#Actualizar vista
 payment#:#paya_access#:#Acceso
 payment#:#paya_add_price#:#Añadir nuevo precio
 payment#:#paya_add_price_title#:#Nuevo precio
@@ -4073,7 +4021,7 @@ payment#:#paya_added_new_price#:#Nuevo precio creado
 payment#:#paya_added_trustee#:#Nuevo administrador creado.
 payment#:#paya_bookings_available#:#Este objeto ha sido vendido. Por favor elimine todos los datos estadísticos primero.
 payment#:#paya_buyable#:#En venta
-payment#:#paya_buyed_objects#:#Buyed objects###01 Feb 2005 new variable
+payment#:#paya_buyed_objects#:#Productos comprados
 payment#:#paya_count_purchaser#:#Numero de compradores
 payment#:#paya_customer#:#Cliente
 payment#:#paya_delete_price#:#Eliminar precio
@@ -4091,7 +4039,7 @@ payment#:#paya_enter_login#:#Por favor introduzca un nombre de usuario
 payment#:#paya_err_adding_object#:#Error añadiendo objeto
 payment#:#paya_error_update_booking#:#Error grabando datos estadísticos.
 payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
-payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
+payment#:#paya_filter_reseted#:#Filtro reseteado
 payment#:#paya_header#:#Administración de Pago
 payment#:#paya_insert_only_numbers#:#Por favor introduzca sólo nº enteros.
 payment#:#paya_locator#:#Administrador de pago
@@ -4099,7 +4047,7 @@ payment#:#paya_months#:#Mes(es)
 payment#:#paya_no_booking_id_given#:#Error: no se ha introducido 'booking id'
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
 payment#:#paya_no_object_selected#:#Por favor seleccione un objeto
-payment#:#paya_no_objects_assigned#:#No hay objetos en venta.
+payment#:#paya_no_objects_assigned#:#No hay productos en venta.
 payment#:#paya_no_price_available#:#No hay precios disponibles
 payment#:#paya_no_prices_selected#:#Por favor seleccione un precio
 payment#:#paya_no_settings_necessary#:#No hay la configuración necesaria para este método de pago
@@ -4108,8 +4056,8 @@ payment#:#paya_no_valid_login#:#Este nombre de usuario no es válido.
 payment#:#paya_no_vendor_selected#:#No ha seleccionado un proveedor.
 payment#:#paya_not_assign_yourself#:#No es posible asignarlo a usted mismo
 payment#:#paya_not_buyable#:#No está en venta
-payment#:#paya_object#:#Objetos
-payment#:#paya_object_not_purchasable#:#No es posible vender este objeto.
+payment#:#paya_object#:#Productos
+payment#:#paya_object_not_purchasable#:#No es posible vender este producto.
 payment#:#paya_order_date#:#Fecha de pedido
 payment#:#paya_pay_method#:#Método de pago
 payment#:#paya_pay_method_not_specified#:#No especificado
@@ -4137,24 +4085,24 @@ payment#:#paya_updated_trustees#:#Permisos actualizados
 payment#:#paya_user_already_assigned#:#Usuario ya asignado.
 payment#:#paya_vendor#:#Proveedor
 payment#:#pays_active_bookings#:#Reservas activas
-payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
+payment#:#pays_add_info#:#Información adicional para la factura (opcional)
 payment#:#pays_add_vendor#:#Añadir proveedor
 payment#:#pays_added_vendor#:#Nuevo proveedor añadido
-payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
+payment#:#pays_address#:#Dirección de facturación
 payment#:#pays_already_assigned_vendors#:#El siguiente número de usuarios ya fue asignado:
 payment#:#pays_assigned_vendors#:#El siguiente número de usuarios ha sido asignado a la lista de proveedores:
-payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
+payment#:#pays_bank_data#:#Datos bancarios para la factura
 payment#:#pays_bill#:#Factura
 payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Centro de gasto
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.###01 Feb 2005 new variable
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)###01 Feb 2005 new variable
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)###01 Feb 2005 new variable
-payment#:#pays_delete_vendor#:#-Deassign user-###31 Aug 2004 new variable
+payment#:#pays_cost_center_not_valid#:#Por favor introduzca un centro de gasto válido.
+payment#:#pays_currency_subunit#:#Moneda (1/100) (ej: céntimo)
+payment#:#pays_currency_unit#:#Moneda (ej: EUR)
+payment#:#pays_delete_vendor#:#Eliminar proveedor
 payment#:#pays_deleted_number_vendors#:#El siguiente número de proveedores ha sido eliminado:
-payment#:#pays_edit_vendor#:#Edit user###01 Feb 2005 new variable
-payment#:#pays_general_settings#:#General settings###01 Feb 2005 new variable
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.###01 Feb 2005 new variable
+payment#:#pays_edit_vendor#:#Editar proveedor
+payment#:#pays_general_settings#:#Configuración General
+payment#:#pays_general_settings_not_valid#:#Su configuración general no es válida. Por favor compruebe si todos los campos han sido rellenados correctamente.
 payment#:#pays_header_select_vendor#:#Selección de proveedor
 payment#:#pays_no_username_given#:#No se ha introducido un nombre de usuario
 payment#:#pays_no_valid_username_given#:#No se ha introducido un nombre de usuario válido
@@ -4162,32 +4110,32 @@ payment#:#pays_no_vendor_selected#:#No se ha seleccionado proveedor
 payment#:#pays_number_bookings#:#Reservas activas
 payment#:#pays_objects_bill_exist#:#El método de pago 'factura' está activado para algunos objetos. Por tanto no puede ser desactivado.
 payment#:#pays_objects_bmf_exist#:#El método de pago 'BMF' está activado para algunos objetos. Por tanto no puede ser desactivado.
-payment#:#pays_offline#:#Offline###01 Feb 2005 new variable
-payment#:#pays_online#:#Online###01 Feb 2005 new variable
+payment#:#pays_offline#:#Offline
+payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Métodos de Pago
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file###01 Feb 2005 new variable
+payment#:#pays_pdf_path#:#Ruta para generar facturas como ficheros PDF
 payment#:#pays_sure_delete_selected_vendors#:#Realmente desea eliminar los proveedores seleccionados?
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.###01 Feb 2005 new variable
-payment#:#pays_updated_general_settings#:#Your general settings were updated.###01 Feb 2005 new variable
+payment#:#pays_too_many_vendors_selected#:#Por favor seleccione sólo un cliente para realizar esta operación.
+payment#:#pays_updated_general_settings#:#Su configuración general ha sido actualizada.
 payment#:#pays_updated_pay_method#:#Método de pago modificado.
 payment#:#pays_user_already_assigned#:#Este usuario ya está asignado a la lista de proveedores
-payment#:#pays_vat_rate#:#VAT rate in % (optional)###01 Feb 2005 new variable
+payment#:#pays_vat_rate#:#porcentaje de IVA en % (opcional)
 payment#:#pays_vendor#:#Proveedor
 payment#:#price_a#:#Precio
-payment#:#prices#:#Prices###01 Feb 2005 new variable
+payment#:#prices#:#Precios
 payment#:#update#:#Actualizar
-pwassist#:#password_assistance#:#Password Assistance###01 Feb 2005 new variable
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.###01 Feb 2005 new variable
-pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.###01 Feb 2005 new variable
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###01 Feb 2005 new variable
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.###01 Feb 2005 new variable
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###01 Feb 2005 new variable
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.###01 Feb 2005 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance###01 Feb 2005 new variable
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.###01 Feb 2005 new variable
-pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".###01 Feb 2005 new variable
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###01 Feb 2005 new variable
-pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###01 Feb 2005 new variable
+pwassist#:#password_assistance#:#Asistencia para Contraseñas
+pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
+pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.
+pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.
+pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
+pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
+pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\nPor favor compruebe su bandeja de entrada.
+pwassist#:#pwassist_mail_subject#:#Asistencia de Contraseña ILIAS
+pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. \nLa asistencia de contraseñas no está permitida para el usuario introducido.
+pwassist#:#pwassist_password_assigned#:#La contraseña ha sido generada con éxito y asignada al usuario "%1$s".
+pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fué enviado.
+pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_all_results#:#Todos los resultados
 search#:#search_and#:#y
@@ -4238,12 +4186,12 @@ survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite super
 survey#:#add_phrase#:#Añadir frase
 survey#:#add_phrase_introduction#:#Por favor seleccione una frase:
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###01 Feb 2005 new variable
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###01 Feb 2005 new variable
+survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente
+survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span>.<br />Por favor, introdúzcalo en el campo de texto inferior.
+survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
 survey#:#anonymize_survey_explanation#:#Cuando se activa, todos los usuarios serán anónimos y no pueden ser monitorizados
-survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
+survey#:#anonymous_with_personalized_survey#:#¡Debe ser un usuario registrado para ejecutar una encuesta personalizada!
 survey#:#answer#:#Respuesta
 survey#:#apply#:#Aplicar
 survey#:#arithmetic_mean#:#Media aritmética
@@ -4252,8 +4200,8 @@ survey#:#ask_insert_questions#:#Está seguro de que quiere insertar las siguient
 survey#:#back#:#<< Volver
 survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
-survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
-survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
+survey#:#cannot_create_survey_codes#:#¡Usted no posee suficientes permisos para crear códigos de acceso de encuestas!
+survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar la encuesta!
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el repositorio de preguntas!
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!
@@ -4265,13 +4213,13 @@ survey#:#category#:#Categoría
 survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguiente(s) categoría(s)?
 survey#:#category_delete_select_none#:#Por favor seleccione al menos una categoría para eliminar!
 survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categoría
-survey#:#chart#:#Chart###17 Dec 2004 new variable
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###01 Feb 2005 new variable
-survey#:#codes#:#Access codes###20 Dec 2004 new variable
-survey#:#combobox#:#Combobox###22 Dec 2004 new variable
+survey#:#chart#:#Tabla/Gráfico
+survey#:#check_category_to_save_phrase#:#¡Debe seleccionar al menos una categoría para guardar una frase!
+survey#:#codes#:#Códigos de acceso
+survey#:#combobox#:#-Combobox-
 survey#:#concatenation#:#Concatenación
-survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
-survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
+survey#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de la encuesta?
+survey#:#confirm_remove_heading#:#¿Está usted seguro de que quiere eliminar la cabecera?
 survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha sido creada para usar con la encuesta activa. Quiere modificar la pregunta original también?
 survey#:#constraints#:#Restricciones
 survey#:#contains#:#Contiene
@@ -4296,9 +4244,9 @@ survey#:#dc_mostcertainly#:#bastante cierto
 survey#:#dc_mostcertainlynot#:#bastante incierto
 survey#:#dc_must#:#debe
 survey#:#dc_mustnot#:#no debe
-survey#:#dc_neutral#:#neutral###01 Feb 2005 new variable
+survey#:#dc_neutral#:#neutral
 survey#:#dc_never#:#nunca
-survey#:#dc_no#:#no###01 Feb 2005 new variable
+survey#:#dc_no#:#no
 survey#:#dc_notacceptable#:#inaceptable
 survey#:#dc_poor#:#pobre
 survey#:#dc_rarely#:#rara vez
@@ -4316,7 +4264,7 @@ survey#:#dc_varying#:#variable
 survey#:#dc_verygood#:#muy bien
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definir bloque de preguntas
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
+survey#:#description_maxchars#:#Si no se introdujo nada, el número de caracteres para esta respuesta es ilimitado.
 survey#:#disinvite#:#Disinvite###27 May 2004 new variable
 survey#:#display_all_available#:#Mostrar todas las disponibles
 survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
@@ -4348,25 +4296,25 @@ survey#:#edit_constraints_introduction#:#Ha seleccionado la siguiente pregunta(s
 survey#:#edit_heading#:#Editar cabecera
 survey#:#end_date#:#Fecha fin
 survey#:#end_date_reached#:#No puede comenzar la encuesta. Se ha superado la fecha límite!
-survey#:#enter_anonymous_id#:#Survey access code###01 Feb 2005 new variable
+survey#:#enter_anonymous_id#:#Código de acceso a encuesta
 survey#:#enter_phrase_title#:#Por favor introduzca un título de frase
-survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
-survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
+survey#:#enter_questionblock_title#:#¡Por favor introduzca un título para el bloque de preguntas!
+survey#:#enter_valid_number_of_codes#:#Por favor introduzca un número válido de códigos de encuesta a generar
 survey#:#enter_value#:#Introduzca un valor
 survey#:#error_add_heading#:#Por favor añada una cabecera!
 survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el fichero seleccionado!
 survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los datos de su encuesta para la encuesta con código %s. Por favor compruebe el código de encuesta que ha introducido! 
-survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###01 Feb 2005 new variable
+survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna
 survey#:#evaluation#:#Evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
-survey#:#excel#:#Microsoft Excel###01 Feb 2005 new variable
+survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Salir
 survey#:#export_data_as#:#Exportar datos como
 survey#:#fill_out_all_category_fields#:#Por favor rellene todos los campos de categoría antes de añadir uno nuevo!
 survey#:#fill_out_all_required_fields_add_category#:#Por favor rellene todos los campos requeridos antes de añadir categorías!
-survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###01 Feb 2005 new variable
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###01 Feb 2005 new variable
-survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###01 Feb 2005 new variable
+survey#:#fill_out_all_required_fields_delete_category#:#¡Por favor rellene todos los campos requeridos antes de eliminar categorías!
+survey#:#fill_out_all_required_fields_move_category#:#¡Por favor rellene todos los campos requeridos antes de mover categorías!
+survey#:#fill_out_all_required_fields_save_phrase#:#¡Por favor rellene todos los campos requeridos antes de grabar una frase!
 survey#:#filter#:#Filtro
 survey#:#filter_all_question_types#:#Todos los tipos de pregunta
 survey#:#filter_all_questionpools#:#Todos los repositorios
@@ -4376,10 +4324,10 @@ survey#:#finished#:#finalizado
 survey#:#found_questions#:#Preguntas encontradas
 survey#:#geometric_mean#:#Media Geométrica
 survey#:#given_answers#:#Respuestas dadas
-survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
+survey#:#glossary_term#:#Término de Glosario
 survey#:#harmonic_mean#:#Media armónica
 survey#:#heading#:#Cabecera
-survey#:#horizontal#:#horizontal###01 Feb 2005 new variable
+survey#:#horizontal#:#horizontal
 survey#:#import_question#:#Importar pregunta(s)
 survey#:#insert_after#:#Insertar después
 survey#:#insert_before#:#Insertar antes
@@ -4394,31 +4342,31 @@ survey#:#invited_groups#:#Grupos Invitados
 survey#:#invited_users#:#Usuarios Invitados
 survey#:#label_resume_survey#:#Introduzca su código de encuesta de 32 dígitos
 survey#:#last_update#:#Última actualización
-survey#:#legend#:#Legend###01 Feb 2005 new variable
+survey#:#legend#:#Leyenda
 survey#:#lower_limit#:#Límite inferior
 survey#:#maintenance#:#Mantenimiento
 survey#:#manage_phrases#:#Gestionar frases
-survey#:#material#:#Material###23 Dec 2004 new variable
+survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
 survey#:#material_file#:#fichero de material
-survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
+survey#:#maxchars#:#Máximo número de caracteres
 survey#:#maximum#:#Valor Máximo
 survey#:#median#:#Mediana
 survey#:#median_between#:#entre
-survey#:#menuback#:#Back###01 Feb 2005 new variable
-survey#:#menubacktosurvey#:#Back to the survey###01 Feb 2005 new variable
+survey#:#menuback#:#Atrás
+survey#:#menubacktosurvey#:#Volver a la encuesta
 survey#:#message_mail_survey_id#:#Ha comenzado la encuesta anónima &quot;%s&quot;. Para continuar esta encuesta necesita el siguiente código de 32 dígitos:<br><br><strong>%s</strong><br><br>Continuar una encuesta es únicamente posible si interrumpe la encuesta antes de finalizarla.
-survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###01 Feb 2005 new variable
-survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###01 Feb 2005 new variable
-survey#:#metric_question_out_of_bounds#:#El valor introducido no está entre el valor mínimo y máximo!
+survey#:#metric_question_floating_point#:#El valor introducido es un número real en coma flotante. ¡Los números reales en coma flotante no están permitidos para este tipo de pregunta!
+survey#:#metric_question_not_a_value#:#¡El valor introducido no es un valor numérico!
+survey#:#metric_question_out_of_bounds#:#¡El valor introducido no está entre el valor mínimo y máximo!
 survey#:#minimum#:#Valor mínimo
-survey#:#missing_upper_or_lower_limit#:#Por favor introduzca un límite inferior y superior!
+survey#:#missing_upper_or_lower_limit#:#¡Por favor introduzca un límite inferior y superior!
 survey#:#mode#:#Valor más seleccionado (Moda)
 survey#:#mode_nr_of_selections#:#Número de selecciones
 survey#:#mode_text#:#Valor más seleccionado (Texto)
 survey#:#multiple_choice_multiple_response#:#Elección Múltiple (respuesta multiple)
 survey#:#multiple_choice_single_response#:#Elección Multiple (respuesta única)
-survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
+survey#:#new_survey_codes#:#nuevo(s) código(s) de acceso a encuesta
 survey#:#next_question_rows#:#Preguntas %d - %d de %d >>
 survey#:#no_available_constraints#:#No hay restricciones definidas!
 survey#:#no_category_selected_for_deleting#:#Por favor seleccione al menos una categoría si quiere eliminar categorías!
@@ -4434,15 +4382,15 @@ survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que 
 survey#:#no_user_phrases_defined#:#No hay frases definidas por el usuario disponibles!
 survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas!
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
-survey#:#not_finished#:#not finished###07 Jun 2004 new variable
-survey#:#not_started#:#not started###12 Jun 2004 new variable
-survey#:#not_used#:#not used###20 Dec 2004 new variable
-survey#:#obligatory#:#obligatory###24 May 2004 new variable
-survey#:#off#:#off###23 May 2004 new variable
-survey#:#offline#:#offline###23 May 2004 new variable
-survey#:#on#:#on###23 May 2004 new variable
-survey#:#online#:#online###23 May 2004 new variable
-survey#:#or#:#or###24 May 2004 new variable
+survey#:#not_finished#:#no finalizada
+survey#:#not_started#:#no comenzada
+survey#:#not_used#:#no usada
+survey#:#obligatory#:#obligatorio
+survey#:#off#:#off
+survey#:#offline#:#offline
+survey#:#on#:#on
+survey#:#online#:#online
+survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
@@ -4500,6 +4448,7 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
+survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
