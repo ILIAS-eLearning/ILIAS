@@ -13,6 +13,7 @@ require_once "./include/inc.header.php";
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
+$ilias->error_obj->sendInfo();
 
 $tpl->setCurrentBlock("subtitle");
 $tpl->setVariable("TXT_SUBTITLE",strtolower($lng->txt("of"))." ".$ilias->account->getFullname());

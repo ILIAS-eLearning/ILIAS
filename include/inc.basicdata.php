@@ -27,28 +27,29 @@ if (isset($_POST["save_settings"]))  // formular sent
 		or empty($_POST["admin_country"]) or empty($_POST["admin_city"])
 		or empty($_POST["admin_phone"]) or empty($_POST["admin_email"]))
 	{
-		$tpl->setVariable("MSG", $lng->txt("fill_out_all_required_fields"));
+		// feedback
+		$ilias->error_obj->sendInfo($lng->txt("fill_out_all_required_fields"));
 		$form_valid = false;
 	}
 	// check email adresses
 	// feedback_recipient
 	if (!TUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
 	{
-		$tpl->setVariable("MSG", $lng->txt("input_error").": '".$lng->txt("feedback_recipient")."'<br/>".$lng->txt("email_not_valid"));
+		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("feedback_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 	
 	// error_recipient
 	if (!TUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
 	{
-		$tpl->setVariable("MSG", $lng->txt("input_error").": '".$lng->txt("error_recipient")."'<br/>".$lng->txt("email_not_valid"));
+		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("error_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 
 	// admin email
 	if (!TUtil::is_email($_POST["admin_email"]) and $form_valid)
 	{
-		$tpl->setVariable("MSG", $lng->txt("input_error").": '".$lng->txt("email")."'<br/>".$lng->txt("email_not_valid"));
+		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("email")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 	
@@ -180,7 +181,7 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$settings = $ilias->getAllSettings();
 
 		// feedback
-		$tpl->setVariable("MSG", $lng->txt("saved_successfully"));
+		$ilias->error_obj->sendInfo($lng->txt("saved_successfully"));
 	}
 }
 
