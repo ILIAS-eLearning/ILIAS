@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Dec 22, 2002 at 01:25 PM
+# Generation Time: Dec 24, 2002 at 01:14 AM
 # Server version: 4.00.05
 # PHP Version: 4.3.0RC3
 # Database : `ilias3`
@@ -55,6 +55,9 @@ CREATE TABLE frm_data (
 # Dumping data for table `frm_data`
 #
 
+INSERT INTO frm_data VALUES (1, 172, 'frm1 a', '', 0, 0, '', '6', '2002-12-24 01:01:08');
+INSERT INTO frm_data VALUES (2, 174, 'frm2 a in grp1', '', 0, 0, '', '6', '2002-12-24 01:02:17');
+INSERT INTO frm_data VALUES (3, 178, 'frm2', '', 0, 0, '', '6', '2002-12-24 01:05:57');
 # --------------------------------------------------------
 
 #
@@ -859,6 +862,25 @@ INSERT INTO object_data VALUES (158, 'usr', 'N. Iemand', 'gast@yourserver.com', 
 INSERT INTO object_data VALUES (157, 'usr', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
 INSERT INTO object_data VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
 INSERT INTO object_data VALUES (34, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2002-12-22 13:24:30');
+INSERT INTO object_data VALUES (160, 'rolt', 'lerner 1', '', 6, '2002-12-24 00:44:30', '2002-12-24 00:44:30');
+INSERT INTO object_data VALUES (162, 'role', 'lerner uni a', '', 6, '2002-12-24 00:47:11', '2002-12-24 00:47:11');
+INSERT INTO object_data VALUES (163, 'role', 'lerner uni b', '', 6, '2002-12-24 00:47:28', '2002-12-24 00:47:28');
+INSERT INTO object_data VALUES (164, 'cat', 'uni a', '', 6, '2002-12-24 00:47:41', '2002-12-24 00:47:41');
+INSERT INTO object_data VALUES (165, 'cat', 'uni b', '', 6, '2002-12-24 00:47:48', '2002-12-24 00:47:48');
+INSERT INTO object_data VALUES (166, 'le', 'lm1 a', '', 6, '2002-12-24 00:48:00', '2002-12-24 00:48:00');
+INSERT INTO object_data VALUES (167, 'le', 'lm2 b', '', 6, '2002-12-24 00:48:11', '2002-12-24 00:48:11');
+INSERT INTO object_data VALUES (168, 'usr', 'lerner a', 'dsfsd', 6, '2002-12-24 00:49:38', '2002-12-24 00:49:38');
+INSERT INTO object_data VALUES (169, 'uset', 'lerner a', 'User Setting Folder', 6, '2002-12-24 00:49:38', '2002-12-24 00:49:38');
+INSERT INTO object_data VALUES (170, 'usr', 'lerner b', 'fdgfg', 6, '2002-12-24 00:49:56', '2002-12-24 00:49:56');
+INSERT INTO object_data VALUES (171, 'uset', 'lerner b', 'User Setting Folder', 6, '2002-12-24 00:49:56', '2002-12-24 00:49:56');
+INSERT INTO object_data VALUES (172, 'frm', 'frm1 a (lerner can write)', '', 6, '2002-12-24 01:01:08', '2002-12-24 01:01:08');
+INSERT INTO object_data VALUES (173, 'grp', 'grp1 a', '', 6, '2002-12-24 01:01:42', '2002-12-24 01:01:42');
+INSERT INTO object_data VALUES (174, 'frm', 'frm2 a in grp1 (lerner cannot write)', '', 6, '2002-12-24 01:02:17', '2002-12-24 01:02:17');
+INSERT INTO object_data VALUES (175, 'le', 'lm2 a in grp1', '', 6, '2002-12-24 01:02:48', '2002-12-24 01:02:48');
+INSERT INTO object_data VALUES (176, 'crs', 'crs1 a', '', 6, '2002-12-24 01:03:16', '2002-12-24 01:03:16');
+INSERT INTO object_data VALUES (177, 'le', 'lm3 a in crs1', '', 6, '2002-12-24 01:03:30', '2002-12-24 01:03:30');
+INSERT INTO object_data VALUES (178, 'frm', 'frm2 b', '', 6, '2002-12-24 01:05:57', '2002-12-24 01:05:57');
+INSERT INTO object_data VALUES (179, 'grp', 'grp2 b', '', 6, '2002-12-24 01:06:06', '2002-12-24 01:06:06');
 # --------------------------------------------------------
 
 #
@@ -881,6 +903,9 @@ INSERT INTO rbac_fa VALUES (2, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (3, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (4, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (5, 8, 9, 'y');
+INSERT INTO rbac_fa VALUES (160, 8, 9, 'n');
+INSERT INTO rbac_fa VALUES (162, 8, 9, 'y');
+INSERT INTO rbac_fa VALUES (163, 8, 9, 'y');
 # --------------------------------------------------------
 
 #
@@ -924,10 +949,8 @@ CREATE TABLE rbac_pa (
 # Dumping data for table `rbac_pa`
 #
 
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"5";i:1;s:1:"1";i:2;s:1:"3";i:3;s:1:"2";i:4;s:1:"4";}', 1, 0);
-INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"4";}', 1, 0);
 INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 1, 0);
-INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"5";i:1;s:1:"1";i:2;s:1:"3";i:3;s:1:"2";i:4;s:1:"4";}', 1, 0);
 INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 7, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 8, 9);
 INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 11, 9);
@@ -937,6 +960,71 @@ INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1
 INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 10, 9);
 INSERT INTO rbac_pa VALUES (3, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 7, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 7, 9);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 164, 1);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 164, 1);
+INSERT INTO rbac_pa VALUES (3, 'a:4:{i:0;s:1:"5";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 164, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 164, 1);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 165, 1);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 165, 1);
+INSERT INTO rbac_pa VALUES (3, 'a:4:{i:0;s:1:"5";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 165, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 165, 1);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 166, 164);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 166, 164);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 166, 164);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 166, 164);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 167, 165);
+INSERT INTO rbac_pa VALUES (163, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 167, 165);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 167, 165);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 167, 165);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 164, 1);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"2";}', 166, 164);
+INSERT INTO rbac_pa VALUES (163, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 165, 1);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"2";}', 167, 165);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa VALUES (162, 'a:1:{i:0;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa VALUES (163, 'a:1:{i:0;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"4";}', 1, 0);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 172, 164);
+INSERT INTO rbac_pa VALUES (4, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 172, 164);
+INSERT INTO rbac_pa VALUES (3, 'a:4:{i:0;s:1:"5";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 172, 164);
+INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 172, 164);
+INSERT INTO rbac_pa VALUES (162, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 172, 164);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 173, 164);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 173, 164);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 173, 164);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 173, 164);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 173, 164);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 174, 173);
+INSERT INTO rbac_pa VALUES (4, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 174, 173);
+INSERT INTO rbac_pa VALUES (3, 'a:4:{i:0;s:1:"5";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 174, 173);
+INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 174, 173);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 174, 173);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 175, 173);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 175, 173);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 175, 173);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 175, 173);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"2";}', 175, 173);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 176, 164);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 176, 164);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 176, 164);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 176, 164);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"7";i:1;s:1:"8";i:2;s:1:"3";i:3;s:1:"2";}', 177, 176);
+INSERT INTO rbac_pa VALUES (162, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 177, 176);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"7";i:3;s:1:"8";i:4;s:1:"3";i:5;s:1:"2";i:6;s:1:"4";}', 177, 176);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"7";i:4;s:1:"8";i:5;s:1:"3";i:6;s:1:"2";i:7;s:1:"4";}', 177, 176);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"2";}', 176, 164);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"2";}', 177, 176);
+INSERT INTO rbac_pa VALUES (163, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 178, 165);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 178, 165);
+INSERT INTO rbac_pa VALUES (3, 'a:4:{i:0;s:1:"5";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 178, 165);
+INSERT INTO rbac_pa VALUES (2, 'a:8:{i:0;s:1:"4";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"8";i:4;s:1:"7";i:5;s:1:"1";i:6;s:1:"6";i:7;s:1:"5";}', 179, 165);
+INSERT INTO rbac_pa VALUES (3, 'a:7:{i:0;s:1:"4";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"8";i:4;s:1:"7";i:5;s:1:"6";i:6;s:1:"5";}', 179, 165);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 179, 165);
+INSERT INTO rbac_pa VALUES (4, 'a:4:{i:0;s:1:"2";i:1;s:1:"3";i:2;s:1:"8";i:3;s:1:"7";}', 179, 165);
+INSERT INTO rbac_pa VALUES (162, 'a:0:{}', 179, 165);
+INSERT INTO rbac_pa VALUES (163, 'a:0:{}', 179, 165);
+INSERT INTO rbac_pa VALUES (4, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 178, 165);
+INSERT INTO rbac_pa VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 178, 165);
 # --------------------------------------------------------
 
 #
@@ -1329,6 +1417,20 @@ INSERT INTO rbac_templates VALUES (5, 'lo', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'mail', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'role', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'usr', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'cat', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'crs', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'crs', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'frm', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'frm', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'grp', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'grp', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'le', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'le', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'lo', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'lo', 2, 8);
+INSERT INTO rbac_templates VALUES (160, 'root', 3, 8);
+INSERT INTO rbac_templates VALUES (160, 'root', 2, 8);
 # --------------------------------------------------------
 
 #
@@ -1350,6 +1452,8 @@ INSERT INTO rbac_ua VALUES (6, 2, 'n');
 INSERT INTO rbac_ua VALUES (156, 3, 'n');
 INSERT INTO rbac_ua VALUES (157, 4, 'n');
 INSERT INTO rbac_ua VALUES (158, 5, 'n');
+INSERT INTO rbac_ua VALUES (168, 162, 'y');
+INSERT INTO rbac_ua VALUES (170, 163, 'y');
 # --------------------------------------------------------
 
 #
@@ -1394,6 +1498,7 @@ INSERT INTO settings VALUES ('news', '');
 INSERT INTO settings VALUES ('payment_system', '');
 INSERT INTO settings VALUES ('phone', '');
 INSERT INTO settings VALUES ('pub_section', '');
+INSERT INTO settings VALUES ('setup_passwd', 'bla');
 INSERT INTO settings VALUES ('street', '');
 INSERT INTO settings VALUES ('unzip_path', '');
 INSERT INTO settings VALUES ('zipcode', 'ghj');
@@ -1417,12 +1522,33 @@ CREATE TABLE tree (
 # Dumping data for table `tree`
 #
 
-INSERT INTO tree VALUES (1, 1, 0, 1, 12, 1);
-INSERT INTO tree VALUES (1, 7, 9, 3, 4, 3);
-INSERT INTO tree VALUES (1, 8, 9, 5, 6, 3);
-INSERT INTO tree VALUES (1, 9, 1, 2, 11, 2);
-INSERT INTO tree VALUES (1, 10, 9, 7, 8, 3);
-INSERT INTO tree VALUES (1, 11, 9, 9, 10, 3);
+INSERT INTO tree VALUES (1, 1, 0, 1, 36, 1);
+INSERT INTO tree VALUES (1, 7, 9, 27, 28, 3);
+INSERT INTO tree VALUES (1, 8, 9, 29, 30, 3);
+INSERT INTO tree VALUES (1, 9, 1, 26, 35, 2);
+INSERT INTO tree VALUES (1, 10, 9, 31, 32, 3);
+INSERT INTO tree VALUES (1, 11, 9, 33, 34, 3);
+INSERT INTO tree VALUES (1, 164, 1, 10, 25, 1);
+INSERT INTO tree VALUES (1, 165, 1, 2, 9, 1);
+INSERT INTO tree VALUES (1, 166, 164, 23, 24, 2);
+INSERT INTO tree VALUES (166, 166, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 167, 165, 7, 8, 2);
+INSERT INTO tree VALUES (167, 167, 0, 1, 2, 1);
+INSERT INTO tree VALUES (168, 168, 0, 1, 2, 1);
+INSERT INTO tree VALUES (170, 170, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 172, 164, 21, 22, 2);
+INSERT INTO tree VALUES (172, 172, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 173, 164, 15, 20, 2);
+INSERT INTO tree VALUES (1, 174, 173, 18, 19, 3);
+INSERT INTO tree VALUES (174, 174, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 175, 173, 16, 17, 3);
+INSERT INTO tree VALUES (175, 175, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 176, 164, 11, 14, 2);
+INSERT INTO tree VALUES (1, 177, 176, 12, 13, 3);
+INSERT INTO tree VALUES (177, 177, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 178, 165, 5, 6, 2);
+INSERT INTO tree VALUES (178, 178, 0, 1, 2, 1);
+INSERT INTO tree VALUES (1, 179, 165, 3, 4, 2);
 # --------------------------------------------------------
 
 #
@@ -1453,6 +1579,8 @@ INSERT INTO usr_data VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Sy
 INSERT INTO usr_data VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'N.', 'Iemand', '', 'm', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
 INSERT INTO usr_data VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'St.', 'Udent', '', 'm', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
 INSERT INTO usr_data VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'T.', 'Eacher', '', 'm', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
+INSERT INTO usr_data VALUES (168, 'lernera', '49379e5812c43fd6b53d80f104e0a1ca', 'lerner', 'a', '', '', 'dsfsd', '0000-00-00 00:00:00', '2002-12-24 00:49:38', '2002-12-24 00:49:38');
+INSERT INTO usr_data VALUES (170, 'lernerb', 'f8e7f52e46ea0efbce0219225b526061', 'lerner', 'b', '', '', 'fdgfg', '0000-00-00 00:00:00', '2002-12-24 00:49:56', '2002-12-24 00:49:56');
 # --------------------------------------------------------
 
 #
