@@ -1791,3 +1791,15 @@ CREATE TABLE `qpl_answers` (
 
 <#116>
 ALTER  TABLE  `qpl_answers`  ADD  `coords` TEXT AFTER  `gap_id` , ADD  `area` VARCHAR( 20  )  AFTER  `coords` ;
+
+<#117>
+CREATE TABLE `chat_room_messages` (
+`entry_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`chat_id` INT( 11 ) NOT NULL ,
+`room_id` INT( 11 ) NOT NULL ,
+`message` TEXT,
+`commit_timestamp` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `entry_id` )
+);
+<#118>
+ALTER TABLE chat_user ADD chat_id INT( 11 ) NOT NULL AFTER usr_id ;

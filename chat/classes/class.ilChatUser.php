@@ -21,54 +21,59 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* logout script for ilias
-*
-* @author Sascha Hofmann <shofmann@databay.de>
+* Class ilChatUser
+* 
+* @author Stefan Meyer 
 * @version $Id$
 *
-* @package ilias-core
+* @package chat
 */
 
-require_once "include/inc.header.php";
-
-// LOGOUT CHAT USER
-if($ilias->getSetting("chat_active"))
+class ilChatUser
 {
-	include_once "./chat/classes/class.ilChatServerCommunicator.php";
-	ilChatServerCommunicator::_logout();
-}
-$ilias->auth->logout();
-session_destroy();
+	var $ilias;
+	var $lng;
+	var $user;
 
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
+	var $u_id;
+	/**
+	* Constructor
+	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	*/
+	function ilChatUser($a_id = 0)
+	{
+		global $ilias,$lng;
 
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
+		$this->ilias =& $ilias;
+		$this->lng =& $lng;
 
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
+		$this->u_id = $a_id;
+	}
 
-if ($ilias->ini_ilias->readVariable("clients","list"))
-{
-	$tpl->setCurrentBlock("client_list");
-	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
-	$tpl->parseCurrentBlock();	
-}
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
+	// SET/GET
+	function setUserId($a_id)
+	{
+		$this->u_id = $a_id;
+		$this->__initUserObject();
+	}
+	function getUserId()
+	{
+		return $this->u_id;
+	}
 	
-$tpl->show();
+	function getLogin()
+	{
+		return $this->user->getLogin();
+	}
+
+	// PRIVATE
+	function __initUserObject()
+	{
+		$this->user =& new ilObjUser($this->getUserId());
+	}
+
+} // END class.ilChatUser
 ?>

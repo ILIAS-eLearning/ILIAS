@@ -37,10 +37,12 @@ class ilChatServerConfig
 
 	var $ip;
 	var $port;
+	var $moderator;
 	var $logfile;
 	var $loglevel;
 	var $hosts;
 	var $active;
+	var $nic;
 
 	var $error_message;
 
@@ -79,6 +81,14 @@ class ilChatServerConfig
 	{
 		return $this->port;
 	}
+	function setModeratorPassword($a_passwd)
+	{
+		$this->moderator = $a_passwd;
+	}
+	function getModeratorPassword()
+	{
+		return $this->moderator;
+	}
 	function setLogfile($logfile)
 	{
 		$this->logfile = $logfile;
@@ -116,7 +126,10 @@ class ilChatServerConfig
 	{
 		return $this->active;
 	}
-
+	function getNic()
+	{
+		return substr($this->nic,0,6);
+	}
 
 	function validate()
 	{
@@ -130,6 +143,10 @@ class ilChatServerConfig
 		{
 			$this->error_message .= $this->lng->txt("chat_add_port");
 		}
+		if(!$this->getModeratorPassword() or strlen($this->getModeratorPassword()) < 6)
+		{
+			$this->error_message .= $this->lng->txt("chat_add_moderator_password");
+		}
 
 		return $this->error_message ? false : true;
 	}
@@ -140,6 +157,9 @@ class ilChatServerConfig
 		$this->ilias->setSetting("chat_logfile",$this->getLogfile());
 		$this->ilias->setSetting("chat_loglevel",$this->getLogLevel());
 		$this->ilias->setSetting("chat_hosts",$this->getAllowedHosts());
+		$this->ilias->setSetting("chat_moderator_password",$this->getModeratorPassword());
+
+		return $this->__writeConfigFile();
 	}
 	function updateStatus()
 	{
@@ -150,10 +170,12 @@ class ilChatServerConfig
 	{
 		$this->ip = $this->ilias->getSetting("chat_ip");
 		$this->port = $this->ilias->getSetting("chat_port");
+		$this->moderator = $this->ilias->getSetting("chat_moderator_password");
 		$this->loglevel = $this->ilias->getSetting("chat_loglevel");
 		$this->logfile = $this->ilias->getSetting("chat_logfile");
 		$this->hosts = $this->ilias->getSetting("chat_hosts");
 		$this->active = $this->ilias->getSetting("chat_active");
+		$this->nic = $this->ilias->getSetting("nic_key");
 	}
 
 	function isAlive()
@@ -168,6 +190,39 @@ class ilChatServerConfig
 			return false;
 		}
 		return false;
+	}
+
+	//PRIVATE
+	function __writeConfigFile()
+	{
+		if(!($fp = @fopen($a_path."./chat/chatserver/server.ini","w")))
+		{
+			$this->error_message = "./chat/chatserver/server.ini ".$this->lng->txt("!!chat_no_write_perm");
+			return false;
+		}
+		$content =  "LogLevel = ".$this->getLogLevel()."\n";
+		if($this->getLogfile())
+		{
+			$content .= "LogFile = ".$this->getLogfile()."\n";
+		}
+		$content .= "IpAddress = ".$this->getIp()."\n";
+		$content .= "Port = ".$this->getPort()."\n";
+		$content .= "ModeratorPassword".$this->getModeratorPassword()."\n";
+		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/header.html\n";
+		$content .= "FooterFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/footer.html\n";
+		$content .= "Authentication = 1\n";
+		$content .= "ConnectionsFrom = ".$this->getAllowedHosts()."\n";
+
+		if(!@fwrite($fp,$content))
+		{
+			$this->error_message = ILIAS_ABSOLUTE_PATH."/chat/chatserver/server.ini ".$this->lng->txt("!!chat_no_write_perm");
+			fclose($fp);
+			
+			return false;
+
+		}
+		fclose($fp);
+		return true;
 	}
 	
 } // END class.ilObjChatServer

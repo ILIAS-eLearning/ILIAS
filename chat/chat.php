@@ -20,55 +20,17 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+chdir("..");
+require_once "./include/inc.header.php";
+require_once "./chat/classes/class.ilChatController.php";
 
-
-/**
-* logout script for ilias
-*
-* @author Sascha Hofmann <shofmann@databay.de>
-* @version $Id$
-*
-* @package ilias-core
-*/
-
-require_once "include/inc.header.php";
-
-// LOGOUT CHAT USER
-if($ilias->getSetting("chat_active"))
+if(!$ilias->auth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref_id"]))
 {
-	include_once "./chat/classes/class.ilChatServerCommunicator.php";
-	ilChatServerCommunicator::_logout();
-}
-$ilias->auth->logout();
-session_destroy();
-
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
-
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
+	$_GET["cmd"] = "closeFrame";
 }
 
-if ($ilias->ini_ilias->readVariable("clients","list"))
-{
-	$tpl->setCurrentBlock("client_list");
-	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
-	$tpl->parseCurrentBlock();	
-}
+$chat_controller =& new ilChatController((int) $_GET["ref_id"]);
+$chat_controller->execute();
 
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	
 $tpl->show();
 ?>
