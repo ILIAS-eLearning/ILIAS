@@ -2,6 +2,7 @@
 *   On mouse over highlight the current block with colored border.
 */
 function doMouseOver(id) {
+	overId = id;
     if (document.getElementById) {
         obj = document.getElementById(id);
         obj.style.border="solid red 1px";
@@ -36,8 +37,13 @@ var mouseIsDown = false;
 var Mposx = 0;
 var Mposy = 0;
 
+var dragId = "";
+var overId = "";
+
 function doMouseDown(id) {
 	//dd.elements.contextmenu.hide();
+	
+	if (!mouseIsDown) dragId = id;
 	
 	oldMposx = Mposx;
 	oldMposy = Mposy;
@@ -53,7 +59,10 @@ function beginDrag()
 
 function doMouseUp(id) 
 {
+	if (dragDropShow) alert(dragId+" - "+overId);
+	dragId = "";
 	mouseIsDown = false;
+	dragDropShow = false;
 	dd.elements.dragdropsymbol.hide();
 	dd.elements.dragdropsymbol.moveTo(-1000,-1000);
 	setTimeout("dragDropShow = false",500);
@@ -158,8 +167,10 @@ function doActionForm(cmd,command,value)
         command += clickcmdid;
     }
     
-	if (value=="delete") {
-		if(!confirm("wirklich löschen ?")) {
+	if (value=="delete") 
+	{
+		if(!confirm("wirklich löschen ?")) 
+		{
 			menuBlocked = true;
 			setTimeout("nextMenuClick()",500);
 			return;
