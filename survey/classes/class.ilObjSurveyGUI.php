@@ -142,6 +142,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
 		$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"]));
 		$this->object->setAnonymize($_POST["anonymize"]);
+		if ($_POST["showQuestionTitles"])
+		{
+			$this->object->showQuestionTitles();
+		}
+		else
+		{
+			$this->object->hideQuestionTitles();
+		}
 	}
 
 /**
@@ -490,7 +498,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("survey_content");					
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
-					$question_gui->outWorkingForm($working_data);
+					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles());
 					$qid = "&qid=" . $data["question_id"];
 					$this->tpl->parse("survey_content");
 				}
@@ -755,6 +763,11 @@ class ilObjSurveyGUI extends ilObjectGUI
     if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
+		$this->tpl->setVariable("TEXT_SHOW_QUESTIONTITLES", $this->lng->txt("svy_show_questiontitles"));
+		if ($this->object->getShowQuestionTitles())
+		{
+			$this->tpl->setVariable("QUESTIONTITLES_CHECKED", " checked=\"checked\"");
 		}
     $this->tpl->parseCurrentBlock();
   }

@@ -2,13 +2,16 @@
 <table class="std">
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value"><input name="title" type="text" value="{VALUE_TITLE}" size="50" disabled="disabled" /></td></tr>
+  <td class="option_value"><input name="title" type="text" value="{VALUE_TITLE}" size="50" disabled="disabled" /></td>
+</tr>
 <tr>
   <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
+  <td class="option_value"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td>
+</tr>
 <tr>
   <td class="option"><label for="description">{TEXT_DESCRIPTION}:</label></td>
-  <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" disabled="disabled" /></td></tr>
+  <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" disabled="disabled" /></td>
+</tr>
 <tr>
   <td class="option">{TEXT_INTRODUCTION}:</td>
   <td class="option_value">
@@ -17,7 +20,7 @@
 </tr>
 <tr>
   <td class="option">{TEXT_STATUS}:</td>
-  <td class="option_value"><select name="status"><option value="0"{SELECTED_OFFLINE}>{VALUE_OFFLINE}</option><option value="1"{SELECTED_ONLINE}>{VALUE_ONLINE}</option></select>
+  <td class="option_value"><select name="status"><option value="0"{SELECTED_OFFLINE}>{VALUE_OFFLINE}</option><option value="1"{SELECTED_ONLINE}>{VALUE_ONLINE}</option></select></td>
 </tr>
 <tr>
   <td class="option">{TEXT_START_DATE}:</td>
@@ -29,12 +32,16 @@
 </tr>
 <tr>
   <td class="option">{TEXT_EVALUATION_ACCESS}:</td>
-  <td class="option_value"><select name="evaluation_access"><option value="0"{SELECTED_OFF}>{VALUE_OFF}</option><option value="1"{SELECTED_ON}>{VALUE_ON}</option></select>
+  <td class="option_value"><select name="evaluation_access"><option value="0"{SELECTED_OFF}>{VALUE_OFF}</option><option value="1"{SELECTED_ON}>{VALUE_ON}</option></select></td>
 </tr>
 <tr>
   <td class="option">{TEXT_ANONYMIZATION}:</td>
   <td class="option_value"><select name="anonymize"><option value="0"{ANON_SELECTED_OFF}>{ANON_VALUE_OFF}</option><option value="1"{ANON_SELECTED_ON}>{ANON_VALUE_ON}</option></select>
-	<div class="quote">({TEXT_ANONYMIZATION_EXPLANATION})</div>
+	<div class="quote">({TEXT_ANONYMIZATION_EXPLANATION})</div></td>
+</tr>
+<tr>
+  <td class="option"></td>
+  <td class="option_value"><input type="checkbox" id="showQuestionTitles" name="showQuestionTitles" value="1"{QUESTIONTITLES_CHECKED} /> <label for="showQuestionTitles">{TEXT_SHOW_QUESTIONTITLES}</label></td>
 </tr>
 <tr><td colspan="2" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>

@@ -229,11 +229,14 @@ class SurveyMetricQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm($working_data = "")
+	function outWorkingForm($working_data = "", $question_title = 1)
 	{
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
-		$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		if ($question_title)
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
 		$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());

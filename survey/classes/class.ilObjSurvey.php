@@ -60,6 +60,9 @@ define("SURVEY_START_OFFLINE", 3);
 define("ANONYMIZE_OFF", 0);
 define("ANONYMIZE_ON", 1);
 
+define("QUESTIONTITLES_HIDDEN", 0);
+define("QUESTIONTITLES_VISIBLE", 1);
+
 class ilObjSurvey extends ilObject
 {
 /**
@@ -180,6 +183,14 @@ class ilObjSurvey extends ilObject
 */
 	var $anonymize;
 
+/**
+* Indicates if the question titles are shown during a query
+*
+* Indicates if the question titles are shown during a query
+* @var integer
+*/
+	var $display_question_titles;
+
 	/**
 	* Constructor
 	* @access	public
@@ -207,6 +218,7 @@ class ilObjSurvey extends ilObject
 		$this->invitation = INVITATION_OFF;
 		$this->invitation_mode = MODE_PREDEFINED_USERS;
 		$this->anonymize = ANONYMIZE_ON;
+		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
 	}
 
 	/**
@@ -677,7 +689,7 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $this->ilias->db->quote($this->getId()),
         $this->ilias->db->quote($this->author . ""),
         $this->ilias->db->quote($this->introduction . ""),
@@ -689,6 +701,7 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($this->invitation_mode . ""),
 				$this->ilias->db->quote($complete . ""),
 				$this->ilias->db->quote($this->getAnonymize() . ""),
+				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
         $this->ilias->db->quote($created)
       );
       $result = $this->ilias->db->query($query);
@@ -697,7 +710,7 @@ class ilObjSurvey extends ilObject
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s WHERE survey_id = %s",
+      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
         $this->ilias->db->quote($this->author . ""),
         $this->ilias->db->quote($this->introduction . ""),
         $this->ilias->db->quote($this->status . ""),
@@ -708,6 +721,7 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($this->invitation_mode . ""),
 				$this->ilias->db->quote($complete . ""),
 				$this->ilias->db->quote($this->getAnonymize() . ""),
+				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
         $this->ilias->db->quote($this->survey_id)
       );
       $result = $this->ilias->db->query($query);
@@ -957,6 +971,7 @@ class ilObjSurvey extends ilObject
         $this->status = $data->status;
 				$this->invitation = $data->invitation;
 				$this->invitation_mode = $data->invitation_mode;
+				$this->display_question_titles = $data->show_question_titles;
         $this->start_date = $data->startdate;
 				if (!$data->startdate)
 				{
@@ -1114,6 +1129,43 @@ class ilObjSurvey extends ilObject
     $this->author = $author;
   }
 
+/**
+* Gets the status of the display_question_titles attribute
+*
+* Gets the status of the display_question_titles attribute
+*
+* @return integer The status of the display_question_titles attribute
+* @access public
+* @see $display_question_titles
+*/
+  function getShowQuestionTitles() {
+		return $this->display_question_titles;
+  }
+
+/**
+* Sets the question titles visible during the query
+*
+* Sets the question titles visible during the query
+*
+* @access public
+* @see $display_question_titles
+*/
+  function showQuestionTitles() {
+		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
+  }
+
+/**
+* Sets the question titles hidden during the query
+*
+* Sets the question titles hidden during the query
+*
+* @access public
+* @see $display_question_titles
+*/
+  function hideQuestionTitles() {
+		$this->display_question_titles = QUESTIONTITLES_HIDDEN;
+  }
+	
 /**
 * Sets the invitation status
 *
