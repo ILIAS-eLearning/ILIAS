@@ -1721,6 +1721,7 @@ common#:#passwd_invalid#:#Le nouveau mot de passe n'est pas valide !  Veuillez e
 common#:#passwd#:#Mot de passe
 common#:#passwd_not_match#:#Vos saisies pour le nouveau mot de passe ne correspondent pas !  Veuillez saisir votre nouveau mot de passe à nouveau.
 common#:#passwd_wrong#:#Le mot de passe que vous avez saisi est erroné.
+common#:#password#:#Mot de passe
 common#:#pasteChapter#:#Coller
 common#:#paste#:#Coller
 common#:#pastePage#:#Coller
@@ -2849,7 +2850,7 @@ dateplaner#:#Sa_long#:#Samedi
 dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#xxx Semester Name
 dateplaner#:#short_01#:#Jan
-dateplaner#:#short_02#:#Fév
+dateplaner#:#short_02#:#Fev
 dateplaner#:#short_03#:#Mar
 dateplaner#:#short_04#:#Avr
 dateplaner#:#short_05#:#Mai
@@ -2859,7 +2860,7 @@ dateplaner#:#short_08#:#Aou
 dateplaner#:#short_09#:#Sep
 dateplaner#:#short_10#:#Oct
 dateplaner#:#short_11#:#Nov
-dateplaner#:#short_12#:#Déc
+dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Texte court
 dateplaner#:#singleDate#:#événement unique
 dateplaner#:#starttime_for_view#:#Heure de début pour l'affichage
