@@ -121,7 +121,7 @@ class ilChatServerCommunicator
 	function getServerFrameSource()
 	{
 		return sprintf("http://%s:%s/%s%s",
-					   $this->chat->server_conf->getIp(),
+                       $this->chat->server_conf->getExternalIp(),
 					   $this->chat->server_conf->getPort(),
 					   $this->__formatLogin($this->chat->chat_user->getLogin()),
 					   $this->__getFormattedChatroom());
@@ -190,7 +190,7 @@ class ilChatServerCommunicator
 
 	function __openSocket()
 	{
-		$this->socket_p = @fsockopen($this->chat->server_conf->getIp(), $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
+        $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(), $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
 
 		return $this->socket_p == null ? false : true;
 	}

@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file 
 *
 * @module		language file English
@@ -572,7 +572,8 @@ bibitem#:#bibitem_year#:#Year
 chat#:#chat_active#:#Active
 chat#:#chat_active_users#:#User (active)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
-chat#:#chat_add_ip#:#Please add the server IP.
+chat#:#chat_add_external_ip#:#Please add the server's external IP.
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
 chat#:#chat_aqua#:#aqua
@@ -633,7 +634,8 @@ chat#:#chat_rooms_deleted#:#Chat room(s) deleted.
 chat#:#chat_select_one_room#:#Please select one chat room
 chat#:#chat_server_allowed#:#Allowed hosts
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Server IP
+chat#:#chat_server_external_ip#:#Server external IP
+chat#:#chat_server_internal_ip#:#Server internal IP
 chat#:#chat_server_logfile#:#Log file path
 chat#:#chat_server_loglevel#:#Log level
 chat#:#chat_server_not_active#:#The chat server is not active
