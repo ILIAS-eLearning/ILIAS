@@ -625,7 +625,6 @@ common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
 common#:#cat_create_qpl#:#Twórz pulę pytań
-common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
 common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
@@ -735,7 +734,6 @@ common#:#crs_create_frm#:#Twórz Forum
 common#:#crs_create_glo#:#Twórz Słownik
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#crs_create_lm#:#Twórz Moduł Nauczania
-common#:#crs_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
@@ -921,7 +919,6 @@ common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#fold_create_lm#:#Twórz Moduł Nauczania
-common#:#fold_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -1037,7 +1034,6 @@ common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
-common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
 common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
@@ -1119,7 +1115,6 @@ common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
 common#:#import_hlm#:#Import pakietu HACP
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
-common#:#import_slm#:#Importuj pakiet SCORM
 common#:#import_users#:#Import Użytkowników
 common#:#imported#:#zaimportowany
 common#:#in#:#w
@@ -1533,7 +1528,6 @@ common#:#obj_rolf_local#:#Lokalne role
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
-common#:#obj_slm#:#SCORM (MN)
 common#:#obj_spl#:#Question Pool (ankieta)
 common#:#obj_st#:#Rozdział
 common#:#obj_svy#:#Ankieta
@@ -1582,7 +1576,6 @@ common#:#objs_pg#:#Strony
 common#:#objs_qpl#:#Pule pytań
 common#:#objs_role#:#Role
 common#:#objs_rolt#:#Szablony Ról
-common#:#objs_slm#:#Moduły nauczania SCORM
 common#:#objs_spl#:#Pule pytań (Ankieta)
 common#:#objs_st#:#Rozdziały
 common#:#objs_svy#:#Ankiety
@@ -1792,16 +1785,6 @@ common#:#show_owner#:#Pokaż właściciela
 common#:#show_structure#:#Włącz widok strukturalny
 common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#signature#:#Podpis
-common#:#slm#:#SCORM (MN)
-common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
-common#:#slm_create#:#Twórz Moduł Nauczania SCORM
-common#:#slm_delete#:#Usuń Moduł Nauczania SCORM
-common#:#slm_edit_permission#:#Zmień ustawienia uprawnień
-common#:#slm_join#:#Subskrybuj Moduł Nauczania SCORM
-common#:#slm_leave#:#Rezygnuję z subskrypcji Mudułu Nauczania SCORM
-common#:#slm_read#:#Prawo czytania Modułu Nauczania SCORM
-common#:#slm_visible#:#Moduł Nauczania SCORM jest widoczny
-common#:#slm_write#:#Edycja Modułu Nauczania SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
 common#:#spl#:#Pula pytań (ankieta)
