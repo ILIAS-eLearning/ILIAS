@@ -209,7 +209,9 @@ class ilCourseContentInterface
 					require_once("./survey/classes/class.ilObjSurvey.php");
 					$this->lng->loadLanguageModule("survey");
 					$svy_data =& ilObjSurvey::_getGlobalSurveyData($cont_data["obj_id"]);
-					if (($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and $svy_data["complete"]) or ($svy_data["evaluation_access"] and $svy_data["complete"]))
+					if (($rbacsystem->checkAccess('write',$cont_data["ref_id"]) 
+						 and $svy_data["complete"]) or ($svy_data["evaluation_access"] 
+														and $svy_data["complete"]))
 					{
 						$tpl->setCurrentBlock("svy_evaluation");
 						$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$cont_data["ref_id"]);
