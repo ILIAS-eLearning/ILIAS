@@ -126,9 +126,9 @@ assessment#:#eval_java_result#:#Odpowiedź dla zmiennej %s jest %s. Otrzymałeś
 assessment#:#eval_legend_link#:#Zajrzyj do legendy aby sprawdzić znaczenie nagłówków.
 assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
-assessment#:#exp_eval_data#:#Eksport Daty Ważności
-assessment#:#exp_type_excel#:#  Excel
-assessment#:#exp_type_spss#:#  SPSS
+assessment#:#exp_eval_data#:#Eksport Daty Ważności###02 Jul 2004 content changed
+assessment#:#exp_type_excel#:#  Excel###02 Jul 2004 content changed
+assessment#:#exp_type_spss#:#  SPSS###02 Jul 2004 content changed
 assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
 assessment#:#fill_out_all_answer_fields#:#Wypełnij wszystkie pola odpowiedzi przed dodaniem nowego!
@@ -471,6 +471,7 @@ common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Dostęp
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Aktywacja
 common#:#active_roles#:#Aktywnne role
 common#:#add#:#Dodaj
@@ -487,12 +488,15 @@ common#:#administration#:#Administracja
 common#:#administrator#:#Administrator
 common#:#adopt#:#Przejmij
 common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Wszystkie obiekty
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
 common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
 common#:#answers#:#Odpowiedzi
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Aplikacja jest kompletna
 common#:#application_date#:#Data utworzenia aplikacji
 common#:#appointment#:#Umówiony termin
@@ -668,6 +672,7 @@ common#:#date#:#Data
 common#:#dateplaner#:#Planer
 common#:#day#:#Dzień
 common#:#days#:#Dni
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
 common#:#db_need_update#:#Baza danych wymaga uaktualnienia!
@@ -965,6 +970,7 @@ common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#Moduł Nauczania HTML
 common#:#htlm_add#:#dodajModuł Nauczania HTML
 common#:#htlm_delete#:#Usuń Moduł Nauczania HTML
@@ -1383,6 +1389,8 @@ common#:#obj_svy#:#Ankieta
 common#:#obj_tax#:#Systematyka
 common#:#obj_taxf#:#Systematyki
 common#:#obj_taxf_desc#:#Folder dla systematyki
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
@@ -1507,6 +1515,7 @@ common#:#qpl_new#:#Nowa pula pytań
 common#:#qpl_read#:#Prawo czytania puli pytań
 common#:#qpl_visible#:#Pula pytań jest widoczna
 common#:#qpl_write#:#Edycja puli pytań
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Pytanie
 common#:#question_pools#:#Pule pytań
 common#:#quit#:#Wyjście
@@ -1580,6 +1589,7 @@ common#:#save_message#:#Zapisz wiadomość
 common#:#save_refresh#:#Zachowaj i Odśwież
 common#:#save_return#:#Zachowaj i Powróć
 common#:#save_settings#:#Zachowaj ustawienia
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
 common#:#search#:#Szukaj
@@ -1643,6 +1653,7 @@ common#:#st_added#:#Rozdział dodany
 common#:#st_edit#:#Edytuj rozdział
 common#:#st_new#:#Nowy rozdział
 common#:#startpage#:#Strona startowa
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Status
 common#:#step#:#Krok
 common#:#stop_inheritance#:#Przerwij dziedziczenie
@@ -1693,6 +1704,9 @@ common#:#to_desktop#:#Subskrybuj
 common#:#today#:#Dzisiaj
 common#:#total#:#Razem
 common#:#tpl_path#:#Scieżka do szablonu
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Tłumaczenie
 common#:#trash#:#Kosz
 common#:#treeview#:#Widok drzewa
@@ -1725,6 +1739,7 @@ common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz mo�
 common#:#url#:#URL
 common#:#url_description#:#Opis URL
 common#:#user#:#Użytkownik
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_deleted#:#Użytkownik usunięty

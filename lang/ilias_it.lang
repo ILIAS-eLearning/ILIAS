@@ -130,9 +130,9 @@ assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. 
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
-assessment#:#exp_eval_data#:#Esporta dati da valutare
-assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_spss#:#  SPSS  
+assessment#:#exp_eval_data#:#Esporta dati da valutare###02 Jul 2004 content changed
+assessment#:#exp_type_excel#:#  Excel  ###02 Jul 2004 content changed
+assessment#:#exp_type_spss#:#  SPSS  ###02 Jul 2004 content changed
 assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Attivazione
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
@@ -500,12 +501,15 @@ common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Tutti gli oggetti
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
 common#:#and#:#e
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Risposta
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
 common#:#appointment#:#Appuntamento
@@ -683,6 +687,7 @@ common#:#date#:#Data
 common#:#dateplaner#:#Agenda
 common#:#day#:#Giorno
 common#:#days#:#Giorni
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Macchina con il database
 common#:#db_name#:#Nome del database
 common#:#db_need_update#:#Occorre aggiornare il database!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#Modulo HTML
 common#:#htlm_add#:#Aggiungi modulo HTML
 common#:#htlm_delete#:#Cancellare un modulo HTML
@@ -1400,6 +1406,8 @@ common#:#obj_svy#:#Verifica
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1524,6 +1532,7 @@ common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Domanda
 common#:#question_pools#:#Raccolte di domande
 common#:#quit#:#Esci
@@ -1598,6 +1607,7 @@ common#:#save_message#:#Salva messaggio
 common#:#save_refresh#:#Salva e aggiorna
 common#:#save_return#:#Salva e invia
 common#:#save_settings#:#Salva le impostazioni
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Salvato
 common#:#saved_successfully#:#Modifiche effettuate con successo
 common#:#search#:#Ricerca
@@ -1662,6 +1672,7 @@ common#:#st_added#:#Captolo aggiunto
 common#:#st_edit#:#Modifica capitolo
 common#:#st_new#:#Nuovo capitolo
 common#:#startpage#:#Pagina di partenza
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Stato
 common#:#step#:#Passo
 common#:#stop_inheritance#:#Interrompi l&#039;ereditariet&#224;
@@ -1710,7 +1721,7 @@ common#:#tests#:#Test
 common#:#time#:#Ora
 common#:#time_d#:#Giorno
 common#:#time_h#:#Ora
-common#:#time_segment#:#Intervallo di tempo
+common#:#time_segment#:#Intervallo di tempo###02 Jul 2004 content changed
 common#:#title#:#Titolo
 common#:#to#:#A:
 common#:#to_client_list#:#Vai alla lista di Client
@@ -1718,6 +1729,9 @@ common#:#to_desktop#:#Invia sul desktop
 common#:#today#:#Oggi
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Traduzione
 common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
@@ -1750,6 +1764,7 @@ common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del fi
 common#:#url#:#URL
 common#:#url_description#:#Descrizione URL
 common#:#user#:#Utente
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utente assegnato
 common#:#user_deleted#:#Cancellazione eseguita

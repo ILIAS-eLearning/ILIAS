@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
+common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
@@ -500,12 +501,15 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
+common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
+common#:#all_tsts#:#All tests
 common#:#allow_register#:#Available in registration form for new users
 common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
+common#:#any_language#:#Any language
 common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application date
 common#:#appointment#:#Appointment
@@ -544,7 +548,6 @@ common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
-common#:#obj_trac_desc#:#User access tracking data
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_find_xml#:#Cannot find any XML-file.
@@ -552,15 +555,7 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
-common#:#statistic#:#Statistic
-common#:#hours_of_day#:#Hours of day
-common#:#days_of_period#:#Days of period
-common#:#any_language#:#Any language
 common#:#cat_a#:#a Category
-common#:#tracked_objects#:#Tracked objects
-common#:#all_lms#:#All learning modules
-common#:#all_tsts#:#All tests
-common#:#user_access#:#Access per user
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
@@ -692,6 +687,7 @@ common#:#date#:#Date
 common#:#dateplaner#:#Dateplaner
 common#:#day#:#Day
 common#:#days#:#Days
+common#:#days_of_period#:#Days of period
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
 common#:#db_need_update#:#Database needs an update!
@@ -990,6 +986,7 @@ common#:#hide_structure#:#Disable Structured-View
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Home
 common#:#host#:#Host
+common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_delete#:#Delete HTML Learning Module
@@ -1363,8 +1360,6 @@ common#:#obj_adm_desc#:#Main system settings folder containing all panels to adm
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
-common#:#obj_trac#:#User Tracking
-common#:#tracking_data#:#Tracking Data
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
@@ -1411,6 +1406,8 @@ common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_taxf_desc#:#Folder for taxonomies
+common#:#obj_trac#:#User Tracking
+common#:#obj_trac_desc#:#User access tracking data
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
@@ -1535,6 +1532,7 @@ common#:#qpl_new#:#New question pool
 common#:#qpl_read#:#Read access to Question Pool
 common#:#qpl_visible#:#Question Pool is visible
 common#:#qpl_write#:#Edit Question Pool
+common#:#query_data#:#Query data
 common#:#question#:#Question
 common#:#question_pools#:#Question pools
 common#:#quit#:#Quit
@@ -1609,6 +1607,7 @@ common#:#save_message#:#Save Message
 common#:#save_refresh#:#Save and Refresh
 common#:#save_return#:#Save and Return
 common#:#save_settings#:#Save Settings
+common#:#save_user_related_data#:#Save user related access data
 common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
@@ -1673,6 +1672,7 @@ common#:#st_added#:#Chapter added
 common#:#st_edit#:#Edit chapter
 common#:#st_new#:#New chapter
 common#:#startpage#:#Startpage
+common#:#statistic#:#Statistic
 common#:#status#:#Status
 common#:#step#:#Step
 common#:#stop_inheritance#:#Stop inheritance
@@ -1721,18 +1721,17 @@ common#:#tests#:#Tests
 common#:#time#:#Time
 common#:#time_d#:#Day
 common#:#time_h#:#Hour
-common#:#query_data#:#Query data
 common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
-common#:#tracking_settings#:#Tracking Settings
-common#:#activate_tracking#:#Activate Tracking
-common#:#save_user_related_data#:#Save user related access data
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
+common#:#tracked_objects#:#Tracked objects
+common#:#tracking_data#:#Tracking Data
+common#:#tracking_settings#:#Tracking Settings
 common#:#translation#:#Translation
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
@@ -1765,6 +1764,7 @@ common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can 
 common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
+common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted

@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Akceptovat uživatelské ujednání?
 common#:#access#:#Přístup
 common#:#action_aborted#:#Akce přerušena
 common#:#actions#:#Akce
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#Aktivovat role
 common#:#add#:#Přidat
@@ -500,12 +501,15 @@ common#:#administration#:#Administrace
 common#:#administrator#:#Administrátor
 common#:#adopt#:#převzít
 common#:#adopt_perm_from_template#:#Převzít nastavení přístupových práv ze šablony role
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Všechny objekty
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#K dispozici v registračním formuláři pro nové uživatele
 common#:#and#:#a
 common#:#announce#:#Oznámení
 common#:#announce_changes#:#Oznámení o změnách
 common#:#answers#:#odpovědí### Je spojováno s "Seřadit podle"
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Žádost dokončena
 common#:#application_date#:#Datum žádosti
 common#:#appointment#:#Schůzka
@@ -683,6 +687,7 @@ common#:#date#:#data###Je spojováno s "Přiřadit podle"
 common#:#dateplaner#:#Plánovač
 common#:#day#:#Den
 common#:#days#:#dnů
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Databázový stroj
 common#:#db_name#:#Název databáze
 common#:#db_need_update#:#Je třeba aktualizovat databázi!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Zakázat strukturované zobrazení
 common#:#hobby#:#Zájmy/Koníčky
 common#:#home#:#Domů
 common#:#host#:#Stroj
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
@@ -1400,6 +1406,8 @@ common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
 common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test###16 Mar 2004 new variable
 common#:#obj_typ#:#Definice typů objektů
 common#:#obj_type#:#Typ objektu
@@ -1524,6 +1532,7 @@ common#:#qpl_new#:#New question pool###16 Mar 2004 new variable
 common#:#qpl_read#:#Read access to Question Pool###16 Mar 2004 new variable
 common#:#qpl_visible#:#Question Pool is visible###16 Mar 2004 new variable
 common#:#qpl_write#:#Edit Question Pool###16 Mar 2004 new variable
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Otázka
 common#:#question_pools#:#Question pools###16 Mar 2004 new variable
 common#:#quit#:#Odejít
@@ -1598,6 +1607,7 @@ common#:#save_message#:#Uložit zprávu
 common#:#save_refresh#:#Uložit a obnovit
 common#:#save_return#:#Uložit s návratem
 common#:#save_settings#:#Save Settings###16 Mar 2004 new variable
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Uloženo
 common#:#saved_successfully#:#Úspěšně uloženo
 common#:#search#:#Vyhledávání
@@ -1662,6 +1672,7 @@ common#:#st_added#:#Kapitola přidána
 common#:#st_edit#:#Upravit kapitolu
 common#:#st_new#:#Nová kapitola
 common#:#startpage#:#Úvodní stránka
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Stav
 common#:#step#:#Krok
 common#:#stop_inheritance#:#Ukončit dědičnost
@@ -1718,6 +1729,9 @@ common#:#to_desktop#:#Přihlásit
 common#:#today#:#Dnes
 common#:#total#:#Celkem
 common#:#tpl_path#:#Cesta k šablonám
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Překlad
 common#:#trash#:#Koš
 common#:#treeview#:#Stromové zobrazení
@@ -1750,6 +1764,7 @@ common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can 
 common#:#url#:#URL### identical translation
 common#:#url_description#:#Popis URL
 common#:#user#:#Uživatel
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Uživatel přidán
 common#:#user_assignment#:#Přiřazení uživatelů
 common#:#user_deleted#:#Uživatel odstraněn
