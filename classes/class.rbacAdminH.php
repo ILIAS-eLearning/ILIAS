@@ -11,7 +11,7 @@ class RbacAdminH extends RbacAdmin
 {
 	/**
 	* database handle
-	* @var object db
+	* @param object db
 	*/
     function RbacAdminH(&$dbhandle)
     {
