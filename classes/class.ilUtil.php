@@ -1173,7 +1173,7 @@ class ilUtil
 		}
 
 		// real unzip
-		$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
+		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($file);
 		exec($unzipcmd);
 
 		chdir($cdir);
