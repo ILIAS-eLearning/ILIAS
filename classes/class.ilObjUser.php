@@ -1448,12 +1448,26 @@ class ilObjUser extends ilObject
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias;
 
-		$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ".
-			"WHERE (login LIKE '%".$a_search_str."%' ".
-			"OR firstname LIKE '%".$a_search_str."%' ".
-			"OR lastname LIKE '%".$a_search_str."%' ".
-			"OR email LIKE '%".$a_search_str."%') ".
-			"AND usr_id != '".ANONYMOUS_USER_ID."'";
+		// This is a temporary hack to search users by their role
+		// See Mantis #338. This is a hack due to Mantis #337.
+		if (strtolower(substr($a_search_str, 0, 5)) == "role:") 
+		{ 
+			$query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ". 
+			       "FROM object_data,rbac_ua,usr_data ". 
+			 "WHERE object_data.title LIKE '%".substr($a_search_str,5)."%' and object_data.type = 'role' ". 
+			 "and rbac_ua.rol_id = object_data.obj_id ". 
+			 "and usr_data.usr_id = rbac_ua.usr_id ". 
+			 "AND rbac_ua.usr_id != '".ANONYMOUS_USER_ID."'"; 
+		} 
+		else
+		{ 
+			$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ". 
+			 "WHERE (login LIKE '%".$a_search_str."%' ". 
+			 "OR firstname LIKE '%".$a_search_str."%' ". 
+			 "OR lastname LIKE '%".$a_search_str."%' ". 
+			 "OR email LIKE '%".$a_search_str."%') ". 
+			 "AND usr_id != '".ANONYMOUS_USER_ID."'"; 
+		} 
 
 		$res = $ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1885,12 +1899,30 @@ class ilObjUser extends ilObject
 					}
 					break;
 
+				case "cat":
+				case "fold":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = '$a_type' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"link" => "repository.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+					}
+					break;
 				case "grp":
 					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
 						"oref.obj_id = obj.obj_id AND ".
-						"it.type = 'grp' AND ".
+						"it.type = '$a_type' AND ".
 						"it.user_id = '".$this->getId()."' ".
 						"ORDER BY title";
 					$item_set = $this->ilias->db->query($q);
