@@ -1300,8 +1300,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// catch feedback message
 		sendInfo();
-
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"]))
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selimage"]))
 		{
 			// set new finish time for test
 			if ($_SESSION["active_time_id"])
@@ -1320,6 +1319,21 @@ class ilObjTestGUI extends ilObjectGUI
 				// but only if the ending time is not reached
 				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
 				$question_gui->object->saveWorkingData($this->object->getTestId());
+			}
+
+			if ($_POST["cmd"]["directfeedback"])
+			{
+				$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
+				$this->tpl->setCurrentBlock("question_feedback");
+				$percentage = 0.0;
+				$max_points = $question_gui->object->getMaximumPoints();
+				$reached_points = $question_gui->object->getReachedPoints($ilUser->id, $this->object->getTestId());
+				if ($max_points > 0)
+				{
+					$percentage = ($reached_points / $max_points) * 100.0;
+				}
+				$this->tpl->setVariable("PERCENTAGE_SOLVED", sprintf($this->lng->txt("percentage_solved"), $percentage));
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -1480,6 +1494,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->outTestResults();
 				return;
 			}
+			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
+			{
+				$this->tpl->setCurrentBlock("direct_feedback");
+				$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
 			if ($this->sequence <= $this->object->getQuestionCount())
 			{
