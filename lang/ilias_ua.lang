@@ -2309,51 +2309,51 @@ common#:#system_grp#:#Системна Група
 common#:#system_information#:#Системна Інформація
 common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
-common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
-common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
-common#:#tax#:#Taxonomy###15 Jul 2004 new variable
-common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
-common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
-common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
-common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
-common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
-common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
-common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
-common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
-common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
-common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
+common#:#system_style_settings#:#Настроювання Системного Стилю
+common#:#table_mail_import#:#Імпорт Пошти з ILIAS 2
+common#:#tax#:#Taxonomy
+common#:#tax_add#:#Додати Taxonomy
+common#:#tax_delete#:#Видалити taxonomies
+common#:#tax_edit#:#Редагувати Taxonomy
+common#:#tax_edit_permission#:#Змінити настройки прав
+common#:#tax_new#:#Нова Taxonomy
+common#:#tax_read#:#Даступ на читання до taxonomies
+common#:#tax_visible#:#Taxonomy є видимою
+common#:#tax_write#:#Доступ на запис до taxonomies
+common#:#taxf_edit_permission#:#Змінити настройки прав
+common#:#taxf_read#:#Доступ на читання до папки taxonomy
+common#:#taxf_visible#:#Папка Taxonomy є видимою
+common#:#taxf_write#:#Доступ на запис до папки taxonomy
 common#:#term#:#Термін
-common#:#test#:#Test###24 Jun 2004 new variable
+common#:#test#:#Тест
 common#:#test_intern#:#Тест Intern
-common#:#test_module#:#Test Module###24 Jun 2004 new variable
+common#:#test_module#:#Тестовий Модуль
 common#:#tests#:#Тести
 common#:#time#:#Час
-common#:#time_d#:#Day###24 Jun 2004 new variable
-common#:#time_h#:#Hour###24 Jun 2004 new variable
-common#:#time_limit#:#Access###14 Aug 2004 new variable
-common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###14 Aug 2004 new variable
-common#:#time_limit_applied_users#:#Applied users###14 Aug 2004 new variable
-common#:#time_limit_no_users_selected#:#Please select an user.###14 Aug 2004 new variable
-common#:#time_limit_not_valid#:#The period is not valid.###14 Aug 2004 new variable
-common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###14 Aug 2004 new variable
-common#:#time_limit_reached#:#Your access period is expired.###14 Aug 2004 new variable
-common#:#time_limit_users_updated#:#User data updated###14 Aug 2004 new variable
-common#:#time_limits#:#Access###14 Aug 2004 new variable
-common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
+common#:#time_d#:#День
+common#:#time_h#:#Час
+common#:#time_limit#:#Доступ
+common#:#time_limit_add_time_limit_for_selected#:#Будь ласка введіть період часу для відмічених користувачів.
+common#:#time_limit_applied_users#:#Applied користувачі
+common#:#time_limit_no_users_selected#:#Будь ласка виберіть користувача.
+common#:#time_limit_not_valid#:#Період не є корректним.
+common#:#time_limit_not_within_owners#:#Ваш доступ обмежено. Період за межами вашого ліміту.
+common#:#time_limit_reached#:#Термін дії вашого доступу скінчився.
+common#:#time_limit_users_updated#:#Дані користувача оновлені
+common#:#time_limits#:#Доступ
+common#:#time_segment#:#Часовий Сегмент
 common#:#title#:#Назва
 common#:#to#:#
 common#:#to_client_list#:#До Клієнтського вибору
 common#:#to_desktop#:#Підписатися
 common#:#today#:#Сьогодні
-common#:#toggleGlobalDefault#:#Toggle Global Default###01 Mar 2005 new variable
-common#:#toggleGlobalFixed#:#Toggle Global Fixed###01 Mar 2005 new variable
+common#:#toggleGlobalDefault#:#Toggle Global Default
+common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Загалом
 common#:#tpl_path#:#Шлях до Шаблона
-common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
-common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
-common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_delete#:#Видалити Дані Відслідковування
+common#:#trac_edit_permission#:#Змінити настройки прав
+common#:#trac_read#:#Читати Дані Відслідковування
 common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
