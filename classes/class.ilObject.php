@@ -748,7 +748,7 @@ class ilObject
 		global $tree;
 		
 		$parent_id = (int) $tree->getParentId($a_node_id);
-
+		
 		if ($parent_id != 0)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);

@@ -82,7 +82,7 @@ class ilGroupGUI extends ilObjectGUI
 		
 		$this->grp_id = $this->getGroupId($_GET["ref_id"]);
 
-//var_dump($_GET["ref_id"],$this->grp_id);exit;
+//var_dump($_GET["ref_id"],$this->object->getType());exit;
 
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
@@ -489,7 +489,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		if ($_GET["type"]=="fold")
 		{
-			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getId());
+			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		}
 		else
 		{
@@ -1344,7 +1344,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]."&tree_id=".$this->id);
+			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");

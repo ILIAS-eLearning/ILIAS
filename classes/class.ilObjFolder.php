@@ -115,13 +115,30 @@ class ilObjFolder extends ilObject
 	* @param	string	ref_id of parent under which folder is inserted
 	* @access	private
 	*/
-	function getGroupId($a_parent_ref)
+	function getGroupId($a_parent_ref = 0)
 	{
+		if ($a_parent_ref == 0)
+		{
+			$a_parent_ref = $this->getRefId();
+		}
+		
 		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow();
 		
 		return $row[0];
+	}
+	
+	function getRBACParentInGroupTree()
+	{
+		$grp_id = $this->getGroupId($this->getRefId());
+		
+		$gtree = new ilTree($grp_id,$grp_id);
+		$gtree->setTableNames("grp_tree","object_data","object_reference");
+		
+		$path = $gtree->getPathFull($this->getRefId());
+		
+		var_dump("<pre>",$path,"</pre>");
 	}
 } // END class.ilObjFolder
 ?>

@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.10 2003/08/06 16:26:56 shofmann Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.11 2003/08/25 14:10:39 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -53,7 +53,7 @@ class ilObjForumGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
-		
+
 		// create and insert forum in objecttree
 		$forumObj = parent::saveObject();
 
