@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.8 2004/07/10 08:35:24 mkurian Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.9 2004/10/06 06:47:26 hschottm Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -115,72 +115,79 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser;
 		require_once "./classes/class.ilUtil.php";
 		
-		if ($_POST["cmd"]["delete"])
+		if (mktime() > $this->object->getTimestamp())
 		{
-			if (count($_POST["delivered"]))
-			{
-				$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
-			}
-		}
-		
-		if ($_POST["cmd"]["download"])
-		{
-			if (count($_POST["delivered"]))
-			{
-				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
-			}
-		}
-
-		$this->getTemplateFile("deliver_file", "exc");
-		$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($delivered_files as $index => $file)
-		{
-			$this->tpl->setCurrentBlock("delivered_row");
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
-			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP"], $matches);
-			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-			$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
-			$this->tpl->setVariable("DELIVERED_DATE", $date);
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		if (count($delivered_files))
-		{
-			$this->tpl->setCurrentBlock("footer_content");
-			$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
-			$this->tpl->parseCurrentBlock();
+			sendInfo($this->lng->txt("exercise_time_over"));
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("footer_empty");
-			$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", $this->lng->txt("message_no_delivered_files"));
+			if ($_POST["cmd"]["delete"])
+			{
+				if (count($_POST["delivered"]))
+				{
+					$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
+				}
+				else
+				{
+					sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
+				}
+			}
+			
+			if ($_POST["cmd"]["download"])
+			{
+				if (count($_POST["delivered"]))
+				{
+					$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
+				}
+				else
+				{
+					sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
+				}
+			}
+	
+			$this->getTemplateFile("deliver_file", "exc");
+			$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
+			$color_class = array("tblrow1", "tblrow2");
+			$counter = 0;
+			foreach ($delivered_files as $index => $file)
+			{
+				$this->tpl->setCurrentBlock("delivered_row");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
+				$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP"], $matches);
+				$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+				$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
+				$this->tpl->setVariable("DELIVERED_DATE", $date);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+			if (count($delivered_files))
+			{
+				$this->tpl->setCurrentBlock("footer_content");
+				$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
+				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
+				$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("footer_empty");
+				$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", $this->lng->txt("message_no_delivered_files"));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("delivered_files");
+			$this->tpl->setVariable("DELIVER_FORMACTION", $this->getFormAction("deliver", "exercise.php?cmd=deliver&ref_id=".$this->ref_id));
+			$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
+			$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
+			$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("deliverFile", "exercise.php?cmd=deliverFile&ref_id=".$this->ref_id));
+			$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
+			$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("delivered_files");
-		$this->tpl->setVariable("DELIVER_FORMACTION", $this->getFormAction("deliver", "exercise.php?cmd=deliver&ref_id=".$this->ref_id));
-		$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
-		$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("deliverFile", "exercise.php?cmd=deliverFile&ref_id=".$this->ref_id));
-		$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	function deliverFileObject()
