@@ -473,6 +473,7 @@ common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
+common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
 common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
 common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
