@@ -46,6 +46,9 @@ class Forum
 	var $txtQuote2 = "[/quote]"; 
 	var $replQuote1 = "<blockquote><i>"; 
 	var $replQuote2 = "</blockquote></i>"; 
+	
+	// max. datasets per page
+	var $pageHits = 20;
 
 	/**
 	* Constructor
@@ -115,6 +118,19 @@ class Forum
 
     function getWhereCondition() {
         return $this->whereCondition;
+    }
+	
+	function setPageHits($pageHits) {
+         if ($pageHits < 1) {
+            die($this->className . "::setPageHits(): No int pageHits given.");
+        } else {
+            $this->pageHits = $pageHits;
+			return true;
+        }
+    }
+
+    function getPageHits() {
+        return $this->pageHits;
     }
 	
 	

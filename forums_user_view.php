@@ -16,7 +16,7 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&thr_pk=".$_GET["thr_pk"]."&pos_pk=".$_GET["pos_pk"]);
+$tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&thr_pk=".$_GET["thr_pk"]."&pos_pk=".$_GET["pos_pk"]."&offset=".$_GET["offset"]."&orderby=".$_GET["orderby"]);
 $tpl->setVariable("BTN_TXT", $lng->txt("back"));
 $tpl->parseCurrentBlock();
 
