@@ -118,7 +118,6 @@ $module_dir = ($module == "")
 	: $module."/";
 
 $class_constr = "ilObj".$class_name."GUI";
-
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 $ilCtrl->getCallStructure(strtolower("ilObj".$class_name."GUI"));
 //echo $class_constr.":".$method;
