@@ -1007,6 +1007,21 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function to_xml($questions)
 	{
+		$xml = "";
+		// export button was pressed
+		if (count($questions) > 0)
+		{
+			foreach ($questions as $key => $value)
+			{
+				$question =& $this->createQuestion("", $value);
+				$xml .= $question->object->to_xml();
+			}
+			if (count($questions) > 1)
+			{
+				$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
+			}
+		}
+		return $xml;
 	}
 } // END class.ilObjQuestionPool
 ?>
