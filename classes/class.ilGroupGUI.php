@@ -109,7 +109,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->grp_id = ilUtil::getGroupId($_GET["ref_id"]);
 
-		$this->grp_tree = new ilGroupTree($this->grp_id,$this->grp_id);
+		$this->grp_tree = new ilGroupTree($this->grp_id);
 		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 
 		//return to the same place , where the action was executed
@@ -3116,15 +3116,40 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		foreach ($_POST["trash_id"] as $id)
-		{
-			// INSERT AND SET PERMISSIONS
-			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id,"tree");
+		{	
+			$tree_subnodes = array();
+			$grp_tree_subnodes = $this->grp_tree->getSubtree($this->grp_tree->getNodeData($id));
+				
+			if ($grp_tree_subnodes[0]["perm"] == 1)
+			{ 
+				$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
+			}
+			else
+			{
+				foreach($grp_tree_subnodes as $grp_tree_subnode)
+				{
+					if($grp_tree_subnode["perm"] == 1 )
+					{
+						$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($grp_tree_subnode["child"]));
+					}	
+				}
+			}
+			
+			foreach ($tree_subnodes as $subnode_id)
+			{
+				// INSERT AND SET PERMISSIONS
+				$this->insertSavedNodes($subnode_id,$_GET["ref_id"],-(int) $subnode_id,"tree");
+				
+				// DELETE SAVED TREE
+				$saved_tree = new ilTree(-(int)$subnode_id);
+				$saved_tree->deleteTree($saved_tree->getNodeData($subnode_id));
+				
+			}
+			
+			// INSERT
 			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id,"grp_tree");
 			
 			// DELETE SAVED TREE
-			$saved_tree = new ilTree(-(int)$id);
-			$saved_tree->deleteTree($saved_tree->getNodeData($id));
-			
 			$grp_saved_tree = new ilGroupTree(-(int)$id);
 			$grp_saved_tree->deleteTree($grp_saved_tree->getNodeData($id));
 		}

@@ -165,9 +165,9 @@ class ilObjFile extends ilObject
 	{
 		$grp_id = ilUtil::getGroupId($a_parent_ref);
 
-		$gtree = new ilGroupTree($grp_id);
+		$grp_object = new ilObjGroup($grp_id);
 
-		$gtree->insertNode($this->getRefId(), $a_parent_ref);
+		$grp_object->insertGroupNode($this->getRefId(), $a_parent_ref, $grp_id);
 	}
 
 	function clone()
