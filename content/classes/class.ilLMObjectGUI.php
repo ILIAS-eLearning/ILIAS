@@ -136,7 +136,7 @@ class ilLMObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
 
 		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_ref=".
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -205,10 +205,11 @@ class ilLMObjectGUI
 		{
 			$obj =& ilLMObjectFactory::getInstance($id);
 			$obj->setLMId($this->lm_obj->getId());
+			$node_data = $tree->getNodeData($id);
 			$obj->delete();
 			if($tree->isInTree($id))
 			{
-				$tree->deleteTree($tree->getNodeData($id));
+				$tree->deleteTree($node_data);
 			}
 		}
 

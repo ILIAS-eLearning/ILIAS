@@ -181,10 +181,8 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function ilPage()
+	function getCurrentPageId()
 	{
-		// get predecessor and successor page node
-		// todo: do we need that here!?
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
@@ -196,11 +194,6 @@ class ilLMPresentationGUI
 		{
 			$obj_id = $_GET["obj_id"];
 		}
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setCurrentBlock("ilPage");
-
-		// output
 		$curr_node = $lmtree->getNodeData($obj_id);
 		if($curr_node["type"] == "pg")
 		{
@@ -211,20 +204,15 @@ class ilLMPresentationGUI
 			$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
 			$page_id = $succ_node["obj_id"];
 		}
+		return $page_id;
+	}
 
-		if(empty($page_id))
-		{
-			return;
-		}
+	function ilPage()
+	{
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setCurrentBlock("ilPage");
 
-		$succ_node = $lmtree->fetchSuccessorNode($page_id, "pg");
-		$succ_str = ($succ_node !== false)
-			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
-			: "";
-		$pre_node = $lmtree->fetchPredecessorNode($page_id, "pg");
-		$pre_str = ($pre_node !== false)
-			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
-			: "";
+		$page_id = $this->getCurrentPageId();
 
 		require_once("content/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($page_id);
@@ -256,33 +244,24 @@ class ilLMPresentationGUI
 
 	function ilLMNavigation()
 	{
-		// get predecessor and successor page node
-		$lmtree = new ilTree($this->lm->getId());
-		$lmtree->setTableNames('lm_tree','lm_data');
-		$lmtree->setTreeTablePK("lm_id");
-		if(empty($_GET["obj_id"]))
-		{
-			$obj_id = $lmtree->getRootId();
-		}
-		else
-		{
-			$obj_id = $_GET["obj_id"];
-		}
+		$page_id = $this->getCurrentPageId();
 
-		$this->tpl->setCurrentBlock("ilLMNavigation");
-		$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
-		$succ_str = ($succ_node !== false)
-			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
-			: "";
-		$pre_node = $lmtree->fetchPredecessorNode($obj_id, "pg");
-		$pre_str = ($pre_node !== false)
-			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
-			: "";
-
-		if(empty($succ_node["obj_id"]))
+		if(empty($page_id))
 		{
 			return;
 		}
+		
+		$lmtree = new ilTree($this->lm->getId());
+		$lmtree->setTableNames('lm_tree','lm_data');
+		$lmtree->setTreeTablePK("lm_id");
+		$succ_node = $lmtree->fetchSuccessorNode($page_id, "pg");
+		$succ_str = ($succ_node !== false)
+			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
+			: "";
+		$pre_node = $lmtree->fetchPredecessorNode($page_id, "pg");
+		$pre_str = ($pre_node !== false)
+			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
+			: "";
 
 		$output = "";
 
