@@ -1052,8 +1052,12 @@ class ilObjGroup extends ilObject
 	//delete node, which is in trash
 	function removeSavedNodesFromGrpTree($a_delete_id)
 	{
-		$query = "DELETE FROM grp_tree  WHERE child=".$a_delete_id." AND tree != ".$this->getRefId();
-		$this->ilias->db->query($query);
+		$query = "SELECT tree FROM grp_tree  WHERE child=".$a_delete_id;
+		$res = $this->ilias->db->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$grp_tree = new ilGroupTree($row["tree"]);
+		$grp_tree->deleteTree($grp_tree->getNodeData($a_delete_id));	
 	}
 	
 	/**
