@@ -453,6 +453,15 @@ class ilExplorer
 						{
 							 $this->format_options["$counter"]["tab"][] = 'blank';
 						}
+						
+						// fix explorer (sometimes explorer disappears)
+						if ($parent_index == 0)
+						{
+							if (!in_array($object["parent"], $this->expanded))
+							{
+								$this->expanded[] = $object["parent"];
+							}
+						}
 
 						// only if parent is expanded and visible, object is visible
 						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
