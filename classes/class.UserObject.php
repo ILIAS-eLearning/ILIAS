@@ -223,9 +223,6 @@ class UserObject extends Object
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			$Fuserdata = $_POST["Fuserdata"];
-			
-			$parent_obj_id = $this->getParentObjectId();
-
 			$rbacadmin->updateUser($Fuserdata);
 			$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
 			// TODO: Passwort muss gesondert abgefragt werden

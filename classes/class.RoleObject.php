@@ -157,11 +157,13 @@ class RoleObject extends Object
 		global $tplContent, $rbacsystem;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
-
 		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
+			$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
+			$tplContent->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
+									 "&parent_parent=".$_GET["parent_parent"]);
 			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);

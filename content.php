@@ -30,7 +30,8 @@ if($obj["type"] == 'adm')
 //  Type = type => Verzweige nach content_type.php
 if($obj["type"] == 'type')
 {
-	header("Location: content_operations.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	header("Location: content_operations.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
+		   "&parent_parent=".$_GET["parent_parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
 	exit;
 }
 

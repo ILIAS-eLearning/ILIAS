@@ -7,6 +7,7 @@ $tplContent = new Template("content_type.html",true,true);
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);
+$tplContent->setVariable("PAR",$_GET["parent_parent"]);
 
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
@@ -43,7 +44,8 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$css_row = TUtil::switchColor($key,"row_high","row_low");
 
 			$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
-			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["obj_id"]."&parent=$obj_id");
+			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".
+									 $val["obj_id"]."&parent=$_GET[obj_id]&parent_parent=$_GET[parent]");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_DESC",$val["desc"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
