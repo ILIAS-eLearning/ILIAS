@@ -463,6 +463,36 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//parent::viewObject();
 	}
 
+	/**
+	* edit properties of object (admin form)
+	*
+	* @access	public
+	*/
+	function properties()
+	{
+		global $rbacsystem, $tree, $tpl;
+
+		// glossary properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glossary_properties.html", true);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+
+		// online
+		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
+		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
+		$this->tpl->setVariable("VAL_ONLINE", "y");
+		if ($this->object->getOnline())
+		{
+			$this->tpl->setVariable("CHK_ONLINE", "checked");
+		}
+
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+
 
 	/**
 	* list terms
@@ -1370,6 +1400,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// list definitions
 		$tabs_gui->addTarget("cont_terms",
 			$this->ctrl->getLinkTarget($this, "listTerms"), "listTerms",
+			get_class($this));
+
+		// properties
+		$tabs_gui->addTarget("properties",
+			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
 
 		// meta data
