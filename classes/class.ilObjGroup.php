@@ -131,6 +131,7 @@ class ilObjGroup extends ilObject
 		$q = "DELETE FROM grp_registration WHERE user_id=".$a_userId." AND grp_id=".$this->getId();
 		$res = $this->ilias->db->query($q);		
 	}
+
 	/**
 	* leave Group
 	* @access	public
@@ -259,7 +260,6 @@ class ilObjGroup extends ilObject
 		return $arr_grpDefaultRoles;
 
 	}
-
 
 	/**
 	* get group status closed template
@@ -506,6 +506,7 @@ class ilObjGroup extends ilObject
 		}
 		return false;
 	}
+
 	/**
 	* is Admin
 	* @access	public
@@ -538,12 +539,38 @@ class ilObjGroup extends ilObject
 		$this->ilias->db->query($q2);
 	}
 	
-	/*
-	*
-	*@param integer ref_id of the new object
-	*@param integer ref_id of of the parent node
-	+@param integer ref_id of the group (tree_id)
-	*@param integer obj_id of the new object
+	/**
+	* copies a grouptree with a new ref_id
+	* (explanation follows later)
+	* 
+	* @access	private
+	* @param	integer	ref_id	new reference id of current object (created by clone method)
+	* @return	boolean	true on success
+	*/
+	function copyOldGroupTree($a_new_ref_id,$a_new_obj_id)
+	{
+		$q = "SELECT * FROM grp_tree WHERE tree='".$this->getRefId()."'";
+		$r1 = $this->ilias->db->query($q);
+		
+		while ($row = $r1->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,obj_id) ".
+				 "VALUES ".
+				 "('".$a_new_ref_id."','".$row->child."','".$row->parent."','".$row->lft."','".$row->rgt."'".
+				 ",'".$row->depth."','".$row->perm."','".$row->obj_id."')";
+			$this->ilias->db->query($q);
+		} // while
+		
+		$q = "UPDATE grp_tree SET child='".$a_new_ref_id."',obj_id='".$a_new_obj_id."' ".
+			 "WHERE tree='".$a_new_ref_id."' AND child='".$this->getRefId()."'";
+		$this->ilias->db->query($q);
+	}
+	
+	/**
+	* @param	integer	ref_id of the new object
+	* @param	integer	ref_id of of the parent node
+	* @param	integer	ref_id of the group (tree_id)
+	* @param	integer	obj_id of the new object
 	*/
 	function insertGroupNode($new_node_ref_id,$parent_ref_id,$grp_tree_id,$new_node_obj_id=-1 )
 	{	
@@ -621,13 +648,18 @@ class ilObjGroup extends ilObject
 		// 0=public,1=private,2=closed
 		$groupObj->setGroupStatus($this->getGroupStatus());
 		
-		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
-		$groupObj->createNewGroupTree($groupObj->getRefId());
+		// create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
+		// copy all entries from copied group. the new ref ids of subobjects will be updated during the cloning process, because at this point
+		// these values are not known yet
+		$this->copyOldGroupTree($groupObj->getRefId(),$groupObj->getId());
 
 		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
 		unset($groupObj);
 		unset($rfoldObj);
 		unset($roleObj);
+		
+		// session setzen
+		$_SESSION["copied_group_refs"][] = $new_ref_id;
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
@@ -776,7 +808,7 @@ class ilObjGroup extends ilObject
 	
 	/**
 	* updates the Group trees
-	+
+	*
 	*@access  public
 	*@param	 integer	reference id of object where the event occured	
 	*/
@@ -1117,6 +1149,95 @@ class ilObjGroup extends ilObject
 		}
 
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
+	}
+	
+	// get files and folders
+	function getNoneRbacObjects()
+	{
+		$q = "SELECT child,parent FROM grp_tree WHERE tree='".$this->getRefId()."' AND perm=0";
+		$r = $this->ilias->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$arr[] = array(
+						"child"		=> $row->child,
+						"parent"	=> $row->parent
+						);
+		} // while
+		
+		return $arr ? $arr : array();
+	}
+
+	// clone files and folders
+	function cloneNoneRbacObjects()
+	{
+		$tree_list = $this->getNoneRbacObjects();
+		
+		$cloned_objects = array();
+
+		foreach ($tree_list as $data)
+		{
+			$obj = $this->ilias->obj_factory->getInstanceByRefId($data["child"]);
+			$new_ref_id = $obj->clone();
+			$cloned_objects[$data["child"]] = array(
+													"new_ref"		=> $new_ref_id,
+													"old_child"		=> $data["child"],
+													"old_parent"	=> $data["parent"]
+													);
+		}
+		
+		$this->updateRbacObjectsInGroupTree($cloned_objects);
+	}
+	
+	function updateRbacObjectsInGroupTree($a_cloned_objects)
+	{
+			//var_dump($a_cloned_objects);
+		if (count($a_cloned_objects) == 0)
+		{
+			return;
+		}
+
+		foreach ($a_cloned_objects as $key => $clone)
+		{
+			// get lft,rgt from parent_node of old grp_tree
+			$q = "SELECT lft,rgt,child FROM grp_tree ".
+				 "WHERE child='".$clone["old_parent"]."' ";
+			$r = $this->ilias->db->query($q);
+
+			if ($r->numRows())
+			{
+				// get corresponding parent_node in new grp_tree
+				$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+				
+				if (!array_key_exists($row->child,$a_cloned_objects))
+				{
+					$q = "SELECT child FROM grp_tree ".
+						 "WHERE lft='".$row->lft."' ".
+						 "AND rgt='".$row->rgt."' ".
+						 "AND tree='".$this->getRefId()."'";
+					$r = $this->ilias->db->query($q);
+					$row2 = $r->fetchRow(DB_FETCHMODE_OBJECT);
+				
+					// update new grp_tree
+					$q = "UPDATE grp_tree SET child='".$clone["new_ref"]."', ".
+						 "parent='".$row2->child."', obj_id=0 ".
+						 "WHERE tree='".$this->getRefId()."' ".
+						 "AND child='".$clone["old_child"]."' ".
+						 "AND parent='".$clone["old_parent"]."'";
+					$this->ilias->db->query($q);
+				
+					// remove update object from list
+					unset($a_cloned_objects[$key]);
+				}
+			}
+		} // foreach
+		
+		// repeat process while still objects in list
+		if (count($a_cloned_objects > 0))
+		{
+			//var_dump($a_cloned_objects);
+			$this->updateRbacObjectsInGroupTree($a_cloned_objects);
+		}
 	}
 } //END class.ilObjGroup
 ?>
