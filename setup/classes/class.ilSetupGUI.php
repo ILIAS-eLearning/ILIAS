@@ -979,7 +979,7 @@ class ilSetupGUI extends ilSetup
 
 		foreach ($data["cols"] as $val)
 		{
-			$header_names[] = $this->lng->txt($val);
+			$header_names[] = ucfirst($this->lng->txt($val));
 		}
 		
 		$tbl->setHeaderNames($header_names);
@@ -1077,7 +1077,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}			
 			
-			sendInfo("settings_saved",true);
+			sendInfo($this->lng->txt("settings_saved"),true);
 			header("Location: setup.php");
 			exit;
 		}
