@@ -198,7 +198,8 @@ java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 lang_cs#:#Tschechisch
 lang_de#:#Deutsch
-lang_dk#:#Dänisch
+lang_da#:#Dänisch
+lang_hu#:#Ungarisch
 lang_en#:#Englisch
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
 lang_es#:#Spanisch
@@ -390,3 +391,4 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
+db_not_installed#:#Datenbank nicht installiert

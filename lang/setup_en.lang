@@ -199,7 +199,8 @@ java_path#:#Path to Java
 java_path_comment#:#required for SCORM Learning modules
 lang_cs#:#Czech
 lang_de#:#German
-lang_dk#:#Danish
+lang_da#:#Danish
+lang_hu#:#Hungarian
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
 lang_es#:#Spanish
@@ -391,3 +392,4 @@ wrong_password#:#Wrong password!
 zip_path#:#Path to Zip
 zip_path_comment#:#required for exporting learning modules
 zipcode#:#Zip code
+db_not_installed#:#Database not installed
