@@ -1565,3 +1565,35 @@ DELETE FROM settings WHERE keyword='feedback';
 DELETE FROM settings WHERE keyword='phone';
 DELETE FROM settings WHERE keyword='street';
 DELETE FROM settings WHERE keyword='zipcode';
+
+<#91>
+<?php
+$q = "INSERT INTO object_data ".
+	 "(type,title,description,owner,create_date,last_update) ".
+	 "VALUES ".
+	 "('rolt','lm_Author_rolt','Author role template of learning modules',-1,now(),now())";
+$this->db->query($q);
+
+$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
+	 "VALUES (LAST_INSERT_ID(),8,'n')";
+$this->db->query($q);
+
+
+$ops = array();
+$ops[4] = array("lm",6,3,2,4,1,8,7);//lm
+$ops[8] = array("rolf",2,3,4);//rolf
+
+foreach ($ops as $object)
+{
+	foreach ($object as $ops_id)
+	{
+		if(!is_string($ops_id))
+		{
+			$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
+				 "VALUES (LAST_INSERT_ID(),'".$object[0]."',".$ops_id.",8)";
+			$this->db->query($q);
+
+		}
+	}
+}
+?>
