@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.87 2004/09/15 05:52:54 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.88.2.1 2004/12/01 07:35:11 hschottm Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1228,8 +1228,8 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
 					$f_result[$counter][] = $tmp_obj->getLogin();
-					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
+					$f_result[$counter][] = $tmp_obj->getLastname();
 
 					unset($tmp_obj);
 					++$counter;
@@ -1518,8 +1518,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			// TODO: exclude anonymous user
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
 
 			unset($tmp_obj);
 			++$counter;
@@ -1577,8 +1577,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
 
 			unset($tmp_obj);
 			++$counter;
