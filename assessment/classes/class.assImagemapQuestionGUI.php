@@ -213,7 +213,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
 			$this->ctrl->setParameter($this, "editmap", "1");
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",
-				$this->ctrl->getFormaction($this));
+			$this->ctrl->getFormaction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -573,11 +573,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
+			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-//echo "<br>".htmlentities($repl_str);
-				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
+				$preview->addArea($this->object->answers[$solution_value->value1]->get_area(), $this->object->answers[$solution_value->value1]->get_coords(), $this->object->answers[$solution_value->value1]->get_answertext(), "", "", true);
+			}
+			$preview->createPreview();
+			if (count($preview->areas))
+			{
+				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+				$output = preg_replace("/usemap\=\"#qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#qmap\" src=\"$imagepath\"", $output);
 			}
 		}
 		
@@ -586,10 +591,15 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
 			if ($answer->isStateChecked())
 			{
-				$repl_str = "dummy=\"solution_mc$idx\"";
-				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+				$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
+				$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+				$preview->createPreview();
+				if (count($preview->areas))
+				{
+					$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+					$solutionoutput = preg_replace("/usemap\=\"#solution_qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#solution_qmap\" src=\"$imagepath\"", $solutionoutput);
+				}
 			}
-//			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_map$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 		}
 
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
