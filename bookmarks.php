@@ -1,8 +1,8 @@
 <?php
 /**
-* bookmark view
+* personal bookmark administration
 *
-* @author Peter Gabriel <pgabriel@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package application
@@ -32,10 +32,10 @@ if(!empty($type))
 	$cmd.= $objDefinition->getClassName($type);
 }
 
-// call method of BookmarkManager
-require_once "./classes/class.ilBookmarkFolderGUI.php";
-$bookmarkFolderGUI = new ilBookmarkFolderGUI($_GET["bmf_id"]);
-$bookmarkFolderGUI->$cmd();
+// call method of BookmarkAdministrationGUI class
+require_once "./classes/class.ilBookmarkAdministrationGUI.php";
+$bookmarkAdminGUI = new ilBookmarkAdministrationGUI($_GET["bmf_id"]);
+$bookmarkAdminGUI->$cmd();
 
 $tpl->show();
 
