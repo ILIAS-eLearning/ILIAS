@@ -92,14 +92,9 @@ assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfÃ¼gen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfÃ¼gen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfÃ¼gen
 assessment#:#add_area#:#Add area###15 Jun 2004 new variable
-<<<<<<< ilias_de.lang
-assessment#:#add_gap#:#LÃ¼ckentext anfÃ¼gen
-assessment#:#add_matching_pair#:#Zuordnungspaar anfÃ¼gen
-=======
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
->>>>>>> 1.519
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
 assessment#:#answer_picture#:#Antwort-Bild
@@ -113,21 +108,13 @@ assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-<<<<<<< ilias_de.lang
-assessment#:#cloze_text#:#LÃ¼ckentext
-=======
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
 assessment#:#cloze_text#:#Lückentext
->>>>>>> 1.519
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Erzeugt
-<<<<<<< ilias_de.lang
-assessment#:#create_gaps#:#LÃ¼cken erzeugen
-=======
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
->>>>>>> 1.519
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplizieren
@@ -177,13 +164,9 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen fÃ¼r diesen Test ausgeschÃ¶pft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
-<<<<<<< ilias_de.lang
-assessment#:#no_questions_available#:#Es sind keine Fragen verfÃ¼gbar!
-=======
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
->>>>>>> 1.519
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
@@ -235,12 +218,8 @@ assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur EinfÃ¼hrung
 assessment#:#save_next#:#Speichern und zur nÃ¤chsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
-<<<<<<< ilias_de.lang
-assessment#:#select_gap#:#Auswahl-LÃ¼cke
-=======
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
->>>>>>> 1.519
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Antworten mischen
@@ -339,12 +318,8 @@ assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmo
 assessment#:#tt_self_assessment#:#SelbsteinschÃ¤tzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
-<<<<<<< ilias_de.lang
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelÃ¶scht, sobald Sie diese Frage speichern. Wenn Sie eine verÃ¤nderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu lÃ¶schen, dann kÃ¶nnen Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verÃ¤ndern.
-=======
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
->>>>>>> 1.519
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
@@ -1824,12 +1799,8 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
-<<<<<<< ilias_de.lang
-content#:#cont_Roman#:#RÃ¶misch I, II, ...
-=======
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_TableContent#:#Tabelleninhalt
->>>>>>> 1.519
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_active#:#Aktiviere Lerneinheiten-MenÃ¼
 content#:#cont_add_area#:#Bereich zufÃ¼gen
@@ -1866,21 +1837,12 @@ content#:#cont_choose_media_source#:#WÃ¤hlen Sie die Medienquelle
 content#:#cont_citation_err_one#:#FÃ¼r die Zitatfunktion muÃŸ genau eine Auflage ausgewÃ¤hlt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gÃ¼ltig, bitte Ã¼berprÃ¼fen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
-<<<<<<< ilias_de.lang
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
-content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewÃ¼nschten Bereichs.
-content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewÃ¼nschten Bereichs.
-content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewÃ¼nschten Bereichs.
-content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nÃ¤chste Ecke des Polygons oder speichern Sie den gewÃ¼nschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
-content#:#cont_click_next_point#:#Bitte klicken Sie auf die nÃ¤chste Ecke des Polygons.
-=======
 content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
 content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des Polygons oder speichern Sie den gewünschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
->>>>>>> 1.519
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewÃ¼nschten Bereichs
 content#:#cont_content#:#Inhalt
@@ -1943,17 +1905,10 @@ content#:#cont_insert_file_item#:#Datei einfÃ¼gen
 content#:#cont_insert_file_list#:#Dateiliste einfÃ¼gen
 content#:#cont_insert_list#:#Liste einfÃ¼gen
 content#:#cont_insert_mob#:#Mediaobjekt
-<<<<<<< ilias_de.lang
-content#:#cont_insert_par#:#Absatz einfÃ¼gen
-content#:#cont_insert_src#:#Sourcecode einfÃ¼gen
-content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff fÃ¼r das zuzuordnende Objekt ein
-content#:#cont_insert_table#:#Tabelle einfÃ¼gen
-=======
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
->>>>>>> 1.519
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
 content#:#cont_is_visible#:#isvisible
@@ -2038,13 +1993,8 @@ content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
-<<<<<<< ilias_de.lang
-content#:#cont_roman#:#RÃ¶misch i, ii, ...
-content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
-=======
 content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_rvalue#:#Wert
->>>>>>> 1.519
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
