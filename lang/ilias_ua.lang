@@ -72,7 +72,7 @@ administration#:#restoring_trash#:#Відновлення смітника...
 administration#:#restoring_unbound_objs#:#Відновлення вільних об'єктів & підоб'єктів...
 administration#:#scan_completed#:#Сканування завершене
 administration#:#scan_details#:#Деталі сканування
-administration#:#scan_modes#:#Scan modes used
+administration#:#scan_modes#:#Scan modes used###05 Nov 2004 new variable
 administration#:#scan_only#:#Тільки сканування
 administration#:#scanning_system#:#Сканування системи...
 administration#:#searching_deleted_objs#:#Пошук видалених об'єктів...
@@ -143,6 +143,7 @@ assessment#:#direct_feedback#:#Перевірте ваше рішення
 assessment#:#duplicate#:#Дублювати
 assessment#:#duplicate_matching_values_selected#:#Ви вибрали подвійно співпадаючі значення!
 assessment#:#duplicate_order_values_entered#:#Ви ввели подвійний порядок значень!
+assessment#:#duplicate_tst#:#Duplicate test###05 Nov 2004 new variable
 assessment#:#ects_allow_ects_grades#:#Показати ECTS рівень додатково до отриманої оцінки
 assessment#:#ects_fill_out_all_values#:#БУдь ласка введіть значення для кожного ECTS рівня!
 assessment#:#ects_grade#:#ECTS рівень
@@ -181,7 +182,7 @@ assessment#:#eval_cloze_result#:#Проміжок номер %s зі значе�
 assessment#:#eval_data#:#Дата Оцінки
 assessment#:#eval_imagemap_result#:#Вибір карти зображення є %s. Ви отримали %s балів.
 assessment#:#eval_java_result#:#Відповідь зі значенням %s є %s. Ви отримали %s балів.
-assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###05 Nov 2004 new variable
 assessment#:#eval_matching_result#:#Співпадаюча пара %s - %s є %s. Ви отримали %s балів.
 assessment#:#eval_order_result#:#Команда зі значенням %s є %s. Ви отримали %s балів.
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
@@ -258,8 +259,8 @@ assessment#:#postpone#:#Відкласти питання
 assessment#:#postponed#:#відкладене
 assessment#:#preview#:#Попередній огляд
 assessment#:#previous_question_rows#:#<< Питання %d - %d з %d
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###05 Nov 2004 new variable
+assessment#:#qpl_assessment_of_questions#:#Assessment of questions###05 Nov 2004 new variable
 assessment#:#qpl_assessment_total_of_answers#:#Загальна кількість відповідей
 assessment#:#qpl_assessment_total_of_right_answers#:#Загальний процент правильних відповідей (процент максимальних балів)
 assessment#:#qpl_confirm_delete_questions#:#Ви впевнені що бажаєте видалити наступні питання ? Якщо ви видалите заблоковані питання то результати усіх тестів що містять залоковані питання буде також видалено.
@@ -308,7 +309,9 @@ assessment#:#save_previous#:#Зберегти та перейти до попе�
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Будь ласка виберіть відповідь ---
 assessment#:#select_gap#:#Вибрати проміжок
+assessment#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 assessment#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для перміщення питань та натисніть одну з кнопок вставки!
+assessment#:#select_tst_option#:#--- Please select a test ---###05 Nov 2004 new variable
 assessment#:#selected_image#:#Помічене зображення
 assessment#:#set_filter#:#Встановити фільтр
 assessment#:#shape#:#Форма
@@ -321,7 +324,7 @@ assessment#:#suggested_solution_added_successfully#:#You successfully set a sugg
 assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений
 assessment#:#text_gap#:#Текстовий проміжок
-assessment#:#time_format#:#HH MM SS
+assessment#:#time_format#:#HH MM SS###05 Nov 2004 new variable
 assessment#:#too_many_empty_parameters#:#Будь ласка заповніть пусті параметри аплету перед додаванням нових параметрів!
 assessment#:#true#:#Правда
 assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
@@ -391,6 +394,7 @@ assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
 assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
+assessment#:#tst_select_tsts#:#Please select a test for duplication###05 Nov 2004 new variable
 assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
@@ -597,8 +601,8 @@ chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
 chat#:#chats#:#Chats###05 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
 common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Apr 2004 content changed
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###05 Nov 2004 new variable
+common#:#HH:MM#:#HH:MM###05 Nov 2004 new variable
 common#:#absolute_path#:#Абсолютний Шлях
 common#:#accept_usr_agreement#:#Прийняти угоду користувача?
 common#:#access#:#Доступ
@@ -763,7 +767,7 @@ common#:#cat_visible#:#Категорія є видима
 common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
-common#:#cc#:#CC
+common#:#cc#:#CC###05 Nov 2004 new variable
 common#:#cen#:#Centra Event###03 Apr 2004 new variable
 common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
 common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
@@ -912,8 +916,8 @@ common#:#db_pass#:#Пароль до Бази даних
 common#:#db_type#:#Тип Бази даних
 common#:#db_user#:#Користувач Бази даних
 common#:#db_version#:#Версія Бази даних
-common#:#dbk#:#Digilib Book
-common#:#dbk_a#:#a Digilib Book
+common#:#dbk#:#Digilib Book###05 Nov 2004 new variable
+common#:#dbk_a#:#a Digilib Book###05 Nov 2004 new variable
 common#:#dbk_add#:#Додати Digilib Book
 common#:#dbk_added#:#Digilib Book додана
 common#:#dbk_create#:#Створити Digibook###24 Sep 2004 content changed
@@ -960,7 +964,7 @@ common#:#edit_roleassignment#:#Edit role assignment###16 Sep 2004 new variable
 common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
 common#:#editor#:#Редактор
-common#:#email#:#E-mail
+common#:#email#:#E-mail###05 Nov 2004 new variable
 common#:#email_not_valid#:#Введена вами email адресa не є коректною!###14 Sep 2004 content changed
 common#:#enable#:#Дозволити
 common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
@@ -1276,7 +1280,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Http Шлях
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
-common#:#id#:#ID
+common#:#id#:#ID###05 Nov 2004 new variable
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
@@ -1297,6 +1301,7 @@ common#:#import_lm#:#Імпортувати Учбовий модуль###14 Sep
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
+common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
@@ -1349,7 +1354,7 @@ common#:#kb#:#КілоБайт
 common#:#keywords#:#Ключові слова
 common#:#lang_cs#:#Czech###17 Mar 2004 new variable
 common#:#lang_da#:#Danish###22 Apr 2004 new variable
-common#:#lang_dateformat#:#Y-m-d
+common#:#lang_dateformat#:#Y-m-d###05 Nov 2004 new variable
 common#:#lang_de#:#Німецька
 common#:#lang_el#:#Greek###22 Apr 2004 new variable
 common#:#lang_en#:#Англійська
@@ -1367,12 +1372,12 @@ common#:#lang_no#:#Норвезька
 common#:#lang_path#:#Шлях до Мов
 common#:#lang_pl#:#Польська
 common#:#lang_pt#:#Португальська
-common#:#lang_sep_decimal#:#.
-common#:#lang_sep_thousand#:#,
+common#:#lang_sep_decimal#:#.###05 Nov 2004 new variable
+common#:#lang_sep_thousand#:#,###05 Nov 2004 new variable
 common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
-common#:#lang_timeformat#:#H:i:s
+common#:#lang_timeformat#:#H:i:s###05 Nov 2004 new variable
 common#:#lang_ua#:#Українська
-common#:#lang_version#:#1
+common#:#lang_version#:#1###05 Nov 2004 new variable
 common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
 common#:#lang_xx#:#Вибір
 common#:#lang_zh#:#Спрощена Кітайська
@@ -1387,7 +1392,7 @@ common#:#last_change#:#Остання Зміна
 common#:#last_visit#:#Останній Візит
 common#:#lastname#:#Останнє ім'я
 common#:#launch#:#Запустити
-common#:#ldap#:#LDAP
+common#:#ldap#:#LDAP###05 Nov 2004 new variable
 common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Змінити настройки прав
@@ -1787,7 +1792,7 @@ common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
-common#:#of#:#Of
+common#:#of#:#Of###05 Nov 2004 new variable
 common#:#offline_version#:#Оффлайн Версія
 common#:#ok#:#Так
 common#:#old#:#Старий
@@ -2049,7 +2054,7 @@ common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Сігнатура
-common#:#smtp#:#SMTP
+common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
 common#:#spl_add#:#Add question pool###07 May 2004 new variable
@@ -2088,6 +2093,7 @@ common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
 common#:#svy_new#:#New survey###07 May 2004 new variable
 common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
 common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_upload_file#:#Upload file###05 Nov 2004 new variable
 common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
 common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Ситсема
@@ -2159,13 +2165,13 @@ common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#Тест є видимим
 common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
-common#:#txt_add_object_instruction2#:#.
+common#:#txt_add_object_instruction2#:#.###05 Nov 2004 new variable
 common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.###14 Sep 2004 content changed
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Визначення Типу Об'єкту
 common#:#type#:#Тип
 common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
-common#:#uid#:#UID
+common#:#uid#:#UID###05 Nov 2004 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Деінсталювати
 common#:#uninstalled#:#деінстальовано.
@@ -2179,7 +2185,7 @@ common#:#update_applied#:#Обновлення Встановлено
 common#:#update_language#:#Обновити Мову
 common#:#upload#:#Завантажити
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
-common#:#url#:#URL
+common#:#url#:#URL###05 Nov 2004 new variable
 common#:#url_a#:#a URL###23 Oct 2004 new variable
 common#:#url_add#:#Add URL###23 Oct 2004 new variable
 common#:#url_added#:#URL added###23 Oct 2004 new variable
@@ -2407,8 +2413,8 @@ content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
-content#:#cont_href#:#href
-content#:#cont_id_ref#:#identifierref
+content#:#cont_href#:#href###05 Nov 2004 new variable
+content#:#cont_id_ref#:#identifierref###05 Nov 2004 new variable
 content#:#cont_imagemap#:#Карта Зображення
 content#:#cont_import_id#:#ідентифікатор
 content#:#cont_insert_file_item#:#Вставити Елемент Файлу
@@ -2422,8 +2428,8 @@ content#:#cont_insert_table#:#Вставити Таблицю
 content#:#cont_internal#:#внутрішній
 content#:#cont_internal_link#:#внутрішнє посилання
 content#:#cont_is_visible#:#є видимим
-content#:#cont_isbn#:#ISBN
-content#:#cont_issn#:#ISSN
+content#:#cont_isbn#:#ISBN###05 Nov 2004 new variable
+content#:#cont_issn#:#ISSN###05 Nov 2004 new variable
 content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
@@ -2453,10 +2459,10 @@ content#:#cont_lm_properties#:#Властивості Учбового Моду�
 content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Маніфест
 content#:#cont_map_areas#:#Області Посилання
-content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_mastery_score#:#adlcp:masteryscore###05 Nov 2004 new variable
 content#:#cont_matches#:#matches###16 Aug 2004 new variable
 content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###05 Nov 2004 new variable
 content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Файли Об'єкта
@@ -2496,8 +2502,8 @@ content#:#cont_personal_clipboard#:#Особистий Буфер Обміну
 content#:#cont_pg_content#:#Вміст Сторінки
 content#:#cont_pg_title#:#Назва Сторінки
 content#:#cont_please_select#:#please select###16 Aug 2004 new variable
-content#:#cont_prereq_type#:#adlcp:prerequisites.type
-content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_prereq_type#:#adlcp:prerequisites.type###05 Nov 2004 new variable
+content#:#cont_prerequisites#:#adlcp:prerequisites###05 Nov 2004 new variable
 content#:#cont_preview#:#Попередній Огляд
 content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
 content#:#cont_publisher#:#Видавник
@@ -2527,7 +2533,7 @@ content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_score#:#Score###10 Jul 2004 new variable
-content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_scorm_type#:#adlcp:scormtype###05 Nov 2004 new variable
 content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
 content#:#cont_select_max_one_term#:#Будь ласка виберіть тільки один термін
@@ -2573,7 +2579,7 @@ content#:#cont_target_within_source#:#Ціль не повинна бути вс
 content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
 content#:#cont_time#:#Time###10 Jul 2004 new variable
-content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_time_limit_action#:#adlcp:timelimitaction###05 Nov 2004 new variable
 content#:#cont_toc#:#Зміст
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Вершина
@@ -2586,7 +2592,7 @@ content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new var
 content#:#cont_update#:#Обновити
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Завантажити Файл
-content#:#cont_url#:#URL
+content#:#cont_url#:#URL###05 Nov 2004 new variable
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
 content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
@@ -2595,7 +2601,7 @@ content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Де опублікований
 content#:#cont_width#:#Ширина
 content#:#cont_wysiwyg#:#Вміст Wysiwyg###14 Sep 2004 content changed
-content#:#cont_xml_base#:#xml:base
+content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
 content#:#cont_year#:#Рік
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Сторінки З
@@ -3110,243 +3116,243 @@ meta#:#meta_annotation#:#Аннотація
 meta#:#meta_atomic#:#Атомарний
 meta#:#meta_author#:#Автор
 meta#:#meta_browser#:#Браузер
-meta#:#meta_c_AD#:#Andorra
-meta#:#meta_c_AE#:#United Arab Emirates
-meta#:#meta_c_AF#:#Afghanistan
-meta#:#meta_c_AG#:#Antigua And Barbuda
-meta#:#meta_c_AI#:#Anguilla
-meta#:#meta_c_AL#:#Albania
-meta#:#meta_c_AM#:#Armenia
-meta#:#meta_c_AN#:#Netherlands Antilles
-meta#:#meta_c_AO#:#Angola
-meta#:#meta_c_AQ#:#Antarctica
-meta#:#meta_c_AR#:#Argentina
-meta#:#meta_c_AS#:#American Samoa
-meta#:#meta_c_AT#:#Austria
-meta#:#meta_c_AU#:#Australia
-meta#:#meta_c_AW#:#Aruba
-meta#:#meta_c_AZ#:#Azerbaijan
-meta#:#meta_c_BA#:#Bosnia And Herzegowina
-meta#:#meta_c_BB#:#Barbados
-meta#:#meta_c_BD#:#Bangladesh
-meta#:#meta_c_BE#:#Belgium
-meta#:#meta_c_BF#:#Burkina Faso
-meta#:#meta_c_BG#:#Bulgaria
-meta#:#meta_c_BH#:#Bahrain
-meta#:#meta_c_BI#:#Burundi
-meta#:#meta_c_BJ#:#Benin
-meta#:#meta_c_BM#:#Bermuda
-meta#:#meta_c_BN#:#Brunei Darussalam
-meta#:#meta_c_BO#:#Bolivia
-meta#:#meta_c_BR#:#Brazil
-meta#:#meta_c_BS#:#Bahamas
-meta#:#meta_c_BT#:#Bhutan
-meta#:#meta_c_BV#:#Bouvet Island
-meta#:#meta_c_BW#:#Botswana
-meta#:#meta_c_BY#:#Belarus
-meta#:#meta_c_BZ#:#Belize
-meta#:#meta_c_CA#:#Canada
-meta#:#meta_c_CC#:#Cocos (Keeling) Islands
-meta#:#meta_c_CF#:#Central African Republic
-meta#:#meta_c_CG#:#Congo
-meta#:#meta_c_CH#:#Switzerland
-meta#:#meta_c_CI#:#Cote D' Ivoire
-meta#:#meta_c_CK#:#Cook Islands
-meta#:#meta_c_CL#:#Chile
-meta#:#meta_c_CM#:#Cameroon
-meta#:#meta_c_CN#:#China
-meta#:#meta_c_CO#:#Colombia
-meta#:#meta_c_CR#:#Costa Rica
-meta#:#meta_c_CU#:#Cuba
-meta#:#meta_c_CV#:#Cape Verde
-meta#:#meta_c_CX#:#Christmas Island
-meta#:#meta_c_CY#:#Cyprus
-meta#:#meta_c_CZ#:#Czech Republic
-meta#:#meta_c_DE#:#Germany
-meta#:#meta_c_DJ#:#Djibouti
-meta#:#meta_c_DK#:#Denmark
-meta#:#meta_c_DM#:#Dominica
-meta#:#meta_c_DO#:#Dominican Republic
-meta#:#meta_c_DZ#:#Algeria
-meta#:#meta_c_EC#:#Ecuador
-meta#:#meta_c_EE#:#Estonia
-meta#:#meta_c_EG#:#Egypt
-meta#:#meta_c_EH#:#Western Sahara
-meta#:#meta_c_ER#:#Eritrea
-meta#:#meta_c_ES#:#Spain
-meta#:#meta_c_ET#:#Ethiopia
-meta#:#meta_c_FI#:#Finland
-meta#:#meta_c_FJ#:#Fiji
-meta#:#meta_c_FK#:#Falkland Islands
-meta#:#meta_c_FM#:#Micronesia
-meta#:#meta_c_FO#:#Faroe Islands
-meta#:#meta_c_FR#:#France
-meta#:#meta_c_FX#:#France, Metropolitan
-meta#:#meta_c_GA#:#Gabon
-meta#:#meta_c_GB#:#United Kingdom
-meta#:#meta_c_GD#:#Grenada
-meta#:#meta_c_GE#:#Giorgia
-meta#:#meta_c_GF#:#French Guiana
-meta#:#meta_c_GH#:#Ghana
-meta#:#meta_c_GI#:#Gibraltar
-meta#:#meta_c_GL#:#Greenland
-meta#:#meta_c_GM#:#Gambia
-meta#:#meta_c_GN#:#Guinea
-meta#:#meta_c_GP#:#Guadeloupe
-meta#:#meta_c_GQ#:#Equatorial Guinea
-meta#:#meta_c_GR#:#Greece
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
-meta#:#meta_c_GT#:#Guatemala
-meta#:#meta_c_GU#:#Guam
-meta#:#meta_c_GW#:#Guinea-Bissau
-meta#:#meta_c_GY#:#Guyana
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands
-meta#:#meta_c_HN#:#Honduras
-meta#:#meta_c_HR#:#Croatia
-meta#:#meta_c_HT#:#Haiti
-meta#:#meta_c_HU#:#Hungary
-meta#:#meta_c_ID#:#Indonesia
-meta#:#meta_c_IE#:#Ireland
-meta#:#meta_c_IL#:#Israel
-meta#:#meta_c_IN#:#India
-meta#:#meta_c_IO#:#British Indian Ocean Territory
-meta#:#meta_c_IQ#:#Iraq
-meta#:#meta_c_IR#:#Iran
-meta#:#meta_c_IS#:#Iceland
-meta#:#meta_c_IT#:#Italy
-meta#:#meta_c_JM#:#Jamaica
-meta#:#meta_c_JO#:#Jordan
-meta#:#meta_c_JP#:#Japan
-meta#:#meta_c_KE#:#Kenya
-meta#:#meta_c_KG#:#Kyrgyzstan
-meta#:#meta_c_KH#:#Cambodia
-meta#:#meta_c_KI#:#Kiribati
-meta#:#meta_c_KM#:#Comoros
-meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
-meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
-meta#:#meta_c_KW#:#Kuwait
-meta#:#meta_c_KY#:#Cayman Islands
-meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People's Republic
-meta#:#meta_c_LB#:#Lebanon
-meta#:#meta_c_LC#:#Saint Lucia
-meta#:#meta_c_LI#:#Liechtenstein
-meta#:#meta_c_LK#:#Sri Lanka
-meta#:#meta_c_LR#:#Liberia
-meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lithunia
-meta#:#meta_c_LU#:#Luxembourg
-meta#:#meta_c_LV#:#Latvia
-meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
-meta#:#meta_c_MA#:#Morocco
-meta#:#meta_c_MC#:#Monaco
-meta#:#meta_c_MD#:#Moldova
-meta#:#meta_c_MG#:#Madagascar
-meta#:#meta_c_MH#:#Marshall Islands
-meta#:#meta_c_MK#:#Macedonia
-meta#:#meta_c_ML#:#Mali
-meta#:#meta_c_MM#:#Myanmar
-meta#:#meta_c_MN#:#Mongolia
-meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#Northern Mariana Islands
-meta#:#meta_c_MQ#:#Martinique
-meta#:#meta_c_MR#:#Mauritania
-meta#:#meta_c_MS#:#Montserrat
-meta#:#meta_c_MT#:#Malta
-meta#:#meta_c_MU#:#Mauritius
-meta#:#meta_c_MV#:#Maldives
-meta#:#meta_c_MW#:#Malawi
-meta#:#meta_c_MX#:#Mexico
-meta#:#meta_c_MY#:#Malaysia
-meta#:#meta_c_MZ#:#Mozambique
-meta#:#meta_c_NA#:#Namibia
-meta#:#meta_c_NC#:#New Caledonia
-meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Island
-meta#:#meta_c_NG#:#Nigeria
-meta#:#meta_c_NI#:#Nicaragua
-meta#:#meta_c_NL#:#Netherlands
-meta#:#meta_c_NO#:#Norway
-meta#:#meta_c_NP#:#Nepal
-meta#:#meta_c_NR#:#Nauru
-meta#:#meta_c_NU#:#Niue
-meta#:#meta_c_NZ#:#New Zealand
-meta#:#meta_c_OM#:#Oman
-meta#:#meta_c_PA#:#Panama
-meta#:#meta_c_PE#:#Peru
-meta#:#meta_c_PF#:#French Polynesia
-meta#:#meta_c_PG#:#Papua New Guinea
-meta#:#meta_c_PH#:#Philippines
-meta#:#meta_c_PK#:#Pakistan
-meta#:#meta_c_PL#:#Poland
-meta#:#meta_c_PM#:#St. Pierre And Miquelon
-meta#:#meta_c_PN#:#Pitcairn
-meta#:#meta_c_PR#:#Puerto Rico
-meta#:#meta_c_PT#:#Portugal
-meta#:#meta_c_PW#:#Palau
-meta#:#meta_c_PY#:#Paraguay
-meta#:#meta_c_QA#:#Qatar
-meta#:#meta_c_RE#:#Reunion
-meta#:#meta_c_RO#:#Romania
-meta#:#meta_c_RU#:#Ran Federation
-meta#:#meta_c_RW#:#Rwanda
-meta#:#meta_c_SA#:#Saudi Arabia
-meta#:#meta_c_SB#:#Solomon Islands
-meta#:#meta_c_SC#:#Seychelles
-meta#:#meta_c_SD#:#Sudan
-meta#:#meta_c_SE#:#Sweden
-meta#:#meta_c_SG#:#Singapore
-meta#:#meta_c_SH#:#St. Helena
-meta#:#meta_c_SI#:#Slovenia
-meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
-meta#:#meta_c_SK#:#Slovakia
-meta#:#meta_c_SL#:#Siearra Leone
-meta#:#meta_c_SM#:#San Marino
-meta#:#meta_c_SN#:#Senegal
-meta#:#meta_c_SO#:#Somalia
-meta#:#meta_c_SR#:#Suriname
-meta#:#meta_c_ST#:#Sao Tome And Principe
-meta#:#meta_c_SV#:#El Salvador
-meta#:#meta_c_SY#:#Syrian Arab Republic
-meta#:#meta_c_SZ#:#Swaziland
-meta#:#meta_c_TC#:#Turks And Caicos Islands
-meta#:#meta_c_TD#:#Chad
-meta#:#meta_c_TF#:#French Southern Territories
-meta#:#meta_c_TG#:#Togo
-meta#:#meta_c_TH#:#Thailand
-meta#:#meta_c_TJ#:#Tajikistan
-meta#:#meta_c_TK#:#Tokelau
-meta#:#meta_c_TM#:#Turkmenistan
-meta#:#meta_c_TN#:#Tunisia
-meta#:#meta_c_TO#:#Tonga
-meta#:#meta_c_TP#:#East Timor
-meta#:#meta_c_TR#:#Turkey
-meta#:#meta_c_TT#:#Trinidad And Tobago
-meta#:#meta_c_TV#:#Tuvalu
-meta#:#meta_c_TW#:#Taiwan
-meta#:#meta_c_TZ#:#Tanzania
-meta#:#meta_c_UA#:#Ukraine
-meta#:#meta_c_UG#:#Uganda
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
-meta#:#meta_c_US#:#U.S.A
-meta#:#meta_c_UY#:#Uruguay
-meta#:#meta_c_UZ#:#Uzbekistan
-meta#:#meta_c_VA#:#Vatican City State
-meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
-meta#:#meta_c_VE#:#Venezuela
-meta#:#meta_c_VG#:#Virgin Islands (British)
-meta#:#meta_c_VI#:#Virgin Islands (US)
-meta#:#meta_c_VN#:#Viet Nam
-meta#:#meta_c_VU#:#Vanuatu
-meta#:#meta_c_WF#:#Wallis And Futuna Islands
-meta#:#meta_c_WS#:#Samoa
-meta#:#meta_c_YE#:#Yemen
-meta#:#meta_c_YT#:#Mayotte
-meta#:#meta_c_ZA#:#South Africa
-meta#:#meta_c_ZM#:#Zambia
-meta#:#meta_c_ZR#:#Zaire
-meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_AD#:#Andorra###05 Nov 2004 new variable
+meta#:#meta_c_AE#:#United Arab Emirates###05 Nov 2004 new variable
+meta#:#meta_c_AF#:#Afghanistan###05 Nov 2004 new variable
+meta#:#meta_c_AG#:#Antigua And Barbuda###05 Nov 2004 new variable
+meta#:#meta_c_AI#:#Anguilla###05 Nov 2004 new variable
+meta#:#meta_c_AL#:#Albania###05 Nov 2004 new variable
+meta#:#meta_c_AM#:#Armenia###05 Nov 2004 new variable
+meta#:#meta_c_AN#:#Netherlands Antilles###05 Nov 2004 new variable
+meta#:#meta_c_AO#:#Angola###05 Nov 2004 new variable
+meta#:#meta_c_AQ#:#Antarctica###05 Nov 2004 new variable
+meta#:#meta_c_AR#:#Argentina###05 Nov 2004 new variable
+meta#:#meta_c_AS#:#American Samoa###05 Nov 2004 new variable
+meta#:#meta_c_AT#:#Austria###05 Nov 2004 new variable
+meta#:#meta_c_AU#:#Australia###05 Nov 2004 new variable
+meta#:#meta_c_AW#:#Aruba###05 Nov 2004 new variable
+meta#:#meta_c_AZ#:#Azerbaijan###05 Nov 2004 new variable
+meta#:#meta_c_BA#:#Bosnia And Herzegowina###05 Nov 2004 new variable
+meta#:#meta_c_BB#:#Barbados###05 Nov 2004 new variable
+meta#:#meta_c_BD#:#Bangladesh###05 Nov 2004 new variable
+meta#:#meta_c_BE#:#Belgium###05 Nov 2004 new variable
+meta#:#meta_c_BF#:#Burkina Faso###05 Nov 2004 new variable
+meta#:#meta_c_BG#:#Bulgaria###05 Nov 2004 new variable
+meta#:#meta_c_BH#:#Bahrain###05 Nov 2004 new variable
+meta#:#meta_c_BI#:#Burundi###05 Nov 2004 new variable
+meta#:#meta_c_BJ#:#Benin###05 Nov 2004 new variable
+meta#:#meta_c_BM#:#Bermuda###05 Nov 2004 new variable
+meta#:#meta_c_BN#:#Brunei Darussalam###05 Nov 2004 new variable
+meta#:#meta_c_BO#:#Bolivia###05 Nov 2004 new variable
+meta#:#meta_c_BR#:#Brazil###05 Nov 2004 new variable
+meta#:#meta_c_BS#:#Bahamas###05 Nov 2004 new variable
+meta#:#meta_c_BT#:#Bhutan###05 Nov 2004 new variable
+meta#:#meta_c_BV#:#Bouvet Island###05 Nov 2004 new variable
+meta#:#meta_c_BW#:#Botswana###05 Nov 2004 new variable
+meta#:#meta_c_BY#:#Belarus###05 Nov 2004 new variable
+meta#:#meta_c_BZ#:#Belize###05 Nov 2004 new variable
+meta#:#meta_c_CA#:#Canada###05 Nov 2004 new variable
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands###05 Nov 2004 new variable
+meta#:#meta_c_CF#:#Central African Republic###05 Nov 2004 new variable
+meta#:#meta_c_CG#:#Congo###05 Nov 2004 new variable
+meta#:#meta_c_CH#:#Switzerland###05 Nov 2004 new variable
+meta#:#meta_c_CI#:#Cote D' Ivoire###05 Nov 2004 new variable
+meta#:#meta_c_CK#:#Cook Islands###05 Nov 2004 new variable
+meta#:#meta_c_CL#:#Chile###05 Nov 2004 new variable
+meta#:#meta_c_CM#:#Cameroon###05 Nov 2004 new variable
+meta#:#meta_c_CN#:#China###05 Nov 2004 new variable
+meta#:#meta_c_CO#:#Colombia###05 Nov 2004 new variable
+meta#:#meta_c_CR#:#Costa Rica###05 Nov 2004 new variable
+meta#:#meta_c_CU#:#Cuba###05 Nov 2004 new variable
+meta#:#meta_c_CV#:#Cape Verde###05 Nov 2004 new variable
+meta#:#meta_c_CX#:#Christmas Island###05 Nov 2004 new variable
+meta#:#meta_c_CY#:#Cyprus###05 Nov 2004 new variable
+meta#:#meta_c_CZ#:#Czech Republic###05 Nov 2004 new variable
+meta#:#meta_c_DE#:#Germany###05 Nov 2004 new variable
+meta#:#meta_c_DJ#:#Djibouti###05 Nov 2004 new variable
+meta#:#meta_c_DK#:#Denmark###05 Nov 2004 new variable
+meta#:#meta_c_DM#:#Dominica###05 Nov 2004 new variable
+meta#:#meta_c_DO#:#Dominican Republic###05 Nov 2004 new variable
+meta#:#meta_c_DZ#:#Algeria###05 Nov 2004 new variable
+meta#:#meta_c_EC#:#Ecuador###05 Nov 2004 new variable
+meta#:#meta_c_EE#:#Estonia###05 Nov 2004 new variable
+meta#:#meta_c_EG#:#Egypt###05 Nov 2004 new variable
+meta#:#meta_c_EH#:#Western Sahara###05 Nov 2004 new variable
+meta#:#meta_c_ER#:#Eritrea###05 Nov 2004 new variable
+meta#:#meta_c_ES#:#Spain###05 Nov 2004 new variable
+meta#:#meta_c_ET#:#Ethiopia###05 Nov 2004 new variable
+meta#:#meta_c_FI#:#Finland###05 Nov 2004 new variable
+meta#:#meta_c_FJ#:#Fiji###05 Nov 2004 new variable
+meta#:#meta_c_FK#:#Falkland Islands###05 Nov 2004 new variable
+meta#:#meta_c_FM#:#Micronesia###05 Nov 2004 new variable
+meta#:#meta_c_FO#:#Faroe Islands###05 Nov 2004 new variable
+meta#:#meta_c_FR#:#France###05 Nov 2004 new variable
+meta#:#meta_c_FX#:#France, Metropolitan###05 Nov 2004 new variable
+meta#:#meta_c_GA#:#Gabon###05 Nov 2004 new variable
+meta#:#meta_c_GB#:#United Kingdom###05 Nov 2004 new variable
+meta#:#meta_c_GD#:#Grenada###05 Nov 2004 new variable
+meta#:#meta_c_GE#:#Giorgia###05 Nov 2004 new variable
+meta#:#meta_c_GF#:#French Guiana###05 Nov 2004 new variable
+meta#:#meta_c_GH#:#Ghana###05 Nov 2004 new variable
+meta#:#meta_c_GI#:#Gibraltar###05 Nov 2004 new variable
+meta#:#meta_c_GL#:#Greenland###05 Nov 2004 new variable
+meta#:#meta_c_GM#:#Gambia###05 Nov 2004 new variable
+meta#:#meta_c_GN#:#Guinea###05 Nov 2004 new variable
+meta#:#meta_c_GP#:#Guadeloupe###05 Nov 2004 new variable
+meta#:#meta_c_GQ#:#Equatorial Guinea###05 Nov 2004 new variable
+meta#:#meta_c_GR#:#Greece###05 Nov 2004 new variable
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###05 Nov 2004 new variable
+meta#:#meta_c_GT#:#Guatemala###05 Nov 2004 new variable
+meta#:#meta_c_GU#:#Guam###05 Nov 2004 new variable
+meta#:#meta_c_GW#:#Guinea-Bissau###05 Nov 2004 new variable
+meta#:#meta_c_GY#:#Guyana###05 Nov 2004 new variable
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands###05 Nov 2004 new variable
+meta#:#meta_c_HN#:#Honduras###05 Nov 2004 new variable
+meta#:#meta_c_HR#:#Croatia###05 Nov 2004 new variable
+meta#:#meta_c_HT#:#Haiti###05 Nov 2004 new variable
+meta#:#meta_c_HU#:#Hungary###05 Nov 2004 new variable
+meta#:#meta_c_ID#:#Indonesia###05 Nov 2004 new variable
+meta#:#meta_c_IE#:#Ireland###05 Nov 2004 new variable
+meta#:#meta_c_IL#:#Israel###05 Nov 2004 new variable
+meta#:#meta_c_IN#:#India###05 Nov 2004 new variable
+meta#:#meta_c_IO#:#British Indian Ocean Territory###05 Nov 2004 new variable
+meta#:#meta_c_IQ#:#Iraq###05 Nov 2004 new variable
+meta#:#meta_c_IR#:#Iran###05 Nov 2004 new variable
+meta#:#meta_c_IS#:#Iceland###05 Nov 2004 new variable
+meta#:#meta_c_IT#:#Italy###05 Nov 2004 new variable
+meta#:#meta_c_JM#:#Jamaica###05 Nov 2004 new variable
+meta#:#meta_c_JO#:#Jordan###05 Nov 2004 new variable
+meta#:#meta_c_JP#:#Japan###05 Nov 2004 new variable
+meta#:#meta_c_KE#:#Kenya###05 Nov 2004 new variable
+meta#:#meta_c_KG#:#Kyrgyzstan###05 Nov 2004 new variable
+meta#:#meta_c_KH#:#Cambodia###05 Nov 2004 new variable
+meta#:#meta_c_KI#:#Kiribati###05 Nov 2004 new variable
+meta#:#meta_c_KM#:#Comoros###05 Nov 2004 new variable
+meta#:#meta_c_KN#:#Saint Kitts And Nevis###05 Nov 2004 new variable
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)###05 Nov 2004 new variable
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)###05 Nov 2004 new variable
+meta#:#meta_c_KW#:#Kuwait###05 Nov 2004 new variable
+meta#:#meta_c_KY#:#Cayman Islands###05 Nov 2004 new variable
+meta#:#meta_c_KZ#:#Kazakhstan###05 Nov 2004 new variable
+meta#:#meta_c_LA#:#Lao People's Republic###05 Nov 2004 new variable
+meta#:#meta_c_LB#:#Lebanon###05 Nov 2004 new variable
+meta#:#meta_c_LC#:#Saint Lucia###05 Nov 2004 new variable
+meta#:#meta_c_LI#:#Liechtenstein###05 Nov 2004 new variable
+meta#:#meta_c_LK#:#Sri Lanka###05 Nov 2004 new variable
+meta#:#meta_c_LR#:#Liberia###05 Nov 2004 new variable
+meta#:#meta_c_LS#:#Lesotho###05 Nov 2004 new variable
+meta#:#meta_c_LT#:#Lithunia###05 Nov 2004 new variable
+meta#:#meta_c_LU#:#Luxembourg###05 Nov 2004 new variable
+meta#:#meta_c_LV#:#Latvia###05 Nov 2004 new variable
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###05 Nov 2004 new variable
+meta#:#meta_c_MA#:#Morocco###05 Nov 2004 new variable
+meta#:#meta_c_MC#:#Monaco###05 Nov 2004 new variable
+meta#:#meta_c_MD#:#Moldova###05 Nov 2004 new variable
+meta#:#meta_c_MG#:#Madagascar###05 Nov 2004 new variable
+meta#:#meta_c_MH#:#Marshall Islands###05 Nov 2004 new variable
+meta#:#meta_c_MK#:#Macedonia###05 Nov 2004 new variable
+meta#:#meta_c_ML#:#Mali###05 Nov 2004 new variable
+meta#:#meta_c_MM#:#Myanmar###05 Nov 2004 new variable
+meta#:#meta_c_MN#:#Mongolia###05 Nov 2004 new variable
+meta#:#meta_c_MO#:#Macau###05 Nov 2004 new variable
+meta#:#meta_c_MP#:#Northern Mariana Islands###05 Nov 2004 new variable
+meta#:#meta_c_MQ#:#Martinique###05 Nov 2004 new variable
+meta#:#meta_c_MR#:#Mauritania###05 Nov 2004 new variable
+meta#:#meta_c_MS#:#Montserrat###05 Nov 2004 new variable
+meta#:#meta_c_MT#:#Malta###05 Nov 2004 new variable
+meta#:#meta_c_MU#:#Mauritius###05 Nov 2004 new variable
+meta#:#meta_c_MV#:#Maldives###05 Nov 2004 new variable
+meta#:#meta_c_MW#:#Malawi###05 Nov 2004 new variable
+meta#:#meta_c_MX#:#Mexico###05 Nov 2004 new variable
+meta#:#meta_c_MY#:#Malaysia###05 Nov 2004 new variable
+meta#:#meta_c_MZ#:#Mozambique###05 Nov 2004 new variable
+meta#:#meta_c_NA#:#Namibia###05 Nov 2004 new variable
+meta#:#meta_c_NC#:#New Caledonia###05 Nov 2004 new variable
+meta#:#meta_c_NE#:#Niger###05 Nov 2004 new variable
+meta#:#meta_c_NF#:#Norfolk Island###05 Nov 2004 new variable
+meta#:#meta_c_NG#:#Nigeria###05 Nov 2004 new variable
+meta#:#meta_c_NI#:#Nicaragua###05 Nov 2004 new variable
+meta#:#meta_c_NL#:#Netherlands###05 Nov 2004 new variable
+meta#:#meta_c_NO#:#Norway###05 Nov 2004 new variable
+meta#:#meta_c_NP#:#Nepal###05 Nov 2004 new variable
+meta#:#meta_c_NR#:#Nauru###05 Nov 2004 new variable
+meta#:#meta_c_NU#:#Niue###05 Nov 2004 new variable
+meta#:#meta_c_NZ#:#New Zealand###05 Nov 2004 new variable
+meta#:#meta_c_OM#:#Oman###05 Nov 2004 new variable
+meta#:#meta_c_PA#:#Panama###05 Nov 2004 new variable
+meta#:#meta_c_PE#:#Peru###05 Nov 2004 new variable
+meta#:#meta_c_PF#:#French Polynesia###05 Nov 2004 new variable
+meta#:#meta_c_PG#:#Papua New Guinea###05 Nov 2004 new variable
+meta#:#meta_c_PH#:#Philippines###05 Nov 2004 new variable
+meta#:#meta_c_PK#:#Pakistan###05 Nov 2004 new variable
+meta#:#meta_c_PL#:#Poland###05 Nov 2004 new variable
+meta#:#meta_c_PM#:#St. Pierre And Miquelon###05 Nov 2004 new variable
+meta#:#meta_c_PN#:#Pitcairn###05 Nov 2004 new variable
+meta#:#meta_c_PR#:#Puerto Rico###05 Nov 2004 new variable
+meta#:#meta_c_PT#:#Portugal###05 Nov 2004 new variable
+meta#:#meta_c_PW#:#Palau###05 Nov 2004 new variable
+meta#:#meta_c_PY#:#Paraguay###05 Nov 2004 new variable
+meta#:#meta_c_QA#:#Qatar###05 Nov 2004 new variable
+meta#:#meta_c_RE#:#Reunion###05 Nov 2004 new variable
+meta#:#meta_c_RO#:#Romania###05 Nov 2004 new variable
+meta#:#meta_c_RU#:#Ran Federation###05 Nov 2004 new variable
+meta#:#meta_c_RW#:#Rwanda###05 Nov 2004 new variable
+meta#:#meta_c_SA#:#Saudi Arabia###05 Nov 2004 new variable
+meta#:#meta_c_SB#:#Solomon Islands###05 Nov 2004 new variable
+meta#:#meta_c_SC#:#Seychelles###05 Nov 2004 new variable
+meta#:#meta_c_SD#:#Sudan###05 Nov 2004 new variable
+meta#:#meta_c_SE#:#Sweden###05 Nov 2004 new variable
+meta#:#meta_c_SG#:#Singapore###05 Nov 2004 new variable
+meta#:#meta_c_SH#:#St. Helena###05 Nov 2004 new variable
+meta#:#meta_c_SI#:#Slovenia###05 Nov 2004 new variable
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands###05 Nov 2004 new variable
+meta#:#meta_c_SK#:#Slovakia###05 Nov 2004 new variable
+meta#:#meta_c_SL#:#Siearra Leone###05 Nov 2004 new variable
+meta#:#meta_c_SM#:#San Marino###05 Nov 2004 new variable
+meta#:#meta_c_SN#:#Senegal###05 Nov 2004 new variable
+meta#:#meta_c_SO#:#Somalia###05 Nov 2004 new variable
+meta#:#meta_c_SR#:#Suriname###05 Nov 2004 new variable
+meta#:#meta_c_ST#:#Sao Tome And Principe###05 Nov 2004 new variable
+meta#:#meta_c_SV#:#El Salvador###05 Nov 2004 new variable
+meta#:#meta_c_SY#:#Syrian Arab Republic###05 Nov 2004 new variable
+meta#:#meta_c_SZ#:#Swaziland###05 Nov 2004 new variable
+meta#:#meta_c_TC#:#Turks And Caicos Islands###05 Nov 2004 new variable
+meta#:#meta_c_TD#:#Chad###05 Nov 2004 new variable
+meta#:#meta_c_TF#:#French Southern Territories###05 Nov 2004 new variable
+meta#:#meta_c_TG#:#Togo###05 Nov 2004 new variable
+meta#:#meta_c_TH#:#Thailand###05 Nov 2004 new variable
+meta#:#meta_c_TJ#:#Tajikistan###05 Nov 2004 new variable
+meta#:#meta_c_TK#:#Tokelau###05 Nov 2004 new variable
+meta#:#meta_c_TM#:#Turkmenistan###05 Nov 2004 new variable
+meta#:#meta_c_TN#:#Tunisia###05 Nov 2004 new variable
+meta#:#meta_c_TO#:#Tonga###05 Nov 2004 new variable
+meta#:#meta_c_TP#:#East Timor###05 Nov 2004 new variable
+meta#:#meta_c_TR#:#Turkey###05 Nov 2004 new variable
+meta#:#meta_c_TT#:#Trinidad And Tobago###05 Nov 2004 new variable
+meta#:#meta_c_TV#:#Tuvalu###05 Nov 2004 new variable
+meta#:#meta_c_TW#:#Taiwan###05 Nov 2004 new variable
+meta#:#meta_c_TZ#:#Tanzania###05 Nov 2004 new variable
+meta#:#meta_c_UA#:#Ukraine###05 Nov 2004 new variable
+meta#:#meta_c_UG#:#Uganda###05 Nov 2004 new variable
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###05 Nov 2004 new variable
+meta#:#meta_c_US#:#U.S.A###05 Nov 2004 new variable
+meta#:#meta_c_UY#:#Uruguay###05 Nov 2004 new variable
+meta#:#meta_c_UZ#:#Uzbekistan###05 Nov 2004 new variable
+meta#:#meta_c_VA#:#Vatican City State###05 Nov 2004 new variable
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines###05 Nov 2004 new variable
+meta#:#meta_c_VE#:#Venezuela###05 Nov 2004 new variable
+meta#:#meta_c_VG#:#Virgin Islands (British)###05 Nov 2004 new variable
+meta#:#meta_c_VI#:#Virgin Islands (US)###05 Nov 2004 new variable
+meta#:#meta_c_VN#:#Viet Nam###05 Nov 2004 new variable
+meta#:#meta_c_VU#:#Vanuatu###05 Nov 2004 new variable
+meta#:#meta_c_WF#:#Wallis And Futuna Islands###05 Nov 2004 new variable
+meta#:#meta_c_WS#:#Samoa###05 Nov 2004 new variable
+meta#:#meta_c_YE#:#Yemen###05 Nov 2004 new variable
+meta#:#meta_c_YT#:#Mayotte###05 Nov 2004 new variable
+meta#:#meta_c_ZA#:#South Africa###05 Nov 2004 new variable
+meta#:#meta_c_ZM#:#Zambia###05 Nov 2004 new variable
+meta#:#meta_c_ZR#:#Zaire###05 Nov 2004 new variable
+meta#:#meta_c_ZW#:#Zimbabwe###05 Nov 2004 new variable
 meta#:#meta_c_ZZ#:#Інша Країна
 meta#:#meta_catalog#:#Каталог
 meta#:#meta_choose_element#:#Будь ласка виберіть елемент що ви бажаєте додати!
@@ -3383,13 +3389,13 @@ meta#:#meta_final#:#Фінал
 meta#:#meta_format#:#Формат
 meta#:#meta_general#:#Загальний
 meta#:#meta_graph#:#Графік
-meta#:#meta_has_format#:#Has Format
-meta#:#meta_has_part#:#Has Part
-meta#:#meta_has_version#:#Has Version
+meta#:#meta_has_format#:#Has Format###05 Nov 2004 new variable
+meta#:#meta_has_part#:#Has Part###05 Nov 2004 new variable
+meta#:#meta_has_version#:#Has Version###05 Nov 2004 new variable
 meta#:#meta_hierarchical#:#Ієрархічний
 meta#:#meta_high#:#Високий
 meta#:#meta_higher_education#:#Вища Освіта
-meta#:#meta_id#:#Id
+meta#:#meta_id#:#Id###05 Nov 2004 new variable
 meta#:#meta_idea#:#Ідея
 meta#:#meta_identifier#:#Ідентифікатор
 meta#:#meta_index#:#Індекс
@@ -3554,7 +3560,7 @@ meta#:#meta_linear#:#Лінійний
 meta#:#meta_local_file#:#Локальний Файл
 meta#:#meta_location#:#Місцезнаходження
 meta#:#meta_low#:#Низький
-meta#:#meta_mac_os#:#MacOS
+meta#:#meta_mac_os#:#MacOS###05 Nov 2004 new variable
 meta#:#meta_manager#:#Менеджер
 meta#:#meta_maximum_version#:#Максимальна Версія
 meta#:#meta_medium#:#Середній
@@ -3562,8 +3568,8 @@ meta#:#meta_meta_metadata#:#Мета-Метадані
 meta#:#meta_metadatascheme#:#Схема Метаданих
 meta#:#meta_minimum_version#:#Мінімальна Версія
 meta#:#meta_mixed#:#Змішаний
-meta#:#meta_ms_windows#:#MS-Windows
-meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_ms_windows#:#MS-Windows###05 Nov 2004 new variable
+meta#:#meta_multi_os#:#Multi-OS###05 Nov 2004 new variable
 meta#:#meta_name#:#Ім'я
 meta#:#meta_narrative_text#:#Описовий Текст
 meta#:#meta_networked#:#Мережевий
@@ -3582,7 +3588,7 @@ meta#:#meta_operating_system#:#Операційна Система
 meta#:#meta_or_composite#:#Або Композиція
 meta#:#meta_other#:#Інші
 meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа###14 Sep 2004 content changed
-meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_pc_dos#:#PC-DOS###05 Nov 2004 new variable
 meta#:#meta_please_select#:#Будь ласка виберіть
 meta#:#meta_prerequisite#:#Попередня умова
 meta#:#meta_problem_statement#:#Постанова Задачі
@@ -3620,7 +3626,7 @@ meta#:#meta_type#:#Тип
 meta#:#meta_typical_age_range#:#Типовий Діапазон Віку
 meta#:#meta_typical_learning_time#:#Типовий Час Навчання
 meta#:#meta_unavailable#:#Недоступний
-meta#:#meta_unix#:#Unix
+meta#:#meta_unix#:#Unix###05 Nov 2004 new variable
 meta#:#meta_value#:#Значення
 meta#:#meta_version#:#Версія
 meta#:#meta_very_difficult#:#Дуже Складний
@@ -3788,6 +3794,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
@@ -3866,6 +3873,7 @@ survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
 survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
+survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#End date###23 May 2004 new variable
@@ -3999,9 +4007,12 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
+survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
+survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable
 survey#:#select_relation#:#Select a relation###26 May 2004 new variable
+survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new variable
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#select_value#:#Select a value###26 May 2004 new variable
@@ -4026,14 +4037,20 @@ survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new var
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
+survey#:#svy_file#:#File###05 Nov 2004 new variable
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
 survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
 survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
+survey#:#svy_select_file_for_import#:#You must select a file for import!###05 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
+survey#:#svy_select_surveys#:#Please select a survey for duplication###05 Nov 2004 new variable
 survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
+survey#:#svy_size#:#Size###05 Nov 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
 survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable

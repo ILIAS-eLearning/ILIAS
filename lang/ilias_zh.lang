@@ -161,6 +161,7 @@ assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#复制
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
+assessment#:#duplicate_tst#:#Duplicate test###05 Nov 2004 new variable
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
 assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
@@ -326,7 +327,9 @@ assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new v
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#选择间隔
+assessment#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
+assessment#:#select_tst_option#:#--- Please select a test ---###05 Nov 2004 new variable
 assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
 assessment#:#set_filter#:#设置过滤程序
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
@@ -409,6 +412,7 @@ assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
 assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
+assessment#:#tst_select_tsts#:#Please select a test for duplication###05 Nov 2004 new variable
 assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
@@ -831,7 +835,7 @@ common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市###14 Sep 2004 content changed
 common#:#clear#:#清除
 common#:#client ip#:#用户地址###14 Sep 2004 content changed
-common#:#client_id#:#Client ID
+common#:#client_id#:#Client ID###05 Nov 2004 new variable
 common#:#client_ip#:#Client IP地址
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
@@ -1315,6 +1319,7 @@ common#:#import_lm#:#导入学习模块###14 Sep 2004 content changed
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
+common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
@@ -1390,7 +1395,7 @@ common#:#lang_sep_thousand#:#，
 common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
 common#:#lang_timeformat#:#小时分秒
 common#:#lang_ua#:#乌克兰语
-common#:#lang_version#:#1
+common#:#lang_version#:#1###05 Nov 2004 new variable
 common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
 common#:#lang_xx#:#自定义
 common#:#lang_zh#:#简体汉语
@@ -1405,7 +1410,7 @@ common#:#last_change#:#上次更改
 common#:#last_visit#:#上次访问
 common#:#lastname#:#姓
 common#:#launch#:#推出
-common#:#ldap#:#LDAP
+common#:#ldap#:#LDAP###05 Nov 2004 new variable
 common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#更改许可设置
@@ -2067,7 +2072,7 @@ common#:#show_owner#:#显示拥有者
 common#:#show_structure#:#激活结构化视图
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#签名
-common#:#smtp#:#SMTP
+common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#根据此列分类
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
 common#:#spl_add#:#Add question pool###07 May 2004 new variable
@@ -2106,6 +2111,7 @@ common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
 common#:#svy_new#:#New survey###07 May 2004 new variable
 common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
 common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_upload_file#:#Upload file###05 Nov 2004 new variable
 common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
 common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#系统
@@ -2177,13 +2183,13 @@ common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#测验可视
 common#:#tst_write#:#编辑测验
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方
-common#:#txt_add_object_instruction2#:#.
+common#:#txt_add_object_instruction2#:#.###05 Nov 2004 new variable
 common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。###14 Sep 2004 content changed
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#对象类型定义
 common#:#type#:#类型
 common#:#type_your_message_here#:#在此输入您的消息
-common#:#uid#:#UID
+common#:#uid#:#UID###05 Nov 2004 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#卸载
 common#:#uninstalled#:#已卸载
@@ -2197,7 +2203,7 @@ common#:#update_applied#:#更新已生效
 common#:#update_language#:#更新语言
 common#:#upload#:#上载
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
-common#:#url#:#URL
+common#:#url#:#URL###05 Nov 2004 new variable
 common#:#url_a#:#a URL###23 Oct 2004 new variable
 common#:#url_add#:#Add URL###23 Oct 2004 new variable
 common#:#url_added#:#URL added###23 Oct 2004 new variable
@@ -2425,8 +2431,8 @@ content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#高
 content#:#cont_how_published#:#如何发行的
-content#:#cont_href#:#href
-content#:#cont_id_ref#:#identifierref
+content#:#cont_href#:#href###05 Nov 2004 new variable
+content#:#cont_id_ref#:#identifierref###05 Nov 2004 new variable
 content#:#cont_imagemap#:#图象图
 content#:#cont_import_id#:#标识
 content#:#cont_insert_file_item#:#插入文件项
@@ -2440,8 +2446,8 @@ content#:#cont_insert_table#:#插入表格
 content#:#cont_internal#:#内部的
 content#:#cont_internal_link#:#内部链接
 content#:#cont_is_visible#:#可见
-content#:#cont_isbn#:#ISBN
-content#:#cont_issn#:#ISSN
+content#:#cont_isbn#:#ISBN###05 Nov 2004 new variable
+content#:#cont_issn#:#ISSN###05 Nov 2004 new variable
 content#:#cont_item#:#项
 content#:#cont_journal#:#杂志
 content#:#cont_keyword#:#关键字
@@ -2604,7 +2610,7 @@ content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new var
 content#:#cont_update#:#更新
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#上载文件
-content#:#cont_url#:#URL
+content#:#cont_url#:#URL###05 Nov 2004 new variable
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
 content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
@@ -3164,11 +3170,11 @@ meta#:#meta_c_BW#:#博茨瓦纳
 meta#:#meta_c_BY#:#白俄罗斯
 meta#:#meta_c_BZ#:#伯利兹
 meta#:#meta_c_CA#:#加拿大
-meta#:#meta_c_CC#:#Cocos (Keeling) Islands
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands###05 Nov 2004 new variable
 meta#:#meta_c_CF#:#中非共和国
 meta#:#meta_c_CG#:#刚果
 meta#:#meta_c_CH#:#瑞士
-meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CI#:#Cote D' Ivoire###05 Nov 2004 new variable
 meta#:#meta_c_CK#:#库克群岛
 meta#:#meta_c_CL#:#智利
 meta#:#meta_c_CM#:#喀麦隆
@@ -3218,7 +3224,7 @@ meta#:#meta_c_GT#:#危地马拉
 meta#:#meta_c_GU#:#关岛
 meta#:#meta_c_GW#:#几内亚比绍共和国
 meta#:#meta_c_GY#:#圭亚那
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands###05 Nov 2004 new variable
 meta#:#meta_c_HN#:#洪都拉斯
 meta#:#meta_c_HR#:#克罗地亚
 meta#:#meta_c_HT#:#海地
@@ -3236,11 +3242,11 @@ meta#:#meta_c_JM#:#牙买加
 meta#:#meta_c_JO#:#约旦
 meta#:#meta_c_JP#:#日本
 meta#:#meta_c_KE#:#肯尼亚
-meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KG#:#Kyrgyzstan###05 Nov 2004 new variable
 meta#:#meta_c_KH#:#柬埔寨
 meta#:#meta_c_KI#:#基里巴斯
 meta#:#meta_c_KM#:#科摩罗
-meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KN#:#Saint Kitts And Nevis###05 Nov 2004 new variable
 meta#:#meta_c_KP#:#北朝鲜（朝鲜人民共和国）
 meta#:#meta_c_KR#:#南朝鲜（韩国）
 meta#:#meta_c_KW#:#科威特
@@ -3299,15 +3305,15 @@ meta#:#meta_c_PH#:#菲律宾
 meta#:#meta_c_PK#:#巴基斯坦
 meta#:#meta_c_PL#:#波兰
 meta#:#meta_c_PM#:#圣皮埃尔与密克隆岛
-meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PN#:#Pitcairn###05 Nov 2004 new variable
 meta#:#meta_c_PR#:#波多黎各
 meta#:#meta_c_PT#:#葡萄牙
 meta#:#meta_c_PW#:#帕劳群岛
 meta#:#meta_c_PY#:#巴拉圭
 meta#:#meta_c_QA#:#卡塔尔
-meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RE#:#Reunion###05 Nov 2004 new variable
 meta#:#meta_c_RO#:#罗马尼亚
-meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RU#:#Ran Federation###05 Nov 2004 new variable
 meta#:#meta_c_RW#:#卢旺达
 meta#:#meta_c_SA#:#沙特
 meta#:#meta_c_SB#:#所罗门群岛
@@ -3334,7 +3340,7 @@ meta#:#meta_c_TF#:#法属南部领土
 meta#:#meta_c_TG#:#多哥
 meta#:#meta_c_TH#:#泰国
 meta#:#meta_c_TJ#:#塔吉克斯坦
-meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TK#:#Tokelau###05 Nov 2004 new variable
 meta#:#meta_c_TM#:#土库曼斯坦共和国
 meta#:#meta_c_TN#:#突尼斯
 meta#:#meta_c_TO#:#汤加
@@ -3572,7 +3578,7 @@ meta#:#meta_linear#:#线性的
 meta#:#meta_local_file#:#当地文件
 meta#:#meta_location#:#地点
 meta#:#meta_low#:#低的
-meta#:#meta_mac_os#:#MacOS
+meta#:#meta_mac_os#:#MacOS###05 Nov 2004 new variable
 meta#:#meta_manager#:#管理员
 meta#:#meta_maximum_version#:#最高版本
 meta#:#meta_medium#:#中等的
@@ -3580,7 +3586,7 @@ meta#:#meta_meta_metadata#:#元－元数据
 meta#:#meta_metadatascheme#:#元数据配置
 meta#:#meta_minimum_version#:#中级版本
 meta#:#meta_mixed#:#混合的
-meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_ms_windows#:#MS-Windows###05 Nov 2004 new variable
 meta#:#meta_multi_os#:#多操作系统
 meta#:#meta_name#:#名称
 meta#:#meta_narrative_text#:#叙述文本
@@ -3600,7 +3606,7 @@ meta#:#meta_operating_system#:#操作系统
 meta#:#meta_or_composite#:#或合成
 meta#:#meta_other#:#其它
 meta#:#meta_other_plattform_requirements#:#其它平台要求###14 Sep 2004 content changed
-meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_pc_dos#:#PC-DOS###05 Nov 2004 new variable
 meta#:#meta_please_select#:#请选择
 meta#:#meta_prerequisite#:#先决条件
 meta#:#meta_problem_statement#:#问题陈述
@@ -3638,7 +3644,7 @@ meta#:#meta_type#:#类型
 meta#:#meta_typical_age_range#:#典型年龄范围
 meta#:#meta_typical_learning_time#:#典型学习时间
 meta#:#meta_unavailable#:#不可用
-meta#:#meta_unix#:#Unix
+meta#:#meta_unix#:#Unix###05 Nov 2004 new variable
 meta#:#meta_value#:#值
 meta#:#meta_version#:#版本
 meta#:#meta_very_difficult#:#很难
@@ -3806,6 +3812,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
@@ -3884,6 +3891,7 @@ survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
 survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
+survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#End date###23 May 2004 new variable
@@ -4017,9 +4025,12 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
+survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
+survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable
 survey#:#select_relation#:#Select a relation###26 May 2004 new variable
+survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new variable
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#select_value#:#Select a value###26 May 2004 new variable
@@ -4044,14 +4055,20 @@ survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new var
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
+survey#:#svy_file#:#File###05 Nov 2004 new variable
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
 survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
 survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
+survey#:#svy_select_file_for_import#:#You must select a file for import!###05 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
+survey#:#svy_select_surveys#:#Please select a survey for duplication###05 Nov 2004 new variable
 survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
+survey#:#svy_size#:#Size###05 Nov 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
 survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
