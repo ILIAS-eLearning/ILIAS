@@ -744,6 +744,7 @@ common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#auto_registration#:#Neuanmeldungen automatisch freigeben
+common#:#available#:#Available###23 Dec 2004 new variable
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
@@ -905,6 +906,7 @@ common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_archives#:#Archive
+common#:#crs_at_least_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 common#:#crs_create#:#Neuen Kurs anlegen
@@ -1015,6 +1017,7 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Verlaufsanzeige
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaSkript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
@@ -1602,6 +1605,7 @@ common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
+common#:#missing#:#Missing###23 Dec 2004 new variable
 common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -1956,6 +1960,7 @@ common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
+common#:#public#:#public###23 Dec 2004 new variable
 common#:#public_profile#:#Öffentliches Profil
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -2358,6 +2363,7 @@ common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
+content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
 content#:#all#:#Alle
 content#:#all_pages#:#für das gesamte Lernmodul 
 content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
@@ -2423,6 +2429,7 @@ content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
@@ -2462,6 +2469,8 @@ content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#JavaScript deaktivieren
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
+content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
+content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
@@ -2476,16 +2485,6 @@ content#:#cont_ed_delete_col#:#Spalte löschen
 content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
 content#:#cont_ed_edit#:#Bearbeiten
-content#:#msg_entry_removed#:#Menüeintrag entfernt
-content#:#msg_entry_updated#:#Menüeintrag aktualisiert
-content#:#msg_entry_added#:#Menüeintrag gespeichert
-content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
-content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
-content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
-content#:#lm_menu_entry_title#:#Titel
-content#:#lm_menu_entry_target#:#Ziel
-content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
-content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#cont_ed_edit_prop#:#Eigenschaften
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen
@@ -2749,6 +2748,15 @@ content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
 content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
+content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
+content#:#lm_menu_entry_target#:#Ziel
+content#:#lm_menu_entry_title#:#Titel
+content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
+content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
+content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
+content#:#msg_entry_added#:#Menüeintrag gespeichert
+content#:#msg_entry_removed#:#Menüeintrag entfernt
+content#:#msg_entry_updated#:#Menüeintrag aktualisiert
 content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
@@ -4189,6 +4197,7 @@ survey#:#finished#:#beendet
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
+survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
 survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#heading#:#Überschrift
 survey#:#horizontal#:#horizontal
@@ -4210,6 +4219,8 @@ survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
+survey#:#material#:#Material###23 Dec 2004 new variable
+survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
 survey#:#material_file#:#Material-Datei
 survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Maximalwert
@@ -4390,4 +4401,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#crs_at_least_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet sein.

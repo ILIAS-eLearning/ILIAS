@@ -744,6 +744,7 @@ common#:#auth_write#:#Edit authentication settings
 common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#auto_registration#:#Automatically approve registration
+common#:#available#:#Available
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
 common#:#back#:#Back
@@ -905,6 +906,7 @@ common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
+common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
 common#:#crs_available#:#Available Courses
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 common#:#crs_create#:#Create Course
@@ -996,8 +998,6 @@ common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
 common#:#domain#:#Domain
-common#:#available#:#Available
-common#:#missing#:#Missing
 common#:#down#:#Down
 common#:#download#:#Download
 common#:#download_all_returned_files#:#Download all returned files
@@ -1017,6 +1017,7 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_hist_user_comments#:#Enable user comments in history
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_password_assistance#:#Enable password assistance
@@ -1604,6 +1605,7 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
+common#:#missing#:#Missing
 common#:#mob#:#Media Object
 common#:#module#:#module
 common#:#modules#:#Modules
@@ -2361,6 +2363,7 @@ common#:#zipcode#:#Zip Code
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
+content#:#add_menu_entry#:#Add menu entry >>
 content#:#all#:#All
 content#:#all_pages#:#the entire Learning module 
 content#:#choose_public_mode#:#Unregistered users may access
@@ -2397,20 +2400,6 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
-content#:#msg_entry_removed#:#Menu entry removed
-content#:#msg_entry_updated#:#Menu entry updated
-content#:#msg_entry_added#:#Menu entry added
-content#:#add_menu_entry#:#Add menu entry >>
-content#:#lm_menu_new_entry#:#Create a new menu entry
-content#:#lm_menu_edit_entry#:#Edit menu entry
-content#:#lm_menu_entry_title#:#Title
-content#:#lm_menu_entry_target#:#Target
-content#:#lm_menu_select_internal_object#:#Select internal object >>
-content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu
-content#:#cont_downloads#:#Downloads
-content#:#cont_downloads_desc#:#Enables download of all public export files.
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -2439,8 +2428,8 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
-content#:#cont_format#:#Format
 content#:#cont_clean_frames#:#Clean additional frames on navigation
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
@@ -2480,6 +2469,8 @@ content#:#cont_dir_file#:#Directory/File
 content#:#cont_disable_js#:#JavaScript inactive
 content#:#cont_disable_media#:#Media inactive
 content#:#cont_download_title#:#Download Title
+content#:#cont_downloads#:#Downloads
+content#:#cont_downloads_desc#:#Enables download of all public export files.
 content#:#cont_ed_align_center#:#align: center
 content#:#cont_ed_align_left#:#align: left
 content#:#cont_ed_align_left_float#:#align: left float
@@ -2539,6 +2530,7 @@ content#:#cont_file#:#File
 content#:#cont_files#:#Files
 content#:#cont_fix_tree#:#Fix structure
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
+content#:#cont_format#:#Format
 content#:#cont_format_error#:#This operation is not allowed here!
 content#:#cont_free_pages#:#Free Pages
 content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in directory.
@@ -2756,6 +2748,15 @@ content#:#cont_wysiwyg#:#Content WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
+content#:#lm_menu_edit_entry#:#Edit menu entry
+content#:#lm_menu_entry_target#:#Target
+content#:#lm_menu_entry_title#:#Title
+content#:#lm_menu_new_entry#:#Create a new menu entry
+content#:#lm_menu_select_internal_object#:#Select internal object >>
+content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu
+content#:#msg_entry_added#:#Menu entry added
+content#:#msg_entry_removed#:#Menu entry removed
+content#:#msg_entry_updated#:#Menu entry updated
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page
@@ -4218,8 +4219,9 @@ survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower limit
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Manage phrases
-survey#:#material_file#:#Material file
 survey#:#material#:#Material
+survey#:#material_added_successfully#:#You successfully set a material link!
+survey#:#material_file#:#Material file
 survey#:#maxchars#:#Maximum number of characters
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
@@ -4399,5 +4401,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-survey#:#material_added_successfully#:#You successfully set a material link!
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.

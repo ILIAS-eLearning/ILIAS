@@ -730,6 +730,7 @@ common#:#auth_write#:#Modifier les paramètres d'authentification
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
 common#:#auto_registration#:#Approuver les enregistrements automatiquement
+common#:#available#:#Available###23 Dec 2004 new variable
 common#:#available_languages#:#Langues disponibles
 common#:#average_time#:#Temps moyen
 common#:#back#:#Retour
@@ -891,6 +892,7 @@ common#:#crs_a#:#un cours
 common#:#crs_add#:#Ajouter cours
 common#:#crs_added#:#Cours ajouté
 common#:#crs_archives#:#Archives
+common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
 common#:#crs_available#:#Cours disponibles
 common#:#crs_container_link_not_allowed#:#Il n'est pas possible de lier des objets conteneurs
 common#:#crs_create#:#Créer cours
@@ -1000,6 +1002,7 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Activer éditeur javascript
 common#:#enable_js_edit_info#:#Cette option permet d'activer un éditeur pour tout les ressources d'apprentissage (module d'apprentissage ILIAS, Glossaire, question etc.)
 common#:#enable_password_assistance#:#Activer l'assistance pour les mots de passe
@@ -1581,6 +1584,7 @@ common#:#message_to#:#Message à:
 common#:#meta_data#:#Méta-données
 common#:#migrate#:#Migrer
 common#:#min_time#:#Temps minimum
+common#:#missing#:#Missing###23 Dec 2004 new variable
 common#:#mob#:#Objet média
 common#:#module#:#module
 common#:#modules#:#Modules
@@ -1935,6 +1939,7 @@ common#:#profile_changed#:#Votre profil a changé
 common#:#profile_of#:#Profil de
 common#:#properties#:#Propriétés
 common#:#pub_section#:#Section publique
+common#:#public#:#public###23 Dec 2004 new variable
 common#:#public_profile#:#Profil public
 common#:#publication#:#Publication
 common#:#publication_date#:#Date de publication
@@ -2333,6 +2338,7 @@ common#:#zipcode#:#Code postal
 content#:#HTML export#:#Exportation HTML
 content#:#PDF export#:#Exportation PDF
 content#:#Pages#:#Pages
+content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
 content#:#all#:#Tout
 content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
 content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
@@ -2398,6 +2404,7 @@ content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une éditi
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
 content#:#cont_citations#:#Citations
 content#:#cont_clean_frames#:#Nettoyer les cadres additionnels pour la navigation XXX
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée
 content#:#cont_click_center#:#Veuillez cliquer sur le centre de la zone désirée
 content#:#cont_click_circle#:#Veuillez cliquer sur un point de la circonférence de la zone désirée
@@ -2437,6 +2444,8 @@ content#:#cont_dir_file#:#Répertoire/fichier
 content#:#cont_disable_js#:#Désactiver JavaScript###29 Nov 2004 content changed
 content#:#cont_disable_media#:#Désactiver média###29 Nov 2004 content changed
 content#:#cont_download_title#:#Télécharger titre
+content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
+content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
 content#:#cont_ed_align_center#:#alignement : centré
 content#:#cont_ed_align_left#:#alignement : gauche
 content#:#cont_ed_align_left_float#:#alignement : flottant à gauche
@@ -2713,6 +2722,15 @@ content#:#cont_wysiwyg#:#Contenu WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Année
 content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.
+content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
+content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
+content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
+content#:#lm_menu_new_entry#:#Create a new menu entry###23 Dec 2004 new variable
+content#:#lm_menu_select_internal_object#:#Select internal object >>###23 Dec 2004 new variable
+content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###23 Dec 2004 new variable
+content#:#msg_entry_added#:#Menu entry added###23 Dec 2004 new variable
+content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
+content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
 content#:#pages from#:#Pages depuis
 content#:#par#:#Paragraphe
 content#:#pg#:#Page
@@ -4148,6 +4166,7 @@ survey#:#finished#:#terminé
 survey#:#found_questions#:#Questions trouvées
 survey#:#geometric_mean#:#Moyenne géométrique
 survey#:#given_answers#:#Réponses données
+survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
 survey#:#harmonic_mean#:#Moyenne harmonique
 survey#:#heading#:#Titre
 survey#:#horizontal#:#horizontal
@@ -4169,6 +4188,8 @@ survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Limite basse
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Gérer expressions
+survey#:#material#:#Material###23 Dec 2004 new variable
+survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
 survey#:#material_file#:#Fichier matériau
 survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Valeur maximale
