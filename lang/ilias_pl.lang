@@ -3100,6 +3100,7 @@ survey#:#mode_nr_of_selections#:#Nr wyboru
 survey#:#mode_text#:#Najczęściej wybierana wartość (Tekst)
 survey#:#multiple_choice_multiple_response#:#Wielokrotny wybór (wiele odpowiedzi)
 survey#:#multiple_choice_single_response#:#Wielokrotny wybór (jedna odpowiedź)
+survey#:#next_question_rows#:#Questions %d - %d of %d >>###29 Jun 2004 new variable
 survey#:#no_available_constraints#:#Brak zdefiniowanych ograniczeń!
 survey#:#no_category_selected_for_deleting#:#Wybierz conajmniej jedną kategorię do usunięcia!
 survey#:#no_category_selected_for_move#:#Wybierz conajmniej jedną kategorię do przesunięcia!
@@ -3127,6 +3128,7 @@ survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadz
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
 survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
 survey#:#preview#:#Podgląd
+survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Chcesz usunąć wybrane pytania?
 survey#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania!
