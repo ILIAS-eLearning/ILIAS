@@ -62,6 +62,8 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			//init checking var
 			$form_valid = true;
+			
+			// put any checks here!!!
 
 			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
 			{
@@ -95,9 +97,6 @@ class ilObjMailGUI extends ilObjectGUI
 				$this->ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
 				$this->ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
 
-				// write ini settings
-				$this->ilias->ini->write();
-
 				$settings = $this->ilias->getAllSettings();
 
 				// feedback
@@ -107,6 +106,10 @@ class ilObjMailGUI extends ilObjectGUI
 
 		////////////////////////////////////////////////////////////
 		// setting language vars
+
+		// common
+		$this->tpl->setVariable("TXT_DAYS",$this->lng->txt("days"));
+		$this->tpl->setVariable("TXT_KB",$this->lng->txt("kb"));
 
 		// mail server
 		$this->tpl->setVariable("TXT_MAIL_SMTP", $this->lng->txt("mail")." (".$this->lng->txt("smtp").")");
@@ -121,7 +124,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_BOX", $this->lng->txt("mail_maxsize_box"));
 		$this->tpl->setVariable("TXT_MAIL_MAXTIME_MAIL", $this->lng->txt("mail_maxtime_mail"));
 		$this->tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $this->lng->txt("mail_maxtime_attach"));
-		$this->tpl->setVariable("TXT_MAIL_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		///////////////////////////////////////////////////////////
 		// display formula data
