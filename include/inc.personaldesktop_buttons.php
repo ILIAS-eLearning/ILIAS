@@ -60,6 +60,7 @@ $tpl->parseCurrentBlock();
 
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
+/*
 	// user calendar
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE", "tabinactive");
@@ -67,7 +68,7 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$tpl->setVariable("TAB_TEXT",$lng->txt("calendar"));
 	$tpl->setVariable("TAB_TARGET","bottom");
 	$tpl->parseCurrentBlock();
-	
+
 	// user agreement
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE",$script_name == "usr_agreement.php" ? "tabactive" : "tabinactive");
@@ -75,7 +76,8 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$tpl->setVariable("TAB_TEXT",$lng->txt("usr_agreement"));
 	$tpl->setVariable("TAB_TARGET","bottom");
 	$tpl->parseCurrentBlock();
-	
+*/
+
 	// user bookmarks
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE",$script_name == "usr_bookmarks.php" ? "tabactive" : "tabinactive");
