@@ -266,7 +266,7 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree;
+		global $tree, $ilUser;
 
 		// init template
 		if($this->outputToTemplate())
@@ -275,6 +275,14 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
+				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
+				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
+					"disable" => $this->lng->txt("cont_disable_media"));
+				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
+					? "disable"
+					: "enable";
+				$this->tpl->setVariable("SEL_MEDIA_MODE",
+					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
 			}
 			else
 			{
@@ -330,11 +338,14 @@ class ilPageObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
 		$wb_path = ilUtil::getWebspaceDir("output");
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
-						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation());
+						 'med_disabled_path' => $med_disabled_path,
+						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
+						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"));
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

@@ -1625,6 +1625,9 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
+content#:#cont_set_edit_mode#:#Set Edit Mode
+content#:#cont_enable_media#:#Enable Media
+content#:#cont_disable_media#:#Disable Media
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_active#:#Enable Menu
