@@ -61,5 +61,20 @@ class ilObjFolder extends ilObject
 		
 		$gtree->insertNode($this->getRefId(), $a_parent_ref);
 	}
+
+	function clone()
+	{
+		$new_obj = new ilObject();
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setType($this->getType());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->create();
+		$new_ref_id = $new_obj->createReference();
+		
+		unset($new_obj);
+	
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
 } // END class.ilObjFolder
 ?>
