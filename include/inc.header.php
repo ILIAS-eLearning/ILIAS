@@ -175,11 +175,11 @@ $tpl = new ilTemplate("tpl.main.html", true, true);
 
 // ### AA 03.10.29 added new LocatorGUI class ###
 // when locator data array does not exist, initialise
-/*if ( !isset($_SESSION["locator_level"]) )
+if ( !isset($_SESSION["locator_level"]) )
 {
 	$_SESSION["locator_data"] = array();
 	$_SESSION["locator_level"] = -1;
-}*/
+}
 // initialise global ilias_locator object
 $ilias_locator = new ilLocatorGUI();
 
