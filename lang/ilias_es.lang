@@ -506,6 +506,7 @@ common#:#administration#:#administración
 common#:#administrator#:#administrador
 common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar configuración de permisos de la Plantilla de Rol
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Todos los Objetos
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#ciudad
 common#:#clear#:#-clear-
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID de Cliente
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Portapapeles
 common#:#close#:#-Cerrar-
 common#:#comma_separated#:#separado por comas
@@ -1457,6 +1459,7 @@ common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
 common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Objeto añadido
 common#:#objects#:#objetos
 common#:#objf#:#objf###02 Oct 2003 content changed
@@ -1822,9 +1825,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#User Assignment###04 Aug 2003 new variable
 common#:#user_deleted#:#Usuario eliminado
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importación de Usuario completada.
 common#:#user_language#:#Idioma de Usuario
 common#:#user_not_chosen#:#No escogió un miembro de grupo!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#datos de usuario
 common#:#username#:#username
 common#:#users#:#usuarios

@@ -493,6 +493,7 @@ common#:#administration#:#Administracja
 common#:#administrator#:#Administrator
 common#:#adopt#:#Przejmij
 common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Wszystkie obiekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -637,6 +638,7 @@ common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
 common#:#client_id#:#ID Klienta
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#comma_separated#:#Odzielony przecinkiem
@@ -1441,6 +1443,7 @@ common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Obiekt dodany
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
@@ -1798,9 +1801,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Zakończony import użytkowników.
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy

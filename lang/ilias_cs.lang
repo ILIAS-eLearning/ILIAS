@@ -506,6 +506,7 @@ common#:#administration#:#Administrace
 common#:#administrator#:#Administrátor
 common#:#adopt#:#převzít
 common#:#adopt_perm_from_template#:#Převzít nastavení přístupových práv ze šablony role
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Všechny objekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#Město
 common#:#clear#:#Vymazat
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID klienta
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Schránka
 common#:#close#:#Zavřít
 common#:#comma_separated#:#Čárkami oddělený
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Uživatelská nastavení
 common#:#obj_usr#:#Uživatel
 common#:#obj_usrf#:#Uživatelské účty
 common#:#obj_usrf_desc#:#Správa uživatelských účtů.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objekty
 common#:#objf#:#Definice objektů
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Uživatel přidán
 common#:#user_assignment#:#Přiřazení uživatelů
 common#:#user_deleted#:#Uživatel odstraněn
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###16 Mar 2004 new variable
 common#:#user_language#:#Uživatelský jazyk
 common#:#user_not_chosen#:#Nevybral(a) jste člena skupiny!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Údaje o uživateli
 common#:#username#:#Uživatelské jméno
 common#:#users#:#Uživatelé

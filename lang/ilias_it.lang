@@ -506,6 +506,7 @@ common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#Tutti i moduli
 common#:#all_objects#:#Tutti gli oggetti
 common#:#all_tsts#:#Tutti i test
@@ -651,6 +652,7 @@ common#:#city#:#Citt&#224;
 common#:#clear#:#Annulla
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Appunti
 common#:#close#:#Chiudi
 common#:#comma_separated#:#Separati da virgola
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Configura gli utenti qui.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
 common#:#objf#:#Oggetti
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Accesso utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utente assegnato
 common#:#user_deleted#:#Cancellazione eseguita
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importazione utenti completata.
 common#:#user_language#:#Lingua
 common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Dati utente
 common#:#username#:#Nome utente
 common#:#users#:#Utenti

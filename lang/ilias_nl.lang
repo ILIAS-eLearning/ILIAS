@@ -506,6 +506,7 @@ common#:#administration#:#Administratie
 common#:#administrator#:#Administrateur
 common#:#adopt#:#overnemen
 common#:#adopt_perm_from_template#:#Overnemen permissie-instelling van rol-sjabloon
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle objecten
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#Stad
 common#:#clear#:#Afbreken
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client-ID
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Plakboord
 common#:#close#:#Sluiten
 common#:#comma_separated#:#Door komma's gescheiden
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
 common#:#obj_usrf#:#Gebruikers-registraties
 common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object toegevoegd
 common#:#objects#:#Objecten
 common#:#objf#:#Object-definities
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Gebruiker toegevoegd
 common#:#user_assignment#:#Gebruiker-toewijzing
 common#:#user_deleted#:#Gebruiker gewist
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importeren Gebruiker gereed.
 common#:#user_language#:#Gebruikers-taal
 common#:#user_not_chosen#:#U heeft geen groeps-lid gekozen!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Gebruikers-gegevens
 common#:#username#:#Gebruikers-naam
 common#:#users#:#Gebruikers

@@ -506,6 +506,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrateur
 common#:#adopt#:#adopter
 common#:#adopt_perm_from_template#:#Adopter la permission à partir du modèle de rôle
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Tous les objets
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#Ville
 common#:#clear#:#Effacer
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client IDe###26 Nov 2003 new variable
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Presse-papier
 common#:#close#:#Fermer
 common#:#comma_separated#:#Séparé par des virgules (CSV)
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Paramètres d'utilisateur
 common#:#obj_usr#:#Utilisateur
 common#:#obj_usrf#:#Comptes utilisateurs
 common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objets
 common#:#objf#:#Définition d'objet
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
 common#:#user_deleted#:#Utilisateur détruit
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#Langue utilisateur
 common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Données utilisateur
 common#:#username#:#Nom d'utilisateur
 common#:#users#:#Utilisateurs

@@ -506,6 +506,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#Alle Lernmodule
 common#:#all_objects#:#Alle Objekte
 common#:#all_tsts#:#Alle Tests
@@ -651,6 +652,7 @@ common#:#city#:#Ort
 common#:#clear#:#Abbrechen
 common#:#client ip#:#Client IP
 common#:#client_id#:#Mandanten ID
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
