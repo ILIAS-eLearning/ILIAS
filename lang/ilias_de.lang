@@ -519,3 +519,18 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#langfile_found#:#Sprachdatei gefunden
+common#:#module#:#Modul
+common#:#identifier#:#Identifier
+common#:#value#:#Wert
+common#:#err_in_line#:#Fehler in Zeile
+common#:#err_no_param#:#Keine Parameter!
+common#:#err_1_param#:#Nur 1 Parameter!
+common#:#err_2_param#:#Nur 2 Parameter!
+common#:#err_over_3_param#:#Mehr als 3 Parameter!
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
+common#:#err_count_param#:#Grund: Falsche Parameteranzahl.
+common#:#file_not_valid#:#Datei ist ungültig!
+common#:#file_valid#:#Datei ist gültig!
+common#:#err_wrong_header#:#Grund: Falscher Header.
+common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!

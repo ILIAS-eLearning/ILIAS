@@ -259,8 +259,7 @@ class ilObjLanguageFolder extends ilObject
 		return $a_languages;
 	}
 
-
-	/*
+	/**
 	* DESC MISSING
 	*
 	*
@@ -269,7 +268,6 @@ class ilObjLanguageFolder extends ilObject
 	{
 		return false;
 	}
-
 
 	/**
 	* validate the logical structure of a lang-file
@@ -281,6 +279,7 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function checkAllLanguages()
 	{
+		// TODO: lng object should not be used in this class
 		global $lng;
 
 		// set path to directory where lang-files reside
@@ -297,13 +296,13 @@ class ilObjLanguageFolder extends ilObject
 			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
 			{
 				// textmeldung, wenn langfile gefunden wurde
-				$output .= "<br>langfile found: ".$entry;
+				$output .= "<br/><br/>".$lng->txt("langfile_found").": ".$entry;
 				$content = file ($entry);
 
 				$found = true;
 				$error = false;
 
-				if ($content = LanguageObject::cut_header($content))
+				if ($content = ilObjLanguage::cut_header($content))
 				{
 					foreach ($content as $key => $val)
 					{
@@ -314,44 +313,44 @@ class ilObjLanguageFolder extends ilObject
 						{
 							$error = true;
 
-                        $output .= "<br/><br/><b>error in line ".$key." !</b>";
-                        $output .= "<br/>module: ".$separated[0];
-                        $output .= "<br/>identifier: ".$separated[1];
-                        $output .= "<br/>value: ".$separated[2]."<br/>";
+                        $output .= "<br/><b/>".$lng->txt("err_in_line")." ".$key." !</b>&nbsp;&nbsp;";
+                        $output .= $lng->txt("module").": ".$separated[0];
+                        $output .= ", ".$lng->txt("identifier").": ".$separated[1];
+                        $output .= ", ".$lng->txt("value").": ".$separated[2];
 
 							switch ($num)
 							{
 								case 1:
 									if (empty($separated[0]))
 									{
-										$output .= "<br/>no params! Please check your langfiles";
+										$output .= "<br/>".$lng->txt("err_no_param")." ".$lng->txt("check_langfile");
 									}
 									else
 									{
-										$output .= "<br/>only 1 param! Please check your langfiles";
+										$output .= "<br/>".$lng->txt("err_1_param")." ".$lng->txt("check_langfile");
 									}
 								break;
 
 								case 2:
-									$output .= "<br/>only 2 params! Please check your langfiles";
+									$output .= "<br/>".$lng->txt("err_2_param")." ".$lng->txt("check_langfile");
 								break;
 
 								default:
-									$output .= "<br/>more than 3 params! Please check your langfiles";
+									$output .= "<br/>".$lng->txt("err_over_3_param")." ".$lng->txt("check_langfile");
 								break;
 							}
 						}
 					}
 
 					if ($error) {
-						$output .= "<br/>File not valid! reason: wrong param count!";
+						$output .= "<br/>".$lng->txt("file_not_valid")." ".$lng->txt("err_count_param");
 					}
 					else {
-						$output .= "<br/>file is valid";
+						$output .= "<br/>".$lng->txt("file_valid");
 					}
 				}
 				else {
-					$output .= "<br>File not valid! reason: wrong header!";
+					$output .= "<br/>".$lng->txt("file_not_valid")." ".$lng->txt("err_wrong_header");
 				}
 			}
 		}
@@ -359,15 +358,11 @@ class ilObjLanguageFolder extends ilObject
 		$d->close();
 
 		if (!$found) {
-			$output .= "<br>no langfiles found!";
+			$output .= "<br/>".$lng->txt("err_no_langfile_found");
 		}
 
 		chdir($tmpPath);
 		return $output;
 	}
-
-
-
-
 } // END class.LanguageFolderObject
 ?>
