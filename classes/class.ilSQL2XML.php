@@ -170,30 +170,30 @@ class ilSQL2XML
 				// fetching lo_id and remove placeholder node
 				$attributes = $subnode->attributes();
 				$lo_id = $attributes[0]->value;
-					
+
 				$level = $this->getAttributeValue($lo_id,"General","AggregationLevel");
 				// get next LO
 				//todo: first check if LO is of Level 1 !!!
-			
+
 				//$T6 = ilUtil::StopWatch();
 
 				if ($level == "1")
 				{
 					$this->hash = array();
 					$this->lo_struct = $this->getStructure($lo_id);
-					
+
 					// skip document node
 					reset($this->lo_struct);
 					$start = next($this->lo_struct);
-		
+
 					// create first node (LearningObject)
 					$node = $this->doc->create_element($start["element"]);
 
 					$parent = $subnode->parent_node();
 					$subnode->unlink_node();
-				
+
 					$root = $parent->append_child($node);
-		
+
 					$this->hash[$start["node_id"]] = $root;
 
 					// build next XML
@@ -203,11 +203,13 @@ class ilSQL2XML
 				}
 				else
 				{
-					$obj_data = getObject($lo_id);
-					$subnode->set_attribute("title", $obj_data["title"]);
+					//$obj_data = getObject($lo_id);
+					$loObj =& $this->ilias->obj_factory->getInstanceByObjId($lo_id);
+					$subnode->set_attribute("title", $loObj->getTitle());
 					$subnode->set_attribute("level", $level);
+					unset($loObj);
 				}
-				
+
 				//if (($this->level == "3") and ($level == "2" or $level == "3"))
 
 			}
@@ -216,7 +218,7 @@ class ilSQL2XML
 
 		return $this->doc->dump_mem(true);
 	}
-	
+
 	function buildXML ()	
 	{
 	global $start;

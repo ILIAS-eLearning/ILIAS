@@ -2,9 +2,9 @@
 /**
 * Class ilObjUserGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.6 2003/03/31 09:53:05 smeyer Exp $
-* 
+* @author Stefan Meyer <smeyer@databay.de>
+* $Id$Id: class.ilObjUserGUI.php,v 1.7 2003/03/31 11:03:41 akill Exp $
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -153,22 +153,24 @@ class ilObjUserGUI extends ilObjectGUI
 
 			foreach ($assigned_roles as $key => $role)
 			{
-			   // BEGIN TABLE_ROLES
-			   $obj = getObject($role);
+				// BEGIN TABLE_ROLES
+				require_once "./classes/class.ilObjRole.php";
+				$roleObj = new ilObjRole($role);
 
-			   if ($user->getId() == $_SESSION["AccountId"])
-			   {
-				  $data["active_role"]["access"] = true;
-				  $box = ilUtil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
-			   }
-			   else
-			   {
-				  $data["active_role"]["access"] = false;
-				  $box = "";
-			   }
+				if ($user->getId() == $_SESSION["AccountId"])
+				{
+					$data["active_role"]["access"] = true;
+					$box = ilUtil::formCheckBox(in_array($role, $_SESSION["RoleId"]),'active[]',$role);
+				}
+				else
+				{
+					$data["active_role"]["access"] = false;
+					$box = "";
+				}
 
-			   $data["active_role"][$role]["checkbox"] = $box;
-			   $data["active_role"][$role]["title"] = $obj["title"];
+				$data["active_role"][$role]["checkbox"] = $box;
+				$data["active_role"][$role]["title"] = $roleObj->getTitle();
+				unset($roleObj);
 			}
 		}
 		else

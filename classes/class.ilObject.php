@@ -331,9 +331,11 @@ class ilObject
 	function getOwnerName()
 	{
 		global $lng;
-		
-		// Todo: remove this from ilUtil
-		$owner = ilUtil::getOwner($this->getId());
+
+		if($this->getOwner() != -1)
+		{
+			$owner = new ilUser($this->getOwner());
+		}
 
 		if (is_object($owner))
 		{
@@ -343,7 +345,7 @@ class ilObject
 		{
 			$own_name = $lng->txt("unknown");
 		}
-		
+
 		return $own_name;
 	}
 

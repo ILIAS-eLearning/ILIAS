@@ -3,7 +3,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.3 2003/03/31 09:38:20 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -137,8 +137,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			// END ADOPT_PERMISSIONS
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->object->getId()."&ref_id=".$_GET["ref_id"];
-			$role_data = getObject($this->id);
-			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
+			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
 		}
 
 		$this->data = $output;
