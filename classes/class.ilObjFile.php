@@ -261,7 +261,7 @@ class ilObjFile extends ilObject
 
 			if (@is_dir($this->getDirectory()))
 			{
-				rmdir($this->getDirectory());
+				ilUtil::delDir($this->getDirectory());
 			}
 
 			return true;

@@ -501,13 +501,16 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		global $ilDB, $log;
 
 		if (!isset($this->type))
 		{
 			$message = get_class($this)."::create(): No object type given!";
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
+		
+		// write log entry
+		$log->write("ilObject::create(), start");
 
 		$this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
 		$this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
@@ -534,6 +537,10 @@ class ilObject
 
 		// set owner for new objects
 		$this->setOwner($this->ilias->account->getId());
+
+		// write log entry
+		$log->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".
+			$this->type.", title: ".$this->getTitle());
 
 		return $this->id;
 	}
@@ -818,9 +825,15 @@ class ilObject
 	*/
 	function putInTree($a_parent_ref)
 	{
-		global $tree;
+		global $tree, $log;
 
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
+		
+		// write log entry
+		$log->write("ilObject::putInTree(), parent_ref: $a_parent_ref, ref_id: ".
+			$this->getRefId().", obj_id: ".$this->getId().", type: ".
+			$this->getType().", title: ".$this->getTitle());
+
 	}
 
 	/**
@@ -902,6 +915,8 @@ class ilObject
 	*/
 	function ilClone($a_parent_ref)
 	{
+		global $log;
+		
 		$new_obj = new ilObject();
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setType($this->getType());
@@ -912,6 +927,11 @@ class ilObject
 		$new_obj->setPermissions($a_parent_ref);
 
 		unset($new_obj);
+		
+		// write log entry
+		$log->write("ilObject::ilClone(), ref_id: ".$this->getRefId().",obj_id: ".$this->getId().", type: ".
+			$this->getType().", title: ".$this->getTitle().
+			", new ref_id: ".$new_obj->getRefId().", new obj_id:".$new_obj->getId());
 	
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
@@ -929,7 +949,7 @@ class ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $log;
 
 		$remove = false;
 
@@ -941,7 +961,18 @@ class ilObject
 				"WHERE obj_id = '".$this->getId()."'";
 			$this->ilias->db->query($q);
 
+			// write log entry
+			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
+				$this->getType().", title: ".$this->getTitle());
+			
 			$remove = true;
+		}
+		else
+		{
+			// write log entry
+			$log->write("ilObject::delete(), object not deleted, number of references: ".
+				$this->countReferences().", obj_id: ".$this->getId().", type: ".
+				$this->getType().", title: ".$this->getTitle());
 		}
 
 		// delete object_reference entry
@@ -951,6 +982,11 @@ class ilObject
 			$q = "DELETE FROM object_reference ".
 				"WHERE ref_id = '".$this->getRefId()."'";
 			$this->ilias->db->query($q);
+
+			// write log entry
+			$log->write("ilObject::delete(), reference deleted, ref_id: ".$this->getRefId().
+				", obj_id: ".$this->getId().", type: ".
+				$this->getType().", title: ".$this->getTitle());
 
 			// DELETE PERMISSION ENTRIES IN RBAC_PA
 			// DONE: method overwritten in ilObjRole & ilObjUser.

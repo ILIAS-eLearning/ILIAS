@@ -1484,7 +1484,7 @@ class ilUtil
 	*/
 	function delDir($a_dir)
 	{
-		if (!is_dir($a_dir))
+		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
 		{
 			return;
 		}
