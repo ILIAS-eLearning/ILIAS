@@ -58,6 +58,11 @@ switch($target_type)
 		require_once("content/classes/class.ilStructureObject.php");
 		ilStructureObject::_goto($target_id);
 		break;
+// glossar entries
+	case "glo":
+		require_once("content/classes/class.ilGlossaryTerm.php");
+		ilGlossaryTerm::_goto($target_id);
+		break;		
 }
 
 ?>
