@@ -19,8 +19,9 @@
 		</td>
 	</tr>
 	
+	<!-- BEGIN pdfhtml -->
 	<tr class="std">
-		<td class="option"><input type="radio" name="type" value="html" checked></input>
+		<td class="option"><input type="radio" name="type" value="html" {OFFLINE_CHECKED}></input>
 		</td>
 		<td class="option_value">
 		{TXT_HTMLEXPORT}
@@ -34,6 +35,17 @@
 		{TXT_PDFEXPORT}
 		</td>
 	</tr>
+	<!-- END pdfhtml -->
+
+	<!-- BEGIN print -->
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="pdf"	{PRINT_CHECKED}></input>
+		</td>
+		<td class="option_value">
+		{TXT_PRINTEXPORT}
+		</td>
+	</tr>
+	<!-- END print -->
 
 
 	<tr><td colspan=2><br></td></tr>
