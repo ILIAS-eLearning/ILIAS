@@ -82,11 +82,10 @@ if ($script != "login.php" && $script != "index.php")
 	//	header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
 	//	exit;
 	//}
-
 	//get user id
-	if (empty($AccountId))
+	if (empty($_SESSION["AccountId"]))
 	{
-		$_SESSION["AccountId"] = $ilias->account->getUserId($AccountId);
+		$_SESSION["AccountId"] = $ilias->account->getUserId($_SESSION["AccountId"]);
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new RbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);	
@@ -94,7 +93,7 @@ if ($script != "login.php" && $script != "index.php")
 	else
 	{
 		// init user
-		$ilias->account->setId($AccountId);
+		$ilias->account->setId($_SESSION["AccountId"]);
 	}
 	$ilias->account->getUserdata();
 	
