@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.21 2005/03/02 01:15:16 akill Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.22.2.1 2005/03/18 13:15:41 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -77,6 +77,18 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 
+	function markAllReadObject()
+	{
+		global $ilUser;
+
+		$this->object->markAllThreadsRead($ilUser->getId());
+
+		sendInfo($this->lng->txt('forums_all_threads_marked_read'));
+
+		$this->showThreadsObject();
+		return true;
+	}
+
 	function showThreadsObject()
 	{
 		global $rbacsystem,$ilUser;
@@ -103,6 +115,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('forums_new_thread'));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// Button mark all read
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'markAllRead'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('forums_mark_read'));
+		$this->tpl->parseCurrentBlock();
+
 
 		if($topicData)
 		{
