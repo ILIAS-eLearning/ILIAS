@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.24 2003/07/29 13:04:23 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.25 2003/08/04 13:00:03 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -50,13 +50,13 @@ class ilObjGroupGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $tree;
 
 		$this->type = "grp";
 		//$this->lng =& $lng;
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 
 
@@ -85,7 +85,11 @@ class ilObjGroupGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
-				$this->tpl->parseCurrentBlock();
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			$stati = array("group_status_public","group_status_private","group_status_closed");
@@ -95,8 +99,9 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"].
-				"&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]));
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			//$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	}
@@ -126,8 +131,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-
-		header("Location: adm_object.php?".$this->link_params);
+		header("Location: ".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
 

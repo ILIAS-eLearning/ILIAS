@@ -23,50 +23,47 @@
 
 
 /**
-* Class ilObjCourseGUI
+* obj_location_menu.php
+* main tree to select location of new objects
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjCourseGUI.php,v 1.5 2003/07/15 08:23:56 shofmann Exp $
-* 
-* @extends ilObjectGUI
+* @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
 * @package ilias-core
 */
+require_once "include/inc.header.php";
+require_once "classes/class.ilExplorer.php";
 
-require_once "class.ilObjectGUI.php";
+$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-class ilObjCourseGUI extends ilObjectGUI
+$exp = new ilExplorer("obj_location_content.php");
+
+$exp->setExpand($_GET["expand"]);
+$exp->setParamsGet(array("new_type"=>$_GET["new_type"],"cmd"=>"create"));
+
+$exp->addFilter("root");
+$exp->addFilter("cat");
+
+if ($_GET["new_type"] != "grp")
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilObjCourseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
-	{
-		$this->type = "crs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-	}
+	$exp->addFilter("grp");
+}
 
-	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
+if ($_GET["new_type"] != "crs" and $_GET["new_type"] != "grp")
+{
+	$exp->addFilter("crs");
+}
 
-		// always call parent method first to create an object_data entry & a reference
-		$newObj = parent::saveObject();
+$exp->setFiltered(true);
 
-		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-		//$roles = $newObj->initDefaultRoles();
+$exp->setOutput(0);
 
-		// put here your object specific stuff	
+$output = $exp->getOutput();
 
-		// always send a message
-		sendInfo($this->lng->txt("crs_added"),true);
-		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
-	}
-} // END class.ilObjCourseGUI
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("choose_location"));
+$tpl->setVariable("EXPLORER",$output);
+$tpl->setVariable("ACTION", "obj_location_menu.php?expand=".$_GET["expand"]);
+$tpl->parseCurrentBlock();
+
+$tpl->show();
 ?>

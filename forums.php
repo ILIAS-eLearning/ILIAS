@@ -50,8 +50,9 @@ $tpl->parseCurrentBlock();
 
 // display buttons
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","forum_new.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("forum_new"));
+$tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=frm&from=".basename($SCRIPT_NAME));
+$tpl->setVariable("BTN_TXT",$lng->txt("frm_new"));
+$tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 $tpl->parseCurrentBlock();
 
 // catch stored message

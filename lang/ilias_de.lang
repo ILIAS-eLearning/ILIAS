@@ -33,6 +33,9 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
+common#:#lm_new#:#Neues Lernmodul
+common#:#at_location#:#an Position
+common#:#crs_new#:#Neuer Kurs
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
@@ -191,8 +194,14 @@ common#:#folders#:#Ordner
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
-common#:#forum_added#:#Forum angelegt
-common#:#forum_new#:#Neues Forum
+common#:#frm_added#:#Forum angelegt
+common#:#frm_add#:#Forum anlegen
+common#:#grp_add#:#Gruppe anlegen
+common#:#lm_add#:#Lernmodul anlegen
+common#:#crs_add#:#Kurs anlegen
+common#:#cat_add#:#Kategorie anlegen
+common#:#cat_new#:#Neue Kategorie
+common#:#frm_new#:#Neues Forum
 common#:#forums#:#Foren
 common#:#frm#:#Forum
 common#:#from#:#Von
@@ -205,7 +214,7 @@ common#:#group_details#:#Gruppen-Details
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppen-Mitglieder
 common#:#group_name#:#Gruppenname
-common#:#group_new#:#Neue Gruppe
+common#:#grp_new#:#Neue Gruppe
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
@@ -294,9 +303,16 @@ common#:#lo_categories#:#Kategorien
 common#:#lo_edit#:#Lernmodule editieren
 common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
+<<<<<<< ilias_de.lang
+common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
+common#:#lo_overview#:#LE &Uuml;bersicht
+common#:#locator#:#Locator:###04 Aug 2003 new variable
+common#:#choose_location#:#Position w&auml;hlen
+=======
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
+>>>>>>> 1.162
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
@@ -362,6 +378,8 @@ common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage ve
 common#:#msg_linked#:#Objekt(e) verknüpft.
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
+common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
+common#:#msg_no_perm_create_object2#:#an dieser Position anzulegen!
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen!
 common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
@@ -401,6 +419,13 @@ common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
+common#:#grp_a#:#eine Gruppe
+common#:#frm_a#:#ein Forum
+common#:#crs_a#:#einen Kurs
+common#:#lm_a#:#ein Lernmodul
+common#:#cat_a#:#eine Kategorie
+common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
+common#:#txt_add_object_instruction2#:#einf&uuml;gen m&ouml;chten.
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache

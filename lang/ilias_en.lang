@@ -33,6 +33,9 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
+common#:#lm_new#:#New Learning Module
+common#:#at_location#:#at location
+common#:#crs_new#:#New Course
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
@@ -191,8 +194,14 @@ common#:#folders#:#Folders
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
-common#:#forum_added#:#Forum added
-common#:#forum_new#:#New Forum
+common#:#frm_added#:#Forum added
+common#:#frm_add#:#Add Forum
+common#:#grp_add#:#Add Group
+common#:#lm_add#:#Add Learning Module
+common#:#crs_add#:#Add Course
+common#:#cat_add#:#Add Category
+common#:#cat_new#:#New Category
+common#:#frm_new#:#New Forum
 common#:#forums#:#Forums
 common#:#frm#:#Forum
 common#:#from#:#From
@@ -205,7 +214,7 @@ common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
 common#:#group_name#:#Groupname
-common#:#group_new#:#New Group
+common#:#grp_new#:#New Group
 common#:#group_not_available#:#any group available
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
@@ -303,6 +312,7 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
+common#:#choose_location#:#Choose Location
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
@@ -358,10 +368,19 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
+common#:#grp_a#:#a Group
+common#:#frm_a#:#a Forum
+common#:#crs_a#:#a Course
+common#:#lm_a#:#a Learning module
+common#:#cat_a#:#a category
+common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
+common#:#txt_add_object_instruction2#:#.
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
+common#:#msg_no_perm_create_object1#:#You have no permission to create
+common#:#msg_no_perm_create_object2#:#at this location!
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
 common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
