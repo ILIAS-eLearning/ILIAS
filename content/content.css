@@ -85,34 +85,36 @@ div.ilc_Page
 	border-width: 1px;
 }
 
-.ilc_Cell1
+td.ilc_Cell1
 {
 	background-color:#FFCCCC;
 }
 
-.ilc_Cell2
+td.ilc_Cell2
 {
 	background-color:#CCCCFF;
 }
 
-.ilc_Cell3
+td.ilc_Cell3
 {
 	background-color:#CCFFCC;
 }
 
-.ilc_Cell4
+td.ilc_Cell4
 {
 	background-color:#FFFFCC;
 }
 
 p.ilc_Standard
 {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 p.ilc_List
 {
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 
 p.ilc_Headline

@@ -608,6 +608,14 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_insert_list#:#Insert List
+content#:#cont_nr_items#:#Number of Items
+content#:#cont_Unordered#:#Unordered
+content#:#cont_Number#:#Number
+content#:#cont_Roman#:#Roman I, II, ...
+content#:#cont_roman#:#Roman i, ii, ...
+content#:#cont_Alphabetic#:#Alphabetic A, B, ...
+content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_Additional#:#Additional
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example

@@ -216,6 +216,13 @@ class ilLMEditorGUI
 							$list_gui->$cmd();
 							break;
 
+						// List Item
+						case "li":
+							require_once ("content/classes/class.ilLMListItemGUI.php");
+							$list_item_gui =& new ilLMListItemGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
+							$list_item_gui->$cmd();
+							break;
+
 					}
 				}
 				else

@@ -112,6 +112,7 @@
 			<option value="insert_par">insert Paragr.</option>
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
+			<option value="insert_list">insert List</option>
 			<option value="delete">delete</option>
 			<option value="moveAfter">move after</option>
 			<option value="moveBefore">move before</option>
@@ -207,6 +208,7 @@
 								<option value="insert_par">insert Paragr.</option>
 								<option value="insert_tab">insert Table</option>
 								<option value="insert_mob">insert Media</option>
+								<option value="insert_list">insert List</option>
 								<option value="newRowAfter">new Row after</option>
 								<option value="newRowBefore">new Row before</option>
 								<option value="newColAfter">new Col after</option>
@@ -247,6 +249,7 @@
 		<option value="insert_par">insert Paragr.</option>
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
+		<option value="insert_list">insert List</option>
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
@@ -279,8 +282,35 @@
 		</ul>
 	</xsl:if>
 </xsl:template>
+
+<!-- List Item -->
 <xsl:template match="Item">
 	<li>
+	<!-- insert commands -->
+	<!-- <xsl:value-of select="@HierId"/> -->
+	<xsl:if test="$mode = 'edit'">
+		<!-- checkbox -->
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+			</xsl:attribute>
+		</input>
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+			</xsl:attribute>
+			<option value="insert_par">insert Paragr.</option>
+			<option value="insert_tab">insert Table</option>
+			<option value="insert_mob">insert Media</option>
+			<option value="insert_list">insert List</option>
+			<option value="newItemAfter">new Item after</option>
+			<option value="newItemBefore">new Item before</option>
+			<option value="deleteItem">delete Item</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+		</input>
+		<br/>
+	</xsl:if>
+
 	<xsl:apply-templates/>
 	</li>
 </xsl:template>
@@ -385,6 +415,7 @@
 				<option value="insert_par">insert Paragr.</option>
 				<option value="insert_tab">insert Table</option>
 				<option value="insert_mob">insert Media</option>
+				<option value="insert_list">insert List</option>
 				<option value="delete">delete</option>
 				<option value="moveAfter">move after</option>
 				<option value="moveBefore">move before</option>
