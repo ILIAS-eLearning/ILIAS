@@ -109,7 +109,7 @@ htmldoc_path#:#Path to HTMLdoc
 htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)
 http_path#:#HTTP path
 id#:#ID
-ilias_homepage#:#ILIAS homepage
+ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup
@@ -125,9 +125,9 @@ info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Be
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
 ini_client_id_invalid#:#The client ID you entered contains invalid characers
 ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.
-ini_client_id_too_long#:#Client Id too long.
-ini_client_id_too_short#:#Client ID too short.
-ini_db_name_exists#:#already exists! Please choose another db name.
+ini_client_id_too_long#:#Client Id too long
+ini_client_id_too_short#:#Client ID too short
+ini_db_name_exists#:#already exists! Please choose another db name
 ini_no_client_id#:#No client ID given.
 ini_no_db_host#:#No hostname
 ini_no_db_name#:#no database name
@@ -184,7 +184,7 @@ main_datadir_outside_webspace#:#Main data directory outside webspace
 name#:#Name
 new#:#new
 next#:#Next
-nic_reg_disable#:#disable NIC registration
+nic_reg_disable#:#skip NIC registration
 nic_reg_disable_comment#:#(register later)
 nic_reg_disabled#:#NIC registration disabled
 nic_reg_email#:#register via Email
@@ -193,7 +193,6 @@ nic_reg_enter_correct_id#:#Please enter correct nic_id
 nic_reg_enter_id#:#please enter id sent by email
 nic_reg_failed#:#NIC registration failed
 nic_reg_online#:#register online
-nic_registration#:#NIC Registration
 nic_registration#:#NIC Registration
 no_changes#:#No changes.
 no_client_id#:#No Client ID given
@@ -215,8 +214,8 @@ password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
 password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings later again.
 password_new_master#:#Set new master password
-password_not_match#.#New Passwords entered does not match!
-password_old_wrong#.#Old password entered is wrong!
+password_not_match#:#New Passwords entered does not match!
+password_old_wrong#:#Old password entered is wrong!
 password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
 password_set#:#Password saved.
