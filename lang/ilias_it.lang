@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti 
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#filter#:#Filtro
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Mappa di immagine
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Punti
-assessment#:#possible_gap_text#:#Possibile testo vuoto
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
 assessment#:#preview#:#Anteprima
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Dipendenze
 content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Modifica paragrafo
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
 content#:#cont_file#:#File
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Editore della serie
 content#:#cont_series_title#:#Titolo della serie
 content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Imposta il collegamento
 content#:#cont_set_shape#:#Modifica la forma
 content#:#cont_set_start_file#:#Imposta file di partenza

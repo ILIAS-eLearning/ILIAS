@@ -1626,9 +1626,6 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_set_edit_mode#:#Set Edit Mode
-content#:#cont_enable_media#:#Enable Media
-content#:#cont_disable_media#:#Disable Media
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_active#:#Enable Menu
@@ -1689,6 +1686,7 @@ content#:#cont_dependencies#:#Dependencies
 content#:#cont_derive_from_obj#:#Derive from Object
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/File
+content#:#cont_disable_media#:#Disable Media
 content#:#cont_edit_area#:#Edit Area
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_mob#:#Edit Media Object
@@ -1699,6 +1697,7 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
+content#:#cont_enable_media#:#Enable Media
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_file#:#File
@@ -1821,6 +1820,7 @@ content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
 content#:#cont_series_volume#:#Series volume
 content#:#cont_set_class#:#Set Class
+content#:#cont_set_edit_mode#:#Set Edit Mode
 content#:#cont_set_link#:#Edit Link
 content#:#cont_set_shape#:#Edit Shape
 content#:#cont_set_start_file#:#Set Start File
