@@ -704,26 +704,6 @@ class ASS_Question extends PEAR {
 */  }
 
 /**
-* Duplicates the question in the database
-*
-* Duplicates the question in the database
-*
-* @access public
-*/
-  function duplicate() {
-    $clone = $this;
-    $clone->setId(-1);
-    $counter = 2;
-    while ($this->questionTitleExists($clone->getTitle() . " ($counter)")) {
-      $counter++;
-    }
-    $clone->setTitle($clone->getTitle() . " ($counter)");
-    $clone->setOwner($this->ilias->account->id);
-    $clone->setAuthor($this->ilias->account->fullname);
-    $clone->saveToDb($this->ilias->db);
-  }
-
-/**
 * Returns the image path for web accessable images of a question
 *
 * Returns the image path for web accessable images of a question.
@@ -960,6 +940,20 @@ class ASS_Question extends PEAR {
     return $data->type_tag;
   }
 
+	function duplicateMaterials($question_id)
+	{
+		foreach ($this->materials as $filename)
+		{
+			$materialspath = $this->getMaterialsPath();
+			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
+			if (!file_exists($materialspath)) {
+				ilUtil::makeDirParents($materialspath);
+			}
+			if (!copy($materialspath_original . $filename, $materialspath . $filename)) {
+				print "material could not be duplicated!!!! ";
+			}
+		}
+	}
 }
 
 ?>

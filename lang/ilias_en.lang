@@ -118,6 +118,7 @@ assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
 assessment#:#delete_area#:#Delete area
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
 assessment#:#error_open_image_file#:#Error opening an image file!
@@ -228,6 +229,7 @@ assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
+assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text gap
 assessment#:#time_format#:#HH MM SS
@@ -3233,3 +3235,4 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+assessment#:#tst_ending_time#:#Ending time

@@ -225,6 +225,15 @@ class ilObjTest extends ilObject
   var $starting_time;
   
 /**
+* The ending time of the test
+* 
+* The ending time in database timestamp format which defines the latest ending time for the test
+*
+* @var string
+*/
+  var $ending_time;
+  
+/**
 * An array containing the different types of assessment tests
 *
 * The array contains the type strings of the test types
@@ -256,6 +265,7 @@ class ilObjTest extends ilObject
     $this->reporting_date = "";
     $this->nr_of_tries = 0;
     $this->starting_time = "";
+		$this->ending_time = "";
     $this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
     $this->test_type = TYPE_ASSESSMENT;
@@ -641,7 +651,7 @@ class ilObjTest extends ilObject
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getRefId()),
         $db->quote($this->author), 
         $db->quote($this->test_type),
@@ -653,6 +663,7 @@ class ilObjTest extends ilObject
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
+        $db->quote($this->ending_time),
 				$db->quote("$complete"),
         $db->quote($created)
       );
@@ -662,7 +673,7 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, complete = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
@@ -673,6 +684,7 @@ class ilObjTest extends ilObject
 				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
+        $db->quote($this->ending_time), 
 				$db->quote("$complete"),
         $db->quote($this->test_id) 
       );
@@ -741,6 +753,7 @@ class ilObjTest extends ilObject
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
         $this->starting_time = $data->starting_time;
+				$this->ending_time = $data->ending_time;
 
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->loadQuestions();
@@ -1041,6 +1054,19 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Returns the ending time of the test
+* 
+* Returns the ending time of the test
+*
+* @return string The ending time of the test
+* @access public
+* @see $ending_time
+*/
+  function getEndingTime() {
+    return $this->ending_time;
+  }
+
+/**
 * Sets the nr of tries for the test
 * 
 * Sets the nr of tries for the test
@@ -1094,6 +1120,19 @@ class ilObjTest extends ilObject
 */
   function setStartingTime($starting_time = "") {
     $this->starting_time = $starting_time;
+  }
+
+/**
+* Sets the ending time for the test
+* 
+* Sets the ending time in database timestamp format for the test
+*
+* @param string $ending_time The ending time for the test. Empty string for no ending time.
+* @access public
+* @see $ending_time
+*/
+  function setEndingTime($ending_time = "") {
+    $this->ending_time = $ending_time;
   }
   
 /**
@@ -1290,81 +1329,31 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows() == 0)
+		$questiontype = $this->getQuestionType($question_id);
+		switch ($questiontype)
 		{
-			return 0;
+			case "qt_imagemap":
+				$question = new ASS_ImagemapQuestion();
+				break;
+			case "qt_cloze":
+				$question = new ASS_ClozeTest();
+				break;
+			case "qt_javaapplet":
+				$question = new ASS_JavaApplet();
+				break;
+			case "qt_ordering":
+				$question = new ASS_OrderingQuestion();
+				break;
+			case "qt_matching":
+				$question = new ASS_MatchingQuestion();
+				break;
+			case "qt_multiple_choice_sr":
+			case "qt_multiple_choice_mr":
+				$question = new ASS_MultipleChoice();
+				break;
 		}
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote("$row->question_type_fi"),
-			$this->ilias->db->quote("$row->ref_fi"),
-			$this->ilias->db->quote("$row->title"),
-			$this->ilias->db->quote("$row->comment"),
-			$this->ilias->db->quote("$row->author"),
-			$this->ilias->db->quote("$ilUser->id"),
-			$this->ilias->db->quote("$row->question_text"),
-			$this->ilias->db->quote("$row->working_time"),
-			$this->ilias->db->quote("$row->shuffle"),
-			$this->ilias->db->quote("$row->points"),
-			$this->ilias->db->quote("$row->start_tag"),
-			$this->ilias->db->quote("$row->end_tag"),
-			$this->ilias->db->quote("$row->matching_type"),
-			$this->ilias->db->quote("$row->ordering_type"),
-			$this->ilias->db->quote("$row->cloze_type"),
-			$this->ilias->db->quote("$row->choice_response"),
-			$this->ilias->db->quote("$row->materials"),
-			$this->ilias->db->quote("$row->image_file"),
-			$this->ilias->db->quote("$row->params"),
-			$this->ilias->db->quote("$row->complete"),
-			$this->ilias->db->quote("$row->created"),
-			$this->ilias->db->quote("$row->question_id")
-		);
-		$result = $this->ilias->db->query($query);
-		$duplicate_id = $this->ilias->db->getLastInsertId();
-		
-		$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$insertquery = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$duplicate_id"),
-				$this->ilias->db->quote("$row->name"),
-				$this->ilias->db->quote("$row->shuffle"),
-				$this->ilias->db->quote("$row->answertext"),
-				$this->ilias->db->quote("$row->points"),
-				$this->ilias->db->quote("$row->aorder"),
-				$this->ilias->db->quote("$row->correctness"),
-				$this->ilias->db->quote("$row->solution_order"),
-				$this->ilias->db->quote("$row->matchingtext"),
-				$this->ilias->db->quote("$row->matching_order"),
-				$this->ilias->db->quote("$row->gap_id"),
-				$this->ilias->db->quote("$row->cloze_type"),
-				$this->ilias->db->quote("$row->coords"),
-				$this->ilias->db->quote("$row->area")
-			);
-	    $insertresult = $this->ilias->db->query($insertquery);
-		}
-
-		// copy question materials
-		$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-    $result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$insertquery = sprintf("INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote("$duplicate_id"),
-				$this->ilias->db->quote("$row->materials"),
-				$this->ilias->db->quote("$row->materials_file")
-			);
-	    $insertresult = $this->ilias->db->query($insertquery);
-		}
+		$question->loadFromDb($question_id);
+		$duplicate_id = $question->duplicate(true);
 		return $duplicate_id;
 	}
 	
@@ -2376,6 +2365,34 @@ class ilObjTest extends ilObject
 			if ($this->getStartingTime()) 
 			{
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches);
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) 
+				{
+					// starting time not reachd
+					return false;
+				}
+			}
+		}
+		return true;
+	}		
+	
+/**
+* Returns true if the ending time of a test is reached
+*
+* Returns true if the ending time of a test is reached
+* An ending time is not available for self assessment tests
+*
+* @return boolean true if the ending time is reached, otherwise false
+* @access public
+*/
+	function endingTimeReached()
+	{
+		if ($this->getTestType() == TYPE_ASSESSMENT) 
+		{
+			if ($this->getEndingTime()) 
+			{
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches);
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
 				if ($now < $epoch_time) 
