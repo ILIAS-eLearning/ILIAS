@@ -1194,7 +1194,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$add_parameter = $this->getAddParameter();
 
 		if ($_POST["cmd"]["new_simple"]) {
-			$this->object->mark_schema->create_simple_schema("failed", "failed", 0, 0, "passed", "passed", 50, 1);
+			$this->object->mark_schema->create_simple_schema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
 		} elseif (count($_POST)) {
 			$this->object->mark_schema->flush();
 			foreach ($_POST as $key => $value) {
