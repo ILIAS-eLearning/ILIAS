@@ -2147,26 +2147,24 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns a sorted array containing the total points of all users which participated the test
+* Returns an array with the total points of all users which participated the test
 * 
-* Returns a sorted array containing the total points of all users which participated the test.
-* This array could be used to calculate the median.
+* Returns an array with the total points of all users which participated the test
+* This array could be used for statistics
 *
-* @return array The sorted total point values
+* @return array The total point values
 * @access public
 */
-	function &getMedianArray()
+	function &getTotalPointsArray()
 	{
-		$median_array = array();
+		$totalpoints_array = array();
 		$all_users =& $this->evalTotalPersonsArray();
 		foreach ($all_users as $user_id => $user_name)
 		{
 			$test_result =& $this->getTestResult($user_id);
-			array_push($median_array, $test_result["test"]["total_reached_points"]);
+			array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
 		}
-		sort($median_array);
-		reset($median_array);
-		return $median_array;
+		return $totalpoints_array;
 	}
 
 /**
