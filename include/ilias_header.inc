@@ -57,7 +57,7 @@ $ilias = new ILIAS;
 
 if (DEBUG)
 {
-	require_once "include/debug.inc";
+	require_once "include/inc.debug.php";
 }
 
 //authenticate
