@@ -9,13 +9,37 @@
 <script>
 //opener.location='{MOVECOPYLINK}';
 </script>
-<a href='#' onClick="doAction();return(false);">Test</a>
+
+<form name="form">
+<br><br>
+	<input type="radio" name="position" value="after" checked>Dahinter einfügen<br>
+	<input type="radio" name="position" value="before">Davor einfügen<br>
+	<p>
+	<input type="radio" name="copymove" value="move" checked>Objekt verschieben<br>
+	<input type="radio" name="copymove" value="copy">Objekt kopieren<br>
+	<p>
+<br><br>	
+	<table cellspacing=0 cellpadding=0 width=100%><tr>
+		<td>
+			<input type="button" value="Ausführen" onClick="doAction();" class="submit">
+		</td><td align=right>
+			<input type="button" value="Schließen" onClick="window.close();" class="submit">
+		</td>
+	</tr></table>
+		
+	
+</form>
+
 
 <script>
 function doAction() {
+	if(document.form.copymove[0].checked) opener.copymove = "move"; else opener.copymove = "copy";
+	if(document.form.position[0].checked) opener.position = "after"; else opener.position = "before";
 	opener.doDragDropAction();
 	setTimeout("window.close();",400);
 }
+
+
 </script>
 
 </body>

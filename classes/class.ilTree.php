@@ -414,7 +414,26 @@ class ilTree
 
 	
 	function proceedDragDrop() {
-		echo "X";
+		// node-id of dragged object
+		$sourceId = $_GET["dragdropSource"];
+		
+		// node-id of object under dragged obj at drop
+		$targetId = $_GET["dragdropTarget"];
+		
+		// "move" | "copy"
+		$movecopy = $_GET["dragdropMovecopy"];
+		
+		// "after" | "before" : copy or move the source-object before or after the selected target-object.
+		$position = $_GET["dragdropPosition"];
+		
+		
+		echo "sourceId: $sourceId<br>";
+		echo "targetId: $targetId<br>";
+		echo "move or copy: $movecopy<br>";
+		echo "position: $position<br>";
+		
+		// call the right functions.
+		
 	}
 	
 	
