@@ -4,10 +4,18 @@
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<script src="scorm_functions.js" ></script>
+	<script>
+	
+	function start(){
+		contentwin=window.open("{ITEM_LOCATION}","contentwin", "width=800, height=600");
+		//parent.frames[1].location.href="/ilias3/lm_data/lm_276/data/adapter.htm";
+	}
+</script>
 </head>
-<frameset rows="100,*">
-<frame src="scorm_presentation.php?cmd=api&obj_id={ITEM_ID}&ref_id={REF_ID}&user_id={USER_ID}" name="API" marginwidth="0" marginheight="0" scrolling="no" />
-<frame src="{ITEM_LOCATION}" name="item" marginwidth="0" marginheight="0" scrolling="auto"/>
+<frameset rows="0,*">
+<frame src="scorm_presentation.php?cmd=api&obj_id={ITEM_ID}&ref_id={REF_ID}&user_id={USER_ID}&item_location={ITEM_LOCATION}" name="AP" marginwidth="0" marginheight="0" scrolling="no" />
+<frame src="dummy.html" name="item" marginwidth="0" marginheight="0" scrolling="auto"/>
 <noframes>
 The editor interface requires a <b>frames-capable</b> web browser.
 </noframes>
