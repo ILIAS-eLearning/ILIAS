@@ -153,7 +153,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$direction = 0;
-		$error = 0;
+		$page_error = 0;
+		$errormsg = "";
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"] or $_POST["cmd"]["skip_next"] or $_POST["cmd"]["skip_previous"])
 		{
 			$activepage = "";
@@ -169,47 +170,49 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$page = $this->object->getNextPage($_GET["qid"], 0);
 				foreach ($page as $data)
 				{
+					$error = 0;
 					if (strcmp($data["type_tag"], "qt_metric") == 0)
 					{
 						// there is a metric question -> check input
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (($_POST[$_GET["qid"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$_GET["qid"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0)))
+						if ((strcmp($_POST[$data["question_id"] . "_metric_question"], "") == 0) or (($_POST[$data["question_id"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$data["question_id"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0))))
 						{
 							// there is an error: value is not in bounds
-							sendInfo("metric_question_out_of_bounds");
+							$errormsg .= $this->lng->txt("metric_question_out_of_bounds") . "<br />";
 							$error = 1;
 						}
 					}
 					if (strcmp($data["type_tag"], "qt_nominal") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$_GET["qid"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR))
+						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR))
 						{
 							// none of the radio buttons was checked
-							sendInfo("nominal_question_not_checked");
+							$errormsg .= $this->lng->txt("nominal_question_not_checked")  . "<br />";
 							$error = 1;
 						}
 					}
 					if (strcmp($data["type_tag"], "qt_ordinal") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (strcmp($_POST[$_GET["qid"] . "_value"], "") == 0)
+						if (strcmp($_POST[$data["question_id"] . "_value"], "") == 0)
 						{
 							// none of the radio buttons was checked
-							sendInfo("ordinal_question_not_checked");
+							$errormsg .= $this->lng->txt("ordinal_question_not_checked")  . "<br />";
 							$error = 1;
 						}
 					}
 					if (strcmp($data["type_tag"], "qt_text") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (strcmp($_POST[$_GET["qid"] . "_text_question"], "") == 0)
+						if (strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0)
 						{
 							// none of the radio buttons was checked
-							sendInfo("text_question_not_filled_out");
+							$errormsg .= $this->lng->txt("text_question_not_filled_out")  . "<br />";
 							$error = 1;
 						}
 					}
+					$page_error += $error;
 					if (!$error)
 					{
 						// save user input
@@ -219,13 +222,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 							case "qt_nominal":
 								if ($data["subtype"] == SUBTYPE_MCSR)
 								{
-									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_value"]);
+									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_value"]);
 								}
 								else
 								{
-									if (is_array($_POST[$_GET["qid"] . "_value"]))
+									if (is_array($_POST[$data["question_id"] . "_value"]))
 									{
-										foreach ($_POST[$_GET["qid"] . "_value"] as $value)
+										foreach ($_POST[$data["question_id"] . "_value"] as $value)
 										{
 											$this->object->saveWorkingData($data["question_id"], $ilUser->id, $value);
 										}
@@ -237,23 +240,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 								}
 								break;
 							case "qt_ordinal":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_value"]);
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_value"]);
 								break;
 							case "qt_metric":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_metric_question"]);
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$data["question_id"] . "_metric_question"]);
 								break;
 							case "qt_text":
-								$this->object->saveWorkingData($data["question_id"], $ilUser->id, 0, ilUtil::stripSlashes($_POST[$_GET["qid"] . "_text_question"]));
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, 0, ilUtil::stripSlashes($_POST[$data["question_id"] . "_text_question"]));
 								break;
 						}
 					}
 				}
 			}
 			
+			if ($page_error)
+			{
+				sendInfo($errormsg);
+			}
+			
 			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["skip_previous"])
 			{
 				$activepage = $_GET["qid"];
-				if (!$error)
+				if (!$page_error)
 				{
 					$direction = -1;
 				}
@@ -261,7 +269,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			else if ($_POST["cmd"]["next"] or $_POST["cmd"]["skip_next"])
 			{
 				$activepage = $_GET["qid"];
-				if (!$error)
+				if (!$page_error)
 				{
 					$direction = 1;
 				}
@@ -276,6 +284,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else if ($page === 1)
 			{
+				$this->object->finishSurvey($ilUser->id);
 				$this->runShowFinishedPage();
 				return;
 			}
@@ -307,7 +316,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 				}
 				$this->tpl->parseCurrentBlock();
-				if ((count($page) == 1) and ($page[0]["obligatory"] == 0))
+				if ($page[0]["obligatory"] == 0)
 				{
 					// The question is not obligatory. Display skip buttons
 					$this->tpl->setCurrentBlock("skipprev");
@@ -365,7 +374,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("start");
 		if ($this->object->isSurveyStarted($ilUser->id) === 1)
 		{
-			sendInfo("already_completed_survey");
+			sendInfo($this->lng->txt("already_completed_survey"));
 			$this->tpl->setCurrentBlock("start");
 			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
 			$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
