@@ -87,6 +87,14 @@ class RoleFolderObject extends Object
 		parent::deleteObject($a_obj_id,$a_parent);
 		return true;
 	}
+
+	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
+	{
+		// DO NOTHING ROLE FOLDERS AREN'T COPIED
+		//	$new_id = parent::cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
+		return true;
+	}
+
 	function getSubObjects()	
 	{
 		return false;

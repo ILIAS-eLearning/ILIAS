@@ -499,3 +499,11 @@ INSERT INTO lng_data VALUES ('common', 'lang_fr', 'en', 'Franz&ouml;sish');
 INSERT INTO lng_data VALUES ('common', 'lang_it', 'en', 'Italienish');
 INSERT INTO lng_data VALUES ('common', 'lang_id', 'en', 'Indonesish');
 INSERT INTO lng_data VALUES ('common', 'lang_xx', 'en', 'benutzerdefiniert');
+<#4>
+# CREATE NEW ROOT FOLDER OBJECT
+INSERT INTO object_data VALUES ('33', 'typ', 'root', 'Root Folder Object', '0', now(), now());
+UPDATE object_data SET type = 'root' WHERE obj_id = '1' AND type = 'cat';
+INSERT INTO rbac_ta VALUES ('33','1');
+INSERT INTO rbac_ta VALUES ('33','2');
+INSERT INTO rbac_ta VALUES ('33','3');
+INSERT INTO rbac_ta VALUES ('33','4');
