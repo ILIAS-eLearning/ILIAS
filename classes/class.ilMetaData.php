@@ -245,7 +245,7 @@ class ilMetaData
 	/**
 	* get technical section number $a_nr (starting with 1!)
 	*/
-	function &getTechnicalSection($a_nr)
+	function &getTechnicalSection($a_nr = 1)
 	{
 //echo "counttech:".count($this->technicals).":<br>";
 		if ($a_nr > count($this->technicals))

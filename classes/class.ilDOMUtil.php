@@ -38,7 +38,8 @@ class ilDOMUtil
 	* $a_successors. the content of the node is set to $a_content and the
 	* attributes to $a_attributes
 	*/
-	function setFirstOptionalElement(&$doc, &$parent_node, $a_node_name, $a_successors, $a_content, $a_attributes)
+	function setFirstOptionalElement(&$doc, &$parent_node, $a_node_name, $a_successors,
+		$a_content, $a_attributes, $a_remove_childs = true)
 	{
 		$search = $a_successors;
 		$search[] = $a_node_name;
@@ -62,14 +63,7 @@ class ilDOMUtil
 		if(!$found)
 		{
 			$new_node =& $doc->create_element($a_node_name);
-			//if($cnt_childs == 0)
-			//{
-				$new_node =& $parent_node->append_child($new_node);
-			/*}
-			else
-			{
-				$new_node =& $childs[0]->insert_before($new_node, $childs[0]);
-			}*/
+			$new_node =& $parent_node->append_child($new_node);
 			$new_node->set_content($a_content);
 			ilDOMUtil::set_attributes($new_node, $a_attributes);
 		}
@@ -77,10 +71,13 @@ class ilDOMUtil
 		{
 			if ($child_name == $a_node_name)
 			{
-				$childs2 = $child->child_nodes();
-				for($i=0; $i<count($childs2); $i++)
+				if ($a_remove_childs)
 				{
-					$child->remove_child($childs2[$i]);
+					$childs2 = $child->child_nodes();
+					for($i=0; $i<count($childs2); $i++)
+					{
+						$child->remove_child($childs2[$i]);
+					}
 				}
 				$child->set_content($a_content);
 				ilDOMUtil::set_attributes($child, $a_attributes);
@@ -105,7 +102,17 @@ class ilDOMUtil
 	{
 		foreach ($a_attributes as $attribute => $value)
 		{
-			$a_node->set_attribute($attribute, $value);
+			if ($value != "")
+			{
+				$a_node->set_attribute($attribute, $value);
+			}
+			else
+			{
+				if ($a_node->has_attribute($attibute))
+				{
+					$a_node->remove_attribute($attribute);
+				}
+			}
 		}
 	}
 

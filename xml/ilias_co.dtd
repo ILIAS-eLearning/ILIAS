@@ -71,11 +71,13 @@
 <!-- MediaObject is not an alias -->
 <!-- Every MediaItem belongs to a corresponding format/location pair in the technical
 	 Section of Meta Data -->
+<!--  Max. one Standard and one Fullscreen Item per MediaItem-->
 <!ELEMENT MediaItem (Layout?, Caption?, Parameter*, MapArea*)>
 <!ATTLIST MediaItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
-<!-- MapAreas should be only defined for image objects with purpose Standard or Fullscreen -->
+<!-- MapAreas should be only defined for image objects (no alias) with purpose
+	Standard or Fullscreen -->
 <!ELEMENT MapArea EMPTY>
 <!ATTLIST MapArea
 	Shape (Rect | Circle | Poly) #REQUIRED

@@ -23,6 +23,7 @@
 
 require_once ("content/classes/class.ilPageContentGUI.php");
 require_once ("content/classes/class.ilMediaObject.php");
+require_once ("content/classes/class.ilMediaAliasItem.php");
 
 /**
 * Class ilMediaObjectGUI
@@ -108,6 +109,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$media_item =& new ilMediaItem();
 		$this->content_obj->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
+		$meta =& $this->content_obj->getMetaData();
+		$meta_technical =& new ilMetaTechnical($meta);
+
 		if ($_POST["standard_type"] == "File")
 		{
 			$file = $mob_dir."/".$_FILES['standard_file']['name'];
@@ -115,27 +119,21 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 			// set real meta and object data
 			$format = ilMediaObject::getMimeType($file);
-			$meta =& $this->content_obj->getMetaData();
-			$meta_technical =& new ilMetaTechnical($meta);
 			$meta_technical->addFormat($format);
 			$meta_technical->setSize($_FILES['standard_file']['size']);
 			$meta_technical->addLocation("LocalFile", $_FILES['standard_file']['name']);
-			$meta->addTechnicalSection($meta_technical);
 			$this->content_obj->setTitle($_FILES['standard_file']['name']);
-			$this->content_obj->setDescription($format);
 		}
 		else	// standard type: reference
 		{
 			$format = ilMediaObject::getMimeType($_POST["standard_reference"]);
-			$meta =& $this->content_obj->getMetaData();
-			$meta_technical =& new ilMetaTechnical($meta);
 			$meta_technical->addFormat($format);
 			$meta_technical->setSize(0);
 			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
-			$meta->addTechnicalSection($meta_technical);
 			$this->content_obj->setTitle($_POST["standard_reference"]);
-			$this->content_obj->setDescription($format);
 		}
+		$meta->addTechnicalSection($meta_technical);
+		$this->content_obj->setDescription($format);
 
 		// determine width and height of known image types
 		if ($_POST["standard_size"] == "original")
@@ -162,6 +160,66 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		$media_item->setHAlign("Left");
+
+		// fullscreen view
+		if ($_POST["fullscreen"] == "y")
+		{
+			$media_item =& new ilMediaItem();
+			$this->content_obj->addMediaItem($media_item);
+			$media_item->setPurpose("Fullscreen");
+
+			// file
+			if ($_POST["full_type"] == "File")
+			{
+				if ($_FILES['full_file']['name'] != "")
+				{
+					$file = $mob_dir."/".$_FILES['full_file']['name'];
+					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+
+					// set real meta and object data
+					$format = ilMediaObject::getMimeType($file);
+					$meta_technical->addFormat($format);
+					$meta_technical->setSize($meta_technical->getSize()
+					 + $_FILES['full_file']['size']);
+					$meta_technical->addLocation("LocalFile", $_FILES['full_file']['name']);
+				}
+			}
+			else	// reference
+			{
+				if ($_POST["full_reference"] != "")
+				{
+					$format = ilMediaObject::getMimeType($_POST["full_reference"]);
+					$meta_technical->addFormat($format);
+					$meta_technical->addLocation("Reference", $_POST["full_reference"]);
+				}
+			}
+
+			// determine width and height of known image types
+			if ($_POST["full_size"] == "original")
+			{
+				if (($format == "image/gif") || ($format == "image/jpeg") ||
+					($format == "image/png") || ($format == "application/x-shockwave-flash") ||
+					($format == "image/tiff") || ($format == "image/x-ms-bmp") ||
+					($format == "image/psd") || ($format == "image/iff"))
+				{
+					$size = getimagesize($file);
+					$media_item->setWidth($size[0]);
+					$media_item->setHeight($size[1]);
+				}
+			}
+			else
+			{
+				$media_item->setWidth($_POST["full_width"]);
+				$media_item->setHeight($_POST["full_height"]);
+			}
+
+			if ($_POST["standard_caption"] != "")
+			{
+				$media_item->setCaption($_POST["standard_caption"]);
+			}
+
+		}
+
 		$this->content_obj->update();
 
 		$this->content_obj->setDom($this->dom);
@@ -186,9 +244,21 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		// add paragraph edit template
+		$meta =& $this->content_obj->getMetaData();
+		$meta_tech =& $meta->getTechnicalSection();
+		$locations = $meta_tech->getLocations();
+		$formats = $meta_tech->getFormats();
+
+		$item_nr = $this->content_obj->getMediaItemNr("Standard");
+
+		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+
+		// edit media alias template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", true);
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_properties"));
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_standard_view"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$locations[$item_nr]["type"]));
+		$this->tpl->setVariable("TXT_LOCATION", $this->lng->txt("cont_".$locations[$item_nr]["loc"]));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
@@ -201,17 +271,17 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// width
 		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
 		$this->tpl->setVariable("INPUT_MOB_WIDTH", "mob_width");
-		$this->tpl->setVariable("VAL_MOB_WIDTH", $this->content_obj->getAliasWidth());
+		$this->tpl->setVariable("VAL_MOB_WIDTH", $std_item->getWidth());
 
 		// height
 		$this->tpl->setVariable("TXT_MOB_HEIGHT", $this->lng->txt("cont_height"));
 		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
-		$this->tpl->setVariable("VAL_MOB_HEIGHT", $this->content_obj->getAliasHeight());
+		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_item->getHeight());
 
 		// caption
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
-		$this->tpl->setVariable("VAL_CAPTION", $this->content_obj->getAliasCaption());
+		$this->tpl->setVariable("VAL_CAPTION", $std_item->getCaption());
 
 		$this->tpl->parseCurrentBlock();
 
@@ -229,9 +299,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function saveProperties()
 	{
-		$this->content_obj->setAliasWidth($_POST["mob_width"]);
-		$this->content_obj->setAliasHeight($_POST["mob_height"]);
-		$this->content_obj->setAliasCaption($_POST["mob_caption"]);
+		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+
+		$std_item->setWidth($_POST["mob_width"]);
+		$std_item->setHeight($_POST["mob_height"]);
+		$std_item->setCaption($_POST["mob_caption"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
