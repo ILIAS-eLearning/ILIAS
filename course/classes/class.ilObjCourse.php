@@ -307,7 +307,7 @@ class ilObjCourse extends ilObject
 	{
 		if($this->getMessage())
 		{
-			$this->message .= " ";
+			$this->message .= "<br /> ";
 		}
 		$this->message .= $a_message;
 	}
@@ -444,6 +444,39 @@ class ilObjCourse extends ilObject
 		$new_ref_id = parent::ilClone($a_parent_ref);
 		
 		// put here crs specific stuff
+		$new_course =& ilObjectFactory::getInstanceByRefId($new_ref_id);
+
+		$new_course->__initDefaultRoles();
+		$new_course->initCourseMemberObject();
+		$new_course->members_obj->add($this->ilias->account,$new_course->members_obj->ROLE_ADMIN);
+		$new_course->__createDefaultSettings();
+
+
+		$new_course->setSyllabus($this->getSyllabus());
+		$new_course->setContactName($this->getContactName());
+		$new_course->setContactConsultation($this->getContactConsultation());
+		$new_course->setContactPhone($this->getContactPhone());
+		$new_course->setContactEmail($this->getContactEmail());
+		$new_course->setContactResponsibility($this->getContactResponsibility());
+
+		$new_course->setActivationUnlimitedStatus($this->getActivationUnlimitedStatus());
+		$new_course->setActivationStart($this->getActivationStart());
+		$new_course->setActivationEnd($this->getActivationEnd());
+		$new_course->setOfflineStatus($this->getOfflineStatus());
+
+		$new_course->setSubscriptionUnlimitedStatus($this->getSubscriptionUnlimitedStatus());
+		$new_course->setSubscriptionStart($this->getSubscriptionStart());
+		$new_course->setSubscriptionEnd($this->getSubscriptionEnd());
+		$new_course->setSubscriptionType($this->getSubscriptionType());
+		$new_course->setSubscriptionPassword($this->getSubscriptionPassword());
+		$new_course->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
+		$new_course->setSubscriptionNotify($this->getSubscriptionNotify());
+		$new_course->setOrderType($this->getOrderType());
+		$new_course->setArchiveStart($this->getArchiveStart());
+		$new_course->setArchiveEnd($this->getArchiveEnd());
+		$new_course->setArchiveType($this->getArchiveType());
+
+		$new_course->update();
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
