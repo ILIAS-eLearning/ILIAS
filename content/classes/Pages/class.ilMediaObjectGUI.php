@@ -1041,6 +1041,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	function editMapAreas()
 	{
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
+
 		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
 
 		// output image map
@@ -1066,6 +1071,14 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_COORDS", $this->lng->txt("cont_coords"));
 		$this->tpl->setVariable("TXT_LINK", $this->lng->txt("cont_link"));
 
+		// output command line
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_UPDATE", "updateAreas");
+		$this->tpl->setVariable("TXT_UPDATE", $this->lng->txt("cont_update"));
+		$this->tpl->setVariable("BTN_ADD_AREA", "addArea");
+		$this->tpl->setVariable("TXT_ADD_AREA", $this->lng->txt("cont_add_area"));
+		$this->tpl->parseCurrentBlock();
+
 		// output area data
 		$st_item =& $this->content_obj->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
@@ -1077,6 +1090,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 
 			$area =& new ilMapArea($st_item->getId(), $i);
+			$this->tpl->setVariable("VAR_NAME", "name_".$i);
 			$this->tpl->setVariable("VAL_NAME", $area->getTitle());
 			$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
 			$this->tpl->setVariable("VAL_COORDS", $area->getCoords());
@@ -1101,6 +1115,23 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* update map areas
+	*/
+	function updateAreas()
+	{
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+		for ($i=1; $i<=$max; $i++)
+		{
+			$area =& new ilMapArea($st_item->getId(), $i);
+			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
+			$area->update();
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
 
 
