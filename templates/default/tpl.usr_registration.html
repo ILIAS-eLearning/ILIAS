@@ -1,6 +1,59 @@
 <style>
 body { margin:0px; }
 </style>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr class="btnbar">
+    <td width="1%" height="1"></td>
+    <td width="48%" height="1"></td>
+    <td width="10%" height="1"></td>
+    <td width="1%" height="1"></td>
+  </tr>
+  <tr class="btnbar">
+	<td align="left"><img class="spacer" src="./images/spacer.gif" border="0" width="10" height="1" /></td>
+    <td>
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="3"><img class="spacer" border="0" src="./images/spacer.gif" width="1" height="4" /></td>
+        </tr>
+		<tr> 
+          <td align="left"><a href="http://www.ilias.uni-koeln.de" target="_blank"><img border="0" src="./templates/default/blueshadow/images/navbar/ilias.gif" width="32" height="32" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a></td>
+          <td align="left"><img class="spacer" src="./images/spacer.gif" border="0" width="10" height="1" /></td>
+          <td class="menu">{TXT_PAGETITLE}</td>
+        </tr>
+        <tr>
+          <td colspan="3"><img class="spacer" border="0" src="./images/spacer.gif" width="1" height="5" /></td>
+        </tr>
+	  </table>
+	</td>
+	<td>
+	<table align="right">
+	<tr>
+<!-- BEGIN languages -->
+		<td>
+		<a href="{LINK_LANG}"><img src="./images/flags/{LANG_ICON}.gif" border="{BORDER}" vspace="{VSPACE}" hspace="0" title="{LANG_NAME}" alt="{LANG_NAME}"/></a> 
+	    </td>
+<!-- BEGIN lng_new_row -->
+	</tr><tr>
+<!-- END lng_new_row -->
+<!-- END languages -->
+<!-- BEGIN lng_empty_cell -->
+	<td>&nbsp;</td>
+<!-- END lng_empty_cell -->
+	</tr>
+	</table>
+	</td>
+	<td align="left"><img class="spacer" src="./images/spacer.gif" border="0" width="10" height="1" /></td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
 {STATUSLINE}
 <div class="invisible_border">
 <div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
@@ -29,8 +82,8 @@ body { margin:0px; }
   <tr>
     <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
     <td class="option_value">
-	<input type="radio" name="Fobject[gender]" value="f" {BTN_GENDER_F}/> {TXT_GENDER_F}
-	&nbsp;&nbsp;&nbsp;<input type="radio" name="Fobject[gender]" value="m" {BTN_GENDER_M}/> {TXT_GENDER_M}
+	<input type="radio" name="Fobject[gender]" value="f" id="gender_f" {BTN_GENDER_F}/> <label for="gender_f">{TXT_GENDER_F}</label>
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="Fobject[gender]" value="m" id="gender_m" {BTN_GENDER_M}/> <label for="gender_m">{TXT_GENDER_M}</label>
     </td>
   </tr>
   <tr>
@@ -125,7 +178,7 @@ body { margin:0px; }
 	</td>
   </tr>
   <tr>
-  	<td class="option">{ACCEPT_AGREEMENT}</td>
+  	<td class="option"><label for="status">{ACCEPT_AGREEMENT}</label></td>
     <td class="option_value">
 	{ACCEPT_CHECKBOX}
     </td>
