@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.8 2003/07/18 13:16:35 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.9 2003/08/25 14:10:39 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -109,6 +109,44 @@ class ilObjRootFolder extends ilObject
 	*/
 	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{
+		global $tree;
+		
+		switch ($a_event)
+		{
+			case "link":
+				
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "RootFolder ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "cut":
+				
+				//echo "RootFolder ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+				
+			case "copy":
+			
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "RootFolder ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+
+			case "paste":
+				
+				//echo "RootFolder ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "new":
+				
+				//echo "RootFolder ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+		}
+		
+		
 		return true;
 	}
 } // END class.ObjRootFolder

@@ -451,8 +451,54 @@ class ilObjContentObject extends ilObject
 	*/
 	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{
-		// object specific event handling
+		global $tree;
+		
+		switch ($a_event)
+		{
+			case "link":
+				
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Content Object ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "cut":
+				
+				//echo "Content Object ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+				
+			case "copy":
+			
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Content Object ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
 
+			case "paste":
+				
+				//echo "Content Object ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "new":
+				
+				//echo "Content Object ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+		}
+		
+		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
+		if ($a_node_id==$a_ref_id)
+		{	
+			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
+			$parent_type = $parent_obj->getType();
+			if($parent_type == $this->getType())
+			{
+				$a_node_id = (int) $tree->getParentId($a_node_id);
+			}
+		}
+		
 		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
