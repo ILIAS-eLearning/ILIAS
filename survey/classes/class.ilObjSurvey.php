@@ -1988,16 +1988,30 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestions($questionblock_id)
 	{
 		$titles = array();
-		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
-			$this->ilias->db->quote($this->getId()),
+		$query = sprintf("SELECT survey_question.title, survey_questionblock_question.question_fi, survey_questionblock_question.survey_fi FROM survey_questionblock, survey_questionblock_question, survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_question.question_id = survey_questionblock_question.question_fi AND survey_questionblock.questionblock_id = %s",
 			$this->ilias->db->quote($questionblock_id)
 		);
 		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		$survey_id = "";
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$titles[$row->sequence] = $row->questiontitle;
+			$titles[$row["question_fi"]] = $row["title"];
+			$survey_id = $row["survey_fi"];
 		}
-		return $titles;
+		$query = sprintf("SELECT question_fi, sequence FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
+			$this->ilias->db->quote($survey_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$resultarray = array();
+		$counter = 1;
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (array_key_exists($row["question_fi"], $titles))
+			{
+				$resultarray[$counter++] = $titles[$row["question_fi"]];
+			}
+		}
+		return $resultarray;
 	}
 	
 /**
