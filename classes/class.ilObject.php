@@ -730,12 +730,12 @@ class ilObject
 	* @param	object	parent object where the rolefolder is attached to
 	* @return	object	rolefolder object
 	*/
-	function createRoleFolder($a_title,$a_desc)
+	function createRoleFolder()
 	{
 		include_once ("classes/class.ilObjRoleFolder.php");
 		$rfoldObj = new ilObjRoleFolder();
-		$rfoldObj->setTitle($a_title);
-		$rfoldObj->setDescription($a_desc);
+		$rfoldObj->setTitle($this->getId());
+		$rfoldObj->setDescription(" (ref_id ".$this->getRefId().")");
 		$rfoldObj->create();
 		$rfoldObj->createReference();
 		$rfoldObj->putInTree($this->getRefId());

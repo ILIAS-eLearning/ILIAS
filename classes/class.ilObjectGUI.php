@@ -1743,7 +1743,10 @@ class ilObjectGUI
 				}
 				else
 				{
-					include_once ("classes/class.ilObjRoleFolder.php");
+					// create a local role folder
+					$rfoldObj = $this->object->createRoleFolder();
+
+					/*include_once ("classes/class.ilObjRoleFolder.php");
 					$rolfObj = new ilObjRoleFolder();
 					$rolfObj->setTitle("Local roles");
 					$rolfObj->setDescription("Role Folder of object no. ".$_GET["ref_id"]);
@@ -1752,8 +1755,10 @@ class ilObjectGUI
 					$rolfObj->putInTree($_GET["ref_id"]);
 					$rolfObj->setPermissions($_GET["ref_id"]);
 					unset($rolfObj);
+					*/
 			
 					// now load rolefolder data again
+					// TODO: why don't take the data from object above??
 					$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 				}
 			}
@@ -2319,14 +2324,16 @@ class ilObjectGUI
 				else
 				{
 					// create a rolefolder
-					include_once ("./classes/class.ilObjRoleFolder.php");
+					$rolfObj = $this->object->createRoleFolder();
+					
+					/*include_once ("./classes/class.ilObjRoleFolder.php");
 					$rolfObj = new ilObjRoleFolder();
 					$rolfObj->setTitle("Role Folder");
 					$rolfObj->setDescription("Automatically generated Role Folder for ref no. ".$this->object->getRefId());
 					$rolfObj->create();
 					$rolfObj->createReference();
 					$rolfObj->putInTree($this->object->getRefId());
-					$rolfObj->setPermissions($_GET["ref_id"]);
+					$rolfObj->setPermissions($_GET["ref_id"]);*/
 
 					$rolf_id = $rolfObj->getRefId();
 
@@ -2356,6 +2363,7 @@ class ilObjectGUI
 		}
 		else
 		{
+			// TODO: we can use the member function"createRole" of rolefolder object above!!!
 			include_once ("./classes/class.ilObjRole.php");
 			$roleObj = new ilObjRole();
 			$roleObj->setTitle($_POST["Flocal_role"]);

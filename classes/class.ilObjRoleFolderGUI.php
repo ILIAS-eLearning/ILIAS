@@ -186,6 +186,19 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	}
 	
 	/**
+	* role folders are created automatically
+	*
+	* @access	public
+	*/
+	function createObject()
+	{
+		$this->object->setTitle($this->lng->txt("obj_".$this->object->getType()."_local"));
+		$this->object->setDescription("obj_".$this->object->getType()."_local_desc");
+		
+		$this->saveObject();
+	}
+	
+	/**
 	* display deletion confirmation screen
 	*
 	* @access	public
@@ -341,6 +354,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
+
+		// role folders are created automatically
+		$_GET["new_type"] = $this->object->getType();
+		$_POST["Fobject"]["title"] = $this->object->getTitle();
+		$_POST["Fobject"]["desc"] = $this->object->getDescription();
 
 		// always call parent method first to create an object_data entry & a reference
 		$newObj = parent::saveObject();
