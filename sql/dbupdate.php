@@ -4303,7 +4303,7 @@ if ($res->numRows() > 1)
 	}
 
 	$tree->renumber();
-}
+ }
 ?>
 <#259>
 ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
@@ -4994,3 +4994,9 @@ UPDATE settings SET value = '3.2.2 2004-11-19' WHERE keyword = 'ilias_version' L
 <#339>
 UPDATE settings SET value = '3.2.3 2004-11-22' WHERE keyword = 'ilias_version' LIMIT 1;
 
+<#340>
+<?php
+
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->renumber();
+?>
