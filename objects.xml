@@ -29,6 +29,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="check">system_check</property>
+	<property name="benchmark">benchmarks</property>
 </object>
 <object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
@@ -38,8 +39,8 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
-     	<subobj name="qpl">qpl</subobj>
-     	<subobj name="tst">tst</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="tst">tst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="dbk">dbk</subobj>
@@ -340,8 +341,8 @@
 	<subobj name="slm">slm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
-     	<subobj name="qpl">qpl</subobj>
-     	<subobj name="tst">tst</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="tst">tst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="dbk">dbk</subobj>

@@ -1228,7 +1228,7 @@ foreach ($arr_pa_entries as $key => $pa_entry)
 	{
 		unset($pa_entry["operations"][$pa_entry["create"]]);
 	}
-	
+
 	switch ($pa_entry)
 	{
 		case "usrf":
@@ -1364,7 +1364,7 @@ foreach ($arr_roles as $role)
 				case "usrf":
 					$arr_selected[] = "13";
 					break;
-					
+
 				case "grp":
 					$arr_selected[] = "18";
 					$arr_selected[] = "20";
@@ -2073,3 +2073,7 @@ CREATE TABLE benchmark
 	duration		DOUBLE(14,5),
 	INDEX (module, benchmark)
 );
+
+<#132>
+REPLACE INTO settings (keyword, value) VALUES ('bench_max_records', 10000);
+REPLACE INTO settings (keyword, value) VALUES ('enable_bench', 0);

@@ -32,8 +32,6 @@
 * @package ilias-core
 */
 
-// activate benchmarks
-define ("IL_BENCH_ACTIVE", false);
 
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";

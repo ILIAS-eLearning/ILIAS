@@ -38,7 +38,6 @@ class ilBenchmark
 	*/
 	function ilBenchmark()
 	{
-
 	}
 
 
@@ -77,10 +76,7 @@ class ilBenchmark
 	*/
 	function start($a_module, $a_bench)
 	{
-		if (IL_BENCH_ACTIVE)
-		{
-			$this->bench[$a_module.":".$a_bench][] = microtime();
-		}
+		$this->bench[$a_module.":".$a_bench][] = microtime();
 	}
 
 
@@ -91,11 +87,8 @@ class ilBenchmark
 	*/
 	function stop($a_module, $a_bench)
 	{
-		if (IL_BENCH_ACTIVE)
-		{
-			$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
-				= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
-		}
+		$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
+			= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
 	}
 
 
@@ -106,7 +99,8 @@ class ilBenchmark
 	{
 		global $ilDB;
 
-		if (IL_BENCH_ACTIVE)
+		if ($this->isEnabled() &&
+			($this->getMaximumRecords() > $this->getCurrentRecordNumber()))
 		{
 			foreach($this->bench as $key => $bench)
 			{
@@ -138,9 +132,10 @@ class ilBenchmark
 		global $ilDB;
 
 		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark FROM benchmark".
-			" HAVING module = '".$a_module."' ".
-			" GROUP BY benchmark ORDER BY benchmark";
-		$bench_set = $ilDB($q);
+			" WHERE module = '".$a_module."' ".
+			" GROUP BY benchmark".
+			" ORDER BY benchmark";
+		$bench_set = $ilDB->query($q);
 		$eva = array();
 		while($bench_rec = $bench_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -150,6 +145,91 @@ class ilBenchmark
 		return $eva;
 	}
 
+
+	/**
+	* get current number of benchmark records
+	*/
+	function getCurrentRecordNumber()
+	{
+		global $ilDB;
+
+		$q = "SELECT COUNT(*) AS cnt FROM benchmark";
+		$cnt_set = $ilDB->query($q);
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $cnt_rec["cnt"];
+	}
+
+
+	/**
+	* get maximum number of benchmark records
+	*/
+	function getMaximumRecords()
+	{
+		global $ilias;
+
+		return $ilias->getSetting("bench_max_records");
+	}
+
+
+	/**
+	* set maximum number of benchmark records
+	*/
+	function setMaximumRecords($a_max)
+	{
+		global $ilias;
+
+		$ilias->setSetting("bench_max_records", (int) $a_max);
+	}
+
+
+	/**
+	* check wether benchmarking is enabled or not
+	*/
+	function isEnabled()
+	{
+		global $ilias;
+
+		return (boolean) $ilias->getSetting("enable_bench");
+	}
+
+
+	/**
+	* enable benchmarking
+	*/
+	function enable($a_enable)
+	{
+		global $ilias;
+
+		if ($a_enable)
+		{
+			$ilias->setSetting("enable_bench", 1);
+		}
+		else
+		{
+			$ilias->setSetting("enable_bench", 0);
+		}
+	}
+
+
+	/**
+	* get all current measured modules
+	*/
+	function getMeasuredModules()
+	{
+		global $ilDB;
+
+		$q = "SELECT DISTINCT module FROM benchmark";
+		$mod_set = $ilDB->query($q);
+
+		$modules = array();
+		while ($mod_rec = $mod_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$modules[$mod_rec["module"]] = $mod_rec["module"];
+		}
+
+		return $modules;
+	}
 
 }
 

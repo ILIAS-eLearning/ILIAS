@@ -973,6 +973,10 @@ common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_modified#:#Modifications saved.
+common#:#show#:#Show
+common#:#benchmark#:#Benchmark
+common#:#number_of_records#:#Number of records
+common#:#average_time#:#Average time
 common#:#msg_obj_no_link#:#are not allowed to be linked
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
@@ -1076,6 +1080,11 @@ common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
+common#:#benchmarks#:#Benchmarks
+common#:#benchmark_settings#:#Benchmark Settings
+common#:#activation#:#Activation
+common#:#cur_number_rec#:#Current number of records
+common#:#max_number_rec#:#Maximum number of records
 common#:#objf#:#Objectdefinitions
 common#:#objf_edit_permission#:#Change permission settings
 common#:#objf_read#:#Read access to Objectdefinitions

@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.26 2004/03/08 16:21:45 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.27 2004/03/09 15:57:13 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -740,7 +740,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
 		}
-		
+
 		// find unbound objects again AFTER cleaning process!
 		$validator->findUnboundObjects();
 		
@@ -776,7 +776,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		// STEP 4: Restoring Trash
 		$scan_log .= "<br /><br />".$this->lng->txt("restoring_trash");
-		
+
 		if (!$validator->isModeEnabled("restore_trash"))
 		{
 			$scan_log .= $this->lng->txt("disabled");
@@ -812,7 +812,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
 			}
 		}
-		
+
 		// STEP 6: Purging trash...
 		$scan_log .= "<br /><br />".$this->lng->txt("purging_trash");
 		
@@ -870,16 +870,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setVariable("TXT_DONE", $this->lng->txt("done"));
-		
+
 		$validator->writeScanLogLine($mode);
 	}
-	
+
 	function viewScanLog()
 	{
 		include_once "classes/class.ilValidator.php";
 		$validator = new IlValidator();
 		$scan_log = $validator->readScanLog();
-		
+
 		if (is_array($scan_log))
 		{
 			$scan_log = nl2br(implode("",$scan_log));
@@ -897,5 +897,97 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
 		$this->tpl->setVariable("TXT_DONE", $this->lng->txt("done"));
 	}
+
+
+	/**
+	* view benchmark settings
+	*/
+	function benchmarkObject()
+	{
+		global $ilBench;
+
+		$this->getTemplateFile("bench");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
+		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
+		$this->tpl->setVariable("TXT_ACTIVATION", $this->lng->txt("activation"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_CUR_RECORDS", $this->lng->txt("cur_number_rec"));
+		$this->tpl->setVariable("VAL_CUR_RECORDS", $ilBench->getCurrentRecordNumber());
+		$this->tpl->setVariable("TXT_MAX_RECORDS", $this->lng->txt("max_number_rec"));
+		$this->tpl->setVariable("VAL_MAX_RECORDS", $ilBench->getMaximumRecords());
+		$this->tpl->setVariable("TXT_SHOW", $this->lng->txt("show"));
+		if($ilBench->isEnabled())
+		{
+			$this->tpl->setVariable("ACT_CHECKED", " checked=\"1\" ");
+		}
+
+		$modules = $ilBench->getMeasuredModules();
+		if (count($modules) > 0)
+		{
+			$cur_module = ($_GET["cur_mod"] != "" &&
+				in_array($_GET["cur_mod"], $modules))
+				? $_GET["cur_mod"]
+				: current($modules);
+
+			$this->tpl->setVariable("SELECT_MODULE",
+				ilUtil::formSelect($cur_module, "module",$modules, false, true));
+
+			$this->tpl->setVariable("TXT_BENCH", $this->lng->txt("benchmark"));
+			$this->tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
+			$this->tpl->setVariable("TXT_AVG_TIME", $this->lng->txt("average_time"));
+
+			$benchs = $ilBench->getEvaluation($cur_module);
+
+			$i=0;
+			foreach($benchs as $bench)
+			{
+				$this->tpl->setCurrentBlock("eval_row");
+				$this->tpl->setVariable("ROWCOL",
+					ilUtil::switchColor($i++, "tblrow2", "tblrow1"));
+
+				$this->tpl->setVariable("VAL_BENCH", $bench["benchmark"]);
+				$this->tpl->setVariable("VAL_NUMBER_RECORDS", $bench["cnt"]);
+				$this->tpl->setVariable("VAL_AVG_TIME", $bench["duration"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
+
+
+	/**
+	* save benchmark settings
+	*/
+	function saveBenchSettingsObject()
+	{
+		global $ilBench;
+
+		if ($_POST["activate"] == "y")
+		{
+			$ilBench->enable(true);
+		}
+		else
+		{
+			$ilBench->enable(false);
+		}
+//echo ":".$_POST["max_records"].":<br>"; exit;
+		$ilBench->setMaximumRecords($_POST["max_records"]);
+
+		sendinfo($this->lng->txt("msg_obj_modified"), true);
+
+		ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
+	}
+
+
+	/**
+	* save benchmark settings
+	*/
+	function switchBenchModuleObject()
+	{
+		global $ilBench;
+
+		ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
+	}
+
+
 } // END class.ilObjSystemFolderGUI
 ?>
