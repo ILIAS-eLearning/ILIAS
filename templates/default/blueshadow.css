@@ -1084,6 +1084,37 @@ div.ilc_Question
 	padding-bottom: 0.5em;
 }
 
+div.textbox
+{
+	width: 200px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.textboximage
+{
+	width: 200px;
+	height: 80px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.imagebox
+{
+	position:relative;
+	width: 150px;
+}
+
 /* --- Survey tool styles --- */
 
 .surveySheet {

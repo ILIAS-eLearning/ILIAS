@@ -1,42 +1,19 @@
-<style>
-body { margin:0px; }
-
-.textbox
-{
-	position:relative;
-	border: 1px solid #000000;
-	background: #DDDDDD;
-	width: 200px;
-<!-- BEGIN styleheight -->
-	height: {STYLE_HEIGHT}px;
-<!-- END styleheight -->
-	padding: 10px;
-	vertical-align: middle;
-	border-style: outset;
-	text-align: center;
-}
-
-.imagebox
-{
-	position:relative;
-	width: 150px;
-}
-
-</style>
 {STATUSLINE}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
 <form name="test_output" method="post" action="{FORMACTION}">
-<div class="il_Header">
-<h1>{HEADER}</h1>
-<table width="100%">
-<tr>
-<td align="left">
+<table class="fullwidth_invisible">
+	<tr>
+		<td class="ilInvisibleBorder">
+
+			<div class="il_Header">
+				<h1>{HEADER}</h1>
+				<table width="100%">
+					<tr>
+						<td align="left">
 <!-- BEGIN prev -->
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev -->
-</td>
-<td align="center">
+						</td>
+						<td align="center">
 <!-- BEGIN percentage -->
 <div align="left" style="height: 15px;
 width: {HUNDRED_PERCENT}px; 
@@ -57,9 +34,8 @@ text-align: center;">
 </div>
 </div>
 <!-- END percentage -->
-</div>
-</td>
-<td align="right">
+					</td>
+					<td align="right">
 <!-- BEGIN postpone -->
 <input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
 &nbsp;&nbsp;
@@ -67,11 +43,11 @@ text-align: center;">
 <!-- BEGIN next -->
 <input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
 <!-- END next -->
-</td>
-</tr>
-</table>
-</div>
-<br/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br/>
 <!-- BEGIN enableprocessingtime -->
 <p>{USER_WORKING_TIME} / {MAXIMUM_PROCESSING_TIME}</p>
 <!-- END enableprocessingtime -->
@@ -85,6 +61,10 @@ text-align: center;">
 <!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
 </p>
 {SYSTEMSETTINGS}
+		</td>
+	</tr>
+</table>
 </form>
-<!--</div>-->
-</td></tr></table>
+<!-- BEGIN js_initialize -->
+{JS_INITIALIZE}
+<!-- END js_initialize --> 
