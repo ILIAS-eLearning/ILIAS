@@ -1,0 +1,442 @@
+<!-- MiLCA DTD -->
+<!-- last edited on 20-08-2002, 9:00 -->
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd">
+%math;
+<!-- language codes referring to ISO 639, see http://www.oasis-open.org/cover/iso639a.html for details. -->
+<!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
+<!ENTITY % text "#PCDATA | Comment | Link | Emph | Strong | Quotation | Code |  List | Reference | RefTarget | Table | GlossaryTerm | Lex | Grammar | Examples | Example | Mention | Exercises | Exercise | Formula">
+<!ENTITY % commenttext "#PCDATA | Link | Emph | Strong | Quotation | Code |  List | Reference | RefTarget | Table | GlossaryTerm | Lex | Grammar | Examples | Example | Mention | Formula">
+<!ENTITY % reftext "#PCDATA | Comment | Link | Emph | Strong | Quotation | Code |  List | Reference | Table | GlossaryTerm | Examples | Example | Mention | Formula">
+<!ENTITY % linkcontent "#PCDATA | Comment | Emph | Strong | Quotation | Code | Reference | RefTarget | GlossaryTerm | Examples | Example | Mention">
+<!ENTITY % emphcontent "#PCDATA | Comment | Link | Strong | Quotation | Code | List | Reference | RefTarget | GlossaryTerm | Examples | Example | Mention | Formula">
+<!ENTITY % strongcontent "#PCDATA | Comment | Link | Emph | Quotation | Code | List | Reference | RefTarget | GlossaryTerm | Examples | Example | Mention | Formula">
+<!ENTITY % bibcontent "#PCDATA | Link | Emph | Strong | Quotation | Code | Reference | RefTarget | GlossaryTerm | Examples | Example | Mention | Formula">
+<!ELEMENT LearningObject (MetaData, LayoutInformation?, Content?, Test?, bibliography?, Glossary?)>
+<!-- if the LearningObject has an AggregationLevel 1 (atomic), there is no Content -->
+<!-- elements used by more than one object -->
+<!ELEMENT Formula (%math.qname;)*>
+<!ATTLIST Formula
+	xmlns:mml CDATA #FIXED "http://www.w3.org/1998/Math/MathML"
+	xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink"
+	Id ID #IMPLIED
+	Display (Block | Inline) "Inline"
+	Information_Link CDATA #IMPLIED
+	Information_Ref IDREF #IMPLIED
+>
+<!ELEMENT Paragraph (%text;)*>
+<!ATTLIST Paragraph
+	Language (%langcode;) "de"
+>
+<!ELEMENT Headline (%linkcontent;)*>
+<!ELEMENT RefTarget (%reftext;)*>
+<!ATTLIST RefTarget
+	Id ID #REQUIRED
+>
+<!-- the base scheme consists of nine categories: -->
+<!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
+<!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical?, Educational?, Rights?, Relation*, Annotation*, Classification*)>
+<!-- 1 -->
+<!ELEMENT General (Title, CatalogEntry*, Language+, Description, Keywords, Coverage?)>
+<!ATTLIST General
+	Identifier ID #REQUIRED
+	Structure (Collection | Mixed | Linear | Hierarchical | Networked | Branched | Parceled | Atomic) #REQUIRED
+	AggregationLevel (1 | 2 | 3 | 4) #REQUIRED
+>
+<!-- AggregationLevel 1 = smallest level of aggregation, e.g. raw media data or fragments -->
+<!-- AggregationLevel 2 = a collection of atoms, e.g. an HTML document with some embedded pictures -->
+<!-- AggregationLevel 3 = a collection of level 2 learning objects, e.g. a web of HTML documents, with an index page that links the pages together of a course -->
+<!-- AggregationLevel 4 = the largest level of aggregation, e.g. a set of courses that lead to a certificate -->
+<!-- AggregationLevel 1 should be used for images and other media embedded in another LO -->
+<!-- AggregationLevel 4 should not be used in MiLCA! -->
+<!-- 1.3 -->
+<!ELEMENT CatalogEntry (Catalog, Entry)>
+<!-- 2 -->
+<!ELEMENT Lifecycle (Version, Contribute+)>
+<!ATTLIST Lifecycle
+	Status (Draft | Final | Revised | Unavailable) #REQUIRED
+>
+<!-- 2.3 -->
+<!ELEMENT Contribute (Entity+, Date?)>
+<!ATTLIST Contribute
+	Role (Author | Publisher | Unknown | Initiator | Terminator | Validator | Editor | GraphicalDesigner | TechnicalImplementer | ContentProvider | TechnicalValidator | EducationalValidator | ScriptWriter | InstructionalDesigner) #REQUIRED
+>
+<!-- 3 -->
+<!ELEMENT Meta-Metadata (CatalogEntry, Contribute_)>
+<!ATTLIST Meta-Metadata
+	Identifier ID #REQUIRED
+	MetadataScheme CDATA #FIXED "LOM v 1.0"
+	Language (%langcode;) "de"
+>
+<!-- caution: Contribute_ (3.3) should be different in the maximum values of items from 2.3 -->
+<!ELEMENT Contribute_ (Entity+, Date?)>
+<!ATTLIST Contribute_
+	Role (Creator | Validator) #REQUIRED
+>
+<!-- 4 -->
+<!ELEMENT Technical (Size?, Location*, Requirements*, InstallationRemarks*, OtherPlatformRequirements*, Duration?)>
+<!ATTLIST Technical
+	Format (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | text-xhtml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml) #REQUIRED
+>
+<!-- 4.4.1 -->
+<!ELEMENT Requirements (Type)>
+<!ELEMENT Type (OperatingSystem | Browser)>
+<!ELEMENT OperatingSystem EMPTY>
+<!ATTLIST OperatingSystem
+	Name (PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None) #REQUIRED
+	MinimumVersion CDATA #IMPLIED
+	MaximumVersion CDATA #IMPLIED
+>
+<!ELEMENT Browser EMPTY>
+<!ATTLIST Browser
+	Name (Any | NetscapeCommunicator | MSIE | Opera | Amaya) #REQUIRED
+	MinimumVersion CDATA #IMPLIED
+	MaximumVersion CDATA #IMPLIED
+>
+<!-- 5 -->
+<!ELEMENT Educational (TypicalAgeRange, TypicalLearningTime, Description)>
+<!ATTLIST Educational
+	InteractivityType (Active | Expositive | Mixed | Undefined) #REQUIRED
+	LearningResourceType (Exercise | Simulation | Questionnaire | Diagramm | Figure | Graph | Index | Slide | Table | NarrativeText | Exam | Experiment | ProblemStatement | SelfAssessment) #REQUIRED
+	InteractivityLevel (very_low | low | medium | high | very_high) #REQUIRED
+	SemanticDensity (very_low | low | medium | high | very_high) #REQUIRED
+	IntendedEndUserRole (Teacher | Author | Learner | Manager) #REQUIRED
+	Context (PrimaryEducation | SecondaryEducation | HigherEducation | UniversityFirstCycle | UniversitySecondCycle | UniversityPostgrade | TechnicalSchoolFirstCycle | TechnicalSchoolSecondCycle | ProfessionalFormation | ContinuousFormation | VocationalTraining) #REQUIRED
+	Difficulty (very_easy | easy | medium | difficult | very_difficult) #REQUIRED
+	Language (%langcode;) "de"
+>
+<!-- 6 -->
+<!ELEMENT Rights (Description)>
+<!ATTLIST Rights
+	Cost (yes | no) #REQUIRED
+	CopyrightAndOtherRestrictions (yes | no) #REQUIRED
+>
+<!-- 7 -->
+<!ELEMENT Relation (Resource)>
+<!ATTLIST Relation
+	Kind (IsPartOf | HasPart | IsVersionOf | HasVersion | IsFormatOf | HasFormat | References | IsReferencedBy | IsBasedOn | IsBasisFor | Requires | IsRequiredBy) #REQUIRED
+>
+<!-- 7.2 -->
+<!-- the Identifier should be of type IDREF cause its value is a reference -->
+<!-- using the XML IDREF stating the CatalogEntry is obsolete (the CatalogEntry information could be retrieved with XSLT) -->
+<!ELEMENT Resource (Description, CatalogEntry*)>
+<!ATTLIST Resource
+	Identifier IDREF #IMPLIED
+	URI CDATA #IMPLIED
+>
+<!-- 8 -->
+<!ELEMENT Annotation (Person, Date, Description)>
+<!-- 9 -->
+<!ELEMENT Classification (TaxonPath+, Description, Keywords)>
+<!ATTLIST Classification
+	Purpose (Discipline | Idea | Preriquesite | EducationalObjective | AccessibilityRestrictions | EducationalLevel | SkillLevel | SecurityLevel) #REQUIRED
+>
+<!-- 9.2 -->
+<!ELEMENT TaxonPath (Source, Taxon)>
+<!-- 9.2.2.1 -->
+<!ELEMENT Taxon (Entry)>
+<!ATTLIST Taxon
+	Id ID #IMPLIED
+>
+<!ELEMENT LayoutInformation EMPTY>
+<!ATTLIST LayoutInformation
+	KeepWithPrevious (yes | no) #IMPLIED
+	KeepWithNext (yes | no) #IMPLIED
+	CSS-URL CDATA #IMPLIED
+>
+<!-- reserved data type according to LOM standard -->
+<!ELEMENT Title (%bibcontent;)*>
+<!ATTLIST Title
+	Language (%langcode;) "de"
+>
+<!ELEMENT Catalog (#PCDATA)>
+<!ELEMENT Entry (#PCDATA)>
+<!ATTLIST Entry
+	Language (%langcode;) "de"
+>
+<!ELEMENT Description (%bibcontent;)*>
+<!ATTLIST Description
+	Language (%langcode;) "de"
+>
+<!ELEMENT Keywords (#PCDATA)>
+<!ATTLIST Keywords
+	Language (%langcode;) "de"
+>
+<!ELEMENT Coverage (#PCDATA)>
+<!ATTLIST Coverage
+	Language (%langcode;) "de"
+>
+<!ELEMENT Version (#PCDATA)>
+<!ATTLIST Version
+	Language (%langcode;) "de"
+>
+<!ELEMENT Entity (#PCDATA | vCard)*>
+<!-- analog to the vCard Specs -->
+<!-- read more about it at: ftp://ftp.isi.edu/in-notes/rfc2426.txt -->
+<!ELEMENT vCard (FN, N?, ORG*, ADR*, TEL*, EMAIL*)>
+<!ELEMENT FN (#PCDATA)>
+<!ELEMENT N (Family, Given, Other*, Prefix*, Suffix*)>
+<!ELEMENT Family (#PCDATA)>
+<!ELEMENT Given (#PCDATA)>
+<!ELEMENT Other (#PCDATA)>
+<!ELEMENT Prefix (#PCDATA)>
+<!ELEMENT Suffix (#PCDATA)>
+<!ELEMENT ADR (Pobox?, Extadd?, Street?, Locality+, Region?, Pcode?, Country?)>
+<!ATTLIST ADR
+	TYPE (dom | intl | postal | parcel | home | work | pref) #IMPLIED
+>
+<!ELEMENT Pobox (#PCDATA)>
+<!ELEMENT Extadd (#PCDATA)>
+<!ELEMENT Street (#PCDATA)>
+<!ELEMENT Locality (#PCDATA)>
+<!ELEMENT Region (#PCDATA)>
+<!ELEMENT Pcode (#PCDATA)>
+<!ELEMENT Country (#PCDATA)>
+<!ELEMENT TEL (#PCDATA)>
+<!ATTLIST TEL
+	TYPE (home | msg | work | pref | voice | fax | cell | video | pager | bbs | modem | car | isdn | pcs) #REQUIRED
+>
+<!ELEMENT EMAIL (#PCDATA)>
+<!ATTLIST EMAIL
+	TYPE (internet | x400 | pref) #IMPLIED
+>
+<!ELEMENT ORG (Orgname, Orgunit*)>
+<!ELEMENT Orgname (#PCDATA)>
+<!ELEMENT Orgunit (#PCDATA)>
+<!-- something more suitable? -->
+<!ELEMENT Date (#PCDATA)>
+<!ELEMENT Size (#PCDATA)>
+<!ELEMENT Location (#PCDATA)>
+<!ELEMENT InstallationRemarks (#PCDATA)>
+<!ATTLIST InstallationRemarks
+	Language (%langcode;) "de"
+>
+<!ELEMENT OtherPlatformRequirements (#PCDATA)>
+<!ATTLIST OtherPlatformRequirements
+	Language (%langcode;) "de"
+>
+<!ELEMENT Duration (#PCDATA)>
+<!ELEMENT TypicalAgeRange (#PCDATA)>
+<!ATTLIST TypicalAgeRange
+	Language (%langcode;) "de"
+>
+<!ELEMENT TypicalLearningTime (#PCDATA)>
+<!ELEMENT Person (vCard)>
+<!ELEMENT Source (#PCDATA)>
+<!ATTLIST Source
+	Language (%langcode;) "de"
+>
+<!-- ***************************************************************************************************************************** -->
+<!-- (textual) Content of a learning object should be divided in single paragraphs -->
+<!-- the Content may include another LO (e.g. images, video) -->
+<!-- LO which contain other LOs should use AggregationLevel 2 or 3 -->
+<!ELEMENT Content (Text | LearningObject)+>
+<!ELEMENT Text (Headline?, Paragraph+)+>
+<!-- a Link element to link to _external_ resources -->
+<!-- it is fixed to xlink-type simple, only required attribute value is href -->
+<!ELEMENT Link (%linkcontent;)*>
+<!ATTLIST Link
+	href CDATA #REQUIRED
+	title CDATA #IMPLIED
+>
+<!-- a Reference element to refer to _internal_ resources via XML ID/IDREF -->
+<!-- each LO has an Identifier attribute (type ID) in its Metadata/General element -->
+<!-- another, less usable Identifier attribute is in Metadata/Meta-Metadata -->
+<!-- last one is in Metadata/Resource element -->
+<!-- should there be another possible reference target? -->
+<!ELEMENT Reference (%reftext;)*>
+<!ATTLIST Reference
+	Reference_to IDREF #REQUIRED
+	Type (LearningObject | BibliographyEntry | RefTarget | Definition | Code | Examples | Example | Exercises | Exercise) #REQUIRED
+	Page CDATA #IMPLIED
+>
+<!ELEMENT Emph (%emphcontent;)*>
+<!ATTLIST Emph
+	Reason (Keyword | Intuition | MetaLanguageUse | Highlight) #IMPLIED
+>
+<!ELEMENT Strong (%strongcontent;)*>
+<!ATTLIST Strong
+	Reason (Keyword | Intuition | MetaLanguageUse | Highlight) #IMPLIED
+>
+<!ELEMENT List (Title?, Item+)>
+<!ATTLIST List
+	Type (ordered | unordered) #REQUIRED
+>
+<!ELEMENT Item (Paragraph+)>
+<!ELEMENT Quotation (%text;)*>
+<!ATTLIST Quotation
+	Language (%langcode;) "de"
+	Reference_to IDREF #IMPLIED
+	Page CDATA #IMPLIED
+	Type (Block | Inline) "Inline"
+>
+<!ELEMENT Code (#PCDATA | CodeElem)*>
+<!ATTLIST Code
+	Id ID #IMPLIED
+	ProgrammingLanguage CDATA #IMPLIED
+	Display (Block | Inline) "Inline"
+>
+<!ELEMENT CodeElem (#PCDATA)>
+<!-- table model is some kind of a mixture of mimalized CALS and HTML dtd -->
+<!-- only a minimum of style elements and attributes defined -->
+<!ELEMENT Table (Title?, Summary?, HeaderCaption?, TableRow+, FooterCaption?)>
+<!ATTLIST Table
+	Id ID #IMPLIED
+	Width CDATA #IMPLIED
+	Height CDATA #IMPLIED
+	Border CDATA #IMPLIED
+>
+<!ELEMENT HeaderCaption (%bibcontent;)*>
+<!ELEMENT FooterCaption (%bibcontent;)*>
+<!ELEMENT Summary (%bibcontent;)*>
+<!ATTLIST Summary
+	Language (%langcode;) "de"
+>
+<!ELEMENT TableRow (TableData+)>
+<!ELEMENT TableData (%text;)*>
+<!ATTLIST TableData
+	Colspan CDATA #IMPLIED
+	Rowspan CDATA #IMPLIED
+>
+<!-- to be added -->
+<!ELEMENT Grammar (Rule+)>
+<!ELEMENT Rule (Left_side, Right_side)>
+<!ELEMENT Left_side (#PCDATA)>
+<!ELEMENT Right_side (#PCDATA)>
+<!-- Problem: was ist mit Grammatikregeln, die Sonderzeichen enthalten (also CDATA und nicht PCDATA)? -->
+<!ELEMENT Lex (Lexem+)>
+<!ATTLIST Lex
+	Language (%langcode;) "de"
+>
+<!ELEMENT Lexem (#PCDATA)>
+<!-- Problem: was ist mit Lexikon/Lexemen, die nicht natuerlichsprachig sind? -->
+<!ELEMENT Glossary (GlossaryItem+)>
+<!ELEMENT GlossaryItem (GlossaryTerm, (DefinitionList? | Definition*))>
+<!ATTLIST GlossaryItem
+	Theme CDATA #IMPLIED
+>
+<!ELEMENT GlossaryTerm (%bibcontent;)*>
+<!ATTLIST GlossaryTerm
+	Definition IDREF #REQUIRED
+>
+<!ELEMENT DefinitionList (Definition+)>
+<!ATTLIST DefinitionList
+	Id ID #REQUIRED
+>
+<!ELEMENT Definition (Paragraph+)>
+<!ATTLIST Definition
+	Id ID #REQUIRED
+>
+<!ELEMENT Comment (%commenttext;)*>
+<!ATTLIST Comment
+	Language (%langcode;) "de"
+>
+<!-- *************************************** Test ******************************************************************************** -->
+<!ELEMENT Test (TestItem+)>
+<!ATTLIST Test
+	Id ID #IMPLIED
+>
+<!ELEMENT TestItem (Question, Answer+, Hint*)>
+<!ATTLIST TestItem
+	Id ID #IMPLIED
+>
+<!ELEMENT Question (Paragraph | LearningObject)+>
+<!ELEMENT Answer (Paragraph | LearningObject)+>
+<!ELEMENT Hint (Paragraph | LearningObject)+>
+<!-- ************************************** Begin of BibTeXML ******************************************************************** -->
+<!ELEMENT bibliography (macro | preamble | bibitem | comment)*>
+<!ATTLIST bibliography
+	Id ID #IMPLIED
+	version CDATA #IMPLIED
+	author CDATA #IMPLIED
+	created CDATA #IMPLIED
+	lastmodified CDATA #IMPLIED
+>
+<!ELEMENT macro (#PCDATA | tex)*>
+<!ATTLIST macro
+	alias CDATA #REQUIRED
+>
+<!ELEMENT preamble (#PCDATA)>
+<!ELEMENT comment (#PCDATA)>
+<!-- changed bibitem type to value-list -->
+<!ELEMENT bibitem (address?, annote?, author*, booktitle?, chapter?, crossref?, edition?, editor?, howpublished?, institution?, journal?, key?, month?, note?, number?, organization?, pages?, publisher?, school?, series?, title?, type?, volume?, year?, notstandard*, URL?, ISSN?, ISBN?, abstract?, contents?)*>
+<!ATTLIST bibitem
+	type (Book | Inbook | Journalarticle | Proceedings | Inproceedings | Dissertation | Phdthesis | Mastersthesis | Techreport | Manual | Newspaperarticle | AV | Internet | Unpublished) #REQUIRED
+	label ID #REQUIRED
+>
+<!ENTITY % entry "(#PCDATA | tex | abbrev)*">
+<!ELEMENT author (firstname*, middlename*, lastname, suffix*)>
+<!ELEMENT address %entry;>
+<!ELEMENT annote %entry;>
+<!ELEMENT booktitle %entry;>
+<!ELEMENT chapter %entry;>
+<!ELEMENT crossref %entry;>
+<!ELEMENT edition %entry;>
+<!ELEMENT editor (firstname*, middlename*, lastname, suffix*)>
+<!ELEMENT howpublished %entry;>
+<!ELEMENT institution %entry;>
+<!ELEMENT journal %entry;>
+<!ELEMENT key %entry;>
+<!ELEMENT month %entry;>
+<!ELEMENT note %entry;>
+<!ELEMENT number %entry;>
+<!ELEMENT organization %entry;>
+<!ELEMENT pages %entry;>
+<!ELEMENT publisher %entry;>
+<!ELEMENT school %entry;>
+<!ELEMENT series %entry;>
+<!ELEMENT title %entry;>
+<!ELEMENT type %entry;>
+<!ELEMENT volume %entry;>
+<!ELEMENT year %entry;>
+<!-- not bibtex element-->
+<!ELEMENT abstract %entry;>
+<!ELEMENT contents %entry;>
+<!ELEMENT ISBN %entry;>
+<!ELEMENT ISSN %entry;>
+<!ELEMENT URL %entry;>
+<!ELEMENT notstandard %entry;>
+<!ATTLIST notstandard
+	name CDATA #REQUIRED
+>
+<!ELEMENT tex (#PCDATA)>
+<!ATTLIST tex
+	code CDATA #REQUIRED
+>
+<!ELEMENT abbrev EMPTY>
+<!ATTLIST abbrev
+	alias CDATA #IMPLIED
+>
+<!ELEMENT lastname (#PCDATA | tex)*>
+<!ELEMENT firstname (#PCDATA | tex)*>
+<!ELEMENT middlename (#PCDATA | tex)*>
+<!ELEMENT suffix (#PCDATA | tex)*>
+<!-- ********************************************** End of BibTeXML ************************************************************** -->
+<!ELEMENT Examples (Example+)>
+<!ELEMENT Example (ExampleText | Gloss | Formalisation | Transcription | Translation)+>
+<!ATTLIST Example
+	Id ID #REQUIRED
+	Language (%langcode;) #REQUIRED
+	Domain CDATA #IMPLIED
+	Status (well-formed | ill-formed | questionable) #REQUIRED
+>
+<!ELEMENT ExampleText (%text;)*>
+<!ELEMENT Gloss (%text;)*>
+<!ELEMENT Formalisation (%text;)*>
+<!ELEMENT Transcription (%text;)*>
+<!ELEMENT Translation (%text;)*>
+<!ATTLIST Translation
+	Language (%langcode;) #REQUIRED
+>
+<!ELEMENT Exercises (Exercise+)>
+<!ELEMENT Exercise (ExerciseText, Hint*, Solution*)>
+<!ATTLIST Exercise
+	Id ID #IMPLIED
+	Type (Programming | Textual | Math) #REQUIRED
+	DifficultiyLevel (easy | medium | hard) #REQUIRED
+>
+<!ELEMENT ExerciseText (Paragraph)*>
+<!ELEMENT Solution (%text;)*>
+<!ELEMENT Mention (%text;)*>
+<!ELEMENT Language (#PCDATA)>
