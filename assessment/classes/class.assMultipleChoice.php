@@ -153,22 +153,25 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$this->domxml = domxml_open_mem($xml_text);
+		$feedbacks = array();
 		if (!empty($this->domxml))
 		{
 			$root = $this->domxml->document_element();
 			$item = $root->first_child();
 			$this->setTitle($item->get_attribute("title"));
 			$this->gaps = array();
-			$comment = $item->first_child();
-			if (strcmp($comment->node_name(), "qticomment") == 0)
-			{
-				$this->setComment($comment->get_content());
-			}
 			$itemnodes = $item->child_nodes();
 			foreach ($itemnodes as $index => $node)
 			{
 				switch ($node->node_name())
 				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (!(preg_match("/ILIAS Version\=/is", $comment, $matches) or preg_match("/Questiontype\=/is", $comment, $matches)))
+						{
+							$this->setComment($comment);
+						}
+						break;
 					case "duration":
 						$iso8601period = $node->get_content();
 						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
@@ -232,10 +235,67 @@ class ASS_MultipleChoice extends ASS_Question
 								{
 									$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
 								}
+								$feedbacks[$respcondition_array["displayfeedback"]["linkrefid"]] = array(
+									"type" => $respcondition_array["conditionvar"]["respident"],
+									"value" => $respcondition_array["conditionvar"]["value"],
+									"not" => $respcondition_array["conditionvar"]["not"],
+									"points" => $respcondition_array["setvar"]["points"],
+									"feedback" => ""
+								);
+							}
+						}
+						break;
+					case "itemfeedback":
+						require_once "./content/classes/Pages/class.ilInternalLink.php";
+						require_once "./content/classes/class.ilLMObject.php";
+						$feedback_ident = $node->get_attribute("ident");
+						if ($feedbacks[$feedback_ident])
+						{
+							$itemfeedback_children = $node->child_nodes();
+							foreach ($itemfeedback_children as $index => $matnode)
+							{
+								switch ($matnode->node_name())
+								{
+									case "flow_mat":
+										$material = $matnode->first_child();
+										$mattype = $material->first_child();
+										if (strcmp($mattype->node_name(), "mattext") == 0)
+										{
+											$feedbacktext = $mattype->get_content();
+											if (strcmp($feedbacktext, "") != 0)
+											{
+												$feedbacks[$feedback_ident]["feedback"] = ilInternalLink::_getIdForImportId("PageObject", $feedbacktext);
+											}
+											else
+											{
+												unset($feedbacks[$feedback_ident]);
+											}
+										}
+										break;
+								}
 							}
 						}
 						break;
 				}
+			}
+			if (count($feedbacks))
+			{
+				// existing feedbacks -> choose enhanced mode
+				require_once "./assessment/classes/class.assEnhancedAnswerblock.php";
+				require_once "./assessment/classes/class.assAnswerblockAnswer.php";
+				$this->saveToDb();  // save test to get a valid test id
+				$connection = new EnhancedAnswerblock($this->getId());
+				$connection->setAnswerblockIndex(0);
+				$connection->setPoints($this->getMaximumPoints());
+				$connection->setSubquestionIndex(0);
+				$order = 0;
+				foreach ($feedbacks as $key => $feedback)
+				{
+					$connection->setFeedback($feedback["feedback"]);
+					$connection->addConnection($feedback["value"], $order, $feedback["not"]);
+					$order++;
+				}
+				array_push($this->answerblocks, $connection);
 			}
 			$result = true;
 		}

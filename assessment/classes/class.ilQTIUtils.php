@@ -46,17 +46,20 @@ class ilQTIUtils
 	{
 		$result = array();
 		$children = $respcondition_node->child_nodes();
+		$not = 0;
 		foreach ($children as $index => $node)
 		{
 			switch ($node->node_name())
 			{
 				case "conditionvar":
+					$not = 0;
 					$operation = $node->first_child();
 					$selected = 1;
 					if (strcmp($operation->node_name(), "not") == 0)
 					{
 						$selected = 0;
 						$operation = $operation->first_child();
+						$not = 1;
 					}
 					if (strcmp($operation->node_name(), "varequal") == 0)
 					{
@@ -79,6 +82,7 @@ class ilQTIUtils
 					$result["conditionvar"]["respident"] = $respident;
 					$result["conditionvar"]["areatype"] = $areatype;
 					$result["conditionvar"]["index"] = $idx;					
+					$result["conditionvar"]["not"] = $not;					
 					$result["conditionvar"]["value"] = $value;					
 					break;
 				case "setvar":
@@ -88,7 +92,10 @@ class ilQTIUtils
 					$result["setvar"]["points"] = $points;
 					break;
 				case "displayfeedback":
-					// not yet supported
+					$feedbacktype = $node->get_attribute("feedbacktype");
+					$linkrefid = $node->get_attribute("linkrefid");
+					$result["displayfeedback"]["feedbacktype"] = $feedbacktype;
+					$result["displayfeedback"]["linkrefid"] = $linkrefid;
 					break;
 			}
 		}

@@ -365,17 +365,13 @@ class ASS_ClozeTest extends ASS_Question
 		}
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$this->domxml = domxml_open_mem($xml_text);
+		$feedbacks = array();
 		if (!empty($this->domxml))
 		{
 			$root = $this->domxml->document_element();
 			$item = $root->first_child();
 			$this->setTitle($item->get_attribute("title"));
 			$this->gaps = array();
-			$comment = $item->first_child();
-			if (strcmp($comment->node_name(), "qticomment") == 0)
-			{
-				$this->setComment($comment->get_content());
-			}
 			$itemnodes = $item->child_nodes();
 			$materials = array();
 			$gapcounter = 0;
@@ -383,6 +379,13 @@ class ASS_ClozeTest extends ASS_Question
 			{
 				switch ($node->node_name())
 				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (!(preg_match("/ILIAS Version\=/is", $comment, $matches) or preg_match("/Questiontype\=/is", $comment, $matches)))
+						{
+							$this->setComment($comment);
+						}
+						break;
 					case "duration":
 						$iso8601period = $node->get_content();
 						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
@@ -455,9 +458,124 @@ class ASS_ClozeTest extends ASS_Question
 									// text gap
 									array_push($this->gaps[$respcondition_array["conditionvar"]["respident"]], new ASS_AnswerCloze($respcondition_array["conditionvar"]["value"], $respcondition_array["setvar"]["points"], count($this->gaps[$respcondition_array["conditionvar"]["respident"]]), 1, CLOZE_TEXT, $respcondition_array["conditionvar"]["respident"], 0));
 								}
+								$feedbacks[$respcondition_array["displayfeedback"]["linkrefid"]] = array(
+									"gap" => $respcondition_array["conditionvar"]["respident"],
+									"value" => $respcondition_array["conditionvar"]["value"],
+									"not" => $respcondition_array["conditionvar"]["not"],
+									"points" => $respcondition_array["setvar"]["points"],
+									"feedback" => ""
+								);
 							}
 						}
 						break;
+					case "itemfeedback":
+						require_once "./content/classes/Pages/class.ilInternalLink.php";
+						require_once "./content/classes/class.ilLMObject.php";
+						$feedback_ident = $node->get_attribute("ident");
+						if ($feedbacks[$feedback_ident])
+						{
+							$itemfeedback_children = $node->child_nodes();
+							foreach ($itemfeedback_children as $index => $matnode)
+							{
+								switch ($matnode->node_name())
+								{
+									case "flow_mat":
+										$material = $matnode->first_child();
+										$mattype = $material->first_child();
+										if (strcmp($mattype->node_name(), "mattext") == 0)
+										{
+											$feedbacktext = $mattype->get_content();
+											if (strcmp($feedbacktext, "") != 0)
+											{
+												$feedbacks[$feedback_ident]["feedback"] = ilInternalLink::_getIdForImportId("PageObject", $feedbacktext);
+											}
+											else
+											{
+												unset($feedbacks[$feedback_ident]);
+											}
+										}
+										break;
+								}
+							}
+						}
+						break;
+				}
+			}
+			if (count($feedbacks))
+			{
+				// existing feedbacks -> choose enhanced mode
+				require_once "./assessment/classes/class.assEnhancedAnswerblock.php";
+				require_once "./assessment/classes/class.assAnswerblockAnswer.php";
+				$this->saveToDb();  // save test to get a valid test id
+				$abidx = 0;
+				$feedbacksorted = array();
+				foreach ($feedbacks as $key => $feedback)
+				{
+					$feedbacksorted[$feedback["gap"]][$abidx] = $feedback;
+					$abidx++;
+				}
+				$abidx = 0;
+				foreach ($feedbacksorted as $key => $feedbackarray)
+				{
+					$firstkey = key($feedbackarray);
+					if ($this->gaps[$feedbackarray[$firstkey]["gap"]][0]->get_cloze_type() == CLOZE_TEXT)
+					{
+						foreach ($feedbackarray as $feedback)
+						{
+							$gap = $feedback["gap"];
+							$gapvalue = 0;
+							if (preg_match("/gap_(\d+)/", $gap, $matches))
+							{
+								$gapvalue = $matches[1];
+							}
+							$connection = new EnhancedAnswerblock($this->getId());
+							$connection->setAnswerblockIndex($abidx);
+							$connection->setPoints($feedback["points"]);
+							$connection->setFeedback($feedback["feedback"]);
+							$connection->setSubquestionIndex($gapvalue);
+							$answer_index = 0;
+							foreach ($this->gaps[$gap] as $answerclozeindex => $answercloze)
+							{
+								if (strcmp($answercloze->get_answertext(), $feedback["value"]) == 0)
+								{
+									$answer_index = $answerclozeindex;
+								}
+							}
+							$connection->addConnection($answer_index, 0, $feedback["not"]);
+							array_push($this->answerblocks, $connection);
+							$abidx++;
+						}
+					}
+					else
+					{
+						$connection = new EnhancedAnswerblock($this->getId());
+						$connection->setAnswerblockIndex($abidx);
+						$order_value = 0;
+						foreach ($feedbackarray as $feedback)
+						{
+							$gap = $feedback["gap"];
+							$gapvalue = 0;
+							if (preg_match("/gap_(\d+)/", $gap, $matches))
+							{
+								$gapvalue = $matches[1];
+							}
+							$connection->setPoints($connection->getPoints() + $feedback["points"]);
+							$connection->setFeedback($feedback["feedback"]);
+							$connection->setSubquestionIndex($gapvalue);
+							$answer_index = 0;
+							foreach ($this->gaps[$gap] as $answerclozeindex => $answercloze)
+							{
+								if (strcmp($answercloze->get_answertext(), $feedback["value"]) == 0)
+								{
+									$answer_index = $answerclozeindex;
+								}
+							}
+							$connection->addConnection($answer_index, $order_value, $feedback["not"]);
+							$order_value++;
+						}
+						array_push($this->answerblocks, $connection);
+						$abidx++;
+					}
 				}
 			}
 			$this->gaps = array_values($this->gaps);
@@ -1488,6 +1606,62 @@ class ASS_ClozeTest extends ASS_Question
     //parent::saveWorkingData($limit_to);
 		return true;
   }
+
+/**
+* Returns a feedback to an existing answer to on of the gaps
+*
+* Returns a feedback to an existing answer to on of the gaps
+*
+* @param integer $gapindex The index of the gap
+* @param mixed $solution_value The value of the given answer
+* @return string Feedback value
+* @access public
+*/
+	function getAnswerFeedback($gapindex, $solution_value)
+	{
+		if ($this->gaps[$gapindex][0]->get_cloze_type() == CLOZE_TEXT)
+		{
+			foreach ($this->gaps[$gapindex] as $idx => $answercloze)
+			{
+				if (strcmp($answercloze->get_answertext(), $solution_value) == 0)
+				{
+					$solution_index = $idx;
+				}
+			}
+		}
+		else
+		{
+			$solution_index = $solution_value;
+		}
+		if (count($this->answerblocks))
+		{
+			foreach ($this->answerblocks as $index => $answerblock)
+			{
+				if ($answerblock->getSubquestionIndex() == $gapindex)
+				{
+					$found = true;
+					foreach ($answerblock->connections as $answerindex => $answer)
+					{
+						if (($answer->getAnswerId() == $solution_id) and ($answer->getBooleanPrefix() == 0))
+						{
+						}
+						elseif (($answer->getBooleanPrefix() == 1) and ($answer->getAnswerId() != $solution_id))
+						{
+						}
+						else
+						{
+							$found = false;
+						}
+					}
+					if ($found)
+					{
+						return $answerblock->getFeedback();
+					}
+				}
+			}
+		}
+		return "";
+	}
 }
 
 ?>

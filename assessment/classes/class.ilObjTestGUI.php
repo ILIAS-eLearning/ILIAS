@@ -111,7 +111,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
-			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_test"));
+			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
 			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 		}
@@ -503,7 +503,7 @@ class ilObjTestGUI extends ilObjectGUI
 			str_replace("test", "qti", $subdir).".xml";
 		
 		// import qti data
-		$newObj->importObject($qti_file, $_POST["qpl"]);
+		$qtiresult = $newObj->importObject($qti_file, $_POST["qpl"]);
 		
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");

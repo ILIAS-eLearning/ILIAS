@@ -290,7 +290,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $img;
 				}
-				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"\" />");
+				$size = GetImageSize ($this->object->getImagePath() . $this->object->get_image_filename(), &$info);
+				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"0\" " . $size[3] . " />");
 			}
 			else
 			{
