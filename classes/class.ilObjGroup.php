@@ -925,8 +925,8 @@ class ilObjGroup extends ilObject
 	
 	function newGrpTree($a_ref_id,$a_parent_non_rbac_id)
 	{  
-//var_dump($this->tree);
-//exit;
+//var_dump($this->tree);exit;
+
 		$grp_tree = new ilTree($this->getId());
 		$grp_tree->setTableNames("grp_tree","object_data");
 		
