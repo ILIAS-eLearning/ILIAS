@@ -751,6 +751,7 @@ common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Створити Тест
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
@@ -1276,6 +1277,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#ILIAS версія
 common#:#image#:#Зображення
 common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.###14 Sep 2004 content changed
@@ -1601,6 +1603,7 @@ common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variab
 common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Ви можете не призначати користувачів на Роль Системного адміністратора, якщо ви не призначили себе на цю Роль###14 Sep 2004 content changed
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
 common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
 common#:#msg_nothing_found#:#msg_нічого_не_знайдено
@@ -1735,6 +1738,7 @@ common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Тест
 common#:#obj_typ#:#Визначення Типу Об'єкта###14 Sep 2004 content changed
 common#:#obj_type#:#Тип Об'єкта
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
@@ -1778,6 +1782,7 @@ common#:#objs_st#:#Chapters###18 Feb 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
 common#:#of#:#Of
 common#:#offline_version#:#Оффлайн Версія
@@ -2170,7 +2175,19 @@ common#:#update_language#:#Обновити Мову
 common#:#upload#:#Завантажити
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#URL Опис
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Користувач
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Користувач доданий
@@ -2540,6 +2557,8 @@ content#:#cont_table#:#Таблиця
 content#:#cont_table_border#:#Рамка Таблиці
 content#:#cont_table_cellpadding#:#Клітинний Відступ у Таблиці
 content#:#cont_table_cellspacing#:#Міжклітинний Відступ у Таблиці
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Ширина Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
 content#:#cont_term#:#Термін

@@ -733,6 +733,7 @@ common#:#cat_create_sahs#:#Créer  module d'apprentissage SCORM/AICC
 common#:#cat_create_spl#:#Créer jeu de questions pour sondage
 common#:#cat_create_svy#:#Créer sondage
 common#:#cat_create_tst#:#Créer test
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Détruire catégorie
 common#:#cat_edit#:#Modifier catégorie
 common#:#cat_edit_permission#:#Changer paramètres de permission
@@ -1257,6 +1258,7 @@ common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.
 common#:#id#:#ID
 common#:#identifier#:#identifiant
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#Version ILIAS
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander à votre administrateur système de vérifier le chemin vers l'utilitaire convert.
@@ -1580,6 +1582,7 @@ common#:#msg_no_scan_log#:#L'analyses des fichiers journaux n'est pas encore imp
 common#:#msg_no_search_result#:#Pas d'entrée trouvée
 common#:#msg_no_search_string#:#Veuillez saisir votre requête
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Vous ne pouvez pas assigner des utilisateurs au rôle d'administrateur système si vous n'êtes pas vous-même assigné(e) à ce rôle
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#La page que vous avez choisie n'est accessible que pour les utilisateurs enregistrés.
 common#:#msg_not_in_itself#:#Il n'est pas possible de coller l'objet dans lui-même
 common#:#msg_nothing_found#:#Rien n'a été trouvé
@@ -1712,6 +1715,7 @@ common#:#obj_trac_desc#:#Données de suivi des accès utilisateurs
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Définition de type d'objet
 common#:#obj_type#:#Type d'objet
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Paramètres utilisateur
 common#:#obj_usr#:#Utilisateur
 common#:#obj_usrf#:#Comptes utilisateurs
@@ -1755,6 +1759,7 @@ common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Sondages
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Types d'objets
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Utilisateurs
 common#:#of#:#de
 common#:#offline_version#:#Version hors-ligne
@@ -2147,7 +2152,19 @@ common#:#update_language#:#Mettre à jour langues
 common#:#upload#:#Téléverser
 common#:#uploaded_and_checked#:#Le fichier a été téléversé et vérifié, vous pouvez commencer à l'importer
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#Description de l'URL
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Utilisateur
 common#:#user_access#:#Accès par utilisateur
 common#:#user_added#:#Utilisateur ajouté
@@ -2517,6 +2534,8 @@ content#:#cont_table#:#Tableau
 content#:#cont_table_border#:#Bordure du tableau
 content#:#cont_table_cellpadding#:#Largeur des cellules du tableau
 content#:#cont_table_cellspacing#:#Espacement des cellules du tableau
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Largeur du tableau
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.
 content#:#cont_term#:#Terme

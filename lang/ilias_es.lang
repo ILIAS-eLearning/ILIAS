@@ -745,6 +745,7 @@ common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -1270,6 +1271,7 @@ common#:#https_not_possible#:#Este servidor no soporta conexiones HTTPS.
 common#:#id#:#ID
 common#:#identifier#:#identificador
 common#:#if_no_title_then_filename#:#Dejar en blanco para mostrar el nombre de fichero
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#version de ILIAS
 common#:#image#:#Imagen
 common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contacto con su administrador y compruebe la ruta de conversión (convert).###14 Sep 2004 content changed
@@ -1594,6 +1596,7 @@ common#:#msg_no_scan_log#:#Scan Log no implementado aún
 common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol###14 Sep 2004 content changed
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#La página especificada sólo está accesible para usuarios registrados
 common#:#msg_not_in_itself#:#No es posible pegar el objeto sobre sí mismo
 common#:#msg_nothing_found#:#Nada encontrado
@@ -1728,6 +1731,7 @@ common#:#obj_trac_desc#:#Datos de seguimiento de usuario (accesos)
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definición del tipo de objeto
 common#:#obj_type#:#Tipo de Objeto
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
@@ -1771,6 +1775,7 @@ common#:#objs_st#:#Capítulos
 common#:#objs_svy#:#Encuestas
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#tipo de Objeto
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Usuarios
 common#:#of#:#de
 common#:#offline_version#:#versión offline
@@ -2163,7 +2168,19 @@ common#:#update_language#:#actualizar idioma
 common#:#upload#:#Cargar
 common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede comenzar a importarlo.
 common#:#url#:#url
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#descripción de url
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#usuario
 common#:#user_access#:#Acceso por usuario
 common#:#user_added#:#Usuario añadido
@@ -2532,6 +2549,8 @@ content#:#cont_table#:#Table###11 Jun 2003 new variable
 content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
 content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
 content#:#cont_target_within_source#:#Target must not be within source object.###19 Sep 2003 new variable
 content#:#cont_term#:#Term###15 Aug 2003 new variable

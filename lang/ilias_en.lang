@@ -739,7 +739,6 @@ common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digilib Book
 common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_file#:#Upload File
-common#:#cat_create_url#:#Create URL
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
@@ -752,6 +751,7 @@ common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#cat_create_spl#:#Create Question Pool for Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
+common#:#cat_create_url#:#Create URL
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
@@ -1574,7 +1574,6 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
-common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -1604,6 +1603,7 @@ common#:#msg_no_scan_log#:#Scan log not implemented yet
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
+common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_nothing_found#:#msg_nothing_found
@@ -1760,7 +1760,6 @@ common#:#objs_dbk#:#Digilib Books
 common#:#objs_delete#:#Delete objects
 common#:#objs_exc#:#Exercises
 common#:#objs_file#:#Files
-common#:#objs_url#:#URLs
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
@@ -1783,6 +1782,7 @@ common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Object Types
+common#:#objs_url#:#URLs
 common#:#objs_usr#:#Users
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
@@ -2175,19 +2175,19 @@ common#:#update_language#:#Update Language
 common#:#upload#:#Upload
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#url#:#URL
-common#:#url_description#:#URL Description
 common#:#url_a#:#a URL
 common#:#url_add#:#Add URL
 common#:#url_added#:#URL added
+common#:#url_create_url#:#Create URL
 common#:#url_delete#:#Delete URL
+common#:#url_description#:#URL Description
 common#:#url_edit#:#Edit URL
 common#:#url_edit_permission#:#Change Permission settings
 common#:#url_new#:#New URL
 common#:#url_not_found#:#File Not Found
 common#:#url_read#:#Open URL
-common#:#url_write#:#Edit URL
-common#:#url_create_url#:#Create URL
 common#:#url_visible#:#URL is visible
+common#:#url_write#:#Edit URL
 common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
