@@ -796,3 +796,12 @@ CREATE TABLE lm_data (
 <#31>
 
 ALTER TABLE lm_data ADD COLUMN lm_id int(11) NOT NULL;
+
+<#32>
+
+DELETE FROM lm_data;
+DELETE FROM lm_tree;
+DELETE FROM lm_page_object;
+DELETE FROM meta_data;
+INSERT INTO lm_data (obj_id, title, type, lm_id) VALUES (1, 'dummy', 'du', 0);
+
