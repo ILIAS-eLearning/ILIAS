@@ -1,56 +1,56 @@
 {NAVIGATION}
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
 
 <!-- BEGIN tbl_mail -->
-<h2>{MAIL_COUNT} {TXT_MAIL_S}</h2>
-    <table width="100%" cellpadding=0 cellspacing=0 border=0>
-    <tr class="tblheader">
-      <td>&nbsp;<b>{TXT_SENDER}</b></td>
-      <td>&nbsp;<b>{TXT_SUBJECT}</b></td>
-      <td>&nbsp;<b>{TXT_DATETIME}</b>&nbsp;<img border=0 src="images/a_up.gif" WIDTH=12 HEIGHT=6 ALT="Date up" TITLE="Date up" ></a></td>
+<h4>{MAIL_COUNT} {TXT_MAIL_S}</h4>
+    <table width="100%" cellpadding=1 cellspacing=0 border=0>
+    <tr bgcolor="#bbbbcc">
+      <td><b>{TXT_SENDER}</b></td>
+      <td><b>{TXT_SUBJECT}</b></td>
+      <td><b>{TXT_DATETIME}</b><img border=0 src="images/a_up.gif" WIDTH=12 HEIGHT=6 ALT="Date up" TITLE="Date up" ></a></td>
     </tr>
 <!-- BEGIN tbl_mail_row -->
-<tr class="{ROWCOL}">
-  <td valign="middle">&nbsp;{MAIL_FROM}</TD>
-  <td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
-  <td valign="middle">&nbsp;{MAIL_DATE}</td>
+<tr bgcolor="#ddddee">
+  <td valign="middle">{MAIL_FROM}</TD>
+  <td valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
+  <td valign="middle">{MAIL_DATE}</td>
 </tr>
 <!-- END tbl_mail_row -->
     </table>
 <!-- END tbl_mail -->
 
 <!-- BEGIN tbl_lo -->
-<h2>{TXT_LO_HEADER}</h2>
-    <table width="100%" cellpadding=0 cellspacing=0 border=0>
-    <tr class="tblheader">
-      <td>&nbsp;<b>{TXT_LO_TIME}</b></td>
-      <td>&nbsp;<b>{TXT_LO_TITLE}</b></td>
-      <td>&nbsp;<b>{TXT_LO_PAGE}</b></td>
+<h4>{TXT_LO_HEADER}</h4>
+    <table width="100%" cellpadding=1 cellspacing=0 border=0>
+    <tr bgcolor="#bbbbcc">
+      <td><b>{TXT_LO_TIME}</b></td>
+      <td><b>{TXT_LO_TITLE}</b></td>
+      <td><b>{TXT_LO_PAGE}</b></td>
     </tr>
 <!-- BEGIN tbl_lo_row -->
-    <tr class="{ROWCOL}">
-      <td>&nbsp;{LO_TIME}</td>
-      <td>&nbsp;<a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
-      <td>&nbsp;<a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
+    <tr bgcolor="#ddddee">
+      <td>{LO_TIME}</td>
+      <td><a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
+      <td><a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
     </tr>
 <!-- END tbl_lo_row -->
     </table>
 <!-- END tbl_lo -->
 
 <!-- BEGIN tbl_crs -->
-<h2>{TXT_COURSES}</h2>
-    <table width="100%" cellpadding=0 cellspacing=0 border=0>
-    <tr class="tblheader">
-      <td>&nbsp;<b>{TXT_TITLE}</b></td>
-      <td>&nbsp;<b>{TXT_DESC}</b></td>
-      <td>&nbsp;</td>
+<h4>{TXT_COURSES}</h4>
+    <table width="100%" cellpadding=1 cellspacing=0 border=0>
+    <tr bgcolor="#bbbbcc">
+      <td><b>{TXT_TITLE}</b></td>
+      <td><b>{TXT_DESC}</b></td>
+      <td></td>
     </tr>
 <!-- BEGIN tbl_crs_row -->
-    <TR class="{ROWCOL}">
-      <TD>&nbsp;<a href="{CRS_LINK}">{CRS_TITLE}</a></TD>
-      <TD>&nbsp;{CRS_DESC}</TD>
-      <TD>&nbsp;<a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></TD>
+    <TR bgcolor="#ddddee">
+      <TD><a href="{CRS_LINK}">{CRS_TITLE}</a></TD>
+      <TD>{CRS_DESC}</TD>
+      <TD><a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></TD>
     </TR>
 <!-- END tbl_crs_row -->
     </TABLE>
