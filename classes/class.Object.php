@@ -349,10 +349,6 @@ class Object
 	{
 		global $ilias;
 
-		// cut length of text
-		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
-		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
-
 		$q = "UPDATE object_data ".
 			"SET ".
 			"title = '".$this->title."',".
