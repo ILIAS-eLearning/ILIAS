@@ -228,6 +228,13 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 	// load account data of current user
 	$ilias->account->read();
 	
+	// check if client ip is set, if so compare and shows error if client ip differs from profile ip
+	if ($ilias->account->getClientIP()!="" && strcmp($ilias->account->getClientIP(),$_SERVER["REMOTE_ADDR"])!=0) {
+		$message = "Remote IP does not match IP stored in profile!";
+		$log ->logError(1, $ilias->account->getLogin().":".$_SERVER["REMOTE_ADDR"].":".$message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);		
+	}
+	
 	// check wether user has accepted the user agreement
 //echo "-".$script;
 	if (!$ilias->account->hasAcceptedUserAgreement() &&

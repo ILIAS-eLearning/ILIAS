@@ -587,6 +587,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["email"] = $this->object->getEmail();
 		$data["fields"]["hobby"] = $this->object->getHobby();
 		$data["fields"]["matriculation"] = $this->object->getMatriculation();
+		$data["fields"]["client_ip"] = $this->object->getClientIP();
 		$data["fields"]["referral_comment"] = $this->object->getComment();
 		$data["fields"]["create_date"] = $this->object->getCreateDate();
 		$data["fields"]["approve_date"] = $this->object->getApproveDate();
@@ -1304,7 +1305,8 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
                     $this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
                     $this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
-										$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
+					$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
+					$this->lng->txt("client_ip").": ".$this->object->getClientIP()."\n\r".
                     $this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
                     $this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
                     $this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
@@ -1649,7 +1651,7 @@ class ilObjUserGUI extends ilObjectGUI
 			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
-			"getHobby" => "hobby", "getMatriculation" => "matriculation");
+			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
 
 		$org = array();
 		$adr = array();
