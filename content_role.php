@@ -16,7 +16,6 @@ $tpl->setVariable("TABS", TUtil::showTabs(1,$o));
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 
-
 $tpl->setCurrentBlock("locator");
 $tpl->setVariable("TXT_PATH", $lng->txt("path"));
 $tpl->setVariable("TREEPATH",$path);
