@@ -467,7 +467,7 @@ class ilPageObject
 		global $lng;
 
 		$xml = "<LVs>";
-		$lang_vars = array("reset_definitions", "reset_pictures", 
+		$lang_vars = array("ordering_question_javascript_hint", "reset_definitions", "reset_pictures", 
 			"matching_question_javascript_hint", "matches", "ed_insert_par", "ed_insert_code",
 			"ed_insert_table", "ed_insert_media", "ed_insert_list",
 			"ed_insert_filelist", "ed_paste_clip", "ed_edit",

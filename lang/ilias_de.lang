@@ -1843,7 +1843,7 @@ common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
-common#:#offline#:#offline###10 Dec 2004 new variable
+common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#old#:#Alt
@@ -3998,8 +3998,8 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
+survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span>.<br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
+survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerinnendaten anonymisiert und können nicht zurückverfolgt werden
 survey#:#answer#:#Antwort
@@ -4098,13 +4098,13 @@ survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenbl
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
-survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
+survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
-survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!###09 Dec 2004 content changed
-survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
+survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
+survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#excel#:#Microsoft Excel
@@ -4141,7 +4141,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 32 Zeichen bestehenden Umfragecode ein
 survey#:#last_update#:#Letzte Aktualisierung
-survey#:#legend#:#Legend###10 Dec 2004 new variable
+survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
@@ -4253,7 +4253,7 @@ survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition a
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
-survey#:#skipped#:#skipped###10 Dec 2004 new variable
+survey#:#skipped#:#überprungen
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
@@ -4278,9 +4278,9 @@ survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
-survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
-survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
-survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
+survey#:#svy_eval_cumulated#:#Kumulierte Ergebnisse
+survey#:#svy_eval_detail#:#Detaillierte kumulierte Ergebnisse
+survey#:#svy_eval_user#:#Teilnehmerinnendatensätze
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_file#:#Datei
 survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
