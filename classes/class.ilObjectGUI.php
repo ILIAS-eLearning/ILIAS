@@ -1307,7 +1307,7 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"]);
+			//$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"]);
 			
 //			$location = $this->getReturnLocation("save","adm_object.php");
 //			$newObj->setReturnLocation("save",$location);

@@ -95,6 +95,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("paste","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("cancelDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
@@ -110,6 +111,7 @@ class ilGroupGUI extends ilObjectGUI
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."object";
 
+			// only createObject!!
 			$this->$fullcmd();
 			exit();
 		}
@@ -264,10 +266,10 @@ class ilGroupGUI extends ilObjectGUI
 		//check if user got permission to create new groups
 
 
-		if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
 			//show "new group" button only if category or dlib objects were chosen(current object)
-			if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
+			if (strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
 			{
 				$this->tpl->setCurrentBlock("btn_cell");
 				//right solution
@@ -498,7 +500,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$cont_arr = array();
-		$objects = $this->grp_tree->getChilds($this->object->getId(),"title"); //provides variable with objects located under given node
+		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
 		if (count($objects) > 0)
 		{
@@ -521,7 +523,7 @@ class ilGroupGUI extends ilObjectGUI
 		$access = false;
 		
 		//check if user got "write" permissions; if so $access is set true to prevent further database queries in this function
-		if($rbacsystem->checkAccess("write", $this->object->getId() ))
+		if($rbacsystem->checkAccess("write", $this->object->getRefId() ))
 		{
 			 $access = true;
 			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
@@ -657,7 +659,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 			else
 			{
-				$this->DisplayList();
+				$this->displayList();
 			}
 		}
 	}
@@ -1324,10 +1326,11 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TPLPATH",$this->tplPath);
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
 			//user is administrator
 			$this->tpl->setVariable("COLUMN_COUNTS",6);
+
 			foreach ($this->data["buttons"] as $name => $value)
 			{
 				$this->tpl->setCurrentBlock("tbl_action_btn");
@@ -1371,7 +1374,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
 			//user must be administrator
 			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
@@ -1704,6 +1707,7 @@ echo "asdf";
 	{
 		
 		echo $_POST["new_type"];
+		var_dump($this->id);
 		
 		//TODO: check the
 		// creates a child object
@@ -1733,12 +1737,13 @@ echo "asdf";
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]."&tree_id=".$this->id);
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
+
 		$this->tpl->show();
 	}
 
@@ -1944,7 +1949,6 @@ echo "asdf";
 
 		include_once "./classes/class.ilTableGUI.php";
 
-
 		$member_ids = array();
 		if(isset($_POST["user_id"]))
 			$member_ids = $_POST["user_id"];
@@ -1968,7 +1972,6 @@ echo "asdf";
 				);
 			unset($member);
 		}
-
 
 		$tab = array();
 		$tab[0] = array ();
@@ -2182,8 +2185,6 @@ echo "asdf";
 	}
 
 */
-
-
 	/*
 	* save object
 	*
@@ -2210,7 +2211,7 @@ echo "asdf";
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
 
 		//$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getRefId(),$groupObj->getRefId(),$groupObj->getId(),$rfoldObj->getId());
 
 
 		// always send a message
@@ -2225,7 +2226,6 @@ echo "asdf";
 	* displays search form for new users
 	* @access public
 	*/
-
 	function newMembersObject()
 	{
 		$this->prepareOutput(false);
@@ -2254,7 +2254,7 @@ echo "asdf";
 
 		//query already started ?
 		//$this->tpl->show();
-		if( (isset($_POST["search_user"]) && isset($_POST["status"]) ) || ( isset($_GET["search_user"]) && isset($_GET["status"]) ) )//&& isset($_GET["ref_id"]) )
+		if ((isset($_POST["search_user"]) && isset($_POST["status"])) || ( isset($_GET["search_user"]) && isset($_GET["status"])))//&& isset($_GET["ref_id"]) )
 		{
 			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
 
@@ -2307,6 +2307,7 @@ echo "asdf";
 			{
 				$limit = 10;	// TODO: move to user settings
 			}
+
 			if ($offset == "")
 			{
 				$offset = 0;	// TODO: move to user settings
@@ -2335,34 +2336,35 @@ echo "asdf";
 			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
 			// render table
-
 			$tbl->render();
 
 		}
+
 		$this->tpl->show();
 	}
 
 
 	function confirmedAssignMemberObject()
 	{
-		if(isset($_SESSION["saved_post"]) && isset($_SESSION["status"]) )
+		if (isset($_SESSION["saved_post"]) && isset($_SESSION["status"]))
 		{
 			//let new members join the group
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
+
+			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if(!$newGrp->join($new_member, $_SESSION["status"]) )
+				if (!$newGrp->join($new_member, $_SESSION["status"]))
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 
 				}
 
 			}
+
 			unset($_SESSION["status"]);
 		}
 		//echo ($this->link_params);
 		header("Location: group.php?cmd=show_content&".$this->link_params);
-
 	}
 
 	/**
@@ -2372,6 +2374,7 @@ echo "asdf";
 	function assignMemberObject()
 	{
 		$user_ids = $_POST["user_id"];
+
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedAssignMember";
@@ -2387,7 +2390,6 @@ echo "asdf";
 			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
 			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]."target=\"bottom\"");
 		}
-
 	}
 
 	/**
@@ -2400,8 +2402,6 @@ echo "asdf";
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="group.php?")
 	{
-
-
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
@@ -2416,7 +2416,7 @@ echo "asdf";
 
 		$path = $a_tree->getPathFull($a_id);
 
-        	//check if object isn't in tree, this is the case if parent_parent is set
+        //check if object isn't in tree, this is the case if parent_parent is set
 		// TODO: parent_parent no longer exist. need another marker
 		if ($a_parent_parent)
 		{
@@ -2489,7 +2489,6 @@ echo "asdf";
 	*/
 	function listGroups()
 	{
-
 		$this->getTemplateFile("overview", "grp");
 
 		//$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2602,6 +2601,7 @@ echo "asdf";
 
 		//var_dump ($lr_arr);
 		$num = 0;
+
 		foreach ($lr_arr as $lr_data)
 		{
 			$this->tpl->setCurrentBlock("locontent");

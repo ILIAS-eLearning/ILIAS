@@ -26,28 +26,20 @@
 * Class Folder
 * core functions for folder
 *
-* @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
 *
 * @package ilias-folder
 */
 
-
 class ilFolder
 {
-	
 	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilFolder($a_group_id)
 	{
-		
 		global $ilias,$lng;
-
-		
 	}
-	
-	
 }
 ?>
