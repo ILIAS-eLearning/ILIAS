@@ -815,7 +815,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "zip", ilFile::deleteTrailingSlash($a_formdata["zip_path"]));
 		$this->ini->setVariable("tools", "unzip", ilFile::deleteTrailingSlash($a_formdata["unzip_path"]));
 		$this->ini->setVariable("tools", "java", ilFile::deleteTrailingSlash($a_formdata["java_path"]));
-		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc"]));
+		$this->ini->setVariable("tools", "htmldoc", ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]));
 
 		$form_log_path = ilFile::deleteTrailingSlash($a_formdata["log_path"]);
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
@@ -836,8 +836,6 @@ class ilSetup extends PEAR
 	
 	function checkToolsSetup($a_formdata)
 	{
-		// TODO: replace checks with test call for each programm
-		
 		// convert path
 		if (!isset($a_formdata["chk_convert_path"]))
 		{
@@ -850,24 +848,9 @@ class ilSetup extends PEAR
 				return false;
 			}
 			
-			if ($this->safe_mode)
+			if (!$this->testConvert($convert_path))
 			{
-				if (exec($convert_path))
-				{
-				$this->error = "does_not_exists_convert";
-				return false;
-				}//$convert_path = $this->safe_mode_exec_dir."/".$convert_path;
-			}
-		
-			if (!is_readable($convert_path))
-			{
-				$this->error = "does_not_exists_convert";
-				return false;
-			}
-		
-			if (!preg_match("/convert/", basename($convert_path)))
-			{
-				$this->error = "wrong_file_name_convert";
+				$this->error = "check_failed_convert";
 				return false;
 			}
 		}
@@ -884,20 +867,9 @@ class ilSetup extends PEAR
 				return false;
 			}
 		
-			if ($this->safe_mode)
+			if (!$this->testZip($zip_path))
 			{
-				$zip_path = $this->safe_mode_exec_dir."/".$zip_path;
-			}
-
-			if (!@file_exists($zip_path))
-			{
-				$this->error = "does_not_exists_zip";
-				return false;
-			}
-		
-			if (!preg_match("/zip/", basename($zip_path)))
-			{
-				$this->error = "wrong_file_name_zip";
+				$this->error = "check_failed_zip";
 				return false;
 			}
 		}
@@ -913,21 +885,10 @@ class ilSetup extends PEAR
 				$this->error = "no_path_given_unzip";
 				return false;
 			}
-		
-			if ($this->safe_mode)
-			{
-				$unzip_path = $this->safe_mode_exec_dir."/".$unzip_path;
-			}
 
-			if (!@file_exists($unzip_path))
+			if (!$this->testUnzip($unzip_path))
 			{
-				$this->error = "does_not_exists_unzip";
-				return false;
-			}
-		
-			if (!preg_match("/unzip/", basename($unzip_path)))
-			{
-				$this->error = "wrong_file_name_unzip";
+				$this->error = "check_failed_unzip";
 				return false;
 			}
 		}
@@ -944,15 +905,9 @@ class ilSetup extends PEAR
 				return false;
 			}
 		
-			if (!@file_exists($java_path))
+			if (!$this->testJava($java_path))
 			{
-				$this->error = "does_not_exists_java";
-				return false;
-			}
-		
-			if (!preg_match("/java/", basename($java_path )))
-			{
-				$this->error = "wrong_file_name_java";
+				$this->error = "check_failed_java";
 				return false;
 			}
 		}
@@ -969,9 +924,9 @@ class ilSetup extends PEAR
 				return false;
 			}
 		
-			if (!@file_exists($htmldoc_path))
+			if (!$this->testHtmldoc($htmldoc_path))
 			{
-				$this->error = "does_not_exists_htmldoc";
+				$this->error = "check_failed_htmldoc";
 				return false;
 			}
 		}
@@ -1087,6 +1042,176 @@ class ilSetup extends PEAR
 		//	$this->db->disconnect();
 		//}
 		return true;
+	}
+
+	/**
+	* Check convert program
+	*
+	* @param	string		convert path
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testConvert ($a_convert_path)
+	{
+		// generate gif with convert
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/images/test.gif"))
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/images/test.gif");
+		}
+		system($a_convert_path." ".ILIAS_ABSOLUTE_PATH."/images/test.jpg GIF:".ILIAS_ABSOLUTE_PATH."/images/test.gif");
+	
+		// check wether convert generated file
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/images/test.gif"))
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/images/test.gif");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* Check JVM
+	*
+	* @param	string		java path
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testJava ($a_java_path)
+	{
+		exec($a_java_path, $out, $back);
+	
+		unset($out);
+	
+		if ($back != 1)
+			return false;
+		else
+			return true;
+	}
+
+	/**
+	* Check zip program
+	*
+	* @param	string		zip path
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testZip ($a_zip_path)
+	{
+		// create test file and run zip
+		$fp = fopen(ILIAS_ABSOLUTE_PATH."/test.dat", "w");
+			
+		fwrite($fp, "test");
+		fclose($fp);
+					
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/test.dat"))
+		{
+			$curDir = getcwd();
+			chdir(ILIAS_ABSOLUTE_PATH);
+				
+			$zipCmd = $a_zip_path." -m zip_test_file.zip test.dat";
+				
+			exec($zipCmd);
+				
+			chdir($curDir);
+		}
+	
+		// check wether zip generated test file or not
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/zip_test_file.zip"))
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/zip_test_file.zip");
+			return true;
+		}
+		else
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/test.dat");
+			return false;
+		}
+	}
+	
+	
+	/**
+	* Check unzip program
+	*
+	* @param	string		unzip_path
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testUnzip ($a_unzip_path)
+	{
+		$curDir = getcwd();
+				
+		chdir(ILIAS_ABSOLUTE_PATH);
+				
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/unzip_test_file.zip"))
+		{
+			$unzipCmd = $a_unzip_path." unzip_test_file.zip";
+			exec($unzipCmd);
+		}
+
+		chdir($curDir);
+	
+		// check wether unzip extracted the test file or not
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/unzip_test_file.txt"))
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/unzip_test_file.txt");
+		
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* Check htmldoc program
+	*
+	* @param	string		htmldoc_path
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testHtmldoc($a_htmldoc_path)
+	{
+		$curDir = getcwd();
+				
+		chdir(ILIAS_ABSOLUTE_PATH);
+
+		$html = "<html><head><title></title></head><body><p>test</p></body></html>";
+
+		$html_file = "htmldoc_test_file.html";
+        
+        $fp = fopen( $html_file ,"wb");
+        fwrite($fp, $html);
+        fclose($fp);
+
+        $htmldoc = $a_htmldoc_path." ";
+        $htmldoc .= "--no-toc ";
+        $htmldoc .= "--no-jpeg ";
+        $htmldoc .= "--webpage ";
+        $htmldoc .= "--outfile htmldoc_test_file.pdf ";
+        $htmldoc .= "--bodyfont Arial ";
+        $htmldoc .= "--charset iso-8859-15 ";
+        $htmldoc .= "--color ";
+        $htmldoc .= "--size A4  ";      // --landscape
+        $htmldoc .= "--format pdf ";
+        $htmldoc .= "--footer ... ";
+        $htmldoc .= "--header ... ";
+        $htmldoc .= "--left 60 ";
+        // $htmldoc .= "--right 200 ";
+        $htmldoc .= $html_file;
+		exec($htmldoc);
+
+		unlink(ILIAS_ABSOLUTE_PATH."/".$html_file);
+
+		chdir($curDir);
+
+		if (file_exists(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf"))
+		{
+			unlink(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 } // END class.ilSetup
 ?>
