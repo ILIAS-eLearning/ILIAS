@@ -525,11 +525,7 @@ class ilCourseMembers
 
 	function sendNotification($a_type, $a_usr_id)
 	{
-		include_once("./classes/class.ilFormatMail.php");
-
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
-
-		$mail = new ilFormatMail($_SESSION["AccountId"]);
 
 		switch($a_type)
 		{
@@ -565,9 +561,14 @@ class ilCourseMembers
 
 			case $this->NOTIFY_ADMINS:
 				$this->sendNotificationToAdmins($a_usr_id);
+
+				return true;
 				break;
 		}
 
+		include_once("./classes/class.ilFormatMail.php");
+
+		$mail = new ilFormatMail($_SESSION["AccountId"]);
 		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
 
 		unset($tmp_user);
@@ -583,7 +584,8 @@ class ilCourseMembers
 		$body = $this->lng->txt("crs_new_subscription_body");
 
 		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = '".$this->STATUS_NOTIFY."'";
+			"WHERE status = '".$this->STATUS_NOTIFY."' ".
+			"AND obj_id = '".$this->course_obj->getId()."'";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
