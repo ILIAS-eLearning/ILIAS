@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.35 2004/07/09 15:38:16 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.36 2004/08/05 08:33:02 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -455,6 +455,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
 		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
+
+		if (AUTH_CURRENT != AUTH_LOCAL)
+		{
+			$this->tpl->setVariable("TXT_REGISTRATION_DISABLED", "(".$this->lng->txt("registration_disabled").")");
+			$this->tpl->setVariable("DISABLE_REGISTRATION", "\"disabled=disabled\"");
+		}
 
 		// pathes
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));

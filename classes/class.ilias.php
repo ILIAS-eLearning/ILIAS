@@ -222,16 +222,69 @@ class ILIAS
 
 		// installation id
 		define ("IL_INST_ID", $this->getSetting("inst_id"));
+		
+		// auth modes
+		define ("AUTH_LOCAL",1);
+		define ("AUTH_LDAP",2);
+		define ("AUTH_RADIUS",3);
+		define ("AUTH_SCRIPT",4);
 
-		// build option string for PEAR::Auth
-		$this->auth_params = array(
-									'dsn'		  => $this->dsn,
-									'table'       => $this->ini->readVariable("auth", "table"),
-									'usernamecol' => $this->ini->readVariable("auth", "usercol"),
-									'passwordcol' => $this->ini->readVariable("auth", "passcol")
-									);
+		$auth_mode = $this->getSetting("auth_mode");
+		
+		// set local auth mode (1) in case database wasn't updated
+		if ($auth_mode === false)
+		{
+			$auth_mode = AUTH_LOCAL;
+		}
+		
+		define ("AUTH_CURRENT",$auth_mode);
+		
 		// set session.save_handler to "user" & set expiry time
 		ini_set("session.save_handler", "user");
+		
+		switch (AUTH_CURRENT)
+		{
+			case AUTH_LOCAL:
+				// build option string for PEAR::Auth
+				$this->auth_params = array(
+											'dsn'		  => $this->dsn,
+											'table'       => $this->ini->readVariable("auth", "table"),
+											'usernamecol' => $this->ini->readVariable("auth", "usercol"),
+											'passwordcol' => $this->ini->readVariable("auth", "passcol")
+											);
+				// We use MySQL as storage container
+				$this->auth = new Auth("DB", $this->auth_params,"",false);
+				break;
+			
+			case AUTH_LDAP:
+				$settings = $this->getAllSettings();
+
+				// build option string for PEAR::Auth
+				$this->auth_params = array(
+											'host'		=> $settings["ldap_server"],
+											'port'		=> $settings["ldap_port"],
+											'basedn'	=> $settings["ldap_basedn"],
+											'userdn'	=> $settings["ldap_search_base"],
+											'userattr'	=> $settings["ldap_login_key"]
+											);
+				$this->auth = new Auth("LDAP", $this->auth_params,"",false);
+
+				break;
+				
+			default:
+				// build option string for PEAR::Auth
+				$this->auth_params = array(
+											'dsn'		  => $this->dsn,
+											'table'       => $this->ini->readVariable("auth", "table"),
+											'usernamecol' => $this->ini->readVariable("auth", "usercol"),
+											'passwordcol' => $this->ini->readVariable("auth", "passcol")
+											);
+				// We use MySQL as storage container
+				$this->auth = new Auth("DB", $this->auth_params,"",false);
+				break;
+
+		}
+		
 		/*
 		ini_set("session.gc_maxlifetime",$this->ini->readVariable("session","expire"));
 		ini_set("session.cookie_lifetime",$this->ini->readVariable("session","expire"));
@@ -239,20 +292,11 @@ class ILIAS
 		//ini_set("session.gc_maxlifetime", 10);
 		//ini_set("session.cookie_lifetime", 10);
 
-		// We use MySQL as storage container
-		$this->auth = new Auth("DB", $this->auth_params,"",false);
-
-		/*
-		$this->auth->setIdle($this->ini->readVariable("session","expire"),true);
-		*/
 		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
-		//$this->auth->setIdle(20, false);
 		$this->auth->setExpire(0);
 
 		// Error Handling
 		$this->error_obj =& $ilErr;
-//		$this->error_obj = new ilErrorHandling();
-//		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// create instance of object factory
 		require_once("classes/class.ilObjectFactory.php");

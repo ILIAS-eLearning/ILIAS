@@ -99,6 +99,15 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
+// allow new registrations? Surpress option if Authmode is not local database
+if ($ilias->getSetting("enable_registration") and AUTH_CURRENT == AUTH_LOCAL)
+{
+	$tpl->setCurrentBlock("new_registration");
+	$tpl->setVariable("REGISTER", $lng->txt("registration"));
+	$tpl->setVariable("LANG_ID", $_GET["lang"]);
+	$tpl->parseCurrentBlock();
+}
+
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 $tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"]);
@@ -134,17 +143,9 @@ if (!empty($status))
 	}
 }
 
-$tpl->setCurrentBlock("content");
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 $tpl->setVariable("USERNAME", $_GET["username"]);
 $tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-if ($ilias->getSetting("enable_registration"))
-{
-	$tpl->setVariable("REGISTER", $lng->txt("registration"));
-}
-
-
-$tpl->parseCurrentBlock();
 
 $tpl->show(false);
 ?>

@@ -29,29 +29,29 @@ body { margin:0px; }
 <tr class="tblheader">
 	<td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
 	<td class="std">{TXT_PUBLIC_PROFILE}</td>
-	<td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB}></td>
+	<td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB} /></td>
 </tr>
 <tr>
     <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
     <td class="option_value">
-	<input type="radio" name="usr_gender" value="f" {BTN_GENDER_F}/> {TXT_GENDER_F}
-	&nbsp;&nbsp;&nbsp;<input type="radio" name="usr_gender" value="m" {BTN_GENDER_M}/> {TXT_GENDER_M}
+	<input type="radio" name="usr_gender" value="f" {BTN_GENDER_F} /> {TXT_GENDER_F}
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="usr_gender" value="m" {BTN_GENDER_M} /> {TXT_GENDER_M}
     </td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
-	<td class="option_value"><input type="text" name="usr_fname" maxlength="32" size="40" value="{FIRSTNAME}"/></td>
+	<td class="option_value"><input type="text" name="usr_fname" maxlength="32" size="40" value="{FIRSTNAME}" /></td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
-	<td class="option_value"><input type="text" name="usr_lname" maxlength="32" size="40" value="{LASTNAME}"/></td>
+	<td class="option_value"><input type="text" name="usr_lname" maxlength="32" size="40" value="{LASTNAME}" /></td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option">{TXT_TITLE}</td>
-	<td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"/></td>
+	<td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}" /></td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 
@@ -63,15 +63,15 @@ body { margin:0px; }
 	<!-- END pers_image -->
 	</td>
 	<td class="option_value"><input type="file" name="userfile" >
-	 <input class="submit" type="submit" name="usr_upload" VALUE="{UPLOAD}">
+	 <input class="submit" type="submit" name="usr_upload" value="{UPLOAD}" />
 	 <!-- BEGIN remove_pic -->
 	 <br /><br />
-	 <input class="submit" type="submit" name="removePicture" VALUE="{TXT_REMOVE_PIC}">
+	 <input class="submit" type="submit" name="removePicture" value="{TXT_REMOVE_PIC}" />
 	 <!-- END remove_pic -->
 	</td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD}></center></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD} /></center></td>
 </tr>
-
+<!-- BEGIN change_password -->
 <tr class="tblheader">
 	<td class="std" colspan="4">{TXT_CHANGE_PASSWORD}</td>
 </tr>
@@ -90,68 +90,68 @@ body { margin:0px; }
 <tr>
 	<td class="option">{TXT_RETYPE_PW}</td>
 	<td class="option_value"><input type="password" name="retype_password" maxlength="32" size="25" value="" />
-	 <input class="submit" type="submit" name="usr_change_password" VALUE="{CHANGE_PASSWORD}">
+	 <input class="submit" type="submit" name="usr_change_password" value="{CHANGE_PASSWORD}" />
 	</td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
-
+<!-- END change_password -->
 <tr class="tblheader">
 	<td class="std" colspan="4">{TXT_CONTACT_DATA}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_INSTITUTION}</td>
-	<td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_institution" {CHK_INSTITUTION}></center></td>
+	<td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_institution" {CHK_INSTITUTION} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_DEPARTMENT}</td>
-	<td class="option_value"><input type="text" name="usr_department" maxlength="80" size="40" value="{DEPARTMENT}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_department" {CHK_DEPARTMENT}></center></td>
+	<td class="option_value"><input type="text" name="usr_department" maxlength="80" size="40" value="{DEPARTMENT}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_department" {CHK_DEPARTMENT} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_STREET}</td>
-	<td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_street" {CHK_STREET}></center></td>
+	<td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_street" {CHK_STREET} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_ZIPCODE}</td>
-	<td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_zip" {CHK_ZIP}></center></td>
+	<td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_zip" {CHK_ZIP} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_CITY}</td>
-	<td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_city" {CHK_CITY}></center></td>
+	<td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_city" {CHK_CITY} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_COUNTRY}</td>
-	<td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY}></center></td>
+	<td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_PHONE_OFFICE}</td>
 	<td class="option_value"><input type="text" name="usr_phone_office" maxlength="40" size="40" value="{PHONE_OFFICE}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_office" {CHK_PHONE_OFFICE}></center></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_office" {CHK_PHONE_OFFICE} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_PHONE_HOME}</td>
 	<td class="option_value"><input type="text" name="usr_phone_home" maxlength="40" size="40" value="{PHONE_HOME}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_home" {CHK_PHONE_HOME}></center></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_home" {CHK_PHONE_HOME} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_PHONE_MOBILE}</td>
-	<td class="option_value"><input type="text" name="usr_phone_mobile" maxlength="40" size="40" value="{PHONE_MOBILE}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_mobile" {CHK_PHONE_MOBILE}></center></td>
+	<td class="option_value"><input type="text" name="usr_phone_mobile" maxlength="40" size="40" value="{PHONE_MOBILE}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_mobile" {CHK_PHONE_MOBILE} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_FAX}</td>
-	<td class="option_value"><input type="text" name="usr_fax" maxlength="40" size="40" value="{FAX}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_fax" {CHK_FAX}></center></td>
+	<td class="option_value"><input type="text" name="usr_fax" maxlength="40" size="40" value="{FAX}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_fax" {CHK_FAX} /></center></td>
 </tr>
 <tr>
 	<td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
-	<td class="option_value"><input type="text" name="usr_email" maxlength="80" size="40" value="{EMAIL}"/></td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_email" {CHK_EMAIL}></center></td>
+	<td class="option_value"><input type="text" name="usr_email" maxlength="80" size="40" value="{EMAIL}" /></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_email" {CHK_EMAIL} /></center></td>
 </tr>
 
 <tr>
@@ -159,7 +159,7 @@ body { margin:0px; }
 	<td class="option_value">
 	<textarea name="usr_hobby" rows=3 cols=45>{HOBBY}</textarea>
 	</td>
-	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_hobby" {CHK_HOBBY}></center></td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_hobby" {CHK_HOBBY} /></center></td>
 </tr>
 
 <tr class="tblheader">
@@ -202,13 +202,13 @@ body { margin:0px; }
 <tr>
 	<td class="option">{TXT_SHOW_USERS_ONLINE}</td>
 	<td class="option_value">
-		<input type="checkbox" name="show_users_online" value="y" {CHK_SHOW_USERS_ONLINE}></td>
+		<input type="checkbox" name="show_users_online" value="y" {CHK_SHOW_USERS_ONLINE} /></td>
 	</td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<td class="submit" colspan="4"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}<br /><br /></span>
-	<div align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
+	<div align="right"><input class="submit" type="submit" value="{TXT_SAVE}" /></div></td>
 </tr>
 </table>
 </form>

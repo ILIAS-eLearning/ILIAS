@@ -653,6 +653,19 @@ input.submit, a.submit {
 	cursor:pointer;
 }
 
+input.submit_disabled, a.submit_disabled {
+	background-color:#D3DAE8;
+	color:grey;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
 label, input[type=checkbox], input[type=radio], select
 {
 	cursor:pointer;
