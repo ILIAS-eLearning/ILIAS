@@ -24,18 +24,17 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("paste"):
 			$_GET["cmd"] = "pasteAdm";
 			break;
-		case $lng->txt("delete"):
-			$_GET["cmd"] = "deleteAdm";
-			break;
 		case $lng->txt("clear"):
 			$_GET["cmd"] = "clearAdm";
 			break;
 		case $lng->txt("import"):
 			$_GET["cmd"] = "import";
 			break;
+		case $lng->txt("delete"):
+			$_GET["cmd"] = "deleteAdm";
+			break;
 	}
 }
-
 //if no cmd is given default to first property
 if (!$_GET["cmd"])
 {
@@ -52,6 +51,7 @@ else
 }
 
 $methode = $_GET["cmd"]."Object";
+
 switch ($type)
 {
 	case "le":

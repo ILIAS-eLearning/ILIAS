@@ -66,7 +66,27 @@ class RoleFolderObject extends Object
 			$this->ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
 		}
 	} //function
-	
+
+	function deleteObject($a_obj_id,$a_parent)
+	{
+		global $rbacadmin;
+
+		
+		$roles = $rbacadmin->getRolesAssignedToFolder($a_obj_id);
+
+		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
+		require_once("./classes/class.RoleObject.php");
+		$obj = new RoleObject();
+		
+		foreach($roles as $role)
+		{
+			$obj->deleteObject($role,$a_obj_id);
+		}
+
+		// DELETE ROLE FOLDER
+		parent::deleteObject($a_obj_id,$a_parent);
+		return true;
+	}
 	function getSubObjects()	
 	{
 		return false;

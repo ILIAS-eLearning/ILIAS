@@ -1,13 +1,13 @@
 <?PHP
 /**
-* admin languages
-* utils for updating the database and optimize it etc.
-*
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
-*
-* @package ilias
-*/
+ * admin languages
+ * utils for updating the database and optimize it etc.
+ *
+ * @author Peter Gabriel <pgabriel@databay.de>
+ * @version $Id$
+ *
+ * @package ilias
+ */
 require_once "./include/ilias_header.inc";
 
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
@@ -19,30 +19,30 @@ switch ($_GET["cmd"])
 {
     case "install":
         $result = $lng->installLanguage($lang_key);
-	break;
+		break;
 
 	case "uninstall":
 		$result = $lng->uninstallLanguage($lang_key);
-	break;
+		break;
 	
 	case "refresh":
 		$result = $lng->refreshLanguages();
-    break;
+		break;
 
 	case "checkfiles":
 		$lng->checkLanguageFiles();
-    break;
+		break;
 	
 	case "setsyslang":
 		$result = $lng->setDefaultLanguage($_POST["lang_key"]);
-	break;
+		break;
 	
 	case "setuserlang":
 		$result = $lng->setUserLanguage($_POST["lang_key"]);
-	break;
+		break;
 	
     default:
-	break;
+		break;
 }
 
 $languages = $lng->getLanguages();
@@ -96,45 +96,45 @@ $tpl->setVariable("TXT_LASTCHANGE", $lng->txt("last_change"));
 
 foreach ($languages as $lang_key => $row)
 {
-		$i++;
-		$link = "";
-		$tpl->setCurrentBlock("language_row");
-		$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-		$tpl->setVariable("LNG", $row["long"]);
+	$i++;
+	$link = "";
+	$tpl->setCurrentBlock("language_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("LNG", $row["long"]);
 
-		if ($row["installed"]) 
+	if ($row["installed"]) 
+	{
+		$tpl->setVariable("STATUS", $lng->txt("installed"));
+		//$_GET["message"] = "Systemsprache kann nicht deinstalliert werden";
+		$link = "adm_languages.php?cmd=uninstall&lang_key=".$lang_key;
+	}
+	else
+	{
+		$tpl->setVariable("STATUS", $lng->txt("not_installed"));
+		$link = "adm_languages.php?cmd=install&lang_key=".$lang_key;
+	}
+		
+	// avoid uninstalling of system language and language in use
+	if (($lang_key == $lng->systemLang) || ($lang_key == $lng->userLang))
+	{
+		if ($lang_key == $lng->systemLang)
 		{
-			$tpl->setVariable("STATUS", $lng->txt("installed"));
-			//$_GET["message"] = "Systemsprache kann nicht deinstalliert werden";
-			$link = "adm_languages.php?cmd=uninstall&lang_key=".$lang_key;
+			$tpl->setVariable("STATUS", $lng->txt("system_language"));
+			$link = "";
 		}
 		else
 		{
-			$tpl->setVariable("STATUS", $lng->txt("not_installed"));
-			$link = "adm_languages.php?cmd=install&lang_key=".$lang_key;
+			$tpl->setVariable("STATUS", $lng->txt("in_use"));
+			$link = "";
 		}
+	}
 		
-		// avoid uninstalling of system language and language in use
-		if (($lang_key == $lng->systemLang) || ($lang_key == $lng->userLang))
-		{
-			if ($lang_key == $lng->systemLang)
-			{
-				$tpl->setVariable("STATUS", $lng->txt("system_language"));
-				$link = "";
-			}
-			else
-			{
-				$tpl->setVariable("STATUS", $lng->txt("in_use"));
-				$link = "";
-			}
-		}
+	$tpl->setVariable("LINK", $link);
 		
-		$tpl->setVariable("LINK", $link);
-		
-        if ($row["update"] != "") {
-                $tpl->setVariable("LASTCHANGE", $lng->ftimestamp2datetimeDE($row["update"]));
-        }
-        $tpl->parseCurrentBlock();
+	if ($row["update"] != "") {
+		$tpl->setVariable("LASTCHANGE", $lng->ftimestamp2datetimeDE($row["update"]));
+	}
+	$tpl->parseCurrentBlock();
 }
 
 // ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE

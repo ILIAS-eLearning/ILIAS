@@ -447,6 +447,23 @@ class Object
 		}
 		return true;
 	}
+
+	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
+	{
+		global $rbacadmin, $tree;
+		
+		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
+
+		// IF THERE IS NO REFERENCE, DELETE ENTRY IN OBJECT_DATA
+		if(!$tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
+		{
+			deleteObject($a_obj_id);
+		}
+		// DELETE PERMISSION ENTRIES IN RBAC_PA
+		$rbacadmin->revokePermission($a_obj_id,$a_parent_id);
+
+		return true;
+	}
 	function cutAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
@@ -554,6 +571,5 @@ class Object
 		} //foreach
 		return $data;
 	}
-	
 } // class
 ?>

@@ -75,67 +75,20 @@ class RoleObject extends Object
 	* delete a role object
 	* @access	public
 	**/
-	function deleteObject()
+	function deleteObject($a_obj_id, $a_parent)
 	{
-		global $tree, $rbacsystem, $rbacadmin;
+		global $tree, $rbacadmin;
 		
-		// Erst muss das Recht zum Löschen im RoleFolder überprüft werden
-		// Auslesen aller RoleFolderId's aus rbac_fa
-		// => alle Id's sind Kinder oder es gibt keine anderen RoleFolder
-		//    deleteRole()
-		// => sonst deleteLocalRole() für alle Kinder und den zu löschenden RoleFolder
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if($rbacadmin->isAssignable($a_obj_id,$a_parent))
 		{
-			if ($_POST["id"])
-			{
-				// if object is system role folder these vars are used by method isGrandChild()
-				$parent = $_GET["parent"] == SYSTEM_FOLDER_ID ? 0 : $_GET["parent"];
-				$object_id = $_GET["parent"] == SYSTEM_FOLDER_ID ? ROOT_FOLDER_ID : $_GET["obj_id"];
-				
-				foreach ($_POST["id"] as $id)
-				{
-					$folders = $rbacadmin->getFoldersAssignedToRole($id);
-					
-					if (count($folders) == 1)
-					{
-						$rbacadmin->deleteRole($id);
-					}
-					else
-					{
-						foreach ($folders as $folder)
-						{
-							if($tree->isGrandChild($object_id,$parent,$folder["parent" ],$folder["parent_obj"]))
-							{
-								$to_delete[] = array(
-									"parent"     => $folder["parent"],
-									"parent_obj" => $folder["parent_obj"]);
-							}
-						}
-						// are all childs?
-						if (count($to_delete) == count($folders))
-						{
-							$rbacadmin->deleteRole($id);
-						}
-						else
-						{
-							foreach ($to_delete as $delete)
-							{
-								$rbacadmin->deleteLocalRole($id,$delete["parent"],$delete["parent_obj"]);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				$this->ilias->raiseError("No check box checked, nothing happened ;-).",$this->ilias->error_obj->MESSAGE);
-			}
+			// IT'S THE BASE ROLE
+			$rbacadmin->deleteRole($a_obj_id,$a_parent);
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
+			// INHERITANCE WAS STOPED, SO DELETE ONLY THIS LOCAL ROLE
+			$rbacadmin->deleteLocalRole($a_obj_id,$a_parent);
 		}
-
 		return true;
 	}
 
