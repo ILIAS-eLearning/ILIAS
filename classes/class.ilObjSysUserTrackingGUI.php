@@ -93,7 +93,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 		// tracking settings
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_settings.html");
-		$tpl->setVariable("FORMACTION", "adm_object?ref_id=".$_GET["ref_id"].
+		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
 			"&cmd=gateway");
 		$tpl->setVariable("TXT_TRACKING_SETTINGS", $this->lng->txt("tracking_settings"));
 		$tpl->setVariable("TXT_ACTIVATE_TRACKING", $this->lng->txt("activate_tracking"));
@@ -154,7 +154,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 		// tracking settings
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_manage_data.html");
-		$tpl->setVariable("FORMACTION", "adm_object?ref_id=".$_GET["ref_id"].
+		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
 			"&cmd=gateway");
 		$tpl->setVariable("TXT_TRACKING_DATA", $this->lng->txt("tracking_data"));
 		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
@@ -191,7 +191,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 		$nr = $this->object->getTotalOlderThanMonth($_POST["month"]);
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_confirm_data_deletion.html");
-		$tpl->setVariable("FORMACTION", "adm_object?ref_id=".$_GET["ref_id"].
+		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
 			"&cmd=gateway&month=".$_POST["month"]);
 		$tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("tracking_data_del_confirm"));
 		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
