@@ -53,10 +53,10 @@ class ilObjFile extends ilObject
 		$this->type = "file";
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		if ($a_id != 0)
+		/*if ($a_id != 0)
 		{
 			$this->read();
-		}
+		}*/
 	}
 
 	function create()
@@ -68,9 +68,7 @@ class ilObjFile extends ilObject
 
 	function getDirectory()
 	{
-		//if (!is_dir
-		//ilUtil::makeDir($this->getDirectory());
-		return ilUtil::getDataDir()."/files/file_".$this->getId();
+		return ilUtil::getWebspaceDir()."/files/file_".$this->getId();
 	}
 
 	function createDirectory()
@@ -86,6 +84,8 @@ class ilObjFile extends ilObject
 
 	function read()
 	{
+		parent::read();
+
 		$q = "SELECT * FROM file_data WHERE file_id = '".$this->getId()."'";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -168,6 +168,21 @@ class ilObjFile extends ilObject
 		$gtree = new ilGroupTree($grp_id);
 
 		$gtree->insertNode($this->getRefId(), $a_parent_ref);
+	}
+
+	function clone()
+	{
+		$fileObj = new ilObjFile($this->getRefId());
+		$fileObj->create();
+		$new_ref_id = $fileObj->createReference();
+		$fileObj->createDirectory();
+		
+		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$fileObj->getFileName());
+		
+		unset($fileObj);
+	
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
 	}
 } // END class.ilObjFile
 ?>

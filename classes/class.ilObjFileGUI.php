@@ -132,12 +132,6 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_file_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-//		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-//		{
-//			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-//		}
-
 		// create and insert file in grp_tree
 		include_once("classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
@@ -154,10 +148,6 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->createDirectory();
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
 			$_FILES["Fobject"]["name"]["file"]);
-
-		// insert file in db
-		//$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$fileObj->getId()."','".$_FILES["Fobject"]["name"]["file"]."','".$_FILES["Fobject"]["type"]["file"]."')";
-		//$this->ilias->db->query($q);
 
 		sendInfo($this->lng->txt("file_added"),true);
 		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
