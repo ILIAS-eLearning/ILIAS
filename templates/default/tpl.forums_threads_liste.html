@@ -1,40 +1,41 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
-<table width="100%" cellpadding="0" cellpadding="0" border="0">
+<table class="fullwidth">
 <tr>
-	<td width=1% nowrap="nowrap" valign="top">{COUNT_THREAD}</td>
-	<td align="right">{BUTTONS}</td>
+  <td width="1%" nowrap="nowrap" valign="top">{COUNT_THREAD}</td>
+  <td align="right">{BUTTONS}</td>
 </tr>
 </table>
 {NO_BTN}
 {MESSAGE}
 <!-- BEGIN threadtable -->
 <!-- BEGIN linkbar -->
-<table cellpadding="3" cellspacing="1" border="0">
-<tr><td>{LINKBAR}</td></tr>
+<table class="std">
+<tr>
+<td class="std">{LINKBAR}</td>
+</tr>
 </table>
 <!-- END linkbar -->
-
-<table cellpadding="4" cellspacing="1" border="0" width="100%" bgcolor="#000000">
+<table class="fullwidth">
 <tr class="tblheader">
-  <td class="frm_header" width="60%">{TXT_TOPIC}</td>
-  <td class="frm_header" align="center" width="20%">{TXT_AUTHOR}</td>
-  <td class="frm_header" align="center" nowrap="nowrap">{TXT_NUM_POSTS}</td>
-  <td class="frm_header" align="center" nowrap="nowrap">{TXT_NUM_VISITS}</td>
-  <td class="frm_header" align="center" width="20%">{TXT_LAST_POST}</td>
+  <td class="std" width="60%">{TXT_TOPIC}</td>
+  <td class="std" align="center" width="20%">{TXT_AUTHOR}</td>
+  <td class="std" align="center" nowrap="nowrap">{TXT_NUM_POSTS}</td>
+  <td class="std" align="center" nowrap="nowrap">{TXT_NUM_VISITS}</td>
+  <td class="std" align="center" width="20%">{TXT_LAST_POST}</td>
 </tr>
 <!-- BEGIN threads_row -->
-<tr>
- <td width="60%" class="frm_column2" width="20%"><span class="frm_topic">{TITLE}</span></td>
- <td width="20%" align="center" class="frm_column1">{AUTHOR}</td>
- <td align="center" class="frm_column2">{NUM_POSTS}</td>
- <td align="center" class="frm_column1">{NUM_VISITS}</td>
- <td width="20%" class="frm_column2">{LAST_POST}</td>
+<tr class="std">
+ <td width="60%" class="tblrow2" width="20%">{TITLE}</td>
+ <td width="20%" align="center" class="tblrow1">{AUTHOR}</td>
+ <td align="center" class="tblrow2">{NUM_POSTS}</td>
+ <td align="center" class="tblrow1">{NUM_VISITS}</td>
+ <td width="20%" class="tblrow2">{LAST_POST}</td>
 </tr>
 <!-- END threads_row -->
 <!-- BEGIN threads_no -->
 <tr class="std">
- <td  class="std" colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
+ <td class="std" colspan="5">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
 </tr>
 <!-- END threads_no -->
 </table>
