@@ -81,6 +81,8 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
+$tplContent->setVariable("TPLPATH", $tplContent->tplPath);
+
 $tplmain->setVariable("PAGECONTENT", $tplContent->get());	
 $tplmain->show();
 

@@ -259,7 +259,7 @@ ilias_version#:#ILIAS version
 db_version#:#database version
 installation_id#:#installation ID
 host#:#host
-ip_adress#:#IP adress
+ip_address#:#IP address
 server_port#:#server port
 server_software#:#server software
 http_path#:#http path
@@ -299,3 +299,7 @@ forums#:#forums
 editor#:#editor
 help#:#help
 logout#:#logout
+view_content#:#view content
+edit_properties#:#edit properties
+perm_settings#:#permissions
+show_owner#:#show owner
