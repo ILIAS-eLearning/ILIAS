@@ -178,7 +178,6 @@ class ilObjectGUI
 			{
 				$this->link_params = "ref_id=".$this->ref_id;
 				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($this->id);
-
 			}
 			else
 			{
@@ -875,13 +874,15 @@ class ilObjectGUI
 		$this->clearObject();
 		
 		// copy folders and files in each copied group
-		foreach ($_SESSION["copied_group_refs"] as $old_tree => $new_tree)
+		if(is_array($_SESSION["copied_group_refs"]))
 		{
-			$groupObj = $this->ilias->obj_factory->getInstanceByRefId($new_tree);
-			$groupObj->cloneNoneRbacObjects();
-			$groupObj->fixTreeStructure($old_tree);
-		}
-		
+			foreach ($_SESSION["copied_group_refs"] as $old_tree => $new_tree)
+			{
+				$groupObj = $this->ilias->obj_factory->getInstanceByRefId($new_tree);
+				$groupObj->cloneNoneRbacObjects();
+				$groupObj->fixTreeStructure($old_tree);
+			}
+		}		
 		unset($_SESSION["copied_group_refs"]);
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
@@ -1260,7 +1261,8 @@ class ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -1666,7 +1668,7 @@ class ilObjectGUI
 			return $this->return_location[$a_cmd];
 		}
 		else
-		{ 
+		{
 			return $a_location;
 		}
 	}
