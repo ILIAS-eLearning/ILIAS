@@ -282,7 +282,7 @@ assessment#:#uploaded_material#:#Uploaded Material###16 Mar 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
-bibitem#:#bibitem_av#:#AV###06 May 2004 new variable
+bibitem#:#bibitem_av#:#AV
 bibitem#:#bibitem_bibitem#:#Bibliographische Information
 bibitem#:#bibitem_book#:#Buch
 bibitem#:#bibitem_booktitle#:#Buchtitel
@@ -300,11 +300,11 @@ bibitem#:#bibitem_how_published#:#Wie veröffentlicht
 bibitem#:#bibitem_identifier#:#Bezeichner
 bibitem#:#bibitem_inbook#:#Bucheinlage
 bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
-bibitem#:#bibitem_institution#:#Institution###06 May 2004 new variable
-bibitem#:#bibitem_internet#:#Internet###06 May 2004 new variable
-bibitem#:#bibitem_isbn#:#ISBN###06 May 2004 new variable
-bibitem#:#bibitem_issn#:#ISSN###06 May 2004 new variable
-bibitem#:#bibitem_journal#:#Journal###06 May 2004 new variable
+bibitem#:#bibitem_institution#:#Institution
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Journal
 bibitem#:#bibitem_journal_article#:#Journal Artikel
 bibitem#:#bibitem_keyword#:#Schlagwort
 bibitem#:#bibitem_label#:#Kennzeichen
@@ -335,7 +335,7 @@ bibitem#:#bibitem_series_volume#:#Band
 bibitem#:#bibitem_technical_report#:#Forschungsbericht
 bibitem#:#bibitem_type#:#Typ
 bibitem#:#bibitem_unpublished#:#Unveröffentlicht
-bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
+bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Wo herausgegeben
 bibitem#:#bibitem_year#:#Jahr
 chat#:#chat_active#:#Aktiv
@@ -479,7 +479,7 @@ common#:#basic_data#:#Grunddaten
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
-common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
+common#:#bib_data#:#Bibliographische Daten
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
@@ -514,10 +514,10 @@ common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_htlm#:#Lege HTML-Lernmodul an
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
-common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen###07 May 2004 content changed
+common#:#cat_create_qpl#:#Neuen Fragenpool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
-common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
+common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
@@ -828,7 +828,7 @@ common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben 
 common#:#glo_new#:#Neues Glossar
 common#:#glo_read#:#Glossar lesen
-common#:#glo_upload_file#:#File###07 May 2004 new variable
+common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#glossaries#:#Glossare
@@ -940,7 +940,7 @@ common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
-common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
+common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
@@ -1317,7 +1317,7 @@ common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Fragen-Pool###07 May 2004 content changed
+common#:#obj_qpl#:#Fragenpool
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_role#:#Rolle
@@ -1328,9 +1328,9 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_slm#:#SCORM Lernmodul
-common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
+common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
-common#:#obj_svy#:#Survey###07 May 2004 new variable
+common#:#obj_svy#:#Umfrage
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -1365,13 +1365,13 @@ common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Fragenpools###07 May 2004 content changed
+common#:#objs_qpl#:#Fragenpools
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
-common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
+common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
-common#:#objs_svy#:#Surveys###07 May 2004 new variable
+common#:#objs_svy#:#Umfragen
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_usr#:#Benutzer
@@ -1446,16 +1446,16 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
-common#:#qpl#:#Fragen-Pool###07 May 2004 content changed
-common#:#qpl_add#:#Fragen-Pool anfügen
-common#:#qpl_delete#:#Fragen-Pool löschen
+common#:#qpl#:#Fragenpool
+common#:#qpl_add#:#Fragenpool anfügen
+common#:#qpl_delete#:#Fragenpool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
-common#:#qpl_new#:#Neuer Fragen-Pool
-common#:#qpl_read#:#Lesezugriff auf Fragen-Pool
-common#:#qpl_visible#:#Fragen-Pool ist sichtbar
-common#:#qpl_write#:#Fragen-Pool bearbeiten
+common#:#qpl_new#:#Neuer Fragenpool
+common#:#qpl_read#:#Lesezugriff auf Fragenpool
+common#:#qpl_visible#:#Fragenpool ist sichtbar
+common#:#qpl_write#:#Fragenpool bearbeiten
 common#:#question#:#Frage
-common#:#question_pools#:#Fragen-Pools
+common#:#question_pools#:#Fragenpools
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
@@ -1573,14 +1573,14 @@ common#:#slm_visible#:#Lernmodul ist sichtbar
 common#:#slm_write#:#SCORM Lernmodul bearbeiten
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
-common#:#spl_add#:#Add question pool###07 May 2004 new variable
-common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
-common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#spl_new#:#New question pool###07 May 2004 new variable
-common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
-common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
-common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
+common#:#spl#:#Fragenpool für Umfrage
+common#:#spl_add#:#Fragenpool anfügen
+common#:#spl_delete#:#Fragenpool löschen
+common#:#spl_edit_permission#:#Rechteeinstellungen ändern
+common#:#spl_new#:#Neuer Fragenpool
+common#:#spl_read#:#Lesezugriff auf Fragenpool
+common#:#spl_visible#:#Fragenpool ist sichtbar
+common#:#spl_write#:#Fragenpool kann bearbeitet werden
 common#:#st_a#:#ein Kapitel
 common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
@@ -1599,14 +1599,14 @@ common#:#submit#:#Abschicken
 common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
-common#:#svy#:#Survey###07 May 2004 new variable
-common#:#svy_add#:#Add survey###07 May 2004 new variable
-common#:#svy_delete#:#Delete survey###07 May 2004 new variable
-common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#svy_new#:#New survey###07 May 2004 new variable
-common#:#svy_read#:#Read access to survey###07 May 2004 new variable
-common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
-common#:#svy_write#:#Edit survey###07 May 2004 new variable
+common#:#svy#:#Umfrage
+common#:#svy_add#:#Umfrage anfügen
+common#:#svy_delete#:#Umfrage löschen
+common#:#svy_edit_permission#:#Rechteeinstellungen ändern
+common#:#svy_new#:#Neue Umfrage
+common#:#svy_read#:#Lesezugriff auf Umfrage
+common#:#svy_visible#:#Umfrage ist sichtbar
+common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#Systemsprache wählen
@@ -1887,7 +1887,7 @@ content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
-content#:#cont_page_header#:#Überschrift der Seite
+content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
