@@ -25,6 +25,8 @@
 /**
 * class ilRbacSystem
 * system function like checkAccess, addActiveRole ...
+*  Supporting system functions are required for session management and in making access control decisions.
+*  This class depends on the session since we offer the possiblility to add or delete active roles during one session.
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -53,16 +55,16 @@ class ilRbacSystem
 	
 	/**	
 	* checkAccess represents the main method of the RBAC-system in ILIAS3 developers want to use
-	* With this method you check the permissions a use may have due to its roles
-	* on an specific object.
-	* The first parameter are the operation(s) the user must have
-	* The second & third parameter specifies the object where the operation(s) may applie to
-	* The last parameter is only required, if you ask for the 'create' operation. Here you specify
-	* the object type which you want to create.
+	*  With this method you check the permissions a use may have due to its roles
+	*  on an specific object.
+	*  The first parameter are the operation(s) the user must have
+	*  The second & third parameter specifies the object where the operation(s) may applie to
+	*  The last parameter is only required, if you ask for the 'create' operation. Here you specify
+	*  the object type which you want to create.
 	* 
-	* example: $rbacSystem->checkAccess("visible,read",23,5);
-	* Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
-	* The object_id is 23 and it is located under object no. 5 under the tree structure.
+	*  example: $rbacSystem->checkAccess("visible,read",23,5);
+	*  Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
+	*  The object_id is 23 and it is located under object no. 5 under the tree structure.
 	*  
 	* @access	public
 	* @param	string		one or more operations, separated by commas (i.e.: visible,read,join)
@@ -93,7 +95,6 @@ class ilRbacSystem
 
 		foreach ($operations as $operation)
 		{
-			// Abfrage der ops_id der gewünschten Operation
 			$ops_id = getOperationId($operation);
 		
 			// Case 'create': naturally there is no rbac_pa entry
@@ -178,7 +179,7 @@ class ilRbacSystem
     }
 	
 	/**
-	* check if a specific has the permission '$a_operation' of an object
+	* check if a specific role has the permission '$a_operation' of an object
 	* @access	public
 	* @param	integer		reference id of object
 	* @param	integer		role id 
@@ -189,7 +190,6 @@ class ilRbacSystem
 	{
 		$ops = array();
 
-		// Abfrage der ops_id der gewünschten Operation
 		$q = "SELECT ops_id FROM rbac_operations ".
 				 "WHERE operation ='".$a_operation."'";
 		

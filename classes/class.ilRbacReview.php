@@ -24,6 +24,11 @@
 
 /**
 * class ilRbacReview
+*  Contains Review functions of core Rbac.
+*  This class offers the possibility to view the contents of the user <-> role (UR) relation and
+*  the permission <-> role (PR) relation.
+*  For example, from the UA relation the administrator should have the facility to view all user assigned to a given role.
+*  
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -81,7 +86,7 @@ class ilRbacReview
 
 	/**
 	* Get parent roles in a path. If last parameter is set 'true'
-	* it delivers also all templates in the path
+	*  it delivers also all templates in the path
 	* @access	public
 	* @param	array	array with path_ids
 	* @param	boolean	true for role templates (default: false)
@@ -131,7 +136,7 @@ class ilRbacReview
 
 	/**
 	* get an array of parent role ids of all parent roles, if last parameter is set true
-	* you get also all parent templates
+	*  you get also all parent templates
 	* @access	private
 	* @param	integer		ref_id of an object which is end node
 	* @param	boolean		true for role templates (default: false)
@@ -158,7 +163,6 @@ class ilRbacReview
 
 
 	/**
-	* TODO: maybe deprecated
 	* Returns a list of roles in an container
 	* @access	public
 	* @param	integer	ref_id
@@ -404,7 +408,7 @@ class ilRbacReview
 
 	/**
 	* get all possible operations of a specific role
-	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	*  The ref_id of the role folder (parent object) is necessary to distinguish local roles
 	* @access	public
 	* @param	integer	role_id
 	* @param	string	object type
@@ -475,7 +479,7 @@ class ilRbacReview
 	/**
 	*  
 	* TODO: using var $a_obj_id which is not known in function
-	* Fetch loaded modules or possible modules in context
+	*  Fetch loaded modules or possible modules in context
 	* @access	public
 	* @param	string type of object
 	* @param    integer reference id of object
@@ -531,7 +535,6 @@ class ilRbacReview
 	}
 
 	/**
-	* TODO: function should be renamed
 	* get all objects in which the inheritance was stopped
 	* @access	public
 	* @param	integer	role_id
