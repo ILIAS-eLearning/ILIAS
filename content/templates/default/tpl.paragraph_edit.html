@@ -326,6 +326,7 @@ function storeCaret(textEl) {
   _editor_lang = "de";
 </script>
 <script type="text/javascript" src="../content/htmlarea/htmlarea.js"></script>
+<script type="text/javascript" src="./js/handletags.js"></script>
 
 <script type="text/javascript">
 var editor = null;
@@ -355,7 +356,8 @@ function initEditor(TextAreaName)
 	  			  {
 					if (checkAllowTagInside("str"))
 					{
-                    	editor.surroundHTML('<span class="ilc_Strong">', '</span>');
+                    	//editor.surroundHTML('<span class="ilc_Strong">', '</span>');
+						addTagInEditor("span", "ilc_Strong");
 					}
                   }
     });
@@ -370,7 +372,8 @@ function initEditor(TextAreaName)
 	  			  {
 				  	if (checkAllowTagInside("emp"))
 					{
-                    	editor.surroundHTML('<span class="ilc_Emph">', '</span>');
+                    	//editor.surroundHTML('<span class="ilc_Emph">', '</span>');
+						addTagInEditor("span", "ilc_Emph");
 					}
                   }
     });
@@ -385,7 +388,8 @@ function initEditor(TextAreaName)
 	  			  {
 				  	if (checkAllowTagInside("com"))
 					{
-                    	editor.surroundHTML('<span class="ilc_Comment">', '</span>');
+                    	//editor.surroundHTML('<span class="ilc_Comment">', '</span>');
+						addTagInEditor("span", "ilc_Comment");
 					}
                   }
     });
@@ -400,7 +404,8 @@ function initEditor(TextAreaName)
 	  			  {
 				  	if (checkAllowTagInside("quot"))
 					{
-                    	editor.surroundHTML('<span class="ilc_Quotation">', '</span>');
+                    	//editor.surroundHTML('<span class="ilc_Quotation">', '</span>');
+						addTagInEditor("span", "ilc_Quotation");
 					}
                   }
     });
@@ -415,7 +420,8 @@ function initEditor(TextAreaName)
 	  			  {
 				  	if (checkAllowTagInside("code"))
 					{
-                    	editor.surroundHTML('<code>', '</code>');
+                    	//editor.surroundHTML('<code>', '</code>');
+						addTagInEditor("code", "");
 					}
                   }
     });
@@ -508,7 +514,7 @@ function initEditor(TextAreaName)
 		  //"bold", "italic", "separator",
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
-		  "copy", "cut", "paste", "separator"
+		  "copy", "cut", "paste", "separator","htmlmode"
 		  
           ],
 
@@ -548,6 +554,73 @@ function initEditor(TextAreaName)
   return false;
 
 }
+
+
+
+
+function addTagInEditor(tagName,className) 
+{
+	
+	if (editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;"  && editor.getSelectedHTML()!=" ") 
+	{
+		editor.surroundHTML(startMarker,endMarker);
+		text = editor.getHTML();
+		
+		text = replaceAll(text, "<br />","%%BR%%");
+		text = replaceAll(text, "<br/>","%%BR%%");
+		text = replaceAll(text, "<br>","%%BR%%");
+		
+		text = replaceAll(text,"&nbsp;"," ");
+		text2 = addTag(text, tagName, className);
+		
+		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+		
+		text2 = replaceAll(text2, "%%BR%%", "<br />");
+		
+		editor.setHTML(text2);
+		
+		text2 = editor.getHTML();
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"> </span>", " ");
+		
+		text2 = replaceAll(text2,"&nbsp;"," ");
+		
+		editor.setHTML(text2);
+	} 
+	else 
+	{
+		text2 = editor.getHTML();
+		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+		
+		text2 = replaceAll(text2,"&nbsp;"," ");
+
+		editor.setHTML(text2);
+	}
+	
+}
+
+
 
 var notAllowedTagsInside = new Array();
 function addNATI(which, inWhich, inClass) 
@@ -756,6 +829,9 @@ function checkAllowTagInside3(which)
 // {{{
 function checkAllowTagInside(which) 
 {
+	return(true);
+	
+	
 	var ancestors = editor.getAllAncestors();
 	for (j=0;j<ancestors.length;j++) 
 	{
@@ -952,19 +1028,20 @@ function buttonInternalLink()
         T = obj.value;
 		
 		T = replaceAll(T,"<", "&lt;");
-/*		
+		
         T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
         T = replaceAll(T, "[/str]","</span>");
         
         T = replaceAll(T, "[emp]","<span class=\"ilc_Emph\">");
         T = replaceAll(T, "[/emp]","</span>");
-*/
-        T = replaceAll(T, "[str]","<strong>");
+
+/*
+		T = replaceAll(T, "[str]","<strong>");
         T = replaceAll(T, "[/str]","</strong>");
         
         T = replaceAll(T, "[emp]","<em>");
         T = replaceAll(T, "[/emp]","</em>");
-		
+*/		
 		
         T = replaceAll(T, "[com]","<span class=\"ilc_Comment\">");
         T = replaceAll(T, "[/com]","</span>");

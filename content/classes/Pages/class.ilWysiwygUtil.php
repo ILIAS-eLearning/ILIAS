@@ -143,6 +143,27 @@ class ilWysiwygUtil
     function convertFromPost($content) 
 	{
         
+		$content = str_replace("&nbsp;"," ",$content);
+		//vd(htmlspecialchars($content));
+		
+		$content = str_replace(" </span>","</span> ",$content);
+		$content = str_replace("<span class=\"ilc_Strong\"></span>","",$content);
+		$content = str_replace("<span class=\"ilc_Emph\"></span>","",$content);
+		$content = str_replace("<span class=\"ilc_Quotation\"></span>","",$content);
+		$content = str_replace("<span class=\"ilc_Comment\"></span>","",$content);
+		
+		$content = rawurlencode($content);
+		$content = str_replace("%3Cspan%20class%3D%22ilc_Strong%22%3E%20%3C%2Fspan%3E","%20",$content);
+		$content = str_replace("%3Cspan%20class%3D%22ilc_Emph%22%3E%20%3C%2Fspan%3E","%20",$content);
+		$content = str_replace("%3Cspan%20class%3D%22ilc_Quotation%22%3E%20%3C%2Fspan%3E","%20",$content);
+		$content = str_replace("%3Cspan%20class%3D%22ilc_Comment%22%3E%20%3C%2Fspan%3E","%20",$content);
+		$content = rawurldecode($content);
+		
+
+		//echo(htmlspecialchars($content));
+//		echo "<p>";
+//		echo(rawurlencode($content));
+		
         $xml_parser = xml_parser_create("UTF-8");
         xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
         xml_set_object($xml_parser,$this);
