@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.47 2003/08/19 11:01:23 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.48 2003/08/19 12:21:45 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -200,9 +200,20 @@ class ilObjRoleGUI extends ilObjectGUI
 					{
 						$selected = $rbacreview->getOperationsOfRole($this->object->getId(), $data["title"], $_GET["ref_id"]);
 
-						$checked = in_array($operations["ops_id"],$selected);
+						// check all boxes for system role
+						if ($this->object->getId() == SYSTEM_ROLE_ID)
+						{
+							$checked = true;
+							$disabled = true;
+						}
+						else
+						{
+							$checked = in_array($operations["ops_id"],$selected);
+							$disabled = false;
+						}
+
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
+						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"],$disabled);
 						$output["perm"]["$operation_name"][$num] = $box;
 					}
 					else
@@ -233,26 +244,34 @@ class ilObjRoleGUI extends ilObjectGUI
 			// ADOPT PERMISSIONS
 			$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
 
-			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
-
-			// sort output for correct color changing
-			ksort($parent_role_ids);
-
-			foreach ($parent_role_ids as $key => $par)
+			// send message for system role
+			if ($this->object->getId() == SYSTEM_ROLE_ID)
 			{
-				$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
-				$output["adopt"][$key]["check_adopt"] = $radio;
-				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-				$output["adopt"][$key]["role_name"] = $par["title"];
+				$output["adopt"] = array();
+				sendinfo($this->lng->txt("msg_sysrole_not_editable"));
+			}
+			else
+			{
+				// BEGIN ADOPT_PERMISSIONS
+				$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
+	
+				// sort output for correct color changing
+				ksort($parent_role_ids);
+	
+				foreach ($parent_role_ids as $key => $par)
+				{
+					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+					$output["adopt"][$key]["check_adopt"] = $radio;
+					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+					$output["adopt"][$key]["role_name"] = $par["title"];
+				}
+	
+				$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
+				// END ADOPT_PERMISSIONS
 			}
 
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
-			// END ADOPT_PERMISSIONS
-
 			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
-			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
 		}
 
 		$this->data = $output;
@@ -280,8 +299,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			// BEGIN CHECK PERMISSION
 			$this->tpl->setCurrentBlock("CHECK_PERM");
 
-			//var_dump("<pre>",$operations,"</pre>");
-
 			for ($i = 0;$i < count($operations)-1;++$i)
 			{
 				if (!empty($operations[$i]))
@@ -306,19 +323,44 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 		} // END TABLE DATA OUTER
 
-		// BEGIN ADOPT PERMISSIONS
-		foreach ($this->data["adopt"] as $key => $value)
+		// don't display adopt permissions form for system role
+		if ($this->object->getId() != SYSTEM_ROLE_ID)
 		{
-			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");
-			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
-			$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
-			$this->tpl->setVariable("TYPE",$value["type"]);
-			$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
+			// BEGIN ADOPT PERMISSIONS
+			foreach ($this->data["adopt"] as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("ADOPT_PERM_ROW");
+				$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
+				$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
+				$this->tpl->setVariable("TYPE",$value["type"]);
+				$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("ADOPT_PERM_FORM");
+			$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
+			$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
 			$this->tpl->parseCurrentBlock();
-		} // END ADOPT PERMISSIONS
+			// END ADOPT PERMISSIONS
+		
+			$this->tpl->setCurrentBlock("tblfooter_standard");
+			$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
+			$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
+			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
+			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
+			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
 
+			// hide form buttons for system role
+			$this->tpl->setCurrentBlock("tblfooter_sysrole");
+			$this->tpl->setVariable("COL_ANZ_SYS",$this->data["col_anz"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
-
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
 		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
@@ -326,16 +368,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TBL_HELP_IMG_ALT",$this->lng->txt("help"));
 		$this->tpl->setVariable("TBL_TITLE",$this->object->getTitle());
 			
-		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
-		$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
-		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
 		$this->tpl->setVariable("TXT_OBJ_TYPE",$this->data["txt_obj_type"]);
-		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
-		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
-		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
-		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
 		$this->tpl->parseCurrentBlock();
 	}
 

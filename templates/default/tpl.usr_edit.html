@@ -86,6 +86,16 @@
     </td>
   </tr>
 <!-- END role -->
+<tr>
+	<td class="option">{TXT_LANGUAGE}</td>
+	<td class="option_value">
+	<select name="usr_language">
+<!-- BEGIN language_selection -->
+		<option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
+<!-- END language_selection -->
+	</select>
+	</td>
+</tr>
 <!-- BEGIN inform_user -->
   <tr>
     <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>

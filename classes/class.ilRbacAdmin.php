@@ -88,10 +88,18 @@ class ilRbacAdmin
 	*/
 	function deleteRole($a_rol_id,$a_ref_id)
 	{
+		global $lng;
+
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::deleteRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			$this->ilias->raiseError($lng->txt("msg_sysrole_not_deletable"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// TODO: check assigned users before deletion
@@ -153,6 +161,12 @@ class ilRbacAdmin
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
+
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
@@ -297,6 +311,12 @@ class ilRbacAdmin
 			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",
 									 $this->ilias->error_obj->WARNING);
 		}
+		
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}		
 
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
@@ -324,6 +344,12 @@ class ilRbacAdmin
 		{
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
 		}
 
 		if ($a_rol_id)
@@ -365,8 +391,12 @@ class ilRbacAdmin
 					   " dest_parent_id: ".$a_dest_parent;
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
-		//$a_dest_id = $a_dest_id ? $a_dest_id : $a_source_id;
+		
+		// exclude system role from rbac
+		if ($a_dest_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
 
 		$q = "SELECT * FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_source_id."' ".
@@ -397,6 +427,12 @@ class ilRbacAdmin
 		{
 			$message = get_class($this)."::deleteRolePermission(): Missing parameter! role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
 		}
 
 		$q = "DELETE FROM rbac_templates ".
@@ -441,6 +477,12 @@ class ilRbacAdmin
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
+		
 		foreach ($a_ops as $op)
 		{
 			$q = "INSERT INTO rbac_templates ".
@@ -478,6 +520,12 @@ class ilRbacAdmin
 					   " assign: ".$a_assign;
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
 		}
 		
 		// if a wrong value is passed, always set assign to "n"

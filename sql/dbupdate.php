@@ -30,7 +30,17 @@ UPDATE object_data SET title = 'ILIAS' WHERE title = 'ILIAS open source';
 
 <#5>
 REPLACE INTO lm_data (obj_id, title, type, lm_id) VALUES (1, 'dummy', 'du', 0);
+
 <#6>
 UPDATE role_data SET allow_register = 1 WHERE role_id = 5;
+
 <#7>
 REPLACE INTO settings (keyword, value) VALUES ('enable_registration', 1);
+
+<#8>
+REPLACE INTO settings (keyword, value) VALUES ('system_role_id', '2');
+
+<#9>
+DELETE FROM rbac_pa WHERE rol_id = 2;
+DELETE FROM rbac_templates WHERE rol_id = 2;
+DELETE FROM rbac_fa WHERE rol_id = 2 AND parent != 8;
