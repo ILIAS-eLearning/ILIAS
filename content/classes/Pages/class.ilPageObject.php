@@ -699,6 +699,7 @@ class ilPageObject
 				"' AND parent_type='".$this->getParentType()."'";
 			$this->ilias->db->query($query);
 			$this->saveMobUsage($this->getXMLFromDom());
+			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
@@ -709,15 +710,26 @@ class ilPageObject
 		}
 	}
 
+
+	/**
+	* delete page object
+	*/
 	function delete()
 	{
 		$query = "DELETE FROM page_object ".
 			"WHERE page_id = '".$this->getId().
 			"' AND parent_type='".$this->getParentType()."'";
 		$this->saveMobUsage("<dummy></dummy>");
+		$this->saveInternalLinks("<dummy></dummy>");
 		$this->ilias->db->query($query);
 	}
 
+
+	/**
+	* save all usages of media objects (media aliases, media objects, internal links)
+	*
+	* @param	string		$a_xml		xml data of page
+	*/
 	function saveMobUsage($a_xml)
 	{
 		$doc = domxml_open_mem($a_xml);
@@ -775,6 +787,7 @@ class ilPageObject
 		}
 	}
 
+
 	/**
 	* save internal links of page
 	*
@@ -788,7 +801,7 @@ class ilPageObject
 		include_once("content/classes/Pages/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksOfSource("pg", $this->getId());
 
-		// get allinternal links
+		// get all internal links
 		$xpc = xpath_new_context($doc);
 		$path = "//IntLink";
 		$res =& xpath_eval($xpc, $path);
@@ -796,19 +809,52 @@ class ilPageObject
 		{
 			$link_type = $res->nodeset[$i]->get_attribute("Type");
 
-			/*
 			switch ($link_type)
-			$mob_target = $res->nodeset[$i]->get_attribute("Target");
-			$mob_arr = explode("_", $mob_target);
-			$mob_id = $mob_arr[count($mob_arr) - 1];
-			if ($mob_id > 0)
 			{
-				$usages[$mob_id] = true;
-			}*/
+				case "StructureObject":
+					$t_type = "st";
+					break;
+
+				case "PageObject":
+					$t_type = "pg";
+					break;
+
+				case "GlossaryItem":
+					$t_type = "git";
+					break;
+
+				case "MediaObject":
+					$t_type = "mob";
+					break;
+			}
+
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$target_arr = explode("_", $target);
+			$t_id = $target_arr[count($target_arr) - 1];
+
+			// link to other internal object
+			if (is_int(strpos($target, "__")))
+			{
+				$t_inst = 0;
+			}
+			else	// link to unresolved object in other installation
+			{
+				$t_inst = $target_arr[1];
+			}
+
+			if ($t_id > 0)
+			{
+				ilInternalLink::_saveLink("pg", $this->getId(), $t_type,
+					$t_id, $t_inst);
+			}
 		}
 
 	}
 
+
+	/**
+	* create new page (with current xml data)
+	*/
 	function create()
 	{
 		$this->createFromXML();
