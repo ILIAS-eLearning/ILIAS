@@ -283,8 +283,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$newObj->meta_data->read();
 			$newObj->setTitle($newObj->meta_data->getTitle());
 			$newObj->setDescription($newObj->meta_data->getDescription());
-			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
-			$this->ilias->db->query($q);
+			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
+			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
+			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
+			//$this->ilias->db->query($q);
 		}
 
 		sendInfo($this->lng->txt("glo_added"),true);

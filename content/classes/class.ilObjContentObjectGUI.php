@@ -767,7 +767,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		global $HTTP_POST_FILES, $rbacsystem;
+		global $HTTP_POST_FILES, $rbacsystem, $ilDB;
 
 		include_once "content/classes/class.ilObjLearningModule.php";
 
@@ -831,8 +831,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$newObj->meta_data->read();
 			$newObj->setTitle($newObj->meta_data->getTitle());
 			$newObj->setDescription($newObj->meta_data->getDescription());
-			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
-			$this->ilias->db->query($q);
+			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
+			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
+			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
+			//$this->ilias->db->query($q);
 		}
 
 		ilUtil::redirect("adm_object.php?".$this->link_params);

@@ -618,7 +618,7 @@ class ilObject
 	function _lookupObjId($a_id)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT obj_id FROM object_reference ".
 			"WHERE ref_id = '".$a_id."'";
 
@@ -629,8 +629,46 @@ class ilObject
 		}
 		return 0;
 	}
-		
-		
+
+	/**
+	* write title to db (static)
+	*
+	* @param	int		$a_obj_id		object id
+	* @param	string	$a_title		title
+	* @access	public
+	*/
+	function _writeTitle($a_obj_id, $a_title)
+	{
+		global $ilDB;
+
+		$q = "UPDATE object_data ".
+			"SET ".
+			"title = ".$ilDB->quote($a_title).",".
+			"last_update = now() ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+
+		$ilDB->query($q);
+	}
+
+	/**
+	* write description to db (static)
+	*
+	* @param	int		$a_obj_id		object id
+	* @param	string	$a_desc			description
+	* @access	public
+	*/
+	function _writeDescription($a_obj_id, $a_desc)
+	{
+		global $ilDB;
+
+		$q = "UPDATE object_data ".
+			"SET ".
+			"description = ".$ilDB->quote($a_desc).",".
+			"last_update = now() ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+
+		$ilDB->query($q);
+	}
 
 	/**
 	* lookup object type
