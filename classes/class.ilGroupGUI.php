@@ -1079,7 +1079,7 @@ class ilGroupGUI extends ilObjectGUI
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
-		if (count($objects) > 0)
+		if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
 		{
 			$tab[4] = array ();
 			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
@@ -1097,7 +1097,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3]["tab_text"] = "properties";				//tab -text
 		}
 
-		if ($this->grp_object->isAdmin($_SESSION["AccountId"]))
+		if ($rbacsystem->checkAccess('edit_permission', ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[6] = array ();
 			$tab[6]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"]."&active=6";		//link for tab
@@ -1502,6 +1502,7 @@ class ilGroupGUI extends ilObjectGUI
 					$obj_link = $this->getURLbyType($cont_data);
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
+					$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckbox(0, "id[]", $cont_data["ref_id"]));
 					$this->tpl->setVariable("TITLE", $cont_data["title"]);
 					$this->tpl->setVariable("LINK", $obj_link);
 					$this->tpl->setVariable("LINK_TARGET", $link_target);
