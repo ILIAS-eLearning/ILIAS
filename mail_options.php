@@ -46,27 +46,6 @@ if(isset($_POST["cmd"]["delete"]))
 	sendInfo($lng->txt("mail_sure_delete_folder"));
 }
 
-// DELETE FOLDER confirmed
-if(isset($_POST["cmd"]["confirm"]))
-{
-	$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
-	if($mbox->deleteFolder($_GET["mobj_id"]))
-	{
-		sendInfo($lng->txt("mail_folder_deleted",true));
-		header("location: mail_options.php?mobj_id=".$new_parent);
-		exit();
-	}
-	else
-	{
-		sendInfo($lng->txt("mail_error_delete"));
-	}
-}
-// DELETEING CANCELED
-if(isset($_POST["cmd"]["cancel"]))
-{
-	header("location: mail_options.php?mobj_id=".$_GET["mobj_id"]);
-	exit();
-}
 
 // SAVE OPTIONS
 if(isset($_POST["cmd"]["save"]))
@@ -89,6 +68,7 @@ $tpl->setCurrentBlock("content");
 if(isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock("confirm");
+	$tpl->setVariable("ACTION_DELETE","mail_frameset.php?mobj_id=$_GET[mobj_id]");
 	$tpl->setVariable("TXT_DELETE_CONFIRM",$lng->txt("confirm"));
 	$tpl->setVariable("TXT_DELETE_CANCEL",$lng->txt("cancel"));
 	$tpl->parseCurrentBlock();

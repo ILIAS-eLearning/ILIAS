@@ -15,7 +15,7 @@ $lng->loadLanguageModule("mail");
 
 $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.mail_frameset.html"; 
 
-// ADD FOLDER cmd comes from mail.php or mail_options button
+// ADD FOLDER cmd comes from mail_options button
 if(isset($_POST["cmd"]["add"]))
 {
 	$mbox = new ilMailbox($_SESSION["AccountId"]);
@@ -35,6 +35,29 @@ if(isset($_POST["cmd"]["add"]))
 		sendInfo($lng->txt("mail_folder_exists"),true);
 		$_GET["target"] = urlencode("mail_options.php?mobj_id=$_GET[mobj_id]");
 	}
+}
+// DELETE FOLDER confirmed
+if(isset($_POST["cmd"]["confirm"]))
+{
+	$mbox = new ilMailbox($_SESSION["AccountId"]);
+	$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
+
+	if($mbox->deleteFolder($_GET["mobj_id"]))
+	{
+		sendInfo($lng->txt("mail_folder_deleted"),true);
+		$_GET["target"] = urlencode("mail_options.php?mobj_id=".$new_parent);
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_error_delete"),true);
+		$_GET["target"] = urlencode("mail_options.php?mobj_id=".$_GET["mobj_id"]);
+
+	}
+}
+// DELETEING CANCELED
+if(isset($_POST["cmd"]["cancel"]))
+{
+	$_GET["target"] = urlencode("mail_options.php?mobj_id=".$_GET["mobj_id"]);
 }
 
 if (isset($_GET["viewmode"]))
