@@ -138,7 +138,7 @@ common#:#file_version#:#verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
-common#:#folder#:#Ordner
+common#:#flatview#:#Flache Ansichtcommon#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
@@ -225,6 +225,7 @@ common#:#lang_xx#:#benutzerdefiniert
 common#:#language#:#Sprache
 common#:#languages#:#Sprachen
 common#:#last_change#:#letzte Änderung
+common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
@@ -240,11 +241,11 @@ common#:#literature_bookmarks#:#Literatur Bookmarks
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
-common#:#lo_available#:#Übersicht Lerneinheiten & Kurse
-common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
+common#:#lo_available#:#Übersicht Lerneinheiten & Kurse###07 Feb 2003 content changed
 common#:#lo_categories#:#Lerneinheiten Kategorien
 common#:#lo_edit#:#Lerneinheiten editieren
 common#:#lo_new#:#neue Lerneinheit
+common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
 common#:#lo_overview#:#LE Übersicht
 common#:#login#:#Login
@@ -388,6 +389,7 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#set_system_language#:#Systemsprache ändern
 common#:#show_list#:#Auflistung anzeigen
+common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#startpage#:#Startseite
@@ -416,6 +418,7 @@ common#:#today#:#Heute
 common#:#total#:#gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
+common#:#treeview#:#Baumansicht
 common#:#type#:#Typ
 common#:#type_your_message_here#:#schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
@@ -445,7 +448,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
-common#:#show_members#:#Mitglieder anzeigen
-common#:#last_visit#:#Letzter Besuch
-common#:#treeview#:#Baumansicht
-common#:#flatview#:#Flache Ansicht
