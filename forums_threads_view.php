@@ -73,9 +73,10 @@ if($_GET["file"])
 	{
 		sendInfo("Error reading file!");
 	}
-	header("Content-Type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=\"".$_GET["file"]."\"");
-	readfile($path);
+	else
+	{
+		ilUtil::deliverFile($path,urldecode($_GET["file"]));
+	}
 }
 
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
