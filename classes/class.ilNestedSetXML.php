@@ -780,7 +780,7 @@ class ilNestedSetXML
 		$content = "";
 		if (is_object($this->dom))
 		{
-#			echo $xPath;
+#			echo $xPath."<br>\n";
 #			echo htmlspecialchars($this->dom->dump_mem(0));
 			$node = $this->getXpathNodes($this->dom,$xPath);
 			$c = $node[0]->children();
@@ -870,6 +870,8 @@ class ilNestedSetXML
 	*/
 	function updateDomNode($xPath, $meta, $no = 0) 
 	{
+	
+#		vd($meta);
 		$update = false;
 
 		if ($xPath == "//Bibliography")
@@ -899,18 +901,18 @@ class ilNestedSetXML
 				for ($i = 0; $i < count($meta["Author"]); $i++)
 				{
 					$xml .= '<Author>';
-					for ($j = 0; $j < count($meta["Author"][$i]["FirstName"]); $j++)
-					{
+#					for ($j = 0; $j < count($meta["Author"][$i]["FirstName"]); $j++)
+#					{
 						$xml .= '<FirstName>' . ilUtil::stripSlashes($meta["Author"][$i]["FirstName"]) . '</FirstName>';
-					}
-					for ($j = 0; $j < count($meta["Author"][$i]["MiddleName"]); $j++)
-					{
+#					}
+#					for ($j = 0; $j < count($meta["Author"][$i]["MiddleName"]); $j++)
+#					{
 						$xml .= '<MiddleName>' . ilUtil::stripSlashes($meta["Author"][$i]["MiddleName"]) . '</MiddleName>';
-					}
-					for ($j = 0; $j < count($meta["Author"][$i]["LastName"]); $j++)
-					{
+#					}
+#					for ($j = 0; $j < count($meta["Author"][$i]["LastName"]); $j++)
+#					{
 						$xml .= '<LastName>' . ilUtil::stripSlashes($meta["Author"][$i]["LastName"]) . '</LastName>';
-					}
+#					}
 					$xml .= '</Author>';
 				}
 				$xml .= '<Booktitle Language="' . ilUtil::stripSlashes($meta["Booktitle"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Booktitle"]["Value"]) . '</Booktitle>';
@@ -1259,14 +1261,13 @@ class ilNestedSetXML
 			{
 				$nodes[0]->unlink_node();
 
-				if (!$xPath == "//Bibliography")
+				if ($xPath != "//Bibliography")
 				{
 					$xPath = "//MetaData";
 				}
 				$this->addXMLNode($xPath, $xml);
 #				echo htmlspecialchars($this->dom->dump_mem(0));
 			}
-
 			return true;
 		}
 		else
