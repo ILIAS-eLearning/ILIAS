@@ -71,14 +71,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		return "qt_imagemap";
 	}
 
-/**
-* Creates an output of the edit form for the question
-*
-* Creates an output of the edit form for the question
-*
-* @access public
-*/
-  function showEditForm() {
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	function editQuestion()
+	{
+		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 		if (($_POST["cmd"]["addarea"] or $_GET["editmap"]) and (!$_POST["cmd"]["back"]) and (!$_POST["cmd"]["saveshape"]))
@@ -192,7 +194,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap&editmap=1");
+			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
+			$this->ctrl->setParameter($this, "editmap", "1");
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",
+				$this->ctrl->getFormaction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -220,7 +225,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-				if ($answer->is_true()) 
+				if ($answer->is_true())
 				{
 					$this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
 				}
@@ -246,7 +251,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setCurrentBlock("question_data");
 			$img = $this->object->get_image_filename();
 			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
-			if (!empty($img)) 
+			if (!empty($img))
 			{
 				$this->tpl->setVariable("IMAGE_FILENAME", $img);
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
@@ -268,12 +273,12 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 					$imagepath = $this->object->getImagePathWeb() . $img;
 				}
 				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"\" />");
-			} 
-			else 
+			}
+			else
 			{
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 			}
-			
+
 			// imagemap block
 			$imgmap = $this->object->get_imagemap_filename();
 			$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
@@ -288,7 +293,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 			$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			
+
 			$this->tpl->setVariable("ADD_AREA", $this->lng->txt("add_area"));
 			$this->tpl->setVariable("TEXT_RECT", $this->lng->txt("rectangle"));
 			$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
@@ -298,11 +303,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap");
+			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",
+				$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
 		}
-  }
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
+	}
 
 /**
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
@@ -337,7 +347,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
 			$this->tpl->parse("mainselect_block");
 		}
-		
+
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
@@ -350,15 +360,22 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->parseCurrentBlock();
 	}
 
-/**
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* @return integer A positive value, if one of the required fields wasn't set, else 0
-* @access private
-*/
-  function writePostData() {
+	function uploadingImage()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData()
+	{
 		$result = 0;
 		$saved = false;
 
@@ -405,16 +422,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		else
 		{
 			if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
-			
+
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 			$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 			$this->object->setShuffle($_POST["shuffle"]);
-			
+
 			// adding estimated working time and materials uris
 			$this->writeOtherPostData($result);
-			
+
 			if (($_POST["id"] > 0) or ($result != 1))
 			{
 				// Question is already saved, so imagemaps and images can be uploaded
@@ -422,9 +439,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				if (empty($_FILES['imageName']['tmp_name'])) {
 					$this->object->set_image_filename(ilUtil::stripSlashes($_POST["uploaded_image"]));
 				}
-				else 
+				else
 				{
-					if ($this->object->getId() <= 0) 
+					if ($this->object->getId() <= 0)
 					{
 						$this->object->saveToDb();
 						$saved = true;
@@ -432,22 +449,22 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 					}
 					$this->object->set_image_filename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 				}
-			
+
 				//setting imagemap
 				if (empty($_FILES['imagemapName']['tmp_name']))
 				{
 					$this->object->set_imagemap_filename(ilUtil::stripSlashes($_POST['uploaded_imagemap']));
 					// Add all answers from the form into the object
 					$this->object->flush_answers();
-					foreach ($_POST as $key => $value) 
+					foreach ($_POST as $key => $value)
 					{
-						if (preg_match("/answer_(\d+)/", $key, $matches)) 
+						if (preg_match("/answer_(\d+)/", $key, $matches))
 						{
-							if ($_POST["radio"] == $matches[1]) 
+							if ($_POST["radio"] == $matches[1])
 							{
 								$is_true = TRUE;
-							} 
-							else 
+							}
+							else
 							{
 								$is_true = FALSE;
 							}
@@ -462,7 +479,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 						}
 					}
 				}
-				else 
+				else
 				{
 					if ($this->object->getId() <= 0)
 					{
@@ -472,10 +489,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 					}
 					$this->object->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if (($_POST["cmd"]["uploadingImage"]) and (!empty($_FILES['imageName']['tmp_name'])))
+				if (($this->ctrl->getCmd() == "uploadingImage") and (!empty($_FILES['imageName']['tmp_name'])))
 				{
 					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_image"));
 				}
