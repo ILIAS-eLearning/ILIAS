@@ -25,27 +25,24 @@ require_once("classes/class.ilObjGroupGUI.php");
 require_once("classes/class.ilGroupExplorer.php");
 require_once("classes/class.ilTableGUI.php");
 require_once("classes/class.ilObjGroup.php");
+
 /**
 * Class ilGroupGUI
 *
 * GUI class for Group management
 *
-* @author Martin Rus <mrus@smail.uni-koeln.de>
-
-* @version $Id$
-
+* @author	Martin Rus <mrus@smail.uni-koeln.de>
+* @author	Sascha Hofmann <shofmann@databay.de>
 *
-* @package group
+* @version	$Id$
+* @package	ilias-core
 */
 class ilGroupGUI extends ilObjectGUI
 {
-	var $g_obj;
-	var $g_tree;
 	var $tpl;
 	var $lng;
 	var $objDefinition;
 	var $tree;
-	var $rbacsystem;
 	var $ilias;
 	var $object;
 	var $grp_tree;
@@ -82,8 +79,6 @@ class ilGroupGUI extends ilObjectGUI
 		
 		$this->grp_id = $this->getGroupId($_GET["ref_id"]);
 
-//var_dump($this->grp_id,$_GET["ref_id"],$this->object->getType());exit;
-
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
@@ -110,7 +105,6 @@ class ilGroupGUI extends ilObjectGUI
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."Object";
 
-			//var_dump($fullcmd,$cmd);exit;
 			// only createObject!!
 			$this->$fullcmd();
 			exit();
@@ -166,23 +160,6 @@ class ilGroupGUI extends ilObjectGUI
 			$ttabtype = "tabactive";
 		}
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		if ($settabs)
-		{
-			
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $ttabtype);
-			$this->tpl->setVariable("TAB_TARGET", "bottom");
-			$this->tpl->setVariable("TAB_LINK", "group.php?cmd=choose_view&viewmode=tree&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $ftabtype);
-			$this->tpl->setVariable("TAB_TARGET", "bottom");
-			$this->tpl->setVariable("TAB_LINK", "group.php?cmd=choose_view&viewmode=flat&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		if (!empty($addtabs))
 		{
@@ -225,167 +202,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 
-	/**
-	* DEPRECATED!!!!
-	* displays list of groups that are located under the node given by ref_id
-	*/
-	function displayList()
-	{
-		global $rbacsystem;
-
-		//require_once "./classes/class.ilExplorer.php";
-		//DUMP
-
-		$this->prepareOutput("true");
-		$this->tpl->setVariable("HEADER",$this->lng->txt("groups_overview"));
-
-		
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 10;	// TODO: move to user settings
-		}
-
-		if ($offset == "")
-		{
-			$offset = 0;	// TODO: move to user settings
-		}
-		// set default sort column
-		if (empty($_GET["sort_by"]))
-		{
-			$_GET["sort_by"] = "title";
-		}
-
-		if (!isset($_SESSION["viewmode"]))
-		{
-			$_SESSION["viewmode"] = "flat";
-		}
-
-		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
-		//check if user got permission to create new groups
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			//show "new group" button only if category or dlib objects were chosen(current object)
-			if (strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
-			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				//right solution
-				//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
-				//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-				//temp.solution
-				$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
-				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-/*		if ($this->tree->getSavedNodeData($this->ref_id))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","group.php?cmd=trash&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("trash"));
-			$this->tpl->parseCurrentBlock();
-		}
-*/
-		// display different content depending on viewmode
-		switch ($_SESSION["viewmode"])
-		{
-			case "flat":
-				$cont_arr = ilUtil::getObjectsByOperations('grp','visible');
-				break;
-
-			case "tree":
-				//go through valid objects and filter out the groups only
-				$cont_arr = array();
-
-				$objects = $this->grp_tree->getChilds($_GET["ref_id"],"title");
-
-				if (count($objects) > 0)
-				{
-					foreach ($objects as $key => $object)
-					{
-						if ($object["type"] == "grp" && $rbacsystem->checkAccess('visible',$object["child"]))
-						{
-							$cont_arr[$key] = $object;
-						}
-					}
-				}
-				break;
-		}
-
-		$maxcount = count($cont_arr);
-
-		include_once "./include/inc.sort.php";
-		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		$cont_arr = array_slice($cont_arr,$offset,$limit);
-
-		// load template for table
-		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
-		$cont_num = count($cont_arr);
-
-		// render table content data
-		if ($cont_num > 0)
-		{
-			// counter for rowcolor change
-			$num = 0;
-
-			foreach ($cont_arr as $cont_data)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
-				// change row color
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-				$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"];
-				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$this->tpl->setVariable("TITLE", $cont_data["title"]);
-				$this->tpl->setVariable("LINK", $obj_link);
-				$this->tpl->setVariable("LINK_TARGET", "bottom");
-				$this->tpl->setVariable("IMG", $obj_icon);
-				$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$this->tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
-				$this->tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
-				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["child"]));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("no_content");
-			$this->tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("group_not_available"));
-			$this->tpl->parseCurrentBlock("no_content");
-		}
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("groups_overview"),"icon_grp_b.gif",$this->lng->txt("groups_overview"));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
-		$tbl->setHeaderVars(array("title","description","owner","last_change","context"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
-		$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
-		$tbl->setMaxCount($maxcount);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$tbl->render();
-		$this->tpl->show();
-	}
 
 	function explorer()
 	{
@@ -643,50 +459,10 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
-	/**
-	* function chooses right view depending on what kind of object is selected in locator bar
-	* preferred view (treeview or flatview) if a category is selected
-	* flat view if group is selected
-	*@access	public
-	**/
-	function choose_view()
-	{
-		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
-		if (isset($_GET["viewmode"]))
-		{
-			$_SESSION["viewmode"] = $_GET["viewmode"];
-		}
-
-		if (strcmp ($_SESSION["viewmode"], "tree") == 0)
-		{
-			if (strcmp($obj_data->getType(), "grp") == 0)
-			{
-				$this->show_content();
-			}
-			else
-			{
-				$this->view();
-			}
-		}
-		else
-		{
-			if (strcmp($obj_data->getType(), "grp") == 0)
-			{
-				$this->show_content();
-			}
-			else
-			{
-				$this->displayList();
-			}
-		}
-	}
-
 	/*
 	* function returns specific link-url depending on object-type
 	*
-	*
-	* access public
+	* @access	public
 	*/
 	function getURLbyType($cont_data)
 	{
@@ -1160,14 +936,6 @@ class ilGroupGUI extends ilObjectGUI
 		$cancel  = "canceldelete";
 		$info	 = "info_delete_sure";
 		$status  = "";
-/*
-		$oid = array();
-		foreach($_POST["id"] as $pid)
-		{
-			$tmp = $this->ilias->obj_factory->getInstanceByRefId($pid);
-			array_push($oid,$tmp->getRefId() );
-		}
-*/
 
 		$this->confirmation($_POST["id"], $confirm, $cancel, $info,"","y");
 		$this->tpl->show();

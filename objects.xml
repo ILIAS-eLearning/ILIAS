@@ -137,7 +137,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="members">show_members</property>
-	<property name="newmembers">new_members</property>
+	<property name="newmembers">add_member</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>

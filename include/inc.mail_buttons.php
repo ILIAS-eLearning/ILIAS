@@ -41,7 +41,7 @@ $file_name = basename($_SERVER["SCRIPT_NAME"]);
 $tpl->setCurrentBlock("tab");
 $tpl->setVariable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
 $tpl->setVariable("TAB_LINK", "mail.php?mobj_id=$_GET[mobj_id]&type=new");
-$tpl->setVariable("TAB_TEXT", $lng->txt("folder"));
+$tpl->setVariable("TAB_TEXT", $lng->txt("fold"));
 $tpl->parseCurrentBlock();
 
 
