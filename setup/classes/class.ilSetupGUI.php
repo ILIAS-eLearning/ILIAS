@@ -212,6 +212,11 @@ class ilSetupGUI extends ilSetup
 				$this->displayDeleteConfirmation();
 				break;
 
+			case "togglelist":
+				$this->setDisplayMode("view");
+				$this->toggleClientList();
+				break;
+
 			default:
 				$this->cmdClient();
 				break;
@@ -966,6 +971,9 @@ class ilSetupGUI extends ilSetup
 
 		// common
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
+		$this->tpl->setVariable("TXT_LISTSTATUS",($this->ini->readVariable("clients","list")) ? $this->lng->txt("display_clientlist") : $this->lng->txt("hide_clientlist"));
+		$this->tpl->setVariable("TXT_TOGGLELIST",($this->ini->readVariable("clients","list")) ? $this->lng->txt("disable") : $this->lng->txt("enable"));
+
 		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway");
 
 		// build table
@@ -2235,6 +2243,25 @@ class ilSetupGUI extends ilSetup
 		{
 			return false;
 		}
+	}
+
+	function toggleClientList()
+	{
+		if ($this->ini->readVariable("clients","list"))
+		{
+			$this->ini->setVariable("clients","list","0");
+			$this->ini->write();
+			sendInfo($this->lng->txt("list_disabled"),true);
+		}
+		else
+		{
+			$this->ini->setVariable("clients","list","1");
+			$this->ini->write();
+			sendInfo($this->lng->txt("list_enabled"),true);				
+		}
+		
+		header("Location: setup.php");
+		exit;
 	}
 } // END class.ilSetupGUI
 ?>
