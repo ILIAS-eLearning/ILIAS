@@ -81,6 +81,8 @@ class ilObjCategory extends ilObject
 			return false;
 		}
 		// put here category specific stuff
+		$query = "DELETE FROM object_translation WHERE obj_id=".$this->getId();
+		$this->ilias->db->query($query);
 		
 		return true;
 	}
