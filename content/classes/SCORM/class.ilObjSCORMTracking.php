@@ -26,24 +26,15 @@
 /**
 * Class ilObjSCORMTracking
 *
-* @author Ralph Barthel <ralph.barthel@21ll.com>
+* @author Ralph Barthel <ralph.barthel@21ll.com> 21 LearnLine AG
 *
 */
 class ilObjSCORMTracking
 {
 	// the following section should be handled by the session object
-	/*
-	var $sessionTime;
-	var $studentName="Depp";
-	var $startTime;
-	var $endTime;
-	var $ilias;
-	var $db;
-	var $objID;
-	var $errorCode="0";//last api call has always to be tracked in initial situation no error
-	var $initialized=false;
 	
-	*/
+	var $usr_id;
+	var $sco_id;
 	
 	var $errorDescription=array("0" =>"no error","101" => "General exception","201" => "Invalid argument error","202" => "Element cannot have children","203" => "Element not an array - cannot have count","301" => "not initialized","401" => "not implemented","402" => "Invalid set value, element is a keyword","403" => "Element is read only","404" => "Element is write only","405" => "Incorrect data type" );
 	var $supportedElements=array( "cmi.core.student_name"=>"r", "cmi.core.exit"=>"w", "cmi.core.lesson_location"=>"rw", "cmi.core.credit"=>"r", "cmi.core.entry"=>"rw", "cmi.core.student_id"=>"r","cmi.core.lesson_status"=>"rw","cmi.core.score.raw"=>"rw", "cmi.core.session_time"=>"w", "cmi.core.total_time"=>"r", "cmi.suspend_data"=>"rw", "cmi.launch_data"=>"r","cmi.comments"=>"rw","cmi.student_data.mastery_score"=>"r");
@@ -52,7 +43,7 @@ class ilObjSCORMTracking
 	* Constructor
 	* @access	public
 	*/
-	function ilObjSCORMTracking()
+	function ilObjSCORMTracking($userID, $itemID)
 	{
 		global $ilias;
 		
@@ -60,8 +51,8 @@ class ilObjSCORMTracking
 		 //$this->db=$this->ilias->db;
 	     //$this->objID=$objectIdentifier;
 	     //$this->db=$dbHandle;
-	     $this->usr_id=11;
-	     $this->sco_id=2;
+	     $this->usr_id=$userID;
+	     $this->sco_id=$itemID;
 		return $this;
 	}
 
@@ -72,6 +63,7 @@ class ilObjSCORMTracking
 	*/
 	function lmsInitialize($emptyString)
 	{
+		
 		$query="SELECT * from scorm_tracking WHERE sc_item_id='$this->sco_id' and usr_id='$this->usr_id'";
     	$record_set = $this->ilias->db->query($query);
     	
@@ -92,7 +84,8 @@ class ilObjSCORMTracking
     		$this->ilias->db->query($query);
     		
     		//time capturing has to be added
-    		return "true";
+    		
+    		echo "true";
     	}
     	else 
     	{
@@ -111,7 +104,7 @@ class ilObjSCORMTracking
     		else 
     		{
     			//instance already running
-    			return "false";
+    			echo "false";
     		}
     	}
 		 
@@ -134,7 +127,7 @@ class ilObjSCORMTracking
     	 $record_set = $this->ilias->db->query($query);
     	 while ($record = $record_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if($record['exit']=='suspend' && $record['entry']!="resume")
+			if($record['exit']=="suspend" && $record['entry']!="resume")
 			{
 				$query1="UPDATE scorm_tracking SET entry='resume' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
 			}
@@ -189,7 +182,7 @@ class ilObjSCORMTracking
 		 }
 		 
     	 
-    	 return "true";
+    	 echo "true";
     }
 
     /**
@@ -211,7 +204,7 @@ class ilObjSCORMTracking
     		else 
     		{
     			$this->errorCode="401";
-    			return "";
+    			echo "";
     		}
     	}
     	
@@ -228,20 +221,20 @@ class ilObjSCORMTracking
 				
 				while ($record = $record_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-						return $record[$elemName];
+						echo $record[$elemName];
 				}			
         	}
         	else 
         	{
         		$this->errorCode="404";//Element is write only
-        		return "";
+        		echo "";
         	}
         	
         }
         else 
         {
         	$this->errorCode="401";//Element not implemented
-        	return "";
+        	echo "";
         }
     }
 
@@ -256,7 +249,7 @@ class ilObjSCORMTracking
       if(!is_string($elemValue))
       {
       	$this->errorCode="405";//Incorrect data type
-      	return "false";
+      	echo "false";
       }
     	
        if(array_key_exists($dataModelElement,$this->supportedElements))
@@ -273,36 +266,36 @@ class ilObjSCORMTracking
         		$query="UPDATE scorm_tracking SET " .$elemName."='$elemValue'";
     			$this->ilias->db->query($query);
     			//error coding. probably for enum fields in scorm_tracking data checkin already here
-    			return "true";
+    			echo "true";
     			
         	}
         	else 
         	{
         		$this->errorCode="403";//Element is read only
-        		return "false";
+        		echo "false";
         	}
         	
         }
         else 
         {
         	$this->errorCode="401";//Element not implemented
-        	return "false";
+        	echo "false";
         }
     }
 
     function lmsCommit($emptyString)
     {
-       return "true";
+       echo "true";
     }
 
     function lmsGetLastError()
     {
-       return $this->errorCode;//eventually changing cause error code might need to be set back to be "0"
+       echo $this->errorCode;//eventually changing cause error code might need to be set back to be "0"
     }
 
     function lmsGetErrorString($errNum)
     {
-      return $this->errorDescription[$errNum];
+      echo $this->errorDescription[$errNum];
     }
 
     	/**
@@ -311,7 +304,7 @@ class ilObjSCORMTracking
 	*/
     function lmsGetDiagnostics($emptyString)
     {
-       return "";
+       echo "";
     }
 
     function calculateTime()
