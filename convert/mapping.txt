@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2002-12-30, Matthias Rulinski
+2003-01-06, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -106,10 +106,33 @@ ELEMENT (id, parent)
 		(copy image files)
 	
 	el_titel
+		text				-->		Paragraph *** (.Characteristic -> Headline)
 	
 	el_table
+		 rows
+		 cols
+		 border
+		 cellpadd
+		 cellspace
+		 borderspace
+		 align
+		 caption
+		 capalign
+		 width
+		 
 	table_cell
+		 row
+		 col
+		 text
+		 halign
+		 valign
+		 color
+		 textform
+	
 	table_rowcol
+		 rowcol
+		 nr
+		 width
 	
 	el_map (copy imagemap files)
 	maparea
@@ -279,3 +302,7 @@ Entry -> removed (not needed at all)
 Educational -> Language+ removed (obsolete)
 Definition -> (Paragraph+) --> (Paragraph | LearningObject)+
 Answer -> new attribute: Status (Right | Wrong) #IMPLIED
+Paragraph -> extended attribute: Characteristic (Headline | Example | Citation | Mnemonic) #IMPLIED
+Content -> (Paragraph | LearningObject) --> (Paragraph | LearningObject)
+Text -> removed (not needed at all)
+Headline -> removed (not needed at all)

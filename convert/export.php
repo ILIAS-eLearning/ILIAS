@@ -823,15 +823,40 @@ class ILIAS2export
 				
 				// copy (image) files
 				break;
+			*/
 			
 			// title element
 			case 3:
-				$sql =	"SELECT * ".
+				$sql =	"SELECT text ".
 						"FROM el_titel ".
 						"WHERE id = $id;";
 				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row
+				$text = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				//--------------------------
+				// create Paragraph subtree:
+				// *** (convert VRIs, HTML and Layout (alignment))
+				//--------------------------
+				
+				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
+				
+				// Paragraph ***
+				$attrs = array(	"Language" => "de", // *** aus meta holen
+								"Characteristic" => "Headline"); // *** mit bsp vergeleichen
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text["text"]);
+				
 				break;
 			
+			/*
 			// table element
 			case 4:
 				$sql =	"SELECT * ".
@@ -995,13 +1020,10 @@ class ILIAS2export
 			
 			default: // temporary dummy ***
 				
-				// Text
-				$Text = $this->writeNode($parent, "Text");
-				
-				// Text..Paragraph
+				// Paragraph
 				$attrs = array(	"Language" => "de",
 								"Characteristic" => "Example");
-				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, "dummy");
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "dummy");
 		}
 		
 		//-------------
@@ -1009,12 +1031,12 @@ class ILIAS2export
 		//-------------
 		unset($sql, $row, $element, $text, $attrs, $mc, $answer);
 		
-		//----------------------------------------
-		// return (Text | LearningObject) subtree: ***
-		//----------------------------------------
+		//---------------------------------------------
+		// return (Paragraph | LearningObject) subtree: ***
+		//---------------------------------------------
 		if (is_null($LearningObject))
 		{
-			return $Text;
+			return $Paragraph;
 		}
 		else
 		{
@@ -1064,7 +1086,7 @@ class ILIAS2export
 				// LearningObject..Layout ***
 				
 				// LearningObject..Content ***
-				$sql =	"SELECT id, typ ".
+				$sql =	"SELECT id, typ ". // *** typ needed?
 						"FROM element ".
 						"WHERE page = $id ".
 						"AND deleted = '0000-00-00 00:00:00' ".
@@ -1085,6 +1107,7 @@ class ILIAS2export
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					// ..Content.. ***
+					/* ***
 					switch ($row["typ"]) 
 					{
 						case 1:
@@ -1100,6 +1123,9 @@ class ILIAS2export
 						default:
 							$Element = $this->exportElement($row["id"], $Content);
 					}
+					*/
+					
+					$Element = $this->exportElement($row["id"], $Content);
 				}
 				// free result set
 				$result->free();
