@@ -649,7 +649,7 @@ class ilTree
 		{
 			$this->ilErr->raiseError(get_class($this)."::deleteTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
-		if($this->__isMainTree())
+		if($this->__isMainTree() and $a_node[$this->tree_pk] === 1)
 		{
 			if($a_node['lft'] <= 1 or $a_node['rgt'] <= 2)
 			{
@@ -1818,8 +1818,7 @@ class ilTree
 			++$counter;
 		}
 		// MULTIPLE ENTRIES
-		// DISABLED DOES NOT WORK WITH PASTE OBJECT
-		if($counter > 1 and 0)
+		if($counter > 1)
 		{
 			$message = sprintf('%s::__getSubTreeByParentRelation(): Multiple entries in maintree! $a_node_id: %s',
 							   get_class($this),
