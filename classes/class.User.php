@@ -8,7 +8,6 @@
  * @package ilias-core
  * @version $Id$
  */
-
 class User extends PEAR
 {
     /**
@@ -28,7 +27,7 @@ class User extends PEAR
     /**
      * database handler
      *
-     * @var object
+     * @var object DB
      */	
     var $db;
 
@@ -38,7 +37,7 @@ class User extends PEAR
      * setup an user object
      *
      * @param object database handler
-     * @param integer UserID
+     * @param string UserID
      */
     function User(&$dbhandle, $AUsrId = "")
     {

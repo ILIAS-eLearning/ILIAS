@@ -15,7 +15,7 @@ class ILIAS extends PEAR
 {
 	/**
 	 * ini file
-	 * @const INI_FILE
+	 * @var INI_FILE
 	 */
  	var $INI_FILE = "./ilias.ini";
 
@@ -31,7 +31,7 @@ class ILIAS extends PEAR
     *  @var object database
     *  @access private
     */
-    var $db = "";
+    var $db;
 	
     /**
     *  template path
@@ -45,7 +45,7 @@ class ILIAS extends PEAR
     *  @var object user
     *  @access public
 	*/
-    var $account = "";
+    var $account;
 
     /**
     *  auth parameters
@@ -59,14 +59,14 @@ class ILIAS extends PEAR
     *  @var object auth
     *  @access public
     */
-    var $auth = "";
+    var $auth;
 	
     /**
     *  operation list
     *  @var array
     *  @access private
     */
-    var $operations = "";
+    var $operations;
 	
     /**
     *  type definition

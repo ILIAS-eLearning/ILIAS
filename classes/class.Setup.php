@@ -46,14 +46,14 @@ class Setup
 	
     /**
 	 *  database handle
-	 *  @var object
+	 *  @var object database
 	 *  @access private
 	 */
     var $db = "";
 	
     /**
 	 *  ini-object
-	 *  @var object
+	 *  @var object IniFile
 	 *  @access private
 	 */
 	var $ini;
