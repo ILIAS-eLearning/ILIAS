@@ -226,7 +226,6 @@ class ilFileDataMail extends ilFileData
 	* @param array HTTP_POST_FILES
 	* @access	public
 	* @return integer 0 on success
-
 	*/
 	function storeUploadedFile($a_http_post_file)
 	{
@@ -245,6 +244,22 @@ class ilFileDataMail extends ilFileData
 		}
 		return 1;
 	}
+
+	/**
+	* Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
+	* @param array Array with files. Absolute path required
+	* @access	public
+	* @return 
+	*/
+	function copyAttachmentFile($a_abs_path,$a_new_name)
+	{
+		@copy($a_abs_path,$this->getMailPath()."/".$this->user_id."_".$a_new_name);
+		
+		return true;
+	}
+		
+
+
 	/**
 	* rotate files with same name
 	* recursive method

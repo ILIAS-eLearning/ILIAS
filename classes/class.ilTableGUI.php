@@ -141,6 +141,11 @@ class ilTableGUI
 		}
 	}
 
+	function getData()
+	{
+		return $this->data;
+	}
+
 	/**
 	* set table title
 	* @access	public
@@ -383,6 +388,13 @@ class ilTableGUI
 		$this->enabled[$a_module_name] = false;
 	}
 	
+
+	function sortData()
+	{
+		$this->data = sortArray($this->data,$this->order_column,$this->order_direction);
+		$this->data = array_slice($this->data,$this->offset,$this->limit);
+	}
+
 	/**
 	* render table 
 	* @access	public
@@ -457,13 +469,12 @@ class ilTableGUI
 		// the table content may be skipped to use an individual template blockfile
 		// To do so don't set $this->data and parse your table content by yourself
 		// The template block name for the blockfile MUST be 'TBL_CONTENT'
+
 		if ($this->enabled["content"] && is_array($this->data))
 		{
 			$this->setMaxCount(count($this->data));
 			
-			$this->data = sortArray($this->data,$this->order_column,$this->order_direction);
-			$this->data = array_slice($this->data,$this->offset,$this->limit);
-
+			$this->sortData();
 			$count = 0;
 					
 			foreach ($this->data as $tbl_content_row)
