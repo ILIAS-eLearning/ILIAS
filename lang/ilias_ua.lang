@@ -1055,7 +1055,7 @@ common#:#grp_create_lm#:#Створити Учбовий Модуль
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
 common#:#grp_delete#:#Видалити Групу
-common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.
+common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи.###19 Jun 2004 content changed
 common#:#grp_edit#:#Редагувати Групу
 common#:#grp_edit_permission#:#Змінити настройки прав

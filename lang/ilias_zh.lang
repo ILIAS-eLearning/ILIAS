@@ -1071,7 +1071,7 @@ common#:#grp_create_lm#:#创建学习模块
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#创建SCORM学习模块
 common#:#grp_delete#:#删除组
-common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？
+common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？###19 Jun 2004 content changed
 common#:#grp_edit#:#编辑组
 common#:#grp_edit_permission#:#更改许可设置e
