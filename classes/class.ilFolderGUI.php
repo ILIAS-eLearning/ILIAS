@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilFolderGUI.php,v 1.3 2003/07/29 13:04:23 mrus Exp $
+* $Id$Id: class.ilFolderGUI.php,v 1.4 2003/09/02 12:28:28 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -36,6 +36,7 @@
 require_once "class.ilObjectGUI.php";
 require_once "class.ilObjFolder.php";
 require_once "class.ilObjFolderGUI.php";
+require_once "class.ilObjGroup.php";
 
 class ilFolderGUI extends ilObjFolderGUI
 {
@@ -100,7 +101,7 @@ class ilFolderGUI extends ilObjFolderGUI
 	{
 		// creates a child object
 		global $rbacsystem;
-		
+	
 		// TODO: get rid of $_GET variable
 		/*if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
 		{
@@ -130,8 +131,8 @@ class ilFolderGUI extends ilObjFolderGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-		
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]));
+			
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]."&parent_non_rbac_id=".$_GET["obj_id"]));
 			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -164,18 +165,23 @@ class ilFolderGUI extends ilObjFolderGUI
 		$folderObj->setTitle($_POST["Fobject"]["title"]);
 		$folderObj->setDescription($_POST["Fobject"]["desc"]);
 		$folderObj->create();
+		
 		//$folderObj->createReference();
 		
 		
-		//$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+		//insert folder in local_tree
+		//echo $folderObj->getId()."-".$_GET["obj_id"]."-".$_GET["tree_id"];
+		
+		ilObjGroup::insertGroupNode($folderObj->getId(), $_GET["obj_id"],$_GET["tree_id"]);
+		
+		/*//$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		//echo "folder_id:".$folderObj->getId()."übergeordnetes Objekt".$object->getId();
 		//insert folder in local_tree
-		
 		$this->local_tree->insertNode($folderObj->getId(), $_GET["obj_id"]);
-		
 		//make sure that objects without a ref_id gets -1 as substitution 
 		$folderObj->setRefId($_GET["tree_id"],$folderObj->getId(),$_GET["obj_id"]);
-  
+  		*/
+		
 		/*}
 		else
 		{

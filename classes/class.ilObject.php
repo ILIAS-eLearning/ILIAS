@@ -743,7 +743,7 @@ class ilObject
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
+	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{ 
 		global $tree;
 		
@@ -752,7 +752,7 @@ class ilObject
 		if ($parent_id != 0)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$obj_data->notify($a_event,$a_ref_id,$parent_id,$a_params);
+			$obj_data->notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$parent_id,$a_params);
 		}
 				
 		return true;
