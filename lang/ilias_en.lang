@@ -321,6 +321,7 @@ common#:#members#:#Members
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
+common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
 common#:#module#:#module
 common#:#modules#:#Modules
@@ -570,7 +571,6 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
-common#:#meta_data#:#Meta Data
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_pages#:#Pages
