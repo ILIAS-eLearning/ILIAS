@@ -49,8 +49,8 @@ $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
 $courses = $ilias->account->getCourses();
 
 //forums
-$frm_obj = TUtil::getObjectsByOperations('frm','read');
-$frmNum = count($frm_obj);
+$frm_obj = TUtil::getObjectsByOperations('frm','visible');
+$frmNum = count($frm_obj); 
 $lastLogin = $ilias->account->data["LastLogin"];
 
 //********************************************
@@ -167,9 +167,16 @@ if ($frmNum > 0)
 		{
 			$lastPost = $frm->getLastPost($topicData["top_last_post"]);	
 			
+			$frm->setDbTable("frm_posts");			
+			$frm->setWhereCondition("pos_pk = ".$lastPost["pos_pk"]);
+			$posData = $frm->getOneDataset();	
+			
+			$stamp_post = mktime(substr($posData["pos_date"], 11, 2),substr($posData["pos_date"], 14, 2),substr($posData["pos_date"], 17, 2),substr($posData["pos_date"], 5, 2),substr($posData["pos_date"], 8, 2),substr($posData["pos_date"], 0, 4));
+			$stamp_login = mktime(substr($lastLogin, 11, 2),substr($lastLogin, 14, 2),substr($lastLogin, 17, 2),substr($lastLogin, 5, 2),substr($lastLogin, 8, 2),substr($lastLogin, 0, 4));
+						
 			// if lastPost is more up to date than lastLogin ...
-			if ($lastPost["pos_date"] > $frm->convertDate($lastLogin))
-			{
+			if ($stamp_post > $stamp_login)
+			{				
 				if ($_GET["cmd"] == "list_forum")
 				{
 					$tpl->setCurrentBlock("tbl_frm_row");
@@ -189,7 +196,7 @@ if ($frmNum > 0)
 	
 	// show table, when there are new entries
 	if ($z > 0)
-	{	
+	{
 		$tpl->setCurrentBlock("tbl_frm");
 		$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_new_entries"));
 		
