@@ -1,0 +1,3 @@
+<?php
+$tplContent->show();
+?>
