@@ -119,6 +119,7 @@ assessment#:#apply#:#Aplicar
 assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
 assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
 assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Questões
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#You don't have entered a test title! Please go 
 assessment#:#tst_no_marks_defined#:#Não existem nenhumas notas definidas, por favor crie pelo menos um esquema de notas simples!
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Por favor seleccione pelo menos uma questão para a remover!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#Não existem questões disponíveis! Você precisa de criar novas questões ou procurar por questões.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#Não existem teste tomados!
 assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. número de tentativas

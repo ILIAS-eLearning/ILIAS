@@ -119,6 +119,7 @@ assessment#:#apply#:#Alkalmaz
 assessment#:#ass_create_export_file#:#Create export file###05 Nov 2004 new variable
 assessment#:#ass_export_files#:#Export files###05 Nov 2004 new variable
 assessment#:#ass_file#:#File###05 Nov 2004 new variable
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Kérdések
 assessment#:#ass_size#:#Size###05 Nov 2004 new variable
 assessment#:#available_points#:#Available points###05 Nov 2004 new variable
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#You have not entered a test title! Please go to
 assessment#:#tst_no_marks_defined#:#Nincs jelölés definiálva. Legalább egy egyszerű jelöléssémát hozzon létre!
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést az eltávolításhoz!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#Nincs elérhető kérdés! Új kérdéseket kell létrehoznia vagy keresnie.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#Nincsenek igénybevett tesztek.
 assessment#:#tst_no_tries#:#none###05 Nov 2004 new variable
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma

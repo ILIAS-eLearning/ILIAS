@@ -119,6 +119,7 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
 assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte we
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen

@@ -119,6 +119,7 @@ assessment#:#apply#:#Toepassen
 assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
 assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
 assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Vragen
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Beschikbare punten
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#U heeft geen test-titel ingevoerd. Ga naar de s
 assessment#:#tst_no_marks_defined#:#Er zijn geen cijfers gedefiniëerd, creëer ten minste een simpel cijfer-schema!
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Kies tenminste één vraag om te verwijderen!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#Er zijn geen vragen beschikbaar! U moet nieuwe vragen  creëren of doorzoeken op vragen.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#Er zijn geen te maken testen!
 assessment#:#tst_no_tries#:#geen enkele
 assessment#:#tst_nr_of_tries#:#Max. aantal keer proberen
