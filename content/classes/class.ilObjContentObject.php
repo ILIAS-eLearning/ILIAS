@@ -595,6 +595,23 @@ class ilObjContentObject extends ilObject
 
 		return $sheet["stylesheet"];
 	}
+	
+	
+	/**
+	* delete all style references to style
+	*
+	* @param	int		$a_style_id		style_id
+	*/
+	function _deleteStyleAssignments($a_style_id)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE content_object SET ".
+			" stylesheet = ".$ilDB->quote("0").
+			" WHERE stylesheet = ".$this->getId($a_style_id);
+
+		$ilDB->query($q);
+	}
 
 	/**
 	* get page header mode (IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER)

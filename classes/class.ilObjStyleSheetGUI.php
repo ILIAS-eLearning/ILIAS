@@ -250,6 +250,76 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->object->update();
 		$this->editObject();
 	}
+	
+	/**
+	* display deletion confirmation screen
+	*
+	* @access	public
+ 	*/
+	function deleteObject($a_error = false)
+	{
+		$this->setTabs();
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
+
+		if(!$a_error)
+		{
+			sendInfo($this->lng->txt("info_delete_sure"));
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT", $this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+		
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		$this->tpl->setCurrentBlock("table_row");
+		$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_styf.gif"));
+		$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+		$this->tpl->setVariable("TEXT_CONTENT",ilObject::_lookupTitle($this->object->getId()));
+		$this->tpl->parseCurrentBlock();
+		
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		$buttons = array("confirmedDelete"  => $this->lng->txt("confirm"),
+			"cancelDelete"  => $this->lng->txt("cancel"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	
+	/**
+	* cancel oobject deletion
+	*/
+	function cancelDeleteObject()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* delete selected style objects
+	*/
+	function confirmedDeleteObject()
+	{
+		global $ilias;
+		
+		$this->object->delete();
+		
+		$this->ctrl->returnToParent($this);
+	}
 
 	/**
 	* delete style parameters
@@ -315,6 +385,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$this->object->updateStyleParameter($id, $value);
 		}
 		$this->object->update();
+		
+		// to do: introduce ilCtrl in administration properly
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "styf")
+			{				
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+			}
+		}
 
 		$this->ctrl->returnToParent($this);
 	}
@@ -337,7 +418,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			}
 		}
 
-
 		sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);
 	}
@@ -354,6 +434,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($tabs_gui);
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+
 		if (strtolower(get_class($this->object)) == "ilobjstylesheet")
 		{
 			$this->tpl->setVariable("HEADER", $this->object->getTitle());
@@ -371,6 +452,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		// to do: introduce ilCtrl in administration properly
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "styf")
+			{				
+				// back to upper context
+				$tabs_gui->addTarget("back",
+					"adm_object.php?ref_id=".$_GET["ref_id"], "",
+					"");
+				return;
+			}
+		}
+		
 		// back to upper context
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",

@@ -23,6 +23,25 @@
 </tr>
 <tr class="std">
 	<td class="option">
+	{TXT_STYLE}
+	</td>
+	<td class="option_value">
+	{VAL_STYLE}
+	<!-- BEGIN style_edit -->
+		<a href="{LINK_STYLE_EDIT}" class="navigation">
+		<img border="0" src="{IMG_STYLE_EDIT}" align="middle" title="{TXT_STYLE_EDIT}" alt="{TXT_STYLE_EDIT}" />
+		</a>
+		<a href="{LINK_STYLE_DROP}" class="navigation">
+		<img border="0" src="{IMG_STYLE_DROP}" align="middle" title="{TXT_STYLE_DROP}" alt="{TXT_STYLE_DROP}" />
+		</a>
+	<!-- END style_edit -->
+	<!-- BEGIN style_create -->
+	&nbsp;[<a href="{LINK_STYLE_CREATE}">{TXT_STYLE_CREATE}</a>]
+	<!-- END style_create -->
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
 	{TXT_PAGE_HEADER}
 	</td>
 	<td class="option_value">
@@ -146,7 +165,7 @@
 		  </tr>
 		  <!-- BEGIN TRANSLATION_ROW -->
 		  <tr class="std">
-			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID} /></td>
+			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID}" /></td>
 			<td class="option_value">{ROW_TITLE}</td>
 		  </tr>
 		  <!-- END TRANSLATION_ROW -->

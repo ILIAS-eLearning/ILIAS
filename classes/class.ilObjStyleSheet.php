@@ -223,6 +223,12 @@ class ilObjStyleSheet extends ilObject
 		$this->writeCSSFile();
 	}
 
+	/**
+	* write style parameter to db
+	*
+	* @param	string		$a_tag		tag name		(tag.class, e.g. "p.Mnemonic")
+	* @param	string		$a_par		tag parameter	(e.g. "margin-left")	
+	*/
 	function addParameter($a_tag, $a_par)
 	{
 		$avail_params = $this->getAvailableParameters();
@@ -236,12 +242,48 @@ class ilObjStyleSheet extends ilObject
 		$this->writeCSSFile();
 	}
 
+	/**
+	* delete style parameter
+	*
+	* @param	int		$a_id		style parameter id
+	*/
 	function deleteParameter($a_id)
 	{
 		$q = "DELETE FROM style_parameter WHERE id = '".$a_id."'";
 		$this->ilias->db->query($q);
 	}
 
+
+	/**
+	* delete style object
+	*/
+	function delete()
+	{
+		global $ilDB;
+		
+		// delete object
+		parent::delete();
+		
+		// delete style parameter
+		$q = "DELETE FROM style_parameter WHERE style_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+		
+		// delete style file
+		$css_file_name = ilUtil::getWebspaceDir()."/css/style_".$this->getId().".css";
+		if (is_file($css_file_name))
+		{
+			unlink($css_file_name);
+		}
+		
+		// delete entries in learning modules
+		include_once("content/classes/class.ilObjContentObject.php");
+		ilObjContentObject::_deleteStyleAssignments($this->getId());
+	}
+
+
+	/**
+	* read style properties
+	*/
 	function read()
 	{
 		parent::read();
@@ -312,9 +354,25 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getContentStylePath($a_style_id)
 	{
+		global $ilias;
+		
+		$rand = rand(1,999999);
+		
+		// check global fixed content style
+		$fixed_style = $ilias->getSetting("fixed_content_style_id");
+		if ($fixed_style > 0)
+		{
+			$a_style_id = $fixed_style;
+		}
+
+		// check global default style
+		if ($a_style_id <= 0)
+		{
+			$a_style_id = $ilias->getSetting("default_content_style_id");
+		}
+
 		if ($a_style_id > 0)
 		{
-			$rand = rand(1,999999);
 			return ilUtil::getWebspaceDir("output").
 				"/css/style_".$a_style_id.".css?dummy=$rand";
 		}

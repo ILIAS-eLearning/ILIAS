@@ -635,8 +635,11 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMMenu":
-//echo "<br>LMPresentationGUI calls ilLMMenu";
 						$this->ilLMMenu();
+						break;
+						
+					case "ilLMSubMenu":
+						$this->ilLMSubMenu();
 						break;
 				}
 			}
@@ -797,9 +800,51 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilTOC");
 	}
 
+	/**
+	* output learning module menu
+	*/
 	function ilLMMenu()
 	{
 		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()));
+	}
+
+	/**
+	* output learning module submenu
+	*/
+	function ilLMSubMenu()
+	{
+		global $rbacsystem;
+		
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		if ($showViewInFrameset) 
+		{
+			$buttonTarget = "bottom";
+		}
+		else
+		{
+			$buttonTarget = "_top";
+		}
+
+		
+		include_once("./classes/class.ilTemplate.php");
+		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
+		$tpl_menu->setCurrentBlock("lm_menu_btn");
+
+		// edit learning module
+		if (!$this->offlineMode())
+		{
+			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+			{
+				$page_id = $this->getCurrentPageId();
+				$tpl_menu->setVariable("BTN_LINK", "./lm_edit.php?ref_id=".$_GET["ref_id"].
+					"&obj_id=".$page_id."&to_page=1");
+				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("edit"));
+				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->parseCurrentBlock();
+			}
+		}
+		
+		$this->tpl->setVariable("SUBMENU", $tpl_menu->get());
 	}
 
 	function ilLocator()
