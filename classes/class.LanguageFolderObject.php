@@ -4,9 +4,9 @@
 * contains all function to manage language support for ILIAS3
 * install, uninstall, checkfiles ....
 * 
-* @author	Sascha Hofmann <shofmann@databay.de> 
+* @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
-* 
+*
 * @extends	Object
 * @package	ilias-core
 */
@@ -41,7 +41,7 @@ class LanguageFolderObject extends Object
 	var $lang_path;
 
 	/**
-	* separator value between module,identivier & value 
+	* separator value between module,identivier & value
 	* @var		string
 	* @access	private
 	*/
@@ -90,46 +90,6 @@ class LanguageFolderObject extends Object
 	* @return	array	$languages	status information about available languages
 	*/
 
-	/**
-	* Overwritten method from class.Object.php
-	* It handles all button commands from Language Folder Object
-	*
-	* @access public
-	*/
-	function gatewayObject()
-	{
-		global $lng;
-
-		switch(key($_POST["cmd"]))
-		{
-			case "install":
-				return $this->installObject();
-				break;
-
-			case "uninstall":
-				return $this->uninstallObject();
-				break;
-
-			case "refresh":
-				return $this->refreshObject();
-				break;
-
-			case "set_system_language":
-				return $this->setsyslangObject();
-				break;
-
-			case "change_language":
-				return $this->setuserlangObject();
-				break;
-
-			case "check_language":
-				return $this->checklangObject();
-				break;
-
-		}
-
-		parent::gatewayObject();
-	}
 
 	/*
 	* DESC MISSING
@@ -244,7 +204,7 @@ class LanguageFolderObject extends Object
 				if ($lang_data["info"] == "new_language")
 				{
 					$lng_id = createNewObject("lng", $lang_key, "not_installed");
-					
+
 					$a_languages[$lang_key] = getObject($lng_id);
 					$a_languages[$lang_key]["info"] = "new_language";
 				}
@@ -253,7 +213,7 @@ class LanguageFolderObject extends Object
 
 		return $a_languages;
 	}
-	
+
 	/**
 	* remove languages which are not installed AND has no lang-file
 	*
@@ -295,332 +255,6 @@ class LanguageFolderObject extends Object
 		return false;
 	}
 
-	/**
-	* install a language
-	*
-	* This function copy all language entries from a lang-file to database
-	*
-	* @return	string	system message
-	*/	
-	function installObject()
-	{
-		global $lng;
-		
-		// get rid of $_POST var and checkbox messages
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
-		}
-		
-		foreach ($_POST["id"] as $obj_id)
-		{
-			$lang = getObject($obj_id);
-			$lang_key = $lang["title"];
-			$lang_status = $lang["desc"];
-			
-			if ($lang_status != "installed")
-			{
-				if ($this->checkLanguage($lang_key))
-				{
-					// lang-file is ok. Flush data in db and...
-					$this->flushLanguage($lang_key);
-			
-					// ...re-insert data from lang-file
-					$this->insertLanguage($lang_key);
-	
-					// update information in db-table about available/installed languages
-					updateObject($obj_id,$lang_key,"installed");
-			
-					$this->optimizeLangdata();
-					
-					$lang_installed[] = $lang_key;
-				}
-			}
-		}
-		
-		if (isset($lang_installed))
-		{
-			if (count($lang_installed) == 1)
-			{
-				return $lng->txt("lang_".$lang_installed[0])." have been installed.";	
-			}
-			else
-			{
-				foreach ($lang_installed as $lang_key)
-				{
-					$langnames[] = $lng->txt("lang_".$lang_key); 
-				}
-
-				return implode(", ",$langnames)." have been installed.";			
-			}
-		}
-		
-		return "Funny! Chosen language(s) are already installed.";
-
-	}
-
-	/**
-	* uninstall a language
-	*
-	* This function removes all language data from database and updates the language information
-	* in db-table 'languages'.
-	*
-	* @return	string	system message
-	*/	
-	function uninstallObject()
-	{
-		global $lng;
-		
-		// get rid of $_POST var and checkbox messages
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
-		}
-
-		foreach ($_POST["id"] as $obj_id)
-		{
-			$lang = getObject($obj_id);
-			$lang_key = $lang["title"];
-			$lang_status = $lang["desc"];
-			
-			if (($lang_status == "installed") && ($lang_key != $this->lang_default) && ($lang_key != $this->lang_user))
-			{
-				$this->flushLanguage($lang_key);
-				updateObject($obj_id,$lang_key,"not_installed");
-
-				$this->resetUserLanguage($lang_key);
-				
-				$lang_uninstalled[] = $lang_key;
-			}
-			
-			// just for correct message output
-			if ($lang_key == $this->lang_default)
-			{
-				$sys_lang = true;
-			}
-
-			if ($lang_key == $this->lang_user)
-			{
-				$usr_lang = true;
-			}
-
-		}
-		
-		if (isset($lang_uninstalled))
-		{
-			if (count($lang_uninstalled) == 1)
-			{
-				return $lng->txt("lang_".$lang_uninstalled[0])." have been uninstalled.";	
-			}
-			else
-			{
-				foreach ($lang_uninstalled as $lang_key)
-				{
-					$langnames[] = $lng->txt("lang_".$lang_key); 
-				}
-
-				return implode(", ",$langnames)." have been uninstalled.";			
-			}
-		}
-		elseif ($sys_lang)
-		{
-			return "You cannot uninstall the system language!";
-		}
-		elseif ($usr_lang)
-		{
-			return "You cannot uninstall the language currently in use!";
-		}
-		else
-		{
-			return "Funny! Chosen language(s) are already uninstalled.";
-		}
-	}
-
-	/**
-	* refresh all installed languages
-	*
-	* This function flushes all installed languages and re-reads them from their lang-files
-	* @return	string	system message
-	*/
-	function refreshObject()
-	{
-		$languages = getObjectList("lng");
-		
-		foreach ($languages as $lang)
-		{
-			$obj_id = $lang["obj_id"];
-			$lang_key = $lang["title"];
-			$lang_status = $lang["desc"];
-			
-			if ($lang_status == "installed")
-			{
-				if ($this->checkLanguage($lang_key))
-				{
-					$this->flushLanguage($lang_key);
-					$this->insertLanguage($lang_key);
-				
-					// What is this update actually doing?? This makes only sense if
-					// table contains a timestamp column for auto update
-					updateObject($obj_id,$lang_key,$lang_status);
-
-					$this->optimizeLangdata();
-				}
-			}
-		}
-
-		return "All installed languages have been updated!";
-	}
-
-	/**
-	* set default language (the system language)
-	*
-	* @return	string	system message
-	*/
-	function setsyslangObject ()
-	{
-		global $lng;
-		
-		// get rid of $_POST var and checkbox messages
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["id"]) != 1)
-		{
-			$this->ilias->raiseError("Please choose only one language.<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$obj_id = $_POST["id"][0];
-		
-		$new_lang = getObject($obj_id);
-		$new_lang_key = $new_lang["title"];
-		$new_lang_status = $new_lang["desc"];
-		
-		if ($new_lang_key == $this->lang_default)
-		{
-			$this->ilias->raiseError($lng->txt("lang_".$new_lang_key)." is already the system language!<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		foreach ($this->languages as $lang_key => $lang_data)
-		{
-			if ($new_lang_key == $lang_key && $new_lang_status != "installed")
-			{
-				$this->ilias->raiseError($lng->txt("lang_".$new_lang_key)." is not installed. Please install that language first.<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
-			}		
-		}
-		
-		$this->ilias->setSetting("language",$new_lang_key);
-		// update ini-file
-		$this->ilias->ini->setVariable("language","default",$new_lang_key);
-		$this->ilias->ini->write();
-		
-		return "Systemlanguage changed to ".$lng->txt("lang_".$new_lang_key).".";
-	}
-	
-	/**
-	* set the user language
-	* @access	public
-	* @return	string	system message
-	*/
-	function setuserlangObject ()
-	{
-		global $lng;
-
-		// get rid of $_POST var and checkbox messages
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["id"]) != 1)
-		{
-			$this->ilias->raiseError("Please choose only one language. Action aborted!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		$obj_id = $_POST["id"][0];
-		
-		$new_lang = getObject($obj_id);
-		$new_lang_key = $new_lang["title"];
-		$new_lang_status = $new_lang["desc"];
-		
-		if ($new_lang_key == $this->lang_user)
-		{
-			$this->ilias->raiseError($lng->txt("lang_".$new_lang_key)." is already your user language!<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		foreach ($this->languages as $lang_key => $lang_data)
-		{
-			if ($new_lang_key == $lang_key && $new_lang_status != "installed")
-			{
-				$this->ilias->raiseError($lng->txt("lang_".$new_lang_key)." is not installed. Please install that language first.<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
-			}		
-		}
-		
-		$this->setUserLanguage($new_lang_key);
-		
-		return "Userlanguage changed to ".$lng->txt("lang_".$new_lang_key).".";
-	}
-
-	/**
-	* set the user language
-	* @access	public
-	*/
-	function setUserLanguage($a_lang_key)
-	{
-		$query = "UPDATE usr_pref SET value = '".$a_lang_key."' ".
-				 "WHERE usr_id = '".$_SESSION["AccountId"]."' ".
-				 "AND keyword = 'language'";
-		$this->ilias->db->query($query);
-		
-		$this->lang_user = $a_lang_key;
-	}
-
-	/**
-	* validate the logical structure of a lang-file
-	*
-	* This function checks if a lang-file of a given lang_key exists,
-	* the file has a header and each lang-entry consist of exact three elements
-	* (module,identifier,value)
-	*
-	* @param	string		$lang_key	international language key (2 digits)
-	* @return	string	system message
-	*/
-	function checkLanguage ($a_lang_key)
-	{
-		$tmpPath = getcwd();
-		chdir ($this->lang_path);
-	
-		// compute lang-file name format
-		$lang_file = "ilias_".$a_lang_key.".lang";
-	
-		// file check
-		if (!is_file($lang_file))
-		{
-			$this->ilias->raiseError("File not found: ".$lang_file,$this->ilias->error_obj->MESSAGE);		
-		}
-	
-		// header check
-		if (!$content = $this->cut_header(file($lang_file))) {
-			$this->ilias->raiseError("Wrong Header in ".$lang_file,$this->ilias->error_obj->MESSAGE);
-		}
-	
-		// check (counting) elements of each lang-entry
-		foreach ($content as $key => $val)
-		{
-			$separated = explode ($this->separator,trim($val));
-			$num = count($separated);
-	
-			if ($num != 3) {
-				$this->ilias->raiseError("Wrong parameter count in ".$lang_file."! Please check your language file!",$this->ilias->error_obj->MESSAGE);
-			}
-		}
-
-		chdir($tmpPath);
-
-		// no error occured
-		return true;
-	}
 
 	/**
 	* validate the logical structure of a lang-file
@@ -630,18 +264,18 @@ class LanguageFolderObject extends Object
 	*
 	* @return	string	system message
 	*/
-	function checklangObject ()
+	function checkAllLanguages()
 	{
 		global $lng;
-		
+
 		// set path to directory where lang-files reside
 		$d = dir($this->lang_path);
 		$tmpPath = getcwd();
 		chdir ($this->lang_path);
-	
+
 		// for giving a message when no lang-file was found
 		$found = false;
-		
+
 		// get available lang-files
 		while ($entry = $d->read())
 		{
@@ -650,11 +284,11 @@ class LanguageFolderObject extends Object
 				// textmeldung, wenn langfile gefunden wurde
 				$output .= "<br>langfile found: ".$entry;
 				$content = file ($entry);
-				
+
 				$found = true;
 				$error = false;
-	
-				if ($content = $this->cut_header($content))
+
+				if ($content = LanguageObject::cut_header($content))
 				{
 					foreach ($content as $key => $val)
 					{
@@ -664,7 +298,7 @@ class LanguageFolderObject extends Object
 						if ($num != 3)
 						{
 							$error = true;
-						
+
                         $output .= "<br/><br/><b>error in line ".$key." !</b>";
                         $output .= "<br/>module: ".$separated[0];
                         $output .= "<br/>identifier: ".$separated[1];
@@ -682,18 +316,18 @@ class LanguageFolderObject extends Object
 										$output .= "<br/>only 1 param! Please check your langfiles";
 									}
 								break;
-	
+
 								case 2:
 									$output .= "<br/>only 2 params! Please check your langfiles";
 								break;
-	
+
 								default:
 									$output .= "<br/>more than 3 params! Please check your langfiles";
 								break;
 							}
 						}
 					}
-	
+
 					if ($error) {
 						$output .= "<br/>File not valid! reason: wrong param count!";
 					}
@@ -706,115 +340,19 @@ class LanguageFolderObject extends Object
 				}
 			}
 		}
-		
+
 		$d->close();
-		
+
 		if (!$found) {
 			$output .= "<br>no langfiles found!";
 		}
-		
+
 		chdir($tmpPath);
 		return $output;
 	}
 
-	/**
-	* remove lang-file haeder information from '$content'
-	*
-	* This function seeks for a special keyword where the language information starts.
-	* if found it returns the plain language information, otherwise returns false
-	*
-	* @param	string	$content	expecting an ILIAS lang-file
-	* @return	string	$content	content without header info OR false if no valid header was found
-	*/
-	function cut_header ($content) {
-		foreach ($content as $key => $val) {
-			if (trim($val) == "<!-- language file start -->") {
-				return array_slice($content,$key +1);
-			}
-	 	}
-	 	
-	 	return false;
-	}
 
-	/**
-	* remove one or all languagee from database 
-	*
-	* sub-function: to uninstall a language use function uninstallLanguage()
-	* if $lang_key ist not given all installed languages are removed from database
-	* 
-	* @param	string	$lang_key	international language key (2 digits)
-	*/
-	function flushLanguage ($a_lang_key)
-	{
-		$query = "DELETE FROM lng_data WHERE lang_key='".$a_lang_key."'";
-		$this->ilias->db->query($query);
-	}
 
-	//TODO: remove redundant checks here!
-	/**
-	* insert language data form file in database
-	*
-	* @param	string	$lang_key	international language key (2 digits)
-	*/
-	function insertLanguage ($lang_key)
-	{
-		$tmpPath = getcwd();
-		chdir($this->lang_path);
 
-		$lang_file = "ilias_".$lang_key.".lang";
-		
-		if ($lang_file)
-		{
-			// remove header first
-			if ($content = $this->cut_header(file($lang_file))) {
-				foreach ($content as $key => $val) {
-					$separated = explode ($this->separator,trim($val));
-					$num = count($separated);
-	
-					$query = "INSERT INTO lng_data ".
-						 	 "(module,identifier,lang_key,value) ".
-						 	 "VALUES ".
-						 	 "('".$separated[0]."','".$separated[1]."','".$lang_key."','".addslashes($separated[2])."')";
-					$this->ilias->db->query($query);
-				}
-					$query = "UPDATE object_data SET ".
-						 	 "last_update = now() ".
-							 "WHERE title = '".$lang_key."' ".
-							 "AND type = 'lng'";
-					$this->ilias->db->query($query);
-			}
-		}
-
-		chdir($tmpPath);
-	}
-
-	/**
-	* optimizes the db-table langdata
-	*
-	* @return	boolean	true on success
-	*/
-	function optimizeLangdata () {
-
-		// optimize
-		$query = "OPTIMIZE TABLE lng_data";
-		$this->ilias->db->query($query);
-		
-		return true;
-	}
-
-	/**
-	* search ILIAS for users which have selected '$lang_key' as their prefered language and
-	* reset them to default language (english). A message is sent to all affected users
-	*
-	* @param	string		$lang_key	international language key (2 digits)
-	*/
-	function resetUserLanguage($lang_key)
-	{
-		$query = "UPDATE usr_pref SET ".
-				 "value = '".$this->lang_default."' ".
-				 "WHERE keyword = 'language' ".
-				 "AND value = '".$lang_key."'";
-		$this->ilias->db->query($query);
-	}
 } // END class.LanguageFolderObject
 ?>

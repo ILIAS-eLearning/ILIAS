@@ -93,7 +93,7 @@ class Object
 	* @access	public
 	* @return	int		object id
 	*/
-	function get_id()
+	function getId()
 	{
 		return $this->id;
 	}
@@ -104,7 +104,7 @@ class Object
 	* @access	public
 	* @param	int		$a_id		object id
 	*/
-	function set_id($a_id)
+	function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
@@ -115,7 +115,7 @@ class Object
 	* @access	public
 	* @return	string		object type
 	*/
-	function get_type()
+	function getType()
 	{
 		return $this->type;
 	}
@@ -126,7 +126,7 @@ class Object
 	* @access	public
 	* @param	int		$a_type		object type
 	*/
-	function set_type($a_type)
+	function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
@@ -137,7 +137,7 @@ class Object
 	* @access	public
 	* @return	string		object title
 	*/
-	function get_title()
+	function getTitle()
 	{
 		return $this->title;
 	}
@@ -148,7 +148,7 @@ class Object
 	* @access	public
 	* @param	string		$a_title		object title
 	*/
-	function set_title($a_title)
+	function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
@@ -159,7 +159,7 @@ class Object
 	* @access	public
 	* @return	string		object description
 	*/
-	function get_description()
+	function getDescription()
 	{
 		return $this->desc;
 	}
@@ -170,7 +170,7 @@ class Object
 	* @access	public
 	* @param	string		$a_desc		object description
 	*/
-	function set_description($a_desc)
+	function setDescription($a_desc)
 	{
 		$this->desc = $a_desc;
 	}
@@ -181,7 +181,7 @@ class Object
 	* @access	public
 	* @return	int			owner id
 	*/
-	function get_owner()
+	function getOwner()
 	{
 		return $this->owner;
 	}
@@ -192,7 +192,7 @@ class Object
 	* @access	public
 	* @param	int		$a_owner		owner id
 	*/
-	function set_owner($a_owner)
+	function setOwner($a_owner)
 	{
 		$this->owner = $a_owner;
 	}
@@ -203,7 +203,7 @@ class Object
 	* @access	public
 	* @return	string			creation date
 	*/
-	function get_create_date()
+	function getCreateDate()
 	{
 		return $this->create_date;
 	}
@@ -214,7 +214,7 @@ class Object
 	* @access	public
 	* @return	string			date of last update
 	*/
-	function get_last_update_date()
+	function getLastUpdateDate()
 	{
 		return $this->last_update;
 	}
@@ -244,56 +244,127 @@ class Object
 		return $new_id;
 	}
 
+
 	/**
-	* gateway for all button actions
-	* @access	public
+	* copy object to clipboard
 	*/
-	function gatewayObject()
+	function copyObject($a_post_data,$a_post_cmd,$a_obj_id)
 	{
-		global $lng;
+		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
 
-		include_once ("classes/class.Admin.php");
-
-		$admin = new Admin();
-
-		switch(key($_POST["cmd"]))
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($a_post_data))
 		{
-			case "cut":
-				return $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-				break;
-			case "copy":
-				return $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-				break;
-			case "link":
-				return $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-				break;
-			case "paste":
-				return $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
-				break;
-			case "clear":
-				return $admin->clearObject();
-				break;
-			case "delete":
-				return $this->confirmDeleteAdmObject();
-				break;
-			case "btn_undelete":
-				return $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
-				break;
-			case "btn_remove_system":
-				return $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
-				break;
-			case "cancel":
-				session_unregister("saved_post");
-				break;
-			case "confirm":
-				return $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
-				break;
-			default: 
-				return false;
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// FOR ALL SELECTED OBJECTS
+		foreach($a_post_data as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $tree->getNodeData($id,$a_obj_id);
+			$subtree_nodes = $tree->getSubTree($node_data);
+
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK DELETE PERMISSION OF ALL OBJECTS
+			foreach($subtree_nodes as $node)
+			{
+				if(!$rbacsystem->checkAccess('read',$node["obj_id"],$node["parent"]))
+				{
+					$no_copy[] = $node["obj_id"];
+					$perform_copy = false;
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
+		if(count($no_copy))
+		{
+			$no_copy = implode(',',$no_copy);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
+									 $no_copy,$this->ilias->error_obj->MESSAGE);
 		}
 
-
+		// COPY TRHEM
+		// SAVE SUBTREE
+		foreach($a_post_data as $id)
+		{
+			$tree->saveSubtree($id,$a_obj_id,1);
+			$clipboard[$id]["parent"] = $a_obj_id;
+			$clipboard[$id]["cmd"] = $a_post_cmd;
+		}
+		$_SESSION["clipboard"] = $clipboard;
 	}
+
+
+	/**
+	*
+	*/
+	function pasteObject($a_obj_id,$a_parent_id)
+	{
+		global $rbacsystem,$tree,$objDefinition,$lng;
+
+		// CHECK SOME THINGS
+		foreach($_SESSION["clipboard"] as $id => $object)
+		{
+			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
+			if($object["cmd"] == $lng->txt('copy'))
+			{
+				$this->cloneObject($a_obj_id,$a_parent_id);
+				return true;
+			}
+
+			$obj_data = getObject($id);
+			$data = $tree->getNodeData($id,$a_obj_id);
+			// CHECK ACCESS
+			if(!$rbacsystem->checkAccess('create',$a_obj_id,$a_parent_id,$obj_data["type"]))
+			{
+				$no_paste[] = $id;
+			}
+			// CHECK IF REFERENCE ALREADY EXISTS
+			if($data["obj_id"])
+			{
+				$exists[] = $id;
+			}
+			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+			if($tree->isGrandChild($id,$object["parent"],$a_obj_id,$a_parent_id))
+			{
+				$is_child[] = $id;
+			}
+			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+			$object = getObject($a_obj_id);
+			if(!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			{
+				$not_allowed_subobject[] = $obj_data["type"];
+			}
+		}
+		if(count($exists))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($is_child))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		if(count($not_allowed_subobject))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		if(count($no_paste))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+		}
+		foreach($_SESSION["clipboard"] as $id => $object)
+		{
+			$this->insertSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
+		}
+		$this->clearObject();
+	}
+
+
 	/**
 	* create object in admin interface
 	* @access	public
@@ -307,7 +378,7 @@ class Object
 		if ($rbacsystem->checkAccess("create", $a_id, $_GET["parent"], $a_new_type))
 		{
 			$data = array();
-			$data["fields"] = array();						
+			$data["fields"] = array();
 			$data["fields"]["title"] = "";
 			$data["fields"]["desc"] = "";
 			return $data;
@@ -317,10 +388,10 @@ class Object
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 	}
-	
+
 	/**
 	* saves new object in admin interface
-	* 
+	*
 	* @param	integer		obj_id
 	* @param	integer		parent_id
 	* @param	string		obj_type
@@ -445,7 +516,7 @@ class Object
 			{
 				$opdata = array();
 				$opdata["name"] = $operation["operation"];
-				
+
 				foreach ($parentRoles as $role)
 				{
 					$checked = $rbacsystem->checkPermission($this->id,$role["obj_id"],$operation["operation"],$_GET["parent"]);
@@ -548,7 +619,8 @@ class Object
 		}// END STOP INHERIT
 		return true;
 	}
-	
+
+
 	/**
 	* add a new local role
 	* @access public
@@ -654,6 +726,7 @@ class Object
 		return true;
 	}
 
+
 	/**
 	* This method is called automatically from class.Admin.php
 	* It removes all object entries for a specific object
@@ -677,34 +750,6 @@ class Object
 		return true;
 	}
 
-
-	function confirmDeleteAdmObject()
-	{
-		global $lng;
-
-		if(!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
-		$data["cols"] = array("type", "title", "description", "last_change");
-
-		foreach($_POST["id"] as $id)
-		{
-			$obj_data = getObject($id);
-			$data["data"]["$id"] = array(
-				"type"        => $obj_data["type"],
-				"title"       => $obj_data["title"],
-				"desc"        => $obj_data["desc"],
-				"last_update" => $obj_data["last_update"]);
-		}
-		$data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
-								  "confirm"  => $lng->txt("confirm"));
-
-		return $data;
-	}
 	function trashObject()
 	{
 		global $lng,$tree;

@@ -53,9 +53,8 @@ $obj = new $class_constr($_GET["obj_id"]);
 // call object method
 switch ($_GET["cmd"])
 {
-	// view object
+	// no more view() here! all calls moved to "out" class
 	case "view":
-		//$data = $obj->viewObject($_GET["order"], $_GET["direction"]);
 		break;
 
 	// save object
@@ -96,7 +95,9 @@ switch ($_GET["cmd"])
 		// shouldn't be called here, just a test
 		break;
 
-
+	// no more gateway() here! all calls moved to "out" class
+	case "gateway":
+		break;
 
 	default:
 		$data = $obj->$method();
@@ -109,8 +110,9 @@ $class_constr = $class_name."ObjectOut";
 
 require_once("./classes/class.".$class_name."ObjectOut.php");
 $obj = new $class_constr($data);
-$obj->$method();
 //echo "$class_constr().$method<br>";
+$obj->$method();
+
 
 
 // display basicdata formular
