@@ -531,6 +531,7 @@ class ilValidator extends PEAR
 											"child"			=> $row->child,
 											"parent"		=> $row->parent,
 											"tree"			=> $row->tree,
+											"type"			=> $row->type,
 											"title"			=> $row->title,
 											"desc"			=> $row->description,
 											"owner"			=> $row->owner,
@@ -541,7 +542,7 @@ class ilValidator extends PEAR
 
 		if (count($this->deleted_objects) > 0)
 		{
-			$this->writeScanLogLine("obj_id\tref_id\tparent\ttree\t\ttype\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogLine("obj_id\tref_id\ttree\ttype\ttitle\tdesc\towner\tcreate_date\tlast_update");
 			$this->writeScanLogArray($this->deleted_objects);
 			return true;
 		}
@@ -818,12 +819,12 @@ restore starts here
 	
 	/**
 	* Restore all objects in trash to RecoveryFolder
+	* NOTE: All objects will be restored to top of RecoveryFolder regardless of existing hierarchical structure!
 	*
 	* @access	public
 	* @param	array	list of deleted childs  (optional)
 	* @return	boolean false on error or restore mode disabled
 	* @see		this::findDeletedObjects()
-	* @see		this::restoreSubTrees()
 	*/
 	function restoreTrash($a_deleted_objects = NULL)
 	{
@@ -848,7 +849,7 @@ restore starts here
 		}
 		
 		// start restore process
-		$restored = $this->restoreSubTrees($a_deleted_objects);
+		$restored = $this->restoreDeletedObjects($a_deleted_objects);
 		
 		if ($restored)
 		{
@@ -860,14 +861,71 @@ restore starts here
 		
 		return $restored;
 	}
+	
+	/**
+	* Restore deleted objects (and their subobjects) to RecoveryFolder
+	*
+	* @access	private
+	* @param	array	list of nodes
+	* @return	boolean false on error or restore mode disabled
+	* @see		this::restoreTrash()
+	*/
+	function restoreDeletedObjects($a_nodes)
+	{
+		global $tree,$rbacadmin,$ilias;
+//vd($a_nodes);exit;
+		// handle wrong input
+		if (!is_array($a_nodes)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+
+		// no invalid parents found. do nothing
+		if (count($a_nodes) == 0)
+		{
+			$this->writeScanLogLine("none");
+			return false;
+		}
+
+		// first delete all rolefolders
+		// don't save rolefolders, remove them
+		// TODO process ROLE_FOLDER_ID
+		foreach ($a_nodes as $key => $node)
+		{
+			if ($node["type"] == "rolf")
+			{
+				// delete old tree entries
+				$tree->deleteTree($node);
+
+				$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
+				$obj_data->delete();
+				unset($a_nodes[$key]);
+			}	
+		}
+		
+		// process move
+		foreach ($a_nodes as $node)
+		{
+			// delete old tree entries
+			$tree->deleteTree($node);
+			
+			$rbacadmin->revokePermission($node["child"]);
+			$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
+			$obj_data->putInTree(RECOVERY_FOLDER_ID);
+			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
+			$obj_data->initDefaultRoles();
+		}
+		
+		return true;
+	}
 
 	/**
 	* Restore objects (and their subobjects) to RecoveryFolder
 	*
 	* @access	private
 	* @param	array	list of nodes
-* 	* @return	boolean false on error or restore mode disabled
-	* @see		this::restoreDeletedObjects()
+	* @return	boolean false on error or restore mode disabled
 	* @see		this::restoreUnboundObjects()
 	*/
 	function restoreSubTrees ($a_nodes)
@@ -894,7 +952,7 @@ restore starts here
 
 		$subnodes = array();
 		$topnode = array();
-		
+
 		// process move subtree
 		foreach ($a_nodes as $node)
 		{
@@ -923,11 +981,13 @@ restore starts here
 		// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
 		foreach ($subnodes as $key => $subnode)
 		{
+
 			// first paste top_node ...
 			$rbacadmin->revokePermission($key);
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
+			$obj_data->initDefaultRoles();
 			
 			$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 
@@ -943,6 +1003,7 @@ restore starts here
 					$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
 					$obj_data->putInTree($node["parent"]);
 					$obj_data->setPermissions($node["parent"]);
+					$obj_data->initDefaultRoles();
 					
 					$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 				}
