@@ -1267,6 +1267,14 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
+				if ($this->rbacsystem->checkAccess('delete', $tst_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color
@@ -1381,6 +1389,14 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
+				if ($this->rbacsystem->checkAccess('delete', $qpl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("qpl_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+        
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color
