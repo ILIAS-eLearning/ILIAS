@@ -22,7 +22,7 @@
 */
 
 require_once "class.assQuestion.php";
-require_once "class.assAnswerTrueFalse.php";
+require_once "class.assAnswerCloze.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
@@ -279,7 +279,7 @@ class ASS_ClozeTest extends ASS_Question {
             array_push($this->gaps, $answer_array);
             $counter = $data->gap_id;
           }
-          array_push($this->gaps[$counter], new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->aorder, $data->correctness));
+          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name));
         }
       }
     }
@@ -308,7 +308,7 @@ class ASS_ClozeTest extends ASS_Question {
       $cloze_words = split(",", $value);
       $answer_array = array();
       foreach ($cloze_words as $index => $text) {
-        array_push($answer_array, new ASS_AnswerTrueFalse($text, 0, $index, $default_correctness));
+        array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, CLOZE_TEXT, ""));
       }
       array_push($this->gaps, $answer_array);
     }
@@ -427,7 +427,7 @@ class ASS_ClozeTest extends ASS_Question {
 * gap is 0, the index of the second gap is 1 and so on.
 *
 * @param integer $index A nonnegative index of the n-th gap
-* @return array Array of ASS_AnswerTrueFalse-Objects containing the gap gaps
+* @return array Array of ASS_AnswerCloze-Objects containing the gap gaps
 * @access public
 * @see $gaps
 */

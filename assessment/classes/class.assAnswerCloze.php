@@ -44,6 +44,16 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
 * @var int
 */
   var $cloze_type;
+
+/**
+* Name of answer gap 
+* 
+* A string value defining a name for the gap
+* which contains the answer
+*
+* @var string
+*/
+  var $name;
   
 /**
 * ASS_AnswerCloze constructor
@@ -57,16 +67,18 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
 * @param integer $cloze_type An integer representing the answer type
 * @access public
 */
-  function ASS_AnswerTrueFalse (
+  function ASS_AnswerCloze (
     $answertext = "",
     $points = 0.0,
     $order = 0,
     $correctness = FALSE,
-		$cloze_type = 0
+		$cloze_type = 0,
+		$name = ""
   )
   {
     $this->ASS_AnswerTrueFalse($answertext, $points, $order, $correctness);
     $this->cloze_type = $cloze_type;
+		$this->name = $name;
   }
   
   
@@ -94,6 +106,32 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
 */
   function set_cloze_type($cloze_type = 0) {
     $this->cloze_type = $cloze_type;
+  }
+
+/**
+* Gets the gap name
+* 
+* Returns the gap name
+*
+* @return string gap name
+* @access public
+* @see $name
+*/
+  function get_name() {
+    return $this->name;
+  }
+  
+/**
+* Sets the gap name
+* 
+* Sets the gap name
+*
+* @param string $name Gap name
+* @access public
+* @see $name
+*/
+  function set_name($name = 0) {
+    $this->name = $name;
   }
 }
 
