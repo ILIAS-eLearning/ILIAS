@@ -97,6 +97,7 @@ db_conn#:#Verbindungsdaten zur Datenbank
 db_host#:#Datenbankserver
 db_name#:#Datenbankname
 db_needs_update#:#Datenbank benötigt Update
+db_not_installed#:#Datenbank nicht installiert
 db_pass#:#Datenbankpasswort
 db_type#:#Datenbanktyp
 db_user#:#Datenbankbenutzer
@@ -197,13 +198,13 @@ ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 lang_cs#:#Tschechisch
-lang_de#:#Deutsch
 lang_da#:#Dänisch
-lang_hu#:#Ungarisch
+lang_de#:#Deutsch
 lang_en#:#Englisch
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
 lang_es#:#Spanisch
 lang_fr#:#Französisch
+lang_hu#:#Ungarisch
 lang_id#:#Indonesisch
 lang_it#:#Italienisch
 lang_lt#:#Litauisch
@@ -391,4 +392,3 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
-db_not_installed#:#Datenbank nicht installiert

@@ -97,6 +97,7 @@ db_conn#:#Connessione al Database
 db_host#:#Macchina con il database
 db_name#:#Nome del database
 db_needs_update#:#Il database deve essere aggiornato
+db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#Password dell'amministratore
 db_type#:#Tipo di database
 db_user#:#Amministratore del database
@@ -197,12 +198,13 @@ ip_address#:#Indirizzo IP
 java_path#:#Percorso di Java
 java_path_comment#:#Richiesto per i moduli di tipo SCORM
 lang_cs#:#Ceco
+lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Tedesco
-lang_dk#:#Danese
 lang_en#:#Inglese
 lang_error_occurred#:#Si &#232; verificato un errore. Esecuzione interrotta.
 lang_es#:#Spagnolo
 lang_fr#:#Francese
+lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indonesiano
 lang_it#:#Italiano
 lang_lt#:#Lituano

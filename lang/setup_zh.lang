@@ -113,6 +113,7 @@ db_conn#:#数据库连接
 db_host#:#数据库主机 
 db_name#:#数据库名称 
 db_needs_update#:#数据库需要更新
+db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#数据库口令
 db_type#:#数据库类型 
 db_user#:#数据库用户
@@ -213,12 +214,13 @@ ip_address#:#IP地址
 java_path#:#Java路径 
 java_path_comment#:#用于SCORM学习模块 
 lang_cs#:#Czech###09 Mar 2004 new variable
+lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#德语 
-lang_dk#:#丹麦语
 lang_en#:#英语 
 lang_error_occurred#:#遇到错误。操作失败。 
 lang_es#:#西班牙语 
 lang_fr#:#法语 
+lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#印度尼西亚语 
 lang_it#:#意大利语 
 lang_lt#:#立陶宛语 

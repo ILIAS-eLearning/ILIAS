@@ -47,28 +47,6 @@ administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
-common#:#ilinc_classrooms#:#iLinc Seminarräume
-common#:#ilinc_courses#:#iLinc Seminare
-common#:#objs_icla#:#iLinc Seminarräume
-common#:#objs_icrs#:#iLinc Seminare
-common#:#icrs#:#iLinc Seminar
-common#:#icla#:#iLinc Seminaraum
-common#:#obj_icrs#:#iLinc Seminar
-common#:#obj_icla#:#iLinc Seminaraum
-common#:#icla_new#:#Neuer iLinc Seminarraum
-common#:#icla_add#:#iLinc Seminarraum anlegen
-common#:#icrs_new#:#Neues iLinc Seminar
-common#:#icrs_add#:#iLinc Seminar anlegen
-common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_visible#:#iLinc Seminar ist sichtbar
-common#:#icrs_read#:#Lesezugriff auf iLinc Seminar
-common#:#icrs_write#:#iLinc Seminar bearbeiten
-common#:#icrs_delete#:#iLinc Seminar löschen
-common#:#icla_edit_permission#:#Rechteeinstellungen ändern
-common#:#icla_visible#:#iLinc Seminarraum ist sichtbar
-common#:#icla_read#:#Lesezugriff auf iLinc Seminarraum
-common#:#icla_write#:#iLinc Seminarram bearbeiten
-common#:#icla_delete#:#iLinc Seminarraum löschen
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
@@ -410,11 +388,13 @@ assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
+assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
+assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -939,6 +919,8 @@ common#:#condition#:#Bedingung
 common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
 common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
 common#:#condition_deleted#:#Die Vorbedingung wurde gelöscht.
+common#:#condition_finished#:#Beendet
+common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
 common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
@@ -971,6 +953,7 @@ common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
+common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.
 common#:#crs_archives#:#Archive
 common#:#crs_at_least_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
@@ -1269,6 +1252,8 @@ common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#global#:#Global
+common#:#global_default#:#Global Default###01 Mar 2005 new variable
+common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
 common#:#global_settings#:#Globale Einstellungen
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
@@ -1311,7 +1296,7 @@ common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
-common#:#grp_add_member#:#Mitglied(er) hinzufügen
+common#:#grp_add_member#:#Mitglied(er) hinzufügen###01 Mar 2005 content changed
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
 common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
@@ -1418,11 +1403,29 @@ common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
+common#:#icla#:#iLinc Seminaraum
+common#:#icla_add#:#iLinc Seminarraum anlegen
+common#:#icla_delete#:#iLinc Seminarraum löschen
+common#:#icla_edit_permission#:#Rechteeinstellungen ändern
+common#:#icla_new#:#Neuer iLinc Seminarraum
+common#:#icla_read#:#Lesezugriff auf iLinc Seminarraum
+common#:#icla_visible#:#iLinc Seminarraum ist sichtbar
+common#:#icla_write#:#iLinc Seminarram bearbeiten
+common#:#icrs#:#iLinc Seminar
+common#:#icrs_add#:#iLinc Seminar anlegen
+common#:#icrs_delete#:#iLinc Seminar löschen
+common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
+common#:#icrs_new#:#Neues iLinc Seminar
+common#:#icrs_read#:#Lesezugriff auf iLinc Seminar
+common#:#icrs_visible#:#iLinc Seminar ist sichtbar
+common#:#icrs_write#:#iLinc Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ilias_version#:#ILIAS Version
+common#:#ilinc_classrooms#:#iLinc Seminarräume
+common#:#ilinc_courses#:#iLinc Seminare
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
@@ -1530,6 +1533,7 @@ common#:#languages#:#Sprachen
 common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
 common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
+common#:#last_access#:#Letzter Zugriff:
 common#:#last_change#:#Letzte Änderung
 common#:#last_update#:#Letzte Aktualisierung
 common#:#last_visit#:#Letzter Besuch
@@ -1835,6 +1839,7 @@ common#:#no_zip_file#:#Es wurde keine ZIP-Datei gefunden
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
+common#:#not_accessed#:#Noch nicht aufgerufen
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
@@ -1862,6 +1867,8 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
+common#:#obj_icla#:#iLinc Seminaraum
+common#:#obj_icrs#:#iLinc Seminar
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -1895,6 +1902,8 @@ common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
+common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
+common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
@@ -1932,6 +1941,8 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
+common#:#objs_icla#:#iLinc Seminarräume
+common#:#objs_icrs#:#iLinc Seminare
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
@@ -2039,6 +2050,7 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
+common#:#purpose#:#Purpose###01 Mar 2005 new variable
 common#:#qpl#:#Fragenpool für Test
 common#:#qpl_add#:#Fragenpool hinzufügen
 common#:#qpl_delete#:#Fragenpool löschen
@@ -2199,6 +2211,7 @@ common#:#sections#:#Bereiche
 common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
+common#:#select_max_one_item#:#Please select one item only###01 Mar 2005 new variable
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
@@ -2256,6 +2269,7 @@ common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
+common#:#sty#:#Style###01 Mar 2005 new variable
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
@@ -2321,6 +2335,8 @@ common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Abo
 common#:#today#:#Heute
+common#:#toggleGlobalDefault#:#Toggle Global Default###01 Mar 2005 new variable
+common#:#toggleGlobalFixed#:#Toggle Global Fixed###01 Mar 2005 new variable
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trac_delete#:#Tracking-Daten löschen
@@ -2352,6 +2368,7 @@ common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
+common#:#unambiguousness#:#Eindeutigkeit
 common#:#uncheck_all#:#Alle Auswahlen entfernen
 common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
@@ -2361,6 +2378,7 @@ common#:#unselected#:#Auswahl aufheben
 common#:#unsubscribe#:#Abo beenden
 common#:#unzip#:#Entzippen
 common#:#up#:#Hoch
+common#:#update#:#Übernehmen
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
@@ -2533,6 +2551,7 @@ content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
+content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###01 Mar 2005 new variable
 content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
@@ -2732,9 +2751,12 @@ content#:#cont_public_access#:#Öffentlicher Zugriff
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
+content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
 content#:#cont_reference#:#Referenz
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
+content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
+content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
 content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
 content#:#cont_resource#:#Ressource
@@ -2797,6 +2819,7 @@ content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
+content#:#cont_style#:#Style###01 Mar 2005 new variable
 content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_table#:#Tabelle
 content#:#cont_table_border#:#Tabellenrand
@@ -2855,22 +2878,30 @@ content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten
 content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+crs#:#assigned#:#Zugeordnet
 crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
+crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
+crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
-crs#:#crs_add_member#:#Mitglied(er) hinzufügen
-crs#:#crs_add_subscribers#:#Benutzer hinzufügen
+crs#:#crs_add_member#:#Mitglied(er) hinzufügen###01 Mar 2005 content changed
+crs#:#crs_add_objective#:#Lernziel hinzufügen
+crs#:#crs_add_starter#:#Startobjekt hinzufügen
+crs#:#crs_add_subscribers#:#Benutzer hinzufügen###01 Mar 2005 content changed
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
 crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
+crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
+crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
+crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
 crs#:#crs_archive#:#Archivierung
 crs#:#crs_archive_disabled#:#Deaktiviert
 crs#:#crs_archive_download#:#Herunterladen
@@ -2886,6 +2917,8 @@ crs#:#crs_blocked_member#:#Kursmitgliedschaft
 crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft wurde beendet.
 crs#:#crs_cancel_subscription#:#Kursabmeldung
 crs#:#crs_cancel_subscription_body#:#Ein Benutzer hat sich vom Kurs abgemeldet.
+crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
+crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Sprechstunde
 crs#:#crs_contact_email#:#E-Mail
@@ -2895,31 +2928,65 @@ crs#:#crs_contact_responsibility#:#Zuständigkeit
 crs#:#crs_content#:#Kursinhalt
 crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
+crs#:#crs_count_questions#:#Anzahl von Fragen
 crs#:#crs_create_date#:#Erstellungsdatum
+crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_dates#:#Termine
+crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
 crs#:#crs_delete_member#:#Mitglied(er) austragen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
+crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_delete_subscribers#:#Anmeldungen löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
-crs#:#crs_details#:#Kursdetails
+crs#:#crs_details#:#Kursdetails###01 Mar 2005 content changed
 crs#:#crs_dismiss_member#:#Kursmitgliedschaft
 crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft wurde beendet.
 crs#:#crs_edit_archive#:#Archive bearbeiten
+crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
 crs#:#crs_file_name#:#Dateiname
 crs#:#crs_from#:#Von:
+crs#:#crs_grouping#:#Kursgruppierung
+crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
+crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
+crs#:#crs_groupings#:#Kursgruppierungen
+crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
+crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
+crs#:#crs_grp_assign_crs#:#Kurs zuordnen
+crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
+crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
+crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zugeordnet.
+crs#:#crs_grp_crs_assignment#:#Kurszuordnung
+crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
+crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
+crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können sich nur an einen dieser Kurse anmelden:
+crs#:#crs_grp_modified_grouping#:#Die Änderungen wurden übernommen.
+crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
+crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
+crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Mitglieder löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
+crs#:#crs_hide_link_lms#:#Lernmaterialien verbergen
+crs#:#crs_hide_link_objectives#:#Lernziele verbergen
+crs#:#crs_hide_link_or#:#Andere Objekte verbergen
+crs#:#crs_hide_link_tst#:#Tests verbergen
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
 crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
 crs#:#crs_info_reg_direct#:#Sie können sich direkt für den Kurs anmelden.
 crs#:#crs_info_reg_password#:#Die Mitgliedschaft zu diesem Kurs verlangt die Eingabe eines Passwortes. Wenn Ihnen dieses nicht mitgeteilt wurde, können Sie sich nicht anmelden.
+crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
+crs#:#crs_learning_materials#:#Lernmaterialien
 crs#:#crs_list_users#:#Benutzer auflisten
+crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
+crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
+crs#:#crs_lm_deassign#:#Zuornung entfernen
+crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
+crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
@@ -2933,33 +3000,87 @@ crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
+crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
 crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
+crs#:#crs_no_chapter_selected#:#Bitte wählen Sie mindestens ein Kapitel aus.
+crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
+crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens eine Lerneinheit aus.
+crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordnet.
+crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
+crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
+crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
+crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
+crs#:#crs_no_questions_assigned#:#Diesem Lernziel sind keine Fragen zugeordnet.
 crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 crs#:#crs_no_roles_selected#:#Sie haben keine Rolle ausgewählt
+crs#:#crs_no_starter_created#:#Diesem Kurs sind keine Startobjekte zugeordnet.
 crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt
+crs#:#crs_no_tests_inside_crs#:#In diesem Kurs befinden sich keine Tests, die diesem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
+crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
+crs#:#crs_objective_accomplished#:#Erledigt
+crs#:#crs_objective_assign_chapter#:#Kapitel zuordnen
+crs#:#crs_objective_assign_lm#:#Lernmaterial zuordnen
+crs#:#crs_objective_assign_question#:#Frage zuordnen
+crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
+crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
+crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
+crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
+crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
+crs#:#crs_objective_not_accomplished#:#Nicht erfüllt
+crs#:#crs_objective_overview_objectives#:#Übersicht Lernziele
+crs#:#crs_objective_overview_question_assignment#:#Übersicht Fragenzuordnung
+crs#:#crs_objective_pretest#:#Selbsteinschätzung
+crs#:#crs_objective_question_assignment#:#Fragenzuordnung
+crs#:#crs_objective_result#:#Nach Test
+crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
+crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
+crs#:#crs_objectives#:#Lernziele
+crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
+crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Lernmaterialien wurden zugeordnet.
+crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
+crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
+crs#:#crs_objectives_assigned_questions#:#Zugeordnete Fragen
+crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
+crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
+crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
+crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlußtest erneut durchführen.
+crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
+crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien.
+crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlußtest durchführen.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlußtest durchführen.
+crs#:#crs_objectives_lm_assignment#:#Zuordnen von Lernmaterialien
+crs#:#crs_objectives_max_points#:#Maximale Punktzahl
+crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
+crs#:#crs_objectives_nr_questions#:#Anzahl Fragen
+crs#:#crs_objectives_qst_deassigned#:#Die ausgewählten Fragen wurden entfernt.
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, daß Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
+crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optionen
+crs#:#crs_other_resources#:#Andere Objekte
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Liste ausdrucken
+crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten. Sie werden auf die Warteliste gesetzt
@@ -2971,6 +3092,7 @@ crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Kursanmeldung
 crs#:#crs_reject_subscriber#:#Kursanmeldung
 crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
+crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
 crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
@@ -2978,15 +3100,29 @@ crs#:#crs_search_for#:#Suchen nach:
 crs#:#crs_search_members#:#Benutzersuche
 crs#:#crs_search_str#:#Suchbegriff
 crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
+crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau eine Lerneinheit aus.
+crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
+crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
 crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
+crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
+crs#:#crs_select_starter#:#Startobjekt auswählen
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
+crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
+crs#:#crs_show_link_objectives#:#Lernziele anzeigen
+crs#:#crs_show_link_or#:#Andere Objekte anzeigen
+crs#:#crs_show_link_tst#:#Tests anzeigen
+crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Aktivierung
 crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
+crs#:#crs_sortorder_abo#:#Sortierung/Abo
 crs#:#crs_start#:#Start
+crs#:#crs_start_objects#:#Startobjekte
+crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
+crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Kursstatus
 crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert
@@ -3002,8 +3138,13 @@ crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
 crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
 crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet
 crs#:#crs_subscription_type#:#Anmeldungsart
+crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Lernziel
+crs#:#crs_table_start_objects#:#Startobjekte
+crs#:#crs_test_status_complete#:#Fertiggestellt
+crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
+crs#:#crs_test_status_random#:#Zufallstest
 crs#:#crs_time#:#Datum der Anmeldung
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
@@ -3016,9 +3157,12 @@ crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Abmelden
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
+crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_xml#:#XML
+crs#:#edit_content#:#Kursinhalt bearbeiten
+crs#:#learners_view#:#Lerneransicht
 crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
@@ -4467,7 +4611,6 @@ survey#:#search_questions#:#Fragen suchen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
 survey#:#search_users#:#Nutzerinnen
-survey#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
@@ -4547,131 +4690,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-crs#:#crs_objectives#:#Lernziele
-crs#:#crs_add_objective#:#Lernziel hinzufügen
-crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
-crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
-crs#:#crs_question_assignment#:#Fragen-Zuordnung
-crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
-crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
-crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
-crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
-crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
-crs#:#crs_objective_assign_lm#:#Lernmaterial zuordnen
-crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
-crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
-crs#:#crs_lm_deassign#:#Zuornung entfernen
-crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
-crs#:#crs_objective_assign_chapter#:#Kapitel zuordnen
-crs#:#crs_objectives_lm_assignment#:#Zuordnen von Lernmaterialien
-crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens eine Lerneinheit aus.
-crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Lernmaterialien wurden zugeordnet.
-crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau eine Lerneinheit aus.
-crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
-crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
-crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
-crs#:#crs_no_chapter_selected#:#Bitte wählen Sie mindestens ein Kapitel aus.
-crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
-crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
-crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordnet.
-crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
-crs#:#crs_update_objective#:#Lernziel bearbeiten
-common#:#update#:#Übernehmen
-crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
-crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
-crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
-crs#:#crs_objectives_assigned_questions#:#Zugeordnete Fragen
-crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
-crs#:#crs_objective_assign_question#:#Frage zuordnen
-crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
-crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
-crs#:#crs_objectives_qst_deassigned#:#Die ausgewählten Fragen wurden entfernt.
-crs#:#crs_objective_question_assignment#:#Fragenzuordnung
-crs#:#crs_count_questions#:#Anzahl von Fragen
-crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
-crs#:#crs_test_status_complete#:#Fertiggestellt
-crs#:#crs_test_status_random#:#Zufallstest
-crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
-crs#:#assigned#:#Zugeordnet
-crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
-crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
-crs#:#crs_objective_overview_question_assignment#:#Übersicht Fragenzuordnung
-crs#:#crs_objective_overview_objectives#:#Übersicht Lernziele
-crs#:#crs_objectives_nr_questions#:#Anzahl Fragen
-crs#:#crs_objectives_max_points#:#Maximale Punktzahl
-crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
-crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
-crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
-crs#:#crs_no_questions_assigned#:#Diesem Lernziel sind keine Fragen zugeordnet.
-crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
-crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
-crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
-crs#:#crs_sortorder_abo#:#Sortierung/Abo
-crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
-crs#:#crs_no_tests_inside_crs#:#In diesem Kurs befinden sich keine Tests, die diesem Lernziel zugeordnet werden könnten.
-crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
-crs#:#crs_show_objectives_view#:#Lernziel Ansicht
-crs#:#crs_edit_content#:#Inhalt bearbeiten
-crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
-crs#:#crs_nr#:#Nr.
-crs#:#crs_hide_link_objectives#:#Lernziele verbergen
-crs#:#crs_show_link_objectives#:#Lernziele anzeigen
-crs#:#crs_hide_link_lms#:#Lernmaterialien verbergen
-crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
-crs#:#crs_hide_link_tst#:#Tests verbergen
-crs#:#crs_show_link_tst#:#Tests anzeigen
-crs#:#crs_hide_link_or#:#Andere Objekte verbergen
-crs#:#crs_show_link_or#:#Andere Objekte anzeigen
-crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, daß Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
-crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
-common#:#condition_finished#:#Beendet
-common#:#condition_not_finished#:#Nicht beendet
-crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien.
-crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlußtest erneut durchführen.
-crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
-crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlußtest durchführen.
-crs#:#crs_other_resources#:#Andere Objekte
-crs#:#crs_learning_materials#:#Lernmaterialien
-crs#:#crs_objective_accomplished#:#Erledigt
-crs#:#crs_objective_pretest#:#Selbsteinschätzung
-crs#:#crs_objective_result#:#Nach Test
-common#:#last_access#:#Letzter Zugriff:
-crs#:#learners_view#:#Lerneransicht
-crs#:#edit_content#:#Kursinhalt bearbeiten
-common#:#not_accessed#:#Noch nicht aufgerufen
-crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlußtest durchführen.
-crs#:#crs_objective_not_accomplished#:#Nicht erfüllt
-crs#:#crs_groupings#:#Kursgruppierungen
-crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
-crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
-common#:#unambiguousness#:#Eindeutigkeit
-crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
-crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
-crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
-crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
-crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
-crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
-crs#:#crs_grouping#:#Kursgruppierung
-crs#:#crs_grp_assign_crs#:#Kurs zuordnen
-crs#:#crs_grp_crs_assignment#:#Kurszuordnung
-crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
-crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
-crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
-crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
-crs#:#crs_grp_modified_grouping#:#Die Änderungen wurden übernommen.
-crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zugeordnet.
-crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
-crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
-crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können sich nur an einen dieser Kurse anmelden:
-crs#:#crs_crs_structure#:#Kursstruktur
-crs#:#crs_select_starter#:#Startobjekt auswählen
-crs#:#crs_add_starter#:#Startobjekt hinzufügen
-crs#:#crs_start_objects#:#Startobjekte
-crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
-crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
-crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
-crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
-crs#:#crs_no_starter_created#:#Diesem Kurs sind keine Startobjekte zugeordnet.
-crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
-crs#:#crs_table_start_objects#:#Startobjekte
-common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.

@@ -97,6 +97,7 @@ db_conn#:#Database connection###28 Nov 2003 new variable
 db_host#:#duomenų bazės serveris
 db_name#:#duomenų bazės vardas
 db_needs_update#:#Database needs update###05 Jan 2003 new variable
+db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#duomenų bazės slaptažodis
 db_type#:#duomenų bazės tipas
 db_user#:#duomenų bazės vartotojas
@@ -197,12 +198,13 @@ ip_address#:#IP address###21 Nov 2003 new variable
 java_path#:#Path to Java###21 Nov 2003 new variable
 java_path_comment#:#required for SCORM Learning modules###05 Jan 2003 new variable
 lang_cs#:#Czech###09 Mar 2004 new variable
+lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Vokiečių
-lang_dk#:#Danų
 lang_en#:#Anglų
 lang_error_occurred#:#Įvyko klaida. Darbas nutraukiamas.
 lang_es#:#Ispanų
 lang_fr#:#Prancūzų
+lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indoneziečių
 lang_it#:#Italų
 lang_lt#:#Lietuvių

@@ -98,6 +98,7 @@ db_conn#:#Database connection
 db_host#:#database host
 db_name#:#database name
 db_needs_update#:#Database needs update
+db_not_installed#:#Database not installed
 db_pass#:#database password
 db_type#:#database type
 db_user#:#database user
@@ -198,13 +199,13 @@ ip_address#:#IP address
 java_path#:#Path to Java
 java_path_comment#:#required for SCORM Learning modules
 lang_cs#:#Czech
-lang_de#:#German
 lang_da#:#Danish
-lang_hu#:#Hungarian
+lang_de#:#German
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
 lang_es#:#Spanish
 lang_fr#:#French
+lang_hu#:#Hungarian
 lang_id#:#Indonesian
 lang_it#:#Italian
 lang_lt#:#Lithuanian
@@ -392,4 +393,3 @@ wrong_password#:#Wrong password!
 zip_path#:#Path to Zip
 zip_path_comment#:#required for exporting learning modules
 zipcode#:#Zip code
-db_not_installed#:#Database not installed

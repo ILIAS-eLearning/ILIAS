@@ -256,6 +256,7 @@ assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 20
 assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
 assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
 assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
+assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Schéma de note
 assessment#:#match_terms_and_definitions#:#Termes d'appariement et définitions
@@ -379,11 +380,13 @@ assessment#:#tst_delete_results#:#Réinitialiser le test
 assessment#:#tst_ending_time#:#Date de fin
 assessment#:#tst_enter_questionpool#:#Veuillez saisir un nom pour un jeu de questions dans lequel la nouvelle question sera stockée.
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles
+assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
 assessment#:#tst_eval_total_finished#:#Total des tests finis
 assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis
 assessment#:#tst_eval_total_passed#:#Total des tests passés
 assessment#:#tst_eval_total_passed_average_points#:#Moyenne des tests passés
 assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont fait le test XXX
+assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
 assessment#:#tst_general_properties#:#Propriétés générales
 assessment#:#tst_generate_xls#:#Générer une sortie Excel
 assessment#:#tst_in_use_edit_questions_disabled#:#Le test est en cours d'utilisation par %d utilisateur(s). Vous n'êtes pas autorisé à modifier ou déplacer les questions de ce test.
@@ -731,6 +734,8 @@ common#:#assessment_log_open_calendar#:#Click here to open a calendar for date s
 common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
 common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
 common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
+common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
+common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
@@ -900,6 +905,8 @@ common#:#condition#:#Condition
 common#:#condition_already_assigned#:#Objet déjà assigné
 common#:#condition_circle_created#:#L'association n'est pas possible, car elle introduirait une dépendance croisée.
 common#:#condition_deleted#:#Condition détruite
+common#:#condition_finished#:#Finished###01 Mar 2005 new variable
+common#:#condition_not_finished#:#Not finished###01 Mar 2005 new variable
 common#:#condition_passed#:#Validé
 common#:#condition_precondition#:#Pré-conditions :
 common#:#condition_select_object#:#Veuillez sélectionner un objet
@@ -932,6 +939,7 @@ common#:#crs#:#Cours
 common#:#crs_a#:#un cours
 common#:#crs_add#:#Ajouter cours
 common#:#crs_added#:#Cours ajouté
+common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###01 Mar 2005 new variable
 common#:#crs_archives#:#Archives
 common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
 common#:#crs_available#:#Cours disponibles
@@ -1225,6 +1233,8 @@ common#:#glo_upload_file#:#Fichier
 common#:#glo_visible#:#Le glossaire est visible
 common#:#glo_write#:#Modifier glossaire
 common#:#global#:#Global
+common#:#global_default#:#Global Default###01 Mar 2005 new variable
+common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
 common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Utilisateurs globaux
 common#:#glossaries#:#Glossaires
@@ -1267,7 +1277,7 @@ common#:#groups_overview#:#Vue générale des groupes
 common#:#grp#:#Groupe
 common#:#grp_a#:#un groupe
 common#:#grp_add#:#Ajouter groupe
-common#:#grp_add_member#:#Ajouter membres
+common#:#grp_add_member#:#Ajouter membres###01 Mar 2005 content changed
 common#:#grp_added#:#Groupe ajouté
 common#:#grp_already_applied#:#Vous avez déjà demandé votre inscription à ce groupe. Veuillez attendre la confirmation.
 common#:#grp_app_send_mail#:#Envoyer un message au candidat
@@ -1374,11 +1384,29 @@ common#:#htlm_write#:#Modifier module d'apprentissage HTML
 common#:#http_not_possible#:#Ce serveur ne permet pas les connexions HTTP.
 common#:#http_path#:#Chemin HTTP
 common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.
+common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
+common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
+common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
+common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
+common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
+common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
+common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
+common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
+common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
+common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
+common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
+common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
+common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
+common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
+common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
+common#:#icrs_write#:#Edit iLinc Course###01 Mar 2005 new variable
 common#:#id#:#ID
 common#:#identifier#:#identifiant
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier
 common#:#if_no_title_then_url#:#Laisser vide pour afficher l'URL
 common#:#ilias_version#:#Version ILIAS
+common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
+common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander à votre administrateur système de vérifier le chemin vers l'utilitaire convert.
 common#:#import#:#Importation
@@ -1486,6 +1514,7 @@ common#:#languages#:#Langues
 common#:#languages_already_installed#:#La(les) langue(s) choisie(s) est(sont) déjà installée(s)
 common#:#languages_already_uninstalled#:#La(les) langue(s) choisie(s) est(sont) déjà désinstallée(s)
 common#:#languages_updated#:#Toutes les langues installées ont été mises à jour
+common#:#last_access#:#Last access:###01 Mar 2005 new variable
 common#:#last_change#:#Dernière modification
 common#:#last_update#:#Last Update###29 Nov 2004 new variable
 common#:#last_visit#:#Dernière visite
@@ -1789,6 +1818,7 @@ common#:#no_zip_file#:#Pas de fichier ZIP
 common#:#non_internal_local_roles_only#:#Rôles locaux (seulement définis par l'utilisateur)
 common#:#none#:#Aucun
 common#:#normal#:#Normal
+common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_implemented_yet#:#Pas encore implémenté
 common#:#not_installed#:#Non installé
 common#:#not_logged_in#:#Vous n'êtes pas connecté
@@ -1816,6 +1846,8 @@ common#:#obj_glo#:#Glossaire
 common#:#obj_grp#:#Groupe
 common#:#obj_hlm#:#Module d'apprentissage HACP
 common#:#obj_htlm#:#Module d'apprentissage HTML
+common#:#obj_icla#:#iLinc Classroom###01 Mar 2005 new variable
+common#:#obj_icrs#:#iLinc Course###01 Mar 2005 new variable
 common#:#obj_ldap#:#Paramètres LDAP
 common#:#obj_ldap_desc#:#Configurez les paramètres LDAP globaux ici.
 common#:#obj_lm#:#Module d'apprentissage ILIAS
@@ -1849,6 +1881,8 @@ common#:#obj_root#:#racine
 common#:#obj_sahs#:#Module d'apprentissage  SCORM/AICC
 common#:#obj_spl#:#Jeu de questions (sondage)
 common#:#obj_st#:#Chapitre
+common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
+common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
 common#:#obj_svy#:#Sondage
 common#:#obj_tax#:#Taxinomie
 common#:#obj_taxf#:#Taxinomies
@@ -1886,6 +1920,8 @@ common#:#objs_glo#:#Glossaires
 common#:#objs_grp#:#Groupes
 common#:#objs_hlm#:#Modules d'apprentissage  HACP
 common#:#objs_htlm#:#Modules d'apprentissage HTML
+common#:#objs_icla#:#iLinc Classrooms###01 Mar 2005 new variable
+common#:#objs_icrs#:#iLinc Courses###01 Mar 2005 new variable
 common#:#objs_lm#:#module d'apprentissage ILIAS
 common#:#objs_lng#:#Langues
 common#:#objs_lo#:#Objets d'apprentissage
@@ -1993,6 +2029,7 @@ common#:#publication#:#Publication
 common#:#publication_date#:#Date de publication
 common#:#published#:#Publié
 common#:#publishing_organisation#:#Organisation de publication
+common#:#purpose#:#Purpose###01 Mar 2005 new variable
 common#:#qpl#:#Jeu de questions (test)
 common#:#qpl_add#:#Ajouter jeu de questions (test)
 common#:#qpl_delete#:#Détruire jeu de questions (test)
@@ -2153,6 +2190,7 @@ common#:#sections#:#Sections
 common#:#select#:#Sélection
 common#:#select_all#:#Sélectionner tout
 common#:#select_file#:#Sélectionner fichier
+common#:#select_max_one_item#:#Please select one item only###01 Mar 2005 new variable
 common#:#select_mode#:#Sélectionner mode
 common#:#select_object_to_copy#:#Veuillez sélectionner l'objet que vous voulez copier
 common#:#select_object_to_link#:#Veuillez sélectionner l'objet que vous voulez lier
@@ -2208,6 +2246,7 @@ common#:#step#:#Etape
 common#:#stop_inheritance#:#Supprimer l'héritage
 common#:#street#:#Rue
 common#:#structure#:#Structure
+common#:#sty#:#Style###01 Mar 2005 new variable
 common#:#subcat_name#:#Nom de sous-catégorie
 common#:#subchapter_new#:#Nouveau sous-chapitre
 common#:#subject#:#Sujet
@@ -2273,6 +2312,8 @@ common#:#to#:#à
 common#:#to_client_list#:#Vers la sélection de client
 common#:#to_desktop#:#Créer raccourci sur le bureau
 common#:#today#:#Aujourd'hui
+common#:#toggleGlobalDefault#:#Toggle Global Default###01 Mar 2005 new variable
+common#:#toggleGlobalFixed#:#Toggle Global Fixed###01 Mar 2005 new variable
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin des modèles
 common#:#trac_delete#:#Détruire données de suivi
@@ -2304,6 +2345,7 @@ common#:#typ#:#Définition de type d'objet
 common#:#type#:#Type
 common#:#type_your_message_here#:#Saisissez votre message ici
 common#:#uid#:#UID
+common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Ne rien cocher
 common#:#uninstall#:#Désinstaller
 common#:#uninstalled#:#désinstallé.
@@ -2313,6 +2355,7 @@ common#:#unselected#:#Désélectionné
 common#:#unsubscribe#:#désabonnement
 common#:#unzip#:#Décompresser
 common#:#up#:#En haut
+common#:#update#:#Edit###01 Mar 2005 new variable
 common#:#update_applied#:#Mise à jour appliquée
 common#:#update_language#:#Mettre à jour langues
 common#:#upload#:#Téléverser
@@ -2483,6 +2526,7 @@ content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###01 Mar 2005 new variable
 content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Créer répertoire
 content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
@@ -2681,9 +2725,12 @@ content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_publisher#:#Editeur
 content#:#cont_purpose#:#But
 content#:#cont_ref_helptext#:#(par ex. http://www.serveur.org/monimage.jpg)
+content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
 content#:#cont_reference#:#Référence
 content#:#cont_remove_fullscreen#:#Supprimer plein écran
 content#:#cont_removeiln#:#Etes-vous sûr(e) de vouloir détruire ce lien interne?
+content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
+content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Redéfinir la position de la définition
 content#:#cont_reset_pictures#:#Redéfinir la position de l'image
 content#:#cont_resource#:#Ressource
@@ -2746,6 +2793,7 @@ content#:#cont_status#:#Statut
 content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le répertoire.
 content#:#cont_std_view#:#Vue standard
 content#:#cont_structure#:#structure
+content#:#cont_style#:#Style###01 Mar 2005 new variable
 content#:#cont_subchapters#:#Sous-chapitres
 content#:#cont_table#:#Tableau
 content#:#cont_table_border#:#Bordure du tableau
@@ -2804,22 +2852,30 @@ content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 ne
 content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
+crs#:#assigned#:#Assigned###01 Mar 2005 new variable
 crs#:#crs_accept_subscriber#:#Abonnement au cours
 crs#:#crs_accept_subscriber_body#:#Vous avez été inscrit à ce cours
 crs#:#crs_access_password#:#Mot de passe
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Ajouter archive HTML
 crs#:#crs_add_archive_xml#:#Ajouter archive XML
+crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
+crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
 crs#:#crs_add_html_archive#:#Ajouter archive HTML
-crs#:#crs_add_member#:#Ajouter membres
-crs#:#crs_add_subscribers#:#Ajouter abonnés
+crs#:#crs_add_member#:#Ajouter membres###01 Mar 2005 content changed
+crs#:#crs_add_objective#:#Add objective###01 Mar 2005 new variable
+crs#:#crs_add_starter#:#Add start object###01 Mar 2005 new variable
+crs#:#crs_add_subscribers#:#Ajouter abonnés###01 Mar 2005 content changed
 crs#:#crs_added#:#Nouveau cours ajouté
 crs#:#crs_added_member#:#Appartenance au cours
 crs#:#crs_added_member_body#:#Vous avez été accepté(e) pour ce cours.
 crs#:#crs_added_new_archive#:#Une nouvelle archive a été ajoutée
+crs#:#crs_added_objective#:#A new learning objective has been created.###01 Mar 2005 new variable
+crs#:#crs_added_starters#:#Assigned start object(s).###01 Mar 2005 new variable
 crs#:#crs_admin#:#Administrateur
 crs#:#crs_admin_no_notify#:#Administrateur (sans notification)
 crs#:#crs_admin_notify#:#Administrateur (notification)
+crs#:#crs_allow_abo#:#Allow subscription of course items###01 Mar 2005 new variable
 crs#:#crs_archive#:#Archives
 crs#:#crs_archive_disabled#:#Inactif
 crs#:#crs_archive_download#:#Télécharger
@@ -2835,6 +2891,8 @@ crs#:#crs_blocked_member#:#Appartenance au cours
 crs#:#crs_blocked_member_body#:#Votre appartenance est terminée
 crs#:#crs_cancel_subscription#:#Désabonnement du cours
 crs#:#crs_cancel_subscription_body#:#Un utilisateur s'est désabonné du cours
+crs#:#crs_change_status#:#Changes status of objective:###01 Mar 2005 new variable
+crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###01 Mar 2005 new variable
 crs#:#crs_contact#:#Contact
 crs#:#crs_contact_consultation#:#Consultation
 crs#:#crs_contact_email#:#Email
@@ -2844,31 +2902,65 @@ crs#:#crs_contact_responsibility#:#Fonction
 crs#:#crs_content#:#Contenu de cours
 crs#:#crs_copy_cat_not_allowed#:#Il n'est pas possible de copier les catégories
 crs#:#crs_count_members#:#Nombre de membres
+crs#:#crs_count_questions#:#Number of questions###01 Mar 2005 new variable
 crs#:#crs_create_date#:#Date de création
+crs#:#crs_crs_structure#:#Course structure###01 Mar 2005 new variable
 crs#:#crs_dates#:#Dates
+crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###01 Mar 2005 new variable
 crs#:#crs_delete_member#:#Détruire membres
 crs#:#crs_delete_members_sure#:#Voulez-vous supprimer de ce cours les membres suivants
+crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###01 Mar 2005 new variable
 crs#:#crs_delete_subscribers#:#Détruire abonné
 crs#:#crs_delete_subscribers_sure#:#Voulez-vous détruire les utilisateurs suivants ?
-crs#:#crs_details#:#Détails du cours
+crs#:#crs_details#:#Détails du cours###01 Mar 2005 content changed
 crs#:#crs_dismiss_member#:#Appartenance au cours
 crs#:#crs_dismiss_member_body#:#Votre appartenance au cours a été annulée
 crs#:#crs_edit_archive#:#Modifier archives
+crs#:#crs_edit_content#:#Edit items###01 Mar 2005 new variable
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportation de cours
 crs#:#crs_file_name#:#Nom de fichier
 crs#:#crs_from#:#De :
+crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
+crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
+crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
+crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
+crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
+crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.###01 Mar 2005 new variable
+crs#:#crs_grp_assign_crs#:#Assign course###01 Mar 2005 new variable
+crs#:#crs_grp_assigned_courses#:#Assigned courses.###01 Mar 2005 new variable
+crs#:#crs_grp_assigned_courses_info#:#Assigned courses:###01 Mar 2005 new variable
+crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.###01 Mar 2005 new variable
+crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
+crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
+crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
+crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
+crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
+crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
+crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable
+crs#:#crs_grp_table_assigned_courses#:#Assigned courses###01 Mar 2005 new variable
 crs#:#crs_header_archives#:#Archives de cours
 crs#:#crs_header_delete_members#:#Détruire membres
 crs#:#crs_header_edit_members#:#Modifier membres
 crs#:#crs_header_members#:#Membres du cours
+crs#:#crs_hide_link_lms#:#Hide learning materials###01 Mar 2005 new variable
+crs#:#crs_hide_link_objectives#:#Hide objectives###01 Mar 2005 new variable
+crs#:#crs_hide_link_or#:#Hide other resources###01 Mar 2005 new variable
+crs#:#crs_hide_link_tst#:#Hide tests###01 Mar 2005 new variable
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Informations pour l'enregistrement
 crs#:#crs_info_reg_confirmation#:#Ce cours nécessite la confirmation par un administrateur du cours. Vous recevrez un message si vous êtes accepté pour ce cours.
 crs#:#crs_info_reg_deactivated#:#Aucun enregistrement possible
 crs#:#crs_info_reg_direct#:#Il est nécessaire de s'enregistrer pour ce cours
 crs#:#crs_info_reg_password#:#L'enregistrement requiert un mot de passe valide
+crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.###01 Mar 2005 new variable
+crs#:#crs_learning_materials#:#Learning materials###01 Mar 2005 new variable
 crs#:#crs_list_users#:#Liste des utilisateurs
+crs#:#crs_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
+crs#:#crs_lm_assignment_deleted#:#Deleted assignment.###01 Mar 2005 new variable
+crs#:#crs_lm_deassign#:#Delete assignment.###01 Mar 2005 new variable
+crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###01 Mar 2005 new variable
+crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.###01 Mar 2005 new variable
 crs#:#crs_max_members_reached#:#Le nombre maximal de membres a été atteint
 crs#:#crs_mem_change_status#:#Changer statut
 crs#:#crs_mem_send_mail#:#Envoyer message
@@ -2882,33 +2974,87 @@ crs#:#crs_members_title#:#Membres du cours
 crs#:#crs_move_down#:#Déplacer vers le bas
 crs#:#crs_move_up#:#Déplacer vers e haut
 crs#:#crs_moved_item#:#Objets du cours déplacés
+crs#:#crs_moved_objective#:#Moved learing objective.###01 Mar 2005 new variable
 crs#:#crs_new_search#:#Nouvelle recherche
 crs#:#crs_new_subscription#:#Nouvel abonnement à un cours
 crs#:#crs_new_subscription_body#:#Un nouvel utilisateur a été inscrit
 crs#:#crs_no_archive_selected#:#Pas d'archive sélectionnée
 crs#:#crs_no_archives_available#:#Aucune archive disponible
 crs#:#crs_no_archives_selected#:#Veuillez sélectionner une archive
+crs#:#crs_no_chapter_selected#:#Please select a chapter.###01 Mar 2005 new variable
+crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.###01 Mar 2005 new variable
 crs#:#crs_no_groups_selected#:#Veuillez choisir un groupe
 crs#:#crs_no_items_found#:#Pas d'objet
 crs#:#crs_no_language#:#Pas de langue
+crs#:#crs_no_lm_selected#:#Please select one learning material.###01 Mar 2005 new variable
+crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.###01 Mar 2005 new variable
+crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
 crs#:#crs_no_member_selected#:#Veuillez choisir un membre
 crs#:#crs_no_members_assigned#:#Pas de membres assignés à ce cours
 crs#:#crs_no_notify#:#Pas de notification pour les nouvelles inscriptions
+crs#:#crs_no_objective_selected#:#Please select one objective.###01 Mar 2005 new variable
+crs#:#crs_no_objectives_created#:#There are no objectives assigned.###01 Mar 2005 new variable
+crs#:#crs_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
+crs#:#crs_no_questions_assigned#:#There are no questions assigned.###01 Mar 2005 new variable
 crs#:#crs_no_results_found#:#Pas de résultat
 crs#:#crs_no_roles_selected#:#Veuillez sélectionner un rôle
+crs#:#crs_no_starter_created#:#No start objects assigned to this course.###01 Mar 2005 new variable
 crs#:#crs_no_subscribers_selected#:#Veuillez sélectionner un utilisateur
+crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
 crs#:#crs_no_users_added#:#Pas de membres ajoutés
 crs#:#crs_no_users_selected#:#Vous n'avez sélectionné aucun utilisateur
 crs#:#crs_no_valid_member_id_given#:#Pas d'id de membre valide
 crs#:#crs_not_available#:#-Non disponible-
 crs#:#crs_notify#:#Notifier des nouvelles inscriptions
+crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
 crs#:#crs_number_users_added#:#Le nombre d'utilisateurs suivant a été inscrit au cours
+crs#:#crs_objective_accomplished#:#Accomplished###01 Mar 2005 new variable
+crs#:#crs_objective_assign_chapter#:#Assign chapters###01 Mar 2005 new variable
+crs#:#crs_objective_assign_lm#:#Assign learning material###01 Mar 2005 new variable
+crs#:#crs_objective_assign_question#:#Assign question###01 Mar 2005 new variable
+crs#:#crs_objective_deassign_question#:#Delete assignment###01 Mar 2005 new variable
+crs#:#crs_objective_delete_lm_assignment#:#Delete assignment###01 Mar 2005 new variable
+crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.###01 Mar 2005 new variable
+crs#:#crs_objective_modified#:#Updated learning objective.###01 Mar 2005 new variable
+crs#:#crs_objective_no_title_given#:#Please enter a title.###01 Mar 2005 new variable
+crs#:#crs_objective_not_accomplished#:#Not accomplished###01 Mar 2005 new variable
+crs#:#crs_objective_overview_objectives#:#Overview objectives###01 Mar 2005 new variable
+crs#:#crs_objective_overview_question_assignment#:#Overview question assignment###01 Mar 2005 new variable
+crs#:#crs_objective_pretest#:#Self assessment###01 Mar 2005 new variable
+crs#:#crs_objective_question_assignment#:#Question assignment###01 Mar 2005 new variable
+crs#:#crs_objective_result#:#After test###01 Mar 2005 new variable
+crs#:#crs_objective_updated_test#:#Updated modifications.###01 Mar 2005 new variable
+crs#:#crs_objective_view#:#Objective oriented view###01 Mar 2005 new variable
+crs#:#crs_objectives#:#Learning objectives###01 Mar 2005 new variable
+crs#:#crs_objectives_assign_chapter#:#Assign chapter###01 Mar 2005 new variable
+crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.###01 Mar 2005 new variable
+crs#:#crs_objectives_assigned_lms#:#Assigned learning materials###01 Mar 2005 new variable
+crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.###01 Mar 2005 new variable
+crs#:#crs_objectives_assigned_questions#:#Assigned questions###01 Mar 2005 new variable
+crs#:#crs_objectives_chapter_assignment#:#Chapter assignment###01 Mar 2005 new variable
+crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?###01 Mar 2005 new variable
+crs#:#crs_objectives_deleted#:#Delete learning objectives###01 Mar 2005 new variable
+crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###01 Mar 2005 new variable
+crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.###01 Mar 2005 new variable
+crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!###01 Mar 2005 new variable
+crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.###01 Mar 2005 new variable
+crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
+crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
+crs#:#crs_objectives_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
+crs#:#crs_objectives_max_points#:#Maximum points###01 Mar 2005 new variable
+crs#:#crs_objectives_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
+crs#:#crs_objectives_nr_questions#:#Number of questions###01 Mar 2005 new variable
+crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.###01 Mar 2005 new variable
+crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###01 Mar 2005 new variable
+crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
 crs#:#crs_offline#:#Hors-ligne
 crs#:#crs_options#:#Options
+crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
 crs#:#crs_passed#:#Validé
 crs#:#crs_password_not_valid#:#Votre mot de passe n'est pas valide
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Imprimer liste
+crs#:#crs_question_assignment#:#Question assignment###01 Mar 2005 new variable
 crs#:#crs_reg_subscription_deactivated#:#L'inscription est désactivée.
 crs#:#crs_reg_subscription_end_earlier#:#La période d'inscription a expiré.
 crs#:#crs_reg_subscription_max_members_reached#:#Le nombre maximal d'utilisateurs est dépassé.
@@ -2920,6 +3066,7 @@ crs#:#crs_reg_user_blocked#:#Vous êtes exclu de ce cours
 crs#:#crs_registration#:#Inscription au cours
 crs#:#crs_reject_subscriber#:#Inscription au cours
 crs#:#crs_reject_subscriber_body#:#Votre inscription a été refusée
+crs#:#crs_reset_results#:#Reset results###01 Mar 2005 new variable
 crs#:#crs_role#:#Rôle
 crs#:#crs_role_status#:#Rôle / Statut
 crs#:#crs_search_enter_search_string#:#Veuillez saisir une chaîne de recherche
@@ -2927,15 +3074,29 @@ crs#:#crs_search_for#:#Rechercher :
 crs#:#crs_search_members#:#Recherche d'utilisateur
 crs#:#crs_search_str#:#Terme de recherche
 crs#:#crs_select_archive_language#:#Veuillez choisir une langue pour l'archive
+crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.###01 Mar 2005 new variable
+crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.###01 Mar 2005 new variable
+crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.###01 Mar 2005 new variable
 crs#:#crs_select_one_archive#:#Veuillez sélectionner une archive
+crs#:#crs_select_one_object#:#Please select one course item.###01 Mar 2005 new variable
+crs#:#crs_select_starter#:#Select start object###01 Mar 2005 new variable
 crs#:#crs_settings#:#Paramètres de cours
 crs#:#crs_settings_saved#:#Paramètres enregistrés
+crs#:#crs_show_link_lms#:#Show learning materials###01 Mar 2005 new variable
+crs#:#crs_show_link_objectives#:#Show objectives###01 Mar 2005 new variable
+crs#:#crs_show_link_or#:#Show other resources###01 Mar 2005 new variable
+crs#:#crs_show_link_tst#:#Show tests###01 Mar 2005 new variable
+crs#:#crs_show_objectives_view#:#Objective view###01 Mar 2005 new variable
 crs#:#crs_size#:#Taille de fichier
 crs#:#crs_sort_activation#:#Tri par date d'activation XXX
 crs#:#crs_sort_manual#:#Tri manuel XXX
 crs#:#crs_sort_title#:#Tri par titre
 crs#:#crs_sortorder#:#Tri
+crs#:#crs_sortorder_abo#:#Sortorder/Subscription###01 Mar 2005 new variable
 crs#:#crs_start#:#Début
+crs#:#crs_start_objects#:#Start objects###01 Mar 2005 new variable
+crs#:#crs_starter_deleted#:#Removed assignment.###01 Mar 2005 new variable
+crs#:#crs_starters_already_assigned#:#This object was already assigned.###01 Mar 2005 new variable
 crs#:#crs_status#:#Statut
 crs#:#crs_status_changed#:#Statut de cours
 crs#:#crs_status_changed_body#:#Votre statut de cours a été changé
@@ -2951,8 +3112,13 @@ crs#:#crs_subscription_options_direct#:#Abonnement direct
 crs#:#crs_subscription_options_password#:#Abonnement avec mot de passe
 crs#:#crs_subscription_successful#:#Vous avez été abonné à ce cours
 crs#:#crs_subscription_type#:#Type d'abonnement
+crs#:#crs_suggest_lm#:#Suggest learning materials if:###01 Mar 2005 new variable
 crs#:#crs_sure_delete_selected_archives#:#Etes-vous sûr(e) de vouloir détruire les archives sélectionnées ?
 crs#:#crs_syllabus#:#Syllabus XXX
+crs#:#crs_table_start_objects#:#Start objects###01 Mar 2005 new variable
+crs#:#crs_test_status_complete#:#Complete###01 Mar 2005 new variable
+crs#:#crs_test_status_not_complete#:#Not complete###01 Mar 2005 new variable
+crs#:#crs_test_status_random#:#Random test###01 Mar 2005 new variable
 crs#:#crs_time#:#Date d'abonnement XXX
 crs#:#crs_to#:#Pour :
 crs#:#crs_tutor#:#Tuteur
@@ -2965,9 +3131,12 @@ crs#:#crs_unlimited#:#Illimité
 crs#:#crs_unsubscribe#:#Se désabonner
 crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
 crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours
+crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Utilisateur ajouté au cours
 crs#:#crs_users_already_assigned#:#L'utilisateur est déjà assigné au cours.
 crs#:#crs_xml#:#XML
+crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
+crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
 crs_#:#crs_archives#:#Archives
 dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#vue par journée
@@ -4408,7 +4577,6 @@ survey#:#search_questions#:#Rechercher questions
 survey#:#search_term#:#Terme de recherche
 survey#:#search_type_all#:#Rechercher dans tous les types de question
 survey#:#search_users#:#Utilisateurs
-survey#:#select_max_one_item#:#Veuillez ne saisir qu'un seul objet
 survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Sélectionner une question antérieure
