@@ -112,7 +112,7 @@ common#:#chg_password#:#Cambia password
 common#:#choose_language#:#Scegli la lingua
 common#:#choose_location#:#Scegli la localizzazione###06 Aug 2003 new variable
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.###20 Mar 2003 new variable
-common#:#city#:#citt&agrave;
+common#:#city#:#Citt&agrave;
 common#:#clear#:#Cancella
 common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
 common#:#close#:#Close###28 Sep 2003 new variable
@@ -130,7 +130,7 @@ common#:#courses#:#Corsi
 common#:#create#:#Crea
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea folio di stile###10 Jul 2003 new variable
-common#:#crs#:#crs
+common#:#crs#:#Corsi
 common#:#crs_a#:#Un corso###06 Aug 2003 new variable
 common#:#crs_add#:#Aggiungi corso###06 Aug 2003 new variable
 common#:#crs_added#:#Corso aggiunto###16 Jul 2003 new variable
@@ -217,7 +217,7 @@ common#:#folders#:#Cartelle
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
-common#:#forums#:#Forums###15 May 2003 new variable
+common#:#forums#:#Forum###15 May 2003 new variable
 common#:#forums_overview#:#Forums Overview###09 Aug 2003 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#Un forum###06 Aug 2003 new variable
@@ -322,7 +322,7 @@ common#:#last_visit#:#Ultima visita###07 Feb 2003 new variable
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
-common#:#learning_objects#:#Learning Objects###04 Aug 2003 new variable
+common#:#learning_objects#:#Lezioni###04 Aug 2003 new variable
 common#:#level#:#Livello
 common#:#link#:#Collega
 common#:#linked_pages#:#Pagine collegate
@@ -333,7 +333,7 @@ common#:#literature_bookmarks#:#Preferiti letteratura
 common#:#lm#:#Learning Module###14 May 2003 new variable
 common#:#lm_a#:#un Learning module###06 Aug 2003 new variable
 common#:#lm_add#:#Aggiungi Learning Module###06 Aug 2003 new variable
-common#:#lm_added#:#Aggiunto LearningModule###16 Jul 2003 new variable
+common#:#lm_added#:#Aggiunto Learning Module###16 Jul 2003 new variable
 common#:#lm_new#:#Nuovo Learning Module###06 Aug 2003 new variable
 common#:#lng#:#Lingua
 common#:#lngf#:#lngf
@@ -356,11 +356,11 @@ common#:#logout_text#:#Sei uscito. La tua sessione &egrave; stata chiusa.###19 A
 common#:#los#:#Lezioni
 common#:#los_last_visited#:#Ultima lezione visitata
 common#:#mail#:#Posta
-common#:#mail_a_root#:#Mailbox###25 Mar 2003 new variable
+common#:#mail_a_root#:#Posta###25 Mar 2003 new variable
 common#:#mail_addressbook#:#Rubrica###28 Mar 2003 new variable
 common#:#mail_allow_smtp#:#Consenti SMTP###25 Mar 2003 new variable
 common#:#mail_b_inbox#:#In arrivo###25 Mar 2003 new variable
-common#:#mail_c_trash#:#Cestino###25 Mar 2003 new variable
+common#:#mail_c_trash#:#Eliminate###25 Mar 2003 new variable
 common#:#mail_d_drafts#:#Bozze###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Errore nella cancellazione della(e) mail###25 Mar 2003 new variable
 common#:#mail_delete_error_file#:#Errore nella cancellazione del file###04 Apr 2003 new variable
@@ -955,7 +955,7 @@ mail#:#mail_add_subfolder#:#Aggiungi la cartella###18 Apr 2003 new variable
 mail#:#mail_add_subject#:#Per favore, specifica l&acute;oggetto###16 Apr 2003 new variable
 mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica###16 Apr 2003 new variable
 mail#:#mail_add_type#:#Per favore, specifica il tipo di mail che vuoi inviare###25 Apr 2003 new variable
-mail#:#mail_addr_entries#:#Valori###16 Apr 2003 new variable
+mail#:#mail_addr_entries#:#Indirizzi###16 Apr 2003 new variable
 mail#:#mail_attachments#:#Attachment###16 Apr 2003 new variable
 mail#:#mail_bc_not_valid#:#Il campo Bc non &egrave; valido###16 Apr 2003 new variable
 mail#:#mail_bc_search#:#Cerca Bc###16 Apr 2003 new variable
@@ -1411,7 +1411,7 @@ meta#:#meta_title#:#Titolo###14 May 2003 new variable
 meta#:#meta_value#:#Valore###18 Sep 2003 new variable
 search#:#search_all_results#:#Tutti i resultati###10 Sep 2003 new variable
 search#:#search_concatenation#:#Concatenazione###10 Sep 2003 new variable
-search#:#search_content#:#Contentto della pagina###10 Sep 2003 new variable
+search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable
 search#:#search_dbk_content#:#Libraria digitale (contenuto)###10 Sep 2003 new variable
 search#:#search_dbk_meta#:#Libraria digitale (metadata)###10 Sep 2003 new variable
 search#:#search_in_result#:#Ricerca all&acute;interno dei risultati###10 Sep 2003 new variable
