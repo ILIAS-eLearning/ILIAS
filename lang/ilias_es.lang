@@ -547,6 +547,7 @@ mail#:#bc#:#BC###16 Apr 2003 new variable
 mail#:#forward#:#Forward###16 Apr 2003 new variable
 mail#:#linebreak#:#Linebreak###16 Apr 2003 new variable
 mail#:#mail_add_recipient#:#Please enter a recipient###16 Apr 2003 new variable
+mail#:#mail_add_subfolder#:#Add Subfolder###18 Apr 2003 new variable
 mail#:#mail_add_subject#:#Please enter a subject###16 Apr 2003 new variable
 mail#:#mail_add_to_addressbook#:#Add to addressbook###16 Apr 2003 new variable
 mail#:#mail_addr_entries#:#Entries###16 Apr 2003 new variable
