@@ -105,8 +105,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					$remark = "";
 					break;
 			}
-			
-			if (file_exists("./agreement/agreement_".$lang_key.".html"))
+
+			if (file_exists(ilUtil::getWebspaceDir()."/agreement/agreement_".$lang_key.".html"))
+			{
+				$agreement_exists_str = $this->lng->txt("available")." (".$this->lng->txt("client").")";
+			}
+			else if (file_exists("./agreement/agreement_".$lang_key.".html"))
 			{
 				$agreement_exists_str = $this->lng->txt("available");
 			}
