@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.96 2004/09/03 11:48:59 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.97 2004/09/03 16:24:53 shofmann Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1637,7 +1637,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 
             $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-
 		}
 
 		$this->ctrl->setParameter($this,"cmd","members");

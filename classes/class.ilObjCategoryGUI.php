@@ -1141,7 +1141,6 @@ class ilObjCategoryGUI extends ilObjectGUI
 			}
 		}
 		return ilUtil::formSelect($_SESSION['filtered_users'],"filter",$action,false,true);
-
 	}
 	
 

@@ -324,27 +324,55 @@ class ilRbacReview
 	* get all assigned users to a given role
 	* @access	public
 	* @param	integer	role_id
-	* @return	array	all users (id) assigned to role
+	* @param    array   columns to get form usr_data table (optional)
+	* @return	array	all users (id) assigned to role OR arrays of user datas
 	*/
-	function assignedUsers($a_rol_id)
+	function assignedUsers($a_rol_id, $a_fields = NULL)
 	{
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-
-	    $usr_arr = array();
-	   
-		$q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			array_push($usr_arr,$row["usr_id"]);
-		}
 		
-		return $usr_arr;
+        $result_arr = array();
+
+        if ($a_fields !== NULL and is_array($a_fields))
+        {
+            if (count($a_fields) == 0)
+            {
+                $select = "*";
+            }
+            else
+            {
+                if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
+                    unset($a_fields[$usr_id_field]);
+
+                $select = implode(",",$a_fields).",usr_data.usr_id";
+            }
+
+	        $q = "SELECT ".$select." FROM usr_data ".
+                 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
+                 "WHERE rbac_ua.rol_id='".$a_rol_id."'";
+            $r = $this->ilDB->query($q);
+
+            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+            {
+                $result_arr[] = $row;
+            }
+        }
+        else
+        {
+		    $q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
+            $r = $this->ilDB->query($q);
+
+            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+            {
+                array_push($result_arr,$row["usr_id"]);
+            }
+        }
+		
+		return $result_arr;
 	}
 
 	/**
@@ -697,6 +725,85 @@ class ilRbacReview
 		}
 		
 		return false;
+	}
+
+	function getRolesByFilter($a_filter = 0,$a_user_id = 0)
+	{
+        $assign = "y";
+
+		switch($a_filter)
+		{
+            // all (assignable) roles
+            case 1:
+				return $this->getAssignableRoles();
+				break;
+
+            // all (assignable) global roles
+            case 2:
+				$where = "WHERE rbac_fa.rol_id IN ";
+				$where .= '(';
+				$where .= implode(',',$this->getGlobalRoles());
+				$where .= ')';
+				break;
+
+            // all (assignable) local roles
+            case 3:
+            case 4:
+            case 5:
+				$where = "WHERE rbac_fa.rol_id NOT IN ";
+				$where .= '(';
+				$where .= implode(',',$this->getGlobalRoles());
+				$where .= ')';
+				break;
+				
+            // all role templates
+            case 6:
+				$where = "WHERE object_data.type = 'rolt'";
+				$assign = "n";
+				break;
+
+            // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
+            case 0:
+			default:
+                if (!$a_user_id) return array();
+                
+				$where = "WHERE rbac_fa.rol_id IN ";
+				$where .= '(';
+				$where .= implode(',',$this->assignedRoles($a_user_id));
+				$where .= ')';
+                break;
+		}
+		
+		$roles = array();
+
+		$q = "SELECT DISTINCT * FROM object_data ".
+			 "JOIN rbac_fa ".$where.
+			 "AND object_data.obj_id = rbac_fa.rol_id ".
+			 "AND rbac_fa.assign = '".$assign."'";
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+            $prefix = (substr($row->title,0,3) == "il_") ? true : false;
+
+            // all (assignable) internal local roles only
+            if ($a_filter == 4 and !$prefix)
+			{
+                continue;
+            }
+
+            // all (assignable) non internal local roles only
+			if ($a_filter == 5 and $prefix)
+			{
+                continue;
+            }
+            
+			$roles[] = fetchObjectData($row);
+		}
+
+		$roles = $this->setRoleType($roles);
+
+		return $roles ? $roles : array();
 	}
 } // END class.ilRbacReview
 ?>

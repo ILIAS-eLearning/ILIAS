@@ -83,6 +83,7 @@ class ilObjUserGUI extends ilObjectGUI
 							  'f'    => "salutation_f"
 							  );
 	}
+
 	function &executeCommand()
 	{
 		global $rbacsystem;
@@ -121,6 +122,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 		}
 	}
+
 	/**
 	* display user create form
 	*/
@@ -240,8 +242,6 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-		#														   $this->usrf_ref_id."&new_type=".$this->type));
 		$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		
@@ -683,9 +683,6 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		
-		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".
-		#														   $this->usrf_ref_id.$obj_str));
-
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1257,76 +1254,54 @@ class ilObjUserGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
-			exit();
 		}
 
-		$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
+		$selected_roles = $_POST["role_id"] ? $_POST["role_id"] : array();
+		$posted_roles = $_POST["role_id_ctrl"] ? $_POST["role_id_ctrl"] : array();
 		
 		// prevent unassignment of system role from system user
-		if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $_SESSION["role_list"]))
+		if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $posted_roles))
 		{
-			array_push($_POST["id"],SYSTEM_ROLE_ID);
+			array_push($selected_roles,SYSTEM_ROLE_ID);
 		}
 
 		$global_roles_all = $rbacreview->getGlobalRoles();
 		$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
-		$assigned_roles = array_intersect($assigned_roles_all,$_SESSION["role_list"]);
+		$assigned_roles = array_intersect($assigned_roles_all,$posted_roles);
 		$assigned_global_roles_all = array_intersect($assigned_roles_all,$global_roles_all);
-		$assigned_global_roles = array_intersect($assigned_global_roles_all,$_SESSION["role_list"]);
-		$posted_global_roles = array_intersect($_POST["id"],$global_roles_all);
+		$assigned_global_roles = array_intersect($assigned_global_roles_all,$posted_roles);
+		$posted_global_roles = array_intersect($selected_roles,$global_roles_all);
 		
-		//var_dump("<pre>",$_POST["id"],$assigned_global_roles_all,$assigned_global_roles,$posted_global_roles,"</pre>");exit;
-
-		if ((empty($_POST["id"]) and count($assigned_roles_all) == count($assigned_roles))
+		if ((empty($selected_roles) and count($assigned_roles_all) == count($assigned_roles))
 			 or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles)))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
+            //$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
+            // workaround. sometimes jumps back to wrong page
+            sendInfo($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),true);
+            $this->ctrl->redirect($this,'roleassignment');
 		}
 
-		foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
+		foreach (array_diff($assigned_roles,$selected_roles) as $role)
 		{
 			$rbacadmin->deassignUser($role,$this->object->getId());
 		}
 
-		foreach (array_diff($_POST["id"],$assigned_roles) as $role)
+		foreach (array_diff($selected_roles,$assigned_roles) as $role)
 		{
 			$rbacadmin->assignUser($role,$this->object->getId(),false);
 		}
-
-		$online_users = ilUtil::getUsersOnline();
-
-		if (in_array($this->object->getId(),array_keys($online_users)))
-		{
-			$role_arr = $rbacreview->assignedRoles($this->object->getId());
-
-			if ($_SESSION["AccountId"] == $this->object->getId())
-			{
-				$_SESSION["RoleId"] = $role_arr;
-			}
-			else
-			{
-				$roles = "RoleId|".serialize($role_arr);
-				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users[$this->object->getId()]["data"]);
-
-				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
-				$this->ilias->db->query($q);
-			}
-		}
+		
+        include_once "./classes/class.ilObjRole.php";
+        ilObjRole::_updateSessionRoles(array($this->object->getId()));
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
 
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 
-
-
-		#header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".
-		#	   $this->obj_id."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
-		#	   $_GET["sort_order"]."&offset=".$_GET["offset"]);
-		#exit();
 		if($this->ctrl->getTargetScript() == 'adm_object.php')
 		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
+            $this->ctrl->redirectByClass('ilobjusergui','roleassignment');
 		}
 		else
 		{
@@ -1334,7 +1309,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 	}
-
+	
 	/**
 	* display roleassignment panel
 	*
@@ -1348,248 +1323,92 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 
-		$obj_str = "&obj_id=".$this->obj_id;
+		$_SESSION['filtered_roles'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_roles'];
 
-		//prepare objectlist
-		$this->data = array();
-		$this->data["data"] = array();
-		$this->data["ctrl"] = array();
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
 
-		$this->data["cols"] = array("", "", "role", "type", "context");
-
-		// get all assignable roles
-		$list = $rbacreview->getAssignableRoles();
-//echo "2";
-		foreach ($list as $key => $val)
+		if(true)
 		{
-			if (substr($val["title"],0,3) != "il_")
-			{
-				// fetch context path of role
-				$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
-	//echo "3";
-				// only list roles that are not set to status "deleted"
-				if (!$rbacreview->isDeleted($rolf[0]))
-				{
-					$path = "";
-	//echo "4";
-					if ($this->tree->isInTree($rolf[0]))
-					{
-						$tmpPath = $this->tree->getPathFull($rolf[0]);
-	//echo "5";
-						// count -1, to exclude the role folder itself
-						for ($i = 1; $i < (count($tmpPath)-1); $i++)
-						{
-							if ($path != "")
-							{
-								$path .= " > ";
-							}
-	
-							$path .= $tmpPath[$i]["title"];
-						}
-					}
-					else
-					{
-						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$val["obj_id"].")</b>";
-					}
-	
-					//visible data part
-					$this->data["data"][] = array(
-								"type"			=> $val["type"],
-								"role"			=> $val["title"]."#separator#".$val["desc"],
-								"role_type"		=> $val["role_type"],
-								"context"		=> $path,
-								"obj_id"		=> $val["obj_id"]
-							);
-				}
-			} // if substr
-		} //foreach role
-
-		$this->maxcount = count($this->data["data"]);
-
-		// TODO: correct this in objectGUI
-		if ($_GET["sort_by"] == "title")
-		{
-			$_GET["sort_by"] = "role";
+			$this->tpl->setCurrentBlock("filter");
+			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect());
+			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FILTER_NAME",'roleassignment');
+			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+			$this->tpl->parseCurrentBlock();
 		}
-
-		// sorting array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
+		
+		// now get roles depending on filter settings
+		$role_list = $rbacreview->getRolesByFilter($_SESSION["filtered_roles"],$this->object->getId());
 		$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
-		// now compute control information
-		foreach ($this->data["data"] as $key => $val)
+        $counter = 0;
+
+		foreach ($role_list as $role)
 		{
-			$checked = in_array($this->data["data"][$key]["obj_id"],$assigned_roles);
+			// fetch context path of role
+			$rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
 
-			$this->data["ctrl"][$key] = array(
-											"ref_id"	=> $this->id,
-											"obj_id"	=> $val["obj_id"],
-											"type"		=> $val["type"],
-											"assigned"	=> $checked
-											);
-			$tmp[] = $val["obj_id"];
-
-			unset($this->data["data"][$key]["obj_id"]);
-
-			//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
-		}
-
-		// remember filtered users
-		$_SESSION["role_list"] = $tmp;
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-		$num = 0;
-
-		#$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->usrf_ref_id.$obj_str."&cmd=assignSave&sort_by=".
-		#						$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-
-		include_once "./classes/class.ilTableGUI.php";
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",
-					   $this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		foreach ($this->data["cols"] as $val)
-		{
-			$header_names[] = $this->lng->txt($val);
-		}
-
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = array("ref_id"	=> $this->usrf_ref_id,
-							   "obj_id"	=> $this->obj_id,
-							   "cmd"	=> "roleassignment",
-							   "cmdClass" => "ilobjusergui",
-							   "cmdNode" => $_GET["cmdNode"]);
-
-		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		//$tbl->setColumnWidth(array("4","","15%","30%","24%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);
-
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-
-		// display action button
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "assignSave");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
-		$this->tpl->parseCurrentBlock();
-
-		// display arrow
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->touchBlock("tbl_action_row");
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$tbl->render();
-
-		if (is_array($this->data["data"][0]))
-		{
-			//table cell
-			for ($i=0; $i < count($this->data["data"]); $i++)
+			// only list roles that are not set to status "deleted"
+			if ($rbacreview->isDeleted($rolf[0]))
 			{
-				$data = $this->data["data"][$i];
-				$ctrl = $this->data["ctrl"][$i];
+                continue;
+            }
+            
+            // build context path
+            $path = "";
 
-				//var_dump("<pre>",$ctrl,"</pre>");exit;
-				// color changing
-				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+			if ($this->tree->isInTree($rolf[0]))
+			{
+                if ($rolf[0] == ROLE_FOLDER_ID)
+                {
+                    $path = $this->lng->txt("global");
+                }
+                else
+                {
+				    $tmpPath = $this->tree->getPathFull($rolf[0]);
 
-				($ctrl["assigned"]) ? $checked = "checked=\"checked\"" : $checked = "";
+				    // count -1, to exclude the role folder itself
+				    /*for ($i = 1; $i < (count($tmpPath)-1); $i++)
+				    {
+					    if ($path != "")
+					    {
+						    $path .= " > ";
+					    }
 
-				$this->tpl->setCurrentBlock("checkbox");
-				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-
-				// disable checkbox for system role for the system user
-				if (($this->object->getId() == SYSTEM_USER_ID and $ctrl["obj_id"] == SYSTEM_ROLE_ID)
-					or (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $ctrl["obj_id"] == SYSTEM_ROLE_ID))
-				{
-					$this->tpl->setVariable("CHECKED", $checked." disabled=\"disabled\"");
+					    $path .= $tmpPath[$i]["title"];
+				    }*/
+				
+				    $path = $tmpPath[count($tmpPath)-2]["title"];
 				}
-				else
-				{
-					$this->tpl->setVariable("CHECKED", $checked);
-				}
+			}
+			else
+			{
+				$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role["obj_id"].")</b>";
+			}
+			
+			$disabled = false;
+			
+			// disable checkbox for system role for the system user
+			if (($this->object->getId() == SYSTEM_USER_ID and $role["obj_id"] == SYSTEM_ROLE_ID)
+				or (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $role["obj_id"] == SYSTEM_ROLE_ID))
+			{
+				$disabled = true;
+			}
+			
+            $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
+            $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf[0]."&obj_id=".$role["obj_id"]."&cmd=perm\">".$role["title"]."</a>";
+            $result_set[$counter][] = $role["description"];
+		    $result_set[$counter][] = $path;
 
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
+   			++$counter;
+        }
 
-
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
-				$this->tpl->parseCurrentBlock();
-
-				foreach ($data as $key => $val)
-				{
-					//build link
-					$link = "adm_object.php?ref_id=8&obj_id=".$ctrl["obj_id"]."&cmd=perm";
-
-					if ($key == "role")
-					{
-						$name_field = explode("#separator#",$val);
-					}
-
-					if ($key == "type" || $key == "role")
-					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
-
-					$this->tpl->setCurrentBlock("text");
-
-					if ($key == "type")
-					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
-					}
-
-					if ($key == "role")
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
-						$this->tpl->setCurrentBlock("subtitle");
-						$this->tpl->setVariable("DESC", $name_field[1]);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $val);
-					}
-
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-				} //foreach
-
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-
-		} //if is_array
-	}
-
+		return $this->__showRolesTable($result_set);
+    }
+		
 	/**
 	* display public profile
 	*
@@ -1715,6 +1534,7 @@ class ilObjUserGUI extends ilObjectGUI
                 return ilUtil::formSelect($a_selected,$a_varname,$year,false,true);
         }
     }
+
 	function __toUnix($a_time_arr)
     {
         return mktime($a_time_arr["hour"],
@@ -1725,5 +1545,98 @@ class ilObjUserGUI extends ilObjectGUI
                       $a_time_arr["year"]);
     }
 
+	function __showRolesTable($a_result_set)
+	{
+        global $rbacsystem;
+
+		$actions = array("assignSave"  => $this->lng->txt("change_assignment"));
+
+        $tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+
+			$tpl->setVariable("COLUMN_COUNTS",4);
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+            foreach ($actions as $name => $value)
+			{
+				$tpl->setCurrentBlock("tbl_action_btn");
+				$tpl->setVariable("BTN_NAME",$name);
+				$tpl->setVariable("BTN_VALUE",$value);
+				$tpl->parseCurrentBlock();
+			}
+
+            $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+
+
+		$this->ctrl->setParameter($this,"cmd","roleassignment");
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("edit_roleassignment"),"icon_role_b.gif",$this->lng->txt("roles"));
+
+		//user must be administrator
+		$tbl->setHeaderNames(array("",$this->lng->txt("role"),$this->lng->txt("description"),$this->lng->txt("context")));
+		$tbl->setHeaderVars(array("","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
+		$tbl->setColumnWidth(array("","30%","40%","30%"));
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set,"roleassignment");
+		$tbl->render();
+		$this->tpl->setVariable("ROLES_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function &__initTableGUI()
+	{
+		include_once "class.ilTableGUI.php";
+
+		return new ilTableGUI(0,false);
+	}
+
+	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
+	{
+        switch($from)
+		{
+			default:
+	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
+				break;
+		}
+
+        //$tbl->enable("hits");
+		$tbl->setOrderColumn($order);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->setData($result_set);
+	}
+
+	function __unsetSessionVariables()
+	{
+        unset($_SESSION["filtered_roles"]);
+	}
+
+	function __buildFilterSelect()
+	{
+		$action[0] = $this->lng->txt('assigned_roles');
+		$action[1] = $this->lng->txt('all_roles');
+		$action[2] = $this->lng->txt('all_global_roles');
+		$action[3] = $this->lng->txt('all_local_roles');
+		$action[4] = $this->lng->txt('internal_local_roles_only');
+		$action[5] = $this->lng->txt('non_internal_local_roles_only');
+
+		return ilUtil::formSelect($_SESSION['filtered_roles'],"filter",$action,false,true);
+	}
+
+	function hitsperpageObject()
+	{
+        parent::hitsperpageObject();
+        $this->roleassignmentObject();
+	}
 } // END class.ilObjUserGUI
 ?>

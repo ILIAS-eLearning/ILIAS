@@ -199,7 +199,8 @@ if ($ilias->auth->getAuth())
 	}
 
 	// set hits per page for all lists using table module
-	$_GET["limit"] = ($_GET["limit"]) ? intval($_GET["limit"]): intval($ilias->account->prefs["hits_per_page"]);
+	$_SESSION["tbl_limit"] = ($_SESSION["tbl_limit"]) ? intval($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
+	$_GET["limit"] = ($_SESSION["tbl_limit"]) ? ($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
 	$_GET["offset"] = intval($_GET["offset"]);
 
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");

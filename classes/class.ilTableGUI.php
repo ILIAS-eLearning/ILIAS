@@ -75,7 +75,8 @@ class ilTableGUI
 							"footer"		=>	true,
 							"linkbar"		=>	true,
 							"numinfo"		=>	true,
-							"sort"			=>  true
+							"sort"			=>  true,
+							"hits"          =>  false
 						);
 						
 	// tpl styles (only one so far)
@@ -429,7 +430,16 @@ class ilTableGUI
 			$this->tpl->setVariable("TBL_HELP_IMG_ALT",$this->help_icon_alt);
 			$this->tpl->parseCurrentBlock();
 		}
-			
+
+		// hits per page selector
+		if ($this->enabled["hits"] && $this->enabled["title"])
+		{
+			$this->tpl->setCurrentBlock("tbl_header_hits_page");
+			$this->tpl->setVariable("LIMIT",$_SESSION["tbl_limit"]);
+			$this->tpl->setVariable("HITS_PER_PAGE",$this->lng->txt("hits_per_page"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// table title
 		if ($this->enabled["title"])
 		{

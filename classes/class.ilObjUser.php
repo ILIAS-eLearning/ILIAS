@@ -1658,6 +1658,46 @@ class ilObjUser extends ilObject
 		return $logins ? $logins : array();
 	}
 	
+	/**
+	* STATIC METHOD
+	* get all user data
+	* @param	array desired columns
+	* @static
+	* @return	array of user data
+	* @access	public
+	*/
+	function _getAllUserData($a_fields = NULL)
+	{
+        global $ilDB;
+
+        $result_arr = array();
+
+        if ($a_fields !== NULL and is_array($a_fields))
+        {
+            if (count($a_fields) == 0)
+            {
+                $select = "*";
+            }
+            else
+            {
+                if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
+                    unset($a_fields[$usr_id_field]);
+
+                $select = implode(",",$a_fields).",usr_data.usr_id";
+            }
+
+	        $q = "SELECT ".$select." FROM usr_data ";
+            $r = $ilDB->query($q);
+
+            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+            {
+                $result_arr[] = $row;
+            }
+        }
+        
+   		return $result_arr;
+	}
+	
 
 	/**
 	* add an item to user's personal desktop

@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.29 2004/08/13 15:52:44 smeyer Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.30 2004/08/24 12:15:01 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,30 +65,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "type", "name", "last_change");
+		$this->data["cols"] = array("", "login", "firstname", "lastname", "email");
+		
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email"));
 
-		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
+		foreach ($usr_data as $val)
 		{
-			//var_dump("<pre>",$usr_data,"</pre>");exit;
-
-			foreach ($usr_data as $key => $val)
+			if ($val["usr_id"] == ANONYMOUS_USER_ID)
 			{
-				if ($key != ANONYMOUS_USER_ID)
-				{
-					//visible data part
-					$this->data["data"][] = array(
-								"type"			=> $val["type"],
-								"name"			=> $val["title"]."#separator#".$val["desc"],
-								//"email"			=> $val["desc"],
-								"last_change"	=> $val["last_update"],
-								"obj_id"		=> $val["obj_id"]
-							);
-				}
-			}
-		} //if userdata
+                continue;
+            }
 
+			//visible data part
+			$this->data["data"][] = array(
+							"login"			=> $val["login"],
+							"firstname"		=> $val["firstname"],
+							"lastname"		=> $val["lastname"],
+							"email"			=> $val["email"],
+							"obj_id"		=> $val["usr_id"]
+						);
+		}
+		
 		$this->maxcount = count($this->data["data"]);
-
+		// TODO: correct this in objectGUI
+		if ($_GET["sort_by"] == "name")
+		{
+			$_GET["sort_by"] = "login";
+		}
+		
 		// sorting array
 		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
@@ -97,13 +101,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		foreach ($this->data["data"] as $key => $val)
 		{
 			$this->data["ctrl"][$key] = array(
-											"ref_id"	=> $this->id,
-											"obj_id"	=> $val["obj_id"],
-											"type"		=> $val["type"]
+												"ref_id"	=> $this->id,
+												"obj_id"	=> $val["obj_id"]
 											);
-
+			$tmp[] = $val["obj_id"];
 			unset($this->data["data"][$key]["obj_id"]);
-						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		//add template for buttons
@@ -152,7 +154,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
 					   $this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		foreach ($this->data["cols"] as $val)
 		{
@@ -163,9 +165,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("15","15","75%","25%"));
+		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
+		
 
 		// control
+        //$tbl->enable("hits");
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -187,7 +191,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// render table
 		$tbl->render();
-
+		
 		if (is_array($this->data["data"][0]))
 		{
 			//table cell
@@ -199,28 +203,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
-				// surpress checkbox for particular object types AND the system role
-				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or $ctrl["obj_id"] == SYSTEM_USER_ID or $ctrl["obj_id"] == ANONYMOUS_ROLE_ID)
-				{
-					$this->tpl->touchBlock("empty_cell");
-				}
-				else
-				{
-					// TODO: this object type depending 'if' could become really a problem!!
-					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role" or $ctrl["type"] == "rolt")
-					{
-						$link_id = $ctrl["obj_id"];
-					}
-					else
-					{
-						$link_id = $ctrl["ref_id"];
-					}
-	
-					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
-					$this->tpl->setVariable("CSS_ROW", $css_row);
-					$this->tpl->parseCurrentBlock();
-				}
+				$this->tpl->setCurrentBlock("checkbox");
+				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+				//$this->tpl->setVariable("CHECKED", $checked);
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -229,105 +216,33 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?";
+					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
 
-					$n = 0;
-
-					foreach ($ctrl as $key2 => $val2)
-					{
-						$link .= $key2."=".$val2;
-
-						if ($n < count($ctrl)-1)
-						{
-					    	$link .= "&";
-							$n++;
-						}
-					}
-
-					if ($key == "name" || $key == "title")
-					{
-						$name_field = explode("#separator#",$val);
-					}
-
-					if ($key == "title" || $key == "name" || $key == "type")
+					if ($key == "login")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);
-
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->touchBlock("end_link");
 					}
 
-					// process clipboard information"
-					if (isset($_SESSION["clipboard"]))
-					{
-						$cmd = $_SESSION["clipboard"]["cmd"];
-						$parent = $_SESSION["clipboard"]["parent"];
-
-						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
-						{
-							if ($ctrl["ref_id"] == $clip_id)
-							{
-								if ($cmd == "cut" and $key == "title")
-								{
-									$val = "<del>".$val."</del>";
-								}
-
-								if ($cmd == "copy" and $key == "title")
-								{
-									$val = "<font color=\"green\">+</font>  ".$val;
-								}
-
-								if ($cmd == "link" and $key == "title")
-								{
-									$val = "<font color=\"black\"><</font> ".$val;
-								}
-							}
-						}
-					}
-
 					$this->tpl->setCurrentBlock("text");
-
-					if ($key == "type")
-					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
-					}
-
-					if ($key == "name" || $key == "title")
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
-						
-						$this->tpl->setCurrentBlock("subtitle");
-						$this->tpl->setVariable("DESC", $name_field[1]);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setVariable("TEXT_CONTENT", $val);
-					}
-					
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
-
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
-
 				} //foreach
 
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
-
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
 		}
-	}
 
+
+
+	}
+	
 	/**
 	* show possible action (form buttons)
 	*
@@ -687,9 +602,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					  		);
 
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
 
 		// control
+        $tbl->enable("hits");
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -1252,6 +1168,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$order = $_GET["sort_by"];
 		$direction = $_GET["sort_order"];
 
+        //$tbl->enable("hits");
 		$tbl->setOrderColumn($order);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
@@ -1310,6 +1227,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                       $a_time_arr["year"]);
     }
 
+	function hitsperpageObject()
+	{
+        parent::hitsperpageObject();
+        $this->viewObject();
+	}
 
 } // END class.ilObjUserFolderGUI
 ?>
