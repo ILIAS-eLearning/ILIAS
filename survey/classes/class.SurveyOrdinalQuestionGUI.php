@@ -153,9 +153,13 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 			case 1:
 				$this->tpl->setVariable("SELECTED_HORIZONTAL", " selected=\"selected\"");
 				break;
+			case 2:
+				$this->tpl->setVariable("SELECTED_COMBOBOX", " selected=\"selected\"");
+				break;
 		}
 		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
 		$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
+		$this->tpl->setVariable("TXT_COMBOBOX", $this->lng->txt("combobox"));
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
@@ -195,58 +199,84 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 */
 	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
-		if ($this->object->orientation == 0)
+		switch ($this->object->orientation)
 		{
-			// vertical orientation
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("ordinal_row");
-				$this->tpl->setVariable("TEXT_ORDINAL", $category);
-				$this->tpl->setVariable("VALUE_ORDINAL", $i);
-				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				if (is_array($working_data))
-				{
-					if (strcmp($working_data[0]["value"], "") != 0)
+			case 0:
+				// vertical orientation
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("ordinal_row");
+					$this->tpl->setVariable("TEXT_ORDINAL", $category);
+					$this->tpl->setVariable("VALUE_ORDINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
 					{
-						if ($working_data[0]["value"] == $i)
+						if (strcmp($working_data[0]["value"], "") != 0)
 						{
-							$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+							}
 						}
 					}
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			// horizontal orientation
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-			{
-				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("radio_col_ordinal");
-				$this->tpl->setVariable("VALUE_ORDINAL", $i);
-				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				if (is_array($working_data))
+				break;
+			case 1:
+				// horizontal orientation
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					if (strcmp($working_data[0]["value"], "") != 0)
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("radio_col_ordinal");
+					$this->tpl->setVariable("VALUE_ORDINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
 					{
-						if ($working_data[0]["value"] == $i)
+						if (strcmp($working_data[0]["value"], "") != 0)
 						{
-							$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+							}
 						}
 					}
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->parseCurrentBlock();
-			}
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-			{
-				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("text_col_ordinal");
-				$this->tpl->setVariable("VALUE_ORDINAL", $i);
-				$this->tpl->setVariable("TEXT_ORDINAL", $category);
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("text_col_ordinal");
+					$this->tpl->setVariable("VALUE_ORDINAL", $i);
+					$this->tpl->setVariable("TEXT_ORDINAL", $category);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					$this->tpl->parseCurrentBlock();
+				}
+				break;
+			case 2:
+				// combobox output
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("comborow");
+					$this->tpl->setVariable("TEXT_ORDINAL", $category);
+					$this->tpl->setVariable("VALUE_ORDINAL", $i);
+					if (is_array($working_data))
+					{
+						if (strcmp($working_data[0]["value"], "") != 0)
+						{
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("SELECTED_ORDINAL", " selected=\"selected\"");
+							}
+						}
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("combooutput");
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+				$this->tpl->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
+				$this->tpl->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
 				$this->tpl->parseCurrentBlock();
-			}
+				break;
 		}
 		if ($question_title)
 		{

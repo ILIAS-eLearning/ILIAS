@@ -210,17 +210,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if ($_POST["cmd"]["resume"])
+		if ($this->object->getAnonymize())
 		{
-			$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
-			if ($anonymize_key)
+			if ($_POST["cmd"]["resume"])
 			{
-				$_SESSION["anonymous_id"] = $anonymize_key;
-			}
-			else
-			{
-				unset($_POST["cmd"]["resume"]);
-				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
+				$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
+				if ($anonymize_key)
+				{
+					$_SESSION["anonymous_id"] = $anonymize_key;
+				}
+				else
+				{
+					unset($_POST["cmd"]["resume"]);
+					sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
+				}
 			}
 		}
 		$direction = 0;
@@ -344,6 +347,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 						else
 						{
 							$save_answer = 1;
+							$maxchars = SurveyTextQuestion::_getMaxChars($data["question_id"]);
+							if ($maxchars)
+							{
+								$_POST[$data["question_id"] . "_text_question"] = substr($_POST[$data["question_id"] . "_text_question"], 0, $maxchars);
+							}
 						}
 					}
 					$page_error += $error;
@@ -2549,6 +2557,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
 					if (!$data["questionblock_id"])
 					{
+						// up/down buttons for non-questionblock questions
 						if ($data["question_id"] != $this->object->questions[0])
 						{
 							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->getCallingScript() . "$add_parameter&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"Up\" border=\"0\" /></a>");
@@ -2556,6 +2565,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 						if ($data["question_id"] != $this->object->questions[count($this->object->questions)-1])
 						{
 							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->getCallingScript() . "$add_parameter&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"Down\" border=\"0\" /></a>");
+						}
+					}
+					else
+					{
+						// up/down buttons for questionblock questions
+						if ($data["questionblock_id"] == $last_questionblock_id)
+						{
+							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->getCallingScript() . "$add_parameter&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"Up\" border=\"0\" /></a>");
+						}
+						$tmp_questions = array_keys($survey_questions);
+						$blockkey = array_search($question_id, $tmp_questions);
+						if (($blockkey !== FALSE) && ($blockkey < count($tmp_questions)-1))
+						{
+							if ($data["questionblock_id"] == $survey_questions[$tmp_questions[$blockkey+1]]["questionblock_id"])
+							{
+								$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->getCallingScript() . "$add_parameter&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"Down\" border=\"0\" /></a>");
+							}
 						}
 					}
 				}
@@ -2748,12 +2774,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 				switch ($question_data["questiontype_fi"])
 				{
 					case 1:
-					case 2:
-						foreach ($question_data["answers"] as $cat => $cattext)
+						if ($question_data["subtype"] == SUBTYPE_MCMR)
 						{
-							array_push($csvrow, ($cat+1) . " - $cattext");
+							foreach ($question_data["answers"] as $cat => $cattext)
+							{
+								array_push($csvrow, ($cat+1) . " - $cattext");
+							}
 						}
 						break;
+					case 2:
 					case 3:
 					case 4:
 						break;
@@ -2783,33 +2812,43 @@ class ilObjSurveyGUI extends ilObjectGUI
 							// nominal question
 							if (count($resultset["answers"][$question_id]))
 							{
-								array_push($csvrow, "");
-								foreach ($question_data["answers"] as $cat => $cattext)
+								if ($question_data["subtype"] == SUBTYPE_MCMR)
 								{
-									$found = 0;
-									foreach ($resultset["answers"][$question_id] as $answerdata)
+									array_push($csvrow, "");
+									foreach ($question_data["answers"] as $cat => $cattext)
 									{
-										if (strcmp($cat, $answerdata["value"]) == 0)
+										$found = 0;
+										foreach ($resultset["answers"][$question_id] as $answerdata)
 										{
-											$found = 1;
+											if (strcmp($cat, $answerdata["value"]) == 0)
+											{
+												$found = 1;
+											}
+										}
+										if ($found)
+										{
+											array_push($csvrow, 1);
+										}
+										else
+										{
+											array_push($csvrow, "0");
 										}
 									}
-									if ($found)
-									{
-										array_push($csvrow, 1);
-									}
-									else
-									{
-										array_push($csvrow, "");
-									}
+								}
+								else
+								{
+									array_push($csvrow, $answerdata["value"]);
 								}
 							}
 							else
 							{
 								array_push($csvrow, $this->lng->txt("skipped"));
-								foreach ($question_data["answers"] as $cat => $cattext)
+								if ($question_data["subtype"] == SUBTYPE_MCMR)
 								{
-									array_push($csvrow, "");
+									foreach ($question_data["answers"] as $cat => $cattext)
+									{
+										array_push($csvrow, "");
+									}
 								}
 							}
 							break;
@@ -2817,34 +2856,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 							// ordinal question
 							if (count($resultset["answers"][$question_id]))
 							{
-								array_push($csvrow, "");
-								foreach ($question_data["answers"] as $cat => $cattext)
+								foreach ($resultset["answers"][$question_id] as $key => $answer)
 								{
-									$found = 0;
-									foreach ($resultset["answers"][$question_id] as $answerdata)
-									{
-										if (strcmp($cat, $answerdata["value"]) == 0)
-										{
-											$found = 1;
-										}
-									}
-									if ($found)
-									{
-										array_push($csvrow, 1);
-									}
-									else
-									{
-										array_push($csvrow, "");
-									}
+									array_push($csvrow, $answer["value"]);
 								}
 							}
 							else
 							{
 								array_push($csvrow, $this->lng->txt("skipped"));
-								foreach ($question_data["answers"] as $cat => $cattext)
-								{
-									array_push($csvrow, "");
-								}
 							}
 							break;
 						case 3:

@@ -105,21 +105,25 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		// call to other question data
 		$this->outOtherQuestionData();
 
-//		if ($this->object->getSubtype() == SUBTYPE_MCSR)
-//		{
-			$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
-			switch ($this->object->getOrientation())
-			{
-				case 0:
-					$this->tpl->setVariable("SELECTED_VERTICAL", " selected=\"selected\"");
-					break;
-				case 1:
-					$this->tpl->setVariable("SELECTED_HORIZONTAL", " selected=\"selected\"");
-					break;
-			}
-			$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
-			$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
-//		}
+		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
+		switch ($this->object->getOrientation())
+		{
+			case 0:
+				$this->tpl->setVariable("SELECTED_VERTICAL", " selected=\"selected\"");
+				break;
+			case 1:
+				$this->tpl->setVariable("SELECTED_HORIZONTAL", " selected=\"selected\"");
+				break;
+			case 2:
+				$this->tpl->setVariable("SELECTED_COMBOBOX", " selected=\"selected\"");
+				break;
+		}
+		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
+		$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
+		if ($this->object->getSubtype() == SUBTYPE_MCSR)
+		{
+			$this->tpl->setVariable("TXT_COMBOBOX", $this->lng->txt("combobox"));
+		}
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
@@ -168,115 +172,141 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 */
 	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
-		if ($this->object->getOrientation() == 0)
+		switch ($this->object->getOrientation())
 		{
-			// vertical orientation
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-				$category = $this->object->getCategory($i);
-				if ($this->object->getSubtype() == SUBTYPE_MCSR)
-				{
-					$this->tpl->setCurrentBlock("nominal_row_sr");
-					$this->tpl->setVariable("TEXT_NOMINAL", $category);
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-					if (is_array($working_data))
+			case 0:
+				// vertical orientation
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+					$category = $this->object->getCategory($i);
+					if ($this->object->getSubtype() == SUBTYPE_MCSR)
 					{
-						if (strcmp($working_data[0]["value"], "") != 0)
+						$this->tpl->setCurrentBlock("nominal_row_sr");
+						$this->tpl->setVariable("TEXT_NOMINAL", $category);
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						if (is_array($working_data))
 						{
-							if ($working_data[0]["value"] == $i)
+							if (strcmp($working_data[0]["value"], "") != 0)
 							{
-								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-							}
-						}
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("nominal_row_mr");
-					$this->tpl->setVariable("TEXT_NOMINAL", $category);
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-					if (is_array($working_data))
-					{
-						foreach ($working_data as $row)
-						{
-							if (strcmp($row["value"], "") != 0)
-							{
-								if ($row["value"] == $i)
+								if ($working_data[0]["value"] == $i)
 								{
 									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 								}
 							}
 						}
+						$this->tpl->parseCurrentBlock();
 					}
-					$this->tpl->parseCurrentBlock();
+					else
+					{
+						$this->tpl->setCurrentBlock("nominal_row_mr");
+						$this->tpl->setVariable("TEXT_NOMINAL", $category);
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						if (is_array($working_data))
+						{
+							foreach ($working_data as $row)
+							{
+								if (strcmp($row["value"], "") != 0)
+								{
+									if ($row["value"] == $i)
+									{
+										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									}
+								}
+							}
+						}
+						$this->tpl->parseCurrentBlock();
+					}
 				}
-			}
-		}
-		else
-		{
-			// horizontal orientation
-			if ($this->object->getSubtype() == SUBTYPE_MCSR)
-			{
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				break;
+			case 1:
+				// horizontal orientation
+				if ($this->object->getSubtype() == SUBTYPE_MCSR)
 				{
+					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->getCategory($i);
+						$this->tpl->setCurrentBlock("radio_col_nominal");
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						if (is_array($working_data))
+						{
+							if (strcmp($working_data[0]["value"], "") != 0)
+							{
+								if ($working_data[0]["value"] == $i)
+								{
+									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+								}
+							}
+						}
+						$this->tpl->parseCurrentBlock();
+					}
+					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->getCategory($i);
+						$this->tpl->setCurrentBlock("text_col_nominal");
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("TEXT_NOMINAL", $category);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				else
+				{
+					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->getCategory($i);
+						$this->tpl->setCurrentBlock("checkbox_col_nominal");
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						if (is_array($working_data))
+						{
+							if (strcmp($working_data[0]["value"], "") != 0)
+							{
+								if ($working_data[0]["value"] == $i)
+								{
+									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+								}
+							}
+						}
+						$this->tpl->parseCurrentBlock();
+					}
+					for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->getCategory($i);
+						$this->tpl->setCurrentBlock("text_col_nominal_mr");
+						$this->tpl->setVariable("VALUE_NOMINAL", $i);
+						$this->tpl->setVariable("TEXT_NOMINAL", $category);
+						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				break;
+			case 2:
+				// combobox output
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
 					$category = $this->object->getCategory($i);
-					$this->tpl->setCurrentBlock("radio_col_nominal");
+					$this->tpl->setCurrentBlock("comborow_nominal");
+					$this->tpl->setVariable("TEXT_NOMINAL", $category);
 					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
 						if (strcmp($working_data[0]["value"], "") != 0)
 						{
 							if ($working_data[0]["value"] == $i)
 							{
-								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+								$this->tpl->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
 							}
 						}
 					}
 					$this->tpl->parseCurrentBlock();
 				}
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$this->tpl->setCurrentBlock("text_col_nominal");
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("TEXT_NOMINAL", $category);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			else
-			{
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$this->tpl->setCurrentBlock("checkbox_col_nominal");
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-					if (is_array($working_data))
-					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-							}
-						}
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$this->tpl->setCurrentBlock("text_col_nominal_mr");
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
-					$this->tpl->setVariable("TEXT_NOMINAL", $category);
-					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-					$this->tpl->parseCurrentBlock();
-				}
-			}
+				$this->tpl->setCurrentBlock("combooutput_nominal");
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+				$this->tpl->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
+				$this->tpl->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
+				$this->tpl->parseCurrentBlock();
+				break;
 		}
 		
 		$this->tpl->setCurrentBlock("question_data_nominal");
