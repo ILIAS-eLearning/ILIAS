@@ -196,14 +196,14 @@ class ilContObjParser extends ilSaxParser
 				continue;
 			}
 
-			if (substr($origin_id, 0, 2) == "el") // imagemap
+			$origin_arr = explode("_", $origin_id);
+			if ($origin_arr[2] == "el") // imagemap
 			{
-				$origin_arr = explode("_", $origin_id);
-				$obj_dir = "imagemap".$origin_arr[1];
+				$obj_dir = "imagemap".$origin_arr[3];
 			}
 			else // normal media object
 			{
-				$obj_dir = str_replace("_", "", $origin_id);
+				$obj_dir = "mm".$origin_arr[3];
 			}
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$mob_id;
@@ -629,7 +629,7 @@ class ilContObjParser extends ilSaxParser
 			case "MediaObject":
 				$this->in_media_object = false;
 //echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
-				// create media object on first occurence of an OriginId
+				// create media object on first occurence of an Id
 				if(empty($this->mob_mapping[$this->media_object->getImportId()]))
 				{
 					if ($this->media_object->isAlias())
@@ -644,7 +644,7 @@ class ilContObjParser extends ilSaxParser
 					$this->media_object->create();
 					$this->mob_mapping[$this->media_object->getImportId()]
 							= $this->media_object->getId();
-//echo "create:origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
+//echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
 				}
 				else
 				{

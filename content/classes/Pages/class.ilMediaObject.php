@@ -235,7 +235,7 @@ class ilMediaObject extends ilObjMediaObject
 				$item->getWidth()."','".$item->getHeight()."','".$item->getHAlign().
 				"','".$item->getCaption()."','".($i+1)."')";
 			$this->ilias->db->query($query);
-
+//echo "create_mob:$query:<br>";
 			$item_id = getLastInsertId();
 
 			// create mob parameters
@@ -276,7 +276,7 @@ class ilMediaObject extends ilObjMediaObject
 		for($i=0; $i<count($media_items); $i++)
 		{
 			$item =& $media_items[$i];
-	//echo "<b>".$query."</b>";
+//echo "<b>".$query."</b>";
 
 			// create item
 			$query = "INSERT INTO media_item (mob_id, purpose, location, ".
