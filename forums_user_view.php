@@ -10,6 +10,8 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilForum.php";
 
+$lng->loadLanguageModule("forum");
+
 $frm = new ilForum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");

@@ -10,6 +10,8 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjForum.php";
 
+$lng->loadLanguageModule("forum");
+
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new ilForum();
 $frm->setForumId($forumObj->getId());
