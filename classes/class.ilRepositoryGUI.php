@@ -272,7 +272,6 @@ class ilRepositoryGUI
 	*/
 	function showLearningResources()
 	{
-
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -624,7 +623,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET","bottom");
+		$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->groups);
 
@@ -674,7 +673,7 @@ class ilRepositoryGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("groups_overview"),"icon_grp_b.gif",$this->lng->txt("groups_overview"));
+		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
 		$tbl->setHeaderVars(array("","title","description","owner","last_change"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
