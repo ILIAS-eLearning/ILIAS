@@ -1103,6 +1103,7 @@ forum#:#forums_post_modified#:#article has been modified
 forum#:#forums_post_new_entry#:#new article has been inscribed
 forum#:#forums_posts#:#all articles
 forum#:#forums_posts_not_available#:#articles not available
+forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
 forum#:#forums_quote#:#Quote###01 Sep 2003 new variable
 forum#:#forums_respond#:#respond to an article###01 Sep 2003 content changed
 forum#:#forums_the_post#:#article
