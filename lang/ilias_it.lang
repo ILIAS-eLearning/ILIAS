@@ -436,3 +436,5 @@ common#:#info_trash#:#Deleted Objects
 common#:#btn_undelete#:#undelete
 common#:#btn_remove_system#:#remove from system
 common#:#msg_trash_empty#:#There are no deleted objects
+common#:#forums_edit_post#:#edit article
+common#:#forums_post_modified#:#article has been modified

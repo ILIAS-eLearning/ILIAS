@@ -437,3 +437,5 @@ common#:#info_trash#:#Gelöschte Objekte
 common#:#btn_undelete#:#wiederherstellen
 common#:#btn_remove_system#:#aus System entfernen
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
+common#:#forums_edit_post#:#Beitrag bearbeiten
+common#:#forums_post_modified#:#Beitrag wurde bearbeitet
