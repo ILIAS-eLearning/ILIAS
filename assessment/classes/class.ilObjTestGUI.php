@@ -681,7 +681,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = true;
 				}
 				$active = $this->object->get_active_test_user();
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active);
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active, $postpone);
 			} else {
 				// finish test
 				$this->object->set_active_test_user(1, "", true);

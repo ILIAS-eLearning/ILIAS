@@ -1399,7 +1399,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_question($sequence = 1, $finish = false, $test_id, $active) {
+  function out_working_question($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed) {
     $question_type = $this->get_question_type($this->question);
 
 		$is_postponed = false;
@@ -1443,8 +1443,10 @@ class ASS_QuestionGUI extends PEAR {
 		} else {
 	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
 		}
-		if (!$is_postponed) {
-			$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+		if ($postpone_allowed) {
+			if (!$is_postponed) {
+				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+			}
 		}
     $this->tpl->parseCurrentBlock();
   }
