@@ -25,6 +25,7 @@ require_once("content/classes/class.ilPageObject.php");
 require_once("content/classes/class.ilStructureObject.php");
 require_once("content/classes/class.ilLearningModule.php");
 require_once("content/classes/class.ilMetaData.php");
+require_once("content/classes/class.ilParagraph.php");
 
 /**
 * Learning Module Parser
@@ -44,6 +45,7 @@ class ilLMParser extends ilSaxParser
 	var $structure_objects;	// array of current structure objects
 	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
 	var $meta_data;			// current meta data object
+	var $paragraph;
 
 	/**
 	* Constructor
@@ -172,6 +174,13 @@ class ilLMParser extends ilSaxParser
 				$this->page_object->setAlias(true);
 				$this->page_object->setOriginID($a_attribs["OriginId"]);
 				break;
+			
+			case "Paragraph":
+				$this->paragraph =& new ilParagraph();
+				$this->paragraph->setLanguage($a_attribs["Language"]);
+				$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
+				$this->page_object->appendContent($this->paragraph);
+				break;
 
 			case "MetaData":
 				//$this->in_meta = true;
@@ -184,9 +193,6 @@ class ilLMParser extends ilSaxParser
 				$this->meta_data->setIdentifierCatalog($a_attribs["Catalog"]);
 				break;
 
-			case "Paragraph":
-				$this->page_obj_content.= $this->buildTag("start", $a_name, $a_attribs);
-				break;
 		}
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
@@ -200,19 +206,31 @@ class ilLMParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "PageObject":
-				$this->page_obj_content.= $this->buildTag("end", $a_name);
-echo htmlentities($this->page_obj_content)."<br><br>";
+				if (!$this->page_object->isAlias())
+				{
+					echo "PageObject ".$this->page_object->getID().":<br>";
+					$content = $this->page_object->getContent();
+					foreach($content as $co_object)
+					{
+						if (get_class($co_object) == "ilparagraph")
+						{
+							echo nl2br($co_object->getText())."<br><br>";
+						}
+					}
+				}
+				unset($this->meta_data);	//!?!
+				unset($this->page_object);
 				break;
 
-			case "MetaObject":
+			case "MetaData":
 				break;
 
 			case "Paragraph":
-				$this->page_obj_content.= $this->buildTag("end", $a_name);
+				// can't unset paragraph object, because PageObject is still processing
 				break;
 		}
 		$this->endElement($a_name);
-//echo "End Tag: $a_name<br>";
+
 	}
 	
 	/**
@@ -221,18 +239,19 @@ echo htmlentities($this->page_obj_content)."<br><br>";
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-		//$a_data = preg_replace("/\n/","",$a_data);
-		//$a_data = preg_replace("/\t+/","",$a_data);
+		$a_data = preg_replace("/\n/","",$a_data);
+		$a_data = preg_replace("/\t+/","",$a_data);
 		if(!empty($a_data))
 		{
 			switch($this->getCurrentElement())
 			{
 				case "Paragraph":
-					$this->page_obj_content.= $a_data;
+					$this->paragraph->appendText($a_data);
+//echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
 			}
 		}
-//echo "Char Data: $a_data<br>";
+
 	}
 
 }

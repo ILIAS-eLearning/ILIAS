@@ -21,82 +21,80 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
 
 /**
-* Class ilPageObject
+* Class ilParagraph
 *
-* Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
+* Paragraph of ilPageObject of ILIAS Learning Module (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @package content
 */
-class ilPageObject
+class ilParagraph
 {
 	var $ilias;
-	var $meta_data;
-	var $is_alias;
-	var $origin_id;
-	var $content;		// array of objects (ilParagraph or ilMediaObject)
+	var $text;
+	var $language;
+	var $characteristic;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject()
+	function ilParagraph()
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
-
-		$this->is_alias = false;
-		$this->content = array();
+		$this->text = "";
+		$this->characteristic = "";
+		$this->language = "";
 	}
 
 	/**
-	* set wether page object is an alias
+	*
 	*/
-	function setAlias($a_is_alias)
+	function appendText($a_text)
 	{
-		$this->is_alias = $a_is_alias;
-	}
-
-	function isAlias()
-	{
-		return $this->is_alias;
-	}
-
-	function setOriginID($a_id)
-	{
-		return $this->origin_id = $a_id;
-	}
-
-	function getOriginID()
-	{
-		return $this->origin_id;
-	}
-
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
+		$this->text.= $a_text;
 	}
 	
-	function getID()
+	/**
+	*
+	*/
+	function getText()
 	{
-		return $this->meta_data->getIdentifierEntryID();
+		return $this->text;
 	}
 	
-	function appendContent(&$a_content_obj)
+	/**
+	*
+	*/
+	function setCharacteristic($a_char)
 	{
-		$this->content[] =& $a_content_obj;
+		$this->characteristic = $a_char;
 	}
 	
-	function getContent()
+	/**
+	*
+	*/
+	function getCharacteristic()
 	{
-		return $this->content;
+		return $this->characteristic;
 	}
+
+	function setLanguage($a_lang)
+	{
+		$this->language = $a_lang;
+	}
+	
+	function getLanguage()
+	{
+		return $this->language;
+	}
+
 
 }
 ?>
