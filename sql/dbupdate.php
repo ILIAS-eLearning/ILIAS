@@ -4258,8 +4258,8 @@ if($role_id and $ops_id)
 ?>
 
 <#257>
-INSERT INTO `object_data` VALUES (38, 'typ', 'alm', 'AICC Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
-INSERT INTO `object_data` VALUES (39, 'typ', 'hlm', 'HACP Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
+# INSERT INTO `object_data` VALUES (38, 'typ', 'alm', 'AICC Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
+# INSERT INTO `object_data` VALUES (39, 'typ', 'hlm', 'HACP Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
 
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
@@ -4269,10 +4269,10 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ops_id = $row->ops_id;
 }
 $query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
-$this->db->query($query);
+//$this->db->query($query);
 
 $query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
-$this->db->query($query);
+//$this->db->query($query);
 ?>
 <#258>
 <?php
@@ -4301,7 +4301,7 @@ if ($res->numRows() > 1)
 			$this->db->query($query);
 		}
 	}
-	
+
 	$tree->renumber();
 }
 ?>
@@ -4310,7 +4310,7 @@ ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
 
 <#260>
 # <-257
-DELETE FROM rbac_ta WHERE (typ_id=38 or typ_id=39);
+# DELETE FROM rbac_ta WHERE (typ_id=38 or typ_id=39);
 
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
@@ -4320,11 +4320,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ops_id = $row->ops_id;
 
 	$query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
-	$this->db->query($query);
+	//$this->db->query($query);
 
 	$query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
-	$this->db->query($query);
-	
+	//$this->db->query($query);
+
 }
 ?>
 
