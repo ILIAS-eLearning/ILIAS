@@ -1402,7 +1402,7 @@ these files.
     rm *.php *.xml *.dtd *.css
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
-    rm -r survey syntax_highlight course
+    rm -r survey syntax_highlight course payment
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
