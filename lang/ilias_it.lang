@@ -280,6 +280,64 @@ assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#working_time#:#Tempo di esecuzione
+bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
+bibitem#:#bibitem_author#:#Author###06 May 2004 new variable
+bibitem#:#bibitem_av#:#AV###06 May 2004 new variable
+bibitem#:#bibitem_bibitem#:#Bibliographical information###06 May 2004 new variable
+bibitem#:#bibitem_book#:#Book###06 May 2004 new variable
+bibitem#:#bibitem_booktitle#:#Booktitle###06 May 2004 new variable
+bibitem#:#bibitem_catalog#:#Catalog###06 May 2004 new variable
+bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:###06 May 2004 new variable
+bibitem#:#bibitem_cross_reference#:#Cross reference###06 May 2004 new variable
+bibitem#:#bibitem_delete#:#Delete###06 May 2004 new variable
+bibitem#:#bibitem_dissertation#:#Dissertation###06 May 2004 new variable
+bibitem#:#bibitem_edition#:#Edition###06 May 2004 new variable
+bibitem#:#bibitem_editor#:#Editor###06 May 2004 new variable
+bibitem#:#bibitem_entry#:#Entry###06 May 2004 new variable
+bibitem#:#bibitem_first_name#:#First name###06 May 2004 new variable
+bibitem#:#bibitem_grey_literature#:#Grey literature###06 May 2004 new variable
+bibitem#:#bibitem_how_published#:#How published###06 May 2004 new variable
+bibitem#:#bibitem_identifier#:#Identifier###06 May 2004 new variable
+bibitem#:#bibitem_inbook#:#Inbook###06 May 2004 new variable
+bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
+bibitem#:#bibitem_institution#:#Institution###06 May 2004 new variable
+bibitem#:#bibitem_internet#:#Internet###06 May 2004 new variable
+bibitem#:#bibitem_isbn#:#ISBN###06 May 2004 new variable
+bibitem#:#bibitem_issn#:#ISSN###06 May 2004 new variable
+bibitem#:#bibitem_journal#:#Journal###06 May 2004 new variable
+bibitem#:#bibitem_journal_article#:#Journal article###06 May 2004 new variable
+bibitem#:#bibitem_keyword#:#Keyword###06 May 2004 new variable
+bibitem#:#bibitem_label#:#Label###06 May 2004 new variable
+bibitem#:#bibitem_language#:#Language###06 May 2004 new variable
+bibitem#:#bibitem_last_name#:#Last name###06 May 2004 new variable
+bibitem#:#bibitem_manual#:#Manual###06 May 2004 new variable
+bibitem#:#bibitem_master_thesis#:#Master thesis###06 May 2004 new variable
+bibitem#:#bibitem_middle_name#:#Middle name###06 May 2004 new variable
+bibitem#:#bibitem_month#:#Month###06 May 2004 new variable
+bibitem#:#bibitem_new_element#:#New element###06 May 2004 new variable
+bibitem#:#bibitem_newspaper_article#:#Newspaper article###06 May 2004 new variable
+bibitem#:#bibitem_not_found#:#No bibliographical information available.###06 May 2004 new variable
+bibitem#:#bibitem_note#:#Note###06 May 2004 new variable
+bibitem#:#bibitem_number#:#Number###06 May 2004 new variable
+bibitem#:#bibitem_organization#:#Organization###06 May 2004 new variable
+bibitem#:#bibitem_pages#:#Pages###06 May 2004 new variable
+bibitem#:#bibitem_phd_thesis#:#PhD thesis###06 May 2004 new variable
+bibitem#:#bibitem_please_select#:#Please select###06 May 2004 new variable
+bibitem#:#bibitem_print#:#Print###06 May 2004 new variable
+bibitem#:#bibitem_proceedings#:#Proceedings###06 May 2004 new variable
+bibitem#:#bibitem_publisher#:#Publisher###06 May 2004 new variable
+bibitem#:#bibitem_save#:#Save###06 May 2004 new variable
+bibitem#:#bibitem_school#:#School###06 May 2004 new variable
+bibitem#:#bibitem_series#:#Series###06 May 2004 new variable
+bibitem#:#bibitem_series_editor#:#Editor###06 May 2004 new variable
+bibitem#:#bibitem_series_title#:#Series title###06 May 2004 new variable
+bibitem#:#bibitem_series_volume#:#Volume###06 May 2004 new variable
+bibitem#:#bibitem_technical_report#:#Technical report###06 May 2004 new variable
+bibitem#:#bibitem_type#:#Type###06 May 2004 new variable
+bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
+bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
+bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
+bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
