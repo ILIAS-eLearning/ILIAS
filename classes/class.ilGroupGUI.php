@@ -213,7 +213,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else	// list
 		{
-
 			$this->displayList();
 		}
 	}
@@ -287,7 +286,7 @@ class ilGroupGUI extends ilObjectGUI
 			//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
 			//temp.solution
 			$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
-			//$this->tpl->setVariable("BTN_TARGET","target=\"_parent\"");
+			$this->tpl->setVariable("BTN_TARGET","target=\"content\"");
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
 			$this->tpl->parseCurrentBlock();
 		}
