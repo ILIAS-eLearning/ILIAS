@@ -643,5 +643,50 @@ $query13 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND t
 $this->db->query($query13);
 $query14 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'slm' AND ops_id = 6 ";
 $this->db->query($query14);
+?>
 
+<#59>
+<?php
+
+//GET ID OF THE IL_GRP_ADMIN TEMPLATE
+$query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
+$res = $this->db->query($query1);
+$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+//GET PROPER PARENT_ID
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$res = $this->db->query($query2);
+$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+//CHANGE RIGHTS OF THE GROUP OBJECT IN THE TEMPLATE
+$query3 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','grp','5','".$rol_fold["parent"]."')";
+$this->db->query($query3);
+
+//DELETE RIGHTS FOR COURSE OBJECT FROM THE TEMPLATE
+$query4 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'crs'";
+$this->db->query($query4);
+
+//CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
+$query5 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','1','".$rol_fold["parent"]."')";
+$this->db->query($query5);
+$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','4','".$rol_fold["parent"]."')";
+$this->db->query($query6);
+
+//CHANGE RIGHTS OF THE GLOSSARY OBJECT IN THE TEMPLATE
+$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','1','".$rol_fold["parent"]."')";
+$this->db->query($query7);
+$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','4','".$rol_fold["parent"]."')";
+$this->db->query($query8);
+$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','7','".$rol_fold["parent"]."')";
+$this->db->query($query9);
+$query10 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','8','".$rol_fold["parent"]."')";
+$this->db->query($query10);
+
+//CHANGE RIGHTS OF THE GLOSSARY OBJECT IN THE TEMPLATE
+$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','1','".$rol_fold["parent"]."')";
+$this->db->query($query11);
+$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','5','".$rol_fold["parent"]."')";
+$this->db->query($query12);
+$query13 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','6','".$rol_fold["parent"]."')";
+$this->db->query($query13);
 ?>
