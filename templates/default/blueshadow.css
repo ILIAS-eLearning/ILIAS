@@ -392,6 +392,11 @@ div.invisible_border {
 	margin-left:15px;
 }
 
+td.ilInvisibleBorder
+{
+	padding:15px;
+}
+
 /* ------- Helptext --------- */
 span.il_Helptext {
 	font-size:11px;
