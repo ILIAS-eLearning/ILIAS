@@ -2298,6 +2298,8 @@ crs#:#crs_auto_fill#:#Auto fill###07 Aug 2004 new variable
 crs#:#crs_blocked#:#Access refused###07 Aug 2004 new variable
 crs#:#crs_blocked_member#:#Course membership###07 Aug 2004 new variable
 crs#:#crs_blocked_member_body#:#Your membership has been terminated.###07 Aug 2004 new variable
+crs#:#crs_cancel_subscription#:#Course deregistration###18 Aug 2004 new variable
+crs#:#crs_cancel_subscription_body#:#A user has unsubscribed from the course.###18 Aug 2004 new variable
 crs#:#crs_contact#:#Contact###07 Aug 2004 new variable
 crs#:#crs_contact_consultation#:#Consultation###07 Aug 2004 new variable
 crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
