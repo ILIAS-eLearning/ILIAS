@@ -1,8 +1,8 @@
 <?php
 
-require_once "./classes/class.ilIniFile.php";
-require_once "./classes/class.ilUtil.php";
-require_once "./classes/class.perm.php";
+require_once "classes/class.ilIniFile.php";
+require_once "classes/class.ilUtil.php";
+require_once "classes/class.perm.php";
 require_once "DB.php";
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
-* parses the objects.xml 
+* parses the objects.xml
 * it handles the xml-description of all ilias objects
 *
 * @author Stefan Meyer <smeyer@databay>
@@ -9,7 +9,7 @@
 * @extends PEAR
 * @package ilias-core
 */
-require_once("./classes/class.ilSaxParser.php");
+require_once("classes/class.ilSaxParser.php");
 
 class ilObjectDefinition extends ilSaxParser
 {

@@ -74,37 +74,42 @@ switch ($_SESSION["viewmode"])
 	case "flat":
 		$lr_arr = ilUtil::getObjectsByOperations('le','visible');
 		$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
-		
+
 		usort($lr_arr,"sortObjectsByTitle");
-		
+
 		$lr_num = count($lr_arr);
-		
+
 		if ($lr_num > 0)
 		{
 			// counter for rowcolor change
 			$num = 0;
-			
+
 			foreach ($lr_arr as $lr_data)
 			{
 				$tpl->setCurrentBlock("learningstuff_row");
-		
+
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;		
-		
+				$num++;
+
 				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
-		 
+
 				$tpl->setVariable("TITLE", $lr_data["title"]);
 				$tpl->setVariable("LO_LINK", $obj_link);
+				if($lr_data["type"] == "le")		// Test
+				{
+					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
+					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
+				}
 				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $lr_data["data"]);		
+				$tpl->setVariable("ALT_IMG", $lr_data["data"]);
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
-				
+
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
 		}
@@ -114,7 +119,7 @@ switch ($_SESSION["viewmode"])
 			$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock("no_content");
 		}
-		
+
 		$tpl->setCurrentBlock("learningstuff");
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
@@ -123,7 +128,7 @@ switch ($_SESSION["viewmode"])
 		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
 		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
 		$tpl->parseCurrentBlock("learningstuff");
-		
+
 		if ($_GET["message"])
 		{
 		    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
@@ -132,12 +137,12 @@ switch ($_SESSION["viewmode"])
 			$tpl->parseCurrentBlock();
 		}
 		break;
-		
+
 	case "tree":
 		//go through valid objects and filter out the lessons only
 		$lessons = array();
 		$objects = $tree->getChilds($_GET["ref_id"],"title");
-		
+
 		if (count($objects) > 0)
 		{
 			foreach ($objects as $key => $object)
@@ -158,28 +163,33 @@ switch ($_SESSION["viewmode"])
 		{
 			// counter for rowcolor change
 			$num = 0;
-			
+
 			foreach ($lessons as $lr_data)
 			{
 				$tpl->setCurrentBlock("learningstuff_row");
-		
+
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;		
-		
+				$num++;
+
 				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
-		 
+
 				$tpl->setVariable("TITLE", $lr_data["title"]);
 				$tpl->setVariable("LO_LINK", $obj_link);
+				if($lr_data["type"] == "le")		// Test
+				{
+					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
+					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
+				}
 				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $lr_data["data"]);		
+				$tpl->setVariable("ALT_IMG", $lr_data["data"]);
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
-				
+
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
 		}

@@ -106,7 +106,7 @@ class ilDOMXML
 		
 		// create a domxml document object
 		$this->doc = domxml_open_mem($xmlHeader); // *** Fehlerabfrage
-		
+
 		// delete dummy node 
 		$root = $this->doc->document_element();
 		$root->unlink_node();
@@ -159,7 +159,7 @@ class ilDOMXML
 		// stop parsing if an error occured
 		if ($this->error) {
 			$error_msg = "Error(s) while parsing the document!<br><br>";
-			
+
 			foreach ($this->error as $error) {
 				$error_msg .= $error["errormessage"]." in line: ".$error["line"]."<br>";
 			}
@@ -422,7 +422,7 @@ class ilDOMXML
 				}
 			}
 		}
-		
+
 		if (($a_node->node_type() == XML_ELEMENT_NODE) && ($a_node->tagname == $a_elementname) && ($a_num != 1)) {
 			return false;
 		}
@@ -440,7 +440,7 @@ class ilDOMXML
 	* @param	object	domNode where to start searching (optional)
 	* @return	array	domNodes (object) which have specified elementname
 	* @access	public
-	*/	
+	*/
 	function getElementsByTagname ($a_elementname, $a_node = "")
 	{
 		if (empty($a_node)) {
@@ -578,7 +578,7 @@ class ilDOMXML
 
 	/**
 	* get internal reference id of a domNode
-	* 
+	*
 	* @param	object	domNode
 	* @return	integer	internal Id of domNode
 	* @access	public
@@ -603,7 +603,7 @@ class ilDOMXML
 
 	/**
 	* set encoding of domDocument
-	* 
+	*
 	* @param	string	encoding charset
 	* @param	boolean	overwrite existing encoding charset (true) or not (false)
 	* @return	boolean	returns true when encoding was sucessfully changed
@@ -652,47 +652,51 @@ class ilDOMXML
 	* get charset of domDocument
 	* 
 	* @return	string	charset
-	* @access	public 
+	* @access	public
 	*/
 	function getCharset ()
 	{
 		return $this->doc->charset;
 	}
-	
+
 	/**
 	* fetch Title & Description from MetaData-Section of domDocument
-	* 
+	*
 	* @return	array	Titel & Description
 	* @access	public
-	*/ 
+	*/
 	function getInfo ()
 	{
 		$node = $this->getElementsByTagname("MetaData");
-		$childs = $node[0]->child_nodes();
-		
-		foreach ($childs as $child)
-		{
-				if (($child->node_type() == XML_ELEMENT_NODE) && ($child->tagname == "General"))
-				{
-					$childs2 = $child->child_nodes();
 
-					foreach ($childs2 as $child2)
+		if($node !== false)
+		{
+			$childs = $node[0]->child_nodes();
+
+			foreach ($childs as $child)
+			{
+					if (($child->node_type() == XML_ELEMENT_NODE) && ($child->tagname == "General"))
 					{
-						if (($child2->node_type() == XML_ELEMENT_NODE) && ($child2->tagname == "Title" || $child2->tagname == "Description"))
+						$childs2 = $child->child_nodes();
+
+						foreach ($childs2 as $child2)
 						{
-							$arr[$child2->tagname] = $child2->get_content();
+							if (($child2->node_type() == XML_ELEMENT_NODE) && ($child2->tagname == "Title" || $child2->tagname == "Description"))
+							{
+								$arr[$child2->tagname] = $child2->get_content();
+							}
 						}
+
+						// General-tag was found. Stop foreach-loop
+						break;
 					}
-					
-					// General-tag was found. Stop foreach-loop
-					break;
-				}
+			}
 		}
-		
+
 		// for compatibility reasons:
 		$arr["title"] = $arr["Title"];
 		$arr["desc"] = $arr["Description"];
-		
+
 		return $arr;
 	}
 

@@ -30,10 +30,11 @@ class ilTemplate extends IntegratedTemplateExtension
 	* @param	string	$file templatefile (mit oder ohne pfad)
 	* @param	boolean	$flag1 wie in IntegratedTemplate
 	* @param	boolean	$flag1 wie in IntegratedTemplate
+	* @param	string	$module ILIAS module
 	* @param	array	$vars zu ersetzenden Variablen
 	* @access	public
 	*/
-	function ilTemplate($file,$flag1,$flag2,$vars="DEFAULT")
+	function ilTemplate($file,$flag1,$flag2,$module="",$vars="DEFAULT")
 	{
 		global $ilias;
 
@@ -42,9 +43,18 @@ class ilTemplate extends IntegratedTemplateExtension
 
 		if (strpos($file,"/") === false)
 		{
-			$fname = $ilias->tplPath;
-			$fname .= $ilias->account->skin."/";
-			$fname .= basename($file);
+			//$fname = $ilias->tplPath;
+			$base = "./";
+			if ($module != "")
+			{
+				$base.= $module."/";
+			}
+			$base .= "templates/";
+			$fname = $base.$ilias->account->skin."/".basename($file);
+			if(!file_exists($fname))
+			{
+				$fname .= $base."default/".basename($file);
+			}
 		}
 		else
 		{
@@ -53,7 +63,7 @@ class ilTemplate extends IntegratedTemplateExtension
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
-		
+
 		if (!file_exists($fname))
 		{
 			$ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);

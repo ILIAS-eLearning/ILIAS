@@ -18,7 +18,7 @@ class ILIAS extends PEAR
 	* ini file
 	* @var string
 	*/
- 	var $INI_FILE = "./ilias.ini.php";
+ 	var $INI_FILE;
 
 	/**
 	* database connector
@@ -33,7 +33,7 @@ class ILIAS extends PEAR
 	* @access private
 	*/
 	var $db;
-	
+
 	/**
 	* template path
 	* @var string
@@ -54,21 +54,21 @@ class ILIAS extends PEAR
 	* @access private
 	*/
 	var $auth_params = array();
-		
+
 	/**
 	* auth handler
 	* @var object auth
 	* @access public
 	*/
 	var $auth;
-	
+
 	/**
 	* operation list
 	* @var array
 	* @access private
 	*/
 	var $operations;
-	
+
 
  	/**
 	* system settings
@@ -76,14 +76,14 @@ class ILIAS extends PEAR
 	* @access public
 	*/
 	var $ini = array();
-	
+
 	/**
 	* Error Handling
 	* @var object Error
 	* @access public
 	*/
 	var $error_obj;
-	
+
 	/**
 	* object factory
 	*
@@ -91,7 +91,7 @@ class ILIAS extends PEAR
 	* @access public
 	*/
 	var $obj_factory;
-	
+
 	/**
 	* Constructor
 	* setup ILIAS global object
@@ -99,8 +99,9 @@ class ILIAS extends PEAR
 	*/
 	function ILIAS()
 	{
+		$this->INI_FILE = "./ilias.ini.php";
 		$this->PEAR();
-		
+
 		// prepare file access to work with safe mode
 		umask(0117);
 
@@ -114,10 +115,10 @@ class ILIAS extends PEAR
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
 			exit;
 		}
-		
+
 		// set constants
 		define("DEBUG",$this->ini->readVariable("system","DEBUG"));
-		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID')); 
+		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID'));
 		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
 
 		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));		
@@ -141,7 +142,7 @@ class ILIAS extends PEAR
 									);
 		// set tplPath
 		$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
-		
+
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
 
@@ -150,7 +151,7 @@ class ILIAS extends PEAR
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 		
 		// create instance of object factory
-		require_once("./classes/class.ilObjectFactory.php");
+		require_once("classes/class.ilObjectFactory.php");
 		$this->obj_factory =& new ilObjectFactory();
 	}
 	

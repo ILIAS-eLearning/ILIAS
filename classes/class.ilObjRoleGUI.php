@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.11 2003/04/01 16:16:54 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.12 2003/04/30 12:57:42 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -48,7 +48,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 
 			// create new role object
-			require_once("./classes/class.ilObjRole.php");
+			require_once("classes/class.ilObjRole.php");
 			$roleObj = new ilObjRole();
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
@@ -435,7 +435,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 
 			// create new role object
-			require_once("./classes/class.ilObjRole.php");
+			require_once("classes/class.ilObjRole.php");
 			$roleObj = new ilObjRole($this->object->getId());
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
