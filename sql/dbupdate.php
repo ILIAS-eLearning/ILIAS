@@ -977,3 +977,22 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$this->db->query($query);
 }
 ?>
+
+
+<#44>
+# adding group tree table
+DROP TABLE IF EXISTS grp_tree;
+
+CREATE TABLE grp_tree (
+  tree int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned NOT NULL default '0',
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  perm tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (tree,child,parent)
+) TYPE=MyISAM;
+
+
+
