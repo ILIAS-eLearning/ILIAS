@@ -4759,3 +4759,6 @@ ALTER TABLE `qpl_questions` CHANGE `materials` `solution_hint` TEXT DEFAULT NULL
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#311>
+ALTER TABLE `tst_active` ADD INDEX `user_fi` (`user_fi`);
+ALTER TABLE `tst_active` ADD INDEX `test_fi` (`test_fi`);
