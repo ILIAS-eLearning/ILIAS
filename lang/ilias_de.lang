@@ -312,6 +312,11 @@ common#:#ingmedia_welcome#:#, willkommen an Ihrem pers&ouml;nlichen Schreibtisch
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
 common#:#insert#:#Einfügen
+common#:#dbk#:#Digilib-Buch
+common#:#dbk_a#:#ein Digilib-Buch
+common#:#dbk_add#:#Digilib-Buch anlegen
+common#:#dbk_added#:#Digilib-Buch angelegt
+common#:#dbk_new#:#Neues Digilib-Buch
 common#:#inst_id#:#Installations-ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
@@ -532,7 +537,8 @@ common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
-common#:#obj_lngf#:#Sprachen###01 Oct 2003 content changed
+common#:#obj_dbk#:#Digilib-Buch
+common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
@@ -540,12 +546,12 @@ common#:#obj_mail_desc#:#Globale Mailkonfiguration
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
-common#:#obj_objf#:#Objektdefinitionen###01 Oct 2003 content changed
+common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_role#:#Rolle
-common#:#obj_rolf#:#Rollen###01 Oct 2003 content changed
+common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
@@ -557,7 +563,7 @@ common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerkonten###01 Oct 2003 content changed
+common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
@@ -576,7 +582,7 @@ common#:#overview#:#übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
-common#:#pages#:#Pages###18 Sep 2003 new variable
+common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
