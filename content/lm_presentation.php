@@ -33,8 +33,14 @@
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
+require_once "./tracking/classes/class.ilUserTracking.php";
 $lng->loadLanguageModule("content");
-
+if(($ref_id!="") and (DEVMODE))
+{
+$ip = getenv ("REMOTE_ADDR"); 
+$track = new ilUserTracking();
+$track->insertUserTracking($_SESSION["AccountId"],$ref_id,$ip);
+}
 // check read permission
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {

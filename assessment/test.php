@@ -102,7 +102,7 @@ else
 {
 	$obj_type = $_GET["type"];
 }
-
+$chapter_id = $_GET["chapter_id"];
 // call gui object method
 $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
@@ -113,19 +113,60 @@ $module_dir = ($module == "")
 
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-//echo $class_constr.":".$method;
-switch ($_GET["cmd"]) 
+//arlon added
+if($chapter_id!="")
 {
-	case "run":
-	case "eval_a":
-	case "eval_stat":
-		$prepare_output = false;
-		break;
-	default:
-		$prepare_output = true;
-		break;
+	require_once("./assessment/classes/class.ilObjTestGUI.php");
+	switch ($_GET["cmd"]) 
+	{
+		case "run":
+		case "eval_a":
+		case "eval_stat":
+			$prepare_output = false;
+			break;
+		default:
+			$prepare_output = true;
+			break;
+	}
+	//arlon modified
+	$obj = new ilObjTestGUI($data,$id,$call_by_reference,$prepare_output,$chapter_id);
+	//if($_GET["sequence"]!="")
+	//{
+	//	$obj->questionbrowser();
+	//}
+	//else
+	//{
+		$obj->runObject();
+	//}
 }
-$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
-$obj->$method();
+else
+{
+	//Arlon added
+	if(DEVMODE)
+	{
+		require_once "./tracking/classes/class.ilUserTracking.php";
+		if($_GET["ref_id"]!="")
+		{
+		$ip = getenv ("REMOTE_ADDR"); 
+		$track = new ilUserTracking();
+		$track->insertUserTracking($_SESSION["AccountId"],$ref_id,$ip);
+		}
+	}
+	require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+	//echo $class_constr.":".$method;
+	switch ($_GET["cmd"]) 
+	{
+		case "run":
+		case "eval_a":
+		case "eval_stat":
+			$prepare_output = false;
+			break;
+		default:
+			$prepare_output = true;
+			break;
+	}
+	$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output,$chapter_id);
+	$obj->$method();
+}
 $tpl->show();
 ?>
