@@ -168,8 +168,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$levels = array(1 => $this->lng->txt("chat_level_fatal"),
 						2 => $this->lng->txt("chat_level_error"),
 						3 => $this->lng->txt("chat_level_info"),
-						4 => $this->lng->txt("chat_level_debug"),
-						5 => $this->lng->txt("chat_level_all"));
+						5 => $this->lng->txt("chat_level_debug"),
+						6 => $this->lng->txt("chat_level_all"));
 
 		return ilUtil::formSelect($a_level,"chat_loglevel",$levels,false,true);
 	}
