@@ -243,11 +243,13 @@ class ilPaymentTrustees
 
 	function _getVendorsForObjects($a_usr_id)
 	{
+		global $ilDB;
+
 		$query = "SELECT vendor_id FROM payment_trustees ".
 			"WHERE perm_obj = '1' ".
 			"AND trustee_id = '".$a_usr_id."'";
 
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$vendors[] = $row->vendor_id;

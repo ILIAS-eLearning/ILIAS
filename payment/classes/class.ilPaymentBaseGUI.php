@@ -105,18 +105,13 @@ class ilPaymentBaseGUI
 
 		return new ilTableGUI(0,false);
 	}
-	function setTableGUIBasicData(&$tbl,&$result_set,$from = "")
+	function setTableGUIBasicData(&$tbl,&$result_set,$a_default_order_column = '')
 	{
-		switch($from)
-		{
-			default:
-				$offset = $_GET["offset"];
-				$order = $_GET["sort_by"];
-				$direction = $_GET["sort_order"];
-				break;
-		}
+		$offset = $_GET["offset"];
+		$order = $_GET["sort_by"];
+		$direction = $_GET["sort_order"];
 
-		$tbl->setOrderColumn($order);
+		$tbl->setOrderColumn($order,$a_default_order_column);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
 		$tbl->setLimit($_GET["limit"]);

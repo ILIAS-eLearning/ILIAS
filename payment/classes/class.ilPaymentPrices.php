@@ -45,6 +45,7 @@ class ilPaymentPrices
 		global $ilDB;
 
 		$this->db =& $ilDB;
+
 		$this->pobject_id = $a_pobject_id;
 
 		$this->__read();
@@ -160,6 +161,21 @@ class ilPaymentPrices
 		}
 		return $duration_valid and $price_valid;
 	}
+	// STATIC
+	function _priceExists($a_price_id,$a_pobject_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_prices ".
+			"WHERE price_id = '".$a_price_id."' ".
+			"AND pobject_id = '".$a_pobject_id."'";
+
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
+
 				  
 	// PRIVATE
 	function __getUnitValue()
@@ -181,6 +197,8 @@ class ilPaymentPrices
 
 	function __read()
 	{
+		$this->prices = array();
+
 		$query = "SELECT * FROM payment_prices ".
 			"WHERE pobject_id = '".$this->getPobjectId()."' ".
 			"ORDER BY duration";

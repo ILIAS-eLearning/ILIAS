@@ -48,9 +48,9 @@ class ilPaymentObject
 		$this->db =& $ilDB;
 		$this->user_obj =& $user_obj;
 
+		$this->STATUS_NOT_BUYABLE = 0;
 		$this->STATUS_BUYABLE = 1;
-		$this->STATUS_NOT_BUYABLE = 2;
-		$this->STATUS_EXPIRES = 3;
+		$this->STATUS_EXPIRES = 2;
 
 		$this->PAY_METHOD_NOT_SPECIFIED = 0;
 		$this->PAY_METHOD_BILL = 1;
