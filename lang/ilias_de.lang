@@ -91,6 +91,7 @@ assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
+assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
@@ -104,6 +105,8 @@ assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
+assessment#:#circle#:#Circle###15 Jun 2004 new variable
+assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Lückentext
 assessment#:#code#:#Code
 assessment#:#create_date#:#Erzeugt
@@ -128,6 +131,9 @@ assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaar
 assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen!
 assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen!
+assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
@@ -154,6 +160,8 @@ assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
 assessment#:#please_select#:#---- bitte auswählen ----###27 May 2004 content changed
 assessment#:#points#:#Punkte
+assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
@@ -182,6 +190,8 @@ assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
 assessment#:#random_selection#:#Zufällige Auswahl
+assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
@@ -1793,6 +1803,7 @@ content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
+content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
@@ -1826,7 +1837,6 @@ content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_media#:#Medienobjekte inaktiv
-content#:#cont_download_title#:#Link-Bezeichner 
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
@@ -1834,7 +1844,6 @@ content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bear
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
-content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
@@ -1861,7 +1870,6 @@ content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
-content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal#:#intern
@@ -1985,10 +1993,8 @@ content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
-content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
-content#:#cont_src#:#Programmiersprache
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status

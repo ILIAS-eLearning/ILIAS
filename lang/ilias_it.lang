@@ -90,6 +90,7 @@ assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
+assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
@@ -103,6 +104,8 @@ assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Esegui
 assessment#:#ass_questions#:#Domande
 assessment#:#by#:#da
+assessment#:#circle#:#Circle###15 Jun 2004 new variable
+assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
 assessment#:#create_date#:#Creata
@@ -127,6 +130,9 @@ assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le coppie 
 assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un'altra risposta!
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
+assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
 assessment#:#filter#:#Filtro
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
@@ -153,6 +159,8 @@ assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
+assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
 assessment#:#preview#:#Anteprima
@@ -181,6 +189,8 @@ assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automat
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#random_selection#:#Selezione casuale
+assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
@@ -1791,6 +1801,7 @@ content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
+content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
 content#:#cont_click_br_corner#:#Per favore, clicca nell&#039;angolo inferiore destro dell'area desiderata.
 content#:#cont_click_center#:#Per favore, clicca nel centro dell'area desiderata.
 content#:#cont_click_circle#:#Per favore, clicca in una circonferenza dell'area desiderata.

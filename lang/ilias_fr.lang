@@ -91,6 +91,7 @@ assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
+assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
@@ -104,6 +105,8 @@ assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Apply###05 Feb 2004 new variable
 assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
 assessment#:#by#:#by###05 Feb 2004 new variable
+assessment#:#circle#:#Circle###15 Jun 2004 new variable
+assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#create_date#:#Created###05 Feb 2004 new variable
@@ -128,6 +131,9 @@ assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs be
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
@@ -154,6 +160,8 @@ assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
+assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
 assessment#:#postponed#:#postponed###07 Mar 2004 new variable
 assessment#:#preview#:#Preview###07 Feb 2004 new variable
@@ -182,6 +190,8 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
+assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
@@ -1793,6 +1803,7 @@ content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new varia
 content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
 content#:#cont_citations#:#Citations
+content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
