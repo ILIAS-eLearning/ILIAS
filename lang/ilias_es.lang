@@ -1098,6 +1098,7 @@ forum#:#forums_attachments#:#Attachments###28 Oct 2003 new variable
 forum#:#forums_attachments_add#:#Add attachment###28 Oct 2003 new variable
 forum#:#forums_attachments_edit#:#Edit attachment###28 Oct 2003 new variable
 forum#:#forums_available#:#available forums
+forum#:#forums_censor_comment#:#Comment of Censor###20 Nov 2003 new variable
 forum#:#forums_count#:#number of forums
 forum#:#forums_count_art#:#number of articles
 forum#:#forums_count_thr#:#number of threads
