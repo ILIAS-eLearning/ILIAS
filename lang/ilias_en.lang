@@ -232,6 +232,7 @@ common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
 common#:#folders#:#Folders
+common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
