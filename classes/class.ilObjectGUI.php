@@ -1138,10 +1138,11 @@ class ilObjectGUI
 		}
 		else
 		{
+			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			$data["fields"]["title"] = "";
-			$data["fields"]["desc"] = "";
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
 
 			$this->getTemplateFile("edit");
 
@@ -1151,9 +1152,8 @@ class ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
-				"adm_object.php?cmd=save&ref_id=".$_GET["ref_id"].
-				"&new_type=".$_POST["new_type"]));
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
@@ -1238,6 +1238,7 @@ class ilObjectGUI
 			$fields = array();
 			$fields["title"] = $this->object->getTitle();
 			$fields["desc"] = $this->object->getDescription();
+
 			$this->displayEditForm($fields);
 		}
 	}
@@ -1260,9 +1261,14 @@ class ilObjectGUI
 		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+		// fill in saved values in case of error
+		$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
+		$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
 	}
 
 
@@ -1275,15 +1281,15 @@ class ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+		}
+		else
 		{
 			$this->object->setTitle($_POST["Fobject"]["title"]);
 			$this->object->setDescription($_POST["Fobject"]["desc"]);
 			$this->update = $this->object->update();
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 
 		header("Location: adm_object.php?ref_id=".$this->ref_id);

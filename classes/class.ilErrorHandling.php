@@ -82,7 +82,7 @@ class ilErrorHandling
 	*/
 	function errorHandler($a_error_obj)
 	{
-		if($_SESSION["message"])
+		if ($_SESSION["message"])
 		{
 			return;
 		}
@@ -105,7 +105,7 @@ class ilErrorHandling
 
 			$_SESSION["message"] = $message;
 
-			if(!defined("ILIAS_MODULE"))
+			if (!defined("ILIAS_MODULE"))
 			{
 				header("location: error.php");
 			}
@@ -113,7 +113,8 @@ class ilErrorHandling
 			{
 				header("location: ../error.php");
 			}
-			exit;
+			
+			exit();
 		}
 
 		if ($a_error_obj->getCode() == $this->MESSAGE)
@@ -129,10 +130,11 @@ class ilErrorHandling
 			}
 
 			$_SESSION["message"] = $a_error_obj->getMessage();
+			// save post vars to session in case of error
 			$_SESSION["error_post_vars"] = $_POST;
 
 			header("location: ".$_SESSION["referer"].$glue);
-			exit;
+			exit();
 		}
 	}
 } // END class.ilErrorHandling
