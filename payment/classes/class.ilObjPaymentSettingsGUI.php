@@ -77,6 +77,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function vendorsObject($a_show_confirm = false)
 	{
+		include_once './payment/classes/class.ilPaymentBookings.php';
+	
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -118,7 +120,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 															   $vendor['vendor_id']);
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $vendor['cost_center'];
-				$f_result[$counter][]	= 2;
+				$f_result[$counter][]	= ilPaymentBookings::_getCountBookingsByVendor($vendor['vendor_id']);
 				
 				unset($tmp_obj);
 				++$counter;
@@ -229,6 +231,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function deleteVendors()
 	{
+		include_once './payment/classes/class.ilPaymentBookings.php';
+
 		if(!count($_POST['vendor']))
 		{
 			sendInfo($this->lng->txt('pays_no_vendor_selected'));
@@ -239,9 +243,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		// CHECK BOOKINGS
 		foreach($_POST['vendor'] as $vendor)
 		{
-			if(0)
+			if(ilPaymentBookings::_getCountBookingsByVendor($vendor))
 			{
-				$_SESSION["pays_vendor"] = $_POST["vendor"];
 				sendInfo($this->lng->txt('pays_active_bookings'));
 				$this->vendorsObject();
 

@@ -475,6 +475,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('currency_euro'));
 		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('currency_cent'));
 		
+		$this->tpl->setVariable("MONTH",$this->lng->txt('paya_months'));
 		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
 		$this->tpl->setVariable("TXT_PRICE",$this->lng->txt('price_a'));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
