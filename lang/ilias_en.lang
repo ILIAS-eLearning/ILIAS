@@ -2004,6 +2004,7 @@ content#:#cont_show_line_numbers#:#Show line numbers
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_src#:#Source code
+content#:#cont_src_other#:#other
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_startfile#:#Start File
 content#:#cont_status#:#Status
