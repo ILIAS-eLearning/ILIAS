@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -2850,6 +2850,21 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		// check if object is purchased
+		include_once './payment/classes/class.ilPaymentObject.php';
+
+		if(!ilPaymentObject::_hasAccess($this->object->getRefId()))
+		{
+			include_once './payment/classes/class.ilPaymentPurchaseGUI.php';
+
+			$this->ctrl->setReturn($this,"");
+			$pp_gui =& new ilPaymentPurchaseGUI($this->object->getRefId());
+
+			$this->ctrl->forwardCommand($pp_gui);
+
+			return true;
+		}
 
 		switch($next_class)
 		{
