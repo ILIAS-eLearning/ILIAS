@@ -5380,4 +5380,18 @@ $this->db->query($query);
 ?>
 <#383>
 ALTER TABLE `survey_question` CHANGE `maxchars` `maxchars` INT( 11 );
+<#384>
+<?php
+// fix misassigned pages (cut in lm x - pasted in lm y)
+$q = "SELECT * FROM lm_tree WHERE child > 1";
+$tree_set = $this->db->query($q);
+while($tree_rec = $tree_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q2 = "UPDATE page_object SET parent_id='".$tree_rec["lm_id"]."' WHERE page_id='".$tree_rec["child"]."' AND parent_type='lm'";
+	$this->db->query($q2);
+	$q3 = "UPDATE lm_data SET lm_id='".$tree_rec["lm_id"]."' WHERE obj_id='".$tree_rec["child"]."' AND type='pg'";
+	$this->db->query($q3);
+}
+
+?>
 
