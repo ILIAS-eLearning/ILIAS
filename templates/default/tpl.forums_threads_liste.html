@@ -1,30 +1,14 @@
-<script language="JavaScript"><!-- 
-
-function CheckAllBoxes(form){
-	if(form.all)
-	{
-		var c = form.all.checked;
-	}
-	for (var i=0;i<form.elements.length;i++)
-	{
-		var e = form.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-
-//--></script>
-
-<h1>{TXT_PAGEHEADLINE}</h1>
-{INFOPANEL}<br/>
+<style>
+body { margin:0px; }
+</style>
 {LOCATOR}
-<table class="fullwidth">
-<tr>
-  <td width="1%" nowrap="nowrap" valign="top">{COUNT_THREAD}</td>
-  <td align="right">{BUTTONS}</td>
-</tr>
-</table>
+<div class="invisible_border">
+<h1>{TXT_PAGEHEADLINE}</h1>
+{INFOPANEL}
 {NO_BTN}
+{BUTTONS}
 {MESSAGE}
+{COUNT_THREAD}
 <!-- BEGIN threadtable -->
 <!-- BEGIN linkbar -->
 <table class="std">
@@ -83,6 +67,6 @@ function CheckAllBoxes(form){
 	</td>
   </tr>
  </table>
-
 </form>
 <!-- END threadtable -->
+</div>

@@ -1,23 +1,14 @@
-<script language="JavaScript"><!-- 
-
-function CheckAllBoxes(form){
-	if(form.all)
-	{
-		var c = form.all.checked;
-	}
-	for (var i=0;i<form.elements.length;i++)
-	{
-		var e = form.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-
-//--></script>
-
+<style>
+body { margin:0px; }
+</style>
+{LOCATOR}
+<div class="invisible_border">
 <!-- BEGIN forum -->
 <h1>{TXT_PAGEHEADLINE}</h1>
-{INFOPANEL}<br/>
-{COUNT_FORUM}<br/>
+{INFOPANEL}
+{BUTTONS}
+{MESSAGE}
+{COUNT_FORUM}
 <!-- BEGIN linkbar -->
 <table class="std">
 <tr>
@@ -25,10 +16,7 @@ function CheckAllBoxes(form){
 </tr>
 </table>
 <!-- END linkbar -->
-{MESSAGE}
-
 <form method="post" name="cmd" action="{FORMACTION}">
-
 <table class="fullwidth">
 <tr class="tblheader">
   <td class="std" width=1%>&nbsp;</td>
@@ -61,10 +49,11 @@ function CheckAllBoxes(form){
 <!-- END forum_row -->
 <!-- BEGIN forum_no -->
 <tr class="std">
- <td class="std" colspan="5">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+ <td class="std" colspan="7">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 </table>
+<!-- BEGIN forum_options -->
 <table class="fullwidth">
   <tr class="tblrow1">
 	<td class="std" nowrap="nowrap"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
@@ -74,7 +63,7 @@ function CheckAllBoxes(form){
  </table>
 <table class="fullwidth">
   <tr>
-	<td class="std"  width="1%" align="center" nowrap="nowrap"><img src="{IMGPATH}/images/arrow_downright.gif" /></td>
+	<td class="std" width="1%" align="center" nowrap="nowrap"><img src="{IMGPATH}/images/arrow_downright.gif" /></td>
 	<td class="std" nowrap="nowrap">
 	  <select name="action">			
 		<option value="html">{TXT_EXPORT_HTML}</option>
@@ -84,7 +73,7 @@ function CheckAllBoxes(form){
 	</td>
   </tr>
  </table>
-
+<!-- END forum_options -->
 </form>
-
 <!-- END forum -->
+</div>
