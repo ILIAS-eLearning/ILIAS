@@ -846,17 +846,17 @@ class ilUtil
 	{
 		global $ilias;
 		
-		$q = "SELECT DISTINCT user_id,firstname,lastname,title,login,last_login FROM usr_session ".
+		$q = "SELECT DISTINCT user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
 			 "LEFT JOIN usr_data ON user_id=usr_id ".
 			 "WHERE user_id != 0";
 		$r = $ilias->db->query($q);
 		
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$users[] = $user;
+			$users[$user["user_id"]] = $user;
 		}
 		
 		return $users ? $users : array();
 	}
-} // END class.util
+} // END class.ilUtil
 ?>
