@@ -1540,9 +1540,14 @@ class ilLMPresentationGUI
 
 				// chapter
 				case "st":
+					/*
 					$this->tpl->setVariable("TXT_TITLE", "<b>".
 						ilStructureObject::_getPresentationTitle($node["obj_id"],
 						$this->lm->getPageHeader(), $this->lm->isActiveNumbering())
+						."</b>");*/
+					$this->tpl->setVariable("TXT_TITLE", "<b>".
+						ilStructureObject::_getPresentationTitle($node["obj_id"],
+						$this->lm->isActiveNumbering())
 						."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
 					break;
