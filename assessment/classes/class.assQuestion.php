@@ -1108,6 +1108,10 @@ class ASS_Question extends PEAR
 
 		$this->removeAllQuestionReferences($question_id);
 
+		// delete page object
+		$page = new ilPageObject("qpl", $question_id);
+		$page->delete();
+
 		// delete the question in the tst_test_question table (list of test questions)
 		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 		$deleteresult = $this->ilias->db->query($querydelete);
