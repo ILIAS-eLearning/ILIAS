@@ -192,7 +192,9 @@ class SurveyNominalQuestionGUI {
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->getQuestiontext());
+		$questiontext = $this->object->getQuestiontext();
+		$questiontext = str_replace("<br />", "\n", $questiontext);
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
 		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 		$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
@@ -426,7 +428,9 @@ class SurveyNominalQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-    $this->object->setQuestiontext(ilUtil::stripSlashes($_POST["question"]));
+		$questiontext = ilUtil::stripSlashes($_POST["question"]);
+		$questiontext = str_replace("\n", "<br />", $questiontext);
+    $this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])
 		{
 			$this->object->setObligatory(1);
