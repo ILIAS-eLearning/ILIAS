@@ -86,9 +86,10 @@ $languages = $lng->getInstalledLanguages();
 foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
-	$tpl->setVariable("LANG_ID", $lang_key);
-	$tpl->setVariable("LANG_DESC", $lng->txt("lang_".$lang_key));
-	$tpl->setVariable("LANG_IMG", "./lang/".$lang_key.".gif");
+	$tpl->setVariable("LANG_KEY", $lang_key);
+	$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+	$tpl->setVariable("BORDER", 0);
+	$tpl->setVariable("VSPACE", 0);
 	$tpl->parseCurrentBlock();
 }
 
@@ -133,5 +134,5 @@ $tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
 $tpl->setVariable("REGISTER", $lng->txt("registration"));
 $tpl->parseCurrentBlock();
 
-$tpl->show();
+$tpl->show(false);
 ?>
