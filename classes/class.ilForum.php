@@ -1138,29 +1138,30 @@ class ilForum
 	* prepares given string
 	* @access	public
 	* @param	string	
-	* @param	integer	
-	* @return	string	
+	* @param	integer
+	* @return	string
 	*/
 	function prepareText($text,$edit=0)
-	{		
+	{
 		global $lng;
 
 		if ($edit == 1)
 		{
-			$text = str_replace($this->txtQuote1, "", $text);		
-			$text = str_replace($this->txtQuote2, "", $text);		
+			$text = ereg_replace("\[quote\].*\[\/quote\]", "", $text);
+			//$text = str_replace($this->txtQuote1, "", $text);
+			//$text = str_replace($this->txtQuote2, "", $text);
 			$text = $this->txtQuote1.$text.$this->txtQuote2;
 		}
 		else
-		{		
-			// check for quotation		
+		{
+			// check for quotation
 			$startZ = substr_count ($text, $this->txtQuote1);
 			$endZ = substr_count ($text, $this->txtQuote2);
-			
-			
+
+
 			if ($startZ > 0 || $endZ > 0)
 			{
-				if ($startZ > $endZ) 
+				if ($startZ > $endZ)
 				{
 					$diff = $startZ - $endZ;
 
@@ -1174,39 +1175,39 @@ class ilForum
 					$diff = $endZ - $startZ;
 
 					for ($i = 0; $i < $diff; $i++)
-					{				
+					{
 						$text = $this->txtQuote1.$text;
 					}
 				}
-				
+
 				// only one txtQuote can exist...
 				if ($startZ > 1)
 				{
-					$start_firstPos = strpos($text, $this->txtQuote1);				
+					$start_firstPos = strpos($text, $this->txtQuote1);
 					$text_s2 = str_replace($this->txtQuote1, "", substr($text, ($start_firstPos+strlen($this->txtQuote1))));
 					$text_s1 = substr($text, 0, ($start_firstPos+strlen($this->txtQuote1)));
-					$text = $text_s1.$text_s2;				
+					$text = $text_s1.$text_s2;
 				}
 				if ($endZ > 1)
-				{				
-					$end_firstPos = strrpos($text, $this->txtQuote2);				
+				{
+					$end_firstPos = strrpos($text, $this->txtQuote2);
 					$text_e1 = str_replace($this->txtQuote2, "", substr($text, 0, $end_firstPos));
 					$text_e2 = substr($text, $end_firstPos);
-					$text = $text_e1.$text_e2;					
-				}			
-				
+					$text = $text_e1.$text_e2;
+				}
+
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, "<blockquote><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);		
-					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
+					$text = str_replace($this->txtQuote1, "<blockquote><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);
+					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
 				}
-			}		
+			}
 		}
 		$text = stripslashes($text);
 		return $text;
 	}
-	
-	
+
+
 	/**
 	* get one post-dataset 
 	* @param    integer post id 
