@@ -1,0 +1,22 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+</head>
+
+<body>
+
+<script>
+//opener.location='{MOVECOPYLINK}';
+</script>
+<a href='#' onClick="doAction();return(false);">Test</a>
+
+<script>
+function doAction() {
+	opener.doDragDropAction();
+	setTimeout("window.close();",400);
+}
+</script>
+
+</body>
+</html>
