@@ -9,7 +9,7 @@
  */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilFileDataMail.php";

@@ -8,7 +8,7 @@
 * @version	$Id$
 * @package	ilias-core
 */
-class User
+class ilUser
 {
 	/**
 	* all user related data in single vars
@@ -71,7 +71,7 @@ class User
 	* @access	public
 	* @param	integer		user_id
 	*/
-	function User($a_user_id = 0)
+	function ilUser($a_user_id = 0)
 	{
 		global $ilias;
 		

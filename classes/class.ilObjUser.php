@@ -48,7 +48,7 @@ class ilObjUser extends ilObject
 		global $rbacadmin;
 		
 		// delete user data
-		$user = new User();
+		$user = new ilUser();
 		$user->delete($this->getId());
 
 		// delete rbac data of user

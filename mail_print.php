@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilMail.php";
 
 $tplprint = new ilTemplate("tpl.mail_print.html",true,true);
@@ -23,7 +23,7 @@ $mail_data = $umail->getMail($_GET["mail_id"]);
 // SET MAIL DATA
 // FROM
 $tplprint->setVariable("TXT_FROM", $lng->txt("from"));
-$tmp_user = new User($mail_data["sender_id"]); 
+$tmp_user = new ilUser($mail_data["sender_id"]); 
 $tplprint->setVariable("FROM", $tmp_user->getFullname());
 // TO
 $tplprint->setVariable("TXT_TO", $lng->txt("to"));

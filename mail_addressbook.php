@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilMail.php";
 require_once "classes/class.ilAddressbook.php";
 
@@ -31,7 +31,7 @@ if($_GET["type"] == 'add')
 	$umail = new ilMail($_SESSION["AccountId"]);
 	$mail_data = $umail->getMail($_GET["mail_id"]);
 
-	$tmp_user = new User($mail_data["sender_id"]);
+	$tmp_user = new ilUser($mail_data["sender_id"]);
 	$abook->addEntry($tmp_user->getLogin(),
 					 $tmp_user->getFirstname(),
 					 $tmp_user->getLastname(),

@@ -186,7 +186,7 @@ class ilUtil
 			return false;
 		}
 
-		$owner = new User($obj["owner"]);
+		$owner = new ilUser($obj["owner"]);
 
 		return $owner;
 	}

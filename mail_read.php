@@ -10,7 +10,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilMail.php";
 
 //get the mail from user
@@ -83,7 +83,7 @@ $tpl->setVariable("ACTION","mail_read.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[m
 $counter = 1;
 // FROM
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
-$tmp_user = new User($mail_data["sender_id"]); 
+$tmp_user = new ilUser($mail_data["sender_id"]); 
 $tpl->setVariable("FROM", $tmp_user->getFullname());
 $tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
 // TO
