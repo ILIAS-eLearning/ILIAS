@@ -737,6 +737,7 @@ class ilCtrl
 	*/
 	function searchReturnClass($a_class)
 	{
+//echo "<br>searchReturnClass".$a_class;
 		$a_class = strtolower($a_class);
 
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);

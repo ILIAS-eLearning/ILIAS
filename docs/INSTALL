@@ -1376,10 +1376,11 @@ removed from your ILIAS web directory. If you keep any additional files or data
 that is worth to be saved in one of these directories please take all necessary
 precautions. This is especially important if you have modified parts of the
 ILIAS source code, the language files in ./lang/ or any template files in
-the templates/ subdirectories. It is also recommended to save the file
+the templates/ subdirectories. It is also recommended to save the files
 ilias.ini.php located in the main ILIAS directory which contains individual
-settings of your ILIAS installation. After installing the new ILIAS release you
-may easily restore it.
+settings of your ILIAS installation and chat/chatserver/server.ini which stores
+the setting for the ilias chat server. After installing the new ILIAS release
+you may easily restore these files.
 
     cd /opt/ilias/www/htdocs/ilias
     rm *.php *.xml *.dtd *.css

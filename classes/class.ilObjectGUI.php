@@ -1424,7 +1424,7 @@ class ilObjectGUI
 	* @access	public
 	*
 	*/
-	function cancelObject()
+	function cancelObject($in_rep = false)
 	{
 		session_unregister("saved_post");
 
@@ -1432,9 +1432,16 @@ class ilObjectGUI
 
 		//sendInfo($this->lng->txt("action_aborted"),true);
 		$return_location = $_GET["cmd_return_location"];
-				
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
-		#ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+//echo "-".$_GET["cmd_return_location"]."-".$this->ctrl->getLinkTarget($this,$return_location);
+		//ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		if ($in_rep)
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+		}
 	}
 
 	/**

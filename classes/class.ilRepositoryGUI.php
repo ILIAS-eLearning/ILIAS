@@ -261,7 +261,7 @@ class ilRepositoryGUI
 				{
 					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
 				}
-
+				
 				// get GUI of current object
 				$class_name = $this->objDefinition->getClassName($obj_type);
 				$module = $this->objDefinition->getModule($obj_type);
@@ -286,16 +286,19 @@ class ilRepositoryGUI
 						$cmd = $this->ctrl->getCmd("ShowList");
 					}
 					//$next_class = "";
-				}				
+				}
+				
 				// check read access for category
 				if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
 				{
+//echo "2";
 					$_SESSION["il_rep_ref_id"] = "";
 					$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 					$this->tpl->show();
 				}
 				else
 				{
+//echo "3-$cmd-";
 					$this->cmd = $cmd;
 					$this->$cmd();
 				}
@@ -3373,9 +3376,10 @@ class ilRepositoryGUI
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
-
+//echo "A";
 		if (!empty($new_type))	// creation
 		{
+//echo "B";
 			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".
@@ -3400,6 +3404,9 @@ class ilRepositoryGUI
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 				$obj->setTargetFrame("save", "bottom");
+				//$this->ctrl->setCmdClass(strtolower("Obj".$class_name."GUI"));
+				//$this->ctrl->setCmd($method);
+				//$this->ctrl->forwardCommand($obj);
 				$obj->$method();
 			}
 		}
@@ -3446,8 +3453,8 @@ class ilRepositoryGUI
 
 				case "cancel":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
-					$this->gui_obj->cancelObject();
+					//$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
+					$this->gui_obj->cancelObject(true);
 					break;
 
 				case "update":

@@ -1560,16 +1560,16 @@ class ilUtil
 	*
 	* @param	boolean		strip also html tags
 	*/
-	function stripSlashes($a_str, $a_strip_html = true)
+	function stripSlashes($a_str, $a_strip_html = true, $a_allow = "")
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{
 			$a_str = stripslashes($a_str);
 		}
-		
+$a_allow = "<strong><em><code><cite>";		
 		if ($a_strip_html)
 		{
-			$a_str = ilUtil::stripScriptHTML($a_str);
+			$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
 		}
 		
 		return $a_str;
@@ -1579,9 +1579,9 @@ class ilUtil
 	/**
 	* strip script tags (has to be improved)
 	*/
-	function stripScriptHTML($a_str)
+	function stripScriptHTML($a_str, $a_allow = "")
 	{
-		$a_str = strip_tags($a_str);
+		$a_str = strip_tags($a_str, $a_allow);
 		
 		return $a_str;
 	}
