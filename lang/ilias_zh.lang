@@ -763,6 +763,7 @@ common#:#msg_nothing_found#:#无任何发现
 common#:#msg_obj_created#:#已创建对象。
 common#:#msg_obj_exists#:#此对象已存在于文件夹中
 common#:#msg_obj_modified#:#已保存修改。
+common#:#msg_obj_no_link#:#are not allowed to be linked### new variable 18 Feb 2004
 common#:#msg_perm_adopted_from1#:#权限设置取纳于
 common#:#msg_perm_adopted_from2#:#（已保存设置！）
 common#:#msg_perm_adopted_from_itself#:#您不能从当前角色或角色模板本身取得权限。
