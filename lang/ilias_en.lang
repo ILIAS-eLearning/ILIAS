@@ -1931,6 +1931,8 @@ common#:#require_street#:#Require street
 common#:#require_zipcode#:#Require zip code
 common#:#required_field#:#Required
 common#:#reset#:#Reset
+common#:#vcard#:#Visiting card
+common#:#vcard_download#:#Download visiting card
 common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
 common#:#right#:#Right

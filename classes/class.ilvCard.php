@@ -123,7 +123,7 @@ class ilvCard
 			"SORT-STRING" => "",
 			"SOUND" => array(),
 			"UID" => "",
-			"URL" => array(),
+			"URL" => "",
 			"VERSION" => "3.0",
 			"CLASS" => "",
 			"KEY" => array()
