@@ -101,8 +101,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			include_once("content/classes/class.ilObjGlossary.php");
 			$newObj = new ilObjGlossary();
 			$newObj->setType($this->type);
-			$newObj->setTitle("content object ".$newObj->getId());		// set by meta_gui->save
-			$newObj->setDescription("");	// set by meta_gui->save
+			$newObj->setTitle($_POST["Fobject"]["title"]);
+			$newObj->setDescription($_POST["Fobject"]["desc"]);
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
@@ -114,16 +114,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			// assign author role to creator of forum object
 			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
-
-			// save meta data
-			
-			include_once "classes/class.ilMetaDataGUI.php";
-			$meta_gui =& new ilMetaDataGUI();
-			$meta_gui->setObject($newObj);
-			$meta_gui->save();
-
-			// create content object tree
-			//$newObj->createLMTree();
 
 			unset($newObj);
 
@@ -546,21 +536,37 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			? $_POST["id"][0]
 			: $_GET["term_id"];
 
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
+		$this->tpl->setVariable("FORMACTION",
+			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("gdf_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("gdf_add"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveDefinition");
+		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->parseCurrentBlock();
+
+		/*
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
+		*/
 
 	}
 
 	function saveDefinition()
 	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_data =& $meta_gui->create();
+		//$meta_gui =& new ilMetaDataGUI();
+		//$meta_data =& $meta_gui->create();
 		$def =& new ilGlossaryDefinition();
 		$def->setTermId($_GET["term_id"]);
-		$def->assignMetaData($meta_data);
+		$def->setTitle($_POST["Fobject"]["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
+		$def->setDescription($_POST["Fobject"]["desc"]);	// set by meta_gui->save
 		$def->create();
 		header("Location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId().
 			"&def=".$def->getId());
