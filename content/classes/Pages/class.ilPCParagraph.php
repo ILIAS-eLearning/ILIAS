@@ -210,12 +210,11 @@ class ilPCParagraph extends ilPageContent
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-//echo "a";
+
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
 			"((page|chap|term|media)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws))\]", $a_text, $found))
 		{
-//echo $found[0]."<rb>";
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
 			// pages
@@ -293,14 +292,14 @@ class ilPCParagraph extends ilPageContent
 
 		// external link
 		$ws= "[ \t\r\f\v\n]*";
-//echo "1";
+
 		//while (eregi("\[(xln$ws(url$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
 		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
 		{
-//echo "2";
-//echo "found2:".addslashes($found[2])."<br>"; exit;
+//echo "found2:".addslashes($found[2])."<br>"; flush();;
 			$attribs = ilUtil::attribsToArray($found[2]);
-//echo "url:".$attribs["url"]."<br>"; exit;
+//echo "url:".$attribs["url"]."<br>";
+			$found[1] = str_replace("?", "\?", $found[1]);
 			if (isset($attribs["url"]))
 			{
 //echo "3";
@@ -398,6 +397,7 @@ class ilPCParagraph extends ilPageContent
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
+			$found[1] = str_replace("?", "\?", $found[1]);
 			$a_text = eregi_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
 		}
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
