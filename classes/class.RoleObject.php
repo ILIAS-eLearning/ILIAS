@@ -107,27 +107,18 @@ class RoleObject extends Object
 	* @param	array	object data of role
 	* @return	boolean
 	*/
-	function updateObject($a_data)
+	function update()
 	{
 		global $rbacsystem, $rbacadmin;
 
-		// TODO: get rid of $_GET variables
-		if (!$rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		// check if role title is unique
+		if ($rbacadmin->roleExists($this->getTitle()))
 		{
-			$this->ilias->raiseError("You have no permission to edit this role",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("A role with the name '".$this->getTitle().
+				 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 		}
-		else
-		{
-			// check if role title is unique
-			if ($rbacadmin->roleExists($a_data["title"]))
-			{
-				$this->ilias->raiseError("A role with the name '".$a_data["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
-			}
 
-			updateObject($this->id,$a_data["title"],$a_data["desc"]);
-			return true;
-		}
+		parent::update();
 	}
 
 	/**

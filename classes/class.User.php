@@ -50,14 +50,23 @@ class User
 	* @access	public
 	*/
 	var $skin;
+
 	
+	/**
+	* default role
+	* @var		string
+	* @access	private
+	*/
+	var $default_role;
+
 	/**
 	* ilias object
 	* @var object ilias
 	* @access private
 	*/	
 	var $ilias;
-	
+
+
 	/**
 	* Constructor
 	* @access	public

@@ -118,26 +118,25 @@ class ForumObject extends Object
 
 	/**
 	* update forum data
-	* @param	array	forum data
+	*
 	* @access	public
 	*/
-	function updateObject($a_data)
+	function update()
 	{
-		if (parent::updateObject($a_data))
+		if (parent::update())
 		{			
-			$a_obj_data = $a_data;
-			
 			$query = "UPDATE frm_data ".
 					 "SET ".
-					 "top_name = '".addslashes($a_obj_data["title"])."',".
-					 "top_description = '".addslashes($a_obj_data["desc"])."',".
+					 "top_name = '".$this->getTitle()."',".
+					 "top_description = '".$this->getDescription()."',".
 					 "top_update = '".date("Y-m-d H:i:s")."',".
 					 "update_user = '".$_SESSION["AccountId"]."' ".
-					 "WHERE top_frm_fk = '".$this->id."'";
+					 "WHERE top_frm_fk = '".$this->getId()."'";
 			$res = $this->ilias->db->query($query);
 		
 			return true;
-		}	
+		}
+		return false;
 	}
 	
 	/**

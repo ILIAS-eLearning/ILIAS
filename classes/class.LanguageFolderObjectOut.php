@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.9 2003/03/10 10:55:41 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.10 2003/03/11 20:14:37 akill Exp $
 *
 * @extends	Object
 * @package	ilias-core
@@ -284,9 +284,9 @@ class LanguageFolderObjectOut extends ObjectOut
 				{
 					$langObj->flush();
 					$langObj->insert();
-
-					updateObject($langObj->getId(), $langObj->getKey(), $langObj->getStatus());
-
+					$langObj->setTitle($langObj->getKey());
+					$langObj->setDescription($langObj->getStatus());
+					$langObj->update();
 					$langObj->optimizeData();
 				}
 			}

@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.6 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.7 2003/03/12 16:52:25 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -47,7 +47,8 @@ class UserObjectOut extends ObjectOut
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=update"."&ref_id=".$_GET["ref_id"]);
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
@@ -136,6 +137,33 @@ class UserObjectOut extends ObjectOut
 		}
 	}
 
+	
+	/**
+	* update object in db
+	*/
+	function updateObject()
+	{
+		global $rbacsystem, $rbacadmin;
+		if ($rbacsystem->checkAccess("write", $this->object->getRefId())
+			|| $this->object->getId() == $_SESSION["AccountId"])
+		{
+			$user = new User($this->object->getId());
+			$user->setData($_POST["Fobject"]);
+			$user->update();
+			$this->object->setTitle($user->getFullname());
+			$this->object->setDescription($user->getEmail());
+			$this->update = $this->object->update();
+			$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $user->getId());
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to modify user",$this->ilias->error_obj->WARNING);
+		}
+		//echo "adm_object.php?ref_id=".$this->ref_id."&cmd=view";
+		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		exit();
+	}
+
 
 	function activeRoleSaveObject()
 	{
@@ -143,11 +171,5 @@ class UserObjectOut extends ObjectOut
 		exit;
 	}	   
 
-	function updateObject()
-	{
-		header("Location: adm_object.php?ref_id=".$_GET["parent"]."&parent=".
-			   $_GET["parent_parent"]."&cmd=view");
-		exit;
-	}
 } // END class.UserObjectOut
 ?>
