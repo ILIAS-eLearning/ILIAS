@@ -128,11 +128,11 @@ assessment#:#backtocallingtest#:#Torna al test
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
+assessment#:#cannot_execute_test#:#Non hai i diritti per eseguire il test!
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+assessment#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai i diritti per salvare i metadati!
 assessment#:#change_solution#:#Cambia la soluzione suggerita
 assessment#:#checkbox_checked#:#Selezionato
@@ -912,7 +912,7 @@ common#:#cleaning_failed#:#Svuotamento del file fallito.
 common#:#clear#:#Annulla
 common#:#clear_clipboard#:#Appunti vuoto
 common#:#client ip#:#Client Ip
-common#:#client#:#Client###06 Mar 2005 new variable
+common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Appunti
@@ -934,7 +934,7 @@ common#:#condition_update#:#Salva
 common#:#conditions_updated#:#Condizioni salvate
 common#:#confirm#:#Conferma
 common#:#confirmation#:#Conferma
-common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
+common#:#conflict_handling#:#Gestione conflitto
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
@@ -1412,37 +1412,37 @@ common#:#htlm_write#:#Modificare un modulo HTML
 common#:#http_not_possible#:#Questo server non supporta request HTTP.
 common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
-common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
-common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
-common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
-common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
-common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
-common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
-common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
-common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
-common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
-common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
-common#:#icrs_write#:#Edit iLinc Course###01 Mar 2005 new variable
+common#:#icla#:#Classe iLinc
+common#:#icla_add#:#Aggiungi classe iLinc
+common#:#icla_delete#:#Elimina classe iLinc
+common#:#icla_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#icla_new#:#Creare classi iLinc
+common#:#icla_read#:#Accedere in lettura alle classi iLinc
+common#:#icla_visible#:#Vedere classi iLinc
+common#:#icla_write#:#Modificare classi iLinc
+common#:#icrs#:#Corso iLinc
+common#:#icrs_add#:#Aggiungi corso iLinc
+common#:#icrs_delete#:#Elimina corso iLinc
+common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#icrs_new#:#Creare corsi iLinc
+common#:#icrs_read#:#Accedere in lettura a corsi iLinc
+common#:#icrs_visible#:#Vedere corsi iLinc
+common#:#icrs_write#:#Modificare corsi iLinc
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#if_no_title_then_url#:#Lascia vuoto se vuoi far vedere l'URL
-common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#ignore_on_conflict#:#Ignora i conflitti
 common#:#ilias_version#:#Versione ILIAS 3
-common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
-common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
+common#:#ilinc_classrooms#:#Classi iLinc
+common#:#ilinc_courses#:#Corsi iLinc
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
 common#:#import_alm#:#Importa un modulo AICC
 common#:#import_categories#:#Importa contesto
 common#:#import_dbk#:#Importa un libro digitale
-common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
+common#:#import_failure_log#:#Log di importazione: fallimenti
 common#:#import_file#:#Scegli il file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
@@ -1458,7 +1458,7 @@ common#:#import_spl#:#Importa raccolta di domande per sondaggi
 common#:#import_svy#:#Importa sondaggio
 common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
-common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
+common#:#import_warning_log#:#Log di importazione: avvisi
 common#:#imported#:#importato
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
@@ -1770,8 +1770,8 @@ common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template d
 common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
-common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedre a questo modulo.
+common#:#msg_no_perm_read#:#Non hai i diritti per accedere a questo oggetto.
+common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedere a questo modulo.
 common#:#msg_no_perm_read_track#:#Non hai i diritti per accedere al tracciamento utente.
 common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
@@ -1826,8 +1826,8 @@ common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
-common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
+common#:#no_access_item#:#Non puoi accedere a questo oggetto.
+common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
@@ -1884,8 +1884,8 @@ common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
-common#:#obj_icla#:#iLinc Classroom###01 Mar 2005 new variable
-common#:#obj_icrs#:#iLinc Course###01 Mar 2005 new variable
+common#:#obj_icla#:#Classe iLinc
+common#:#obj_icrs#:#Corso iLinc
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
 common#:#obj_lm#:#Modulo ILIAS
@@ -1956,8 +1956,8 @@ common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
 common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
-common#:#objs_icla#:#iLinc Classrooms###01 Mar 2005 new variable
-common#:#objs_icrs#:#iLinc Courses###01 Mar 2005 new variable
+common#:#objs_icla#:#Classi iLinc
+common#:#objs_icrs#:#Classi iLinc
 common#:#objs_lm#:#Moduli ILIAS
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Unit&#224; didattiche
@@ -2314,7 +2314,7 @@ common#:#svy_delete#:#Eliminare un sondaggio
 common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
 common#:#svy_invite#:#Invitare utenti ad un sondaggio
 common#:#svy_new#:#Nuovo sondaggio
-common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_no_content#:#Nessun sondaggio disponibile
 common#:#svy_participate#:#Participare ad un sondaggio
 common#:#svy_read#:#Accedere in lettura ad un sondaggio
 common#:#svy_upload_file#:#Scegli il file
@@ -2387,7 +2387,7 @@ common#:#tst_add#:#Aggiungi test
 common#:#tst_delete#:#Eliminare un test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tst_new#:#Nuovo test
-common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
+common#:#tst_no_content#:#Nessun test disponibile
 common#:#tst_read#:#Accedere in lettura ad un test
 common#:#tst_upload_file#:#Scegli il file
 common#:#tst_visible#:#Vedere un test
@@ -2413,7 +2413,7 @@ common#:#up#:#Su
 common#:#update#:#Modifica
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
-common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
+common#:#update_on_conflict#:#Modifica i conflitti
 common#:#upload#:#Importa
 common#:#upload_error_file_not_found#:#Errore nell'upload: file non trovato.
 common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
@@ -2439,9 +2439,9 @@ common#:#user_cant_receive_mail#:#l'utente non pu&#242; usare la mail di sistema
 common#:#user_comment#:#Commento utente
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
-common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
+common#:#user_import_failed#:#Importazione utenti fallita.
 common#:#user_imported#:#Importazione utenti completata.
-common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
+common#:#user_imported_with_warnings#:#Importazione utenti completata con alcuni warning.
 common#:#user_language#:#Lingua
 common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#user_profile_other#:#Ulteriori informazioni
@@ -2477,30 +2477,30 @@ common#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
 common#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
-common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
-common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
-common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#usrimport_action_failed#:#Operazione %1$s falita.
+common#:#usrimport_action_ignored#:#Operazione %1$s ignorata.
+common#:#usrimport_action_replaced#:#Sostituita operazione %1$s con %2$s.
+common#:#usrimport_cant_delete#:#Non pu&#242; essere eseguita l'operazione di "Eliminazione". L'utente non &#232; presente nel Database.
+common#:#usrimport_cant_insert#:#Non pu&#242; essere eseguita l'operazione di "Inserimento". L'utente &#232; gi&#224; presente nel Database.
+common#:#usrimport_cant_update#:#Non pu&#242; essere eseguita l'operazione di "Modifica". L'utente non &#232; presente nel Database.
+common#:#usrimport_conflict_handling_info#:#Se &#232; selezionato "Ignora i conflitti", ILIAS ignora le operazioni che non possono essere eseguite (come le modifiche di utenti non esistenti o l'inserimento di utenti gi&#224; presenti).\nSe &#232; selezionato "Modifica i conflitti", ILIAS aggiorna comunque il database anche se l'operazione richiesta non pu&#242; essere eseguita (per esempio l'operazione di inserimento di un utente gi&#224; presente viene sostituita con l'operazione di modifica).
+common#:#usrimport_global_role_for_action_required#:#Per l'operazione "%1$s" deve essere specificato almeno un ruolo globale.
+common#:#usrimport_login_is_not_unique#:#Login non unico.
+common#:#usrimport_xml_attribute_missing#:#L'attributo "%2$s" nell'elemento "%1$s" &#232; mancante.
+common#:#usrimport_xml_attribute_value_illegal#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito per l'azione "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Il contenuto "%2$s" dell'elemento "%1$s" non &#232; consentito.
+common#:#usrimport_xml_element_for_action_required#:#L'elemento "%1$s" deve essere specificato per l'operazione di "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#L'elemento "%1$s" non &#232; consentito per l'operazione "%2$s".
 common#:#validate#:#Valida
 common#:#value#:#Valore
 common#:#vcard#:#Biglietto da visita
 common#:#vcard_download#:#Download del biglietto da visita
 common#:#vendors#:#Venditori
-common#:#verification_failed#:#Verification failed###09 Mar 2005 new variable
-common#:#verification_failure_log#:#Verification failure log###09 Mar 2005 new variable
-common#:#verification_log#:#Verification log###09 Mar 2005 new variable
-common#:#verification_warning_log#:#Verification warning log###09 Mar 2005 new variable
+common#:#verification_failed#:#Verifica fallita
+common#:#verification_failure_log#:#Log delle verifiche fallite
+common#:#verification_log#:#Log delle verifiche
+common#:#verification_warning_log#:#Log delle verifiche con warning
 common#:#version#:#Versione
 common#:#versions#:#Versioni
 common#:#view#:#Anteprima
@@ -3002,10 +3002,10 @@ crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_from#:#Da:
 crs#:#crs_grouping#:#Piano formativo
-crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Modifica iscrizione piano formativo
 crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente piano formativo?
 crs#:#crs_grouping_deleted#:#Rimossi piani formativi.
-crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Iscrizione modificata.
 crs#:#crs_grouping_select_one#:#Scegli il piano formativo.
 crs#:#crs_groupings#:#Piani formativi
 crs#:#crs_groupings_ask_delete#:#Elimina il piano formativo
@@ -4429,8 +4429,8 @@ survey#:#cannot_export_survey#:#Non hai sufficienti diritti per esportare il son
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondaggio!
-survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
-survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
+survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
+survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
 survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
 survey#:#category#:#Categoria
