@@ -12,6 +12,22 @@
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-{CONTENT}
+<style>
+body { margin:0px; }
+</style>
+<div class="il_ExplorerHeader">
+{TXT_EXPLORER_HEADER}
+</div>
+<div class="il_Explorer">
+{EXPLORER}
+</div>
+<br/>
+<div align="center">
+	<form action="{ACTION}" method="post">
+	<input class="submit" type="submit" name="cmd[{BTN_REFRESH}]" value="{TXT_REFRESH}" />
+	<input class="submit" type="submit" name="cmd[{BTN_RESET}]" value="{TXT_RESET}" />
+	<input class="submit" type="submit" name="cmd[{BTN_STRUCTURE}]" value="{TXT_STRUCTURE}" />
+	</form>
+</div>
 </body>
 </html>

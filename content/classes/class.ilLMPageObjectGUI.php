@@ -106,6 +106,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$page_gui->changeLinkType();
 	}
 
+	function resetLinkList()
+	{
+		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+		$page_gui->setTargetScript("lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
+		$page_gui->resetLinkList();
+	}
+
 	function changeTargetObject()
 	{
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -177,22 +188,5 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		}
 	}
 
-	/*
-	function displayValidationError($a_error)
-	{
-		if(is_array($a_error))
-		{
-			$error_str = "<b>Validation Error(s):</b><br>";
-			foreach ($a_error as $error)
-			{
-				$err_mess = implode($error, " - ");
-				if (!is_int(strpos($err_mess, ":0:")))
-				{
-					$error_str .= htmlentities($err_mess)."<br />";
-				}
-			}
-			$this->tpl->setVariable("MESSAGE", $error_str);
-		}
-	}*/
 }
 ?>

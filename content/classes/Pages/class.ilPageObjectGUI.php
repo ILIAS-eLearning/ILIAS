@@ -462,6 +462,38 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
+
+			// media object
+			case "Media":
+				//require_once("./content/classes/class.ilObjMediaObject.php");
+				$cont_obj =& new ilObjContentObject($content_obj, true);
+
+				// get all chapters
+				$ctree =& $cont_obj->getLMTree();
+				$objs = $this->ilias->account->getClipboardObjects("mob");
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_source"));
+				$tpl->setVariable("TXT_CONT_TITLE", $this->lng->txt("cont_personal_clipboard"));
+				//$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
+				//$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->setCurrentBlock("new_mob");
+				$tpl->setVariable("CMD_NEW_MOB", "newMediaObject");
+				$tpl->setVariable("BTN_NEW_MOB", $this->lng->txt("cont_new_media_obj"));
+				$tpl->parseCurrentBlock();
+
+				foreach($objs as $obj)
+				{
+					$tpl->setCurrentBlock("chapter_row");
+					$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+					$tpl->setVariable("ROWCLASS", "tblrow1");
+					$tpl->setVariable("LINK_CHAPTER",
+						"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+
 		}
 
 		$tpl->show();
@@ -471,6 +503,12 @@ class ilPageObjectGUI
 	function changeLinkType()
 	{
 		$_SESSION["il_link_type"] = $_POST["ltype"];
+		$this->showLinkHelp();
+	}
+
+	function resetLinkList()
+	{
+		$_SESSION["il_link_type"] = "StructureObject";
 		$this->showLinkHelp();
 	}
 
@@ -499,7 +537,7 @@ class ilPageObjectGUI
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		require_once "classes/class.ilExplorer.php";
-		$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		//$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		$exp = new ilExplorer("lm_edit.php?do=set");
 
@@ -545,8 +583,14 @@ class ilPageObjectGUI
 		}
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", "lm_edit.php?expand=".$_GET["expand"].
-			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=changeTargetObject".
+			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=post".
 			"&target_type=".$a_type);
+		$tpl->setVariable("BTN_REFRESH", "changeTargetObject");
+		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
+		$tpl->setVariable("BTN_RESET", "resetLinkList");
+		$tpl->setVariable("TXT_RESET", $this->lng->txt("reset"));
+		$tpl->setVariable("BTN_STRUCTURE", "resetLinkList");
+		$tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("reset"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->show();

@@ -1370,8 +1370,52 @@ class ilObjUser extends ilObject
 				break;
 		}
 		return $items;
-
 	}
+
+	/**
+	* add an item to user's personal clipboard
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	*/
+	function addObjectToClipboard($a_item_id, $a_type, $a_title)
+	{
+		$q = "SELECT * FROM personal_clipboard WHERE ".
+			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
+			$this->getId()."'";
+		$item_set = $this->ilias->db->query($q);
+
+		// only insert if item is not already on desktop
+		if (!$d = $item_set->fetchRow())
+		{
+			$q = "INSERT INTO personal_clipboard (item_id, type, user_id, title) VALUES ".
+				" ('$a_item_id','$a_type','".$this->getId()."', '".$a_title."')";
+			$this->ilias->db->query($q);
+		}
+	}
+
+	/**
+	* get all clipboard objects of user and specified type
+	*/
+	function getClipboardObjects($a_type = "")
+	{
+		$type_str = ($a_type != "")
+			? " AND type = '$a_type' "
+			: "";
+		$q = "SELECT * FROM personal_clipboard WHERE ".
+			"user_id = '".$this->getId()."' ".
+			$type_str;
+		$objs = $this->ilias->db->query($q);
+		$objects = array();
+		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$objects[] = array ("id" => $obj["item_id"],
+				"type" => $obj["type"], "title" => $obj["title"]);
+		}
+		return $objects;
+	}
+
 
 } // END class ilObjUser
 ?>

@@ -52,7 +52,6 @@ class ilObjMediaObject extends ilObject
 		{
 			$this->ilias->raiseError("Can't instantiate media object via reference id.",$this->ilias->error_obj->FATAL);
 		}
-
 		parent::ilObject($a_id, false);
 	}
 
@@ -83,7 +82,11 @@ class ilObjMediaObject extends ilObject
 
 	function getTitle()
 	{
-		return $this->meta_data->getTitle();
+		$title = ($this->meta_data->getTitle() == "NO TITLE")
+			? $this->title
+			: $this->meta_data->getTitle();
+
+		return $title;
 	}
 
 	/**

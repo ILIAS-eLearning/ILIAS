@@ -573,6 +573,7 @@
 				<option value="centerAlign">align: center</option>
 				<option value="leftFloatAlign">align: left float</option>
 				<option value="rightFloatAlign">align: right float</option>
+				<option value="copyToClipboard">copy to clipboard</option>
 				</select>
 				<input class="ilEditSubmit" type="submit" value="Go">
 					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>
