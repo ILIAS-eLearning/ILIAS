@@ -153,6 +153,7 @@ else
 }
 
 $tpl->setCurrentBlock("forum");
+$tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
