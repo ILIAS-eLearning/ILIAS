@@ -866,11 +866,19 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
+		//if new obj type is a folder or file then the right to create a group is checked
+		// because grp object is the the first RBAC-parent object  
+		if ($new_type == "fold" or $new_type == "file")
+		{
+			$check_type = "grp";
+		}else{
+			$check_type = $new_type;
+		}
+		
 		$this->prepareOutput();
 		$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
 		// TODO: get rid of $_GET variable
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$rbacsystem->checkAccess("create", $this->grp_id, $check_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1876,6 +1884,8 @@ class ilGroupGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
+		global $rbacsystem;
+		
 		$d = $this->objDefinition->getCreatableSubObjects("grp");
 
 		$import = false;		
@@ -1888,8 +1898,8 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					//how many elements are present?
 					for ($i=0; $i<count($this->data["ctrl"]); $i++)
-					{
-						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+					{echo "yxc".$this->data["ctrl"][$i]["type"].$row["name"];
+						if ($this->data["ctrl"][$i]["type"] == $row["name"] )
 						{
 						    $count++;
 						}
@@ -1897,7 +1907,25 @@ class ilGroupGUI extends ilObjectGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					$subobj[] = $row["name"];
+					//special case: if type is folder or file then the 'create' right of the group (first RBAC-PARENT object)is checked
+					if ($row["name"] == "fold" and $this->grp_object->isAdmin($this->ilias->account->getId()) )
+					{
+						$obj_type = "grp";
+					}
+					elseif($row["name"] == "file")
+					{
+						$obj_type = "grp";
+					}
+					else
+					{
+						$obj_type = $row["name"];
+					}
+					
+					//show only creatable objects for current user 
+					if($rbacsystem->checkAccess('create',$this->grp_id,$obj_type))
+					{
+						$subobj[] = $row["name"];
+					}
 					if($row["import"] == "1")	// import allowed?
 					{
 						$import = true;
@@ -1990,7 +2018,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			foreach ($objects as $key => $object)
 			{
-				if ($rbacsystem->checkAccess('visible',$object["ref_id"]) or $object["type"] == "fold" )
+				if ($rbacsystem->checkAccess('visible',$object["ref_id"]) or $object["type"] == "fold" or $object["type"] == "file")
 				{
 					$cont_arr[$key] = $object;
 					//var_dump($cont_arr[$key]);
