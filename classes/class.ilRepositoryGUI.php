@@ -129,7 +129,7 @@ class ilRepositoryGUI
 	*/
 	function _forwards()
 	{
-		return array("ilObjGroupGUI","ilObjFolderGUI");
+		return array("ilObjGroupGUI","ilObjFolderGUI","ilObjFileGUI");
 	}
 	
 	/**
@@ -155,6 +155,26 @@ class ilRepositoryGUI
 			case "ilobjgroupgui":
 				include_once("./classes/class.ilObjGroupGUI.php");
 				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);
+
+				$this->prepareOutput();
+
+				$this->gui_obj->executeCommand();
+				$this->tpl->show();
+				break;
+
+			case "ilobjfilegui":
+				include_once("./classes/class.ilObjFileGUI.php");
+				$this->gui_obj = new ilObjFileGUI("", $this->cur_ref_id, true, false);
+
+				$this->prepareOutput();
+
+				$this->gui_obj->executeCommand();
+				$this->tpl->show();
+				break;
+				
+			case "ilobjfoldergui":
+				include_once("./classes/class.ilObjFolderGUI.php");
+				$this->gui_obj = new ilObjFolderGUI("", $this->cur_ref_id, true, false);
 
 				$this->prepareOutput();
 
@@ -1949,6 +1969,7 @@ class ilRepositoryGUI
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
+		// possible deprecated
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
 		$tpl->setVariable("ACTIONTARGET", "bottom");
@@ -1973,26 +1994,54 @@ class ilRepositoryGUI
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$obj_link = "repository.php?cmd=sendfile&ref_id=".$cont_data["ref_id"];
-				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$tpl->setVariable("TITLE", $cont_data["title"]);
-				$tpl->setVariable("LINK", $obj_link);
-				$tpl->setVariable("LINK_TARGET", "bottom");
-				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
-				//$tpl->setVariable("IMG", $obj_icon);
-				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				
+				if ($this->rbacsystem->checkAccess('write',$cont_data["ref_id"]))
+				{
+					$this->ctrl->setParameterByClass("ilObjFileGUI", "ref_id", $cont_data["ref_id"]);
+					$obj_link = $this->ctrl->getLinkTargetByClass("ilObjFileGUI","edit");
+					$tpl->setCurrentBlock("file_read");
+					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
+					$tpl->setVariable("READ_LINK", $obj_link);
+					$tpl->setVariable("READ_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+					
+					$tpl->setCurrentBlock("file_edit");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->setVariable("EDIT_LINK", $obj_link);
+					$tpl->setVariable("EDIT_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("file_visible");
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				
+				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("file_dl");
+					$obj_link = "repository.php?cmd=sendfile&ref_id=".$cont_data["ref_id"];
+					$tpl->setVariable("TXT_DL", $this->lng->txt("download"));
+					$tpl->setVariable("DL_LINK", $obj_link);
+					$tpl->setVariable("DL_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+				}
+				
+				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("file_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("DELELTE_TARGET","bottom");
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+			
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
-				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
 			}
-		}
-		else
-		{
-			$tpl->setCurrentBlock("no_content");
-			$tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("group_not_available"));
-			$tpl->parseCurrentBlock("no_content");
 		}
 
 		// create table
@@ -2033,6 +2082,7 @@ class ilRepositoryGUI
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
+		// poss. deprecated
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
 		$tpl->setVariable("ACTIONTARGET", "bottom");
@@ -2057,27 +2107,38 @@ class ilRepositoryGUI
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$this->ctrl->setParameterByClass("ilObjFolderGUI", "ref_id", $cont_data["ref_id"]);
-				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjFolderGUI");
-				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$tpl->setVariable("TITLE", $cont_data["title"]);
-				$tpl->setVariable("LINK", $obj_link);
-				$tpl->setVariable("LINK_TARGET", "bottom");
-				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
-				//$tpl->setVariable("IMG", $obj_icon);
-				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				
+				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				{
+					$this->ctrl->setParameterByClass("ilObjFolderGUI", "ref_id", $cont_data["ref_id"]);
+					$obj_link = $this->ctrl->getLinkTargetByClass("ilObjFolderGUI");
+					$tpl->setCurrentBlock("fold_read");
+					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
+					$tpl->setVariable("READ_LINK", $obj_link);
+					$tpl->setVariable("READ_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("fold_visible");
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				
+				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("fold_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("DELELTE_TARGET","bottom");
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+			
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
-				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
 			}
-		}
-		else
-		{
-			$tpl->setCurrentBlock("no_content");
-			$tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("group_not_available"));
-			$tpl->parseCurrentBlock("no_content");
 		}
 
 		// create table
@@ -2134,10 +2195,11 @@ class ilRepositoryGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
+		/* possible deprecated
 		if ($this->gui_obj->object->getType() != "grp" && ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit"))
 		{
 			unset($path[count($path) - 1]);
-		}
+		}*/
 
 		foreach ($path as $key => $row)
 		{

@@ -1388,7 +1388,11 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+		//sendInfo($this->lng->txt("action_aborted"),true);
+		$return_location = $_GET["cmd_return_location"];
+				
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		//ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -1508,7 +1512,8 @@ class ilObjectGUI
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1531,7 +1536,8 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+		//ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 	}
 
 	/**

@@ -992,12 +992,12 @@ class ilObjGroup extends ilObject
 		global $rbacsystem;
 		
 		// exclude system role from check
-		/*if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
 			return true;		
-		}*/
+		}
 
-		if (!$this->isMember() && $rbacsystem->checkAccess("join", $this->ref_id))
+		if (!$this->isMember() or !$rbacsystem->checkAccess("join", $this->ref_id))
 		{
 			return false;
 		}

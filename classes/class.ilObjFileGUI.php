@@ -47,6 +47,31 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->type = "file";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
+	
+	function _forwards()
+	{
+		return array();
+	}
+	
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch ($next_class)
+		{
+			default:
+				if (empty($cmd))
+				{
+					$this->ctrl->returnToParent($this);
+					$cmd = "view";
+				}
+
+				$cmd .= "Object";
+				$this->$cmd();
+				break;
+		}		
+	}
 
 	/**
 	* create new object form
@@ -80,7 +105,8 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -133,7 +159,58 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
 
 		sendInfo($this->lng->txt("file_added"),true);
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+	}
+
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject()
+	{
+		session_unregister("saved_post");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		//sendInfo($this->lng->txt("action_aborted"),true);
+		$return_location = $_GET["cmd_return_location"];
+				
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		//ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+	}
+	
+	// get tabs
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+
+		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+		}
+
+		if ($this->ctrl->getTargetScript() == "adm_object.php")
+		{
+			$tabs_gui->addTarget("show_owner",
+				$this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
+			
+			if ($this->tree->getSavedNodeData($this->ref_id))
+			{
+				$tabs_gui->addTarget("trash",
+					$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
+			}
+		}
 	}
 
 	/**
