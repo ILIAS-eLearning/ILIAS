@@ -52,6 +52,8 @@ class ilPaymentBaseGUI
 
 		$this->ADMIN = 4;
 		$this->BASE = 5;
+
+		$this->lng->loadLanguageModule('payment');
 	}
 
 	function setSection($a_section)
@@ -186,7 +188,7 @@ class ilPaymentBaseGUI
 				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_STATISTIC ? 'tabactive' : 'tabinactive');
 				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'));
-				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_statistik'));
+				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_statistic'));
 				$this->tpl->parseCurrentBlock();
 			}
 			if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or 

@@ -402,7 +402,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
@@ -466,7 +466,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr_b.gif",$this->lng->txt("paya_trustee_table"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),

@@ -3843,3 +3843,26 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+payment#:#paya_disabled#:#Ausgeschaltet
+payment#:#paya_enabled#:#Eingeschaltet
+payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
+payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
+payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
+payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
+payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
+payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
+payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
+payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
+payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
+payment#:#paya_trustee_table#:#Verwalter
+common#:#apply#:#Übernehmen
+payment#:#paya_perm_stat#:#Statistiken bearbeiten
+payment#:#paya_perm_obj#:#Objekte bearbeiten
+payment#:#paya_trustees#:#Verwalter
+payment#:#paya_header#:#Paymentverwaltung
+payment#:#pay_header#:#Payment
+payment#:#paya_locator#:#Paymentverwaltung
+payment#:#pay_locator#:#Payment
+payment#:#paya_statistic#:#Statistik
+payment#:#paya_object#:#Objekte
+payment#:#paya_shopping_cart#:#Warenkorb
