@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilFrameset rows="82,*">
+	<ilFrame name="mainmenu" scrolling="no">
+		<ilMainMenu template="tpl.menu.html" />
+	<ilFrame>
+	<ilFrameset cols="40%,60%">
+		<ilFrame name="toc">
+			<ilTOC template="tpl.toc.html" />
+		</ilFrame>
+		<ilFrame name="maincontent">
+			<ilPage template="tpl.page.html" />
+		</ilFrame>
+	</ilFrameset>
+</ilFrameset>

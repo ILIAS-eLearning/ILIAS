@@ -123,7 +123,9 @@ switch ($_SESSION["viewmode"])
 				if($lr_data["type"] == "le")		// Test
 				{
 					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
+					$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
+					$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
+					$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
 				}
 				$tpl->setVariable("IMG", $obj_icon);
 				$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
@@ -205,6 +207,8 @@ switch ($_SESSION["viewmode"])
 				{
 					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
 					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
+					$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
+					$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
 				}
 				$tpl->setVariable("IMG", $obj_icon);
 				$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
@@ -223,7 +227,7 @@ switch ($_SESSION["viewmode"])
 			$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock("no_content");
 		}
-		
+
 		$tpl->setCurrentBlock("learningstuff");
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
