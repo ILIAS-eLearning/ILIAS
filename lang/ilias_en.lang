@@ -216,9 +216,9 @@ common#:#group_filesharing#:#Group File Sharing
 common#:#group_name#:#Groupname
 common#:#group_new#:#New Group
 common#:#group_status#:#Group Status
-common#:#group_status_public#:#Public
-common#:#group_status_private#:#Private
 common#:#group_status_closed#:#Closed
+common#:#group_status_private#:#Private
+common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#grp#:#Group
 common#:#help#:#Help

@@ -213,9 +213,13 @@ common#:#gender#:#gender
 common#:#generate#:#generate
 common#:#glossary#:#glossary
 common#:#group_filesharing#:#group file sharing
-common#:#groupname#:#groupname
+common#:#group_name#:#Groupname###29 Apr 2003 new variable
+common#:#group_new#:#New Group###29 Apr 2003 new variable
+common#:#group_status#:#Group Status###29 Apr 2003 new variable
+common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
+common#:#group_status_private#:#Private###29 Apr 2003 new variable
+common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#groups
-common#:#groupscope#:#groupscope
 common#:#grp#:#grp
 common#:#help#:#help
 common#:#host#:#host
