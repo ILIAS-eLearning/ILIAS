@@ -358,12 +358,11 @@ class ilPageEditorGUI
 				$st_item =& $this->cont_obj->getMediaItem("Standard");
 				if (is_object($st_item))
 				{
-/*
 					$format = $st_item->getFormat();
 					if (substr($format, 0, 5) == "image")
 					{
 						$tabs[] = array("cont_map_areas", "editMapAreas");
-					}*/
+					}
 				}
 			}
 			$tabs[] = array("cont_back", "returnToContext");

@@ -1063,6 +1063,12 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_name#:#Name
+content#:#cont_shape#:#Shape
+content#:#cont_coords#:#Coordinates
+content#:#cont_link#:#Link
+content#:#cont_map_areas#:#Link Areas
+content#:#cont_imagemap#:#Image Map
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
