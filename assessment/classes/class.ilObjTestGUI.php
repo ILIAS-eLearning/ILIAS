@@ -179,15 +179,17 @@ class ilObjTestGUI extends ilObjectGUI
     $add_parameter = $this->get_add_parameter();
     if ($_POST["cmd"]["save"]) {
 			$this->updateObject();
+      sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
     }
     if ($_POST["cmd"]["apply"]) {
 			$this->updateObject();
+      sendInfo($this->lng->txt("msg_obj_modified"));
     }
     if ($_POST["cmd"]["cancel"]) {
-      sendInfo($this->lng->txt("msg_cancel"),true);
+      sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
@@ -559,6 +561,31 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function questionpoolSelect()
+	{
+		global $ilUser;
+    $add_parameter = $this->get_add_parameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
+		$questionpools =& $this->object->getAvailableQuestionpools();
+		foreach ($questionpools as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("VALUE_OPTION", $key);
+			$this->tpl->setVariable("TEXT_OPTION", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
 
@@ -568,6 +595,34 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_GET["down"] > 0) {
 			$this->object->question_move_down($_GET["down"]);
 		}
+		if ($_POST["cmd"]["create_question"])
+		{
+			$this->questionpoolSelect();
+			return;
+		}
+
+		if ($_POST["cmd"]["create_question_execute"])
+		{
+			$_SESSION["test_id"] = $this->object->getRefId();
+			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+			exit();
+		}
+
+		if ($_GET["add"])
+		{
+			$selected_array = array();
+			array_push($selected_array, $_GET["add"]);
+			$total = $this->object->evalTotalPersons();
+			if ($total) {
+				// the test was executed previously
+				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+			} else {
+				sendInfo($this->lng->txt("tst_insert_questions"));
+			}
+			$this->insertQuestions($selected_array);
+			return;
+		}
+				
 		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
 			$show_questionbrowser = true;
 			if ($_POST["cmd"]["insert"]) {
@@ -844,13 +899,22 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["save"]) {
 			$this->object->mark_schema->save_to_db($this->object->get_test_id());
+      sendInfo($this->lng->txt("msg_obj_modified"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+      exit();
 		}
 
 		if ($_POST["cmd"]["apply"]) {
+      sendInfo($this->lng->txt("msg_obj_modified"));
 			$this->object->mark_schema->save_to_db($this->object->get_test_id());
 		}
 
 		if ($_POST["cmd"]["cancel"]) {
+      sendInfo($this->lng->txt("msg_cancel"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+      exit();
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", true);
@@ -1219,7 +1283,12 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$question_legend = false;
 			foreach ($selected_users as $key => $value) {
+				// receive array with statistical information on the test for a specific user
 				$stat_eval =& $this->object->evalStatistical($key);
+				//$t = print_r($stat_eval, true);
+				//$t = preg_replace("/\n/", "<br>", $t);
+				//$t = preg_replace("/ /", "&nbsp;", $t);
+				//print ($t);
 				if (!$question_legend) 
 				{
 					$i = 1;
