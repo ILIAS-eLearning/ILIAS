@@ -114,7 +114,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
+		if ($_POST["cmd"]["save"])
 		{
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
@@ -244,14 +244,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->updateObject();
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
-		if ($_POST["cmd"]["apply"])
-		{
-			$this->updateObject();
-			sendInfo($this->lng->txt("msg_obj_modified"));
 		}
 		if ($_POST["cmd"]["cancel"])
 		{
@@ -386,7 +378,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
@@ -1224,15 +1215,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->mark_schema->saveToDb($this->object->getTestId());
 			$this->object->saveCompleteStatus();
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
-
-		if ($_POST["cmd"]["apply"]) {
-			sendInfo($this->lng->txt("msg_obj_modified"));
-			$this->object->mark_schema->saveToDb($this->object->getTestId());
-			$this->object->saveCompleteStatus();
 		}
 
 		if ($_POST["cmd"]["cancel"]) {
@@ -1284,7 +1266,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
 			$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		$this->tpl->parseCurrentBlock();
