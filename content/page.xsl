@@ -65,7 +65,14 @@
 
 <!-- PageContent -->
 <xsl:template match="PageContent">
-	<xsl:apply-templates/>
+	<xsl:if test="$mode = 'edit'">
+		<div class="il_editarea">
+		<xsl:apply-templates/>
+		</div>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<xsl:apply-templates/>
+	</xsl:if>
 </xsl:template>
 
 

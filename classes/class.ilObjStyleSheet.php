@@ -185,8 +185,9 @@ class ilObjStyleSheet extends ilObject
 
 	function addParameter($a_tag, $a_par)
 	{
+		$avail_params = $this->getAvailableParameters();
 		$tag = explode(".", $a_tag);
-		$value = ""; 		// todo: better would be a valid default value
+		$value = $avail_params[$a_par][0];
 		$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
 			"('".$this->getId()."','".$tag[0]."','".$tag[1].
 			"','".$a_par."','".$value."')";
