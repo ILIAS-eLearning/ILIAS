@@ -99,5 +99,19 @@ class ErrorHandling
 			exit;
 		}
 	}
+	/**
+	* sends a message to the actual page
+	* @access	public
+    * @param string message
+	*/
+	function sentMessage($a_message)
+	{
+		// ONLY IF THERE IS NO ERROR MESSAGE
+		if(!$_GET["message"])
+		{
+			$_GET["message"] = $a_message;
+		}
+	}
+		
 } // END class.ErrorHandling
 ?>

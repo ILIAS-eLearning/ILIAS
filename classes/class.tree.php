@@ -745,7 +745,6 @@ class Tree
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
 		return $this->fetchNodeData($row);
 	}
 
