@@ -141,7 +141,8 @@ fop_path_comment#:#required to generate PDF documents
 hide_clientlist#:#Hide client selection
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
-htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)
+htmldoc_path_comment#:#required to generate PDF documents
+enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!
 http_path#:#HTTP path
 id#:#ID
 ilias_homepage#:#ILIAS Homepage

@@ -789,9 +789,11 @@ class ilSetupGUI extends ilSetup
 		$checked = "checked=\"checked\"";
 
 		// general
+		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("dsfsdave"));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("setup_basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "install");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
 		
 		if ($this->safe_mode)
@@ -1180,6 +1182,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("change_basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
 		
 		if ($this->safe_mode)

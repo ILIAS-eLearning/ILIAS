@@ -140,7 +140,8 @@ fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
 htmldoc_path#:#HTMLdoc-Befehlszeile
-htmldoc_path_comment#:#Wird benötigt, um pdf-Dokumente zu erzeugen (Paymentsystem)
+htmldoc_path_comment#:#Wird benötigt, um pdf-Dokumente zu erzeugen (Digilib-Objekt)
+enter_dir_and_filename#:#Bitte den gesamten (absoluten) Pfad und den Dateinamen angeben!
 http_path#:#HTTP-Pfad
 id#:#ID
 ilias_homepage#:#ILIAS Homepage
