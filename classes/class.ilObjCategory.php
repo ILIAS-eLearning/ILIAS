@@ -47,5 +47,21 @@ class ilObjCategory extends ilObject
 		$this->type = "cat";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+
+	/**
+	* copy all properties and subobjects of a category.
+	* 
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here cat specific stuff
+	}
 } // END class.CategoryObject
 ?>
