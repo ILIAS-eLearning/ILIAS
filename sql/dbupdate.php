@@ -4982,4 +4982,6 @@ CREATE TABLE IF NOT EXISTS usr_pwassist (
   UNIQUE KEY user_id (user_id)
 ) TYPE=MyISAM;
 
+<#336>
+ALTER TABLE `survey_question`  ADD `orientation` ENUM('0','1') default '0' AFTER `obligatory`;
 
