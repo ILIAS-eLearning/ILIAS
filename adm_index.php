@@ -39,10 +39,10 @@ if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
 	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 }
 
-//look if there is a file tpl.adm.html
-$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
+//look if there is a file tpl.adm.html (containing a frameset)
+$start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
 
-if (file_exists($startfilename))
+if (file_exists($start_template))
 {
 	$tpl = new ilTemplate("tpl.adm.html", false, false);
 	$tpl->show();
