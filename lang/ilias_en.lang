@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
 assessment#:#reset_filter#:#Reset filter
 assessment#:#result#:#Result
 assessment#:#save_finish#:#Save and finish the test
