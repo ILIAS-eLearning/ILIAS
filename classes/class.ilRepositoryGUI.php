@@ -2149,7 +2149,16 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
-
+				
+				if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("qpl_edit");
+					$tpl->setVariable("EDIT_LINK","assessment/questionpool.php?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->parseCurrentBlock();
+				}
+				
 				if ($this->rbacsystem->checkAccess('delete', $qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_delete");
