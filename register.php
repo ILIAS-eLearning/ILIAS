@@ -140,6 +140,13 @@ function saveForm()
 	$userObj->assignData($_POST["Fobject"]);
 	$userObj->setTitle($userObj->getFullname());
 	$userObj->setDescription($userObj->getEmail());
+
+	// Time limit
+	$userObj->setTimeLimitOwner(0);
+	$userObj->setTimeLimitUnlimited(1);
+	$userObj->setTimeLimitFrom(time());
+	$userObj->setTimeLimitUntil(time());
+
 	$userObj->create();
 
 	//insert user data in table user_data
