@@ -111,15 +111,6 @@ class ASS_Question
 	var $shuffle;
 
 	/**
-	* Contains uris name and uris to additional materials
-	*
-	* Contains uris name and uris to additional materials
-	*
-	* @var array
-	*/
-	var $materials;
-
-	/**
 	* The database id of a test in which the question is contained
 	*
 	* The database id of a test in which the question is contained
@@ -372,28 +363,6 @@ class ASS_Question
 	}
 
 	/**
-	* Sets the materials uri
-	*
-	* Sets the materials uri
-	*
-	* @param string $materials_file An uri to additional materials
-	* @param string $materials_name An uri name to additional materials
-	* @access public
-	* @see $materials
-	*/
-	function addMaterials($materials_file, $materials_name="")
-	{
-		if(empty($materials_name))
-		{
-			$materials_name = $materials_file;
-		}
-		if ((!empty($materials_name))&&(!$this->keyInArray($materials_name, $this->materials)))
-		{
-			$this->materials[$materials_name] = $materials_file;
-		}
-	}
-
-	/**
 	* returns TRUE if the key occurs in an array
 	*
 	* returns TRUE if the key occurs in an array
@@ -401,7 +370,6 @@ class ASS_Question
 	* @param string $arraykey A key to an element in array
 	* @param array $array An array to be searched
 	* @access public
-	* @see $materials
 	*/
 	function keyInArray($searchkey, $array)
 	{
@@ -416,72 +384,6 @@ class ASS_Question
 			}
 		}
 		return false;
-	}
-
-	/**
-	* Sets and uploads the materials uri
-	*
-	* Sets and uploads the materials uri
-	*
-	* @param string $materials_filename, string $materials_tempfilename, string $materials
-	* @access public
-	* @see $materials
-	*/
-	function setMaterialsFile($materials_filename, $materials_tempfilename="", $materials_name="")
-	{
-		if (!empty($materials_filename))
-		{
-			$materialspath = $this->getMaterialsPath();
-			if (!file_exists($materialspath))
-			{
-				ilUtil::makeDirParents($materialspath);
-			}
-
-			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
-				print "image not uploaded!!!! ";
-			}
-			else
-			{
-				$this->addMaterials($materials_filename, $materials_name);
-			}
-		}
-	}
-
-	/**
-	* Deletes a materials uri
-	*
-	* Deletes a materials uri with a given name.
-	*
-	* @param string $index A materials_name of the materials uri
-	* @access public
-	* @see $materials
-	*/
-	function deleteMaterial($materials_name = "")
-	{
-		foreach ($this->materials as $key => $value)
-		{
-			if (strcmp($key, $materials_name)==0)
-			{
-				if (file_exists($this->getMaterialsPath().$value))
-				{
-					unlink($this->getMaterialsPath().$value);
-				}
-				unset($this->materials[$key]);
-			}
-		}
-	}
-
-	/**
-	* Deletes all materials uris
-	*
-	* Deletes all materials uris
-	*
-	* @access public
-	* @see $materials
-	*/
-	function flushMaterials()
-	{
-		$this->materials = array();
 	}
 
 	/**
@@ -818,19 +720,6 @@ class ASS_Question
 	}
 
 	/**
-	* Returns the materials path for web accessable material of a question
-	*
-	* Returns the materials path for web accessable materials of a question.
-	* The materials path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/materials
-	*
-	* @access public
-	*/
-	function getMaterialsPath()
-	{
-		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/materials/";
-	}
-
-	/**
 	* Returns the web image path for web accessable java applets of a question
 	*
 	* Returns the web image path for web accessable java applets of a question.
@@ -857,82 +746,6 @@ class ASS_Question
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
-
-	/**
-	* Returns the web image path for web accessable images of a question
-	*
-	* Returns the web image path for web accessable images of a question.
-	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
-	*
-	* @access public
-	*/
-	function getMaterialsPathWeb()
-	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/materials/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
-	}
-
-	/**
-	* Saves a materials to a database
-	*
-	* Saves a materials to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveMaterialsToDb()
-	{
-		global $ilias;
-		$db = & $ilias->db;
-
-		if ($this->id > 0)
-		{
-			$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
-				$db->quote($this->id)
-			);
-			$result = $db->query($query);
-			if (!empty($this->materials)) {
-				foreach ($this->materials as $key => $value)
-				{
-					$query = sprintf("INSERT INTO qpl_question_material (question_id, materials, materials_file) VALUES (%s, %s, %s)",
-						$db->quote($this->id),
-						$db->quote($key),
-						$db->quote($value)
-					);
-					$result = $db->query($query);
-				}
-			}
-		}
-	}
-
-	/**
-	* Loads materials uris from a database
-	*
-	* Loads materials uris from a database
-	*
-	* @param object $db A pear DB object
-	* @param integer $question_id A unique key which defines the multiple choice test in the database
-	* @access public
-	*/
-	function loadMaterialFromDb($question_id)
-	{
-		global $ilias;
-		$db = & $ilias->db;
-
-		$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
-			$db->quote($question_id)
-			);
-		$result = $db->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
-		{
-			$this->materials = array();
-			while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$this->addMaterials($data->materials_file, $data->materials);
-			}
-		}
-	}
-
 
 	/**
 	* Loads solutions of the active user from the database an returns it
@@ -1060,23 +873,6 @@ class ASS_Question
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $data->type_tag;
-	}
-
-	function duplicateMaterials($question_id)
-	{
-		foreach ($this->materials as $filename)
-		{
-			$materialspath = $this->getMaterialsPath();
-			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
-			if (!file_exists($materialspath))
-			{
-				ilUtil::makeDirParents($materialspath);
-			}
-			if (!copy($materialspath_original . $filename, $materialspath . $filename))
-			{
-				print "material could not be duplicated!!!! ";
-			}
-		}
 	}
 
 	/**

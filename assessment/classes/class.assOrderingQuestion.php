@@ -89,7 +89,6 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @param string $comment A comment string to describe the question
 	* @param string $author A string containing the name of the questions author
 	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $materials An uri to additional materials
 	* @param string $question The question string of the ordering test
 	* @param points double The points for solving the ordering question
 	* @access public
@@ -548,9 +547,6 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		if ($result == DB_OK)
 		{
-			// saving material uris in the database
-			$this->saveMaterialsToDb();
-
 			// Antworten schreiben
 			// alte Antworten l�schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
@@ -608,9 +604,6 @@ class ASS_OrderingQuestion extends ASS_Question
 				$this->points = $data->points;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
-
-			// loads materials uris from database
-			$this->loadMaterialFromDb($question_id);
 
 			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
 				$db->quote($question_id)
@@ -672,8 +665,6 @@ class ASS_OrderingQuestion extends ASS_Question
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 
-		// duplicate the materials
-		$clone->duplicateMaterials($original_id);
 		// duplicate the image
 		$clone->duplicateImages($original_id);
 		return $clone->id;

@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assJavaApplet.php";
 * The ASS_JavaAppletGUI class encapsulates the GUI representation
 * for java applet questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assJavaAppletGUI.php
 * @modulegroup   Assessment
@@ -94,7 +94,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 		if ($this->object->getId() > 0)
 		{
-			// call to other question data i.e. material, estimated working time block
+			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
 			// image block
 			$this->tpl->setCurrentBlock("post_save");
@@ -204,14 +204,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	}
 
 
-	function uploadingMaterial()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-
 	/**
 	* save question to db and return to question pool
 	*/
@@ -243,49 +235,19 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
 	* @access private
 	*/
 	function outOtherQuestionData()
 	{
-		$colspan = " colspan=\"3\"";
-
-		if (!empty($this->object->materials))
-		{
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
-			$this->tpl->parse("mainselect_block");
-		}
-
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
-		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -314,9 +276,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 		if ($_POST["id"] > 0)
 		{
-			// adding estimated working time and materials uris
-			$this->writeOtherPostData($result);
-
 			// Question is already saved, appledcode can be uploaded
 			//setting java applet
 			if (empty($_FILES['javaappletName']['tmp_name']))
@@ -374,21 +333,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		if ($is_postponed)
 		{
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-		if (!empty($this->object->materials))
-		{
-			$i=1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setCurrentBlock("additional_params");

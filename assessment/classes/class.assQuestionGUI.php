@@ -29,7 +29,7 @@ require_once "./assessment/classes/class.assQuestion.php";
 * The ASS_QuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assQuestionGUI.php
 * @modulegroup   Assessment
@@ -114,9 +114,9 @@ class ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
 	* @access private
 	*/
@@ -222,11 +222,11 @@ class ASS_QuestionGUI
 
 
 	/**
-	* Sets the other data i.e. materials uris of a question from a posted create/edit form
+	* Sets the other data i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the other data i.e. materials uris of a question from a posted create/edit form
+	* Sets the other data i.e. estimated working time of a question from a posted create/edit form
 	*
-	* @return boolean Returns true, if the question had to be autosaved to get a question id for the save path of the material, otherwise returns false.
+	* @return boolean Returns true, if the question had to be autosaved
 	* @access private
 	*/
 	function writeOtherPostData($result = 0)
@@ -237,45 +237,7 @@ class ASS_QuestionGUI
 			ilUtil::stripSlashes($_POST["Estimated"][s])
 		);
 
-		// Add all materials uris from the form into the object
 		$saved = false;
-		$this->object->flushMaterials();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/material_list_/", $key, $matches))
-			{
-				$this->object->addMaterials($value, str_replace("material_list_", "", $key));
-			}
-		}
-		if (!empty($_FILES['materialFile']['tmp_name']) and ($_POST["cmd"]["uploadingMaterial"]))
-		{
-			if (($_POST["id"] > 0) or ($result != 1))
-			{
-				if ($this->object->getId() <= 0)
-				{
-					$this->object->saveToDb();
-					$saved = true;
-					sendInfo($this->lng->txt("question_saved_for_upload"));
-				}
-				$this->object->setMaterialsFile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
-			}
-			else
-			{
-				if ($_POST["cmd"]["uploadingMaterial"])
-				{
-					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_material"));
-				}
-			}
-		}
-
-		// Delete material if the delete button was pressed
-		if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect])))
-		{
-			foreach ($_POST[materialselect] as $value)
-			{
-				$this->object->deleteMaterial($value);
-			}
-		}
 		return $saved;
 	}
 

@@ -87,9 +87,6 @@ class ASS_ClozeTest extends ASS_Question
 	* @param string $author A string containing the name of the questions author
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @param string $cloze_text The question string of the cloze test
-	* @param string $start_tag The start tag for a cloze gap
-	* @param string $end_tag The end tag for a cloze gap
-	* @param string $materials An uri to additional materials
 	* @access public
 	*/
 	function ASS_ClozeTest(
@@ -216,9 +213,6 @@ class ASS_ClozeTest extends ASS_Question
 
 		if ($result == DB_OK)
 		{
-			// saving material uris in the database
-			$this->saveMaterialsToDb();
-
 			// Antworten schreiben
 
 			// alte Antworten l�schen
@@ -279,8 +273,6 @@ class ASS_ClozeTest extends ASS_Question
 				$this->shuffle = $data->shuffle;
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($question_id);
 
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
         $db->quote($question_id)
@@ -346,8 +338,6 @@ class ASS_ClozeTest extends ASS_Question
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 
-		// duplicate the materials
-		$clone->duplicateMaterials($original_id);
 		return $clone->id;
 	}
 	

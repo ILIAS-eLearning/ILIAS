@@ -188,7 +188,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// call to other question data i.e. material, estimated working time block
+		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
 
 		$this->tpl->setCurrentBlock("question_data");
@@ -218,9 +218,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
-	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
 	*
 	* @access private
 	*/
@@ -228,39 +228,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	{
 		$colspan = " colspan=\"4\"";
 
-		if (!empty($this->object->materials))
-		{
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
-			$this->tpl->parse("mainselect_block");
-		}
-
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
-		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -296,7 +268,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
-		// adding estimated working time and materials uris
+		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 
 		if ($this->ctrl->getCmd() != "createGaps")
@@ -351,17 +323,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		}
 		return $result;
 	}
-
-	/**
-	* upload material
-	*/
-	function uploadingMaterial()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
 
 	/**
 	* delete
@@ -551,109 +512,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setVariable("CLOZE_TEST", $output);
-
-		if (!empty($this->object->materials))
-		{
-			$i = 1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
-		}
 		return;
-
-		$this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
-		$solutions = array();
-		$postponed = "";
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id);
-		}
-		if ($is_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-		if (!empty($this->object->materials))
-		{
-			$i = 1;
-			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value)
-			{
-				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("material_download");
-			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("cloze");
-		$output = $this->object->get_cloze_text();
-		for ($gapIndex = 0; $gapIndex < $this->object->get_gap_count(); $gapIndex++)
-		{
-			$gap = $this->object->get_gap($gapIndex);
-			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
-			{
-				// text gap
-				$solution_value = "";
-				foreach ($solutions as $idx => $solution)
-				{
-					if ($solution->value1 == $gapIndex)
-					{
-						$solution_value = $solution->value2;
-					}
-				}
-				$output = preg_replace("/" . "<gap[^>]*?>" . preg_quote($this->object->get_gap_text_list($gapIndex), "/") . preg_quote($this->object->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
-			}
-				else
-			{
-				// select gap
-				$select = "<select name=\"gap_$gapIndex\">";
-				$solution_value = "";
-				// get the solution value if a prior solution exists
-				foreach ($solutions as $idx => $solution)
-				{
-					if ($solution->value1 == $gapIndex)
-					{
-						$solution_value = $solution->value2;
-					}
-				}
-				// build the combobox
-				$select .= "<option value=\"-1\" selected=\"selected\">" . $this->lng->txt("please_select") . "</option>";
-				$keys = array_keys($gap);
-				if ($this->object->shuffle)
-				{
-					$keys = $this->object->pcArrayShuffle($keys);
-				}
-				foreach ($keys as $key)
-				{
-					$value = $gap[$key];
-					$selected = "";
-					if ($solution_value == $value->get_order())
-					{
-						$selected = " selected=\"selected\"";
-					}
-					$select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
-				}
-				$select .= "</select>";
-				$output = preg_replace("/" . "<gap[^>]*?>" . preg_quote($this->object->get_gap_text_list($gapIndex), "/") . preg_quote($this->object->get_end_tag(), "/") . "/", $select, $output);
-			}
-		}
-		$this->tpl->setVariable("TEXT", $output);
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("cloze_test");
-		$this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->object->getTitle() . $postponed);
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
