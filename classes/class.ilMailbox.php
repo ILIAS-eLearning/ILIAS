@@ -101,6 +101,7 @@ class ilMailbox
 	{
 		global $ilias,$lng;
 
+
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
 		$this->user_id = $a_user_id;
@@ -114,6 +115,7 @@ class ilMailbox
 			$this->mtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
 		}
 
+		$this->lng->loadLanguageModule("mail");
 		$this->actions = array(
 			"move"        => $this->lng->txt("mail_move_to"),
 			"mark_read"   => $this->lng->txt("mail_mark_read"),
