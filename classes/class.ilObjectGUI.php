@@ -904,7 +904,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
-	
+	}
 
 	/**
 	* save object
@@ -1788,4 +1788,4 @@ class ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 }
-
+?>
