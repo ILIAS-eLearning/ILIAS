@@ -133,14 +133,41 @@ class ilLOListGUI
 	*/
 	function displayList()
 	{
-
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
 		// add everywhere wegen sparkassen skin
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		// set tabs
+		// display different buttons depending on viewmod
+		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+		{
+			$ftabtype = "tabactive";
+			$ttabtype = "tabinactive";
+		}
+		else
+		{
+			$ftabtype = "tabinactive";
+			$ttabtype = "tabactive";
+		}
+
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", $ttabtype);
+		$this->tpl->setVariable("TAB_TARGET", "bottom");
+		$this->tpl->setVariable("TAB_LINK", "lo_list.php?viewmode=tree");
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", $ftabtype);
+		$this->tpl->setVariable("TAB_TARGET", "bottom");
+		$this->tpl->setVariable("TAB_LINK", "lo_list.php?viewmode=flat");
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
+		$this->tpl->parseCurrentBlock();
 
 		// set locator
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
@@ -173,36 +200,6 @@ class ilLOListGUI
 		{
 			$_SESSION["viewmode"] = "flat";
 		}
-
-		// display different buttons depending on viewmod
-		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","lo_list.php?viewmode=tree");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("treeview"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","lo_list.php?viewmode=flat");
-			$this->tpl->setVariable("BTN_TARGET","target=\"_parent\"");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("flatview"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		/*
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=lm&from=lo_list.php");
-		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("lm_new"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=crs&from=lo_list.php");
-		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("crs_new"));
-		$this->tpl->parseCurrentBlock();*/
 
 		// display different content depending on viewmode
 		switch ($_SESSION["viewmode"])
@@ -244,14 +241,14 @@ class ilLOListGUI
 		$this->tpl->setVariable("FORMACTION", "lo_list.php?cmd=post&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("ACTIONTARGET", "bottom");
 
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lo_tbl_rows.html");
 
 		$lr_num = count($lr_arr);
 
 		// render table content data
 		if ($lr_num > 0)
 		{
+			$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lo_tbl_rows.html");
+
 			// counter for rowcolor change
 			$num = 0;
 
@@ -310,9 +307,13 @@ class ilLOListGUI
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("no_content");
-			$this->tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("lo_no_content"));
-			$this->tpl->parseCurrentBlock("no_content");
+
+			$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->setVariable("ROWCOL", "tblrow1");
+			$this->tpl->setVariable("COLSPAN", "6");
+			$this->tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->showPossibleSubObjects();
@@ -321,8 +322,8 @@ class ilLOListGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("lo_available"),"icon_crs_b.gif",$this->lng->txt("lo_available"));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->setTitle($this->lng->txt("lo_available"),"icon_crs_b.gif",$this->lng->txt("lo_available"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("status"),$this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
 		$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"),
 			array("cmd" => "displayList", "ref_id" => $_GET["ref_id"]));
@@ -338,7 +339,7 @@ class ilLOListGUI
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("content");
-		//$tbl->disable("footer");
+		$tbl->disable("title");
 
 		// render table
 		$tbl->render();
