@@ -56,6 +56,7 @@ common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
+common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application date
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
@@ -657,7 +658,7 @@ common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
-common#:#objs_confirm#:#Confirm Deletion
+common#:#objs_confirm#:#Confirm Action
 common#:#objs_delete#:#Delete objects
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version

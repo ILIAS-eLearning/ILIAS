@@ -645,12 +645,12 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tbl = new ilTableGUI();
 		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("typ","title","description","last_change"));
+		$tbl->setHeaderVars(array("type","title","description","last_change"));
 		$tbl->setColumnWidth(array("3%","16%","22%","*"));
 		$tbl->setMaxcount($maxcount);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setTitle($this->lng->txt("objs_delete"),"icon_grp_b.gif",$this->lng->txt("group_details"));
+		$tbl->setTitle($this->lng->txt("objs_confirm"),"icon_grp_b.gif",$this->lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->render();
