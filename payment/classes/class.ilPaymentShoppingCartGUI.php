@@ -108,15 +108,15 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 
 
-			$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['pobject_id']);
+			$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
 			$f_result[$counter][] = $tmp_obj->getTitle();
-			$f_result[$counter][] = $price_arr['duration'];
+			$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 
-			$price = $price_arr['unit_value'].' '.$this->lng->txt('paya_euro');
+			$price = $price_arr['unit_value'].' '.$this->lng->txt('currency_euro');
 
 			if($price_arr['sub_unit_value'])
 			{
-				$price .= ' '.$price_arr['sub_unit_value'].' '.$this->lng->txt('paya_cent');
+				$price .= ' '.$price_arr['sub_unit_value'].' '.$this->lng->txt('currency_cent');
 			}
 			$f_result[$counter][] = $price;
 
@@ -155,11 +155,11 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays_b.gif",$this->lng->txt("paya_statistic"));
+		$tbl->setTitle($this->lng->txt("paya_shopping_cart"),"icon_pays_b.gif",$this->lng->txt("paya_shopping_cart"));
 		$tbl->setHeaderNames(array($this->lng->txt(""),
 								   $this->lng->txt("title"),
-								   $this->lng->txt("paya_duration"),
-								   $this->lng->txt("paya_price")));
+								   $this->lng->txt("duration"),
+								   $this->lng->txt("price_a")));
 
 		$tbl->setHeaderVars(array("",
 								  "title",
@@ -185,6 +185,27 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$tbl->render();
 
 		$this->tpl->setVariable("ITEMS_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function deleteItem()
+	{
+		if(!count($_POST['item']))
+		{
+			sendInfo($this->lng->txt('pay_select_one_item'));
+
+			$this->showItems();
+			return true;
+		}
+		$this->__initShoppingCartObject();
+
+		foreach($_POST['item'] as $id)
+		{
+			$this->psc_obj->delete($id);
+		}
+		sendInfo($this->lng->txt('pay_deleted_items'));
+		$this->showItems();
 
 		return true;
 	}

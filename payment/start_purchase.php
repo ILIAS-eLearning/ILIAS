@@ -35,12 +35,12 @@ chdir("..");
 define('ILIAS_MODULE','payment');
 
 require_once "include/inc.header.php";
-require_once "./payment/classes/class.ilPurchaseBMFGUI.php";
+require_once "./payment/classes/class.ilPaymentPurchaseGUI.php";
 
 $ilCtrl->setTargetScript("start_purchase.php");
-$ilCtrl->getCallStructure("ilpurchasebmfgui");
+$ilCtrl->getCallStructure("ilpaymentpurchasegui");
 
-$pa =& new ilPurchaseBMFGUI($ilias->account);
+$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
 $ilCtrl->forwardCommand($pa);
 
 $tpl->show();
