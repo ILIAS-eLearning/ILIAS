@@ -30,7 +30,7 @@
 *
 * @package survey
 */
-define("ILIAS_MODULE", "survey");
+/*define("ILIAS_MODULE", "survey");
 chdir("..");
 require_once "./include/inc.header.php";
 
@@ -125,5 +125,37 @@ switch ($_GET["cmd"])
 }
 $obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
 $obj->$method();
+$tpl->show();*/
+define("ILIAS_MODULE", "survey");
+chdir("..");
+require_once "./include/inc.header.php";
+require_once "./survey/classes/class.ilObjSurveyGUI.php";
+
+unset($id);
+
+//determine call mode for object classes
+//TODO: don't use same var $id for both
+if ($_GET["obj_id"] > 0)
+{
+	$call_by_reference = false;
+	$id = $_GET["obj_id"];
+}
+else
+{
+	$call_by_reference = true;
+	$id = $_GET["ref_id"];
+}
+
+// exit if no valid ID was given
+if (!isset($_GET["ref_id"]))
+{
+	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
+}
+
+$ilCtrl->setTargetScript("survey.php");
+$ilCtrl->getCallStructure("ilobjsurveygui");
+$qp_gui =& new ilObjSurveyGUI("", $_GET["ref_id"], true, true);
+$ilCtrl->forwardCommand($qp_gui);
+
 $tpl->show();
 ?>
