@@ -34,6 +34,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#software van derden###09 Jan 2004 content changed
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
+common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
 common#:#absolute_path#:#Absolute pad
 common#:#accept_usr_agreement#:#Gebruikers-overeenkomst accepteren?
 common#:#access#:#Toegang
@@ -621,6 +623,7 @@ common#:#mob#:#Media-object
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Maand
+common#:#move#:#Move###20 Jan 2004 new variable
 common#:#moveChapter#:#Verplaatsen
 common#:#movePage#:#Verplaatsen
 common#:#move_to#:#Verplaatsen naar
@@ -1047,6 +1050,7 @@ common#:#view_content#:#Toon inhoud
 common#:#visible_layers#:#Zichtbare laag
 common#:#visits#:#Boezoeken
 common#:#week#:#Week
+common#:#welcome#:#Welcome###20 Jan 2004 new variable
 common#:#who_is_online#:#Wie is online?
 common#:#with#:#met
 common#:#write#:#Schrijven

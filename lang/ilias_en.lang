@@ -34,6 +34,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#3rd party software 
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -205,8 +207,6 @@ common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digibook
 common#:#dbk_visible#:#Digibook is visible
 common#:#dbk_write#:#Edit Digibook
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
 common#:#default#:#Default
 common#:#default_language#:#Default Language
 common#:#default_perm_settings#:#Default permissions
@@ -623,6 +623,7 @@ common#:#mob#:#Media Object
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Month
+common#:#move#:#Move
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_to#:#Move to
@@ -1049,6 +1050,7 @@ common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
 common#:#week#:#Week
+common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
 common#:#write#:#Write
@@ -1941,5 +1943,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#move#:#Move
-common#:#welcome#:#Welcome

@@ -34,6 +34,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
+common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
 common#:#absolute_path#:#absolute path###20 Mar 2003 new variable
 common#:#accept_usr_agreement#:#accept user agreement?###20 Mar 2003 new variable
 common#:#access#:#access###20 Mar 2003 new variable
@@ -621,6 +623,7 @@ common#:#mob#:#Media Object###28 Sep 2003 new variable
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#month#:#Month###01 Sep 2003 new variable
+common#:#move#:#Move###20 Jan 2004 new variable
 common#:#moveChapter#:#Move###19 Sep 2003 new variable
 common#:#movePage#:#Move###20 Sep 2003 new variable
 common#:#move_to#:#move to
@@ -1047,6 +1050,7 @@ common#:#view_content#:#view content
 common#:#visible_layers#:#visible layers
 common#:#visits#:#visits
 common#:#week#:#Week###01 Sep 2003 new variable
+common#:#welcome#:#Welcome###20 Jan 2004 new variable
 common#:#who_is_online#:#Who is online?###04 Aug 2003 new variable
 common#:#with#:#with###04 Aug 2003 new variable
 common#:#write#:#write
