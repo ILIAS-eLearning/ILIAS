@@ -4766,4 +4766,17 @@ ALTER TABLE `tst_active` ADD INDEX `test_fi` (`test_fi`);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#313>
+CREATE TABLE `exc_returned` (
+`returned_id` INT NOT NULL AUTO_INCREMENT ,
+`obj_id` INT NOT NULL ,
+`user_id` INT NOT NULL ,
+`filename` MEDIUMTEXT NOT NULL ,
+`filetitle` MEDIUMTEXT NOT NULL ,
+`mimetype` VARCHAR( 40 ) NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `returned_id` ) ,
+INDEX ( `obj_id` ),
+INDEX ( `user_id` )
+);
 
