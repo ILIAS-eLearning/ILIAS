@@ -5123,4 +5123,25 @@ CREATE TABLE `history` (
 ALTER TABLE content_object ADD COLUMN hist_user_comments ENUM('y','n') DEFAULT 'n';
 <#355>
 ALTER TABLE `tst_tests` ADD `random_test` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `ects_e` ;
+<#356>
+CREATE TABLE `tst_test_random_question` (
+  `test_random_question_id` int(11) NOT NULL auto_increment,
+  `test_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `sequence` int(10) unsigned NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`test_random_question_id`)
+) TYPE=MyISAM COMMENT='Relation table for random questions in tests';
+
+ALTER TABLE `tst_tests` ADD `random_question_count` int(11) AFTER  `random_test` ;
+<#357>
+CREATE TABLE `tst_test_random` (
+  `test_random_id` int(11) NOT NULL auto_increment,
+  `test_fi` int(11) NOT NULL default '0',
+  `qestionpool_fi` int(11) NOT NULL default '0',
+  `num_of_q` int(10) unsigned NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`test_random_id`)
+) TYPE=MyISAM COMMENT='Questionpools taken for a random test';
 

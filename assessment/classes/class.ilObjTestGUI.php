@@ -1345,8 +1345,147 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function randomQuestionsObject()
+	{
+		$add_parameter = $this->getAddParameter();
+		$available_qpl =& $this->object->getAvailableQuestionpools(true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", true);
+		if (!array_key_exists("countqpl_0", $_POST))
+		{
+			// create first questionpool row automatically
+			foreach ($available_qpl as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("qpl_value");
+				$this->tpl->setVariable("QPL_ID", $key);
+				$this->tpl->setVariable("QPL_TEXT", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("questionpool_row");
+			$this->tpl->setVariable("COUNTQPL", "0");
+			$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
+			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$found_qpls = array();
+		$qpl_unselected = 0;
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/countqpl_(\d+)/", $key, $matches))
+			{
+				$found_qpls[$matches[1]] = array(
+					"index" => $matches[1],
+					"count" => sprintf("%d", $value),
+					"qpl"   => $_POST["qpl_" . $matches[1]]
+				);
+				if ($_POST["qpl_" . $matches[1]] == -1)
+				{
+					$qpl_unselected = 1;
+				}
+			}
+		}
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
+			{
+				unset($found_qpls[$matches[1]]);
+			}
+		}
+		sort($found_qpls);
+		$found_qpls = array_values($found_qpls);
+		$counter = 0;
+		foreach ($found_qpls as $key => $value)
+		{
+			$pools = $available_qpl;
+			foreach ($found_qpls as $pkey => $pvalue)
+			{
+				if ($pvalue["qpl"] != $value["qpl"])
+				{
+					unset($pools[$pvalue["qpl"]]);
+				}
+			}
+			// create first questionpool row automatically
+			foreach ($pools as $pkey => $pvalue)
+			{
+				$this->tpl->setCurrentBlock("qpl_value");
+				$this->tpl->setVariable("QPL_ID", $pkey);
+				$this->tpl->setVariable("QPL_TEXT", $pvalue);
+				if ($pkey == $value["qpl"])
+				{
+					$this->tpl->setVariable("SELECTED_QPL", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("questionpool_row");
+			$this->tpl->setVariable("COUNTQPL", $counter);
+			$this->tpl->setVariable("VALUE_COUNTQPL", $value["count"]);
+			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
+			if ($counter > 0)
+			{
+				$this->tpl->setVariable("BTNCOUNTQPL", $counter);
+				$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+			}
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		if ($_POST["cmd"]["addQuestionpool"])
+		{
+			if ($qpl_unselected)
+			{
+				sendInfo($this->lng->txt("tst_random_qpl_unselected"));
+			}
+			else
+			{
+				$pools = $available_qpl;
+				foreach ($found_qpls as $pkey => $pvalue)
+				{
+					unset($pools[$pvalue["qpl"]]);
+				}
+				if (count($pools) == 0)
+				{
+					sendInfo($this->lng->txt("tst_no_more_available_questionpools"));
+				}
+				else
+				{
+					foreach ($pools as $key => $value)
+					{
+						$this->tpl->setCurrentBlock("qpl_value");
+						$this->tpl->setVariable("QPL_ID", $key);
+						$this->tpl->setVariable("QPL_TEXT", $value);
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("questionpool_row");
+					$this->tpl->setVariable("COUNTQPL", "$counter");
+					$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+					$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
+		if ($_POST["cmd"]["save"])
+		{
+			$this->object->saveRandomQuestionCount($_POST["total_questions"]);
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_SELECT_RANDOM_QUESTIONS", $this->lng->txt("tst_select_random_questions"));
+		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS", $this->lng->txt("tst_total_questions"));
+		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_total_questions_description"));
+		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $_POST["total_questions"]);
+		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
+		$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	function questionsObject()
 	{
+		if ($this->object->isRandomTest())
+		{
+			$this->randomQuestionsObject();
+			return;
+		}
+		
 		global $rbacsystem;
 		$add_parameter = $this->getAddParameter();
 

@@ -998,6 +998,26 @@ class ilObjTest extends ilObject
 		}
 	}
 
+	/**
+	* Saves the total amount of a tests random questions to the database
+	*
+	* Saves the total amount of a tests random questions to the database
+	*
+	* @param integer $total_questions The amount of random questions
+	* @access public
+	*/
+	function saveRandomQuestionCount($total_questions = "NULL");
+	{
+		if (strcmp($total_questions, "NULL") != 0)
+		{
+			$total_questions = $this->ilias->db->quote($total_questions);
+		}
+		$query = sprintf("UPDATE tst_tests SET random_question_count = %s WHERE test_id = %s",
+			$total_questions,
+			$this->ilias->db->quote($this->getTestId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+	}
 
 	/**
 	* Loads a ilObjTest object from a database
