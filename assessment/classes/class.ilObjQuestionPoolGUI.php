@@ -142,7 +142,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
-				$this->setPageEditorTabs();
+				$this->setQuestionTabs();
+				//$this->setPageEditorTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 
@@ -1051,23 +1052,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			// edit page
-			$tabs_gui->addTarget("edit",
+			$tabs_gui->addTarget("edit_content",
 				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
 				"ilPageObjectGUI");
 		}
 		// preview page
-		$tabs_gui->addTarget("cont_preview",
+		$tabs_gui->addTarget("preview",
 			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
 			"ilPageObjectGUI");
 
-		// properties
-		/*
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));*/
-
 		// back to upper context
-		$tabs_gui->addTarget("cont_back",
+		$tabs_gui->addTarget("back",
 			$this->ctrl->getLinkTarget($this, "questions"), "questions",
 			"ilObjQuestionPoolGUI");
 
@@ -1076,6 +1071,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function setQuestionTabs()
 	{
 //		echo "<br>setQuestionTabs<br>";
+		global $rbacsystem;
+		
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
 		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
 		include_once "./classes/class.ilTabsGUI.php";
@@ -1132,18 +1129,29 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		if ($classname)
-		{
-			$tabs_gui->addTarget("properties",
-				$this->ctrl->getLinkTargetByClass($classname, "editQuestion"), "editQuestion",
-				$classname);
-		}
-
 		if ($_GET["q_id"])
 		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				// edit page
+				$tabs_gui->addTarget("edit_content",
+					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
+					"ilPageObjectGUI");
+			}
+	
 			$tabs_gui->addTarget("preview",
 				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
 				"ilPageObjectGUI");
+		}
+
+		if ($classname)
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				$tabs_gui->addTarget("edit_properties",
+					$this->ctrl->getLinkTargetByClass($classname, "editQuestion"), "editQuestion",
+					$classname);
+			}
 		}
 
 		$tabs_gui->addTarget("back",

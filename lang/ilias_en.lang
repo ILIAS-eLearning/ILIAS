@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
+assessment#:#edit_content#:#Edit content
+assessment#:#edit_properties#:#Edit properties
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
