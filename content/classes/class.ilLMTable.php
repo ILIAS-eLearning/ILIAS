@@ -119,7 +119,10 @@ class ilLMTable extends ilPageContent
 			for ($c=1; $c<=$this->colcnt; $c++)
 			{
 				$this->setCol($c);
-				$xml.= "<TableData>";					// todo: attributes
+				$td_ed_id = ($a_incl_ed_ids)
+					? "ed_id=\"".$this->getEdId()."_r$r"."c$c\""
+					: "";
+				$xml.= "<TableData $td_ed_id>";					// todo: attributes
 
 				reset($this->cell[$this->row][$this->col]);
 				foreach($this->cell[$this->row][$this->col] as $co_object)
@@ -167,22 +170,68 @@ class ilLMTable extends ilPageContent
 		$pos = explode("_", $a_pos);
 		if(isset($pos[1]))		// content should be child of a container
 		{
-			$pos_0 = $pos[0];
+			$tpos = $this->seq2TablePos($pos[0]);
 			unset($pos[0]);
-			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"));
+			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->insertContent($a_cont_obj, implode($pos, "_"));
 		}
-		else		// content should be child of table
+		else		// insert as child element of the table
 		{
-			$tpos = $this->seq2TablePos($pos[0] - 1);
-			for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
+			// if $pos[0] has format "r...c..." then an insert at the top
+			// of a table cell should be made
+			$r = strpos($pos[0] ,"r");
+			$c = strpos($pos[0] ,"c");
+			if(is_int($r) && is_int($c))
 			{
-				if($i >= ($tpos["pos"] + 2))
+				$row = substr($pos[0], 1, $c - 1);
+				$col = substr($pos[0], $c + 1, strlen($pos[0]) - $c - 1);
+
+				// todo: das stimmt net!
+				for($i = count($this->cell[$row][$col]); $i >= 1; $i--)
 				{
-					$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
+					$this->cell[$row][$col][$i] =& $this->cell[$row][$col][$i - 1];
+				}
+				$this->cell[$row][$col][0] =& $a_cont_obj;
+			}
+			else		// if $pos[0] is number, insert object at sequential position $pos[0]
+			{
+				$tpos = $this->seq2TablePos($pos[0] - 1);
+				for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
+				{
+					if($i >= ($tpos["pos"] + 2))
+					{
+						$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
+					}
+				}
+				$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + 1] =& $a_cont_obj;
+			}
+		}
+	}
+
+	/**
+	* delete content object at position $a_pos
+	*/
+	function deleteContent($a_pos)
+	{
+		$pos = explode("_", $a_pos);
+		if(isset($pos[1]))		// object of child container should be deleted
+		{
+			$tpos = $this->seq2TablePos($pos[0]);
+			unset($pos[0]);
+			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->deleteContent(implode($pos, "_"));
+		}
+		else		// direct child should be deleted
+		{
+			$tpos = $this->seq2TablePos($pos[0]);
+			$cnt = 0;
+			foreach($this->cell[$tpos["row"]][$tpos["col"]] as $content)
+			{
+				$cnt++;
+				if ($cnt > $tpos["pos"])
+				{
+					$this->cell[$tpos["row"]][$tpos["col"]][$cnt - 1] =& $this->cell[$tpos["row"]][$tpos["col"]][$cnt];
 				}
 			}
-			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + 1] =& $a_cont_obj;
-
+			unset($this->cell[$tpos["row"]][$tpos["col"]][count($this->cell[$tpos["row"]][$tpos["col"]]) - 1]);
 		}
 	}
 

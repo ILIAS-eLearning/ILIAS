@@ -91,7 +91,10 @@ class ilPageContent
 	function incEdId($ed_id)
 	{
 		$id = explode("_", $ed_id);
-		$id[count($id) - 1]++;
+		if (!is_int(strpos($id[count($id) - 1] ,"r")))	// don't increase "r...c.." table cell numbers
+		{
+			$id[count($id) - 1]++;
+		}
 		return implode($id, "_");
 	}
 }

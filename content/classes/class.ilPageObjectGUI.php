@@ -79,7 +79,8 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
+		$params = array ('mode' => 'edit');
+		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
 
@@ -111,7 +112,39 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
+		$params = array ('mode' => 'edit');
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+	}
+
+	/*
+	* preview
+	*/
+	function preview()
+	{
+		global $tree;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
+		$num = 0;
+
+		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+
+		// setting to utf-8 here
+		$content = $this->obj->getXMLContent(true, false, true);
+		header('Content-type: text/html; charset=UTF-8');
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		$params = array ('mode' => 'preview');
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
 

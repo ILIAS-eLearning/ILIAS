@@ -194,16 +194,26 @@ class ilPageObject extends ilLMObject
 	*/
 	function deleteContent($a_pos)
 	{
-		$cnt = 0;
-		foreach($this->content as $content)
+		$pos = explode("_", $a_pos);
+		if(isset($pos[1]))		// object of child container should be deleted
 		{
-			$cnt ++;
-			if ($cnt > $a_pos)
-			{
-				$this->content[$cnt - 2] =& $this->content[$cnt - 1];
-			}
+			$pos_0 = $pos[0];
+			unset($pos[0]);
+			$this->content[$pos_0 - 1]->deleteContent(implode($pos, "_"));
 		}
-		unset($this->content[count($this->content) - 1]);
+		else		// direct child should be deleted
+		{
+			$cnt = 0;
+			foreach($this->content as $content)
+			{
+				$cnt ++;
+				if ($cnt > $a_pos)
+				{
+					$this->content[$cnt - 2] =& $this->content[$cnt - 1];
+				}
+			}
+			unset($this->content[count($this->content) - 1]);
+		}
 		$this->update();
 	}
 
