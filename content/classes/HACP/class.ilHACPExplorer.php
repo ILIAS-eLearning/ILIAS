@@ -200,11 +200,19 @@ class ilHACPExplorer extends ilAICCExplorer
 						if (strlen($unit->getWebLaunch())>0)
 							$url.="?".$unit->getWebLaunch();
 						
-						$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/content/sahs_server.php";
-						//$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/aicctest/test.php";
-						$url.="?aicc_url=$hacpURL&aicc_sid=testsid";
+						if (substr($_SERVER["REMOTE_ADDR"],0,9)=="10.113.88") //for testing
+							$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/content/sahs_server.php";
+						else
+							$hacpURL=ILIAS_HTTP_PATH."/content/sahs_server.php";
 						
-						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;// $a_node_id";
+						$url.="?aicc_url=$hacpURL&aicc_sid=".session_id();
+					
+						foreach ($this->slm_obj as $key=>$value)
+							$output.="key=$key value=$value<br>";
+						$tpl->setVariable("TITLE", $output);
+	
+						//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
 						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
 						$tpl->setVariable("LINK_TARGET", "$url");
 						
