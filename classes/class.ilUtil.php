@@ -2000,9 +2000,67 @@ class ilUtil
 		}
 		$target_time = mktime($hour, $minute, $second, $month, $day, $year);
 		$difference = $target_time - $starting_time;
-		$days = (($difference - ($difference % 86400)) / 86400); 
-		$difference = $difference - ($days * 86400) + 3600; 
+		$days = (($difference - ($difference % 86400)) / 86400);
+		$difference = $difference - ($days * 86400) + 3600;
 		return ($days + 25569 + ($difference / 86400));
+	}
+
+	function renameExecutables($a_dir)
+	{
+		ilUtil::rRenameSuffix($a_dir, "php", "sph");
+		ilUtil::rRenameSuffix($a_dir, "php3", "sph");
+	}
+
+	/**
+	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
+	* @param	string	$a_sdir		source directory
+	* @param	string	$a_tdir		target directory
+	*
+	* @return	boolean	TRUE for sucess, FALSE otherwise
+	* @access	public
+	*/
+	function rRenameSuffix ($a_dir, $a_old_suffix, $a_new_suffix)
+	{
+		if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, "..")))
+		{
+			return false;
+		}
+
+		// check if argument is directory
+		if (!@is_dir($a_dir))
+		{
+			return false;
+		}
+
+		// read a_dir
+		$dir = opendir($a_dir);
+
+		while($file = readdir($dir))
+		{
+	    	if ($file != "." and
+				$file != "..")
+			{
+				// directories
+				if (@is_dir($a_dir."/".$file))
+				{
+					ilUtil::rRenameSuffix($a_dir."/".$file, $a_old_suffix, $a_new_suffix);
+				}
+
+				// files
+				if (@is_file($a_dir."/".$file))
+				{
+					$path_info = pathinfo($a_dir."/".$file);
+					if (strtolower($path_info["extension"]) ==
+						strtolower($a_old_suffix))
+					{
+						$pos = strrpos($a_dir."/".$file, ".");
+						$new_name = substr($a_dir."/".$file, 0, $pos).".".$a_new_suffix;
+						rename($a_dir."/".$file, $new_name);
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 } // END class.ilUtil

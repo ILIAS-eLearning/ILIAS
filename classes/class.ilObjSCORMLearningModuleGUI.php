@@ -229,16 +229,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
-		
-		// get the value for the maximal uploadable filesize from the php.ini (if available)  
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");
-		// get the value for the maximal post data from the php.ini (if available)  
+		// get the value for the maximal post data from the php.ini (if available)
 		$pms=get_cfg_var("post_max_size");
-		
+
 		// use the smaller one as limit
 		$max_filesize=min($umf, $pms);
 		if (!$max_filesize) $max_filesize=max($umf, $pms);
-		// gives out the limit as a littel notice :) 
+		// gives out the limit as a littel notice :)
 		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize.");
 	}
 
@@ -263,7 +263,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
-		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini 
+		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
 		switch ($_HTTP_POST_FILES["scormfile"]["error"])
 		{
 			case UPLOAD_ERR_INI_SIZE:
@@ -314,13 +314,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
 		ilUtil::unzip($file_path);
+		ilUtil::renameExecutables($newObj->getDataDirectory());
 
 		// check if manifest file exists
-		
+
 		// convert imsmanifest.xml file in iso to utf8
 		include_once("include/inc.convertcharset.php");
 		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
-		
+
 		// create backup form original
 		if (!copy($manifest_file, $manifest_file.'.old')) {
    			print ("failed to copy $file...<br>\n");

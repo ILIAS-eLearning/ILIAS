@@ -458,6 +458,8 @@ class ilFileSystemGUI
 
 		rename($dir.$_GET["old_name"], $dir.$new_name);
 
+		ilUtil::renameExecutables($this->main_dir);
+
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
@@ -508,6 +510,9 @@ class ilFileSystemGUI
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
 		$this->ctrl->saveParameter($this, "cdir");
+
+		ilUtil::renameExecutables($this->main_dir);
+
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
@@ -577,6 +582,8 @@ class ilFileSystemGUI
 		{
 			ilUtil::unzip($file);
 		}
+
+		ilUtil::renameExecutables($this->main_dir);
 
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "listFiles");
