@@ -22,9 +22,10 @@ if ($_REQUEST["ok"] == "ok")
 	$host = $_REQUEST["host"];
 	$dbname = $_REQUEST["dbname"];
 	
-	// zip command, id of the Learningunit, ILIAS 2 directory, source directory, target directory
+	// zip command, id and inst of the Learningunit, ILIAS 2 directory, source directory, target directory
 	$zipCmd = $_REQUEST["zipCmd"];
 	$luId = (integer) $_REQUEST["luId"];
+	$luInst = (integer) $_REQUEST["luInst"];
 	$iliasDir = $_REQUEST["iliasDir"];
 	$sDir = $_REQUEST["sDir"];
 	$tDir = $_REQUEST["tDir"];
@@ -32,6 +33,7 @@ if ($_REQUEST["ok"] == "ok")
 	// check if set
 	if (is_string($zipCmd) and
 		is_integer($luId) and
+		is_integer($luInst) and
 		is_string($iliasDir) and
 		is_string($sDir) and
 		is_string($tDir))
@@ -39,7 +41,7 @@ if ($_REQUEST["ok"] == "ok")
 		// initialize object
 		$exp = new ILIAS2To3Converter($user, $pass, $host, $dbname, $zipCmd, $iliasDir, $sDir, $tDir);
 		// convert
-		$exp->dumpLearningModuleFile($luId);
+		$exp->dumpLearningModuleFile($luId, $luInst);
 		// destroy object
 		$exp->_ILIAS2To3Converter();
 	}
@@ -64,8 +66,9 @@ else // display form
 					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"virtus\"><br /><br />\n".
 					"Zip command:<br /><br />\n".
 					"<input type=\"text\" name=\"zipCmd\" maxlengh=\"50\" size=\"40\" value=\"c:/zip/zip\"><br /><br />\n".
-					"Id of the Learningunit:<br /><br />\n".
-					"<input type=\"text\" name=\"luId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />\n".
+					"Learningunit:<br /><br />\n".
+					"Id:<br /><input type=\"text\" name=\"luId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br />\n".
+					"Installation Id:<br /><input type=\"text\" name=\"luInst\" maxlengh=\"10\" size=\"10\" value=\"101\"><br /><br />\n".
 					"Full path to the ILIAS 2 base directory:<br /><br />\n".
 					"<input type=\"text\" name=\"iliasDir\" maxlengh=\"50\" size=\"40\" value=\"d:/htdocs/ilias/\"><br /><br />\n".
 					"Full path to the source directory containing the raw data files:<br /><br />\n".
