@@ -67,7 +67,8 @@ class ilPaymentPrices
 
 	function setUnitValue($a_value = 0)
 	{
-		$this->unit_value = $a_value;
+		// substitute leading zeros with ''
+		$this->unit_value = preg_replace('/^0+/','',$a_value);
 	}
 	function setSubUnitValue($a_value = 0)
 	{
@@ -85,7 +86,7 @@ class ilPaymentPrices
 	function add()
 	{
 		$query = "INSERT INTO payment_prices SET ".
-			"pobject_id = '".$this->__getPobjectId()."', ".
+			"pobject_id = '".$this->getPobjectId()."', ".
 			"currency = '".$this->__getCurrency()."', ".
 			"duration = '".$this->__getDuration()."', ".
 			"unit_value = '".$this->__getUnitValue()."', ".
@@ -99,12 +100,13 @@ class ilPaymentPrices
 	}
 	function update($a_price_id)
 	{
+
 		$query = "UPDATE payment_prices SET ".
 			"currency = '".$this->__getCurrency()."', ".
 			"duration = '".$this->__getDuration()."', ".
 			"unit_value = '".$this->__getUnitValue()."', ".
 			"sub_unit_value = '".$this->__getSubUnitValue()."' ".
-			"WHERE price_id = '".$this->$a_price_id."'";
+			"WHERE price_id = '".$a_price_id."'";
 
 		$res = $this->db->query($query);
 
@@ -136,6 +138,29 @@ class ilPaymentPrices
 		return true;
 	}
 
+	function validate()
+	{
+		$duration_valid = false;
+		$price_valid = false;
+
+		if(preg_match('/^[1-9][0-9]{0,1}$/',$this->__getDuration()))
+		{
+			$duration_valid = true;
+		}
+		
+		if(preg_match('/^[1-9]{1,5}$/',$this->__getUnitValue()) and
+		   preg_match('/^\d{0,2}$/',$this->__getSubUnitValue()))
+		{
+			$price_valid = true;
+		}
+		else if(preg_match('/^\d{0,5}$/',$this->__getUnitValue()) and
+				preg_match('/[1-9]/',$this->__getSubUnitValue()))
+		{
+			return true;
+		}
+		return $duration_valid and $price_valid;
+	}
+				  
 	// PRIVATE
 	function __getUnitValue()
 	{
@@ -157,7 +182,8 @@ class ilPaymentPrices
 	function __read()
 	{
 		$query = "SELECT * FROM payment_prices ".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
+			"WHERE pobject_id = '".$this->getPobjectId()."' ".
+			"ORDER BY duration";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

@@ -186,11 +186,14 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	}
 
-	function editPrices()
+	function editPrices($a_show_delete = false)
 	{
 		include_once './payment/classes/class.ilPaymentPrices.php';
+		include_once './payment/classes/class.ilPaymentCurrency.php';
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once './classes/class.ilTableGUI.php';
+
+		$_SESSION['price_ids'] = $_SESSION['price_ids'] ? $_SESSION['price_ids'] : array();
 
 		if(!$_GET['pobject_id'])
 		{
@@ -208,6 +211,39 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit_prices.html',true);
 
 		$price_obj =& new ilPaymentPrices((int) $_GET['pobject_id']);
+		$prices = $price_obj->getPrices();
+
+		// No prices created
+		if(!count($prices))
+		{
+			sendInfo($this->lng->txt('paya_no_price_available'));
+
+			$this->tpl->setCurrentBlock("price_info");
+			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("CONFIRM_CMD",'addPrice');
+			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('paya_add_price'));
+			$this->tpl->parseCurrentBlock();
+			
+			return true;
+		}
+		// Show confirm delete
+		if($a_show_delete)
+		{
+			sendInfo($this->lng->txt('paya_sure_delete_selected_prices'));
+
+			$this->tpl->setCurrentBlock("cancel");
+			$this->tpl->setVariable("CANCEL_CMD",'editPrices');
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("price_info");
+			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("CONFIRM_CMD",'performDeletePrice');
+			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('paya_delete_price'));
+			$this->tpl->parseCurrentBlock();
+		}			
+			
+
 		$po =& new ilPaymentObject($this->user_obj,(int) $_GET['pobject_id']);
 
 		// Fill table cells
@@ -216,50 +252,60 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		// set table header
 		$tpl->setCurrentBlock("tbl_form_header");
 		
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content",'tpl.paya_edit_prices_row.html',true);
 		
 		$counter = 0;
-		foreach($price_obj->getPrices() as $price)
+		foreach($prices as $price)
 		{
+			$currency = ilPaymentCurrency::_getCurrency($price['currency']);
+
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", ilUtil::switchColor($counter,"tblrow2","tblrow1"));
 
-			$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox(0,'price_id',$price['price_id']));
-			$tpl->setVariable("DURATION_NAME",'duration['.$price['price_id'].']');
+			$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox(in_array($price['price_id'],$_SESSION['price_ids']) ? 1 : 0,
+															  'price_ids[]',
+															  $price['price_id']));
+			$tpl->setVariable("DURATION_NAME",'prices['.$price['price_id'].'][duration]');
 			$tpl->setVariable("DURATION",$price['duration']);
 			$tpl->setVariable("MONTH",$this->lng->txt('paya_months'));
-			$tpl->setVariable("UNIT_NAME",'unit_value['.$price['price_id'].']');
+			$tpl->setVariable("UNIT_NAME",'prices['.$price['price_id'].'][unit_value]');
 			$tpl->setVariable("UNIT",$price['unit_value']);
-			$tpl->setVariable("SHORTFORM",'&euro;');
+			$tpl->setVariable("SHORTFORM",$this->lng->txt('currency_'.$currency['unit']));
 			
-			$tpl->setVariable("SUB_UNIT_NAME",'sub_unit_value['.$price['price_id'].']');
+			$tpl->setVariable("SUB_UNIT_NAME",'prices['.$price['price_id'].'][sub_unit_value]');
 			$tpl->setVariable("SUB_UNIT",$price['sub_unit_value']);
-			$tpl->setVariable("SUB_UNIT_TXT",'Cent');
+			$tpl->setVariable("SUB_UNIT_TXT",$this->lng->txt('currency_'.$currency['sub_unit']));
 			$tpl->parseCurrentBlock();
 			
 			++$counter;
 		}
 
 		// SET FOOTER
+		$tpl->setCurrentBlock("tbl_action_button");
+		$tpl->setVariable("BTN_NAME","deletePrice");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("paya_delete_price"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->setVariable("PBTN_NAME","updatePrice");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("paya_update_price"));
+		$tpl->parseCurrentBlock();
+
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->setVariable("PBTN_NAME","addPrice");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("paya_add_price"));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_button");
-		$tpl->setVariable("BTN_NAME","deletePrice");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("paya_delete_price"));
-		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->setVariable("COLUMN_COUNTS",4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
+
 
 		$tbl = new ilTableGUI();
 		$tbl->setTemplate($tpl);
@@ -275,13 +321,12 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt('duration'),
 								   $this->lng->txt('price_a'),
-								   $this->lng->txt('price_b')));
+								   ''));
 		$tbl->setHeaderVars(array("",
 								  "duration",
 								  "price_unit",
 								  "price_sub_unit"),
 							array("ref_id" => $this->cur_ref_id));
-
 
 		// control
 		$tbl->setLimit($_GET["limit"]);
@@ -298,6 +343,202 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		return true;
 	}
 
+	function addPrice()
+	{
+		include_once './payment/classes/class.ilPaymentObject.php';
+
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+
+		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+
+		$po =& new ilPaymentObject($this->user_obj,(int) $_GET['pobject_id']);
+
+		$this->showButton('editDetails',$this->lng->txt('paya_edit_details'));
+		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
+		$this->showButton('EditPayMethod',$this->lng->txt('paya_edit_pay_method'));
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_price.html',true);
+
+		$this->tpl->setVariable("ADD_FORMACTION",$this->ctrl->getFormAction($this));
+
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId($po->getRefId());
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$tmp_obj->getType().'_b.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$tmp_obj->getType()));
+		$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
+		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('paya_add_price_title'));
+		
+		// TODO show curency selector
+		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('paya_currency_euro'));
+		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('paya_currency_cent'));
+		
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('paya_duration'));
+		$this->tpl->setVariable("TXT_PRICE",$this->lng->txt('paya_price'));
+		$this->tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("ADD",$this->lng->txt('paya_add_price'));
+
+		$this->tpl->setVariable("DURATION",$_POST['duration']);
+		$this->tpl->setVariable("UNIT_VALUE",$_POST['unit']);
+		$this->tpl->setVariable("SUB_UNIT",$_POST['SUB_UNIT']);
+		
+		return true;
+	}
+
+	function performAddPrice()
+	{
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+		
+		include_once './payment/classes/class.ilPaymentPrices.php';
+		include_once './payment/classes/class.ilPaymentCurrency.php';
+
+		$currency = ilPaymentCurrency::_getAvailableCurrencies();
+
+		$prices =& new ilPaymentPrices((int) $_GET['pobject_id']);
+
+		$prices->setDuration($_POST['duration']);
+		$prices->setUnitValue($_POST['unit']);
+		$prices->setSubUnitValue($_POST['sub_unit']);
+		$prices->setCurrency($currency[1]['currency_id']);
+
+		if(!$prices->validate())
+		{
+			sendInfo($this->lng->txt('paya_price_not_valid'));
+			$this->addPrice();
+
+			return true;
+		}
+		$prices->add();
+
+		sendInfo($this->lng->txt('paya_added_new_price'));
+		$this->editPrices();
+
+		return true;
+	}
+		
+		
+
+	function performDeletePrice()
+	{
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+
+		if(!count($_SESSION['price_ids']))
+		{
+			sendInfo($this->lng->txt('paya_no_prices_selected'));
+			
+			$this->editPrices();
+			return true;
+		}
+		include_once './payment/classes/class.ilPaymentPrices.php';
+		
+		$prices =& new ilPaymentPrices((int) $_GET['pobject_id']);
+
+		foreach($_SESSION['price_ids'] as $price_id)
+		{
+			$prices->delete($price_id);
+		}
+		unset($prices);
+		unset($_SESSION['price_ids']);
+
+		return $this->editPrices();
+	}
+
+
+	function deletePrice()
+	{
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+
+		if(!count($_POST['price_ids']))
+		{
+			sendInfo($this->lng->txt('paya_no_prices_selected'));
+			
+			$this->editPrices();
+			return true;
+		}
+		$_SESSION['price_ids'] = $_POST['price_ids'];
+
+		$this->editPrices(true);
+		return true;
+	}
+			
+		
+		
+
+	function updatePrice()
+	{
+		include_once './payment/classes/class.ilPaymentPrices.php';
+
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+		$po =& new ilPaymentPrices((int) $_GET['pobject_id']);
+
+		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+
+		// validate
+		foreach($_POST['prices'] as $price_id => $price)
+		{
+			$old_price = $po->getPrice($price_id);
+
+			$po->setDuration($price['duration']);
+			$po->setUnitValue($price['unit_value']);
+			$po->setSubUnitValue($price['sub_unit_value']);
+			$po->setCurrency($old_price['currency']);
+
+			if(!$po->validate())
+			{
+				$error = true;
+			}
+		}
+		if($error)
+		{
+			sendInfo('paya_insert_only_numbers');
+
+			$this->editPrices();
+			return false;
+		}
+		foreach($_POST['prices'] as $price_id => $price)
+		{
+			$old_price = $po->getPrice($price_id);
+
+			$po->setDuration($price['duration']);
+			$po->setUnitValue($price['unit_value']);
+			$po->setSubUnitValue($price['sub_unit_value']);
+			$po->setCurrency($old_price['currency']);
+
+			$po->update($price_id);
+		}
+		sendInfo($this->lng->txt('paya_updated_prices'));
+		$this->editPrices();
+
+		return true;
+	}
 		
 
 	function updateDetails()

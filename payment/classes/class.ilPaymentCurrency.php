@@ -42,7 +42,6 @@ class ilPaymentCurrency
 			$currencies[$row->currency_id]['currency_id']		= $row->currency_id;
 			$currencies[$row->currency_id]['unit']				= $row->unit;
 			$currencies[$row->currency_id]['subunit']			= $row->subunit;
-			$currencies[$row->currency_id]['shortform']			= $row->shortform;
 		}
 		return $currencies ? $currencies : array();
 	}
@@ -58,10 +57,37 @@ class ilPaymentCurrency
 		{
 			$currencies['currency_id']		= $row->currency_id;
 			$currencies['unit']				= $row->unit;
-			$currencies['subunit']			= $row->subunit;
-			$currencies['shortform']		= $row->shortform;
+			$currencies['sub_unit']			= $row->subunit;
 		}
 		return $currencies;
+	}
+	function _getUnit($a_currency_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT unit FROM payment_currencies ".
+			"WHERE currency_id = '".$a_currency_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->unit;
+		}
+		return false;
+	}
+	function _getSubUnit($a_currency_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT sub_unit FROM payment_currencies ".
+			"WHERE currency_id = '".$a_currency_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->sub_unit;
+		}
+		return false;
 	}
 }
 
