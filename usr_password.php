@@ -8,6 +8,7 @@
  */
 require_once "./include/ilias_header.inc";
 
+
 $tplmain->setVariable("TXT_PAGETITLE", "ILIAS - " . $lng->txt("chg_password"));
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
@@ -27,6 +28,19 @@ $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
 $tpl = new Template("tpl.usr_password.html", true, true);
+
+if ($_POST["pw_old"] != "")
+{
+	if ($ilias->account->updatePassword($_POST["pw_old"], $_POST["pw1"], $_POST["pw2"]) == true) {
+		$msg = "msg_changes_ok";
+	}
+	else
+		$msg = "msg_failed";
+	
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("MSG", $lng->txt($msg));
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->setVariable("BUTTONS", $tplbtn->get());
 
