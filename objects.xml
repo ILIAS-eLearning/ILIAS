@@ -135,7 +135,6 @@
 	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
