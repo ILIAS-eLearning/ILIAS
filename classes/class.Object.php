@@ -236,13 +236,7 @@ class Object
 			foreach ($parentRoles as $r)
 			{
 				$data["rolenames"][] = $r["title"];
-			}
-			
-
-			foreach ($parentRoles as $r)
-			{
-				$box = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
-				$data["check_inherit"][] = $box;
+				$data["check_inherit"][] = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 			}
 			
 			$ope_list = getOperationList($obj["type"]);
@@ -254,7 +248,7 @@ class Object
 				
 				foreach ($parentRoles as $role)
 				{
-					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"]);
+					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"],$_GET["parent"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
 					$opdata["values"][] = $box;

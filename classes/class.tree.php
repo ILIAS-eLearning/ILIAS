@@ -230,20 +230,10 @@ class Tree
 	function insertNode($a_node_id,$a_parent_id,$a_parent_parent_id)
 	{
 		// get left value
-		if ($a_parent_parent_id)
-		{
-			$query = "SELECT * FROM tree ".
-					 "WHERE child = '".$a_parent_id."' ".
-					 "AND parent = '".$a_parent_parent_id."' ".
-					 "AND tree = '".$this->tree_id."'";
-		}
-		else
-		{
-			$query = "SELECT * FROM tree ".
-					 "WHERE child = '".$a_parent_id."' ".
-					 "AND parent = '0' ".
-					 "AND tree = '".$this->tree_id."'";
-		}
+	   $query = "SELECT * FROM tree ".
+		  "WHERE child = '".$a_parent_id."' ".
+		  "AND parent = '".$a_parent_parent_id."' ".
+		  "AND tree = '".$this->tree_id."'";
 
 		$res = $this->ilias->db->getRow($query);
 		
@@ -251,6 +241,7 @@ class Tree
 
 		$lft = $left + 1;
 		$rgt = $left + 2;
+//		var_dump("<pre>","child = ".$a_parent_id,"parent = ".$a_parent_parent_id,"left = ".$left,"lft = ".$lft,"rgt = ".$rgt,"</pre");
 
 		// spread tree
 		$query = "UPDATE tree SET ".
@@ -811,7 +802,7 @@ class Tree
 	   {
 		  $subnodes[$row->child]["tree"]   = $row->tree;
 		  $subnodes[$row->child]["child"]  = $row->child;
-		  $subnodes[$row->child]["parent"] = $row->parent;
+ 		  $subnodes[$row->child]["parent"] = $row->parent;
 		  $subnodes[$row->child]["lft"]    = $row->lft;
 		  $subnodes[$row->child]["rgt"]    = $row->rgt;
 		  $subnodes[$row->child]["depth"]  = $row->depth;

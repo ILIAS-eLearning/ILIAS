@@ -59,10 +59,14 @@ class Admin
 	  // SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 	  foreach($_POST["id"] as $id)
 	  {
+		 // DELETE OLD PERMISSION ENTRIES
+		 $subnodes = $tree->getSubtree($tree->getNodeData($id,$_GET["obj_id"]));
+		 foreach($subnodes as $subnode)
+		 {
+			$rbacadmin->revokePermission($subnode["obj_id"],$subnode["parent"]);
+		 }
 		 $tree->saveSubtree($id,$_GET["obj_id"],1);
 		 $tree->deleteTree($tree->getNodeData($id,$_GET["obj_id"]));
-		 // DELETE OLD PERMISSION ENTRIES
-		 $rbacadmin->revokePermission($id,$_GET["obj_id"]);
 		 $clipboard[$id]["parent"] = $_GET["obj_id"];
 		 $clipboard[$id]["cmd"] = $_POST["cmd"];
 	  }
@@ -148,8 +152,9 @@ class Admin
 	  }
 	  foreach($_SESSION["clipboard"] as $id => $object)
 	  {
-		 $this->insertSavedNodes($id,$object["parent"],$_GET["obj_id"],$_GET["parent"]);
+		 $this->insertSavedNodes($id,$object["parent"],$_GET["obj_id"],$_GET["parent"],-(int) $id);
 	  }
+	  $this->clearObject();
    }
 
    /**
@@ -170,12 +175,11 @@ class Admin
 	* recursive method to insert all saved nodes of the clipboard
 	* @access private
 	*/	
-   function insertSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent)
+   function insertSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
    {
 	  global $tree,$rbacadmin,$rbacreview;
 
 	  $tree->insertNode($a_source_id,$a_dest_id,$a_dest_parent);
-
 	  // SET PERMISSIONS
 	  $parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
 	  $obj = getObject($a_dest_id);
@@ -185,11 +189,11 @@ class Admin
 		 $rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id,$a_dest_id);
 	  }
 
-	  $saved_tree = new Tree($a_source_id,$a_source_parent,0,-(int) $a_source_id);
+	  $saved_tree = new Tree($a_source_id,$a_source_parent,0,$a_tree_id);
 	  $childs = $saved_tree->getChilds($a_source_id);
 	  foreach($childs as $child)
 	  {
-		 $this->insertSavedNodes($child["child"],$child["parent"],$a_source_id,$a_source_parent);
+		 $this->insertSavedNodes($child["child"],$child["parent"],$a_source_id,$a_dest_id,$a_tree_id);
 	  }
    }
 

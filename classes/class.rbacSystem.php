@@ -160,7 +160,7 @@ class RbacSystem
 	* @param	string
 	* @return	boolean
 	*/
-	function checkPermission($Aobj_id,$Arol_id,$Aoperation,$Aset_id="")
+	function checkPermission($Aobj_id,$Arol_id,$Aoperation,$a_set_id)
 	{
 		$ops = array();
 
@@ -176,20 +176,10 @@ class RbacSystem
 			$ops_id = $row->ops_id;
 		}
 	
-		// ABFRAGE DER OPS_ID
-		if (!$Aset_id)
-		{
-			$and = "";
-		}
-		else
-		{
-			$and = " AND set_id = '".$Aset_id."'";
-		}
-		
 		$query = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id = '".$Arol_id."' ".
 				 "AND obj_id = '".$Aobj_id."' ".
-				 $and;
+				 "AND set_id = '".$a_set_id."'";
 		
 		$res = $this->ilias->db->query($query);
 
