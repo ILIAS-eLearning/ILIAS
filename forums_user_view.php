@@ -89,7 +89,10 @@ require_once ("classes/class.ilObjUserGUI.php");
 
 $_GET["obj_id"]=$_GET["user"];
 $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-$user_gui->insertPublicProfile("USR_PROFILE","usr_profile");
+// count articles of user
+$numPosts = $frm->countUserArticles($_GET["user"]);
+$add = array($lng->txt("forums_posts") => $numPosts);
+$user_gui->insertPublicProfile("USR_PROFILE","usr_profile", $add);
 
 // display infopanel if something happened
 infoPanel();
@@ -109,45 +112,6 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("userdata"));
 
 // get user data
 $author = $frm->getUser($_GET["user"]);
-
-$tpl->setCurrentBlock("usertable");
-
-$tpl->setVariable("ROWCOL1", "tblrow1");
-$tpl->setVariable("ROWCOL2", "tblrow2");
-
-$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-$tpl->setVariable("LOGIN",$author->getLogin());
-
-$tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("FIRSTNAME",$author->getFirstName());
-$tpl->setVariable("LASTNAME",$author->getLastName());
-
-$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TITLE",$author->getTitle());
-
-$tpl->setVariable("TXT_GENDER", $lng->txt("gender"));
-$tpl->setVariable("GENDER",strtolower($lng->txt("gender_".$author->getGender())));
-
-$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-
-if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
-{
-	$tpl->setVariable("EMAIL","<a href=\"mailto:".$author->getEmail()."\">".$author->getEmail()."</a>");
-}
-else
-{
-	$tpl->setVariable("EMAIL",$author->Email());
-}
-
-$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-$tpl->setVariable("REGISTERED",$frm->convertDate($author->getCreateDate()));
-
-// count articles of user
-$numPosts = $frm->countUserArticles($_GET["user"]);
-$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-$tpl->setVariable("NUM_POSTS",$numPosts);
-
-$tpl->parseCurrentBlock("usertable");
 
 $tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
 

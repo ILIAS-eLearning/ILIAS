@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.61 2003/11/03 16:00:22 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.62 2003/11/07 11:11:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -952,7 +952,7 @@ class ilObjUserGUI extends ilObjectGUI
 					{
 						$name_field = explode("#separator#",$val);
 					}
-					
+
 					if ($key == "type" || $key == "role")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
@@ -1002,7 +1002,7 @@ class ilObjUserGUI extends ilObjectGUI
 	* @param	string	$a_template_block_name	name of profile template block
 	* @access	public
 	*/
-	function insertPublicProfile($a_template_var, $a_template_block_name)
+	function insertPublicProfile($a_template_var, $a_template_block_name, $a_additional)
 	{
 		$this->tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
 		$this->tpl->setCurrentBlock($a_template_block_name);
@@ -1011,7 +1011,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: the user is already the current user object !!
 		$userObj = new ilObjUser($_GET["user"]);
 
-		$this->tpl->setVariable("USR_PROFILE", $this->lng->txt("userdata")." ".strtolower($this->lng->txt("of")." ".$this->object->getLogin()));
+		$this->tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
 
 		$this->tpl->setVariable("ROWCOL1", "tblrow1");
 		$this->tpl->setVariable("ROWCOL2", "tblrow2");
@@ -1027,46 +1027,55 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
+			return;
 			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
 			$this->tpl->setVariable("FIRSTNAME","N /");
 			$this->tpl->setVariable("LASTNAME","A");
 		}
 
-		if ($userObj->getPref("public_upload")=="y")
+		$webspace_dir = ilUtil::getWebspaceDir("output");
+		if ($userObj->getPref("public_upload")=="y" && @is_file($webspace_dir."/usr_images/".$userObj->getPref("profile_image")))
 		{
 			//Getting the flexible path of image form ini file
-			$webspace_dir = ilUtil::getWebspaceDir("output");
+			//$webspace_dir = ilUtil::getWebspaceDir("output");
+			$this->tpl->setCurrentBlock("image");
 			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
-			$this->tpl->setVariable("IMAGE_PATH",$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
-			// Todo: point to anonymous picture
+			$this->tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$userObj->getPref("profile_image")."?dummy=".rand(1,999999));
+			$this->tpl->parseCurrentBlock();
 		}
 
-		$val_arr = array("getInstitution" => "institution", "getStreet" => "street",
+		$val_arr = array("getInstitution" => "institution", "getDepartment" => "department",
+			"getStreet" => "street",
 			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
-			"getPhoneMobile" => "phone_mobile", "getEmail" => "email",
+			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
 			"getHobby" => "hobby");
 
 		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
-			$this->tpl->setVariable("TXT_".strtoupper($value),$this->lng->txt($value));
-
 			if ($userObj->getPref("public_".$value) == "y")
 			{
-				$this->tpl->setVariable(strtoupper($value), $userObj->$key());
-			}
-			else
-			{
-				$this->tpl->setVariable(strtoupper($value), "N / A");
+				$this->tpl->setCurrentBlock("profile_data");
+				$this->tpl->setVariable("TXT_DATA", $this->lng->txt($value));
+				$this->tpl->setVariable("DATA", $userObj->$key());
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 
-		$this->tpl->parseCurrentBlock($a_template_block_name);
+		if (is_array($a_additional))
+		{
+			foreach($a_additional as $key => $val)
+			{
+				$this->tpl->setCurrentBlock("profile_data");
+				$this->tpl->setVariable("TXT_DATA", $key);
+				$this->tpl->setVariable("DATA", $val);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setCurrentBlock($a_template_block_name);
+		$this->tpl->parseCurrentBlock();
 	}
 } // END class.ilObjUserGUI
 ?>
