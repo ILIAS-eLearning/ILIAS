@@ -57,7 +57,7 @@ $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 infoPanel();
 
 
-$tpl->setCurrentBlock("content");
+//$tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("groups_overview"));
 
 // set offset & limit
@@ -96,6 +96,11 @@ else
 	$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
 	$tpl->parseCurrentBlock();
 }
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","group_new.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("group_new"));
+$tpl->parseCurrentBlock();
 
 
 // display different content depending on viewmode

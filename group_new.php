@@ -32,7 +32,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
+/*$tplbtn = new ilTemplate("tpl.buttons.html", false, false);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","groups.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("back"));
@@ -40,7 +40,8 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new ilTemplate("tpl.group_new.html", false, true);
+
+$tpl = new ilTemplate("tpl.group_new.html", false, false);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 //$tpl->setVariable("BUTTONS",$tplbtn->get());
@@ -53,6 +54,48 @@ $tpl->setVariable("TXT_ACCESS", $lng->txt("access"));
 $tpl->setVariable("TXT_GROUP_SCOPE", $lng->txt("groupscope"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+
+$tplmain = new ilTemplate("tpl.main.html", false, false);
+$tplmain->setVariable("CONTENT",$tpl->get());
+$tplmain->show();*/
+global $rbacsystem;
+	
+	
+	$data = array();
+	$data["fields"] = array();
+	$data["fields"]["group_name"] = "";
+	$data["fields"]["desc"] = "";
+	
+	
+	
+	$tpl->addBlockFile("CONTENT", "content", "tpl.group_new.html");
+	infoPanel();
+	
+	
+	$tpl->setVariable("TXT_PAGEHEADLINE", "Name der Kategorie");	
+	
+	//$this->getTemplateFile("new","group");
+	foreach ($data["fields"] as $key => $val)
+	{  
+		$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
+		$tpl->setVariable(strtoupper($key), $val);
+		
+	}
+			
+	//$stati = array("group_status_public","group_status_private","group_status_closed");
+	$stati = array("group_status_public","group_status_closed");
+	
+	//build form
+	$opts = ilUtil::formSelect(0,"group_status_select",$stati);
+	
+	$tpl->setVariable("SELECT_OBJTYPE", $opts);
+	$tpl->setVariable("TXT_GROUP_STATUS", $lng->txt("group_status"));
+	
+	$tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+		"&new_type=".$_POST["new_type"]);
+	
+	$tpl->setVariable("TXT_REQUIRED_FLD", $lng->txt("required_field"));
+	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+	$tpl->parseCurrentBlock();
+	$tpl->show();
 ?>
