@@ -40,7 +40,6 @@ institution#:#institution
 language#:#language
 languages#:#languages
 last_change#:#last change
-last_visited_lessons#:#last visited lessons
 lastname#:#lastname
 lesson#:#lesson
 lessons#:#lessons
@@ -111,11 +110,64 @@ database_needs_update#:#database needs an update
 database_update#:#update database
 groups#:#groups
 search#:#search
-search_in#:#search_in
+search_in#:#search in
 keywords#:#keywords
 phrase#:#phrase
-#:#
+course#:#course
 msg_nothing_found#:#msg_nothing_found
-#:#
-#:#
-#:#
+lo_available#:#available lessons
+inbox#:#inbox
+compose#:#compose
+options#:#options
+old#:#old
+sent#:#sent
+saved#:#saved
+deleted#:#deleted
+delete_selected#:#delete selected
+delete_all#:#delete all
+execute#:#execute
+new_folder#:#new folder
+bookmark_new#:#new bookmark
+url#:#url
+bookmarks#:#bookmarks
+crs_available#:#available courses
+literature_bookmarks#:#literature bookmarks
+forums_available#:#available forums
+name#:#name
+owner#:#owner
+system_groups#:#system groups
+forums_of_your_groups#:#forums of your groups
+lo_edit#:#edit lessons
+test_intern#:#test intern
+lo_new#:#new lesson
+objects#:#objects
+feedback#:#feedback
+message_to#:#message to
+your_message#:#your message
+send#:#send
+type_your_message_here#:#type your message here
+edit_data#:#edit data
+uid#:#uid
+publishing_organisation#:#publishing organisation
+summary#:#summary
+authors#:#authors
+firstname#:#firstname
+add_author#:#add author
+members#:#members
+add_member#:#add member
+comma_separated#:#comma separated
+level#:#level
+categories#:#categories
+subcat_name#:#subcategory name
+save_and_back#:#save and back
+none#:#none
+other#:#other
+online_version#:#online version
+offline_version#:#offline version
+published#:#published
+lo#:#lesson
+set_offline#:#set offline
+set_online#:#set online
+announce#:#announce
+generate#:#generate
+lo_last_visited#:#last visited lessons
