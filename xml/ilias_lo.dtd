@@ -205,17 +205,11 @@
 <!-- (textual) Content of a learning object should be divided in single paragraphs -->
 <!-- the Content may include another LO (e.g. images, video) -->
 <!-- LO which contain other LOs should use AggregationLevel 2 or 3 -->
-<!ELEMENT Content (Text | LearningObject)+>
-<!ELEMENT Text (Headline?, Paragraph+)+>
+<!ELEMENT Content (Paragraph | LearningObject)+>
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
 	Language (%langcode;) #REQUIRED
-	Characteristic (Example | Citation | Mnemonic) #IMPLIED
->
-<!-- headline is not a title of a resource but a special type of markup for a text -->
-<!ELEMENT Headline (%titletext;)*>
-<!ATTLIST Headline
-	Language (%langcode;) #REQUIRED
+	Characteristic (Headline | Example | Citation | Mnemonic) #IMPLIED
 >
 <!ELEMENT Comment (%commenttext;)*>
 <!ATTLIST Comment
@@ -311,6 +305,9 @@
 >
 <!ELEMENT Question (Paragraph | LearningObject)+>
 <!ELEMENT Answer (Paragraph | LearningObject)+>
+<!ATTLIST Answer
+	Status (Right | Wrong) #IMPLIED
+>
 <!ELEMENT Hint (Paragraph | LearningObject)+>
 <!-- GLOSSARY -->
 <!ELEMENT Glossary (GlossaryItem+)>
@@ -325,7 +322,7 @@
 <!ATTLIST GlossaryTerm
 	Definition IDREF #REQUIRED
 >
-<!ELEMENT Definition (Paragraph+)>
+<!ELEMENT Definition (Paragraph | LearningObject)+>
 <!ATTLIST Definition
 	Id ID #REQUIRED
 >
@@ -339,4 +336,3 @@
 <!ATTLIST Bibliography
 	Id ID #IMPLIED
 >
-
