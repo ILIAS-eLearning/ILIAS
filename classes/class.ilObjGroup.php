@@ -270,7 +270,6 @@ class ilObjGroup extends ilObject
 		{
 			$grp_id = $this->getRefId();
 		}
-
 		$usr_arr= array();
 
 		$rol  = $this->getLocalGroupRoles($grp_id);
@@ -284,7 +283,12 @@ class ilObjGroup extends ilObject
 		}
 
 		$mem_arr = array_unique($usr_arr);
-		return $mem_arr;
+		return $mem_arr ? $mem_arr : array();
+	}
+
+	function getCountMembers()
+	{
+		return count($this->getGroupMemberIds());
 	}
 
 	/**
@@ -865,7 +869,7 @@ class ilObjGroup extends ilObject
 		global $rbacadmin, $rbacreview;
 
 		// create a local role folder
-		$rfoldObj = $this->createRoleFolder();
+		$rfoldObj =& $this->createRoleFolder();
 
 		// ADMIN ROLE
 		// create role and assign role to rolefolder...
