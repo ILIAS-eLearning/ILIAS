@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.7 2003/03/14 23:17:55 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.8 2003/03/18 08:51:23 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -248,13 +248,116 @@ class RoleObjectOut extends ObjectOut
 		$this->tpl->parseCurrentBlock("adm_content");
 	}
 
+	/**
+	* save permissions
+	*/
+	function permSaveObject()
+	{
+		global $tree, $rbacsystem, $rbacadmin;
+
+		// SET TEMPLATE PERMISSIONS
+		if (!$rbacsystem->checkAccess('edit permission', $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// delete all template entries
+			$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
+
+			if (empty($_POST["template_perm"]))
+			{
+				$_POST["template_perm"] = array();
+			}
+
+			foreach ($_POST["template_perm"] as $key => $ops_array)
+			{
+				// sets new template permissions
+				$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
+			}
+
+			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
+			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPED
+			if ($_POST["recursive"])
+			{
+				$parent_obj = $_GET["parent_parent"];
+				// IF PARENT NODE IS SYTEM FOLDER START AT ROOT FOLDER
+				if ($parent_obj == SYSTEM_FOLDER_ID)
+				{
+					$object_id = ROOT_FOLDER_ID;
+					$parent = 0;
+				}
+				else
+				{
+					$node_data = $tree->getParentNodeData($_GET["ref_id"]);
+					$object_id = $node_data["obj_id"];
+					$parent = $node_data["parent"];
+				}
+				// GET ALL SUBNODES
+				$node_data = $tree->getNodeData($object_id);
+				$subtree_nodes = $tree->getSubTree($node_data);
+
+				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
+				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($this->object->getId());
+
+				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
+				$key = array_keys($all_rolf_obj,$object_id);
+				unset($all_rolf_obj["$key[0]"]);
+
+				$check = false;
+				foreach($subtree_nodes as $node)
+				{
+					if(!$check)
+					{
+						if(in_array($node["obj_id"],$all_rolf_obj))
+						{
+							$lft = $node["lft"];
+							$rgt = $node["rgt"];
+							$check = true;
+							continue;
+						}
+						$valid_nodes[] = $node;
+					}
+					else
+					{
+						if(($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+						{
+							continue;
+						}
+						else
+						{
+							$check = false;
+							$valid_nodes[] = $node;
+						}
+					}
+				}
+				// NOW SET ALL PERMISSIONS
+				foreach($_POST["template_perm"] as $type => $a_perm)
+				{
+					foreach($valid_nodes as $node)
+					{
+						if($type == $node["type"])
+						{
+							$rbacadmin->revokePermission($node["obj_id"],$this->object->getId());
+							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["obj_id"]);
+						}
+					}
+				}
+			}// END IF RECURSIVE
+		}// END CHECK ACCESS
+	
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=perm");
+		exit();
+	}
+
 
 	function adoptPermSaveObject()
 	{
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+			$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 		exit();
 	}
+
 
 	function assignSaveObject()
 	{

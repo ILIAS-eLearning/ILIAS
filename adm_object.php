@@ -108,10 +108,8 @@ switch ($_GET["cmd"])
 	case "perm":
 		break;
 
-	// save permission templates of object
+	// no more permsave() here! all calls moved to "out" class
 	case "permSave":
-		$data = $obj->permSaveObject($_POST["perm"], $_POST["stop_inherit"], $_GET["type"],
-			$_POST["template_perm"], $_POST["recursive"]);
 		break;
 
 	// functions that shouldnt be called here
