@@ -7,7 +7,7 @@ body { margin:0px; }
 {NO_BTN}
 {BUTTONS}
 {MESSAGE}
-{COUNT_THREAD}
+<!--{COUNT_THREAD}-->
 <!-- BEGIN threadtable -->
 <!-- BEGIN linkbar -->
 <table class="std">
@@ -22,7 +22,6 @@ body { margin:0px; }
 <table class="fullwidth">
 <tr class="tblheader">
   <td class="std" width=1%>&nbsp;</td>
-  <td class="std" width=1%>&nbsp;</td>
   <td class="std" width="60%">{TXT_TOPIC}</td>
   <td class="std" align="center" width="20%">{TXT_AUTHOR}</td>
   <td class="std" align="center" nowrap="nowrap">{TXT_NUM_POSTS}</td>
@@ -31,41 +30,35 @@ body { margin:0px; }
 </tr>
 <!-- BEGIN threads_row -->
 <tr class="std">
- <td class="tblrow2" nowrap="nowrap" width="1%" valign="top"><input type="checkbox" name="forum_id[]" value="{FORUM_ID}"{CHECKBOX_CHECKED}></td>
- <td class="tblrow1" nowrap="nowrap" width="1%" valign="top"><a href="forums_export.php?print_thread={FORUM_ID}&thr_top_fk={THR_TOP_FK}" target="_blank"><img src="{THR_IMGPATH}/images/icon_print.gif" alt="{TXT_PRINT}" title="{TXT_PRINT}" border="0" /></a></td>
- <td width="60%" class="tblrow2" valign="top">{TITLE}</td>
- <td width="20%" align="center" class="tblrow1" valign="top">{AUTHOR}</td>
- <td align="center" class="tblrow2" valign="top">{NUM_POSTS}</td>
- <td align="center" class="tblrow1" valign="top">{NUM_VISITS}</td>
- <td width="20%" class="tblrow2" valign="top">{LAST_POST}</td>
+	<td class="tblrow2" nowrap="nowrap" width="1%" valign="top"><input type="checkbox" name="forum_id[]" value="{FORUM_ID}"{CHECKBOX_CHECKED}></td>
+	<td width="60%" class="tblrow2" valign="top">{TITLE}</td>
+	<td width="20%" align="center" class="tblrow1" valign="top">{AUTHOR}</td>
+	<td align="center" class="tblrow2" valign="top">{NUM_POSTS}</td>
+	<td align="center" class="tblrow1" valign="top">{NUM_VISITS}</td>
+	<td width="20%" class="tblrow2" valign="top">{LAST_POST}</td>
 </tr>
 <!-- END threads_row -->
 <!-- BEGIN threads_no -->
 <tr class="std">
- <td class="std" colspan="5">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
+ <td class="std" colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
 </tr>
 <!-- END threads_no -->
-</table>
-
-<table class="fullwidth">
-  <tr class="tblrow1">
-	<td class="std" nowrap="nowrap"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
-	  <strong>{TXT_SELECT_ALL}</strong>
+<tr>
+	<td class="submit" nowrap="nowrap" colspan="6">
+	<input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
+	<strong>{TXT_SELECT_ALL}</strong>
 	</td>
-  </tr>
- </table>
-<table class="fullwidth">
-  <tr>
-	<td class="std"  width="1%" align="center" nowrap="nowrap"><img src="{IMGPATH}/images/arrow_downright.gif" /></td>
-	<td class="std" nowrap="nowrap">
-	  <select name="action">			
+</tr>
+<tr>
+	<td class="submit"  width="1%" nowrap="nowrap" colspan="6"><img src="{IMGPATH}/images/arrow_downright.gif" />
+	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>
 		<!-- <option value="xml">{TXT_EXPORT_XML}</option> -->
-	  </select>
-	  <input class="submit" type="submit" name="cmd[submit]" value="{TXT_OK}"/>
+	</select>
+	<input class="submit" type="submit" name="cmd[submit]" value="{TXT_OK}"/>
 	</td>
-  </tr>
- </table>
+</tr>
+</table>
 </form>
 <!-- END threadtable -->
 </div>
