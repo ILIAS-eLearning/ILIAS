@@ -460,7 +460,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
 		global $ilUser;
-		
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
@@ -490,14 +489,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
-					{
-						foreach ($this->object->matchingpairs as $pdx => $pair)
-						{
-							$size = GetImageSize ($this->object->getImagePath() . $pair->getPicture() . ".thumb.jpg", &$info);
-							$output = str_replace("<img border=\"0\" id=\"definition_" . $solution_value->value2 . "\"", "<img border=\"0\" id=\"definition_" . $solution_value->value2 . "\" " . $size[3], $output);
-						}
-					}
 					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
 					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
 					{
@@ -539,6 +530,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $answer->getPicture();
 					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" /></div></td></tr>\n";
+					$size = GetImageSize ($this->object->getImagePath() . $answer->getPicture() . ".thumb.jpg", &$info);
+					$output = str_replace("<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\"", "<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\" " . $size[3], $output);
 				}
 				else
 				{

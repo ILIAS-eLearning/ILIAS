@@ -316,6 +316,7 @@ assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_hint#:#Suggested solution
+assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time

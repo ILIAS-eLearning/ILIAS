@@ -1176,20 +1176,6 @@ class ASS_Question
 		$result = $this->ilias->db->query($query);
 	}
 	
-/**
-* Returns a feedback to an existing answer to on of the gaps
-*
-* Returns a feedback to an existing answer to on of the gaps
-*
-* @param integer $subqueston_index The index of the subquestion
-* @return string Feedback value
-* @access public
-*/
-	function getAnswerFeedback($subquestion_index)
-	{
-		return "";
-	}
-	
 	function getSuggestedSolution($subquestion_index = 0)
 	{
 		if (array_key_exists($subquestion_index, $this->suggested_solutions))
