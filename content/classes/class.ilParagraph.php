@@ -38,12 +38,14 @@ class ilParagraph extends ilPageContent
 	var $text;
 	var $language;
 	var $characteristic;
+	var $node;
+	var $dom;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraph()
+	function ilParagraph(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("par");
@@ -51,22 +53,46 @@ class ilParagraph extends ilPageContent
 		$this->text = "";
 		$this->characteristic = "";
 		$this->language = "";
+		$this->dom =& $a_dom;
+	}
+
+	function setNode(&$a_node)
+	{
+		$this->node =& $a_node;
+	}
+
+	function &getNode()
+	{
+		return $this->node;
+	}
+
+	function createNode()
+	{
+		$this->node =& $this->dom->create_element("Paragraph");
 	}
 
 	/**
 	*
 	*/
+	/*
 	function appendText($a_text)
 	{
 		$this->text.= $a_text;
-	}
+	}*/
 
 	/**
 	*
 	*/
 	function setText($a_text)
 	{
-		$this->text = $a_text;
+		//$this->text = $a_text;
+		// remove all childs
+		$children = $this->node->child_nodes();
+		for($i=0; $i<count($children); $i++)
+		{
+			$this->node->remove_child($children[$i]);
+		}
+		$this->node->set_content($a_text);
 	}
 
 	/**
@@ -74,6 +100,15 @@ class ilParagraph extends ilPageContent
 	*/
 	function getText($a_short_mode = false)
 	{
+		if (is_object($this->node))
+		{
+			return $this->node->get_content();
+		}
+		else
+		{
+			return "";
+		}
+		/*
 		if (!$a_short_mode)
 		{
 			return $this->text;
@@ -81,7 +116,7 @@ class ilParagraph extends ilPageContent
 		else
 		{
 			return ilUtil::shortenText($this->xml2output($this->text), 100);
-		}
+		}*/
 	}
 
 	/**
@@ -110,6 +145,7 @@ class ilParagraph extends ilPageContent
 		return $this->language;
 	}
 
+	/*
 	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
 		$ed_id = ($a_incl_ed_ids)
@@ -127,7 +163,7 @@ class ilParagraph extends ilPageContent
 				"\">".$this->getText($a_short_mode)."</Paragraph>";
 		}
 
-	}
+	}*/
 
 	function input2xml($a_text)
 	{
@@ -145,13 +181,15 @@ class ilParagraph extends ilPageContent
 		$a_text = str_replace(chr(13),"<br />", $a_text);
 		$a_text = str_replace(chr(10),"<br />", $a_text);
 
+		// disabled: store bb code in db now; generate xml at output
 		// bb code to xml
+		/*
 		$a_text = eregi_replace("\[com\]","<Comment>",$a_text);
 		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
 		$a_text = eregi_replace("\[emp]","<Emph>",$a_text);
 		$a_text = eregi_replace("\[\/emp\]","</Emph>",$a_text);
 		$a_text = eregi_replace("\[str]","<Strong>",$a_text);
-		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);
+		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);*/
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
 
@@ -165,12 +203,13 @@ class ilParagraph extends ilPageContent
 		// and should be the same as in input2xml() in REVERSE order!
 
 		// xml to bb code
+		/*
 		$a_text = eregi_replace("<Comment>","[com]",$a_text);
 		$a_text = eregi_replace("</Comment>","[/com]",$a_text);
 		$a_text = eregi_replace("<Emph>","[emp]",$a_text);
 		$a_text = eregi_replace("</Emph>","[/emp]",$a_text);
 		$a_text = eregi_replace("<Strong>","[str]",$a_text);
-		$a_text = eregi_replace("</Strong>","[/str]",$a_text);
+		$a_text = eregi_replace("</Strong>","[/str]",$a_text);*/
 
 		// br to linefeed
 		$a_text = str_replace("<br />", "\n", $a_text);

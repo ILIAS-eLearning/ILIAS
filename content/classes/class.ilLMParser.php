@@ -53,6 +53,8 @@ class ilLMParser extends ilSaxParser
 	var $pg_into_tree;
 	var $st_into_tree;
 	var $container;
+	var $in_page_object;	// are we currently within a PageObject? true/false
+	var $in_meta_data;		// are we currently within MetaData? true/false
 
 	var $keyword_language;
 
@@ -231,11 +233,13 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				break;
 
 			case "PageObject":
+				$this->in_page_object = true;
 				$this->page_object =& new ilPageObject();
 				$this->page_object->setLMId($this->lm_id);
-				$this->container = array();
-				$this->container[] =& $this->page_object;
+				//$this->container = array();
+				//$this->container[] =& $this->page_object;
 				$this->current_object =& $this->page_object;
+				$this->page_object->setXMLContent("");
 				break;
 
 			case "PageAlias":
@@ -244,6 +248,7 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				break;
 
 			case "Paragraph":
+				/*
 echo "start paragraph<br>";
 				$cur_container =& $this->container[count($this->container) - 1];
 				if (is_object($cur_container))
@@ -253,10 +258,11 @@ echo "in container!<br>";
 					$this->paragraph->setLanguage($a_attribs["Language"]);
 					$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
 					$cur_container->appendContent($this->paragraph);
-				}
+				}*/
 				break;
 
 			case "Table":	// todo: allow nesting in tables and lists here
+				/*
 				$cur_container =& $this->container[count($this->container) - 1];
 				if (is_object($cur_container))
 				{
@@ -264,25 +270,27 @@ echo "in container!<br>";
 					// todo: attribute handling here
 					$cur_container->appendContent($this->table);
 				}
-				$this->container[] =& $this->table;
+				$this->container[] =& $this->table;*/
 				break;
 
 			case "TableRow":
+				/*
 				if  (is_object($this->table))
 				{
 					$this->table->newRow();
-				}
+				}*/
 				break;
 
 			case "TableData":
+				/*
 				if  (is_object($this->table))
 				{
 					$this->table->newCol();
-				}
+				}*/
 				break;
 
 			case "MetaData":
-				//$this->in_meta = true;
+				$this->in_meta_data = true;
 				$this->meta_data =& new ilMetaData();
 				$this->current_object->assignMetaData($this->meta_data);
 				if(get_class($this->current_object) == "illearningmodule")
@@ -304,6 +312,12 @@ echo "in container!<br>";
 		}
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
+
+		// append content to page xml content
+		if($this->in_page_object && !$this->in_meta_data)
+		{
+			$this->page_object->appendXMLContent($this->buildTag("start", $a_name, $a_attribs));
+		}
 	}
 
 	/**
@@ -311,6 +325,13 @@ echo "in container!<br>";
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+
+		// append content to page xml content
+		if($this->in_page_object && !$this->in_meta_data)
+		{
+			$this->page_object->appendXMLContent($this->buildTag("end", $a_name));
+		}
+
 		switch($a_name)
 		{
 			case "StructureObject":
@@ -319,9 +340,11 @@ echo "in container!<br>";
 				break;
 
 			case "PageObject":
+				$this->in_page_object = false;
 				if (!$this->page_object->isAlias())
 				{
 					echo "PageObject ".$this->page_object->getImportId().":<br>";
+					/*
 					$content = $this->page_object->getContent();
 					foreach($content as $co_object)
 					{
@@ -329,8 +352,8 @@ echo "in container!<br>";
 						{
 							echo nl2br($co_object->getText())."<br><br>";
 						}
-					}
-					$this->page_object->create();
+					}*/
+					$this->page_object->createFromXML();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
 
@@ -357,6 +380,7 @@ echo "in container!<br>";
 				break;
 
 			case "MetaData":
+				$this->in_meta_data = false;
 				// save structure object at the end of its meta block
 				if(get_class($this->current_object) == "ilstructureobject")
 				{
@@ -405,10 +429,16 @@ echo "in container!<br>";
 		$a_data = preg_replace("/\t+/","",$a_data);
 		if(!empty($a_data))
 		{
+			if($this->in_page_object && !$this->in_meta_data)
+			{
+				$this->page_object->appendXMLContent($a_data);
+			}
+
+
 			switch($this->getCurrentElement())
 			{
 				case "Paragraph":
-					$this->paragraph->appendText($a_data);
+					//$this->paragraph->appendText($a_data);
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
 

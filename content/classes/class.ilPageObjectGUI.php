@@ -71,7 +71,10 @@ class ilPageObjectGUI extends ilLMObjectGUI
 			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// setting to utf-8 here
-		$content = $this->obj->getXMLContent(true, true, true);
+		$this->obj->buildDom();
+		$this->obj->addHierIDs();
+		$content = $this->obj->getXMLFromDom();
+
 		header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
@@ -103,8 +106,19 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
-		// setting to utf-8 here
-		$content = $this->obj->getXMLContent(true, false, true);
+
+		$this->obj->buildDom();
+		$this->obj->addHierIDs();
+		$content = $this->obj->getXMLFromDom();
+
+		// convert bb code to xml
+		$content = eregi_replace("\[com\]","<Comment>",$content);
+		$content = eregi_replace("\[\/com\]","</Comment>",$content);
+		$content = eregi_replace("\[emp]","<Emph>",$content);
+		$content = eregi_replace("\[\/emp\]","</Emph>",$content);
+		$content = eregi_replace("\[str]","<Strong>",$content);
+		$content = eregi_replace("\[\/str\]","</Strong>",$content);
+
 		header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
@@ -116,6 +130,10 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
+
+		// unmask user html
+		$output = str_replace("&lt;","<",$output);
+		$output = str_replace("&gt;",">",$output);
 
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
 	}
@@ -134,27 +152,42 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
-		// setting to utf-8 here
-		//$content = $this->obj->getXMLContent(true, false, true);
+		// output
+		$content = $this->obj->getXMLContent();
 
-		// try dom output
-		$dom =& $this->obj->getDom();
-		$content = $dom->dump_mem(0, "UTF-8");
+		// convert bb code to xml
+		$this->bbCode2XML($content);
 
+		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
+echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$params = array ('mode' => 'preview');
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
 
+		// unmask user html
+		$output = str_replace("&lt;","<",$output);
+		$output = str_replace("&gt;",">",$output);
+
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
 	}
+
+	function bbCode2XML(&$a_content)
+	{
+		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
+		$a_content = eregi_replace("\[\/com\]","</Comment>",$a_content);
+		$a_content = eregi_replace("\[emp]","<Emph>",$a_content);
+		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
+		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
+		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
+	}
+
 
 	function edit()
 	{

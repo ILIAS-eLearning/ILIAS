@@ -26,6 +26,10 @@ require_once("content/classes/class.ilLMObject.php");
 require_once("content/classes/class.ilPageParser.php");
 require_once("content/classes/class.ilPageContent.php");
 
+define("IL_INSERT_BEFORE", 0);
+define("IL_INSERT_AFTER", 1);
+define("IL_INSERT_CHILD", 2);
+
 /**
 * Class ilPageObject
 *
@@ -44,6 +48,9 @@ class ilPageObject extends ilLMObject
 	var $id;
 	var $ilias;
 	var $dom;
+	var $xml;
+	var $encoding;
+	var $node;
 
 	/**
 	* Constructor
@@ -77,14 +84,30 @@ class ilPageObject extends ilLMObject
 		$query = "SELECT * FROM lm_page_object WHERE page_id = '".$this->id."'";
 		$pg_set = $this->ilias->db->query($query);
 		$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->xml_content = $this->page_record["content"];
+
+		// todo: make utf8 global (db content should be already utf8)
+		$this->xml = $this->page_record["content"];
 
 		// todo: this is for testing only
-//echo htmlentities($this->xml_content);
-		$this->dom =& domxml_open_mem(utf8_encode($this->xml_content));
+//echo htmlentities($this->xml);
+		//$this->dom =& domxml_open_mem(utf8_encode($this->xml));
 
-		$page_parser = new ilPageParser($this, $this->xml_content);
-		$page_parser->startParsing();
+		//$page_parser = new ilPageParser($this, $this->xml_content);
+		//$page_parser->startParsing();
+
+	}
+
+	function buildDom()
+	{
+		$this->dom =& domxml_open_mem($this->xml);
+
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageObject";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			$this->node =& $res->nodeset[0];
+		}
 
 	}
 
@@ -134,123 +157,308 @@ class ilPageObject extends ilLMObject
 		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
+
+	/*
 	function appendContent(&$a_content_obj)
 	{
 		$this->content[] =& $a_content_obj;
+	}*/
+
+	function &getContentObject($a_hier_id)
+	{
+		$cont_node =& $this->getContentNode($a_hier_id);
+		switch($cont_node->node_name())
+		{
+			case "Paragraph":
+
+				$par = new ilParagraph($this->dom);
+				$par->setNode($cont_node);
+				return $par;
+
+			case "Table":
+
+				$tab = new ilLMTable($this->dom);
+				$tab->setNode($cont_node);
+				return $tab;
+
+		}
 	}
 
-	function &getContent($a_cont_cnt = "")
+	function &getContentNode($a_hier_id)
 	{
-		if($a_cont_cnt == "")
+ 		// search for attribute "//*[@HierId = '%s']".
+//echo "get node :$a_hier_id:";
+		$xpc = xpath_new_context($this->dom);
+		if($a_hier_id == "pg")
 		{
-			return $this->content;
+			return $this->node;
 		}
 		else
 		{
-			$cnt = explode("_", $a_cont_cnt);
-			if(isset($cnt[1]))		// content is within a container (e.g. table)
-			{
-				$cnt_0 = $cnt[0];
-				unset($cnt[0]);
-				return $this->content[$cnt_0 - 1]->getContent(implode($cnt, "_"));
-			}
-			else
-			{
-				return $this->content[$cnt[0] - 1];		// content is in page directly
-			}
+			$path = "//*[@HierId = '$a_hier_id']";
 		}
-	}
-
-	function getXMLContent($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
-	{
-		$xml = "";
-		reset($this->content);
-		foreach($this->content as $co_object)
+		$res =& xpath_eval($xpc, $path);
+//echo "1:count:".count($res->nodeset).":hierid:$a_hier_id:";
+		if (count($res->nodeset) == 1)
 		{
-			if (get_class($co_object) == "ilparagraph")
-			{
-				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
-			}
-			if (get_class($co_object) == "illmtable")
-			{
-				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
-			}
+			$cont_node =& $res->nodeset[0];
+			return $cont_node;
 		}
-		$utfstr = ($a_utf8_encoded)
-			? "encoding=\"UTF-8\""
-			: "";
-		return "<?xml version=\"1.0\" $utfstr ?><PageObject>".$xml."</PageObject>";
 	}
 
-	function create()
+
+
+	function &getNode()
+	{
+		return $this->node;
+	}
+
+
+	/**
+	* set xml content of page, start with <PageObject...>,
+	* end with </PageObject>, comply with ILIAS DTD, omit MetaData, use utf-8!
+	*
+	* @param	string		$a_xml			xml content
+	* @param	string		$a_encoding		encoding of the content (here is no conversion done!
+	*										it should be already utf-8 encoded at the time)
+	*/
+	function setXMLContent($a_xml, $a_encoding = "UTF-8")
+	{
+		$this->encoding = $a_encoding;
+		$this->xml = "<?xml version=\"1.0\" encoding=\"$a_encoding\" ?>".$a_xml;
+	}
+
+	/**
+	* append xml content to page
+	* setXMLContent must be called before and the same encoding must be used
+	*
+	* @param	string		$a_xml			xml content
+	*/
+	function appendXMLContent($a_xml)
+	{
+		$this->xml.= $a_xml;
+	}
+
+
+	/**
+	* get xml content of page
+	*/
+	function getXMLContent()
+	{
+		return $this->xml;
+	}
+
+	/**
+	* get xml content of page from dom
+	* (use this, if any changes are made to the document)
+	*/
+	function getXMLFromDom()
+	{
+		$this->xml = $this->dom->dump_mem(0, "UTF-8");
+		return $this->xml;
+	}
+
+	/**
+	* Add hierarchical ID (e.g. for editing) attributes "HierId" to current dom tree.
+	* This attribute will be added to the following elements:
+	* PageObject, Paragraph, Table, TableRow, TableData.
+	* Only elements of these types are counted as "childs" here.
+	*
+	* Hierarchical IDs have the format "x_y_z_...", e.g. "1_4_2" means: second
+	* child of fourth child of first child of page.
+	*
+	* The PageObject element gets the special id "pg". The first child of the
+	* page starts with id 1. The next child gets the 2 and so on.
+	*
+	* Another example: The first child of the page is a Paragraph -> id 1.
+	* The second child is a table -> id 2. The first row gets the id 2_1, the
+	*/
+	function addHierIDs()
+	{
+
+		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
+		$xpc = xpath_new_context($this->dom);
+		$path = "//Paragraph | //Table | //TableRow | //TableData";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$cnode = $res->nodeset[$i];
+			// get hierarchical id of previous sibling
+			$sib_hier_id = "";
+			while($cnode =& $cnode->previous_sibling())
+			{
+				if (($cnode->node_type() == XML_ELEMENT_NODE)
+					&& $cnode->has_attribute("HierId"))
+				{
+					$sib_hier_id = $cnode->get_attribute("HierId");
+					//$sib_hier_id = $id_attr->value();
+					break;
+				}
+			}
+
+			if ($sib_hier_id != "")		// set id to sibling id "+ 1"
+			{
+				$node_hier_id = ilPageContent::incEdId($sib_hier_id);
+				$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+			}
+			else						// no sibling -> node is first child
+			{
+				// get hierarchical id of next parent
+				$cnode =& $res->nodeset[$i];
+				$par_hier_id = "";
+				while($cnode =& $cnode->parent_node())
+				{
+					if (($cnode->node_type() == XML_ELEMENT_NODE)
+						&& $cnode->has_attribute("HierId"))
+					{
+						$par_hier_id = $cnode->get_attribute("HierId");
+						//$par_hier_id = $id_attr->value();
+						break;
+					}
+				}
+
+				if (($par_hier_id != "") && ($par_hier_id != "pg"))		// set id to parent_id."_1"
+				{
+					$node_hier_id = $par_hier_id."_1";
+					$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+				}
+				else		// no sibling, no parent -> first node
+				{
+					$node_hier_id = "1";
+					$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+				}
+			}
+		}
+
+		// set special hierarchical id "pg" for pageobject
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageObject";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
+		{
+			$res->nodeset[$i]->set_attribute("HierId", "pg");
+		}
+	}
+
+
+	/**
+	* create new page object with current xml content
+	*/
+	function createFromXML()
 	{
 		// create object
 		parent::create();
 		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
 			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
 		$this->ilias->db->query($query);
+//echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
 
+	/**
+	* update complete page content in db (dom xml content is used)
+	*/
 	function update()
 	{
 		parent::update();
 		$query = "UPDATE lm_page_object ".
-			"SET content = '".$this->getXMLContent()."' ".
+			"SET content = '".$this->getXMLFromDom()."' ".
 			"WHERE page_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 	}
 
 	/**
-	* delete content object at position $a_pos
+	* delete content object with hierarchical id $a_hid
+	*
+	* @param	string		$a_hid		hierarchical id of content object
 	*/
-	function deleteContent($a_pos)
+	function deleteContent($a_hid)
 	{
-		$pos = explode("_", $a_pos);
-		if(isset($pos[1]))		// object of child container should be deleted
-		{
-			$pos_0 = $pos[0];
-			unset($pos[0]);
-			$this->content[$pos_0 - 1]->deleteContent(implode($pos, "_"));
-		}
-		else		// direct child should be deleted
-		{
-			$cnt = 0;
-			foreach($this->content as $content)
-			{
-				$cnt ++;
-				if ($cnt > $a_pos)
-				{
-					$this->content[$cnt - 2] =& $this->content[$cnt - 1];
-				}
-			}
-			unset($this->content[count($this->content) - 1]);
-		}
+		$curr_node =& $this->getContentNode($a_hid);
+		$curr_node->unlink_node($curr_node);
 		$this->update();
 	}
 
 
-	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_AFTER_PRED)
+	/**
+	* insert a content node before/after a sibling or as first child of a parent
+	*/
+	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER)
 	{
-		$pos = explode("_", $a_pos);
-		if(isset($pos[1]))		// content should be child of a container
+		// move mode into container elements is always INSERT_CHILD
+		$curr_node =& $this->getContentNode($a_pos);
+		$curr_name = $curr_node->node_name();
+		if (($curr_name == "TableData") || ($curr_name == "PageObject"))
 		{
-			$pos_0 = $pos[0];
-			unset($pos[0]);
-			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"), $a_mode);
-//echo "content:".htmlentities($this->content[$pos_0 - 1]->getXML());
+			$a_mode = IL_INSERT_CHILD;
 		}
-		else		// content should be child of page
+
+
+		if($a_mode != IL_INSERT_CHILD)			// determine parent hierarchical id
+		{										// of sibling at $a_pos
+			$pos = explode("_", $a_pos);
+			$target_pos = array_pop($pos);
+			$parent_pos = implode($pos, "_");
+		}
+		else		// if we should insert a child, $a_pos is alreade the hierarchical id
+		{			// of the parent node
+			$parent_pos = $a_pos;
+		}
+
+		// get the parent node
+		if($parent_pos != "")
 		{
-			for($cnt = count($this->content); $cnt >= 0; $cnt--)
-			{
-				if($cnt >= $pos[0])
+			$parent_node =& $this->getContentNode($parent_pos);
+		}
+		else
+		{
+			$parent_node =& $this->getNode();
+		}
+
+		// count the parent children
+		$parent_childs =& $parent_node->child_nodes();
+		$cnt_parent_childs = count($parent_childs);
+
+		switch ($a_mode)
+		{
+			// insert new node after sibling at $a_pos
+			case IL_INSERT_AFTER:
+				$new_node =& $a_cont_obj->getNode();
+				//$a_pos = ilPageContent::incEdId($a_pos);
+				//$curr_node =& $this->getContentNode($a_pos);
+				if($succ_node =& $curr_node->next_sibling())
 				{
-					$this->content[$cnt] =& $this->content[$cnt - 1];
+					$new_node =& $succ_node->insert_before($new_node, $succ_node);
 				}
-			}
-			$this->content[$pos[0] - 1] =& $a_cont_obj;
+				else
+				{
+//echo "movin doin append_child";
+					$new_node =& $parent_node->append_child($new_node);
+				}
+				$a_cont_obj->setNode($new_node);
+				break;
+
+			case IL_INSERT_BEFORE:
+				$new_node =& $a_cont_obj->getNode();
+				$succ_node =& $this->getContentNode($a_pos);
+				$new_node =& $succ_node->insert_before($new_node, $succ_node);
+				break;
+
+			// insert new node as first child of parent $a_pos (= $a_parent)
+			case IL_INSERT_CHILD:
+//echo "insert as child:parent_childs:$cnt_parent_childs:<br>";
+				$new_node =& $a_cont_obj->getNode();
+				if($cnt_parent_childs == 0)
+				{
+					$new_node =& $parent_node->append_child($new_node);
+				}
+				else
+				{
+					$parent_childs[0]->insert_before($new_node, $parent_childs[0]);
+				}
+				break;
 		}
+
 		$this->update();
 	}
 
@@ -269,27 +477,76 @@ class ilPageObject extends ilLMObject
 	*/
 	function moveContentBefore($a_source, $a_target)
 	{
-		// check if source and target are within same
-		// container context and source precedes target
-		// -> target position must be decreased by one
-		// because source is deleted
-		if(ilPageContent::haveSameContainer($a_source, $a_target))
+		if($a_source == $a_target)
 		{
-			$source = explode("_", $a_source);
-			$target = explode("_", $a_target);
-			$child_source = $source[count($source) - 1];
-			$child_target = $target[count($target) - 1];
-//echo "same container";
-			if($child_source <= $child_target)
-			{
-//echo "decreased!:".$a_target.":";
-				$a_target = ilPageContent::decEdId($a_target);
-//echo $a_target.":<br>";
-			}
+			return;
 		}
-		$content =& $this->getContent($a_source);
+
+		// determine move mode
+		/*
+		$target_node =& $this->getContentNode($a_target);
+		if ($target_node->node_name() == "TableData")
+		{
+			$mode = IL_INSERT_CHILD;
+		}
+		else
+		{
+			$mode = IL_INSERT_BEFORE;
+		}*/
+
+		// clone the node
+		$content =& $this->getContentObject($a_source);
+		$source_node =& $content->getNode();
+		$clone_node =& $source_node->clone_node(true);
+
+		// delete source node
 		$this->deleteContent($a_source);
-		$this->insertContent($content, $a_target, IL_BEFORE_SUCC);
+
+		// insert cloned node at target
+		$content->setNode($clone_node);
+		$this->insertContent($content, $a_target, $mode);
+		$this->update();
+
+		$this->update();
+	}
+
+	/**
+	* move content object from position $a_source before position $a_target
+	* (both hierarchical content ids)
+	*/
+	function moveContentAfter($a_source, $a_target)
+	{
+		if($a_source == $a_target)
+		{
+			return;
+		}
+
+//echo "move source:$a_source:to:$a_target:<br>";
+
+		// determine move mode
+		/*
+		$target_node =& $this->getContentNode($a_target);
+		if ($target_node->node_name() == "TableData")
+		{
+			$mode = IL_INSERT_CHILD;
+		}
+		else
+		{
+			$mode = IL_INSERT_AFTER;
+		}*/
+
+		// clone the node
+		$content =& $this->getContentObject($a_source);
+		$source_node =& $content->getNode();
+		$clone_node =& $source_node->clone_node(true);
+
+		// delete source node
+		$this->deleteContent($a_source);
+
+		// insert cloned node at target
+		$content->setNode($clone_node);
+		$this->insertContent($content, $a_target, $mode);
+
 		$this->update();
 	}
 
