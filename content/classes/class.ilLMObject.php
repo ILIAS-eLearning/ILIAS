@@ -53,7 +53,6 @@ class ilLMObject
 		$this->ilias =& $ilias;
 		$this->id = $a_id;
 		$this->setContentObject($a_content_obj);
-
 		if($a_id != 0)
 		{
 			$this->read();
@@ -78,9 +77,8 @@ class ilLMObject
 		}
 
 		$this->type = $this->data_record["type"];
-		$this->setImportId($this->data_record["import_id"]);
-
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
+		$this->setImportId($this->data_record["import_id"]);
 	}
 
 	/**
