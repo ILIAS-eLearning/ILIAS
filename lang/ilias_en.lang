@@ -2334,7 +2334,7 @@ crs#:#crs_content#:#Course content
 crs#:#crs_count_members#:#Number of members
 crs#:#crs_create_date#:#Create date
 crs#:#crs_dates#:#Dates
-crs#:#crs_delete_member#:#Delete members
+crs#:#crs_delete_member#:#Deassign member(s)
 crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
@@ -2389,7 +2389,7 @@ crs#:#crs_no_users_selected#:#You did not select any user
 crs#:#crs_no_valid_member_id_given#:#No valid member Id
 crs#:#crs_not_available#:#-Not available-
 crs#:#crs_notify#:#Notify for new registrations
-crs#:#crs_number_users_added#:#The following number of users has been assigned to the course
+crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
 crs#:#crs_passed#:#Passed
@@ -3596,3 +3596,5 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+crs#:#crs_cancel_subscription#:#Course deregistration
+crs#:#crs_cancel_subscription_body#:#A user has unsubscribed from the course.

@@ -2332,7 +2332,7 @@ crs#:#crs_content#:#Kursinhalt
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_dates#:#Termine
-crs#:#crs_delete_member#:#Mitglied(er) löschen
+crs#:#crs_delete_member#:#Mitglied(er) austragen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
 crs#:#crs_delete_subscribers#:#Anmeldungen löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
@@ -2387,7 +2387,7 @@ crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt.
+crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Aktionen
 crs#:#crs_passed#:#Bestanden
@@ -2434,7 +2434,7 @@ crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
 crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
 crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
-crs#:#crs_subscription_successful#:#Sind wurden für den Kurs angemeldet.
+crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet.
 crs#:#crs_subscription_type#:#Anmeldungsart
 crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Lernziel
@@ -3594,3 +3594,5 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+crs#:#crs_cancel_subscription#:#Kursabmeldung
+crs#:#crs_cancel_subscription_body#:#Ein Benutzer hat sich vom Kurs abgemeldet.
