@@ -468,7 +468,6 @@ class ilGroupGUI extends ilObjectGUI
 		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->grp_object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", "bottom");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -999,7 +998,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab = array();
 
 		//create additional tabs for tab-bar
-		$tab[0] = array ();
+		/*$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
@@ -1009,7 +1008,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
 		$tab[1]["ftabtype"] = 'tabactive';
 		$tab[1]["target"] = "bottom";
-		$tab[1]["tab_text"] = 'group_members';
+		$tab[1]["tab_text"] = 'group_members';*/
 
 		$this->prepareOutput(false, $tab);
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1139,7 +1138,7 @@ class ilGroupGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
 			//user must be administrator
-			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
+			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
 			$tbl->setHeaderVars(array("check","login","firstname","lastname","role","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
 			$tbl->setColumnWidth(array("5%","15%","30%","30%","10%","10%"));
 		}
@@ -1602,7 +1601,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_text"] = 'group_members';
 
 		$this->prepareOutput(false, $tab);
-		$this->tpl->setVariable("HEADER", $this->lng->txt("obj_change"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_mem_change_status"));
 
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
