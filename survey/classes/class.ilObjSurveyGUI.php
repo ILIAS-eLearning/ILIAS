@@ -431,6 +431,93 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Creates a confirmation form to remove questions from the survey
+*
+* Creates a confirmation form to remove questions from the survey
+*
+* @access public
+*/
+	function removeQuestionsForm($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", true);
+		$where = "";
+		foreach ($checked_questions as $id) {
+			$where .= sprintf(" OR survey_question.question_id = %s", $this->ilias->db->quote($id));
+		}
+		$where = preg_replace("/^ OR /", "", $where);
+		$where = "($where)";
+    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND $where";
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TEXT_TITLE", $data->title);
+					$this->tpl->setVariable("TEXT_DESCRIPTION", $data->description);
+					$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+/**
+* Displays the definition form for a question block
+*
+* Displays the definition form for a question block
+*
+* @access public
+*/
+	function defineQuestionblock()
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "cb_$matches[1]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $matches[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
@@ -477,6 +564,63 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$insert_mode = 0;
 				}
 				$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
+			}
+		}
+		
+		if ($_POST["cmd"]["questionblock"])
+		{
+			$questionblock = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					array_push($questionblock, $value);
+				}
+			}
+			if (count($questionblock) < 2)
+			{
+        sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"));
+			}
+			else
+			{
+				$this->defineQuestionblock();
+				return;
+			}
+		}
+		
+		if ($_POST["cmd"]["unfold"])
+		{
+			$unfoldblocks = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					array_push($unfoldblocks, $matches[1]);
+				}
+			}
+			if (count($unfoldblocks))
+			{
+				$this->object->unfoldQuestionblocks($unfoldblocks);
+			}
+			else
+			{
+        sendInfo($this->lng->txt("qpl_unfold_select_none"));
+			}
+		}
+		
+		if ($_POST["cmd"]["save_questionblock"])
+		{
+			if ($_POST["title"])
+			{
+				$questionblock = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/cb_(\d+)/", $key, $matches))
+					{
+						array_push($questionblock, $value);
+					}
+				}
+				$this->object->createQuestionblock($_POST["title"], $questionblock);
 			}
 		}
 		
@@ -593,20 +737,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("questions_inserted"));
 		}
 
-/*		if (strlen($_POST["cmd"]["confirm_remove"]) > 0)
+		if (strlen($_POST["cmd"]["confirm_remove"]) > 0)
 		{
 			// remove questions from test after confirmation
-			sendInfo($this->lng->txt("tst_questions_removed"));
+			sendInfo($this->lng->txt("questions_removed"));
 			$checked_questions = array();
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/id_(\d+)/", $key, $matches)) {
 					array_push($checked_questions, $matches[1]);
 				}
 			}
-			foreach ($checked_questions as $key => $value) {
-				$this->object->remove_question($value);
-			}
-			$this->object->save_complete_status();
+			$this->object->removeQuestions($checked_questions);
+			$this->object->saveCompletionStatus();
 		}
 
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
@@ -617,44 +759,59 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			if (count($checked_questions) > 0) {
-				$total = $this->object->evalTotalPersons();
-				if ($total) {
+//				$total = $this->object->evalTotalPersons();
+//				if ($total) {
 					// the test was executed previously
-					sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
-				} else {
-					sendInfo($this->lng->txt("tst_remove_questions"));
-				}
-				$this->removeQuestions($checked_questions);
+//					sendInfo(sprintf($this->lng->txt("remove_questions_and_results"), $total));
+//				} else {
+					sendInfo($this->lng->txt("remove_questions"));
+//				}
+				$this->removeQuestionsForm($checked_questions);
 				return;
 			} elseif (count($checked_questions) == 0) {
-				sendInfo($this->lng->txt("tst_no_question_selected_for_removal"));
+				sendInfo($this->lng->txt("no_question_selected_for_removal"));
 			}
 		}
-*/
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", true);
-//    $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_svy_svy_question_buttons.html", true);
 
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id ORDER BY survey_survey_question.sequence",
-			$this->ilias->db->quote($this->object->getSurveyId())
-		);
-		$query_result = $this->ilias->db->query($query);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", true);
+
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$questionblock_titles =& $this->object->getQuestionblockTitles();
+		$questionpools =& $this->object->getQuestionpoolTitles();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$questionpools =& $this->object->getQuestionpoolTitles();
-		if ($query_result->numRows() > 0)
+		if (count($survey_questions) > 0)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($survey_questions as $question_id => $data)
 			{
+				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
+				{
+					$this->tpl->setCurrentBlock("block");
+					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("QTab");
+					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				if (!$data["questionblock_id"])
+				{
+					$this->tpl->setCurrentBlock("checkable");
+					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
 				$this->tpl->setCurrentBlock("QTab");
-				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
-				$this->tpl->setVariable("QUESTION_TITLE", $data->title);
-				$this->tpl->setVariable("QUESTION_COMMENT", $data->description);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->ref_fi]);
+				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
-				$counter++;
+				$last_questionblock_id = $data["questionblock_id"];
 			}
 		}
 
@@ -697,6 +854,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
+				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -719,7 +878,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
+		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("spl"));
 
     if ($rbacsystem->checkAccess('write', $this->ref_id)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));

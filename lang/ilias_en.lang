@@ -3032,3 +3032,7 @@ survey#:#survey_questions#:#Questions
 survey#:#unfold#:#Unfold
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#view_phrase#:#View phrase
+survey#:#questionblock#:#Question block
+survey#:#no_question_selected_for_removal#:#Please check at least one question to remove it!
+survey#:#remove_questions#:#Are you sure you want to remove the following question(s) from the test?
+survey#:#questions_removed#:#Question(s) removed!
