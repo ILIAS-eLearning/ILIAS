@@ -389,6 +389,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// cron
 				$settings["cron_user_check"] = $_POST["cron_user_check"];
 				$settings["cron_link_check"] = $_POST["cron_link_check"];
+				$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
 				
 				// soap
 				$settings["soap_user_administration"] = $_POST["soap_user_administration"];
@@ -490,6 +491,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// cron
                 $this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
                 $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
+                $this->ilias->setSetting("cron_web_resource_check",$_POST["cron_web_resource_check"]);
 				
 				// webservice
 				$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
@@ -588,6 +590,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("CRON_USER_ACCOUNTS_DESC",$this->lng->txt('check_user_accounts_desc'));
 		$this->tpl->setVariable("TXT_CRON_LINK_CHECK",$this->lng->txt('check_link'));
 		$this->tpl->setVariable("CRON_LINK_CHECK_DESC",$this->lng->txt('check_link_desc'));
+		$this->tpl->setVariable("TXT_CRON_WEB_RESOURCE_CHECK",$this->lng->txt('check_web_resources'));
+		$this->tpl->setVariable("CRON_WEB_RESOURCE_CHECK_DESC",$this->lng->txt('check_web_resources_desc'));
+
+		$this->tpl->setVariable("TXT_NEVER",$this->lng->txt('never'));
+		$this->tpl->setVariable("TXT_DAILY",$this->lng->txt('daily'));
+		$this->tpl->setVariable("TXT_WEEKLY",$this->lng->txt('weekly'));
+		$this->tpl->setVariable("TXT_MONTHLY",$this->lng->txt('monthly'));
+		$this->tpl->setVariable("TXT_QUARTERLY",$this->lng->txt('quarterly'));
 
 		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
@@ -853,7 +863,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
         if ($settings["cron_link_check"])
         {
-            $this->tpl->setVariable("CRON_LINK_CHECK","checked=\"checked\"");
+			$this->tpl->setVariable("CRON_LINK_CHECK","checked=\"checked\"");
+        }
+        if ($val = $settings["cron_web_resource_check"])
+        {
+			switch($val)
+			{
+				case 1:
+					$this->tpl->setVariable("D_SELECT",'selected="selected"');
+					break;
+				case 2:
+					$this->tpl->setVariable("W_SELECT",'selected="selected"');
+					break;
+				case 3:
+					$this->tpl->setVariable("M_SELECT",'selected="selected"');
+					break;
+				case 4:
+					$this->tpl->setVariable("Q_SELECT",'selected="selected"');
+					break;
+
+			}
         }
         if ($settings["soap_user_administration"])
         {

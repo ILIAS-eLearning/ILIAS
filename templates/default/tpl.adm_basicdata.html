@@ -234,6 +234,18 @@
       <td class="option_value"><input type="checkbox" name="cron_link_check"  value="1" {CRON_LINK_CHECK} />
 			<br /><span class="subtitle">{CRON_LINK_CHECK_DESC}</span></td>
     </tr>
+    <tr>
+      <td class="option">{TXT_CRON_WEB_RESOURCE_CHECK}</td>
+		  <td class="option_value">
+          <select name="cron_web_resource_check">
+             <option value = "0" {N_SELECT}>{TXT_NEVER}</option>
+             <option value = "1" {D_SELECT}>{TXT_DAILY}</option>
+			 <option value = "2" {W_SELECT}>{TXT_WEEKLY}</option>
+             <option value = "3" {M_SELECT}>{TXT_MONTHLY}</option>
+			 <option value = "4" {Q_SELECT}>{TXT_QUARTERLY}</option>
+          </select>
+			<br /><span class="subtitle">{CRON_WEB_RESOURCE_CHECK_DESC}</span></td>
+    </tr>
 
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_WEBSERVICES}</td>
