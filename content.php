@@ -2,7 +2,8 @@
 include_once "include/ilias_header.inc";
 
 // on first start obj_id is set to 1
-$_GET["obj_id"] = $_GET["obj_id"] ?  $_GET["obj_id"] : 1;
+$obj_id = $obj_id ? $obj_id : 1;
+$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : 1;
 
 $obj = getObject($obj_id);
 
@@ -39,8 +40,24 @@ if($obj["type"] == 'type')
 
 // Template-Engine anschmeissen
 $tplContent = new Template("content_main.html",true,true);
+
 // create tree object: if $pos is not set use root id
 $tree =& new Tree($obj_id,1,1);
+
+// was a command submitted?
+if (isset($_POST["cmd"]))
+{
+	$methode = $_POST["cmd"]."Object"; 
+	include_once ("classes/class.Admin.php");
+	$obj2 = new Admin($ilias);
+	$obj2->$methode();
+}
+
+// show paste-button if something was cut or copied
+if (!empty($clipboard))
+{
+	$tplContent->touchBlock("btn_paste");
+}
 
 // display path
 $tree->getPath();
@@ -102,6 +119,7 @@ else
 	$tplContent->touchBlock("notfound");
 }
 
+
 // display category options
 $type = $obj["type"];
 if (!empty($ilias->typedefinition[$type]))
@@ -126,12 +144,16 @@ if (!empty($ilias->typedefinition[$type]))
 		$tplContent->parseCurrentBlock("opt_type","type",true);
 	}
 }
+
 $tplContent->setVariable("OBJ_ID",$obj_id);
 $tplContent->setVariable("TPOS",$parent);
 
 if($_SESSION["Error_Message"])
 {
-	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
+	$tplContent->setCurrentBlock("sys_message");
+	$tplContent->setVariable("ERROR_MESSAGE",$_SESSION["Error_Message"]);
+	$tplContent->parseCurrentBlock();
 }
+
 include_once "include/ilias_footer.inc";
 ?>
