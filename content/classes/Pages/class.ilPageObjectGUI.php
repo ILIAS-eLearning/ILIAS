@@ -353,15 +353,17 @@ class ilPageObjectGUI
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
-				if (DEVMODE)
-				{
+					
+				//if (DEVMODE)
+				//{
 					$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
 						"disable" => $this->lng->txt("cont_disable_js"));
-				}
-				else
-				{
-					$js_mode = array("disable" => $this->lng->txt("cont_disable_js"));
-				}
+				//}
+				//else
+				//{
+				//	$js_mode = array("disable" => $this->lng->txt("cont_disable_js"));
+				//}
+				
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
 					

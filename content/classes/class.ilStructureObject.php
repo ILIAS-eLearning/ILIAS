@@ -91,6 +91,39 @@ class ilStructureObject extends ilLMObject
 		}
 		parent::delete($a_delete_meta_data);
 	}
+	
+	/**
+	* copy chapter
+	*/
+	function &copy(&$lmtree, $a_parent, $a_pos = IL_LAST_NODE)
+	{
+		$meta =& new ilMetaData();
+		$chap =& new ilLMPageObject($this->getContentObject());
+		$chap->assignMetaData($meta);
+		$chap->setTitle($this->getTitle());
+		$chap->setLMId($this->getLMId());
+		$chap->setType($this->getType());
+		$chap->setDescription($this->getDescription());
+		$chap->create();
+		
+		// insert chapter in tree
+		$lmtree->insertNode($chap->getId(), $a_parent, $a_pos);
+
+		$childs =& $lmtree->getChilds($this->getId());
+		foreach($childs as $child)
+		{
+			$lmobj = ilLMObjectFactory::getInstance($this->getContentObject(), $child["obj_id"], true);
+			$newobj =& $lmobj->copy($lmtree, $chap->getId());
+			// insert page in tree
+			if ($newobj->getType() == "pg")
+			{
+				$lmtree->insertNode($newobj->getId(), $chap->getId());
+			}
+		}
+
+		return $chap;
+	}
+
 
 	/**
 	* redirect script
