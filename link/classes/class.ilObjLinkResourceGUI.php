@@ -599,9 +599,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
-	}
-	
+		ilUtil::redirect($this->getReturnLocation("save",'adm_object.php?ref_id='.$newObj->getRefId()));
+	}	
 	function linkCheckerObject()
 	{
 		global $ilias,$ilUser;

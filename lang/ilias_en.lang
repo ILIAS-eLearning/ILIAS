@@ -4804,3 +4804,4 @@ common#:#monthly#:#monthly
 common#:#quarterly#:#quarterly
 common#:#check_web_resources#:#Check web resources
 common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.
+common#:#obj_webr#:#Web resource
