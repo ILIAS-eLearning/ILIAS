@@ -58,7 +58,7 @@ class ilRbacSystem
 	*  With this method you check the permissions a use may have due to its roles
 	*  on an specific object.
 	*  The first parameter are the operation(s) the user must have
-	*  The second & third parameter specifies the object where the operation(s) may applie to
+	*  The second & third parameter specifies the object where the operation(s) may apply to
 	*  The last parameter is only required, if you ask for the 'create' operation. Here you specify
 	*  the object type which you want to create.
 	* 
@@ -76,7 +76,7 @@ class ilRbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 
-		return true;
+		//return true;
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
