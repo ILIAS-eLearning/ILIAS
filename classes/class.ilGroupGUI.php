@@ -203,13 +203,15 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function view()
 	{
-		if (isset($_GET["viewmode"]))
+
+		if (isset($_GET["grp_viewmode"]))
 		{
-			$_SESSION["viewmode"] = $_GET["viewmode"];
+			$_SESSION["grp_viewmode"] = $_GET["grp_viewmode"];
 		}
-	//$_SESSION["viewmode"]="tree";
+
 		// tree frame
-		if ($_SESSION["viewmode"] == "tree")
+//		if ($_SESSION["viewmode"] == "tree")
+		if ($_SESSION["grp_viewmode"] == "tree")
 		{//echo $_GET["ref_id"];
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
 			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
@@ -232,10 +234,12 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		//require_once "./classes/class.ilExplorer.php";
+		//DUMP
 
 		$this->prepareOutput("true");
 		$this->tpl->setVariable("HEADER",$this->lng->txt("groups_overview"));
 
+		
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -388,7 +392,7 @@ class ilGroupGUI extends ilObjectGUI
 //		require_once "classes/class.ilExplorer.php";
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe übergeben kann
+		//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe bergeben kann
 		
 		$exp = new ilGroupExplorer("group.php",$this->grp_id);
 		//$exp = new ilExplorer("group.php?cmd=displayList");
@@ -441,7 +445,10 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tab = array();
 
-		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+//		$tab0 = "tabactive";
+//		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+/*
+		if (!isset($_SESSION["grp_viewmode"]) or $_SESSION["grp_viewmode"] == "flat")
 		{
 			$tab0 = "tabinactive";
 			$tab1 = "tabactive";
@@ -451,6 +458,8 @@ class ilGroupGUI extends ilObjectGUI
 			$tab0 = "tabactive";
 			$tab1 = "tabinactive";
 		}
+*/
+
 
 		/*$this->tpl->setCurrentBlock("tab");
 		$this->tpl->setVariable("TAB_TYPE", $ttabtype);
@@ -465,30 +474,55 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TAB_LINK", "group.php?cmd=choose_view&viewmode=flat&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
 		$this->tpl->parseCurrentBlock();*/
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
-		$tab[0]["ftabtype"] = $tab0; 					//tab is marked
-		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] = 'treeview'; 
 		
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-		$tab[1]["ftabtype"] = $tab1;  					//tab is marked
-		$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[1]["tab_text"] ='flatview'; 
-		
+		if (!isset($_SESSION["grp_viewmode"]) OR $_SESSION["grp_viewmode"] == "flat")
+		{
+			$tab[0] = array ();
+	//		$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
+			$tab[0]["tab_cmd"] = "cmd=view&grp_viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
+			$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
+			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+			$tab[0]["tab_text"] = 'treeview'; 
+		}
+		else //if($_SESSION["grp_viewmode"] == "flat")
+		{
+/*			
+			$tab[1] = array ();
+	//		$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+			$tab[1]["tab_cmd"] = "cmd=view&grp_viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+			$tab[1]["ftabtype"] = $tab1;  					//tab is marked
+			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
+			$tab[1]["tab_text"] ='flatview'; 
+*/
+			$tab[0] = array ();
+	//		$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+			$tab[0]["tab_cmd"] = "cmd=view&grp_viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+//			$tab[0]["ftabtype"] = $tab1;  					//tab is marked
+			$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
+			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+			$tab[0]["tab_text"] ='flatview'; 
+
+			
+		}
 		/*$tab[2] = array ();
 		$tab[2]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"]; 	//link for tab
 		$tab[2]["ftabtype"] = 'tabactive'; 					//tab is marked
 		$tab[2]["target"] = "bottom";  						//target-frame of tab_cmd
 		$tab[2]["tab_text"] = 'group_objects'; 					//tab -text
 		*/
+/*heute		
 		$tab[2] = array ();
 		$tab[2]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
 		$tab[2]["ftabtype"] = 'tabinactive';					//tab is marked
 		$tab[2]["target"] = "bottom";						//target-frame of tab_cmd
 		$tab[2]["tab_text"] = 'group_members';					//tab -text
-		
+*/		
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';					//tab is marked
+		$tab[1]["target"] = "bottom";						//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';					//tab -text
+
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
