@@ -90,7 +90,9 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias;
 
 		// administration button
-		if ($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
+
+		#if ($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
+		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
 			$this->tpl->setCurrentBlock("userisadmin");
 			$this->tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
@@ -262,6 +264,12 @@ class ilMainMenuGUI
 			$script = ".".$script;
 		}
 		return $script;
+	}
+	// STATIC
+	function _checkAdministrationPermission()
+	{
+		// Allow all local admins to use the administration
+		return count(ilUtil::getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
 	}
 }
 ?>
