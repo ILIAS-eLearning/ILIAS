@@ -1662,6 +1662,7 @@ common#:#no_access_link_object#:#You are not allowed to link this object###05 No
 common#:#no_bm_in_personal_list#:#Nincs megadva webcím.
 common#:#no_chat_in_personal_list#:#Nincse chat a személyes listán
 common#:#no_checkbox#:#Nincs bejelölve jelölőnégyzet!
+common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Nincs dátum
 common#:#no_description#:#Nincs leírás
 common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
@@ -4095,6 +4096,7 @@ survey#:#users_answered#:#A felhasználók válaszoltak
 survey#:#users_skipped#:#A felhasználók kihagyták
 survey#:#value_nr_entered#:#Azon felhasználók száma, akik azt az értéket adták meg
 survey#:#values#:#Értékek
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés! A kérdést, amit szerkeszteni akar, használják az alább listázott felmérések. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, a felmérés minden alább listázott válasza törlődik. Ha meg akarja változtatni a kérdést és másik felmérésben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, hogy a kérdés új példányát létrehozza.
 survey#:#warning_question_not_complete#:#The question is not complete!###05 Nov 2004 new variable
