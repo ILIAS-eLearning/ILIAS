@@ -34,15 +34,16 @@ require_once "./include/inc.header.php";
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
 require_once "./content/classes/SCORM/class.ilObjDebug.php";
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
-$debug = new ilObjDebug("/opt/ilias/www/htdocs/ilias3/debug/debug.scorm_server");
+$debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
 
 if (isset($_GET["value"])) //setValue Call
 {
-  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
-	$debug->debug("Method: ".$temp);
+	//fehler $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
+  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'","'.$_GET["value"].'");';
+  $debug->debug("Method: ".$temp);
    $retval=eval("$temp");
 	$debug->debug("ReturnValue: ".$retval);
-   return $retval;
+	 return $retval;
    
 }
 else

@@ -2647,3 +2647,6 @@ ALTER  TABLE  `qpl_answers`  ADD  `shuffle` ENUM('0','1')  NOT  NULL DEFAULT '1'
 
 <#163>
 UPDATE settings SET value = '3.0.0RC1 2004/04/18' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#164>
+ALTER TABLE `scorm_tracking` ADD `student_name` VARCHAR( 255 ) NOT NULL ;

@@ -13,16 +13,17 @@
 <body onLoad="parent.start();">
 <script language="JavaScript">
 //document.writeln('<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" width="0" height="0" ID="APIAdapter" Name="APIAdapter" codebase="http://java.sun.com/products/plugin/1.3/jinstall-13-win32.cab#Version=1,3,0,0">');
-
-	document.writeln('<applet CODE="Ilias.class"  ID="APIAdapter" NAME="APIAdapter" width="0" height="0">');
+//<APPLET CODE="Ilias.class" archive="http://10.113.88.7/ilias3_cvs/content/sIlias.jar" WIDTH=100 HEIGHT=100></APPLET>
+	document.writeln('<applet CODE="Ilias.class" archive="sIlias.jar" ID="APIAdapter" NAME="APIAdapter" width="0" height="0">');
 	document.writeln('<param name = "code" value = "Ilias.class" >');
 	document.writeln('<param name = "type" value="application/x-java-applet">');
 	document.writeln('<param name = "mayscript" value="true" >');
 	document.writeln('<param name = "scriptable" value="true" >');
-	document.writeln('<param name="item_id" value="{ITEM_ID}">');
-	document.writeln('<param name="user_id" value="{USER_ID}">');
-	document.writeln('<param name="session_id" value="{SESSION_ID}">');
-	document.writeln('<param name="language" value="de_DE"></applet>');
+	document.writeln('<param name = "item_id" value="{ITEM_ID}">');
+	document.writeln('<param name = "user_id" value="{USER_ID}">');
+	document.writeln('<param name = "session_id" value="{SESSION_ID}">');
+	document.writeln('<param name = "language" value="de_DE">');
+	document.writeln('</applet>');
 	
 	// this one works in ns 4.x only, some switch implementation has still to be provided
 	//document.writeln('<EMBED  Name="APIAdapter" type="application/x-java-applet;version=1.3" code="ILIAS.class" WIDTH="0" HEIGHT="0">');
