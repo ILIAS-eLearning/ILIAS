@@ -155,6 +155,7 @@ lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Polacco
 lang_se#:#Svedese
 lang_se#:#Swedish###28 Nov 2003 new variable
+lang_ua#:#Ukrainian
 lang_xx#:#Custom
 language#:#Lingua
 languages#:#Lingue

@@ -127,8 +127,7 @@ ilias_nic#:#NIC Registrierung
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS Version
-info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess.
-Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
+info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldet Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
@@ -180,6 +179,7 @@ lang_none_installed#:#Keine Sprache installiert
 lang_pl#:#Polnisch
 setup_finished#:#Installation abgeschlossen
 lang_se#:#Schwedisch
+lang_ua#:#Ukrainisch
 lang_xx#:#benutzerdefiniert
 language#:#Sprache
 languages#:#Sprachen
