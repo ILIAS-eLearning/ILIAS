@@ -1,13 +1,13 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.lo_edit_questions.html", false, false);
 
@@ -21,11 +21,10 @@ $tpl->setVariable("TXT_LINKED_PAGES", $lng->txt("linked_pages"));
 $tpl->setVariable("TXT_SECTIONS", $lng->txt("sections"));
 $tpl->setVariable("TXT_SET", $lng->txt("set"));
 
-include("./include/inc.lo_buttons.php");
+include "./include/inc.lo_buttons.php";
 
 $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

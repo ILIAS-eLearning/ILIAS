@@ -1,13 +1,13 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.lo_edit_infoptions.html", false, false);
 
@@ -35,11 +35,8 @@ $tpl->setVariable("TXT_CHANGE_LO_INFO", $lng->txt("change_lo_info"));
 $tpl->setVariable("TXT_ANNOUNCE_CHANGES", $lng->txt("announce_changes"));
 $tpl->setVariable("TXT_ASSIGN_LO_FORUM", $lng->txt("assign_lo_forum"));
 
-
-include("./include/inc.lo_buttons.php");
-
+include "./include/inc.lo_buttons.php";
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -1,14 +1,14 @@
 <?php
 /**
- * display user agreement
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
+* display user agreement
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
 
-include("./include/ilias_header.inc");
-include("./include/inc.main.php");
+require_once "./include/ilias_header.inc";
 
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("usr_agreement"));
 
@@ -40,5 +40,4 @@ $tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -1,19 +1,19 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.lo_edit.html", false, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("lo_edit"));
 
-include("./include/inc.lo_buttons.php");
+include "./include/inc.lo_buttons.php";
 
 $tpl->setVariable("TXT_SEQUENCES", $lng->txt("sequences"));
 $tpl->setVariable("TXT_ONLINE_CHAPTER", $lng->txt("online_chapter"));
@@ -48,10 +48,16 @@ $tpl->setVariable("NUMBER", $row["nr"]);
 $tpl->setVariable("TITLE", $row["title"]);
 $tpl->setVariable("STATUS", $row["status"]);
 $tpl->setVariable("TXT_STATUS", $lng->txt("status"));
+
 if ($row["status"] == "on")
+{
 	$switchstatus = "off";
+}
 else
+{
 	$switchstatus = "on";
+}
+
 $tpl->setVariable("LINK_SWITCHSTATUS", "lo_edit.php?set=".$switchstatus."&amp;lo=".$lo."&amp;id=".$row["nr"]);
 $tpl->setVariable("TXT_STATUS", $lng->txt("set_".$switchstatus."line"));
 
@@ -80,5 +86,4 @@ $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

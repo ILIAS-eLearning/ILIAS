@@ -1,22 +1,21 @@
 <?php
-
 /**
 * setup file for ilias
 * 
 * this file helps setting up ilias
 * main purpose is writing the ilias.ini to the filesystem
 * it can set up the database to if the settings are correct and the dbuser has the rights
-* 
+*
+* @author Peter Gabriel <pgabriel@databay.de> 
 * @version $Id$
+*
 * @package ilias
-* @author Peter Gabriel <pgabriel@databay.de>
 */
-
 //include classes - later in the program it will be done by ilias.header.inc
-include_once("./classes/class.Setup.php");
-include_once("./classes/class.Language.php");
-include_once("./classes/class.Log.php");
-include_once("HTML/IT.php");
+require_once("./classes/class.Setup.php");
+require_once("./classes/class.Language.php");
+require_once("./classes/class.Log.php");
+require_once("HTML/IT.php");
 
 $OK = "<font color=\"green\"><strong>OK</strong></font>";
 $FAILED = "<strong><font color=red>FAILED</font></strong>";
@@ -333,7 +332,5 @@ if ($step == "preliminaries")
 	}
 }
 
-//display output
 $tpl->show();
-
 ?>

@@ -1,15 +1,15 @@
 <?php
 /**
- * personal desktop
- * welcome screen of ilias with new mails, last lo's etc.
- * adapted from ilias 2
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias-pgm
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include_once("./include/inc.main.php");
+* personal desktop
+* welcome screen of ilias with new mails, last lo's etc.
+* adapted from ilias 2
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
@@ -134,5 +134,4 @@ if (count($courses)>0)
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","editor.php");
@@ -38,6 +37,4 @@ $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
 $tpl->setVariable("BUTTONS",$tplbtn->get());
-
-
 ?>

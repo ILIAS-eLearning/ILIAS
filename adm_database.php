@@ -1,16 +1,15 @@
 <?PHP
 /**
- * admin database
- * utils for updating the database and optimize it etc.
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
-
-include_once("./classes/class.DBUpdate.php");
+* admin database
+* utils for updating the database and optimize it etc.
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
+require_once "./classes/class.DBUpdate.php";
 
 $myDB = new DBUpdate();
 $tpl = new Template("tpl.adm_database.html", true, true);
@@ -47,5 +46,4 @@ if ($myDB->getDBVersionStatus()=="database_needs_update")
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -98,5 +98,4 @@ function s_gc($maxlifetime)
 
 	return $sdb->affectedRows();
 }
-
 ?>

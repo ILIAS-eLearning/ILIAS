@@ -8,8 +8,7 @@
 * 
 * @package ilias
 */
-include_once "./include/ilias_header.inc";
-include_once "./include/inc.main.php";
+require_once "./include/ilias_header.inc";
 
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 $lng->setUserLanguage($lng->lng);
@@ -145,5 +144,4 @@ $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-session_unregister("Error_Message");
 ?>

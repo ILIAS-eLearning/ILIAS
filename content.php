@@ -21,6 +21,12 @@ if($obj["type"] == 'objf')
 	header("Location: content_type.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
 	exit;
 }
+// Type = objf => Verzweige nach content_type.php
+if($obj["type"] == 'lngf')
+{
+	header("Location: content_lang.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
+}
 // Type = adm => Verzweige nach content_adm.php
 if($obj["type"] == 'adm')
 {
@@ -177,5 +183,5 @@ $flat_tree .= "</table>\n";
 
 $tplContent->setVariable("TESTING",$flat_tree);
 	
-include_once "include/ilias_footer.inc";
+$tplContent->show();
 ?>

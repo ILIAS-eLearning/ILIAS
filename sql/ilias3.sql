@@ -4,14 +4,14 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 22. August 2002 um 12:44
-# Server Version: 3.23.44
-# PHP-Version: 4.2.1
-# Datenbank: `ilias3`
+# Generation Time: Aug 30, 2002 at 02:09 PM
+# Server version: 3.23.44
+# PHP Version: 4.2.1
+# Database : `ilias3`
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `bookmarks`
+# Table structure for table `bookmarks`
 #
 
 CREATE TABLE bookmarks (
@@ -28,7 +28,7 @@ CREATE TABLE bookmarks (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `bookmarks`
+# Dumping data for table `bookmarks`
 #
 
 INSERT INTO bookmarks (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
@@ -36,7 +36,24 @@ INSERT INTO bookmarks (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 2,
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail`
+# Table structure for table `lang_data`
+#
+
+CREATE TABLE lang_data (
+  identifier varchar(30) NOT NULL default '',
+  lang_key char(2) NOT NULL default '',
+  value mediumblob NOT NULL,
+  PRIMARY KEY  (identifier,lang_key,value(3))
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `lang_data`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `mail`
 #
 
 CREATE TABLE mail (
@@ -55,18 +72,18 @@ CREATE TABLE mail (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail`
+# Dumping data for table `mail`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `object_data`
+# Table structure for table `object_data`
 #
 
 CREATE TABLE object_data (
   obj_id int(11) NOT NULL auto_increment,
-  type enum('role','user','le','frm','grp','cat','kurs','file','mail','abo','set','adm','none','usrf','rolf','rolt','objf','type') NOT NULL default 'none',
+  type char(4) NOT NULL default 'none',
   title char(70) NOT NULL default '',
   description char(128) default NULL,
   owner int(11) NOT NULL default '0',
@@ -76,23 +93,20 @@ CREATE TABLE object_data (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `object_data`
+# Dumping data for table `object_data`
 #
 
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (2, 'role', 'Adminstrator', 'Rolle des Systemadministrators (darf alles)', -1, '2002-01-16 15:31:45', '2002-01-16 15:32:49');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (3, 'role', 'Autor', 'Rolle mit umfassenden Schreibrechten', -1, '2002-01-16 15:32:50', '2002-01-16 15:33:54');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (4, 'role', 'Lerner', 'Rolle für Studierende (wenig Schreibrechte)', -1, '2002-01-16 15:34:00', '2002-01-16 15:34:35');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (5, 'role', 'Gast', 'Gastzugang mit wenig Leserechten', -1, '2002-01-16 15:34:46', '2002-01-16 15:35:19');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (6, 'user', 'Meister Ad Min', 'nix', -1, '2002-01-16 16:09:22', '2002-01-16 16:09:22');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (7, 'usrf', 'User Folder', 'Folder der alle User enthält', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (8, 'rolf', 'Role Folder', 'Folder der alle System Rollen enthält', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (1, 'cat', 'root', 'Root Kategorie', -1, '2002-06-24 15:15:03', '2002-06-24 15:15:03');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (140, 'user', 'Lerner', 'nix', 6, '2002-07-11 10:28:13', '2002-07-11 10:28:13');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (141, 'user', 'Autor', 'nix', 6, '2002-07-11 10:28:34', '2002-07-11 10:28:34');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (142, 'user', 'Gast', 'nix', 6, '2002-07-11 10:28:54', '2002-07-11 10:28:54');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (10, 'objf', 'Object Folder', 'Contains list of known object types', -1, '2002-07-15 12:36:56', '2002-07-15 12:36:56');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (9, 'adm', 'System Settings', 'Contains systems settings', -1, '2002-07-15 12:37:33', '2002-07-15 12:37:33');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (11, 'type', 'role', 'Role object', -1, '2002-07-15 15:52:51', '2002-07-15 15:52:51');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (2, 'role', 'Adminstrator', 'Role for systemadministrators. This role grants access to everything!', -1, '2002-01-16 15:31:45', '2002-01-16 15:32:49');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (3, 'role', 'Author', 'Role for teachers with many write & some create permissions.', -1, '2002-01-16 15:32:50', '2002-01-16 15:33:54');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (4, 'role', 'Learner', 'Typical role for students. Grants write access to some objects.', -1, '2002-01-16 15:34:00', '2002-01-16 15:34:35');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (5, 'role', 'Guest', 'Role grants only a few visible & read permissions.', -1, '2002-01-16 15:34:46', '2002-01-16 15:35:19');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (6, 'user', 'The System Administrator', '', -1, '2002-01-16 16:09:22', '2002-08-30 13:54:04');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (7, 'usrf', 'Users', 'Folder contains all users', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (8, 'rolf', 'Roles', 'Folder contains all roles', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (1, 'cat', 'ILIAS open source', 'This is the root node of the system!!!', -1, '2002-06-24 15:15:03', '2002-06-24 15:15:03');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (10, 'objf', 'Objects', 'Folder contains list of known object types', -1, '2002-07-15 12:36:56', '2002-07-15 12:36:56');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (9, 'adm', 'System Settings', 'Folder contains the systems settings', -1, '2002-07-15 12:37:33', '2002-07-15 12:37:33');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (11, 'lngf', 'Languages', 'Folder contains all available languages', -1, '2002-07-15 15:52:51', '2002-07-15 15:52:51');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (12, 'type', 'user', 'User object', -1, '2002-07-15 15:53:37', '2002-07-15 15:53:37');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (13, 'type', 'le', 'Learning object', -1, '2002-07-15 15:54:04', '2002-07-15 15:54:04');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (14, 'type', 'frm', 'Forum object', -1, '2002-07-15 15:54:22', '2002-07-15 15:54:22');
@@ -109,49 +123,16 @@ INSERT INTO object_data (obj_id, type, title, description, owner, create_date, l
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (25, 'type', 'set', 'Set object', -1, '2002-07-15 15:57:57', '2002-07-15 15:57:57');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (26, 'type', 'type', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (27, 'type', 'rolt', 'Role template object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (150, 'grp', 'closed', 'Closed Group', 6, '2002-07-22 16:25:54', '2002-07-22 16:25:54');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (149, 'grp', 'open', '', 6, '2002-07-22 16:25:37', '2002-07-22 16:25:37');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (148, 'cat', 'Uni Köln', '', 6, '2002-07-22 16:25:15', '2002-07-22 16:25:15');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (151, 'le', 'secret', '', 6, '2002-07-22 16:26:17', '2002-07-22 16:26:17');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (152, 'rolf', 'Role Folder', 'Automatisch genierter Role Folder', 6, '2002-07-22 16:26:51', '2002-07-22 16:26:51');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (156, 'user', 'T. Eacher', 'teacher@yourserver.com', 6, '2002-08-30 14:04:26', '2002-08-30 14:04:26');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (158, 'user', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (157, 'user', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (28, 'type', 'lngf', 'Language Folder object', -1, '2002-08-28 14:22:01', '2002-08-28 14:22:01');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (30, 'type', 'role', 'Role object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (29, 'type', 'lang', 'Language object', -1, '2002-08-30 10:18:29', '2002-08-30 10:18:29');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `object_types`
-#
-
-CREATE TABLE object_types (
-  typ_id tinyint(4) unsigned NOT NULL auto_increment,
-  type char(4) NOT NULL default '',
-  container enum('y','n') NOT NULL default 'n',
-  title char(30) NOT NULL default '',
-  description char(128) NOT NULL default '',
-  PRIMARY KEY  (typ_id)
-) TYPE=MyISAM;
-
-#
-# Daten für Tabelle `object_types`
-#
-
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (11, 'role', 'n', 'Rolle', 'Rollenobjekt');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (21, 'adm', 'n', 'Administration', 'Contains all system settings');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (13, 'le', 'y', 'Lerneinheit', 'Objekt erzeugt eine Lerneinheit');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (14, 'frm', 'y', 'Forum', 'Objekt erzeugt ein Forum');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (15, 'grp', 'y', 'Arbeitsgruppe', 'Objekt erzeugt eine Arbeitsgruppe');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (16, 'cat', 'y', 'Kategorie', 'Erzeugt ein Kategorienobjekt');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (18, 'file', 'y', 'File Sharing', 'Erzeugt ein File Sharing Objekt');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (20, 'abo', 'n', 'Abonnentengruppe', 'erzeugt einen Abo-Set');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (17, 'kurs', 'y', 'Kurs', 'erzeugt ein Kurs Objekt');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (25, 'set', 'n', 'Set', 'Container für alles mögliche');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (12, 'user', 'n', 'Benutzer', 'Ein normales Personenobjekt');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (22, 'usrf', 'y', 'User Folder', 'Folder der alle User enthält');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (23, 'rolf', 'y', 'Role Folder', 'Folder der Rollen enthält');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (24, 'objf', 'y', 'Type folder', 'Contains all object type definitions');
-INSERT INTO object_types (typ_id, type, container, title, description) VALUES (26, 'type', 'n', 'Object type', 'Defines an object type');
-# --------------------------------------------------------
-
-#
-# Tabellenstruktur für Tabelle `rbac_fa`
+# Table structure for table `rbac_fa`
 #
 
 CREATE TABLE rbac_fa (
@@ -162,20 +143,17 @@ CREATE TABLE rbac_fa (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_fa`
+# Dumping data for table `rbac_fa`
 #
 
 INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (2, 8, 'y');
 INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (3, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (3, 152, 'n');
 INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (4, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (4, 152, 'n');
 INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (5, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (5, 152, 'n');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_operations`
+# Table structure for table `rbac_operations`
 #
 
 CREATE TABLE rbac_operations (
@@ -186,7 +164,7 @@ CREATE TABLE rbac_operations (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_operations`
+# Dumping data for table `rbac_operations`
 #
 
 INSERT INTO rbac_operations (ops_id, operation, description) VALUES (1, 'edit permission', 'edit permissions');
@@ -195,12 +173,12 @@ INSERT INTO rbac_operations (ops_id, operation, description) VALUES (3, 'read', 
 INSERT INTO rbac_operations (ops_id, operation, description) VALUES (4, 'write', 'modify object');
 INSERT INTO rbac_operations (ops_id, operation, description) VALUES (5, 'create', 'add object');
 INSERT INTO rbac_operations (ops_id, operation, description) VALUES (6, 'delete', 'remove object');
-INSERT INTO rbac_operations (ops_id, operation, description) VALUES (7, 'join', 'join group');
-INSERT INTO rbac_operations (ops_id, operation, description) VALUES (8, 'leave', 'leave group');
+INSERT INTO rbac_operations (ops_id, operation, description) VALUES (7, 'join', 'join/subscribe');
+INSERT INTO rbac_operations (ops_id, operation, description) VALUES (8, 'leave', 'leave/unsubscribe');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_pa`
+# Table structure for table `rbac_pa`
 #
 
 CREATE TABLE rbac_pa (
@@ -212,53 +190,24 @@ CREATE TABLE rbac_pa (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_pa`
+# Dumping data for table `rbac_pa`
 #
 
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 1, 0);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 1, 0);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 1, 0);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 1, 0);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";}', 7, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 7, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:1:{i:0;s:1:"2";}', 7, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 7, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 8, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 150, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 8, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 8, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:1:{i:0;s:1:"2";}', 8, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";}', 9, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 9, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:1:{i:0;s:1:"1";}', 9, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'N;', 9, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 10, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 10, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:1:{i:0;s:1:"1";}', 10, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'N;', 10, 9);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 150, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 149, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 149, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 149, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 148, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 148, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 148, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 148, 1);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 151, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:3:{i:0;s:1:"2";i:1;s:1:"3";i:2;s:1:"4";}', 151, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 151, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:1:{i:0;s:1:"2";}', 151, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 150, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 152, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 152, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"2";i:1;s:1:"3";}', 152, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:1:{i:0;s:1:"2";}', 152, 150);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 150, 148);
-INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 149, 148);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 1, 0);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"4";}', 1, 0);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (5, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 1, 0);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 7, 9);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (4, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 8, 9);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"4";}', 11, 9);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (3, 'a:2:{i:0;s:1:"3";i:1;s:1:"2";}', 8, 9);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:5:{i:0;s:1:"5";i:1;s:1:"1";i:2;s:1:"3";i:3;s:1:"2";i:4;s:1:"4";}', 9, 1);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:6:{i:0;s:1:"5";i:1;s:1:"6";i:2;s:1:"1";i:3;s:1:"3";i:4;s:1:"2";i:5;s:1:"4";}', 8, 9);
+INSERT INTO rbac_pa (rol_id, ops_id, obj_id, set_id) VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 10, 9);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_ta`
+# Table structure for table `rbac_ta`
 #
 
 CREATE TABLE rbac_ta (
@@ -268,7 +217,7 @@ CREATE TABLE rbac_ta (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_ta`
+# Dumping data for table `rbac_ta`
 #
 
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (11, 2);
@@ -287,6 +236,8 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 3);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 4);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 5);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 6);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 7);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (13, 8);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (14, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (14, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (14, 3);
@@ -299,6 +250,8 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 3);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 4);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 5);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 6);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 7);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (15, 8);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (16, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (16, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (16, 3);
@@ -309,6 +262,10 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 3);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 5);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 6);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 7);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (17, 8);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (18, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (18, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (18, 3);
@@ -316,6 +273,9 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (18, 4);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 3);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 5);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (19, 6);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (20, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (20, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (20, 3);
@@ -344,10 +304,26 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (26, 1);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (26, 2);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (26, 3);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (26, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (28, 1);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (28, 2);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (28, 3);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (28, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 1);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 2);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 3);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 5);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (29, 6);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 1);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 2);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 3);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 5);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 6);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_templates`
+# Table structure for table `rbac_templates`
 #
 
 CREATE TABLE rbac_templates (
@@ -358,57 +334,57 @@ CREATE TABLE rbac_templates (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_templates`
+# Dumping data for table `rbac_templates`
 #
 
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'usrf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'usrf', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'usrf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usrf', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 5, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 5, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usrf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'cat', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'cat', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'frm', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'frm', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'cat', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'cat', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'rolf', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'le', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'grp', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'role', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'lang', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'lang', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'set', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'set', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'objf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'objf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'objf', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lngf', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lngf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lngf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lngf', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'file', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'file', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'file', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'file', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'abo', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'cat', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'cat', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'cat', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'mail', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'mail', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'mail', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'mail', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'mail', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'lang', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'frm', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'frm', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'frm', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'cat', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'cat', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'le', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'crs', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'grp', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'grp', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'frm', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'cat', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'frm', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'cat', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'cat', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 2, 152);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usrf', 2, 152);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usrf', 1, 152);
@@ -433,82 +409,206 @@ INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'le', 1, 15
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'grp', 1, 152);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'frm', 1, 152);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'cat', 1, 152);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'abo', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'abo', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 4, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'objf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'objf', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'role', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'mail', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 7, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'le', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'lang', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 7, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'grp', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'frm', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'crs', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'cat', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'le', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'grp', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'frm', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'crs', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'adm', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'grp', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'crs', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'crs', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'crs', 8, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'crs', 7, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'set', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'lang', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'role', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'role', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'user', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'mail', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'role', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'role', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'user', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'user', 2, 8);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_ua`
+# Table structure for table `rbac_ua`
 #
 
 CREATE TABLE rbac_ua (
   usr_id int(11) NOT NULL default '0',
-  rol_id int(11) NOT NULL default '0'
+  rol_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (usr_id,rol_id)
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_ua`
+# Dumping data for table `rbac_ua`
 #
 
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (140, 4);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (141, 3);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (140, 5);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (141, 5);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (142, 5);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (6, 4);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (141, 4);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (6, 5);
 INSERT INTO rbac_ua (usr_id, rol_id) VALUES (6, 2);
-INSERT INTO rbac_ua (usr_id, rol_id) VALUES (6, 3);
+INSERT INTO rbac_ua (usr_id, rol_id) VALUES (156, 3);
+INSERT INTO rbac_ua (usr_id, rol_id) VALUES (157, 4);
+INSERT INTO rbac_ua (usr_id, rol_id) VALUES (158, 5);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `settings`
+# Table structure for table `settings`
 #
 
 CREATE TABLE settings (
-  keyword varchar(255) NOT NULL default '',
-  value_str varchar(255) NOT NULL default '',
-  value_int bigint(20) NOT NULL default '0',
-  UNIQUE KEY keyword (keyword)
+  keyword char(50) NOT NULL default '',
+  value char(50) NOT NULL default '',
+  PRIMARY KEY  (keyword,value)
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `settings`
+# Dumping data for table `settings`
 #
 
-INSERT INTO settings (keyword, value_str, value_int) VALUES ('db_version', '', 1);
+INSERT INTO settings (keyword, value) VALUES ('admin_firstname', 'ghjg');
+INSERT INTO settings (keyword, value) VALUES ('admin_lastname', 'dfsfs');
+INSERT INTO settings (keyword, value) VALUES ('admin_position', '');
+INSERT INTO settings (keyword, value) VALUES ('admin_title', '');
+INSERT INTO settings (keyword, value) VALUES ('babylon_path', '');
+INSERT INTO settings (keyword, value) VALUES ('city', 'gjjg');
+INSERT INTO settings (keyword, value) VALUES ('convert_path', '');
+INSERT INTO settings (keyword, value) VALUES ('country', 'hjgh');
+INSERT INTO settings (keyword, value) VALUES ('crs_enable', '');
+INSERT INTO settings (keyword, value) VALUES ('db_version', '1');
+INSERT INTO settings (keyword, value) VALUES ('email', 'hjgj');
+INSERT INTO settings (keyword, value) VALUES ('errors', '');
+INSERT INTO settings (keyword, value) VALUES ('feedback', '');
+INSERT INTO settings (keyword, value) VALUES ('group_file_sharing', '');
+INSERT INTO settings (keyword, value) VALUES ('ilias_version', '3.0a');
+INSERT INTO settings (keyword, value) VALUES ('institution', '');
+INSERT INTO settings (keyword, value) VALUES ('inst_info', '');
+INSERT INTO settings (keyword, value) VALUES ('inst_name', '');
+INSERT INTO settings (keyword, value) VALUES ('java_path', '');
+INSERT INTO settings (keyword, value) VALUES ('ldap_basedn', '');
+INSERT INTO settings (keyword, value) VALUES ('ldap_enable', '');
+INSERT INTO settings (keyword, value) VALUES ('ldap_port', '');
+INSERT INTO settings (keyword, value) VALUES ('ldap_server', '');
+INSERT INTO settings (keyword, value) VALUES ('news', '');
+INSERT INTO settings (keyword, value) VALUES ('payment_system', '');
+INSERT INTO settings (keyword, value) VALUES ('phone', 'hg');
+INSERT INTO settings (keyword, value) VALUES ('pub_section', '');
+INSERT INTO settings (keyword, value) VALUES ('street', 'gjhghj');
+INSERT INTO settings (keyword, value) VALUES ('unzip_path', '');
+INSERT INTO settings (keyword, value) VALUES ('zipcode', 'ghj');
+INSERT INTO settings (keyword, value) VALUES ('zip_path', '');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `tree`
+# Table structure for table `tree`
 #
 
 CREATE TABLE tree (
@@ -521,23 +621,19 @@ CREATE TABLE tree (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `tree`
+# Dumping data for table `tree`
 #
 
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 1, 0, 1, 20, 1);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 7, 9, 13, 14, 3);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 8, 9, 15, 16, 3);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 9, 1, 12, 19, 2);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 10, 9, 17, 18, 3);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 150, 148, 3, 8, 3);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 149, 148, 9, 10, 3);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 148, 1, 2, 11, 2);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 151, 150, 6, 7, 4);
-INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 152, 150, 4, 5, 4);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 1, 0, 1, 12, 1);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 7, 9, 3, 4, 3);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 8, 9, 5, 6, 3);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 9, 1, 2, 11, 2);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 10, 9, 7, 8, 3);
+INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 11, 9, 9, 10, 3);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `user_data`
+# Table structure for table `user_data`
 #
 
 CREATE TABLE user_data (
@@ -557,17 +653,36 @@ CREATE TABLE user_data (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `user_data`
+# Dumping data for table `user_data`
 #
 
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'ad', 'min2', 'fd', 'm', 'a@b', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (140, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'Lerner', '', '', 'm', '', '0000-00-00 00:00:00', '2002-07-11 10:28:13', '2002-07-11 10:28:13');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (141, 'autor', '7a25cefdc710b155828e91df70fe7478', 'Autor', '', '', 'm', '', '0000-00-00 00:00:00', '2002-07-11 10:28:34', '2002-07-11 10:28:34');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (142, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'Gast', '', '', 'm', '', '0000-00-00 00:00:00', '2002-07-11 10:28:54', '2002-07-11 10:28:54');
+INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'System', 'Administrator', 'The', 'm', 'ilias@yourserver.com', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
+INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'N.', 'Iemand', '', 'm', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
+INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'St.', 'Udent', '', 'm', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'T.', 'Eacher', '', 'm', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `user_session`
+# Table structure for table `user_pref`
+#
+
+CREATE TABLE user_pref (
+  usr_id int(11) NOT NULL default '0',
+  keyword char(40) NOT NULL default '',
+  value_str char(40) default NULL,
+  value_int bigint(20) default NULL,
+  PRIMARY KEY  (usr_id,keyword)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `user_pref`
+#
+
+INSERT INTO user_pref (usr_id, keyword, value_str, value_int) VALUES (6, 'language', 'de', NULL);
+# --------------------------------------------------------
+
+#
+# Table structure for table `user_session`
 #
 
 CREATE TABLE user_session (
@@ -578,7 +693,7 @@ CREATE TABLE user_session (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `user_session`
+# Dumping data for table `user_session`
 #
 
 

@@ -41,6 +41,9 @@ require_once "classes/class.rbacReviewH.php";
 // include error_handling
 require_once "classes/class.ErrorHandling.php";
 
+// i think this file is just for debugging. SH
+include_once "./include/inc.main.php";
+
 session_start();
 
 // load main class
@@ -108,5 +111,8 @@ if ($script != "login.php" && $script != "index.php")
 	
 	// init tree
 	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
+	
+	// template for debugging output
+	$tplmain = new Template("tpl.main.html", false, false);
 }
 ?>

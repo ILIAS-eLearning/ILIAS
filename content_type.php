@@ -1,5 +1,5 @@
 <?php
-include_once "include/ilias_header.inc";
+require_once "include/ilias_header.inc";
 
 // Template generieren
 $tplContent = new Template("content_type.html",true,true);
@@ -70,5 +70,5 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
-include_once "include/ilias_footer.inc";
+$tplContent->show();
 ?>

@@ -1,13 +1,13 @@
 <?php
 /**
- * change user profile
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* change user profile
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 
@@ -108,6 +108,7 @@ $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 
 //what gui's are available for ilias?
 $ilias->getSkins();
+
 foreach ($ilias->skins as $row)
 {
 	$tpl->setCurrentBlock("selectskin");
@@ -139,5 +140,4 @@ $tpl->setVariable("BTN_SUBMIT",$lng->txt("submit"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

@@ -148,6 +148,7 @@ class Object
 	function permObject()
 	{
 		global $tplContent,$rbacsystem,$rbacreview,$rbacadmin;
+		static $num = 0;
 
 		$obj = getObject($_GET["obj_id"]);
 
@@ -188,6 +189,8 @@ class Object
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($ope_list as $key => $operation)
 			{
+				$num++;
+				
 				// BEGIN CHECK_PERM
 				$tplContent->setCurrentBlock("CHECK_PERM");
 				

@@ -1,14 +1,14 @@
 <?php
 /**
- * mail
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @author Eva Wenzl <ewenzl@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* mail
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @author Eva Wenzl <ewenzl@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.mail_read.html", false, false);
 
@@ -33,7 +33,7 @@ if ($_POST["cmd"] != "")
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
-include("./include/inc.mail_buttons.php");
+include "./include/inc.mail_buttons.php";
 
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
 $tpl->setVariable("TXT_TO", $lng->txt("to"));
@@ -77,5 +77,4 @@ $tpl->setVariable("URL", "".$mail["url"]);
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>
