@@ -375,7 +375,7 @@ chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
 chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
 chat#:#chats#:#Chats###05 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
-common#:#3rd_party_software#:#第三方软件
+common#:#3rd_party_software#:#第三方软件###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#日（二位数字）.月（二位数字）.年（四位数字）
 common#:#HH:MM#:#小时（二位数字）:分（二位数字）
 common#:#absolute_path#:#绝对路径
@@ -530,6 +530,7 @@ common#:#compose#:#写作
 common#:#confirm#:#确认
 common#:#cont_object#:#对象
 common#:#contact_data#:#联系信息
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#上下文
 common#:#copy#:#拷贝
 common#:#copy_of#:#的拷贝
@@ -1624,6 +1625,7 @@ content#:#cont_assignments_deleted#:#指派已删除
 content#:#cont_back#:#返回
 content#:#cont_booktitle#:#书的题目
 content#:#cont_bottom#:#底部
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#不能删除全屏幕文件。
 content#:#cont_cant_del_std#:#不能删除标准视图文件。
 content#:#cont_caption#:#标题
@@ -1648,6 +1650,7 @@ content#:#cont_click_tl_corner#:#请点击目标区域的左上角。
 content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
 content#:#cont_coords#:#坐标
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#创建目录
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1704,6 +1707,7 @@ content#:#cont_item#:#项
 content#:#cont_journal#:#杂志
 content#:#cont_keyword#:#关键字
 content#:#cont_link#:#链接
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#链接（外部）
 content#:#cont_link_int#:#链接（内部）
 content#:#cont_link_select#:#内部链接
@@ -1748,6 +1752,7 @@ content#:#cont_none#:#无
 content#:#cont_nr_cols#:#列数
 content#:#cont_nr_items#:#项数
 content#:#cont_nr_rows#:#行数
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#在线
 content#:#cont_order#:#顺序类型
 content#:#cont_organization#:#组织
@@ -1821,6 +1826,8 @@ content#:#cont_update#:#更新
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#上载文件
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#版本
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#发行处
@@ -1828,6 +1835,7 @@ content#:#cont_width#:#宽度
 content#:#cont_wysiwyg#:#所得即所见内容
 content#:#cont_xml_base#:#xml库
 content#:#cont_year#:#年
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#页源于
 content#:#par#:#段落
 content#:#pg#:#页源于

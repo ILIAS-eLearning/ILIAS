@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Invited user to chat.###08 Mar 2004 new variable
 chat#:#chat_yellow#:#yellow###08 Mar 2004 new variable
 chat#:#chats#:#Chats###08 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###08 Mar 2004 new variable
-common#:#3rd_party_software#:#Software 3rd party
+common#:#3rd_party_software#:#Software 3rd party###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.AAAA
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
@@ -513,6 +513,7 @@ common#:#compose#:#Compor
 common#:#confirm#:#Confirmar
 common#:#cont_object#:#Objecto
 common#:#contact_data#:#Informação de Contacto
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Contexto
 common#:#copy#:#Copiar
 common#:#copy_of#:#Copia de
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#As atribuições foram apagadas
 content#:#cont_back#:#Anterior
 content#:#cont_booktitle#:#Título do livro
 content#:#cont_bottom#:#Fundo
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#A eliminação do ficheiro de ecrã inteiro não é possível.
 content#:#cont_cant_del_std#:#A eliminação do ficheiro da vista padrão não é possível.
 content#:#cont_caption#:#Legenda
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Por favor carregue no canto superior esquerdo d
 content#:#cont_content#:#Conteúdo
 content#:#cont_content_obj#:#Objecto de Conteúdo
 content#:#cont_coords#:#Coordenadas
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Criar Directoria
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Item
 content#:#cont_journal#:#Jornal
 content#:#cont_keyword#:#Palavra-chave
 content#:#cont_link#:#Ligação
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Ligação (externa)
 content#:#cont_link_int#:#Ligação (interna)
 content#:#cont_link_select#:#Ligação Interna
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Nenhum
 content#:#cont_nr_cols#:#Número de Colunas
 content#:#cont_nr_items#:#Número de Itens
 content#:#cont_nr_rows#:#Número de Linhas
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Tipo de Ordem
 content#:#cont_organization#:#Organização
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Update Names###08 Mar 2004 new variable
 content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#versão
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Foram publicados
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Largura
 content#:#cont_wysiwyg#:#Conteúdo Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Ano
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Páginas De
 content#:#par#:#Parágrafo
 content#:#pg#:#Página

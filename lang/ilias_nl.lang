@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
 chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
 chat#:#chats#:#Chats###05 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
-common#:#3rd_party_software#:#3software van derden 
+common#:#3rd_party_software#:#3software van derden ###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute pad
@@ -513,6 +513,7 @@ common#:#compose#:#Samenstellen
 common#:#confirm#:#Bevestig
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact-informatie
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Context
 common#:#copy#:#Copie
 common#:#copy_of#:#Copie van
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#De toewijzing is gewist
 content#:#cont_back#:#Terug
 content#:#cont_booktitle#:#Boektitel
 content#:#cont_bottom#:#Onderkant
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Verwijderen fullscreen-bestand niet mogelijk.
 content#:#cont_cant_del_std#:#Verwijderen van het standaard-scherm-bestand niet mogelijk.
 content#:#cont_caption#:#Schermnaam
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Klik in de linker bovenhoek van het gewenste ge
 content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
 content#:#cont_coords#:#Coördinaten
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Creëer directory
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Item
 content#:#cont_journal#:#Journaal
 content#:#cont_keyword#:#Sleutelwoord
 content#:#cont_link#:#Link
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Link (extern)
 content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interne link
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Geen enkele
 content#:#cont_nr_cols#:#Aantal kolommen
 content#:#cont_nr_items#:#Aantal eenheden
 content#:#cont_nr_rows#:#Aantal rijen
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Type volgorde
 content#:#cont_organization#:#Organisatie
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Bijwerken
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Upload-bestand
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#versie
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Waar gepubliceerd
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Breedte
 content#:#cont_wysiwyg#:#Inhoud Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jaar
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Pagina's van
 content#:#par#:#Paragrafen
 content#:#pg#:#Bladzijde
