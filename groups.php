@@ -17,7 +17,7 @@ $grp_sys[] = array("name" => "Administrator",
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","group_new.php");
-$tplbtn->setVariable("BTN_TXT","new group");
+$tplbtn->setVariable("BTN_TXT", $lng->txt("new_group"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
