@@ -11,11 +11,12 @@ parent.API=API; // gut gell?
 
 <!-- BEGIN switch_icon -->
 function switch_icon () {
-	var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
-	if (ico != null) {
-		ico.src   = '{SCO_ICO}';
-		ico.title = '{SCO_ALT}';
-	}
+ var f = parent.parent == null ? parent.parent : parent;
+ var ico = f.frames.tree.document.scoIcon{SCO_ID};
+ if (ico != null) {
+ ico.src = '{SCO_ICO}';
+ ico.title = '{SCO_ALT}';
+ }
 }
 <!-- END switch_icon -->
 

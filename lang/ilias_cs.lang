@@ -107,7 +107,11 @@ assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
 assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
 assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Apply###16 Mar 2004 new variable
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Questions###16 Mar 2004 new variable
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#by###16 Mar 2004 new variable
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
@@ -606,6 +610,7 @@ common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Přidat překlad
 common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
+common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#adm_read#:#Read access to System settings###16 Mar 2004 new variable
 common#:#adm_visible#:#Systemsettings are visible###16 Mar 2004 new variable
@@ -844,11 +849,23 @@ common#:#crs_available#:#Dostupné kurzy
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Create Course###16 Mar 2004 new variable
 common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
+common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
 common#:#crs_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#crs_create_glo#:#Create Glossary###16 Mar 2004 new variable
+common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#crs_create_lm#:#Create Learning Module###16 Mar 2004 new variable
+common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_delete#:#Delete Course###16 Mar 2004 new variable
 common#:#crs_edit#:#Upravit kurz
 common#:#crs_edit_permission#:#Change permission settings###16 Mar 2004 new variable
@@ -1039,13 +1056,21 @@ common#:#fold_add#:#Přidat složku
 common#:#fold_added#:#Složka přidána
 common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
 common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
 common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1149,6 +1174,7 @@ common#:#grp_add#:#Přidat skupinu
 common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#Skupina přidána
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Create Group###16 Mar 2004 new variable
@@ -1164,7 +1190,11 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
+common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_delete#:#Delete Group###16 Mar 2004 new variable
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###16 Mar 2004 new variable
 common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###16 Mar 2004 new variable

@@ -107,7 +107,11 @@ assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
 assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Domande
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
@@ -195,7 +199,7 @@ assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi t
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
 assessment#:#filter_all_question_types#:#Tutti i tipi di domande
-assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
+assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande###19 Oct 2004 content changed
 assessment#:#filter_show_question_types#:#Mostra i tipi di domande
 assessment#:#filter_show_questionpools#:#Mostra le raccolte di domande
 assessment#:#gap#:#Vuoto
@@ -606,6 +610,7 @@ common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
+common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
@@ -842,11 +847,23 @@ common#:#crs_available#:#Corsi disponibili
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
+common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
+common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
 common#:#crs_create_frm#:#Creare un forum
 common#:#crs_create_glo#:#Creare un glossario
+common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Creare un modulo HACP
+common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#crs_create_lm#:#Creare un modulo ILIAS
+common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
+common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1037,13 +1054,21 @@ common#:#fold_add#:#Aggiungi una cartella
 common#:#fold_added#:#Cartella aggiunta
 common#:#fold_create_alm#:#Creare una moduli AICC
 common#:#fold_create_chat#:#Creare una chat
+common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#fold_create_file#:#Creare un file
 common#:#fold_create_fold#:#Creare una cartella
 common#:#fold_create_frm#:#Creare un forum
 common#:#fold_create_glo#:#Creare un glossario
 common#:#fold_create_hlm#:#Creare un modulo HACP
+common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
 common#:#fold_create_lm#:#Creare un modulo ILIAS
+common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
+common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_delete#:#Cancellare una cartella
 common#:#fold_edit#:#Modificare una cartella
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1147,6 +1172,7 @@ common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_add_member#:#Aggiungi membri
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
+common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
 common#:#grp_back#:#Indietro
 common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
@@ -1162,7 +1188,11 @@ common#:#grp_create_hlm#:#Creare un modulo HACP
 common#:#grp_create_htlm#:#Creare un modulo HTML
 common#:#grp_create_lm#:#Creare un modulo ILIAS
 common#:#grp_create_mep#:#Creare una raccolta multimediale
+common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
+common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?

@@ -64,9 +64,9 @@ The following third-party software is necessary for running ILIAS. Release
 numbers refer to the version tested and recommended for use with ILIAS. Like
 ILIAS itself, all these programs are available as Open Source software.
 
-    - Apache 1.3.28            http://www.apache.org
-    - MySQL 4.0.15a            http://www.mysql.com
-    - PHP 4.3.3                http://www.php.net
+    - Apache 1.3.29            http://www.apache.org
+    - MySQL 4.0.18             http://www.mysql.com
+    - PHP 4.3.6                http://www.php.net
     - GD (libgd) 2.0.15        http://www.boutell.com/gd/
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
@@ -76,10 +76,10 @@ ILIAS itself, all these programs are available as Open Source software.
 
 For running ILIAS 3 additional software is required:
 
-    - libxml2 2.5.11           http://www.xmlsoft.org
-    - libxslt 1.0.33           http://www.xmlsoft.org
-    - libexpat 1.95.5          http://www.libexpat.org
-    - Sablotron 1.0            http://www.gingerall.com
+    - libxml2 2.6.9            http://www.xmlsoft.org
+    - libxslt 1.1.6            http://www.xmlsoft.org
+    - libexpat 1.95.7          http://www.libexpat.org
+    - Sablotron 1.1            http://www.gingerall.com
 
 The recommended releases can also be downloaded from the ILIAS open source web
 site: http://www.ilias.uni-koeln.de/ios/source.html
@@ -225,16 +225,16 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/ImageMagick-6.0.1-2.tar.gz
     tar -xzf tarballs/zip23.tar.gz
     tar -xzf tarballs/unzip550.tar.gz
-    tar -xzf tarballs/mysql-4.0.15a.tar.gz
-    tar -xzf tarballs/apache_1.3.28.tar.gz
-    tar -xzf tarballs/php-4.3.3.tar.gz
+    tar -xzf tarballs/mysql-4.0.18.tar.gz
+    tar -xzf tarballs/apache_1.3.29.tar.gz
+    tar -xzf tarballs/php-4.3.6.tar.gz
 
 For running ILIAS 3 please also unpack the following files:
 
-    tar -xzf tarballs/libxml2-2.5.11.tar.gz
-    tar -xzf tarballs/libxslt-1.0.33.tar.gz
-    tar -xzf tarballs/expat-1.95.5.tar.gz
-    tar -xzf tarballs/Sablot-1.0.tar.gz
+    tar -xzf tarballs/libxml2-2.6.9.tar.gz
+    tar -xzf tarballs/libxslt-1.1.6.tar.gz
+    tar -xzf tarballs/expat-1.95.7.tar.gz
+    tar -xzf tarballs/Sablot-1.1.tar.gz
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
@@ -243,7 +243,7 @@ stored in:
 
 or for ILIAS 3 in:
 
-    ilias-3.2.0_beta1.tar.gz
+    ilias-3.2.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -421,7 +421,7 @@ The following steps are only necessary for running ILIAS 3:
 
 (g) libxml
 
-        cd /opt/ilias/src/libxml2-2.5.11
+        cd /opt/ilias/src/libxml2-2.6.9
         ./configure \
         --prefix=/opt/ilias \
         --without-python
@@ -431,7 +431,7 @@ The following steps are only necessary for running ILIAS 3:
 
 (h) libxslt
 
-        cd /opt/ilias/src/libxslt-1.0.33
+        cd /opt/ilias/src/libxslt-1.1.6
         ./configure \
         --prefix=/opt/ilias \
         --with-libxml-prefix=/opt/ilias \
@@ -442,7 +442,7 @@ The following steps are only necessary for running ILIAS 3:
 
 (i) Expat
 
-        cd /opt/ilias/src/expat-1.95.5
+        cd /opt/ilias/src/expat-1.95.7
         ./configure --prefix=/opt/ilias
         make
         make install
@@ -450,7 +450,7 @@ The following steps are only necessary for running ILIAS 3:
 
 (j) Sablotron
 
-        cd /opt/ilias/src/Sablot-1.0
+        cd /opt/ilias/src/Sablot-1.1
         ./configure \
         --prefix=/opt/ilias \
         --with-expat-prefix=/opt/ilias
@@ -469,7 +469,7 @@ components:
 
     Configure & make:
 
-        cd /opt/ilias/src/mysql-4.0.15a
+        cd /opt/ilias/src/mysql-4.0.18
         ./configure \
         --prefix=/opt/ilias \
         --localstatedir=/opt/ilias/mysqldata \
@@ -561,7 +561,7 @@ components:
 
 (b) Apache (preparation)
 
-        cd /opt/ilias/src/apache_1.3.28
+        cd /opt/ilias/src/apache_1.3.29
         ./configure --prefix=/opt/ilias
 
 
@@ -569,10 +569,10 @@ components:
 
     Configure & make:
 
-        cd /opt/ilias/src/php-4.3.3
+        cd /opt/ilias/src/php-4.3.6
         ./configure \
         --prefix=/opt/ilias \
-        --with-apache=/opt/ilias/src/apache_1.3.28 \
+        --with-apache=/opt/ilias/src/apache_1.3.29 \
         --with-config-file-path=/opt/ilias/config \
         --with-mysql=/opt/ilias \
         --with-zlib=/opt/ilias \
@@ -676,7 +676,7 @@ components:
 
     Configure & make:
 
-        cd /opt/ilias/src/apache_1.3.28
+        cd /opt/ilias/src/apache_1.3.29
         ./configure \
         --prefix=/opt/ilias \
         --activate-module=src/modules/php4/libphp4.a \
@@ -952,7 +952,7 @@ must be specified in the ILIAS 3 system settings.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0_beta1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -1182,8 +1182,8 @@ must be specified in the ILIAS 3 system settings.
     installed in order to run buildconf:
 
          cd /opt/ilias/src
-         cp -r pam_auth /opt/ilias/src/php-4.3.3/ext/
-         cd /opt/ilias/src/php-4.3.3
+         cp -r pam_auth /opt/ilias/src/php-4.3.6/ext/
+         cd /opt/ilias/src/php-4.3.6
          ./buildconf --force
 
     When compiling PHP add this configure directive:
@@ -1355,7 +1355,7 @@ options in the ILIAS system settings.
 3.2  Updating ILIAS 3
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3.0.0 beta version or
-higher to ILIAS 3.2.0 beta1.
+higher to ILIAS 3.2.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -1396,7 +1396,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0_beta1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -1455,7 +1455,7 @@ Apache 2 for your ILIAS system, please proceed as follows:
           LoadModule php4_module modules/libphp4.so
 
     - Build PHP as described in section '2.3.2 - (c) PHP' but replace the
-      configure directive '--with-apache=/opt/ilias/src/apache_1.3.28' with
+      configure directive '--with-apache=/opt/ilias/src/apache_1.3.29' with
       '--with-apxs2=/opt/ilias/bin/apxs'.
 
     - Starting the Apache 2 daemon should now also invoke the PHP module.

@@ -107,7 +107,11 @@ assessment#:#applet_new_parameter#:#New parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
+assessment#:#ass_create_export_file#:#Create export file
+assessment#:#ass_export_files#:#Export files
+assessment#:#ass_file#:#File
 assessment#:#ass_questions#:#Questions
+assessment#:#ass_size#:#Size
 assessment#:#available_points#:#Available points
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Cancel the test
@@ -196,7 +200,7 @@ assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all 
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#All question types
-assessment#:#filter_all_questionpools#:#All questionpools
+assessment#:#filter_all_questionpools#:#All question pools
 assessment#:#filter_show_question_types#:#Show question types
 assessment#:#filter_show_questionpools#:#Show questionpools
 assessment#:#gap#:#Gap
@@ -217,10 +221,6 @@ assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the quest
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#ass_create_export_file#:#Create export file
-assessment#:#ass_export_files#:#Export files
-assessment#:#ass_file#:#File
-assessment#:#ass_size#:#Size
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
@@ -611,11 +611,11 @@ common#:#add_members#:#Add Members
 common#:#add_translation#:#Add translation
 common#:#add_user#:#Add local user
 common#:#added_new_condition#:#Created new condition.
+common#:#adm_create_tax#:#Create taxonomy
 common#:#adm_edit_permission#:#Change permission settings
 common#:#adm_read#:#Read access to System settings
 common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
-common#:#adm_create_tax#:#Create taxonomy
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -850,35 +850,23 @@ common#:#crs_available#:#Available Courses
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 common#:#crs_create#:#Create Course
 common#:#crs_create_alm#:#Create AICC Learning Module
-common#:#crs_create_frm#:#Create Forum
-common#:#crs_create_glo#:#Create Glossary
-common#:#crs_create_grp#:#Create Group
+common#:#crs_create_chat#:#Create Chat
 common#:#crs_create_dbk#:#Create Digilib Book
 common#:#crs_create_exc#:#Create Exercise
 common#:#crs_create_file#:#Upload File
 common#:#crs_create_fold#:#Create Folder
-common#:#crs_create_tst#:#Create Test
-common#:#crs_create_qpl#:#Create Question Pool for Test
-common#:#crs_create_chat#:#Create Chat
-common#:#crs_create_mep#:#Create Media Pool
-common#:#crs_create_htlm#:#Create HTML Learning Module
-common#:#crs_create_svy#:#Create Survey
-common#:#crs_create_spl#:#Create Question Pool for Survey
-common#:#fold_create_dbk#:#Create Digilib Book
-common#:#fold_create_exc#:#Create Exercise
-common#:#fold_create_tst#:#Create Test
-common#:#fold_create_qpl#:#Create Question Pool for Test
-common#:#fold_create_mep#:#Create Media Pool
-common#:#fold_create_htlm#:#Create HTML Learning Module
-common#:#fold_create_svy#:#Create Survey
-common#:#fold_create_spl#:#Create Question Pool for Survey
-common#:#grp_create_tst#:#Create Test
-common#:#grp_create_qpl#:#Create Question Pool for Test
-common#:#grp_create_svy#:#Create Survey
-common#:#grp_create_spl#:#Create Question Pool for Survey
+common#:#crs_create_frm#:#Create Forum
+common#:#crs_create_glo#:#Create Glossary
+common#:#crs_create_grp#:#Create Group
 common#:#crs_create_hlm#:#Create HACP Learning Module
+common#:#crs_create_htlm#:#Create HTML Learning Module
 common#:#crs_create_lm#:#Create ILIAS Learning Module
+common#:#crs_create_mep#:#Create Media Pool
+common#:#crs_create_qpl#:#Create Question Pool for Test
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
+common#:#crs_create_spl#:#Create Question Pool for Survey
+common#:#crs_create_svy#:#Create Survey
+common#:#crs_create_tst#:#Create Test
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -1069,13 +1057,21 @@ common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
+common#:#fold_create_dbk#:#Create Digilib Book
+common#:#fold_create_exc#:#Create Exercise
 common#:#fold_create_file#:#Upload File
 common#:#fold_create_fold#:#Create Folder
 common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
 common#:#fold_create_hlm#:#Create HACP Learning Module
+common#:#fold_create_htlm#:#Create HTML Learning Module
 common#:#fold_create_lm#:#Create ILIAS Learning Module
+common#:#fold_create_mep#:#Create Media Pool
+common#:#fold_create_qpl#:#Create Question Pool for Test
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
+common#:#fold_create_spl#:#Create Question Pool for Survey
+common#:#fold_create_svy#:#Create Survey
+common#:#fold_create_tst#:#Create Test
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -1179,6 +1175,7 @@ common#:#grp_add#:#Add Group
 common#:#grp_add_member#:#Add member(s)
 common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
+common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
@@ -1194,7 +1191,11 @@ common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_lm#:#Create ILIAS Learning Module
 common#:#grp_create_mep#:#Create Media Pool
+common#:#grp_create_qpl#:#Create Question Pool for Test
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
+common#:#grp_create_spl#:#Create Question Pool for Survey
+common#:#grp_create_svy#:#Create Survey
+common#:#grp_create_tst#:#Create Test
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
@@ -1214,7 +1215,6 @@ common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
-common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)

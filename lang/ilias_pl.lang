@@ -106,8 +106,12 @@ assessment#:#applet_new_parameter#:#Nowy parametr
 assessment#:#applet_parameter#:#Parametr
 assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Pytania
 assessment#:#available_points#:#Punkty do zdobycia
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj test
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień dla eksportu testu!
@@ -571,6 +575,7 @@ common#:#add_member#:#Dodaj członka
 common#:#add_members#:#dodaj członków
 common#:#add_translation#:#Dodaj tłumaczenie
 common#:#added_new_condition#:#Utworzono nowy warunek.
+common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
 common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
 common#:#adm_visible#:#Ustawienia systemowe są widoczne
@@ -790,10 +795,22 @@ common#:#crs_available#:#Dostępne kursy
 common#:#crs_container_link_not_allowed#:#Nie można dołączyć obiektów kontenerów
 common#:#crs_create#:#Twórz Kurs
 common#:#crs_create_alm#:#Twórz Moduł Nauczania AICC
+common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
+common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
 common#:#crs_create_frm#:#Twórz Forum
 common#:#crs_create_glo#:#Twórz Słownik
+common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#crs_create_lm#:#Twórz Moduł Nauczania
+common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#crs_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
@@ -979,12 +996,20 @@ common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
 common#:#fold_create_alm#:#Twórz Moduły Nauczania AICC
 common#:#fold_create_chat#:#Twórz czat
+common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
+common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#fold_create_file#:#Załaduj plik
 common#:#fold_create_fold#:#Twórz Folder
 common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#fold_create_lm#:#Twórz Moduł Nauczania
+common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#fold_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
+common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -1085,6 +1110,7 @@ common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_already_applied#:#Już jesteś zgłoszony do tej grupy! Czekaj na potwierdzenie
+common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
 common#:#grp_back#:#Powrót
 common#:#grp_count_members#:#Liczba członków
 common#:#grp_create#:#Twórz Grupę
@@ -1100,6 +1126,10 @@ common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
+common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
+common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
+common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
 common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
