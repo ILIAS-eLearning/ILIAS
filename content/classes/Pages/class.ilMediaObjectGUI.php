@@ -277,12 +277,13 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// edit object button
+		/*
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
 			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
 			"&cmd=edit");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_edit_mob"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
@@ -407,12 +408,13 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// edit object button
+		/*
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
 			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
 			"&cmd=editFiles");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_edit_mob_files"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 		// standard item
 		$std_item =& $this->content_obj->getMediaItem("Standard");

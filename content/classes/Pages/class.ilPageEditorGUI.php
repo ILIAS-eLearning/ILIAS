@@ -101,13 +101,14 @@ class ilPageEditorGUI
 		$this->locator =& $a_locator;
 	}
 
+	function returnToContext()
+	{
+		header("Location: ".$this->getReturnLocation());
+		exit;
+	}
+
 	function executeCommand()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->setVariable("HEADER", $this->getHeader());
-		$this->displayLocator();
-		$this->setAdminTabs($a_type);
-
 		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
 		{
 			return;
@@ -175,6 +176,19 @@ class ilPageEditorGUI
 			$ctype = $cont_obj->getType();
 		}
 
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		if ($ctype != "mob")
+		{
+			$this->tpl->setVariable("HEADER", $this->getHeader());
+			$this->displayLocator();
+			$this->setAdminTabs("pg");
+		}
+
+		if($cmd == "returnToContext")
+		{
+			$this->returnToContext();
+		}
+
 //echo "2"; exit;
 //echo "type:$type:cmd:$cmd:ctype:$ctype:<br>";
 		switch($ctype)
@@ -208,6 +222,11 @@ class ilPageEditorGUI
 
 			// Media Object
 			case "mob":
+				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+					$cont_obj->getTitle());
+				$this->displayLocator("mob");
+				$this->setAdminTabs("mob", $hier_id);
+
 				require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
 				$mob_gui =& new ilMediaObjectGUI($this->page, $cont_obj, $hier_id);
 				$mob_gui->setTargetScript($this->getTargetScript());
@@ -283,7 +302,7 @@ class ilPageEditorGUI
 		$this->setAdminTabs($a_type);
 	}*/
 
-	function setAdminTabs()
+	function setAdminTabs($mode = "pg", $a_hier_id = "")
 	{
 		include_once("classes/class.ilTabsGUI.php");
 
@@ -291,7 +310,21 @@ class ilPageEditorGUI
 
 		$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
 			$_GET["obj_id"]);
-		$tabs_gui->setObjectType("pg");
+		if ($mode != "mob")
+		{
+			$tabs_gui->setObjectType($mode);
+		}
+		else
+		{
+			$tabs_gui->setTargetScript(
+				ilUtil::appendUrlParameterString($tabs_gui->getTargetScript(),
+				"hier_id=".$a_hier_id));
+			$tabs_gui->setTabs(array(array("cont_mob_inst_prop", "editAlias"),
+				array("cont_mob_prop", "edit"),
+				array("cont_mob_files", "editFiles"),
+				array("cont_back", "returnToContext")
+				));
+		}
 		$tabs_gui->display();
 	}
 
