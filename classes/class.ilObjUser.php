@@ -58,7 +58,7 @@ class ilObjUser extends ilObject
 	var $country;
 	var $phone;
 	var $email;
-	var $hobbie;
+	var $hobby;
 
 
 	/**
@@ -225,7 +225,7 @@ class ilObjUser extends ilObject
 		$this->setCountry($a_data["country"]);
 		$this->setPhone($a_data["phone"]);
 		$this->setEmail($a_data["email"]);
-		$this->setHobbie($a_data["hobbie"]);
+		$this->setHobby($a_data["hobby"]);
 
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
@@ -242,13 +242,13 @@ class ilObjUser extends ilObject
 	{
 		$q = "INSERT INTO usr_data ".
 			 "(usr_id,login,passwd,firstname,lastname,title,gender,".
-			 "email,hobbie,institution,street,city,zipcode,country,".
+			 "email,hobby,institution,street,city,zipcode,country,".
 			 "phone,last_login,last_update,create_date) ".
 			 "VALUES ".
 			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
 			 "'".$this->firstname."','".$this->lastname."', ".
 			 "'".$this->utitle."','".$this->gender."', ".
-			 "'".$this->email."','".$this->hobbie."','".
+			 "'".$this->email."','".$this->hobby."', ".
 			 "'".$this->institution."','".$this->street."', ".
 			 "'".$this->city."','".$this->zipcode."','".$this->country."', ".
 			 "'".$this->phone."', 0, now(), now())";
@@ -270,7 +270,7 @@ class ilObjUser extends ilObject
 			 "firstname='".$this->firstname."', ".
 			 "lastname='".$this->lastname."', ".
 			 "email='".$this->email."', ".
-			 "hobbie='".$this->hobbie."', ".
+			 "hobby='".$this->hobby."', ".
 			 "institution='".$this->institution."', ".
 			 "street='".$this->street."', ".
 			 "city='".$this->city."', ".
@@ -695,8 +695,8 @@ class ilObjUser extends ilObject
 	function setLogin($a_str)
 	{
 		$this->login = $a_str;
-	}	
-	
+	}
+
 	/**
 	* get login / username
 	* @access	public
@@ -804,7 +804,7 @@ class ilObjUser extends ilObject
 	{
 		return $this->lastname;
 	}
-	
+
 	/**
 	* set institution
 	* @access	public
@@ -842,7 +842,7 @@ class ilObjUser extends ilObject
 	{
 		return $this->street;
 	}
-	
+
 	/**
 	* set city
 	* @access	public
@@ -944,18 +944,18 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	string	hobbie
 	*/
-	function setHobbie($a_str)
+	function setHobby($a_str)
 	{
-		$this->hobbie = $a_str;
+		$this->hobby = $a_str;
 	}
 
 	/**
 	* get hobbie
 	* @access	public
 	*/
-	function getHobbie()
+	function getHobby()
 	{
-		return $this->hobbie;
+		return $this->hobby;
 	}
 	/**
 	* set user language
@@ -966,7 +966,7 @@ class ilObjUser extends ilObject
 	{
 		$this->prefs["language"] = $a_str;
 	}
-	
+
 	/**
 	* returns a 2char-language-string
 	* @access	public
@@ -986,7 +986,7 @@ class ilObjUser extends ilObject
 	{
 		$this->last_login = $a_str;
 	}
-	
+
 	/**
 	* returns last login date
 	* @access	public
