@@ -3109,7 +3109,7 @@ class ilObjTestGUI extends ilObjectGUI
 						{
 							if (array_key_exists($result_array["id"], $participants))
 							{
-								array_push($users, $result_array["id"]);
+								$users[$result_array["id"]] = $eval_users[$result_array["id"]];
 							}
 						}
 					}
