@@ -1367,6 +1367,72 @@ class ilPageObject
 			return $this->update();
 		}
 	}
+	
+	
+	/**
+	* move content of hierarchical id >= $a_hid to other page
+	*
+	* @param	string		$a_hid		hierarchical id of content object
+	* @param	boolean		$a_update	update page in db (note: update deletes all
+	*									hierarchical ids in DOM!)
+	*/
+	function _moveContentAfterHierId(&$a_source_page, &$a_target_page, $a_hid)
+	{
+		$hier_ids = $a_source_page->getHierIds();
+		
+		$copy_ids = array();
+		
+		// iterate all hierarchical ids
+		foreach ($hier_ids as $hier_id)
+		{
+			// move top level nodes only
+			if (!is_int(strpos($hier_id, "_")))
+			{
+				if ($hier_id != "pg" && $hier_id >= $a_hid)
+				{
+					$copy_ids[] = $hier_id;
+				}
+			}
+		}
+		asort($copy_ids);
+echo "-1";
+		$parent_node =& $a_target_page->getContentNode("pg");
+		$target_dom =& $a_target_page->getDom();
+		$parent_childs =& $parent_node->child_nodes();
+		$first_child =& $parent_childs[0];
+		$cnt_parent_childs = count($parent_childs);
+echo "-2";		
+		foreach($copy_ids as $copy_id)
+		{
+echo "-3";
+			$source_node =& $a_source_page->getContentNode($copy_id);
+echo "-4";
+			$new_node =& $source_node->clone_node(true);
+			$new_node->unlink_node($new_node);
+echo "-5";
+			$source_node->unlink_node($source_node);
+			
+			if($cnt_parent_childs == 0)
+			{
+echo "-6";
+				$new_node =& $parent_node->append_child($new_node);
+			}
+			else
+			{
+echo "-7";
+				$target_dom->importNode($new_node);
+				$new_node =& $first_child->insert_before($new_node, $first_child);
+			}
+echo "-8";
+			$parent_childs =& $parent_node->child_nodes();
+echo "-9";
+			$cnt_parent_childs++;
+		}
+		
+		$a_target_page->update();
+		$a_source_page->update();
+
+	}
 
 	/**
 	* insert a content node before/after a sibling or as first child of a parent
