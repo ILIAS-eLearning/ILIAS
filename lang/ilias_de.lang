@@ -721,16 +721,18 @@ common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
 content#:#cont_Additional#:#Zusätzlich
-content#:#cont_internal_link#:#interner link
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
-content#:#cont_Headline#:#Überschrift
+content#:#cont_Headline1#:#Headline 1###06 Sep 2003 new variable
+content#:#cont_Headline2#:#Headline 2###06 Sep 2003 new variable
+content#:#cont_Headline3#:#Headline 3###06 Sep 2003 new variable
 content#:#cont_List#:#ListListe
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
 content#:#cont_Reference#:#Referenz
+content#:#cont_Remark#:#Remark###06 Sep 2003 new variable
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
@@ -767,9 +769,23 @@ content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
+content#:#cont_internal_link#:#interner link
 content#:#cont_is_visible#:#isvisible
 content#:#cont_item#:#Item
+content#:#cont_link_select#:#Internal Link###06 Sep 2003 new variable
+content#:#cont_link_type#:#Link Type###06 Sep 2003 new variable
 content#:#cont_list_properties#:#Listen-Eigenschaften
+content#:#cont_lk_chapter#:#Chapter###06 Sep 2003 new variable
+content#:#cont_lk_chapter_new#:#Chapter (New Frame)###06 Sep 2003 new variable
+content#:#cont_lk_media_faq#:#Media (FAQ Frame)###06 Sep 2003 new variable
+content#:#cont_lk_media_inline#:#Media (Inline)###06 Sep 2003 new variable
+content#:#cont_lk_media_media#:#Media (Media Frame)###06 Sep 2003 new variable
+content#:#cont_lk_media_new#:#Media (New Frame)###06 Sep 2003 new variable
+content#:#cont_lk_page#:#Page###06 Sep 2003 new variable
+content#:#cont_lk_page_faq#:#Page (FAQ Frame)###06 Sep 2003 new variable
+content#:#cont_lk_page_new#:#Page (New Frame)###06 Sep 2003 new variable
+content#:#cont_lk_term#:#Glossary Term###06 Sep 2003 new variable
+content#:#cont_lk_term_new#:#Glossary Term (New Frame)###06 Sep 2003 new variable
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
