@@ -409,6 +409,7 @@ common#:#nothing_checked#:#Lustig! Keine Checkbox angekreuzt.
 common#:#obj#:#Objekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#obj_type#:#Objekttyp
 common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
@@ -518,6 +519,7 @@ common#:#smtp#:#SMTP
 common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
+common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#subcat_name#:#Unterkategorie Name
@@ -576,5 +578,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#obj_type#:#Objekttyp
-common#:#stop_inheritance#:#Vererbung unterbrechen
