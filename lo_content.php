@@ -22,24 +22,41 @@ $tplbtn->parseCurrentBlock();
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$lessons = $ilias->account->getLessons();
+$lessons = array();
 
-for ($i = 0; $i<2; $i++)
+//go through valid objects and filter out the lessons only
+if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 {
-        for ($j = 0; $j<3; $j++)
-        {
-                $tpl->setCurrentBlock("subcategory");
-                $tpl->setVariable("ROWCOL","tblrow".(($j%2)+1));
-                $tpl->setVariable("TITLE","title".$j);
-                $tpl->setVariable("IMG_AND_LINK","img".$j);
-                $tpl->parseCurrentBlock();
-        }
-        $tpl->touchBlock("subcategory_others");
-        $tpl->setCurrentBlock("category");
-        $tpl->setVariable("CAT_TITLE","CATEGORY".$i);
-        $tpl->parseCurrentBlock();
-
+	foreach ($objects as $key => $object)
+	{
+		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+		{
+			$lessons[$key] = $object;
+		}
+	}
 }
+
+//TODO: maybe move the code above to this method
+//$lessons = $ilias->account->getLessons();
+
+foreach ($lessons as $row)
+{
+	$tpl->setCurrentBlock("subcategory");
+	$tpl->setVariable("ROWCOL","tblrow".(($j%2)+1));
+	$tpl->setVariable("TITLE", $row["title"]);
+	$tpl->setVariable("IMG_AND_LINK","img".$j);
+	$tpl->parseCurrentBlock();
+}
+$tpl->setCurrentBlock("subcategory_others");
+$tpl->setVariable("TXT_LO_OTHER_LANGS", $lng->txt("lo_other_langs"));
+$tpl->parseCurrentBlock();
+
+//language stuff
+$tpl->setCurrentBlock("category");
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_SUBSCRIPTION", $lng->txt("subscription"));
+$tpl->parseCurrentBlock();
+
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();

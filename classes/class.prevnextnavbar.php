@@ -34,7 +34,7 @@ class TPrevNextNavBar
 	* @param	array		Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
 	* @return	array		linkbar or false on error
 	*/
-	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = 0)
+	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array())
 	{
 		$LinkBar = "";
 

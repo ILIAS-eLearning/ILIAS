@@ -252,5 +252,7 @@ total	total	gesamt	totale	total
 new	new	neu	nuovo	new
 no_objects	no objects	keine Objekte	no oggetti	no objects
 selected	selected	ausgewählte	selected	selected
+subscription	subscription	Abo	subscriptioni	subscription
 install	install	installieren	install	install
+lo_other_langs	lo's in other langauges	Lerneinheiten in anderen Sprachen	Lo's in other Languages	los lessonos anderos sprachos
 unknown	UNKNOWN	UNBEKANNT	UNKNOWN	UNKNOWN
