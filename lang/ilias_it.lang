@@ -862,7 +862,7 @@ common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.###04 Aug 2003 new variable
 common#:#usr_edit#:#Modifica Utente###30 Oct 2003 new variable
 common#:#usr_new#:#Nuovo Utente###30 Oct 2003 new variable
-common#:#usr_skin#:#Tema dell&acute;utente
+common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
 common#:#usr_style#:#Stiled ell&acute;utente
 common#:#usrf#:#usrf
 common#:#validate#:#Valida###04 Mar 2003 new variable

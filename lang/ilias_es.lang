@@ -862,7 +862,7 @@ common#:#usr_agreement#:#user agreement
 common#:#usr_agreement_empty#:#The agreement contains no text.###04 Aug 2003 new variable
 common#:#usr_edit#:#Edit User###30 Oct 2003 new variable
 common#:#usr_new#:#New User###30 Oct 2003 new variable
-common#:#usr_skin#:#user skin
+common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
 common#:#usr_style#:#usr style
 common#:#usrf#:#usrf
 common#:#validate#:#Validate###04 Mar 2003 new variable
