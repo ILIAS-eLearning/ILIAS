@@ -9,26 +9,24 @@
 */
 require_once "./include/ilias_header.inc";
 
-//display buttons
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_profile.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("personal_profile"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_password.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("chg_password"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_agreement.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-//instantiate profile-template
-$tpl = new Template("tpl.usr_profile.html", true, true);
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+//display buttons
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_profile.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_password.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_agreement.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+$tpl->parseCurrentBlock();
+
+$tpl->touchBlock("btn_row");
 
 //if data are posted
 if ($_POST["u_id"]!="")
@@ -61,9 +59,6 @@ if ($_POST["u_id"]!="")
 	else
 	{
 		$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
-//		$tpl->setCurrentBlock("message");
-//		$tpl->setVariable("MSG", $lng->txt("msg_changes_ok"));
-//		$tpl->parseCurrentBlock();		
 	}
 }
 
@@ -82,34 +77,6 @@ foreach ($langs as $row)
 	}
 	$tpl->parseCurrentBlock();
 }
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("profile"));
-
-$tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
-$tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
-$tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
-$tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
-$tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
-$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("forename"));
-$tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
-$tpl->setVariable("TXT_TITLE",$lng->txt("title"));
-$tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
-$tpl->setVariable("TXT_STREET",$lng->txt("street"));
-$tpl->setVariable("TXT_ZIPCODE",$lng->txt("zip_code"));
-$tpl->setVariable("TXT_CITY",$lng->txt("city"));
-$tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
-$tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
-$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
-$tpl->setVariable("TXT_STATUS",$lng->txt("status"));
-$tpl->setVariable("TXT_GUEST",$lng->txt("guest"));
-$tpl->setVariable("TXT_STUDENT",$lng->txt("student"));
-$tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
-$tpl->setVariable("TXT_SYS_GRP",$lng->txt("system_grp"));
-$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
-$tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
-$tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
-
-
 
 //what gui's are available for ilias?
 $ilias->getSkins();
@@ -142,6 +109,32 @@ foreach ($ilias->styles as $row)
 	$tpl->parseCurrentBlock();
 }
 
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("profile"));
+
+$tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
+$tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
+$tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
+$tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
+$tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
+$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("forename"));
+$tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
+$tpl->setVariable("TXT_TITLE",$lng->txt("title"));
+$tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
+$tpl->setVariable("TXT_STREET",$lng->txt("street"));
+$tpl->setVariable("TXT_ZIPCODE",$lng->txt("zip_code"));
+$tpl->setVariable("TXT_CITY",$lng->txt("city"));
+$tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
+$tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
+$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
+$tpl->setVariable("TXT_STATUS",$lng->txt("status"));
+$tpl->setVariable("TXT_GUEST",$lng->txt("guest"));
+$tpl->setVariable("TXT_STUDENT",$lng->txt("student"));
+$tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
+$tpl->setVariable("TXT_SYS_GRP",$lng->txt("system_grp"));
+$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
+$tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
+$tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
 
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->data["login"]);
@@ -159,7 +152,8 @@ $tpl->setVariable("SYS_GRP", $lng->txt("administrator"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>
