@@ -76,9 +76,16 @@ class ilStructureObject extends ilLMObject
 		foreach ($childs as $child)
 		{
 			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"]);
-			if($obj->getType() == "st")
+			if (is_object($obj))
 			{
-				$obj->delete_rec($a_tree);
+				if($obj->getType() == "st")
+				{
+					$obj->delete_rec($a_tree);
+				}
+				if($obj->getType() == "pg")
+				{
+					$obj->delete();
+				}
 			}
 			unset($obj);
 		}
