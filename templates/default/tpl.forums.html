@@ -9,25 +9,27 @@
   <td><b>{TXT_TITLE}/{TXT_DESCRIPTION}</b></td>
   <td><b>{TXT_NUM_THREADS}</b></td>
   <td><b>{TXT_NUM_POSTS}</b></td>
+  <td><b>{TXT_NUM_VISITS}</b></td>
   <td><b>{TXT_LAST_POST}</b></td>
   <td><b>{TXT_MODS}</b></td>
   <td><b>{TXT_FORUMPATH}</b></td>
 </tr>
 
 <!-- BEGIN forum_row -->
-<tr class="{ROWCOL}">
- <td valign=top>{TITLE}<br><i>{DESCRIPTION}</i></td>
- <td valign=top>{NUM_THREADS}</td>
- <td valign=top>{NUM_POSTS}</td>
- <td valign=top>{LAST_POST}</td>
- <td valign=top>{MODS}</td>
- <td valign=top><font size=1>{FORUMPATH}</font></td>
+<tr>
+ <td valign=top class="{ROWCOL}">{TITLE}<br><i>{DESCRIPTION}</i></td>
+ <td valign=top class="{ROWCOL}">{NUM_THREADS}</td>
+ <td valign=top class="{ROWCOL}">{NUM_POSTS}</td>
+ <td valign=top class="{ROWCOL}">{NUM_VISITS}</td>
+ <td valign=top class="{ROWCOL}">{LAST_POST}</td>
+ <td valign=top class="{ROWCOL}">{MODS}</td>
+ <td valign=top class="{ROWCOL}"><font size=1>{FORUMPATH}</font></td>
 </tr>
 <!-- END forum_row -->
 
 <!-- BEGIN forum_no -->
 <tr>
- <td COLSPAN=6>{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+ <td COLSPAN=7>{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 </table>

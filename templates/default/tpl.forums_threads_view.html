@@ -1,25 +1,67 @@
+{LOCATOR}
 
-<h2>{TXT_FORUM_ARTICLES}</h2>
+<table WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
+<tr>
+	<!-- BEGIN form_feedback -->
+	<td nowrap><b>{TXT_FORM_FEEDBACK}</b></td>
+	<!-- END form_feedback -->
+	<td width="100%" align=right>{BUTTONS}</td>
+</tr>
+</table>
 
-{BUTTONS}
+{NO_BTN}
+
+<table width="100%" cellpadding=3 cellspacing=1 border=0>
+<tr>
+	<td width=20% nowrap><b>{TXT_FORUM_ARTICLES}<b><br></td>	
+	<td>{LINK_SORT}</td>	
+</tr>
+</table>
 
 {MESSAGE}
 
 <!-- BEGIN posttable -->
-<b>{TXT_POST_PATH}</b><br><br>
 <table WIDTH="100%" CELLPADDING=3 CELLSPACING=1 BORDER=0>
 
 <tr class="tblheader" VALIGN="top">  
-  <td><b>{TXT_AUTHOR}</b></td>
+  <td width=20%><b>{TXT_AUTHOR}</b></td>
   <td><b>{TXT_POST}</b></td>  
 </tr>
 
 <!-- BEGIN posts_row -->
-<tr class="{ROWCOL}">
- <td valign=top>{AUTHOR}<br>{POST_DATE}</td>
- <td valign=top>{POST}<br>
- <hr noshade width=100% size="1" align="center">
- <div align="right">{REPLY_BUTTON}</div><br></td> 
+<tr>
+ <td width=20% valign=top class="{ROWCOL}">{AUTHOR}<br>{POST_DATE}<br>{POST_UPDATE}</td>
+ <td valign=top class="{ROWCOL}"><a name="{POST_ANKER}"></a>{POST}<br>
+ <!-- BEGIN reply_cell -->
+ {SPACER}
+ <div align='left'>&nbsp;<b>></b>{REPLY_BUTTON}</div><br>
+ <!-- END reply_cell -->
+ 
+ <!-- BEGIN reply_post -->
+<a name="{FORM_ANKER}"></a>
+<table cellpadding=3 cellspacing=1 border=0>
+	<tr>
+		<td valign=top>
+			<br><p><b>{TXT_FORM_HEADER}</b></p>
+			<form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
+			
+			<table cellspacing=0 cellpadding=3 border=0>		
+			<tr>			    
+			    <td valign=top>
+				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
+			</tr>
+			<tr>			    
+			    <td nowrap><input type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input type="Reset" value ="{RESET}"></td>
+			</tr>
+			</table>
+			</form>
+			
+		</td>
+	</tr>
+</table>
+<!-- END reply_post -->
+ 
+ </td> 
 </tr>
 <!-- END posts_row -->
 
