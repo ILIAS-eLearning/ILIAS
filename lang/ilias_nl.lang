@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
 assessment#:#answer#:#Antwoord
@@ -77,6 +78,8 @@ assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Terugzetten filter
+assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
+assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#set_filter#:#Instellen filter
 assessment#:#solution_order#:#Oplossings-volgorde
@@ -112,12 +115,15 @@ assessment#:#tst_sequence_properties#:#Volgorde eigenschappen
 assessment#:#tst_session_settings#:#Instellingen sessies
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
+assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Besturen leerlings navigatie-test
 assessment#:#tt_self_assessment#:#Zelftest assessment
+assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
+chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
 chat#:#chat_add_ip#:#Please add the server ip.###05 Mar 2004 new variable
 chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
 chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
@@ -289,6 +295,7 @@ common#:#cat_read#:#Lees-recht op kategorie
 common#:#cat_visible#:#Kategorie is zichtbaar
 common#:#cat_write#:#Wijzig kategorie
 common#:#categories#:#Kategoriën
+common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
 common#:#censorship#:#Censuur
 common#:#chac_edit_permission#:#Wijzig rechten-instellingen
@@ -633,6 +640,7 @@ common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
 common#:#import#:#Importeren
+common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
@@ -868,6 +876,7 @@ common#:#msg_no_perm_undelete#:#U heeft geen toestemming voor het herstellen van
 common#:#msg_no_perm_write#:#U heeft geen toestemming voor schrijven
 common#:#msg_no_rolf_allowed1#:#Het object
 common#:#msg_no_rolf_allowed2#:#kan geen rollen-map bevatten
+common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#U mag gebruikers niet toewijzen aan de rol Systeem-administrateur als aan uzelf deze rol niet is toegewezentoewijzen gebruikers Rol Rol 

@@ -35,8 +35,6 @@
 <!-- language file start -->
 assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
-common#:#system_check#:#System Check
-common#:#msg_no_scan_log#:#Scan log not implemented yet
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#answer#:#Answer
 assessment#:#answer_text#:#Answer text
@@ -80,8 +78,8 @@ assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
-assessment#:#save_previous#:#Save and goto previous question
 assessment#:#save_next#:#Save and goto next question
+assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
@@ -125,6 +123,7 @@ assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
+chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
 chat#:#chat_add_ip#:#Please add the server ip.
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
@@ -296,6 +295,7 @@ common#:#cat_read#:#Read access to Category
 common#:#cat_visible#:#Category is visible
 common#:#cat_write#:#Edit Category
 common#:#categories#:#Categories
+common#:#categories_imported#:#Category import complete.
 common#:#cc#:#CC
 common#:#censorship#:#Censorship
 common#:#chac_edit_permission#:#Change permission settings
@@ -640,12 +640,12 @@ common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
 common#:#import#:#Import
+common#:#import_categories#:#Import Categories
 common#:#import_file#:#Import File
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
 common#:#import_users#:#Import Users
-common#:#import_categories#:#Import Categories
 common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
@@ -876,6 +876,7 @@ common#:#msg_no_perm_undelete#:#You have no permission to undelete the following
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
+common#:#msg_no_scan_log#:#Scan log not implemented yet
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role 
@@ -1224,6 +1225,7 @@ common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
 common#:#summary#:#Summary
 common#:#system#:#System
+common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
 common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
@@ -1274,7 +1276,6 @@ common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted
 common#:#user_imported#:#User import complete.
-common#:#categories_imported#:#Category import complete.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#userdata#:#User data
@@ -2231,4 +2232,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
