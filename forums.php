@@ -155,7 +155,7 @@ if ($frmNum > 0)
 				// show content of last-post
 				if (is_array($lastPost))
 				{					
-					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";			
+					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";			
 					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
 					$lpCont .= $lastPost["pos_date"];							
 				}
