@@ -427,3 +427,6 @@ common#:#msg_no_perm_create#:#You have no permission to create the following obj
 common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
 common#:#info_deleted#:#Object(s) deleted
 common#:#forums_thread_articles#:#articles to the thread
+common#:#forums_count#:#number of forums
+common#:#forums_count_thr#:#number of threads
+common#:#forums_count_art#:#number of articles
