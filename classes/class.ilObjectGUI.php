@@ -907,6 +907,7 @@ class ilObjectGUI
 
 	/**
 	* clone all nodes
+	* recursive function
 	*
 	* @access	public
 	* @param	integer ref_id of source object
@@ -1145,13 +1146,15 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
+			
+			// dive in recursive manner in each already deleted subtree and remove these objects too
+			$this->removeDeletedNodes($id);
 
 			// FIRST DELETE ALL ENTRIES IN RBAC TREE
 			$this->tree->deleteTree($node_data);
 
 			foreach ($subtree_nodes as $node)
 			{
-				// Todo: I think it must be distinguished between obj and ref ids here somehow
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
 				$node_obj->delete();
 			}
@@ -1161,6 +1164,41 @@ class ilObjectGUI
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
+	}
+
+	/**
+	* remove already deleted objects within the objects in trash
+	* recursive function
+	*
+	* @access	public
+	* @param	integer ref_id of source object
+	* @param    boolean 
+	*/
+	function removeDeletedNodes($a_node_id)
+	{
+		$q = "SELECT DISTINCT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
+		$r = $this->ilias->db->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$deleted_tree = new ilTree($row->tree);
+			$row->tree = $row->tree * (-1);
+			$del_node_data = $deleted_tree->getNodeData($row->tree);
+
+			$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
+
+			$this->removeDeletedNodes($row->tree);					
+
+			$this->tree->deleteTree($del_node_data);
+		
+			foreach ($del_subtree_nodes as $node)
+			{
+				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				$node_obj->delete();
+			}			
+		}
+		
+		return true;
 	}
 
 	/**
