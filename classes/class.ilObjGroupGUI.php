@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.86 2004/07/05 16:22:59 akill Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.87 2004/07/07 15:39:23 akill Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -54,7 +54,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		switch ($next_class)
+		switch($next_class)
 		{
 			case "ilregistergui":
 				$this->ctrl->setReturn($this, "");   // ###
@@ -72,9 +72,11 @@ class ilObjGroupGUI extends ilObjectGUI
 				if (empty($cmd))
 				{
 					$this->ctrl->returnToParent($this);
+					// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
 					$cmd = "view";
 				}
 
+				// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
 				$cmd .= "Object";
 				$this->$cmd();
 				break;
