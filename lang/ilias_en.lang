@@ -478,3 +478,4 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#uninstalled#:#uninstalled.
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_not_sent#:#Mail not sent!
+common#:#smtp#:#SMTP

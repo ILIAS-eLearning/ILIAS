@@ -478,3 +478,4 @@ common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht de
 common#:#uninstalled#:#deinstalliert.
 common#:#mail_sent#:#Mail erfolgreich versendet!
 common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
+common#:#smtp#:#SMTP
