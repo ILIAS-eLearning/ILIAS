@@ -396,7 +396,7 @@ class ilRbacReview
 	* returns the data of a role folder assigned to an object
 	* @access	public
 	* @param	integer		ref_id of object with a rolefolder object under it
-	* @return	array
+	* @return	array		empty array if rolefolder not found
 	*/
 	function getRoleFolderOfObject($a_ref_id)
 	{
@@ -485,9 +485,8 @@ class ilRbacReview
 
 
 	/**
-	*  
-	* TODO: using var $a_obj_id which is not known in function
-	*  Fetch loaded modules or possible modules in context
+	* Fetch allowed subobjects to determine if a role folder can be created
+	* 
 	* @access	public
 	* @param	string type of object
 	* @param    integer reference id of object

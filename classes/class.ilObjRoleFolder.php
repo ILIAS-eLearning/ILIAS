@@ -48,31 +48,38 @@ class ilObjRoleFolder extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-
 	/**
 	* delete role folder
+	* 
+	* @access	public
+	* @return	boolean	true on success
 	*/
 	function delete()
 	{
 		global $rbacadmin, $rbacreview;
 
-		$roles = $rbacreview->getRolesOfRoleFolder($this->getId());
+		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
-		require_once("classes/class.ilObjRole.php");
-		$obj = new ilObjRole();
-		
 		foreach ($roles as $role)
 		{
-			$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role);
-			$role_obj->delete();
+			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role);
+			$roleObj->delete();
+			unset($roleObj);
 		}
 
 		// DELETE ROLE FOLDER
 		parent::delete();
+
 		return true;
 	}
 
+	/**
+	* clone role folder
+	* 
+	* @access	public
+	* @return	boolean	true on success
+	*/
 	function clone($a_parent_ref)
 	{
 		// DO NOTHING ROLE FOLDERS AREN'T COPIED
@@ -80,10 +87,15 @@ class ilObjRoleFolder extends ilObject
 		return true;
 	}
 
+	/**
+	* getSubObjects
+	* 
+	* @access	public
+	* @return	boolean
+	*/
 	function getSubObjects()	
 	{
 		return false;
-	} //function
-
-} // class
+	}
+} // END class.ilObjRoleFOlder
 ?>
