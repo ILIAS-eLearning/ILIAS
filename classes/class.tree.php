@@ -739,6 +739,66 @@ class Tree
 	}
 
 	/**
+	* get the rootid of a tree
+	* to do: ???
+	* @param	integer		a_tree_id: obj_id of object where tree belongs to
+	* @access	public
+	*/
+	function getRootID($tree_id)
+	{
+		$query = "SELECT * FROM tree WHERE tree='".$tree_id."' AND parent='0'";
+		$res = $this->ilias->db->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $this->fetchNodeData($row);			
+	}
+
+
+	/**
+	* get nodes by type
+	* to do: ???
+	* @param	integer		a_tree_id: obj_id of object where tree belongs to
+	* @param	integer		a_type_id: type of object
+	* @access	public
+	*/
+	function getNodeDataByType($a_type)
+	{
+		$data = array();	// node_data
+		$row = "";			// fetched row
+		$left = "";			// tree_left
+		$right = "";		// tree_right
+
+		$query = "SELECT * FROM tree ".
+				 "WHERE tree = '".$this->tree_id."'".
+				 "AND parent = '0'";
+
+		$res = $this->ilias->db->query($query);
+	
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$left = $row->lft;
+			$right = $row->rgt;
+		}
+
+		$query = "SELECT * FROM tree ".
+				 "LEFT JOIN object_data ON tree.child = object_data.obj_id ".
+				 "WHERE object_data.type = '".$a_type."' ".
+				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
+				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."' ".
+				 "AND tree.tree = '".$this->tree_id."'";
+
+		$res = $this->ilias->db->query($query);
+		
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[] = $this->fetchNodeData($row);
+		}
+		
+		return $data;
+	}
+
+	
+
+	/**
 	* remove an existing tree
 	*
 	* @param	integer		a_tree_id: tree to be removed
