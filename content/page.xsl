@@ -40,6 +40,7 @@
 <xsl:param name="img_add"/>
 <xsl:param name="img_col"/>
 <xsl:param name="img_row"/>
+<xsl:param name="img_item"/>
 <xsl:param name="med_disabled_path"/>
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
