@@ -3550,7 +3550,7 @@ payment#:#paya_trustee_table#:#Trustees
 payment#:#paya_trustees#:#Trustees
 payment#:#paya_updated_trustees#:#Updated permissions.
 payment#:#paya_user_already_assigned#:#User already assigned.
-payment#:#pays_active_bookings#:#Active bookings
+payment#:#pays_active_bookings#:#There active bookings for the selected vendor(s). Please delete them first.
 payment#:#pays_add_vendor#:#Add vendor
 payment#:#pays_added_vendor#:#Added new vendor
 payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
@@ -3908,7 +3908,7 @@ payment#:#paya_no_price_available#:#No prices available
 payment#:#paya_add_price#:#Add new price
 payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?
 payment#:#paya_delete_price#:#Delete price
-payment#:#paya_months#:#Month
+payment#:#paya_months#:#Month(s)
 payment#:#currency_euro#:#Euro
 payment#:#currency_cent#:#Cent
 payment#:#paya_update_price#:#Update prices

@@ -3546,7 +3546,7 @@ payment#:#paya_trustee_table#:#Verwalter
 payment#:#paya_trustees#:#Verwalter
 payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
 payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
-payment#:#pays_active_bookings#:#Verkaufsvorgänge
+payment#:#pays_active_bookings#:#Bitte löschen Sie zuerst alle noch aktiven Verkaufsvorgänge.
 payment#:#pays_add_vendor#:#Verkäufer anlegen
 payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:###14 Sep 2004 content changed
@@ -3897,7 +3897,7 @@ payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
 payment#:#paya_add_price#:#Neuen Preis anlegen
 payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wirklich gelöscht werden?
 payment#:#paya_delete_price#:#Preis löschen
-payment#:#paya_months#:#Monate
+payment#:#paya_months#:#Monat(e)
 payment#:#currency_euro#:#Euro
 payment#:#currency_cent#:#Cent
 payment#:#paya_update_price#:#Preise aktualisieren
