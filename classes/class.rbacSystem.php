@@ -65,7 +65,7 @@ class RbacSystem extends PEAR
     {
 		global $ilias;
 		global $tree;
-
+		
 		$ops = array();
 
 		$rbacadmin = new RbacAdminH($this->db);
