@@ -94,11 +94,22 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 *
 * Cancels any action and displays the question browser
 *
+* @param string $question_id Sets the id of a newly created question for a calling survey
 * @access public
 */
-	function cancelAction() 
+	function cancelAction($question_id = "") 
 	{
-		header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+		if ($_SESSION["survey_id"])
+		{
+			if ($question_id) {
+				$add_question = "&add=$question_id";
+			}
+	    header("location:" . "survey.php" . "?ref_id=" . $_SESSION["survey_id"] . "&cmd=questions$add_question");
+		} 
+			else
+		{
+			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+		}
 	}
 	
 /**
@@ -239,7 +250,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       // Save and back to question pool
       if (!$missing_required_fields) {
         $question->object->saveToDb();
-	      $this->cancelAction();
+	      $this->cancelAction($question->object->getId());
         exit();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
@@ -303,14 +314,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       $this->out_preview_page($_GET["preview"]);
       return;
     }
-
+*/
 		if ($_GET["create"]) 
 		{
-			// create a new question out of a test
-			$this->set_question_form($_GET["create"]);
+			// create a new question from a survey
+			$this->editQuestionForm($_GET["create"]);
 			return;
 		}
-*/		
+		
     $type = $_GET["sel_question_types"];
 		if (!$type) {
 			$type = $_POST["sel_question_types"];
@@ -319,10 +330,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       $this->editQuestionForm($type);
       return;
     }
-/*
-		// reset test_id SESSION variable
-		$_SESSION["test_id"] = "";
-*/    $add_parameter = $this->getAddParameter();
+
+		// reset survey_id SESSION variable (only needed to create new questions from a question pool)
+		$_SESSION["survey_id"] = "";
+		
+    $add_parameter = $this->getAddParameter();
 
     // create an array of all checked checkboxes
     $checked_questions = array();

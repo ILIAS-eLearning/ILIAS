@@ -1394,5 +1394,30 @@ class ilObjSurvey extends ilObject
 		}
 	}
 		
+/**
+* Returns the available question pools for the active user
+* 
+* Returns the available question pools for the active user
+*
+* @return array The available question pools
+* @access public
+*/
+	function &getAvailableQuestionpools()
+	{
+		global $rbacsystem;
+		
+		$result_array = array();
+		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess('read', $row->ref_id))
+			{
+				$result_array[$row->ref_id] = $row->title;
+			}
+		}
+		return $result_array;
+	}
+
 } // END class.ilObjSurvey
 ?>
