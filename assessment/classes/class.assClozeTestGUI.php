@@ -86,6 +86,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		{
 			$cmd = "addSelectGap";
 		}
+		if (substr($cmd, 0, 20) == "addSuggestedSolution")
+		{
+			$cmd = "addSuggestedSolution";
+		}
+		if (substr($cmd, 0, 23) == "removeSuggestedSolution")
+		{
+			$cmd = "removeSuggestedSolution";
+		}
 
 		return $cmd;
 	}
@@ -118,6 +126,24 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+				$this->tpl->setCurrentBlock("textgap_suggested_solution");
+				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+				if (array_key_exists($i, $this->object->suggested_solutions))
+				{
+					$solution_array = $this->object->getSuggestedSolution($i);
+					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+				}
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("textgap");
 				$answer_array = $this->object->get_gap($i);
 				$answer_points = $answer_array[0]->get_points();
@@ -151,6 +177,24 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+				$this->tpl->setCurrentBlock("selectgap_suggested_solution");
+				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+				if (array_key_exists($i, $this->object->suggested_solutions))
+				{
+					$solution_array = $this->object->getSuggestedSolution($i);
+					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+				}
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("selectgap");
 				$this->tpl->setVariable("ADD_SELECT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
@@ -205,20 +249,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		if (count($this->object->suggested_solutions))
-		{
-			$solution_array = $this->object->getSuggestedSolution(0);
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
-			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
-			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-		}
-		else
-		{
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
-		}
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -282,10 +312,20 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"], false));
-		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
-
+		$this->object->suggested_solutions = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^solution_hint_(\d+)/", $key, $matches))
+			{
+				if ($value)
+				{
+					$this->object->setSuggestedSolution($value, $matches[1]);
+				}
+			}
+		}
+		
 		if ($this->ctrl->getCmd() != "createGaps")
 		{
 			$this->setGapValues();
@@ -663,7 +703,15 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 	function addSuggestedSolution()
 	{
-		if ($_POST["cmd"]["addSuggestedSolution"])
+		$addForGap = -1;
+		foreach ($_POST["cmd"] as $key => $value)
+		{
+			if (preg_match("/addSuggestedSolution_(\d+)/", $key, $matches))
+			{
+				$addForGap = $matches[1];
+			}
+		}
+		if ($addForGap > -1)
 		{
 			$this->writePostData();
 			if (!$this->checkInput())
@@ -677,7 +725,25 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
-		parent::addSuggestedSolution();
+		parent::addSuggestedSolution($addForGap);
 	}
+
+	function removeSuggestedSolution()
+	{
+		$removeFromGap = -1;
+		foreach ($_POST["cmd"] as $key => $value)
+		{
+			if (preg_match("/removeSuggestedSolution_(\d+)/", $key, $matches))
+			{
+				$removeFromGap = $matches[1];
+			}
+		}
+		if ($removeFromGap > -1)
+		{
+			unset($this->object->suggested_solutions[$removeFromGap]);
+		}
+		$this->editQuestion();
+	}
+	
 }
 ?>

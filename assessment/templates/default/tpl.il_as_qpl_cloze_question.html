@@ -19,17 +19,6 @@
 </tr>
 {OTHER_QUESTION_DATA}
 <tr>
-	<td class="option">{TEXT_SOLUTION_HINT}:</td>
-	<td class="option_value" colspan="4">
-		<input type="hidden" name="solution_hint" value="{VALUE_SOLUTION_HINT}" />
-		{TEXT_VALUE_SOLUTION_HINT}
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution]" value="{BUTTON_ADD_SOLUTION}" />
-		<!-- BEGIN remove_solution -->
-		<input type="submit" class="submit" name="cmd[removeSuggestedSolution]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END remove_solution -->
-	</td>
-</tr>
-<tr>
 	<td colspan="5" class="option"><input name="cmd[createGaps]" type="submit" class="submit" id="creategaps" value="{TEXT_CREATE_GAPS}" /></td>
 </tr>
 <!-- BEGIN answer_row -->
@@ -52,6 +41,19 @@
 <tr>
 <td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addTextGap_{VALUE_GAP_COUNTER}]" value="{ADD_TEXT_GAP}" /></td>
 </tr>
+<!-- BEGIN textgap_suggested_solution -->
+<tr>
+	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
+		{TEXT_VALUE_SOLUTION_HINT}
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
+		<!-- BEGIN textgap_remove_solution -->
+		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
+		<!-- END textgap_remove_solution -->
+	</td>
+</tr>
+<!-- END textgap_suggested_solution -->
 <tr>
   <td class="option">{TEXT_POINTS}:</td>
   <td class="option_value" colspan="4"><input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="10" value="{VALUE_TEXT_GAP_POINTS}" /></td>
@@ -70,6 +72,19 @@
 <tr>
 <td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addSelectGap_{VALUE_GAP_COUNTER}]" value="{ADD_SELECT_GAP}" /></td>
 </tr>
+<!-- BEGIN selectgap_suggested_solution -->
+<tr>
+	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
+		{TEXT_VALUE_SOLUTION_HINT}
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
+		<!-- BEGIN selectegap_remove_solution -->
+		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
+		<!-- END selectegap_remove_solution -->
+	</td>
+</tr>
+<!-- END selectgap_suggested_solution -->
 <tr>
   <td class="option">{TEXT_SHUFFLE_ANSWERS}:</td>
   <td class="option_value" colspan="4"><select name="shuffle_{VALUE_GAP_COUNTER}" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
