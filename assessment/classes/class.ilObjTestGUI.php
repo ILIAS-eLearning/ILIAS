@@ -112,22 +112,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
-		// Set the path for the image directory
-		setcookie("imagepath", $this->object->getImagePath());
-		if (!is_dir($this->object->getImagePath()))
-		{
-			ilUtil::makeDirParents($this->object->getImagePath());
-		}
-		setcookie("imagepathweb", $this->object->getImagePathWeb());
-		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
-		// Creating prerequisites for JavaScript Editor
-		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
-		$this->tpl->setCurrentBlock("htmlarea");
-		$this->tpl->setVariable("AREA_NAME", "introduction");
-		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
