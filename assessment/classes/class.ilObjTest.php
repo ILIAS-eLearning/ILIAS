@@ -1178,28 +1178,34 @@ class ilObjTest extends ilObject
 		$old_active = $this->get_active_test_user();
 		if ($old_active) {
 			$sequence = $old_active->sequence;
+			$postponed = $old_active->postponed;
 			if ($postpone) {
 				$sequence_array = split(",", $sequence);
 				$postpone = $sequence_array[$postpone-1];
 				$sequence = preg_replace("/\D*$postpone/", "", $sequence) . ",$postpone";
 				$sequence = preg_replace("/^,/", "", $sequence);
+				$question_id = $this->questions[$postpone];
+				$postponed .= ",$question_id";
+				$postponed = preg_replace("/^,/", "", $postponed);
 			}
 			$tries = $old_active->tries;
 			if ($addTries) {
 				$tries++;
 			}
-			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, tries = %s",
+			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s",
 				$db->quote($lastindex),
 				$db->quote($sequence),
+				$db->quote($postponed),
 				$db->quote($tries)
 			);
 		} else {
 			$sequence_arr = array_flip($this->questions);
 			$sequence = join($sequence_arr, ",");
-			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($ilUser->id),
 				$db->quote($this->test_id),
 				$db->quote($sequence),
+				$db->quote(""),
 				$db->quote($lastindex),
 				$db->quote(0)
 			);
