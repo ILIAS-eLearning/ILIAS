@@ -81,7 +81,7 @@ class ErrorHandling
 				$message = "Under Construction";
 			}
 			
-			header("location: error.php?message=".$message);
+			header("location: error.php?message=".urlencode($message));
 			exit;
 		}
 		if ($a_error_obj->getCode() == $this->MESSAGE)
@@ -95,7 +95,8 @@ class ErrorHandling
 			{
 				$glue = "&";
 			}
-			header("location: ".$_SESSION["referer"].$glue."message=".urlencode($a_error_obj->getMessage()));
+			$_SESSION["message"] = $a_error_obj->getMessage();
+			header("location: ".$_SESSION["referer"].$glue);
 			exit;
 		}
 	}

@@ -57,7 +57,7 @@ session_start();
 
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
-if($_GET["message"])
+if($_SESSION["message"])
 {
 	$_POST = $_SESSION["post_vars"];
 }
