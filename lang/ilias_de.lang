@@ -1424,7 +1424,7 @@ common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
 common#:#selected#:#Ausgewählte
-common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
+common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
