@@ -182,8 +182,15 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			if (count($keys) > 1 and in_array(2,$keys))
 			{
-				$key = key($keys[2]);
-				unset($keys[$key]);
+				// remove admin role as preselectable role
+				foreach ($keys as $key => $val)
+				{
+					if ($val == 2)
+					{
+						unset($keys[$key]);
+						break;
+					}
+				}
 			}
 		
 			$default_role = array_shift($keys);
