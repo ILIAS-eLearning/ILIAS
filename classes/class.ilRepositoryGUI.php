@@ -1514,7 +1514,7 @@ class ilRepositoryGUI
 
 					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
 				}
-				
+
 				// show delete link
 				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
 				{
@@ -1530,6 +1530,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				//$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				$tpl->setCurrentBlock("tbl_content");
 				$tpl->parseCurrentBlock();
 			}
 		}
