@@ -96,7 +96,8 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadObject(false);
-		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		ilUtil::redirect($this->getReturnLocation("post","$returnlocation?".$this->link_params));
+//		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
 	}
 	
 	/**
@@ -106,13 +107,14 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if ($_POST["tst"] < 1)
 		{
-			sendInfo($this->lng->txt("tst_select_tests"));
+			sendInfo($this->lng->txt("tst_select_tsts"));
 			$this->createObject();
 			return;
 		}
 		require_once "./assessment/classes/class.ilObjTest.php";
 		ilObjTest::_clone($_POST["tst"]);
-		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		ilUtil::redirect($this->getReturnLocation("post","$returnlocation?".$this->link_params));
+//		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
 	}
 	
 	/**
@@ -452,7 +454,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("error_upload"));
+			sendInfo($this->lng->txt("tst_select_questionpools"));
 			$this->importObject();
 			return;
 		}

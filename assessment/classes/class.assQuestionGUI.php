@@ -445,41 +445,49 @@ class ASS_QuestionGUI
 	*/
 	function saveEdit()
 	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$originalexists = $this->object->_questionExists($this->object->original_id);
-		if ($_GET["calling_test"] && $originalexists)
+		$result = $this->writePostData();
+		if ($result == 0)
 		{
-			$this->originalSyncForm();
-		}
-		elseif ($_GET["calling_test"] && !$originalexists)
-		{
-			$_GET["ref_id"] = $_GET["calling_test"];
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
-			return;
-		}
-		elseif ($_GET["test_ref_id"])
-		{
-			require_once ("assessment/classes/class.ilObjTest.php");
-			$_GET["ref_id"] = $_GET["test_ref_id"];
-			$test =& new ilObjTest($_GET["test_ref_id"], true);
-			$test->insertQuestion($this->object->getId());
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
-		}
-		else
-		{
-			$_GET["q_id"] = $this->object->getId();
-			$this->editQuestion();
-			if (strcmp($_SESSION["info"], "") != 0)
+			$this->object->saveToDb();
+			$originalexists = $this->object->_questionExists($this->object->original_id);
+			if ($_GET["calling_test"] && $originalexists)
 			{
-				sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+				$this->originalSyncForm();
+			}
+			elseif ($_GET["calling_test"] && !$originalexists)
+			{
+				$_GET["ref_id"] = $_GET["calling_test"];
+				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+				return;
+			}
+			elseif ($_GET["test_ref_id"])
+			{
+				require_once ("assessment/classes/class.ilObjTest.php");
+				$_GET["ref_id"] = $_GET["test_ref_id"];
+				$test =& new ilObjTest($_GET["test_ref_id"], true);
+				$test->insertQuestion($this->object->getId());
+				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
 			{
-				sendInfo($this->lng->txt("msg_obj_modified"), false);
+				$_GET["q_id"] = $this->object->getId();
+				$this->editQuestion();
+				if (strcmp($_SESSION["info"], "") != 0)
+				{
+					sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+				}
+				else
+				{
+					sendInfo($this->lng->txt("msg_obj_modified"), false);
+				}
+				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
+				$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 			}
-			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		}
+		else
+		{
+      sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			$this->editQuestion();
 		}
 	}
 
@@ -489,48 +497,56 @@ class ASS_QuestionGUI
 	function save()
 	{
 		$old_id = $_GET["q_id"];
-		$this->writePostData();
-		$this->object->saveToDb();
-		$originalexists = $this->object->_questionExists($this->object->original_id);
-		if ($_GET["calling_test"] && $originalexists)
+		$result = $this->writePostData();
+		if ($result == 0)
 		{
-			$this->originalSyncForm();
-		}
-		elseif ($_GET["calling_test"] && !$originalexists)
-		{
-			$_GET["ref_id"] = $_GET["calling_test"];
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
-			return;
-		}
-		elseif ($_GET["test_ref_id"])
-		{
-			require_once ("assessment/classes/class.ilObjTest.php");
-			$_GET["ref_id"] = $_GET["test_ref_id"];
-			$test =& new ilObjTest($_GET["test_ref_id"], true);
-			$test->insertQuestion($this->object->getId());
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
-		}
-		else
-		{
-			$_GET["q_id"] = $this->object->getId();
-			if ($_GET["q_id"] !=  $old_id)
+			$this->object->saveToDb();
+			$originalexists = $this->object->_questionExists($this->object->original_id);
+			if ($_GET["calling_test"] && $originalexists)
 			{
-				// first save
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+				$this->originalSyncForm();
 			}
-			$this->editQuestion();
-			if (strcmp($_SESSION["info"], "") != 0)
+			elseif ($_GET["calling_test"] && !$originalexists)
 			{
-				sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+				$_GET["ref_id"] = $_GET["calling_test"];
+				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+				return;
+			}
+			elseif ($_GET["test_ref_id"])
+			{
+				require_once ("assessment/classes/class.ilObjTest.php");
+				$_GET["ref_id"] = $_GET["test_ref_id"];
+				$test =& new ilObjTest($_GET["test_ref_id"], true);
+				$test->insertQuestion($this->object->getId());
+				ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
 			{
-				sendInfo($this->lng->txt("msg_obj_modified"), false);
+				$_GET["q_id"] = $this->object->getId();
+				if ($_GET["q_id"] !=  $old_id)
+				{
+					// first save
+					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
+					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+				}
+				$this->editQuestion();
+				if (strcmp($_SESSION["info"], "") != 0)
+				{
+					sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+				}
+				else
+				{
+					sendInfo($this->lng->txt("msg_obj_modified"), false);
+				}
+	//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
+	//			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 			}
-//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-//			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		}
+		else
+		{
+      sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			$this->editQuestion();
 		}
 	}
 

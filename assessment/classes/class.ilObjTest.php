@@ -493,15 +493,17 @@ class ilObjTest extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		
-		$query = sprintf("DELETE FROM tst_test_random WHERE test_id = %s",
+		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		
-		$query = sprintf("DELETE FROM tst_test_random_question WHERE test_id = %s",
+		$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
+		
+		$this->removeAllTestEditings();
 		
 		// delete export files
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
