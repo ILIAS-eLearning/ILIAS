@@ -127,7 +127,7 @@ if ($_GET["cmd"] == "newthread")
 		$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
 		$frm->updateVisits($topicData["top_pk"]);
 		// on success: change location
-		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = '".$formData["subject"]."' AND thr_num_posts = 1");		
+		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = ".$ilDB->quote($formData["subject"])." AND thr_num_posts = 1");		
 
 		if (is_array($thrData = $frm->getOneThread()))
 		{
