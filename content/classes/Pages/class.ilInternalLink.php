@@ -168,5 +168,83 @@ class ilInternalLink
 		}
 		return false;
 	}
+
+	/**
+	* check if internal link refers to a valid target
+	*
+	* @param	string		$a_type			target type ("PageObject" | "StructureObject" |
+	*										"GlossaryItem" | "MediaObject")
+	* @param	string		$a_target		target id, e.g. "il__pg_244")
+	*
+	* @return	boolean		true/false
+	*/
+	function _exists($a_type, $a_target)
+	{
+		switch($a_type)
+		{
+			case "PageObject":
+			case "StructureObject":
+				return ilLMObject::_exists($a_target);
+				break;
+
+			case "GlossaryItem":
+				return ilGlossaryTerm::_exists($a_target);
+				break;
+
+			case "MediaObject":
+				return ilObjMediaObject::_exists($a_target);
+				break;
+		}
+		return false;
+	}
+
+	
+	/**
+	* extract installation id out of target
+	*
+	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	*/
+	function _extractInstOfTarget($a_target)
+	{
+		if (!is_int(strpos($a_target, "__")))
+		{
+			$target = explode("_", $a_target);
+			if ($target[1] > 0)
+			{
+				return $target[1]; 
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* removes installation id from target string
+	*
+	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	*/
+	function _removeInstFromTarget($a_target)
+	{
+		if (!is_int(strpos($a_target, "__")))
+		{
+			$target = explode("_", $a_target);
+			if ($target[1] > 0)
+			{
+				return "il__".$target[2]."_".$target[3]; 
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* extract object id out of target
+	*
+	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	*/
+	function _extractObjIdOfTarget($a_target)
+	{
+		$target = explode("_", $a_target);
+		return $target[count($target) - 1];
+	}
+
 }
 ?>

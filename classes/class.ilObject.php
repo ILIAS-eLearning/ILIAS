@@ -608,9 +608,11 @@ class ilObject
 	*/
 	function _getIdForImportId($a_import_id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM object_data WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
-		$obj_set = $this->ilias->db->query($q);
+		$obj_set = $ilDB->query($q);
 
 		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
