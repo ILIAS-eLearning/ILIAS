@@ -51,6 +51,18 @@ class ilObjDlBook extends ilObjContentObject
 	function export($ref_id) 
 	{
 
+		$export_dir = $this->getExportDirectory();
+		if ($export_dir==false) 
+		{
+			$this->createExportDirectory();
+			
+			$export_dir = $this->getExportDirectory();
+			if ($export_dir==false) 
+			{
+				$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
+			}
+		}
+		
 		include_once("./classes/class.ilNestedSetXML.php");
 		
 		// anhand der ref_id die obj_id ermitteln.
@@ -72,13 +84,16 @@ class ilObjDlBook extends ilObjContentObject
 		$xml .= $co."\n";
 
 		$inStruture = false;
-		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) {
+		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+		{
 			// vd($row);
 			
 			// StructureObject
-			if ($row["type"] == "st") {
+			if ($row["type"] == "st") 
+			{
 				
-				if ($inStructure) {
+				if ($inStructure) 
+				{
 					$xml .= "</StructureObject>\n";
 				}
 				
@@ -93,7 +108,8 @@ class ilObjDlBook extends ilObjContentObject
 			}
 			
 			//PageObject
-			if ($row["type"] == "pg") {
+			if ($row["type"] == "pg") 
+			{
 				
 				$query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
 				$result2 = $this->ilias->db->query($query);
@@ -114,7 +130,8 @@ class ilObjDlBook extends ilObjContentObject
 			
 		}
 		
-		if ($inStructure) {
+		if ($inStructure) 
+		{
 			$xml .= "\n</StructureObject>\n";
 		}
 	
@@ -134,9 +151,21 @@ class ilObjDlBook extends ilObjContentObject
 		echo htmlspecialchars($xml);
 		echo "</pre>";
 		*/
-		$fileName = $objRow["title"].".xml";
+		$fileName = $objRow["title"];
 		$fileName = str_replace(" ","_",$fileName);
 		
+		if (!file_exists($export_dir."/".$fileName)) 
+		{
+			@mkdir($export_dir."/".$fileName);
+			@chmod($export_dir."/".$fileName,0755);
+		}
+		
+		
+		$fp = fopen($export_dir."/".$fileName."/".$fileName.".xml","wb");
+		fwrite($fp,$xml);
+		fclose($fp);
+		
+		ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
 		
 		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -144,14 +173,17 @@ class ilObjDlBook extends ilObjContentObject
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
 		header("Content-type: application/octet-stream");
-		if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) {
-			header ("Content-Disposition: attachment; filename=" . $fileName);
-		} else {
-			header ("Content-Disposition: inline; filename=$fileName" );
+		if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
+		{
+			header ("Content-Disposition: attachment; filename=" . $fileName.".zip");
+		} 
+		else 
+		{
+			header ("Content-Disposition: inline; filename=".$fileName.".zip" );
 		}
 		header ("Content-length:".(string)(strlen ($xml)) );
 		
-		echo $xml;
+		readfile( $export_dir."/".$fileName.".zip" );
 		
 	}
 
