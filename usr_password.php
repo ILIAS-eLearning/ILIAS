@@ -8,26 +8,25 @@
  */
 require_once "./include/ilias_header.inc";
 
+$tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tplmain->setVariable("TXT_PAGETITLE", "ILIAS - " . $lng->txt("chg_password"));
+//display buttons
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_profile.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_password.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_agreement.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "usr_profile.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("personal_profile"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "usr_password.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("chg_password"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "usr_agreement.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("usr_agreement"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tpl = new Template("tpl.usr_password.html", true, true);
 
 if ($_POST["pw_old"] != "")
 {
@@ -42,7 +41,6 @@ if ($_POST["pw_old"] != "")
 	$tpl->parseCurrentBlock();
 }
 
-$tpl->setVariable("BUTTONS", $tplbtn->get());
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("chg_password"));
 
@@ -53,6 +51,5 @@ $tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
 $tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-$tplmain->setVariable("PAGECONTENT", $tpl->get());
-$tplmain->show();
+$tpl->show();
 ?>

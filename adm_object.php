@@ -2,10 +2,15 @@
 require_once "include/ilias_header.inc";
 require_once "classes/class.Object.php";	// base class for all Object Types
 
-if (!isset($_POST["type"]))
+if ($_POST["type"])
+{
+	$_GET["type"] = $_POST["type"];
+}
+
+if (!isset($_GET["type"]))
 {
     $obj = getObject($_GET["obj_id"]);
-    $_POST["type"] = $obj["type"];
+    $_GET["type"] = $obj["type"];
 }
 
 //prepare output of administration view
@@ -53,7 +58,7 @@ if ($_GET["cmd"] == "")
 
 $methode = $_GET["cmd"]."Object";
 
-switch ($_POST["type"])
+switch ($_GET["type"])
 {
     case "le":
 		require_once "classes/class.LearningObject.php";
@@ -150,19 +155,16 @@ switch ($_POST["type"])
 		break;
 }
 
+$objData = $ilias->getObjDefinition($_GET["type"]);
 
 //*************************admin tabs***********************+
-//@todo look into special object description in xml for getting allowed views on object
 $tabs = array();
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-$tabs[] = array("view_content", "view");
-$tabs[] = array("edit_properties", "edit");
-$tabs[] = array("perm_settings", "perm");
-$tabs[] = array("show_owner", "owner");
+foreach ($objData["properties"] as $row)
+	$tabs[] = array($row["name"], $row["attrs"]["CMD"]);
 
 foreach ($tabs as $row)
 {
-
 	$i++;
 	if ($row[1] == $_GET["cmd"])
 	{
@@ -210,7 +212,7 @@ foreach ($path as $key => $row)
 	$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("locator");
-$tpl->setVariable("TXT_PATH", "DEBUG: <font color=\"red\">".$_POST["type"]."::".$methode."</font><br>".$lng->txt("path"));
+$tpl->setVariable("TXT_PATH", "DEBUG: <font color=\"red\">".$_GET["type"]."::".$methode."</font><br>".$lng->txt("path"));
 $tpl->parseCurrentBlock();
 
 //****************content of object **********************************
@@ -227,6 +229,7 @@ if ($tpl->fileExists($template) == false)
 }
 
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
+
 switch($_GET["cmd"])
 {
 	case "save":
@@ -237,7 +240,7 @@ switch($_GET["cmd"])
 		break;
 		
 	case "create":
-		$tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent."&cmd=save");
+		$tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent."&cmd=save&type=".$_GET["type"]);
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
@@ -398,34 +401,49 @@ switch($_GET["cmd"])
 		}
 		
 		//****************allowed operations on objects in current object*********************
+		//forbidden operations
+		$notoperations = array();
+		if (empty($_SESSION["clipboard"]))
+		{
+			$notoperations[] = "paste";
+			$notoperations[] = "clear";
+		}
+
 		$operations = array();
-		$operations[] = "cut";
-		$operations[] = "copy";
-		$operations[] = "delete";
-		// show paste & clear buttons if something was cut or copied
-		if (!empty($_SESSION["clipboard"]))
+
+		foreach ($objData["actions"] as $row)
 		{
-			$operations[] = "paste";
-			$operations[] = "clear";
+			if (!in_array($row, $notoperations))
+			{
+				$operations[] = $row;
+			}
 		}
-		
-		foreach ($operations as $op)
-		{
-			$tpl->setCurrentBlock("operation_btn");
-			$tpl->setVariable("BTN_VALUE", $lng->txt($op));
+
+		if (count($operations)>0) {
+			foreach ($operations as $op)
+			{
+				$tpl->setCurrentBlock("operation_btn");
+				$tpl->setVariable("BTN_VALUE", $lng->txt($op));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("operation");
 			$tpl->parseCurrentBlock();
-		}
-		$tpl->setCurrentBlock("operation");
-		$tpl->parseCurrentBlock();
+		}		
 		
 		//***************allowed subobjects ****************************
 		
-		$data = $obj->getSubObjects();
-		
-		if (is_array($data))
+		//$data = $obj->getSubObjects();
+		foreach ($objData["subobjects"] as $row)
 		{
+			$subobj[] = $row;
+		}		
+
+		
+		if (is_array($subobj))
+		{
+			//@todo max value abfragen und entsprechend evtl aus der liste streichen
 			//build form
-			$opts = TUtil::formSelect(12,"type",$data);
+			$opts = TUtil::formSelect(12,"type",$subobj);
 	
 			$tpl->setCurrentBlock("add_obj");
 			$tpl->setVariable("SELECT_OBJTYPE", $opts);

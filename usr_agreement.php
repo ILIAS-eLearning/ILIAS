@@ -10,26 +10,25 @@
 
 require_once "./include/ilias_header.inc";
 
-$tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("usr_agreement"));
+$tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_profile.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("personal_profile"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_password.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("chg_password"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_agreement.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+//display buttons
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_profile.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_password.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_agreement.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
-$tpl = new Template("tpl.usr_agreement.html", true, true);
-$tpl->setVariable("BUTTONS",$tplbtn->get());
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_AGREEMENT", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", $lng->getUserAgreement()); 
@@ -38,6 +37,6 @@ $tpl->setVariable("TXT_YES", $lng->txt("yes"));
 $tpl->setVariable("TXT_NO", $lng->txt("no"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

@@ -292,7 +292,6 @@ unread#:#unread
 update_applied#:#update applied
 url#:#url
 url_description#:#url description
-user#:#user
 userdata#:#userdata
 username#:#username
 users#:#users
@@ -316,3 +315,20 @@ you_may_add_local_roles#:#you may add local roles
 obj_owner#:#This Object is owned by
 permission#:#permission
 roles#:#roles
+uninstall#:#uninstall
+frm#:#forum
+obj#:#object
+cat#:#category
+lo#:#learning object
+le#:#learning module
+grp#:#group
+crs#:#course
+file#:#file
+rolf#:#role folder
+rolt#:#role template
+lngf#:#language folder
+lng#:#language
+usr#:#user
+usrf#:#user folder
+objf#:#object folder
+role#:#role

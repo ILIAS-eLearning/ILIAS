@@ -294,7 +294,6 @@ unread	unread	ungelesen	non letto	unread
 update_applied	update applied	Datenbankupdate erfolgreich	update riuscito	update applied
 url	url	URL	URL	url
 url_description	url description	URL Beschreibung	URL descrizione	url description
-user	user	Benutzer	utente	user
 userdata	userdata	Benutzerdaten	dati utente	userdata
 username	username	Benutzername	nome utente	username
 users	users	Benutzer	utenti	users
@@ -318,3 +317,20 @@ you_may_add_local_roles	you may add local roles	Sie können lokale Rollen hinzufü
 obj_owner	This Object is owned by	Besitzer des Objekts ist	This Object is owned by	This Object is owned by 
 permission	permission	Recht	permission	permission
 roles	roles	Rollen	roles	roles
+uninstall	uninstall	deinstallieren	uninstall	uninstall
+frm	forum	Forum	forum	frm
+obj	object	Objekt	obj	obj
+cat	category	Kategorie	cat	cat
+lo	learning object	Lerneinheit	lo	lo
+le	learning module	Lernmodul	le	le
+grp	group	Gruppe	grp	grp
+crs	course	Kurs	crs	crs
+file	file	Datei	file	file
+rolf	role folder	Rollenordner	rolf	rolf
+rolt	role template	Rollenvorlage	rolt	rolt
+lngf	language folder	Sprachordner	lngf	idiomaf
+lng	language	Sprache 	lingua	idioma
+usr	user	Benutzer	utente	user
+usrf	user folder	Benutzerordner	usrf	usrf
+objf	object folder	Objektordner	objf	objf
+role	role	Rolle	role	role

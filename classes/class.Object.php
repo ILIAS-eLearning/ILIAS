@@ -52,7 +52,7 @@ class Object
 		// creates a child object
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_POST["type"]))
+		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_GET["type"]))
 		{
 			$data = array();
 									
@@ -73,10 +73,10 @@ class Object
 	{
 		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 		
-		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
+		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_GET["type"]))
 		{
 			// create and insert object in objecttree
-			$new_obj_id = createNewObject($_POST["type"], $_POST["Fobject"]);
+			$new_obj_id = createNewObject($_GET["type"], $_POST["Fobject"]);
 			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
@@ -84,7 +84,7 @@ class Object
 			foreach($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-				$ops = $rbacreview->getOperations($parRol["obj_id"], $_POST["type"], $parRol["parent"]);
+				$ops = $rbacreview->getOperations($parRol["obj_id"], $_GET["type"], $parRol["parent"]);
 				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_obj_id, $_GET["obj_id"]);
 			}
 		}
