@@ -341,7 +341,7 @@ class ilPageObject extends ilLMObject
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
 	*/
-	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false, $a_append_bib = false)
+	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false, $a_append_bib = false, $a_append_str = "")
 	{
 		if ($a_incl_head)
 		{
@@ -362,7 +362,7 @@ class ilPageObject extends ilLMObject
 				{
 					$bibs =& $this->getBibliographyXML();
 				}
-				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs."</dummy>";
+				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$a_append_str."</dummy>";
 			}
 			else
 			{
