@@ -1,0 +1,861 @@
+<?php
+ /*
+   +----------------------------------------------------------------------------+
+   | ILIAS open source                                                          |
+   +----------------------------------------------------------------------------+
+   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
+   |                                                                            |
+   | This program is free software; you can redistribute it and/or              |
+   | modify it under the terms of the GNU General Public License                |
+   | as published by the Free Software Foundation; either version 2             |
+   | of the License, or (at your option) any later version.                     |
+   |                                                                            |
+   | This program is distributed in the hope that it will be useful,            |
+   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
+   | GNU General Public License for more details.                               |
+   |                                                                            |
+   | You should have received a copy of the GNU General Public License          |
+   | along with this program; if not, write to the Free Software                |
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
+   +----------------------------------------------------------------------------+
+*/
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.ilQTIUtils.php";
+
+define("TEXT_QUESTION_IDENTIFIER", "TEXT QUESTION");
+
+/**
+* Class for text questions
+*
+* ASS_TextQuestion is a class for text questions
+*
+* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @version	$Id$
+* @module   class.assTextQuestion.php
+* @modulegroup   Assessment
+*/
+class ASS_TextQuestion extends ASS_Question
+{
+	/**
+	* Question string
+	*
+	* The question string of the text question
+	*
+	* @var string
+	*/
+	var $question;
+
+	/**
+	* Maximum number of characters of the answertext
+	*
+	* Maximum number of characters of the answertext
+	*
+	* @var integer
+	*/
+	var $maxNrOfChars;
+
+	/**
+	* The available points for the correct answer
+	*
+	* The available points for the correct answer
+	*
+	* @var integer
+	*/
+	var $points;
+	
+	/**
+	* ASS_TextQuestion constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the ASS_TextQuestion object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $comment A comment string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @param string $question The question string of the text question
+	* @access public
+	* @see ASS_Question:ASS_Question()
+	*/
+	function ASS_TextQuestion(
+		$title = "",
+		$comment = "",
+		$author = "",
+		$owner = -1,
+		$question = ""
+	  )
+	{
+		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->question = $question;
+		$this->maxNrOfChars = "";
+		$this->points = 0;
+	}
+
+	/**
+	* Returns true, if a multiple choice question is complete for use
+	*
+	* Returns true, if a multiple choice question is complete for use
+	*
+	* @return boolean True, if the multiple choice question is complete for use, otherwise false
+	* @access public
+	*/
+	function isComplete()
+	{
+		if (($this->title) and ($this->author) and ($this->question))
+		{
+			return true;
+		}
+			else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		if (!empty($this->domxml))
+		{
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$itemnodes = $item->child_nodes();
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (strpos($comment, "ILIAS Version=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Questiontype=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Author=") !== false)
+						{
+							$comment = str_replace("Author=", "", $comment);
+							$this->setAuthor($comment);
+						}
+						else
+						{
+							$this->setComment($comment);
+						}
+						break;
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+						{
+							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
+						}
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
+						{
+							if (strcmp($flownode->node_name(), "material") == 0)
+							{
+								$mattext = $flownode->first_child();
+								$this->set_question($mattext->get_content());
+							}
+							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+							{
+								$ident = $flownode->get_attribute("ident");
+								if (strcmp($ident, "MCSR") == 0)
+								{
+									$this->set_response(RESPONSE_SINGLE);
+								}
+								else
+								{
+									$this->set_response(RESPONSE_MULTIPLE);
+								}
+								$shuffle = "";
+								
+								$subnodes = $flownode->child_nodes();
+								foreach ($subnodes as $node_type)
+								{
+									switch ($node_type->node_name())
+									{
+										case "render_choice":
+											$render_choice = $node_type;
+											if (strcmp($render_choice->node_name(), "render_choice") == 0)
+											{
+												// select gap
+												$shuffle = $render_choice->get_attribute("shuffle");
+												$labels = $render_choice->child_nodes();
+												foreach ($labels as $lidx => $response_label)
+												{
+													$material = $response_label->first_child();
+													$mattext = $material->first_child();
+													$shuf = 0;
+													if (strcmp(strtolower($shuffle), "yes") == 0)
+													{
+														$shuf = 1;
+													}
+													$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
+												}
+											}
+											break;
+										case "material":
+											$matlabel = $node_type->get_attribute("label");
+											if (strcmp($matlabel, "suggested_solution") == 0)
+											{
+												$mattype = $node_type->first_child();
+												if (strcmp($mattype->node_name(), "mattext") == 0)
+												{
+													$suggested_solution = $mattype->get_content();
+													if ($suggested_solution)
+													{
+														if ($this->getId() < 1)
+														{
+															$this->saveToDb();
+														}
+														$this->setSuggestedSolution($suggested_solution, 0, true);
+													}
+												}
+											}
+											break;
+									}
+								}
+							}
+						}
+						break;
+					case "resprocessing":
+						$resproc_nodes = $node->child_nodes();
+						foreach ($resproc_nodes as $index => $respcondition)
+						{
+							if (strcmp($respcondition->node_name(), "respcondition") == 0)
+							{
+								$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+								$found_answer = 0;
+								$this->answers[$respcondition_array["conditionvar"]["value"]]->set_points($respcondition_array["setvar"]["points"]);
+								if ($respcondition_array["conditionvar"]["selected"])
+								{
+									$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
+								}
+								$feedbacks[$respcondition_array["displayfeedback"]["linkrefid"]] = array(
+									"type" => $respcondition_array["conditionvar"]["respident"],
+									"value" => $respcondition_array["conditionvar"]["value"],
+									"not" => $respcondition_array["conditionvar"]["not"],
+									"points" => $respcondition_array["setvar"]["points"],
+									"feedback" => ""
+								);
+							}
+						}
+						break;
+				}
+			}
+			$result = true;
+		}
+		return $result;
+	}
+
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		$xml_header .= "<questestinterop></questestinterop>\n";
+		$this->domxml = domxml_open_mem($xml_header);
+		$root = $this->domxml->document_element();
+		// qti ident
+		$qtiIdent = $this->domxml->create_element("item");
+		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
+		$root->append_child($qtiIdent);
+		// add qti comment
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Author=".$this->getAuthor());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		// add estimated working time
+		$qtiDuration = $this->domxml->create_element("duration");
+		$workingtime = $this->getEstimatedWorkingTime();
+		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));
+		$qtiDuration->append_child($qtiDurationText);
+		$qtiIdent->append_child($qtiDuration);
+		// PART I: qti presentation
+		$qtiPresentation = $this->domxml->create_element("presentation");
+		$qtiPresentation->set_attribute("label", $this->getTitle());
+		// add flow to presentation
+		$qtiFlow = $this->domxml->create_element("flow");
+		// add material with question text to presentation
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatText = $this->domxml->create_element("mattext");
+		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiFlow->append_child($qtiMaterial);
+		// add answers to presentation
+		$qtiResponseLid = $this->domxml->create_element("response_lid");
+		if ($this->response == RESPONSE_SINGLE)
+		{
+			$qtiResponseLid->set_attribute("ident", "MCSR");
+			$qtiResponseLid->set_attribute("rcardinality", "Single");
+		}
+			else
+		{
+			$qtiResponseLid->set_attribute("ident", "MCMR");
+			$qtiResponseLid->set_attribute("rcardinality", "Multiple");
+		}
+		$solution = $this->getSuggestedSolution(0);
+		if (count($solution))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", "suggested_solution");
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $solution["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseLid->append_child($qtiMaterial);
+			}
+		}
+		$qtiRenderChoice = $this->domxml->create_element("render_choice");
+		// shuffle output
+		if ($this->getShuffle())
+		{
+			$qtiRenderChoice->set_attribute("shuffle", "yes");
+		}
+		else
+		{
+			$qtiRenderChoice->set_attribute("shuffle", "no");
+		}
+
+		$akeys = array_keys($this->answers);
+		if ($this->getshuffle() && $a_shuffle)
+		{
+			$akeys = $this->pcArrayShuffle($akeys);
+		}
+
+		// add answers
+		foreach ($akeys as $index)
+		{
+			$answer = $this->answers[$index];
+			$qtiResponseLabel = $this->domxml->create_element("response_label");
+			$qtiResponseLabel->set_attribute("ident", $index);
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMatText = $this->domxml->create_element("mattext");
+			$qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
+			$qtiMatText->append_child($qtiMatTextText);
+			$qtiMaterial->append_child($qtiMatText);
+			$qtiResponseLabel->append_child($qtiMaterial);
+			$qtiRenderChoice->append_child($qtiResponseLabel);
+		}
+		$qtiResponseLid->append_child($qtiRenderChoice);
+		$qtiFlow->append_child($qtiResponseLid);
+		$qtiPresentation->append_child($qtiFlow);
+		$qtiIdent->append_child($qtiPresentation);
+		// PART II: qti resprocessing
+		$qtiResprocessing = $this->domxml->create_element("resprocessing");
+		$qtiOutcomes = $this->domxml->create_element("outcomes");
+		$qtiDecvar = $this->domxml->create_element("decvar");
+		$qtiOutcomes->append_child($qtiDecvar);
+		$qtiResprocessing->append_child($qtiOutcomes);
+		// add response conditions
+		foreach ($this->answers as $index => $answer)
+		{
+			$qtiRespcondition = $this->domxml->create_element("respcondition");
+			$qtiRespcondition->set_attribute("continue", "Yes");
+			// qti conditionvar
+			$qtiConditionvar = $this->domxml->create_element("conditionvar");
+			if (!$answer->isStateSet())
+			{
+				$qtinot = $this->domxml->create_element("not");
+			}
+			$qtiVarequal = $this->domxml->create_element("varequal");
+			if ($this->response == RESPONSE_SINGLE)
+			{
+				$qtiVarequal->set_attribute("respident", "MCSR");
+			}
+				else
+			{
+				$qtiVarequal->set_attribute("respident", "MCMR");
+			}
+			$qtiVarequalText = $this->domxml->create_text_node($index);
+			$qtiVarequal->append_child($qtiVarequalText);
+			if (!$answer->isStateSet())
+			{
+				$qtiConditionvar->append_child($qtinot);
+				$qtinot->append_child($qtiVarequal);
+			}
+			else
+			{
+				$qtiConditionvar->append_child($qtiVarequal);
+			}
+			// qti setvar
+			$qtiSetvar = $this->domxml->create_element("setvar");
+			$qtiSetvar->set_attribute("action", "Add");
+			$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+			$qtiSetvar->append_child($qtiSetvarText);
+			// qti displayfeedback
+			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+			$linkrefid = "";
+			if ($answer->isStateChecked())
+			{
+				if ($this->response == RESPONSE_SINGLE)
+				{
+					$linkrefid = "True";
+				}
+					else
+				{
+					$linkrefid = "True_$index";
+				}
+			}
+			  else
+			{
+				$linkrefid = "False_$index";
+			}
+			$qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
+			$qtiRespcondition->append_child($qtiConditionvar);
+			$qtiRespcondition->append_child($qtiSetvar);
+			$qtiRespcondition->append_child($qtiDisplayfeedback);
+			$qtiResprocessing->append_child($qtiRespcondition);
+		}
+		$qtiIdent->append_child($qtiResprocessing);
+
+		// PART III: qti itemfeedback
+		foreach ($this->answers as $index => $answer)
+		{
+			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+			$linkrefid = "";
+			if ($answer->isStateChecked())
+			{
+				if ($this->response == RESPONSE_SINGLE)
+				{
+					$linkrefid = "True";
+				}
+					else
+				{
+					$linkrefid = "True_$index";
+				}
+			}
+			  else
+			{
+				$linkrefid = "False_$index";
+			}
+			$qtiItemfeedback->set_attribute("ident", $linkrefid);
+			$qtiItemfeedback->set_attribute("view", "All");
+			// qti flow_mat
+			$qtiFlowmat = $this->domxml->create_element("flow_mat");
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMattext = $this->domxml->create_element("mattext");
+			// Insert response text for right/wrong answers here!!!
+			$qtiMattextText = $this->domxml->create_text_node("");
+			$qtiMattext->append_child($qtiMattextText);
+			$qtiMaterial->append_child($qtiMattext);
+			$qtiFlowmat->append_child($qtiMaterial);
+			$qtiItemfeedback->append_child($qtiFlowmat);
+			$qtiIdent->append_child($qtiItemfeedback);
+		}
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
+	}
+
+	/**
+	* Saves a ASS_TextQuestion object to a database
+	*
+	* Saves a ASS_TextQuestion object to a database
+	*
+	* @param object $db A pear DB object
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+		global $ilias;
+
+		$complete = 0;
+		if ($this->isComplete())
+		{
+			$complete = 1;
+		}
+		$db = & $ilias->db;
+
+		$estw_time = $this->getEstimatedWorkingTime();
+		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+
+		if ($original_id)
+		{
+			$original_id = $db->quote($original_id);
+		}
+		else
+		{
+			$original_id = "NULL";
+		}
+		if (strcmp($this->maxNumOfChars, "") == 0)
+		{
+			$maxNumOfChars = "NULL";
+		}
+		else
+		{
+			$maxNumOfChars = $db->quote($this->maxNumOfChars);
+		}
+
+		if ($this->id == -1)
+		{
+			// Neuen Datensatz schreiben
+			$now = getdate();
+			$question_type = 8;
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($question_type),
+				$db->quote($this->obj_id),
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->owner),
+				$db->quote($this->question),
+				$db->quote($estw_time),
+				$maxNumOfChars,
+				$db->quote("$complete"),
+				$db->quote($created),
+				$original_id
+			);
+			$result = $db->query($query);
+			
+			if ($result == DB_OK)
+			{
+				$this->id = $this->ilias->db->getLastInsertId();
+
+				// create page object of question
+				$this->createPageObject();
+
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				if ($this->getTestId() > 0)
+				{
+					$this->insertIntoTest($this->getTestId());
+				}
+			}
+		}
+		else
+		{
+			// Vorhandenen Datensatz aktualisieren
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->question),
+				$db->quote($estw_time),
+				$maxNumOfChars,
+				$db->quote("$complete"),
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+		}
+		parent::saveToDb($original_id);
+	}
+
+	/**
+	* Loads a ASS_TextQuestion object from a database
+	*
+	* Loads a ASS_TextQuestion object from a database
+	*
+	* @param object $db A pear DB object
+	* @param integer $question_id A unique key which defines the text question in the database
+	* @access public
+	*/
+	function loadFromDb($question_id)
+	{
+		global $ilias;
+
+		$db = & $ilias->db;
+		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+		$db->quote($question_id));
+		$result = $db->query($query);
+		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		{
+			if ($result->numRows() == 1)
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->id = $question_id;
+				$this->title = $data->title;
+				$this->comment = $data->comment;
+				$this->solution_hint = $data->solution_hint;
+				$this->original_id = $data->original_id;
+				$this->obj_id = $data->obj_fi;
+				$this->author = $data->author;
+				$this->owner = $data->owner;
+				$this->question = $data->question_text;
+				$this->maxNumOfChars = $data->maxNumOfChars;
+				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			}
+		}
+		parent::loadFromDb($question_id);
+	}
+
+	/**
+	* Duplicates an ASS_TextQuestion
+	*
+	* Duplicates an ASS_TextQuestion
+	*
+	* @access public
+	*/
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		$original_id = $this->id;
+		if ($original_id <= 0)
+		{
+			$original_id = "";
+		}
+		$clone->id = -1;
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+
+		if ($author)
+		{
+			$clone->setAuthor($author);
+		}
+		if ($owner)
+		{
+			$clone->setOwner($owner);
+		}
+
+		if ($for_test)
+		{
+			$clone->saveToDb($original_id);
+		}
+		else
+		{
+			$clone->saveToDb();
+		}
+
+		// copy question page content
+		$clone->copyPageOfQuestion($original_id);
+
+		return $clone->id;
+	}
+
+	/**
+	* Gets the text question
+	*
+	* Gets the question string of the ASS_TextQuestion object
+	*
+	* @return string The question string of the ASS_TextQuestion object
+	* @access public
+	* @see $question
+	*/
+	function get_question()
+	{
+		return $this->question;
+	}
+
+	/**
+	* Sets the text question
+	*
+	* Sets the question string of the ASS_TextQuestion object
+	*
+	* @param string $question A string containing the text question
+	* @access public
+	* @see $question
+	*/
+	function set_question($question = "")
+	{
+		$this->question = $question;
+	}
+
+	/**
+	* Returns the maximum points, a learner can reach answering the question
+	*
+	* Returns the maximum points, a learner can reach answering the question
+	*
+	* @access public
+	* @see $points
+	*/
+	function getMaximumPoints()
+	{
+		return $this->points;
+	}
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedPoints($user_id, $test_id)
+	{
+		return 0;
+	}
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	* Note: This method should be able to be invoked static - do not
+	* use $this inside this class
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function _getReachedPoints($user_id, $test_id)
+	{
+		return 0;
+	}
+
+	/**
+	* Returns the evaluation data, a learner has entered to answer the question
+	*
+	* Returns the evaluation data, a learner has entered to answer the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedInformation($user_id, $test_id)
+	{
+		$found_values = array();
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$this->ilias->db->quote($user_id),
+		$this->ilias->db->quote($test_id),
+		$this->ilias->db->quote($this->getId())
+		);
+		$result = $this->ilias->db->query($query);
+		$user_result = array();
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_result = array(
+				"value" => $data->value1
+			);
+		}
+		return $user_result;
+	}
+
+	/**
+	* Saves the learners input of the question to the database
+	*
+	* Saves the learners input of the question to the database
+	*
+	* @param integer $test_id The database id of the test containing this question
+  * @return boolean Indicates the save status (true if saved successful, false otherwise)
+	* @access public
+	* @see $answers
+	*/
+	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	{
+		global $ilDB;
+		global $ilUser;
+
+		$db =& $ilDB->db;
+
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$db->quote($ilUser->id),
+			$db->quote($test_id),
+			$db->quote($this->getId())
+		);
+		$result = $db->query($query);
+
+		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+			$db->quote($ilUser->id),
+			$db->quote($test_id),
+			$db->quote($this->getId()),
+			$db->quote($_POST["text_result"])
+		);
+		$result = $db->query($query);
+		return true;
+	}
+
+	function syncWithOriginal()
+	{
+		global $ilias;
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete())
+			{
+				$complete = 1;
+			}
+			$db = & $ilias->db;
+	
+			$estw_time = $this->getEstimatedWorkingTime();
+			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+	
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title. ""),
+				$db->quote($this->comment. ""),
+				$db->quote($this->author. ""),
+				$db->quote($this->question. ""),
+				$db->quote($estw_time. ""),
+				$db->quote($this->maxNumOfChars. ""),
+				$db->quote($complete. ""),
+				$db->quote($this->original_id. "")
+			);
+			$result = $db->query($query);
+
+			parent::syncWithOriginal();
+		}
+	}
+
+	function createRandomSolution($test_id, $user_id)
+	{
+	}
+}
+
+?>
