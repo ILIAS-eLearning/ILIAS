@@ -247,6 +247,11 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				//$this->in_meta = true;
 				$this->meta_data =& new ilMetaData();
 				$this->current_object->assignMetaData($this->meta_data);
+				if(get_class($this->current_object) == "illearningmodule")
+				{
+					$this->meta_data->setId($this->lm_id);
+					$this->meta_data->setType("lm");
+				}
 				break;
 
 			case "Identifier":
@@ -327,15 +332,17 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 					$this->current_object->create();
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
-echo "st_into_tree_put:".$this->current_object->getId().":".$parent_id.":<br>";
-echo "count_st_into:".count($this->st_into_tree).":<br>";
-					//$this->lm_tree->insertNode($this->current_object->getId(), $parent_id);
+				}
+				if(get_class($this->current_object) == "illearningmodule")
+				{
+					$this->current_object->update();
 				}
 				break;
 
 			case "Paragraph":
 				// can't unset paragraph object, because PageObject is still processing
 				break;
+
 		}
 		$this->endElement($a_name);
 
@@ -360,9 +367,20 @@ echo "count_st_into:".count($this->st_into_tree).":<br>";
 
 				case "Title":
 					$this->meta_data->setTitle($a_data);
-echo ":setTitle(".htmlentities($a_data).")<br>";
-echo ":getTitle(".$this->meta_data->getTitle().")<br>";
 					break;
+
+				case "Language":
+					$this->meta_data->setLanguage($a_data);
+					break;
+
+				case "Description":
+					$this->meta_data->setDescription($a_data);
+					break;
+
+				case "Keyword":
+					$this->meta_data->setKeyword($a_data);
+					break;
+
 			}
 		}
 

@@ -38,9 +38,9 @@ class ilMetaData
 	// attributes of the "General" Section
 	var $import_id;			// +, array
 	var $title;				// 1
-	var $language;			// +, array
-	var $description;		// +, array
-	var $keyword;			// +, array
+	var $language;			// string
+	var $description;		// string
+	var $keyword;			// string
 	var $coverage;			// ?, optional
 	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 	var $id;
@@ -157,10 +157,54 @@ class ilMetaData
 		return $this->type;
 	}
 
+	// GENERAL: Language
+	function setLanguage($a_lang)
+	{
+		$this->language = $a_lang;
+	}
+
+	function getLanguage()
+	{
+		return $this->language;
+	}
+
+	// GENERAL: Description
+	function setDescription($a_desc)
+	{
+		$this->description = $a_desc;
+	}
+
+	function getDescription()
+	{
+		return $this->description;
+	}
+
+	// GENERAL: Keyword
+	function setKeyword($a_key)
+	{
+		$this->keyword = $a_key;
+	}
+
+	function getKeyword()
+	{
+		return $this->keyword;
+	}
+
 	function create()
 	{
-		$query = "INSERT INTO meta_data (obj_id, obj_type, title) VALUES ".
-			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."')";
+		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
+			"language, keyword, description) VALUES ".
+			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
+			"'".$this->getLanguage()."','".$this->getKeyword."','".$this->getDescription."')";
+		$this->ilias->db->query($query);
+	}
+
+	function update()
+	{
+		$query = "REPLACE INTO meta_data (obj_id, obj_type, title,".
+			"language, keyword, description) VALUES ".
+			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
+			"'".$this->getLanguage()."','".$this->getKeyword."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
 	}
 
