@@ -41,13 +41,15 @@ class ilLOListGUI
 	var $objDefinition;
 	var $tree;
 	var $rbacsystem;
+	var $ilias;
 
 	function ilLOListGUI()
 	{
-		global $objDefinition, $tpl, $lng, $tree, $rbacsystem;
+		global $objDefinition, $tpl, $lng, $tree, $rbacsystem, $ilias;
 
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tree =& $tree;
 		$this->rbacsystem = $rbacsystem;
@@ -266,6 +268,11 @@ class ilLOListGUI
 					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
 					$this->tpl->setVariable("EDIT_TARGET","bottom");
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
+					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
+					{
+						$this->tpl->setVariable("TO_DESK_LINK", "lo_list.php?cmd=addToDesk&ref_id=".$lr_data["ref_id"]."&type=lm");
+						$this->tpl->setVariable("TXT_TO_DESK", "(".$this->lng->txt("to_desktop").")");
+					}
 				}
 
 				// scorm learning modules
@@ -326,6 +333,12 @@ class ilLOListGUI
 		$tbl->render();
 
 		$this->tpl->show();
+	}
+
+	function addToDesk()
+	{
+		$this->ilias->account->addDesktopItem($_GET["ref_id"], $_GET["type"]);
+		$this->view();
 	}
 
 	// TODO: this function is common and belongs to class util!

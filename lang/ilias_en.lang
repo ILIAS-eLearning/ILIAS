@@ -38,6 +38,12 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#drop#:#Drop
+common#:#my_los#:#My Learning Objects
+common#:#my_frms#:#My Forums
+common#:#no_lo_in_personal_list#:#No learning objects in personal list.
+common#:#no_frm_in_personal_list#:#No forums in personal list.
+common#:#to_desktop#:#To Desktop
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate

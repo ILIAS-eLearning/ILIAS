@@ -36,11 +36,18 @@ require_once "./include/inc.header.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
+switch($_GET["cmd"])
+{
+	case "dropItem":
+		$ilias->account->dropDesktopItem($_GET["id"], $_GET["type"]);
+		break;
+}
+
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-// set locator 
+// set locator
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
@@ -95,15 +102,13 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 $umail = new ilMail($_SESSION["AccountId"]);
 $smails = $umail->getMailsOfFolder(0);
 
-//last visited lessons
-$lessonsLastVisited = $ilias->account->getLastVisitedLessons();
 
 //courses
 $courses = $ilias->account->getCourses();
 
 //forums
 $frm_obj = ilUtil::getObjectsByOperations('frm','read');
-$frmNum = count($frm_obj); 
+$frmNum = count($frm_obj);
 $lastLogin = $ilias->account->getLastLogin();
 
 
@@ -112,6 +117,7 @@ $lastLogin = $ilias->account->getLastLogin();
 //********************************************
 
 //begin mailblock if there are new mails
+/*
 if(count($smails))
 {
 	// output mails
@@ -120,7 +126,7 @@ if(count($smails))
 	{
 		// GET INBOX FOLDER FOR LINK_READ
 		require_once "classes/class.ilMailbox.php";
-		
+
 		$mbox = new ilMailbox($_SESSION["AccountId"]);
 		$inbox = $mbox->getInboxFolder();
 
@@ -129,7 +135,7 @@ if(count($smails))
 
 		// GET SENDER NAME
 		$user = new ilObjUser($mail["sender_id"]);
-		
+
 		//new mail or read mail?
 		$tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
 		$tpl->setVariable("MAIL_FROM", $user->getFullname());
@@ -147,114 +153,119 @@ if(count($smails))
    	$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
    	$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
    	$tpl->parseCurrentBlock();
-}
-//if there are lessons output them
-if (count($lessonsLastVisited)>0)
+}*/
+
+// learning modules
+$lo_items = $ilias->account->getDesktopItems("lm");
+$i = 0;
+foreach ($lo_items as $lo_item)
 {
-        unset($i);
-        foreach ($lessonsLastVisited as $row)
-        {
-                $i++;
-                $tpl->setCurrentBlock("tbl_lo_row");
-                $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-                $tpl->setVAriable("LO_TIME", ilFormat::formatDate($row["datetime"],"date"));
-                $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["child"]);
-                $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["child"]."&amp;page=".$row["pageid"]);
-                $tpl->setVAriable("LO_TITLE", $row["title"]);
-                $tpl->setVAriable("LO_PAGE", $row["page"]);
-                $tpl->parseCurrentBlock();
-        }
-        $tpl->setCurrentBlock("tbl_lo");
-        $tpl->setVariable("TXT_LO_HEADER",$lng->txt("los_last_visited"));
-        $tpl->setVariable("TXT_LO_TIME",$lng->txt("time"));
-        $tpl->setVariable("TXT_LO_TITLE",$lng->txt("lo"));
-        $tpl->setVariable("TXT_LO_PAGE",$lng->txt("page"));
-        $tpl->parseCurrentBlock();
+	$i++;
+	$tpl->setCurrentBlock("tbl_lo_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVAriable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"]);
+	$tpl->setVAriable("LO_TITLE", $lo_item["title"]);
+	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=lm&id=".$lo_item["id"]);
+	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+	$tpl->parseCurrentBlock();
 }
-
-
-//Courses
-if (count($courses)>0)
+if ($i == 0)
 {
-        unset($i);
-        foreach ($courses as $row)
-        {
-                $i++;
-                $tpl->setCurrentBlock("tbl_crs_row");
-                $tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
-                $tpl->setVariable("CRS_TITLE", $row["title"]);
-                $tpl->setVariable("CRS_DESC", $row["desc"]);
-                $tpl->setVariable("CRS_LINK", "course.php?id=".$row["child"]);
-                $tpl->setVariable("TXT_QUIT", $lng->txt("quit"));
-                $tpl->setVariable("CRS_LINK_QUIT", "course.php?id=".$row["child"]."&amp;cmd=quit");
-                $tpl->parseCurrentBlock();
-        }
-		
-        $tpl->setCurrentBlock("tbl_crs");
-        $tpl->setVariable("TXT_COURSES", $lng->txt("courses"));
-        $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-        $tpl->setVariable("TXT_DESC", $lng->txt("description"));
-        $tpl->parseCurrentBlock();
+	$tpl->setCurrentBlock("tbl_no_lo");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("TXT_NO_LO", $lng->txt("no_lo_in_personal_list"));
+	$tpl->parseCurrentBlock();
 }
+$tpl->setCurrentBlock("tbl_lo");
+$tpl->setVariable("TXT_LO_HEADER",$lng->txt("my_los"));
+$tpl->setVariable("TXT_LO_TITLE",$lng->txt("title"));
+$tpl->parseCurrentBlock();
 
-//forums
+// forums
+$frm_items = $ilias->account->getDesktopItems("frm");
+$i = 0;
+foreach ($frm_items as $frm_item)
+{
+	$i++;
+	$tpl->setCurrentBlock("tbl_frm_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVAriable("FRM_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
+	$tpl->setVAriable("FRM_TITLE", $frm_item["title"]);
+	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=frm&id=".$frm_item["id"]);
+	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+	$tpl->parseCurrentBlock();
+}
+if ($i == 0)
+{
+	$tpl->setCurrentBlock("tbl_no_frm");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("TXT_NO_FRM", $lng->txt("no_frm_in_personal_list"));
+	$tpl->parseCurrentBlock();
+}
+$tpl->setCurrentBlock("tbl_frm");
+$tpl->setVariable("TXT_FRM_HEADER",$lng->txt("my_frms"));
+$tpl->setVariable("TXT_FRM_TITLE",$lng->txt("title"));
+$tpl->parseCurrentBlock();
+
+//forums (old list)
+/*
 if ($frmNum > 0)
-{	
-	// build list	
+{
+	// build list
 	require_once "classes/class.ilForum.php";
 	$frm = new ilForum();
 	$lng->loadLanguageModule("forum");
 
 
 	$z = 0;
-	
+
 	foreach($frm_obj as $frm_data)
 	{
 		unset($topicData);
-		
+
 		// get forum data
 		$frm->setWhereCondition("top_frm_fk = ".$frm_data["obj_id"]);
-		$topicData = $frm->getOneTopic();		
-		
+		$topicData = $frm->getOneTopic();
+
 		$lastPost = "";
-				
-		if ($topicData["top_last_post"] != "") 
+
+		if ($topicData["top_last_post"] != "")
 		{
-			$lastPost = $frm->getLastPost($topicData["top_last_post"]);	
-			
-			$frm->setDbTable("frm_posts");			
+			$lastPost = $frm->getLastPost($topicData["top_last_post"]);
+
+			$frm->setDbTable("frm_posts");
 			$frm->setWhereCondition("pos_pk = ".$lastPost["pos_pk"]);
-			$posData = $frm->getOneDataset();	
-			
+			$posData = $frm->getOneDataset();
+
 			$stamp_post = mktime(substr($posData["pos_date"], 11, 2),substr($posData["pos_date"], 14, 2),substr($posData["pos_date"], 17, 2),substr($posData["pos_date"], 5, 2),substr($posData["pos_date"], 8, 2),substr($posData["pos_date"], 0, 4));
 			$stamp_login = mktime(substr($lastLogin, 11, 2),substr($lastLogin, 14, 2),substr($lastLogin, 17, 2),substr($lastLogin, 5, 2),substr($lastLogin, 8, 2),substr($lastLogin, 0, 4));
-						
+
 			// if lastPost is more up to date than lastLogin ...
 			if ($stamp_post > $stamp_login)
-			{				
+			{
 				if ($_GET["cmd"] == "list_forum")
 				{
 					$tpl->setCurrentBlock("tbl_frm_row");
 					$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
-					$tpl->setVariable("ROWCOL", $rowCol);				
-					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?ref_id=".$frm_data["ref_id"]."\">".$topicData["top_name"]."</a>");								
+					$tpl->setVariable("ROWCOL", $rowCol);
+					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?ref_id=".$frm_data["ref_id"]."\">".$topicData["top_name"]."</a>");
 					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
 					$tpl->parseCurrentBlock();
 				}
-				
+
 				$z ++;
 			}
-				
-		}		
-		
+
+		}
+
 	}
-	
+
 	// show table, when there are new entries
 	if ($z > 0)
 	{
 		$tpl->setCurrentBlock("tbl_frm");
 		$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_new_entries"));
-		
+
 		if ($_GET["cmd"] == "list_forum") {
 			$tpl->setVariable("TXT_TITLE", ucfirst($lng->txt("forum")));
 			$tpl->setVariable("TXT_LASTPOST", ucfirst($lng->txt("forums_last_post")));
@@ -263,18 +274,18 @@ if ($frmNum > 0)
 		{
 			$tpl->setVariable("LIST_BUTTON", "<a href=\"usr_personaldesktop.php?cmd=list_forum\">".$lng->txt("show_list")."</a>");
 		}
-		
+
 		$tpl->parseCurrentBlock();
 	}
-	
-}
+
+}*/
 
 if ($_GET["cmd"] == "whois")
 {
 	$users = ilUtil::getUsersOnline();
-	
+
 	$z = 0;
-	
+
 	foreach ($users as $user)
 	{
 	

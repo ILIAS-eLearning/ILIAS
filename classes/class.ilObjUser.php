@@ -1187,5 +1187,116 @@ class ilObjUser extends ilObject
 		return true;	
 	}
 
+	/**
+	* add an item to user's personal desktop
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	*/
+	function addDesktopItem($a_item_id, $a_type)
+	{
+		$q = "SELECT * FROM desktop_item WHERE ".
+			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
+			$this->getId()."'";
+		$item_set = $this->ilias->db->query($q);
+
+		// only insert if item is not already on desktop
+		if (!$d = $item_set->fetchRow())
+		{
+			$q = "INSERT INTO desktop_item (item_id, type, user_id) VALUES ".
+				" ('$a_item_id','$a_type','".$this->getId()."')";
+			$this->ilias->db->query($q);
+		}
+	}
+
+	/**
+	* drop an item from user's personal desktop
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	*/
+	function dropDesktopItem($a_item_id, $a_type)
+	{
+		$q = "DELETE FROM desktop_item WHERE ".
+			" item_id = '$a_item_id' AND".
+			" type = '$a_type' AND".
+			" user_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
+	/**
+	* check wether an item is on the users desktop or not
+	*
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	*/
+	function isDesktopItem($a_item_id, $a_type)
+	{
+		$q = "SELECT * FROM desktop_item WHERE ".
+			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
+			$this->getId()."'";
+		$item_set = $this->ilias->db->query($q);
+
+		if ($d = $item_set->fetchRow())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* get all desktop items of user and specified type
+	*
+	* note: the implementation of this method is not good style (directly
+	* reading tables object_data and object_reference), must be revised someday...
+	* (maybe it should be a method in all object classes)
+	*/
+	function getDesktopItems($a_type)
+	{
+		$items = array();
+		switch ($a_type)
+		{
+			case "lm":
+				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj WHERE ".
+					"it.item_id = oref.ref_id AND ".
+					"oref.obj_id = obj.obj_id AND ".
+					"it.type = 'lm' AND ".
+					"it.user_id = '".$this->getId()."' ".
+					"ORDER BY title";
+				$item_set = $this->ilias->db->query($q);
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+						"link" => "content/lm_presentation.php?ref_id=".$item_rec["ref_id"], "target" => "_top");
+				}
+				break;
+
+			case "frm":
+				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj WHERE ".
+					"it.item_id = oref.ref_id AND ".
+					"oref.obj_id = obj.obj_id AND ".
+					"it.type = 'frm' AND ".
+					"it.user_id = '".$this->getId()."' ".
+					"ORDER BY title";
+				$item_set = $this->ilias->db->query($q);
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+						"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
+				}
+				break;
+		}
+		return $items;
+
+	}
+
 } // END class ilObjUser
 ?>

@@ -33,6 +33,13 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilForum.php";
 
+switch($_GET["cmd"])
+{
+	case "addToDesk":
+		$ilias->account->addDesktopItem($_GET["item_id"], "frm");
+		break;
+}
+
 $frm = new ilForum();
 
 $lng->loadLanguageModule("forum");
@@ -40,8 +47,8 @@ $lng->loadLanguageModule("forum");
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		
-// set locator 
+
+// set locator
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
@@ -123,7 +130,7 @@ if ($frmNum > 0)
 		
 			unset($topicData);
 			
-			$frm->setWhereCondition("top_frm_fk = ".$data["obj_id"]);			
+			$frm->setWhereCondition("top_frm_fk = ".$data["obj_id"]);
 			$topicData = $frm->getOneTopic();		
 			
 			if ($topicData["top_num_threads"] > 0)
@@ -140,7 +147,7 @@ if ($frmNum > 0)
 		
 			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 			$tpl->setVariable("ROWCOL", $rowCol);		
-			
+
 			$moderators = "";		
 			$lpCont = "";
 			$lastPost = "";
@@ -165,11 +172,17 @@ if ($frmNum > 0)
 				{
 					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".$data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				}
+				// add to desktop link
+				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
+				{
+					$tpl->setVariable("TO_DESK_LINK", "forums.php?cmd=addToDesk&item_id=".$data["ref_id"]);
+					$tpl->setVariable("TXT_TO_DESK", "(".$lng->txt("to_desktop").")");
+				}
 				// create-dates of forum
 				if ($topicData["top_usr_id"] > 0)
-				{			
-					$moderator = $frm->getUser($topicData["top_usr_id"]);	
-					
+				{
+					$moderator = $frm->getUser($topicData["top_usr_id"]);
+
 					$tpl->setVariable("START_DATE_TXT1", $lng->txt("launch"));
 					$tpl->setVariable("START_DATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("START_DATE", $frm->convertDate($topicData["top_date"]));
