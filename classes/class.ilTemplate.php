@@ -110,16 +110,20 @@ class ilTemplate extends IntegratedTemplateExtension
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		if ($_SESSION["message"] || $_SESSION["info"])
 		{
-			$this->addBlockFile("MESSAGE", "message", "tpl.message.html");
-			$this->setCurrentBlock("message");
+			if($this->blockExists("MESSAGE"))
+			{
+				$this->addBlockFile("MESSAGE", "message", "tpl.message.html");
+#			$this->setCurrentBlock("message");
 
-			$this->setVariable("MSG", $_SESSION["message"]);
-			session_unregister("message");
+				$this->setVariable("MSG", $_SESSION["message"]);
+				$this->setVariable("INFO", $_SESSION["info"]);
 
-			$this->parseCurrentBlock();
+				session_unregister("message");
+				session_unregister("info");
+
+#			$this->parseCurrentBlock();
+			}
 		}
-
-
 		if ($part == "DEFAULT")
 		{
 			parent::show();
@@ -136,6 +140,18 @@ class ilTemplate extends IntegratedTemplateExtension
 			$_SESSION["post_vars"] = $_POST;
 		}
 	}
+
+	/**
+	* check if block exists in actual template
+	* @access	private
+	* @param string blockname
+	* @return	boolean
+	*/
+	function blockExists($a_blockname)
+	{
+		return $this->blockvariables["content"][$a_blockname] ? true : false;
+	}
+
 
 	/**
 	* all template vars defined in $vars will be replaced automatically

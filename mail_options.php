@@ -24,22 +24,6 @@ infoPanel();
 
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-// ADD FOLDER cmd comes from mail.php or mail_options button
-if(isset($_POST["cmd"]["add"]) or $_GET["cmd"] == "add")
-{
-	if(empty($_POST['folder_name_add']))
-	{
-		sendInfo($lng->txt("mail_insert_folder_name"));
-	}
-	else if($mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
-	{
-		sendInfo($lng->txt("mail_folder_created"));
-	}
-	else
-	{
-		sendInfo($lng->txt("mail_folder_exists"));
-	}
-}
 // RENAME FOLDER
 if(isset($_POST["cmd"]["rename"]))
 {
@@ -128,6 +112,7 @@ if(($folder_data["type"] == 'user_folder' or $folder_data["type"] == 'local')
 	and !isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock('add');
+	$tpl->setVariable("ACTION_ADD","mail_frameset.php?mobj_id=$_GET[mobj_id]");
 	$tpl->setVariable("TXT_NAME_ADD",$lng->txt("mail_folder_name"));
 	$tpl->setVariable("TXT_FOLDER_ADD",$lng->txt("add"));
 	$tpl->parseCurrentBlock();
