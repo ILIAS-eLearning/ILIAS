@@ -46,7 +46,7 @@ if (isset($_POST["cmd"]))
 	$obj2->$methode();
 }
 
-// show paste-button if something was cut or copied
+// show paste & clear buttons if something was cut or copied
 if (!empty($clipboard))
 {
 	$tplContent->touchBlock("btn_paste");
@@ -81,7 +81,7 @@ $tplContent->setCurrentBlock("row",true);
 
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
-	$zaehler = 0;
+	$num = 0;
 	
 	foreach ($tree->Childs as $key => $val)
     {
@@ -91,17 +91,10 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 			continue;
 		}
 		
-		$zaehler++;
+		$num++;
 		
 		// color changing
-		if (!($zaehler % 2))
-		{
-			$css_row = "row_high";	
-		}
-		else
-		{
-			$css_row = "row_low";
-		}
+		$css_row = TUtil::switchColor($num,"row_high","row_low");
 		
 		if ($val["type"] == "adm")
 		{
