@@ -493,6 +493,21 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
+			if ($this->object->get_ordering_type() == OQ_PICTURES)
+			{
+				foreach ($this->object->answers as $key => $answer)
+				{
+					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.jpg");
+					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->get_answertext());
+					if ($sizethumb[0] >= $sizeorig[0])
+					{
+						// thumbnail is larger than original -> remove enlarge image
+						$output = preg_replace("/<a[^>]*?>\s*<img[^>]*?enlarge[^>]*?>\s*<\/a>/", "", $output);
+					}
+					// add the image size to the thumbnails
+					$output = preg_replace("/(<img[^>]*?".$answer->get_answertext()."[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $sizethumb[3] . "\\2", $output);
+				}
+			}
 			$output = str_replace("// solution_script", "", $output);
 			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
