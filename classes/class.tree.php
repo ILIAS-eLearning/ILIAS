@@ -674,19 +674,17 @@ class Tree
 
 		if ($this->table_obj_reference)
 		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON v.child=".$this->table_obj_reference.".".$this->obj_pk." ".
+			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON v.child=".$this->table_obj_reference.".".$this->ref_pk." ".
 				  		"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 		else
 		{
-			$leftjoin = ",".$this->table_obj_data." ";
+			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON v.child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
 			 $leftjoin.
-			 "WHERE ".$this->table_obj_data.".".$this->obj_pk." = v.child ".
-			 "AND s.child = '".$a_node_id."' ".
-			 //"AND s.parent = '".$a_parent_id."' ".	// maybe deprecated
+			 "WHERE s.child = '".$a_node_id."' ".
 			 "AND s.parent = v.child ".
 			 "AND s.lft > v.lft ".
 			 "AND s.rgt < v.rgt ".
