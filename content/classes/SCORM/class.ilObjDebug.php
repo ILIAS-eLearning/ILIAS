@@ -1,4 +1,5 @@
 <?php
+/*
         +-----------------------------------------------------------------------------+
         | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
         |                                                                             |
@@ -26,8 +27,12 @@
 */
 
 class ilObjDebug {
-	function ilObjDebug($file) {
-		
-	} 
+        function ilObjDebug($file) {
+                $this->file=fopen($file,"a");
+        }
+                                                                                                                             
+        function debug($message) {
+                fwrite($this->file,$message.'\n');
+        }
 }
 ?>
