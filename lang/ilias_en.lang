@@ -115,6 +115,8 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
+assessment#:#material#:#Material
+assessment#:#material_download#:#Material to download
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
@@ -137,9 +139,6 @@ assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 assessment#:#question_type#:#Question Type
-assessment#:#material#:#Material
-assessment#:#uploaded_material#:#Uploaded Material
-assessment#:#material_download#:#Material to download
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
@@ -169,9 +168,6 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_percent_solved#:#Percent solved
-assessment#:#tst_your_mark_is#:#Your mark is
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_title#:#Title
@@ -179,6 +175,8 @@ assessment#:#tst_question_type#:#Question type
 assessment#:#tst_reached_points#:#Reached points
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
+assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
+assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
@@ -194,10 +192,12 @@ assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
+assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
+assessment#:#uploaded_material#:#Uploaded Material
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.

@@ -96,6 +96,11 @@ assessment#:#create_date#:#Gecreëerd
 assessment#:#create_gaps#:#Creëer gaten
 assessment#:#create_new#:#Creëer een nieuwe
 assessment#:#duplicate#:#Duplikaat
+assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#Exporteer
 assessment#:#false#:#Verkeerd
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
@@ -110,6 +115,8 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#overeenkomsten
 assessment#:#matching_pair#:#Overeenkomend paar
+assessment#:#material#:#Material###11 Mar 2004 new variable
+assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
 assessment#:#points#:#Punten
@@ -155,15 +162,21 @@ assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %)
 assessment#:#tst_mark_official_form#:#Officiële formulier
 assessment#:#tst_mark_passed#:#Gebeurd
 assessment#:#tst_mark_short_form#:#Kort formulier
+assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
 assessment#:#tst_no_marks_defined#:#Er zijn geen markeringen gedefiniëerd, Creëer minstens één eenvoudig markerings-schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. aantal keer geprobeerd
+assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing tijd
+assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
 assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
+assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Rapporteer de score nadat elke vraag beantwoord is
 assessment#:#tst_report_after_test#:#Rapporteer de score nadat de gehele test klaar is
+assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
+assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
 assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
 assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Rapportage score
@@ -179,10 +192,12 @@ assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types
+assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Besturen leerlings navigatie-test
 assessment#:#tt_self_assessment#:#Zelftest assessment
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
+assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
