@@ -644,14 +644,15 @@ class ilLMParser extends ilSaxParser
                     $nested = new ilNestedSetXML();
                     $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");                    
 				}
-                else if(get_class($this->current_object) == "ilobjdlbook") 
+                else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule") 
                 {
                     // Metadaten eines ContentObjects sichern in NestedSet
                     include_once("./classes/class.ilNestedSetXML.php");
                     $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->lm_object->getId(),"co");                    
+                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"lm");                    
                 }
                 
+				
 				if(get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjdlbook" )
 				{
 					$this->current_object->update();
