@@ -658,6 +658,8 @@ class ilPageObject
 			"('".$this->getId()."', '".$this->getParentId()."','".addslashes($this->getXMLContent()).
 			"', '".$this->getParentType()."')";
 		$this->ilias->db->query($query);
+
+		$this->saveMobUsage($this->getXMLContent());
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
 
@@ -670,6 +672,7 @@ class ilPageObject
 			"SET content = '".addslashes($this->getXMLContent())."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
 		$this->ilias->db->query($query);
+		$this->saveMobUsage($this->getXMLContent());
 	}
 
 	/**
@@ -690,6 +693,7 @@ class ilPageObject
 				"WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
 			$this->ilias->db->query($query);
+			$this->saveMobUsage($this->getXMLFromDom());
 			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
@@ -705,7 +709,64 @@ class ilPageObject
 		$query = "DELETE FROM page_object ".
 			"WHERE page_id = '".$this->getId().
 			"' AND parent_type='".$this->getParentType()."'";
+		$this->saveMobUsage("<dummy></dummy>");
 		$this->ilias->db->query($query);
+	}
+
+	function saveMobUsage($a_xml)
+	{
+		$doc = domxml_open_mem($a_xml);
+
+		// media aliases
+		$xpc = xpath_new_context($doc);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		$usages = array();
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$mob_id = $res->nodeset[$i]->get_attribute("OriginId");
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		// media objects
+		$xpc = xpath_new_context($doc);
+		$path = "//MediaObject/MetaData/General/Identifier";
+		$res =& xpath_eval($xpc, $path);
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$mob_entry = $res->nodeset[$i]->get_attribute("Entry");
+			$mob_arr = explode("_", $mob_entry);
+			$mob_id = $mob_arr[count($mob_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		// internal links
+		$xpc = xpath_new_context($doc);
+		$path = "//IntLink[@Type='MediaObject']";
+		$res =& xpath_eval($xpc, $path);
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$mob_target = $res->nodeset[$i]->get_attribute("Target");
+			$mob_arr = explode("_", $mob_target);
+			$mob_id = $mob_arr[count($mob_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		include_once("content/classes/Pages/class.ilMediaObject.php");
+		ilMediaObject::_deleteAllUsages("pg", $this->getId());
+		foreach($usages as $mob_id => $val)
+		{
+			ilMediaObject::_saveUsage($mob_id, "pg", $this->getId());
+		}
 	}
 
 	function create()

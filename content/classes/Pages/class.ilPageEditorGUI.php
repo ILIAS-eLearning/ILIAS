@@ -177,7 +177,7 @@ class ilPageEditorGUI
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		if ($ctype != "mob")
+		if ($ctype != "mob" || !is_object ($cont_obj))
 		{
 			$this->tpl->setVariable("HEADER", $this->getHeader());
 			$this->displayLocator();
@@ -222,10 +222,13 @@ class ilPageEditorGUI
 
 			// Media Object
 			case "mob":
-				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
-					$cont_obj->getTitle());
-				$this->displayLocator("mob");
-				$this->setAdminTabs("mob", $hier_id);
+				if (is_object ($cont_obj))
+				{
+					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+						$cont_obj->getTitle());
+					$this->displayLocator("mob");
+					$this->setAdminTabs("mob", $hier_id);
+				}
 
 				require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
 				$mob_gui =& new ilMediaObjectGUI($this->page, $cont_obj, $hier_id);
