@@ -535,14 +535,6 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			$original_id = "NULL";
 		}
-		if ((strcmp($this->maxNumOfChars, "") == 0) or (strcmp($this->maxNumOfChars, "0") == 0)) 
-		{
-			$maxNumOfChars = "NULL";
-		}
-		else
-		{
-			$maxNumOfChars = $db->quote($this->maxNumOfChars);
-		}
 
 		if ($this->id == -1)
 		{
@@ -559,7 +551,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($this->owner),
 				$db->quote($this->question),
 				$db->quote($estw_time),
-				$maxNumOfChars,
+				$db->quote($this->getMaxNumOfChars()),
 				$db->quote("$complete"),
 				$db->quote($created),
 				$original_id
@@ -590,7 +582,7 @@ class ASS_TextQuestion extends ASS_Question
 				$db->quote($this->author),
 				$db->quote($this->question),
 				$db->quote($estw_time),
-				$maxNumOfChars,
+				$db->quote($this->getMaxNumOfChars()),
 				$db->quote("$complete"),
 				$db->quote($this->id)
 			);
@@ -727,7 +719,14 @@ class ASS_TextQuestion extends ASS_Question
 	*/
 	function getMaxNumOfChars()
 	{
-		return $this->maxNumOfChars;
+		if (strcmp($this->maxNumOfChars, "") == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return $this->maxNumOfChars;
+		}
 	}
 
 	/**
