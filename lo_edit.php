@@ -63,11 +63,18 @@ $tpl->setVariable("LINK_NEWSUBCHAPTER", "lo_edit.php?cmd=newsubchapter&amp;lo=".
 $tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 $tpl->setVariable("LINK_EDIT", "lo_edit.php?cmd=edittitle&amp;lo=".$lo."&amp;id=".$row["nr"]);
 
-
 //enumeration
 $tpl->setVariable("ENUMERATE_STATUS", "on");
 $tpl->setVariable("TXT_ENUMERATE", $lng->txt("enumerate"));
 $tpl->setVariable("LINK_ENUMERATE", "lo_edit.php?cmd=setenumeration&amp;value=1&amp;lo=".$lo."&amp;id=".$row["nr"]);
+
+//page
+$tpl->setVariable("TXT_EDIT_PAGE", $lng->txt("page"));
+$tpl->setVariable("LINK_EDIT_PAGE", "lo_edit_page.php?cmd=");
+
+//forum
+$tpl->setVariable("TXT_NEW_FORUM", $lng->txt("new_forum"));
+$tpl->setVariable("LINK_CREATE_FORUM", "lo_edit_forum.php?cmd=");
 
 $tpl->parseCurrentBlock();
 
