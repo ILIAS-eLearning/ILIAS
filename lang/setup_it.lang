@@ -334,7 +334,7 @@ setup_first_client#:#Definisci il tuoi primo client
 setup_ini_first#:#Per favore, crea prima il file ilias.ini!
 setup_inifile#:#Creazione del file ilias.ini
 setup_inifile_desc#:#creare il file ilias.ini per l&#039;installazione
-setup_languages#:#Installa le lingue
+setup_languages#:#Installa le lingue###21 Jan 2004 content changed
 setup_languages_desc#:#installare ulteriori le lingue 
 setup_login#:#Login per l&#039;installazione
 setup_mainmenu#:#Menu principale dell&#039;installazione

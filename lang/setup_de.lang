@@ -334,7 +334,7 @@ setup_first_client#:#Erstinstallation eines Mandanten
 setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
 setup_inifile#:#ini-Datei erzeugen
 setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
-setup_languages#:#Sprachen installieren
+setup_languages#:#Sprachen installieren###21 Jan 2004 content changed
 setup_languages_desc#:#Installation zusätzlicher Sprachen
 setup_login#:#Anmeldung Setup 
 setup_mainmenu#:#Setup Hauptmenü
