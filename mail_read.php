@@ -20,6 +20,7 @@ $myMails = new UserMail($ilias->db, $ilias->account->Id);
 
 $mail = $myMails->getOneMail($id);
 
+
 if ($_POST["func"] != "")
 {
 	switch ($_POST["func"])

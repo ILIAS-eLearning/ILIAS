@@ -165,7 +165,7 @@ class UserMail extends PEAR
 			 	$mails["read"]++;
 
 			 $mails["msg"][] = array(
-				 "id" => 1,
+				 "id" => $row["id"],
 				 "from" => $row["snd"],
 				 "email" => $row["email"],
 				 "subject" => $row["subject"],
@@ -198,14 +198,14 @@ class UserMail extends PEAR
                  WHERE rcp='".$this->id."'
 				 AND id='".$id."'";
 		 $r = $this->db->query($sql);
-		 
+	 
 		 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		 //if mail is marked as unread mark it as read now
 		 if ($row["rcp_flag"]==1)
 			 $this->setStatus($id, "rcp", "read");
 
 		 $mail = array(
-			 "id" => 1,
+			 "id" => $row["id"],
 			 "from" => $row["snd"],
 			 "email" => $row["email"],
 			 "subject" => $row["subject"],
@@ -215,7 +215,33 @@ class UserMail extends PEAR
 			 );
 		 return $mail;
 	 }
-	 	 
+
+	 /**
+	 * get MailFolder of the User
+	 * @return array
+	 * @access public
+	 */
+	 function getMailFolders()
+	 {
+	 	$folders = array();
+		$folders[] = array(
+			"name" => "inbox"
+		);
+		$folders[] = array(
+			"name" => "archive"
+		);
+		$folders[] = array(
+			"name" => "sent"
+		);
+		$folders[] = array(
+			"name" => "drafts"
+		);
+		$folders[] = array(
+			"name" => "trash"
+		);
+		return $folders;
+	 }
+		 	 
 	 /**
 	  * send mail to recipient
 	  *

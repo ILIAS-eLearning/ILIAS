@@ -17,10 +17,27 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");
 
+$myMails = new UserMail($ilias->db, $ilias->account->Id);
+
 if ($_POST["msg_send"] != "")
 {
-	$myMails = new UserMail($ilias->db, $ilias->account->Id);
 	$myMails->sendMail($_POST["msg_to"], $_POST["msg_subject"], $_POST["msg_content"]);
+}
+
+if ($_GET["func"] != "")
+{
+	if ($_GET["id"] != "")
+	{
+		$mail = $myMails->getOneMail($_GET["id"]);
+		$subject = "RE: ".$mail["subject"];
+		$bodylines = explode("\n", $mail["body"]);
+		for ($i=0; $i<count($bodylines); $i++)
+		{
+			$bodylines[$i] = "> ".$bodylines[$i];
+		}
+		$body = implode("\n", $bodylines);
+		$rcp = $mail["from"];
+	}
 }
 
 $tpl->setVariable("ACTION", "mail_new.php");
@@ -40,6 +57,12 @@ $tpl->setVariable("TXT_URL_DESC", $lng->txt("url_description"));
 $tpl->setVariable("TXT_MSG_CONTENT", $lng->txt("message_content"));
 $tpl->setVariable("TXT_SEND", $lng->txt("send"));
 $tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
+
+//mail data
+$tpl->setVariable("RECIPIENT", $rcp);
+$tpl->setVariable("CONTENT", $body);
+$tpl->setVariable("SUBJECT", $subject);
+
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();

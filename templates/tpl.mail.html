@@ -24,6 +24,9 @@ function CheckAll(){
 
 <p>{MAIL_COUNT}&nbsp;{TXT_MAIL} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
 
+<table cellpadding=4 cellspacing=0 border=0 width="100%">
+<tr class="tblrow2">
+  <td>
 <table cellpadding=4 cellspacing=0 border=0>
 <tr class="tblrow2">
   <td><img src="./images/arrow_upright.gif" border=0 alt="{TXT_ARROW_UPRIGHT}"></td>
@@ -45,7 +48,23 @@ function CheckAll(){
 <!-- END mailmoveto -->	  
 	</select></font>
   </td>
-<!--  <td><input type=submit value="{TXT_EXECUTE}"></td> -->
+</tr>
+</table>
+	</td>
+	<td>
+<table cellpadding=4 cellspacing=0 border=0>
+<tr class="tblrow2">
+	<td align="right">{TXT_FOLDERS}
+	<select name="folder" onChange="submit()">
+<!-- BEGIN folder -->
+	   <option value="{FOLDER_VALUE}" {FOLDER_SELECTED}>{FOLDER_OPTION}</option>
+<!-- END folder -->	  
+	</select>
+	</td>
+</tr>
+</table>
+
+	</td>
 </tr>
 </table>
 

@@ -100,10 +100,10 @@ $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 
 
-$tplbtn->setVariable("BTN_LINK",".php");
+$tplbtn->setVariable("BTN_LINK","./admin.php");
 
 
-$tplbtn->setVariable("BTN_TXT", $lng->txt("refresh_list"));
+$tplbtn->setVariable("BTN_TXT", $lng->txt("back"));
 
 
 $tplbtn->parseCurrentBlock();
@@ -136,7 +136,7 @@ $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 
 
-$tplbtn->setVariable("BTN_LINK",".php");
+$tplbtn->setVariable("BTN_LINK","./adm_languages.php");
 
 
 $tplbtn->setVariable("BTN_TXT", $lng->txt("refresh"));
@@ -214,10 +214,10 @@ foreach ($langs as $row)
 	$tpl->setVariable("TITLE", $row["name"]);
 
 
-	$tpl->setVariable("STATUS", $lng->txt("installed"));
+	$tpl->setVariable("STATUS", $lng->txt($row["status"]));
 
 
-	$tpl->setVariable("LASTCHANGE", " ");
+	$tpl->setVariable("LASTCHANGE", $lng->fmtDateTime($row["lastchange"]));
 
 
 	$tpl->parseCurrentBlock();
