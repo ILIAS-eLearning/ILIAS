@@ -1400,6 +1400,23 @@ common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
+common#:#obj_auth#:#Authentifizierung
+common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
+common#:#auth_local#:#ILIAS Datenbank
+common#:#auth_remark_non_local_auth#:#Bei Authentifizierungsmethoden ausser Standard sind Benutzerlogin und -passwort nicht mehr änderbar und die OPtion zur Neuanmeldung ist deaktiviert.
+common#:#auth_ldap#:#LDAP
+common#:#auth_radius#:#RADIUS
+common#:#auth_script#:#Benutzerdefiniert
+common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
+common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
+common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
+common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
+common#:#auth_edit_permission#:#Rechteeinstellungen �ndern
+common#:#auth_visible#:#Authentifizierung ist sichtbar
+common#:#auth_read#:#Lesezugrif auf Authentifizierung
+common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
+common#:#auth_select#:#Authentifizierungsmethode wählen
+common#:#auth_configure#:#konfigurieren...
 common#:#obj_alm#:#AICC Lernmodul
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
