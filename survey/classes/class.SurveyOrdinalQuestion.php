@@ -311,6 +311,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
         $this->author = $data->author;
         $this->owner = $data->owner_fi;
         $this->questiontext = $data->questiontext;
+				$this->obligatory = $data->obligatory;
         $this->complete = $data->complete;
       }
       // loads materials uris from database
@@ -366,7 +367,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("0"),
         $this->ilias->db->quote("2"),
         $this->ilias->db->quote($this->ref_id),
@@ -375,6 +376,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
         $this->ilias->db->quote($this->description),
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($created)
       );
@@ -384,12 +386,13 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
         $this->ilias->db->quote($this->title),
 				$this->ilias->db->quote("0"),
         $this->ilias->db->quote($this->description),
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->questiontext),
+				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($this->id)
       );
