@@ -560,7 +560,7 @@ chat#:#chat_navy#:#bleu marine
 chat#:#chat_no_active_users#:#Pas d'utilisateurs présents
 chat#:#chat_no_connection#:#Impossible de contacter le serveur de chat
 chat#:#chat_no_delete_public#:#Le salon public ne peut pas être détruit
-chat#:#chat_no_refresh_public#:#Le salon public ne peut pas être rafraîchi
+chat#:#chat_no_refresh_public#:#Le salon public ne peut pas être actualisé
 chat#:#chat_no_rename_public#:#Le salon public ne peut pas être renommé
 chat#:#chat_no_write_perm#:#Pas de permission d'écriture
 chat#:#chat_olive#:#vert olive
@@ -569,7 +569,7 @@ chat#:#chat_private_message#:#Message privé
 chat#:#chat_public_room#:#Salon public
 chat#:#chat_purple#:#violet
 chat#:#chat_red#:#rouge
-chat#:#chat_refresh#:#Rafraîchir
+chat#:#chat_refresh#:#Actualiser
 chat#:#chat_room_added#:#Nouveau salon ajouté
 chat#:#chat_room_name#:#Nom du salon
 chat#:#chat_room_renamed#:#Salon renommé
@@ -634,7 +634,7 @@ common#:#administrate#:#Administrer
 common#:#administrate_users#:#Administration des utilisateurs locaux
 common#:#administration#:#Administration
 common#:#administrator#:#Administrateur
-common#:#adopt#:#Adopter
+common#:#adopt#:#Choisir
 common#:#adopt_perm_from_template#:#Adopter la permission à partir du modèle de rôle
 common#:#all_authors#:#Tous les auteurs
 common#:#all_global_roles#:#Rôles globaux
@@ -714,14 +714,14 @@ common#:#benchmark_settings#:#Paramètres des bancs d'essais
 common#:#benchmarks#:#Bancs d'essais
 common#:#bib_data#:#Données bibliographiques
 common#:#bm#:#Signet
-common#:#bmf#:#Répertoire de signets
-common#:#bookmark_edit#:#Modifier signet
-common#:#bookmark_folder_edit#:#Modifier répertoire de signets
-common#:#bookmark_folder_new#:#Nouveau répertoire de signets
-common#:#bookmark_new#:#Nouveau signet
+common#:#bmf#:#Répertoire de liens internet
+common#:#bookmark_edit#:#Modifier lien internet
+common#:#bookmark_folder_edit#:#Modifier répertoire de liens internet
+common#:#bookmark_folder_new#:#Nouveau répertoire de liens internet
+common#:#bookmark_new#:#Nouveau lien internet
 common#:#bookmark_target#:#Cible
-common#:#bookmarks#:#Signets
-common#:#bookmarks_of#:#Signets de
+common#:#bookmarks#:#Liens internet
+common#:#bookmarks_of#:#Liens internet de
 common#:#btn_remove_system#:#Supprimer du système
 common#:#btn_undelete#:#Restaurer
 common#:#by#:#par
@@ -1174,9 +1174,9 @@ common#:#group_req_password#:#Mot de passe d'abonnement requis
 common#:#group_req_registration#:#Abonnement requis
 common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous abonner.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez saisir un sujet pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.
 common#:#group_reset#:#Réinitialiser groupe
-common#:#group_status#:#Statut du groupe
+common#:#group_status#:#Visibilité du groupe
 common#:#group_status_closed#:#Privé
-common#:#group_status_desc#:#Détermine le statut initial du groupe en utilisant les paramètres de permission du modèle 'il_grp_status_closed' ou 'il_grp_status_open'<br/>Public : le groupe est visible ; les utilisateurs peuvent s'abonner.<br/>Privé : le groupe n'est pas visible pour les personnes extérieures au groupe ; les utilisateurs doivent être invités pour rejoindre le groupe.
+common#:#group_status_desc#:#Détermine la visibilité initiale du groupe en utilisant les paramètres de permission du modèle 'il_grp_status_closed' ou 'il_grp_status_open'<br/>Public : le groupe est visible ; les utilisateurs peuvent s'abonner.<br/>Privé : le groupe n'est pas visible pour les personnes extérieures au groupe ; les utilisateurs doivent être invités pour rejoindre le groupe.
 common#:#group_status_public#:#Public
 common#:#groups#:#Groupes
 common#:#groups_overview#:#Vue générale des groupes
@@ -1336,7 +1336,7 @@ common#:#ingmedia_visited_le#:#Tous les LE que vous avez visités jusqu'à maint
 common#:#ingmedia_welcome#:#, bienvenue sur votre bureau personnel !
 common#:#inifile#:#Fichier ini
 common#:#input_error#:#Erreur d'entrée
-common#:#insert#:#insérerion
+common#:#insert#:#insertion
 common#:#inst_id#:#Identifiant d'installation
 common#:#inst_info#:#Informations d'installation
 common#:#inst_name#:#Nom de l'installation
@@ -1633,7 +1633,7 @@ common#:#msg_user_last_role1#:#Les utilisateurs suivants n'ont assignés que ce 
 common#:#msg_user_last_role2#:#Veuillez détruire les utilisateurs ou leur assigner un autre rôle pour pouvoir détruire de rôle.
 common#:#msg_userassignment_changed#:#Assignation de l'utilisateur modifiée
 common#:#multimedia#:#Multimédia
-common#:#my_bms#:#Mes signets
+common#:#my_bms#:#Mes liens internet
 common#:#my_frms#:#Mes forums
 common#:#my_grps#:#Mes groupes
 common#:#my_los#:#Mes cours
@@ -1894,8 +1894,8 @@ common#:#recf_edit#:#Modifier répertoire de restauration
 common#:#recipient#:#Destinataire
 common#:#referral_comment#:#Comment avez-vous entendu parler d'ILIAS ?
 common#:#refresh#:#Rafraîchir
-common#:#refresh_languages#:#Rafraîchir langues
-common#:#refresh_list#:#Rafraîchir liste
+common#:#refresh_languages#:#Actualiser langues
+common#:#refresh_list#:#Actualiser liste
 common#:#refuse#:#Refuser
 common#:#register#:#S'enregistrer
 common#:#register_info#:#Veuillez remplir le formulaire pour vous abonner (les champs marqués par un astérisque sont des informations obligatoires)
@@ -2005,7 +2005,7 @@ common#:#salutation_m#:#M.
 common#:#save#:#Enregistrer
 common#:#save_and_back#:#Enregistrement et retour
 common#:#save_message#:#Enregistrer message
-common#:#save_refresh#:#Enregistrement et rafraîchissement
+common#:#save_refresh#:#Enregistrement et actualisation
 common#:#save_return#:#Enregistrement et retour
 common#:#save_settings#:#Enregistrer paramètres
 common#:#save_user_related_data#:#Enregistrer données relatives aux accès utilisateur
@@ -2138,7 +2138,7 @@ common#:#time_segment#:#Unité de temps
 common#:#title#:#Titre
 common#:#to#:#à
 common#:#to_client_list#:#Vers la sélection de client
-common#:#to_desktop#:#S'abonner
+common#:#to_desktop#:#Créer raccourci sur le bureau
 common#:#today#:#Aujourd'hui
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin des modèles
@@ -3115,7 +3115,7 @@ mail#:#search_cc_recipient#:#Rechercher destinataire en CC
 meta#:#meta_accessibility_restrictions#:#Restrictions d'accessibilité
 meta#:#meta_active#:#Actif
 meta#:#meta_add#:#Ajouter
-meta#:#meta_annotation#:#Annotation
+meta#:#meta_annotation#:#Annotations
 meta#:#meta_atomic#:#Atomique
 meta#:#meta_author#:#Auteur
 meta#:#meta_browser#:#Navigateur
@@ -3367,7 +3367,7 @@ meta#:#meta_competency#:#Compétence
 meta#:#meta_context#:#Contexte
 meta#:#meta_contribute#:#Contribuer
 meta#:#meta_copyright_and_other_restrictions#:#Droits d'auteur et autres restrictions
-meta#:#meta_cost#:#Coût
+meta#:#meta_cost#:#Payant
 meta#:#meta_coverage#:#Portée
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Supprimer
@@ -3378,7 +3378,7 @@ meta#:#meta_dificult#:#Difficile
 meta#:#meta_draft#:#Brouillon
 meta#:#meta_duration#:#Durée
 meta#:#meta_easy#:#Facile
-meta#:#meta_education#:#Education
+meta#:#meta_education#:#Pédagogie
 meta#:#meta_educational_level#:#Niveau pédagogique
 meta#:#meta_educational_objective#:#Objectif pédagogique
 meta#:#meta_entity#:#Entité
@@ -3558,7 +3558,7 @@ meta#:#meta_language#:#Langue
 meta#:#meta_learner#:#Apprenant
 meta#:#meta_learning_resource_type#:#Type de ressource d'apprentissage
 meta#:#meta_lecture#:#Lecture
-meta#:#meta_lifecycle#:#Cycle de vie
+meta#:#meta_lifecycle#:#Cycle
 meta#:#meta_linear#:#Linéaire
 meta#:#meta_local_file#:#Fichier local
 meta#:#meta_location#:#Emplacement
@@ -3577,7 +3577,7 @@ meta#:#meta_name#:#Nom
 meta#:#meta_narrative_text#:#Texte narratif
 meta#:#meta_networked#:#En réseau
 meta#:#meta_new_element#:#Nouvel élément
-meta#:#meta_no#:#Numéro
+meta#:#meta_no#:#Non
 meta#:#meta_no_annotation#:#Pas de méta-données disponibles pour la section Annotation.
 meta#:#meta_no_classification#:#Pas de méta-données disponibles pour la section Classification.
 meta#:#meta_no_educational#:#Pas de méta-données disponibles pour la section Pédagogie.
@@ -3600,7 +3600,7 @@ meta#:#meta_purpose#:#But
 meta#:#meta_questionnaire#:#Questionnaire
 meta#:#meta_reference#:#Référence
 meta#:#meta_references#:#Références
-meta#:#meta_relation#:#Relation
+meta#:#meta_relation#:#Relations
 meta#:#meta_requirement#:#Pré-requis
 meta#:#meta_requires#:#Nécessite
 meta#:#meta_resource#:#Ressource
@@ -3673,7 +3673,7 @@ payment#:#paya_header#:#Administration du paiement
 payment#:#paya_insert_only_numbers#:#Veuillez ne saisir que des entiers
 payment#:#paya_locator#:#Administration du paiement
 payment#:#paya_months#:#Mois
-payment#:#paya_no_booking_id_given#:#Erreur: pas aucun 'id de réservation' fourni
+payment#:#paya_no_booking_id_given#:#Erreur: aucun 'id de réservation' fourni
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
 payment#:#paya_no_object_selected#:#Veuillez sélectionner un objet
 payment#:#paya_no_objects_assigned#:#Il n'y a pas d'objet en vente
