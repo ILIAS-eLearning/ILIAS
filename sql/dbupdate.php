@@ -352,3 +352,6 @@ ALTER TABLE `rbac_fa` DROP PRIMARY KEY, ADD PRIMARY KEY (rol_id,parent);
 #tree tree shouldn't be unsigned, otherwise trash bin doesn't work
 ALTER TABLE `tree` CHANGE `tree` `tree` INT(10) DEFAULT '0' NOT NULL;
 
+<#15>
+#drop unnecessary col
+ALTER TABLE 'note_data' DROP last_update;
