@@ -2,6 +2,7 @@
 [server]
 tpl_path = ./templates
 lang_path = ./lang
+start = ./login.php
 
 [db]
 type = mysql
