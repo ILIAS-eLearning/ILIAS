@@ -127,7 +127,7 @@ assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
-assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
+assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_data#:#Evaluationsdaten
@@ -156,7 +156,7 @@ assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_source#:#Imagemap Quelltext
-assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
+assessment#:#import_question#:#Frage(n) importieren
 assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
@@ -314,20 +314,20 @@ assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle NutzerInnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
-assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
-assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
-assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
+assessment#:#tst_stat_result_mark_median#:#Dem Median zugeordnete Note
+assessment#:#tst_stat_result_median#:#Median der erzielten Punkte des Testergebnisses
 assessment#:#tst_stat_result_pworkedthrough#:#Prozentsatz (vollständig bearbeitet)
 assessment#:#tst_stat_result_qworkedthrough#:#Bereits bearbeitete Fragen
-assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
-assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
+assessment#:#tst_stat_result_rank_median#:#Dem Median zugeordneter Rang
+assessment#:#tst_stat_result_rank_participant#:#Rang der Teilnehmerin
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
-assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
+assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
 assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
@@ -1904,7 +1904,7 @@ common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
-common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
+common#:#uncheck_all#:#Alle Auswahlen entfernen
 common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
@@ -3601,7 +3601,7 @@ survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
-survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
