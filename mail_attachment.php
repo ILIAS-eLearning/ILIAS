@@ -29,60 +29,58 @@ infoPanel();
 // LOCATOR
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-if(isset($_POST["cmd"]))
+if(isset($_POST["cmd"]["submit"]))
 {
-	switch($_POST["cmd"])
+	switch($_POST["action"])
 	{
 		case "adopt":
 			$umail->saveAttachments($_POST["filename"]);
 			header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
 			exit();
 
-		case $lng->txt("upload"):
-			$mfile->storeUploadedFile($HTTP_POST_FILES['userfile']);
-			break;
-
 		case "cancel":
 			header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
-			exit();
+			exit;
 
 		case "delete":
-			if(isset($_POST["confirm"]))
+			if(!$_POST["filename"])
 			{
-				if(!$_POST["filename"])
-				{
-					sendInfo($lng->txt("mail_select_one_mail"));
-				}
-
-				else if($error = $mfile->unlinkFiles($_POST["filename"]))
-				{
-					sendInfo($lng->txt("mail_error_delete_file")." ".$error);
-				}
-				else
-				{
-					sendInfo($lng->txt("mail_files_deleted"));
-				}
-				break;
+				sendInfo($lng->txt("mail_select_one_file"));
+				$error_delete = true;
 			}
-			else if(!isset($_POST["cancel"]))
+			else
 			{
-				if(!$_POST["filename"])
-				{
-					sendInfo($lng->txt("mail_select_one_file"));
-					$error_delete = true;
-				}
-				else
-				{
-					sendInfo($lng->txt("mail_sure_delete_file"));
-				}
-			}
-			else if(isset($_POST["cancel"]))
-			{
-				header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
-				exit;
+				sendInfo($lng->txt("mail_sure_delete_file"));
 			}
 			break;
+	}
+}
 
+// UPLOAD FILE
+if(isset($_POST["cmd"]["upload"]))
+{
+	$mfile->storeUploadedFile($HTTP_POST_FILES['userfile']);
+}
+// CONFIRM CANCELED
+if(isset($_POST["cmd"]["cancel"]))
+{
+	header("location:mail_attachment.php?mobj_id=$_GET[mobj_id]");
+	exit;
+}
+// DELETE CONFIRMED
+if(isset($_POST["cmd"]["confirm"]))
+{
+	if(!$_POST["filename"])
+	{
+		sendInfo($lng->txt("mail_select_one_mail"));
+	}
+	else if($error = $mfile->unlinkFiles($_POST["filename"]))
+	{
+		sendInfo($lng->txt("mail_error_delete_file")." ".$error);
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_files_deleted"));
 	}
 }
 
@@ -93,7 +91,7 @@ $tpl->setVariable("ACTION","mail_attachment.php?mobj_id=$_GET[mobj_id]");
 $tpl->setVariable("UPLOAD","mail_attachment.php?mobj_id=$_GET[mobj_id]");
 
 // BEGIN CONFIRM_DELETE
-if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]))
+if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]))
 {
 	$tpl->setCurrentBlock("confirm_delete");
 	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));

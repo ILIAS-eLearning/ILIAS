@@ -7,8 +7,8 @@
 	  <table class="fullwidth">
 		  <tr>
 			<td class="std"  align="center" valign="top" height="30">
-			  <input class="submit" type="submit" name="confirm" value="{BUTTON_CONFIRM}">
-			  <input class="submit" type="submit" name="cancel" value="{BUTTON_CANCEL}">
+			  <input class="submit" type="submit" name="cmd[confirm]" value="{BUTTON_CONFIRM}">
+			  <input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}">
 			</td>
 		  </tr>
 	  </table>
@@ -50,12 +50,12 @@
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>
 			<td class="std"  colspan="4">
-			  <select name="cmd">
+			  <select name="action">
 				<!-- BEGIN actions -->
 				<option value="{ACTION_NAME}" {ACTION_SELECTED}>{ACTION_VALUE}</option>
 				<!-- END actions -->	  
 			  </select>
-			  <input class="submit" type="submit" name="action" value="{BUTTON_SUBMIT}">
+			  <input class="submit" type="submit" name="cmd[submit]" value="{BUTTON_SUBMIT}">
 			</td>
 		  </tr>
 	  </table>
@@ -65,7 +65,7 @@
 		  <td class="std"  align="left">
 			<form action="{UPLOAD}" method="POST" enctype="multipart/form-data">
 			  <input class="submit" type="file" name="userfile" />
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_UPLOAD}" />
+			  <input class="submit" type="submit" name="cmd[upload]" value="{BUTTON_UPLOAD}" />
 			</form>
 		  </td>
 		</tr>

@@ -24,64 +24,72 @@ infoPanel();
 
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-switch($_POST["cmd"])
+// ADD FOLDER cmd comes from mail.php or mail_options button
+if(isset($_POST["cmd"]["add"]) or $_GET["cmd"] == "add")
 {
-	case $lng->txt("rename"):
-		$tmp_data = $mbox->getFolderData($_GET["mobj_id"]);
-		if($tmp_data["title"] != $_POST["folder_name"])
+	if(empty($_POST['folder_name_add']))
+	{
+		sendInfo($lng->txt("mail_insert_folder_name"));
+	}
+	else if($mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
+	{
+		sendInfo($lng->txt("mail_folder_created"));
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_folder_exists"));
+	}
+}
+// RENAME FOLDER
+if(isset($_POST["cmd"]["rename"]))
+{
+	$tmp_data = $mbox->getFolderData($_GET["mobj_id"]);
+	if($tmp_data["title"] != $_POST["folder_name"])
+	{
+		if($mbox->renameFolder($_GET["mobj_id"],$_POST["folder_name"]))
 		{
-			if($mbox->renameFolder($_GET["mobj_id"],$_POST["folder_name"]))
-			{
-				sendInfo($lng->txt("mail_folder_name_changed"));
-			}
-			else
-			{
-				sendInfo($lng->txt("mail_folder_exists"));
-			}
-		}
-		break;
-	case $lng->txt("confirm"):
-		$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
-		if($mbox->deleteFolder($_GET["mobj_id"]))
-		{
-			sendInfo($lng->txt("mail_folder_deleted",true));
-			header("location: mail_options.php?mobj_id=".$new_parent);
-			exit();
-		}
-		else
-		{
-			sendInfo($lng->txt("mail_error_delete"));
-		}
-		break;
-
-	case $lng->txt("add"):
-		if(empty($_POST['folder_name_add']))
-		{
-			sendInfo($lng->txt("mail_insert_folder_name"));
-		}
-		else if($mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
-		{
-			sendInfo($lng->txt("mail_folder_created"));
+			sendInfo($lng->txt("mail_folder_name_changed"));
 		}
 		else
 		{
 			sendInfo($lng->txt("mail_folder_exists"));
 		}
-
-		break;
-	case $lng->txt("delete"):
-		sendInfo($lng->txt("mail_sure_delete_folder"));
-		break;
-
-	case $lng->txt("cancel"):
-		header("location: mail_options.php?mobj_id=".$_GET["mobj_id"]);
-		exit();
-		
-
-	case $lng->txt("save"):
-		$umail->updateOptions($_POST["signature"],$_POST["linebreak"]);
-		break;
+	}
 }
+// DELETE FOLDER ask for confirmation
+if(isset($_POST["cmd"]["delete"]))
+{
+	sendInfo($lng->txt("mail_sure_delete_folder"));
+}
+
+// DELETE FOLDER confirmed
+if(isset($_POST["cmd"]["confirm"]))
+{
+	$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
+	if($mbox->deleteFolder($_GET["mobj_id"]))
+	{
+		sendInfo($lng->txt("mail_folder_deleted",true));
+		header("location: mail_options.php?mobj_id=".$new_parent);
+		exit();
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_error_delete"));
+	}
+}
+// DELETEING CANCELED
+if(isset($_POST["cmd"]["cancel"]))
+{
+	header("location: mail_options.php?mobj_id=".$_GET["mobj_id"]);
+	exit();
+}
+
+// SAVE OPTIONS
+if(isset($_POST["cmd"]["save"]))
+{
+	$umail->updateOptions($_POST["signature"],$_POST["linebreak"]);
+}
+	
 
 // GET FOLDER DATA
 $folder_data = $mbox->getFolderData($_GET["mobj_id"]);
@@ -94,7 +102,7 @@ $tpl->setCurrentBlock("content");
 
 
 // CONFIRM DELETE
-if($_POST["cmd"] == $lng->txt("delete"))
+if(isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock("confirm");
 	$tpl->setVariable("TXT_DELETE_CONFIRM",$lng->txt("confirm"));
@@ -103,7 +111,7 @@ if($_POST["cmd"] == $lng->txt("delete"))
 }
 
 // FORM EDIT FOLDER
-if($folder_data["type"] == 'user_folder' and $_POST["cmd"] != $lng->txt("delete"))
+if($folder_data["type"] == 'user_folder' and !isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock('edit');
 	$tpl->setVariable("FOLDER_OPTIONS",$lng->txt("mail_folder_options"));
@@ -117,7 +125,7 @@ if($folder_data["type"] == 'user_folder' and $_POST["cmd"] != $lng->txt("delete"
 
 // FORM ADD FOLDER
 if(($folder_data["type"] == 'user_folder' or $folder_data["type"] == 'local') 
-	and $_POST["cmd"] != $lng->txt("delete"))
+	and !isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock('add');
 	$tpl->setVariable("TXT_NAME_ADD",$lng->txt("mail_folder_name"));
@@ -126,7 +134,7 @@ if(($folder_data["type"] == 'user_folder' or $folder_data["type"] == 'local')
 }
 
 // FORM GLOBAL OPTIONS
-if($_POST["cmd"] != $lng->txt("delete"))
+if(!isset($_POST["cmd"]["delete"]))
 {
 	$tpl->setCurrentBlock("options");
 

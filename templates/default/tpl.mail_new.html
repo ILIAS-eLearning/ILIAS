@@ -16,9 +16,9 @@
 		  <TR>
 			<TD CLASS="STD"  ALIGN=right>&nbsp;</TD>
 			<td class="std" >
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_SEARCH_SYSTEM}"/>
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_SEARCH_ADDRESSBOOK}"/>
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_CANCEL}"/>
+			  <input class="submit" type="submit" name="cmd[search_system]" value="{BUTTON_SEARCH_SYSTEM}"/>
+			  <input class="submit" type="submit" name="cmd[search_addr]" value="{BUTTON_SEARCH_ADDRESSBOOK}"/>
+			  <input class="submit" type="submit" name="cmd[search_cancel]" value="{BUTTON_CANCEL}"/>
 			</TD>
 		  </TR>
 		  <!-- END search -->
@@ -26,21 +26,21 @@
 			<TD CLASS="STD"  ALIGN=right>{TXT_RECIPIENT}</a></TD>
 			<td class="std" >
 			  <input name="rcp_to" value="{RCP_TO}" SIZE="50" width="80%"/>
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_TO}"/>
+			  <input class="submit" type="submit" name="cmd[rcp_to]" value="{BUTTON_TO}"/>
 			</TD>
 		  </TR>
 		  <TR>
 			<TD CLASS="STD"  ALIGN=right>{TXT_CC}</a></TD>
 			<td class="std">
 			  <INPUT name="rcp_cc" value="{RCP_CC}" SIZE="50" width="80%"/>
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_CC}"/>
+			  <input class="submit" type="submit" name="cmd[rcp_cc]" value="{BUTTON_CC}"/>
 			</TD>
 		  </TR>
 		  <TR>
 			<TD CLASS="STD"  ALIGN=right>{TXT_BC}</a></TD>
 			<TD CLASS="STD" >
 			  <INPUT name="rcp_bcc" value="{RCP_BCC}" SIZE=50 width="80%"/>
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_BC}"/>
+			  <input class="submit" type="submit" name="cmd[rcp_bc]" value="{BUTTON_BC}"/>
 			</TD>
 		  </TR>
 		  <TR>
@@ -72,7 +72,7 @@
 			  <input type="hidden" name="attachments[]" value="{ATTACHMENTS}"/>
 			  <!-- END hidden -->
 			  <!-- END files -->
-			  <input class="submit" type="submit" name="cmd" value="{BUTTON_EDIT}"/>
+			  <input class="submit" type="submit" name="cmd[edit]" value="{BUTTON_EDIT}"/>
 			</td>
 		  </TR>
 		  <TR>
@@ -81,8 +81,8 @@
 		  </TR>
 		  <TR>
 			<td class="std" >&nbsp;</td>
-			<TD CLASS="STD" ><input class="submit" type="submit" name="cmd" value="{TXT_SEND}"/>&nbsp;
-			  <input class="submit" type="submit" name="cmd" value="{TXT_MSG_SAVE}"/></TD>
+			<TD CLASS="STD" ><input class="submit" type="submit" name="cmd[send]" value="{TXT_SEND}"/>&nbsp;
+			  <input class="submit" type="submit" name="cmd[save_message]" value="{TXT_MSG_SAVE}"/></TD>
 		  </TR>
 	  </table>
     </FORM>

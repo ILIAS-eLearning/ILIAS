@@ -41,18 +41,14 @@ if($_GET["type"] == 'add')
 	sendInfo($lng->txt("mail_entry_added"));
 }
 // ACTIONS
-if(isset($_POST["cmd"]))
+if(isset($_POST["cmd"]["submit"]))
 {
-	switch($_POST["cmd"])
+	switch($_POST["action"])
 	{
-
-		case "cancel":
-			header("location:mail_addressbook.php?mobj_id=$_GET[mobj_id]");
-			exit();
-
 		case 'edit':
 			if(!is_array($_POST["entry_id"]))
 			{
+				unset($_POST["action"]);
 				sendInfo($lng->txt("mail_select_one_entry"));
 			}
 			else
@@ -62,24 +58,6 @@ if(isset($_POST["cmd"]))
 			}
 			break;
 		case 'delete':
-			if(isset($_POST["confirm"]))
-			{
-				if(!is_array($_POST["entry_id"]))
-				{
-					sendInfo($lng->txt("mail_select_one_entry"));
-				}
-				else if($abook->deleteEntries($_POST["entry_id"]))
-				{
-					sendInfo($lng->txt("mail_deleted_entry"));
-				}
-				else
-				{
-					sendInfo($lng->txt("mail_delete_error"));
-				}
-				break;
-			}
-			else if(!isset($_POST["cancel"]))
-			{ 
 				if(!is_array($_POST["entry_id"]))
 				{
 					sendInfo($lng->txt("mail_select_one_entry"));
@@ -89,46 +67,65 @@ if(isset($_POST["cmd"]))
 				{
 					sendInfo($lng->txt("mail_sure_delete_entry"));
 				}
-			}
-			else if(isset($_POST["cancel"]))
-			{
-				header("location: mail_addressbook.php?mobj_id=$_GET[mobj_id]");
-				exit;
-			}
-			break;
-
-		case $lng->txt("change"):
-			if(!is_array($_POST["entry_id"]))
-			{
-				sendInfo($lng->txt("mail_select_one"));
-			}
-			else
-			{
-				$abook->updateEntry($_POST["entry_id"][0],
-									$_POST["login"],
-									$_POST["firstname"],
-									$_POST["lastname"],
-									$_POST["email"]);
-				unset($_POST["entry_id"]);
-				sendInfo($lng->txt("mail_entry_changed"));
-			}
-			break;
-
-		case $lng->txt("add"):
-			$abook->addEntry($_POST["login"],
-							 $_POST["firstname"],
-							 $_POST["lastname"],
-							 $_POST["email"]);
-			sendInfo($lng->txt("mail_entry_added"));
 	}
 }
+// CHANGE ENTRY DATA
+if(isset($_POST["cmd"]["change"]))
+{
+	if(!is_array($_POST["entry_id"]))
+	{
+		sendInfo($lng->txt("mail_select_one"));
+	}
+	else
+	{
+		$abook->updateEntry($_POST["entry_id"][0],
+							$_POST["login"],
+							$_POST["firstname"],
+							$_POST["lastname"],
+							$_POST["email"]);
+		unset($_POST["entry_id"]);
+		sendInfo($lng->txt("mail_entry_changed"));
+	}
+}	
+// CANCEL CONFIRM DELETE
+if(isset($_POST["cmd"]["cancel"]))
+{
+	header("location:mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+	exit();
+}
 
+// ADD NEW ENTRY
+if(isset($_POST["cmd"]["add"]))
+{
+	$abook->addEntry($_POST["login"],
+					 $_POST["firstname"],
+					 $_POST["lastname"],
+					 $_POST["email"]);
+	sendInfo($lng->txt("mail_entry_added"));
+}
+
+// CONFIRM DELETE
+if(isset($_POST["cmd"]["confirm"]))
+{
+	if(!is_array($_POST["entry_id"]))
+	{
+		sendInfo($lng->txt("mail_select_one_entry"));
+	}
+	else if($abook->deleteEntries($_POST["entry_id"]))
+	{
+		sendInfo($lng->txt("mail_deleted_entry"));
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_delete_error"));
+	}
+}
 
 $tpl->setVariable("ACTION","mail_addressbook.php?mobj_id=$_GET[mobj_id]");
 $tpl->setVariable("TXT_ENTRIES",$lng->txt("mail_addr_entries"));
 
 // CASE CONFIRM DELETE
-if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]))
+if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]))
 {
 	$tpl->setCurrentBlock("confirm_delete");
 	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
@@ -226,7 +223,9 @@ $tpl->setVariable("HEADER_EMAIL",$lng->txt("email"));
 $tpl->setVariable("VALUE_EMAIL",$data["email"]);
 
 // SUBMIT VALUE DEPENDS ON $_POST["cmd"]
-$tpl->setVariable("BUTTON_EDIT_ADD",$_POST["cmd"] == 'edit' ? $lng->txt("change") : $lng->txt("add"));
+
+$tpl->setVariable("BUTTON_EDIT_ADD",(($_POST["action"] == "edit") and $_POST["cmd"]["submit"]) ? $lng->txt("change") : $lng->txt("add"));
+$tpl->setVariable("BUTTON_EDIT_ADD_NAME",(($_POST["action"] == "edit") and $_POST["cmd"]["submit"]) ? "cmd[change]" : "cmd[add]");
 
 $tpl->show();
 ?>
