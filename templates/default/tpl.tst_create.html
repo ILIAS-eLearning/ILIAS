@@ -47,8 +47,25 @@
 		<input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
 	</td>
 </tr>
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_DUPLICATE_TST}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_TST}</td>
+	<td class="option_value">
+	<select name="tst">
+	<option value="-1">{OPTION_SELECT_TST}</option>
+<!-- BEGIN option_tst -->	
+	<option value="{OPTION_VALUE_TST}"{OPTION_SELECTED_TST}>{TXT_OPTION_TST}</option>
+<!-- END option_tst -->	
+	</select>
+	</td>
+</tr>
+<tr>
+	<td class="submit" align="right" colspan="2">
+		<input class="submit" type="submit" name="cmd[clone]" value="{TXT_DUPLICATE}" />
+	</td>
+</tr>
 </table>
 </form>
 
-
-</form>

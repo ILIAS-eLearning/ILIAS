@@ -100,7 +100,6 @@ class ilMetaData
 
 		$this->nested_obj =& new ilNestedSetXML();
 		$this->nested_obj->init($this->getID(), $this->getType());
-
 		return $this->nested_obj->initDom();
 	}
 
@@ -171,7 +170,6 @@ class ilMetaData
 			</MetaData>
 		';
 		$this->nested_obj->import($xml, $this->getID(), $this->getType());
-
 		return $metaData;
 	}
 

@@ -3324,6 +3324,11 @@ class ilRepositoryGUI
 		$this->executeAdminCommand();
 	}
 
+	function clone()
+	{
+		$this->executeAdminCommand();
+	}
+
 	function import()
 	{
 		$this->executeAdminCommand();

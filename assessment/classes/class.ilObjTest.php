@@ -117,15 +117,6 @@ class ilObjTest extends ilObject
   var $mark_schema;
 
 /**
-* Contains the session settings of the test
-* 
-* Contains the session settings of the test
-*
-* @var object
-*/
-  var $session_sessings;
-  
-/**
 * Defines the sequence settings for the test user
 * 
 * Defines the sequence settings for the test user. There are two values:
@@ -1236,9 +1227,9 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Gets the sequence settings
+* Gets the test formats
 * 
-* Gets the sequence settings
+* Gets the test formats
 *
 * @return integer The test formats of the ilObjTest object
 * @access public
@@ -2527,6 +2518,7 @@ class ilObjTest extends ilObject
 		}
 		return $forbidden_pools;
 	}
+
 /**
 * Returns the available question pools for the active user
 * 
@@ -2540,7 +2532,7 @@ class ilObjTest extends ilObject
 		global $rbacsystem;
 		
 		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
@@ -3793,5 +3785,103 @@ class ilObjTest extends ilObject
 		parent::update();
 	}
 	
+/**
+* Returns the available question pools for the active user
+* 
+* Returns the available question pools for the active user
+*
+* @return array The available question pools
+* @access public
+*/
+	function &_getAvailableTests($use_object_id = false)
+	{
+		global $rbacsystem;
+		global $ilDB;
+		
+		$result_array = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'tst' ORDER BY object_data.title";
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+			{
+				if ($use_object_id)
+				{
+					$result_array[$row->obj_id] = $row->title;
+				}
+				else
+				{
+					$result_array[$row->ref_id] = $row->title;
+				}
+			}
+		}
+		return $result_array;
+	}
+
+/**
+* Creates a 1:1 copy of the object and places the copy in a given repository
+* 
+* Creates a 1:1 copy of the object and places the copy in a given repository
+*
+* @access public
+*/
+	function _clone($obj_id)
+	{
+		$original = new ilObjTest($obj_id, false);
+		$original->loadFromDb();
+		
+		$newObj = new ilObjTest();
+		$newObj->setType("tst");
+		$newObj->setTitle($original->getTitle());
+		$newObj->setDescription($original->getDescription());
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+//		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		
+		$newObj->$author = $original->getAuthor();
+		$newObj->introduction = $original->getIntroduction();
+		$newObj->mark_schema = $original->mark_schema;
+		$newObj->sequence_settings = $original->getSequenceSettings();
+		$newObj->score_reporting = $original->getScoreReporting();
+		$newObj->reporting_date = $original->getReportingDate();
+		$newObj->test_type = $original->getTestType();
+		$newObj->test_formats = $original->getTestFormats();
+		$newObj->nr_of_tries = $original->getNrOfTries();
+		$newObj->processing_time = $original->getProcessingTime();
+		$newObj->enable_processing_time = $original->getEnableProcessingTime();
+		$newObj->starting_time = $original->getStartingTime();
+		$newObj->ending_time = $original->getEndingTime();
+		$newObj->ects_output = $original->ects_output;
+		$newObj->ects_fx = $original->ects_fx;
+		$newObj->ects_grades = $original->ects_grades;
+
+		// clone the questions
+		foreach ($original->questions as $key => $question_id)
+		{
+			$question = ilObjTest::_instanciateQuestion($question_id);
+			$question->id = -1;
+			$original_id = ASS_Question::_getOriginalId($question_id);
+			$question->saveToDb($original_id);
+			$newObj->questions[$key] = $question->getId();
+		}
+
+		$newObj->saveToDb();		
+
+		// clone meta data
+		$meta_data =& new ilMetaData($original->getType(), $original->getId());
+		include_once("./classes/class.ilNestedSetXML.php");
+		$nested = new ilNestedSetXML();
+		$nested->dom = domxml_open_mem($meta_data->nested_obj->dom->dump_mem(0));
+		$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+		if (is_array($nodes))
+		{
+			$nodes[0]["Entry"] = "il__" . $newObj->getType() . "_" . $newObj->getId();
+			$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+		}
+		$xml = $nested->dom->dump_mem(0);
+		$nested->import($xml, $newObj->getId(), $newObj->getType());
+	}
 } // END class.ilObjTest
 ?>
