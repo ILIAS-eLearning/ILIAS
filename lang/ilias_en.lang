@@ -1228,6 +1228,7 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
+content#:#cont_Additional#:#Additional
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_add_area#:#Add Area
