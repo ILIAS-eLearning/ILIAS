@@ -429,6 +429,12 @@ class ilLinkChecker
 
 		foreach($a_links as $link)
 		{
+			if(!@gethostbyname($link['host']))
+			{
+				$invalid[] = $link;
+				continue;
+			}
+
 			if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
 			{
 				continue;
