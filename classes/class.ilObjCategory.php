@@ -49,31 +49,6 @@ class ilObjCategory extends ilObject
 	}
 	
 	/**
-	* read object data from db into object
-	* @param	boolean
-	* @access	public
-	*/
-	function read($a_force_db = false)
-	{
-		parent::read();
-		
-		// multilingual support for categories
-		$q = "SELECT title,description FROM object_translation ".
-			 "WHERE obj_id= ".$this->getId()." ".
-			 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
-			 "AND NOT lang_default = 1";
-		$r = $this->ilias->db->query($q);
-			
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		if ($row)
-		{
-			$this->title = $row->title;
-			$this->desc = $row->description;
-		}
-	}
-
-	/**
 	* copy all properties and subobjects of a category.
 	* 
 	* @access	public

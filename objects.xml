@@ -1,11 +1,10 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE objects SYSTEM "./objects.dtd">
 <objects xmlns="http://www.w3.org" version="$Id$">
-<object name="root" class_name="RootFolder" checkbox="0" inherit="0">
+<object name="root" class_name="RootFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="cat">cat</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
@@ -16,18 +15,17 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="adm" class_name="SystemFolder" checkbox="0" inherit="0">
+<object name="adm" class_name="SystemFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="usrf" max="1">usrf</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="objf" max="1">objf</subobj>
 	<subobj name="lngf" max="1">lngf</subobj>
 	<subobj name="mail" max="1">mail</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="cat" class_name="Category" checkbox="1" inherit="1">
+<object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
@@ -36,7 +34,7 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
-    <subobj name="dbk" max="1">dbk</subobj>
+    	<subobj name="dbk" max="1">dbk</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -49,7 +47,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="dbk" class_name="DlBook" module="content" checkbox="1" inherit="1">
+<object name="dbk" class_name="DlBook" module="content" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="view">subobjects</property>
@@ -60,7 +58,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="dlib" class_name="Digilib" checkbox="1" inherit="1">
+<object name="dlib" class_name="Digilib" checkbox="1" inherit="1" translate="0">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm">lm</subobj>
@@ -79,7 +77,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="crs" class_name="Course" checkbox="1" inherit="1">
+<object name="crs" class_name="Course" checkbox="1" inherit="1" translate="0">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -96,7 +94,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="fold" class_name="Folder" checkbox="0" inherit="0">
+<object name="fold" class_name="Folder" checkbox="0" inherit="0" translate="0">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="crs">crs</subobj>
@@ -110,7 +108,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="frm" class_name="Forum" checkbox="1" inherit="1">
+<object name="frm" class_name="Forum" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -123,7 +121,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="grp" class_name="Group" checkbox="1" inherit="1">
+<object name="grp" class_name="Group" checkbox="1" inherit="1" translate="0">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
@@ -145,7 +143,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1">
+<object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="view">subobjects</property>
@@ -156,14 +154,14 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1">
+<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="glo" class_name="Glossary" module="content" checkbox="1" inherit="1">
+<object name="glo" class_name="Glossary" module="content" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listTerms" module="1">cont_terms</property>
 	<property name="view">view_content</property>
@@ -171,14 +169,13 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="lng" class_name="Language" checkbox="1">
+<object name="lng" class_name="Language" checkbox="1" translate="0">
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="lngf" class_name="LanguageFolder" checkbox="0" inherit="0">
+<object name="lngf" class_name="LanguageFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="lng">lng</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="install">install</action>
@@ -186,60 +183,56 @@
 	<action name="setSystemLanguage">setSystemLanguage</action>
 	<action name="setUserLanguage">setUserLanguage</action>
 </object>
-<object name="mail" class_name="Mail" checkbox="0" inherit="0">
+<object name="mail" class_name="Mail" checkbox="0" inherit="0" translate="sys">
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="objf" class_name="ObjectFolder" checkbox="0" inherit="0">
+<object name="objf" class_name="ObjectFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="typ">typ</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="role" class_name="Role" checkbox="1" inherit="0">
+<object name="role" class_name="Role" checkbox="1" inherit="0" translate="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="userassignment">user_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="rolf" class_name="RoleFolder" checkbox="0" inherit="0">
+<object name="rolf" class_name="RoleFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="rolt">rolt</subobj>
 	<subobj name="role">role</subobj>
 	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+</object>
+<object name="rolt" class_name="RoleTemplate" checkbox="1" inherit="0" translate="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="rolt" class_name="RoleTemplate" checkbox="1" inherit="0">
-	<property name="edit">edit_properties</property>
-	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
-</object>
-<object name="typ" class_name="TypeDefinition" checkbox="0" inherit="0">
+<object name="typ" class_name="TypeDefinition" checkbox="0" inherit="0" translate="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_operations</property>
 </object>
-<object name="usr" class_name="User" checkbox="1" inherit="0">
+<object name="usr" class_name="User" checkbox="1" inherit="0" translate="0">
 	<subobj name="favf" max="1">favf</subobj>
 	<subobj name="datf" max="1">datf</subobj>
 	<property name="edit">edit_properties</property>
 	<property name="roleassignment">role_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="usrf" class_name="UserFolder" checkbox="0" inherit="0">
+<object name="usrf" class_name="UserFolder" checkbox="0" inherit="0" translate="sys">
 	<subobj name="usr">usr</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="datf" class_name="DateFolder" checkbox="0" inherit="0">
+<object name="datf" class_name="DateFolder" checkbox="0" inherit="0" translate="0">
 	<subobj name="dat">dat</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -247,13 +240,13 @@
 	<action name="add_date">add_date</action>
 	<action name="delete_date">delete_date</action>
 </object>
-<object name="dat" class_name="Date"  checkbox="1" inherit="0">
+<object name="dat" class_name="Date"  checkbox="1" inherit="0" translate="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<action name="delete_date">delete_date</action>
 </object>
-<object name="notf" class_name="NoteFolder" checkbox="0" inherit="0">
+<object name="notf" class_name="NoteFolder" checkbox="0" inherit="0" translate="0">
 	<subobj name="note">note</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -261,18 +254,18 @@
 	<action name="add_note">add_note</action>
 	<action name="delete_note">delete_note</action>
 </object>
-<object name="note" class_name="Note" checkbox="1" inherit="0">
+<object name="note" class_name="Note" checkbox="1" inherit="0" translate="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<action name="delete_note">delete_note</action>
 </object>
-<object name="bmf" class_name="BookmarkFolder" checkbox="1" inherit="0">
+<object name="bmf" class_name="BookmarkFolder" checkbox="1" inherit="0" translate="0">
 	<subobj name="bmf">bmf</subobj>
 	<subobj name="bm">bm</subobj>
 	<action name="delete">delete</action>
 </object>
-<object name="bm" class_name="Bookmark" checkbox="1" inherit="0">
+<object name="bm" class_name="Bookmark" checkbox="1" inherit="0" translate="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
@@ -292,7 +285,7 @@
 	<property name="edit_meta">meta_data</property>
 	<subobj name="par">par</subobj>
 </object>
-<object name="sty" class_name="StyleSheet" checkbox="1" inherit="0">
+<object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0">
 	<property name="view">cont_content</property>
 </object>
 </objects>

@@ -816,12 +816,21 @@ class ilTree
 	*/
 	function fetchNodeData($a_row)
 	{
+		global $objDefinition, $lng;
+		
 		$data = $a_row;
-
 		$data["desc"] = $a_row["description"];
 
-		// multilingual support for categories
-		if ($data["type"] == "cat")
+		// multilingual support systemobjects (sys) & categories (db)
+		$translation_type = $objDefinition->getTranslationType($data["type"]);
+		
+		if ($translation_type == "sys")
+		{
+			$data["title"] = $lng->txt("obj_".$data["type"]);
+			$data["description"] = $lng->txt("obj_".$data["type"]."_desc");
+			$data["desc"] = $lng->txt("obj_".$data["type"]."_desc");
+		}
+		elseif ($translation_type == "db")
 		{
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$data["obj_id"]." ".
