@@ -133,7 +133,7 @@ class ilSCORMPresentationGUI
 	{
 //echo "expl2";
 		$this->tpl = new ilTemplate("tpl.scorm_exp_main.html", true, true, true);
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
+		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		require_once("./content/classes/SCORM/class.ilSCORMExplorer.php");
 		$exp = new ilSCORMExplorer("scorm_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
 		$exp->setTargetGet("obj_id");

@@ -143,7 +143,7 @@ public	class IliasApiAdapterApplet
 
 	public	void IliasSetValue (String l, String r) {
 		System.out.println ("IliasSetValue("+l+"="+r+")");
-		sysPut (l, r);
+		if (l != null && r != null) sysPut (l, r);
 	}
 
 	private void IliasStoreCmi () {
