@@ -268,6 +268,12 @@ class ilMainMenuGUI
 	// STATIC
 	function _checkAdministrationPermission()
 	{
+		global $rbacsystem;
+
+		if($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
+		{
+			return true;
+		}
 		// Allow all local admins to use the administration
 		return count(ilUtil::getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
 	}
