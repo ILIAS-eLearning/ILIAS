@@ -182,6 +182,7 @@ class ilPageObject extends ilLMObject
 
 	function &getContentObject($a_hier_id)
 	{
+//echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
 //echo "ilPageObject::getContentObject:hierid:".$a_hier_id.":<br>";
 		$cont_node =& $this->getContentNode($a_hier_id);
 //echo "ilPageObject::getContentObject:nodename:".$cont_node->node_name().":<br>";
@@ -207,7 +208,8 @@ class ilPageObject extends ilLMObject
 
 					case "MediaObject":
 						require_once("content/classes/class.ilMediaObject.php");
-						$mob =& new ilMediaObject($child_node->get_attribute("Id"));
+						$mal_node =& $child_node->first_child();
+						$mob =& new ilMediaObject($mal_node->get_attribute("OriginId"));
 						$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
@@ -390,7 +392,7 @@ class ilPageObject extends ilLMObject
         
         $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id='".$_GET["ref_id"]."' ");
         $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-        
+
         include_once("./classes/class.ilNestedSetXML.php");
         $nested = new ilNestedSetXML();
         $bibs_xml = $nested->export($row["obj_id"], "bib");
@@ -578,7 +580,7 @@ class ilPageObject extends ilLMObject
 	*/
 	function update($a_validate = true)
 	{
-//echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
+//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		// test validating
 		if($a_validate)
 		{

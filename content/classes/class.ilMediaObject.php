@@ -88,6 +88,31 @@ class ilMediaObject extends ilObjMediaObject
 				return $this->media_items[$i];
 			}
 		}
+		return false;
+	}
+
+	function getMediaItemNr($a_purpose)
+	{
+		for($i=0; $i<count($this->media_items); $i++)
+		{
+			if($this->media_items[$i]->getPurpose() == $a_purpose)
+			{
+				return $i + 1;
+			}
+		}
+		return false;
+	}
+
+	function hasFullscreenItem()
+	{
+		if(is_object($this->getMediaItem("Fullscreen")))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -121,7 +146,6 @@ class ilMediaObject extends ilObjMediaObject
 
 			$this->addMediaItem($media_item);
 		}
-
 
 		// get meta data
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
@@ -448,112 +472,36 @@ class ilMediaObject extends ilObjMediaObject
 			$cap_node->set_attribute("Align", "bottom");
 			$cap_node->set_content($media_item->getCaption());
 		}
-	}
 
-
-	/**
-	* set alignment of mob in dom
-	*/
-	function setHorizontalAlign($a_align)
-	{
-		//$this->setHAlign($a_align);		// this is the object, we are setting alias
-
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		// fullscreen view
+		$fullscreen_item =& $this->getMediaItem("Fullscreen");
+		if (is_object($fullscreen_item))
 		{
-			$layout_node =& $res->nodeset[0];
-			$layout_node->set_attribute("HorizontalAlign", $a_align);
-		}
-	}
+			$item_node =& $this->dom->create_element("MediaItem");
+			$item_node =& $this->mob_node->append_child($item_node);
+			$item_node->set_attribute("Purpose", "Fullscreen");
 
-	function setAliasWidth($a_width)
-	{
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$layout_node =& $res->nodeset[0];
-			$layout_node->set_attribute("Width", $a_width);
-		}
-	}
-
-	function getAliasWidth()
-	{
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$layout_node =& $res->nodeset[0];
-			return $layout_node->get_attribute("Width");
-		}
-	}
-
-	function setAliasHeight($a_height)
-	{
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$layout_node =& $res->nodeset[0];
-			$layout_node->set_attribute("Height", $a_height);
-		}
-	}
-
-	function getAliasHeight()
-	{
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$layout_node =& $res->nodeset[0];
-			return $layout_node->get_attribute("Height");
-		}
-	}
-
-	function setAliasCaption($a_caption)
-	{
-		// get MediaItem node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$item_node =& $res->nodeset[0];
-			if ($a_caption != "")
+			// width and height
+			$layout_node =& $this->dom->create_element("Layout");
+			$layout_node =& $item_node->append_child($layout_node);
+			if ($fullscreen_item->getWidth() > 0)
 			{
-				ilDOMUtil::setFirstOptionalElement($this->dom, $item_node, "Caption",
-					array("Parameter", "MapArea"), $a_caption,
-					array("Align" => "bottom"));
+				$layout_node->set_attribute("Width", $fullscreen_item->getWidth());
 			}
-			else
+			if ($fullscreen_item->getHeight() > 0)
 			{
-				ilDOMUtil::deleteAllChildsByName($item_node, array("Caption"));
+				$layout_node->set_attribute("Height", $fullscreen_item->getHeight());
 			}
-		}
-	}
 
+			// caption
+			if ($media_item->getCaption() != "")
+			{
+				$cap_node =& $this->dom->create_element("Caption");
+				$cap_node =& $item_node->append_child($cap_node);
+				$cap_node->set_attribute("Align", "bottom");
+				$cap_node->set_content($media_item->getCaption());
+			}
 
-	function getAliasCaption()
-	{
-		// get Layout node
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Caption[1]";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
-		{
-			$cap_node =& $res->nodeset[0];
-			return $cap_node->get_content();
 		}
 	}
 
