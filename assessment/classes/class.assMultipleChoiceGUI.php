@@ -819,6 +819,18 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	
 	function addSuggestedSolution()
 	{
+		if ($_POST["cmd"]["addSuggestedSolution"])
+		{
+			$this->writePostData();
+			if (!$this->checkInput())
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				$this->editQuestion();
+				return;
+			}
+		}
+		$this->object->saveToDb();
+		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{

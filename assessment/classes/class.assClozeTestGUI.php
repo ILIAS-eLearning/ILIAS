@@ -263,7 +263,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		// Delete all existing gaps and create new gaps from the form data
 		$this->object->flush_gaps();
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
+		if (!$this->checkInput())
 		{
 			$result = 1;
 		}
@@ -652,8 +652,33 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		}
 	}
 
+	/**
+	* check input fields
+	*/
+	function checkInput()
+	{
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
+		{
+			return false;
+		}
+		return true;
+	}
+
+
 	function addSuggestedSolution()
 	{
+		if ($_POST["cmd"]["addSuggestedSolution"])
+		{
+			$this->writePostData();
+			if (!$this->checkInput())
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				$this->editQuestion();
+				return;
+			}
+		}
+		$this->object->saveToDb();
+		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
 		parent::addSuggestedSolution();

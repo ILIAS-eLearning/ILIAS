@@ -466,7 +466,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		}
 		else
 		{
-			if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+			if (!$this->checkInput())
 			{
 				$result = 1;
 			}
@@ -653,9 +653,32 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	{
 	}
 	
+	/**
+	* check input fields
+	*/
+	function checkInput()
+	{
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		{
+			return false;
+		}
+		return true;
+	}
 
 	function addSuggestedSolution()
 	{
+		if ($_POST["cmd"]["addSuggestedSolution"])
+		{
+			$this->writePostData();
+			if (!$this->checkInput())
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				$this->editQuestion();
+				return;
+			}
+		}
+		$this->object->saveToDb();
+		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_imagemap");
 		parent::addSuggestedSolution();
