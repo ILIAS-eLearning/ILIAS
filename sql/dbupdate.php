@@ -77,3 +77,20 @@ UPDATE usr_data SET
 login='root', 
 passwd='dfa8327f5bfa4c672a04f9b38e348a70' 
 WHERE usr_id='6';
+
+<#4>
+# change column in `frm_data`
+ALTER TABLE `frm_data` CHANGE `top_last_modified` `top_date` DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+
+# new column in `frm_data`
+ALTER TABLE `frm_data` ADD `top_update` DATETIME NOT NULL;
+
+# new column in `frm_data`
+ALTER TABLE `frm_data` ADD `update_user` INT NOT NULL ;
+
+# new column in `frm_data`
+ALTER TABLE `frm_data` ADD `top_usr_id` BIGINT( 20 ) NOT NULL ;
+
+# delete column in `frm_threads`
+ALTER TABLE `frm_threads` DROP `thr_last_modified`;
+
