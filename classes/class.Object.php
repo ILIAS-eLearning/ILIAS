@@ -418,7 +418,7 @@ class Object
 		}
 		$tree = new Tree($a_id,1,1);
 		$tree->getPathFull();
-		return showPath($tree->Path,"content.php");
+		return $tree->showPath($tree->Path,"content.php");
 	}
 	function getParentRoleIds()
 	{
@@ -426,7 +426,7 @@ class Object
 
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 
-		$pathIds  = $tree->showPathId($_GET["obj_id"],1);
+		$pathIds  = $tree->getPathId($_GET["obj_id"],1);
 		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
 		return $rbacadmin->getParentRoles($pathIds);
 	}
