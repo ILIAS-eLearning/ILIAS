@@ -68,7 +68,13 @@ class IniFile
 		}
 		
 		$this->INI_FILE_NAME = $iniFileName;
-		
+
+
+    return true;
+    }
+    
+    function read()
+    {
         //check if file exists
 		if(!file_exists($iniFileName))
 		{
@@ -133,7 +139,7 @@ class IniFile
 	 * save ini-file-data
 	 * @access private
 	 */
-    function save()
+    function write()
     {
     	$fp = @fopen($this->INI_FILE_NAME,"w");
     	
@@ -164,6 +170,8 @@ class IniFile
     	}
     	
     	fclose($fp);
+
+	return true;
     }
     
     /**

@@ -49,7 +49,11 @@ class Language
 	 */
 	function txt($topic)
 	{
-        return $this->text[$this->lng][$topic];
+    	$trans = $this->text[$this->lng][$topic];
+	if ($trans=="")
+    	    return "---".$topic."---";
+	else
+	    return $trans;
 	}
 
 	/**
