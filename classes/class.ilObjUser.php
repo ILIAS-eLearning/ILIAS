@@ -256,8 +256,9 @@ class ilObjUser extends ilObject
 	* TODO: drop fields last_update & create_date. redundant data in object_data!
 	* saves a new record "user" to database
 	* @access	public
+	* @param	boolean	user data from formular (addSlashes) or not (prepareDBString)
 	*/
-	function saveAsNew ()
+	function saveAsNew ($a_from_formular = true)
 	{
 		switch ($this->passwd_type)
 		{
@@ -277,19 +278,38 @@ class ilObjUser extends ilObject
 				break;
 		}
 
-		$q = "INSERT INTO usr_data ".
-			 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
-			 "email,hobby,institution,department,street,city,zipcode,country,".
-			 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
-			 "VALUES ".
-			 "('".$this->id."','".$this->login."','".$pw_value."', ".
-			 "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
-			 "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
-			 "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
-			 "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".ilUtil::addSlashes($this->street)."', ".
-			 "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
-			 "'".$this->phone_office."','".$this->phone_home."',".
-			 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
+		if ($a_from_formular)
+		{
+			$q = "INSERT INTO usr_data ".
+				 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
+				 "email,hobby,institution,department,street,city,zipcode,country,".
+				 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
+				 "VALUES ".
+				 "('".$this->id."','".$this->login."','".$pw_value."', ".
+				 "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
+				 "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
+				 "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
+				 "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".ilUtil::addSlashes($this->street)."', ".
+				 "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
+				 "'".$this->phone_office."','".$this->phone_home."',".
+				 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
+		}
+		else
+		{
+			$q = "INSERT INTO usr_data ".
+				 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
+				 "email,hobby,institution,department,street,city,zipcode,country,".
+				 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
+				 "VALUES ".
+				 "('".$this->id."','".$this->login."','".$pw_value."', ".
+				 "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', ".
+				 "'".ilUtil::prepareDBString($this->utitle)."','".$this->gender."', ".
+				 "'".$this->email."','".ilUtil::prepareDBString($this->hobby)."', ".
+				 "'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."','".ilUtil::prepareDBString($this->street)."', ".
+				 "'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', ".
+				 "'".$this->phone_office."','".$this->phone_home."',".
+				 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
+		}
 
 		$this->ilias->db->query($q);
 
