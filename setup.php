@@ -34,6 +34,16 @@ if ($_GET[$lang] == "")
 
 $lng = new Language($lang);
 
+$langs = $lng->getAllLanguages();
+
+foreach ($langs as $row)
+{
+	$tpl->setCurrentBlock("languages");
+	$tpl->setVariable("LINK_LANG", "./setup.php?lang=".$row["id"]."&amp;step=".$_GET["step"]);
+	$tpl->setVariable("LANG_DESC", strtoupper($row["id"]));
+	$tpl->parseCurrentBlock();
+}
+
 //main language texts
 $tpl->setVariable("TXT_SETUP", $lng->txt("setup"));
 $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
