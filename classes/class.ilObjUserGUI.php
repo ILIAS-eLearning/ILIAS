@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.72 2004/01/16 16:17:20 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.73 2004/01/21 16:56:38 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -92,9 +92,14 @@ class ilObjUserGUI extends ilObjectGUI
 
 		foreach ($obj_list as $obj_data)
 		{
+			// exclude anonymous role from list
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
-				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				{
+					$rol[$obj_data["obj_id"]] = $obj_data["title"];
+				}
 			}
 		}
 
