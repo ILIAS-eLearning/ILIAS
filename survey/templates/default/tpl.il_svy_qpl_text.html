@@ -1,0 +1,25 @@
+<form name="frm_text" action="{FORM_ACTION}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="id" value="{QUESTION_ID}">
+<table class="std">
+<tr>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_DESCRIPTION}:</td>
+  <td class="option_value" colspan="4"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+  <td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+</tr>
+{OTHER_QUESTION_DATA}
+<tr><td colspan="5" class="submit">
+<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<div align="right">
+<input name="cmd[apply]" type="submit" class="submit" id="apply" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+</td></tr>
+</table>
+</form>
