@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+  <head>
+        <link rel="stylesheet" type="text/css" href="ilias.css">
+  </head>
+  <body>
+
+{BUTTONS}  Neuer Ordner, Neue Bookmark
+
+<form action="/projekte/uni-koeln/ilias/bookmark.php" method="post">
+
+<input type=hidden name=act value=u_bkm>
+<input type=hidden name=back value=>
+<input type=hidden name=id value=-1>
+<h3>{TXT_BOOKMARK_NEW}</h3>
+<table cellspacing=0 cellpadding=2 border=0>
+<tr>
+<td><b>&nbsp;:</b></td>
+<td>&nbsp;<input type=text maxlength=255 SIZE=40 name="titel" value=""></td>
+</tr>
+<tr>
+<td><b>&nbsp;:</b></td>
+<td>&nbsp;<input type=text maxlength=255 SIZE=40 name="url" value=""></td>
+</tr>
+<tr>
+<td><b>&nbsp;Vater:</td>
+<td>&nbsp;<select name="opa" size=1><option>- kein Vater -</option></select></td>
+</tr>
+<tr>
+<td colspan=2>Gemeint ist hier ein optionaler &uuml;bergeordneter Ordner.</td>
+</tr>
+<tr><td colspan=2>
+<small>&nbsp;</small></td>
+</td></tr>
+<tr><td colspan=2>
+&nbsp;<small><input type=submit NAME="ordner" value="Anlegen">&nbsp;</small>
+</td></tr>
+</table>
+</FORM>
+</body>
+</html>
