@@ -33,9 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#software van derden
+3rd_party_software#:#software van derden###15 Jan 2004 content changed
 absolute_path#:#Absolute pad
-access#:#Toegang
+access#:#Toegang###15 Jan 2004 content changed
 access_status#:#Toegangs-status
 admin_login#:#Inloggen als administrateur
 available_clients#:#Beschikbare cliënten
@@ -207,6 +207,7 @@ lang_none_installed#:#Geen taal geïnstalleerd
 lang_not_installed_default#:#De taal die u geselecteerd heeft als default is niet  geïnstalleerd!
 lang_pl#:#Pools
 lang_se#:#Zweeds
+lang_ua#:#Ukrainian###15 Jan 2004 new variable
 lang_xx#:#Door gebruiker gedefinieerd
 lang_zh#:#Chinees
 langs_not_valid_not_installed#:#De volgende talen zijn niet geïnstalleerd omdat de taal-bestanden fout waren
@@ -372,7 +373,7 @@ username#:#Gebruikersnaam
 version#:#Versie
 webspace_dir#:#data path webspace
 with#:#met
-wrong_password#:#Fout wachtwoord!
+wrong_password#:#Fout wachtwoord!###15 Jan 2004 content changed
 zip_path#:#Pad naar Zip
 zip_path_comment#:#verplicht voor het exporteren van les-modules
 zipcode#:#Postkode

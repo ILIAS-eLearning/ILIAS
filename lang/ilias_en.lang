@@ -1070,6 +1070,7 @@ content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
+content#:#cont_add_area#:#Add Area
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
@@ -1205,6 +1206,7 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
+content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1244,11 +1246,9 @@ content#:#cont_toc#:#Table of Contents
 content#:#cont_top#:#Top
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
+content#:#cont_update#:#Update
 content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
-content#:#cont_update#:#Update
-content#:#cont_saved_map_data#:#Saved map data
-content#:#cont_add_area#:#Add Area
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Where published
 content#:#cont_width#:#Width

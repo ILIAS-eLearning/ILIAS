@@ -1070,6 +1070,7 @@ content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...
 content#:#cont_Unordered#:#Невпорядкований
+content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Додати Визначення
 content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
@@ -1205,6 +1206,7 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
+content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1244,6 +1246,7 @@ content#:#cont_toc#:#Зміст
 content#:#cont_top#:#Вершина
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
+content#:#cont_update#:#Update###15 Jan 2004 new variable
 content#:#cont_upload_file#:#Завантажити Файл
 content#:#cont_url#:#URL
 content#:#cont_version#:#версія

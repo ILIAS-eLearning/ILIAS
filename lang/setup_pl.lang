@@ -33,9 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#Oprogramowanie innych firm
+3rd_party_software#:#Oprogramowanie innych firm###15 Jan 2004 content changed
 absolute_path#:#Ścieżka absolutna
-access#:#Dostęp
+access#:#Dostęp###15 Jan 2004 content changed
 access_status#:#Status dostępu
 admin_login#:#Login as Administrator###05 Jan 2003 new variable
 available_clients#:#Available Clients###05 Jan 2003 new variable
@@ -181,7 +181,6 @@ inifile_fill_all#:#Wypełnij wszystkie pola.
 inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 3.
 inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
 input_error#:#Błąd wejścia
-nst_identification#:#Installation Identification###05 Jan 2003 new variable
 inst_name#:#nazwa instalacji
 install#:#instaluj
 installation#:#Instaluj
@@ -207,6 +206,7 @@ lang_none_installed#:#Żaden język nie został zainstalowany
 lang_not_installed_default#:#The language you selected as defualt language is not installed!###05 Jan 2003 new variable
 lang_pl#:#Polski
 lang_se#:#Szwedzki
+lang_ua#:#Ukrainian###15 Jan 2004 new variable
 lang_xx#:#Inny
 lang_zh#:#Chinese###05 Jan 2003 new variable
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files###05 Jan 2003 new variable
@@ -372,7 +372,7 @@ username#:#nazwa użytkownika
 version#:#Wersja
 webspace_dir#:#ścieżka do danych WWW
 with#:#z
-wrong_password#:#Złe hasło!
+wrong_password#:#Złe hasło!###15 Jan 2004 content changed
 zip_path#:#Ścieżka do Zip
 zip_path_comment#:#wymagane dla eksportu modułów nauczania
 zipcode#:#Kod pocztowy

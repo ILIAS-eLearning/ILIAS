@@ -207,6 +207,7 @@ lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_not_installed_default#:#The language you selected as defualt language is not installed!###05 Jan 2003 new variable
 lang_pl#:#Lenkų
 lang_se#:#Švedų
+lang_ua#:#Ukrainian###15 Jan 2004 new variable
 lang_xx#:#(kita)
 lang_zh#:#Chinese###05 Jan 2003 new variable
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files###05 Jan 2003 new variable
@@ -372,7 +373,7 @@ username#:#username###28 Nov 2003 new variable
 version#:#versija
 webspace_dir#:#Internetinis duomenų kelias
 with#:#su
-wrong_password#:#Klaidingas slaptažodis!
+wrong_password#:#Klaidingas slaptažodis!###15 Jan 2004 content changed
 zip_path#:#Path to Zip###21 Nov 2003 new variable
 zip_path_comment#:#required for exporting learning modules###28 Nov 2003 new variable
 zipcode#:#Zipcode###21 Nov 2003 new variable
