@@ -91,7 +91,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @var string
 */
   var $imagemap_contents;
-
+	var $coords;
 
 /**
 * ASS_ImagemapQuestion constructor
@@ -125,6 +125,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $this->image_filename = $image_filename;
     $this->answers = array();
 		$this->points = $points;
+		$this->coords = array();
   }
 
 /**
@@ -344,13 +345,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
  	    $fp = fopen($imagemap_tempfilename, "r");
  	    $contents = fread($fp, filesize($imagemap_tempfilename));
       fclose($fp);
-			$this->flush_answers();
 			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) {
 		  	for ($i=0; $i< count($matches[1]); $i++) {
 		    	preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
 		    	preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
 		    	preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
-					$this->add_answer($alt[1], 0.0, FALSE, $i, $coords[1], $shape[1]);
+					$this->add_answer($alt[1], 0.0, FALSE, count($this->answers), $coords[1], $shape[1]);
 		  	}
 			}
     }
