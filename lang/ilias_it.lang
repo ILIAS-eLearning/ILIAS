@@ -402,3 +402,19 @@ common#:#context#:#context
 common#:#forums_respond#:#respond to an article
 common#:#forums_your_reply#:#your reply
 common#:#of#:#di
+common#:#delete_object#:#delete object(s)
+common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
+common#:#cancel#:#cancel
+common#:#confirm#:#confirm
+common#:#no_checkbox#:#No checkbox checked!
+common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.
+common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.
+common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.
+common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
+common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
+common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
+common#:#info_deleted#:#Object(s) deleted
