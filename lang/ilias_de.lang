@@ -38,12 +38,6 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
-common#:#guest#:#Gast
-common#:#guests#:#Gäste
-common#:#and#:#und
-common#:#fullname#:#Voller Name
-common#:#show_details#:#Details anzeigen
-common#:#hide_details#:#Details ausblenden
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
@@ -53,7 +47,7 @@ common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_objects#:#Alle Objekte
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
-common#:#enable_registration#:#Neuanmeldung zulassen
+common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
@@ -174,6 +168,7 @@ common#:#editor#:#Editor
 common#:#email#:#E-Mail
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
@@ -217,6 +212,7 @@ common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
+common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
@@ -241,7 +237,10 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_new#:#Neue Gruppe
+common#:#guest#:#Gast
+common#:#guests#:#Gäste
 common#:#help#:#Hilfe
+common#:#hide_details#:#Details ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
@@ -610,6 +609,7 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
+common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
@@ -783,6 +783,7 @@ content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_term#:#Term###15 Aug 2003 new variable
 content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Oben
 content#:#cont_version#:#version
 content#:#cont_width#:#Breite
