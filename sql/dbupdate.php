@@ -895,7 +895,7 @@ $query = "DELETE FROM rbac_pa WHERE obj_id = '".$ref_id."'";
 $res = $this->db->query($query);
 
 // INSERT PERMISSIONS FOR MAIL OBJECT
-$query = "INSERT INTO rbac_pa ".
+$query = "INSERT INTO rbac_pa ". 
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
 $res = $this->db->query($query);
 ?>
@@ -913,7 +913,7 @@ $query = "DELETE FROM rbac_pa WHERE obj_id = '".$ref_id."'";
 $res = $this->db->query($query);
 
 // INSERT PERMISSIONS FOR MAIL OBJECT
-$query = "INSERT INTO rbac_pa ".
+$query = "INSERT INTO rbac_pa ". 
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
 $res = $this->db->query($query);
 
@@ -933,208 +933,10 @@ CREATE TABLE meta_keyword(
 	keyword varchar(200) NOT NULL default ''
 ) TYPE=MyISAM;
 
-<#38>
-ALTER TABLE meta_data DROP column keyword;
-CREATE TABLE meta_keyword(
-	obj_id int(11) NOT NULL,
-	obj_type char(3) NOT NULL,
-	language char(2) NOT NULL,
-	keyword varchar(200) NOT NULL default ''
-) TYPE=MyISAM;
-<#39>
-<?php
-$query = "UPDATE object_data SET title=\"mob\",description=\"Multimedia object\" WHERE obj_id=18";
-$this->db->query($query);
-$query = "DELETE FROM rbac_ta WHERE typ_id=18 AND ops_id=1";
-$this->db->query($query);
-$query = "UPDATE rbac_ta SET ops_id=6 WHERE typ_id=18 AND ops_id=4";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (18,5)";
-$this->db->query($query);
-
-$query = "INSERT INTO object_data (type,title,description,owner,create_date,last_update) VALUES (\"typ\",\"bm\",\"Bookmark object\",\"-1\",now(),now())";
-$this->db->query($query);
-$query = "INSERT INTO object_data (type,title,description,owner,create_date,last_update) VALUES (\"typ\",\"fold\",\"Folder object\",\"-1\",now(),now())";
-$this->db->query($query);
-
-$query = "SELECT obj_id FROM object_data WHERE type=\"typ\" AND title=\"bm\"";
-$res = $this->db->query($query);
-$object = $res->fetchRow(DB_FETCHMODE_OBJECT);
-
-
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",2)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",3)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",4)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",5)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",6)";
-$this->db->query($query);
-
-
-$query = "SELECT obj_id FROM object_data WHERE type=\"typ\" AND title=\"fold\"";
-$res = $this->db->query($query);
-$object = $res->fetchRow(DB_FETCHMODE_OBJECT);
-
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",2)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",3)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",4)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",5)";
-$this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$object->obj_id.",6)";
-$this->db->query($query);
-?>
 <#39>
 UPDATE object_data SET title='lm' WHERE title='le' AND type='typ';
 UPDATE object_data SET type='lm' WHERE type='le';
 
-
 <#40>
 INSERT INTO object_data (type, title, description, owner, create_date, last_update) VALUES
 	('typ', 'slm', 'SCORM Learning Module', -1, now(), now());
-
-
-<#41>
-<?php
-//create Administrator role template of groups
-/*$q = "INSERT INTO object_data ".
-	 "(type,title,description,owner,create_date,last_update) ".
-	 "VALUES ".
-	 "('rolt','grp_Admin_rolt','Administrator role template of groups',-1,now(),now())";
-$this->db->query($q);
-
-$q = "SELECT LAST_INSERT_ID()";
-$rolt_id = $this->db->getRow($q);
-*/
-
-$q = "INSERT INTO object_data ".
-	 "(obj_id,type,title,description,owner,create_date,last_update) ".
-	 "VALUES ".
-	 "(100,'rolt','grp_Admin_rolt','Administrator role template of groups',-1,now(),now())";
-$this->db->query($q);
-
-$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
-	 "VALUES (100,8,'n',9)";
-$this->db->query($q);
-
-
-$ops = array();
-$ops[0] = array("bm",5,6,3,2,4);//bm
-
-$ops[1] = array("crs",5,6,3,2);//crs
-
-$ops[2] = array("fold",5,6,3,2,4);//fold
-
-$ops[3] = array("frm",5,6,3,2);//frm
-
-$ops[4] = array("grp",6,3,2,4,1,8,7);//grp
-
-$ops[5] = array("le",5,6,3,2);//le
-
-$ops[6] = array("mob",5,6,3,2);//mob
-
-$ops[7] = array("rolf",2,3,4);//rolf
-
-
-foreach ($ops as $object)
-{
-	foreach ($object as $ops_id)
-	{
-
-		if(!is_string($ops_id))
-		{
-			$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
-				 "VALUES (100,'".$object[0]."',".$ops_id.",8)";
-			$this->db->query($q);
-
-		}
-	}
-}
-
-//create Member role template of groups
-$q = "INSERT INTO object_data ".
-	 "(obj_id,type,title,description,owner,create_date,last_update) ".
-	 "VALUES ".
-	 "(101,'rolt','grp_Member_rolt','Member role template of groups',-1,now(),now())";
-$this->db->query($q);
-/*
-$q = "SELECT LAST_INSERT_ID()";
-$rolt_id = $this->db->getRow($q);
-*/
-$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
-	 "VALUES (101,8,'n',9)";
-$this->db->query($q);
-
-$ops = array();
-$ops[0] = array("bm",5,6,3,2,4);//bm
-
-$ops[1] = array("crs",5,6,3,2);//crs
-
-$ops[2] = array("fold",5,6,3,2,4);//fold
-
-$ops[3] = array("frm",5,6,3,2);//frm
-
-$ops[4] = array("grp",3,2,4,8,7);//grp
-
-$ops[5] = array("le",5,6,3,2);//le
-
-$ops[6] = array("mob",5,6,3,2);//mob
-
-
-foreach ($ops as $object)
-{
-	foreach ($object as $ops_id)
-	{
-
-		if(!is_string($ops_id))
-		{
-			$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
-				 "VALUES (101,'".$object[0]."',".$ops_id.",8)";
-			$this->db->query($q);
-
-		}
-	}
-}
-$q = "INSERT INTO object_data ".
-	 "(type,title,description,owner,create_date,last_update) ".
-	 "VALUES ".
-	 "('rolt','grp_Status_closed','Group role template',-1,now(),now())";
-$this->db->query($q);
-
-$ops = array("grp",2);//grp
-foreach ($ops as $ops_id)
-{
-	if(!is_string($ops_id))
-	{
-		$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
-			 "VALUES (LAST_INSERT_ID(),'".$ops[0]."',".$ops_id.",8)";
-		$this->db->query($q);
-	}
-}
-
-$q = "INSERT INTO object_data ".
-	 "(type,title,description,owner,create_date,last_update) ".
-	 "VALUES ".
-	 "('rolt','grp_Status_open','Group role template',-1,now(),now())";
-$this->db->query($q);
-
-$ops = array("grp",2,7);//grp
-foreach ($ops as $ops_id)
-{
-	if(!is_string($ops_id))
-	{
-		$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
-			 "VALUES (LAST_INSERT_ID(),'".$ops[0]."',".$ops_id.",8)";
-		$this->db->query($q);
-	}
-}
-
-
-?>
-
-
