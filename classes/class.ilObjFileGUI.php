@@ -34,6 +34,7 @@
 */
 
 require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjFile.php"; // temp. fix
 
 class ilObjFileGUI extends ilObjectGUI
 {
@@ -41,21 +42,10 @@ class ilObjFileGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjFileGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjFileGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "file";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-
-		$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("paste","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("cancelDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
 
 	/**
@@ -67,7 +57,7 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess("create_file", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("create_file", ilObjFile::__getGroupId($_GET["ref_id"])))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -135,15 +125,13 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->create();
 		$fileObj->createReference();
-		//insert file in grp_tree
 		$fileObj->putInTree($_GET["ref_id"]);
 		// upload file to filesystem
 		$fileObj->createDirectory();
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
 
 		sendInfo($this->lng->txt("file_added"),true);
-		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		exit();
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 } // END class.ilObjFileGUI
 ?>

@@ -159,19 +159,6 @@ class ilObjFile extends ilObject
 		return false;
 	}
 
-	/**
-	* insert folder into grp_tree
-	*
-	*/
-	function putInTree($a_parent_ref)
-	{
-		$grp_id = ilUtil::getGroupId($a_parent_ref);
-
-		$grp_object = new ilObjGroup($grp_id);
-
-		$grp_object->insertGroupNode($this->getRefId(), $a_parent_ref, $grp_id);
-	}
-
 	function clone()
 	{
 		$fileObj = new ilObjFile($this->getRefId());
@@ -230,7 +217,26 @@ class ilObjFile extends ilObject
 		ilUtil::rCopy($filedir, $a_target_dir."/objects/".$subdir);
 	}
 
-
+	/**
+	* statical function to get the group id where the file is
+	* 
+	*/
+	function __getGroupId($a_file_ref_id)
+	{
+		global $ilias, $tree;
+		
+		$path = $tree->getPathFull($a_file_ref_id);
+		
+		foreach ($path as $node)
+		{
+			if ($node["type"] == "grp")
+			{
+				return $node["child"];
+			}
+		}
+		
+		return false;
+	}
 
 
 

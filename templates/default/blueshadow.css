@@ -242,7 +242,8 @@ form.il_Form
 
 /* Tabs */
 
-div.il_Tab{
+div.il_Tab
+{
 	line-height: 20px;
 }
 
@@ -331,7 +332,7 @@ a.tblheader:hover
 }
 
 /* --- description text ---*/
-div.il_Description
+div.il_Description, td.il_Description
 {
 	margin-top:5px;
 	font-size: 13px;
@@ -365,7 +366,7 @@ div.il_Footer
 
 h1 {
 	margin-top:2px;
-	margin-bottom:10px;
+	margin-bottom:5px;
 	font-size:16px;
 }
 

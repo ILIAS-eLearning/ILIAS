@@ -62,6 +62,7 @@ class ilObject
 	var $create_date;
 	var $last_update;
 	var $import_id;
+	var $register = false;		// registering required for object? set to true to implement a subscription interface
 
 	/**
 	* indicates if object is a referenced object
@@ -154,7 +155,8 @@ class ilObject
 	*/
 	function withReferences()
 	{
-		return $this->call_by_reference;
+		// both vars could differ. this method should always return true if one of them is true without changing their status
+		return ($this->call_by_reference) ? true : $this->referenced;
 	}
 
 
@@ -924,6 +926,24 @@ class ilObject
 		$this->ilias->db->query($q);
 
 		return true;
+	}
+	
+	// toggle subscription interface
+	function setRegisterMode($a_bool)
+	{
+		$this->register = (bool) $a_bool;
+	}
+	
+	// check register status of current user
+	// abstract method; overwrite in object type class
+	function isUserRegistered($a_user_id = 0)
+	{
+		return false;
+	}
+	
+	function requireRegistration()
+	{
+		return $this->register;
 	}
 } // END class.ilObject
 ?>

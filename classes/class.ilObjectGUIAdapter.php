@@ -26,7 +26,7 @@
 * Class ilObjectGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjectGUIAdapter.php,v 1.1 2003/12/16 15:53:43 smeyer Exp $
+* $Id$Id: class.ilObjectGUIAdapter.php,v 1.2 2004/01/12 12:21:17 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -226,7 +226,7 @@ class ilObjectGUIAdapter
 		$class_constr = "ilObj".$class_name."GUI";
 
 		//INCLUDE CLASS
-		require_once "./".$module_dir."classes/class.ilObj".$class_name."GUI.php";
+		include_once "./".$module_dir."classes/class.ilObj".$class_name."GUI.php";
 
 		// CALL CONSTRUCTOR
 		$this->gui_obj =& new $class_constr(array(),$this->getId(),$a_call_by_reference,$a_prepare_output);

@@ -590,6 +590,7 @@ common#:#deleted#:#Deleted
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
+common#:#no_description#:#No description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
 common#:#domain#:#Domain

@@ -330,7 +330,7 @@ class ilCtrl
 		$cmd = $_GET["cmd"];
 		if($cmd == "post")
 		{
-			$cmd = key($_POST["cmd"]);
+			$cmd = @key($_POST["cmd"]);
 		}
 		if($cmd == "")
 		{
@@ -509,7 +509,7 @@ class ilCtrl
 	function searchReturnClass($a_class)
 	{
 		$path = array();
-		$this->getPath(&$path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
+		$this->getPath($path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
 		for($i = count($path)-2; $i>=0; $i--)
 		{
 			if ($this->return[$path[$i]] != "")

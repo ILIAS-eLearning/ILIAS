@@ -38,6 +38,7 @@ class ilTabsGUI
 	var $lng;
 	var $tabs;
 	var $objDefinition;
+	var $target = array();
 
 	/**
 	* Constructor
