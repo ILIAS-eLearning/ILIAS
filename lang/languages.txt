@@ -107,6 +107,7 @@ members	members	Mitglieder	members	members
 message_to	message to:	Nachricht an:	messaggio a:	message to:
 migrate	migrate	migrieren	migrare	migrate
 msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	msg_changes_ok
+msg_failed	sorry, action failed	Aktion fehlgeschlagen	failed	failed
 msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
 name	name	Name	nome	name
 new_folder	new folder	neuer Ordner	nuova cartella	new folder

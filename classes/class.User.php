@@ -199,6 +199,40 @@ class User
 		return true;
 	}
 
+	
+	/**
+	* updates password
+	* @param string
+	* @param string
+	* @param string
+	* @access	public
+	*/
+	function updatePassword($old, $pw1, $pw2)
+	{
+		if ($pw1 != $pw2) {
+			return false;
+		}
+		
+		if ($pw1 == "" || $old == "") {
+			return false;
+		}
+		
+		//check old password
+		if (md5($old) != $this->data["passwd"]) {
+			return false;
+		}
+		
+		//update password
+		$this->data["passwd"] = md5($pw1);
+		$query = "UPDATE user_data SET
+				 passwd='".$this->data["passwd"]."'
+				 WHERE usr_id='".$this->Id."'";
+		$this->ilias->db->query($query);
+		return true;
+	}
+
+		
+	
 	/**
 	* write userpref to user table
 	* @access	private

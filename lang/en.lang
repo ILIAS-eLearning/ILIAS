@@ -105,6 +105,7 @@ members#:#members
 message_to#:#message to:
 migrate#:#migrate
 msg_changes_ok#:#the changes were ok
+msg_failed#:#sorry, action failed
 msg_nothing_found#:#msg_nothing_found
 name#:#name
 new_folder#:#new folder
