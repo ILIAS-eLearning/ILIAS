@@ -467,5 +467,17 @@ class ASS_QuestionGUI
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 	}
+
+	/**
+	* apply changes
+	*/
+	function apply()
+	{
+		$this->writePostData();
+		$this->object->saveToDb();
+		$_GET["q_id"] = $this->object->getId();
+		$this->editQuestion();
+	}
+
 }
 ?>

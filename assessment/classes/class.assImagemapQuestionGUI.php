@@ -414,15 +414,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
-	/**
-	* apply changes
-	*/
-	function apply()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
 
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object
