@@ -21,15 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./classes/class.ilObjHACPLearningModule.php");
+require_once("content/classes/class.ilObjHACPLearningModule.php");
 require_once("content/classes/AICC/class.ilAICCObjectGUI.php");
 require_once("content/classes/AICC/class.ilAICCPresentationGUI.php");
 
 
 /**
-* Class ilAICCPresentationGUI
+* Class ilHACPPresentationGUI
 *
-* GUI class for aicc learning module presentation
+* GUI class for hacp learning module presentation
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$

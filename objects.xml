@@ -38,7 +38,7 @@
 	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="chat">chat</subobj>
@@ -79,7 +79,7 @@
 	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="chat">chat</subobj>
@@ -109,7 +109,7 @@
 	<subobj name="fold">fold</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="chat">chat</subobj>
@@ -145,7 +145,7 @@
 	<subobj name="fold">fold</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
-	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="chat">chat</subobj>
@@ -181,21 +181,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
-	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view">view_content</property>
-	<property name="editMeta">meta_data</property>
-	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
-</object>
-<object name="alm" class_name="AICCLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
-	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view">view_content</property>
-	<property name="editMeta">meta_data</property>
-	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
-</object>
-<object name="hlm" class_name="HACPLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
+<object name="sahs" class_name="SAHSLearningModule" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="editMeta">meta_data</property>
@@ -414,7 +400,7 @@
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="lm">lm</subobj>
-	<subobj name="slm">slm</subobj>
+	<subobj name="sahs">sahs</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="qpl">qpl</subobj>

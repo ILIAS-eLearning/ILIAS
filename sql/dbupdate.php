@@ -4499,9 +4499,52 @@ PRIMARY KEY ( `pobject_id` )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#278>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#279>
 ALTER TABLE `role_data` ADD `assign_users` VARCHAR( 2 ) DEFAULT '0';
+
+<#280>
+RENAME TABLE scorm_lm TO sahs_lm;
+ALTER TABLE sahs_lm ADD COLUMN type ENUM('scorm','aicc','hacp') DEFAULT 'scorm';
+
+<#281>
+<?php
+
+$query = "SELECT * FROM object_data where type = 'slm' or type = 'alm' or type = 'hlm'";
+$result = $this->db->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	switch($row["type"])
+	{
+		case "slm":
+			$type = "scorm";
+			break;
+
+		case "alm":
+			$type = "aicc";
+			break;
+
+		case "hlm":
+			$type = "hacp";
+			break;
+	}
+	$query = "UPDATE sahs_lm SET type='$type' WHERE id ='".$row["obj_id"]."'";
+	$this->db->query($query);
+	$query = "UPDATE object_data SET type='sahs' WHERE obj_id ='".$row["obj_id"]."'";
+	$this->db->query($query);
+}
+?>
+
+<#282>
+UPDATE object_data SET title='sahs', description='SCORM/AICC Learning Module' WHERE title='slm' AND type='typ';
+
+<#283>
+UPDATE rbac_operations SET operation='create_sahs', description='create new SCORM/AICC learning module' WHERE operation = 'create_slm';
+
+<#284>
+UPDATE rbac_templates SET type='sahs' WHERE type='slm';

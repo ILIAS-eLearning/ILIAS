@@ -646,7 +646,7 @@ common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool (Assessment)
-common#:#cat_create_slm#:#Create SCORM Learning Module
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#cat_create_spl#:#Create Question Pool (Survey)
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
@@ -758,7 +758,7 @@ common#:#crs_create_frm#:#Create Forum
 common#:#crs_create_glo#:#Create Glossary
 common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_create_lm#:#Create Learning Module
-common#:#crs_create_slm#:#Create SCORM Learning Module
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -945,7 +945,7 @@ common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
 common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_create_lm#:#Create Learning Module
-common#:#fold_create_slm#:#Create SCORM Learning Module
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -1062,7 +1062,7 @@ common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_lm#:#Create Learning Module
 common#:#grp_create_mep#:#Create Media Pool
-common#:#grp_create_slm#:#Create SCORM Learning Module
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
@@ -1148,7 +1148,7 @@ common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
-common#:#import_slm#:#Import SCORM Package
+common#:#import_sahs#:#Import SCORM/AICC Package
 common#:#import_users#:#Import Users
 common#:#imported#:#imported
 common#:#in#:#in
@@ -1274,6 +1274,8 @@ common#:#lm_leave#:#Unsubscribe from Learning Module
 common#:#lm_new#:#New Learning Module
 common#:#lm_read#:#Read access to Learning Module
 common#:#lm_type_scorm#:#SCORM
+common#:#lm_type_aicc#:#AICC
+common#:#lm_type_hacp#:#HACP
 common#:#lm_visible#:#Learning Module is visible
 common#:#lm_write#:#Edit Learning Module
 common#:#lng#:#Language
@@ -1563,7 +1565,7 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
-common#:#obj_slm#:#SCORM Learning Module
+common#:#obj_sahs#:#SCORM/AICC Learning Module
 common#:#obj_spl#:#Question Pool (Survey)
 common#:#obj_st#:#Chapter
 common#:#obj_svy#:#Survey
@@ -1612,7 +1614,7 @@ common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools (Assessment)
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
-common#:#objs_slm#:#SCORM Learning Modules
+common#:#objs_sahs#:#SCORM/AICC Learning Modules
 common#:#objs_spl#:#Question Pools (Surveys)
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
@@ -1824,16 +1826,16 @@ common#:#show_owner#:#Show Owner
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show users online
 common#:#signature#:#Signature
-common#:#slm#:#SCORM Learning Module
-common#:#slm_added#:#SCORM Learning Module added
-common#:#slm_create#:#Create SCORM Learning Module
-common#:#slm_delete#:#Delete SCORM Learning Module
-common#:#slm_edit_permission#:#Change permission settings
-common#:#slm_join#:#Subscribe to SCORM Learning Module
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module
-common#:#slm_read#:#Read access to SCORM Learning Module
-common#:#slm_visible#:#SCORM Learning Module is visible
-common#:#slm_write#:#Edit SCORM Learning Module
+common#:#sahs#:#SCORM/AICC Learning Module
+common#:#sahs_added#:#SCORM/AICC Learning Module added
+common#:#sahs_create#:#Create SCORM/AICC Learning Module
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+common#:#sahs_edit_permission#:#Change permission settings
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question pool (Survey)

@@ -145,6 +145,11 @@ class ilObjectGUI
 		$this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
 		$this->obj_id = ($this->call_by_reference) ? $_GET["obj_id"] : $this->id;
 
+		if ($this->id != 0)
+		{
+			$this->link_params = "ref_id=".$this->ref_id;
+		}
+
 		// get the object
 		$this->assignObject();
 
@@ -197,12 +202,10 @@ class ilObjectGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->link_params = "ref_id=".$this->ref_id;
 				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($this->id);
 			}
 			else
 			{
-				$this->link_params = "ref_id=".$this->ref_id;
 				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($this->id);
 			}
 		}

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./classes/class.ilObjSCORMLearningModule.php");
+require_once("content/classes/class.ilObjSCORMLearningModule.php");
 require_once("content/classes/SCORM/class.ilSCORMObjectGUI.php");
 //require_once("./classes/class.ilMainMenuGUI.php");
 //require_once("./classes/class.ilObjStyleSheet.php");

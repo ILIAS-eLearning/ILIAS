@@ -39,7 +39,7 @@ include_once("classes/class.ilObjUserGUI.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjScormLearningModuleGUI, ilObjChatGUI, ilObjForumGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjSAHSLearningModuleGUI, ilObjChatGUI, ilObjForumGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
@@ -417,7 +417,7 @@ class ilRepositoryGUI
 
 				// learning resources
 				case "lm":
-				case "slm":
+				case "sahs":
 				case "dbk":
 				case "htlm":
 					$this->learning_resources[$key] = $object;
@@ -442,11 +442,11 @@ class ilRepositoryGUI
 							unset ($this->learning_resources[$key]);
 						}
 					}
-					// check if scorm is online
-					if ($object["type"] == "slm")
+					// check if scorm/aicc is online
+					if ($object["type"] == "sahs")
 					{
-						include_once("classes/class.ilObjSCORMLearningModule.php");
-						$lm_obj =& new ilObjSCORMLearningModule($object["ref_id"]);
+						include_once("content/classes/class.ilObjSAHSLearningModule.php");
+						$lm_obj =& new ilObjSAHSLearningModule($object["ref_id"]);
 						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
 						{
 							unset ($this->learning_resources[$key]);
@@ -499,7 +499,7 @@ class ilRepositoryGUI
 				// courses
 				case "crs":
 					include_once "./course/classes/class.ilObjCourse.php";
-					
+
 					$tmp_course =& new ilObjCourse($object["ref_id"]);
 					if($tmp_course->isActivated() or $this->rbacsystem->checkAccess("write",$object["child"]))
 					{
@@ -509,17 +509,17 @@ class ilRepositoryGUI
 			}
 		}
 		$ilBench->stop("Repository", "FlatList_02collectChilds");
-		
+
 
 	}
-	
+
 	/**
 	* display flat list
 	*/
 	function showFlatList()
 	{
 		global $objDefinition, $ilBench;
-		
+
 		// set no limit for hits/page
 		$_GET["limit"] = 9999;
 
@@ -584,7 +584,7 @@ class ilRepositoryGUI
 
 				// learning resources
 				case "lm":
-				case "slm":
+				case "sahs":
 				case "hlm":
 				case "alm":
 				case "dbk":
@@ -611,11 +611,11 @@ class ilRepositoryGUI
 							unset ($this->learning_resources[$key]);
 						}
 					}
-					// check if scorm is online
-					if ($object["type"] == "slm")
+					// check if scorm/aicc is online
+					if ($object["type"] == "sahs")
 					{
-						include_once("classes/class.ilObjSCORMLearningModule.php");
-						$lm_obj =& new ilObjSCORMLearningModule($object["ref_id"]);
+						include_once("content/classes/class.ilObjSAHSLearningModule.php");
+						$lm_obj =& new ilObjSAHSLearningModule($object["ref_id"]);
 						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
 						{
 							unset ($this->learning_resources[$key]);
@@ -1098,12 +1098,12 @@ class ilRepositoryGUI
 						$desk_type = "htlm";
 						break;
 
-					case "slm":
+					case "sahs":
 					case "alm":
 					case "hlm":
 						$read_link = "content/sahs_presentation.php?ref_id=".$lr_data["ref_id"];
 						$edit_link = "content/sahs_edit.php?ref_id=".$lr_data["ref_id"];
-						$desk_type = "slm";
+						$desk_type = "sahs";
 						break;
 
 				}
@@ -1111,7 +1111,7 @@ class ilRepositoryGUI
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" ||
 					$lr_data["type"] == "alm" || $lr_data["type"] == "hlm" ||
-					$lr_data["type"] == "htlm" || $lr_data["type"] == "slm")
+					$lr_data["type"] == "htlm" || $lr_data["type"] == "sahs")
 				{
 
 					//$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
@@ -3138,7 +3138,7 @@ class ilRepositoryGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("slm", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
+					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))

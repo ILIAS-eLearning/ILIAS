@@ -24,7 +24,7 @@
 require_once ("content/classes/SCORM/class.ilSCORMObjectGUI.php");
 require_once ("content/classes/SCORM/class.ilSCORMItem.php");
 require_once ("content/classes/SCORM/class.ilSCORMResource.php");
-require_once ("classes/class.ilObjSCORMLearningModule.php");
+require_once ("content/classes/class.ilObjSCORMLearningModule.php");
 
 /**
 * GUI class for SCORM Items

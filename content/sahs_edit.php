@@ -32,7 +32,10 @@
 
 define("ILIAS_MODULE", "content");
 chdir("..");
+
 require_once "./include/inc.header.php";
+require_once "./content/classes/class.ilObjSAHSLearningModule.php";
+
 $lng->loadLanguageModule("content");
 
 // check write permission
@@ -41,49 +44,48 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-	$ref_id=$_GET["ref_id"];
-	
-	//read type of cbt
-	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
-	$lm_set = $ilias->db->query($q);
-	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-	$type=$lm_rec["type"];
-	
+$ref_id=$_GET["ref_id"];
+$obj_id = ilObject::_lookupObjectId($ref_id);
+$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-	switch ($type) {
-		case "slm":
-					//SCORM
-					require_once "./classes/class.ilObjSCORMLearningModuleGUI.php";
-					$ilCtrl->setTargetScript("sahs_edit.php");
-					
-					$ilCtrl->getCallStructure("ilobjscormlearningmodulegui");
-					$scorm_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true, false);
-					//$scorm_gui->executeCommand();
-					$ilCtrl->forwardCommand($scorm_gui);
-					break;
-		case "alm":
-					//AICC
-					require_once "./classes/class.ilObjAICCLearningModuleGUI.php";
-					$ilCtrl->setTargetScript("sahs_edit.php");
+switch ($type)
+{
+	case "scorm":
+		//SCORM
+		require_once "./content/classes/class.ilObjSCORMLearningModuleGUI.php";
+		$ilCtrl->setTargetScript("sahs_edit.php");
 
-					$ilCtrl->getCallStructure("ilobjaicclearningmodulegui");
-					$aicc_gui =& new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true, false);
-					//$aicc_gui->executeCommand();
-					$ilCtrl->forwardCommand($aicc_gui);
-					break;
-		case "hlm":
-					//HACP
-					require_once "./classes/class.ilObjHACPLearningModuleGUI.php";
-					$ilCtrl->setTargetScript("sahs_edit.php");
+		$ilCtrl->getCallStructure("ilobjscormlearningmodulegui");
+		$scorm_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true, false);
+		//$scorm_gui->executeCommand();
+		$ilCtrl->forwardCommand($scorm_gui);
+		break;
 
-					$ilCtrl->getCallStructure("ilobjhacplearningmodulegui");
-					$hacp_gui =& new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true, false);
-					//$hacp_gui->executeCommand();
-					$ilCtrl->forwardCommand($hacp_gui);
-					break;
-		default:
-					//unknown type
-					$ilias->raiseError($lng->txt("unknown type in sahs_edit"),$ilias->error_obj->MESSAGE);
-	}
-	
+	case "aicc":
+		//AICC
+		require_once "./content/classes/class.ilObjAICCLearningModuleGUI.php";
+		$ilCtrl->setTargetScript("sahs_edit.php");
+
+		$ilCtrl->getCallStructure("ilobjaicclearningmodulegui");
+		$aicc_gui =& new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true, false);
+		//$aicc_gui->executeCommand();
+		$ilCtrl->forwardCommand($aicc_gui);
+		break;
+
+	case "hacp":
+		//HACP
+		require_once "./content/classes/class.ilObjHACPLearningModuleGUI.php";
+		$ilCtrl->setTargetScript("sahs_edit.php");
+
+		$ilCtrl->getCallStructure("ilobjhacplearningmodulegui");
+		$hacp_gui =& new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true, false);
+		//$hacp_gui->executeCommand();
+		$ilCtrl->forwardCommand($hacp_gui);
+		break;
+
+	default:
+		//unknown type
+		$ilias->raiseError($lng->txt("unknown type in sahs_edit"),$ilias->error_obj->MESSAGE);
+}
+
 ?>

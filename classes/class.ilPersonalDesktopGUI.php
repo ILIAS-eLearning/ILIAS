@@ -57,7 +57,7 @@ class ilPersonalDesktopGUI
 			array("title" => $this->lng->txt("objs_grp"),
 			"types" => "grp"),
 			array("title" => $this->lng->txt("learning_objects"),
-			"types" => array("lm", "alm", "hlm", "htlm", "slm", "dbk")),
+			"types" => array("lm", "dbk", "sahs", "htlm")),
 			array("title" => $this->lng->txt("objs_glo"),
 			"types" => "glo"),
 			array("title" => $this->lng->txt("objs_chat"),
