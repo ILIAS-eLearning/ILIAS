@@ -1,0 +1,90 @@
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+
+</table>
+
+<p>
+
+<form method=post action="{EXPORT_ACTION}">
+
+<table>
+
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_TYPE}
+		</td>
+	</tr>
+	
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="html" checked></input>
+		</td>
+		<td class="option_value">
+		{TXT_HTMLEXPORT}
+		</td>
+	</tr>
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="pdf"></input>
+		</td>
+		<td class="option_value">
+		{TXT_PDFEXPORT}
+		</td>
+	</tr>
+
+
+	<tr><td colspan=2><br></td></tr>
+	
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_PAGES}
+		</td>
+	</tr>
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="all" checked></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESALL}
+		</td>
+	</tr>
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="chapter" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESCHAPTER}
+		</td>
+	</tr>
+	<!-- BEGIN thispage -->
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="page" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESPAGE}
+		</td>
+	</tr>
+	<!-- END thispage -->
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="fromto" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESFROM}
+		<input type=text size="4" name="pagefrom" value="">
+		{TXT_PAGESTO}
+		<input type=text size="4" name="pageto" value="">
+		</td>
+	</tr>
+
+	<tr>
+		<td class="submit" align="left" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+		</td>
+	</tr>
+	
+</table>
+
+</form>
