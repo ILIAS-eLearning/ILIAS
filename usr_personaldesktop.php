@@ -110,8 +110,8 @@ if (count($lessonsLastVisited)>0)
                 $tpl->setCurrentBlock("tbl_lo_row");
                 $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
                 $tpl->setVAriable("LO_TIME", Format::formatDate($row["datetime"],"date"));
-                $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["id"]);
-                $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["id"]."&amp;page=".$row["pageid"]);
+                $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["child"]);
+                $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["child"]."&amp;page=".$row["pageid"]);
                 $tpl->setVAriable("LO_TITLE", $row["title"]);
                 $tpl->setVAriable("LO_PAGE", $row["page"]);
                 $tpl->parseCurrentBlock();
@@ -136,9 +136,9 @@ if (count($courses)>0)
                 $tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
                 $tpl->setVariable("CRS_TITLE", $row["title"]);
                 $tpl->setVariable("CRS_DESC", $row["desc"]);
-                $tpl->setVariable("CRS_LINK", "course.php?id=".$row["id"]);
+                $tpl->setVariable("CRS_LINK", "course.php?id=".$row["child"]);
                 $tpl->setVariable("TXT_QUIT", $lng->txt("quit"));
-                $tpl->setVariable("CRS_LINK_QUIT", "course.php?id=".$row["id"]."&amp;cmd=quit");
+                $tpl->setVariable("CRS_LINK_QUIT", "course.php?id=".$row["child"]."&amp;cmd=quit");
                 $tpl->parseCurrentBlock();
         }
 		

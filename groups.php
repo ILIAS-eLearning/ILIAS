@@ -21,7 +21,7 @@ if ($objects = $tree->getChilds(1,"title"))
 {
 	foreach ($objects as $key => $object)
 	{
-		if (($object["type"] == "cat" || $object["type"] == "grp") && $rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+		if (($object["type"] == "cat" || $object["type"] == "grp") && $rbacsystem->checkAccess('visible',$object["child"],$object["parent"]))
 		{
 			$groups[$key] = $object;
 		}

@@ -139,7 +139,7 @@ if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 {
 	foreach ($objects as $key => $object)
 	{
-		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"],$object["parent"]))
 		{
 			$lessons[$key] = $object;
 		}
