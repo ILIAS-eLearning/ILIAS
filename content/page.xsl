@@ -48,7 +48,7 @@
 <xsl:param name="javascript" />
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
-<xsl:param name="enable_split" value="n"/>
+<xsl:param name="enable_split"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -718,7 +718,7 @@
 <!-- Tables -->
 <xsl:template match="Table">
 	<!-- <xsl:value-of select="@HierId"/> -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<br/>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -952,7 +952,9 @@
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">p</xsl:with-param>
 		</xsl:call-template>
-		<br/>
+		<xsl:if test = "$javascript='disable'">
+			<br/>
+		</xsl:if>
 	</xsl:if>
 </xsl:template>
 
@@ -1038,7 +1040,9 @@
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">p</xsl:with-param>
 		</xsl:call-template>
-		<br/>
+		<xsl:if test = "$javascript='disable'">
+			<br/>
+		</xsl:if>
 	</xsl:if>
 </xsl:template>
 
