@@ -1542,6 +1542,7 @@ content#:#cont_content#:#Obsah
 content#:#cont_content_obj#:#Obsahový objekt
 content#:#cont_coords#:#Coordinates###16 Mar 2004 new variable
 content#:#cont_create_dir#:#Vytvořit Adresář
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#Křížový odkaz
 content#:#cont_data_from_lms#:#adlcp:datafromlms### translation not available
 content#:#cont_def_layout#:#Výchozí rozložení
@@ -1563,6 +1564,7 @@ content#:#cont_edit_par#:#Editovat ostavec
 content#:#cont_edit_tab_properties#:#Vlastnosti tabulky
 content#:#cont_edit_term#:#Upravit pojem
 content#:#cont_edition#:#Vydání
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#external###16 Mar 2004 new variable
 content#:#cont_file#:#Soubor
 content#:#cont_files#:#Soubory

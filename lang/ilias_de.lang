@@ -1542,6 +1542,7 @@ content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Koordinaten
 content#:#cont_create_dir#:#Verzeichnis anlegen
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
@@ -1563,6 +1564,7 @@ content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien

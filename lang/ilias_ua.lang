@@ -1542,6 +1542,7 @@ content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
 content#:#cont_coords#:#Координати
 content#:#cont_create_dir#:#Створити Директорію
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
 content#:#cont_def_layout#:#Розміщення по Замовчанню
@@ -1563,6 +1564,7 @@ content#:#cont_edit_par#:#Редагувати Параграф
 content#:#cont_edit_tab_properties#:#Властивості Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випуск
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#зовнішній
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли

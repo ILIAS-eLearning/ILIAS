@@ -1559,6 +1559,7 @@ content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
 content#:#cont_coords#:#坐标
 content#:#cont_create_dir#:#创建目录
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#交叉参考
 content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
 content#:#cont_def_layout#:#缺省版面
@@ -1580,6 +1581,7 @@ content#:#cont_edit_par#:#编辑段落
 content#:#cont_edit_tab_properties#:#表格属性
 content#:#cont_edit_term#:#编辑术语
 content#:#cont_edition#:#版本
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#外部的
 content#:#cont_file#:#文件
 content#:#cont_files#:#文件
