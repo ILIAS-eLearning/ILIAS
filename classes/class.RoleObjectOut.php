@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.4 2003/03/12 16:52:25 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.5 2003/03/13 17:48:30 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -34,8 +34,8 @@ class RoleObjectOut extends ObjectOut
 	
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
-		//if (!$rbacsystem->checkAccess("write",$a_obj_id,$a_parent))
-		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"],$_GET["parent"]))
+		//if (!$rbacsystem->checkAccess("write",$a_obj_id))
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
 		}

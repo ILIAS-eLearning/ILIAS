@@ -35,7 +35,7 @@ class RoleTemplateObject extends Object
 		
 		// TODO: get rif of $_GET var
 		
-		if ($rbacsystem->checkAccess("write",$a_id,$_GET["parent"]))
+		if ($rbacsystem->checkAccess("write",$a_id))
 		{
 			$data = array();
 			$data["fields"] = array();
@@ -84,7 +84,7 @@ class RoleTemplateObject extends Object
 		
 		// TODO: get rif of $_GET vars
 
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"]))
 		{
 			$obj = getObject($this->id);
 
@@ -100,7 +100,6 @@ class RoleTemplateObject extends Object
 		}			
 	}
 
-
 	/**
 	* show permission templates of role
 	* @access public
@@ -109,7 +108,7 @@ class RoleTemplateObject extends Object
 	{
 		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
 		{
 			$obj_data = getObjectList("typ","title","ASC");
 
@@ -196,7 +195,7 @@ class RoleTemplateObject extends Object
 		
 		// get rid of $_GET variables
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
 		{
 			// Alle Template Eintraege loeschen
 			$rbacadmin->deleteRolePermission($this->id, $_GET["parent"]);
@@ -211,8 +210,6 @@ class RoleTemplateObject extends Object
 		{
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-
-
 		return true;
 	}
 
@@ -224,7 +221,7 @@ class RoleTemplateObject extends Object
 	{
 		global $rbacadmin, $rbacsystem;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);

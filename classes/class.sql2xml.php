@@ -87,7 +87,7 @@ class sql2xml
 		}
 		
 		//get parent lo_id
-		$this->lo_parent = $this->lm_tree->getParent($this->lo_id);
+		$this->lo_parent = $this->lm_tree->getParentId($this->lo_id);
 		
 		/*
 		if (empty($_GET["lo_parent"]))

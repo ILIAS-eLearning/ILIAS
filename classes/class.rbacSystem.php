@@ -43,8 +43,7 @@ class RbacSystem
 	*  
 	* @access	public
 	* @param	string		one or more operations, separated by commas (i.e.: visible,read,join)
-	* @param	integer		the object_id of the object
-	* @param	integer		the object_id of the parent of the object
+	* @param	integer		the child_id in tree (usually a reference_id, no object_id !!)
 	* @param	string		the type definition abbreviation (i.e.: frm,grp,crs)
 	* @return	boolean		returns true if ALL passed operations are given, otherwise false
 	*/
@@ -52,6 +51,17 @@ class RbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 		
+		if (!isset($a_operations) or !isset($a_ref_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
+							"ref_id: ".$a_ref_id." operations: ".var_dump($a_operations),$this->ilias->error_obj->WARNING);
+		}
+
+		if (!is_string($a_operations))
+		{
+			$this->ilias->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
+		}
+
 		// temp. disabled
 		return true;
 		
@@ -70,14 +80,14 @@ class RbacSystem
 			{
 				if (empty($a_type))
 				{
-					$this->ilias->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",
-											 $this->ilias->error_obj->FATAL);
+					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking 'create' permission",
+											 $this->ilias->error_obj->WARNING);
 				}
 				
 				if ($objDefinition->getSubObjectsAsString($a_type) == "")
 				{
-					$this->ilias->raiseError("CheckAccess: Unknown type definition given: '".$a_type."'",
-											 $this->ilias->error_obj->FATAL);
+					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Unknown type definition given: '".$a_type."'",
+											 $this->ilias->error_obj->WARNING);
 				}
 
 				// sometimes no tree-object was instated, therefore:
@@ -123,7 +133,7 @@ class RbacSystem
 	
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
-				 "AND obj_id = '".$a_ref_id."' ";
+				 "AND obj_id = '".$a_child_id."' ";
 			$r = $this->ilias->db->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
