@@ -423,7 +423,7 @@ class TUtil
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
-				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$prevoffset."\">&lt;&lt;&lt;&nbsp;</a>";
+				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$prevoffset."\">&lt;&lt;&nbsp;</a>";
 			}
 
 			// Benötigte Seitenzahl kalkulieren
@@ -443,7 +443,7 @@ class TUtil
 					
 					if ($newoffset == $AOffset)
 					{
-						$LinkBar .= "&nbsp;".$i."&nbsp;";
+						$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font>";
 					}
 					else
 					{
@@ -457,7 +457,7 @@ class TUtil
 			if (! ( ($AOffset/$ALimit)==($pages-1) ) && ($pages!=1) )
 			{
 				$newoffset=$AOffset+$ALimit;
-				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$newoffset."\">&nbsp;&gt;&gt;&gt;</a>";
+				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$newoffset."\">&nbsp;&gt;&gt;</a>";
 			}
 
 			return $LinkBar;
