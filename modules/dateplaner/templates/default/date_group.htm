@@ -10,7 +10,7 @@
 		</select>
 <!-- Hilfe Funktion Start -->
 {jsscriptIn}
-<a onMouseOver=show('8') onMouseOut=hide('8') href=".{DATEPLANER_ROOT_DIR}/lang/dp_help_de.htm#_Toc59013341" target="_blank">
+<a onMouseOver=show('8') onMouseOut=hide('8') href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013341" target="_blank">
 	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
 </a>
 <div id='8' style='position:absolute; top:400px; left:0px; width:250; visibility:hidden; z-index:1; background-color:white'>
@@ -24,7 +24,7 @@
 </table>
 </div>
 {jsscriptOut}
-<noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/dp_help_de.htm#_Toc59013341" target="_blank" TITLE="$DP_language[help_group]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
+<noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/$DP_language[help_filename]#_Toc59013341" target="_blank" TITLE="$DP_language[help_group]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
 <!-- Hilfe Funktion End -->
 		&nbsp;
 		<!-- Including of the "groups_freetime"- funktion into the NewDate form -->
