@@ -294,7 +294,37 @@ class ilObjectDefinition extends ilSaxParser
 
 		return $subs;
 	}
-	
+
+	/**
+	* get all subjects except (rolf) of the adm object
+	* This is neceesary for filtering these objects in role perm view.
+	* e.g It it not necessary to view/edit role permission for the usrf object since it's not possible to create a new one
+	*
+	* @param	string	object type
+ 	* @access	public
+	* @return	array	list of object types to filter
+	*/
+	function getSubobjectsToFilter($a_obj_type = "adm")
+	{
+		foreach($this->obj_data[$a_obj_type]["subobjects"] as $key => $value)
+		{
+			switch($key)
+			{
+				case "rolf":
+					// DO NOTHING
+					break;
+
+				default:
+					$tmp_subs[] = $key;
+			}
+		}
+		// ADD adm and root object
+		$tmp_subs[] = "adm";
+		$tmp_subs[] = "root";
+
+		return $tmp_subs ? $tmp_subs : array();
+	}
+		
 	/**
 	* get only creatable subobjects by type
 	*

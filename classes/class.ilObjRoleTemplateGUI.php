@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.30 2004/01/12 16:30:53 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.31 2004/01/21 16:56:38 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -163,13 +163,15 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem;
+		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 			exit();
 		}
+
+		$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		// build array with all rbac object types
 		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
@@ -179,6 +181,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// FILTER SUBOJECTS OF adm OBJECT
+			if(in_array($row->title,$to_filter))
+			{
+				continue;
+			}
 			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 											    "type"		=> $row->title
 												);
@@ -511,7 +518,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $rbacadmin, $rbacsystem, $rbacreview;
+		global $rbacadmin, $rbacsystem, $rbacreview,$objDefinition;
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
