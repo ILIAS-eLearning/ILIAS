@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Starting time###16 Mar 2004 new variable
 assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -536,6 +538,7 @@ common#:#action_aborted#:#Akce přerušena
 common#:#actions#:#Akce
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#Aktivovat role
 common#:#add#:#Přidat
 common#:#add_author#:#Přidat authora
@@ -560,6 +563,7 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Všechny objekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#K dispozici v registračním formuláři pro nové uživatele
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -582,6 +586,8 @@ common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Schůzka
 common#:#appointment_list#:#Seznam schůzek
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Určitě pokračovat?
 common#:#assign#:#Přiřadit
@@ -613,6 +619,7 @@ common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new va
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autoři
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#Dostupné jazyky
 common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#Zpět
@@ -722,7 +729,7 @@ common#:#chg_password#:#Změnit heslo
 common#:#choose_language#:#Vyberte si jazyk
 common#:#choose_location#:#Vyberte umístění
 common#:#choose_only_one_language#:#Vyberte prosím pouze jeden jazyk
-common#:#city#:#Město
+common#:#city#:#Město###14 Sep 2004 content changed
 common#:#clear#:#Vymazat
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID klienta
@@ -759,6 +766,7 @@ common#:#country#:#Země
 common#:#course#:#Kurz
 common#:#courses#:#Kurzy
 common#:#create#:#Vytvořit
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Vytvořit v
 common#:#create_stylesheet#:#Vytvořit styl
 common#:#crs#:#Kurz
@@ -800,7 +808,7 @@ common#:#database#:#Databáze
 common#:#database_version#:#Současná verze databáze
 common#:#dataset#:#Položka
 common#:#date#:#data###Je spojováno s "Přiřadit podle"
-common#:#dateplaner#:#Plánovač
+common#:#dateplaner#:#Plánovač###14 Sep 2004 content changed
 common#:#day#:#Den
 common#:#days#:#dnů
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
@@ -857,7 +865,7 @@ common#:#edit_stylesheet#:#Upravit styl
 common#:#edited_at#:#Upraven
 common#:#editor#:#Editor### identical translation
 common#:#email#:#E-mail### identical translation
-common#:#email_not_valid#:#Zadaná e-mailová adresa je neplatné!
+common#:#email_not_valid#:#Zadaná e-mailová adresa je neplatné!###14 Sep 2004 content changed
 common#:#enable#:#Povolit
 common#:#enable_registration#:#Povolit registraci nového uživatele
 common#:#enabled#:#Povoleno
@@ -867,6 +875,7 @@ common#:#err_2_param#:#Pouze 2 parametry!
 common#:#err_count_param#:#Důvod: Chybný počet parametrů
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Chyba na řádce
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -898,7 +907,7 @@ common#:#exc_edit_permission#:#Change permission settings###16 Mar 2004 new vari
 common#:#exc_edit_until#:#Termín vypracování
 common#:#exc_files#:#Soubory
 common#:#exc_groups#:#Skupiny
-common#:#exc_header_members#:#Cvičení(členové)
+common#:#exc_header_members#:#Cvičení(členové)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Pracovní pokyny
 common#:#exc_members_already_assigned#:#Tito uživatelé jsou již přiřazeni k tomuto cvičení
 common#:#exc_members_assigned#:#Členové přiřazení
@@ -923,8 +932,8 @@ common#:#exc_write#:#Edit exercise###16 Mar 2004 new variable
 common#:#excs#:#Cvičení
 common#:#execute#:#Vykonat
 common#:#export#:#Export###20 Mar 2004 new variable
-common#:#export_html#:#exportovat jako html soubor
-common#:#export_xml#:#exportovat jako xml soubor
+common#:#export_html#:#exportovat jako html soubor###14 Sep 2004 content changed
+common#:#export_xml#:#exportovat jako xml soubor###14 Sep 2004 content changed
 common#:#faq_exercise#:#Cvičení FAQ
 common#:#fax#:#Fax### identical translation
 common#:#feedback#:#Dejte nám vědět
@@ -973,7 +982,7 @@ common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
 common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#složka
 common#:#folders#:#Složky
-common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednání!
+common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednání!###14 Sep 2004 content changed
 common#:#forename#:#Křestní jméno
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#Vypňte prosím tato políčka:
@@ -1028,7 +1037,7 @@ common#:#glossaries#:#Glosáře
 common#:#glossary#:#Glosář
 common#:#glossary_added#:#Glosář přidán
 common#:#group_access_denied#:#Přistup odepřen
-common#:#group_any_objects#:#Žádné podřízené objekty nejsou dostupné
+common#:#group_any_objects#:#Žádné podřízené objekty nejsou dostupné###14 Sep 2004 content changed
 common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Popis skupiny
 common#:#group_details#:#Podrobnosti skupiny
@@ -1039,21 +1048,21 @@ common#:#group_members#:#Členové skupiny###04 Sep 2004 content changed
 common#:#group_memstat#:#Status člena
 common#:#group_memstat_admin#:#Administrátor
 common#:#group_memstat_member#:#Člen
-common#:#group_name#:#Název skupiny
+common#:#group_name#:#Název skupiny###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Nové registrace###04 Sep 2004 content changed
 common#:#group_no_registration#:#registratce není vyžadována
-common#:#group_no_registration_msg#:#Nejste doposud členem této skupiny.  Z administrativních důvodů musíte vstoupit do požadované skupiny.<br> Jako člen máte následující výhody:<br>- Budete informován(a) o novinkách a aktualizacích<br>- Získáte právo přístupu k odpovídajícím objektům jako jsou diskusní skupiny, výukové moduly, atd.<br><br>Své členství můžete kdykoliv zrušit.
+common#:#group_no_registration_msg#:#Nejste doposud členem této skupiny.  Z administrativních důvodů musíte vstoupit do požadované skupiny.<br> Jako člen máte následující výhody:<br>- Budete informován(a) o novinkách a aktualizacích<br>- Získáte právo přístupu k odpovídajícím objektům jako jsou diskusní skupiny, výukové moduly, atd.<br><br>Své členství můžete kdykoliv zrušit.###14 Sep 2004 content changed
 common#:#group_not_available#:#žádná skupina není k dispozici
 common#:#group_objects#:#Skupinové objekty
 common#:#group_password_registration_expired_msg#:#Lhůta pro přihlášení do této skupiny vypršela.  Přihlášení již není možné.  Kontaktujte prosím příslušného vlastníka nebo administrátora.
-common#:#group_password_registration_msg#:#Ke vstupu do této skupiny musíte zadat heslo, které Vám poskytne její administrátor.<br>Budete automaticky zařazeni do skupiny, pokud zdáte správné heslo.
+common#:#group_password_registration_msg#:#Ke vstupu do této skupiny musíte zadat heslo, které Vám poskytne její administrátor.<br>Budete automaticky zařazeni do skupiny, pokud zdáte správné heslo.###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#Datum vypršení
 common#:#group_registration_expiration_time#:#Čas vypršení
-common#:#group_registration_expired#:#Registrační období vypršelo
+common#:#group_registration_expired#:#Registrační období vypršelo###14 Sep 2004 content changed
 common#:#group_registration_mode#:#Registrační mód
 common#:#group_req_password#:#Musíte zadat registrační heslo.
 common#:#group_req_registration#:#Je vyžadována registrace
-common#:#group_req_registration_msg#:#Pokud chcete vstoupit do této skupiny, musíte se registrovat.  Správce dané skupiny vás zařadí.  Zadejte prosím předmět udávající důvody vaší žádosti.<br>Obdržíte zprávu jakmile budete do skupiny zařazen(a).
+common#:#group_req_registration_msg#:#Pokud chcete vstoupit do této skupiny, musíte se registrovat.  Správce dané skupiny vás zařadí.  Zadejte prosím předmět udávající důvody vaší žádosti.<br>Obdržíte zprávu jakmile budete do skupiny zařazen(a).###14 Sep 2004 content changed
 common#:#group_reset#:#Vynulovat oprávnění skupiny
 common#:#group_status#:#Status skupiny###08 May 2004 content changed
 common#:#group_status_closed#:#Uzavřená
@@ -1090,7 +1099,7 @@ common#:#grp_edit#:#Upravit skupinu
 common#:#grp_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#grp_err_administrator_required#:#Uživatel nemůže být odstraněn.  Alespoň jeden administrátor je vyžadován pro každou skupinu!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Každá skupina potřebuje mít alespoň jednoho administrátora
-common#:#grp_err_error#:#Došlo k chybě
+common#:#grp_err_error#:#Došlo k chybě###14 Sep 2004 content changed
 common#:#grp_err_last_member#:#Poslední člen nemůže být odstraněn, odstraňte namísto toho prosím danou skupinu.
 common#:#grp_err_member_could_not_be_removed#:#Uživatel nemůže být odstraněn.  Ověřte prosím všechny závislosti tohoto uživatele.
 common#:#grp_err_no_permission#:#Nemáte práva pro tuto operaci.
@@ -1155,7 +1164,7 @@ common#:#identifier#:#identifikátor
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Verze ILIASu
 common#:#image#:#Obrázek
-common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.
+common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.###14 Sep 2004 content changed
 common#:#import#:#Importovat
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###16 Mar 2004 new variable
@@ -1166,13 +1175,14 @@ common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new 
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#Importovat Learning module
+common#:#import_lm#:#Importovat Learning module###14 Sep 2004 content changed
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###16 Mar 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#v
 common#:#in_use#:#Uživatelský jazyk
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Doručená pošta
 common#:#info_assign_sure#:#Určitě chcete přiřadit následující uživatele?
 common#:#info_delete_sure#:#Určitě chcete vymazat následující objekty?
@@ -1194,7 +1204,7 @@ common#:#ingmedia_pers_dates#:#Osobní údaje
 common#:#ingmedia_reg_fo#:#Registrované diskusní skupiny
 common#:#ingmedia_reg_le#:#Registrované LE
 common#:#ingmedia_use_info1#:#Zde můžete změnit svá osobní data.  Kromě INGMEDIA uživatelského jména a hesla nemusíte vyplňovat ostatní položky.  Pamatujte, že zapomenuté heslo může být vráceno pouze pomocí e-mailu.
-common#:#ingmedia_use_info2#:#Není dovoleno používat speciální znaky (jako , ; . = - * + #) uvnitř INGMEDIA uživatelského jména a hesla.  Pro možnost použití INGMEDIA platformy musíte přijmout uživatelské ujednání.
+common#:#ingmedia_use_info2#:#Není dovoleno používat speciální znaky (jako , ; . = - * + #) uvnitř INGMEDIA uživatelského jména a hesla.  Pro možnost použití INGMEDIA platformy musíte přijmout uživatelské ujednání.###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#Zvolte prosím jeden z odkazů postranní lišty.
 common#:#ingmedia_use_title#:#Změnit data uživatele.
 common#:#ingmedia_user_agree#:#Ujednání
@@ -1247,8 +1257,8 @@ common#:#langfile_found#:#Jazykový soubor nalezen
 common#:#language#:#Jazyk
 common#:#language_not_installed#:#není instalována.  Nejprve prosím tento jazyk nainstalujte.
 common#:#languages#:#Jazyky
-common#:#languages_already_installed#:#Vybraný jazyk je již instanován
-common#:#languages_already_uninstalled#:#Vybraný jazyk je již odinstanován
+common#:#languages_already_installed#:#Vybraný jazyk je již instanován###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#Vybraný jazyk je již odinstanován###14 Sep 2004 content changed
 common#:#languages_updated#:#Všechny instalované jazyky byly aktualizovány
 common#:#last_change#:#Poslední změna
 common#:#last_visit#:#Poslední návštěva
@@ -1309,7 +1319,7 @@ common#:#lo_categories#:#Kategorie výukových objektů
 common#:#lo_edit#:#Upravit výukový objekt
 common#:#lo_new#:#Nový výukový objekt
 common#:#lo_no_content#:#Žádné učební materiály nejsou k dispozici
-common#:#lo_other_langs#:#Výukové objekty v jiných jazycích
+common#:#lo_other_langs#:#Výukové objekty v jiných jazycích###14 Sep 2004 content changed
 common#:#lo_overview#:#Přehled výukových objektů
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Umístění:
@@ -1318,7 +1328,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Přihlašovací jméno
 common#:#login_as#:#Přihlášen jako
 common#:#login_data#:#Přihlašovací údaje
-common#:#login_exists#:#Uživatel s tímto přihlašovacím jménem již existuje! Vyberte prosím jiné.
+common#:#login_exists#:#Uživatel s tímto přihlašovacím jménem již existuje! Vyberte prosím jiné.###14 Sep 2004 content changed
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Čas přihlášení
 common#:#login_to_ilias#:#Přihlásit do systému ILIAS
@@ -1328,7 +1338,7 @@ common#:#los#:#Výukové objekty
 common#:#los_last_visited#:#Poslední navštívené výukové objekty
 common#:#mail#:#Pošta
 common#:#mail_a_root#:#Poštovní schránka
-common#:#mail_addressbook#:#Adresář kontaktů
+common#:#mail_addressbook#:#Adresář kontaktů###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#Povolit SMTP
 common#:#mail_b_inbox#:#Doručená pošta
 common#:#mail_c_trash#:#Koš
@@ -1342,17 +1352,17 @@ common#:#mail_import#:#Import###31 Mar 2004 new variable
 common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Povolit
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
-common#:#mail_mails_of#:#Pošta
+common#:#mail_mails_of#:#Pošta###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#Max. velikost přílohy
 common#:#mail_maxsize_box#:#Max. velikost schránky
 common#:#mail_maxsize_mail#:#Max. velikost zprávy
 common#:#mail_maxtime_attach#:#Max. doba skladování příloh
-common#:#mail_maxtime_mail#:#Max. doba skladování pošty
+common#:#mail_maxtime_mail#:#Max. doba skladování pošty###14 Sep 2004 content changed
 common#:#mail_not_sent#:#Zpráva nebyla odeslána!
 common#:#mail_read#:#Read access to Mail settings###16 Mar 2004 new variable
 common#:#mail_search_no#:#Žádné položky nebyly nalezeny
 common#:#mail_search_word#:#Vyhledat slovo
-common#:#mail_select_one#:#Musíte vybrat jednu zprávu
+common#:#mail_select_one#:#Musíte vybrat jednu zprávu###14 Sep 2004 content changed
 common#:#mail_send_error#:#Chyba při odesílání zprávy
 common#:#mail_sent#:#Zpráva odeslána!
 common#:#mail_smtp_mail#:#User may send mail via SMTP###16 Mar 2004 new variable
@@ -1361,7 +1371,7 @@ common#:#mail_system_message#:#User may send internal system messages###16 Mar 2
 common#:#mail_visible#:#Mail settings are visible###16 Mar 2004 new variable
 common#:#mail_write#:#Edit Mail settings###16 Mar 2004 new variable
 common#:#mail_z_local#:#Uživatelské složky
-common#:#mails#:#Pošta
+common#:#mails#:#Pošta###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Označit všechny jako přečtené
 common#:#mark_all_unread#:#Označit všechny jako nepřečtené
@@ -1432,7 +1442,7 @@ common#:#msg_deleted_rolt#:#Role byly odstraněny
 common#:#msg_deleted_rolts#:#Šablony rolí byly odstraněny
 common#:#msg_error_copy#:#Chyba při kopírování
 common#:#msg_failed#:#Je mi líto, akce selhala
-common#:#msg_is_last_role#:#Následujícím uživatelům byla odejmuta jejich globální role
+common#:#msg_is_last_role#:#Následujícím uživatelům byla odejmuta jejich globální role###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#Vybrané objekty uložené ve schránce (Akce: vytvořit odkaz)
 common#:#msg_linked#:#Odkazy na vybrané objekty byly vytvořeny.
 common#:#msg_may_not_contain#:#Tento objekt nemůže obsahovat objekty typu:
@@ -1458,7 +1468,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#Nemáte oprávnění vytvořit odkaz na následující objekty:
 common#:#msg_no_perm_modify_role#:#Nemáte oprávnění modifikovat role
 common#:#msg_no_perm_modify_rolt#:#Nemáte oprávnění modifikovat šablony rolí
-common#:#msg_no_perm_modify_user#:#Nemáte oprávnění modifikovat uživatelská data
+common#:#msg_no_perm_modify_user#:#Nemáte oprávnění modifikovat uživatelská data###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#Nemáte oprávnění vložit následující objekty:
 common#:#msg_no_perm_perm#:#Nemáte oprávnění měnit nastavení přístupových práv
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
@@ -1484,17 +1494,17 @@ common#:#msg_perm_adopted_from_itself#:#Není možné převzít nastavení pří
 common#:#msg_removed#:#Objekt(y) vymazány ze systému.
 common#:#msg_role_exists1#:#Šablona role s názvem
 common#:#msg_role_exists2#:#již existuje! Vyberte prosím jiný název.
-common#:#msg_role_reserved_prefix#:#Prefix 'il_' je rezervován pro generované role.  Vyberte prosím jiný název.
-common#:#msg_roleassignment_active_changed#:#Přiřazení aktivních rolí změněno.
-common#:#msg_roleassignment_active_changed_comment#:#Toto nastavení není uloženo v uživatelském profilu.  Když se uživatel příště přihlásí, všechna aktivní přiřazení rolí budou nastavena na uložené hodnoty.
-common#:#msg_roleassignment_changed#:#Přiřazení rolí bylo změněno
-common#:#msg_sysrole_not_deletable#:#Systémová role nemůže být smazána
+common#:#msg_role_reserved_prefix#:#Prefix 'il_' je rezervován pro generované role.  Vyberte prosím jiný název.###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#Přiřazení aktivních rolí změněno.###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Toto nastavení není uloženo v uživatelském profilu.  Když se uživatel příště přihlásí, všechna aktivní přiřazení rolí budou nastavena na uložené hodnoty.###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#Přiřazení rolí bylo změněno###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#Systémová role nemůže být smazána###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#Nastavení oprávnění systémové role nelze měnit.  Systémová role garantuje všem přiřazeným uživatelům neomezený přístup ke všem objektům a funkcím.
 common#:#msg_trash_empty#:#žádné smazané objekty nejsou k dispozici.
 common#:#msg_undeleted#:#Objekty obnoveny.
 common#:#msg_user_last_role1#:# Následující uživatelé mají přiřazenu pouze tuto roli:
 common#:#msg_user_last_role2#:#Smažte prosím tyto uživatele, nebo jim přiřaďte jinou roli aby bylo možné tuto roli smazat.
-common#:#msg_userassignment_changed#:#Přiřazení uživatelů bylo změněno
+common#:#msg_userassignment_changed#:#Přiřazení uživatelů bylo změněno###14 Sep 2004 content changed
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Mé záložky
 common#:#my_frms#:#Mé diskusní skupiny
@@ -1526,6 +1536,7 @@ common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Žádné výukové objekty v osobním seznamu.
 common#:#no_objects#:#Žádné objekty
 common#:#no_permission_to_join#:#Nemáte oprávnění pro vstup do skupiny!
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Žádný název
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
@@ -1572,7 +1583,7 @@ common#:#obj_mob#:#Multimedia Object###16 Mar 2004 new variable
 common#:#obj_not_found#:#Objekt nenalezen
 common#:#obj_note#:#Poznámka
 common#:#obj_notf#:#Administrativní poznámka
-common#:#obj_objf#:#Definice objektů
+common#:#obj_objf#:#Definice objektů###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#Správa typů objektů ILIASu a přístupových práv (pro experty!)
 common#:#obj_owner#:#Tento objekt vlastní
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1598,7 +1609,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
 common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test###16 Mar 2004 new variable
-common#:#obj_typ#:#Definice typů objektů
+common#:#obj_typ#:#Definice typů objektů###14 Sep 2004 content changed
 common#:#obj_type#:#Typ objektu
 common#:#obj_uset#:#Uživatelská nastavení
 common#:#obj_usr#:#Uživatel
@@ -1607,7 +1618,7 @@ common#:#obj_usrf_desc#:#Správa uživatelských účtů.
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objekty
-common#:#objf#:#Definice objektů
+common#:#objf#:#Definice objektů###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#objf_read#:#Read access to Objectdefinitions###16 Mar 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###16 Mar 2004 new variable
@@ -1679,7 +1690,7 @@ common#:#path_to_htmldoc#:#Cesta k programu HTMLdoc
 common#:#path_to_java#:#Cesta k programu Java
 common#:#path_to_unzip#:#Cesta k programu Unzip
 common#:#path_to_zip#:#Cesta k programu Zip
-common#:#pathes#:#Cesty
+common#:#pathes#:#Cesty###14 Sep 2004 content changed
 common#:#payment_system#:#Platební systém
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1696,7 +1707,7 @@ common#:#personal_data#:#Osobní údaje
 common#:#personal_desktop#:#Osobní pracovní plocha
 common#:#personal_picture#:#Osobní obrázek
 common#:#personal_profile#:#Osobní profil
-common#:#persons#:#Osoby
+common#:#persons#:#Osoby###14 Sep 2004 content changed
 common#:#pg_a#:#stránka
 common#:#pg_add#:#Přidat stránku
 common#:#pg_added#:#Stránka přidána
@@ -1723,7 +1734,7 @@ common#:#public_profile#:#Veřejný profil
 common#:#publication#:#Publikace
 common#:#publication_date#:#Datum publikování
 common#:#published#:#Publikováno
-common#:#publishing_organisation#:#Publikováno organizací
+common#:#publishing_organisation#:#Publikováno organizací###14 Sep 2004 content changed
 common#:#qpl#:#Question pool###16 Mar 2004 new variable
 common#:#qpl_add#:#Add question pool###16 Mar 2004 new variable
 common#:#qpl_delete#:#Delete Question Pool###16 Mar 2004 new variable
@@ -1740,6 +1751,7 @@ common#:#quote#:#Citace
 common#:#read#:#Číst
 common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Příjemce
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#Aktualizovat
 common#:#refresh_languages#:#Aktualizovat jazyky
 common#:#refresh_list#:#Aktualizovat seznam
@@ -1759,7 +1771,28 @@ common#:#rename#:#Přejmenovat
 common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Odpovědět
 common#:#repository#:#Výuka
-common#:#required_field#:#Povinná položka
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#Povinná položka###14 Sep 2004 content changed
 common#:#reset#:#Reset### identical translation
 common#:#resources#:#Zdroje
 common#:#retype_password#:#Heslo znovu
@@ -1823,9 +1856,12 @@ common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 ne
 common#:#saved#:#Uloženo
 common#:#saved_successfully#:#Úspěšně uloženo
 common#:#search#:#Vyhledávání
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Vyhledávat v
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#Nové hledání
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#Hledat příjemce
 common#:#search_result#:#Výsledky vyhledávání
 common#:#search_user#:#Vyhledat uživatele
@@ -1875,7 +1911,7 @@ common#:#st_add#:#Přidat kapitolu
 common#:#st_added#:#Kapitola přidána
 common#:#st_edit#:#Upravit kapitolu
 common#:#st_new#:#Nová kapitola
-common#:#startpage#:#Úvodní stránka
+common#:#startpage#:#Úvodní stránka###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Stav
 common#:#step#:#Krok
@@ -1906,6 +1942,7 @@ common#:#system_check#:#System Check###16 Mar 2004 new variable
 common#:#system_choose_language#:#Vybrat systémový jazyk
 common#:#system_groups#:#Systémové skupiny
 common#:#system_grp#:#Systémová skupina
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Systémový jazyk
 common#:#system_message#:#Systémová zpráva
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
@@ -1969,7 +2006,8 @@ common#:#tst_visible#:#Test is visible###16 Mar 2004 new variable
 common#:#tst_write#:#Edit Test###16 Mar 2004 new variable
 common#:#txt_add_object_instruction1#:#Přemístěte se do místa kam chcete přidat
 common#:#txt_add_object_instruction2#:#.### identical translation
-common#:#txt_registered#:#Vaše registrace byla úspěšná.  Použijte níže uvedené tlačítko pro přihlášení do systému ILIAS s Vaším novým účtem.
+common#:#txt_registered#:#Vaše registrace byla úspěšná.  Použijte níže uvedené tlačítko pro přihlášení do systému ILIAS s Vaším novým účtem.###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Definice typů objektů
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Napište zprávu sem
@@ -2041,8 +2079,8 @@ common#:#write#:#Zápis
 common#:#yes#:#Ano
 common#:#you_may_add_local_roles#:#Můžete přidat lokální role
 common#:#your_message#:#Vaše zpráva
-common#:#zip#:#Poštovní kód
-common#:#zipcode#:#Poštovní kód
+common#:#zip#:#Poštovní kód###14 Sep 2004 content changed
+common#:#zipcode#:#Poštovní kód###14 Sep 2004 content changed
 content#:#HTML export#:#Export do HTML
 content#:#PDF export#:#Export do PDF
 content#:#Pages#:#Stránky
@@ -2080,16 +2118,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Map areas deleted.###16 Mar 2004 new variable
-content#:#cont_assign_full#:#Celá obrazovka
+content#:#cont_assign_full#:#Celá obrazovka###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Standardní
 content#:#cont_assign_translation#:#Přiřadit překlad
 content#:#cont_assignments_deleted#:#Přiřazení byla zrušena
 content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Zpět
-content#:#cont_booktitle#:#Název knihy
+content#:#cont_booktitle#:#Název knihy###14 Sep 2004 content changed
 content#:#cont_bottom#:#Dolů
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#Není možné smazat celoobrazovkový soubor.
+content#:#cont_cant_del_full#:#Není možné smazat celoobrazovkový soubor.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Není možné smazat soubor se standardním náhledem.
 content#:#cont_caption#:#Nápis
 content#:#cont_change_type#:#Změnit typ
@@ -2102,7 +2140,7 @@ content#:#cont_characteristic#:#Charakteristika
 content#:#cont_choose_cont_obj#:#Vybrat obsahový objekt
 content#:#cont_choose_glossary#:#Vybrat glosář
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#Musíte vybrat právě jedno vydání
+content#:#cont_citation_err_one#:#Musíte vybrat právě jedno vydání###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Výběr je neplatný
 content#:#cont_citations#:#Citace
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
@@ -2190,8 +2228,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###16 Mar 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#Smazání není možné.  Celoobrazovkový soubor je v adresáři.
-content#:#cont_fullscreen#:#Přes celou obrazovku
+content#:#cont_full_is_in_dir#:#Smazání není možné.  Celoobrazovkový soubor je v adresáři.###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#Přes celou obrazovku###14 Sep 2004 content changed
 content#:#cont_get_link#:#get link###16 Mar 2004 new variable
 content#:#cont_get_orig_size#:#Set original size###16 Mar 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
@@ -2378,7 +2416,7 @@ content#:#cont_version#:#verze
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#publikováno kde
 content#:#cont_width#:#Width###16 Mar 2004 new variable
-content#:#cont_wysiwyg#:#Wysiwyg obsah
+content#:#cont_wysiwyg#:#Wysiwyg obsah###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base### identical translation
 content#:#cont_year#:#Rok
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
@@ -2661,6 +2699,7 @@ dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new va
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
 dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
 dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
@@ -2797,7 +2836,7 @@ forum#:#forums_not_available#:#Diskusní skupiny nejsou dostupné
 forum#:#forums_overview#:#Přehled diskusních skupin
 forum#:#forums_post_deleted#:#Příspěvek byl odstraněn
 forum#:#forums_post_modified#:#Příspěvek byl upraven
-forum#:#forums_post_new_entry#:#Nový příspěvek byl zaznamenán
+forum#:#forums_post_new_entry#:#Nový příspěvek byl zaznamenán###14 Sep 2004 content changed
 forum#:#forums_posts#:#Všechny příspěvky
 forum#:#forums_posts_not_available#:#Příspěvky nejsou dostupné
 forum#:#forums_print_thread#:#Tisk tématu
@@ -2806,40 +2845,40 @@ forum#:#forums_respond#:#Odpovědět
 forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#Příspěvek
 forum#:#forums_thread#:#Téma
-forum#:#forums_thread_articles#:#Příspěvky k tématu
+forum#:#forums_thread_articles#:#Příspěvky k tématu###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Vytvořeno
 forum#:#forums_thread_create_from#:#Vytvořeno od
-forum#:#forums_thread_new_entry#:#Nové téma bylo registrováno
+forum#:#forums_thread_new_entry#:#Nové téma bylo registrováno###14 Sep 2004 content changed
 forum#:#forums_threads#:#Témata
 forum#:#forums_threads_not_available#:#Témata nejsou dostupná
 forum#:#forums_topics_overview#:#Přehled témat
 forum#:#forums_your_reply#:#Vaše reakce
 mail#:#also_as_email#:#Také jako e-mail
-mail#:#bc#:#Slepá kopie
+mail#:#bc#:#Slepá kopie###14 Sep 2004 content changed
 mail#:#forward#:#Přeposlat
-mail#:#linebreak#:#Řádkový zlom
+mail#:#linebreak#:#Řádkový zlom###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#Prosím zadejte příjemce
 mail#:#mail_add_subfolder#:#Přidat podadresář
 mail#:#mail_add_subject#:#Zadejte prosím předmět
-mail#:#mail_add_to_addressbook#:#Přidat do adresáře kontaktů
+mail#:#mail_add_to_addressbook#:#Přidat do adresáře kontaktů###14 Sep 2004 content changed
 mail#:#mail_add_type#:#Přidejte prosím typ zprávy, kterou chcete poslat
 mail#:#mail_addr_entries#:#Položky
 mail#:#mail_attachments#:#Přílohy
-mail#:#mail_bc_not_valid#:#Příjemce slepé kopie je neplatný
-mail#:#mail_bc_search#:#Vyhledat
+mail#:#mail_bc_not_valid#:#Příjemce slepé kopie je neplatný###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#Vyhledat###14 Sep 2004 content changed
 mail#:#mail_byte#:#Bajt
-mail#:#mail_cc_not_valid#:#Příjemce kopie je neplatný
+mail#:#mail_cc_not_valid#:#Příjemce kopie je neplatný###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#Vyhledat
 mail#:#mail_change_to_folder#:#Přepnout se do složky:
 mail#:#mail_check_your_email_addr#:#Vaše e-mailová adresa je neplatná
 mail#:#mail_compose#:#Vytvořit zprávu
-mail#:#mail_deleted#:#Zpráva(y) byla(y) vymazána(y)
+mail#:#mail_deleted#:#Zpráva(y) byla(y) vymazána(y)###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#Položky vymazány
 mail#:#mail_email_forbidden#:#Nemáte povoleno odesílat e-mail.
 mail#:#mail_entry_added#:#Přidána nová položka
 mail#:#mail_entry_changed#:#Položka je změněna
-mail#:#mail_file_name#:#Název souboru
-mail#:#mail_file_size#:#Velikost souboru
+mail#:#mail_file_name#:#Název souboru###14 Sep 2004 content changed
+mail#:#mail_file_size#:#Velikost souboru###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#Soubory odstraněny
 mail#:#mail_folder_created#:#Nová složka byla vytvořena
 mail#:#mail_folder_deleted#:#Složka byla vymazána
@@ -2856,14 +2895,14 @@ mail#:#mail_incoming_smtp#:#forward to email address###16 Mar 2004 new variable
 mail#:#mail_insert_folder_name#:#Vložte prosím název složky
 mail#:#mail_insert_query#:#Zadejte prosím dotaz
 mail#:#mail_intern#:#Interní
-mail#:#mail_mark_read#:#Označit zprávy jako přečtené
-mail#:#mail_mark_unread#:#Označit zprávy jako nepřečtené
+mail#:#mail_mark_read#:#Označit zprávy jako přečtené###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Označit zprávy jako nepřečtené###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#Limit pro upload je:
 mail#:#mail_message_send#:#Zpráva odeslána
-mail#:#mail_move_error#:#Chyba při přesouvání pošty
+mail#:#mail_move_error#:#Chyba při přesouvání pošty###14 Sep 2004 content changed
 mail#:#mail_move_to#:#Přesunout do:
-mail#:#mail_moved#:#Zpráva(y) přesunuta(y)
-mail#:#mail_moved_to_trash#:#Zpráva(y) přesunuta(y) do koše
+mail#:#mail_moved#:#Zpráva(y) přesunuta(y)###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Zpráva(y) přesunuta(y) do koše###14 Sep 2004 content changed
 mail#:#mail_new_file#:#Přidat nový soubor:
 mail#:#mail_no_attach_allowed#:#Systémové zprávy nesmí obsahovat přílohy
 mail#:#mail_no_attachments_found#:#Žádné přílohy nebyly nalezeny
@@ -2871,20 +2910,20 @@ mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emai
 mail#:#mail_options_of#:#Volby
 mail#:#mail_options_saved#:#Volby uloženy
 mail#:#mail_recipient_not_valid#:#Příjemce je neplatný
-mail#:#mail_s#:#Pošta
-mail#:#mail_s_unread#:#Nepřečtená pošta
+mail#:#mail_s#:#Pošta###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#Nepřečtená pošta###14 Sep 2004 content changed
 mail#:#mail_saved#:#Zpráva byla uložena
-mail#:#mail_search_addressbook#:#Vyhledávat v adresáři kontaktů
+mail#:#mail_search_addressbook#:#Vyhledávat v adresáři kontaktů###14 Sep 2004 content changed
 mail#:#mail_search_system#:#Vyhledávat v sytému
-mail#:#mail_select_one_entry#:#Musíte vybrat právě jednu položku
-mail#:#mail_select_one_file#:#Musíte vybrat právě jeden soubor
-mail#:#mail_sure_delete#:#Určitě chcete odstranit označené zprávy?
+mail#:#mail_select_one_entry#:#Musíte vybrat právě jednu položku###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#Musíte vybrat právě jeden soubor###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#Určitě chcete odstranit označené zprávy?###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#Určitě chcete odstranit následující položky?
 mail#:#mail_sure_delete_file#:#Soubor bude definitivně vymazán
-mail#:#mail_sure_delete_folder#:#Složka a její obsah bude definitivně vymazána
+mail#:#mail_sure_delete_folder#:#Složka a její obsah bude definitivně vymazána###14 Sep 2004 content changed
 mail#:#mail_to_search#:#Vyhledat
-mail#:#mail_user_addr_n_valid#:#Následující uživatelé nemají platnou adresu elektronické pošty
-mail#:#search_bc_recipient#:#Vyhledat příjemce slepé kopie
+mail#:#mail_user_addr_n_valid#:#Následující uživatelé nemají platnou adresu elektronické pošty###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#Vyhledat příjemce slepé kopie###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Vyhledat příjemce kopie
 meta#:#meta_accessibility_restrictions#:#Omezení dostupnosti
 meta#:#meta_active#:#Aktivní
@@ -3146,7 +3185,7 @@ meta#:#meta_coverage#:#Rozsah
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Odstranit
 meta#:#meta_description#:#Popis
-meta#:#meta_diagramm#:#Diagram
+meta#:#meta_diagramm#:#Diagram###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#Obtížnost
 meta#:#meta_dificult#:#Difficult
 meta#:#meta_draft#:#Koncept
@@ -3189,144 +3228,144 @@ meta#:#meta_is_required_by#:#Je vyžadován
 meta#:#meta_is_version_of#:#Je verzí
 meta#:#meta_keyword#:#Klíčové slovo
 meta#:#meta_kind#:#Druh
-meta#:#meta_l_aa#:#afarština
-meta#:#meta_l_ab#:#abchazština
-meta#:#meta_l_af#:#afrikánština
-meta#:#meta_l_am#:#amharština
-meta#:#meta_l_ar#:#arabština
-meta#:#meta_l_as#:#ásámština
-meta#:#meta_l_ay#:#ajmarština
-meta#:#meta_l_az#:#ázerbajdžánština
-meta#:#meta_l_ba#:#baškirština
-meta#:#meta_l_be#:#běloruština
-meta#:#meta_l_bg#:#bulharština
-meta#:#meta_l_bh#:#bihárština
-meta#:#meta_l_bi#:#bislámština
-meta#:#meta_l_bn#:#bengálština
-meta#:#meta_l_bo#:#tibetština
-meta#:#meta_l_br#:#bretonština
-meta#:#meta_l_ca#:#katalánština
-meta#:#meta_l_co#:#korsičtina
-meta#:#meta_l_cs#:#čeština
-meta#:#meta_l_cy#:#velština
-meta#:#meta_l_da#:#dánština
-meta#:#meta_l_de#:#němčina
-meta#:#meta_l_dz#:#dzongkha
-meta#:#meta_l_el#:#řečtina
-meta#:#meta_l_en#:#angličtina
+meta#:#meta_l_aa#:#afarština###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#abchazština###14 Sep 2004 content changed
+meta#:#meta_l_af#:#afrikánština###14 Sep 2004 content changed
+meta#:#meta_l_am#:#amharština###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#arabština###14 Sep 2004 content changed
+meta#:#meta_l_as#:#ásámština###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#ajmarština###14 Sep 2004 content changed
+meta#:#meta_l_az#:#ázerbajdžánština###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#baškirština###14 Sep 2004 content changed
+meta#:#meta_l_be#:#běloruština###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#bulharština###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#bihárština###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#bislámština###14 Sep 2004 content changed
+meta#:#meta_l_bn#:#bengálština###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#tibetština###14 Sep 2004 content changed
+meta#:#meta_l_br#:#bretonština###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#katalánština###14 Sep 2004 content changed
+meta#:#meta_l_co#:#korsičtina###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#čeština###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#velština###14 Sep 2004 content changed
+meta#:#meta_l_da#:#dánština###14 Sep 2004 content changed
+meta#:#meta_l_de#:#němčina###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#dzongkha###14 Sep 2004 content changed
+meta#:#meta_l_el#:#řečtina###14 Sep 2004 content changed
+meta#:#meta_l_en#:#angličtina###14 Sep 2004 content changed
 meta#:#meta_l_eo#:#esperanto### identical translation
-meta#:#meta_l_es#:#španělština
-meta#:#meta_l_et#:#estonština
-meta#:#meta_l_eu#:#baskičtina
-meta#:#meta_l_fa#:#perština
-meta#:#meta_l_fi#:#finština
-meta#:#meta_l_fj#:#fidžijština
-meta#:#meta_l_fo#:#faerština
-meta#:#meta_l_fr#:#francouzština
-meta#:#meta_l_fy#:#fríština
-meta#:#meta_l_ga#:#irština
-meta#:#meta_l_gd#:#skotština
-meta#:#meta_l_gl#:#galicijština
-meta#:#meta_l_gn#:#guaraní
-meta#:#meta_l_gu#:#gudžarátština
+meta#:#meta_l_es#:#španělština###14 Sep 2004 content changed
+meta#:#meta_l_et#:#estonština###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#baskičtina###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#perština###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#finština###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#fidžijština###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#faerština###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#francouzština###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#fríština###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#irština###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#skotština###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#galicijština###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#guaraní###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#gudžarátština###14 Sep 2004 content changed
 meta#:#meta_l_ha#:#hausa### translation not available
-meta#:#meta_l_he#:#hebrejština
-meta#:#meta_l_hi#:#hindština
-meta#:#meta_l_hr#:#chorvatština
-meta#:#meta_l_hu#:#maďarština
-meta#:#meta_l_hy#:#arménština
+meta#:#meta_l_he#:#hebrejština###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#hindština###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#chorvatština###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#maďarština###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#arménština###14 Sep 2004 content changed
 meta#:#meta_l_ia#:#interlingua### identical translation
-meta#:#meta_l_id#:#indonéština
+meta#:#meta_l_id#:#indonéština###14 Sep 2004 content changed
 meta#:#meta_l_ie#:#interlingue### identical translation
 meta#:#meta_l_ik#:#inupiak### identical translation
-meta#:#meta_l_is#:#islandština
-meta#:#meta_l_it#:#italština
-meta#:#meta_l_iu#:#inuktština
-meta#:#meta_l_ja#:#japonština
-meta#:#meta_l_jv#:#javánština
-meta#:#meta_l_ka#:#gruzínština
-meta#:#meta_l_kk#:#kazaština
-meta#:#meta_l_kl#:#grónština
-meta#:#meta_l_km#:#khmerština
-meta#:#meta_l_kn#:#kannadština
-meta#:#meta_l_ko#:#korejština
-meta#:#meta_l_ks#:#kašmírština
-meta#:#meta_l_ku#:#kurdština
-meta#:#meta_l_ky#:#kirgizština
-meta#:#meta_l_la#:#latina
+meta#:#meta_l_is#:#islandština###14 Sep 2004 content changed
+meta#:#meta_l_it#:#italština###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#inuktština###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#japonština###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#javánština###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#gruzínština###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#kazaština###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#grónština###14 Sep 2004 content changed
+meta#:#meta_l_km#:#khmerština###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#kannadština###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#korejština###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#kašmírština###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#kurdština###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#kirgizština###14 Sep 2004 content changed
+meta#:#meta_l_la#:#latina###14 Sep 2004 content changed
 meta#:#meta_l_ln#:#lingala### translation not available
-meta#:#meta_l_lo#:#laoština
-meta#:#meta_l_lt#:#litevština
-meta#:#meta_l_lv#:#lotyšština
-meta#:#meta_l_mg#:#malgašština
-meta#:#meta_l_mi#:#maorština
-meta#:#meta_l_mk#:#makedonština
-meta#:#meta_l_ml#:#malajálamština
-meta#:#meta_l_mn#:#mongolština
-meta#:#meta_l_mo#:#moldavština
-meta#:#meta_l_mr#:#maráthí
-meta#:#meta_l_ms#:#malajština
-meta#:#meta_l_mt#:#maltština
-meta#:#meta_l_my#:#barmština
-meta#:#meta_l_na#:#naurština
-meta#:#meta_l_ne#:#nepálština
-meta#:#meta_l_nl#:#holandština
-meta#:#meta_l_no#:#norština
-meta#:#meta_l_oc#:#okcitánština
-meta#:#meta_l_om#:#oromo
+meta#:#meta_l_lo#:#laoština###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#litevština###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#lotyšština###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#malgašština###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#maorština###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#makedonština###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#malajálamština###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#mongolština###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#moldavština###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#maráthí###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#malajština###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#maltština###14 Sep 2004 content changed
+meta#:#meta_l_my#:#barmština###14 Sep 2004 content changed
+meta#:#meta_l_na#:#naurština###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#nepálština###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#holandština###14 Sep 2004 content changed
+meta#:#meta_l_no#:#norština###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#okcitánština###14 Sep 2004 content changed
+meta#:#meta_l_om#:#oromo###14 Sep 2004 content changed
 meta#:#meta_l_or#:#oriya### translation not available
-meta#:#meta_l_pa#:#pandžábština
-meta#:#meta_l_pl#:#polština
-meta#:#meta_l_ps#:#paštština
-meta#:#meta_l_pt#:#portugalština
-meta#:#meta_l_qu#:#kečujština
-meta#:#meta_l_rm#:#rétorománština
+meta#:#meta_l_pa#:#pandžábština###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#polština###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#paštština###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#portugalština###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#kečujština###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#rétorománština###14 Sep 2004 content changed
 meta#:#meta_l_rn#:#kurundi### translation not available
-meta#:#meta_l_ro#:#rumunština
-meta#:#meta_l_ru#:#ruština
-meta#:#meta_l_rw#:#rwandština
-meta#:#meta_l_sa#:#sanskrt
+meta#:#meta_l_ro#:#rumunština###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#ruština###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#rwandština###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#sanskrt###14 Sep 2004 content changed
 meta#:#meta_l_sd#:#sindhi### translation not available
-meta#:#meta_l_sg#:#sango
-meta#:#meta_l_sh#:#srbchorvatština
-meta#:#meta_l_si#:#sinhálština
-meta#:#meta_l_sk#:#slovenština
-meta#:#meta_l_sl#:#slovinština
-meta#:#meta_l_sm#:#samojština
+meta#:#meta_l_sg#:#sango###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#srbchorvatština###14 Sep 2004 content changed
+meta#:#meta_l_si#:#sinhálština###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#slovenština###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#slovinština###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#samojština###14 Sep 2004 content changed
 meta#:#meta_l_sn#:#shona### translation not available
-meta#:#meta_l_so#:#somálština
-meta#:#meta_l_sq#:#albánština
-meta#:#meta_l_sr#:#srbština
+meta#:#meta_l_so#:#somálština###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#albánština###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#srbština###14 Sep 2004 content changed
 meta#:#meta_l_ss#:#siswati### translation not available
 meta#:#meta_l_st#:#sesotho### translation not available
-meta#:#meta_l_su#:#sundština
-meta#:#meta_l_sv#:#švédština
-meta#:#meta_l_sw#:#svahilština
-meta#:#meta_l_ta#:#tamilština
+meta#:#meta_l_su#:#sundština###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#švédština###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#svahilština###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#tamilština###14 Sep 2004 content changed
 meta#:#meta_l_te#:#telugu### translation not available
-meta#:#meta_l_tg#:#tádžičtina
-meta#:#meta_l_th#:#thajština
-meta#:#meta_l_ti#:#tigriňa
-meta#:#meta_l_tk#:#turkmenština
-meta#:#meta_l_tl#:#tagalština
-meta#:#meta_l_tn#:#tswanština
-meta#:#meta_l_to#:#tongština
-meta#:#meta_l_tr#:#turečtina
-meta#:#meta_l_ts#:#tsongština
-meta#:#meta_l_tt#:#tatarština
+meta#:#meta_l_tg#:#tádžičtina###14 Sep 2004 content changed
+meta#:#meta_l_th#:#thajština###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#tigriňa###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#turkmenština###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#tagalština###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#tswanština###14 Sep 2004 content changed
+meta#:#meta_l_to#:#tongština###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#turečtina###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#tsongština###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#tatarština###14 Sep 2004 content changed
 meta#:#meta_l_tw#:#twi### translation not available
-meta#:#meta_l_ug#:#ujgurština
-meta#:#meta_l_uk#:#ukrajinština
-meta#:#meta_l_ur#:#urdština
-meta#:#meta_l_uz#:#uzbečtina
-meta#:#meta_l_vi#:#vietnamština
-meta#:#meta_l_vo#:#volapük
-meta#:#meta_l_wo#:#wolofština
+meta#:#meta_l_ug#:#ujgurština###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#ukrajinština###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#urdština###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#uzbečtina###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#vietnamština###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#volapük###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#wolofština###14 Sep 2004 content changed
 meta#:#meta_l_xh#:#xhosa### translation not available
-meta#:#meta_l_yi#:#jidiš
-meta#:#meta_l_yo#:#jorubština
+meta#:#meta_l_yi#:#jidiš###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#jorubština###14 Sep 2004 content changed
 meta#:#meta_l_za#:#zhuang### translation not available
-meta#:#meta_l_zh#:#čínština
+meta#:#meta_l_zh#:#čínština###14 Sep 2004 content changed
 meta#:#meta_l_zu#:#zulu### identical translation
 meta#:#meta_language#:#Jazyk
 meta#:#meta_learner#:#Posluchač
@@ -3352,19 +3391,19 @@ meta#:#meta_narrative_text#:#Mluvený text
 meta#:#meta_networked#:#Síťová
 meta#:#meta_new_element#:#Nový prvek
 meta#:#meta_no#:#Ne
-meta#:#meta_no_annotation#:#Žádná meta-data nejsou k dispozici pro sekci Anotace.
-meta#:#meta_no_classification#:#Žádná meta-data nejsou k dispozici pro sekci Klasifikace.
-meta#:#meta_no_educational#:#Žádná meta-data nejsou k dispozici pro sekci Výuka.
-meta#:#meta_no_lifecycle#:#Žádná meta-data nejsou k dispozici pro sekci Životní cyklus.
-meta#:#meta_no_meta_metadata#:#Žádná meta-data nejsou k dispozici pro sekci Meta-meta-data.
-meta#:#meta_no_relation#:#Žádná meta-data nejsou k dispozici pro sekci Návaznost.
-meta#:#meta_no_rights#:#Žádná meta-data nejsou k dispozici pro sekci Autorská práva.
-meta#:#meta_no_technical#:#Žádná meta-data nejsou k dispozici pro Technickou sekci.
+meta#:#meta_no_annotation#:#Žádná meta-data nejsou k dispozici pro sekci Anotace.###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#Žádná meta-data nejsou k dispozici pro sekci Klasifikace.###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#Žádná meta-data nejsou k dispozici pro sekci Výuka.###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#Žádná meta-data nejsou k dispozici pro sekci Životní cyklus.###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#Žádná meta-data nejsou k dispozici pro sekci Meta-meta-data.###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#Žádná meta-data nejsou k dispozici pro sekci Návaznost.###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#Žádná meta-data nejsou k dispozici pro sekci Autorská práva.###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#Žádná meta-data nejsou k dispozici pro Technickou sekci.###14 Sep 2004 content changed
 meta#:#meta_none#:#Žádný
 meta#:#meta_operating_system#:#Operační Systém
 meta#:#meta_or_composite#:#Nebo kombinace
 meta#:#meta_other#:#Jiné
-meta#:#meta_other_plattform_requirements#:#Jiné systémové požadavky
+meta#:#meta_other_plattform_requirements#:#Jiné systémové požadavky###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS### identical translation
 meta#:#meta_please_select#:#Prosím vyberte
 meta#:#meta_prerequisite#:#Prerekvizita
@@ -3428,31 +3467,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Všechny výsledky
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#Způsob zřetězení
 search#:#search_content#:#Obsah stránky
 search#:#search_dbk_content#:#Elektronická knihovna (obsah)
-search#:#search_dbk_meta#:#Elektronická knihovna (meta data)
-search#:#search_delete_sure#:#Objekt a veškerý obsah bude navždy odstraněn
+search#:#search_dbk_meta#:#Elektronická knihovna (meta data)###14 Sep 2004 content changed
+search#:#search_delete_sure#:#Objekt a veškerý obsah bude navždy odstraněn###14 Sep 2004 content changed
 search#:#search_group#:#Skupiny
 search#:#search_in_result#:#Vyhledávat v rámci výsledků
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#Výukové materiály (obsah)
-search#:#search_lm_meta#:#Výukové materiály (meta data)
+search#:#search_lm_meta#:#Výukové materiály (meta data)###14 Sep 2004 content changed
 search#:#search_meta#:#Meta data### identical translation
-search#:#search_minimum_three#:#Vyhledávací výraz musí být minimálně tři znaky dlouhý
+search#:#search_minimum_three#:#Vyhledávací výraz musí být minimálně tři znaky dlouhý###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#Složka nemůže být přesunuta.
 search#:#search_move_to#:#Přesunout do:
 search#:#search_my_search_results#:#Mé výsledky vyhledávání
 search#:#search_new_folder#:#Nová složka
 search#:#search_no_category#:#Nebyla vybrána žádná vyhledávací kategorie###26 Aug 2004 content changed
-search#:#search_no_match#:#Nebyla nalezena žádná data vyhovující zadané podmínce
+search#:#search_no_match#:#Nebyla nalezena žádná data vyhovující zadané podmínce###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Žádné výsledky nebyly uloženy
-search#:#search_no_search_term#:#Nebyl vybrán žádný vyhledávací výraz
-search#:#search_no_selection#:#Nebyl proveden výběr
+search#:#search_no_search_term#:#Nebyl vybrán žádný vyhledávací výraz###14 Sep 2004 content changed
+search#:#search_no_selection#:#Nebyl proveden výběr###14 Sep 2004 content changed
 search#:#search_object_renamed#:#Objekt byl přejmenován
 search#:#search_objects_deleted#:#Objekty byly odstraněny
 search#:#search_objects_moved#:#Objekty byly přesunuty
 search#:#search_one_action#:#Vyberte jednu akci
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#Změnit název
 search#:#search_results_saved#:#Výsledky vyhledávání uloženy
 search#:#search_save_as_select#:#Uložit jako:
@@ -3460,7 +3503,7 @@ search#:#search_search_for#:#Vyhledávat
 search#:#search_search_no_results_saved#:#Žádné výsledky vyhledávání nebyly uloženy
 search#:#search_search_results#:#Výsledky 
 search#:#search_search_term#:#Vyhledávací výraz
-search#:#search_select_exactly_one_object#:#Musíte vybrat právě jeden objekt.
+search#:#search_select_exactly_one_object#:#Musíte vybrat právě jeden objekt.###14 Sep 2004 content changed
 search#:#search_select_one#:#Vyberte jednu složku
 search#:#search_select_one_action#:#--Vyberte jednu akci--
 search#:#search_select_one_folder_select#:#--Vyberte jednu složku--

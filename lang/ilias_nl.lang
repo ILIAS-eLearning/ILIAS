@@ -83,8 +83,8 @@ administration#:#searching_unbound_objs#:#Zoek naar ongebonden objecten...
 administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!###31 May 2004 new variable
-administration#:#systemcheck#:#Systeemcontrole
-administration#:#view_last_log#:#Bekijk laatste scan-log
+administration#:#systemcheck#:#Systeemcontrole###14 Sep 2004 content changed
+administration#:#view_last_log#:#Bekijk laatste scan-log###14 Sep 2004 content changed
 administration#:#view_log#:#Bekijk details
 assessment#:#0_unlimited#:#(0 = ongelimiteerd)###31 May 2004 content changed
 assessment#:#add_answer#:#Voeg antwoord toe
@@ -113,7 +113,7 @@ assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
-assessment#:#cloze_text#:#Maak tekst af
+assessment#:#cloze_text#:#Maak tekst af###14 Sep 2004 content changed
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
@@ -137,7 +137,7 @@ assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 n
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
 assessment#:#eval_cloze_result#:#Opening-nummer %s met waarde %s is %s. U ontving %s punten.
 assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
-assessment#:#eval_imagemap_result#:#De selectie van de figuur-kaart is %s. U ontving %s punten.
+assessment#:#eval_imagemap_result#:#De selectie van de figuur-kaart is %s. U ontving %s punten.###14 Sep 2004 content changed
 assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
 assessment#:#eval_legend_link#:#Kijk in de legende voor de betekenis van de symbolen in de kolom-koppen.
 assessment#:#eval_matching_result#:#Het overeenkomende paar %s - %s is %s. U ontving %s  punten.
@@ -221,14 +221,14 @@ assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
-assessment#:#qt_cloze#:#Bijna overeenkomende vraag
+assessment#:#qt_cloze#:#Bijna overeenkomende vraag###14 Sep 2004 content changed
 assessment#:#qt_imagemap#:#Figuren-kaart Vraag
 assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#Overeenkomende vraag
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één  antwoord)
 assessment#:#qt_ordering#:#Volgorde-vraag
-assessment#:#question_saved_for_upload#:#De vraag is automatisch opgeslagen om ruimte op de schijf te reserveren voor het te uploaden bestand. Als U nu annuleert, moet u er rekening mee houden, dat de vraag uit de vraagbaak verwijderd moet worden indien u hem niet bewaren wil!
+assessment#:#question_saved_for_upload#:#De vraag is automatisch opgeslagen om ruimte op de schijf te reserveren voor het te uploaden bestand. Als U nu annuleert, moet u er rekening mee houden, dat de vraag uit de vraagbaak verwijderd moet worden indien u hem niet bewaren wil!###14 Sep 2004 content changed
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
@@ -247,9 +247,9 @@ assessment#:#result#:#Resultaat
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
 assessment#:#save_finish#:#Opslaan en beëindig de test
-assessment#:#save_introduction#:#Opslaan en ga naar introductie
-assessment#:#save_next#:#Opslaan en ga naar volgende vraag
-assessment#:#save_previous#:#Opslaan en ga naar vorige vraag
+assessment#:#save_introduction#:#Opslaan en ga naar introductie###14 Sep 2004 content changed
+assessment#:#save_next#:#Opslaan en ga naar volgende vraag###14 Sep 2004 content changed
+assessment#:#save_previous#:#Opslaan en ga naar vorige vraag###14 Sep 2004 content changed
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
@@ -271,7 +271,7 @@ assessment#:#tst_browse_for_questions#:#Blader voor vragen
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
-assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nu toe de test gedaan. Er zijn geen anoniem geaggregeerde resultaten beschikbaar
+assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nu toe de test gedaan. Er zijn geen anoniem geaggregeerde resultaten beschikbaar###14 Sep 2004 content changed
 assessment#:#tst_eval_total_finished#:#Totaal aantal afgeronde testen###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde verwerkingstijd voor afgeronde testen###12 Jun 2004 content changed
 assessment#:#tst_eval_total_passed#:#Totaal aantal afgewerkte testen
@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Start-tijd
 assessment#:#tst_stat_all_users#:#Allemaal gebruikers
 assessment#:#tst_stat_choose_users#:#(selecteer of gebruikers van gebruiker lijst)
 assessment#:#tst_stat_result_atimeofwork#:#Gemiddelde wertijd
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Eerste bezoek
 assessment#:#tst_stat_result_lastvisit#:#Laatste bezoek
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -437,10 +439,10 @@ bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
 bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
 bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
 bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
-chat#:#chat_active#:#Aktieve
-chat#:#chat_active_users#:#Gebruiker(aktief)
+chat#:#chat_active#:#Aktieve###14 Sep 2004 content changed
+chat#:#chat_active_users#:#Gebruiker(aktief)###14 Sep 2004 content changed
 chat#:#chat_add_allowed_hosts#:#toevoegen van host( to toegang chat server.
-chat#:#chat_add_ip#:#A.u.b. voeg ip. van de server toe.
+chat#:#chat_add_ip#:#A.u.b. voeg ip. van de server toe.###14 Sep 2004 content changed
 chat#:#chat_add_moderator_password#:#A.u.b. voeg wachtwoord toe.
 chat#:#chat_add_port#:#A.u.b. voeg poort van de server toe.
 chat#:#chat_aqua#:#aqua
@@ -448,11 +450,11 @@ chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#black
 chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
-chat#:#chat_chatroom_body#:#Chatroom:
-chat#:#chat_chatroom_rename#:#Wijzig chatroom
-chat#:#chat_chatrooms#:#Chatrooms
+chat#:#chat_chatroom_body#:#Chatroom:###14 Sep 2004 content changed
+chat#:#chat_chatroom_rename#:#Wijzig chatroom###14 Sep 2004 content changed
+chat#:#chat_chatrooms#:#Chatrooms###14 Sep 2004 content changed
 chat#:#chat_color#:#Font color
-chat#:#chat_delete_sure#:#Weet u zeker, dat u deze chatroom wilt verwijderen?
+chat#:#chat_delete_sure#:#Weet u zeker, dat u deze chatroom wilt verwijderen?###14 Sep 2004 content changed
 chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Wijzig chat 
 chat#:#chat_face#:#Font type
@@ -461,8 +463,8 @@ chat#:#chat_gray#:#gray
 chat#:#chat_green#:#green
 chat#:#chat_hide_details#:#Details verbergen
 chat#:#chat_html_export#:#HTM-export
-chat#:#chat_ilias#:#Ilias Chat module
-chat#:#chat_inactive#:#Inaktief
+chat#:#chat_ilias#:#Ilias Chat module###14 Sep 2004 content changed
+chat#:#chat_inactive#:#Inaktief###14 Sep 2004 content changed
 chat#:#chat_input#:#Invoer
 chat#:#chat_insert_message#:#A.u.b. voeg een bericht in
 chat#:#chat_invitation_body#:#Uitnodiging om te chatten van:
@@ -480,33 +482,33 @@ chat#:#chat_messages_deleted#:#Berichten zijn verwijderd.
 chat#:#chat_moderator_password#:#Wachtwoord moderator
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Geen gebruikers aanwezig.
-chat#:#chat_no_connection#:#Kan chatserver niet benaderen.
-chat#:#chat_no_delete_public#:#De publieke chatroom kan niet worden verwijderd
-chat#:#chat_no_refresh_public#:#de publieke chatroom kan niet opgefrist worden
+chat#:#chat_no_connection#:#Kan chatserver niet benaderen.###14 Sep 2004 content changed
+chat#:#chat_no_delete_public#:#De publieke chatroom kan niet worden verwijderd###14 Sep 2004 content changed
+chat#:#chat_no_refresh_public#:#de publieke chatroom kan niet opgefrist worden###14 Sep 2004 content changed
 chat#:#chat_no_rename_public#:#de publieke chatroom kan geen nieuwe naam gegeven worden
 chat#:#chat_no_write_perm#:#No toestemming om te schrijven
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Gebruiker (online)
 chat#:#chat_private_message#:#Private bericht
-chat#:#chat_public_room#:#Publieke chatroom
+chat#:#chat_public_room#:#Publieke chatroom###14 Sep 2004 content changed
 chat#:#chat_purple#:#purple
 chat#:#chat_red#:#red
 chat#:#chat_refresh#:#Verversen
-chat#:#chat_room_added#:#Voeg een nieuwe chatroom toe
-chat#:#chat_room_name#:#Naam van de chatroom
-chat#:#chat_room_renamed#:#Chatroom andere naam gegeven.
-chat#:#chat_room_select#:#Private chatroom
-chat#:#chat_rooms#:#Chatrooms
-chat#:#chat_rooms_deleted#:#Catroom(s) verwijderd.
-chat#:#chat_select_one_room#:#Selecteer a.u.b één chatroom
+chat#:#chat_room_added#:#Voeg een nieuwe chatroom toe###14 Sep 2004 content changed
+chat#:#chat_room_name#:#Naam van de chatroom###14 Sep 2004 content changed
+chat#:#chat_room_renamed#:#Chatroom andere naam gegeven.###14 Sep 2004 content changed
+chat#:#chat_room_select#:#Private chatroom###14 Sep 2004 content changed
+chat#:#chat_rooms#:#Chatrooms###14 Sep 2004 content changed
+chat#:#chat_rooms_deleted#:#Catroom(s) verwijderd.###14 Sep 2004 content changed
+chat#:#chat_select_one_room#:#Selecteer a.u.b één chatroom###14 Sep 2004 content changed
 chat#:#chat_server_allowed#:#Toegestane hosts
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#IP. Server
-chat#:#chat_server_logfile#:#Pad naar Log-bestand
-chat#:#chat_server_loglevel#:#Log-niveau
-chat#:#chat_server_not_active#:#De chat-server is niet actief
+chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###14 Sep 2004 content changed
+chat#:#chat_server_ip#:#IP. Server###14 Sep 2004 content changed
+chat#:#chat_server_logfile#:#Pad naar Log-bestand###14 Sep 2004 content changed
+chat#:#chat_server_loglevel#:#Log-niveau###14 Sep 2004 content changed
+chat#:#chat_server_not_active#:#De chat-server is niet actief###14 Sep 2004 content changed
 chat#:#chat_server_port#:#Server poort
-chat#:#chat_server_settings#:# Instellingen chatserver
+chat#:#chat_server_settings#:# Instellingen chatserver###14 Sep 2004 content changed
 chat#:#chat_settings_saved#:#Instellingen opgeslagen
 chat#:#chat_show_details#:#Laat details zien
 chat#:#chat_silver#:#silver
@@ -536,6 +538,7 @@ common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activering
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#Actieve rollen
 common#:#add#:#Toevoegen
 common#:#add_author#:#Toevoegen auteur
@@ -547,7 +550,7 @@ common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Wijzig rechten-instellingen
 common#:#adm_read#:#Lees-rechten Systeem-instellingen
-common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
+common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar###14 Sep 2004 content changed
 common#:#adm_write#:#Wijzigen standaard systeem-instellingen
 common#:#administrate#:#Administreren
 common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
@@ -560,6 +563,7 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle objecten
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#Beschikbaar in registratieformulier voor nieuwe gebruikers
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -582,6 +586,8 @@ common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Afspraak
 common#:#appointment_list#:#Afsprakenlijst
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archief
 common#:#are_you_sure#:#Weet u het zeker?
 common#:#assign#:#Toewijzen
@@ -613,6 +619,7 @@ common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new va
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#Beschikbare talen
 common#:#average_time#:#Gemiddelde tijd
 common#:#back#:#Terug
@@ -722,7 +729,7 @@ common#:#chg_password#:#Wijzig wachtwoord
 common#:#choose_language#:#A.u.b. kies uw taal
 common#:#choose_location#:#Kies locatie
 common#:#choose_only_one_language#:#A.u.b. slechts  één taal kiezen
-common#:#city#:#Stad
+common#:#city#:#Stad###14 Sep 2004 content changed
 common#:#clear#:#Afbreken
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client-ID
@@ -759,6 +766,7 @@ common#:#country#:#Land
 common#:#course#:#Cursus
 common#:#courses#:#Cursussen
 common#:#create#:#Creëer
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Creëren in
 common#:#create_stylesheet#:#Creëer stijl
 common#:#crs#:#Cursus
@@ -800,7 +808,7 @@ common#:#database#:#Gegevensbank
 common#:#database_version#:#huidige databank-versie
 common#:#dataset#:#Item
 common#:#date#:#Datum
-common#:#dateplaner#:#Datum-planner
+common#:#dateplaner#:#Datum-planner###14 Sep 2004 content changed
 common#:#day#:#Dag
 common#:#days#:#Dagen
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
@@ -857,7 +865,7 @@ common#:#edit_stylesheet#:#Stijl wijzigen
 common#:#edited_at#:#Gewijzigd op
 common#:#editor#:#Editor
 common#:#email#:#E-mail
-common#:#email_not_valid#:#Het opgegeven email-adres is niet goed!
+common#:#email_not_valid#:#Het opgegeven email-adres is niet goed!###14 Sep 2004 content changed
 common#:#enable#:#Inschakelen
 common#:#enable_registration#:#Nieuwe gebruikers-registratie inschakelen
 common#:#enabled#:#Ingeschakeld
@@ -867,6 +875,7 @@ common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_count_param#:#Reden: Verkeerde aantal parameters
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Fout in regel
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -898,7 +907,7 @@ common#:#exc_edit_permission#:#Wijzig rechten-instellingen
 common#:#exc_edit_until#:#Wijzigen tot
 common#:#exc_files#:#Bestanden
 common#:#exc_groups#:#Groepen
-common#:#exc_header_members#:#Oefening(leden)
+common#:#exc_header_members#:#Oefening(leden)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Werk-instructies
 common#:#exc_members_already_assigned#:#Deze gebruikers zijn al aan deze oefening toegewezen
 common#:#exc_members_assigned#:#Leden toegewezen
@@ -923,8 +932,8 @@ common#:#exc_write#:#Wijzigen oefening
 common#:#excs#:#Oefeningen
 common#:#execute#:#Uitvoeren
 common#:#export#:#Exporteer
-common#:#export_html#:#exporteren als html-bestand
-common#:#export_xml#:#exporteren als xml-estand
+common#:#export_html#:#exporteren als html-bestand###14 Sep 2004 content changed
+common#:#export_xml#:#exporteren als xml-estand###14 Sep 2004 content changed
 common#:#faq_exercise#:#FAQ-oefening
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -973,7 +982,7 @@ common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
 common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#Map
 common#:#folders#:#Mappen
-common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!
+common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!###14 Sep 2004 content changed
 common#:#forename#:#Familienaam
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#AUB volgende velden invullen:
@@ -1028,7 +1037,7 @@ common#:#glossaries#:#Glossaries
 common#:#glossary#:#Verklarende woordenlijst
 common#:#glossary_added#:#Woordenlijst toegevoegd
 common#:#group_access_denied#:#Toegang gewijgerd
-common#:#group_any_objects#:#Geen subobjecten beschikbaar
+common#:#group_any_objects#:#Geen subobjecten beschikbaar###14 Sep 2004 content changed
 common#:#group_create_chat#:#Creëer Chat
 common#:#group_desc#:#Groeps-beschrijving
 common#:#group_details#:#Groep File Sharing
@@ -1039,21 +1048,21 @@ common#:#group_members#:#Groepsleden###04 Sep 2004 content changed
 common#:#group_memstat#:#Status lid
 common#:#group_memstat_admin#:#Administrateur
 common#:#group_memstat_member#:#Lid
-common#:#group_name#:#Geen groep beschikbaar
+common#:#group_name#:#Geen groep beschikbaar###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Nieuwe registraties###04 Sep 2004 content changed
 common#:#group_no_registration#:#nee registratie-verplicht
-common#:#group_no_registration_msg#:#U bent tot nog toe geen lid van deze groep. Om administratieve redenen moet u lid worden van de gevraagde groep.<br> Als lid heeft u de volgende voordelen:<br>- U wordt geïnformeerd over nieuws en wijzigingen<br>- U krijgt toegang tot de bijbehorende objecten als forums, lesmodules, enz.<br><br>U kunt op elk moment uw lidmaatschap opzeggen.
+common#:#group_no_registration_msg#:#U bent tot nog toe geen lid van deze groep. Om administratieve redenen moet u lid worden van de gevraagde groep.<br> Als lid heeft u de volgende voordelen:<br>- U wordt geïnformeerd over nieuws en wijzigingen<br>- U krijgt toegang tot de bijbehorende objecten als forums, lesmodules, enz.<br><br>U kunt op elk moment uw lidmaatschap opzeggen.###14 Sep 2004 content changed
 common#:#group_not_available#:#Groep objecten
 common#:#group_objects#:#Groeps-objecten
 common#:#group_password_registration_expired_msg#:#De periode voor registratie voor deze groep is voorbij, een meededeling is niet langer mogelijk. A.u.b. neem contact op met de groeps-eigenaar of de administrateur.
-common#:#group_password_registration_msg#:#Om in deze groep opgenomen te worden moet u het door de administrateur van deze groep  gegeven wachtwoord invoeren.<br>U woord automatisch lid van deze groep als het wachtwoord correct is.
+common#:#group_password_registration_msg#:#Om in deze groep opgenomen te worden moet u het door de administrateur van deze groep  gegeven wachtwoord invoeren.<br>U woord automatisch lid van deze groep als het wachtwoord correct is.###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#Verval-datum
 common#:#group_registration_expiration_time#:#Verval-tijd
-common#:#group_registration_expired#:#Periode van registratie is afgelopen
+common#:#group_registration_expired#:#Periode van registratie is afgelopen###14 Sep 2004 content changed
 common#:#group_registration_mode#:#Registratie-modus
 common#:#group_req_password#:#Registratie wachtwoord nodig
 common#:#group_req_registration#:#Registratie-verplicht
-common#:#group_req_registration_msg#:#Om bij deze groep te horen moet u zich registeren hetgeen alleen maar door de betreffende groeps-administrateur gedaan kan worden. Geef a.u.b. een reden voor uw registratie.<br>U ontvangt bericht van wanneer uw aan de groep bent toegevoegd.
+common#:#group_req_registration_msg#:#Om bij deze groep te horen moet u zich registeren hetgeen alleen maar door de betreffende groeps-administrateur gedaan kan worden. Geef a.u.b. een reden voor uw registratie.<br>U ontvangt bericht van wanneer uw aan de groep bent toegevoegd.###14 Sep 2004 content changed
 common#:#group_reset#:#Terugzetten groeps-rechten
 common#:#group_status#:#Groeps-status###08 May 2004 content changed
 common#:#group_status_closed#:#Besloten
@@ -1090,7 +1099,7 @@ common#:#grp_edit#:#Groep wijzigen
 common#:#grp_edit_permission#:#Wijzig rechten-instellingen
 common#:#grp_err_administrator_required#:#Lid kan niet verwijderd worden, tenminste één administrateur per groep is verplicht !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Elke groep heeft op zijn minst één groeps-administrateur nodig
-common#:#grp_err_error#:#Er is en fout opgetreden
+common#:#grp_err_error#:#Er is en fout opgetreden###14 Sep 2004 content changed
 common#:#grp_err_last_member#:#Laatste lid kan niet verwijderd worden, verwijderen daarvoor de groep.
 common#:#grp_err_member_could_not_be_removed#:#Lid kan niet verwijderd worden. Controleer alle  afhankelijkheden van deze gebruiker.
 common#:#grp_err_no_permission#:#U bezit niet de rechten voor deze handeling.
@@ -1155,7 +1164,7 @@ common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
-common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
+common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.###14 Sep 2004 content changed
 common#:#import#:#Importeren
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Importeren Kategoriën
@@ -1166,13 +1175,14 @@ common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new 
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#Importeren van een lesmodule
+common#:#import_lm#:#Importeren van een lesmodule###14 Sep 2004 content changed
 common#:#import_root_user#:#Importeer Root-gebruiker
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Importeer Gebruikers
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Gebruikers-taal
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Inbox
 common#:#info_assign_sure#:#Weet u zeker dat u de volgende gebruiker(s) wil toewijzen)?
 common#:#info_delete_sure#:#Weet u zeker dat u het/de volgende object(en) wilt verwijderen)?
@@ -1194,7 +1204,7 @@ common#:#ingmedia_pers_dates#:#Persoonlijke gegevens
 common#:#ingmedia_reg_fo#:#Geregistreerde forums
 common#:#ingmedia_reg_le#:#Geregistereerde lessen
 common#:#ingmedia_use_info1#:#Hier kunt u uw persoonlijke gegevens wijzigen. Behalve uw INGMEDIA gebruikersnaam en wachtwoord, bent u niet verplicht verdere gegevens te verstrekken. Bedenk dat een vergeten wachtwoord alleen per e-mail toegestuurd kan worden (!).
-common#:#ingmedia_use_info2#:#Het is niet toegestaam speciale karakters (zoals , ; . = - * + #) te gebruiken
+common#:#ingmedia_use_info2#:#Het is niet toegestaam speciale karakters (zoals , ; . = - * + #) te gebruiken###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#Kies AUB  één van de links in de menubalk hiernaast.
 common#:#ingmedia_use_title#:#Gebruikersgegevens wijzigen.
 common#:#ingmedia_user_agree#:#Overeenkomst
@@ -1247,8 +1257,8 @@ common#:#langfile_found#:#Taal-bestand gevonden
 common#:#language#:#Taal
 common#:#language_not_installed#:#is niet geïnstalleerd. A.u.b. eerst de taal installeren
 common#:#languages#:#Talen
-common#:#languages_already_installed#:#Gekozen taal/talen is/zijn reeds geïnstalleerd
-common#:#languages_already_uninstalled#:#Gekozen taal/talen is/zijn reeds gedeïnstalleerd
+common#:#languages_already_installed#:#Gekozen taal/talen is/zijn reeds geïnstalleerd###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#Gekozen taal/talen is/zijn reeds gedeïnstalleerd###14 Sep 2004 content changed
 common#:#languages_updated#:#Alle geïnstalleerde talen zijn bijgewerkt
 common#:#last_change#:#Laatste wijziging
 common#:#last_visit#:#Laatste bezoek
@@ -1309,7 +1319,7 @@ common#:#lo_categories#:#Lesobject-kategoriën
 common#:#lo_edit#:#Lesobject wijzigen
 common#:#lo_new#:#Nieuw lesobject
 common#:#lo_no_content#:#Geen leermiddelen beschikbaar
-common#:#lo_other_langs#:#Lesobjecten in andere talen
+common#:#lo_other_langs#:#Lesobjecten in andere talen###14 Sep 2004 content changed
 common#:#lo_overview#:#Lesobjecten-overzicht
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Locatie:
@@ -1318,7 +1328,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Inloggen
 common#:#login_as#:#Ingelogd als
 common#:#login_data#:#Login-gegevens
-common#:#login_exists#:#Deze gebruikersnaam is reeds geregistreerd! Kies AUB een andere.
+common#:#login_exists#:#Deze gebruikersnaam is reeds geregistreerd! Kies AUB een andere.###14 Sep 2004 content changed
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Actuele online-tijd
 common#:#login_to_ilias#:#Inloggen op ILIAS
@@ -1328,7 +1338,7 @@ common#:#los#:#Lesobjecten
 common#:#los_last_visited#:#Laatst bezochte lesobjecten
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
-common#:#mail_addressbook#:#Adresboek
+common#:#mail_addressbook#:#Adresboek###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#SMTP toestaan
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Prullenbak
@@ -1342,17 +1352,17 @@ common#:#mail_import#:#Importeren
 common#:#mail_import_file#:#ILIAS 2 export- bestand###30 Apr 2004 content changed
 common#:#mail_intern_enable#:#Inschakelen
 common#:#mail_mail_visible#:#Gebruiker mag mail-systeem gebruiken
-common#:#mail_mails_of#:#Mails
+common#:#mail_mails_of#:#Mails###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#Max. attachment-grootte
 common#:#mail_maxsize_box#:#Max. mailbox-grootte
 common#:#mail_maxsize_mail#:#Max. mail-grootte
 common#:#mail_maxtime_attach#:#Max. dagen bewaartijd attachments
-common#:#mail_maxtime_mail#:#Max. dagen bewaartijd mail
+common#:#mail_maxtime_mail#:#Max. dagen bewaartijd mail###14 Sep 2004 content changed
 common#:#mail_not_sent#:#Mail niet gezonden!
 common#:#mail_read#:#Lees-recht op mail-instellingen
 common#:#mail_search_no#:#Geen ingangen gevonden
 common#:#mail_search_word#:#Zoek woord
-common#:#mail_select_one#:#U moet een mail selecteren
+common#:#mail_select_one#:#U moet een mail selecteren###14 Sep 2004 content changed
 common#:#mail_send_error#:#Fout bij zenden mail
 common#:#mail_sent#:#Mail gezonden!
 common#:#mail_smtp_mail#:#Gebruiker mag mail via SMTP zenden
@@ -1361,7 +1371,7 @@ common#:#mail_system_message#:#Gebruiker mag berichten via intern systeem zenden
 common#:#mail_visible#:#Mail-instellingen zijn zichtbaar
 common#:#mail_write#:#Wijzig Mail-instellingen
 common#:#mail_z_local#:#Gebruikers-mappen
-common#:#mails#:#Mails
+common#:#mails#:#Mails###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Markeer alles als gelezen
 common#:#mark_all_unread#:#Markeer alles als niet gelezen
@@ -1383,7 +1393,7 @@ common#:#mep_write#:#Wijzig Inhoud Media Pool
 common#:#message#:#Bericht
 common#:#message_content#:#Inhoud-bericht
 common#:#message_to#:#Bericht aan:
-common#:#meta_data#:#Meta-data
+common#:#meta_data#:#Meta-data###14 Sep 2004 content changed
 common#:#migrate#:#Migreren
 common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Media-object
@@ -1432,7 +1442,7 @@ common#:#msg_deleted_rolt#:#Rol-sjablonen gewist
 common#:#msg_deleted_rolts#:#Rol-sjablonen gewist
 common#:#msg_error_copy#:#Kopiëer-fout
 common#:#msg_failed#:#Activiteit is mislukt
-common#:#msg_is_last_role#:#U hebt de toewijzing van de laatste globale rol  van de volgende gebruikers verwijderd
+common#:#msg_is_last_role#:#U hebt de toewijzing van de laatste globale rol  van de volgende gebruikers verwijderd###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#Geselecteerde object(en) gekopiëerd naar Klembord (Activiteit: Link)
 common#:#msg_linked#:#Geselecteerde object(en) gelinked.
 common#:#msg_may_not_contain#:#Dit object mag geen objects van het volgende type bevatten:
@@ -1443,7 +1453,7 @@ common#:#msg_no_default_language#:#Geen standaard-taal gespecificeerd! U moet é
 common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-registratie niet verwijderen
 common#:#msg_no_file#:#U hebt geen bestand gekozen
 common#:#msg_no_language_selected#:#Geen vertaal-taal gespecificeerd! U moet een taal  definiëren voor elke vertaling
-common#:#msg_no_perm_assign_role_to_user#:#U heeft geen rechten om rol-toewijzing van de gebruiker te wijzigen
+common#:#msg_no_perm_assign_role_to_user#:#U heeft geen rechten om rol-toewijzing van de gebruiker te wijzigen###14 Sep 2004 content changed
 common#:#msg_no_perm_copy#:#U heeft geen toestemming voor het creëren van een kopie van het/de volgende object(en):
 common#:#msg_no_perm_create#:#U heeft geen toestemming voor het creëren van het/de volgende object(en):
 common#:#msg_no_perm_create_object1#:#U heeft geen toestemming voor het creëren van
@@ -1458,7 +1468,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#U heeft geen toestemming voor het creëren van een link naar het/de volgende object(en):
 common#:#msg_no_perm_modify_role#:#U heeft geen toestemming voor het wijzigen van rollen
 common#:#msg_no_perm_modify_rolt#:#U heeft geen toestemming voor het wijzigen van rol-sjablonen
-common#:#msg_no_perm_modify_user#:#U heeft geen toestemming voor het wijzigen van gebruikers-gegevens
+common#:#msg_no_perm_modify_user#:#U heeft geen toestemming voor het wijzigen van gebruikers-gegevens###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#U heeft geen toestemming voor het plakken van het/de volgende object(en):
 common#:#msg_no_perm_perm#:#U heeft geen toestemming voor het wijzigen van de instellingen van rechten
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
@@ -1470,7 +1480,7 @@ common#:#msg_no_rolf_allowed2#:#kan geen rollen-map bevatten
 common#:#msg_no_scan_log#:#Scan-log nog niet geïmplementeerd
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#U mag gebruikers niet toewijzen aan de rol Systeem-administrateur als aan uzelf deze rol niet is toegewezentoewijzen gebruikers Rol Rol  
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#U mag gebruikers niet toewijzen aan de rol Systeem-administrateur als aan uzelf deze rol niet is toegewezentoewijzen gebruikers Rol Rol  ###14 Sep 2004 content changed
 common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
 common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
 common#:#msg_nothing_found#:#msg_nothing_found
@@ -1484,17 +1494,17 @@ common#:#msg_perm_adopted_from_itself#:#U kunt geen  rechten-instellingen van de
 common#:#msg_removed#:#Object(en) verwijderd van het systeem.
 common#:#msg_role_exists1#:#Een rol/rol-sjabloon met dezelfde naam
 common#:#msg_role_exists2#:#bestaat al! Kies een andere naam
-common#:#msg_role_reserved_prefix#:#De prefix 'il_' is gereserveerd voor automatisch gegenereerde rollen. Kies een andere naam
-common#:#msg_roleassignment_active_changed#:#Actieve rol-toewijzing gewijzigd
-common#:#msg_roleassignment_active_changed_comment#:#De instellingen worden niet opgeslagen in het gebruikers-profiel!  Als de gebruiker inlogt worden alle actieve rol-toewijzingen weer terug gezet naar de opgeslagen waarden.
-common#:#msg_roleassignment_changed#:#Rol-toewijzingen gewijzigd
-common#:#msg_sysrole_not_deletable#:#De systeem-rol kan niet verwijderd worden
+common#:#msg_role_reserved_prefix#:#De prefix 'il_' is gereserveerd voor automatisch gegenereerde rollen. Kies een andere naam###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#Actieve rol-toewijzing gewijzigd###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#De instellingen worden niet opgeslagen in het gebruikers-profiel!  Als de gebruiker inlogt worden alle actieve rol-toewijzingen weer terug gezet naar de opgeslagen waarden.###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#Rol-toewijzingen gewijzigd###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#De systeem-rol kan niet verwijderd worden###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#The instellingen van de rechten van de systeem-rol kunnen niet gewijzigd worden. The systeem-rol geeft alle toegewijzen gebruikers ongelimiteerde toegang tot alle objecten en functies.
 common#:#msg_trash_empty#:#Er zijn geen verwijderde objecten
 common#:#msg_undeleted#:#Object(en) hersteld.
 common#:#msg_user_last_role1#:#De volgende gebruikers zijn alleen aan deze rol toegewezen:
 common#:#msg_user_last_role2#:#Verwijderen de gebruikers of wijs ze toe aan een andere rol om deze rol te kunnen verwijderen.
-common#:#msg_userassignment_changed#:#Gebruikers-toewijzing gewijzigd
+common#:#msg_userassignment_changed#:#Gebruikers-toewijzing gewijzigd###14 Sep 2004 content changed
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Mijn bookmarken
 common#:#my_frms#:#Mijn forums
@@ -1526,6 +1536,7 @@ common#:#no_limit#:#Geen limiet
 common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
 common#:#no_objects#:#Geen objecten
 common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Geen titel
 common#:#no_tst_in_personal_list#:#Geen testen in persoonlijke lijst.
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
@@ -1546,7 +1557,7 @@ common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)##
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat-instellingen
-common#:#obj_chac_desc#:#Configureer uw chat-server hier. Inschakelen/Uitschakelen chats.
+common#:#obj_chac_desc#:#Configureer uw chat-server hier. Inschakelen/Uitschakelen chats.###14 Sep 2004 content changed
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Cursus
 common#:#obj_dbk#:#Digilib-boek
@@ -1572,7 +1583,7 @@ common#:#obj_mob#:#Media-object
 common#:#obj_not_found#:#Object niet gevonden
 common#:#obj_note#:#Notitie
 common#:#obj_notf#:#Notitie-administratie
-common#:#obj_objf#:#Object-definities
+common#:#obj_objf#:#Object-definities###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#Beheer van ILIAS object-typen en object-rechten. (alleen voor experts!)
 common#:#obj_owner#:#Dit object is eigendom van
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1580,7 +1591,7 @@ common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 ne
 common#:#obj_pg#:#Bladzijde
 common#:#obj_qpl#:#Vraagbak###07 May 2004 content changed
 common#:#obj_recf#:#Herstel Objecten
-common#:#obj_recf_desc#:#Bevat herstelde Objecten van een systeem-controle.
+common#:#obj_recf_desc#:#Bevat herstelde Objecten van een systeem-controle.###14 Sep 2004 content changed
 common#:#obj_role#:#Rol
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Beheer uw rollen hier.
@@ -1598,7 +1609,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
 common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test
-common#:#obj_typ#:#Object-type definitie
+common#:#obj_typ#:#Object-type definitie###14 Sep 2004 content changed
 common#:#obj_type#:#Object-type
 common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
@@ -1607,11 +1618,11 @@ common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object toegevoegd
 common#:#objects#:#Objecten
-common#:#objf#:#Object-definities
+common#:#objf#:#Object-definities###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#Wijzig rechten-instellingen
-common#:#objf_read#:#Lees-recht op object-definities
-common#:#objf_visible#:#Object-definities zijn zichtbaar
-common#:#objf_write#:#Wijzig object-definities
+common#:#objf_read#:#Lees-recht op object-definities###14 Sep 2004 content changed
+common#:#objf_visible#:#Object-definities zijn zichtbaar###14 Sep 2004 content changed
+common#:#objf_write#:#Wijzig object-definities###14 Sep 2004 content changed
 common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Kategoriën
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
@@ -1619,7 +1630,7 @@ common#:#objs_confirm#:#Bevestig activiteit
 common#:#objs_crs#:#Cursussen
 common#:#objs_dbk#:#Digilib-boeken
 common#:#objs_delete#:#Verwijderen objecten
-common#:#objs_exc#:#Oefeningen
+common#:#objs_exc#:#Oefeningen###14 Sep 2004 content changed
 common#:#objs_file#:#Bestanden
 common#:#objs_fold#:#Mappen
 common#:#objs_frm#:#Forums
@@ -1642,7 +1653,7 @@ common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Hoofdstukken
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Testen
-common#:#objs_type#:#Object-types
+common#:#objs_type#:#Object-types###14 Sep 2004 content changed
 common#:#objs_usr#:#Gebruikers
 common#:#of#:#Van
 common#:#offline_version#:#Offline Versie
@@ -1679,7 +1690,7 @@ common#:#path_to_htmldoc#:#Pad naar HTMLdoc
 common#:#path_to_java#:#Pad naar Java
 common#:#path_to_unzip#:#Pad naar Unzip
 common#:#path_to_zip#:#Pad naar Zip
-common#:#pathes#:#Paden
+common#:#pathes#:#Paden###14 Sep 2004 content changed
 common#:#payment_system#:#Betaal-systeem
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1696,7 +1707,7 @@ common#:#personal_data#:#Persoonlijke informatie
 common#:#personal_desktop#:#Persoonlijke scherm
 common#:#personal_picture#:#Persoonlijke plaatje
 common#:#personal_profile#:#Persoonlijke profiel
-common#:#persons#:#Personen
+common#:#persons#:#Personen###14 Sep 2004 content changed
 common#:#pg_a#:#een pagina
 common#:#pg_add#:#Toevoegen van een pagina
 common#:#pg_added#:#Pagina toegevoegd
@@ -1723,7 +1734,7 @@ common#:#public_profile#:#Publiek Profiel
 common#:#publication#:#Publikatie
 common#:#publication_date#:#Publikatie-datum
 common#:#published#:#gepubliceerd
-common#:#publishing_organisation#:#Uitgevers-organisatie
+common#:#publishing_organisation#:#Uitgevers-organisatie###14 Sep 2004 content changed
 common#:#qpl#:#Vraagbak###07 May 2004 content changed
 common#:#qpl_add#:#Toevoegen aan vraagbak
 common#:#qpl_delete#:#Verwijder vraagbak
@@ -1740,6 +1751,7 @@ common#:#quote#:#Citeren
 common#:#read#:#Lees
 common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Ontvanger
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#Verversen
 common#:#refresh_languages#:#Ververs talen
 common#:#refresh_list#:#Ververs lijst
@@ -1759,7 +1771,28 @@ common#:#rename#:#Geef een nieuwe naam
 common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Beantwoord
 common#:#repository#:#Depot
-common#:#required_field#:#Verplicht veld
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#Verplicht veld###14 Sep 2004 content changed
 common#:#reset#:#Terugzetten
 common#:#resources#:#Bronnen
 common#:#retype_password#:#Type wachtwoord opnieuw
@@ -1784,7 +1817,7 @@ common#:#rolf_create_role#:#Creëer nieuwe rol-definitie
 common#:#rolf_create_rolt#:#Creëer nieuwe rol-definitie-sjabloon
 common#:#rolf_delete#:#Verwijderen rol-sjabloons
 common#:#rolf_edit_permission#:#Wijzig rechten-instellingen
-common#:#rolf_edit_userassignment#:#Wijzigen gebruikers-toewijzing aan rollen
+common#:#rolf_edit_userassignment#:#Wijzigen gebruikers-toewijzing aan rollen###14 Sep 2004 content changed
 common#:#rolf_read#:#Lees-rechten op rol-sjablonen
 common#:#rolf_visible#:#Rol-sjablonen zijn zichtbaar
 common#:#rolf_write#:#Wijzig standaard recht-instellingen op de rol-sjablonen
@@ -1823,9 +1856,12 @@ common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 ne
 common#:#saved#:#Opgeslagen
 common#:#saved_successfully#:#Succesvol opgeslagen
 common#:#search#:#Zoeken
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Zoeken in
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#Nieuwe zoekopdracht
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#Zoek ontvanger
 common#:#search_result#:#Zoek resultaat
 common#:#search_user#:#Zoek gebruiker
@@ -1875,7 +1911,7 @@ common#:#st_add#:#Voeg hoofdstuk toe
 common#:#st_added#:#Hoofdstuk toegevoegd
 common#:#st_edit#:#Wijzigen hoofdstuk
 common#:#st_new#:#Nieuw hoofdstuk
-common#:#startpage#:#Startpagina
+common#:#startpage#:#Startpagina###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Status
 common#:#step#:#Het ILIAS-systeem is zichtbaar
@@ -1906,6 +1942,7 @@ common#:#system_check#:#Systeem-Controle
 common#:#system_choose_language#:#Systeemtaal kiezen
 common#:#system_groups#:#Systeem-groepen
 common#:#system_grp#:#Systeem-groep
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Systeem-taal
 common#:#system_message#:#Systeem-bericht
 common#:#table_mail_import#:#Importeren van ILIAS 2 Mails###30 Apr 2004 content changed
@@ -1969,7 +2006,8 @@ common#:#tst_visible#:#De test is zichbaar
 common#:#tst_write#:#Wijzig test
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#U heeft u met succes aangemeld aan ILIAS. A.u.b. klik op de onderstaande button om op ILIAS in te  loggen met uw gebruikers-account.
+common#:#txt_registered#:#U heeft u met succes aangemeld aan ILIAS. A.u.b. klik op de onderstaande button om op ILIAS in te  loggen met uw gebruikers-account.###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Objecttype-definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type uw bericht hier
@@ -2020,7 +2058,7 @@ common#:#usrf#:#Gebruikers-registraties
 common#:#usrf_create_user#:#Creëer een nieuwe gebruiker
 common#:#usrf_delete#:#Verwijder een gebruiker
 common#:#usrf_edit_permission#:#Wijzig de toegang tot gebruikers
-common#:#usrf_edit_roleassignment#:#Wijzig de rol-toewijzing aan gebruikers
+common#:#usrf_edit_roleassignment#:#Wijzig de rol-toewijzing aan gebruikers###14 Sep 2004 content changed
 common#:#usrf_read#:#Leesrechten op gebruikers
 common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Gebruikers zijn zichtbaar
@@ -2041,8 +2079,8 @@ common#:#write#:#Schrijven
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#U mag lokale rollen toevoegen
 common#:#your_message#:#Uw bericht
-common#:#zip#:#Postkode
-common#:#zipcode#:#Postkode
+common#:#zip#:#Postkode###14 Sep 2004 content changed
+common#:#zipcode#:#Postkode###14 Sep 2004 content changed
 content#:#HTML export#:#HTM-export
 content#:#PDF export#:#PDF-export
 content#:#Pages#:#Pagina's
@@ -2071,7 +2109,7 @@ content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Toevoegen gebied
 content#:#cont_add_definition#:#Definitie toevoegen
-content#:#cont_add_fullscreen#:#Toevoegen Fullscreen
+content#:#cont_add_fullscreen#:#Toevoegen Fullscreen###14 Sep 2004 content changed
 content#:#cont_added_term#:#Begrip toegevoegd
 content#:#cont_all_definitions#:#Alle definities
 content#:#cont_all_pages#:#Alle paginas
@@ -2080,16 +2118,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Kaart-gebieden verwijderd.
-content#:#cont_assign_full#:#Toewijzen Fullscreen
+content#:#cont_assign_full#:#Toewijzen Fullscreen###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Toewijzen Standaard
 content#:#cont_assign_translation#:#Toewijzen vertaling
 content#:#cont_assignments_deleted#:#De toewijzing is gewist
 content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Terug
-content#:#cont_booktitle#:#Boektitel
+content#:#cont_booktitle#:#Boektitel###14 Sep 2004 content changed
 content#:#cont_bottom#:#Onderkant
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#Verwijderen fullscreen-bestand niet mogelijk.
+content#:#cont_cant_del_full#:#Verwijderen fullscreen-bestand niet mogelijk.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Verwijderen van het standaard-scherm-bestand niet mogelijk.
 content#:#cont_caption#:#Schermnaam
 content#:#cont_change_type#:#Wijzig type
@@ -2102,7 +2140,7 @@ content#:#cont_characteristic#:#Karakteristieken
 content#:#cont_choose_cont_obj#:#Kies het content-object
 content#:#cont_choose_glossary#:#Kies de woordenlijst
 content#:#cont_choose_media_source#:#Kies Media Bron
-content#:#cont_citation_err_one#:#U moet exact één editie kiezen
+content#:#cont_citation_err_one#:#U moet exact één editie kiezen###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
 content#:#cont_citations#:#Citaten
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
@@ -2190,8 +2228,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formaat
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.
-content#:#cont_fullscreen#:#Fullscreen
+content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#Fullscreen###14 Sep 2004 content changed
 content#:#cont_get_link#:#Krijg link
 content#:#cont_get_orig_size#:#Instellen orginele grootte
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
@@ -2292,7 +2330,7 @@ content#:#cont_publisher#:#Uitgever
 content#:#cont_purpose#:#Doel
 content#:#cont_ref_helptext#:#(bijv. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Referentie
-content#:#cont_remove_fullscreen#:#Verwijder Fullscreen
+content#:#cont_remove_fullscreen#:#Verwijder Fullscreen###14 Sep 2004 content changed
 content#:#cont_resource#:#Middelen
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Bronnen
@@ -2378,7 +2416,7 @@ content#:#cont_version#:#versie
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Waar gepubliceerd
 content#:#cont_width#:#Breedte
-content#:#cont_wysiwyg#:#Inhoud Wysiwyg
+content#:#cont_wysiwyg#:#Inhoud Wysiwyg###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jaar
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
@@ -2558,22 +2596,22 @@ dateplaner#:#DateText#:#Bericht
 dateplaner#:#Day_long#:#Dag-overzicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Deze datum bestaat al.
 dateplaner#:#ERROR_DB#:#Gegevensbank schrijf-fout
-dateplaner#:#ERROR_DB_CONNECT#:#Verbinding met de gegevensbank is verbroken.
-dateplaner#:#ERROR_DEL_MSG#:#Dit is een roterende datum. Wilt u één of alle datums verwijderen
-dateplaner#:#ERROR_ENDDATE#:#Verkeerde invoer Einddatum. Formaat: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Verkeerde eindtijd. Formaat: hh:mm
-dateplaner#:#ERROR_END_START#:#Verkeerde invoer Einddatum. Einddatum is voor startdatum.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#A.u.b. Neem een goed cvs-bestand.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>uw browser accepteerd geen JavaScript. <BR> Sluit dit Window na een handmatige invoer.     <BR> Dank u</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Verkeerde invoer Rotatie-Einddatum. Formaat: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Verkeerde invoer Rotatie-Einddatum. Einddatum is voor startdatum.
-dateplaner#:#ERROR_SHORTTEXT#:#Verkeerde Shorttext invoer. Shorttext is verplicht.
-dateplaner#:#ERROR_STARTDATE#:#Verkeerde invoer Startdatum. Formaat: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Verkeerde Starttijd. Formaat: hh:mm
+dateplaner#:#ERROR_DB_CONNECT#:#Verbinding met de gegevensbank is verbroken.###14 Sep 2004 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Dit is een roterende datum. Wilt u één of alle datums verwijderen###14 Sep 2004 content changed
+dateplaner#:#ERROR_ENDDATE#:#Verkeerde invoer Einddatum. Formaat: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_ENDTIME#:#Verkeerde eindtijd. Formaat: hh:mm###14 Sep 2004 content changed
+dateplaner#:#ERROR_END_START#:#Verkeerde invoer Einddatum. Einddatum is voor startdatum.###14 Sep 2004 content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#A.u.b. Neem een goed cvs-bestand.###14 Sep 2004 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>uw browser accepteerd geen JavaScript. <BR> Sluit dit Window na een handmatige invoer.     <BR> Dank u</CENTER></B>###14 Sep 2004 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Verkeerde invoer Rotatie-Einddatum. Formaat: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_ROT_END_START#:#Verkeerde invoer Rotatie-Einddatum. Einddatum is voor startdatum.###14 Sep 2004 content changed
+dateplaner#:#ERROR_SHORTTEXT#:#Verkeerde Shorttext invoer. Shorttext is verplicht.###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTDATE#:#Verkeerde invoer Startdatum. Formaat: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTTIME#:#Verkeerde Starttijd. Formaat: hh:mm###14 Sep 2004 content changed
 dateplaner#:#ERROR_TS#:#Verkeerde formaat datum
 dateplaner#:#Fr_long#:#Vrijdag
 dateplaner#:#Fr_short#:#Vr
-dateplaner#:#Language_file#:#Engels
+dateplaner#:#Language_file#:#Engels###14 Sep 2004 content changed
 dateplaner#:#Listbox_long#:#Lijst met datums
 dateplaner#:#Mo_long#:#Maandag
 dateplaner#:#Mo_short#:#Ma
@@ -2594,17 +2632,17 @@ dateplaner#:#Week_long#:#Week-overzicht
 dateplaner#:#add_data#:#Additionele gegevens
 dateplaner#:#app_#:#groep-datums inbox
 dateplaner#:#app_date#:#invoegen datum
-dateplaner#:#app_day#:#dag-overzicht
-dateplaner#:#app_freetime#:#Beschikbare tijd van andere groepsleden (pik een tijd in)
+dateplaner#:#app_day#:#dag-overzicht###14 Sep 2004 content changed
+dateplaner#:#app_freetime#:#Beschikbare tijd van andere groepsleden (pik een tijd in)###14 Sep 2004 content changed
 dateplaner#:#app_inbox#:#groep-datums inbox
 dateplaner#:#app_list#:#lijst met datums
-dateplaner#:#app_month#:#maand-overzicht
+dateplaner#:#app_month#:#maand-overzicht###14 Sep 2004 content changed
 dateplaner#:#app_properties#:#eigenschappen
-dateplaner#:#app_week#:#week-overzicht
-dateplaner#:#application#:#Datum-planner
+dateplaner#:#app_week#:#week-overzicht###14 Sep 2004 content changed
+dateplaner#:#application#:#Datum-planner###14 Sep 2004 content changed
 dateplaner#:#apply#:#toepassen
 dateplaner#:#back#:#terug
-dateplaner#:#begin_date#:#Begin vanaf datum
+dateplaner#:#begin_date#:#Begin vanaf datum###14 Sep 2004 content changed
 dateplaner#:#busytime#:#bezet-tijd in groep
 dateplaner#:#c_date#:#Creëer een datum
 dateplaner#:#changeTo#:#Wijzigen in:
@@ -2624,80 +2662,81 @@ dateplaner#:#dv_button_cancel#:#Annuleren
 dateplaner#:#dv_button_delete#:#Verwijderen
 dateplaner#:#dv_button_insert#:#Invoegen
 dateplaner#:#dv_button_update#:#Bijwerken
-dateplaner#:#dv_date_begin#:#Datum start:
-dateplaner#:#dv_date_end#:#Datum einde:
+dateplaner#:#dv_date_begin#:#Datum start:###14 Sep 2004 content changed
+dateplaner#:#dv_date_end#:#Datum einde:###14 Sep 2004 content changed
 dateplaner#:#dv_date_hm#:#Uren:Minuten
-dateplaner#:#dv_enddate#:#Einddatum:
-dateplaner#:#dv_groupselect#:#Groep-selectie:
-dateplaner#:#dv_groupview#:#Groepdatum:
-dateplaner#:#dv_groupview_text#:#Groep:<br>
+dateplaner#:#dv_enddate#:#Einddatum:###14 Sep 2004 content changed
+dateplaner#:#dv_groupselect#:#Groep-selectie:###14 Sep 2004 content changed
+dateplaner#:#dv_groupview#:#Groepdatum:###14 Sep 2004 content changed
+dateplaner#:#dv_groupview_text#:#Groep:<br>###14 Sep 2004 content changed
 dateplaner#:#dv_keywords#:#Sleutelwoorden:
-dateplaner#:#dv_keywordselect#:#Sleutelwoord selectie:
+dateplaner#:#dv_keywordselect#:#Sleutelwoord selectie:###14 Sep 2004 content changed
 dateplaner#:#dv_message#:#Bericht:
 dateplaner#:#dv_noGroup#:#geen Groep
 dateplaner#:#dv_noKey#:#geen Sleutelwoord
-dateplaner#:#dv_preview#:#            <b>! Laten zien !</b>
-dateplaner#:#dv_rotation#:#Rotatie:
-dateplaner#:#dv_rotation_date#:#Rotatie-datum:
-dateplaner#:#dv_rotation_end#:#Rotatie-einde:
-dateplaner#:#dv_shorttext#:#Shorttext:
-dateplaner#:#dv_startdate#:#Startdatum:
+dateplaner#:#dv_preview#:#            <b>! Laten zien !</b>###14 Sep 2004 content changed
+dateplaner#:#dv_rotation#:#Rotatie:###14 Sep 2004 content changed
+dateplaner#:#dv_rotation_date#:#Rotatie-datum:###14 Sep 2004 content changed
+dateplaner#:#dv_rotation_end#:#Rotatie-einde:###14 Sep 2004 content changed
+dateplaner#:#dv_shorttext#:#Shorttext:###14 Sep 2004 content changed
+dateplaner#:#dv_startdate#:#Startdatum:###14 Sep 2004 content changed
 dateplaner#:#dv_text#:#Tekst:
 dateplaner#:#dv_whole_day#:#Gehele dag:
-dateplaner#:#dv_whole_rotation#:#Wilt u de gehele Rotatie-datum verwijderen? (Klik op de checkbox)
-dateplaner#:#end_date#:#Eind-datum
-dateplaner#:#endtime_for_view#:#Eindtijd voor ocverzicht:
-dateplaner#:#error_minical_img#:#Kan geen GD-picture-stream creëren
+dateplaner#:#dv_whole_rotation#:#Wilt u de gehele Rotatie-datum verwijderen? (Klik op de checkbox)###14 Sep 2004 content changed
+dateplaner#:#end_date#:#Eind-datum###14 Sep 2004 content changed
+dateplaner#:#endtime_for_view#:#Eindtijd voor ocverzicht:###14 Sep 2004 content changed
+dateplaner#:#error_minical_img#:#Kan geen GD-picture-stream creëren###14 Sep 2004 content changed
 dateplaner#:#execute#:#uitvoeren keuzes
 dateplaner#:#extra_dates#:#Eén dags afspraak
 dateplaner#:#free#:#vrij
 dateplaner#:#freetime#:#Vrije tijd in de groep
 dateplaner#:#group#:#groep
-dateplaner#:#help_day#:#Datum-planner dag-overzicht
-dateplaner#:#help_day_l#:#In een dag-overzicht worden alle afspraken op een gekozen dag zichtbaar gemaakt.
+dateplaner#:#help_day#:#Datum-planner dag-overzicht###14 Sep 2004 content changed
+dateplaner#:#help_day_l#:#In een dag-overzicht worden alle afspraken op een gekozen dag zichtbaar gemaakt.###14 Sep 2004 content changed
 dateplaner#:#help_enddate#:#Einddatum - syntax[dd//mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_enddate_l#:#Bevat het eindpunt van de afspraak.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.
+dateplaner#:#help_enddate_l#:#Bevat het eindpunt van de afspraak.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.###14 Sep 2004 content changed
 dateplaner#:#help_endrotation#:#Eindtijd syntax[dd//mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_endrotation_l#:#Op deze dag stopt de herhaling.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.
-dateplaner#:#help_endtime#:#Eindtijd - syntax[hh/mm] 24h formaat
-dateplaner#:#help_endtime_l#:#Bevat de eindtijd van de afspraak in het 24h formaat.
-dateplaner#:#help_fullday#:#Geheledag afspraak - syntax[aan/uit]
-dateplaner#:#help_fullday_l#:#Als de afspraak de gehele dag beslaat, a.u.b. kies deze optie.<br> Hierbij zijn starttijd, eindtijd en einddatum onzichtbaar.
-dateplaner#:#help_further#:#<br> <b>klik hiervoor meer informatie.</b>
-dateplaner#:#help_group#:#Groepsafspraken selectie
-dateplaner#:#help_group_l#:#Bevat de groepen voor welke de ingelogde gebruiker administrateurs-rechten heeft en voor welke een afspraak kan worden gecreëerd. <br>Nadat deze gekozen is, is het mogelijk de ongeplande tijd van de groep te zien.
-dateplaner#:#help_inbox#:#Datum-planner Inbox
-dateplaner#:#help_inbox_l#:#Hier worden alle nieuwe, gewijzigde en verwijderde groepsafspraken zichtbaar gemaakt.
+dateplaner#:#help_endrotation_l#:#Op deze dag stopt de herhaling.<br> Het symbool opent een kleine kalender om de betreffende datum te kiezen.###14 Sep 2004 content changed
+dateplaner#:#help_endtime#:#Eindtijd - syntax[hh/mm] 24h formaat###14 Sep 2004 content changed
+dateplaner#:#help_endtime_l#:#Bevat de eindtijd van de afspraak in het 24h formaat.###14 Sep 2004 content changed
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
+dateplaner#:#help_fullday#:#Geheledag afspraak - syntax[aan/uit]###14 Sep 2004 content changed
+dateplaner#:#help_fullday_l#:#Als de afspraak de gehele dag beslaat, a.u.b. kies deze optie.<br> Hierbij zijn starttijd, eindtijd en einddatum onzichtbaar.###14 Sep 2004 content changed
+dateplaner#:#help_further#:#<br> <b>klik hiervoor meer informatie.</b>###14 Sep 2004 content changed
+dateplaner#:#help_group#:#Groepsafspraken selectie###14 Sep 2004 content changed
+dateplaner#:#help_group_l#:#Bevat de groepen voor welke de ingelogde gebruiker administrateurs-rechten heeft en voor welke een afspraak kan worden gecreëerd. <br>Nadat deze gekozen is, is het mogelijk de ongeplande tijd van de groep te zien.###14 Sep 2004 content changed
+dateplaner#:#help_inbox#:#Datum-planner Inbox###14 Sep 2004 content changed
+dateplaner#:#help_inbox_l#:#Hier worden alle nieuwe, gewijzigde en verwijderde groepsafspraken zichtbaar gemaakt.###14 Sep 2004 content changed
 dateplaner#:#help_keyword#:#Sleutelwoord selectie
-dateplaner#:#help_keywordUse#:#Sleutelwoord selectie
-dateplaner#:#help_keywordUse_l#:#Kies één of meer sleutelwoorden van de dialoog-box. <br>TIP: gebruik de CTRL toets voor de selectie van meerdere posten.
+dateplaner#:#help_keywordUse#:#Sleutelwoord selectie###14 Sep 2004 content changed
+dateplaner#:#help_keywordUse_l#:#Kies één of meer sleutelwoorden van de dialoog-box. <br>TIP: gebruik de CTRL toets voor de selectie van meerdere posten.###14 Sep 2004 content changed
 dateplaner#:#help_keyword_l#:#Bevat de sleutelwoorden welke de gebruiker kan associëren met afspraken.
-dateplaner#:#help_list#:#Datum-planner
-dateplaner#:#help_list_l#:#In de afspraken-lijst worden alle afspraken over een bepaalde periode zichtbaar gemaakt.
-dateplaner#:#help_month#:#Datum-planner maand-overzicht
-dateplaner#:#help_month_l#:#In het maand-overzicht worden alle afspraken in de betreffende maand zichtbaar gemaakt.
+dateplaner#:#help_list#:#Datum-planner###14 Sep 2004 content changed
+dateplaner#:#help_list_l#:#In de afspraken-lijst worden alle afspraken over een bepaalde periode zichtbaar gemaakt.###14 Sep 2004 content changed
+dateplaner#:#help_month#:#Datum-planner maand-overzicht###14 Sep 2004 content changed
+dateplaner#:#help_month_l#:#In het maand-overzicht worden alle afspraken in de betreffende maand zichtbaar gemaakt.###14 Sep 2004 content changed
 dateplaner#:#help_properties_alt#:#Wijzig sleutelwoord
-dateplaner#:#help_properties_alt_l#:#Kies een sleutelwoord van de dialoog-box.<br> Wijzig  het sleutelwoord in het tekstveld. Belangrijk: max. 20 characters.
+dateplaner#:#help_properties_alt_l#:#Kies een sleutelwoord van de dialoog-box.<br> Wijzig  het sleutelwoord in het tekstveld. Belangrijk: max. 20 characters.###14 Sep 2004 content changed
 dateplaner#:#help_properties_del#:#Verwijder het sleutelwoord
-dateplaner#:#help_properties_del_l#:#Kies een sleutelwoord van de dialoog-box. Klik op de knop  om het sleutelwoord te verwijderen.
+dateplaner#:#help_properties_del_l#:#Kies een sleutelwoord van de dialoog-box. Klik op de knop  om het sleutelwoord te verwijderen.###14 Sep 2004 content changed
 dateplaner#:#help_properties_import#:#Importeren van Outlook-CSV-Bestanden
-dateplaner#:#help_properties_import_l#:#Hier kan een CSC-Bestand worden geselecteerd, welke Outlook-afspraken bevat. Deze afspraken zullen in de afspraken-planner worden geïmporteerd.
+dateplaner#:#help_properties_import_l#:#Hier kan een CSC-Bestand worden geselecteerd, welke Outlook-afspraken bevat. Deze afspraken zullen in de afspraken-planner worden geïmporteerd.###14 Sep 2004 content changed
 dateplaner#:#help_properties_new#:#Voeg een sleutelwoord toe, max. 20 characters
 dateplaner#:#help_properties_new_l#:#Voeg een nieuw sleutelwoord toe in het veld \"nieuw\". Belangrijk: max. 20 characters.
-dateplaner#:#help_properties_time#:#Overzichtstijd voor dag-overzicht/week-overzicht
-dateplaner#:#help_properties_time_l#:#De standaard overzichtstijd voor het dag-overzicht en week-overzicht kan gewijzigd worden. Indien de afpsraken buiten de overzichtstijd vallen van een bepaalde dag of week wordt de overzichtstijd verlengd met de  benodigde tijd. Standaard is 8uur - 18uur.
-dateplaner#:#help_rotation#:#Roteren
-dateplaner#:#help_rotation_l#:#Bevat het type van de ratatie/herhaling.
-dateplaner#:#help_shorttext#:#Shorttext met max. 50 characters
-dateplaner#:#help_shorttext_l#:#Hier kan de shorttext voor een bepaalde afspraak ingegeven worden.
+dateplaner#:#help_properties_time#:#Overzichtstijd voor dag-overzicht/week-overzicht###14 Sep 2004 content changed
+dateplaner#:#help_properties_time_l#:#De standaard overzichtstijd voor het dag-overzicht en week-overzicht kan gewijzigd worden. Indien de afpsraken buiten de overzichtstijd vallen van een bepaalde dag of week wordt de overzichtstijd verlengd met de  benodigde tijd. Standaard is 8uur - 18uur.###14 Sep 2004 content changed
+dateplaner#:#help_rotation#:#Roteren###14 Sep 2004 content changed
+dateplaner#:#help_rotation_l#:#Bevat het type van de ratatie/herhaling.###14 Sep 2004 content changed
+dateplaner#:#help_shorttext#:#Shorttext met max. 50 characters###14 Sep 2004 content changed
+dateplaner#:#help_shorttext_l#:#Hier kan de shorttext voor een bepaalde afspraak ingegeven worden.###14 Sep 2004 content changed
 dateplaner#:#help_startdate#:#Startdatum - syntax[dd//mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_startdate_l#:#Bevat het startmoment van de afspraak. <br> Het symbool opent een kleine kalender om de geschikte datum te kiezen.
-dateplaner#:#help_starttime#:#Starttijd - syntax[hh/mm] 24h formaat
-dateplaner#:#help_starttime_l#:#Bevat het startmoment van de afspraak gebruikmakend van het 24h formaat.
+dateplaner#:#help_startdate_l#:#Bevat het startmoment van de afspraak. <br> Het symbool opent een kleine kalender om de geschikte datum te kiezen.###14 Sep 2004 content changed
+dateplaner#:#help_starttime#:#Starttijd - syntax[hh/mm] 24h formaat###14 Sep 2004 content changed
+dateplaner#:#help_starttime_l#:#Bevat het startmoment van de afspraak gebruikmakend van het 24h formaat.###14 Sep 2004 content changed
 dateplaner#:#help_text#:#Tekst
 dateplaner#:#help_text_l#:#datum.
-dateplaner#:#help_week#:#Datum-planner
-dateplaner#:#help_week_l#:#In een week-overzicht laat alle datums van een bepaalde week zien.
+dateplaner#:#help_week#:#Datum-planner###14 Sep 2004 content changed
+dateplaner#:#help_week_l#:#In een week-overzicht laat alle datums van een bepaalde week zien.###14 Sep 2004 content changed
 dateplaner#:#hour#:#uur
 dateplaner#:#importDates#:#Importeren van Outlook-datums
 dateplaner#:#inbox#:#Inbox
@@ -2730,9 +2769,9 @@ dateplaner#:#newDates#:#Nieuw datums
 dateplaner#:#newKeyword#:#Nieuw:
 dateplaner#:#new_doc#:#creëer een nieuwe datum
 dateplaner#:#no_entry#:#geen datums beschikbaar
-dateplaner#:#o_day_date#:#24 uurs datum
+dateplaner#:#o_day_date#:#24 uurs datum###14 Sep 2004 content changed
 dateplaner#:#of#:#van
-dateplaner#:#open_day#:#dag-overzicht
+dateplaner#:#open_day#:#dag-overzicht###14 Sep 2004 content changed
 dateplaner#:#pmonth#:#volgende maand
 dateplaner#:#printlist#:#print
 dateplaner#:#properties#:#Eigenschappen
@@ -2747,8 +2786,8 @@ dateplaner#:#r_nonrecurring#:#Eens
 dateplaner#:#r_week#:#elke week
 dateplaner#:#r_year#:#elk jaar
 dateplaner#:#readimportfile#:#invoegen
-dateplaner#:#rotation#:#Roteren
-dateplaner#:#rotation_dates#:#Roterende datums
+dateplaner#:#rotation#:#Roteren###14 Sep 2004 content changed
+dateplaner#:#rotation_dates#:#Roterende datums###14 Sep 2004 content changed
 dateplaner#:#semester_name#:#Naam semester
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -2764,10 +2803,10 @@ dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Korte tekst
 dateplaner#:#singleDate#:#enkele datum
-dateplaner#:#starttime_for_view#:#Starttijd voor overzicht:
+dateplaner#:#starttime_for_view#:#Starttijd voor overzicht:###14 Sep 2004 content changed
 dateplaner#:#timedate#:#Tijd / Datum
 dateplaner#:#timeslice#:#Tijd:
-dateplaner#:#title#:#Ilias datum-planner
+dateplaner#:#title#:#Ilias datum-planner###14 Sep 2004 content changed
 dateplaner#:#to#:#naar
 dateplaner#:#today#:#vandaag
 dateplaner#:#viewlist#:#view
@@ -2797,7 +2836,7 @@ forum#:#forums_not_available#:#Forums niet beschikbaar
 forum#:#forums_overview#:#Forums-overzicht
 forum#:#forums_post_deleted#:#Artikl is gewist
 forum#:#forums_post_modified#:#Artikel is gewijzigd
-forum#:#forums_post_new_entry#:#Nieuw artikel werd toegevoegd
+forum#:#forums_post_new_entry#:#Nieuw artikel werd toegevoegd###14 Sep 2004 content changed
 forum#:#forums_posts#:#Alle artikelen
 forum#:#forums_posts_not_available#:#Artikelen niet beschikbaar
 forum#:#forums_print_thread#:#Print thread
@@ -2806,40 +2845,40 @@ forum#:#forums_respond#:#Beantwoorden
 forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#Artikel
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Bijdrage aan thema's
+forum#:#forums_thread_articles#:#Bijdrage aan thema's###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Gecreëerd op
 forum#:#forums_thread_create_from#:#Gecreëerd van
-forum#:#forums_thread_new_entry#:#Nieuw thema is toegevoegd
+forum#:#forums_thread_new_entry#:#Nieuw thema is toegevoegd###14 Sep 2004 content changed
 forum#:#forums_threads#:#Threads
 forum#:#forums_threads_not_available#:#Thema niet beschikbaar
 forum#:#forums_topics_overview#:#Overzicht thema's
 forum#:#forums_your_reply#:#Uw antwoord
 mail#:#also_as_email#:#Ook als email
-mail#:#bc#:#BC
+mail#:#bc#:#BC###14 Sep 2004 content changed
 mail#:#forward#:#Doorzenden
-mail#:#linebreak#:#Linebreak
+mail#:#linebreak#:#Linebreak###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#Voer een ontvanger in
 mail#:#mail_add_subfolder#:#Toevoegen submap
 mail#:#mail_add_subject#:#Voer een subject in
-mail#:#mail_add_to_addressbook#:#Toevoegen aan adresboek
+mail#:#mail_add_to_addressbook#:#Toevoegen aan adresboek###14 Sep 2004 content changed
 mail#:#mail_add_type#:#Voeg het type mail toe dat u wilt verzenden
 mail#:#mail_addr_entries#:#Ingangen
 mail#:#mail_attachments#:#Attachments
-mail#:#mail_bc_not_valid#:#De BC-ontvanger is niet geldig
-mail#:#mail_bc_search#:#BC zoeken
+mail#:#mail_bc_not_valid#:#De BC-ontvanger is niet geldig###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#BC zoeken###14 Sep 2004 content changed
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#e CC-ontvanger is geldig
+mail#:#mail_cc_not_valid#:#e CC-ontvanger is geldig###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#CC zoeken
 mail#:#mail_change_to_folder#:#Ga naar map:
 mail#:#mail_check_your_email_addr#:#Uw email-adres is niet geldig
 mail#:#mail_compose#:#Samenstellen Bericht
-mail#:#mail_deleted#:#De mail-bericht(en) word(t/en) gewist
+mail#:#mail_deleted#:#De mail-bericht(en) word(t/en) gewist###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#De bijdragen worden gewist
 mail#:#mail_email_forbidden#:#U bent niet gemachtigd email te zenden
 mail#:#mail_entry_added#:#Voeg een nieuwe post toe
 mail#:#mail_entry_changed#:#De bijdrage is gewijzigd
-mail#:#mail_file_name#:#Bestandsnaam
-mail#:#mail_file_size#:#Bestandsgrootte
+mail#:#mail_file_name#:#Bestandsnaam###14 Sep 2004 content changed
+mail#:#mail_file_size#:#Bestandsgrootte###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#Het bestand is /de bestanden zijn verwijderd
 mail#:#mail_folder_created#:#Een nieuwe map wordt gecreëerd 
 mail#:#mail_folder_deleted#:#De map wordt verwijderd
@@ -2849,21 +2888,21 @@ mail#:#mail_folder_name_changed#:#De map-naam is gewijzigd
 mail#:#mail_folder_options#:#Map-opties
 mail#:#mail_following_rcp_not_valid#:#De volgende ontvangers zijn niet geldig:
 mail#:#mail_global_options#:#Globale opties
-mail#:#mail_incoming#:#Binnenkomende mails
+mail#:#mail_incoming#:#Binnenkomende mails###14 Sep 2004 content changed
 mail#:#mail_incoming_both#:#Lokaal en verspreiden
 mail#:#mail_incoming_local#:#Alleen lokaal
 mail#:#mail_incoming_smtp#:#Doorzenden naar email-adres
 mail#:#mail_insert_folder_name#:#Voeg een map-naam in
 mail#:#mail_insert_query#:#Voeg een vraag in
 mail#:#mail_intern#:#intern
-mail#:#mail_mark_read#:#Markeer gelezen mail
-mail#:#mail_mark_unread#:#Markeer ongelezen mail
+mail#:#mail_mark_read#:#Markeer gelezen mail###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Markeer ongelezen mail###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#De limit voor upload is:
 mail#:#mail_message_send#:#Bericht verzonden
-mail#:#mail_move_error#:#Fout met verplaatsen mail)
+mail#:#mail_move_error#:#Fout met verplaatsen mail)###14 Sep 2004 content changed
 mail#:#mail_move_to#:#Verplaatsen naar:
-mail#:#mail_moved#:#Mail is verplaatst
-mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak
+mail#:#mail_moved#:#Mail is verplaatst###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak###14 Sep 2004 content changed
 mail#:#mail_new_file#:#Voeg een nieuw bestand toe:
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen attachments hebben
 mail#:#mail_no_attachments_found#:#Geen attachments gevonden
@@ -2871,20 +2910,20 @@ mail#:#mail_no_permissions_write_smtp#:#U heb het recht om externe emails te sch
 mail#:#mail_options_of#:#Opties
 mail#:#mail_options_saved#:#Opties opgeslagen
 mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
-mail#:#mail_s#:#Mail)
-mail#:#mail_s_unread#:#Ongelezen Mail)
+mail#:#mail_s#:#Mail)###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#Ongelezen Mail)###14 Sep 2004 content changed
 mail#:#mail_saved#:#Het bericht is opgeslagen
-mail#:#mail_search_addressbook#:#zoek in het adresboek
+mail#:#mail_search_addressbook#:#zoek in het adresboek###14 Sep 2004 content changed
 mail#:#mail_search_system#:#zoek in het systeem
-mail#:#mail_select_one_entry#:#U moet één bijdrage selecteren
-mail#:#mail_select_one_file#:#U moet één bestand selecteren
-mail#:#mail_sure_delete#:#Weet u zeker dat u de geselecteerde mail wilt verwijderen)
+mail#:#mail_select_one_entry#:#U moet één bijdrage selecteren###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#U moet één bestand selecteren###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#Weet u zeker dat u de geselecteerde mail wilt verwijderen)###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#Weet u zeker dat u de volgende bijdragen wilt verwijderen
 mail#:#mail_sure_delete_file#:#Het bestand wordt definitief verwijderd
-mail#:#mail_sure_delete_folder#:#De map en zijn inhoud worden definitief verwijderd
+mail#:#mail_sure_delete_folder#:#De map en zijn inhoud worden definitief verwijderd###14 Sep 2004 content changed
 mail#:#mail_to_search#:#zoeken
-mail#:#mail_user_addr_n_valid#:#De volgende gebruikers hebben geen correct emailadres
-mail#:#search_bc_recipient#:#Zoek BC-ontvanger
+mail#:#mail_user_addr_n_valid#:#De volgende gebruikers hebben geen correct emailadres###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#Zoek BC-ontvanger###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Zoek CC-ontvanger
 meta#:#meta_accessibility_restrictions#:#Toegangs-restricties
 meta#:#meta_active#:#Actief
@@ -3146,7 +3185,7 @@ meta#:#meta_coverage#:#Dekking
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Verwijderen
 meta#:#meta_description#:#Beschrijving
-meta#:#meta_diagramm#:#Diagram
+meta#:#meta_diagramm#:#Diagram###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#Moeilijkheid
 meta#:#meta_dificult#:#Moeilijk
 meta#:#meta_draft#:#Klad
@@ -3189,145 +3228,145 @@ meta#:#meta_is_required_by#:#Is noodzakelijk voor
 meta#:#meta_is_version_of#:#Is een versie van
 meta#:#meta_keyword#:#Sleutelwoord
 meta#:#meta_kind#:#Soort
-meta#:#meta_l_aa#:#Afar
-meta#:#meta_l_ab#:#Abkhaziaans
-meta#:#meta_l_af#:#Afrikaans
-meta#:#meta_l_am#:#Amhari
-meta#:#meta_l_ar#:#Arabisch
-meta#:#meta_l_as#:#Assamese
-meta#:#meta_l_ay#:#Aymara
-meta#:#meta_l_az#:#Aserbaidschanisch
-meta#:#meta_l_ba#:#Baschkirisch
-meta#:#meta_l_be#:#Witrussisch
-meta#:#meta_l_bg#:#Bulgaars
-meta#:#meta_l_bh#:#Biharisch
-meta#:#meta_l_bi#:#Bislamisch
-meta#:#meta_l_bn#:#Bengalisch
-meta#:#meta_l_bo#:#Tibetanisch
-meta#:#meta_l_br#:#Bretons
-meta#:#meta_l_ca#:#Katalanisch
-meta#:#meta_l_co#:#Korsisch
-meta#:#meta_l_cs#:#Tsjechisch
-meta#:#meta_l_cy#:#Walisisch
-meta#:#meta_l_da#:#Deens
-meta#:#meta_l_de#:#Duits
-meta#:#meta_l_dz#:#Bhutani
-meta#:#meta_l_el#:#Grieks
-meta#:#meta_l_en#:#Engels
-meta#:#meta_l_eo#:#Esperanto
-meta#:#meta_l_es#:#Spaans
-meta#:#meta_l_et#:#Estisch
-meta#:#meta_l_eu#:#Baskisch
-meta#:#meta_l_fa#:#Persisch)
-meta#:#meta_l_fi#:#Fins
-meta#:#meta_l_fj#:#Fiji
-meta#:#meta_l_fo#:#Faröisch
-meta#:#meta_l_fr#:#Frans
-meta#:#meta_l_fy#:#Fries
-meta#:#meta_l_ga#:#Iers
-meta#:#meta_l_gd#:#Schots gälisch
-meta#:#meta_l_gl#:#Galizisch
-meta#:#meta_l_gn#:#Guarani
-meta#:#meta_l_gu#:#Gujaratisch
-meta#:#meta_l_ha#:#Haussa
-meta#:#meta_l_he#:#Hebreews
-meta#:#meta_l_hi#:#Hindi
-meta#:#meta_l_hr#:#Kroatisch
-meta#:#meta_l_hu#:#Hongaars
-meta#:#meta_l_hy#:#Armenisch
-meta#:#meta_l_ia#:#Interlingue
-meta#:#meta_l_id#:#Indonesisch
-meta#:#meta_l_ie#:#Interlingue
-meta#:#meta_l_ik#:#Inupiak
-meta#:#meta_l_is#:#IJslands
-meta#:#meta_l_it#:#Italiaans
-meta#:#meta_l_iu#:#Inuktitut
-meta#:#meta_l_ja#:#Japans
-meta#:#meta_l_jv#:#Javaans
-meta#:#meta_l_ka#:#Georgisch
-meta#:#meta_l_kk#:#Kasachisch
-meta#:#meta_l_kl#:#Groenlands
-meta#:#meta_l_km#:#Kambodschanisch
-meta#:#meta_l_kn#:#Canadees
-meta#:#meta_l_ko#:#Koreaans
-meta#:#meta_l_ks#:#Kashmirisch
-meta#:#meta_l_ku#:#Koerdisch
-meta#:#meta_l_ky#:#Kirgisisch
-meta#:#meta_l_la#:#Latijns
-meta#:#meta_l_ln#:#Lingalisch
-meta#:#meta_l_lo#:#Laotisch
-meta#:#meta_l_lt#:#Litauisch
-meta#:#meta_l_lv#:#Lettisch
-meta#:#meta_l_mg#:#Malagasisch
-meta#:#meta_l_mi#:#maorisch
-meta#:#meta_l_mk#:#mazedonisch
-meta#:#meta_l_ml#:#malajalam
-meta#:#meta_l_mn#:#Mongools
-meta#:#meta_l_mo#:#Moldavisch
-meta#:#meta_l_mr#:#Marathi
-meta#:#meta_l_ms#:#Malayisch
-meta#:#meta_l_mt#:#Maltesisch
-meta#:#meta_l_my#:#Burmesisch
-meta#:#meta_l_na#:#Nauruïsch
-meta#:#meta_l_ne#:#Nepalesisch
-meta#:#meta_l_nl#:#Nederlands
-meta#:#meta_l_no#:#Noorweegs
-meta#:#meta_l_oc#:#Okzitanisch
-meta#:#meta_l_om#:#Oromo)
-meta#:#meta_l_or#:#Oriya
-meta#:#meta_l_pa#:#Punjabisch
-meta#:#meta_l_pl#:#Pools
-meta#:#meta_l_ps#:#Paschtu
-meta#:#meta_l_pt#:#Portugees
-meta#:#meta_l_qu#:#Quechua
-meta#:#meta_l_rm#:#Rheatoromanisch
-meta#:#meta_l_rn#:#Kurundisch
-meta#:#meta_l_ro#:#Romanisch
-meta#:#meta_l_ru#:#Russisch
-meta#:#meta_l_rw#:#Kinyarwanda
-meta#:#meta_l_sa#:#Sanskrit
-meta#:#meta_l_sd#:#Zinti
-meta#:#meta_l_sg#:#Sango
-meta#:#meta_l_sh#:#Serbokroatisch
-meta#:#meta_l_si#:#Singhalesisch
-meta#:#meta_l_sk#:#Slowaaks
-meta#:#meta_l_sl#:#Slovenisch
-meta#:#meta_l_sm#:#Samoanisch
-meta#:#meta_l_sn#:#Shona
-meta#:#meta_l_so#:#Somalisch
-meta#:#meta_l_sq#:#Albanisch
-meta#:#meta_l_sr#:#Serbisch
-meta#:#meta_l_ss#:#Swasilands
-meta#:#meta_l_st#:#Sesothisch
-meta#:#meta_l_su#:#Sundanesisch
-meta#:#meta_l_sv#:#Zweeds
-meta#:#meta_l_sw#:#Suaheli
-meta#:#meta_l_ta#:#Tamilisch
-meta#:#meta_l_te#:#Telugu
-meta#:#meta_l_tg#:#Tadschikisch
-meta#:#meta_l_th#:#Thai
-meta#:#meta_l_ti#:#Tigrinja
-meta#:#meta_l_tk#:#Turkmenisch
-meta#:#meta_l_tl#:#Tagalog
-meta#:#meta_l_tn#:#Sezuan
-meta#:#meta_l_to#:#tongaas
-meta#:#meta_l_tr#:#Turks
-meta#:#meta_l_ts#:#Tsongaisch
-meta#:#meta_l_tt#:#Tatarisch
-meta#:#meta_l_tw#:#Twi
-meta#:#meta_l_ug#:#Uigur
-meta#:#meta_l_uk#:#Oekrainsch
-meta#:#meta_l_ur#:#Urdu
-meta#:#meta_l_uz#:#Usbekisch
-meta#:#meta_l_vi#:#Vietnamees
-meta#:#meta_l_vo#:#Volapük
-meta#:#meta_l_wo#:#Wolof
-meta#:#meta_l_xh#:#Xhosa
-meta#:#meta_l_yi#:#Jiddish
-meta#:#meta_l_yo#:#Joruba
-meta#:#meta_l_za#:#Zhuang
-meta#:#meta_l_zh#:#Chinesisch
-meta#:#meta_l_zu#:#Zulu
+meta#:#meta_l_aa#:#Afar###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#Abkhaziaans###14 Sep 2004 content changed
+meta#:#meta_l_af#:#Afrikaans###14 Sep 2004 content changed
+meta#:#meta_l_am#:#Amhari###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#Arabisch###14 Sep 2004 content changed
+meta#:#meta_l_as#:#Assamese###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#Aymara###14 Sep 2004 content changed
+meta#:#meta_l_az#:#Aserbaidschanisch###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#Baschkirisch###14 Sep 2004 content changed
+meta#:#meta_l_be#:#Witrussisch###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#Bulgaars###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#Biharisch###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#Bislamisch###14 Sep 2004 content changed
+meta#:#meta_l_bn#:#Bengalisch###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#Tibetanisch###14 Sep 2004 content changed
+meta#:#meta_l_br#:#Bretons###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#Katalanisch###14 Sep 2004 content changed
+meta#:#meta_l_co#:#Korsisch###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#Tsjechisch###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#Walisisch###14 Sep 2004 content changed
+meta#:#meta_l_da#:#Deens###14 Sep 2004 content changed
+meta#:#meta_l_de#:#Duits###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#Bhutani###14 Sep 2004 content changed
+meta#:#meta_l_el#:#Grieks###14 Sep 2004 content changed
+meta#:#meta_l_en#:#Engels###14 Sep 2004 content changed
+meta#:#meta_l_eo#:#Esperanto###14 Sep 2004 content changed
+meta#:#meta_l_es#:#Spaans###14 Sep 2004 content changed
+meta#:#meta_l_et#:#Estisch###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#Baskisch###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#Persisch)###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#Fins###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#Fiji###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#Faröisch###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#Frans###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#Fries###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#Iers###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#Schots gälisch###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#Galizisch###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#Guarani###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#Gujaratisch###14 Sep 2004 content changed
+meta#:#meta_l_ha#:#Haussa###14 Sep 2004 content changed
+meta#:#meta_l_he#:#Hebreews###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#Hindi###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#Kroatisch###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#Hongaars###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#Armenisch###14 Sep 2004 content changed
+meta#:#meta_l_ia#:#Interlingue###14 Sep 2004 content changed
+meta#:#meta_l_id#:#Indonesisch###14 Sep 2004 content changed
+meta#:#meta_l_ie#:#Interlingue###14 Sep 2004 content changed
+meta#:#meta_l_ik#:#Inupiak###14 Sep 2004 content changed
+meta#:#meta_l_is#:#IJslands###14 Sep 2004 content changed
+meta#:#meta_l_it#:#Italiaans###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#Inuktitut###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#Japans###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#Javaans###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#Georgisch###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#Kasachisch###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#Groenlands###14 Sep 2004 content changed
+meta#:#meta_l_km#:#Kambodschanisch###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#Canadees###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#Koreaans###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#Kashmirisch###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#Koerdisch###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#Kirgisisch###14 Sep 2004 content changed
+meta#:#meta_l_la#:#Latijns###14 Sep 2004 content changed
+meta#:#meta_l_ln#:#Lingalisch###14 Sep 2004 content changed
+meta#:#meta_l_lo#:#Laotisch###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#Litauisch###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#Lettisch###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#Malagasisch###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#maorisch###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#mazedonisch###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#malajalam###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#Mongools###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#Moldavisch###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#Marathi###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#Malayisch###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#Maltesisch###14 Sep 2004 content changed
+meta#:#meta_l_my#:#Burmesisch###14 Sep 2004 content changed
+meta#:#meta_l_na#:#Nauruïsch###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#Nepalesisch###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#Nederlands###14 Sep 2004 content changed
+meta#:#meta_l_no#:#Noorweegs###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#Okzitanisch###14 Sep 2004 content changed
+meta#:#meta_l_om#:#Oromo)###14 Sep 2004 content changed
+meta#:#meta_l_or#:#Oriya###14 Sep 2004 content changed
+meta#:#meta_l_pa#:#Punjabisch###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#Pools###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#Paschtu###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#Portugees###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#Quechua###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#Rheatoromanisch###14 Sep 2004 content changed
+meta#:#meta_l_rn#:#Kurundisch###14 Sep 2004 content changed
+meta#:#meta_l_ro#:#Romanisch###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#Russisch###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#Kinyarwanda###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#Sanskrit###14 Sep 2004 content changed
+meta#:#meta_l_sd#:#Zinti###14 Sep 2004 content changed
+meta#:#meta_l_sg#:#Sango###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#Serbokroatisch###14 Sep 2004 content changed
+meta#:#meta_l_si#:#Singhalesisch###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#Slowaaks###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#Slovenisch###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#Samoanisch###14 Sep 2004 content changed
+meta#:#meta_l_sn#:#Shona###14 Sep 2004 content changed
+meta#:#meta_l_so#:#Somalisch###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#Albanisch###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#Serbisch###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#Swasilands###14 Sep 2004 content changed
+meta#:#meta_l_st#:#Sesothisch###14 Sep 2004 content changed
+meta#:#meta_l_su#:#Sundanesisch###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#Zweeds###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#Suaheli###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#Tamilisch###14 Sep 2004 content changed
+meta#:#meta_l_te#:#Telugu###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#Tadschikisch###14 Sep 2004 content changed
+meta#:#meta_l_th#:#Thai###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#Tigrinja###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#Turkmenisch###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#Tagalog###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#Sezuan###14 Sep 2004 content changed
+meta#:#meta_l_to#:#tongaas###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#Turks###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#Tsongaisch###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#Tatarisch###14 Sep 2004 content changed
+meta#:#meta_l_tw#:#Twi###14 Sep 2004 content changed
+meta#:#meta_l_ug#:#Uigur###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#Oekrainsch###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#Urdu###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#Usbekisch###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#Vietnamees###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#Volapük###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#Wolof###14 Sep 2004 content changed
+meta#:#meta_l_xh#:#Xhosa###14 Sep 2004 content changed
+meta#:#meta_l_yi#:#Jiddish###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#Joruba###14 Sep 2004 content changed
+meta#:#meta_l_za#:#Zhuang###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#Chinesisch###14 Sep 2004 content changed
+meta#:#meta_l_zu#:#Zulu###14 Sep 2004 content changed
 meta#:#meta_language#:#Taal
 meta#:#meta_learner#:#Leerling
 meta#:#meta_learning_resource_type#:#Type leermiddel
@@ -3352,19 +3391,19 @@ meta#:#meta_narrative_text#:#Verhalende tekst
 meta#:#meta_networked#:#Vernetwerkt
 meta#:#meta_new_element#:#Nieuw element
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#Geen Meta-data beschikbaar voor het deel Aantekeningen.
-meta#:#meta_no_classification#:#Geen Meta-data beschikbaar voor het deel klassificering.
-meta#:#meta_no_educational#:#Geen Meta-data beschikbaar voor het deel Educatie.
-meta#:#meta_no_lifecycle#:#Geen Meta-data beschikbaar voor het deel Lifecyclus.
-meta#:#meta_no_meta_metadata#:#Geen Meta-data beschikbaar voor het deel Meta-metadata.
-meta#:#meta_no_relation#:#Geen Meta-data beschikbaar voor het deel Relaties.
-meta#:#meta_no_rights#:#Geen Meta-data beschikbaar voor het deel Rechten.
-meta#:#meta_no_technical#:#Geen Meta-data beschikbaar voor het deel Techniek.
+meta#:#meta_no_annotation#:#Geen Meta-data beschikbaar voor het deel Aantekeningen.###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#Geen Meta-data beschikbaar voor het deel klassificering.###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#Geen Meta-data beschikbaar voor het deel Educatie.###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#Geen Meta-data beschikbaar voor het deel Lifecyclus.###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#Geen Meta-data beschikbaar voor het deel Meta-metadata.###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#Geen Meta-data beschikbaar voor het deel Relaties.###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#Geen Meta-data beschikbaar voor het deel Rechten.###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#Geen Meta-data beschikbaar voor het deel Techniek.###14 Sep 2004 content changed
 meta#:#meta_none#:#Geen enkele
 meta#:#meta_operating_system#:#Bedrijfs-systeem
 meta#:#meta_or_composite#:#Of samenstelling
 meta#:#meta_other#:#Andere
-meta#:#meta_other_plattform_requirements#:#Verdere platform vereisten
+meta#:#meta_other_plattform_requirements#:#Verdere platform vereisten###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Selecteer a.u.b
 meta#:#meta_prerequisite#:#Eerste vereisten
@@ -3428,31 +3467,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Alle resultaten
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#Aaneenschakeling
 search#:#search_content#:#Pagina-inhoud
 search#:#search_dbk_content#:#Digitale bibliotheek(inhoud)
-search#:#search_dbk_meta#:#Digitale bibliotheek(Meta-data)
-search#:#search_delete_sure#:#Het object en zijn inhoud worden voorgoed gewist
+search#:#search_dbk_meta#:#Digitale bibliotheek(Meta-data)###14 Sep 2004 content changed
+search#:#search_delete_sure#:#Het object en zijn inhoud worden voorgoed gewist###14 Sep 2004 content changed
 search#:#search_group#:#Groepen
 search#:#search_in_result#:#Zoeken binnen de resultaten
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#Leer-materialen(inhoud)
-search#:#search_lm_meta#:#Leer-materialen(Meta-data)
-search#:#search_meta#:#Meta-data
-search#:#search_minimum_three#:#Uw zoekargument is minstens drie karakters lang geweest
+search#:#search_lm_meta#:#Leer-materialen(Meta-data)###14 Sep 2004 content changed
+search#:#search_meta#:#Meta-data###14 Sep 2004 content changed
+search#:#search_minimum_three#:#Uw zoekargument is minstens drie karakters lang geweest###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#Map kan niet verplaatst worden.
 search#:#search_move_to#:#Verplaatsen naar:
 search#:#search_my_search_results#:#Mijn zoekresultaten
 search#:#search_new_folder#:#Nieuwe map
 search#:#search_no_category#:#U heeft geen enkele zoek-kategorie geselecteerd###26 Aug 2004 content changed
-search#:#search_no_match#:#Uw zoekopdracht heeft geen enkel resultaat
+search#:#search_no_match#:#Uw zoekopdracht heeft geen enkel resultaat###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Geen resultaten opgeslagen.
-search#:#search_no_search_term#:#U heeft geen enkel zoek-begrip geselecteerd
-search#:#search_no_selection#:#U heeft niet geselecteerd.
+search#:#search_no_search_term#:#U heeft geen enkel zoek-begrip geselecteerd###14 Sep 2004 content changed
+search#:#search_no_selection#:#U heeft niet geselecteerd.###14 Sep 2004 content changed
 search#:#search_object_renamed#:#Object herbenoemd.
 search#:#search_objects_deleted#:#Object(en) verwijderd.
 search#:#search_objects_moved#:#Objecten zijn verplaatst.
 search#:#search_one_action#:#Selecteer één activiteit. 
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#Geef een nieuwe titel
 search#:#search_results_saved#:#Zoekresultaten opgeslagen
 search#:#search_save_as_select#:#Opslaan als:
@@ -3460,7 +3503,7 @@ search#:#search_search_for#:#Zoeken naar
 search#:#search_search_no_results_saved#:#Er zijn geen zoekresultaten opgeslagen
 search#:#search_search_results#:#Zoekresultaten
 search#:#search_search_term#:#Zoek-begrip
-search#:#search_select_exactly_one_object#:#U moet exact één editie kiezen.
+search#:#search_select_exactly_one_object#:#U moet exact één editie kiezen.###14 Sep 2004 content changed
 search#:#search_select_one#:#Selecteer een map
 search#:#search_select_one_action#:#--Selecteer één activiteit--
 search#:#search_select_one_folder_select#:#--Selecteer een map--

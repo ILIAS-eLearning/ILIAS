@@ -83,8 +83,8 @@ administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ..
 administration#:#skipped#:#saltato
 administration#:#start_scan#:#Inizia!
 administration#:#stop_scan#:#Ferma!
-administration#:#systemcheck#:#Controllo sistema
-administration#:#view_last_log#:#Vedi l'ultimo log di esame
+administration#:#systemcheck#:#Controllo sistema###14 Sep 2004 content changed
+administration#:#view_last_log#:#Vedi l'ultimo log di esame###14 Sep 2004 content changed
 administration#:#view_log#:#Vedi dettagli
 assessment#:#0_unlimited#:#(0 = senza limite)
 assessment#:#add_answer#:#Aggiungi risposta
@@ -113,7 +113,7 @@ assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
 assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area desiderata.
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
-assessment#:#cloze_text#:#Testo simile
+assessment#:#cloze_text#:#Testo simile###14 Sep 2004 content changed
 assessment#:#code#:#Codice
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
@@ -137,7 +137,7 @@ assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_data#:#Dati di valutazione
-assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
+assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.###14 Sep 2004 content changed
 assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
@@ -155,7 +155,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti 
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un'altra coppia!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine!
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!###14 Sep 2004 content changed
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
 assessment#:#gap#:#Vuoto
@@ -221,14 +221,14 @@ assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modifica
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Domande eliminate
-assessment#:#qt_cloze#:#con risposta da completare
+assessment#:#qt_cloze#:#con risposta da completare###14 Sep 2004 content changed
 assessment#:#qt_imagemap#:#con immagine a mappa
 assessment#:#qt_javaapplet#:#con applet java
 assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
+assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!###14 Sep 2004 content changed
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#radio_set#:#Seleziona
@@ -245,11 +245,11 @@ assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto
 assessment#:#reset_filter#:#Annulla il filtro
 assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
-assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
+assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!###14 Sep 2004 content changed
 assessment#:#save_finish#:#Salva e finisci il test
-assessment#:#save_introduction#:#Salva e vai all'introduzione
-assessment#:#save_next#:#Salva e vai alla omanda successiva
-assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#save_introduction#:#Salva e vai all'introduzione###14 Sep 2004 content changed
+assessment#:#save_next#:#Salva e vai alla omanda successiva###14 Sep 2004 content changed
+assessment#:#save_previous#:#Salva e vai alla domanda precedente###14 Sep 2004 content changed
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
 assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
@@ -271,7 +271,7 @@ assessment#:#tst_browse_for_questions#:#Cerca le domande
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_ending_time#:#Ora di fine
-assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo
+assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo###14 Sep 2004 content changed
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
 assessment#:#tst_eval_total_passed#:#Test totali passati
@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Ora di inizio
 assessment#:#tst_stat_all_users#:#tutti gli utenti
 assessment#:#tst_stat_choose_users#:#(seleziona almeno uno o pi&#249; utenti dalla lista)
 assessment#:#tst_stat_result_atimeofwork#:#Tempo medio di esecuzione
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Prima visita
 assessment#:#tst_stat_result_lastvisit#:#Ultima visita
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -369,7 +371,7 @@ assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione deg
 assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#unlock#:#Sbloccato
-assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
+assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.###14 Sep 2004 content changed
 assessment#:#upload_imagemap#:#Upload una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
@@ -384,7 +386,7 @@ bibitem#:#bibitem_author#:#Autore
 bibitem#:#bibitem_av#:#Disponibile
 bibitem#:#bibitem_bibitem#:#Informazioni bibliografiche
 bibitem#:#bibitem_book#:#Libro
-bibitem#:#bibitem_booktitle#:#Titolo
+bibitem#:#bibitem_booktitle#:#Titolo###14 Sep 2004 content changed
 bibitem#:#bibitem_catalog#:#Catalogo
 bibitem#:#bibitem_choose_index#:#Per favore, scegli le informazioni bibliografiche:
 bibitem#:#bibitem_cross_reference#:#Riferimenti incrociati
@@ -397,8 +399,8 @@ bibitem#:#bibitem_first_name#:#Nome
 bibitem#:#bibitem_grey_literature#:#Scienze, tecnologia
 bibitem#:#bibitem_how_published#:#Tipo pubblicazione
 bibitem#:#bibitem_identifier#:#Identificatore
-bibitem#:#bibitem_inbook#:#Libro in arrivo
-bibitem#:#bibitem_inproceedings#:#In esecuzione
+bibitem#:#bibitem_inbook#:#Libro in arrivo###14 Sep 2004 content changed
+bibitem#:#bibitem_inproceedings#:#In esecuzione###14 Sep 2004 content changed
 bibitem#:#bibitem_institution#:#Istituzione
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
@@ -437,10 +439,10 @@ bibitem#:#bibitem_unpublished#:#Non pubblicato
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Luogo pubblicazione
 bibitem#:#bibitem_year#:#Anno
-chat#:#chat_active#:#Attiva
-chat#:#chat_active_users#:#Utente (attivo)
+chat#:#chat_active#:#Attiva###14 Sep 2004 content changed
+chat#:#chat_active_users#:#Utente (attivo)###14 Sep 2004 content changed
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
-chat#:#chat_add_ip#:#Per favore, aggiungi l'ip del server
+chat#:#chat_add_ip#:#Per favore, aggiungi l'ip del server###14 Sep 2004 content changed
 chat#:#chat_add_moderator_password#:#Per favore, aggiungi la password del moderatore
 chat#:#chat_add_port#:#Per favore, aggiungi la porta del server
 chat#:#chat_aqua#:#aqua
@@ -448,11 +450,11 @@ chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#nero
 chat#:#chat_blue#:#blu
 chat#:#chat_bold#:#Grassetto
-chat#:#chat_chatroom_body#:#Chatroom:
-chat#:#chat_chatroom_rename#:#Modifica chatroom
-chat#:#chat_chatrooms#:#Chatroom
+chat#:#chat_chatroom_body#:#Chatroom:###14 Sep 2004 content changed
+chat#:#chat_chatroom_rename#:#Modifica chatroom###14 Sep 2004 content changed
+chat#:#chat_chatrooms#:#Chatroom###14 Sep 2004 content changed
 chat#:#chat_color#:#Colori dei font
-chat#:#chat_delete_sure#:#Sei sicuro, vuoi eliminare questa chatroom
+chat#:#chat_delete_sure#:#Sei sicuro, vuoi eliminare questa chatroom###14 Sep 2004 content changed
 chat#:#chat_drop_user#:#Utente tolto
 chat#:#chat_edit#:#Modifica chat
 chat#:#chat_face#:#Tipo font
@@ -461,8 +463,8 @@ chat#:#chat_gray#:#grigio
 chat#:#chat_green#:#verde
 chat#:#chat_hide_details#:#Nascondi i dettagli
 chat#:#chat_html_export#:#Esporta in HTML
-chat#:#chat_ilias#:#Modulo Ilias per Chat
-chat#:#chat_inactive#:#Inattivo
+chat#:#chat_ilias#:#Modulo Ilias per Chat###14 Sep 2004 content changed
+chat#:#chat_inactive#:#Inattivo###14 Sep 2004 content changed
 chat#:#chat_input#:#Ingresso
 chat#:#chat_insert_message#:#Per favore, inserisci un messaggio
 chat#:#chat_invitation_body#:#Invito a chattare da:
@@ -480,33 +482,33 @@ chat#:#chat_messages_deleted#:#I messaggi sono stati cancellati
 chat#:#chat_moderator_password#:#Password del moderatore
 chat#:#chat_navy#:#avio
 chat#:#chat_no_active_users#:#Non sono presenti utenti
-chat#:#chat_no_connection#:#Impossibile contattare il server chat
-chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
-chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
+chat#:#chat_no_connection#:#Impossibile contattare il server chat###14 Sep 2004 content changed
+chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.###14 Sep 2004 content changed
+chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.###14 Sep 2004 content changed
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
 chat#:#chat_olive#:#oliva
 chat#:#chat_online_users#:#Utente (online)
 chat#:#chat_private_message#:#Messaggio privato
-chat#:#chat_public_room#:#Chatroom pubblica
+chat#:#chat_public_room#:#Chatroom pubblica###14 Sep 2004 content changed
 chat#:#chat_purple#:#porpora
 chat#:#chat_red#:#rosso
 chat#:#chat_refresh#:#Aggiorna
-chat#:#chat_room_added#:#Aggiunte nuove chatroom
-chat#:#chat_room_name#:#Nome della chatroom
-chat#:#chat_room_renamed#:#Chatroom rinominata
-chat#:#chat_room_select#:#Chatroom privata
-chat#:#chat_rooms#:#Chatroom
-chat#:#chat_rooms_deleted#:#Chatroom cancellata(e).
-chat#:#chat_select_one_room#:#Per favore, scegli una chatroom
+chat#:#chat_room_added#:#Aggiunte nuove chatroom###14 Sep 2004 content changed
+chat#:#chat_room_name#:#Nome della chatroom###14 Sep 2004 content changed
+chat#:#chat_room_renamed#:#Chatroom rinominata###14 Sep 2004 content changed
+chat#:#chat_room_select#:#Chatroom privata###14 Sep 2004 content changed
+chat#:#chat_rooms#:#Chatroom###14 Sep 2004 content changed
+chat#:#chat_rooms_deleted#:#Chatroom cancellata(e).###14 Sep 2004 content changed
+chat#:#chat_select_one_room#:#Per favore, scegli una chatroom###14 Sep 2004 content changed
 chat#:#chat_server_allowed#:#Host consentiti
-chat#:#chat_server_allowed_b#:#(cio&#232; 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Ip del server
-chat#:#chat_server_logfile#:#Percorso del file di log
-chat#:#chat_server_loglevel#:#Livello di log
-chat#:#chat_server_not_active#:#Il server chat non &#232; attivo
+chat#:#chat_server_allowed_b#:#(cio&#232; 192.168.1.1,192.168.1.2)###14 Sep 2004 content changed
+chat#:#chat_server_ip#:#Ip del server###14 Sep 2004 content changed
+chat#:#chat_server_logfile#:#Percorso del file di log###14 Sep 2004 content changed
+chat#:#chat_server_loglevel#:#Livello di log###14 Sep 2004 content changed
+chat#:#chat_server_not_active#:#Il server chat non &#232; attivo###14 Sep 2004 content changed
 chat#:#chat_server_port#:#Porta del server
-chat#:#chat_server_settings#:#Impostazioni del server di chat
+chat#:#chat_server_settings#:#Impostazioni del server di chat###14 Sep 2004 content changed
 chat#:#chat_settings_saved#:#Impostazioni salvate
 chat#:#chat_show_details#:#Mostra dettagli
 chat#:#chat_silver#:#argento
@@ -536,6 +538,7 @@ common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
 common#:#add_author#:#Aggiungi autore
@@ -547,7 +550,7 @@ common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Creata nuova condizione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
-common#:#adm_visible#:#Vedere le impostazioni di sistema
+common#:#adm_visible#:#Vedere le impostazioni di sistema###14 Sep 2004 content changed
 common#:#adm_write#:#Modificare le impostazioni di sistema
 common#:#administrate#:#Amministra
 common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
@@ -560,6 +563,7 @@ common#:#all_lms#:#Tutti i moduli
 common#:#all_objects#:#Tutti gli oggetti
 common#:#all_tsts#:#Tutti i test
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
 common#:#alm#:#Modulo AICC
 common#:#alm_added#:#Modulo AICC aggiunto
@@ -582,6 +586,8 @@ common#:#applied_users#:#Utenti iscritti
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Appuntamento
 common#:#appointment_list#:#Lista appuntamenti
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#assign#:#Assegna
@@ -613,6 +619,7 @@ common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
 common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
 common#:#authors#:#Autori
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#Lingue disponibili
 common#:#average_time#:#Tempo medio
 common#:#back#:#Indietro
@@ -722,9 +729,9 @@ common#:#chg_password#:#Cambia password
 common#:#choose_language#:#Scegli la lingua
 common#:#choose_location#:#Scegli la cartella
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.
-common#:#city#:#Citt&#224;
+common#:#city#:#Citt&#224;###14 Sep 2004 content changed
 common#:#clear#:#Annulla
-common#:#client ip#:#Client Ip
+common#:#client ip#:#Client Ip###14 Sep 2004 content changed
 common#:#client_id#:#Client ID
 common#:#clipboard#:#Appunti
 common#:#close#:#Chiudi
@@ -757,6 +764,7 @@ common#:#country#:#Nazione
 common#:#course#:#Corso
 common#:#courses#:#Corsi
 common#:#create#:#Crea
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
 common#:#crs#:#Corso
@@ -798,7 +806,7 @@ common#:#database#:#Database
 common#:#database_version#:#Versione attuale del database
 common#:#dataset#:#Dataset
 common#:#date#:#Data
-common#:#dateplaner#:#Agenda
+common#:#dateplaner#:#Agenda###14 Sep 2004 content changed
 common#:#day#:#Giorno
 common#:#days#:#Giorni
 common#:#days_of_period#:#Giorni nel periodo
@@ -855,7 +863,7 @@ common#:#edit_stylesheet#:#Modifica stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
 common#:#email#:#Email
-common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
+common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!###14 Sep 2004 content changed
 common#:#enable#:#Abilita
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
 common#:#enabled#:#Abilitata
@@ -865,6 +873,7 @@ common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_count_param#:#Causa: errato numero dei parametri.
 common#:#err_enter_current_passwd#:#Per favore scrivi la tua password attuale
 common#:#err_in_line#:#Errore nella linea
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Porta non valida
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -896,7 +905,7 @@ common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi dell&#039
 common#:#exc_edit_until#:#Data scadenza 
 common#:#exc_files#:#File
 common#:#exc_groups#:#Gruppi
-common#:#exc_header_members#:#Esercizio(membri)
+common#:#exc_header_members#:#Esercizio(membri)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Istruzioni per l'esecuzione
 common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati assegnati a questo esercizio
 common#:#exc_members_assigned#:#Membri assegnati
@@ -921,8 +930,8 @@ common#:#exc_write#:#Modificare l&#039;esercizio
 common#:#excs#:#Esercizi
 common#:#execute#:#Esegui
 common#:#export#:#Esporta
-common#:#export_html#:#Esporta come file html
-common#:#export_xml#:#Esporta come file xml
+common#:#export_html#:#Esporta come file html###14 Sep 2004 content changed
+common#:#export_xml#:#Esporta come file xml###14 Sep 2004 content changed
 common#:#faq_exercise#:#FAQ/Esercizi
 common#:#fax#:#Fax
 common#:#feedback#:#Risposta
@@ -937,7 +946,7 @@ common#:#file_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
-common#:#file_notice#:#Per favore, ricordati che la dimensione massima del file deve essere di
+common#:#file_notice#:#Per favore, ricordati che la dimensione massima del file deve essere di###14 Sep 2004 content changed
 common#:#file_read#:#Scaricare un file
 common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
@@ -971,7 +980,7 @@ common#:#fold_visible#:#Vedere la cartella
 common#:#fold_write#:#Modificare la cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
-common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
+common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!###14 Sep 2004 content changed
 common#:#forename#:#Nome
 common#:#forgot_password#:#Dimenticata la password?
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
@@ -1026,7 +1035,7 @@ common#:#glossaries#:#Glossari
 common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario
 common#:#group_access_denied#:#Vietato l&#039;accesso
-common#:#group_any_objects#:#Nessun oggetto nel gruppo
+common#:#group_any_objects#:#Nessun oggetto nel gruppo###14 Sep 2004 content changed
 common#:#group_create_chat#:#Crea una chat
 common#:#group_desc#:#Descrizione del gruppo
 common#:#group_details#:#Dettagli gruppo
@@ -1037,25 +1046,25 @@ common#:#group_members#:#Membri del gruppo###04 Sep 2004 content changed
 common#:#group_memstat#:#Stato del membro
 common#:#group_memstat_admin#:#Amministratore
 common#:#group_memstat_member#:#Membro
-common#:#group_name#:#Nome del gruppo
+common#:#group_name#:#Nome del gruppo###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Nuove registrazioni###04 Sep 2004 content changed
 common#:#group_no_registration#:#nessuna registrazione richiesta
-common#:#group_no_registration_msg#:#Non sei pi&#249; membro di questo gruppo. Per motivi amministrativi &#232; necessario appartenere al gruppo richiesto.<br> Come membro del gruppo hai i seguenti vantaggi:<br>- Sei informato sulle novit&#224; e sugli aggiornamenti<br>- Puoi accedere ad oggetti come forum, moduli, etc.<br><br>Potrai annullare la tua appartenenza in qualsiasi momento.
+common#:#group_no_registration_msg#:#Non sei pi&#249; membro di questo gruppo. Per motivi amministrativi &#232; necessario appartenere al gruppo richiesto.<br> Come membro del gruppo hai i seguenti vantaggi:<br>- Sei informato sulle novit&#224; e sugli aggiornamenti<br>- Puoi accedere ad oggetti come forum, moduli, etc.<br><br>Potrai annullare la tua appartenenza in qualsiasi momento.###14 Sep 2004 content changed
 common#:#group_not_available#:#Nessun gruppo disponibile
 common#:#group_objects#:#Gruppo di oggetti
 common#:#group_password_registration_expired_msg#:#Il periodo di appartenenza a questo gruppo &#232; terminato, questo &#232; l&#039;ultimo avviso. Puoi contattare il proprietario o l&#039;amministratore del gruppo.
-common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.
+common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#Data di scadenza del periodo di registrazione
 common#:#group_registration_expiration_time#:#Ora di scadenza del periodo di registrazione
-common#:#group_registration_expired#:#Periodo di registrazione terminato
+common#:#group_registration_expired#:#Periodo di registrazione terminato###14 Sep 2004 content changed
 common#:#group_registration_mode#:#Tipo di registrazione
 common#:#group_req_password#:#E&#039; richiesta la password di registrazione
 common#:#group_req_registration#:#E&#039; richiesta la registrazione
-common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.
+common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.###14 Sep 2004 content changed
 common#:#group_reset#:#Azzeramento del gruppo
 common#:#group_status#:#Stato del gruppo
 common#:#group_status_closed#:#Chiuso
-common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Aperto: il gruppo &#232; visibile; gli utenti possono iscriversi. <br/> Chiuso: il gruppo non &#232; visible ai non-membri; gli utenti devono essere invitati da un membro per poterne far parte.
+common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Aperto: il gruppo &#232; visibile; gli utenti possono iscriversi. <br/> Chiuso: il gruppo non &#232; visible ai non-membri; gli utenti devono essere invitati da un membro per poterne far parte.###14 Sep 2004 content changed
 common#:#group_status_public#:#Aperto
 common#:#groups#:#Gruppi
 common#:#groups_overview#:#Descrizione gruppi
@@ -1088,7 +1097,7 @@ common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Per ogni gruppo &#232; obbligatorio almeno un amministratore
-common#:#grp_err_error#:#Si &#232; verificato un errore
+common#:#grp_err_error#:#Si &#232; verificato un errore###14 Sep 2004 content changed
 common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminato, puoi invece  eliminare il gruppo.
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
@@ -1153,7 +1162,7 @@ common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#ilias_version#:#Versione ILIAS 3
 common#:#image#:#Immagine
-common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
+common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.###14 Sep 2004 content changed
 common#:#import#:#Importa
 common#:#import_alm#:#Importa un modulo AICC
 common#:#import_categories#:#Importa categorie
@@ -1164,13 +1173,14 @@ common#:#import_forum_finished#:#Il forum &#232; stato importato.
 common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
-common#:#import_lm#:#Importa modulo
+common#:#import_lm#:#Importa modulo###14 Sep 2004 content changed
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Importa utenti
 common#:#imported#:#importato
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Posta in arrivo
 common#:#info_assign_sure#:#Sei sicuro di voler assegnare i seguenti utenti?
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
@@ -1192,7 +1202,7 @@ common#:#ingmedia_pers_dates#:#Dati personali
 common#:#ingmedia_reg_fo#:#Forum registrati
 common#:#ingmedia_reg_le#:#LE registrati
 common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite email (!).
-common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.
+common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.
 common#:#ingmedia_use_title#:#Cambia i dati utente.
 common#:#ingmedia_user_agree#:#Autorizzazione
@@ -1245,8 +1255,8 @@ common#:#langfile_found#:#Trovato file
 common#:#language#:#Lingua
 common#:#language_not_installed#:#Non &#232; installato. Per favore, prima installa la lingua.
 common#:#languages#:#Lingue
-common#:#languages_already_installed#:#Attenzione. La lingua scelta &#232; gi&#224; stata installata.
-common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&#224; stata rimossa.
+common#:#languages_already_installed#:#Attenzione. La lingua scelta &#232; gi&#224; stata installata.###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&#224; stata rimossa.###14 Sep 2004 content changed
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.
 common#:#last_change#:#Data ultima modifica
 common#:#last_visit#:#Ultima visita
@@ -1307,7 +1317,7 @@ common#:#lo_categories#:#Categorie delle unit&#224; didattiche
 common#:#lo_edit#:#Modifica le unit&#224; didattiche
 common#:#lo_new#:#Nuova unit&#224; didattica
 common#:#lo_no_content#:#Non ci sono unit&#224; didattiche disponibili
-common#:#lo_other_langs#:#Unit&#224; didattiche in altre lingue
+common#:#lo_other_langs#:#Unit&#224; didattiche in altre lingue###14 Sep 2004 content changed
 common#:#lo_overview#:#Descrizione della unit&#224; didattica
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Adesso sei in:
@@ -1316,7 +1326,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Login
 common#:#login_as#:#Sei entrato come
 common#:#login_data#:#Dati per l&#039;accesso
-common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, scegline un altro.
+common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, scegline un altro.###14 Sep 2004 content changed
 common#:#login_invalid#:#L'utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS 3
@@ -1326,7 +1336,7 @@ common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta
-common#:#mail_addressbook#:#Rubrica
+common#:#mail_addressbook#:#Rubrica###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#Consenti SMTP
 common#:#mail_b_inbox#:#Ricevute
 common#:#mail_c_trash#:#Eliminate
@@ -1340,17 +1350,17 @@ common#:#mail_import#:#Importazione della posta
 common#:#mail_import_file#:#File di importazione da ILIAS 2
 common#:#mail_intern_enable#:#Abilita
 common#:#mail_mail_visible#:#Usare la posta di sistema
-common#:#mail_mails_of#:#Posta
+common#:#mail_mails_of#:#Posta###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#Dimensione massima degli allegati
 common#:#mail_maxsize_box#:#Dimensione massima della mailbox
 common#:#mail_maxsize_mail#:#Dimensione massima delle mail
 common#:#mail_maxtime_attach#:#Numero di giorni massimo di permanenza di un allegato
-common#:#mail_maxtime_mail#:#Numero di giorni massimo di permanenza di una mail
+common#:#mail_maxtime_mail#:#Numero di giorni massimo di permanenza di una mail###14 Sep 2004 content changed
 common#:#mail_not_sent#:#eMail non inviata!
 common#:#mail_read#:#Accedere in lettura alle impostazioni della posta
 common#:#mail_search_no#:#Nessuna voce trovata
 common#:#mail_search_word#:#Ricerca parola
-common#:#mail_select_one#:#Devi scegliere una eMail.
+common#:#mail_select_one#:#Devi scegliere una eMail.###14 Sep 2004 content changed
 common#:#mail_send_error#:#Errore nell&#039;invio della eMail
 common#:#mail_sent#:#eMail inviata con successo!
 common#:#mail_smtp_mail#:#Inviare eMail via SMTP
@@ -1359,7 +1369,7 @@ common#:#mail_system_message#:#Inviare messaggi internamente
 common#:#mail_visible#:#Vedere le impostazioni della posta
 common#:#mail_write#:#Modificare le impostazioni della posta
 common#:#mail_z_local#:#Cartelle utente
-common#:#mails#:#eMail
+common#:#mails#:#eMail###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Gestione dati di tracciamento
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
@@ -1381,7 +1391,7 @@ common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
-common#:#meta_data#:#Meta Dati
+common#:#meta_data#:#Meta Dati###14 Sep 2004 content changed
 common#:#migrate#:#migrare
 common#:#min_time#:#Tempo minimo
 common#:#mob#:#Oggetto multimediale
@@ -1430,7 +1440,7 @@ common#:#msg_deleted_rolt#:#Cancellazione eseguita
 common#:#msg_deleted_rolts#:#Cancellazione eseguita
 common#:#msg_error_copy#:#Errore di copia
 common#:#msg_failed#:#Fallito
-common#:#msg_is_last_role#:#I seguenti utenti sono stati rimossi dal loro precedente ruolo
+common#:#msg_is_last_role#:#I seguenti utenti sono stati rimossi dal loro precedente ruolo###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#Gli oggetti selezionati sono immagazzinati negli appunti (Azione: collegamento).
 common#:#msg_linked#:#Gli oggetti immagazzinati negli appunti sono stati collegati.
 common#:#msg_may_not_contain#:#Questo oggetto potrebbe non contenere oggetti di tipo: 
@@ -1441,7 +1451,7 @@ common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predef
 common#:#msg_no_delete_yourself#:#Non puoi eliminare il tuo stesso utente.
 common#:#msg_no_file#:#Non hai scelto un file
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
-common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per modificare il ruolo dell&#039;utente
+common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per modificare il ruolo dell&#039;utente###14 Sep 2004 content changed
 common#:#msg_no_perm_copy#:#Non hai i diritti per creare una copia dei seguenti oggetti: 
 common#:#msg_no_perm_create#:#Non hai i diritti per creare i seguenti oggetti: 
 common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione
@@ -1456,7 +1466,7 @@ common#:#msg_no_perm_delete_track#:#Non hai i diritti per eliminare i dati di tr
 common#:#msg_no_perm_link#:#Non hai i diritti per creare dei collegamenti dai seguenti oggetti: 
 common#:#msg_no_perm_modify_role#:#Non hai i diritti per modificare i ruoli
 common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template dei ruoli
-common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
+common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
 common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedre a questo modulo.
@@ -1468,7 +1478,7 @@ common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.
 common#:#msg_no_scan_log#:#Scansione del log non ancora implementata.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema###14 Sep 2004 content changed
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_nothing_found#:#Nessun risultato
@@ -1482,17 +1492,17 @@ common#:#msg_perm_adopted_from_itself#:#Non puoi assegnare le impostazioni dei p
 common#:#msg_removed#:#Oggetti cancellati dal sistema.
 common#:#msg_role_exists1#:#Un ruolo/template di ruolo con il nome
 common#:#msg_role_exists2#:#esiste gi&#224;! Per favore, scegline un altro.
-common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. Per favore, scegline un altro
-common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato
-common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. 
-common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato
-common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato
+common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. Per favore, scegline un altro###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. ###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui &#232; stato assegnato, l'accesso illimitato a tutti gli oggetti e tutte le funzioni.
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:
 common#:#msg_user_last_role2#:#Per favore, cancella gli utenti o assegna loro un altro ruolo se vuoi eliminare questo ruolo.
-common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.
+common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.###14 Sep 2004 content changed
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#I miei segnalibri
 common#:#my_frms#:#I miei forum
@@ -1524,9 +1534,10 @@ common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_objects#:#Nessun oggetto
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
-common#:#no_users_applied#:#Per favore scegli un utente.
+common#:#no_users_applied#:#Per favore scegli un utente.###14 Sep 2004 content changed
 common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
@@ -1544,7 +1555,7 @@ common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (local
 common#:#obj_cat#:#Categoria
 common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
-common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
+common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.###14 Sep 2004 content changed
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
@@ -1570,7 +1581,7 @@ common#:#obj_mob#:#Oggetto multimediale
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
-common#:#obj_objf#:#Gestione oggetti
+common#:#obj_objf#:#Gestione oggetti###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS 3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1578,7 +1589,7 @@ common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 ne
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande
 common#:#obj_recf#:#Oggetti ripristinati
-common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
+common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.###14 Sep 2004 content changed
 common#:#obj_role#:#Ruolo
 common#:#obj_rolf#:#Gestione ruoli
 common#:#obj_rolf_desc#:#Configura i tuoi ruoli qui.
@@ -1596,7 +1607,7 @@ common#:#obj_taxf_desc#:#Cartella per le tassonomie
 common#:#obj_trac#:#Tracciamento utenti
 common#:#obj_trac_desc#:#Dati accesso utente
 common#:#obj_tst#:#Test
-common#:#obj_typ#:#Definizione tipo oggetto
+common#:#obj_typ#:#Definizione tipo oggetto###14 Sep 2004 content changed
 common#:#obj_type#:#Tipo oggetto
 common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
@@ -1605,11 +1616,11 @@ common#:#obj_usrf_desc#:#Configura gli utenti qui.
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
-common#:#objf#:#Oggetti
+common#:#objf#:#Oggetti###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi degli oggetti
-common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
-common#:#objf_visible#:#Vedere le definizioni degli oggetti
-common#:#objf_write#:#Modificare le definizioni degli oggetti
+common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti###14 Sep 2004 content changed
+common#:#objf_visible#:#Vedere le definizioni degli oggetti###14 Sep 2004 content changed
+common#:#objf_write#:#Modificare le definizioni degli oggetti###14 Sep 2004 content changed
 common#:#objs_alm#:#Modulo AICC
 common#:#objs_cat#:#Categorie
 common#:#objs_chat#:#Chat
@@ -1617,7 +1628,7 @@ common#:#objs_confirm#:#Conferma la cancellazione
 common#:#objs_crs#:#Corsi
 common#:#objs_dbk#:#Libri digitali
 common#:#objs_delete#:#Cancella gli oggetti
-common#:#objs_exc#:#Esercizi
+common#:#objs_exc#:#Esercizi###14 Sep 2004 content changed
 common#:#objs_file#:#File
 common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
@@ -1640,7 +1651,7 @@ common#:#objs_spl#:#Raccolte di domande (questionari)
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Questionari
 common#:#objs_tst#:#Test
-common#:#objs_type#:#Tupi di oggetti
+common#:#objs_type#:#Tupi di oggetti###14 Sep 2004 content changed
 common#:#objs_usr#:#Utenti
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
@@ -1677,7 +1688,7 @@ common#:#path_to_htmldoc#:#Percorso ad HTMLdoc
 common#:#path_to_java#:#Percorso di JAVA
 common#:#path_to_unzip#:#Percorso di UNZIP
 common#:#path_to_zip#:#Percorso di ZIP
-common#:#pathes#:#Percorsi
+common#:#pathes#:#Percorsi###14 Sep 2004 content changed
 common#:#payment_system#:#Sistema a pagamento
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1694,7 +1705,7 @@ common#:#personal_data#:#Informazioni Personali
 common#:#personal_desktop#:#Desktop personale
 common#:#personal_picture#:#Immagine Personale
 common#:#personal_profile#:#Profilo personale
-common#:#persons#:#Persone
+common#:#persons#:#Persone###14 Sep 2004 content changed
 common#:#pg_a#:#una pagina
 common#:#pg_add#:#Aggiungi pagina
 common#:#pg_added#:#Pagina aggiunta
@@ -1721,7 +1732,7 @@ common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
-common#:#publishing_organisation#:#Organizzazione di pubblicazione
+common#:#publishing_organisation#:#Organizzazione di pubblicazione###14 Sep 2004 content changed
 common#:#qpl#:#Raccolta di domande
 common#:#qpl_add#:#Aggiungi raccolta di domande
 common#:#qpl_delete#:#Eliminare una raccolta di domande
@@ -1738,6 +1749,7 @@ common#:#quote#:#Virgolette
 common#:#read#:#Leggi
 common#:#recf_edit#:#Modifica cartella di recovery
 common#:#recipient#:#Destinario
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
@@ -1757,7 +1769,28 @@ common#:#rename#:#Rinomina
 common#:#rename_file#:#Rinomina il file
 common#:#reply#:#Rispondi
 common#:#repository#:#Repository
-common#:#required_field#:#Obbligatorio
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#Obbligatorio###14 Sep 2004 content changed
 common#:#reset#:#Reset
 common#:#resources#:#Risorse
 common#:#retype_password#:#Riscrivi la password
@@ -1782,7 +1815,7 @@ common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Eliminare un ruolo o un template di ruolo
 common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
-common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti
+common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti###14 Sep 2004 content changed
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
 common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
@@ -1821,9 +1854,12 @@ common#:#save_user_related_data#:#Salva i dati relativi agli accessi degli utent
 common#:#saved#:#Salvato
 common#:#saved_successfully#:#Modifiche effettuate con successo
 common#:#search#:#Ricerca
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#Ricerca per
 common#:#search_in#:#Ricerca in
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#Nuova ricerca
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#Ricerca destinario
 common#:#search_result#:#Risultati ricerca
 common#:#search_user#:#Ricerca utente
@@ -1873,7 +1909,7 @@ common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
 common#:#st_edit#:#Modifica capitolo
 common#:#st_new#:#Nuovo capitolo
-common#:#startpage#:#Pagina di partenza
+common#:#startpage#:#Pagina di partenza###14 Sep 2004 content changed
 common#:#statistic#:#Statistiche
 common#:#status#:#Stato
 common#:#step#:#Passo
@@ -1904,6 +1940,7 @@ common#:#system_check#:#Controllo sistema
 common#:#system_choose_language#:#Lingua di sistema scelta
 common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
@@ -1931,7 +1968,7 @@ common#:#time_h#:#Ora
 common#:#time_limit#:#Scadenza
 common#:#time_limit_add_time_limit_for_selected#:#Per favore specifica la data di scadenza dell'accesso per gli utenti selezionati.
 common#:#time_limit_applied_users#:#Utenti applicati
-common#:#time_limit_no_users_selected#:#Per favore scegli un utente.
+common#:#time_limit_no_users_selected#:#Per favore scegli un utente.###14 Sep 2004 content changed
 common#:#time_limit_not_valid#:#Il periodo non &#232; valido.
 common#:#time_limit_not_within_owners#:#Il tuo accesso &#232; limitato. E'stato superato il periodo consentito.
 common#:#time_limit_reached#:#Il tuo periodo di accesso &#232; terminato.
@@ -1967,7 +2004,8 @@ common#:#tst_visible#:#Vedere il test
 common#:#tst_write#:#Modificare il test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 3 con il tuo utente.
+common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 3 con il tuo utente.###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Definizione di tipo di oggetto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Scrivi il tuo messaggio qua
@@ -2018,7 +2056,7 @@ common#:#usrf#:#Cartella utente
 common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Eliminare un utente
 common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
-common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
+common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti###14 Sep 2004 content changed
 common#:#usrf_read#:#Accedere in lettura alla registrazione utente
 common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
@@ -2039,8 +2077,8 @@ common#:#write#:#Scrivi
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
 common#:#your_message#:#Il tuo messaggio
-common#:#zip#:#Codice postale
-common#:#zipcode#:#Codice postale
+common#:#zip#:#Codice postale###14 Sep 2004 content changed
+common#:#zipcode#:#Codice postale###14 Sep 2004 content changed
 content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
@@ -2069,7 +2107,7 @@ content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_definition#:#Aggiungi termine
-content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo 
+content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo ###14 Sep 2004 content changed
 content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
@@ -2078,16 +2116,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#Nome del modulo Adapter (API)
 content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
 content#:#cont_areas_deleted#:#Aree cancellate.
-content#:#cont_assign_full#:#Imposta a schermo pieno
+content#:#cont_assign_full#:#Imposta a schermo pieno###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Imposta a schermo standard
 content#:#cont_assign_translation#:#Assegna la traduzione
 content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate
 content#:#cont_autoindent#:#Indentazione automatica
 content#:#cont_back#:#Indietro
-content#:#cont_booktitle#:#Titolo del libro
+content#:#cont_booktitle#:#Titolo del libro###14 Sep 2004 content changed
 content#:#cont_bottom#:#In fondo
 content#:#cont_cant_copy_folders#:#Le cartelle non possono essere copiate negli appunti.
-content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.
+content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.
 content#:#cont_caption#:#Etichetta
 content#:#cont_change_type#:#Cambia il tipo
@@ -2100,7 +2138,7 @@ content#:#cont_characteristic#:#Caratteristica
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
 content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
-content#:#cont_citation_err_one#:#Devi scegliere una edizione.
+content#:#cont_citation_err_one#:#Devi scegliere una edizione.###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
 content#:#cont_clean_frames#:#Ripulisci i frame addizioali di navigazione
@@ -2188,8 +2226,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formato
 content#:#cont_free_pages#:#Pagine libere
-content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
-content#:#cont_fullscreen#:#A tutto schermo
+content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#A tutto schermo###14 Sep 2004 content changed
 content#:#cont_get_link#:#restituisci il collegamento
 content#:#cont_get_orig_size#:#Ripristina le dimensioni originali
 content#:#cont_glo_properties#:#Propriet&#224; del glossario
@@ -2290,7 +2328,7 @@ content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Riferimento
-content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo
+content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo###14 Sep 2004 content changed
 content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
@@ -2376,7 +2414,7 @@ content#:#cont_version#:#Versione
 content#:#cont_view_last_export_log#:#Ultimo Log di Export
 content#:#cont_where_published#:#Dove pubblicata
 content#:#cont_width#:#Larghezza
-content#:#cont_wysiwyg#:#Contenuto WYSIWYG
+content#:#cont_wysiwyg#:#Contenuto WYSIWYG###14 Sep 2004 content changed
 content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
 content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
@@ -2555,22 +2593,22 @@ dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
 dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
 dateplaner#:#ERROR_DB#:#Errore di scrittura nel Database!
-dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
-dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze
-dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
-dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Data finale della ricorsione errata. La data finale della ricorrenza &#232; antecedente alla data di inizio.
-dateplaner#:#ERROR_SHORTTEXT#:#Errato inserimento testo. Il testo &#232; obbligatorio.
-dateplaner#:#ERROR_STARTDATE#:#Data iniziale errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Ora iniziale errata. Formato: hh:mm
+dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.###14 Sep 2004 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze###14 Sep 2004 content changed
+dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm###14 Sep 2004 content changed
+dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.###14 Sep 2004 content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.###14 Sep 2004 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>###14 Sep 2004 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_ROT_END_START#:#Data finale della ricorsione errata. La data finale della ricorrenza &#232; antecedente alla data di inizio.###14 Sep 2004 content changed
+dateplaner#:#ERROR_SHORTTEXT#:#Errato inserimento testo. Il testo &#232; obbligatorio.###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTDATE#:#Data iniziale errata. Formato: dd/mm/yyyy###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTTIME#:#Ora iniziale errata. Formato: hh:mm###14 Sep 2004 content changed
 dateplaner#:#ERROR_TS#:#Formato della data non corretto
 dateplaner#:#Fr_long#:#Venerdi
 dateplaner#:#Fr_short#:#Ve
-dateplaner#:#Language_file#:#inglese
+dateplaner#:#Language_file#:#inglese###14 Sep 2004 content changed
 dateplaner#:#Listbox_long#:#Lista degli appuntamenti
 dateplaner#:#Mo_long#:#Lunedi
 dateplaner#:#Mo_short#:#Lu
@@ -2591,17 +2629,17 @@ dateplaner#:#Week_long#:#Vista settimanale
 dateplaner#:#add_data#:#Dati addizionali
 dateplaner#:#app_#:#Appuntamenti del gruppo in ingresso
 dateplaner#:#app_date#:#Inserisci appuntamento
-dateplaner#:#app_day#:#Vista giornaliera
-dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
+dateplaner#:#app_day#:#Vista giornaliera###14 Sep 2004 content changed
+dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi###14 Sep 2004 content changed
 dateplaner#:#app_inbox#:#Appuntamenti del gruppo
 dateplaner#:#app_list#:#Lista appuntamenti
-dateplaner#:#app_month#:#Vista mensile
+dateplaner#:#app_month#:#Vista mensile###14 Sep 2004 content changed
 dateplaner#:#app_properties#:#Propriet&#224;
-dateplaner#:#app_week#:#Vista settimanale
-dateplaner#:#application#:#Agenda
+dateplaner#:#app_week#:#Vista settimanale###14 Sep 2004 content changed
+dateplaner#:#application#:#Agenda###14 Sep 2004 content changed
 dateplaner#:#apply#:#Conferma
 dateplaner#:#back#:#Indietro
-dateplaner#:#begin_date#:#Inizio appuntamento:
+dateplaner#:#begin_date#:#Inizio appuntamento:###14 Sep 2004 content changed
 dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
 dateplaner#:#changeTo#:#Modifica in:
@@ -2621,80 +2659,81 @@ dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
 dateplaner#:#dv_button_update#:#Modifica
-dateplaner#:#dv_date_begin#:#Inizio appuntamento:
-dateplaner#:#dv_date_end#:#Fine appuntamento:
+dateplaner#:#dv_date_begin#:#Inizio appuntamento:###14 Sep 2004 content changed
+dateplaner#:#dv_date_end#:#Fine appuntamento:###14 Sep 2004 content changed
 dateplaner#:#dv_date_hm#:#Ore:Minuti
-dateplaner#:#dv_enddate#:#Fine appuntamento:
-dateplaner#:#dv_groupselect#:#Gruppi scelti:
-dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
-dateplaner#:#dv_groupview_text#:#Gruppi:<br>
+dateplaner#:#dv_enddate#:#Fine appuntamento:###14 Sep 2004 content changed
+dateplaner#:#dv_groupselect#:#Gruppi scelti:###14 Sep 2004 content changed
+dateplaner#:#dv_groupview#:#Appuntamenti gruppo:###14 Sep 2004 content changed
+dateplaner#:#dv_groupview_text#:#Gruppi:<br>###14 Sep 2004 content changed
 dateplaner#:#dv_keywords#:#Chiavi:
-dateplaner#:#dv_keywordselect#:#Chiavi scelte:
+dateplaner#:#dv_keywordselect#:#Chiavi scelte:###14 Sep 2004 content changed
 dateplaner#:#dv_message#:#Messaggi:
 dateplaner#:#dv_noGroup#:#nessun gruppo
 dateplaner#:#dv_noKey#:#nessuna chiave
-dateplaner#:#dv_preview#:#      <b>! Anteprima !</b>
-dateplaner#:#dv_rotation#:#Ricorrenze:
-dateplaner#:#dv_rotation_date#:#Appuntamenti ricorrenti:
-dateplaner#:#dv_rotation_end#:#Fine ricorrenza:
-dateplaner#:#dv_shorttext#:#Testo breve:
-dateplaner#:#dv_startdate#:#Inizio appuntamento:
+dateplaner#:#dv_preview#:#      <b>! Anteprima !</b>###14 Sep 2004 content changed
+dateplaner#:#dv_rotation#:#Ricorrenze:###14 Sep 2004 content changed
+dateplaner#:#dv_rotation_date#:#Appuntamenti ricorrenti:###14 Sep 2004 content changed
+dateplaner#:#dv_rotation_end#:#Fine ricorrenza:###14 Sep 2004 content changed
+dateplaner#:#dv_shorttext#:#Testo breve:###14 Sep 2004 content changed
+dateplaner#:#dv_startdate#:#Inizio appuntamento:###14 Sep 2004 content changed
 dateplaner#:#dv_text#:#Testo:
 dateplaner#:#dv_whole_day#:#Giorno intero:
-dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrenti? (seleziona la casella)
-dateplaner#:#end_date#:#Fine dell'appuntamento
-dateplaner#:#endtime_for_view#:#Ora finale della vista:
-dateplaner#:#error_minical_img#:#Impossibile creare un GD-picture-stream
+dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrenti? (seleziona la casella)###14 Sep 2004 content changed
+dateplaner#:#end_date#:#Fine dell'appuntamento###14 Sep 2004 content changed
+dateplaner#:#endtime_for_view#:#Ora finale della vista:###14 Sep 2004 content changed
+dateplaner#:#error_minical_img#:#Impossibile creare un GD-picture-stream###14 Sep 2004 content changed
 dateplaner#:#execute#:#scelte eseguite
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
 dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
-dateplaner#:#help_day#:#Vista giornaliera dell'agenda
-dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
-dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
-dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
-dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format
-dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
-dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
-dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.
-dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>
-dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo
-dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l'utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo.
-dateplaner#:#help_inbox#:#Agenda in ingresso
-dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
+dateplaner#:#help_day#:#Vista giornaliera dell'agenda###14 Sep 2004 content changed
+dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.###14 Sep 2004 content changed
+dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]###14 Sep 2004 content changed
+dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.###14 Sep 2004 content changed
+dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]###14 Sep 2004 content changed
+dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.###14 Sep 2004 content changed
+dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format###14 Sep 2004 content changed
+dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.###14 Sep 2004 content changed
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
+dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]###14 Sep 2004 content changed
+dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.###14 Sep 2004 content changed
+dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>###14 Sep 2004 content changed
+dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo###14 Sep 2004 content changed
+dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l'utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo.###14 Sep 2004 content changed
+dateplaner#:#help_inbox#:#Agenda in ingresso###14 Sep 2004 content changed
+dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.###14 Sep 2004 content changed
 dateplaner#:#help_keyword#:#Scelta chiave
-dateplaner#:#help_keywordUse#:#Scelta chiave
-dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; chiavi dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.
+dateplaner#:#help_keywordUse#:#Scelta chiave###14 Sep 2004 content changed
+dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; chiavi dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.###14 Sep 2004 content changed
 dateplaner#:#help_keyword_l#:#Contiene le chiavi che l'utente pu&#242; associare ad un appuntamento.
-dateplaner#:#help_list#:#Appuntamenti agenda.
-dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.
-dateplaner#:#help_month#:#Agenda vista mensile
-dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.
+dateplaner#:#help_list#:#Appuntamenti agenda.###14 Sep 2004 content changed
+dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.###14 Sep 2004 content changed
+dateplaner#:#help_month#:#Agenda vista mensile###14 Sep 2004 content changed
+dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.###14 Sep 2004 content changed
 dateplaner#:#help_properties_alt#:#Cambia la chiave
-dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br>Cambia la chiave nel campo testo. Importante: max. 20 caratteri.
+dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br>Cambia la chiave nel campo testo. Importante: max. 20 caratteri.###14 Sep 2004 content changed
 dateplaner#:#help_properties_del#:#Cancella la chiave
-dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per eliminare la chiave.
+dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per eliminare la chiave.###14 Sep 2004 content changed
 dateplaner#:#help_properties_import#:#Importazione dei file CSV di Outlook
-dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.
+dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.###14 Sep 2004 content changed
 dateplaner#:#help_properties_new#:#Aggiungi una chiave, max. 20 caratteri
 dateplaner#:#help_properties_new_l#:#Aggiungi una nuova chiave nel campo 'Nuova'. Importante: max. 20 caratteri
-dateplaner#:#help_properties_time#:#Intervallo scelto per la vista giornaliera/settimanale
-dateplaner#:#help_properties_time_l#:#L'intervallo scelto per la vista giornaliera/settimanale pu&#242; essere cambiato. Se gli appuntamenti sono esterni al giorno o alla settimana scelti, l'intervallo sar&#232; esteso per comprenderli. Le impostazioni di base sono 8h -18h.
-dateplaner#:#help_rotation#:#Ripetizione
-dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
-dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
-dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
-dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
-dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
-dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
+dateplaner#:#help_properties_time#:#Intervallo scelto per la vista giornaliera/settimanale###14 Sep 2004 content changed
+dateplaner#:#help_properties_time_l#:#L'intervallo scelto per la vista giornaliera/settimanale pu&#242; essere cambiato. Se gli appuntamenti sono esterni al giorno o alla settimana scelti, l'intervallo sar&#232; esteso per comprenderli. Le impostazioni di base sono 8h -18h.###14 Sep 2004 content changed
+dateplaner#:#help_rotation#:#Ripetizione###14 Sep 2004 content changed
+dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.###14 Sep 2004 content changed
+dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri###14 Sep 2004 content changed
+dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.###14 Sep 2004 content changed
+dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]###14 Sep 2004 content changed
+dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.###14 Sep 2004 content changed
+dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h###14 Sep 2004 content changed
+dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.###14 Sep 2004 content changed
 dateplaner#:#help_text#:#Testo
 dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.
-dateplaner#:#help_week#:#Vista settimanale appuntamenti.
-dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.
+dateplaner#:#help_week#:#Vista settimanale appuntamenti.###14 Sep 2004 content changed
+dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.###14 Sep 2004 content changed
 dateplaner#:#hour#:#ora
 dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook
 dateplaner#:#inbox#:#In arrivo
@@ -2727,9 +2766,9 @@ dateplaner#:#newDates#:#Nuovo appuntamento
 dateplaner#:#newKeyword#:#Nuova:
 dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#no_entry#:#Nessun appuntamento disponibile
-dateplaner#:#o_day_date#:#Appuntamento di 24h
+dateplaner#:#o_day_date#:#Appuntamento di 24h###14 Sep 2004 content changed
 dateplaner#:#of#:#:
-dateplaner#:#open_day#:#Vista giornaliera
+dateplaner#:#open_day#:#Vista giornaliera###14 Sep 2004 content changed
 dateplaner#:#pmonth#:#Mese successivo
 dateplaner#:#printlist#:#Stampa
 dateplaner#:#properties#:#Propriet&#224;
@@ -2744,8 +2783,8 @@ dateplaner#:#r_nonrecurring#:#Una volta
 dateplaner#:#r_week#:#Tutte le settimane
 dateplaner#:#r_year#:#Tutti gli anni
 dateplaner#:#readimportfile#:#Inserisci
-dateplaner#:#rotation#:#Ripeti
-dateplaner#:#rotation_dates#:#Ripeti appuntamenti
+dateplaner#:#rotation#:#Ripeti###14 Sep 2004 content changed
+dateplaner#:#rotation_dates#:#Ripeti appuntamenti###14 Sep 2004 content changed
 dateplaner#:#semester_name#:#Nome semestre
 dateplaner#:#short_01#:#Gen
 dateplaner#:#short_02#:#Feb
@@ -2761,10 +2800,10 @@ dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Testo breve
 dateplaner#:#singleDate#:#Appuntamento singolo
-dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
+dateplaner#:#starttime_for_view#:#Ora di inizio della vista:###14 Sep 2004 content changed
 dateplaner#:#timedate#:#Ora / Giorno
 dateplaner#:#timeslice#:#Ora:
-dateplaner#:#title#:#Agenda Ilias
+dateplaner#:#title#:#Agenda Ilias###14 Sep 2004 content changed
 dateplaner#:#to#:#a
 dateplaner#:#today#:#Oggi
 dateplaner#:#viewlist#:#Vista
@@ -2794,7 +2833,7 @@ forum#:#forums_not_available#:#Forum non disponbile
 forum#:#forums_overview#:#Visione generale forum
 forum#:#forums_post_deleted#:#L&#039;articolo &#232; stato cancellato
 forum#:#forums_post_modified#:#L&#039;articolo &#232; stato modificato
-forum#:#forums_post_new_entry#:#un nuovo articolo &#232; stato inserito
+forum#:#forums_post_new_entry#:#un nuovo articolo &#232; stato inserito###14 Sep 2004 content changed
 forum#:#forums_posts#:#Tutti gli articoli
 forum#:#forums_posts_not_available#:#Articoli non disponibili
 forum#:#forums_print_thread#:#Stampa questo tema
@@ -2803,40 +2842,40 @@ forum#:#forums_respond#:#Rispondi ad un articolo
 forum#:#forums_subject#:#Oggetto
 forum#:#forums_the_post#:#Articolo
 forum#:#forums_thread#:#Argomento
-forum#:#forums_thread_articles#:#Articoli dell'argomento
+forum#:#forums_thread_articles#:#Articoli dell'argomento###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
-forum#:#forums_thread_new_entry#:#Un nuovo tema &#232; stato inserito
+forum#:#forums_thread_new_entry#:#Un nuovo tema &#232; stato inserito###14 Sep 2004 content changed
 forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta
 mail#:#also_as_email#:#Anche tramite eMail
-mail#:#bc#:#BC
+mail#:#bc#:#BC###14 Sep 2004 content changed
 mail#:#forward#:#Inoltra
-mail#:#linebreak#:#Interruzione
+mail#:#linebreak#:#Interruzione###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#Per favore, specifica il destinatario
 mail#:#mail_add_subfolder#:#Aggiungi cartella
 mail#:#mail_add_subject#:#Per favore, specifica l&#039;oggetto
-mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica
+mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica###14 Sep 2004 content changed
 mail#:#mail_add_type#:#Per favore, specifica il tipo di eMail che vuoi inviare
 mail#:#mail_addr_entries#:#Indirizzi
 mail#:#mail_attachments#:#Allegati
-mail#:#mail_bc_not_valid#:#Il campo BC non &#232; valido
-mail#:#mail_bc_search#:#Cerca nel campo BC
+mail#:#mail_bc_not_valid#:#Il campo BC non &#232; valido###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#Cerca nel campo BC###14 Sep 2004 content changed
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#Il campo CC non &#232; valido
+mail#:#mail_cc_not_valid#:#Il campo CC non &#232; valido###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#Cerca nel campo CC
 mail#:#mail_change_to_folder#:#Spostare nella cartella:
 mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di eMail non &#232; valido
 mail#:#mail_compose#:#Scrivi eMail
-mail#:#mail_deleted#:#Le eMail sono state cancellate
+mail#:#mail_deleted#:#Le eMail sono state cancellate###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#Le voci sono state cancellate
 mail#:#mail_email_forbidden#:#Non hai permessi per inviare eMail
 mail#:#mail_entry_added#:#Aggiunta nuova voce
 mail#:#mail_entry_changed#:#La voce &#232; stata cambiata
-mail#:#mail_file_name#:#Nome del file
-mail#:#mail_file_size#:#Dimensioni del file
+mail#:#mail_file_name#:#Nome del file###14 Sep 2004 content changed
+mail#:#mail_file_size#:#Dimensioni del file###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#I file sono stati cancellati
 mail#:#mail_folder_created#:#Una nuova cartella &#232; stata creata
 mail#:#mail_folder_deleted#:#La cartella &egrave stata cancellata
@@ -2846,42 +2885,42 @@ mail#:#mail_folder_name_changed#:#La cartella &#232; stata rinominata
 mail#:#mail_folder_options#:#Opzioni cartella
 mail#:#mail_following_rcp_not_valid#:#I seguenti destinatari non sono validi:
 mail#:#mail_global_options#:#Opzioni globali
-mail#:#mail_incoming#:#eMail in arrivo
+mail#:#mail_incoming#:#eMail in arrivo###14 Sep 2004 content changed
 mail#:#mail_incoming_both#:#locali ed esterne
 mail#:#mail_incoming_local#:#solamente locali
 mail#:#mail_incoming_smtp#:#invia all&#039;indirizzo
 mail#:#mail_insert_folder_name#:#Per favore, inserisci il nome della cartella
 mail#:#mail_insert_query#:#Per favore, inserisci il criterio
 mail#:#mail_intern#:#Interna
-mail#:#mail_mark_read#:#Segna la eMail come letta
-mail#:#mail_mark_unread#:#Segna la eMail come non letta
+mail#:#mail_mark_read#:#Segna la eMail come letta###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Segna la eMail come non letta###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#Il limite per l&#039;upload &#232;:
 mail#:#mail_message_send#:#Il messaggio &#232; stato inviato
-mail#:#mail_move_error#:#Errore spostando la eMail
+mail#:#mail_move_error#:#Errore spostando la eMail###14 Sep 2004 content changed
 mail#:#mail_move_to#:#Sposta le eMail in
-mail#:#mail_moved#:#Le eMail sono state spostate
-mail#:#mail_moved_to_trash#:#Le eMail sono state spostate nel cestino
+mail#:#mail_moved#:#Le eMail sono state spostate###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Le eMail sono state spostate nel cestino###14 Sep 2004 content changed
 mail#:#mail_new_file#:#Aggiungi un nuovo file:
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere allegati
 mail#:#mail_no_attachments_found#:#Non sono stati trovati allegati
-mail#:#mail_no_permissions_write_smtp#:#Non hai permessi per scrivere eMail all&#039;esterno
+mail#:#mail_no_permissions_write_smtp#:#Non hai permessi per scrivere eMail all&#039;esterno###14 Sep 2004 content changed
 mail#:#mail_options_of#:#Opzioni:
 mail#:#mail_options_saved#:#Opzioni salvate
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
-mail#:#mail_s#:#eMail
-mail#:#mail_s_unread#:#eMail non lette
+mail#:#mail_s#:#eMail###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#eMail non lette###14 Sep 2004 content changed
 mail#:#mail_saved#:#La eMail &#232; stata salvata
-mail#:#mail_search_addressbook#:#Cerca nella rubrica
+mail#:#mail_search_addressbook#:#Cerca nella rubrica###14 Sep 2004 content changed
 mail#:#mail_search_system#:#Cerca nel sistema
-mail#:#mail_select_one_entry#:#Devi selezionare almeno una voce
-mail#:#mail_select_one_file#:#Devi selezionare almeno un file
-mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate
+mail#:#mail_select_one_entry#:#Devi selezionare almeno una voce###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#Devi selezionare almeno un file###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato
-mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata
+mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata###14 Sep 2004 content changed
 mail#:#mail_to_search#:#Ricerca in
-mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di eMail valido
-mail#:#search_bc_recipient#:#Ricerca destinatario in BC
+mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di eMail valido###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#Ricerca destinatario in BC###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Ricerca destinatario in CC
 meta#:#meta_accessibility_restrictions#:#Restrizioni nell&#039;accesso
 meta#:#meta_active#:#Attivo
@@ -3143,7 +3182,7 @@ meta#:#meta_coverage#:#Copertura
 meta#:#meta_date#:#Data
 meta#:#meta_delete#:#Cancella
 meta#:#meta_description#:#Descrizione
-meta#:#meta_diagramm#:#Diagramma
+meta#:#meta_diagramm#:#Diagramma###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#Difficolt&#224;
 meta#:#meta_dificult#:#Difficile
 meta#:#meta_draft#:#Bozza
@@ -3186,145 +3225,145 @@ meta#:#meta_is_required_by#:#E&#039; richiesto da
 meta#:#meta_is_version_of#:#E&#039; la versione di
 meta#:#meta_keyword#:#Chiave
 meta#:#meta_kind#:#Tipo
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#africano
-meta#:#meta_l_am#:#amharic
-meta#:#meta_l_ar#:#arabo
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaigiano
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#bielorusso
-meta#:#meta_l_bg#:#bulgaro
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengalese
-meta#:#meta_l_bo#:#tibetano
-meta#:#meta_l_br#:#bretone
-meta#:#meta_l_ca#:#catalano
-meta#:#meta_l_co#:#corso
-meta#:#meta_l_cs#:#ceco
-meta#:#meta_l_cy#:#welsh
-meta#:#meta_l_da#:#danese
-meta#:#meta_l_de#:#tedesco
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greco
-meta#:#meta_l_en#:#inglese
-meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#spagnolo
-meta#:#meta_l_et#:#estone
-meta#:#meta_l_eu#:#basco
-meta#:#meta_l_fa#:#persiano
-meta#:#meta_l_fi#:#finnico
-meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#francese
-meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irlandese
-meta#:#meta_l_gd#:#scozzese gaelico
-meta#:#meta_l_gl#:#galiziano
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#ebraico
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croato
-meta#:#meta_l_hu#:#ungherese
-meta#:#meta_l_hy#:#armeno
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesiano
-meta#:#meta_l_ie#:#interlingua
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#islandese
-meta#:#meta_l_it#:#italiano
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#giapponese
-meta#:#meta_l_jv#:#javanese
-meta#:#meta_l_ka#:#georgiano
-meta#:#meta_l_kk#:#kazako
-meta#:#meta_l_kl#:#greenlandic
-meta#:#meta_l_km#:#cambogiano
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#koreano
-meta#:#meta_l_ks#:#kashmiro
-meta#:#meta_l_ku#:#kurdistano
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latino
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lituano
-meta#:#meta_l_lv#:#latvian
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedone
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolo
-meta#:#meta_l_mo#:#moldavo
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malay
-meta#:#meta_l_mt#:#maltese
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#nepalese
-meta#:#meta_l_nl#:#olandese
-meta#:#meta_l_no#:#norvegese
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polacco
-meta#:#meta_l_ps#:#pashto
-meta#:#meta_l_pt#:#portoghese
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#rumeno
-meta#:#meta_l_ru#:#russo
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanskrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croato
-meta#:#meta_l_si#:#cingalese
-meta#:#meta_l_sk#:#slovacco
-meta#:#meta_l_sl#:#sloveno
-meta#:#meta_l_sm#:#samoan
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somalo
-meta#:#meta_l_sq#:#albanese
-meta#:#meta_l_sr#:#serbo
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sudanese
-meta#:#meta_l_sv#:#svedese
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamil
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmeno
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turco
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ucraino
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbeco
-meta#:#meta_l_vi#:#vietnamita
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#cinese
-meta#:#meta_l_zu#:#zulu
+meta#:#meta_l_aa#:#afar###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#abkhazian###14 Sep 2004 content changed
+meta#:#meta_l_af#:#africano###14 Sep 2004 content changed
+meta#:#meta_l_am#:#amharic###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#arabo###14 Sep 2004 content changed
+meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
+meta#:#meta_l_az#:#azerbaigiano###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#bashkir###14 Sep 2004 content changed
+meta#:#meta_l_be#:#bielorusso###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#bulgaro###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#bihari###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#bislama###14 Sep 2004 content changed
+meta#:#meta_l_bn#:#bengalese###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#tibetano###14 Sep 2004 content changed
+meta#:#meta_l_br#:#bretone###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#catalano###14 Sep 2004 content changed
+meta#:#meta_l_co#:#corso###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#ceco###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#welsh###14 Sep 2004 content changed
+meta#:#meta_l_da#:#danese###14 Sep 2004 content changed
+meta#:#meta_l_de#:#tedesco###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#bhutani###14 Sep 2004 content changed
+meta#:#meta_l_el#:#greco###14 Sep 2004 content changed
+meta#:#meta_l_en#:#inglese###14 Sep 2004 content changed
+meta#:#meta_l_eo#:#esperanto###14 Sep 2004 content changed
+meta#:#meta_l_es#:#spagnolo###14 Sep 2004 content changed
+meta#:#meta_l_et#:#estone###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#basco###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#persiano###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#finnico###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#fiji###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#faroese###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#francese###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#frisian###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#irlandese###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#scozzese gaelico###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#galiziano###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#guarani###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#gujarati###14 Sep 2004 content changed
+meta#:#meta_l_ha#:#hausa###14 Sep 2004 content changed
+meta#:#meta_l_he#:#ebraico###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#hindi###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#croato###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#ungherese###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#armeno###14 Sep 2004 content changed
+meta#:#meta_l_ia#:#interlingua###14 Sep 2004 content changed
+meta#:#meta_l_id#:#indonesiano###14 Sep 2004 content changed
+meta#:#meta_l_ie#:#interlingua###14 Sep 2004 content changed
+meta#:#meta_l_ik#:#inupiak###14 Sep 2004 content changed
+meta#:#meta_l_is#:#islandese###14 Sep 2004 content changed
+meta#:#meta_l_it#:#italiano###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#inuktitut###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#giapponese###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#javanese###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#georgiano###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#kazako###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#greenlandic###14 Sep 2004 content changed
+meta#:#meta_l_km#:#cambogiano###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#kannada###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#koreano###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#kashmiro###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#kurdistano###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#kirghiz###14 Sep 2004 content changed
+meta#:#meta_l_la#:#latino###14 Sep 2004 content changed
+meta#:#meta_l_ln#:#lingala###14 Sep 2004 content changed
+meta#:#meta_l_lo#:#laothian###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#lituano###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#latvian###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#malagasy###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#maori###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#macedone###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#malayalam###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#mongolo###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#moldavo###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#marathi###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#malay###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#maltese###14 Sep 2004 content changed
+meta#:#meta_l_my#:#burmese###14 Sep 2004 content changed
+meta#:#meta_l_na#:#nauru###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#nepalese###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#olandese###14 Sep 2004 content changed
+meta#:#meta_l_no#:#norvegese###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#occitan###14 Sep 2004 content changed
+meta#:#meta_l_om#:#afan (oromo)###14 Sep 2004 content changed
+meta#:#meta_l_or#:#oriya###14 Sep 2004 content changed
+meta#:#meta_l_pa#:#punjabi###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#polacco###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#pashto###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#portoghese###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#quechua###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#rhaeto-romance###14 Sep 2004 content changed
+meta#:#meta_l_rn#:#kurundi###14 Sep 2004 content changed
+meta#:#meta_l_ro#:#rumeno###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#russo###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#kinyarwanda###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#sanskrit###14 Sep 2004 content changed
+meta#:#meta_l_sd#:#sindhi###14 Sep 2004 content changed
+meta#:#meta_l_sg#:#sangho###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#serbo-croato###14 Sep 2004 content changed
+meta#:#meta_l_si#:#cingalese###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#slovacco###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#sloveno###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#samoan###14 Sep 2004 content changed
+meta#:#meta_l_sn#:#shona###14 Sep 2004 content changed
+meta#:#meta_l_so#:#somalo###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#albanese###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#serbo###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#siswati###14 Sep 2004 content changed
+meta#:#meta_l_st#:#sesotho###14 Sep 2004 content changed
+meta#:#meta_l_su#:#sudanese###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#svedese###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#swahili###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#tamil###14 Sep 2004 content changed
+meta#:#meta_l_te#:#telugu###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#tajik###14 Sep 2004 content changed
+meta#:#meta_l_th#:#thai###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#tigrinya###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#turkmeno###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#tagalog###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#setswana###14 Sep 2004 content changed
+meta#:#meta_l_to#:#tonga###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#turco###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#tsonga###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#tatar###14 Sep 2004 content changed
+meta#:#meta_l_tw#:#twi###14 Sep 2004 content changed
+meta#:#meta_l_ug#:#uigur###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#ucraino###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#urdu###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#uzbeco###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#vietnamita###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#volapuk###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#wolof###14 Sep 2004 content changed
+meta#:#meta_l_xh#:#xhosa###14 Sep 2004 content changed
+meta#:#meta_l_yi#:#yiddish###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#yoruba###14 Sep 2004 content changed
+meta#:#meta_l_za#:#zhuang###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#cinese###14 Sep 2004 content changed
+meta#:#meta_l_zu#:#zulu###14 Sep 2004 content changed
 meta#:#meta_language#:#Lingua
 meta#:#meta_learner#:#Studente
 meta#:#meta_learning_resource_type#:#Tipo di risorsa
@@ -3349,19 +3388,19 @@ meta#:#meta_narrative_text#:#Testo narrativo
 meta#:#meta_networked#:#Collegato in rete
 meta#:#meta_new_element#:#Nuovo elemento
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#Non ci sono metadati disponibili per la sezione Note.
-meta#:#meta_no_classification#:#Non ci sono metadati disponibili per la sezione Classificazione.
-meta#:#meta_no_educational#:#Non ci sono metadati disponibili per la sezione Educazione.
-meta#:#meta_no_lifecycle#:#Non ci sono metadati disponibili per la sezione Durata.
-meta#:#meta_no_meta_metadata#:#Non ci sono metadati disponibili per la sezione Meta-Metadati.
-meta#:#meta_no_relation#:#Non ci sono metadati disponibili per la sezione Relazioni.
-meta#:#meta_no_rights#:#Non ci sono metadati disponibili per la sezione Diritti.
-meta#:#meta_no_technical#:#Non ci sono metadati disponibili per la sezione Tecnica.
+meta#:#meta_no_annotation#:#Non ci sono metadati disponibili per la sezione Note.###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#Non ci sono metadati disponibili per la sezione Classificazione.###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#Non ci sono metadati disponibili per la sezione Educazione.###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#Non ci sono metadati disponibili per la sezione Durata.###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#Non ci sono metadati disponibili per la sezione Meta-Metadati.###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#Non ci sono metadati disponibili per la sezione Relazioni.###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#Non ci sono metadati disponibili per la sezione Diritti.###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#Non ci sono metadati disponibili per la sezione Tecnica.###14 Sep 2004 content changed
 meta#:#meta_none#:#Nessuno
 meta#:#meta_operating_system#:#Sistema Operativo
 meta#:#meta_or_composite#:#oppure scrivi
 meta#:#meta_other#:#Oltro
-meta#:#meta_other_plattform_requirements#:#altri requisiti della piattaforma
+meta#:#meta_other_plattform_requirements#:#altri requisiti della piattaforma###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Per favore, scegli
 meta#:#meta_prerequisite#:#Prerequisiti
@@ -3425,31 +3464,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Ricerca tutti i risultati
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#Concatenazione
 search#:#search_content#:#Contenuto della pagina
 search#:#search_dbk_content#:#Libraria digitale (contenuto)
-search#:#search_dbk_meta#:#Libraria digitale (metadata)
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly
+search#:#search_dbk_meta#:#Libraria digitale (metadata)###14 Sep 2004 content changed
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly###14 Sep 2004 content changed
 search#:#search_group#:#Gruppo di ricerca
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#Modulo (contenuto)
-search#:#search_lm_meta#:#Modulo (metadati)
-search#:#search_meta#:#Metadati
-search#:#search_minimum_three#:#Devi specificare almeno tre caratteri
+search#:#search_lm_meta#:#Modulo (metadati)###14 Sep 2004 content changed
+search#:#search_meta#:#Metadati###14 Sep 2004 content changed
+search#:#search_minimum_three#:#Devi specificare almeno tre caratteri###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere spostata.
 search#:#search_move_to#:#Sposta in:
 search#:#search_my_search_results#:#I miei risultati della ricerca
 search#:#search_new_folder#:#Nuova cartella
 search#:#search_no_category#:#Non hai selezionato il criterio di ricerca###26 Aug 2004 content changed
-search#:#search_no_match#:#La ricerca non ha prodotto risultati
+search#:#search_no_match#:#La ricerca non ha prodotto risultati###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Nessun risultato salvato.
-search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca
-search#:#search_no_selection#:#Non hai selezionato niente.
+search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca###14 Sep 2004 content changed
+search#:#search_no_selection#:#Non hai selezionato niente.###14 Sep 2004 content changed
 search#:#search_object_renamed#:#Oggetto rinominato.
 search#:#search_objects_deleted#:#Cancellazione eseguita
 search#:#search_objects_moved#:#Oggetto spostato.
 search#:#search_one_action#:#Seleziona una azione.
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#Rinomina il titolo
 search#:#search_results_saved#:#Ricerca i risultati salvati
 search#:#search_save_as_select#:#Salva come:
@@ -3457,7 +3500,7 @@ search#:#search_search_for#:#Ricerca per
 search#:#search_search_no_results_saved#:#Non ci sono risultati salvati
 search#:#search_search_results#:#Ricerca risultati
 search#:#search_search_term#:#Ricerca termine
-search#:#search_select_exactly_one_object#:#Devi selezionare un solo oggetto.
+search#:#search_select_exactly_one_object#:#Devi selezionare un solo oggetto.###14 Sep 2004 content changed
 search#:#search_select_one#:#Seleziona una cartella
 search#:#search_select_one_action#:#--Scegli una azione--
 search#:#search_select_one_folder_select#:#--Scegli una cartella--
@@ -3473,16 +3516,16 @@ survey#:#already_completed_survey#:#Hai gi&#224; completato il questionario! Non
 survey#:#answer#:#Risposta
 survey#:#apply#:#Conferma
 survey#:#arithmetic_mean#:#Valore aritmetico
-survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel questionario?
+survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel questionario?###14 Sep 2004 content changed
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel questionario?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
-survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il questionario!
-survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
-survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al questionario!
+survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il questionario!###14 Sep 2004 content changed
+survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!###14 Sep 2004 content changed
+survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al questionario!###14 Sep 2004 content changed
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Categoria
-survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
+survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?###14 Sep 2004 content changed
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
 survey#:#concatenation#:#Concatenazione
@@ -3529,7 +3572,7 @@ survey#:#dc_varying#:#variante
 survey#:#dc_verygood#:#molto buono
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
-survey#:#disinvite#:#Annulla l'invito
+survey#:#disinvite#:#Annulla l'invito###14 Sep 2004 content changed
 survey#:#display_all_available#:#Mostra tutto
 survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d'accordo -d'accordo-indeciso-in disaccordo-molto in disaccordo)
 survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d'accordo-disaccordo)
@@ -3543,9 +3586,9 @@ survey#:#dp_standard_attitude_good_notacceptable#:#Giudizio standard (buono-insu
 survey#:#dp_standard_attitude_must5#:#Giudizio standard (deve-dovrebbe-indeciso-non dovrebbe-non deve)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Giudizio standard (dovrebbe-non dovrebbe)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Giudizio standard (dovrebbe-indeciso-non dovrebbe)
-survey#:#dp_standard_behaviour_certainly5#:#Comportamento standard (molto sicuro-pi&#249; positivo-indeciso-pi&#249; negativo-molto negativo)
-survey#:#dp_standard_behaviour_yes_no#:#Comportamento standard (si-no)
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportamento standard (si-indeciso-no)
+survey#:#dp_standard_behaviour_certainly5#:#Comportamento standard (molto sicuro-pi&#249; positivo-indeciso-pi&#249; negativo-molto negativo)###14 Sep 2004 content changed
+survey#:#dp_standard_behaviour_yes_no#:#Comportamento standard (si-no)###14 Sep 2004 content changed
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportamento standard (si-indeciso-no)###14 Sep 2004 content changed
 survey#:#dp_standard_beliefs_always5#:#Affidabilit&#224; standard (sempre-molte volte-qualche volta-raramente-mai)
 survey#:#dp_standard_beliefs_always_never#:#Affidabilit&#224; standard (sempre-mai)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Affidabilit&#224; standard (sempre-qualche volta-mai)
@@ -3555,7 +3598,7 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Affidabilit&#224; standard (
 survey#:#dp_standard_numbers#:#Numeri standard
 survey#:#duplicate#:#Duplica
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
-survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
+survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli###14 Sep 2004 content changed
 survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del questionario
@@ -3576,7 +3619,7 @@ survey#:#harmonic_mean#:#Significato armonico
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima
 survey#:#insert_missing_question#:#Per favore, seleziona almeno una domanda da inserire nel questionario!
-survey#:#insert_missing_questionblock#:#Per favore, seleziona almeno un blocco di domande da inserire nel questionario!
+survey#:#insert_missing_questionblock#:#Per favore, seleziona almeno un blocco di domande da inserire nel questionario!###14 Sep 2004 content changed
 survey#:#introduction#:#Introduzione
 survey#:#introduction_manage_phrases#:#Gestisci le tue frasi che sono disponibili per tutte le domande che hai modificato/creato.
 survey#:#invitation#:#Invito
@@ -3607,7 +3650,7 @@ survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria
 survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificare i vincoli!
 survey#:#no_question_selected_for_move#:#Per favore, scegli almeno una domanda da spostare!
 survey#:#no_question_selected_for_removal#:#Per favore, scegli almeno una domanda o un blocco di domande da eliminare!
-survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibili!
+survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibili!###14 Sep 2004 content changed
 survey#:#no_questions_available#:#Non ci sono domande disponibili!
 survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
 survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
@@ -3643,18 +3686,18 @@ survey#:#qpl_questions_deleted#:#Domande cancellate
 survey#:#qpl_questions_pasted#:#Domande incollate
 survey#:#qpl_savephrase_empty#:#Per favore, indica il titolo!
 survey#:#qpl_savephrase_exists#:#Questo titolo esiste gi&#224;! Per favore, definisci un altro titolo.
-survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di domande se vuoi aprirlo!
+survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di domande se vuoi aprirlo!###14 Sep 2004 content changed
 survey#:#qt_metric#:#con risposta numerica
 survey#:#qt_nominal#:#con risposte predefinite
 survey#:#qt_ordinal#:#con risposte da ordinare
 survey#:#qt_text#:#con risposta libera
 survey#:#question_has_constraints#:#Vincoli
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
-survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!
+survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!###14 Sep 2004 content changed
 survey#:#question_type#:#Tipo di domanda
 survey#:#questionblock#:#Blocco di domande
 survey#:#questionblock_has_constraints#:#Vincoli
-survey#:#questionblocks#:#Blocco di domande
+survey#:#questionblocks#:#Blocco di domande###14 Sep 2004 content changed
 survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!
 survey#:#questions_removed#:#Domande e/o blocco di domande cancellate!

@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -536,6 +538,7 @@ common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#Rôles actifs
 common#:#add#:#Ajouter
 common#:#add_author#:#Ajouter auteur
@@ -560,6 +563,7 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Tous les objets
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#Disponible dans le formulaire d'enregistrement pour les nouveaux utilisateurs
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -582,6 +586,8 @@ common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Rendez-vous
 common#:#appointment_list#:#Liste de rendez-vous
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
 common#:#assign#:#Assigner
@@ -613,6 +619,7 @@ common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new va
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#Langages disponibles
 common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#Retour
@@ -722,7 +729,7 @@ common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue
 common#:#choose_location#:#Choisissez l'emplacement
 common#:#choose_only_one_language#:#Veuillez ne choisir qu'une langue
-common#:#city#:#Ville
+common#:#city#:#Ville###14 Sep 2004 content changed
 common#:#clear#:#Effacer
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client IDe###26 Nov 2003 new variable
@@ -759,6 +766,7 @@ common#:#country#:#Pays
 common#:#course#:#Cours
 common#:#courses#:#Cours
 common#:#create#:#Créer
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Créer dans
 common#:#create_stylesheet#:#Créer style
 common#:#crs#:#Cours
@@ -857,7 +865,7 @@ common#:#edit_stylesheet#:#Modifier style
 common#:#edited_at#:#Modifié le
 common#:#editor#:#Editeur
 common#:#email#:#E-mail
-common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
+common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide###14 Sep 2004 content changed
 common#:#enable#:#Activer
 common#:#enable_registration#:#Autoriser les nouveaux enregistrements d'utilisateurs
 common#:#enabled#:#Activé
@@ -867,6 +875,7 @@ common#:#err_2_param#:#Seulement 2 paramètres !
 common#:#err_count_param#:#Raison : nombre de paramètre invalide
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Erreur ligne
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -898,7 +907,7 @@ common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new vari
 common#:#exc_edit_until#:#Modifier jusqu'à
 common#:#exc_files#:#Fichiers
 common#:#exc_groups#:#Groupes
-common#:#exc_header_members#:#Exercice (membres)
+common#:#exc_header_members#:#Exercice (membres)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Consigne de travail
 common#:#exc_members_already_assigned#:#Ces utilisateurs sont déjà assignés à cet exercice
 common#:#exc_members_assigned#:#Membres assignés
@@ -923,8 +932,8 @@ common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
 common#:#excs#:#Exercises###17 Dec 2003 new variable
 common#:#execute#:#Exécuter
 common#:#export#:#Export###20 Mar 2004 new variable
-common#:#export_html#:#exporter sous la forme d'un fichier html
-common#:#export_xml#:#exporter sous la forme d'un fichier xml
+common#:#export_html#:#exporter sous la forme d'un fichier html###14 Sep 2004 content changed
+common#:#export_xml#:#exporter sous la forme d'un fichier xml###14 Sep 2004 content changed
 common#:#faq_exercise#:#Exercice de FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#Retours
@@ -973,7 +982,7 @@ common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
 common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#folder###11 Dec 2003 new variable
 common#:#folders#:#Répertoires
-common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !
+common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !###14 Sep 2004 content changed
 common#:#forename#:#Prénom
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#Veuillez renseigner ces champs :
@@ -1028,7 +1037,7 @@ common#:#glossaries#:#Glossariese###26 Nov 2003 new variable
 common#:#glossary#:#Glossaire
 common#:#glossary_added#:#Glossaire ajouté
 common#:#group_access_denied#:#Accès refusé
-common#:#group_any_objects#:#Aucun sous-objet disponible
+common#:#group_any_objects#:#Aucun sous-objet disponible###14 Sep 2004 content changed
 common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Description de groupe
 common#:#group_details#:#Détails de groupe
@@ -1039,21 +1048,21 @@ common#:#group_members#:#Membres du groupe###04 Sep 2004 content changed
 common#:#group_memstat#:#Statut du membre
 common#:#group_memstat_admin#:#Administrateur
 common#:#group_memstat_member#:#Membre
-common#:#group_name#:#Nom du groupe
+common#:#group_name#:#Nom du groupe###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Nouveaux abonnements###04 Sep 2004 content changed
 common#:#group_no_registration#:#Pas d'abonnement nécessaire
-common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre abonnement à tout moment.
+common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre abonnement à tout moment.###14 Sep 2004 content changed
 common#:#group_not_available#:#Aucun groupe disponible
 common#:#group_objects#:#Objets du groupe
 common#:#group_password_registration_expired_msg#:#La période d'abonnement de ce groupe a expiré, il n'est plus possible de faire une annonce.  Veuillez contacter le propriétaire ou l'administrateur du groupe idoine.
-common#:#group_password_registration_msg#:#Pour rejoindre ce groupe, vous devez saisir le mot de passe fourni par l'administrateur de ce groupe.<br> Vous serez automatiquement placé(e) dans le groupe si le mot de passe est correct
+common#:#group_password_registration_msg#:#Pour rejoindre ce groupe, vous devez saisir le mot de passe fourni par l'administrateur de ce groupe.<br> Vous serez automatiquement placé(e) dans le groupe si le mot de passe est correct###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#Date d'expiration
 common#:#group_registration_expiration_time#:#Expiration Time###26 Nov 2003 new variable
-common#:#group_registration_expired#:#Période d'abonnement expirée
+common#:#group_registration_expired#:#Période d'abonnement expirée###14 Sep 2004 content changed
 common#:#group_registration_mode#:#Mode abonnement
 common#:#group_req_password#:#Mot de passe d'abonnement requis
 common#:#group_req_registration#:#Abonnement requis
-common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous abonner.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez saisir un sujet pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.
+common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous abonner.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez saisir un sujet pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.###14 Sep 2004 content changed
 common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
 common#:#group_status#:#Statut du groupe###08 May 2004 content changed
 common#:#group_status_closed#:#Fermé
@@ -1166,13 +1175,14 @@ common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new 
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#Importation de cours
+common#:#import_lm#:#Importation de cours###14 Sep 2004 content changed
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#dans
 common#:#in_use#:#Langue utilisateur
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Réception
 common#:#info_assign_sure#:#Etes-vous sûr(e) de vouloir inscrire les utilisateurs suivants ?
 common#:#info_delete_sure#:#Etes-vous sûr(e) de vouloir détruire les objets suivants ?
@@ -1194,7 +1204,7 @@ common#:#ingmedia_pers_dates#:#Données personnelles
 common#:#ingmedia_reg_fo#:#Forums avec abonnement
 common#:#ingmedia_reg_le#:#LE avec abonnement
 common#:#ingmedia_use_info1#:#Ici, vous pouvez changer vos données personnelles.  Excepté pour le nom d'utilisateur et le mot de passe INGMEDIA, vous n'avez pas à remplir les autres champs.  Souvenez-vous que les mots de passe perdus ne peuvent être redonnés que par e-mail (!). 
-common#:#ingmedia_use_info2#:#Les caractères spéciaux (comme , ; . = - * + #) ne sont pas autorisés dans votre nom d'utilisateur et votre mot de passe INGMEDIA.  Pour utiliser la plateforme INGMEDIA, vous devez accepter la charte d'utilisation.
+common#:#ingmedia_use_info2#:#Les caractères spéciaux (comme , ; . = - * + #) ne sont pas autorisés dans votre nom d'utilisateur et votre mot de passe INGMEDIA.  Pour utiliser la plateforme INGMEDIA, vous devez accepter la charte d'utilisation.###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#Veuillez sélectionner un des liens sur la barre latérale.
 common#:#ingmedia_use_title#:#Changer données utilisateurs
 common#:#ingmedia_user_agree#:#Accord
@@ -1247,8 +1257,8 @@ common#:#langfile_found#:#Fichier de langue trouvé
 common#:#language#:#Langue
 common#:#language_not_installed#:#n'est pas installé.  Veuillez d'abord installer cette langue.
 common#:#languages#:#Langues
-common#:#languages_already_installed#:#La(les) langue(s) choisie(s) est(sont) déjà installée(s)
-common#:#languages_already_uninstalled#:#La(les) langue(s) choisie(s) est(sont) déjà désinstallée(s)
+common#:#languages_already_installed#:#La(les) langue(s) choisie(s) est(sont) déjà installée(s)###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#La(les) langue(s) choisie(s) est(sont) déjà désinstallée(s)###14 Sep 2004 content changed
 common#:#languages_updated#:#Toutes les langues installées ont été mises à jour
 common#:#last_change#:#Dernière modification
 common#:#last_visit#:#Dernière visite
@@ -1309,7 +1319,7 @@ common#:#lo_categories#:#Catégories de cours
 common#:#lo_edit#:#Modifier cours
 common#:#lo_new#:#Nouveau cours
 common#:#lo_no_content#:#Pas de ressource d'apprentissage disponible
-common#:#lo_other_langs#:#Cours dans d'autres langues
+common#:#lo_other_langs#:#Cours dans d'autres langues###14 Sep 2004 content changed
 common#:#lo_overview#:#Vue d'ensemble des cours
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Location:
@@ -1318,7 +1328,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Connexion
 common#:#login_as#:#Connecté en tant que
 common#:#login_data#:#Données de connexion
-common#:#login_exists#:#Il y a déjà un utilisateur avec ce login !  Veuillez en choisir un autre.
+common#:#login_exists#:#Il y a déjà un utilisateur avec ce login !  Veuillez en choisir un autre.###14 Sep 2004 content changed
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Temps de connexion
 common#:#login_to_ilias#:#Connexion à ILIAS
@@ -1328,7 +1338,7 @@ common#:#los#:#Cours
 common#:#los_last_visited#:#Cours visités récemment
 common#:#mail#:#Messagerie
 common#:#mail_a_root#:#Boîte aux lettres
-common#:#mail_addressbook#:#Carnet d'adresses
+common#:#mail_addressbook#:#Carnet d'adresses###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#Permettre SMTP
 common#:#mail_b_inbox#:#Réception
 common#:#mail_c_trash#:#Corbeille
@@ -1342,17 +1352,17 @@ common#:#mail_import#:#Import###31 Mar 2004 new variable
 common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Activer
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
-common#:#mail_mails_of#:#Messages
+common#:#mail_mails_of#:#Messages###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#Taille maximale d'attachement
 common#:#mail_maxsize_box#:#Taille maximale de boîte aux lettres
 common#:#mail_maxsize_mail#:#Taille maximale de message
 common#:#mail_maxtime_attach#:#Délai de conservation maximal des attachements (en jours)
-common#:#mail_maxtime_mail#:#Délai de conservation maximal des messages (en jours)
+common#:#mail_maxtime_mail#:#Délai de conservation maximal des messages (en jours)###14 Sep 2004 content changed
 common#:#mail_not_sent#:#Message non envoyé !
 common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
 common#:#mail_search_no#:#Pas d'entrée trouvée !
 common#:#mail_search_word#:#Rechercher mot
-common#:#mail_select_one#:#Vous devez sélectionner un message !
+common#:#mail_select_one#:#Vous devez sélectionner un message !###14 Sep 2004 content changed
 common#:#mail_send_error#:#Erreur lors de l'envoi du message
 common#:#mail_sent#:#Message envoyé !
 common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
@@ -1361,7 +1371,7 @@ common#:#mail_system_message#:#User may send internal system messages###13 Jan 2
 common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
 common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
 common#:#mail_z_local#:#Dossiers utilisateur
-common#:#mails#:#Messages
+common#:#mails#:#Messages###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Marquer tout comme lu
 common#:#mark_all_unread#:#Marquer tout comme non lu
@@ -1383,7 +1393,7 @@ common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Message
 common#:#message_content#:#Contenu du message
 common#:#message_to#:#Message à:
-common#:#meta_data#:#Méta-données
+common#:#meta_data#:#Méta-données###14 Sep 2004 content changed
 common#:#migrate#:#Migrer
 common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Objet média
@@ -1432,7 +1442,7 @@ common#:#msg_deleted_rolt#:#Modèle de rôle supprimé
 common#:#msg_deleted_rolts#:#Modèles de rôle supprimés
 common#:#msg_error_copy#:#Erreur de copie
 common#:#msg_failed#:#Désolé, l'action a échoué
-common#:#msg_is_last_role#:#Vous avez enlevé les utilisateurs suivants de leur dernier rôle global
+common#:#msg_is_last_role#:#Vous avez enlevé les utilisateurs suivants de leur dernier rôle global###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#Objet(s) sélectionné(s) enregistré(s) dans le presse-papier (Action : lier)
 common#:#msg_linked#:#Objet(s) sélectionné(s) lié(s)
 common#:#msg_may_not_contain#:#Cet objet ne peut pas contenir d'objets de type : 
@@ -1458,7 +1468,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#Vous n'avez pas la permission de créer un lien depuis les objets suivants :
 common#:#msg_no_perm_modify_role#:#Vous n'avez pas la permission de modifier les rôles
 common#:#msg_no_perm_modify_rolt#:#Vous n'avez pas la permission de modifier les modèles de rôle
-common#:#msg_no_perm_modify_user#:#Vous n'avez pas la permission de modifier les données utilisateurs
+common#:#msg_no_perm_modify_user#:#Vous n'avez pas la permission de modifier les données utilisateurs###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#Vous n'avez pas la permission de coller les objets suivants :
 common#:#msg_no_perm_perm#:#Vous n'avez pas la permission de modifier les paramètres de permissions
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
@@ -1484,17 +1494,17 @@ common#:#msg_perm_adopted_from_itself#:#Vous ne pouvez pas adopter les paramètr
 common#:#msg_removed#:#Objet(s) supprimé(s) du système
 common#:#msg_role_exists1#:#Un rôle/modèle de rôle portant le nom
 common#:#msg_role_exists2#:#existe déjà !  Veuillez choisir un autre nom.
-common#:#msg_role_reserved_prefix#:#Le préfixe 'il_' est réservé aux rôles générés automatiquement.  Veuillez choisir un autre nom.
-common#:#msg_roleassignment_active_changed#:#Assignation du rôle actif modifiée
-common#:#msg_roleassignment_active_changed_comment#:#Ces paramètres ne sont pas enregistrés dans le profil utilisateur !  Si l'utilisateur se connecte à nouveau, toutes les assignations de rôle actif seront réinitialisées aux valeurs enregistrées.
-common#:#msg_roleassignment_changed#:#Assignation de rôle changée
-common#:#msg_sysrole_not_deletable#:#Le rôle système ne peut pas être détruit.
+common#:#msg_role_reserved_prefix#:#Le préfixe 'il_' est réservé aux rôles générés automatiquement.  Veuillez choisir un autre nom.###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#Assignation du rôle actif modifiée###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Ces paramètres ne sont pas enregistrés dans le profil utilisateur !  Si l'utilisateur se connecte à nouveau, toutes les assignations de rôle actif seront réinitialisées aux valeurs enregistrées.###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#Assignation de rôle changée###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#Le rôle système ne peut pas être détruit.###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#Les paramètres de permissions du rôle système ne peuvent pas être modifiés.  Le rôle système donne à tous les utilisateurs assignés un accès illimité sur tous les objets et fonctions.
 common#:#msg_trash_empty#:#Il n'y a pas d'objet détruit.
 common#:#msg_undeleted#:#Objet(s) restauré(s).
 common#:#msg_user_last_role1#:#Les utilisateurs suivants n'ont assignés que ce rôle :
 common#:#msg_user_last_role2#:#Veuillez détruire les utilisateurs ou leur assigner un autre rôle pour pouvoir détruire de rôle.
-common#:#msg_userassignment_changed#:#Assignation de l'utilisateur modifiée
+common#:#msg_userassignment_changed#:#Assignation de l'utilisateur modifiée###14 Sep 2004 content changed
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Mes signets
 common#:#my_frms#:#Mes forums
@@ -1526,6 +1536,7 @@ common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
 common#:#no_objects#:#Pas d'objet
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Pas de titre
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
@@ -1572,7 +1583,7 @@ common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
 common#:#obj_not_found#:#Objet non trouvé
 common#:#obj_note#:#Notes
 common#:#obj_notf#:#Administration des notes
-common#:#obj_objf#:#Définition d'objet
+common#:#obj_objf#:#Définition d'objet###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#Gestion des types d'objets ILIAS et des permissions sur les objets (réservé aux experts).
 common#:#obj_owner#:#Le propriétaire de cet objet est 
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1598,7 +1609,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
 common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test###04 Feb 2004 new variable
-common#:#obj_typ#:#Définition de type d'objet
+common#:#obj_typ#:#Définition de type d'objet###14 Sep 2004 content changed
 common#:#obj_type#:#Type d'objet
 common#:#obj_uset#:#Paramètres d'utilisateur
 common#:#obj_usr#:#Utilisateur
@@ -1607,7 +1618,7 @@ common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objets
-common#:#objf#:#Définition d'objet
+common#:#objf#:#Définition d'objet###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
@@ -1679,7 +1690,7 @@ common#:#path_to_htmldoc#:#Path to HTMLdoc###26 Nov 2003 new variable
 common#:#path_to_java#:#Chemin vers Java
 common#:#path_to_unzip#:#Chemin vers Unzip
 common#:#path_to_zip#:#Chemin vers Zip
-common#:#pathes#:#Chemins
+common#:#pathes#:#Chemins###14 Sep 2004 content changed
 common#:#payment_system#:#Système de paiement
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1696,7 +1707,7 @@ common#:#personal_data#:#Informations personnelles
 common#:#personal_desktop#:#Bureau personnel
 common#:#personal_picture#:#Image personnelle
 common#:#personal_profile#:#Profil personnel
-common#:#persons#:#Personnes
+common#:#persons#:#Personnes###14 Sep 2004 content changed
 common#:#pg_a#:#une page
 common#:#pg_add#:#Ajouter page
 common#:#pg_added#:#Page ajoutée
@@ -1723,7 +1734,7 @@ common#:#public_profile#:#Profil public
 common#:#publication#:#Publication
 common#:#publication_date#:#Date de publication
 common#:#published#:#Publié
-common#:#publishing_organisation#:#Organisation de publication
+common#:#publishing_organisation#:#Organisation de publication###14 Sep 2004 content changed
 common#:#qpl#:#Question pool###04 Feb 2004 new variable
 common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
 common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
@@ -1740,6 +1751,7 @@ common#:#quote#:#Citation
 common#:#read#:#Lire
 common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Destinataire
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#Rafraîchir
 common#:#refresh_languages#:#Rafraîchir langues
 common#:#refresh_list#:#Rafraîchir liste
@@ -1759,7 +1771,28 @@ common#:#rename#:#Renommer
 common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Répondre
 common#:#repository#:#Dépôt
-common#:#required_field#:#Champ obligatoire
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#Champ obligatoire###14 Sep 2004 content changed
 common#:#reset#:#Réinitialiser
 common#:#resources#:#Ressources
 common#:#retype_password#:#Saisir le mot de passe à nouveau
@@ -1823,9 +1856,12 @@ common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 ne
 common#:#saved#:#Enregistré
 common#:#saved_successfully#:#Enregistré avec succès
 common#:#search#:#Rechercher
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Rechercher dans
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#Nouvelle recherche
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#Rechercher destinataire
 common#:#search_result#:#Résultat de recherche
 common#:#search_user#:#Recherche utilisateur
@@ -1875,7 +1911,7 @@ common#:#st_add#:#Ajouter chapitre
 common#:#st_added#:#Chapitre ajouté
 common#:#st_edit#:#Modifier chapitre
 common#:#st_new#:#Nouveau chapitre
-common#:#startpage#:#Page de départ
+common#:#startpage#:#Page de départ###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Etat
 common#:#step#:#Etape
@@ -1906,6 +1942,7 @@ common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Choix de la langue système
 common#:#system_groups#:#Groupes système
 common#:#system_grp#:#Groupe système
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Langue système
 common#:#system_message#:#Message système
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
@@ -1969,7 +2006,8 @@ common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
 common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Parcourez jusqu'à l'endroit où vous voulez ajouter
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#Vous vous êtes abonné à ILIAS avec succès.  Veuillez cliquer sur le bouton ci-dessous pour vous connecter à ILIAS avec votre compte utilisateur.
+common#:#txt_registered#:#Vous vous êtes abonné à ILIAS avec succès.  Veuillez cliquer sur le bouton ci-dessous pour vous connecter à ILIAS avec votre compte utilisateur.###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Définition de type d'objet
 common#:#type#:#Type
 common#:#type_your_message_here#:#Saisissez votre message ici
@@ -2042,7 +2080,7 @@ common#:#yes#:#Oui
 common#:#you_may_add_local_roles#:#Vous pouvez ajouter des rôles locaux
 common#:#your_message#:#Votre message
 common#:#zip#:#Postal Code###26 Nov 2003 new variable
-common#:#zipcode#:#Code postal
+common#:#zipcode#:#Code postal###14 Sep 2004 content changed
 content#:#HTML export#:#Exportation HTML
 content#:#PDF export#:#Exportation PDF
 content#:#Pages#:#Pages
@@ -2080,16 +2118,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
-content#:#cont_assign_full#:#Assigner plein écran
+content#:#cont_assign_full#:#Assigner plein écran###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Assigner standard
 content#:#cont_assign_translation#:#Assigner traduction
 content#:#cont_assignments_deleted#:#Les assignations ont été détruites
 content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Retour
-content#:#cont_booktitle#:#Titre du livre
+content#:#cont_booktitle#:#Titre du livre###14 Sep 2004 content changed
 content#:#cont_bottom#:#Bas
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#Suppression du fichier plein écran impossible
+content#:#cont_cant_del_full#:#Suppression du fichier plein écran impossible###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Suppression du fichier vue standard impossible
 content#:#cont_caption#:#Titre
 content#:#cont_change_type#:#Changer tyoe
@@ -2102,7 +2140,7 @@ content#:#cont_characteristic#:#Caractéristique
 content#:#cont_choose_cont_obj#:#Choisir l'objet de contenu
 content#:#cont_choose_glossary#:#Choisir glossaire
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition
+content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
 content#:#cont_citations#:#Citations
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
@@ -2190,8 +2228,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le répertoire.
-content#:#cont_fullscreen#:#Plein écran
+content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le répertoire.###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#Plein écran###14 Sep 2004 content changed
 content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
@@ -2378,7 +2416,7 @@ content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Publié où
 content#:#cont_width#:#Largeur
-content#:#cont_wysiwyg#:#Contenu WYSIWYG
+content#:#cont_wysiwyg#:#Contenu WYSIWYG###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Année
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
@@ -2661,6 +2699,7 @@ dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new va
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
 dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
 dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
@@ -2797,7 +2836,7 @@ forum#:#forums_not_available#:#Forums non disponible
 forum#:#forums_overview#:#Vue générale des forums
 forum#:#forums_post_deleted#:#L'article a été détruit
 forum#:#forums_post_modified#:#L'article a été modifié
-forum#:#forums_post_new_entry#:#Le nouvel article a été inscrit
+forum#:#forums_post_new_entry#:#Le nouvel article a été inscrit###14 Sep 2004 content changed
 forum#:#forums_posts#:#Tous les articles
 forum#:#forums_posts_not_available#:#Articles non disponibles
 forum#:#forums_print_thread#:#Print Thread###26 Nov 2003 new variable
@@ -2806,40 +2845,40 @@ forum#:#forums_respond#:#Envoyer réponse
 forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Sujet
-forum#:#forums_thread_articles#:#Articles du sujet
+forum#:#forums_thread_articles#:#Articles du sujet###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Créé à 
 forum#:#forums_thread_create_from#:#Créé par
-forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit
+forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit###14 Sep 2004 content changed
 forum#:#forums_threads#:#Fils de discussion
 forum#:#forums_threads_not_available#:#Sujets non disponibles
 forum#:#forums_topics_overview#:#Vue générale des sujets
 forum#:#forums_your_reply#:#Votre réponse
 mail#:#also_as_email#:#Egalement par email
-mail#:#bc#:#BCC
+mail#:#bc#:#BCC###14 Sep 2004 content changed
 mail#:#forward#:#Transmettre
-mail#:#linebreak#:#Retour à la ligne
+mail#:#linebreak#:#Retour à la ligne###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#Veuillez saisir un destinataire
 mail#:#mail_add_subfolder#:#Ajouter sous-dossier
 mail#:#mail_add_subject#:#Veuillez saisir un sujet
-mail#:#mail_add_to_addressbook#:#Ajouter au carnet d'adresses
+mail#:#mail_add_to_addressbook#:#Ajouter au carnet d'adresses###14 Sep 2004 content changed
 mail#:#mail_add_type#:#Veuillez ajouter le type de message que vous voulez envoyer
 mail#:#mail_addr_entries#:#Entrées
 mail#:#mail_attachments#:#Attachements
-mail#:#mail_bc_not_valid#:#Le destinataire en BCC n'est pas valide
-mail#:#mail_bc_search#:#Recherche BCC
+mail#:#mail_bc_not_valid#:#Le destinataire en BCC n'est pas valide###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#Recherche BCC###14 Sep 2004 content changed
 mail#:#mail_byte#:#Octet
-mail#:#mail_cc_not_valid#:#Le destinataire en CC n'est pas valide
+mail#:#mail_cc_not_valid#:#Le destinataire en CC n'est pas valide###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#Recherche CC
 mail#:#mail_change_to_folder#:#Passer au dossier:
 mail#:#mail_check_your_email_addr#:#Votre adresse email n'est pas valide
 mail#:#mail_compose#:#Composer message
-mail#:#mail_deleted#:#Le(s) message(s) est(sont) détruit(s)
+mail#:#mail_deleted#:#Le(s) message(s) est(sont) détruit(s)###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#Les entrées sont détruites XXX
 mail#:#mail_email_forbidden#:#Vous n'êtes pas autorisé(e) à envoyer des emails
 mail#:#mail_entry_added#:#Nouvelle entrée ajoutée
 mail#:#mail_entry_changed#:#L'entrée a été changée
-mail#:#mail_file_name#:#Nom du fichier
-mail#:#mail_file_size#:#Taille du fichier
+mail#:#mail_file_name#:#Nom du fichier###14 Sep 2004 content changed
+mail#:#mail_file_size#:#Taille du fichier###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#Le(s) fichier(s) a(ont) été détruit(s)
 mail#:#mail_folder_created#:#Un nouveau dossier a été créé
 mail#:#mail_folder_deleted#:#Le dossier a été détruit
@@ -2856,14 +2895,14 @@ mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
 mail#:#mail_intern#:#Interne
-mail#:#mail_mark_read#:#Marquer les messages comme lus
-mail#:#mail_mark_unread#:#Marquer les messages comme non lus
+mail#:#mail_mark_read#:#Marquer les messages comme lus###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Marquer les messages comme non lus###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#La limite de téléchargement est :
 mail#:#mail_message_send#:#Message envoyé
-mail#:#mail_move_error#:#Erreur lors du déplacement du(des) message(s)
+mail#:#mail_move_error#:#Erreur lors du déplacement du(des) message(s)###14 Sep 2004 content changed
 mail#:#mail_move_to#:#Déplacer vers :
-mail#:#mail_moved#:#Le(s) message(s) a(ont) été déplacé(s)
-mail#:#mail_moved_to_trash#:#Le(s) message(s) a(ont) été déplacé(s) dans la corbeille
+mail#:#mail_moved#:#Le(s) message(s) a(ont) été déplacé(s)###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Le(s) message(s) a(ont) été déplacé(s) dans la corbeille###14 Sep 2004 content changed
 mail#:#mail_new_file#:#Ajouter nouveau fichier :
 mail#:#mail_no_attach_allowed#:#Les messages système ne peuvent pas contenir de pièce jointe
 mail#:#mail_no_attachments_found#:#Aucune pièce jointe trouvée
@@ -2871,20 +2910,20 @@ mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emai
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved###26 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
-mail#:#mail_s#:#Message(s)
-mail#:#mail_s_unread#:#Message(s) non lu(s)
+mail#:#mail_s#:#Message(s)###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#Message(s) non lu(s)###14 Sep 2004 content changed
 mail#:#mail_saved#:#Le message a été sauvé
-mail#:#mail_search_addressbook#:#Rechercher dans le carnet d'adresses
+mail#:#mail_search_addressbook#:#Rechercher dans le carnet d'adresses###14 Sep 2004 content changed
 mail#:#mail_search_system#:#chercher dans le système
-mail#:#mail_select_one_entry#:#Vous devez sélectionner une entrée
-mail#:#mail_select_one_file#:#Vous devez sélectionner un fichier
-mail#:#mail_sure_delete#:#Etes-vous sûr(e) de vouloir détruire les messages marqués ?
+mail#:#mail_select_one_entry#:#Vous devez sélectionner une entrée###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#Vous devez sélectionner un fichier###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#Etes-vous sûr(e) de vouloir détruire les messages marqués ?###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#Etes-vous sûr(e) de vouloir détruire les entrées suivantes
 mail#:#mail_sure_delete_file#:#Le fichier sera supprimé définitivement
-mail#:#mail_sure_delete_folder#:#Le dossier et son contenu seront détruits définitivement
+mail#:#mail_sure_delete_folder#:#Le dossier et son contenu seront détruits définitivement###14 Sep 2004 content changed
 mail#:#mail_to_search#:#Rechercher
-mail#:#mail_user_addr_n_valid#:#Les utilisateurs suivants n'ont pas d'adresse email valide
-mail#:#search_bc_recipient#:#Rechercher destinataire en BCC
+mail#:#mail_user_addr_n_valid#:#Les utilisateurs suivants n'ont pas d'adresse email valide###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#Rechercher destinataire en BCC###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Rechercher destinataire en CC
 meta#:#meta_accessibility_restrictions#:#Restrictions d'accessibilité
 meta#:#meta_active#:#Actif
@@ -3146,7 +3185,7 @@ meta#:#meta_coverage#:#Portée
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Supprimer
 meta#:#meta_description#:#Description
-meta#:#meta_diagramm#:#Diagramme
+meta#:#meta_diagramm#:#Diagramme###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#Difficulté
 meta#:#meta_dificult#:#Difficile
 meta#:#meta_draft#:#Brouillon
@@ -3189,145 +3228,145 @@ meta#:#meta_is_required_by#:#Est requis par
 meta#:#meta_is_version_of#:#Est une version de
 meta#:#meta_keyword#:#Mot-clé
 meta#:#meta_kind#:#Type
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazien
-meta#:#meta_l_af#:#afrikaans
-meta#:#meta_l_am#:#amharique
-meta#:#meta_l_ar#:#arabe
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azeri
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#biélorusse
-meta#:#meta_l_bg#:#bulgare
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tibétain
-meta#:#meta_l_br#:#breton
-meta#:#meta_l_ca#:#catalan
-meta#:#meta_l_co#:#corse
-meta#:#meta_l_cs#:#tchèque
-meta#:#meta_l_cy#:#gallois
-meta#:#meta_l_da#:#danois
-meta#:#meta_l_de#:#allemand
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#grec
-meta#:#meta_l_en#:#anglais
-meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#espagnol
-meta#:#meta_l_et#:#estonien
-meta#:#meta_l_eu#:#basque
-meta#:#meta_l_fa#:#perse (farsi)
-meta#:#meta_l_fi#:#finnois
-meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#français
-meta#:#meta_l_fy#:#frison
-meta#:#meta_l_ga#:#irlandais
-meta#:#meta_l_gd#:#gaélique scot
-meta#:#meta_l_gl#:#galicien
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#hebreu
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croate
-meta#:#meta_l_hu#:#hongrois
-meta#:#meta_l_hy#:#arménien
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonésien
-meta#:#meta_l_ie#:#interlingue
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#islandais
-meta#:#meta_l_it#:#italien
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#japonais
-meta#:#meta_l_jv#:#javanais
-meta#:#meta_l_ka#:#géorgien
-meta#:#meta_l_kk#:#kazakh
-meta#:#meta_l_kl#:#groenlandais
-meta#:#meta_l_km#:#cambodgien
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#coréen
-meta#:#meta_l_ks#:#kashmiri
-meta#:#meta_l_ku#:#kurde
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latin
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laotien
-meta#:#meta_l_lt#:#lithuanien
-meta#:#meta_l_lv#:#letton
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macédonien
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongol
-meta#:#meta_l_mo#:#moldave
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malais
-meta#:#meta_l_mt#:#malte
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#népalais
-meta#:#meta_l_nl#:#hollandais
-meta#:#meta_l_no#:#norvégien
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polonais
-meta#:#meta_l_ps#:#pashto;pushto
-meta#:#meta_l_pt#:#portugais
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#roumain
-meta#:#meta_l_ru#:#russe
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanscrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croate
-meta#:#meta_l_si#:#singhalese
-meta#:#meta_l_sk#:#slovaque
-meta#:#meta_l_sl#:#slovène
-meta#:#meta_l_sm#:#samoan
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somali
-meta#:#meta_l_sq#:#albanais
-meta#:#meta_l_sr#:#serbe
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanese
-meta#:#meta_l_sv#:#suédois
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamul
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thaï
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmen
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turc
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ukrainien
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#ouzbek
-meta#:#meta_l_vi#:#vietnamien
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#chinois
-meta#:#meta_l_zu#:#zoulou
+meta#:#meta_l_aa#:#afar###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#abkhazien###14 Sep 2004 content changed
+meta#:#meta_l_af#:#afrikaans###14 Sep 2004 content changed
+meta#:#meta_l_am#:#amharique###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#arabe###14 Sep 2004 content changed
+meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
+meta#:#meta_l_az#:#azeri###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#bashkir###14 Sep 2004 content changed
+meta#:#meta_l_be#:#biélorusse###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#bulgare###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#bihari###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#bislama###14 Sep 2004 content changed
+meta#:#meta_l_bn#:#bengali;bangla###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#tibétain###14 Sep 2004 content changed
+meta#:#meta_l_br#:#breton###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#catalan###14 Sep 2004 content changed
+meta#:#meta_l_co#:#corse###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#tchèque###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#gallois###14 Sep 2004 content changed
+meta#:#meta_l_da#:#danois###14 Sep 2004 content changed
+meta#:#meta_l_de#:#allemand###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#bhutani###14 Sep 2004 content changed
+meta#:#meta_l_el#:#grec###14 Sep 2004 content changed
+meta#:#meta_l_en#:#anglais###14 Sep 2004 content changed
+meta#:#meta_l_eo#:#esperanto###14 Sep 2004 content changed
+meta#:#meta_l_es#:#espagnol###14 Sep 2004 content changed
+meta#:#meta_l_et#:#estonien###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#basque###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#perse (farsi)###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#finnois###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#fiji###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#faroese###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#français###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#frison###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#irlandais###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#gaélique scot###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#galicien###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#guarani###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#gujarati###14 Sep 2004 content changed
+meta#:#meta_l_ha#:#hausa###14 Sep 2004 content changed
+meta#:#meta_l_he#:#hebreu###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#hindi###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#croate###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#hongrois###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#arménien###14 Sep 2004 content changed
+meta#:#meta_l_ia#:#interlingua###14 Sep 2004 content changed
+meta#:#meta_l_id#:#indonésien###14 Sep 2004 content changed
+meta#:#meta_l_ie#:#interlingue###14 Sep 2004 content changed
+meta#:#meta_l_ik#:#inupiak###14 Sep 2004 content changed
+meta#:#meta_l_is#:#islandais###14 Sep 2004 content changed
+meta#:#meta_l_it#:#italien###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#inuktitut###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#japonais###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#javanais###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#géorgien###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#kazakh###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#groenlandais###14 Sep 2004 content changed
+meta#:#meta_l_km#:#cambodgien###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#kannada###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#coréen###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#kashmiri###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#kurde###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#kirghiz###14 Sep 2004 content changed
+meta#:#meta_l_la#:#latin###14 Sep 2004 content changed
+meta#:#meta_l_ln#:#lingala###14 Sep 2004 content changed
+meta#:#meta_l_lo#:#laotien###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#lithuanien###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#letton###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#malagasy###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#maori###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#macédonien###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#malayalam###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#mongol###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#moldave###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#marathi###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#malais###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#malte###14 Sep 2004 content changed
+meta#:#meta_l_my#:#burmese###14 Sep 2004 content changed
+meta#:#meta_l_na#:#nauru###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#népalais###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#hollandais###14 Sep 2004 content changed
+meta#:#meta_l_no#:#norvégien###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#occitan###14 Sep 2004 content changed
+meta#:#meta_l_om#:#afan (oromo)###14 Sep 2004 content changed
+meta#:#meta_l_or#:#oriya###14 Sep 2004 content changed
+meta#:#meta_l_pa#:#punjabi###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#polonais###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#pashto;pushto###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#portugais###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#quechua###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#rhaeto-romance###14 Sep 2004 content changed
+meta#:#meta_l_rn#:#kurundi###14 Sep 2004 content changed
+meta#:#meta_l_ro#:#roumain###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#russe###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#kinyarwanda###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#sanscrit###14 Sep 2004 content changed
+meta#:#meta_l_sd#:#sindhi###14 Sep 2004 content changed
+meta#:#meta_l_sg#:#sangho###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#serbo-croate###14 Sep 2004 content changed
+meta#:#meta_l_si#:#singhalese###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#slovaque###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#slovène###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#samoan###14 Sep 2004 content changed
+meta#:#meta_l_sn#:#shona###14 Sep 2004 content changed
+meta#:#meta_l_so#:#somali###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#albanais###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#serbe###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#siswati###14 Sep 2004 content changed
+meta#:#meta_l_st#:#sesotho###14 Sep 2004 content changed
+meta#:#meta_l_su#:#sundanese###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#suédois###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#swahili###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#tamul###14 Sep 2004 content changed
+meta#:#meta_l_te#:#telugu###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#tajik###14 Sep 2004 content changed
+meta#:#meta_l_th#:#thaï###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#tigrinya###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#turkmen###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#tagalog###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#setswana###14 Sep 2004 content changed
+meta#:#meta_l_to#:#tonga###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#turc###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#tsonga###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#tatar###14 Sep 2004 content changed
+meta#:#meta_l_tw#:#twi###14 Sep 2004 content changed
+meta#:#meta_l_ug#:#uigur###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#ukrainien###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#urdu###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#ouzbek###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#vietnamien###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#volapuk###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#wolof###14 Sep 2004 content changed
+meta#:#meta_l_xh#:#xhosa###14 Sep 2004 content changed
+meta#:#meta_l_yi#:#yiddish###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#yoruba###14 Sep 2004 content changed
+meta#:#meta_l_za#:#zhuang###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#chinois###14 Sep 2004 content changed
+meta#:#meta_l_zu#:#zoulou###14 Sep 2004 content changed
 meta#:#meta_language#:#Langue
 meta#:#meta_learner#:#Apprenant
 meta#:#meta_learning_resource_type#:#Type de ressource d'apprentissage
@@ -3352,19 +3391,19 @@ meta#:#meta_narrative_text#:#Texte narratif
 meta#:#meta_networked#:#En réseau
 meta#:#meta_new_element#:#Nouvel élément
 meta#:#meta_no#:#Non
-meta#:#meta_no_annotation#:#Pas de méta-données disponibles pour la section Annotation.
-meta#:#meta_no_classification#:#Pas de méta-données disponibles pour la section Classification.
-meta#:#meta_no_educational#:#Pas de méta-données disponibles pour la section Pédagogie.
-meta#:#meta_no_lifecycle#:#Pas de méta-données disponibles pour la section Cycle de vie.
-meta#:#meta_no_meta_metadata#:#Pas de méta-données disponibles pour la section Méta-méta-données
-meta#:#meta_no_relation#:#Pas de méta-données disponibles pour la section Relations.
-meta#:#meta_no_rights#:#Pas de méta-données disponibles pour la section Droits.
-meta#:#meta_no_technical#:#Pas de méta-données disponibles pour la section Technique.
+meta#:#meta_no_annotation#:#Pas de méta-données disponibles pour la section Annotation.###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#Pas de méta-données disponibles pour la section Classification.###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#Pas de méta-données disponibles pour la section Pédagogie.###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#Pas de méta-données disponibles pour la section Cycle de vie.###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#Pas de méta-données disponibles pour la section Méta-méta-données###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#Pas de méta-données disponibles pour la section Relations.###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#Pas de méta-données disponibles pour la section Droits.###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#Pas de méta-données disponibles pour la section Technique.###14 Sep 2004 content changed
 meta#:#meta_none#:#Aucun
 meta#:#meta_operating_system#:#Système d'exploitation
 meta#:#meta_or_composite#:#Ou composite
 meta#:#meta_other#:#Autre
-meta#:#meta_other_plattform_requirements#:#Autres pré-requis liés à la plateforme
+meta#:#meta_other_plattform_requirements#:#Autres pré-requis liés à la plateforme###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Veuillez sélectionner
 meta#:#meta_prerequisite#:#Pré-requis
@@ -3428,31 +3467,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Tous les résultats
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#Concaténation
 search#:#search_content#:#Contenu de page
 search#:#search_dbk_content#:#Bibliothèque digitale (contenu)
-search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)
+search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)###14 Sep 2004 content changed
 search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
 search#:#search_group#:#Groups###11 Dec 2003 new variable
 search#:#search_in_result#:#Chercher dans les résultats
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#Matériaux d'apprentissage (contenu)
-search#:#search_lm_meta#:#Matériaux d'apprentissage (méta-données)
-search#:#search_meta#:#Méta-données
-search#:#search_minimum_three#:#Votre recherche doit comporter au moins trois caractères
+search#:#search_lm_meta#:#Matériaux d'apprentissage (méta-données)###14 Sep 2004 content changed
+search#:#search_meta#:#Méta-données###14 Sep 2004 content changed
+search#:#search_minimum_three#:#Votre recherche doit comporter au moins trois caractères###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
 search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
 search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
 search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
 search#:#search_no_category#:#Vous n'avez choisi aucune catégorie de recherche###26 Aug 2004 content changed
-search#:#search_no_match#:#Votre recherche ne correspond à aucun résultat
+search#:#search_no_match#:#Votre recherche ne correspond à aucun résultat###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
-search#:#search_no_search_term#:#Vous n'avez choisi aucun terme de recherche
+search#:#search_no_search_term#:#Vous n'avez choisi aucun terme de recherche###14 Sep 2004 content changed
 search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
 search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
 search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
 search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
 search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
 search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
 search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable

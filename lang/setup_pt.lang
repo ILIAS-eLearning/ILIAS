@@ -48,13 +48,13 @@ change_password#:#Mudar palavra-passe
 change_sort_direction#:#Mudar direcção de ordenação
 check_failed_convert#:#Teste do convert falhou
 check_failed_htmldoc#:#Teste do HTMLdoc falhou###26 May 2004 content changed
-check_failed_java#:#Teste do java falhou
+check_failed_java#:#Teste do java falhou###14 Sep 2004 content changed
 check_failed_unzip#:#Teste do unzip falhou
 check_failed_zip#:#Teste zip falhou
 choose_language#:#escolha a sua linguagem
 choose_languages#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas.
 choose_password#:#Por favor escolha uma palavra-passe
-city#:#Cidade
+city#:#Cidade###14 Sep 2004 content changed
 client#:#Cliente
 client_access_mode_changed#:#O modo de acesso do cliente mudou
 client_data#:#Informação do Cliente
@@ -68,7 +68,7 @@ contact#:#Informações de Contacto
 contact_data#:#Informações de Contacto
 convert_path#:#Caminho para o Convert
 convert_path_comment#:#necessário para moatrar ícones das imagens
-could_not_create_logfile#:#Não foi possível criar o ficheiro de log
+could_not_create_logfile#:#Não foi possível criar o ficheiro de log###14 Sep 2004 content changed
 country#:#País
 create#:#criar
 create_datadir_failed#:#Criação da directoria de dados falhou
@@ -89,7 +89,7 @@ database_version#:#versão actual da base de dados
 datadir_path#:#Caminho para a Directoria de Dados
 datadir_path_comment1#:#Obrigatório
 datadir_path_comment2#:#não pode ser mudado nesta versão do setup
-datadir_webspacedir_match#:#O caminho para a sua directoria de dados aponta para a mesma directoria onde a directoria de web está localizada. Por favor escolha outra directoria.
+datadir_webspacedir_match#:#O caminho para a sua directoria de dados aponta para a mesma directoria onde a directoria de web está localizada. Por favor escolha outra directoria.###14 Sep 2004 content changed
 date#:#data
 db_conn#:#Conexão da Base de dados
 db_host#:#anfitrião da base de dados
@@ -133,9 +133,9 @@ fill_both_fields#:#Por favor preencha ambos os campos!
 fill_out_required_fields#:#Por favor preencha todos os campos marcados como necessários.
 filled_out#:#preenchidos correctamente
 finish#:#Finalizar o setup
-finish_initial_setup_first#:#Por favor acabe primeiro o setup inicial
+finish_initial_setup_first#:#Por favor acabe primeiro o setup inicial###14 Sep 2004 content changed
 finish_setup#:#A acabar o setup
-firstname#:#Primeiro nome
+firstname#:#Primeiro nome###14 Sep 2004 content changed
 fop_path#:#Path to FOP###26 May 2004 new variable
 fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Esconder selecção de cliente
@@ -147,28 +147,28 @@ id#:#ID
 ilias_homepage#:#Página inicial do ILIAS
 ilias_nic#:#Registo NIC
 ilias_nic_id#:#NIC ID
-ilias_setup#:#Setup ILIAS3
+ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
 ilias_version#:#Versão ILIAS
-info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.
-info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.
+info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.###14 Sep 2004 content changed
+info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.###14 Sep 2004 content changed
 info_text_delete#:#Você pode apagar este cliente carregando no botão 'Apagar' abaixo. No entanto, apenas o seu ficheiro client.ini será removido, mantendo todos os ficheiros guardados nas directorias de dados dos clientes e bases de dados. Os ficheiros e a base de dados têm de ser removidos manualmente pelo administrador de sistema.
 info_text_finish1#:#Parabéns! O seu setup de cliente teve sucesso. Carregue em 'Entrar' para entrar na sua instalação do ILIAS.
 info_text_finish2#:#Algumas definições ainda faltam ou estão incorrectas. Por favor veja no cartaz do proceso o que tem de ser feito!
 info_text_first_client#:#As suas definições básicas foram guardadas. Agora faremos o setup do seu primeiro cliente. O setup o guiará através do processo de instalação. No painel da direita você pode sempre ver o estado actual do processo de instalação.
-info_text_first_install#:#Parece que está a instalar o ILIAS3 pela primeira vez, porque o ficheiro ilias.ini não foi encontrado. No ilias.ini guardamos a palavra-passe mestre para proteger o setup do ILIAS de acesso não autorizado.
-info_text_ini#:#Por favor escolha um ID de cliente. É permitida qualquer letra e número. O ID de cliente tem de estar em uma palavra.<br/>Depois você insere os seus dados de conexão da base de dados. O setup faz uma conexão de teste para verificar as suas definições e testar se a base de dados já existe. Se não, você pode enviar o Setup para o próximo passo da instalação para criar a base de dados.
-info_text_lang#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas. A linguagem por omissão especifica a linguagem para novas contas de utilizadores ou utilizadores que ainda não seleccionaram uma linguagem preferida.
-info_text_list#:#Nesta vista você vê todos os clientes disponíveis e os seus setup's e estado de acesso. No topo direito você pode mudar o ecrâ de selecção de cliente ligado/desligado. Se a selecção de cliente estiver ligada, todos os clientes disponíveis que estão ligados serão mostrados numa lista na página inicial do ILIAS. Se a selecção cliente estiver desligada e um utilizador entrar na página inicial, será sempre mostrado o ecrã de entrada do cliente<i>por omissão</i>. Você pode determinar o cliente por omissão com o botão abaixo.
+info_text_first_install#:#Parece que está a instalar o ILIAS3 pela primeira vez, porque o ficheiro ilias.ini não foi encontrado. No ilias.ini guardamos a palavra-passe mestre para proteger o setup do ILIAS de acesso não autorizado.###14 Sep 2004 content changed
+info_text_ini#:#Por favor escolha um ID de cliente. É permitida qualquer letra e número. O ID de cliente tem de estar em uma palavra.<br/>Depois você insere os seus dados de conexão da base de dados. O setup faz uma conexão de teste para verificar as suas definições e testar se a base de dados já existe. Se não, você pode enviar o Setup para o próximo passo da instalação para criar a base de dados.###14 Sep 2004 content changed
+info_text_lang#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas. A linguagem por omissão especifica a linguagem para novas contas de utilizadores ou utilizadores que ainda não seleccionaram uma linguagem preferida.###14 Sep 2004 content changed
+info_text_list#:#Nesta vista você vê todos os clientes disponíveis e os seus setup's e estado de acesso. No topo direito você pode mudar o ecrâ de selecção de cliente ligado/desligado. Se a selecção de cliente estiver ligada, todos os clientes disponíveis que estão ligados serão mostrados numa lista na página inicial do ILIAS. Se a selecção cliente estiver desligada e um utilizador entrar na página inicial, será sempre mostrado o ecrã de entrada do cliente<i>por omissão</i>. Você pode determinar o cliente por omissão com o botão abaixo.###14 Sep 2004 content changed
 info_text_login#:#Por favor insira o ID de Cliente da sua Inatalação e os seus dados de conta. A sua conta tem de estar atribuída ao papel-'administrador'.
-info_text_nic1#:#Obter um id de instalação (nic-id) do nosso servidor ILIAS. Um nic-id único é necessário se quiser partilhar conteúdos com outras instalações do ILIAS. O Registo é voluntário. Se não quiser registar-se seleccione 'passar registo' (Você pode registar-se mais tarde).<br/> Nós recomendamos o uso do registo 'online'. Se tiver problemas em ligar-se (e.g. está atrás de uma firewall) você pode alternativamente obter um nic-id via email: Por favor envie um
-info_text_nic2#:#com as informações da sua instalação para ilias-info@uni-koeln.de. Insira o nic-id que receberá numa resposta de email no campo apropriado e seleccione 'registar via Email'.
+info_text_nic1#:#Obter um id de instalação (nic-id) do nosso servidor ILIAS. Um nic-id único é necessário se quiser partilhar conteúdos com outras instalações do ILIAS. O Registo é voluntário. Se não quiser registar-se seleccione 'passar registo' (Você pode registar-se mais tarde).<br/> Nós recomendamos o uso do registo 'online'. Se tiver problemas em ligar-se (e.g. está atrás de uma firewall) você pode alternativamente obter um nic-id via email: Por favor envie um###14 Sep 2004 content changed
+info_text_nic2#:#com as informações da sua instalação para ilias-info@uni-koeln.de. Insira o nic-id que receberá numa resposta de email no campo apropriado e seleccione 'registar via Email'.###14 Sep 2004 content changed
 info_text_nic3#:#Você registou a sua instalação. O seu nic-id é
-info_text_password#:#Aqui você pode mudar a palavra-passe mestre para o programa de setup.
-info_text_pathes#:#O ILIAS3 suporta clientes múltiplos com diferentes bases de dados. Abaixo você pode inserir a directoria de dados base, a localização do ficheiro de log e os caminhos para programas 3rd partys. Estas definições são válidas para todos os clientes que criar a partir de agora.
+info_text_password#:#Aqui você pode mudar a palavra-passe mestre para o programa de setup.###14 Sep 2004 content changed
+info_text_pathes#:#O ILIAS3 suporta clientes múltiplos com diferentes bases de dados. Abaixo você pode inserir a directoria de dados base, a localização do ficheiro de log e os caminhos para programas 3rd partys. Estas definições são válidas para todos os clientes que criar a partir de agora.###14 Sep 2004 content changed
 ini_client_id_exists#:#Um cliente com esse ID já existe! Por favor escolha outro ID de cliente.
-ini_client_id_invalid#:#O ID de cliente que inseriu contém caracteres inválidos
-ini_client_id_no_change#:#O ID de cliente não pode ser mudado nesta versão depois de directorias do cliente teram sido criadas com sucesso.
-ini_client_id_too_long#:#O ID de cliente é muito longo
+ini_client_id_invalid#:#O ID de cliente que inseriu contém caracteres inválidos###14 Sep 2004 content changed
+ini_client_id_no_change#:#O ID de cliente não pode ser mudado nesta versão depois de directorias do cliente teram sido criadas com sucesso.###14 Sep 2004 content changed
+ini_client_id_too_long#:#O ID de cliente é muito longo###14 Sep 2004 content changed
 ini_client_id_too_short#:#O ID de cliente é muito curto
 ini_db_name_exists#:#já existe! Por favor escolha outra nome para a base de dados
 ini_no_client_id#:#Nenhum ID de cliente fornecido.
@@ -208,7 +208,7 @@ lang_min_one_language#:#Você tem de instalar pelo menos uma linguagem!
 lang_nl#:#Holandês
 lang_no#:#Norueguês
 lang_none_installed#:#Nenhuma linguagem instalada
-lang_not_installed_default#:#A linguagem que seleccionou como omissão não está instalada!
+lang_not_installed_default#:#A linguagem que seleccionou como omissão não está instalada!###14 Sep 2004 content changed
 lang_pl#:#Poláco
 lang_pt#:#Portuguese###new variable 09 Mar 2004
 lang_se#:#Suéco
@@ -219,19 +219,19 @@ langs_not_valid_not_installed#:#As seguintes linguagens não foram instaladas de
 language#:#linguagem
 languages#:#linguagens
 languages_installed#:#Linguagem(s) instaladas
-lastname#:#Apelido
+lastname#:#Apelido###14 Sep 2004 content changed
 list#:#lista
 list_disabled#:#Selecção de cliente desligada
 list_enabled#:#Selecção de cliente ligada
-log_path#:#Caminho para o ficheiro de Log
-log_path_comment#:#insira com o nome do ficheiro. O ficheiro será criado.
+log_path#:#Caminho para o ficheiro de Log###14 Sep 2004 content changed
+log_path_comment#:#insira com o nome do ficheiro. O ficheiro será criado.###14 Sep 2004 content changed
 logged_out#:#Você saíu.
 logging#:#Registo
 login#:#entrada
 login_invalid#:#Entrada inválida
 login_to_ilias#:#entar no ILIAS
 logout#:#sair
-main_datadir_outside_webspace#:#Directoria de dados principal fora do webspace
+main_datadir_outside_webspace#:#Directoria de dados principal fora do webspace###14 Sep 2004 content changed
 missing_data#:#Faltam dados
 name#:#Nome
 new#:#novo
@@ -261,7 +261,7 @@ no_path_datadir#:#Nenhuma directoria de dados dada
 no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#Nenhum caminho dado
 no_path_htmldoc#:#Nenhum caminho para o HTMLdoc dado
-no_path_java#:#Nenhum caminho para o java dado
+no_path_java#:#Nenhum caminho para o java dado###14 Sep 2004 content changed
 no_path_log#:#Nenhum caminho para o log dado
 no_path_unzip#:#Nenhum caminho para o unzip dado
 no_path_zip#:#Nenhum caminho para o zip dado
@@ -271,7 +271,7 @@ no_valid_client_id#:#Nenhum ID de cliente válido
 not_connected_to_db#:#Você não está ligado à base de dados
 online#:#ligado
 or#:#ou
-out_of_webspace#:#(fora do webspace)
+out_of_webspace#:#(fora do webspace)###14 Sep 2004 content changed
 overall_status#:#Estado de tudo
 overview#:#Vista
 pass_does_not_match#:#Palavras-passe inseridas não coincidem
@@ -293,7 +293,7 @@ path_to_htmldoc#:#Caminho para o HTMLdoc
 path_to_java#:#Caminho para o Java
 path_to_unzip#:#Caminho para o Unzip
 path_to_zip#:#Caminho para o Zip
-pathes#:#Caminhos
+pathes#:#Caminhos###14 Sep 2004 content changed
 phone#:#Telefone
 port#:#porto
 position#:#Posição
@@ -304,9 +304,9 @@ pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 3
 pre_folder_create_error#:#Não é possível criar subpastas! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!
 pre_folder_write#:#Pode-se escrever na pasta ILIAS 3
 pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 3! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!
-pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ILIAS3 no seu sistema.
-pre_javascript_comment#:#Você pode correr o ILIAS sem o Javascript mas faltarão algumas funcionalidades da interface.
-pre_javascript_enabled#:#Javascript ligado
+pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ILIAS3 no seu sistema.###14 Sep 2004 content changed
+pre_javascript_comment#:#Você pode correr o ILIAS sem o Javascript mas faltarão algumas funcionalidades da interface.###14 Sep 2004 content changed
+pre_javascript_enabled#:#Javascript ligado###14 Sep 2004 content changed
 pre_php_version#:#Versão do PHP
 pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 3! Por favor actualize o PHP.
 pre_php_version_4.1#:#As classes PEAR não funcionam correctamente com esta versão! Por favor actualize o PHP.
@@ -337,14 +337,14 @@ setup_database#:#definir base de dados
 setup_database_desc#:#Definir a base de dados
 setup_db_first#:#Por favor faça o setup da sua base de dados primeiro!
 setup_finished#:#Setup acabado
-setup_first_client#:#Faça Setup ao seu primeiro Cliente
+setup_first_client#:#Faça Setup ao seu primeiro Cliente###14 Sep 2004 content changed
 setup_ini_first#:#Por favor crie o seu ficheiro-ini primeiro!
 setup_inifile#:#criar ficheiro-ini
 setup_inifile_desc#:#criar o ficheiro-ini para a sua instalação
 setup_languages#:#Instalar linguagens
 setup_languages_desc#:#instalar linguangens adicionais
 setup_login#:#Entrar no Setup
-setup_mainmenu#:#Menu principal de setup
+setup_mainmenu#:#Menu principal de setup###14 Sep 2004 content changed
 setup_menu#:#menu setup
 setup_nic_desc#:#registo da sua instalação no servidor ILIAS-NIC
 setup_not_finished#:#Setup não acabado
@@ -378,9 +378,9 @@ update_error#:#Erro a actualizar
 update_not_found#:#Actualização não encontrada!
 username#:#nome de utilizador
 version#:#Versão
-webspace_dir#:#caminho de dados do webspace
+webspace_dir#:#caminho de dados do webspace###14 Sep 2004 content changed
 with#:#com
 wrong_password#:#Palavra-passe errada!
 zip_path#:#Caminho para o Zip
 zip_path_comment#:#necessário para exportar módulos de aprendizagem
-zipcode#:#Código postal
+zipcode#:#Código postal###14 Sep 2004 content changed

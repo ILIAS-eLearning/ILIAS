@@ -271,7 +271,7 @@ no_valid_client_id#:#No valid client ID###05 Jan 2003 new variable
 not_connected_to_db#:#Nėra ryšio su duomenų baze.
 online#:#online###05 Jan 2003 new variable
 or#:#or###05 Jan 2003 new variable
-out_of_webspace#:#(vietos stygius)
+out_of_webspace#:#(vietos stygius)###14 Sep 2004 content changed
 overall_status#:#Overall status###05 Jan 2003 new variable
 overview#:#Overview###21 Nov 2003 new variable
 pass_does_not_match#:#Entered passwords does not match###05 Jan 2003 new variable
@@ -304,7 +304,7 @@ pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima
 pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!###05 Jan 2003 new variable
 pre_folder_write#:#ILIAS 3 kataloge rašyti galima
 pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!###05 Jan 2003 new variable
-pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.
+pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.###14 Sep 2004 content changed
 pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###12 Dec 2003 new variable
 pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
 pre_php_version#:#PHP versija
@@ -344,7 +344,7 @@ setup_inifile_desc#:#sukurti nustatymų bylą
 setup_languages#:#įdiegti kalbas###21 Jan 2004 content changed
 setup_languages_desc#:#įdiegti kalbas
 setup_login#:#Login to Setup###28 Nov 2003 new variable
-setup_mainmenu#:#Pagrindinis meniu
+setup_mainmenu#:#Pagrindinis meniu###14 Sep 2004 content changed
 setup_menu#:#diegimo menių
 setup_nic_desc#:#registration of your installation at ILIAS-NIC-Server###05 Jan 2003 new variable
 setup_not_finished#:#Setup not finished###28 Nov 2003 new variable
@@ -378,7 +378,7 @@ update_error#:#Atnaujinimas nesėkmingas
 update_not_found#:#Atnaujinimas nerastas!
 username#:#username###28 Nov 2003 new variable
 version#:#versija
-webspace_dir#:#Internetinis duomenų kelias
+webspace_dir#:#Internetinis duomenų kelias###14 Sep 2004 content changed
 with#:#su
 wrong_password#:#Klaidingas slaptažodis!###15 Jan 2004 content changed
 zip_path#:#Path to Zip###21 Nov 2003 new variable

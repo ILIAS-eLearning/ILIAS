@@ -130,7 +130,7 @@ assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
-assessment#:#cloze_text#:#填充测验文本
+assessment#:#cloze_text#:#填充测验文本###14 Sep 2004 content changed
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
@@ -238,7 +238,7 @@ assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑
 assessment#:#qpl_export_select_none#:#请至少选择一个问题导出
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
-assessment#:#qt_cloze#:#填充测验问题
+assessment#:#qt_cloze#:#填充测验问题###14 Sep 2004 content changed
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#匹配问题
@@ -353,7 +353,9 @@ assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -553,6 +555,7 @@ common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#活动角色
 common#:#add#:#增加
 common#:#add_author#:#增加作者
@@ -564,7 +567,7 @@ common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#更改许可设置
 common#:#adm_read#:#基本系统设置为读访问
-common#:#adm_visible#:#系统设置可视
+common#:#adm_visible#:#系统设置可视###14 Sep 2004 content changed
 common#:#adm_write#:#编辑基本系统设置
 common#:#administrate#:#管理
 common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
@@ -577,6 +580,7 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#所有对象
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#可从新用户注册表中得到
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -599,6 +603,8 @@ common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#约会
 common#:#appointment_list#:#约会列表
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#存档
 common#:#are_you_sure#:#您肯定吗？
 common#:#assign#:#指定
@@ -630,6 +636,7 @@ common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new va
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#作者
 common#:#authors#:#作者
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#可用的语言
 common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#返回
@@ -739,9 +746,9 @@ common#:#chg_password#:#更改口令
 common#:#choose_language#:#选择语言
 common#:#choose_location#:#选择地点
 common#:#choose_only_one_language#:#请只选择一种语言
-common#:#city#:#城市
+common#:#city#:#城市###14 Sep 2004 content changed
 common#:#clear#:#清除
-common#:#client ip#:#用户地址
+common#:#client ip#:#用户地址###14 Sep 2004 content changed
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
@@ -775,6 +782,7 @@ common#:#country#:#国家
 common#:#course#:#课程
 common#:#courses#:#课程
 common#:#create#:#创建
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#创建于
 common#:#create_stylesheet#:#创建风格
 common#:#crs#:#课程
@@ -816,7 +824,7 @@ common#:#database#:#数据库
 common#:#database_version#:#当前数据库版本
 common#:#dataset#:#数据集合
 common#:#date#:#日期
-common#:#dateplaner#:#日期计划
+common#:#dateplaner#:#日期计划###14 Sep 2004 content changed
 common#:#day#:#天
 common#:#days#:#天
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
@@ -873,7 +881,7 @@ common#:#edit_stylesheet#:#编辑风格
 common#:#edited_at#:#编辑于
 common#:#editor#:#编辑器
 common#:#email#:#电子邮件
-common#:#email_not_valid#:#您输入的电子邮件地址无效！
+common#:#email_not_valid#:#您输入的电子邮件地址无效！###14 Sep 2004 content changed
 common#:#enable#:#激活
 common#:#enable_registration#:#激活新用户注册
 common#:#enabled#:#已激活
@@ -883,6 +891,7 @@ common#:#err_2_param#:#只两个参数！
 common#:#err_count_param#:#原因错误参数计算！
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#行内出错
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -914,7 +923,7 @@ common#:#exc_edit_permission#:#更改许可设置
 common#:#exc_edit_until#:#编辑到
 common#:#exc_files#:#文件
 common#:#exc_groups#:#组
-common#:#exc_header_members#:#练习（成员）
+common#:#exc_header_members#:#练习（成员）###14 Sep 2004 content changed
 common#:#exc_instruction#:#工作指导
 common#:#exc_members_already_assigned#:#这些成员已被指定做这个练习
 common#:#exc_members_assigned#:#已指定成员
@@ -939,8 +948,8 @@ common#:#exc_write#:#编辑练习
 common#:#excs#:#练习
 common#:#execute#:#执行
 common#:#export#:#Export###20 Mar 2004 new variable
-common#:#export_html#:#导出为html文件
-common#:#export_xml#:#导出为xml文件
+common#:#export_html#:#导出为html文件###14 Sep 2004 content changed
+common#:#export_xml#:#导出为xml文件###14 Sep 2004 content changed
 common#:#faq_exercise#:#常见问题解答　练习
 common#:#fax#:#传真
 common#:#feedback#:#反馈
@@ -989,7 +998,7 @@ common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
 common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#文件夹
 common#:#folders#:#文件夹
-common#:#force_accept_usr_agreement#:#您必须接受用户协议！
+common#:#force_accept_usr_agreement#:#您必须接受用户协议！###14 Sep 2004 content changed
 common#:#forename#:#名
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#请填写这些域
@@ -1044,7 +1053,7 @@ common#:#glossaries#:#术语表
 common#:#glossary#:#词汇表
 common#:#glossary_added#:#词汇表已增加
 common#:#group_access_denied#:#拒绝访问
-common#:#group_any_objects#:#无子对象可用
+common#:#group_any_objects#:#无子对象可用###14 Sep 2004 content changed
 common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#组描述
 common#:#group_details#:#组详情
@@ -1055,21 +1064,21 @@ common#:#group_members#:#组成员###04 Sep 2004 content changed
 common#:#group_memstat#:#成员状态
 common#:#group_memstat_admin#:#管理员
 common#:#group_memstat_member#:#成员
-common#:#group_name#:#组名称
+common#:#group_name#:#组名称###14 Sep 2004 content changed
 common#:#group_new_registrations#:#新注册###04 Sep 2004 content changed
 common#:#group_no_registration#:#无需注册
-common#:#group_no_registration_msg#:#您还不是此组成员。基于管理的原因您必须加入所请求的组。<br> 作为组成员您将获得下列益处<br>- 您将得到新闻和更新的通知<br>- 您将可以访问相应的对象，如论坛、学习模块，等等。<br><br>您可以在任何时间取消您的成员资格。
+common#:#group_no_registration_msg#:#您还不是此组成员。基于管理的原因您必须加入所请求的组。<br> 作为组成员您将获得下列益处<br>- 您将得到新闻和更新的通知<br>- 您将可以访问相应的对象，如论坛、学习模块，等等。<br><br>您可以在任何时间取消您的成员资格。###14 Sep 2004 content changed
 common#:#group_not_available#:#无组可用
 common#:#group_objects#:#组对象
 common#:#group_password_registration_expired_msg#:#注册此组的期限已过，不能再发布。请联系相应组的拥有者或管理员。
-common#:#group_password_registration_msg#:#加入此组您必须输入此组管理员提供口令。<br>如果口令正确，您将自动被指派到此组。
+common#:#group_password_registration_msg#:#加入此组您必须输入此组管理员提供口令。<br>如果口令正确，您将自动被指派到此组。###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#过期日
 common#:#group_registration_expiration_time#:#过期时间
-common#:#group_registration_expired#:#注册期限已过
+common#:#group_registration_expired#:#注册期限已过###14 Sep 2004 content changed
 common#:#group_registration_mode#:#注册模式
 common#:#group_req_password#:#需要注册口令
 common#:#group_req_registration#:#需要注册
-common#:#group_req_registration_msg#:#加入此组您必须注册。组管理员将分配您加入此组。请填写标题说明申请的原因。 <br>当您被分配到此组后，您将收到通知消息。
+common#:#group_req_registration_msg#:#加入此组您必须注册。组管理员将分配您加入此组。请填写标题说明申请的原因。 <br>当您被分配到此组后，您将收到通知消息。###14 Sep 2004 content changed
 common#:#group_reset#:#重置组许可
 common#:#group_status#:#组状态###08 May 2004 content changed
 common#:#group_status_closed#:#关闭
@@ -1106,7 +1115,7 @@ common#:#grp_edit#:#编辑组
 common#:#grp_edit_permission#:#更改许可设置e
 common#:#grp_err_administrator_required#:#不能删除成员，每个组至少要求一个管理员！
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#每个组至少需要一个组管理员！
-common#:#grp_err_error#:#出现错误
+common#:#grp_err_error#:#出现错误###14 Sep 2004 content changed
 common#:#grp_err_last_member#:#不能删除最后一名成员，请删除组代之。
 common#:#grp_err_member_could_not_be_removed#:#不能删除成员。请验证此成员的全部从属关系。
 common#:#grp_err_no_permission#:#您没有进行此项操作的许可。
@@ -1171,7 +1180,7 @@ common#:#identifier#:# 标识符
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS版本
 common#:#image#:#图象
-common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。
+common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。###14 Sep 2004 content changed
 common#:#import#:#导入
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
@@ -1182,13 +1191,14 @@ common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new 
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#导入学习模块
+common#:#import_lm#:#导入学习模块###14 Sep 2004 content changed
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#于
 common#:#in_use#:#用户语言
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#收件箱
 common#:#info_assign_sure#:#您肯定要指派下列用户吗？
 common#:#info_delete_sure#:#您肯定要删除下列用户吗？
@@ -1210,7 +1220,7 @@ common#:#ingmedia_pers_dates#:#个人数据
 common#:#ingmedia_reg_fo#:#已注册的论坛
 common#:#ingmedia_reg_le#:#已注册的学习模块
 common#:#ingmedia_use_info1#:#您在这里可以更改个人数据。除了INGMEDIA用户名和口令，您不必填写其它的域。记住只能通过电子邮件返回忘记的口令（！）。
-common#:#ingmedia_use_info2#:#"在INGMEDIA用户名和口令中不允许使用特殊字符（如 , ; . = - * + """) 。使用INGMEDIA平台您必须接受用户协议。
+common#:#ingmedia_use_info2#:#"在INGMEDIA用户名和口令中不允许使用特殊字符（如 , ; . = - * + """) 。使用INGMEDIA平台您必须接受用户协议。###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#请从侧面的条中选择一个链接。
 common#:#ingmedia_use_title#:#更改用户数据
 common#:#ingmedia_user_agree#:#协议
@@ -1263,8 +1273,8 @@ common#:#langfile_found#:#找到语言文件
 common#:#language#:#语言
 common#:#language_not_installed#:#未安装。请先语言
 common#:#languages#:#语言
-common#:#languages_already_installed#:#选择的语言未安装
-common#:#languages_already_uninstalled#:#选择的语言已卸载
+common#:#languages_already_installed#:#选择的语言未安装###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#选择的语言已卸载###14 Sep 2004 content changed
 common#:#languages_updated#:#所有已安装的语言已更新
 common#:#last_change#:#上次更改
 common#:#last_visit#:#上次访问
@@ -1325,7 +1335,7 @@ common#:#lo_categories#:#学习对象类别
 common#:#lo_edit#:#编辑学习对象
 common#:#lo_new#:#新学习对象
 common#:#lo_no_content#:#无可用学习资源
-common#:#lo_other_langs#:#其它语言中学习对象的
+common#:#lo_other_langs#:#其它语言中学习对象的###14 Sep 2004 content changed
 common#:#lo_overview#:#学习对象概观
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#地点
@@ -1334,7 +1344,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#登录
 common#:#login_as#:#已登录为
 common#:#login_data#:#登录数据
-common#:#login_exists#:#已有一用户使用此登录名！请选择其它名字。
+common#:#login_exists#:#已有一用户使用此登录名！请选择其它名字。###14 Sep 2004 content changed
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#在线时间
 common#:#login_to_ilias#:#登录到ILIAS
@@ -1344,7 +1354,7 @@ common#:#los#:#学习对象
 common#:#los_last_visited#:#上次访问的学习对象
 common#:#mail#:#邮件
 common#:#mail_a_root#:#邮箱
-common#:#mail_addressbook#:#地址簿
+common#:#mail_addressbook#:#地址簿###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#允许SMTP
 common#:#mail_b_inbox#:#收件箱
 common#:#mail_c_trash#:#垃圾箱
@@ -1358,17 +1368,17 @@ common#:#mail_import#:#Import###31 Mar 2004 new variable
 common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#激活
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
-common#:#mail_mails_of#:#邮件
+common#:#mail_mails_of#:#邮件###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#附件最大字节数
 common#:#mail_maxsize_box#:#邮箱最大字节数
 common#:#mail_maxsize_mail#:#邮件最大字节数
 common#:#mail_maxtime_attach#:#附件保存最多天数
-common#:#mail_maxtime_mail#:#邮件保存最多天数
+common#:#mail_maxtime_mail#:#邮件保存最多天数###14 Sep 2004 content changed
 common#:#mail_not_sent#:#邮件未被发送！
 common#:#mail_read#:#邮件设置为读访问
 common#:#mail_search_no#:#未找到条目
 common#:#mail_search_word#:#搜索词
-common#:#mail_select_one#:#您必须选择一个邮件
+common#:#mail_select_one#:#您必须选择一个邮件###14 Sep 2004 content changed
 common#:#mail_send_error#:#发送邮件出错
 common#:#mail_sent#:#邮件已发送！
 common#:#mail_smtp_mail#:#用户可通过SMTP发送邮件
@@ -1377,7 +1387,7 @@ common#:#mail_system_message#:#用户可以发送内部系统消息
 common#:#mail_visible#:#邮件设置可视
 common#:#mail_write#:#编辑邮件设置
 common#:#mail_z_local#:#用户文件夹
-common#:#mails#:#邮件
+common#:#mails#:#邮件###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#全部邮件标记为已读
 common#:#mark_all_unread#:#全部邮件标记为未读
@@ -1399,7 +1409,7 @@ common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#消息
 common#:#message_content#:#消息内容
 common#:#message_to#:#消息发送到
-common#:#meta_data#:#元数据
+common#:#meta_data#:#元数据###14 Sep 2004 content changed
 common#:#migrate#:#移植
 common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#媒体对象
@@ -1448,7 +1458,7 @@ common#:#msg_deleted_rolt#:#角色模板已删除
 common#:#msg_deleted_rolts#:#角色模板已删除
 common#:#msg_error_copy#:#拷贝出错
 common#:#msg_failed#:#对不起，操作失败
-common#:#msg_is_last_role#:#您取消了下列用户的全局角色
+common#:#msg_is_last_role#:#您取消了下列用户的全局角色###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#选择的对象已存于剪贴板（操作链接）
 common#:#msg_linked#:#选择的对象已链接
 common#:#msg_may_not_contain#:#此对象可能不包含对象类型
@@ -1459,7 +1469,7 @@ common#:#msg_no_default_language#:#未指定缺省语言！您必须定义一个
 common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。
 common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言
-common#:#msg_no_perm_assign_role_to_user#:#您没有更改用户角色分配的许可
+common#:#msg_no_perm_assign_role_to_user#:#您没有更改用户角色分配的许可###14 Sep 2004 content changed
 common#:#msg_no_perm_copy#:#您无权限拷贝下列对象
 common#:#msg_no_perm_create#:#您无权限创建下列对象
 common#:#msg_no_perm_create_object1#:#您无权限创建
@@ -1474,7 +1484,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#您无权限从下列对象创建链接
 common#:#msg_no_perm_modify_role#:#您无权限修改角色
 common#:#msg_no_perm_modify_rolt#:#您无权限修改角色模板
-common#:#msg_no_perm_modify_user#:#您无权限修改用户日期　
+common#:#msg_no_perm_modify_user#:#您无权限修改用户日期　###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#您无权限粘贴下列对象
 common#:#msg_no_perm_perm#:#您无权限编辑权限设置
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
@@ -1486,7 +1496,7 @@ common#:#msg_no_rolf_allowed2#:#不允许包含角色夹
 common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
 common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管理员角色，您不可以指定其他用户为系统管理员角色
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管理员角色，您不可以指定其他用户为系统管理员角色###14 Sep 2004 content changed
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
 common#:#msg_nothing_found#:#无任何发现
@@ -1500,17 +1510,17 @@ common#:#msg_perm_adopted_from_itself#:#您不能从当前角色或角色模板�
 common#:#msg_removed#:#已从系统删除对象。
 common#:#msg_role_exists1#:#具有名称的角色或角色对象
 common#:#msg_role_exists2#:#已存在！请选择其它名称
-common#:#msg_role_reserved_prefix#:#前缀“il_”保留为自生成角色。 请选择其它名称
-common#:#msg_roleassignment_active_changed#:#当前角色分配已更改
-common#:#msg_roleassignment_active_changed_comment#:#此设置未保存于用户个人档案！如果用户重新登录，所有当前角色分配将再次恢复到保存值。
-common#:#msg_roleassignment_changed#:#已更改角色分配
-common#:#msg_sysrole_not_deletable#:#不能删除系统角色
+common#:#msg_role_reserved_prefix#:#前缀“il_”保留为自生成角色。 请选择其它名称###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#当前角色分配已更改###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#此设置未保存于用户个人档案！如果用户重新登录，所有当前角色分配将再次恢复到保存值。###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#已更改角色分配###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#不能删除系统角色###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#系统角色设置可能已更改。系统角色赋予所有指定用户无限制地访问全部对象和功能。
 common#:#msg_trash_empty#:#无删除的对象
 common#:#msg_undeleted#:#已恢复删除的对象。
 common#:#msg_user_last_role1#:#下列用户只被指派此角色
 common#:#msg_user_last_role2#:#为删除此角色请删除用户或指派其为其它角色。
-common#:#msg_userassignment_changed#:#已更改用户分派
+common#:#msg_userassignment_changed#:#已更改用户分派###14 Sep 2004 content changed
 common#:#multimedia#:#多媒体
 common#:#my_bms#:#我的书签
 common#:#my_frms#:#我的论坛
@@ -1542,6 +1552,7 @@ common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#个人列表中无学习对象。
 common#:#no_objects#:#无对象
 common#:#no_permission_to_join#:#您不允许加入此组！
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#无标题
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
@@ -1588,7 +1599,7 @@ common#:#obj_mob#:#多媒体对象###06 Apr 2004 content changed
 common#:#obj_not_found#:#未找到对象
 common#:#obj_note#:#注解
 common#:#obj_notf#:#注解管理
-common#:#obj_objf#:#对象定义
+common#:#obj_objf#:#对象定义###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#管理ILIAS对象类型和对象权限。（只适用于专家！）
 common#:#obj_owner#:#此对象拥有者为
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1614,7 +1625,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
 common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#测试
-common#:#obj_typ#:#对象类型定义
+common#:#obj_typ#:#对象类型定义###14 Sep 2004 content changed
 common#:#obj_type#:#对象类型定义
 common#:#obj_uset#:#用户设置
 common#:#obj_usr#:#用户
@@ -1623,11 +1634,11 @@ common#:#obj_usrf_desc#:#在此管理用户账号
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#对象
-common#:#objf#:#对象定义
+common#:#objf#:#对象定义###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#更改许可设置
-common#:#objf_read#:#对象定义设为读访问
-common#:#objf_visible#:#对象定义可视
-common#:#objf_write#:#编辑对象定义
+common#:#objf_read#:#对象定义设为读访问###14 Sep 2004 content changed
+common#:#objf_visible#:#对象定义可视###14 Sep 2004 content changed
+common#:#objf_write#:#编辑对象定义###14 Sep 2004 content changed
 common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
@@ -1695,7 +1706,7 @@ common#:#path_to_htmldoc#:#到HTMLdoc的路径
 common#:#path_to_java#:#到Java的路径
 common#:#path_to_unzip#:#到Unzip的路径
 common#:#path_to_zip#:#到Zip的路径
-common#:#pathes#:#路径
+common#:#pathes#:#路径###14 Sep 2004 content changed
 common#:#payment_system#:#付费系统
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1712,7 +1723,7 @@ common#:#personal_data#:#个人信息
 common#:#personal_desktop#:#个人桌面
 common#:#personal_picture#:#个人图片
 common#:#personal_profile#:#个人档案
-common#:#persons#:#个人
+common#:#persons#:#个人###14 Sep 2004 content changed
 common#:#pg_a#:#一页
 common#:#pg_add#:#增加页
 common#:#pg_added#:#已增加页
@@ -1739,7 +1750,7 @@ common#:#public_profile#:#公共档案
 common#:#publication#:#公布
 common#:#publication_date#:#公布日期
 common#:#published#:#已出版
-common#:#publishing_organisation#:#出版组织
+common#:#publishing_organisation#:#出版组织###14 Sep 2004 content changed
 common#:#qpl#:#问题集###07 May 2004 content changed
 common#:#qpl_add#:#增加问题集
 common#:#qpl_delete#:#删除问题集
@@ -1756,6 +1767,7 @@ common#:#quote#:#引用
 common#:#read#:#读
 common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#收件人
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#更新
 common#:#refresh_languages#:#更新语言
 common#:#refresh_list#:#更新列表
@@ -1775,7 +1787,28 @@ common#:#rename#:#重新命名
 common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#答复
 common#:#repository#:#库
-common#:#required_field#:#必填项
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#必填项###14 Sep 2004 content changed
 common#:#reset#:#重置
 common#:#resources#:#资源
 common#:#retype_password#:#重新输入口令
@@ -1800,7 +1833,7 @@ common#:#rolf_create_role#:#创建新角色定义
 common#:#rolf_create_rolt#:#创建新角色定义模板
 common#:#rolf_delete#:#删除角色模板
 common#:#rolf_edit_permission#:#更改许可设置
-common#:#rolf_edit_userassignment#:#更改角色的用户分配
+common#:#rolf_edit_userassignment#:#更改角色的用户分配###14 Sep 2004 content changed
 common#:#rolf_read#:#角色模板设为读访问
 common#:#rolf_visible#:#角色模板可视
 common#:#rolf_write#:#编辑角色模板
@@ -1839,9 +1872,12 @@ common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 ne
 common#:#saved#:#已保存
 common#:#saved_successfully#:#成功保存
 common#:#search#:#搜索
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#搜索方式
 common#:#search_in#:#搜索于
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#新搜索
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#搜索收件人
 common#:#search_result#:#搜索结果
 common#:#search_user#:#搜索用户
@@ -1891,7 +1927,7 @@ common#:#st_add#:#增加章
 common#:#st_added#:#已增加章
 common#:#st_edit#:#编辑章
 common#:#st_new#:#新章
-common#:#startpage#:#始页
+common#:#startpage#:#始页###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#状态
 common#:#step#:#步
@@ -1922,6 +1958,7 @@ common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#系统选择语言
 common#:#system_groups#:#系统组
 common#:#system_grp#:#系统组
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
@@ -1985,7 +2022,8 @@ common#:#tst_visible#:#测验可视
 common#:#tst_write#:#编辑测验
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。
+common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#对象类型定义
 common#:#type#:#类型
 common#:#type_your_message_here#:#在此输入您的消息
@@ -2036,7 +2074,7 @@ common#:#usrf#:#用户文件夹
 common#:#usrf_create_user#:#创建新用户账号
 common#:#usrf_delete#:#删除用户账号
 common#:#usrf_edit_permission#:#更改许可设置
-common#:#usrf_edit_roleassignment#:#更改用户账号角色分配
+common#:#usrf_edit_roleassignment#:#更改用户账号角色分配###14 Sep 2004 content changed
 common#:#usrf_read#:#用户账号设为读访问
 common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#用户账号可视
@@ -2057,8 +2095,8 @@ common#:#write#:#白色
 common#:#yes#:#是
 common#:#you_may_add_local_roles#:#您可以增加局部角色
 common#:#your_message#:#您的消息
-common#:#zip#:#邮政编码
-common#:#zipcode#:#邮政编码
+common#:#zip#:#邮政编码###14 Sep 2004 content changed
+common#:#zipcode#:#邮政编码###14 Sep 2004 content changed
 content#:#HTML export#:#HTML导出t
 content#:#PDF export#:#PDF导出
 content#:#Pages#:#页
@@ -2096,16 +2134,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#映射已删除的区域。
-content#:#cont_assign_full#:#指定全屏幕
+content#:#cont_assign_full#:#指定全屏幕###14 Sep 2004 content changed
 content#:#cont_assign_std#:#指定标准
 content#:#cont_assign_translation#:#指定翻译
 content#:#cont_assignments_deleted#:#指派已删除
 content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#返回
-content#:#cont_booktitle#:#书的题目
+content#:#cont_booktitle#:#书的题目###14 Sep 2004 content changed
 content#:#cont_bottom#:#底部
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#不能删除全屏幕文件。
+content#:#cont_cant_del_full#:#不能删除全屏幕文件。###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#不能删除标准视图文件。
 content#:#cont_caption#:#标题
 content#:#cont_change_type#:#更改类型
@@ -2118,7 +2156,7 @@ content#:#cont_characteristic#:#特性
 content#:#cont_choose_cont_obj#:#选择内容对象
 content#:#cont_choose_glossary#:#选择术语表
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#您必须确实选择一个版本
+content#:#cont_citation_err_one#:#您必须确实选择一个版本###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#您的选择无效
 content#:#cont_citations#:#引用
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
@@ -2206,8 +2244,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。
-content#:#cont_fullscreen#:#全屏幕
+content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#全屏幕###14 Sep 2004 content changed
 content#:#cont_get_link#:#获取链接
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
@@ -2394,7 +2432,7 @@ content#:#cont_version#:#版本
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#发行处
 content#:#cont_width#:#宽度
-content#:#cont_wysiwyg#:#所得即所见内容
+content#:#cont_wysiwyg#:#所得即所见内容###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml库
 content#:#cont_year#:#年
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
@@ -2677,6 +2715,7 @@ dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new va
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
 dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
 dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
@@ -2813,7 +2852,7 @@ forum#:#forums_not_available#:#论坛不可用
 forum#:#forums_overview#:#论坛概观
 forum#:#forums_post_deleted#:#文章已删除
 forum#:#forums_post_modified#:#文章已修改
-forum#:#forums_post_new_entry#:#新文章已登记
+forum#:#forums_post_new_entry#:#新文章已登记###14 Sep 2004 content changed
 forum#:#forums_posts#:#全部文章
 forum#:#forums_posts_not_available#:#文章不可用
 forum#:#forums_print_thread#:#打印线索
@@ -2822,40 +2861,40 @@ forum#:#forums_respond#:#张贴答复
 forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#文章
 forum#:#forums_thread#:#主题
-forum#:#forums_thread_articles#:#关于主题的文章
+forum#:#forums_thread_articles#:#关于主题的文章###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#创建于
 forum#:#forums_thread_create_from#:#创建于
-forum#:#forums_thread_new_entry#:#新文章已登记
+forum#:#forums_thread_new_entry#:#新文章已登记###14 Sep 2004 content changed
 forum#:#forums_threads#:#主题
 forum#:#forums_threads_not_available#:#主题不可用
 forum#:#forums_topics_overview#:#主题概观
 forum#:#forums_your_reply#:#您的答复
 mail#:#also_as_email#:#亦为电子邮件
-mail#:#bc#:#秘密抄送
+mail#:#bc#:#秘密抄送###14 Sep 2004 content changed
 mail#:#forward#:#转寄
-mail#:#linebreak#:#折行
+mail#:#linebreak#:#折行###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#请输入收件人
 mail#:#mail_add_subfolder#:#增加子文件夹
 mail#:#mail_add_subject#:#请输入标题
-mail#:#mail_add_to_addressbook#:#加到地址簿
+mail#:#mail_add_to_addressbook#:#加到地址簿###14 Sep 2004 content changed
 mail#:#mail_add_type#:#请增加您要发送的邮件类型
 mail#:#mail_addr_entries#:#条目
 mail#:#mail_attachments#:#附件
-mail#:#mail_bc_not_valid#:#秘密抄送收件人无效
-mail#:#mail_bc_search#:#秘密抄送搜索
+mail#:#mail_bc_not_valid#:#秘密抄送收件人无效###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#秘密抄送搜索###14 Sep 2004 content changed
 mail#:#mail_byte#:#字节
-mail#:#mail_cc_not_valid#:#抄送收件人无效
+mail#:#mail_cc_not_valid#:#抄送收件人无效###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#抄送搜索
 mail#:#mail_change_to_folder#:#转换到文件夹
 mail#:#mail_check_your_email_addr#:#您的电子邮件地址无效
 mail#:#mail_compose#:#写作消息
-mail#:#mail_deleted#:#邮件已删除
+mail#:#mail_deleted#:#邮件已删除###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#条目已删除
 mail#:#mail_email_forbidden#:#不允许您发送邮件
 mail#:#mail_entry_added#:#已加入新条目
 mail#:#mail_entry_changed#:#条目已更改
-mail#:#mail_file_name#:#文件名
-mail#:#mail_file_size#:#文件大小
+mail#:#mail_file_name#:#文件名###14 Sep 2004 content changed
+mail#:#mail_file_size#:#文件大小###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#文件已删除
 mail#:#mail_folder_created#:#新文件夹已创建
 mail#:#mail_folder_deleted#:#文件夹已删除
@@ -2865,21 +2904,21 @@ mail#:#mail_folder_name_changed#:#文件夹已改名
 mail#:#mail_folder_options#:#文件夹选项
 mail#:#mail_following_rcp_not_valid#:#下列收件人无效
 mail#:#mail_global_options#:#全局选项
-mail#:#mail_incoming#:#进入的邮件
+mail#:#mail_incoming#:#进入的邮件###14 Sep 2004 content changed
 mail#:#mail_incoming_both#:#本地的和转发的
 mail#:#mail_incoming_local#:#只是本地的
 mail#:#mail_incoming_smtp#:#转发到邮件地址
 mail#:#mail_insert_folder_name#:#请插入文件夹名
 mail#:#mail_insert_query#:#请插入询问
 mail#:#mail_intern#:#内部的
-mail#:#mail_mark_read#:#标记邮件为已读
-mail#:#mail_mark_unread#:#标记邮件为未读
+mail#:#mail_mark_read#:#标记邮件为已读###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#标记邮件为未读###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#上载限制为
 mail#:#mail_message_send#:#消息已发
-mail#:#mail_move_error#:#移动邮件出错
+mail#:#mail_move_error#:#移动邮件出错###14 Sep 2004 content changed
 mail#:#mail_move_to#:#移到
-mail#:#mail_moved#:#邮件已移动
-mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
+mail#:#mail_moved#:#邮件已移动###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱###14 Sep 2004 content changed
 mail#:#mail_new_file#:#增加新文件
 mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
 mail#:#mail_no_attachments_found#:#未找到附件
@@ -2887,20 +2926,20 @@ mail#:#mail_no_permissions_write_smtp#:#您具有写外部邮件的许可###15 M
 mail#:#mail_options_of#:#选项
 mail#:#mail_options_saved#:#选项已存
 mail#:#mail_recipient_not_valid#:#收件人无效
-mail#:#mail_s#:#邮件
-mail#:#mail_s_unread#:#未读邮件
+mail#:#mail_s#:#邮件###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#未读邮件###14 Sep 2004 content changed
 mail#:#mail_saved#:#消息已保存
-mail#:#mail_search_addressbook#:#搜索地址簿
+mail#:#mail_search_addressbook#:#搜索地址簿###14 Sep 2004 content changed
 mail#:#mail_search_system#:#搜索系统
-mail#:#mail_select_one_entry#:#您必须选择一个条目
-mail#:#mail_select_one_file#:#您必须选择一个文件
-mail#:#mail_sure_delete#:#您肯定要删除已标记的邮件吗？
+mail#:#mail_select_one_entry#:#您必须选择一个条目###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#您必须选择一个文件###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#您肯定要删除已标记的邮件吗？###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#您肯定要删除下列条目吗？
 mail#:#mail_sure_delete_file#:#文件将永久删除
-mail#:#mail_sure_delete_folder#:#文件夹及其内容将永久删除
+mail#:#mail_sure_delete_folder#:#文件夹及其内容将永久删除###14 Sep 2004 content changed
 mail#:#mail_to_search#:#搜索
-mail#:#mail_user_addr_n_valid#:#下列用户无有效的邮件地址
-mail#:#search_bc_recipient#:#搜索秘密抄送收件人
+mail#:#mail_user_addr_n_valid#:#下列用户无有效的邮件地址###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#搜索秘密抄送收件人###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#搜索抄送收件人
 meta#:#meta_accessibility_restrictions#:#访问限制
 meta#:#meta_active#:#当前的
@@ -3162,7 +3201,7 @@ meta#:#meta_coverage#:#范围
 meta#:#meta_date#:#日期
 meta#:#meta_delete#:#删除
 meta#:#meta_description#:#描述
-meta#:#meta_diagramm#:#图表
+meta#:#meta_diagramm#:#图表###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#难点
 meta#:#meta_dificult#:#难点
 meta#:#meta_draft#:#草稿
@@ -3205,145 +3244,145 @@ meta#:#meta_is_required_by#:#被参考
 meta#:#meta_is_version_of#:#版本
 meta#:#meta_keyword#:#关键字
 meta#:#meta_kind#:#种类
-meta#:#meta_l_aa#:#遥远地
-meta#:#meta_l_ab#:#阿布哈西亚语
-meta#:#meta_l_af#:#阿富汗语
-meta#:#meta_l_am#:#阿姆哈拉语
-meta#:#meta_l_ar#:#阿拉伯语
-meta#:#meta_l_as#:#阿萨姆语
-meta#:#meta_l_ay#:#艾马拉语
-meta#:#meta_l_az#:#阿塞拜疆语
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#白俄罗斯语
-meta#:#meta_l_bg#:#保加利亚语
-meta#:#meta_l_bh#:#比哈尔语
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:# 孟加拉语
-meta#:#meta_l_bo#:#西藏语
-meta#:#meta_l_br#:#布列塔尼语
-meta#:#meta_l_ca#:#加泰罗尼亚语
-meta#:#meta_l_co#:#科西嘉方言
-meta#:#meta_l_cs#:#捷克语
-meta#:#meta_l_cy#:#威尔士语
-meta#:#meta_l_da#:#丹麦语
-meta#:#meta_l_de#:#德语
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#希腊语
-meta#:#meta_l_en#:#英语
-meta#:#meta_l_eo#:#世界语
-meta#:#meta_l_es#:#西班牙语
-meta#:#meta_l_et#:#爱沙尼亚语
-meta#:#meta_l_eu#:#巴斯克语波斯语
-meta#:#meta_l_fa#:#波斯语
-meta#:#meta_l_fi#:#芬兰语
-meta#:#meta_l_fj#:#斐济语
-meta#:#meta_l_fo#:#法罗语
-meta#:#meta_l_fr#:#法语
-meta#:#meta_l_fy#:#弗里西语
-meta#:#meta_l_ga#:#爱尔兰语
-meta#:#meta_l_gd#:#苏格兰盖尔语
-meta#:#meta_l_gl#:#加利西亚语
-meta#:#meta_l_gn#:#瓜拉尼语
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#豪萨语
-meta#:#meta_l_he#:#希伯来语
-meta#:#meta_l_hi#:#印地语
-meta#:#meta_l_hr#:#克罗地亚语
-meta#:#meta_l_hu#:#匈牙利语
-meta#:#meta_l_hy#:#亚美尼亚语
-meta#:#meta_l_ia#:#拉丁国际语
-meta#:#meta_l_id#:#印度尼西亚语
-meta#:#meta_l_ie#:#interlingue
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#冰岛语
-meta#:#meta_l_it#:#意大利语
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#日语
-meta#:#meta_l_jv#:#爪哇语
-meta#:#meta_l_ka#:#格鲁吉亚语
-meta#:#meta_l_kk#:#哈萨克语
-meta#:#meta_l_kl#:#格陵兰语
-meta#:#meta_l_km#:#高棉语
-meta#:#meta_l_kn#:#卡纳达语
-meta#:#meta_l_ko#:#朝鲜语
-meta#:#meta_l_ks#:#克什米尔语
-meta#:#meta_l_ku#:#库尔德语
-meta#:#meta_l_ky#:#吉尔吉斯语
-meta#:#meta_l_la#:#拉丁语
-meta#:#meta_l_ln#:#林格拉语
-meta#:#meta_l_lo#:#老挝语
-meta#:#meta_l_lt#:#立陶宛语
-meta#:#meta_l_lv#:#拉脱维亚语；列托语
-meta#:#meta_l_mg#:#马尔加什斯加语
-meta#:#meta_l_mi#:#毛利语
-meta#:#meta_l_mk#:#马其顿语
-meta#:#meta_l_ml#:#马拉雅拉姆语
-meta#:#meta_l_mn#:#蒙古语
-meta#:#meta_l_mo#:#摩尔达维亚语
-meta#:#meta_l_mr#:#马拉地语
-meta#:#meta_l_ms#:#马来语
-meta#:#meta_l_mt#:#马耳他语
-meta#:#meta_l_my#:#缅甸语
-meta#:#meta_l_na#:#瑙鲁语
-meta#:#meta_l_ne#:#尼泊尔语
-meta#:#meta_l_nl#:#荷兰语
-meta#:#meta_l_no#:#挪威语
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#旁遮普语
-meta#:#meta_l_pl#:#波兰语
-meta#:#meta_l_ps#:#普什图语
-meta#:#meta_l_pt#:#葡萄牙语
-meta#:#meta_l_qu#:#奇楚亚语
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#罗马尼亚语
-meta#:#meta_l_ru#:#俄罗斯语
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#梵文
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croatian
-meta#:#meta_l_si#:#僧伽罗语
-meta#:#meta_l_sk#:#斯洛伐克语
-meta#:#meta_l_sl#:#斯洛文尼亚语
-meta#:#meta_l_sm#:#萨摩亚语
-meta#:#meta_l_sn#:#修纳语
-meta#:#meta_l_so#:#索马里语
-meta#:#meta_l_sq#:#阿尔巴尼亚语
-meta#:#meta_l_sr#:#塞尔维亚语
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#塞索托语
-meta#:#meta_l_su#:#巽他人语
-meta#:#meta_l_sv#:#瑞典语
-meta#:#meta_l_sw#:#斯瓦希里语
-meta#:#meta_l_ta#:#泰米尔语
-meta#:#meta_l_te#:#泰卢固语
-meta#:#meta_l_tg#:#塔吉克语
-meta#:#meta_l_th#:#泰语
-meta#:#meta_l_ti#:#蒂格里亚语
-meta#:#meta_l_tk#:#土库曼语
-meta#:#meta_l_tl#:#塔加拉语
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#汤加语
-meta#:#meta_l_tr#:#土耳其语
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#鞑靼语
-meta#:#meta_l_tw#:#特维语
-meta#:#meta_l_ug#:#维吾尔语
-meta#:#meta_l_uk#:#乌克兰语
-meta#:#meta_l_ur#:#乌尔都语
-meta#:#meta_l_uz#:#乌兹别克语
-meta#:#meta_l_vi#:#越南语
-meta#:#meta_l_vo#:#沃拉普克语
-meta#:#meta_l_wo#:#沃洛夫语
-meta#:#meta_l_xh#:#科萨语
-meta#:#meta_l_yi#:#意第绪语
-meta#:#meta_l_yo#:#约鲁巴语
-meta#:#meta_l_za#:#壮语
-meta#:#meta_l_zh#:#汉语
-meta#:#meta_l_zu#:#祖鲁语
+meta#:#meta_l_aa#:#遥远地###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#阿布哈西亚语###14 Sep 2004 content changed
+meta#:#meta_l_af#:#阿富汗语###14 Sep 2004 content changed
+meta#:#meta_l_am#:#阿姆哈拉语###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#阿拉伯语###14 Sep 2004 content changed
+meta#:#meta_l_as#:#阿萨姆语###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#艾马拉语###14 Sep 2004 content changed
+meta#:#meta_l_az#:#阿塞拜疆语###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#bashkir###14 Sep 2004 content changed
+meta#:#meta_l_be#:#白俄罗斯语###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#保加利亚语###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#比哈尔语###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#bislama###14 Sep 2004 content changed
+meta#:#meta_l_bn#:# 孟加拉语###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#西藏语###14 Sep 2004 content changed
+meta#:#meta_l_br#:#布列塔尼语###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#加泰罗尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_co#:#科西嘉方言###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#捷克语###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#威尔士语###14 Sep 2004 content changed
+meta#:#meta_l_da#:#丹麦语###14 Sep 2004 content changed
+meta#:#meta_l_de#:#德语###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#bhutani###14 Sep 2004 content changed
+meta#:#meta_l_el#:#希腊语###14 Sep 2004 content changed
+meta#:#meta_l_en#:#英语###14 Sep 2004 content changed
+meta#:#meta_l_eo#:#世界语###14 Sep 2004 content changed
+meta#:#meta_l_es#:#西班牙语###14 Sep 2004 content changed
+meta#:#meta_l_et#:#爱沙尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#巴斯克语波斯语###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#波斯语###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#芬兰语###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#斐济语###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#法罗语###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#法语###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#弗里西语###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#爱尔兰语###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#苏格兰盖尔语###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#加利西亚语###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#瓜拉尼语###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#gujarati###14 Sep 2004 content changed
+meta#:#meta_l_ha#:#豪萨语###14 Sep 2004 content changed
+meta#:#meta_l_he#:#希伯来语###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#印地语###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#克罗地亚语###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#匈牙利语###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#亚美尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_ia#:#拉丁国际语###14 Sep 2004 content changed
+meta#:#meta_l_id#:#印度尼西亚语###14 Sep 2004 content changed
+meta#:#meta_l_ie#:#interlingue###14 Sep 2004 content changed
+meta#:#meta_l_ik#:#inupiak###14 Sep 2004 content changed
+meta#:#meta_l_is#:#冰岛语###14 Sep 2004 content changed
+meta#:#meta_l_it#:#意大利语###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#inuktitut###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#日语###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#爪哇语###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#格鲁吉亚语###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#哈萨克语###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#格陵兰语###14 Sep 2004 content changed
+meta#:#meta_l_km#:#高棉语###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#卡纳达语###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#朝鲜语###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#克什米尔语###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#库尔德语###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#吉尔吉斯语###14 Sep 2004 content changed
+meta#:#meta_l_la#:#拉丁语###14 Sep 2004 content changed
+meta#:#meta_l_ln#:#林格拉语###14 Sep 2004 content changed
+meta#:#meta_l_lo#:#老挝语###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#立陶宛语###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#拉脱维亚语；列托语###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#马尔加什斯加语###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#毛利语###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#马其顿语###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#马拉雅拉姆语###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#蒙古语###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#摩尔达维亚语###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#马拉地语###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#马来语###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#马耳他语###14 Sep 2004 content changed
+meta#:#meta_l_my#:#缅甸语###14 Sep 2004 content changed
+meta#:#meta_l_na#:#瑙鲁语###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#尼泊尔语###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#荷兰语###14 Sep 2004 content changed
+meta#:#meta_l_no#:#挪威语###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#occitan###14 Sep 2004 content changed
+meta#:#meta_l_om#:#afan (oromo)###14 Sep 2004 content changed
+meta#:#meta_l_or#:#oriya###14 Sep 2004 content changed
+meta#:#meta_l_pa#:#旁遮普语###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#波兰语###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#普什图语###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#葡萄牙语###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#奇楚亚语###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#rhaeto-romance###14 Sep 2004 content changed
+meta#:#meta_l_rn#:#kurundi###14 Sep 2004 content changed
+meta#:#meta_l_ro#:#罗马尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#俄罗斯语###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#kinyarwanda###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#梵文###14 Sep 2004 content changed
+meta#:#meta_l_sd#:#sindhi###14 Sep 2004 content changed
+meta#:#meta_l_sg#:#sangho###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#serbo-croatian###14 Sep 2004 content changed
+meta#:#meta_l_si#:#僧伽罗语###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#斯洛伐克语###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#斯洛文尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#萨摩亚语###14 Sep 2004 content changed
+meta#:#meta_l_sn#:#修纳语###14 Sep 2004 content changed
+meta#:#meta_l_so#:#索马里语###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#阿尔巴尼亚语###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#塞尔维亚语###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#siswati###14 Sep 2004 content changed
+meta#:#meta_l_st#:#塞索托语###14 Sep 2004 content changed
+meta#:#meta_l_su#:#巽他人语###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#瑞典语###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#斯瓦希里语###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#泰米尔语###14 Sep 2004 content changed
+meta#:#meta_l_te#:#泰卢固语###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#塔吉克语###14 Sep 2004 content changed
+meta#:#meta_l_th#:#泰语###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#蒂格里亚语###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#土库曼语###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#塔加拉语###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#setswana###14 Sep 2004 content changed
+meta#:#meta_l_to#:#汤加语###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#土耳其语###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#tsonga###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#鞑靼语###14 Sep 2004 content changed
+meta#:#meta_l_tw#:#特维语###14 Sep 2004 content changed
+meta#:#meta_l_ug#:#维吾尔语###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#乌克兰语###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#乌尔都语###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#乌兹别克语###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#越南语###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#沃拉普克语###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#沃洛夫语###14 Sep 2004 content changed
+meta#:#meta_l_xh#:#科萨语###14 Sep 2004 content changed
+meta#:#meta_l_yi#:#意第绪语###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#约鲁巴语###14 Sep 2004 content changed
+meta#:#meta_l_za#:#壮语###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#汉语###14 Sep 2004 content changed
+meta#:#meta_l_zu#:#祖鲁语###14 Sep 2004 content changed
 meta#:#meta_language#:#语言
 meta#:#meta_learner#:#学习者
 meta#:#meta_learning_resource_type#:#学习资源类型
@@ -3368,19 +3407,19 @@ meta#:#meta_narrative_text#:#叙述文本
 meta#:#meta_networked#:#联网的
 meta#:#meta_new_element#:#新元素
 meta#:#meta_no#:#无
-meta#:#meta_no_annotation#:#无元数据可用于评注部分。
-meta#:#meta_no_classification#:#无元数据可用于分类部分
-meta#:#meta_no_educational#:#无元数据可用于教育部分。
-meta#:#meta_no_lifecycle#:#无元数据可用于生命周期部分。
-meta#:#meta_no_meta_metadata#:#无元数据可用于元－元数据部分。
-meta#:#meta_no_relation#:#无元数据可用于关系部分。
-meta#:#meta_no_rights#:#无元数据可用于权限部分。
-meta#:#meta_no_technical#:#无元数据可用于技术部分。
+meta#:#meta_no_annotation#:#无元数据可用于评注部分。###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#无元数据可用于分类部分###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#无元数据可用于教育部分。###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#无元数据可用于生命周期部分。###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#无元数据可用于元－元数据部分。###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#无元数据可用于关系部分。###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#无元数据可用于权限部分。###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#无元数据可用于技术部分。###14 Sep 2004 content changed
 meta#:#meta_none#:#无
 meta#:#meta_operating_system#:#操作系统
 meta#:#meta_or_composite#:#或合成
 meta#:#meta_other#:#其它
-meta#:#meta_other_plattform_requirements#:#其它平台要求
+meta#:#meta_other_plattform_requirements#:#其它平台要求###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#请选择
 meta#:#meta_prerequisite#:#先决条件
@@ -3444,31 +3483,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#全部结果
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#连接
 search#:#search_content#:#页内容
 search#:#search_dbk_content#:#数字图书馆（内容）
-search#:#search_dbk_meta#:#数字图书馆（元数据）
-search#:#search_delete_sure#:#此对象及其内容将被永久删除
+search#:#search_dbk_meta#:#数字图书馆（元数据）###14 Sep 2004 content changed
+search#:#search_delete_sure#:#此对象及其内容将被永久删除###14 Sep 2004 content changed
 search#:#search_group#:#组
 search#:#search_in_result#:#在结果中搜索
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#学习材料（内容）
-search#:#search_lm_meta#:#学习材料（元数据）
-search#:#search_meta#:#元数据
-search#:#search_minimum_three#:#搜索必须至少三个字符长
+search#:#search_lm_meta#:#学习材料（元数据）###14 Sep 2004 content changed
+search#:#search_meta#:#元数据###14 Sep 2004 content changed
+search#:#search_minimum_three#:#搜索必须至少三个字符长###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#文件夹不能移动。
 search#:#search_move_to#:#移到：e
 search#:#search_my_search_results#:#我的搜索结果
 search#:#search_new_folder#:#新文件夹
 search#:#search_no_category#:#您未选择任何搜索种类###26 Aug 2004 content changed
-search#:#search_no_match#:#搜索无任何匹配结果
+search#:#search_no_match#:#搜索无任何匹配结果###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#未存任何结果。
-search#:#search_no_search_term#:#您未选择任何搜索术语
-search#:#search_no_selection#:#您未做任何选择。
+search#:#search_no_search_term#:#您未选择任何搜索术语###14 Sep 2004 content changed
+search#:#search_no_selection#:#您未做任何选择。###14 Sep 2004 content changed
 search#:#search_object_renamed#:#对象已更名。
 search#:#search_objects_deleted#:#对象已删除。
 search#:#search_objects_moved#:#对象已移动。
 search#:#search_one_action#:#选择一项操作。
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#题目更名
 search#:#search_results_saved#:#搜索已存结果
 search#:#search_save_as_select#:#存为：
@@ -3476,7 +3519,7 @@ search#:#search_search_for#:#搜索
 search#:#search_search_no_results_saved#:#无任何已存搜索结果
 search#:#search_search_results#:#搜索结果
 search#:#search_search_term#:#搜索术语
-search#:#search_select_exactly_one_object#:#您只能选择一个对象。
+search#:#search_select_exactly_one_object#:#您只能选择一个对象。###14 Sep 2004 content changed
 search#:#search_select_one#:#选择一个文件夹
 search#:#search_select_one_action#:#--选择一项操作--
 search#:#search_select_one_folder_select#:#--选择一个文件夹--

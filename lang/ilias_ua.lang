@@ -113,7 +113,7 @@ assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
-assessment#:#cloze_text#:#Закрити текст
+assessment#:#cloze_text#:#Закрити текст###14 Sep 2004 content changed
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
@@ -221,7 +221,7 @@ assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одн�
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
-assessment#:#qt_cloze#:#Закрити питання
+assessment#:#qt_cloze#:#Закрити питання###14 Sep 2004 content changed
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#Співпадаючі питання
@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
@@ -536,6 +538,7 @@ common#:#action_aborted#:#Дію перервано
 common#:#actions#:#Дії
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#active#:#Active###14 Sep 2004 new variable
 common#:#active_roles#:#Активні Ролі
 common#:#add#:#Додати
 common#:#add_author#:#Додати Автора
@@ -547,7 +550,7 @@ common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
-common#:#adm_visible#:#Системні настройки є видимі
+common#:#adm_visible#:#Системні настройки є видимі###14 Sep 2004 content changed
 common#:#adm_write#:#Редагувати Базові системні настройки
 common#:#administrate#:#Адмініструвати
 common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
@@ -560,6 +563,7 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Усі Об'єкти
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
+common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
 common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -582,6 +586,8 @@ common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Призначення
 common#:#appointment_list#:#Список Призначення
+common#:#approve_date#:#Approved On###14 Sep 2004 new variable
+common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
 common#:#assign#:#Призначити
@@ -613,6 +619,7 @@ common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new va
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Автор
 common#:#authors#:#Атвори
+common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
 common#:#available_languages#:#Доступні Мови
 common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#Назад
@@ -722,7 +729,7 @@ common#:#chg_password#:#Змінити Пароль
 common#:#choose_language#:#Виберіть Вашу Мову
 common#:#choose_location#:#Виберіть Місце Знаходження
 common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
-common#:#city#:#Місто
+common#:#city#:#Місто###14 Sep 2004 content changed
 common#:#clear#:#Очистити
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID Клієнта
@@ -759,6 +766,7 @@ common#:#country#:#Країна
 common#:#course#:#Курс
 common#:#courses#:#Курси
 common#:#create#:#Створити
+common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Створити в
 common#:#create_stylesheet#:#Створити Стиль
 common#:#crs#:#Курс
@@ -800,7 +808,7 @@ common#:#database#:#База даних
 common#:#database_version#:#Поточна Версія Бази даних
 common#:#dataset#:#Пункт
 common#:#date#:#Дата
-common#:#dateplaner#:#Органайзер
+common#:#dateplaner#:#Органайзер###14 Sep 2004 content changed
 common#:#day#:#День
 common#:#days#:#Дні
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
@@ -857,7 +865,7 @@ common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
 common#:#editor#:#Редактор
 common#:#email#:#E-mail
-common#:#email_not_valid#:#Введена вами email адресa не є коректною!
+common#:#email_not_valid#:#Введена вами email адресa не є коректною!###14 Sep 2004 content changed
 common#:#enable#:#Дозволити
 common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
 common#:#enabled#:#Дозволено
@@ -867,6 +875,7 @@ common#:#err_2_param#:#Тільки 2 параметра!
 common#:#err_count_param#:#Причина: Невірна кількість параметрів
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Помилка в стрічці
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
@@ -898,7 +907,7 @@ common#:#exc_edit_permission#:#Змінити настройки прав
 common#:#exc_edit_until#:#Редагувати поки
 common#:#exc_files#:#Файли
 common#:#exc_groups#:#Групи
-common#:#exc_header_members#:#Вправа(члени)
+common#:#exc_header_members#:#Вправа(члени)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Робочі інструкції
 common#:#exc_members_already_assigned#:#Цей користувач вже призначений до цієї вправи
 common#:#exc_members_assigned#:#Члени призначені
@@ -923,8 +932,8 @@ common#:#exc_write#:#Редагувати вправу
 common#:#excs#:#Вправи
 common#:#execute#:#Виконати
 common#:#export#:#Export###20 Mar 2004 new variable
-common#:#export_html#:#експортувати як html файл
-common#:#export_xml#:#експортувати як xml файл
+common#:#export_html#:#експортувати як html файл###14 Sep 2004 content changed
+common#:#export_xml#:#експортувати як xml файл###14 Sep 2004 content changed
 common#:#faq_exercise#:#FAQ Вправа
 common#:#fax#:#Факс
 common#:#feedback#:#Зворотній зв'язокk
@@ -973,7 +982,7 @@ common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
 common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#папка
 common#:#folders#:#Папки
-common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
+common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!###14 Sep 2004 content changed
 common#:#forename#:#Ім'я
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
@@ -1028,7 +1037,7 @@ common#:#glossaries#:#Глосарії
 common#:#glossary#:#Глосарій
 common#:#glossary_added#:#Глосарій доданий
 common#:#group_access_denied#:#В Доступі Відмовлено
-common#:#group_any_objects#:#Жоден підоб'єкт не є доступним
+common#:#group_any_objects#:#Жоден підоб'єкт не є доступним###14 Sep 2004 content changed
 common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Опис Групи
 common#:#group_details#:#Деталі Групи
@@ -1039,21 +1048,21 @@ common#:#group_members#:#Члени Групи###04 Sep 2004 content changed
 common#:#group_memstat#:#Статус Члена
 common#:#group_memstat_admin#:#Адміністратор
 common#:#group_memstat_member#:#Член
-common#:#group_name#:#Ім'я групи
+common#:#group_name#:#Ім'я групи###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Нові Реєстрації###04 Sep 2004 content changed
 common#:#group_no_registration#:#реєстрація непотрібна
-common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.
+common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.###14 Sep 2004 content changed
 common#:#group_not_available#:#Жодна група не є доступною
 common#:#group_objects#:#Об'єкти групи
 common#:#group_password_registration_expired_msg#:#Період реєстрації цієї групи скінчився, повідомлення більше не є можливими. Будь ласка зв'яжіться з власником відповідної групи або адміністратором.
-common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.
+common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.###14 Sep 2004 content changed
 common#:#group_registration_expiration_date#:#Дата закінчення терміну дії
 common#:#group_registration_expiration_time#:#Час закінчення терміну дії
-common#:#group_registration_expired#:#Період реєстрації скінчився
+common#:#group_registration_expired#:#Період реєстрації скінчився###14 Sep 2004 content changed
 common#:#group_registration_mode#:#Режим Реєстрації
 common#:#group_req_password#:#Потрібен реєстраційний пароль
 common#:#group_req_registration#:#Потрібна реєстрація
-common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.
+common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.###14 Sep 2004 content changed
 common#:#group_reset#:#Скинути Права Групи
 common#:#group_status#:#Статус Групи###08 May 2004 content changed
 common#:#group_status_closed#:#Закрита
@@ -1090,7 +1099,7 @@ common#:#grp_edit#:#Редагувати Групу
 common#:#grp_edit_permission#:#Змінити настройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Кожна група потребує принаймні одного адміністратора
-common#:#grp_err_error#:#Трапилась помилка
+common#:#grp_err_error#:#Трапилась помилка###14 Sep 2004 content changed
 common#:#grp_err_last_member#:#Останній член не може бути видалений, будь ласка видаліть усю групу натомість.
 common#:#grp_err_member_could_not_be_removed#:#Член не може бути видалений. Будь ласка перевірте усі залежності для цього користувача.
 common#:#grp_err_no_permission#:#Ви не володієте правами для цієї операції.
@@ -1155,7 +1164,7 @@ common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS версія
 common#:#image#:#Зображення
-common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.
+common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.###14 Sep 2004 content changed
 common#:#import#:#Імпорт
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
@@ -1166,13 +1175,14 @@ common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new 
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#Імпортувати Учбовий модуль
+common#:#import_lm#:#Імпортувати Учбовий модуль###14 Sep 2004 content changed
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#в
 common#:#in_use#:#Мова Користувача
+common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Вхідні
 common#:#info_assign_sure#:#Ви впевнені що бажаєте призначити наступного користувача(користувачів)?
 common#:#info_delete_sure#:#Ви впевнені що бажаєете видалити наступний об'єкт(об'єкти)?
@@ -1194,7 +1204,7 @@ common#:#ingmedia_pers_dates#:#Особисті дані
 common#:#ingmedia_reg_fo#:#Зареєстровані форуми
 common#:#ingmedia_reg_le#:#Зареєстровані LE
 common#:#ingmedia_use_info1#:#Тут ви можете змінити ваші особисті дані. Виключаючи з INGMEDIA ім'я користувача та пароль, ви не маєте заповнювати інші поля. Пам'ятайте, що загублений пароль може бути повернений тільки через e-mail (!).
-common#:#ingmedia_use_info2#:#Заборонено вживати спеціальні символи (такі як , ; . = - * + #) в вашому INGMEDIA імені користувача та паролі. Щоб мати дозвіл використовувати INGMEDIA платформу, ви маєте прийняти угоду користувача.
+common#:#ingmedia_use_info2#:#Заборонено вживати спеціальні символи (такі як , ; . = - * + #) в вашому INGMEDIA імені користувача та паролі. Щоб мати дозвіл використовувати INGMEDIA платформу, ви маєте прийняти угоду користувача.###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#Будь ласка виберіть одне з посилань на краю панелі.
 common#:#ingmedia_use_title#:#Змінити дані користувача.
 common#:#ingmedia_user_agree#:#Угода
@@ -1247,8 +1257,8 @@ common#:#langfile_found#:#Мовний файл знайдено
 common#:#language#:#Мова
 common#:#language_not_installed#:#не установлена. Будь ласка встановіть цю мову спочатку
 common#:#languages#:#Мови
-common#:#languages_already_installed#:#Вибрана мова(и) вже встановлена
-common#:#languages_already_uninstalled#:#Вибрана мова(и) вже деінстальовані
+common#:#languages_already_installed#:#Вибрана мова(и) вже встановлена###14 Sep 2004 content changed
+common#:#languages_already_uninstalled#:#Вибрана мова(и) вже деінстальовані###14 Sep 2004 content changed
 common#:#languages_updated#:#Усі встановлені мови були обновлені
 common#:#last_change#:#Остання Зміна
 common#:#last_visit#:#Останній Візит
@@ -1309,7 +1319,7 @@ common#:#lo_categories#:#LO Категорії
 common#:#lo_edit#:#Редагувати Учбовий Об'єкт
 common#:#lo_new#:#Новий Учбовий Об'єкт
 common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Доступним
-common#:#lo_other_langs#:#LO's в інших Мовах
+common#:#lo_other_langs#:#LO's в інших Мовах###14 Sep 2004 content changed
 common#:#lo_overview#:#LO Огляд
 common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Місцезнаходження:
@@ -1318,7 +1328,7 @@ common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Логін
 common#:#login_as#:#Залогінений як
 common#:#login_data#:#Дата логіна
-common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть інше.
+common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть інше.###14 Sep 2004 content changed
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Час онлайн
 common#:#login_to_ilias#:#Логін в ILIAS
@@ -1328,7 +1338,7 @@ common#:#los#:#Учбові Об'єкти
 common#:#los_last_visited#:#Останні Відвідані Учбові Об'єкти
 common#:#mail#:#Пошта
 common#:#mail_a_root#:#Поштова Скринька
-common#:#mail_addressbook#:#Адресна книга
+common#:#mail_addressbook#:#Адресна книга###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#Дозволити SMTP
 common#:#mail_b_inbox#:#Вхідні
 common#:#mail_c_trash#:#Смітник
@@ -1342,17 +1352,17 @@ common#:#mail_import#:#Import###31 Mar 2004 new variable
 common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Дозволити
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
-common#:#mail_mails_of#:#Пошта
+common#:#mail_mails_of#:#Пошта###14 Sep 2004 content changed
 common#:#mail_maxsize_attach#:#Максимальний розмір прикріплення
 common#:#mail_maxsize_box#:#Максимальний розмір поштової скриньки
 common#:#mail_maxsize_mail#:#Максимальний розмір пошти
 common#:#mail_maxtime_attach#:#Максимальна кількість днів для зберігання прикріплення
-common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти
+common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти###14 Sep 2004 content changed
 common#:#mail_not_sent#:#Пошта не видіслана!
 common#:#mail_read#:#Доступ на читання до настроювань Пошти
 common#:#mail_search_no#:#Входжень не знайдено
 common#:#mail_search_word#:#Шукати слово
-common#:#mail_select_one#:#Ви маєте вибреати один лист
+common#:#mail_select_one#:#Ви маєте вибреати один лист###14 Sep 2004 content changed
 common#:#mail_send_error#:#Помилка при відсиланні пошти
 common#:#mail_sent#:#Пошта відіслана!
 common#:#mail_smtp_mail#:#Користувач може відіслати пошту через SMTP
@@ -1361,7 +1371,7 @@ common#:#mail_system_message#:#Користувач може відсилати 
 common#:#mail_visible#:#Настройки Пошти є видимі
 common#:#mail_write#:#Редагувати Поштові настройки
 common#:#mail_z_local#:#Папки Користувача
-common#:#mails#:#Пошта
+common#:#mails#:#Пошта###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Помітити усе як прочитане
 common#:#mark_all_unread#:#Помітити усе як непрочитане
@@ -1383,7 +1393,7 @@ common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Повідомлення
 common#:#message_content#:#Зміст Повідомлення
 common#:#message_to#:#Повідомлення для:
-common#:#meta_data#:#Мета Дані
+common#:#meta_data#:#Мета Дані###14 Sep 2004 content changed
 common#:#migrate#:#Мігрувати
 common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Медіа Об'єкт
@@ -1432,7 +1442,7 @@ common#:#msg_deleted_rolt#:#Шаблон Ролі видалений
 common#:#msg_deleted_rolts#:#Шаблон Ролі видалений
 common#:#msg_error_copy#:#Помилка Копіювання
 common#:#msg_failed#:#Вибачте, дія невдалась
-common#:#msg_is_last_role#:#Ви відмінили призначення наступним користувачам з їхньої останньої глобальної ролі
+common#:#msg_is_last_role#:#Ви відмінили призначення наступним користувачам з їхньої останньої глобальної ролі###14 Sep 2004 content changed
 common#:#msg_link_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: зв'язати)
 common#:#msg_linked#:#Вибраний об'єкт(и) зв'язаний.
 common#:#msg_may_not_contain#:#Цей об'єкт може не містити об'єктів типу:
@@ -1443,7 +1453,7 @@ common#:#msg_no_default_language#:#Мова по замовчанню не вк�
 common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
 common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
-common#:#msg_no_perm_assign_role_to_user#:#Ви не маєте прав змінювати призначення ролей користувачам.
+common#:#msg_no_perm_assign_role_to_user#:#Ви не маєте прав змінювати призначення ролей користувачам.###14 Sep 2004 content changed
 common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
 common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
 common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
@@ -1458,7 +1468,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#Ви не маєте права стоврити посилання з наступниого об'єкту(ів):
 common#:#msg_no_perm_modify_role#:#Ви не маєте права змінювати ролі
 common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінювати шаблони ролей
-common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів
+common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
 common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
@@ -1470,7 +1480,7 @@ common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Па
 common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
 common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Ви можете не призначати користувачів на Роль Системного адміністратора, якщо ви не призначили себе на цю Роль
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Ви можете не призначати користувачів на Роль Системного адміністратора, якщо ви не призначили себе на цю Роль###14 Sep 2004 content changed
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
 common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
 common#:#msg_nothing_found#:#msg_нічого_не_знайдено
@@ -1484,17 +1494,17 @@ common#:#msg_perm_adopted_from_itself#:#Ви не можете наслідув�
 common#:#msg_removed#:#Об'єкт(и) видалений з системи.
 common#:#msg_role_exists1#:#Роль/шаблон ролі з ім'ям
 common#:#msg_role_exists2#:#вже існує! Будь ласка виберіть інше ім'я
-common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я
-common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено
-common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до збережених значень знову.
-common#:#msg_roleassignment_changed#:#Призначення ролі змінено
-common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена
+common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено###14 Sep 2004 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до збережених значень знову.###14 Sep 2004 content changed
+common#:#msg_roleassignment_changed#:#Призначення ролі змінено###14 Sep 2004 content changed
+common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена###14 Sep 2004 content changed
 common#:#msg_sysrole_not_editable#:#Настройки прав сисемної ролі не можуть бути змінені. Системна роль гарантує усім призначенним користувачам необмежений доступ до усіх об'єктів та функцій.
 common#:#msg_trash_empty#:#Немає видалених об'єктів
 common#:#msg_undeleted#:#Відмінено видалення об'єкту(ів).
 common#:#msg_user_last_role1#:#Наступні користувачі призначені до ціїє ролі тільки:
 common#:#msg_user_last_role2#:#Будь ласка видаліть користувачів або призначте їм іншу роль для того щоб видалити цю роль.
-common#:#msg_userassignment_changed#:#Призначення користувача змінено
+common#:#msg_userassignment_changed#:#Призначення користувача змінено###14 Sep 2004 content changed
 common#:#multimedia#:#Мультимедіа
 common#:#my_bms#:#Мої Закладинки
 common#:#my_frms#:#Мої Форуми
@@ -1526,6 +1536,7 @@ common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
 common#:#no_objects#:#Немає об'єктів
 common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
 common#:#no_title#:#Немає Назви
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
@@ -1572,7 +1583,7 @@ common#:#obj_mob#:#Мультимедіа Об'єкт###06 Apr 2004 content chan
 common#:#obj_not_found#:#Об'єкт Не Знайдений
 common#:#obj_note#:#Примітка
 common#:#obj_notf#:#Адмініструввання Примітками
-common#:#obj_objf#:#Визначення об'єкта
+common#:#obj_objf#:#Визначення об'єкта###14 Sep 2004 content changed
 common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
 common#:#obj_owner#:#Цей Об'єкт належить
 common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
@@ -1598,7 +1609,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
 common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Тест
-common#:#obj_typ#:#Визначення Типу Об'єкта
+common#:#obj_typ#:#Визначення Типу Об'єкта###14 Sep 2004 content changed
 common#:#obj_type#:#Тип Об'єкта
 common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
@@ -1607,11 +1618,11 @@ common#:#obj_usrf_desc#:#Управляйте аккаунтами корист�
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Об'єкти
-common#:#objf#:#Визначення об'єктів
+common#:#objf#:#Визначення об'єктів###14 Sep 2004 content changed
 common#:#objf_edit_permission#:#CЗмінити настройки прав
-common#:#objf_read#:#Доступ на читання до визначень Об'єкта
-common#:#objf_visible#:#Визначення Об'єкта є видимі
-common#:#objf_write#:#Редагувати Визначення Об'єкта
+common#:#objf_read#:#Доступ на читання до визначень Об'єкта###14 Sep 2004 content changed
+common#:#objf_visible#:#Визначення Об'єкта є видимі###14 Sep 2004 content changed
+common#:#objf_write#:#Редагувати Визначення Об'єкта###14 Sep 2004 content changed
 common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
@@ -1679,7 +1690,7 @@ common#:#path_to_htmldoc#:#Шлях до HTMLdoc
 common#:#path_to_java#:#Шлях до Java
 common#:#path_to_unzip#:#Шлях до Unzip
 common#:#path_to_zip#:#Шлях до Zip
-common#:#pathes#:#Шляхи
+common#:#pathes#:#Шляхи###14 Sep 2004 content changed
 common#:#payment_system#:#Платіжна Система
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -1696,7 +1707,7 @@ common#:#personal_data#:#Особиста інформація
 common#:#personal_desktop#:#Особстий Робочий Стіл
 common#:#personal_picture#:#Особиста Картинка
 common#:#personal_profile#:#Особистий Профіль
-common#:#persons#:#Personen
+common#:#persons#:#Personen###14 Sep 2004 content changed
 common#:#pg_a#:#сторінка
 common#:#pg_add#:#Додати сторінку
 common#:#pg_added#:#Сторінка додана
@@ -1723,7 +1734,7 @@ common#:#public_profile#:#Публічний Профіль
 common#:#publication#:#Публікація
 common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
-common#:#publishing_organisation#:#Організація що Публікує
+common#:#publishing_organisation#:#Організація що Публікує###14 Sep 2004 content changed
 common#:#qpl#:#Черга питань###07 May 2004 content changed
 common#:#qpl_add#:#Додати чергу питань
 common#:#qpl_delete#:#Видалити Чергу Питань
@@ -1740,6 +1751,7 @@ common#:#quote#:#Цитата
 common#:#read#:#Читати
 common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Одержувач
+common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
 common#:#refresh#:#Обновити
 common#:#refresh_languages#:#Обновити Мови
 common#:#refresh_list#:#Обновити Список
@@ -1759,7 +1771,28 @@ common#:#rename#:#Переіменувати
 common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Відповісти
 common#:#repository#:#Репозиторій
-common#:#required_field#:#Потрібні Поля
+common#:#require_city#:#Require city###14 Sep 2004 new variable
+common#:#require_country#:#Require country###14 Sep 2004 new variable
+common#:#require_default_role#:#Require role###14 Sep 2004 new variable
+common#:#require_department#:#Require department###14 Sep 2004 new variable
+common#:#require_email#:#Require email###14 Sep 2004 new variable
+common#:#require_fax#:#Require fax###14 Sep 2004 new variable
+common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
+common#:#require_gender#:#Require gender###14 Sep 2004 new variable
+common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
+common#:#require_institution#:#Require institution###14 Sep 2004 new variable
+common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
+common#:#require_login#:#Require login###14 Sep 2004 new variable
+common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_passwd#:#Require password###14 Sep 2004 new variable
+common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
+common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
+common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
+common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
+common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
+common#:#require_street#:#Require street###14 Sep 2004 new variable
+common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
+common#:#required_field#:#Потрібні Поля###14 Sep 2004 content changed
 common#:#reset#:#Сбросити
 common#:#resources#:#Ресурси
 common#:#retype_password#:#Введіть Пароль ще раз
@@ -1784,7 +1817,7 @@ common#:#rolf_create_role#:#Сторити нове визначення Рол�
 common#:#rolf_create_rolt#:#Стоврити новий шаблон визначення Ролі
 common#:#rolf_delete#:#Видалити Ролі/шаблони Ролі
 common#:#rolf_edit_permission#:#Змінити настройки прав
-common#:#rolf_edit_userassignment#:#Змінити призначити користувача Ролі
+common#:#rolf_edit_userassignment#:#Змінити призначити користувача Ролі###14 Sep 2004 content changed
 common#:#rolf_read#:#Доступ на читання до Ролі/шаблонів Ролі
 common#:#rolf_visible#:#Ролі/шаблони Ролі є видимі
 common#:#rolf_write#:#Редагувати Ролі/шаблони Ролі
@@ -1823,9 +1856,12 @@ common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 ne
 common#:#saved#:#Збережено
 common#:#saved_successfully#:#Збережено Вдало
 common#:#search#:#Пошук
+common#:#search_active#:#Include active users###14 Sep 2004 new variable
 common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Пошук в
+common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 common#:#search_new#:#Новий Пошук
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
 common#:#search_recipient#:#Шукати Одержувача
 common#:#search_result#:#Результат пошуку
 common#:#search_user#:#Шукати Користувача
@@ -1875,7 +1911,7 @@ common#:#st_add#:#Додати главу
 common#:#st_added#:#Глава додана
 common#:#st_edit#:#Редагувати главу
 common#:#st_new#:#Нова глава
-common#:#startpage#:#Початкова сторінка
+common#:#startpage#:#Початкова сторінка###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Статус
 common#:#step#:#Крок
@@ -1906,6 +1942,7 @@ common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Вибір системної Мови
 common#:#system_groups#:#Системна Групи
 common#:#system_grp#:#Системна Група
+common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
@@ -1969,7 +2006,8 @@ common#:#tst_visible#:#Тест є видимим
 common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.
+common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.###14 Sep 2004 content changed
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Визначення Типу Об'єкту
 common#:#type#:#Тип
 common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
@@ -2020,7 +2058,7 @@ common#:#usrf#:#Аккаунти Користувача
 common#:#usrf_create_user#:#Створити новий аккаунт користувача
 common#:#usrf_delete#:#Видалити аккаунти користувача
 common#:#usrf_edit_permission#:#Змінити настройки прав
-common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувача
+common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувача###14 Sep 2004 content changed
 common#:#usrf_read#:#Доступ на читання до акаунтів користувача
 common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Акаунти користувача є видимі
@@ -2041,8 +2079,8 @@ common#:#write#:#Писати
 common#:#yes#:#Так
 common#:#you_may_add_local_roles#:#Ви Можете Додати Локальні Ролі
 common#:#your_message#:#Ваше Повідомлення
-common#:#zip#:#Поштовий Код
-common#:#zipcode#:#Поштовий Код
+common#:#zip#:#Поштовий Код###14 Sep 2004 content changed
+common#:#zipcode#:#Поштовий Код###14 Sep 2004 content changed
 content#:#HTML export#:#Експорт HTML
 content#:#PDF export#:#Експорт PDF
 content#:#Pages#:#Сторінки
@@ -2080,16 +2118,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Карта областей видалена.
-content#:#cont_assign_full#:#Призначити Повний Екран
+content#:#cont_assign_full#:#Призначити Повний Екран###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Призначити Стандарт
 content#:#cont_assign_translation#:#Призначити переклад
 content#:#cont_assignments_deleted#:#Призначення було видалено
 content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Назад
-content#:#cont_booktitle#:#Назва книжки
+content#:#cont_booktitle#:#Назва книжки###14 Sep 2004 content changed
 content#:#cont_bottom#:#Низ
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.
+content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.
 content#:#cont_caption#:#Заголовок
 content#:#cont_change_type#:#Змінити Тип
@@ -2102,7 +2140,7 @@ content#:#cont_characteristic#:#Характеристика
 content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмісту
 content#:#cont_choose_glossary#:#Виберіть Глосарій
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
+content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
 content#:#cont_citations#:#Цитати
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
@@ -2190,8 +2228,8 @@ content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
-content#:#cont_fullscreen#:#Повний екран
+content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.###14 Sep 2004 content changed
+content#:#cont_fullscreen#:#Повний екран###14 Sep 2004 content changed
 content#:#cont_get_link#:#отримати посилання
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
@@ -2378,7 +2416,7 @@ content#:#cont_version#:#версія
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Де опублікований
 content#:#cont_width#:#Ширина
-content#:#cont_wysiwyg#:#Вміст Wysiwyg
+content#:#cont_wysiwyg#:#Вміст Wysiwyg###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
@@ -2661,6 +2699,7 @@ dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new va
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_filename#:#dp_help_en.html###14 Sep 2004 new variable
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
 dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
 dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
@@ -2797,7 +2836,7 @@ forum#:#forums_not_available#:#Форуми Недоступні
 forum#:#forums_overview#:#Огляд Форумів
 forum#:#forums_post_deleted#:#Пост був видалений
 forum#:#forums_post_modified#:#Пост був відредагований
-forum#:#forums_post_new_entry#:#Новий пост був зареєстрований
+forum#:#forums_post_new_entry#:#Новий пост був зареєстрований###14 Sep 2004 content changed
 forum#:#forums_posts#:#Усі пости
 forum#:#forums_posts_not_available#:#Пост Недосупний
 forum#:#forums_print_thread#:#Друкувати Вітку
@@ -2806,40 +2845,40 @@ forum#:#forums_respond#:#Надіслати Відповідь
 forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
 forum#:#forums_the_post#:#Пост
 forum#:#forums_thread#:#Тема
-forum#:#forums_thread_articles#:#Пости до теми
+forum#:#forums_thread_articles#:#Пости до теми###14 Sep 2004 content changed
 forum#:#forums_thread_create_date#:#Створений
 forum#:#forums_thread_create_from#:#Стоврений з
-forum#:#forums_thread_new_entry#:#Нова тема була зареєстрована
+forum#:#forums_thread_new_entry#:#Нова тема була зареєстрована###14 Sep 2004 content changed
 forum#:#forums_threads#:#Вітки
 forum#:#forums_threads_not_available#:#Теми Недоступні
 forum#:#forums_topics_overview#:#Огляд Тем
 forum#:#forums_your_reply#:#Ваша Відповідь
 mail#:#also_as_email#:#Також по Email
-mail#:#bc#:#BC
+mail#:#bc#:#BC###14 Sep 2004 content changed
 mail#:#forward#:#Переслати
-mail#:#linebreak#:#Розрив лінії
+mail#:#linebreak#:#Розрив лінії###14 Sep 2004 content changed
 mail#:#mail_add_recipient#:#Будь ласка введіть одержувача
 mail#:#mail_add_subfolder#:#Додати Підпапку
 mail#:#mail_add_subject#:#Будь ласка введіть тему
-mail#:#mail_add_to_addressbook#:#Доданий в адресну книжку
+mail#:#mail_add_to_addressbook#:#Доданий в адресну книжку###14 Sep 2004 content changed
 mail#:#mail_add_type#:#Будь ласка введіть тип листа що ви бажаєте відіслати
 mail#:#mail_addr_entries#:#Входження
 mail#:#mail_attachments#:#Прикріплення
-mail#:#mail_bc_not_valid#:#Bc одержувач є некорректним
-mail#:#mail_bc_search#:#BC пошук
+mail#:#mail_bc_not_valid#:#Bc одержувач є некорректним###14 Sep 2004 content changed
+mail#:#mail_bc_search#:#BC пошук###14 Sep 2004 content changed
 mail#:#mail_byte#:#Байт
-mail#:#mail_cc_not_valid#:#Cc одержувач є некорректним
+mail#:#mail_cc_not_valid#:#Cc одержувач є некорректним###14 Sep 2004 content changed
 mail#:#mail_cc_search#:#CC пошук
 mail#:#mail_change_to_folder#:#Перемкнути в папку:
 mail#:#mail_check_your_email_addr#:#Ваша email адреса є некорректною
 mail#:#mail_compose#:#Створити Повідомлення
-mail#:#mail_deleted#:#Пошта видалена
+mail#:#mail_deleted#:#Пошта видалена###14 Sep 2004 content changed
 mail#:#mail_deleted_entry#:#Входження видалені
 mail#:#mail_email_forbidden#:#Вам не дозволено відсилати email
 mail#:#mail_entry_added#:#Додати новий Запис
 mail#:#mail_entry_changed#:#Запис змінений
-mail#:#mail_file_name#:#Ім'я файлу
-mail#:#mail_file_size#:#Розмір файлу
+mail#:#mail_file_name#:#Ім'я файлу###14 Sep 2004 content changed
+mail#:#mail_file_size#:#Розмір файлу###14 Sep 2004 content changed
 mail#:#mail_files_deleted#:#Файл(и) видалено
 mail#:#mail_folder_created#:#Нова папку була створена
 mail#:#mail_folder_deleted#:#Папка була видалена
@@ -2849,21 +2888,21 @@ mail#:#mail_folder_name_changed#:#Папка була переіменована
 mail#:#mail_folder_options#:#Опції Папки
 mail#:#mail_following_rcp_not_valid#:#Наступний одержувач є некорректним:
 mail#:#mail_global_options#:#Глобальні опції
-mail#:#mail_incoming#:#Вхідні листи
+mail#:#mail_incoming#:#Вхідні листи###14 Sep 2004 content changed
 mail#:#mail_incoming_both#:#локальні та ті що пересилаються
 mail#:#mail_incoming_local#:#тільки локальні
 mail#:#mail_incoming_smtp#:#переслати на поштову адресу
 mail#:#mail_insert_folder_name#:#Будь ласка вставте ім'я папки
 mail#:#mail_insert_query#:#Будь ласка вставте запит
 mail#:#mail_intern#:#Внутрішній
-mail#:#mail_mark_read#:#Помітити пошту як прочитану
-mail#:#mail_mark_unread#:#Помітити пошту як непрочитану
+mail#:#mail_mark_read#:#Помітити пошту як прочитану###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Помітити пошту як непрочитану###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#Ліміт на завантаження:
 mail#:#mail_message_send#:#Повідомлення відіслане
-mail#:#mail_move_error#:#Помилка переміщення пошти
+mail#:#mail_move_error#:#Помилка переміщення пошти###14 Sep 2004 content changed
 mail#:#mail_move_to#:#Перемістити в:
-mail#:#mail_moved#:#Пошта була переміщена
-mail#:#mail_moved_to_trash#:#Пошта була переміщена в смітник
+mail#:#mail_moved#:#Пошта була переміщена###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Пошта була переміщена в смітник###14 Sep 2004 content changed
 mail#:#mail_new_file#:#Додати новий файл:
 mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
 mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
@@ -2871,20 +2910,20 @@ mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати 
 mail#:#mail_options_of#:#Опції
 mail#:#mail_options_saved#:#Опції збережені
 mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
-mail#:#mail_s#:#Пошта
-mail#:#mail_s_unread#:#Непрочитана пошта
+mail#:#mail_s#:#Пошта###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#Непрочитана пошта###14 Sep 2004 content changed
 mail#:#mail_saved#:#Повідомлення було збережено
-mail#:#mail_search_addressbook#:#пошук в адресній книзі
+mail#:#mail_search_addressbook#:#пошук в адресній книзі###14 Sep 2004 content changed
 mail#:#mail_search_system#:#пошук в системі
-mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис
-mail#:#mail_select_one_file#:#Ви маєте вибрати один файл
-mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту
+mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис###14 Sep 2004 content changed
+mail#:#mail_select_one_file#:#Ви маєте вибрати один файл###14 Sep 2004 content changed
+mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту###14 Sep 2004 content changed
 mail#:#mail_sure_delete_entry#:#Ви впевнені що бажаєте видалити наступні входження
 mail#:#mail_sure_delete_file#:#Файл буде остаточно видалено
-mail#:#mail_sure_delete_folder#:#Папка та її вміст буде остаточно видалена
+mail#:#mail_sure_delete_folder#:#Папка та її вміст буде остаточно видалена###14 Sep 2004 content changed
 mail#:#mail_to_search#:#Шукати
-mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси
-mail#:#search_bc_recipient#:#Шукати BC Одержувача
+mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси###14 Sep 2004 content changed
+mail#:#search_bc_recipient#:#Шукати BC Одержувача###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Шукати CC Одержувача
 meta#:#meta_accessibility_restrictions#:#Доступність Обмежень
 meta#:#meta_active#:#Активний
@@ -3146,7 +3185,7 @@ meta#:#meta_coverage#:#Покриття
 meta#:#meta_date#:#Дата
 meta#:#meta_delete#:#Видалити
 meta#:#meta_description#:#Опис
-meta#:#meta_diagramm#:#Діаграма
+meta#:#meta_diagramm#:#Діаграма###14 Sep 2004 content changed
 meta#:#meta_difficulty#:#Складність
 meta#:#meta_dificult#:#Складний
 meta#:#meta_draft#:#Чернетка
@@ -3189,145 +3228,145 @@ meta#:#meta_is_required_by#:#Потребується
 meta#:#meta_is_version_of#:#Є Версією
 meta#:#meta_keyword#:#Ключові слова
 meta#:#meta_kind#:#Тип
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#afrikaans
-meta#:#meta_l_am#:#amharic
-meta#:#meta_l_ar#:#arabic
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaijani
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#byelorussian
-meta#:#meta_l_bg#:#bulgarian
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tibetan
-meta#:#meta_l_br#:#breton
-meta#:#meta_l_ca#:#catalan
-meta#:#meta_l_co#:#corsican
-meta#:#meta_l_cs#:#czech
-meta#:#meta_l_cy#:#welsh
-meta#:#meta_l_da#:#danish
-meta#:#meta_l_de#:#german
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greek
-meta#:#meta_l_en#:#english
-meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#spanish
-meta#:#meta_l_et#:#estonian
-meta#:#meta_l_eu#:#basque
-meta#:#meta_l_fa#:#persian (farsi)
-meta#:#meta_l_fi#:#finnish
-meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#french
-meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irish
-meta#:#meta_l_gd#:#scots gaelic
-meta#:#meta_l_gl#:#galician
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#hebrew
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croatian
-meta#:#meta_l_hu#:#hungarian
-meta#:#meta_l_hy#:#armenian
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesian
-meta#:#meta_l_ie#:#interlingue
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#icelandic
-meta#:#meta_l_it#:#italian
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#japanese
-meta#:#meta_l_jv#:#javanese
-meta#:#meta_l_ka#:#georgian
-meta#:#meta_l_kk#:#kazakh
-meta#:#meta_l_kl#:#greenlandic
-meta#:#meta_l_km#:#cambodian
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#korean
-meta#:#meta_l_ks#:#kashmiri
-meta#:#meta_l_ku#:#kurdish
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latin
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lithuanian
-meta#:#meta_l_lv#:#latvian;lettish
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedonian
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolian
-meta#:#meta_l_mo#:#moldavian
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malay
-meta#:#meta_l_mt#:#maltese
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#nepali
-meta#:#meta_l_nl#:#dutch
-meta#:#meta_l_no#:#norwegian
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polish
-meta#:#meta_l_ps#:#pashto;pushto
-meta#:#meta_l_pt#:#portuguese
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#romanian
-meta#:#meta_l_ru#:#russian
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanskrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croatian
-meta#:#meta_l_si#:#singhalese
-meta#:#meta_l_sk#:#slovak
-meta#:#meta_l_sl#:#slovenian
-meta#:#meta_l_sm#:#samoan
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somali
-meta#:#meta_l_sq#:#albanian
-meta#:#meta_l_sr#:#serbian
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanese
-meta#:#meta_l_sv#:#swedish
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamil
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmen
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turkish
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ukrainian
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbek
-meta#:#meta_l_vi#:#vietnamese
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#chinese
-meta#:#meta_l_zu#:#zulu
+meta#:#meta_l_aa#:#afar###14 Sep 2004 content changed
+meta#:#meta_l_ab#:#abkhazian###14 Sep 2004 content changed
+meta#:#meta_l_af#:#afrikaans###14 Sep 2004 content changed
+meta#:#meta_l_am#:#amharic###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#arabic###14 Sep 2004 content changed
+meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
+meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
+meta#:#meta_l_az#:#azerbaijani###14 Sep 2004 content changed
+meta#:#meta_l_ba#:#bashkir###14 Sep 2004 content changed
+meta#:#meta_l_be#:#byelorussian###14 Sep 2004 content changed
+meta#:#meta_l_bg#:#bulgarian###14 Sep 2004 content changed
+meta#:#meta_l_bh#:#bihari###14 Sep 2004 content changed
+meta#:#meta_l_bi#:#bislama###14 Sep 2004 content changed
+meta#:#meta_l_bn#:#bengali;bangla###14 Sep 2004 content changed
+meta#:#meta_l_bo#:#tibetan###14 Sep 2004 content changed
+meta#:#meta_l_br#:#breton###14 Sep 2004 content changed
+meta#:#meta_l_ca#:#catalan###14 Sep 2004 content changed
+meta#:#meta_l_co#:#corsican###14 Sep 2004 content changed
+meta#:#meta_l_cs#:#czech###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#welsh###14 Sep 2004 content changed
+meta#:#meta_l_da#:#danish###14 Sep 2004 content changed
+meta#:#meta_l_de#:#german###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#bhutani###14 Sep 2004 content changed
+meta#:#meta_l_el#:#greek###14 Sep 2004 content changed
+meta#:#meta_l_en#:#english###14 Sep 2004 content changed
+meta#:#meta_l_eo#:#esperanto###14 Sep 2004 content changed
+meta#:#meta_l_es#:#spanish###14 Sep 2004 content changed
+meta#:#meta_l_et#:#estonian###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#basque###14 Sep 2004 content changed
+meta#:#meta_l_fa#:#persian (farsi)###14 Sep 2004 content changed
+meta#:#meta_l_fi#:#finnish###14 Sep 2004 content changed
+meta#:#meta_l_fj#:#fiji###14 Sep 2004 content changed
+meta#:#meta_l_fo#:#faroese###14 Sep 2004 content changed
+meta#:#meta_l_fr#:#french###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#frisian###14 Sep 2004 content changed
+meta#:#meta_l_ga#:#irish###14 Sep 2004 content changed
+meta#:#meta_l_gd#:#scots gaelic###14 Sep 2004 content changed
+meta#:#meta_l_gl#:#galician###14 Sep 2004 content changed
+meta#:#meta_l_gn#:#guarani###14 Sep 2004 content changed
+meta#:#meta_l_gu#:#gujarati###14 Sep 2004 content changed
+meta#:#meta_l_ha#:#hausa###14 Sep 2004 content changed
+meta#:#meta_l_he#:#hebrew###14 Sep 2004 content changed
+meta#:#meta_l_hi#:#hindi###14 Sep 2004 content changed
+meta#:#meta_l_hr#:#croatian###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#hungarian###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#armenian###14 Sep 2004 content changed
+meta#:#meta_l_ia#:#interlingua###14 Sep 2004 content changed
+meta#:#meta_l_id#:#indonesian###14 Sep 2004 content changed
+meta#:#meta_l_ie#:#interlingue###14 Sep 2004 content changed
+meta#:#meta_l_ik#:#inupiak###14 Sep 2004 content changed
+meta#:#meta_l_is#:#icelandic###14 Sep 2004 content changed
+meta#:#meta_l_it#:#italian###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#inuktitut###14 Sep 2004 content changed
+meta#:#meta_l_ja#:#japanese###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#javanese###14 Sep 2004 content changed
+meta#:#meta_l_ka#:#georgian###14 Sep 2004 content changed
+meta#:#meta_l_kk#:#kazakh###14 Sep 2004 content changed
+meta#:#meta_l_kl#:#greenlandic###14 Sep 2004 content changed
+meta#:#meta_l_km#:#cambodian###14 Sep 2004 content changed
+meta#:#meta_l_kn#:#kannada###14 Sep 2004 content changed
+meta#:#meta_l_ko#:#korean###14 Sep 2004 content changed
+meta#:#meta_l_ks#:#kashmiri###14 Sep 2004 content changed
+meta#:#meta_l_ku#:#kurdish###14 Sep 2004 content changed
+meta#:#meta_l_ky#:#kirghiz###14 Sep 2004 content changed
+meta#:#meta_l_la#:#latin###14 Sep 2004 content changed
+meta#:#meta_l_ln#:#lingala###14 Sep 2004 content changed
+meta#:#meta_l_lo#:#laothian###14 Sep 2004 content changed
+meta#:#meta_l_lt#:#lithuanian###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#latvian;lettish###14 Sep 2004 content changed
+meta#:#meta_l_mg#:#malagasy###14 Sep 2004 content changed
+meta#:#meta_l_mi#:#maori###14 Sep 2004 content changed
+meta#:#meta_l_mk#:#macedonian###14 Sep 2004 content changed
+meta#:#meta_l_ml#:#malayalam###14 Sep 2004 content changed
+meta#:#meta_l_mn#:#mongolian###14 Sep 2004 content changed
+meta#:#meta_l_mo#:#moldavian###14 Sep 2004 content changed
+meta#:#meta_l_mr#:#marathi###14 Sep 2004 content changed
+meta#:#meta_l_ms#:#malay###14 Sep 2004 content changed
+meta#:#meta_l_mt#:#maltese###14 Sep 2004 content changed
+meta#:#meta_l_my#:#burmese###14 Sep 2004 content changed
+meta#:#meta_l_na#:#nauru###14 Sep 2004 content changed
+meta#:#meta_l_ne#:#nepali###14 Sep 2004 content changed
+meta#:#meta_l_nl#:#dutch###14 Sep 2004 content changed
+meta#:#meta_l_no#:#norwegian###14 Sep 2004 content changed
+meta#:#meta_l_oc#:#occitan###14 Sep 2004 content changed
+meta#:#meta_l_om#:#afan (oromo)###14 Sep 2004 content changed
+meta#:#meta_l_or#:#oriya###14 Sep 2004 content changed
+meta#:#meta_l_pa#:#punjabi###14 Sep 2004 content changed
+meta#:#meta_l_pl#:#polish###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#pashto;pushto###14 Sep 2004 content changed
+meta#:#meta_l_pt#:#portuguese###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#quechua###14 Sep 2004 content changed
+meta#:#meta_l_rm#:#rhaeto-romance###14 Sep 2004 content changed
+meta#:#meta_l_rn#:#kurundi###14 Sep 2004 content changed
+meta#:#meta_l_ro#:#romanian###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#russian###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#kinyarwanda###14 Sep 2004 content changed
+meta#:#meta_l_sa#:#sanskrit###14 Sep 2004 content changed
+meta#:#meta_l_sd#:#sindhi###14 Sep 2004 content changed
+meta#:#meta_l_sg#:#sangho###14 Sep 2004 content changed
+meta#:#meta_l_sh#:#serbo-croatian###14 Sep 2004 content changed
+meta#:#meta_l_si#:#singhalese###14 Sep 2004 content changed
+meta#:#meta_l_sk#:#slovak###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#slovenian###14 Sep 2004 content changed
+meta#:#meta_l_sm#:#samoan###14 Sep 2004 content changed
+meta#:#meta_l_sn#:#shona###14 Sep 2004 content changed
+meta#:#meta_l_so#:#somali###14 Sep 2004 content changed
+meta#:#meta_l_sq#:#albanian###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#serbian###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#siswati###14 Sep 2004 content changed
+meta#:#meta_l_st#:#sesotho###14 Sep 2004 content changed
+meta#:#meta_l_su#:#sundanese###14 Sep 2004 content changed
+meta#:#meta_l_sv#:#swedish###14 Sep 2004 content changed
+meta#:#meta_l_sw#:#swahili###14 Sep 2004 content changed
+meta#:#meta_l_ta#:#tamil###14 Sep 2004 content changed
+meta#:#meta_l_te#:#telugu###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#tajik###14 Sep 2004 content changed
+meta#:#meta_l_th#:#thai###14 Sep 2004 content changed
+meta#:#meta_l_ti#:#tigrinya###14 Sep 2004 content changed
+meta#:#meta_l_tk#:#turkmen###14 Sep 2004 content changed
+meta#:#meta_l_tl#:#tagalog###14 Sep 2004 content changed
+meta#:#meta_l_tn#:#setswana###14 Sep 2004 content changed
+meta#:#meta_l_to#:#tonga###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#turkish###14 Sep 2004 content changed
+meta#:#meta_l_ts#:#tsonga###14 Sep 2004 content changed
+meta#:#meta_l_tt#:#tatar###14 Sep 2004 content changed
+meta#:#meta_l_tw#:#twi###14 Sep 2004 content changed
+meta#:#meta_l_ug#:#uigur###14 Sep 2004 content changed
+meta#:#meta_l_uk#:#ukrainian###14 Sep 2004 content changed
+meta#:#meta_l_ur#:#urdu###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#uzbek###14 Sep 2004 content changed
+meta#:#meta_l_vi#:#vietnamese###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#volapuk###14 Sep 2004 content changed
+meta#:#meta_l_wo#:#wolof###14 Sep 2004 content changed
+meta#:#meta_l_xh#:#xhosa###14 Sep 2004 content changed
+meta#:#meta_l_yi#:#yiddish###14 Sep 2004 content changed
+meta#:#meta_l_yo#:#yoruba###14 Sep 2004 content changed
+meta#:#meta_l_za#:#zhuang###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#chinese###14 Sep 2004 content changed
+meta#:#meta_l_zu#:#zulu###14 Sep 2004 content changed
 meta#:#meta_language#:#Мова
 meta#:#meta_learner#:#Учень
 meta#:#meta_learning_resource_type#:#Учбовий Тип Ресурса
@@ -3352,19 +3391,19 @@ meta#:#meta_narrative_text#:#Описовий Текст
 meta#:#meta_networked#:#Мережевий
 meta#:#meta_new_element#:#Новий Елемент
 meta#:#meta_no#:#Ні
-meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.
-meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.
-meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.
-meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.
-meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.
-meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.
-meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.
-meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.
+meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.###14 Sep 2004 content changed
+meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.###14 Sep 2004 content changed
+meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.###14 Sep 2004 content changed
+meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.###14 Sep 2004 content changed
+meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.###14 Sep 2004 content changed
+meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.###14 Sep 2004 content changed
+meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.###14 Sep 2004 content changed
+meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.###14 Sep 2004 content changed
 meta#:#meta_none#:#Ніщо
 meta#:#meta_operating_system#:#Операційна Система
 meta#:#meta_or_composite#:#Або Композиція
 meta#:#meta_other#:#Інші
-meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа
+meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа###14 Sep 2004 content changed
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Будь ласка виберіть
 meta#:#meta_prerequisite#:#Попередня умова
@@ -3428,31 +3467,35 @@ payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Усі результати
+search#:#search_and#:#and###14 Sep 2004 new variable
 search#:#search_concatenation#:#Об'єднання
 search#:#search_content#:#Вміст Сторінки
 search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
-search#:#search_dbk_meta#:#Цифрова Бібліотека (мета дані)
-search#:#search_delete_sure#:#Об'єкт та його вміст буде остаточно знищений
+search#:#search_dbk_meta#:#Цифрова Бібліотека (мета дані)###14 Sep 2004 content changed
+search#:#search_delete_sure#:#Об'єкт та його вміст буде остаточно знищений###14 Sep 2004 content changed
 search#:#search_group#:#Групи
 search#:#search_in_result#:#Пошук всередині результатів
+search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
 search#:#search_lm_content#:#Учбові матеріали (вміст)
-search#:#search_lm_meta#:#Учбові матеріали (мета дані)
-search#:#search_meta#:#Мета дані
-search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
+search#:#search_lm_meta#:#Учбові матеріали (мета дані)###14 Sep 2004 content changed
+search#:#search_meta#:#Мета дані###14 Sep 2004 content changed
+search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#Папка не може бути переміщена.
 search#:#search_move_to#:#Перемістити в:
 search#:#search_my_search_results#:#Результати пошуку
 search#:#search_new_folder#:#Нова папка
 search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку###26 Aug 2004 content changed
-search#:#search_no_match#:#Ваш пошук не приніс жодного результату
+search#:#search_no_match#:#Ваш пошук не приніс жодного результату###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Не збережено жодних результатів.
-search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну
-search#:#search_no_selection#:#Ви не зробили вибір.
+search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну###14 Sep 2004 content changed
+search#:#search_no_selection#:#Ви не зробили вибір.###14 Sep 2004 content changed
 search#:#search_object_renamed#:#Об'єкт переіменований.
 search#:#search_objects_deleted#:#Об'єкт(и) видалений.
 search#:#search_objects_moved#:#Об'єкти переміщені.
 search#:#search_one_action#:#Виберіть одну дію.
+search#:#search_or#:#or###14 Sep 2004 new variable
 search#:#search_rename_title#:#Переіменувати назву
 search#:#search_results_saved#:#Результати пошуку збережені
 search#:#search_save_as_select#:#Зберігти як:
@@ -3460,7 +3503,7 @@ search#:#search_search_for#:#Шукати
 search#:#search_search_no_results_saved#:#Немає збережених результатів пошуку
 search#:#search_search_results#:#Результати пошуку
 search#:#search_search_term#:#Пошуковий термін
-search#:#search_select_exactly_one_object#:#Ви маєте вибрати рівно один об'єкт.
+search#:#search_select_exactly_one_object#:#Ви маєте вибрати рівно один об'єкт.###14 Sep 2004 content changed
 search#:#search_select_one#:#Виберіть одну папку
 search#:#search_select_one_action#:#--Виберіть одну дію--
 search#:#search_select_one_folder_select#:#--Виберіть одну папку--
