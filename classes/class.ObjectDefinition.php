@@ -119,6 +119,13 @@ class ObjectDefinition extends PEAR
 		$data = array_keys($this->data[$a_objname]["properties"]);
 		return $data[0];
 	}
+	
+	function getSubObjectsAsString($a_objname)
+	{
+	  $data = array_keys($this->data[$a_objname]["subobjects"]);
+	  $string = "'".implode("','", $data)."'";
+	  return $string;
+	}
 
 } // class
 ?>

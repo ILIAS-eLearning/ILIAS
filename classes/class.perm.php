@@ -319,42 +319,6 @@ function deleteObject ($a_obj_id)
  }
 
  /**
- * get object list by sets there into
- * @param	string	$AObjType
- * @return	array	returns array of objects or false if no objects found
- */
- function getObjectListBySet ($ASetId,$ARoleId)
- {
-	global $ilias;
-	$db = $ilias->db;
-
-	$query = "SELECT * FROM object_data
-		WHERE object_data.type IN (".$ilias->typedefinition[obj].")
-		ORDER BY object_data.obj_id ASC";
-	$res = $db->query($query);
-
-	if ($res->numRows())
-	{
-	 while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-	 {
-	 $arr[] = array(
-					"obj_id"		 => $data["obj_id"],
-					"type"		 => $data["type"],
-					"title"		=> $data["title"],
-					"desc"		 => $data["description"],
-					"usr_id"		 => $data["owner"],
-					"create_date"	=> $data["create_date"],
-					"last_update"	=> $data["last_update"]
-					);
-	 }
-
-	 return $arr;
-	}
-
-	return false;
- }
-
- /**
  * get operation list
  * @return	array	returns array of operations
  */
