@@ -77,6 +77,23 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
+		require_once("./assessment/classes/class.ilObjTest.php");
+		$tst = new ilObjTest();
+		$questionpools =& $tst->getAvailableQuestionpools(true);
+		if (count($questionpools) == 0)
+		{
+		}
+		else
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("option_qpl");
+				$this->tpl->setVariable("OPTION_VALUE", $key);
+				$this->tpl->setVariable("TXT_OPTION", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -105,6 +122,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 																	   $_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
+			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
