@@ -142,49 +142,62 @@ class ilObjGroup extends ilObject
 	*/
 	function leaveGroup($a_userId, $a_grpId="")
 	{
-		global $rbacadmin, $rbacsystem;
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		global $rbacadmin, $rbacsystem, $rbacreview;
+		//get rolefolder of group
+
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+		//get roles out of folder
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-
+		if(count($role_arr) <= 1)
+		{
+			//echo "You are the last member of this group.<br>";
+			return false;
+		}
+		else
 		foreach ($role_arr as $role_id)
 		{
 			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
 			{
-				if($rbacsystem->checkAccess("leave",$this->getRefId()) )
-
 				if($member_id == $a_userId)
 				{
-//					if(strcmp($this->getGroupRole($member_id),"Member"))
-//					{
 					$rbacadmin->deassignUser($role_id, $member_id);
-//					}
 				}
 			}
 		}
+		return true;
 	}
-	
+
 	/**
 	* get group Members
 	* @access	public
 	* @param	integer	group id
+	* @param	return array of groupmembers that are assigned to the groupspecific roles (grp_member,grp_admin)
 	*/
 	function getGroupMemberIds($a_grpId="")
 	{
+
 		global $rbacadmin, $rbacreview;
 
-		$this->m_grpId = $a_grpId;
-
+		if(!empty($a_grpId) )
+			$this->m_grpId = $a_grpId;
+		else
+			$this->m_grpId = $this->object->getRefId();
+		
 		$usr_arr= array();
 		$rolf = $rbacreview->getRoleFolderOfObject($this->m_grpId);
 		$rol  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
-		foreach ($rol as $value) 
-		{	
-			foreach ($rbacreview->assignedUsers($value) as $member_id)
-			{
-				array_push($usr_arr,$member_id);
-			}
+		//interims solution
+		//TODO: global roles should be located by a function
+		$arr_globalRoles = array(2,3,4,5);
+		foreach ($rol as $value)
+		{
+			if(!in_array($value,$arr_globalRoles))
+				foreach ($rbacreview->assignedUsers($value) as $member_id)
+				{
+					array_push($usr_arr,$member_id);
+				}
 		}
 		$mem_arr = array_unique($usr_arr);
 		//var_dump ($mem_arr);
@@ -222,6 +235,23 @@ class ilObjGroup extends ilObject
 	{
 	}
 
+	function getGrpStatusClosedTemplateId()
+	{
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_closed'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row["obj_id"];
+
+	}
+
+	function getGrpStatusOpenTemplateId()
+	{
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_open'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row["obj_id"];
+	}
+
 	/**
 	* set group status
 	* @access	public
@@ -241,8 +271,7 @@ class ilObjGroup extends ilObject
   		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
-			//todo: id of template is hard coded and must should be queried by a function
-			$arr_ops = $rbacreview->getOperationsOfRole(102, 'grp', 8);
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
@@ -254,7 +283,7 @@ class ilObjGroup extends ilObject
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
 
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				$rbacadmin->copyRolePermission(102,8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
+				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
 				//the assignment stops the inheritation
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
 			}//END foreach
@@ -270,8 +299,7 @@ class ilObjGroup extends ilObject
 	  	if(strcmp($a_grpStatus,"group_status_public") == 0)			//group status set opened
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
-			//todo: id of template is hard coded and must should be queried by a function
-			$arr_ops = $rbacreview->getOperationsOfRole(103, 'grp', 8);
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
@@ -283,7 +311,7 @@ class ilObjGroup extends ilObject
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
 
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				$rbacadmin->copyRolePermission(102,8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
+				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
 				//the assignment stops the inheritation
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
 			}//END foreach
@@ -432,7 +460,7 @@ class ilObjGroup extends ilObject
 		global $tree;		
 
 		$path = "";		
-	
+
 		$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);		
 
 		// count -1, to exclude the forum itself
@@ -478,8 +506,17 @@ class ilObjGroup extends ilObject
 	*/
 	function isMember($a_userId)
 	{
-	}
-	
+		global $rbacadmin, $rbacreview;
 
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+		foreach ($role_arr as $role_id)
+		{
+			if( in_array($a_userId,$rbacreview->assignedUsers($role_id) ))
+				return true;
+		}
+		return false;
+
+	}
 } //END class.GroupObject
 ?>
