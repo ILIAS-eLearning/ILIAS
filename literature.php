@@ -11,18 +11,18 @@ include("./include/inc.main.php");
 
 $tpl = new Template("tpl.literature.html", true, true);
 
-$tpl->setVariable("TXT_PAGEHEADLINE","_Literature Bookmarks");
-$tpl->setVariable("TXT_DESCRIPTION","_description");
-$tpl->setVariable("TXT_URL","_url");
+$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("literature_bookmarks"));
+$tpl->setVariable("TXT_DESCRIPTION",  $lng->txt("description"));
+$tpl->setVariable("TXT_URL", $lng->txt("url"));
 
 $lit = $ilias->account->getLiterature();
 
 foreach ($lit as $row)
 {
-	$tpl->setCurrentBlock("row");
-	$tpl->setVariable("DESC", $row["desc"]);
-	$tpl->setVariable("URL", $row["url"]);
-	$tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock("row");
+        $tpl->setVariable("DESC", $row["desc"]);
+        $tpl->setVariable("URL", $row["url"]);
+        $tpl->parseCurrentBlock();
 }
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
