@@ -1796,6 +1796,25 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
+
+/**
+* Deletes the working data of a question in the database
+*
+* Deletes the working data of a question in the database
+*
+* @param integer $question_id The database id of the question
+* @param integer $user_id The database id of the user who worked through the question
+* @access public
+*/
+	function deleteWorkingData($question_id, $user_id)
+	{
+		$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+	}
 	
 /**
 * Saves the working data of a question to the database
@@ -1826,27 +1845,13 @@ class ilObjSurvey extends ilObject
 		{
 			$text = $this->ilias->db->quote($text);
 		}
-		$working_data = $this->loadWorkingData($question_id, $user_id);
-		if (count($working_data) == 0)
-		{
-			$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($question_id),
-				$this->ilias->db->quote($user_id),
-				$value,
-				$text
-			);
-		}
-		else
-		{
-			$query = sprintf("UPDATE survey_answer SET value = %s, textanswer = %s WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
-				$value,
-				$text,
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($question_id),
-				$this->ilias->db->quote($user_id)
-			);
-		}
+		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($user_id),
+			$value,
+			$text
+		);
 		$result = $this->ilias->db->query($query);
 	}
 	
@@ -1871,7 +1876,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() >= 1)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				array_push($result_array, $row);
 			}
