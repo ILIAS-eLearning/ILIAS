@@ -124,8 +124,7 @@ assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
-assessment#:#by#:#nach
+assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
