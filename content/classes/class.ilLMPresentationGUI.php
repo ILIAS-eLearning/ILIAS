@@ -2403,7 +2403,7 @@ class ilLMPresentationGUI
 
 				$file_arr = explode("__", $exp_file["file"]);
 				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-				
+
 				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
 				$this->tpl->setVariable("LINK_DOWNLOAD", "lm_presentation.php?cmd=downloadExportFile&type=".
 					$exp_file["type"]."&ref_id=".$_GET["ref_id"]);

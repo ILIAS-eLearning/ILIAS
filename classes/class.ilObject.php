@@ -520,7 +520,7 @@ class ilObject
 			 "VALUES ".
 			 "('".$this->type."',".$ilDB->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
 			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
-		//$this->ilias->db->query($q);
+
 		$ilDB->query($q);
 
 		$this->id = $ilDB->getLastInsertId();
