@@ -486,7 +486,6 @@ class ilTemplate extends ilTemplateX
 		}
 
 		$tplfile = $this->getTemplatePath($tplname, $in_module);
-
 		if (file_exists($tplfile) == false)
 		{
 			echo "<br/>Template '".$tplfile."' doesn't exist! aborting...";

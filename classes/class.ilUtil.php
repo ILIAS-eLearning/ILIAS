@@ -85,14 +85,34 @@ class ilUtil
 		$default = $base."default/images/".$img;
 		if (@file_exists($user_skin_and_style) && $st_image_dir != "")
 		{
-			return $dir.$user_skin_and_style;
+			if(@file_exists($dir.$user_skin_and_style))
+			{
+				return $dir.$user_skin_and_style;
+			}
+			else
+			{
+				return substr($dir.$user_skin_and_style,1);
+			}
 		}
 		else if (file_exists($user_skin))
 		{
-			return $dir.$user_skin;
+			if(@file_exists($dir.$user_skin))
+			{
+				return $dir.$user_skin;
+			}
+			else
+			{
+				return substr($dir.$user_skin,1);
+			}
 		}
-
-		return $dir.$default;
+		else if(@file_exists($dir.$default))
+		{
+			return $dir.$default;
+		}
+		else
+		{
+			return substr($dir.$default,1);
+		}
 	}
 
 	function getJSPath($a_js)
@@ -1723,15 +1743,38 @@ class ilUtil
 	}
 	
 	/**
+	* sub-function to sort an array
+	*
+	* @param	array	$a	
+	* @param	array	$b
+	*
+	* @return	boolean	true on success / false on error
+	*/
+	function sort_func_numeric ($a, $b)
+	{
+		global $array_sortby,$array_sortorder;
+
+		if ($array_sortorder == "asc")
+		{
+			return $a["$array_sortby"] > $b["$array_sortby"];	
+		}
+
+		if ($array_sortorder == "desc")
+		{
+			return $a["$array_sortby"] < $b["$array_sortby"];
+		}		
+	}
+	/**
 	* sortArray
 	*
 	* @param	array	array to sort
 	* @param	string	sort_column
 	* @param	string	sort_order (ASC or DESC)
+	* @param	bool	sort numeric?
 	*
 	* @return	array	sorted array
 	*/
-	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0)
+	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -1745,8 +1788,14 @@ class ilUtil
 		{
 			$array_sortorder = "asc";
 		}
-	
-		usort($array, array("ilUtil", "sort_func"));
+		if($a_numeric)
+		{
+			usort($array, array("ilUtil", "sort_func_numeric"));
+		}
+		else
+		{
+			usort($array, array("ilUtil", "sort_func"));
+		}
 		//usort($array,"ilUtil::sort_func");
 
 		return $array;
@@ -1847,7 +1896,7 @@ class ilUtil
 	function redirect($a_script)
 	{
 		global $log;
-		
+
 		header("Location: ".$a_script);
 		exit();
 	}
