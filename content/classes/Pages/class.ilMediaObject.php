@@ -120,6 +120,7 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function read()
 	{
+		parent::read();
 		// read media_object record
 		$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getId()."' ".
 			"ORDER BY nr";
@@ -146,7 +147,6 @@ class ilMediaObject extends ilObjMediaObject
 			}
 
 			// todo: get mapareas
-
 			$this->addMediaItem($media_item);
 		}
 

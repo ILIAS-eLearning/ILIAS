@@ -165,3 +165,13 @@ ALTER TABLE glossary_term ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
 
 <#26>
 ALTER TABLE desktop_item ADD COLUMN parameters VARCHAR(200);
+
+<#27>
+CREATE TABLE personal_clipboard
+(
+	user_id		INT NOT NULL,
+	item_id		INT NOT NULL,
+	type		CHAR(4) NOT NULL,
+	title		CHAR(70) NOT NULL DEFAULT '',
+	PRIMARY KEY (user_id, item_id, type)
+);

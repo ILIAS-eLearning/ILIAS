@@ -137,7 +137,6 @@ class ilObject
 		{
 			$this->id = $a_id;
 		}
-
 		// read object data
 		if ($a_id != 0)
 		{

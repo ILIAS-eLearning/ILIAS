@@ -458,7 +458,13 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-
+	function copyToClipboard()
+	{
+		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
+			, $this->content_obj->getTitle());
+		sendInfo($this->lng->txt("copied_to_clipboard"));
+		header("Location: ".$this->getReturnLocation());
+	}
 
 	function centerAlign()
 	{

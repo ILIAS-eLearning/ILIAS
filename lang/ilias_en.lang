@@ -721,7 +721,9 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_Additional#:#Additional
+content#:#cont_source#:#Quelle
+content#:#cont_new_media_obj#:#New Media Object
+content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
