@@ -88,8 +88,8 @@ common#:#chapter#:#capitolo
 common#:#chapter_number#:#numero del capitolo
 common#:#chapter_title#:#titolo del capitolo
 common#:#check#:#controllare
-common#:#checkLanguage#:#Check Language###19 Apr 2003 new variable
 common#:#check_langfile#:#Please check your language file.###26 Mar 2003 new variable
+common#:#check_languages#:#Check Languages###12 Jun 2003 new variable
 common#:#chg_language#:#cambia lingua
 common#:#chg_password#:#cambia password
 common#:#choose_language#:#scegli la Tua lingua
@@ -190,14 +190,19 @@ common#:#functions#:#funzioni
 common#:#gender#:#sesso
 common#:#generate#:#generare
 common#:#glossary#:#glossario
+common#:#group_any_objects#:#No Subobjects avilable ###12 Jun 2003 new variable
+common#:#group_details#:#Group Details###12 Jun 2003 new variable
 common#:#group_filesharing#:##group sharing
+common#:#group_members#:#Group Members###12 Jun 2003 new variable
 common#:#group_name#:#Groupname###29 Apr 2003 new variable
 common#:#group_new#:#New Group###29 Apr 2003 new variable
+common#:#group_not_available#:#any group available###12 Jun 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
 common#:#group_status_private#:#Private###29 Apr 2003 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#gruppi
+common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
 common#:#grp#:#grp
 common#:#help#:#aiuto
 common#:#host#:##host
@@ -441,6 +446,7 @@ common#:#quote#:#Quote###25 Mar 2003 new variable
 common#:#read#:#leggi
 common#:#recipient#:#destinario
 common#:#refresh#:#aggiorna
+common#:#refresh_languages#:#Refresh Languages###12 Jun 2003 new variable
 common#:#refresh_list#:#aggiorna lista
 common#:#registered_since#:#registered since###25 Mar 2003 content changed
 common#:#rename#:#Rename###28 Mar 2003 new variable
