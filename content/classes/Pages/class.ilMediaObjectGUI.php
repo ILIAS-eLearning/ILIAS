@@ -168,7 +168,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		if ($_POST["standard_param"] != "")
 		{
-			$media_item->setParameters($_POST["standard_param"]);
+			$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["standard_param"])));
 		}
 
 		$media_item->setHAlign("Left");
@@ -238,7 +238,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 			if ($_POST["full_param"] != "")
 			{
-				$media_item->setParameters($_POST["full_param"]);
+				$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_param"])));
 			}
 
 		}

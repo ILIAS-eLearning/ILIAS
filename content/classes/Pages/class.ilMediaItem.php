@@ -34,6 +34,7 @@
 */
 class ilMediaItem
 {
+	var $ilias;
 	var $purpose;
 	var $location;
 	var $location_type;
@@ -43,12 +44,79 @@ class ilMediaItem
 	var $caption;
 	var $halign;
 	var $parameters;
+	var $mob_id;
+	var $nr;
 
 	function ilMediaItem()
 	{
+		global $ilias;
+
+		$this->ilias =& $ilias;
 		$this->parameters = array();
 	}
 
+	function setMobId($a_mob_id)
+	{
+		$this->mob_id = $a_mob_id;
+	}
+
+	function getMobId()
+	{
+		return $this->mob_id;
+	}
+
+	function setNr($a_nr)
+	{
+		$this->nr = $a_nr;
+	}
+
+	function getNr()
+	{
+		return $this->nr;
+	}
+
+	function create()
+	{
+		$query = "INSERT INTO media_item (mob_id, purpose, location, ".
+			"location_type, format, width, ".
+			"height, halign, caption, nr) VALUES ".
+			"('".$this->getMobId()."',".
+			"'".$this->getPurpose()."','".$this->getLocation()."','".
+			$this->getLocationType()."','".$this->getFormat()."','".
+			$this->getWidth()."','".$this->getHeight()."','".$this->getHAlign().
+			"','".$this->getCaption()."','".($i+1)."')";
+		$this->ilias->db->query($query);
+//echo "create_mob:$query:<br>";
+		$item_id = getLastInsertId();
+
+		// create mob parameters
+		$params = $this->getParameters();
+		foreach($params as $name => $value)
+		{
+			$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
+				"('".$item_id."', '".$name."', '".$value."')";
+			$this->ilias->db->query($query);
+		}
+	}
+
+	/**
+	* static
+	*/
+	function deleteAllItemsOfMob($a_mob_id)
+	{
+			// delete media parameter
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."'";
+		$item_set = $this->ilias->db->query($query);
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$query = "DELETE FROM mob_parameter WHERE med_item_id = '".$item_rec["id"]."'";
+			$this->ilias->db->query($query);
+		}
+
+		// delete media items
+		$query = "DELETE FROM media_item WHERE mob_id = '".$a_mob_id."'";
+		$this->ilias->db->query($query);
+	}
 
 	function setPurpose($a_purpose)
 	{
