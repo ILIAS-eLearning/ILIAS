@@ -399,11 +399,57 @@ class ilPersonalDesktopGUI
 */
 	function displayTests()
 	{
-		$tst_items = $this->ilias->account->getDesktopItems("tst");
-		$i = 0;
+		$tst_items = $this->ilias->account->getDesktopItems("tst");;
+		$this->lng->loadLanguageModule("assessment");
 
-		foreach ($tst_items as $tst_item)
-		{
+		if (!$tst_items || (count($tst_items) == 0))	{
+			$this->tpl->setCurrentBlock("tbl_no_tst");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TXT_NO_TST", $this->lng->txt("no_tst_in_personal_list"));
+			$this->tpl->parseCurrentBlock();
+		} else {
+
+			$tst_items = $this->multiarray_sort($tst_items, "used_tries; title");
+			$unsetCount = 0;
+			$progressCount = 0;
+			foreach ($tst_items as $tst_item) {
+				if (!isset($tst_item["used_tries"])) {
+					$unsetCount++;
+				}
+				if ($tst_item["used_tries"] == 0) {
+					$progressCount++;
+				}
+			}
+
+			$this->displayTest(array_slice($tst_items, 0, $unsetCount), $this->lng->txt("tst_status_not_entered"));
+			$this->displayTest(array_slice($tst_items, $unsetCount, $progressCount-1), $this->lng->txt("tst_status_progress"));
+			$this->displayTest($this->multiarray_sort(array_slice($tst_items, $unsetCount+$progressCount-1), "title"), $this->lng->txt("tst_status_completed_more_tries_possible"));
+
+			$this->tpl->setCurrentBlock("tbl_no_tst");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TXT_NO_TST", "<br /><a href=\"assessment/tests_taken.php\" class=\"submit\">" . $this->lng->txt("tst_already_taken") . "</a><br />&nbsp;");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("tbl_tst");
+		$this->tpl->setVariable("TXT_TST_HEADER",$this->lng->txt("my_tsts"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+/**
+* Displays tests of the given status
+*
+* Displays tests of the given status
+*
+* @author		Muzaffar Altaf <maltaf@tzi.de>
+* @param array $array The array of tests
+* @param string $status Test status: in progress, not started, completed etc
+* @access public
+*/
+	function displayTest ($array, $status)
+	{
+		$i = 0;
+		foreach ($array as $tst_item) {
 			$i++;
 			$this->tpl->setCurrentBlock("tbl_tst_row");
 			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
@@ -415,44 +461,54 @@ class ilPersonalDesktopGUI
 			}
 			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=tst&id=".$tst_item["id"]);
 			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
-	    $this->lng->loadLanguageModule("assessment");
-			$status_image = "";
-			if (!isset($tst_item["used_tries"])) {
-				// test is new
-				$status_image = $this->lng->txt("tst_status_not_entered");
-			} elseif ($tst_item["used_tries"] == 0) {
-				// test is not completed
-				$status_image = $this->lng->txt("tst_status_progress");
-			} elseif (($tst_item["nr_of_tries"] > 0) and ($tst_item["used_tries"] == $tst_item["nr_of_tries"])) {
-				// test is completed
-				$status_image = $this->lng->txt("tst_status_completed");
-			} else {
-				// test is completed but can be completed again
-				$status_image = $this->lng->txt("tst_status_completed_more_tries_possible");
-			}
-			$this->tpl->setVariable("TST_STATUS_IMAGE", $status_image);
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($i == 0)
-		{
-			$this->tpl->setCurrentBlock("tbl_no_tst");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_TST", $this->lng->txt("no_tst_in_personal_list"));
-			$this->tpl->parseCurrentBlock();
-		} else {
-			$this->tpl->setCurrentBlock("tbl_no_tst");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_TST", "<br /><a href=\"assessment/tests_taken.php\" class=\"submit\">" . $this->lng->txt("tst_already_taken") . "</a><br />&nbsp;");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_tst");
-		$this->tpl->setVariable("TXT_TST_HEADER",$this->lng->txt("my_tsts"));
-		$this->tpl->setVariable("TXT_TST_TITLE",$this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_TST_STATUS",$this->lng->txt("status"));
+		$this->tpl->setCurrentBlock("tbl_tstheaders");
+		$this->tpl->setVariable("TXT_TST_TITLE", $status);
 		$this->tpl->parseCurrentBlock();
 
+	}
+
+/**
+* Returns the multidimenstional sorted array
+*
+* Returns the multidimenstional sorted array
+*
+* @author		Muzaffar Altaf <maltaf@tzi.de>
+* @param array $array The array to be sorted
+* @param string $key_sort The keys on which array must be sorted
+* @access public
+*/
+	function multiarray_sort ($array, $key_sort)
+	{
+		if ($array) {
+			$key_sorta = explode(",", $key_sort);
+			$keys = array_keys($array[0]);
+
+			for($m=0; $m < count($key_sorta); $m++) {
+				$nkeys[$m] = trim($key_sorta[$m]);
+			}
+			$n += count($key_sorta);
+
+			for($i=0; $i < count($keys); $i++){
+				if(!in_array($keys[$i], $key_sorta)) {
+					$nkeys[$n] = $keys[$i];
+					$n += "1";
+				}
+			}
+
+			for($u=0;$u<count($array); $u++) {
+				$arr = $array[$u];
+				for($s=0; $s<count($nkeys); $s++) {
+					$k = $nkeys[$s];
+					$output[$u][$k] = $array[$u][$k];
+				}
+			}
+
+			sort($output);
+			return $output;
+		}
 	}
 }
 ?>

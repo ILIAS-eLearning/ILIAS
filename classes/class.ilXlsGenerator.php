@@ -69,10 +69,10 @@ class  ilXlsGenerator extends PEAR
         header ("Cache-Control: no-cache, must-revalidate");
         header ("Pragma: no-cache");
         if ($this->download) {
-            header ("Content-type: application/x-msexcel");
+            header ("Content-type: Application/vnd.ms-excel");
             header ("Content-Disposition: attachment; filename=$filename" );
         } else {
-            header ("Content-type: application/x-msexcel");
+            header ("Content-type: Application/vnd.ms-excel");
         }
             header ("Content-Description: PHP Generated Data" );
     }
