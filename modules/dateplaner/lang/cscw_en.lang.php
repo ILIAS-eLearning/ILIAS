@@ -255,6 +255,4 @@ $CSCW_language[help_properties_time_l]		= "Den Zeitraum (Uhrzeit) der Anzeige di
 $CSCW_language[help_properties_import]		= "Importieren von Outlook-CSV-Dateien";
 $CSCW_language[help_properties_import_l]	= "Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.";
 
-
-
 ?>
