@@ -105,6 +105,8 @@ class ilMetaData
 			$this->getType() == "htlm" ||
 			$this->getType() == "tst" ||
 			$this->getType() == "qpl" ||
+			$this->getType() == "svy" ||
+			$this->getType() == "spl" ||
 			$this->getType() == "gdf" ||
 			$this->getType() == "dbk")
 		{
@@ -596,7 +598,8 @@ class ilMetaData
 
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
 			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk"
-			|| $this->getType() == "tst" || $this->getType() == "qpl" || $this->getType() == "mob"
+			|| $this->getType() == "tst" || $this->getType() == "qpl" || 
+			$this->getType() == "svy" || $this->getType() == "spl" || $this->getType() == "mob"
 			|| $this->getType() == "htlm" || $this->getType() == "slm")
 		{
 #			echo "Section: " . $this->section . "<br>\n";
@@ -623,6 +626,8 @@ class ilMetaData
 					 $this->getType() == "slm" ||
 					 $this->getType() == "htlm" ||
 					 $this->getType() == "qpl" ||
+					 $this->getType() == "spl" ||
+					 $this->getType() == "svy" ||
 					 $this->getType() == "st" ||
 					 $this->getType() == "pg")
 			{

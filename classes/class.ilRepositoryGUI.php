@@ -476,7 +476,7 @@ class ilRepositoryGUI
 		}
 
 		// survey tool
-		if (count($this->survey))
+		if (count($this->surveys))
 		{
 			$this->showSurveys();
 		}
@@ -1838,7 +1838,7 @@ class ilRepositoryGUI
 		$tbl->setTemplate($tpl);
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("tests"),"icon_tst_b.gif", $this->lng->txt("tests"));
+		$tbl->setTitle($this->lng->txt("objs_tst"),"icon_tst_b.gif", $this->lng->txt("objs_tst"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"),
@@ -1869,9 +1869,234 @@ class ilRepositoryGUI
   }
   
 	function showSurveys() {
+		global $ilias;
+		$this->lng->loadLanguageModule("survey");
+		
+		$maxcount = count($this->surveys);
+		$surveys = array_slice($this->surveys, $_GET["offset"], $_GET["limit"]);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$test_num = count($surveys);
+		// render table content data
+		if ($test_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_svy_row.html");
+			// counter for rowcolor change
+			$num = 0;
+			
+			foreach ($surveys as $svy_data)
+			{
+          $obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
+
+				if ($this->rbacsystem->checkAccess('read',$svy_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("svy_read");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $svy_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("svy_visible");
+					$tpl->setVariable("V_TITLE", $svy_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("svy_edit");
+					$tpl->setVariable("EDIT_LINK","survey/survey.php?ref_id=".$svy_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("svy_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$svy_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
+				// add to desktop link
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($svy_data["ref_id"], "svy") and ($svy_data["complete"]))
+				{
+					$tpl->setCurrentBlock("svy_subscribe");
+					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$svy_data["ref_id"]."&type=svy");
+
+					$tpl->setVariable("TXT_SUBSCRIBE", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("DESCRIPTION", $svy_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($svy_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("objs_svy"),"icon_svy_b.gif", $this->lng->txt("objs_svy"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
+			array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("100%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("surveys");
+		$this->tpl->setVariable("SURVEYS", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	function showSurveyquestionpools() {
+		$maxcount = count($this->surveyquestionpools);
+		$qpool = array_slice($this->surveyquestionpools, $_GET["offset"], $_GET["limit"]);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$qpool_num = count($qpool);
+
+		// render table content data
+		if ($qpool_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_spl_row.html");
+			// counter for rowcolor change
+			$num = 0;
+
+			foreach ($qpool as $spl_data)
+			{
+          $obj_link = "survey/questionpool.php?ref_id=" . $spl_data["ref_id"];
+
+				//if ($this->rbacsystem->checkAccess('read',$spl_data["ref_id"]))
+				//{
+				//	$tpl->setCurrentBlock("spl_read");
+				//	$tpl->setVariable("VIEW_LINK", $obj_link);
+				//	$tpl->setVariable("VIEW_TARGET", "bottom");
+				//	$tpl->setVariable("R_TITLE", $spl_data["title"]);
+				//	$tpl->parseCurrentBlock();
+				//}
+				//else
+				//{
+					$tpl->setCurrentBlock("spl_visible");
+					$tpl->setVariable("V_TITLE", $spl_data["title"]);
+					$tpl->parseCurrentBlock();
+				//}
+
+				if ($this->rbacsystem->checkAccess('write',$spl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("spl_edit");
+					$tpl->setVariable("EDIT_LINK","survey/questionpool.php?ref_id=".$spl_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('delete', $spl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("spl_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$spl_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+        
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("DESCRIPTION", $spl_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($spl_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("objs_spl"),"icon_spl_b.gif", $this->lng->txt("objs_spl"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
+			array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("100%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("surveyquestionpools");
+		$this->tpl->setVariable("SURVEYQUESTIONPOOLS", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
 	}
 
   function showQuestionPools()
@@ -1954,7 +2179,7 @@ class ilRepositoryGUI
 		$tbl->setTemplate($tpl);
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("question_pools"),"icon_qpl_b.gif", $this->lng->txt("question_pools"));
+		$tbl->setTitle($this->lng->txt("objs_qpl"),"icon_qpl_b.gif", $this->lng->txt("objs_qpl"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"),
