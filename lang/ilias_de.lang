@@ -428,3 +428,6 @@ common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die f
 common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#forums_thread_articles#:#Beiträge zum Thema
+common#:#forums_count#:#Anzahl Foren
+common#:#forums_count_thr#:#Anzahl Themen
+common#:#forums_count_art#:#Anzahl Beiträge
