@@ -626,6 +626,7 @@ common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
+common#:#cat_create_file#:#Neue Datei hochladen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#cat_create_exc#:#Neue Übung anlegen
