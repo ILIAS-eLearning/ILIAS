@@ -24,7 +24,11 @@
 
 /**
  * startpage for ilias
- * this file decides if a frameset is used or not
+ * this file decides if a frameset is used or not.
+ * Frames set definition is done in 'tpl.start.html'
+ * 
+ * Frames: 'tpl.start.html' exists in your template directory
+ * No frames: Remove 'tpl.start.html' from your template directory
  * 
  * @author Peter Gabriel <pgabriel@databay.de>
  * @package ilias-core
@@ -32,22 +36,24 @@
 */
 require_once "./include/inc.header.php";
 
-//look if there is a file tpl.start.html
-$startfilename = $ilias->tplPath.$ilias->account->skin."/tpl.start.html";
+// define here on what page to enter the system the first time
+$default_start_script = "usr_personaldesktop.php";
 
-$script = (!empty($_GET["script"]))
-	? $_GET["script"]
-	: "usr_personaldesktop.php";
+// look if there is a file tpl.start.html (containing a frameset definition)
+$start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.html";
 
-if (file_exists($startfilename))
+// TO DO: $script is never used via $_GET. Maybe deprecated
+$start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_script;
+
+if (file_exists($start_template))
 {
 	$tpl = new ilTemplate("tpl.start.html", false, false);
-	$tpl->setVariable("SCRIPT", $script);
+	$tpl->setVariable("SCRIPT", $start_script);
 	$tpl->show();
 }
 else
 {
-	header("location: ".$script);
+	header("location: ".$start_script);
 	exit;
 }
 

@@ -99,6 +99,7 @@ $objDefinition->startParsing();
 //var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
 
+// Current user account
 $ilias->account = new ilObjUser();
 
 //but in login.php and index.php don't check for authentication
@@ -126,6 +127,7 @@ if ($script != "login.php" && $script != "index.php")
 		$ilias->account->setId($_SESSION["AccountId"]);
 	}
 
+	// load account data of current user
 	$ilias->account->read();
 
 	if ($script == "logout.php")
@@ -145,11 +147,8 @@ if ($script != "login.php" && $script != "index.php")
 	// At the moment the method in the 3 main classes are not separated properly
 	// to do this. All rbac-classes need to be cleaned up
 
-	// init ref_id & parent; on first start ref_id is set to 1
-	//$ref_id = $ref_id ? $ref_id : ROOT_FOLDER_ID; // for downward compatibility
+	// init ref_id on first start ref_id is set to ROOT_FOLDER_ID
 	$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
-	//$parent = $parent ? $parent : 0; // for downward compatibility
-	//$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
 
 	// init tree
 	$tree = new ilTree(ROOT_FOLDER_ID);
@@ -176,12 +175,14 @@ if ($script != "login.php" && $script != "index.php")
 	}
 }*/
 
+// load style sheet depending on user's settings
 $location_stylesheet = ilUtil::getStyleSheetLocation();
 //echo "loc:".$location_stylesheet.":<br>";
 
 $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 $tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 
+// init infopanel
 if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 {
 	$mbox = new ilMailbox($_SESSION["AccountId"]);

@@ -40,5 +40,4 @@ $menu->addMenuBlock("CONTENT", "navigation");
 $menu->setTemplateVars();
 
 $tpl->show();
-
 ?>

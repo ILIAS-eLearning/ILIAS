@@ -374,6 +374,21 @@ class ilUtil
 	* Get all objects of a specific type and check access
 	* recursive method
 	* 
+	* Get all objects of a specific type where access is granted for the given list
+	* of operations. This function does a checkAccess call for all objects 
+	* in the object hierarchy and return only the objects of the given type.
+	* Please note if access is not granted to any object in the hierarchy
+	* the function skips all objects under it.
+	* Example:
+	* You want a list of all Courses that are visible and readable for the user.
+	* The function call would be:
+	* $your_list = IlUtil::GetObjectsByOperations ("crs", "visible,read");
+	* Lets say there is a course A where the user would have access to according to
+	* his role assignments. Course A lies within a group object which is not readable
+	* for the user. Therefore course A won't appear in the result list although
+	* the queried operations 'visible' and 'read' would actually permit the user
+	* to access course A.
+	* 
 	* @access	public
 	* @param	string	type or 'all' to get all objects
 	* @param	string	permissions to check e.g. 'visible','read' 
@@ -674,6 +689,7 @@ class ilUtil
 	* It works with all top level domains including the new ones (.biz, .info, .museum etc.)
 	* and the special ones (.arpa, .int etc.)
 	* as well as with e-mail addresses based on IPs (e.g. webmaster@123.45.123.45)
+	* @author	Unknown <mail@philipp-louis.de> (source: http://www.php.net/preg_match)
 	* @access	public
 	* @param	string	email address
 	* @return	boolean	true if valid
