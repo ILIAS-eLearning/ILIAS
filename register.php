@@ -144,6 +144,7 @@ function saveForm()
 	$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
 	// CREATE ENTRIES FOR MAIL BOX
+	/* moved folder creation to ObjUser->saveAsNew
 	include_once ("classes/class.ilMailbox.php");
 	$mbox = new ilMailbox($userObj->getId());
 	$mbox->createDefaultFolder();
@@ -155,7 +156,7 @@ function saveForm()
 	// create personal bookmark folder tree
 	include_once "classes/class.ilBookmarkFolder.php";
 	$bmf = new ilBookmarkFolder(0, $userObj->getId());
-	$bmf->createNewBookmarkTree();
+	$bmf->createNewBookmarkTree();*/
 
 	header("location: register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 	exit();

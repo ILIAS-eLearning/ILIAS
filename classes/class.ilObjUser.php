@@ -263,6 +263,21 @@ class ilObjUser extends ilObject
 			 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
 
 		$this->ilias->db->query($q);
+
+		// CREATE ENTRIES FOR MAIL BOX
+		include_once ("classes/class.ilMailbox.php");
+		$mbox = new ilMailbox($this->id);
+		$mbox->createDefaultFolder();
+
+		include_once "classes/class.ilMailOptions.php";
+		$mail_options = new ilMailOptions($this->id);
+		$mail_options->createMailOptionsEntry();
+
+		// create personal bookmark folder tree
+		include_once "classes/class.ilBookmarkFolder.php";
+		$bmf = new ilBookmarkFolder(0, $this->id);
+		$bmf->createNewBookmarkTree();
+
 	}
 
 	/**

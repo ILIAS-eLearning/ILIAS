@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.21 2004/01/31 17:05:52 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.22 2004/02/26 09:16:28 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -424,13 +424,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	* confirmObject
-	* 
+	*
 	* @access	public
 	*/
 	function confirmedDeleteObject()
@@ -442,10 +442,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete"),$this->ilias->error_obj->WARNING);
 		}
-		
+
 		if (in_array($_SESSION["AccountId"],$_SESSION["saved_post"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_delete_yourself"),$this->ilias->error_obj->WARNING);		
+			$this->ilias->raiseError($this->lng->txt("msg_no_delete_yourself"),$this->ilias->error_obj->WARNING);
 		}
 
 		// FOR ALL SELECTED OBJECTS
@@ -455,12 +455,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
 			$obj->delete();
 		}
-			
-		// Feedback
-		sendInfo($this->lng->txt("user_deleted"),true);	
 
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit();			
+		// Feedback
+		sendInfo($this->lng->txt("user_deleted"),true);
+
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -777,6 +776,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		exit();
 	}
 
+	/**
+	* get user import directory name
+	*/
 	function getImportDir()
 	{
 		return ilUtil::getDataDir()."/user_import";
@@ -817,6 +819,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$subdir = basename($parts["basename"],".".$parts["extension"]);
 		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+
+		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
 
 		require_once("classes/class.ilUserImportParser.php");
 		$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
@@ -864,12 +868,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$pre_select = array_search("User", $gl_roles);
 					break;
 			}
-			$role_select = ilUtil::formSelect($pre_select, "assign_".$role_id, $gl_roles, false, true);
+			$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
 			$this->tpl->setCurrentBlock("role");
 			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role_name." [".$role_id."]");
 			$this->tpl->setVariable("SELECT_ROLE", $role_select);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	* import users
+	*/
+	function importUsersObject()
+	{
+		require_once("classes/class.ilUserImportParser.php");
+		$importParser = new ilUserImportParser($_POST["xml_file"]);
+		$importParser->setRoleAssignment($_POST["role_assign"]);
+		$importParser->startParsing();
+
+		sendInfo($this->lng->txt("user_imported"), true);
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 } // END class.ilObjUserFolderGUI
