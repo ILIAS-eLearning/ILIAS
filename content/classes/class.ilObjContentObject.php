@@ -254,7 +254,7 @@ class ilObjContentObject extends ilObject
 		parent::putInTree($a_parent);
 
 		// make new tree for this object
-		$tree->addTree($this->getId());
+		//$tree->addTree($this->getId());
 	}
 
 
