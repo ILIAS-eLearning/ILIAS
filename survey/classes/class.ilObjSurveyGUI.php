@@ -1909,7 +1909,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 /**
->>>>>>> 1.72.2.18
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
