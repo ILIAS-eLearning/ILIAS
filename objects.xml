@@ -32,7 +32,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="cat" class_name="Category" checkbox="1" inherit="0">
+<object name="cat" class_name="Category" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
