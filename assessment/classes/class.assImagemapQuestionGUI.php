@@ -684,10 +684,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$maxpoints = $answer->get_points();
 				$maxindex = $idx;
 			}
+			$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
 		}
 		if ($maxindex > -1)
 		{
-			$output = preg_replace("/nohref id\=\"map$maxindex\"/", "href=\"$formaction&selImage=$maxindex\"", $output);
 			$answer = $this->object->answers[$maxindex];
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
