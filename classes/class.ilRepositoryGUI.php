@@ -93,7 +93,7 @@ class ilRepositoryGUI
 		$this->object =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
 
 		if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
-			&& ($this->object->getType == "cat" || $this->object->getType == "root"))
+			&& ($this->object->getType() == "cat" || $this->object->getType() == "root"))
 		{
 			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 		}
