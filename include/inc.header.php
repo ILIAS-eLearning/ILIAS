@@ -205,7 +205,7 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
 	//phpinfo();exit;
-	$return_to = urlencode($_SERVER["REQUEST_URI"]);
+
 
 	$dirname = dirname($_SERVER["PHP_SELF"]);
 	$ilurl = parse_url(ILIAS_HTTP_PATH);
@@ -221,8 +221,12 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 			$updir .= "../";
 		}
 	}
+
 	session_unset();
 	session_destroy();
+
+	$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
+
 	ilUtil::redirect($updir."index.php?reload=true&return_to=".$return_to);
 }
 

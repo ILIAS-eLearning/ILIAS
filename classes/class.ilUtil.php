@@ -1781,6 +1781,8 @@ class ilUtil
 	*/
 	function redirect($a_script)
 	{
+		global $log;
+		
 		header("Location: ".$a_script);
 		exit();
 	}
