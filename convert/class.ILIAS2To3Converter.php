@@ -355,7 +355,7 @@ class ILIAS2To3Converter
 				break;
 			
 			case "mc":  // TestItem
-				// Todo: get additional data
+				// Todo: get additional data from mc element -> MetaData..Educational..TypicalLearningTime
 				break;
 			
 			case "glos": // Glossary
@@ -2007,6 +2007,19 @@ class ILIAS2To3Converter
 		//-------------------------		
 		// table 'page' not needed at all!
 		
+		// table 'element' (number of the mc element)
+		$sql =	"SELECT nr ".
+				"FROM element ".
+				"WHERE page = ".$id." ".
+				"AND typ = 6 ".
+				"AND deleted = '0000-00-00 00:00:00';";
+		// get db result
+		$result = $this->dbQuery($sql, __FILE__, __LINE__);
+		// get row
+		$mc = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
 		//----------------------
 		// create TestItem tree:
 		//----------------------
@@ -2016,8 +2029,35 @@ class ILIAS2To3Converter
 		// TestItem..MetaData
 		$this->exportMetadata($id, "mc");
 		
-		// TestItem..(Question, Answer, Hint) 
-		// = element of type 6 (el_mc) ***
+		// TestItem..Introduction
+		// = elements of a mc page before the mc element are interpreted as introduction
+		$sql =	"SELECT id ".
+				"FROM element ".
+				"WHERE page = ".$id." ".
+				"AND nr < ".$mc["nr"]." ".
+				"AND deleted = '0000-00-00 00:00:00' ".
+				"ORDER BY nr;";
+		// get db result
+		$result = $this->dbQuery($sql, __FILE__, __LINE__);
+		// check row number
+		if ($result->numRows() > 0)
+		{
+			// TestItem..Introduction (starttag)
+			$this->xml->xmlStartTag("Introduction");
+			
+			// get row(s)
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// TestItem..Introduction..(Paragraph | MediaObject)
+				$this->exportElement($row["id"]);
+			}
+			
+			// TestItem..Introduction (endtag)
+			$this->xml->xmlEndTag("Introduction");
+		}
+		
+		// TestItem..(Question, Answer, Hint)
+		// = mc element (type 6)
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$id." ".
@@ -2027,30 +2067,38 @@ class ILIAS2To3Converter
 		$result = $this->dbQuery($sql, __FILE__, __LINE__);
 		// get row
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
 		$this->exportElement($row["id"]);
 		// free result set
 		$result->free();
 		
-		// = element other types ***
-		/* ***
+		// TestItem..Hint
+		// = elements of a mc page after the mc element are interpreted as additional hints
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$id." ".
-				"AND typ <> 6 ".
+				"AND nr > ".$mc["nr"]." ".
 				"AND deleted = '0000-00-00 00:00:00' ".
 				"ORDER BY nr;";
 		// get db result
 		$result = $this->dbQuery($sql, __FILE__, __LINE__);
-		// get row(s)
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		// check row number
+		if ($result->numRows() > 0)
 		{
-			$this->exportElement($row["id"]);
+			// TestItem..Hint (starttag)
+			$this->xml->xmlStartTag("Hint");
+			
+			// get row(s)
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// TestItem..Hint..(Paragraph | MediaObject)
+				$this->exportElement($row["id"]);
+			}
+			
+			// TestItem..Hint (endtag)
+			$this->xml->xmlEndTag("Hint");
 		}
-		// free result set
-		$result->free();
-		*/
-
+		
 		// TestItem (endtag)
 		$this->xml->xmlEndTag("TestItem");
 	}
@@ -2601,11 +2649,12 @@ class ILIAS2To3Converter
 		// create ILIAS 3 Learning Module out of ILIAS 2 Learning Unit
 		$this->exportLearningUnit($this->luId, $this->luInst);
 		
-		// dump xml document to screen (only for debugging)***
-		// echo "<PRE>";
-		// echo nl2br(htmlentities(str_replace(">",">\n",$this->xml->xmlDumpMem($format))));
-		// echo htmlentities($this->xml->xmlDumpMem($format));
-		// echo "</PRE>";
+		// dump xml document to screen (only for debugging reasons)
+		/*
+		echo "<PRE>";
+		echo htmlentities($this->xml->xmlDumpMem($format));
+		echo "</PRE>";
+		*/
 		
 		// dump xml document to file
 		$this->xml->xmlDumpFile($this->file, $format);
