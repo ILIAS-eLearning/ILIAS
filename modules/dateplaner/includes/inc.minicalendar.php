@@ -93,9 +93,8 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 	if ($firstday == -1) $firstday = 6; 
 	$startday = $lastday - $firstday;
 
-	$Tagesnamen = array("KW", $DP_language[Mo_short],$DP_language[Tu_short],$DP_language[We_short],$DP_language[Th_short],$DP_language[Fr_short],$DP_language[Sa_short],$DP_language[Su_short]);
-	$Monatabk = array("",$DP_language[short_01],$DP_language[short_02],$DP_language[short_03],$DP_language[short_04],$DP_language[short_05],$DP_language[short_06],$DP_language[short_07],$DP_language[short_08],$DP_language[short_09],$DP_language[short_10], $DP_language[short_11],$DP_language[short_12]);
-
+    $Tagesnamen = array($DP_language[wk_short], $DP_language[Mo_short], $DP_language[Tu_short], $DP_language[We_short], $DP_language[Th_short], $DP_language[Fr_short], $DP_language[Sa_short], $DP_language[Su_short]);
+	$Monatabk = array("", $DP_language[short_01], $DP_language[short_02], $DP_language[short_03], $DP_language[short_04], $DP_language[short_05], $DP_language[short_06], $DP_language[short_07], $DP_language[short_08], $DP_language[short_09], $DP_language[short_10],  $DP_language[short_11], $DP_language[short_12]);
 
 	ImageColorAllocate ($im, 144, 144, 144);
 	$color[1] = ImageColorAllocate ($im,0,0,0); //schwarz
