@@ -443,6 +443,7 @@ class ASS_QuestionGUI extends PEAR {
 				}
 				$this->tpl->setCurrentBlock("selectgap");
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				if ($gap[0]->get_shuffle())
 				{
 					$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
@@ -1085,9 +1086,14 @@ class ASS_QuestionGUI extends PEAR {
 				}
 				
 				// Set text gap points
-				if (preg_match("/points_(\d+)/", $key, $matches)) {
+				if (preg_match("/^points_(\d+)$/", $key, $matches)) {
 					$points = $value or 0.0;
 					$this->question->set_gap_points($matches[1]-1, $value);
+				}
+
+				// Set select gap shuffle state
+				if (preg_match("/^shuffle_(\d+)$/", $key, $matches)) {
+					$this->question->set_gap_shuffle($matches[1], $value);
 				}
 			}
 			
@@ -1533,7 +1539,7 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
-        $output = preg_replace("/" . "<gap.*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
+        $output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
@@ -1558,7 +1564,7 @@ class ASS_QuestionGUI extends PEAR {
           $select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
         }
         $select .= "</select>";
-        $output = preg_replace("/" . "<gap.*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
+        $output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();

@@ -627,6 +627,27 @@ class ASS_ClozeTest extends ASS_Question {
   }
 
 /**
+* Sets the shuffle state of a gap
+*
+* Sets the shuffle state of a gap with a given index. The index of the first
+* gap is 0, the index of the second gap is 1 and so on.
+*
+* @param integer $index A nonnegative index of the n-th gap
+* @param integer $shuffle Turn shuffle on (=1) or off (=0)
+* @access public
+* @see $gaps
+*/
+  function set_gap_shuffle($index = 0, $shuffle = 1) {
+    if ($index < 0) return;
+    if (count($this->gaps) < 1) return;
+    if ($index >= count($this->gaps)) return;
+    foreach ($this->gaps[$index] as $key => $value) {
+      $this->gaps[$index][$key]->set_shuffle($shuffle);
+    }
+  }
+
+
+/**
 * Sets the points of a gap answer
 *
 * Sets the points of a gap answer with a given index. The index of the first
