@@ -1031,7 +1031,7 @@ class ilTree
 
 	/**
 	* save subtree: copy a subtree (defined by node_id) to a new tree
-	* with $this->tree_id -node_id. This is neccessary for cut/copy
+	* with $this->tree_id -node_id. This is neccessary for undelete functionality
 	* @param	integer	node_id
 	* @return	integer
 	* @access	public
@@ -1054,7 +1054,7 @@ class ilTree
 			$lft = $row->lft;
 			$rgt = $row->rgt;
 		}
-
+		
 		// GET ALL SUBNODES
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
@@ -1064,9 +1064,9 @@ class ilTree
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$subnodes[$row->child] = $this->fetchNodeData($row);
+			$subnodes[$row["child"]] = $this->fetchNodeData($row);
 		}
-
+		
 		// SAVE SUBTREE
 		foreach($subnodes as $node)
 		{
