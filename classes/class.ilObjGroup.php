@@ -97,23 +97,21 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacsystem;
 
+		//get default group roles (member, admin)
+		$grp_DefaultRoles = $this->getDefaultGroupRoles();
+
 		if(isset($a_userId) && isset($a_memStatus))
 		{
 			if( $rbacsystem->checkAccess("join", $this->getRefId(),'grp') )
 			{
 				//assignUser needs to be renamed into assignObject
-				if(strcmp($a_memStatus,"member") == 0)			//member
+				if(strcmp($a_memStatus,"member") == 0)		//member
 				{
-					$rbacadmin->assignUser($this->m_roleMemberId,$a_userId, false);
-					$ops = array(2,3,7,8);
-					$rbacadmin->grantPermission($this->m_roleMemberId,$ops,$this->getRefId());
-
+					$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$a_userId, false);
 				}
 				else if(strcmp($a_memStatus,"admin") == 0)		//admin
 				{
-					$rbacadmin->assignUser($this->m_roleAdminId,$a_userId, true);
-					$ops = array(5,6,1,7,8,3,2,4);
-					$rbacadmin->grantPermission($this->m_roleAdminId,$ops,$this->getRefId());
+					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_userId, true);
 				}
 				else											//request??
 				{
@@ -207,8 +205,13 @@ class ilObjGroup extends ilObject
 	function getGroupRole($a_user_id, $a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
+		if(isset($a_grp_id))
+			$grp_id = a_grp_id;
+		else
+			$grp_id = $this->m_grpId;
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		//$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		//TOOODOOOO: schoen machen !!!
@@ -234,16 +237,53 @@ class ilObjGroup extends ilObject
 	function deleteGroup($a_grpId="")
 	{
 	}
+	
+	/**
+	* get default group roles
+	* @access	public
+	* @param 	returns the obj_ids of group specific roles(member,admin)
+	*/
+	function getDefaultGroupRoles()
+	{
+		global $rbacadmin, $rbacreview;
 
+
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+
+		foreach ($role_arr as $role_id)
+		{
+			$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+
+			if(strcmp($role_Obj->getTitle(), "grp_Member") == 0 )
+				$arr_grpDefaultRoles["grp_member_role"] = $role_Obj->getId();
+
+			if(strcmp($role_Obj->getTitle(), "grp_Administrator") == 0 )
+				$arr_grpDefaultRoles["grp_admin_role"] = $role_Obj->getId();
+		}
+
+		return $arr_grpDefaultRoles;
+
+	}
+	
+	/**
+	* get group status closed template
+	* @access	public
+	* @param	return obj_id of roletemplate containing permissionsettings for a closed group
+	*/
 	function getGrpStatusClosedTemplateId()
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_closed'";
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["obj_id"];
-
 	}
 
+	/**
+	* get group status open template
+	* @access	public
+	* @param	return obj_id of roletemplate containing permissionsettings for an open group
+	*/
 	function getGrpStatusOpenTemplateId()
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_open'";
@@ -261,6 +301,8 @@ class ilObjGroup extends ilObject
 	function setGroupStatus($a_grpStatus)
 	{
 		global $rbacadmin, $rbacreview;
+		
+		$grp_Status = array("group_status_public" => 0,"group_status_private" => 1, "group_status_closed" => 2);
 
 		//get Rolefolder of group
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
@@ -268,35 +310,7 @@ class ilObjGroup extends ilObject
 		//todo: query that fetches the considering roles
 		$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
 
-  		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
-		{
-			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
-			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
-			foreach ($arr_globalRoles as $globalRole)
-			{
-				if($this->getGroupStatus() != NULL)
-					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
-
-				//revoke all permission on current group object for all(!) global roles, may be a workaround
-				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
-				//set permissions of global role (admin,author,guest,learner) for group object
-				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
-
-				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
-				//the assignment stops the inheritation
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
-			}//END foreach
-
-			$this->m_grpStatus = 0;
-		}
-
-		if(strcmp($a_grpStatus,"group_status_private") == 0)			//group status set private (=1)
-		{
-			$this->m_grpStatus = 1;
-		}
-
-	  	if(strcmp($a_grpStatus,"group_status_public") == 0)			//group status set opened
+	  	if(strcmp($a_grpStatus,"group_status_public") == 0 || strcmp($a_grpStatus,"group_status_private") == 0)			//group status set opened
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
@@ -319,14 +333,42 @@ class ilObjGroup extends ilObject
 			$this->m_grpStatus = 2;
 		}
 
+		if(strcmp($a_grpStatus,"group_status_private") == 0)			//group status set private (=1)
+		{
+			$this->m_grpStatus = 1;
+		}
+  		
+		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
+		{
+			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
+			foreach ($arr_globalRoles as $globalRole)
+			{
+				if($this->getGroupStatus() != NULL)
+					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
+
+				//revoke all permission on current group object for all(!) global roles, may be a workaround
+				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
+				//set permissions of global role (admin,author,guest,learner) for group object
+				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
+
+				//copy permissiondefinitions of template for adminrole to localrolefolder of group
+				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte übernehmen soll
+				//the assignment stops the inheritation
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
+			}//END foreach
+
+			$this->m_grpStatus = 0;
+		}
+
 
 		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res		= $this->ilias->db->query($sql_query1);
 
 		if($res->numRows() == 0)
-			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$this->m_grpStatus.")";
+			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$grp_Status[$a_grpStatus].")";
 		else
-			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getId()."'";
+			$sql_query = "UPDATE grp_data SET status='".$grp_Status[$a_grpStatus]."' WHERE grp_id='".$this->getId()."'";
 
 		$res = $this->ilias->db->query($sql_query);
 
@@ -360,50 +402,72 @@ class ilObjGroup extends ilObject
 		require_once("./classes/class.ilObjRole.php");
 		global $rbacadmin;
 
-
 		// create new role objects
 		if(isset($rolfId))
 		{
 
-			//member-role
-			$roleObj = new ilObjRole();
-			$roleObj->setTitle("grp_Member");
-			$roleObj->setDescription("automatic generated Group-Memberrole");
-			$roleObj->create();
-			$roleObj->createReference();
-			$parent_id = $this->getRefId();
-			$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
+			//set permissions for MEMBER ROLE
+			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Member_rolt' AND description='Member role template of groups'";
 
-			$this->m_roleMemberId = $roleObj->getId();
+			$res = $this->ilias->db->query($q);
 
-			//set permissions for member-role
 
-			$rbacadmin->copyRolePermission(101,8, $rolfId,$roleObj->getId()  );
+			//TODO: errorhandling
+			if($res->numRows() == 1)
+
+			{
+				//member-role
+				$roleObj = new ilObjRole();
+				$roleObj->setTitle("grp_Member");
+				$roleObj->setDescription("automatic generated Group-Memberrole");
+				$roleObj->create();
+				$roleObj->createReference();
+				$parent_id = $this->getRefId();
+				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
+
+				$this->m_roleMemberId = $roleObj->getId();
+				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+				$rbacadmin->copyRolePermission($row["obj_id"],8, $rolfId,$roleObj->getId()  );
+
+				unset($roleObj);
+			}
+			else
+				$this->ilias->raiseError("Error! Could not find the needed role template to set role permissions for group member!");
 
 			//$ops = array(2,4,8);	//2=visible, 3=read, 8=leave
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
-			unset($roleObj);
 
-			//admin-role
-			$roleObj = new ilObjRole();
-			$roleObj->setTitle("grp_Administrator");
-			$roleObj->setDescription("automatic generated Group-Adminrole");
-			$roleObj->create();
-			$roleObj->createReference();
-			$parent_id = $this->getRefId();
-			$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
-
-			$this->m_roleAdminId = $roleObj->getId();
 
 			//set permissions for admin-role
-			$rbacadmin->copyRolePermission(100,8, $rolfId, $roleObj->getId() );
+			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Admin_rolt' AND description='Administrator role template of groups'";
+			$res = $this->ilias->db->query($q);
+			//TODO: errorhandling, if query return more than 1 id matching this query
 
+			if($res->numRows() == 1)
+			{
+				//admin-role
+				$roleObj = new ilObjRole();
+				$roleObj->setTitle("grp_Administrator");
+				$roleObj->setDescription("automatic generated Group-Adminrole");
+				$roleObj->create();
+				$roleObj->createReference();
+				$parent_id = $this->getRefId();
+				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
+
+				$this->m_roleAdminId = $roleObj->getId();
+
+				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$rbacadmin->copyRolePermission($row["obj_id"],8, $rolfId, $roleObj->getId() );
+				unset($roleObj);
+			}
+				$this->ilias->raiseError("Error! Could not find the needed role template to set role permissions for group administrator!");
 			//$ops = array(1,2,3,4,6,8);
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
-			unset($roleObj);
 
+			/*
 			//request-role <=> group is private
 			if($this->m_grpStatus == 1)
 			{
@@ -412,7 +476,7 @@ class ilObjGroup extends ilObject
 				$roleObj->setDescription("automatic generated Group-Requestrole");
 				$roleObj->create();
 				$roleObj->createReference();
-				$parent_id = $this->tree->getParentId($_GET["ref_id"]);
+				$parent_id = $this->->getParentId($_GET["ref_id"]);
 				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
 
 				$this->m_roleRequestId = $roleObj->getId();
@@ -423,6 +487,15 @@ class ilObjGroup extends ilObject
 
 				unset($roleObj);
 			}
+			*/
+			//create permissionsettings for grp_admin and grp_member
+			$grp_DefaultRoles = $this->getDefaultGroupRoles();
+
+			$ops = array(2,3,8);
+			$rbacadmin->grantPermission($grp_DefaultRoles["grp_member_role"],$ops,$this->getRefId());
+			$ops = array(1,2,3,4,5,6,7,8);
+			$rbacadmin->grantPermission($grp_DefaultRoles["grp_admin_role"],$ops,$this->getRefId());
+
 
 		}
 	}
@@ -441,8 +514,8 @@ class ilObjGroup extends ilObject
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		//TOOODOOOO: schoen machen !!!
-		foreach ($role_arr as $role_id) 
-		{	
+		foreach ($role_arr as $role_id)
+		{
 			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
 			{
 				if($member_id == $a_userId)
@@ -518,10 +591,10 @@ class ilObjGroup extends ilObject
 		return false;
 
 	}
-	
+
 	function createNewGroupTree()
 	{
-	
+
 	$this->grp_tree = new ilTree($this->getRefId());
 	$this->grp_tree->setTableNames("grp_tree","obj_data");
 	$this->grp_tree->addTree($this->getRefId());
