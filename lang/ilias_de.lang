@@ -31,14 +31,14 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-common#:#absolute_path#:#absoluter Pfad
+common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#actions#:#Aktionen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
-common#:#administrate#:#administrieren
+common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#also_as_email#:#auch als eMail
@@ -50,17 +50,17 @@ common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen
 common#:#author#:#Autor
 common#:#authors#:#Autoren
-common#:#available_languages#:#verfügbare Sprachen
-common#:#back#:#zurück
+common#:#available_languages#:#Verfügbare Sprachen
+common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
 common#:#bc#:#BC
 common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmarks#:#Bookmarks
-common#:#btn_remove_system#:#aus System entfernen
-common#:#btn_undelete#:#wiederherstellen
+common#:#btn_remove_system#:#Aus System entfernen
+common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-common#:#cancel#:#verwerfen
+common#:#cancel#:#Verwerfen
 common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
@@ -71,29 +71,29 @@ common#:#change_metadata#:#Metadaten ändern
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
-common#:#check#:#prüfen
+common#:#check#:#Prüfen
 common#:#check_language#:#Sprache checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
 common#:#city#:#Stadt
-common#:#clear#:#abbrechen
-common#:#comma_separated#:#kommagetrennt
-common#:#compose#:#schreiben
-common#:#confirm#:#bestätigen
+common#:#clear#:#Abbrechen
+common#:#comma_separated#:#Kommagetrennt
+common#:#compose#:#Schreiben
+common#:#confirm#:#Bestätigen
 common#:#contact_information#:#Kontakt
 common#:#context#:#Kontext
-common#:#copy#:#kopieren
+common#:#copy#:#Kopieren
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
-common#:#create#:#erstellen
-common#:#create_in#:#erstellen in
+common#:#create#:#Erstellen
+common#:#create_in#:#Erstellen in
 common#:#crs#:#Kurs
-common#:#crs_available#:#verfügbare Kurse
+common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
-common#:#current_password#:#derzeitiges Passwort
-common#:#cut#:#ausschneiden
+common#:#current_password#:#Derzeitiges Passwort
+common#:#cut#:#Ausschneiden
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#date#:#Datum
@@ -105,17 +105,17 @@ common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
 common#:#default#:#default
 common#:#default_role#:#Standardrolle
-common#:#delete#:#löschen
-common#:#delete_all#:#alle löschen
+common#:#delete#:#Löschen
+common#:#delete_all#:#Alle löschen
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
-common#:#deleted#:#gelöscht
+common#:#deleted#:#Gelöscht
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
-common#:#desired_password#:#neues Password
-common#:#disabled#:#ausgeschaltet
+common#:#desired_password#:#Neues Password
+common#:#disabled#:#Ausgeschaltet
 common#:#drafts#:#Entwürfe
-common#:#edit#:#bearbeiten
+common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_properties#:#Eigenschaften
@@ -123,18 +123,18 @@ common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#eMail
 common#:#employee#:#Angestellter
-common#:#enable#:#aktivieren
-common#:#enabled#:#eingeschaltet
-common#:#enumerate#:#nummerieren
+common#:#enable#:#Aktivieren
+common#:#enabled#:#Eingeschaltet
+common#:#enumerate#:#Nummerieren
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
-common#:#execute#:#ausführen
+common#:#execute#:#Ausführen
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback-Empfänger
 common#:#file#:#Datei
 common#:#file_not_found#:#Datei nicht gefunden
-common#:#file_version#:#verfügbare Version
+common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
@@ -147,7 +147,7 @@ common#:#forum#:#Forum
 common#:#forum_new#:#Neues Forum
 common#:#forums#:#Foren
 common#:#forums_articles#:#Beiträge
-common#:#forums_available#:#verfügbare Foren
+common#:#forums_available#:#Verfügbare Foren
 common#:#forums_count#:#Anzahl Foren
 common#:#forums_count_art#:#Anzahl Beiträge
 common#:#forums_count_thr#:#Anzahl Themen
@@ -192,19 +192,19 @@ common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#ilias_version#:#ILIAS Version
-common#:#import#:#import
+common#:#import#:#Import
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
 common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_trash#:#Gelöschte Objekte
 common#:#information_abbr#:#Infos
-common#:#inifile#:#ini-Datei
+common#:#inifile#:#Ini-Datei
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
-common#:#install#:#installieren
-common#:#installed#:#installiert
+common#:#install#:#Installieren
+common#:#installed#:#Installiert
 common#:#institution#:#Institution
 common#:#ip_address#:#IP Adresse
 common#:#item#:#Begriff
@@ -225,7 +225,7 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
 common#:#language#:#Sprache
 common#:#languages#:#Sprachen
-common#:#last_change#:#letzte Änderung
+common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
@@ -234,7 +234,7 @@ common#:#le#:#Lernmodul
 common#:#level#:#Stufe
 common#:#linebreak#:#Zeilenumbruch
 common#:#link#:#verknüpfen
-common#:#linked_pages#:#verknüpft mit den Seiten
+common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
@@ -250,24 +250,24 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
 common#:#lo_overview#:#LE Übersicht
 common#:#login#:#Login
-common#:#login_to_ilias#:#bei ILIAS anmelden
+common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
-common#:#los_last_visited#:#zuletzt besuchte Lerneinheiten
+common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
 common#:#mail_s#:#Mail(s)
-common#:#mail_s_unread#:#ungelesene Mail(s)
+common#:#mail_s_unread#:#Ungelesene Mail(s)
 common#:#mails#:#Mails
 common#:#mandatory_fields#:#Pflichtfelder
-common#:#mark_all_read#:#als gelesen markieren
-common#:#mark_all_unread#:#als ungelesen markieren
+common#:#mark_all_read#:#Als gelesen markieren
+common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#members#:#Mitglieder
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
-common#:#migrate#:#migrieren
-common#:#move_to#:#ablegen in
-common#:#msg_changes_ok#:#die Änderungen wurden übernommen
+common#:#migrate#:#Migrieren
+common#:#move_to#:#Ablegen in
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
@@ -278,25 +278,25 @@ common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Ve
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen: Nr.
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen: Nr.
 common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
-common#:#msg_nothing_found#:#nichts gefunden
+common#:#msg_nothing_found#:#Nichts gefunden
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
 common#:#multimedia#:#Multimedia
 common#:#must_fill_in#:#Felder müssen ausgefüllt werden
 common#:#name#:#Name
-common#:#new#:#neu
-common#:#new_folder#:#neuer Ordner
-common#:#new_group#:#neue Gruppe
+common#:#new#:#Neu
+common#:#new_folder#:#Neuer Ordner
+common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
 common#:#news#:#News
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
-common#:#no_objects#:#keine Objekte
-common#:#no_title#:#kein Titel
-common#:#none#:#keine
-common#:#normal#:#normal
-common#:#not_installed#:#nicht installiert
+common#:#no_objects#:#Keine Objekte
+common#:#no_title#:#Kein Titel
+common#:#none#:#Keine
+common#:#normal#:#Normal
+common#:#not_installed#:#Nicht installiert
 common#:#obj#:#Objekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_owner#:#Besitzer des Objekts ist
@@ -304,21 +304,21 @@ common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
-common#:#old#:#alt
+common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#options#:#Optionen
 common#:#order_by#:#Sortieren nach
-common#:#other#:#andere
+common#:#other#:#Andere
 common#:#overview#:#Übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#passwd#:#Passwort
 common#:#password#:#Passwort
-common#:#paste#:#einfügen
+common#:#paste#:#Einfügen
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -341,14 +341,14 @@ common#:#profile#:#Profil
 common#:#pub_section#:#öffentlicher Bereich
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
-common#:#published#:#veröffentlicht
-common#:#publishing_organisation#:#veröffentlichende Organisation
+common#:#published#:#Veröffentlicht
+common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#question#:#Frage
 common#:#quit#:#Logout
-common#:#read#:#lesen
+common#:#read#:#Lesen
 common#:#recipient#:#Empfänger
-common#:#refresh#:#aktualisieren
-common#:#refresh_list#:#refresh list
+common#:#refresh#:#Aktualisieren
+common#:#refresh_list#:#Refresh List
 common#:#registered_since#:#Eingetragen seit
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
@@ -363,29 +363,29 @@ common#:#rolt#:#Rollenvorlage
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
-common#:#save#:#speichern
-common#:#save_and_back#:#speichern und zurück
+common#:#save#:#Speichern
+common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Nachricht speichern
-common#:#saved#:#gespeichert
+common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
 common#:#search_bc_recipient#:#BC Empfänger suchen
 common#:#search_cc_recipient#:#CC Empfänger suchen
-common#:#search_in#:#suchen in
+common#:#search_in#:#Suchen in
 common#:#search_recipient#:#Empfänger suchen
 common#:#sections#:#Bereiche
 common#:#select_all#:#Alle auswählen
-common#:#selected#:#ausgewählte
-common#:#send#:#abschicken
+common#:#selected#:#Ausgewählte
+common#:#send#:#Abschicken
 common#:#sender#:#Absender
-common#:#sent#:#gesendet
+common#:#sent#:#Gesendet
 common#:#sep_decimal#:#,
 common#:#sep_thousand#:#.
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
 common#:#server_software#:#Server Software
-common#:#set#:#setzen
+common#:#set#:#Setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#set_system_language#:#Systemsprache ändern
@@ -400,9 +400,9 @@ common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#student#:#Student
 common#:#subcat_name#:#Unterkategorie Name
-common#:#subchapter_new#:#neues Unterkapitel
+common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
-common#:#submit#:#abschicken
+common#:#submit#:#Abschicken
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#system#:#System
@@ -411,21 +411,21 @@ common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
-common#:#test_intern#:#interner Test
+common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
 common#:#today#:#Heute
-common#:#total#:#gesamt
+common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#type#:#Typ
-common#:#type_your_message_here#:#schreiben Sie Ihre Nachricht hier
+common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
-common#:#uninstall#:#deinstallieren
+common#:#uninstall#:#Deinstallieren
 common#:#unknown#:#UNBEKANNT
-common#:#unread#:#ungelesen
+common#:#unread#:#Ungelesen
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#url#:#URL
@@ -442,9 +442,9 @@ common#:#usrf#:#Benutzerordner
 common#:#version#:#Version
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
-common#:#visible_layers#:#sichtbare Ebenen
+common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
-common#:#write#:#schreiben
+common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
