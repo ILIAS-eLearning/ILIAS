@@ -224,10 +224,13 @@ class ilObjGroupGUI extends ilObjectGUI
 	function canceledObject()
 	{
 		$return_location = $_GET["cmd_return_location"];
-		//$return_location = "members";
+		if (strcmp($return_location, "") == 0)
+		{
+			$return_location = "members";
+		}
 				
 		sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		$this->ctrl->redirect($this, $return_location);
 	}
 
 	/**
@@ -406,7 +409,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this)));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));//$this->getFormAction("update",$this->ctrl->getFormAction($this)));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("grp_edit"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
