@@ -107,7 +107,8 @@ class Template extends IntegratedTemplateExtension
         } else {
             parent::show($part);
         }
-		if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
+		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
+			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
 		{
 			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
 			$_SESSION["post_vars"] = $_POST;
@@ -120,7 +121,6 @@ class Template extends IntegratedTemplateExtension
 	function fillVars()
 	{
         $count = 0;
-		
 		reset($this->vars);
 
         while(list($key, $val) = each($this->vars))
