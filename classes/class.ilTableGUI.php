@@ -71,6 +71,7 @@ class ilTableGUI
 							"help"			=>	false,
 							"content"		=>	true,
 							"action"		=>	false,
+							"header"        =>  true,
 							"footer"		=>	true,
 							"linkbar"		=>	true,
 							"numinfo"		=>	true,
@@ -437,7 +438,10 @@ class ilTableGUI
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		// table header
+		if ($this->enabled["header"])
+		{
 		foreach ($this->header_names as $key => $tbl_header_cell)
 		{
 			if(!$this->enabled["sort"])
@@ -480,6 +484,7 @@ class ilTableGUI
 		
 			$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
 			$this->tpl->parseCurrentBlock();
+		}
 		}
 
 		// table data
