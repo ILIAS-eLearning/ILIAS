@@ -513,6 +513,7 @@ common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#活动角色
 common#:#add#:#增加
 common#:#add_author#:#增加作者
+common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#增加成员
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#增加翻译
@@ -547,6 +548,7 @@ common#:#answers#:#答案
 common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#申请已完成
 common#:#application_date#:#申请日期
+common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#appointment#:#约会
 common#:#appointment_list#:#约会列表
 common#:#archive#:#存档
@@ -694,6 +696,15 @@ common#:#close#:#关闭
 common#:#comma_separated#:#逗号分隔
 common#:#comment#:#注解
 common#:#compose#:#写作
+common#:#condition#:#Condition###14 Aug 2004 new variable
+common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
+common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
+common#:#condition_passed#:#Passed###14 Aug 2004 new variable
+common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
+common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
+common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
+common#:#condition_update#:#Save###14 Aug 2004 new variable
+common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#确认
 common#:#cont_object#:#对象
 common#:#contact_data#:#联系信息
@@ -731,9 +742,14 @@ common#:#crs_edit_permission#:#更改许可设置
 common#:#crs_join#:#注册课程
 common#:#crs_leave#:#注销课程
 common#:#crs_management_system#:#课程管理系统
+common#:#crs_member_not_passed#:#Not passed###14 Aug 2004 new variable
+common#:#crs_member_passed#:#Passed###14 Aug 2004 new variable
 common#:#crs_new#:#新课程
 common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#课程设为读访问
+common#:#crs_status_blocked#:#[Access refused]###14 Aug 2004 new variable
+common#:#crs_status_pending#:#[Waiting for registration]###14 Aug 2004 new variable
+common#:#crs_subscribers_assigned#:#Assigned new user(s)###14 Aug 2004 new variable
 common#:#crs_visible#:#课程可视
 common#:#crs_write#:#编辑课程
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
@@ -1451,6 +1467,7 @@ common#:#no_objects#:#无对象
 common#:#no_permission_to_join#:#您不允许加入此组！
 common#:#no_title#:#无标题
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
+common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#none#:#无
 common#:#normal#:#正常
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1625,6 +1642,7 @@ common#:#please_enter_target#:#请输入一个目标
 common#:#please_enter_title#:#请输入一个标题
 common#:#port#:#端口
 common#:#position#:#位置
+common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
 common#:#presentation_options#:#演示选项
 common#:#previous#:#前一个
 common#:#print#:#打印
@@ -1840,6 +1858,15 @@ common#:#tests#:#测试
 common#:#time#:#时间
 common#:#time_d#:#按天
 common#:#time_h#:#按小时
+common#:#time_limit#:#Access###14 Aug 2004 new variable
+common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###14 Aug 2004 new variable
+common#:#time_limit_applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#time_limit_no_users_selected#:#Please select an user.###14 Aug 2004 new variable
+common#:#time_limit_not_valid#:#The period is not valid.###14 Aug 2004 new variable
+common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###14 Aug 2004 new variable
+common#:#time_limit_reached#:#Your access period is expired.###14 Aug 2004 new variable
+common#:#time_limit_users_updated#:#User data updated###14 Aug 2004 new variable
+common#:#time_limits#:#Access###14 Aug 2004 new variable
 common#:#time_segment#:#时间段###02 Jul 2004 content changed
 common#:#title#:#标题
 common#:#to#:#到
@@ -2253,6 +2280,7 @@ crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
 crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
 crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
 crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
+crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
 crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
 crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
 crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
@@ -2343,6 +2371,7 @@ crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Options###07 Aug 2004 new variable
+crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
 crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
 crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
 crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable
