@@ -1045,5 +1045,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->pages();
 	}
 
+	function cancel()
+	{
+		if ($_GET["new_type"] == "pg")
+		{
+			header("Location: lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
+		}
+		else
+		{
+			header("Location: lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+		}
+	}
+
 } // END class.ilObjContentObjectGUI
 ?>
