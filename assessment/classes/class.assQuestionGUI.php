@@ -177,17 +177,6 @@ class ASS_QuestionGUI extends PEAR {
     }
   }
 
-/**
-* Cancels actions editing this question
-*
-* Cancels actions editing this question
-*
-* @access private
-*/
-  function cancel_action() {
-    header("location:" . $_SERVER["PHP_SELF"] . $this->get_add_parameter());
-  }
-
   function get_add_parameter() {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
@@ -313,7 +302,7 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
       $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-      $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_multiple_choice_sr");
+      $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_multiple_choice_sr");
       $this->tpl->parseCurrentBlock();
     } else {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
@@ -373,7 +362,7 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
       $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-      $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_multiple_choice_mr");
+      $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_multiple_choice_mr");
       $this->tpl->parseCurrentBlock();
     }
   }
@@ -471,7 +460,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY","Apply");
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_CLOZE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_cloze");
+		$this->tpl->setVariable("ACTION_CLOZE_TEST", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_cloze");
     $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     $this->tpl->parseCurrentBlock();
   }
@@ -538,7 +527,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_ORDERING_QUESTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_ordering");
+		$this->tpl->setVariable("ACTION_ORDERING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_ordering");
     $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     $this->tpl->parseCurrentBlock();
   }
@@ -647,7 +636,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-    $this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_matching");
+		$this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_matching");
     $this->tpl->parseCurrentBlock();
   }
 
@@ -742,7 +731,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",$_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_imagemap");
+		$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap");
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -1287,65 +1276,6 @@ class ASS_QuestionGUI extends PEAR {
         break;
     }
     return $result;
-  }
-
-/**
-* Creates the create/edit template form of a question
-*
-* Creates the create/edit template form of a question and fills it with
-* that data of the question.
-*
-* @access public
-*/
-  function set_edit_template() {
-    $missing_required_fields = 0;
-
-    if (strlen($_POST["cmd"]["cancel"]) > 0) {
-      // Cancel
-      $this->cancel_action();
-      exit();
-    }
-
-    $this->question->set_ref_id($_GET["ref_id"]);
-    $question_type = $this->get_question_type($this->question);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
-
-    if ($_POST["id"] > 0) {
-      // First of all: Load question data from database
-      $this->question->load_from_db($_POST["id"]);
-    }
-
-    if (!$_GET["edit"]) {
-      $missing_required_fields = $this->set_question_data_from_template($question_type);
-    }
-    if (strlen($_POST["cmd"]["save"]) > 0) {
-      // Save and back to question pool
-      if (!$missing_required_fields) {
-        $this->question->save_to_db();
-        $this->cancel_action();
-        exit();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
-    if (strlen($_POST["cmd"]["apply"]) > 0) {
-      // Save and continue editing
-      if (!$missing_required_fields) {
-        $this->question->save_to_db();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
-
-    $this->set_template_from_question_data($question_type);
-
-    $this->tpl->setCurrentBlock("adm_content");
-    if ($this->question->id > 0) {
-      $this->tpl->setVariable("TXT_PAGEHEADLINE", $this->lng->txt("edit") . " " . $this->lng->txt($question_type));
-    } else {
-      $this->tpl->setVariable("TXT_PAGEHEADLINE", $this->lng->txt("create_new") . " " . $this->lng->txt($question_type));
-    }
-    $this->tpl->parseCurrentBlock();
   }
 
 /**

@@ -460,9 +460,7 @@ class ASS_MultipleChoice extends ASS_Question {
     $points = 0;
     foreach ($found_values as $key => $value) {
       if (strlen($value) > 0) {
-        if ($this->answers[$value]->is_true()) {
-          $points += $this->answers[$value]->get_points();
-        }
+				$points += $this->answers[$value]->get_points();
       }
     }
     return $points;
@@ -499,8 +497,8 @@ class ASS_MultipleChoice extends ASS_Question {
 			);
       if (strlen($value) > 0) {
         $solution["value"] = $this->answers[$value]->get_answertext();
+				$solution["points"] = $this->answers[$value]->get_points();
         if ($this->answers[$value]->is_true()) {
-          $solution["points"] = $this->answers[$value]->get_points();
           $solution["true"] = 1;
         }
       }
