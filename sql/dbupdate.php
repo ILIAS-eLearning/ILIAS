@@ -1,9 +1,9 @@
 <#1>
 #intial release of database
+<#2>
 #
 # Tabellenstruktur für Tabelle `frm_posts_tree`
 #
-<#2>
 DROP TABLE IF EXISTS frm_posts_tree;
 CREATE TABLE frm_posts_tree (
   fpt_pk bigint(20) NOT NULL auto_increment,
@@ -16,8 +16,6 @@ CREATE TABLE frm_posts_tree (
   date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (fpt_pk)
 ) TYPE=MyISAM;
-
-# --------------------------------------------------------
 
 #
 # Tabellenstruktur für Tabelle `frm_data`
@@ -37,7 +35,6 @@ CREATE TABLE frm_data (
   visits int(11) NOT NULL default '0',
   PRIMARY KEY  (top_pk)
 ) TYPE=MyISAM;
-# --------------------------------------------------------
 
 #
 # Tabellenstruktur für Tabelle `frm_posts`
@@ -54,7 +51,6 @@ CREATE TABLE frm_posts (
   pos_update datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (pos_pk)
 ) TYPE=MyISAM;
-# --------------------------------------------------------
 
 #
 # Tabellenstruktur für Tabelle `frm_threads`
@@ -74,3 +70,10 @@ CREATE TABLE frm_threads (
   visits int(11) NOT NULL default '0',
   PRIMARY KEY  (thr_pk)
 ) TYPE=MyISAM;
+
+<#3>
+# set system adminstrator login to root/homer
+UPDATE usr_data SET 
+login='root', 
+passwd='dfa8327f5bfa4c672a04f9b38e348a70' 
+WHERE usr_id='6';
