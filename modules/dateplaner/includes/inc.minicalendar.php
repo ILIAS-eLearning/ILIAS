@@ -97,14 +97,14 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 	$Monatabk = array("",$DP_language[short_01],$DP_language[short_02],$DP_language[short_03],$DP_language[short_04],$DP_language[short_05],$DP_language[short_06],$DP_language[short_07],$DP_language[short_08],$DP_language[short_09],$DP_language[short_10], $DP_language[short_11],$DP_language[short_12]);
 
 
-	ImageColorAllocate ($im, 0, 102, 150);
+	ImageColorAllocate ($im, 144, 144, 144);
 	$color[1] = ImageColorAllocate ($im,0,0,0); //schwarz
-	$color[2] = ImageColorAllocate ($im,0,102,150); //blau
-	$color[3] = ImageColorAllocate ($im,0,54,102); // dunkelblau
+	$color[2] = ImageColorAllocate ($im,144,144,144); //blau
+	$color[3] = ImageColorAllocate ($im,43,43,43); // dunkelblau
 	$color[4] = ImageColorAllocate ($im,255,255,255); //weiss
-	$color[5] = ImageColorAllocate ($im,102,204,255); //hellblau
-	$color[6] = ImageColorAllocate ($im,0,54,102); //ausblenden hellblau
-	$color[7] = ImageColorAllocate ($im,255,0,2); //rot
+	$color[5] = ImageColorAllocate ($im,200,200,200); //hellblau
+	$color[6] = ImageColorAllocate ($im,0,255,0); //ausblenden hellblau
+	$color[7] = ImageColorAllocate ($im,255,200,150); //rot
 
 	imagefilledrectangle ($im, 1, 49, 160, 65, $color[3]);
 	imagefilledrectangle ($im, 1, 66, 20, 158, $color[3]);
