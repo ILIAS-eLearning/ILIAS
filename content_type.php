@@ -49,8 +49,8 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_DESC",$val["desc"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-			$tplContent->setVariable("IMG_TYPE","icon_type.gif");
-			$tplContent->setVariable("ALT_IMG_TYPE","Object type");
+			$tplContent->setVariable("IMG_TYPE","icon_type_b.gif");
+			$tplContent->setVariable("ALT_IMG_TYPE","type");
 			$tplContent->setVariable("CSS_ROW",$css_row);
 			$tplContent->setVariable("OBJ",$val["obj_id"]);
 			$tplContent->parseCurrentBlock("row");

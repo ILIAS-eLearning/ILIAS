@@ -57,8 +57,8 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
 		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-		$tplContent->setVariable("IMG_TYPE","icon_".$val["type"].".gif");
-		$tplContent->setVariable("ALT_IMG_TYPE","Category");
+		$tplContent->setVariable("IMG_TYPE","icon_".$val["type"]."_b.gif");
+		$tplContent->setVariable("ALT_IMG_TYPE",$val["type"]);
 		$tplContent->setVariable("CSS_ROW",$css_row);
 		$tplContent->setVariable("OBJ_ID",$val["id"]);
 		$tplContent->parseCurrentBlock();
