@@ -103,19 +103,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $rbacsystem, $lng;
 
 		// set style sheet
-		if ($this->object->getId() > 0)
-		{
-			$this->tpl->setCurrentBlock("ContentStyle");
-			$rand = rand(1,999999);
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../".
-				ilUtil::getWebspaceDir()."/css/style_".$this->object->getId().".css?dummy=$rand");
-			$this->tpl->parseCurrentBlock();
-			//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../style.php?obj_id=".$this->lm->getStyleSheetId());
-		}
-		else		// todo: work this out
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../content/content.css");
-		}
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->object->getContentStylePath($this->object->getId()));
+		$this->tpl->parseCurrentBlock();
 
 		$this->getTemplateFile("edit", "sty");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));

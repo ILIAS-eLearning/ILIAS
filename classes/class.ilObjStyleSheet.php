@@ -260,6 +260,26 @@ class ilObjStyleSheet extends ilObject
 		fclose($css_file);
 	}
 
+
+	/**
+	* get content style path
+	*
+	* static (to avoid full reading)
+	*/
+	function getContentStylePath($a_style_id)
+	{
+		if ($a_style_id > 0)
+		{
+			$rand = rand(1,999999);
+			return "../".ilUtil::getWebspaceDir().
+				"/css/style_".$a_style_id.".css?dummy=$rand";
+		}
+		else		// todo: work this out
+		{
+			return "../content/content.css";
+		}
+	}
+
 	function update()
 	{
 		parent::update();

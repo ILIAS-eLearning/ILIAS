@@ -80,10 +80,10 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<p>
-		<xsl:if test="@Characteristic = ''">
+		<xsl:if test="not(@Characteristic)">
 		<xsl:attribute name="class">ilc_Standard</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="@Characteristic != ''">
+		<xsl:if test="@Characteristic">
 		<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 		</xsl:if>
 		<!-- <xsl:value-of select="@HierId"/> -->

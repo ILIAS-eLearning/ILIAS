@@ -23,6 +23,7 @@
 
 require_once("./content/classes/class.ilLearningModule.php");
 require_once("./classes/class.ilMainMenuGUI.php");
+require_once("./classes/class.ilObjStyleSheet.php");
 
 /**
 * Class ilLMPresentationGUI
@@ -212,19 +213,8 @@ class ilLMPresentationGUI
 	function ilPage()
 	{
 		$this->tpl->setCurrentBlock("ContentStyle");
-		if ($this->lm->getStyleSheetId() > 0)
-		{
-			$this->tpl->setCurrentBlock("ContentStyle");
-			$rand = rand(1,999999);
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../".
-				ilUtil::getWebspaceDir()."/css/style_".$this->lm->getStyleSheetId().".css?dummy=$rand");
-			$this->tpl->parseCurrentBlock();
-			//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../style.php?obj_id=".$this->lm->getStyleSheetId());
-		}
-		else		// todo: work this out
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "./content.css");
-		}
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
