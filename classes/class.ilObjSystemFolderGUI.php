@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.21 2004/01/23 11:46:23 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.22 2004/02/12 16:55:14 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -565,6 +565,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
 
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	function checkObject()
+	{
+		//
 	}
 } // END class.ilObjSystemFolderGUI
 ?>

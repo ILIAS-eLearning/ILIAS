@@ -24,9 +24,10 @@
 	<subobj name="mail" max="1">mail</subobj>
 	<subobj name="chac" max="1">chac</subobj>
 	<subobj name="ldap" max="1">ldap</subobj>
-	<property name="view">view_content</property>
+	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<property name="check">system_check</property>
 </object>
 <object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
