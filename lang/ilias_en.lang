@@ -903,10 +903,11 @@ common#:#rolt_added#:#Role template added
 common#:#rolt_edit#:#Edit Role Template
 common#:#rolt_new#:#New Role Template
 common#:#root_create_cat#:#User may create Categories
+common#:#root_edit#:#Edit system rootnode
 common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_visible#:#ILIAS system is visible
-common#:#root_write#:#Edit ILIAS root node data 
+common#:#root_write#:#Edit data of system rootnode
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.

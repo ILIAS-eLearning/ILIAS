@@ -902,6 +902,7 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
+coomon#:#root_edit#:#Systemknoten bearbeiten
 common#:#root_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
