@@ -85,12 +85,12 @@ administration#:#view_last_log#:#Podgląd ostatniego logu skanowania
 administration#:#view_log#:#Podgląd szczegółów
 assessment#:#0_unlimited#:#(0 = nielimitowane)
 assessment#:#add_answer#:#Dodaj odpowiedź
-assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
-assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_answer_tf#:#Dodaj odpowiedź prawda/fałsz
+assessment#:#add_answer_yn#:#Dodaj odpowiedź tak/nie
 assessment#:#add_matching_pair#:#dodaj pasującą parę
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Odpowiedź
-assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
+assessment#:#answer_picture#:#Obrazek odpowiedzi
 assessment#:#answer_text#:#Tekst odpowiedzi
 assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
@@ -104,7 +104,7 @@ assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
-assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
+assessment#:#eval_legend_link#:#Zajrzyj do legendy aby sprawdzić znaczenie nagłówków.
 assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
 assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
@@ -122,7 +122,7 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#imagemap#:#Mapa bitowa
 assessment#:#last_update#:#Ostatnia aktualizacja
-assessment#:#legend#:#Legend###23 Mar 2004 new variable
+assessment#:#legend#:#Legenda
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
 assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
@@ -130,13 +130,13 @@ assessment#:#matches#:#zgodne
 assessment#:#matching_pair#:#Pasujące pary
 assessment#:#material#:#Materiał
 assessment#:#material_download#:#Materiał do pobrania
-assessment#:#material_file#:#Material file###23 Mar 2004 new variable
+assessment#:#material_file#:#Plik z materiałem
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
-assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
+assessment#:#meaning#:#Znaczenie
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#or###07 Apr 2004 new variable
-assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
-assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#order_pictures#:#Uporządkuj obrazy
+assessment#:#order_terms#:#Uporzadkuj terminy
 assessment#:#points#:#Punkty
 assessment#:#possible_gap_text#:#Możliwy tekst odstępu
 assessment#:#postpone#:#Odłożone pytanie
@@ -148,7 +148,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
 assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
-assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
+assessment#:#qpl_display_fullsize_image#:#Kliknij tu aby wyświetlić oryginalny obraz!
 assessment#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania
 assessment#:#qpl_edit_rbac_error#:#Nie masz uprawnień do edycji tego pytania!
 assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
@@ -161,24 +161,24 @@ assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowie
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
-assessment#:#question_short#:#Q###23 Mar 2004 new variable
+assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
-assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
+assessment#:#report_date_not_reached#:#Teraz nie możesz przeglądać raportu. Będziesz mógł przejrzeć rezultaty %s
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
-assessment#:#save_finish#:#Zapisz i zakończ test
-assessment#:#save_introduction#:#Zapisz i skocz do wstępu
-assessment#:#save_next#:#Zapisz i skocz do następnego pytania
-assessment#:#save_previous#:#Zapisz i skocz do poprzedniego pytania
+assessment#:#save_finish#:#Zachowaj i zakończ test
+assessment#:#save_introduction#:#Zachowaj i skocz do wstępu
+assessment#:#save_next#:#Zachowaj i skocz do następnego pytania
+assessment#:#save_previous#:#Zachowaj i skocz do poprzedniego pytania
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
-assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
+assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Prawda
@@ -193,10 +193,10 @@ assessment#:#tst_eval_total_passed#:#Ogółem zaliczonych testów
 assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych testów
 assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
 assessment#:#tst_general_properties#:#Cechy ogólne
-assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
+assessment#:#tst_generate_xls#:#Generuj plik Excela
 assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
-assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
-assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
+assessment#:#tst_insert_questions#:#Chcesz wstawić następujące pytania do testu?
+assessment#:#tst_insert_questions_and_results#:#Ten test został wykonany przez %s użytkowników. Wstawienie pytań do tego testu spowoduje usunięcie wszystkich rezultatów tych użytkowników. Chcesz wstawić następujące pytania do testu?
 assessment#:#tst_introduction#:#Wstęp
 assessment#:#tst_mark#:#Wybór
 assessment#:#tst_mark_create_new_mark_step#:#Twórz nową pozycję wyboru
@@ -217,13 +217,13 @@ assessment#:#tst_question_no#:#Porządek
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Tytuł
 assessment#:#tst_question_type#:#Typ pytania
-assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
-assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
+assessment#:#tst_questions_inserted#:#Pytania wstawione!
+assessment#:#tst_questions_removed#:#Pytania usunięte!
 assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Osiągnięte punkty
-assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
-assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
+assessment#:#tst_remove_questions#:#Chcesz usunąć następujące pytania z testu?
+assessment#:#tst_remove_questions_and_results#:#Ten test został wykonany przez %s użytkowników. Usunięcie pytań z tego testu spowoduje usunięcie wszystkich rezultatów tych użytkowników. Chcesz usunać następujące pytania z testu?
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
 assessment#:#tst_result_congratulations#:#Gratulacje! Zaliczyłeś test.
@@ -233,7 +233,7 @@ assessment#:#tst_resume_test#:#Podsumowanie testu
 assessment#:#tst_score_reporting#:#Raport punktacji
 assessment#:#tst_score_reporting_date#:#Data raportu punktacji
 assessment#:#tst_score_type#:#Typ raportu punktacji
-assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
+assessment#:#tst_select_questionpool#:#Wybierz pulę pytań dla zapamiętania utworzonego pytania
 assessment#:#tst_sequence#:#Sekwencja
 assessment#:#tst_sequence_fixed#:#Sekwencja pytań została ustawiona
 assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu
@@ -242,22 +242,22 @@ assessment#:#tst_session_settings#:#Ustawienia sesji
 assessment#:#tst_show_results#:#Pokaż rezultaty testu
 assessment#:#tst_start_test#:#Start testu
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
-assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
-assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
-assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
-assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_resultsmarks#:#Test results in marks###20 Mar 2004 new variable
-assessment#:#tst_stat_result_resultspoints#:#Test results in points###20 Mar 2004 new variable
-assessment#:#tst_stat_result_specification#:#Specification of evaluation data###20 Mar 2004 new variable
-assessment#:#tst_stat_result_timeofwork#:#Time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_selected_users#:#Selected users###20 Mar 2004 new variable
-assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 2004 new variable
-assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
+assessment#:#tst_stat_all_users#:#Wszyscy użytkownicy
+assessment#:#tst_stat_choose_users#:#(wybierz jednego lub więcej użytkowników z listy)
+assessment#:#tst_stat_result_atimeofwork#:#Średni czas pracy
+assessment#:#tst_stat_result_distancemean#:#Odległość od średniej arytmetycznej
+assessment#:#tst_stat_result_distancequintile#:#Odległość od piątej części całości
+assessment#:#tst_stat_result_firstvisit#:#Pierwsza wizyta
+assessment#:#tst_stat_result_lastvisit#:#Ostatnia wizyta
+assessment#:#tst_stat_result_pworkedthrough#:#Procent wykonanych załadowań
+assessment#:#tst_stat_result_qworkedthrough#:#Pytania już przerobione
+assessment#:#tst_stat_result_resultsmarks#:#Rezultaty testu w znakach
+assessment#:#tst_stat_result_resultspoints#:#Rezultaty testu w punktach
+assessment#:#tst_stat_result_specification#:#Specyfikacja daty końca
+assessment#:#tst_stat_result_timeofwork#:#Czas pracy
+assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
+assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
+assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
 assessment#:#tst_status_completed#:#ukończony
 assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
 assessment#:#tst_status_not_entered#:#nie wprowadzony
@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Zaproszony użytkownik do czata.
 chat#:#chat_yellow#:#żółty
 chat#:#chats#:#Czaty
 chat#:#my_chats#:#Moje Czaty
-common#:#3rd_party_software#:#Oprogramowanie innych firm###11 Apr 2004 content changed
+common#:#3rd_party_software#:#Oprogramowanie innych firm
 common#:#DD.MM.YYYY#:#DD.MM.RRRR
 common#:#HH:MM#:#GG:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
@@ -400,7 +400,7 @@ common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
 common#:#attachments#:#Załączniki
-common#:#attend#:#Attend###03 Apr 2004 new variable
+common#:#attend#:#Obsługa
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
 common#:#available_languages#:#Dostępne języki
@@ -425,10 +425,10 @@ common#:#btn_undelete#:#Przywróć
 common#:#by#:#Przez
 common#:#calendar#:#Kalendarz
 common#:#cancel#:#Anuluj
-common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
+common#:#cannot_find_xml#:#Nie można znaleźć żadnego pliku XML.
 common#:#cannot_uninstall_language_in_use#:#Nie możesz odinstalować używanego języka!
 common#:#cannot_uninstall_systemlanguage#:#Nie możesz odinstalować języka systemu!
-common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
+common#:#cannot_unzip_file#:#Nie można rozpakować pliku.
 common#:#cat#:#Kategoria
 common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
@@ -444,7 +444,7 @@ common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
-common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
+common#:#cat_create_mep#:#Twórz pulę mediów
 common#:#cat_create_qpl#:#Twórz pulę pytań
 common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#cat_create_tst#:#Twórz test
@@ -458,17 +458,17 @@ common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
 common#:#categories_imported#:#Zakończony import kategorii.
 common#:#cc#:#CC
-common#:#cen#:#Centra Event###03 Apr 2004 new variable
-common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
-common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
-common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
-common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
-common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
-common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
+common#:#cen#:#Zdarzenie Centra
+common#:#cen_add#:#Dodaj zdarzenie Centra
+common#:#cen_added#:#Zdarzenie Centra dodane
+common#:#cen_delete#:#Usuń zdarzenie Centra
+common#:#cen_edit#:#Edytuj zdarzenie Centra
+common#:#cen_new#:#Nowe zdarzenie Centra
+common#:#cen_save#:#Zachowaj zdarzenie Centra
 common#:#censorship#:#cenzura
-common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
-common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
-common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
+common#:#centra_account#:#Konto administratora Centra
+common#:#centra_rooms#:#Pokoje Centra
+common#:#centra_server#:#Serwer Centra
 common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
 common#:#chac_read#:#Prawo czytania ustawień czatu
 common#:#chac_visible#:#Ustawienia czatu są widoczne
@@ -496,7 +496,7 @@ common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
 common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
-common#:#checked_files#:#Importable files###31 Mar 2004 new variable
+common#:#checked_files#:#Importowalne pliki
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
 common#:#choose_language#:#Wybierz swój język
@@ -592,7 +592,7 @@ common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
 common#:#disabled#:#Wyłączony
-common#:#domain#:#Domain###03 Apr 2004 new variable
+common#:#domain#:#Domena
 common#:#down#:#Down
 common#:#download#:#Pobierz
 common#:#drafts#:#Szkice
@@ -622,7 +622,7 @@ common#:#err_role_not_assignable#:#W tym miejscu nie możesz przydzielić użytk
 common#:#err_session_expired#:#Twoja sesja się zakończyła!
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
-common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
+common#:#error_parser#:#Błąd startu parsera.
 common#:#error_recipient#:#Odbiorca błędu
 common#:#exc#:#Ćwiczenie
 common#:#exc_add#:#Dodaj ćwiczenie
@@ -662,7 +662,7 @@ common#:#exc_visible#:#Ćwiczenie jest widoczne
 common#:#exc_write#:#Edycja ćwiczenia
 common#:#excs#:#Ćwiczenia
 common#:#execute#:#Wykonaj
-common#:#export#:#Export###20 Mar 2004 new variable
+common#:#export#:#Eksport
 common#:#export_html#:#Eksportuj jako plik html
 common#:#export_xml#:#Eksportuj jako plik xml
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
@@ -706,14 +706,14 @@ common#:#frm_add#:#Dodaj Forum
 common#:#frm_added#:#Forum dodane
 common#:#frm_create#:#Twórz Forum
 common#:#frm_delete#:#Usuń Forum
-common#:#frm_delete_post#:#Usuń wiadomość###30 Mar 2004 content changed
+common#:#frm_delete_post#:#Usuń wiadomość
 common#:#frm_edit#:#Edytuj Forum
 common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
-common#:#frm_edit_post#:#Edytuj wiadomość###30 Mar 2004 content changed
+common#:#frm_edit_post#:#Edytuj wiadomość
 common#:#frm_new#:#Nowe Forum
 common#:#frm_read#:#Prawo czytania Forum
 common#:#frm_visible#:#Forum jest widoczne
-common#:#frm_write#:#Edycja Forum###30 Mar 2004 content changed
+common#:#frm_write#:#Edycja Forum
 common#:#from#:#Od
 common#:#fullname#:#Pełna nazwa
 common#:#functions#:#Funkcje
@@ -832,8 +832,8 @@ common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z admi
 common#:#import#:#Import
 common#:#import_categories#:#Import kategorii
 common#:#import_file#:#Plik Importowy
-common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
-common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
+common#:#import_finished#:#Ilość zaimportowanych wiadomości.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
@@ -984,10 +984,10 @@ common#:#mail_delete_error_file#:#Błąd usuwania pliku
 common#:#mail_e_sent#:#Wysłane
 common#:#mail_edit_permission#:#Zmień ustawienia uprawnień
 common#:#mail_folders#:#Foldery pocztowe
-common#:#mail_import#:#Import###31 Mar 2004 new variable
-common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
+common#:#mail_import#:#Import
+common#:#mail_import_file#:#Plik eksportowy ILIAS 2
 common#:#mail_intern_enable#:#Wybierz
-common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
+common#:#mail_mail_visible#:#Użytkownik może używać systemu pocztowego
 common#:#mail_mails_of#:#Poczta
 common#:#mail_maxsize_attach#:#Maks. rozmiar załącznika
 common#:#mail_maxsize_box#:#Maks. rozmiar skrzynki pocztowej
@@ -1015,16 +1015,16 @@ common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Członek
 common#:#members#:#Członkowie
 common#:#membership_annulled#:#Twoje członkostwo zostało anulowane.
-common#:#mep#:#Media Pool###22 Mar 2004 new variable
-common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
-common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
-common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
-common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
-common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
-common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
-common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
-common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
-common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
+common#:#mep#:#Pula mediów
+common#:#mep_add#:#Dodaj pulę mediów
+common#:#mep_added#:#dodana pula mediów
+common#:#mep_delete#:#Usuń pulę mediów
+common#:#mep_edit#:#Edytuj właściwości puli mediów
+common#:#mep_edit_permission#:#Zmiana ustawień uprawnień
+common#:#mep_new#:#Nowa pula mediów
+common#:#mep_read#:#Czytanie zawartości puli mediów
+common#:#mep_visible#:#Pula mediów jest widoczna
+common#:#mep_write#:#Edycja zawartości puli mediów
 common#:#message#:#Wiadomość
 common#:#message_content#:#Zawartość wiadomości
 common#:#message_to#:#Wiadomość do:
@@ -1162,7 +1162,7 @@ common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Brak forów na prywatnej liście.
 common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
 common#:#no_import_available#:#Import nie jest dostępny dla typu
-common#:#no_limit#:#No limit###24 Mar 2004 new variable
+common#:#no_limit#:#Brak ograniczeń
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na prywatnej liście.
 common#:#no_objects#:#Brak obiektów
 common#:#no_permission_to_join#:#Nie możesz przystąpić do tej grupy!
@@ -1177,7 +1177,7 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
-common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
+common#:#obj_cen#:#Zdarzenie Centra
 common#:#obj_chac#:#Ustawienia czatu
 common#:#obj_chac_desc#:#Tu skonfiguruj serwer czat. Włącz/Wyłacz czat.
 common#:#obj_chat#:#Czat
@@ -1199,8 +1199,8 @@ common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
 common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
 common#:#obj_mail_desc#:#Konfiguracja globalnych ustawień poczty elektronicznej.
-common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Obiekt Multimedialny###06 Apr 2004 content changed
+common#:#obj_mep#:#Pula mediów
+common#:#obj_mob#:#Obiekt Multimedialny
 common#:#obj_not_found#:#Obiekt nie został odnaleziony.
 common#:#obj_note#:#Notatka
 common#:#obj_notf#:#Notatka administracyjna
@@ -1227,7 +1227,7 @@ common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
-common#:#object_added#:#Object added###03 Apr 2004 new variable
+common#:#object_added#:#Obiekt dodany
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
 common#:#objf_edit_permission#:#Zmień ustawienia uprawnień
@@ -1251,7 +1251,7 @@ common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
 common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
-common#:#objs_mob#:#Obiekty multimedialne###06 Apr 2004 content changed
+common#:#objs_mob#:#Obiekty multimedialne
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
 common#:#objs_qpl#:#Pule pytań
@@ -1357,7 +1357,7 @@ common#:#registered_user#:#zarejestrowany użytkownik
 common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
 common#:#registration_expired#:#Termin rejestracji minął...
-common#:#remove#:#Wyklucz###25 Mar 2004 content changed
+common#:#remove#:#Wyklucz
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
 common#:#reply#:#Odpowiedz
@@ -1404,12 +1404,12 @@ common#:#root_write#:#Edycja danych korzenia systemu ILIAS
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
-common#:#save#:#Zapisz
-common#:#save_and_back#:#Zapisz i Wróć
+common#:#save#:#Zachowaj
+common#:#save_and_back#:#Zachowaj i Wróć
 common#:#save_message#:#Zapisz wiadomość
-common#:#save_refresh#:#Zapisz i Odśwież
-common#:#save_return#:#Zapisz i Powróć
-common#:#save_settings#:#Zapisz ustawienia
+common#:#save_refresh#:#Zachowaj i Odśwież
+common#:#save_return#:#Zachowaj i Powróć
+common#:#save_settings#:#Zachowaj ustawienia
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
 common#:#search#:#Szukaj
@@ -1483,7 +1483,7 @@ common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
 common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
-common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#table_mail_import#:#Import poczty z ILIAS 2
 common#:#term#:#Termin
 common#:#test_intern#:#Test wewnętrzny
 common#:#tests#:#Testy
@@ -1523,7 +1523,7 @@ common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
 common#:#upload#:#Wyślij
-common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
+common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
 common#:#url#:#URL
 common#:#url_description#:#Opis URL
 common#:#user#:#Użytkownik
@@ -1536,7 +1536,7 @@ common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy
-common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
+common#:#users_not_imported#:#Następujący użytkownicy nie istnieją, ich wiadomości nie mogą być importowane.
 common#:#users_online#:#Użytkownicy zalogowani
 common#:#usr#:#Użytkownik
 common#:#usr_a#:#Użytkownik
@@ -1545,7 +1545,7 @@ common#:#usr_added#:#Użytkownik został dodany
 common#:#usr_agreement#:#Zasady użytkowania
 common#:#usr_agreement_empty#:#Zasady Użytkowania nie zawierają tekstu.
 common#:#usr_edit#:#Edytuj użytkownika
-common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_hits_per_page#:#Dotknięć/stronę w tabeli
 common#:#usr_new#:#Nowy użytkownik
 common#:#usr_skin_style#:#Skórka / Styl
 common#:#usr_style#:#Styl użytkownika
@@ -1622,7 +1622,7 @@ content#:#cont_chapters#:#Rozdziały
 content#:#cont_characteristic#:#Charakterystyka
 content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
 content#:#cont_choose_glossary#:#Wybierz słownik
-content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
+content#:#cont_choose_media_source#:#Wybierz źródło mediów
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
@@ -1638,9 +1638,9 @@ content#:#cont_content_obj#:#Zawartość obiektu
 content#:#cont_coords#:#Koordynaty
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Utwórz katalog
-content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
-content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
-content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_create_export_file#:#Twórz plik eksportowy
+content#:#cont_create_folder#:#Twórz Folder
+content#:#cont_create_mob#:#Twórz Obiekt Medialny
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
 content#:#cont_def_layout#:#Domyślny wygląd
@@ -1662,7 +1662,7 @@ content#:#cont_edit_par#:#Edytuj Paragraf
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
-content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
+content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
@@ -1716,8 +1716,8 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Pole Łącznikowe
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
-content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
-content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
+content#:#cont_media_source#:#Źródło mediów
+content#:#cont_mep_structure#:#Struktura Puli Mediów
 content#:#cont_mob_files#:#Pliki obiektowe
 content#:#cont_mob_inst_prop#:#Właściwości instancji
 content#:#cont_mob_prop#:#Właściwości obiektu
@@ -1789,7 +1789,7 @@ content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_size#:#Rozmiar (Bajtów)
-content#:#cont_source#:#Źródło###01 Apr 2004 content changed
+content#:#cont_source#:#Źródło
 content#:#cont_st_title#:#Tytuł rozdziału
 content#:#cont_std_is_in_dir#:#Usunięcie nie jest możliwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
@@ -1886,8 +1886,8 @@ dateplaner#:#changedDates#:#Terminy zmienione
 dateplaner#:#checkforfreetime#:#Sprawdź czy czas jest wolny
 dateplaner#:#created#:#Utworzony
 dateplaner#:#date#:#Termin
-dateplaner#:#date_format#:#m/d/R G:m###07 Apr 2004 content changed
-dateplaner#:#date_format_middle#:#m/d/r###07 Apr 2004 content changed
+dateplaner#:#date_format#:#m/d/R G:m
+dateplaner#:#date_format_middle#:#m/d/r
 dateplaner#:#del_all#:#usuń wszystkie terminy
 dateplaner#:#del_one#:#usuń jeden termin
 dateplaner#:#delete#:#usuń
