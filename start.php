@@ -37,7 +37,14 @@
 require_once "./include/inc.header.php";
 
 // define here on what page to enter the system the first time
-$default_start_script = "usr_personaldesktop.php";
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+{
+	$default_start_script = "lo_list.php";
+}
+else
+{
+	$default_start_script = "usr_personaldesktop.php";
+}
 
 // look if there is a file tpl.start.html (containing a frameset definition)
 $start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.html";

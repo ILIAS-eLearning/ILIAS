@@ -28,6 +28,7 @@
 * adapted from ilias 2
 *
 * @author Peter Gabriel <pgabriel@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
 *
 * @package ilias
@@ -36,11 +37,11 @@ require_once "./include/inc.header.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
-// catch hack attempts; temp. disabled
-/*if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+// catch hack attempts
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
 	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
-}*/
+}
 
 switch($_GET["cmd"])
 {
@@ -78,7 +79,6 @@ $tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 // SYSTEM MAILS
 $umail = new ilMail($_SESSION["AccountId"]);
 $smails = $umail->getMailsOfFolder(0);
-
 
 //courses
 $courses = $ilias->account->getCourses();
@@ -135,6 +135,7 @@ if(count($smails))
 // learning modules
 $lo_items = $ilias->account->getDesktopItems("lm");
 $i = 0;
+
 foreach ($lo_items as $lo_item)
 {
 	$i++;
@@ -147,6 +148,7 @@ foreach ($lo_items as $lo_item)
 	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
 	$tpl->parseCurrentBlock();
 }
+
 if ($i == 0)
 {
 	$tpl->setCurrentBlock("tbl_no_lo");
@@ -154,6 +156,7 @@ if ($i == 0)
 	$tpl->setVariable("TXT_NO_LO", $lng->txt("no_lo_in_personal_list"));
 	$tpl->parseCurrentBlock();
 }
+
 $tpl->setCurrentBlock("tbl_lo");
 $tpl->setVariable("TXT_LO_HEADER",$lng->txt("my_los"));
 $tpl->setVariable("TXT_LO_TITLE",$lng->txt("title"));
@@ -162,6 +165,7 @@ $tpl->parseCurrentBlock();
 // forums
 $frm_items = $ilias->account->getDesktopItems("frm");
 $i = 0;
+
 foreach ($frm_items as $frm_item)
 {
 	$i++;
@@ -184,79 +188,6 @@ $tpl->setCurrentBlock("tbl_frm");
 $tpl->setVariable("TXT_FRM_HEADER",$lng->txt("my_frms"));
 $tpl->setVariable("TXT_FRM_TITLE",$lng->txt("title"));
 $tpl->parseCurrentBlock();
-
-//forums (old list)
-/*
-if ($frmNum > 0)
-{
-	// build list
-	require_once "classes/class.ilForum.php";
-	$frm = new ilForum();
-	$lng->loadLanguageModule("forum");
-
-
-	$z = 0;
-
-	foreach($frm_obj as $frm_data)
-	{
-		unset($topicData);
-
-		// get forum data
-		$frm->setWhereCondition("top_frm_fk = ".$frm_data["obj_id"]);
-		$topicData = $frm->getOneTopic();
-
-		$lastPost = "";
-
-		if ($topicData["top_last_post"] != "")
-		{
-			$lastPost = $frm->getLastPost($topicData["top_last_post"]);
-
-			$frm->setDbTable("frm_posts");
-			$frm->setWhereCondition("pos_pk = ".$lastPost["pos_pk"]);
-			$posData = $frm->getOneDataset();
-
-			$stamp_post = mktime(substr($posData["pos_date"], 11, 2),substr($posData["pos_date"], 14, 2),substr($posData["pos_date"], 17, 2),substr($posData["pos_date"], 5, 2),substr($posData["pos_date"], 8, 2),substr($posData["pos_date"], 0, 4));
-			$stamp_login = mktime(substr($lastLogin, 11, 2),substr($lastLogin, 14, 2),substr($lastLogin, 17, 2),substr($lastLogin, 5, 2),substr($lastLogin, 8, 2),substr($lastLogin, 0, 4));
-
-			// if lastPost is more up to date than lastLogin ...
-			if ($stamp_post > $stamp_login)
-			{
-				if ($_GET["cmd"] == "list_forum")
-				{
-					$tpl->setCurrentBlock("tbl_frm_row");
-					$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
-					$tpl->setVariable("ROWCOL", $rowCol);
-					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?ref_id=".$frm_data["ref_id"]."\">".$topicData["top_name"]."</a>");
-					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$z ++;
-			}
-
-		}
-
-	}
-
-	// show table, when there are new entries
-	if ($z > 0)
-	{
-		$tpl->setCurrentBlock("tbl_frm");
-		$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_new_entries"));
-
-		if ($_GET["cmd"] == "list_forum") {
-			$tpl->setVariable("TXT_TITLE", ucfirst($lng->txt("forum")));
-			$tpl->setVariable("TXT_LASTPOST", ucfirst($lng->txt("forums_last_post")));
-		}
-		else
-		{
-			$tpl->setVariable("LIST_BUTTON", "<a href=\"usr_personaldesktop.php?cmd=list_forum\">".$lng->txt("show_list")."</a>");
-		}
-
-		$tpl->parseCurrentBlock();
-	}
-
-}*/
 
 // display users online
 $tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));	

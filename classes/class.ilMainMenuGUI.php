@@ -93,17 +93,25 @@ class ilMainMenuGUI
 		if ($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
 		{
 			$this->tpl->setCurrentBlock("userisadmin");
-			$this->tpl->setVariable("IMG_ADMIN2", ilUtil::getImagePath("navbar/admin.gif", false));
-			$this->tpl->setVariable("IMG_SPACE2", ilUtil::getImagePath("spacer.gif", false));
+			$this->tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
+			$this->tpl->setVariable("IMG_SPACE_ADMIN", ilUtil::getImagePath("spacer.gif", false));
 			$this->tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
 			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("adm_index.php"));
-			$this->tpl->setVariable("TARGET2", $this->target);
+			$this->tpl->setVariable("TARGET_ADMIN", $this->target);
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// mail button
+		// mail & desktop button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
+			$this->tpl->setCurrentBlock("desktopbutton");
+			$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/mail.gif", false));
+			$this->tpl->setVariable("IMG_SPACE_DESK", ilUtil::getImagePath("spacer.gif", false));
+			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("mail"));
+			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("mail_frameset.php"));
+			$this->tpl->setVariable("TARGET_DESK", $this->target);
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock("mailbutton");
 			$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
 			$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
@@ -167,29 +175,30 @@ class ilMainMenuGUI
 							"IMG_LOGOUT" => "navbar/logout.gif",
 							"IMG_LOGOUT_O" => "navbar/logout_o.gif",
 							"IMG_ILIAS" => "navbar/ilias.gif");
+
 		foreach ($var2image as $var => $im)
 		{
 			$this->tpl->setVariable($var, ilUtil::getImagePath($im, false));
 		}
+
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
 
 		// set target scripts
-		$scripts = array (	"SCRIPT_DESK" => "usr_personaldesktop.php",
-							"SCRIPT_COURSE" => "lo_list.php",
-							"SCRIPT_SEARCH" => "search.php",
-							"SCRIPT_LITERAT" => "literature.php",
-							"SCRIPT_FORUMS" => "forums.php",
-							"SCRIPT_GROUPS" => "grp_list.php",
-							"SCRIPT_FEEDB" => "feedback.php",
-							"SCRIPT_LOGOUT" => "logout.php" );
+		$scripts = array (	"SCRIPT_COURSE"	=> "lo_list.php",
+							"SCRIPT_SEARCH"	=> "search.php",
+							//"SCRIPT_LITERAT"=> "literature.php",
+							"SCRIPT_FORUMS"	=> "forums.php",
+							"SCRIPT_GROUPS"	=> "grp_list.php",
+							"SCRIPT_FEEDB"	=> "feedback.php",
+							"SCRIPT_LOGOUT"	=> "logout.php" );
+
 		foreach($scripts as $var => $script)
 		{
 			$this->tpl->setVariable($var, $this->getScriptTarget($script));
 		}
 
 		// set tooltip texts
-		$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
 		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
