@@ -36,6 +36,9 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "classes/class.ilMetaDataGUI.php";
 require_once "classes/class.ilUtil.php";
+require_once "classes/class.ilSearch.php";
+require_once "classes/class.ilObjUser.php";
+require_once "classes/class.ilObjGroup.php";
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -1381,6 +1384,193 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
 		}
 		
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Extracts the results of a posted invitation form
+	*
+	* Extracts the results of a posted invitation form
+	*
+	* @access	public
+	*/
+	function writeInviteFormData()
+	{
+		global $ilUser;
+		
+		$message = "";
+		$this->object->setInvitation($_POST["invitation"]);
+		$this->object->setInvitationMode($_POST["mode"]);
+		
+		if ($_POST["cmd"]["search"])
+		{
+			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
+			{
+				$search =& new ilSearch($ilUser->id);
+				$search->setSearchString($_POST["search_term"]);
+				$search->setCombination($_POST["concatenation"]);
+				$search->setSearchFor($_POST["search_for"]);
+				$search->setSearchType("new");
+				if($search->validate($message))
+				{
+					$search->performSearch();
+				}
+				if ($message)
+				{
+					sendInfo($message);
+				}
+				if(!$search->getNumberOfResults() && $search->getSearchFor())
+				{
+					sendInfo($this->lng->txt("search_no_match"));
+					return;
+				}
+				if ($search->getResultByType("usr"))
+				{
+					$this->showSearchResult($search, "usr");
+				}
+				if ($search->getResultByType("grp"))
+				{
+					$this->showSearchResult($search, "grp");
+				}
+			}
+		}
+	}
+
+	/**
+	* Creates the search output for the user/group search form
+	*
+	* Creates the search output for the user/group search form
+	*
+	* @access	public
+	*/
+	function showSearchResult(&$search, $a_type)
+	{
+		$searchresult = $search->getResultByType($a_type);
+		$rowclass = array("tblrow1", "tblrow2");
+		switch($a_type)
+		{
+			case "usr":
+				foreach ($searchresult as $user_array)
+				{
+					$counter = 0;
+					$user = new ilObjUser($user_array["id"]);
+					$this->tpl->setCurrentBlock("user_row");
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $user->getId());
+					$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
+					$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
+					$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("user_result");
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $this->lng->txt("search_user"));
+				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
+				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
+				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
+				$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "grp":
+				foreach ($searchresult as $group_array)
+				{
+					$counter = 0;
+					$group = new ilObjGroup($group_array["id"]);
+					$this->tpl->setCurrentBlock("group_row");
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $group->getRefId());
+					$this->tpl->setVariable("VALUE_TITLE", $group->getTitle());
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $group->getDescription());
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("group_result");
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $this->lng->txt("search_group"));
+				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+	}
+		
+	/**
+	* Creates the output for user/group invitation to a survey
+	*
+	* Creates the output for user/group invitation to a survey
+	*
+	* @access	public
+	*/
+	function inviteObject()
+	{
+		global $rbacsystem;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
+		$this->writeInviteFormData();
+		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+		{
+			$this->tpl->setCurrentBlock("invitation");
+			$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search_invitation"));
+			$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
+			$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+			$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
+			$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+			$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+			$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+			$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+			$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]))
+				{
+					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+				}
+				if (in_array("grp", $_POST["search_for"]))
+				{
+					$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+				}
+			}
+			if (strcmp($_POST["concatenation"], "and") == 0)
+			{
+				$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+			}
+			else if (strcmp($_POST["concatenation"], "or") == 0)
+			{
+				$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
+		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
+		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
+		$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("invitation_mode"));
+		$this->tpl->setVariable("VALUE_UNLIMITED", $this->lng->txt("unlimited_users"));
+		$this->tpl->setVariable("VALUE_PREDEFINED", $this->lng->txt("predefined_users"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		if ($this->object->getInvitation() == INVITATION_ON)
+		{
+			$this->tpl->setVariable("SELECTED_ON", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
+		}
+		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+		{
+			$this->tpl->setVariable("SELECTED_PREDEFINED", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_UNLIMITED", " selected=\"selected\"");
+		}
+    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
