@@ -45,6 +45,8 @@ class ilMetaData
 
 	var $nested;
 
+	var $import_id;			// +, array
+
 	// attributes of the "General" Section
 	var $identifier;		// +, array
 	var $title;				// 1, array
@@ -176,6 +178,42 @@ class ilMetaData
 		}
 		$this->nested->addDomNode($p, $a_name, $attributes);
 		$this->nested->updateFromDom();
+	}
+
+	/**
+	* set identifier catalog value
+	* note: only one ID implemented currently
+	*/
+	function setImportIdentifierCatalog($a_cdata)
+	{
+		$this->import_id[0]["catalog"] = $a_data;
+	}
+
+	/**
+	* set identifier entry ID
+	* note: only one ID implemented currently
+	*/
+	function setImportIdentifierEntryID($a_id)
+	{
+		$this->import_id[0]["entry_id"] = $a_id;
+	}
+
+	/**
+	* get identifier catalog value
+	* note: only one ID implemented currently
+	*/
+	function getImportIdentifierCatalog()
+	{
+		return $this->import_id[0]["catalog"];
+	}
+
+	/**
+	* get identifier entry ID
+	* note: only one ID implemented currently
+	*/
+	function getImportIdentifierEntryID()
+	{
+		return $this->import_id[0]["entry_id"];
 	}
 
 	/**
