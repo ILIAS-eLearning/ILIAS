@@ -646,8 +646,6 @@ common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市
 common#:#clear#:#清除
 common#:#client ip#:#用户地址
-common#:#client ip#:#用户地址
-common#:#client_id#:#客户身份
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
 common#:#comma_separated#:#逗号分隔
@@ -662,7 +660,6 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#拷贝
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#的拷贝
-common#:#count#:#数目
 common#:#count#:#数目
 common#:#country#:#国家
 common#:#course#:#课程
@@ -1117,7 +1114,6 @@ common#:#ldap_edit_permission#:#更改许可设置
 common#:#ldap_read#:#LDAP设置为读访问
 common#:#ldap_visible#:#LDAP设置可视
 common#:#ldap_write#:#编辑LDAP设置
-common#:#learning module#:#学习模块
 common#:#learning module#:#学习模块
 common#:#learning_objects#:#学习对象
 common#:#learning_resources#:#学习资源
@@ -1622,7 +1618,6 @@ common#:#saved#:#已保存
 common#:#saved_successfully#:#成功保存
 common#:#search#:#搜索
 common#:#search_for#:#搜索方式
-common#:#search_for#:#搜索方式
 common#:#search_in#:#搜索于
 common#:#search_new#:#新搜索
 common#:#search_recipient#:#搜索收件人
@@ -1692,7 +1687,6 @@ common#:#subcat_name#:#子类名
 common#:#subchapter_new#:#新子章节
 common#:#subject#:#题目
 common#:#subject_module#:#课程模块
-common#:#subject_module#:#课程模块
 common#:#submit#:#提交
 common#:#subobjects#:#子对象
 common#:#subscription#:#订阅
@@ -1726,17 +1720,12 @@ common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#术语
 common#:#test#:#考试
-common#:#test#:#考试
 common#:#test_intern#:#内部测试
-common#:#test_module#:#考试模块
 common#:#test_module#:#考试模块
 common#:#tests#:#测试
 common#:#time#:#时间
 common#:#time_d#:#按天
-common#:#time_d#:#按天
 common#:#time_h#:#按小时
-common#:#time_h#:#按小时
-common#:#time_segment#:#时间段
 common#:#time_segment#:#时间段
 common#:#title#:#标题
 common#:#to#:#到
