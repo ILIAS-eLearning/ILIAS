@@ -127,11 +127,11 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
+assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#checkbox_checked#:#Ausgewählt
@@ -811,7 +811,7 @@ common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-common#:#bytes#:#Bytes###13 Mar 2005 new variable
+common#:#bytes#:#Bytes
 common#:#calendar#:#Kalender
 common#:#cancel#:#Abbrechen
 common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
@@ -915,7 +915,7 @@ common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client ip#:#Client IP
-common#:#client#:#Client###06 Mar 2005 new variable
+common#:#client#:#Client
 common#:#client_id#:#Mandanten ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
@@ -1060,7 +1060,7 @@ common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
-common#:#details#:#Details###11 Mar 2005 new variable
+common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Keine Überprüfung
 common#:#disabled#:#Ausgeschaltet
@@ -1497,7 +1497,7 @@ common#:#ingmedia_level_zero#:#Eine Ebene nach oben
 common#:#ingmedia_pers_dates#:#Persönliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.###04 Mar 2005 content changed
+common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
 common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit den Benutzervereinbarungen einverstanden sein.
 common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
 common#:#ingmedia_use_title#:#Benutzerdaten ändern
@@ -1696,7 +1696,7 @@ common#:#mep_delete#:#Media-Pool gelöscht
 common#:#mep_edit#:#Eigenschaften des Media-Pools bearbeiten
 common#:#mep_edit_permission#:#Rechteeinstellungen ändern
 common#:#mep_new#:#Neuer Media-Pool
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
+common#:#mep_not_insert_already_exist#:#Die folgenden Objekte wurden nicht hinzugefügt, da sie bereits im Medienpool enthalten sind.
 common#:#mep_read#:#Inhalt des Media-Pools lesen
 common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
@@ -1785,7 +1785,7 @@ common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung 
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
-common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_read_track#:#Sie besitzen keine ausreichende Berechtigung um Tracking-Daten anzuzeigen.
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
@@ -1842,8 +1842,8 @@ common#:#news#:#News
 common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
-common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
+common#:#no_access_item#:#Sie besitzen keine ausreichende Bereichtigung, um auf dieses Objekt zuzugreifen.
+common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
@@ -2336,7 +2336,7 @@ common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
-common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_upload_file#:#Datei hochladen
@@ -2410,7 +2410,7 @@ common#:#tst_add#:#Test hinzufügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
-common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
+common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_visible#:#Test ist sichtbar
@@ -2651,7 +2651,7 @@ content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
-content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
+content#:#cont_copy_to_media_pool#:#In Medienpool kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
@@ -2839,12 +2839,12 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
 content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
-content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
+content#:#cont_page_link#:#Link zur Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
-content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
+content#:#cont_paste_from_clipboard#:#Aus Zwischenablage einfügen
 content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
@@ -2865,9 +2865,9 @@ content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
 content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
+content#:#cont_resize_explanation#:#Wenn diese Optiona aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
+content#:#cont_resize_explanation2#:#Diese Funktion skaliert lokale Bilddateien auf die angegebene Größe.
+content#:#cont_resize_image#:#Bilder skalieren
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
@@ -2936,8 +2936,8 @@ content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_html_import#:#HTML-Tabelle importieren
 content#:#cont_table_html_import_info#:#Der Import funktioniert nur mit XHTML-konformen Tabellen. Table must be root tag!
-content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
-content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
+content#:#cont_table_spreadsheet_import_info#:#Fügen Sie eine Tabelle aus dem Tabellenkalkulationsprogramm über die Zwischenablage ein.
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
@@ -3115,7 +3115,7 @@ crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
-crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.###04 Mar 2005 content changed
+crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
 crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
@@ -4404,16 +4404,16 @@ payment#:#price_a#:#Preis
 payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort Unterstützung
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ###04 Mar 2005 content changed
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.###04 Mar 2005 content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.###04 Mar 2005 content changed
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort Unterstützung
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
-pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. ###04 Mar 2005 content changed
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
 search#:#search_active#:#Aktive Benutzer
 search#:#search_all_results#:#Alle Resultate
@@ -4486,8 +4486,8 @@ survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte,
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
-survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
+survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Bereichtigung, um auf den Fragenpool zugreifen zu können!
+survey#:#cannot_read_survey#:#Sie haben keine ausreichende Bereichtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
