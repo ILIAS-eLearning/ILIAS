@@ -1290,6 +1290,7 @@ common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
+common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
 common#:#import_tst#:#Test importieren
@@ -2341,6 +2342,7 @@ content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
+content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner 
 content#:#cont_ed_align_center#:#Mittig ausrichten
@@ -2384,6 +2386,7 @@ content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
+content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Medienobjekte aktiv
 content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
@@ -4023,6 +4026,8 @@ survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
+survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
+survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
 survey#:#svy_show_questiontitles#:#Fragentitel in der Umfrage anzeigen
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung

@@ -1224,6 +1224,7 @@ common#:#import_glossary#:#Import Słownika
 common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
 common#:#import_hlm#:#Import pakietu HACP
 common#:#import_lm#:#Importuj moduł nauczania
+common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Użytkowników
@@ -2197,6 +2198,7 @@ content#:#cont_dependencies#:#Zależności
 content#:#cont_derive_from_obj#:#Pochodzi od Obiektu
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
+content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Wyłącz Media
 content#:#cont_download_title#:#Pobierz Tytuł
 content#:#cont_ed_align_center#:#wyrównanie: centralnie
@@ -2240,6 +2242,7 @@ content#:#cont_edit_src#:#Edytuj źródło
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
+content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Włącz Media
 content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
@@ -3863,6 +3866,8 @@ survey#:#survey_skip_start#:#<<< pomiń i przejdź na pierwszą stronę
 survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
 survey#:#svy_delete_all_user_data#:#Usuń wszystkie dane użytkowników
+survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
+survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
 survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
 survey#:#svy_statistical_evaluation#:#Ocena Statystyczna

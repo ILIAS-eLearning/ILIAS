@@ -1294,6 +1294,7 @@ common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem###14 Sep 2004 content changed
+common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importar Utilizador Raiz
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
@@ -2345,6 +2346,7 @@ content#:#cont_dependencies#:#Dependências
 content#:#cont_derive_from_obj#:#Derivar do Objecto
 content#:#cont_details#:#Detalhes
 content#:#cont_dir_file#:#Directoria/Ficheiro
+content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
@@ -2388,6 +2390,7 @@ content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
+content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Exportar Ficheiros
 content#:#cont_external#:#externo
@@ -4027,6 +4030,8 @@ survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new varia
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
 survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
 survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
+survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
+survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
 survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable

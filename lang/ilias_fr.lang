@@ -1278,6 +1278,7 @@ common#:#import_glossary#:#Importer glossaire
 common#:#import_grp_finished#:#Groupe importé sans erreur
 common#:#import_hlm#:#Importer paquet HACP
 common#:#import_lm#:#Importation de module d'apprentissage ILIAS
+common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importer utilisateur root
 common#:#import_sahs#:#Importer paquet SCORM/AICC
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
@@ -2325,6 +2326,7 @@ content#:#cont_dependencies#:#Dépendances
 content#:#cont_derive_from_obj#:#Alignement de l'objet
 content#:#cont_details#:#Détails
 content#:#cont_dir_file#:#Répertoire/fichier
+content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Désactiver média
 content#:#cont_download_title#:#Télécharger titre
 content#:#cont_ed_align_center#:#alignement : centré
@@ -2368,6 +2370,7 @@ content#:#cont_edit_src#:#Modifier source code
 content#:#cont_edit_tab_properties#:#Propriétés du tableau
 content#:#cont_edit_term#:#Modifier terme
 content#:#cont_edition#:#Modifierion
+content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Activer média
 content#:#cont_export_files#:#Exporter fichiers XXX
 content#:#cont_external#:#externe
@@ -4006,6 +4009,8 @@ survey#:#svy_delete_all_user_data#:#Détruire toutes les données utilisateurs.
 survey#:#svy_missing_author#:#Vous n'avez pas saisi les noms des auteurs du sondage dans les propriétés du sondage. Veuillez ajouter les noms d'auteurs
 survey#:#svy_missing_questions#:#Vous n'avez aucune question dans le sondage. Veuillez ajouter au moins une question.
 survey#:#svy_missing_title#:#Vous n'avez pas saisi de titre pour le sondage. Veuillez allez dans la partie des méta-données et saisir un titre.
+survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
+survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
 survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
 survey#:#svy_statistical_evaluation#:#Evaluation statistique
