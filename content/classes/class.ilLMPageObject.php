@@ -119,6 +119,12 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->create($a_upload);
 	}
 
+	function delete()
+	{
+		parent::delete();
+		$this->page_object->delete();
+	}
+
 	/**
 	*
 	*/

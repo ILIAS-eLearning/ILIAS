@@ -925,12 +925,35 @@ class ilPageObject
 	*/
 	function delete()
 	{
+		$this->buildDom();
+		$mobs = $this->collectMediaObjects(false);
+		$files = $this->collectFileItems();
+
+		// delete mob usages
+		$this->saveMobUsage("<dummy></dummy>");
+
+		// delete internal links
+		$this->saveInternalLinks("<dummy></dummy>");
+
+		// delete page_object entry
 		$query = "DELETE FROM page_object ".
 			"WHERE page_id = '".$this->getId().
 			"' AND parent_type='".$this->getParentType()."'";
-		$this->saveMobUsage("<dummy></dummy>");
-		$this->saveInternalLinks("<dummy></dummy>");
 		$this->ilias->db->query($query);
+
+		foreach ($mobs as $mob_id)
+		{
+			$mob_obj =& new ilObjMediaObject($mob_id);
+			$mob_obj->delete();
+		}
+
+		include_once("classes/class.ilObjFile.php");
+		foreach ($files as $file_id)
+		{
+			$file_obj =& new ilObjFile($file_id, false);
+			$file_obj->delete();
+		}
+
 	}
 
 
