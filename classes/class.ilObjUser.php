@@ -2047,7 +2047,7 @@ class ilObjUser extends ilObject
      * @return	array of user data
      * @access	public
      */
-	function _getAllUserData($a_fields = NULL)
+	function _getAllUserData($a_fields = NULL, $active =-1)
 	{
         global $ilDB;
 
@@ -2068,6 +2068,10 @@ class ilObjUser extends ilObject
             }
 
 	        $q = "SELECT ".$select." FROM usr_data ";
+	        
+	        if (is_numeric($active) && $active > -1)
+	        	$q .= "WHERE active='$active'";
+	        	
             $r = $ilDB->query($q);
 
             while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
