@@ -1280,7 +1280,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
-				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
 				{
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
