@@ -798,10 +798,10 @@ class ilSetup extends PEAR
 	// saves intial settings
 	function saveMasterSetup($a_formdata)
 	{
+		$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
+
 		if ($a_formdata["chk_datadir_path"] == 1)	// mode create dir 
 		{
-			$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
-
 			if (!ilUtil::makeDir($datadir_path))
 			{
 				$this->error = "create_datadir_failed";
@@ -809,7 +809,7 @@ class ilSetup extends PEAR
 			}
 		}
 
-		// create data dir if not exists
+		// create webspace dir if not exists
 		if (!@file_exists(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")) and !@is_dir(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")))
 		{
 			if (!ilUtil::makeDir(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")))
