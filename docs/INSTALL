@@ -246,7 +246,7 @@ For running ILIAS 3 please also unpack the following files:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-2.4.4.tar.gz
+    ilias-2.4.6.tar.gz
 
 or for ILIAS 3 in:
 
@@ -737,7 +737,7 @@ components:
     First of all extract the content of the ILIAS tarball into
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-2.4.2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-2.4.6.tar.gz
 
     IMPORTANT: Please make sure your webserver has write permission for at least
     the following subdirectories located in /opt/ilias/www/htdocs/ilias/:
@@ -930,6 +930,12 @@ components:
     or modify the it according to your needs.
 
 
+(d) Settting up the chat server
+
+    The file chatserver/install.txt explains how the chat server installation
+    works.
+
+
 2.4.2 Installing ILIAS 3
 
 IMPORTANT: Please note that the following instructions are preliminary. Further
@@ -1006,15 +1012,15 @@ must be specified in the ILIAS 3 system settings.
 
     Please note that JpGraph is not distributed under the GPL but under two
     different licenses: the QT Free License (QPL) that allows free use only for
-    non-commercial purposes and the GpGraph Professional License that applies 
+    non-commercial purposes and the GpGraph Professional License that applies
     when JpGraph is used for commercial purposes. Depending on your use of
     ILIAS a licence fee for using JpGraph may be required.
-  
+
     JpGraph is installed in the ILIAS web space directory in an own subdirectory
     named 'jpgraph':
 
         cd /opt/ilias/www/htdocs/ilias
-        tar -xzf /opt/ilias/src/jpgraph-1.12.2.tar.gz 
+        tar -xzf /opt/ilias/src/jpgraph-1.12.2.tar.gz
         mv ./jpgraph-1.12.2/ ./jpgrapj/
 
     After JpGraph has been properly installed in that location, the functions
@@ -1028,36 +1034,36 @@ must be specified in the ILIAS 3 system settings.
     As a PHP preprocessor the Zend Optimizer is used to improve the performance
     of the PHP interpreter. However, the performance increases that can be
     achieved by using it are rather limited. You may try it out though, since
-    it usually does not have any negative effects either. 
-    
+    it usually does not have any negative effects either.
+
     Zend Optimizer is offered by Zend Technologies Ltd. free of charge, but it
-    is not Open Source software. Different versions are available for Linux, 
+    is not Open Source software. Different versions are available for Linux,
     Solaris and FreeBSD from:
-    
+
         http://www.zend.com
 
     After unpacking the Zend Optimizer .tar.gz file you can start a shell script
     which guides you through the installation process.
-   
+
     Having unpacked the appropriate .tar.gz file installation is fairly simple.
     The example shows the installation of the ZendOptimizer for Linux glibc 2.1:
-        
+
         cd /opt/ilias/src
         tar -xzf tarballs/ZendOptimizer-2.1.0b-Linux_glibc21-i386.tar.gz
         cd /opt/ilias/src/ZendOptimizer-2.1.0b-Linux_glibc21-i386
         ./install.sh
-        
+
     During the installation you will have to specify the following locations:
-    
+
     Where to install Zend Optimizer: /opt/ilias/lib
     Location of your php.ini file:   /opt/ilias/config
     Apache configuration directory:  /opt/ilias/config
-    Apache bin directory:            /opt/ilias/bin  
-    
+    Apache bin directory:            /opt/ilias/bin
+
     Your original php.ini file will be backed up in /opt/ilias/config/. The new
     php.ini file created by the ZendOptimizer installation script will be
     located in /opt/ilias/lib/etc/ with a link in /opt/ilias/config/ pointing
-    to it. 
+    to it.
 		
     After restarting your Apache daemon you may find out if the ZendOptimizer is
     properly installed by checking the beginning of the 'PHP-Info' output in the
@@ -1236,7 +1242,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-2.3.8.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-2.4.6.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
