@@ -509,10 +509,14 @@ class ilObject
 	*/
 	function update()
 	{
+//			"title = '".addslashes($this->getTitle())."',".
+//			"description = '".addslashes($this->getDescription())."', ".
+
+
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = '".addslashes($this->getTitle())."',".
-			"description = '".addslashes($this->getDescription())."', ".
+			"title = '".ilUtil::addSlashes($this->getTitle())."',".
+			"description = '".ilUtil::addSlashes($this->getDescription())."', ".
 			"import_id = '".$this->getImportId()."', ".
 			"last_update = now() ".
 			"WHERE obj_id = '".$this->getId()."'";

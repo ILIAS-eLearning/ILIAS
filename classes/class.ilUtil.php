@@ -1219,16 +1219,38 @@ class ilUtil
 			return $a_str;
 		}
 	}
-	
+
+	/**
+	* add slashes if magic qoutes is disabled
+	*/
+	function addSlashes($a_str)
+	{
+		if (ini_get("magic_quotes_gpc"))
+		{
+			return $a_str;
+		}
+		else
+		{
+			return addslashes($a_str);
+		}
+	}
+
 	/**
 	* prepares string output for html forms
 	* @access	public
 	* @param	string
+	* @param	boolean		true: strip slashes, if magic_quotes is enabled
+	*						use this if $a_str comes from $_GET or $_POST var,
+	*						use false, if $a_str comes from database
 	* @return	string
 	*/
-	function prepareFormOutput($a_str)
+	function prepareFormOutput($a_str, $a_strip = false)
 	{
-		return htmlspecialchars(ilUtil::stripSlashes($a_str));
+		if($a_strip)
+		{
+			$a_str = ilUtil::stripSlashes($a_str);
+		}
+		return htmlspecialchars($a_str);
 	}
 
 	/**
