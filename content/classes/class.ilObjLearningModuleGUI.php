@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.23 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.1 2003/07/15 20:06:16 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,40 +69,45 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacsystem;
 
 		// always call parent method first to create an object_data entry & a reference
 		//$newObj = parent::saveObject();
 		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// create and insert object in objecttree
+			include_once("content/classes/class.ilObjLearningModule.php");
+			$newObj = new ilObjLearningModule();
+			$newObj->setType("lm");
+			$newObj->setTitle("dummy");			// set by meta_gui->save
+			$newObj->setDescription("dummy");	// set by meta_gui->save
+			$newObj->create();
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
 
+			// save meta data
+			include_once "classes/class.ilMetaDataGUI.php";
+			$meta_gui =& new ilMetaDataGUI();
+			$meta_gui->setObject($newObj);
+			$meta_gui->save();
 
-		// create and insert object in objecttree
-		include_once("content/classes/class.ilObjLearningModule.php");
-		$newObj = new ilObjLearningModule();
-		$newObj->setType("lm");
-		$newObj->setTitle("dummy");			// set by meta_gui->save
-		$newObj->setDescription("dummy");	// set by meta_gui->save
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
+			// create learning module tree
+			$newObj->createLMTree();
 
-		// save meta data
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($newObj);
-		$meta_gui->save();
+			unset($newObj);
 
-		// create learning module tree
-		$newObj->createLMTree();
+			// always send a message
+			sendInfo($this->lng->txt("lm_added"),true);
 
-		unset($newObj);
-
-		// always send a message
-		sendInfo($this->lng->txt("lm_added"),true);
-		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+			header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+			exit();
+		}
 	}
 
 	/**
@@ -117,9 +122,10 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
+		/*
 		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
 		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
-		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));
+		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));*/
 		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 
@@ -164,11 +170,14 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-		$this->tpl->parseCurrentBlock();
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
@@ -250,10 +259,11 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 		}
 		// check create permission
+		/*
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
-		}
+		}*/
 
 		// check correct file type
 		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip")
@@ -274,43 +284,31 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		// create learning module tree
 		$newObj->createLMTree();
 
-		// --- start: test of alternate parsing / lm storing
-		if ($_POST["parse_mode"] == 2)
-		{
-			// create import directory
-			$newObj->createImportDirectory();
+		// create import directory
+		$newObj->createImportDirectory();
 
-			// copy uploaded file to import directory
-			$file = pathinfo($_FILES["xmldoc"]["name"]);
-			$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
-			// unzip file
-			$cdir = getcwd();
-			chdir($newObj->getImportDirectory());
-			$unzip = $this->ilias->getSetting("unzip_path");
-			$unzipcmd = $unzip." ".$file["basename"];
+		// unzip file
+		$cdir = getcwd();
+		chdir($newObj->getImportDirectory());
+		$unzip = $this->ilias->getSetting("unzip_path");
+		$unzipcmd = $unzip." ".$file["basename"];
 //echo "unzipcmd :".$unzipcmd.":<br>";
-			exec($unzipcmd);
-			chdir($cdir);
+		exec($unzipcmd);
+		chdir($cdir);
 
-			// determine filename of xml file
-			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		// determine filename of xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
 //echo "xmlfile:".$xml_file;
 
-			require_once ("content/classes/class.ilLMParser.php");
-			$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
-			$lmParser->startParsing();
-		} // --- end: test of alternate parsing / lm storing
-		else
-		{
-			// original import
-			$this->data = $newObj->upload(	$_POST["parse_mode"],
-											$HTTP_POST_FILES["xmldoc"]["tmp_name"],
-											$HTTP_POST_FILES["xmldoc"]["name"]);
-			unset($newObj);
-		}
+		require_once ("content/classes/class.ilLMParser.php");
+		$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
+		$lmParser->startParsing();
 
 		header("Location: adm_object.php?".$this->link_params);
 		exit();
