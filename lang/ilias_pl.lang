@@ -2322,7 +2322,7 @@ common#:#vcard#:#Wizytówka
 common#:#vcard_download#:#Pobierz wizytówkę
 common#:#vendors#:#Sprzedawcy
 common#:#version#:#Wersja
-common#:#versions#:#Versions###10 Dec 2004 new variable
+common#:#versions#:#Wersje
 common#:#view#:#Widok
 common#:#view_content#:#Zawartość
 common#:#visible_layers#:#Widoczne poziomy
@@ -2590,7 +2590,7 @@ content#:#cont_offline#:#Wersje Offline
 content#:#cont_online#:#Online
 content#:#cont_or#:#lub
 content#:#cont_order#:#Typ porządkowy
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
+content#:#cont_ordering_question_javascript_hint#:#Przeciągnij definicję/obrazek nad tę definicję/obrazek nad którą chcesz ją umieścić i upuść ją. Przykryta definicja/obrazek i wszystkie następne zostaną przesunięte w dół.
 content#:#cont_organization#:#Organizacja
 content#:#cont_organizations#:#Organizacje
 content#:#cont_orig_size#:#Originalny rozmiar
@@ -4012,8 +4012,8 @@ survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numera
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
+survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span>.<br />Podaj go w poniższym polu tekstowym.
+survey#:#anonymize_resume_introduction#:#Podaj swój kod dostępu do ankiety aby wrócić do ankiety. Został on przesłany do twojej skrzynki pocztowej ILIAS, gdy rozpocząłeś ankietę.
 survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety
 survey#:#anonymize_survey_explanation#:#Kiedy jest aktywne, wszystkie dane użytkownika są anonimowe i nie mogą być śledzone.
 survey#:#answer#:#Odpowiedź
@@ -4112,7 +4112,7 @@ survey#:#edit_constraints_introduction#:#Wybrałeś następujące pytania/bloki 
 survey#:#edit_heading#:#Edytuj nagłówek
 survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
-survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
+survey#:#enter_anonymous_id#:#Kod dostępu do Ankiety
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
 survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Dodaj nagłówek!
@@ -4155,7 +4155,7 @@ survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
 survey#:#label_resume_survey#:#Podaj swój 32 cyfrowy kod ankiety
 survey#:#last_update#:#Ostatnia aktualizacja
-survey#:#legend#:#Legend###10 Dec 2004 new variable
+survey#:#legend#:#Legenda
 survey#:#lower_limit#:#Limit dolny
 survey#:#maintenance#:#Konserwacja
 survey#:#manage_phrases#:#Zarządzaj frazami
