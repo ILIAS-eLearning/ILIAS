@@ -129,7 +129,7 @@ class LanguageObject extends Object
 
 		if ($lang_status != "installed")
 		{
-			if ($this->checkLanguage($lang_key))
+			if ($this->check())
 			{
 				// lang-file is ok. Flush data in db and...
 				$this->flush();
