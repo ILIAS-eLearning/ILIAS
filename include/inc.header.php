@@ -140,7 +140,7 @@ $ilias->auth->start();
 $ilBench->stop("Core", "HeaderInclude_Authentication");
 
 // start logging
-$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
+$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
 
 
 // load object definitions
@@ -160,6 +160,7 @@ $ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 $ilDB =& $ilias->db;
 $ilUser =& $ilias->account;
 $ilCtrl = new ilCtrl();
+$ilLog =& $log;
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);

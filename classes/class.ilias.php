@@ -146,7 +146,8 @@ class ILIAS
 		define ("ILIAS_LOG_DIR",$this->ini_ilias->readVariable("log","path"));
 		define ("ILIAS_LOG_FILE",$this->ini_ilias->readVariable("log","file"));
 		define ("ILIAS_LOG_ENABLED",$this->ini_ilias->readVariable("log","enabled"));
-
+		define ("ILIAS_LOG_LEVEL",$this->ini_ilias->readVariable("log","level"));
+  
 		// read path + command for third party tools from ilias.ini
 		define ("PATH_TO_CONVERT",$this->ini_ilias->readVariable("tools","convert"));
 		define ("PATH_TO_ZIP",$this->ini_ilias->readVariable("tools","zip"));

@@ -25,4 +25,5 @@ htmldoc =
 path = 
 file = 
 enabled = 1
+level = WARNING
 */ ?>

@@ -1887,8 +1887,9 @@ class ilObjTest extends ilObject
 			if ($postpone) {
 				$sequence_array = split(",", $sequence);
 				$postpone = $sequence_array[$postpone-1];
-				$sequence = preg_replace("/\D*$postpone/", "", $sequence) . ",$postpone";
-				$sequence = preg_replace("/^,/", "", $sequence);
+				unset($sequence_array[$postpone-1]);
+				array_push($sequence_array, $postpone);
+				$sequence = join(",", $sequence_array);
 				$question_id = $this->questions[$postpone];
 				$postponed .= ",$question_id";
 				$postponed = preg_replace("/^,/", "", $postponed);
