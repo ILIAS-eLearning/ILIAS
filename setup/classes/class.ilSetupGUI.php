@@ -107,7 +107,7 @@ class ilSetupGUI extends ilSetup
 		$this->displayHeader();
 		
 		// main cmd handling
-		if (!$this->isAuthenticated())
+		if (!$this->isAuthenticated() or !$this->isInstalled())
 		{
 			// check for first time installation or migrate an old one first
 			if (!$this->isInstalled() or !($this->ini->readVariable("clients","path")))
@@ -563,8 +563,8 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->addBlockFile("CONTENT","content","tpl.preliminaries.html");
 		
-		$this->tpl->setVariable("TXT_SETUP_TITLE",$this->lng->txt("setup_welcome"));
-		$this->tpl->setVariable("TXT_SETUP_WELCOME", $this->lng->txt("setup_intro"));
+		$this->tpl->setVariable("TXT_SETUP_TITLE",$this->lng->txt("ilias_setup"));
+		$this->tpl->setVariable("TXT_SETUP_WELCOME", $this->lng->txt("setup_welcome"));
 		$this->tpl->setVariable("TXT_SETUP_INIFILE_DESC", $this->lng->txt("setup_inifile_desc"));
 		$this->tpl->setVariable("TXT_SETUP_DATABASE_DESC", $this->lng->txt("setup_database_desc"));
 		$this->tpl->setVariable("TXT_SETUP_LANGUAGES_DESC", $this->lng->txt("setup_languages_desc"));
@@ -1749,7 +1749,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_contact.html");
 
 		// client values
-		$this->tpl->setVariable("INST_NAME",ilUtil::prepareFormOutput($this->client->getName()));
+		$this->tpl->setVariable("INST_NAME",ilUtil::prepareFormOutput(($this->client->getName()) ? $this->client->getName() : $this->client->getId()));
 		$this->tpl->setVariable("INST_INFO",ilUtil::prepareFormOutput($this->client->getDescription()));
 		$this->tpl->setVariable("INST_INSTITUTION",ilUtil::prepareFormOutput($settings["inst_institution"]));
 
