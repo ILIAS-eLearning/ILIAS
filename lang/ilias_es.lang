@@ -176,6 +176,7 @@ common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#please fill out all required fields
 common#:#firstname#:#firstname
 common#:#flatview#:#Flat view###07 Feb 2003 new variable
+common#:#fold#:#Folder###23 Jun 2003 new variable
 common#:#folder#:#folder
 common#:#folders#:#folders
 common#:#forename#:#forename

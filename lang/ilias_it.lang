@@ -176,6 +176,7 @@ common#:#files_location#:#posizione dati
 common#:#fill_out_all_required_fields#:#compilare campi obbligatori
 common#:#firstname#:#nome
 common#:#flatview#:#Flat view###07 Feb 2003 new variable
+common#:#fold#:#Folder###23 Jun 2003 new variable
 common#:#folder#:#cartella
 common#:#folders#:#cartelle
 common#:#forename#:#nome
