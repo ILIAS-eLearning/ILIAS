@@ -23,7 +23,7 @@ body { margin:0px; }
 			</table>
 		</td>
 		<td valign="top" align="left">
-			<table width="100%" border="0">
+			<table class="fullwidth">
 				<tr>
 					<!-- Year -->
 					<td colspan="17" align="center"><b>{CHOSEN_YEAR}</b></td>
@@ -36,18 +36,18 @@ body { margin:0px; }
 					<!-- 2. Month -->
 					<td colspan="8" align="center"><b><a href="cal_month_overview.php?ts={NEXTMONTHLINK}" target="bottom">{NEXT_MONTH}</a></b></td>
 				</tr>
-				<tr>
+				<tr class="tblheader">
 				<!-- 1. Month Weekdays -->
-					<td>&nbsp;</td>
+					<td class="il_invisible">&nbsp;</td>
 				<!-- BEGIN firstWeekDays -->
 					<td align="center" width="40">
 						<b>{FIRST_WEEKDAY}</b>
 					</td>
 				<!-- END firstWeekDays -->
 				<!-- spacer column -->
-					<td width="50">&nbsp;</td>
+					<td class="il_invisible" width="50">&nbsp;</td>
 				<!-- 2. Month weekdays -->
-					<td>&nbsp;</td>
+					<td class="il_invisible">&nbsp;</td>
 				<!-- BEGIN secondWeekDays -->
 					<td align="center" width="40">
 						<b>{SECOND_WEEKDAY}</b>

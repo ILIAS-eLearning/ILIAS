@@ -161,6 +161,24 @@ $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 // display tabs
 include "./include/inc.calendar_tabs.php";
 
+// set locator
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+$tpl->touchBlock("locator_separator");
+
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("calendar")." (".$lng->txt("day").")");
+$tpl->setVariable("LINK_ITEM", "cal_date.php?ts=".$chosents);
+$tpl->parseCurrentBlock();
+
+
 /*
  * Buttons for filling and emptying the database for testing purposes
  */

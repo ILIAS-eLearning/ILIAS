@@ -46,6 +46,25 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.cal_month_overview.html");
 // display tabs
 include "./include/inc.calendar_tabs.php";
 
+// set locator
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+$tpl->touchBlock("locator_separator");
+
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("calendar")." (".$lng->txt("month").")");
+$tpl->setVariable("LINK_ITEM", "cal_month_overview.php?ts=".$chosents);
+$tpl->parseCurrentBlock();
+
+
+
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $cal->getMappedWeekday($chosen["wday"]).", ".
 				 $chosen["mday"].".".$cal->getMonth($chosen["mon"])." ".$chosen["year"]);

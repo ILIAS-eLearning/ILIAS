@@ -59,7 +59,7 @@ $tpl->setVariable("TAB_TEXT",$lng->txt("week"));
 $tpl->setVariable("TAB_TARGET","bottom");
 $tpl->parseCurrentBlock();
 
-// week
+// month
 $tpl->setCurrentBlock("tab");
 $tpl->setVariable("TAB_TYPE",$script_name == "cal_month_overview.php" ? "tabactive" : "tabinactive");
 $tpl->setVariable("TAB_LINK","cal_month_overview.php?ts=".$chosents);
