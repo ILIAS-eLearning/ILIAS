@@ -21,20 +21,20 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerTrueFalse.php";
+require_once "./assessment/classes/class.assAnswerBinaryState.php";
 
 /**
 * Class for cloze question answers
 * 
 * ASS_AnswerCloze is a class for cloze questions answers used in cloze questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerCloze.php
 * @modulegroup   Assessment
-* @see ASS_AnswerTrueFalse
+* @see ASS_AnswerBinaryState
 */
-class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
+class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 /**
 * Type of answer (text or select gap answer)
 * 
@@ -73,13 +73,13 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
     $answertext = "",
     $points = 0.0,
     $order = 0,
-    $correctness = FALSE,
+    $state = 0,
 		$cloze_type = 0,
 		$name = "",
 		$shuffle = 1
   )
   {
-    $this->ASS_AnswerTrueFalse($answertext, $points, $order, $correctness);
+    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state);
     $this->cloze_type = $cloze_type;
 		$this->name = $name;
 		$this->shuffle = $shuffle;

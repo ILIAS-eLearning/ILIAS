@@ -106,6 +106,8 @@ assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#by#:#by
+assessment#:#checkbox_checked#:#Checked
+assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
@@ -137,6 +139,9 @@ assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
 assessment#:#false#:#False
+assessment#:#when#:#when
+assessment#:#radio_set#:#Set
+assessment#:#radio_unset#:#Unset
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!

@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 require_once "./assessment/classes/class.assQuestion.php";
-require_once "./assessment/classes/class.assAnswerTrueFalse.php";
+require_once "./assessment/classes/class.assAnswerBinaryState.php";
 
 define("RESPONSE_SINGLE", "0");
 define("RESPONSE_MULTIPLE", "1");
@@ -35,7 +35,7 @@ define("OUTPUT_RANDOM", "1");
 * ASS_MultipleChoice is a class for multiple choice tests. It
 * supports single and multiple response.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMultipleChoice.php
 * @modulegroup   Assessment
@@ -257,7 +257,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
 			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
 			$linkrefid = "";
-			if ($answer->is_true())
+			if ($answer->isStateChecked())
 			{
 				if ($this->response == RESPONSE_SINGLE)
 				{
@@ -285,7 +285,7 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 			$linkrefid = "";
-			if ($answer->is_true())
+			if ($answer->isStateChecked())
 			{
 				if ($this->response == RESPONSE_SINGLE)
 				{
@@ -392,7 +392,7 @@ class ASS_MultipleChoice extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 				$this->insertIntoTest($this->getTestId());
@@ -421,7 +421,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$this->saveMaterialsToDb();
 
 			// Antworten schreiben
-			// alte Antworten löschen
+			// alte Antworten lï¿½schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -436,7 +436,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote($answer_obj->get_answertext()),
 				$db->quote($answer_obj->get_points()),
 				$db->quote($answer_obj->get_order()),
-				$db->quote($answer_obj->get_correctness())
+				$db->quote($answer_obj->getState())
 				);
 				$answer_result = $db->query($query);
 			}
@@ -489,7 +489,7 @@ class ASS_MultipleChoice extends ASS_Question
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 				{
-					array_push($this->answers, new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->aorder, $data->correctness));
+					array_push($this->answers, new ASS_AnswerBinaryState($data->answertext, $data->points, $data->aorder, $data->correctness));
 				}
 			}
 		}
@@ -635,21 +635,21 @@ class ASS_MultipleChoice extends ASS_Question
 	/**
 	* Adds a possible answer for a multiple choice question
 	*
-	* Adds a possible answer for a multiple choice question. A ASS_AnswerTrueFalse object will be
+	* Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryState object will be
 	* created and assigned to the array $this->answers.
 	*
 	* @param string $answertext The answer text
 	* @param double $points The points for selecting the answer (even negative points can be used)
-	* @param boolean $correctness Defines the answer as correct (TRUE) or incorrect (FALSE)
+	* @param boolean $state Defines the answer as correct (TRUE) or incorrect (FALSE)
 	* @param integer $order A possible display order of the answer
 	* @access public
 	* @see $answers
-	* @see ASS_AnswerTrueFalse
+	* @see ASS_AnswerBinaryState
 	*/
 	function add_answer(
 		$answertext = "",
 		$points = 0.0,
-		$correctness = FALSE,
+		$state = 0,
 		$order = 0
 	)
 	{
@@ -663,8 +663,8 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		if ($found >= 0)
 		{
-			// Antwort einfügen
-			$answer = new ASS_AnswerTrueFalse($answertext, $points, $found, $correctness);
+			// Antwort einfï¿½gen
+			$answer = new ASS_AnswerBinaryState($answertext, $points, $found, $state);
 			array_push($this->answers, $answer);
 			for ($i = $found + 1; $i < count($this->answers); $i++)
 			{
@@ -674,8 +674,8 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		else
 		{
-			// Anwort anhängen
-			$answer = new ASS_AnswerTrueFalse($answertext, $points, count($this->answers), $correctness);
+			// Anwort anhï¿½ngen
+			$answer = new ASS_AnswerBinaryState($answertext, $points, count($this->answers), $state);
 			array_push($this->answers, $answer);
 		}
 	}
@@ -701,7 +701,7 @@ class ASS_MultipleChoice extends ASS_Question
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
 	* @param integer $index A nonnegative index of the n-th answer
-	* @return object ASS_AnswerTrueFalse-Object containing the answer
+	* @return object ASS_AnswerBinaryState-Object containing the answer
 	* @access public
 	* @see $answers
 	*/
@@ -766,7 +766,7 @@ class ASS_MultipleChoice extends ASS_Question
 		$points = 0;
 		foreach ($this->answers as $key => $value)
 		{
-			if ($value->is_true())
+			if ($value->isStateChecked())
 			{
 				$points += $value->get_points();
 			}
@@ -847,7 +847,7 @@ class ASS_MultipleChoice extends ASS_Question
 			{
 				$solution["value"] = $this->answers[$value]->get_answertext();
 						$solution["points"] = $this->answers[$value]->get_points();
-				if ($this->answers[$value]->is_true())
+				if ($this->answers[$value]->isStateChecked())
 				{
 					$solution["true"] = 1;
 				}
