@@ -24,11 +24,15 @@
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilTableGUI.php";
 require_once "./classes/class.ilObjGroup.php";
+require_once "./classes/class.ilUtil.php";
+
 
 $num = 0;
 
-$newGrp = new ilObjGroup($this->ref_id,true);
-$member_ids = $newGrp->getGroupMemberIds();
+
+
+$newGrp = new ilObjGroup($_GET["grp_id"],true);
+$member_ids = $newGrp->getGroupMemberIds($_GET["grp_id"]);
 		
 $member_arr = array();
 foreach ($member_ids as $member_id)
@@ -36,24 +40,35 @@ foreach ($member_ids as $member_id)
 	array_push($member_arr, new ilObjUser($member_id));
 	}
 
-// output data
-$this->getTemplateFile("members");
-$this->tpl->setCurrentBlock("HEADER_MEMBERS");
-$this->tpl->setVariable("TXT_USER", "User");
-$this->tpl->setVariable("TXT_FIRSTNAME", "Firstname");
-$this->tpl->setVariable("TXT_LASTNAME", "Lastname");
-$this->tpl->setVariable("TXT_JOINDATE", "Join date");
-$this->tpl->setVariable("TXT_ROLE", "Role");
-$this->tpl->setVariable("TXT_FUNCTIONS", "Functions");
+//var_dump($member_ids);
 
-$this->tpl->parseCurrentBlock();
+// output data
+$tpl->addBlockFile("CONTENT", "content", "tpl.grp_members.html");
+//echo ($tpl->addBlockFile("CONTENT", "content", "tpl.obj_members.html"));
+infoPanel();
+
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("group_members"));
+
+
+
+$tpl->addBlockfile("GROUP_MEMBERS_TABLE", "member_table", "tpl.table.html");
+// load template for table content data
+$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_members.html");
+$num = 0;
+
 
 foreach($member_arr as $member)
-	{	
+	{
+	$tpl->setCurrentBlock("tbl_content");	
 	$grp_role_id = $newGrp->getGroupRoleId($member->getId());
 	$newObj 	 = new ilObject($grp_role_id,false);
-					
+	$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+	$num++;	
+				
 //todo: chechAccess, each user sees only the symbols belonging to his rigths
+	
+	
 	$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
 	$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
 //			$link_change = "adm_object.php?cmd=perm&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
@@ -64,24 +79,49 @@ foreach($member_arr as $member)
 	$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
 	$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
 	$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
+	$obj_icon = "icon_usr_b.gif";
+	$tpl->setVariable("IMG", $obj_icon);
+	$tpl->setVariable("ALT_IMG", $lng->txt("obj_usr"));
 	
-			// BEGIN TABLE MEMBERS
-	$this->tpl->setCurrentBlock("TABLE_MEMBERS");
-	$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
-	$this->tpl->setVariable("CSS_ROW",$css_row);
-	$this->tpl->setVariable("LOGIN",$member->getLogin());
-	$this->tpl->setVariable("FIRSTNAME", $member->getFirstname());
-	$this->tpl->setVariable("LASTNAME", $member->getLastname());
-	$this->tpl->setVariable("ANNOUNCEMENT_DATE", "Announcement Date");
-	$this->tpl->setVariable("ROLENAME", $newObj->getTitle());
-			
-	$this->tpl->setVariable("LINK_CONTACT", $link_contact);
-	$this->tpl->setVariable("CONTACT", $val_contact);
-	$this->tpl->setVariable("LINK_CHANGE", $link_change);
-	$this->tpl->setVariable("CHANGE", $val_change);
-	$this->tpl->setVariable("LINK_LEAVE", $link_leave);
-	$this->tpl->setVariable("LEAVE", $val_leave);						
-	$this->tpl->parseCurrentBlock();
+	$tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"",""));
+	$tpl->setVariable("LOGIN",$member->getLogin());
+	$tpl->setVariable("FIRSTNAME", $member->getFirstname());
+	$tpl->setVariable("LASTNAME", $member->getLastname());
+	$tpl->setVariable("ANNOUNCEMENT_DATE", "Announcement Date");
+	$tpl->setVariable("ROLENAME", $newObj->getTitle());
+	$tpl->setVariable("LINK_CONTACT", $link_contact);
+	$tpl->setVariable("CONTACT", $val_contact);
+	$tpl->setVariable("LINK_CHANGE", $link_change);
+	$tpl->setVariable("CHANGE", $val_change);
+	$tpl->setVariable("LINK_LEAVE", $link_leave);
+	$tpl->setVariable("LEAVE", $val_leave);						
+	$tpl->parseCurrentBlock();
 	// END TABLE MEMBERS
 	}
-?>	
+
+
+
+
+$tbl = new ilTableGUI();
+$tbl->setHeaderNames(array("",$lng->txt("login"),$lng->txt("firstname"),$lng->txt("lastname"),$lng->txt("announcement_date"),$lng->txt("rolename"),""));
+$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
+$tbl->setColumnWidth(array("3%","7%","7%","15%","15%","6%","22%"));
+
+// control
+$tbl->setOrderColumn($_GET["sort_by"]);
+$tbl->setOrderDirection($_GET["sort_order"]);
+$tbl->setLimit($limit);
+$tbl->setOffset($offset);
+$tbl->setMaxCount($maxcount);
+
+// footer
+$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
+//$tbl->disable("content");
+//$tbl->disable("footer");
+
+// render table
+$tbl->render();
+$tpl->show();
+?>
+
+	
