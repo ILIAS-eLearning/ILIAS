@@ -66,7 +66,7 @@ class ilObjForum extends ilObject
 		// create new forum tree -- DEPRECATED. no extra tree for forum objects!!
 		//$tree->addTree($this->id);
 
-		// create a local role-folder
+		// create a local role folder
 		require_once "class.ilObjRoleFolder.php";
 		$rfoldObj = new ilObjRoleFolder();
 		$rfoldObj->setTitle("Local roles");
@@ -74,26 +74,21 @@ class ilObjForum extends ilObject
 		$rfoldObj->create();
 		$rfoldObj->createReference();
 		$rfoldObj->putInTree($this->ref_id);
-		//$rolF_obj["title"] = "Local roles";
-		//$rolF_obj["desc"] = "Role Folder of forum no.".$newFrm_ID;
 
-		//$rolF_ID = parent::saveObject($newFrm_ID, $a_obj_id ,"frm" , "rolf" , $rolF_obj);
-
-		// create moderator role in local role-folder
+		// create moderator role...
 		require_once "class.ilObjRole.php";
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle("moderator_".$this->ref_id);
 		$roleObj->setDescription("moderator of forum ref_no.".$this->ref_id);
 		$roleObj->create();
 		
-		//$roleObj->createReference();
-		//$roleObj->putInTree($rfoldObj->getRefId());
-
-		//$roleID = $roleObj->saveObject($rolF_ID, $newFrm_ID , $role_data);
-
+		// ...and put the role into local role folder...
+		$rbacadmin->assignRoleToFolder($roleObj->getId(),$rfoldObj->getRefId(),$this->ref_id,"y");
+		
+		// ...finally assign moderator role to creator of forum object
+		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
+		
 		// insert new forum as new topic into frm_data
-		//$frm_data = getObject($newFrm_ID);
-
 		$top_data = array(
             "top_frm_fk"   		=> $this->getId(),
 			"top_name"   		=> addslashes($this->getTitle()),
@@ -110,10 +105,8 @@ class ilObjForum extends ilObject
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
 		$q .= "VALUES ";
 		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
-		$result = $this->ilias->db->query($q);
+		$this->ilias->db->query($q);
 		//echo "roleID: ".$roleID." owner: ".$frm_data["owner"]."<br>";
-		// assign moderator
-		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
 	}
 
 	/**
