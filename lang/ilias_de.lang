@@ -477,7 +477,7 @@ assessment#:#working_time#:#Bearbeitungszeit
 assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
-bibitem#:#bibitem_av#:#AV###05 Nov 2004 new variable
+bibitem#:#bibitem_av#:#AV
 bibitem#:#bibitem_bibitem#:#Bibliographische Information
 bibitem#:#bibitem_book#:#Buch
 bibitem#:#bibitem_booktitle#:#Buchtitel
@@ -550,7 +550,7 @@ chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#Benutzer entfernt
-chat#:#chat_edit#:#Chat bearbeiten###29 Nov 2004 content changed
+chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
@@ -628,7 +628,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
-common#:#action#:#Action###29 Nov 2004 new variable
+common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
@@ -730,7 +730,7 @@ common#:#auto_registration#:#Neuanmeldungen automatisch freigeben
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
-common#:#basedn#:#BaseDN###05 Nov 2004 new variable
+common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
@@ -799,7 +799,7 @@ common#:#cen_edit#:#Centra-Ereignis bearbeiten
 common#:#cen_new#:#Neues Centra-Ereignis
 common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
-common#:#centra_account#:#Centra Admin Account###05 Nov 2004 new variable
+common#:#centra_account#:#Centra Administrator Account
 common#:#centra_rooms#:#Centra-Räume
 common#:#centra_server#:#Centra Server
 common#:#chac_edit_permission#:#Rechteeinstellungen ändern
@@ -839,9 +839,9 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
-common#:#client ip#:#Client IP###05 Nov 2004 new variable
+common#:#client ip#:#Client IP
 common#:#client_id#:#Mandanten ID
-common#:#client_ip#:#Client IP###05 Nov 2004 new variable
+common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
@@ -861,7 +861,7 @@ common#:#confirm#:#Bestätigen
 common#:#confirmation#:#Aktion bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
-common#:#container#:#Container###05 Nov 2004 new variable
+common#:#container#:#Container
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
@@ -991,9 +991,9 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
-common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
-common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
+common#:#enable_hist_user_comments#:#Erlaube Kommentare in Verlaufsanzeige
+common#:#enable_js_edit#:#Aktiviere JavaScript Editor
+common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaSkript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
@@ -1069,7 +1069,7 @@ common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#fax#:#Fax
-common#:#feedback#:#Feedback###05 Nov 2004 new variable
+common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
@@ -1283,18 +1283,18 @@ common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
-common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
-common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
-common#:#history#:#History###29 Nov 2004 new variable
+common#:#hist_dbk:pg_create#:#Seite angelegt
+common#:#hist_dbk:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Seite eingefügt in Kapitel "%1" [%2]
+common#:#hist_dbk:pg_update#:#Seite verändert
+common#:#hist_file_create#:#Neue Datei angelegt mit Namen "%1".
+common#:#hist_file_replace#:#Datei ersetzt, neuer Dateiname lautet "%1", die neue Version lautet %2.
+common#:#hist_lm:pg_create#:#Neue Seite angelegt
+common#:#hist_lm:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
+common#:#hist_lm:pg_paste#:#Seite eingefügt in Kapitel "%1" [%2]
+common#:#hist_lm:pg_update#:#Seite verändert
+common#:#hist_no_entries#:#Keine Einträge im Verlauf
+common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
 common#:#hlm_added#:#HACP Lernmodul angelegt
@@ -1308,7 +1308,7 @@ common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
 common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
-common#:#host#:#Host###05 Nov 2004 new variable
+common#:#host#:#Host
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML Lernmodul hinzufügen
@@ -1325,14 +1325,14 @@ common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindunge
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
-common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
+common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
 common#:#import_alm#:#Import AICC Modul
 common#:#import_categories#:#Kategorien importieren
-common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
+common#:#import_dbk#:#Digilib-Buch importieren
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
@@ -1349,11 +1349,11 @@ common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
-common#:#in#:#in###05 Nov 2004 new variable
+common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Posteingang
-common#:#info#:#Information###29 Nov 2004 new variable
+common#:#info#:#Information
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
@@ -1434,24 +1434,24 @@ common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits inst
 common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
-common#:#last_update#:#Last Update###29 Nov 2004 new variable
+common#:#last_update#:#Letzte Aktualisierung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#ldap_basedn#:#LDAP BaseDN###05 Nov 2004 new variable
+common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#LDAP Authentifizierung konfigurieren
 common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten
 common#:#ldap_passwd#:#Ihr aktuelles Passwort
-common#:#ldap_port#:#LDAP Port###05 Nov 2004 new variable
+common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
-common#:#ldap_search_base#:#LDAP Search base###05 Nov 2004 new variable
-common#:#ldap_server#:#LDAP Server URL###05 Nov 2004 new variable
+common#:#ldap_search_base#:#LDAP Search base
+common#:#ldap_server#:#LDAP Server URL
 common#:#ldap_tls#:#Benutze LDAP TLS
-common#:#ldap_v2#:#LDAPv2###05 Nov 2004 new variable
-common#:#ldap_v3#:#LDAPv3###05 Nov 2004 new variable
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP Protokollversion
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
@@ -1499,14 +1499,14 @@ common#:#local#:#Lokal
 common#:#locator#:#Position:
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
-common#:#login#:#Login###05 Nov 2004 new variable
+common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#logout#:#Logout###05 Nov 2004 new variable
+common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
@@ -1657,7 +1657,7 @@ common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
-common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
+common#:#msg_no_title#:#Bitte geben Sie einen Titel ein!
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
@@ -1698,7 +1698,7 @@ common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
 common#:#new_list_password#:#Weitere Vorschläge
 common#:#new_mail#:#Neue Mail!
-common#:#news#:#News###05 Nov 2004 new variable
+common#:#news#:#News
 common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
@@ -1849,7 +1849,7 @@ common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
-common#:#operation#:#Operation###05 Nov 2004 new variable
+common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
@@ -1862,7 +1862,7 @@ common#:#page_edit#:#Seite bearbeiten
 common#:#pages#:#Seiten
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
-common#:#passed#:#Passed###07 Dec 2004 new variable
+common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
@@ -1970,7 +1970,7 @@ common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
-common#:#replace_file#:#Replace File###29 Nov 2004 new variable
+common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#require_city#:#Pflichteingabe Stadt
@@ -2100,7 +2100,7 @@ common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
-common#:#server_data#:#Serverdaten###29 Nov 2004 content changed
+common#:#server_data#:#Serverdaten
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
@@ -2116,7 +2116,7 @@ common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
-common#:#size#:#Size###29 Nov 2004 new variable
+common#:#size#:#Größe
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
@@ -2257,7 +2257,7 @@ common#:#url_create_url#:#URL erstellen
 common#:#url_delete#:#URL löschen
 common#:#url_description#:#URL Beschreibung
 common#:#url_edit#:#URL bearbeiten
-common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Ändere Rechteeinstellungen
 common#:#url_new#:#Neue URL
 common#:#url_not_found#:#Datei wurde nicht gefunden
 common#:#url_read#:#URL öffnen
@@ -2268,7 +2268,7 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
-common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_comment#:#User-Kommentar
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
@@ -2291,7 +2291,7 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_skin_style#:#Skin / Style###05 Nov 2004 new variable
+common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
@@ -2349,16 +2349,16 @@ content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_act_number#:#Kapitelnummerierung
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
-content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
+content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
 content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
-content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
+content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_annex#:#Anhang
-content#:#cont_api_adapter#:#API Adapter Name###05 Nov 2004 new variable
+content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
@@ -2396,7 +2396,7 @@ content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des P
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_confirm_delete#:#wirklich löschen ?
 content#:#cont_content#:#Inhalt
-content#:#cont_content_obj#:#Content Object###03 Nov 2004 new variable
+content#:#cont_content_obj#:#Content-Objekt
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
@@ -2407,10 +2407,10 @@ content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
 content#:#cont_credit_off#:#Kein Credit
-content#:#cont_credit_on#:#Credit###05 Nov 2004 new variable
+content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
-content#:#cont_data_from_lms#:#adlcp:datafromlms###05 Nov 2004 new variable
+content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
 content#:#cont_def_organization#:#Standard
@@ -2421,17 +2421,17 @@ content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
-content#:#cont_disable_js#:#JavaScript deaktivieren###29 Nov 2004 content changed
-content#:#cont_disable_media#:#Medienobjekte inaktiv###29 Nov 2004 content changed
+content#:#cont_disable_js#:#JavaScript deaktivieren
+content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
 content#:#cont_ed_align_right#:#Rechts ausrichten
 content#:#cont_ed_align_right_float#:#Rechts ausr., Text umfl.
-content#:#cont_ed_class#:#Style###05 Nov 2004 new variable
-content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
-content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
+content#:#cont_ed_class#:#Style
+content#:#cont_ed_col_left#:#Spalte nach links verschieben
+content#:#cont_ed_col_right#:#Spalte nach rechts verschieben
 content#:#cont_ed_copy_clip#:#In Ablage kopieren
 content#:#cont_ed_delete#:#Löschen
 content#:#cont_ed_delete_col#:#Spalte löschen
@@ -2446,8 +2446,8 @@ content#:#cont_ed_insert_list#:#Liste einfügen
 content#:#cont_ed_insert_media#:#Medien einfügen
 content#:#cont_ed_insert_par#:#Absatz einfügen
 content#:#cont_ed_insert_table#:#Tabelle einfügen
-content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
-content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
+content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
+content#:#cont_ed_item_up#:#eintrag nach oben verschieben
 content#:#cont_ed_moveafter#:#Verschieben nach
 content#:#cont_ed_movebefore#:#Verschieben vor
 content#:#cont_ed_new_col_after#:#Neue Spalte anf.
@@ -2457,10 +2457,10 @@ content#:#cont_ed_new_item_before#:#Neuen Eintrag vor.
 content#:#cont_ed_new_row_after#:#Neue Zeile anf.
 content#:#cont_ed_new_row_before#:#Neue Zeile vor.
 content#:#cont_ed_paste_clip#:#Aus Ablage einf.
-content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
-content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
-content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
-content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
+content#:#cont_ed_row_down#:#Spalte nach unten verschieben
+content#:#cont_ed_row_up#:#Spalte nach oben verschieben
+content#:#cont_ed_split_page#:#Seite aufteilen
+content#:#cont_ed_split_page_next#:#Auf nächste Seite aufteilen
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
@@ -2473,8 +2473,8 @@ content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_enable_js#:#JavaScript aktivieren###29 Nov 2004 content changed
-content#:#cont_enable_media#:#Medienobjekte aktiv###29 Nov 2004 content changed
+content#:#cont_enable_js#:#JavaScript aktivieren
+content#:#cont_enable_media#:#Medienobjekte aktiv
 content#:#cont_example#:#Beispiel
 content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
@@ -2494,9 +2494,9 @@ content#:#cont_glo_properties#:#Glossar Eigenschaften
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
-content#:#cont_id_ref#:#identifierref###05 Nov 2004 new variable
+content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map
-content#:#cont_import_id#:#identifier###05 Nov 2004 new variable
+content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
@@ -2508,10 +2508,10 @@ content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
-content#:#cont_is_visible#:#isvisible###05 Nov 2004 new variable
+content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
 content#:#cont_issn#:#ISSN
-content#:#cont_item#:#Item###05 Nov 2004 new variable
+content#:#cont_item#:#Eintrag
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Schlagwort
 content#:#cont_link#:#Link
@@ -2538,15 +2538,15 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_lvalue#:#Datenelement
-content#:#cont_manifest#:#Manifest###05 Nov 2004 new variable
-content#:#cont_map_areas#:#Link Areas###05 Nov 2004 new variable
-content#:#cont_mastery_score#:#adlcp:masteryscore###05 Nov 2004 new variable
+content#:#cont_manifest#:#Manifest
+content#:#cont_map_areas#:#Verlinkte Bereiche
+content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#passt zu
 content#:#cont_matching_question_javascript_hint#:#Hinweis: Ziehen Sie eine Definition/ein Bild auf der rechten Seite über den passenden Term auf der Linken Seite und legen Sie die Definition/das Bild dort ab.
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###05 Nov 2004 new variable
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
+content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
@@ -2561,7 +2561,7 @@ content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_term#:#Neuer Begriff
-content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
+content#:#cont_no_access#:#Kein Zugriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
@@ -2587,8 +2587,8 @@ content#:#cont_personal_clipboard#:#Persönliches Clipboard
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_please_select#:#Bitte auswählen
-content#:#cont_prereq_type#:#adlcp:prerequisites.type###05 Nov 2004 new variable
-content#:#cont_prerequisites#:#adlcp:prerequisites###05 Nov 2004 new variable
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_publisher#:#Herausgeber
@@ -2618,7 +2618,7 @@ content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_score#:#Punkte
-content#:#cont_scorm_type#:#adlcp:scormtype###05 Nov 2004 new variable
+content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
@@ -2647,7 +2647,7 @@ content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_show_print_view#:#Druckansicht
 content#:#cont_size#:#Größe
-content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
+content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
 content#:#cont_src_other#:#Andere
@@ -2664,17 +2664,17 @@ content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_html_import#:#HTML-Tabelle importieren
-content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Der Import funktioniert nur mit XHTML-konformen Tabellen. Table must be root tag!
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time#:#Zeit
-content#:#cont_time_limit_action#:#adlcp:timelimitaction###05 Nov 2004 new variable
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:###03 Dec 2004 content changed
+content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_data#:#Protokolldaten
@@ -2689,12 +2689,12 @@ content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Clipboard von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
-content#:#cont_version#:#version###05 Nov 2004 new variable
+content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
-content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
+content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
 content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
 content#:#pages from#:#Seiten von
@@ -3065,7 +3065,7 @@ dateplaner#:#r_year#:#jedes Jahr
 dateplaner#:#readimportfile#:#Einlesen
 dateplaner#:#rotation#:#Turnus
 dateplaner#:#rotation_dates#:#Turnus Termine
-dateplaner#:#semester_name#:#Semester Name###05 Nov 2004 new variable
+dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
 dateplaner#:#short_03#:#Mär
@@ -3300,7 +3300,7 @@ meta#:#meta_c_GN#:#Guinea
 meta#:#meta_c_GP#:#Guadeloupe
 meta#:#meta_c_GQ#:#Äquatorial-Guinea
 meta#:#meta_c_GR#:#Griechenland
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###05 Nov 2004 new variable
+meta#:#meta_c_GS#:#Süd-Georgia und die Südlichen Sandwich-Inseln
 meta#:#meta_c_GT#:#Guatemala
 meta#:#meta_c_GU#:#Guam
 meta#:#meta_c_GW#:#Guinea-Bissau
@@ -3385,7 +3385,7 @@ meta#:#meta_c_PG#:#Papua-Neuguinea
 meta#:#meta_c_PH#:#Philippinen
 meta#:#meta_c_PK#:#Pakistan
 meta#:#meta_c_PL#:#Polen
-meta#:#meta_c_PM#:#St. Pierre And Miquelon###05 Nov 2004 new variable
+meta#:#meta_c_PM#:#St. Pierre und Miquelon
 meta#:#meta_c_PN#:#Pitcairn
 meta#:#meta_c_PR#:#Puerto Rico
 meta#:#meta_c_PT#:#Portugal
@@ -3764,7 +3764,7 @@ payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart au
 payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
 payment#:#pay_bmf_house_number#:#Hausnummer
 payment#:#pay_bmf_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
-payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
+payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#oder
 payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
 payment#:#pay_bmf_payment_type#:#Bezahlart
@@ -3797,10 +3797,10 @@ payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie könn
 payment#:#pay_filter#:#Filtermöglichkeiten
 payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
 payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
-payment#:#pay_header#:#Payment###05 Nov 2004 new variable
+payment#:#pay_header#:#Payment
 payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
-payment#:#pay_locator#:#Payment###05 Nov 2004 new variable
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
+payment#:#pay_locator#:#Payment
 payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
 payment#:#pay_message_hello#:#Guten Tag
 payment#:#pay_message_regards#:#Mit freundlichen Grüßen
@@ -3855,7 +3855,7 @@ payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_locator#:#Paymentverwaltung
 payment#:#paya_months#:#Monat(e)
 payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###29 Nov 2004 content changed
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
 payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
 payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
 payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
@@ -3935,7 +3935,7 @@ payment#:#price_a#:#Preis
 payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort Unterstützung
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ###29 Nov 2004 content changed
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. 
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
