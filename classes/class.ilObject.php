@@ -269,6 +269,31 @@ class ilObject
 	}
 
 
+	/*
+	* get full name of object owner
+	*
+	* @return	string		owner name or unknown
+	*/
+	function getOwnerName()
+	{
+		global $lng;
+		
+		// Todo: remove this from TUtil
+		$owner = TUtil::getOwner($this->getRefId());
+
+		if (is_object($owner))
+		{
+			$own_name = $owner->getFullname();
+		}
+		else
+		{
+			$own_name = $lng->txt("unknown");
+		}
+		
+		return $own_name;
+	}
+
+
 	/**
 	* set object owner
 	* @access	public
@@ -427,28 +452,6 @@ class ilObject
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id);
 		}
 		return $new_id;
-	}
-
-
-	/**
-	* show owner of object
-	* @access	public
-	* @return	string	owners fullname or unknown
-	**/
-	function ownerObject()
-	{
-		global $lng;
-
-		$owner = TUtil::getOwner($_GET["ref_id"]);
-
-		if (is_object($owner))
-		{
-			return $owner->getFullname();
-		}
-		else
-		{
-			return $lng->txt("unknown");
-		}
 	}
 
 
