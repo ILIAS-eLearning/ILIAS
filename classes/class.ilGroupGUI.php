@@ -886,6 +886,8 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo ($this->lng->txt($info));
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&parent_on_rbac_id=".$_GET["parent_non_rbac_id"]."&gateway=true");
+		$this->tpl->setVariable("ACTIONTARGET", "bottom");
+		
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
 
 		$this->tpl->setCurrentBlock("confirmcontent");
@@ -1324,7 +1326,7 @@ class ilGroupGUI extends ilObjectGUI
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		$this->prepareOutput();
-
+		$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
 		// TODO: get rid of $_GET variable
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
@@ -1351,7 +1353,6 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -1374,7 +1375,6 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$new_type);
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -1607,7 +1607,9 @@ class ilGroupGUI extends ilObjectGUI
 
 		//load template for table content data
 		//$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
+		
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+		$this->tpl->setVariable("ACTIONTARGET", "bottom");
 		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
 						"canceldelete"  => $this->lng->txt("cancel"));
 
