@@ -186,21 +186,32 @@ class ilFileDataExercise extends ilFileData
 			// remove all special characters
 			$filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
 
-			$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/" . $user_id . "/";
+			if(!is_dir($savepath = $this->getExercisePath()."/".$this->obj_id))
+			{
+				ilUtil::makeDir($savepath);
+			}
+			$savepath .= '/' .$user_id;
+			if(!is_dir($savepath))
+			{
+				ilUtil::makeDir($savepath);
+			}				
+
 			// CHECK IF FILE PATH EXISTS
 			if (!is_dir($savepath))
 			{
 				require_once "./classes/class.ilUtil.php";
-				ilUtil::makeDirParents($savepath);
+				#ilUtil::makeDirParents($savepath);
+				ilUtil::makeDir($savepath);
 			}
 			$now = getdate();
-			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], $now["minutes"], $now["seconds"]);
+			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], 
+							  $now["minutes"], $now["seconds"]);
 			move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 			require_once "./content/classes/Media/class.ilObjMediaObject.php";
 			$result = array(
 				"filename" => $prefix . "_" . $filename,
 				"fullname" => $savepath . $prefix . "_" . $filename,
-        "mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $filename)
+				"mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $filename)
 			);
 		}
 		return $result;
