@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Read access to Objectdefinitions
 common#:#objf_visible#:#Objectdefinitions are visible
 common#:#objf_write#:#Edit Objectdefinitions
 common#:#objs_cat#:#Categories
+common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Confirm Action
 common#:#objs_crs#:#Courses
 common#:#objs_dbk#:#Digilib Books
@@ -1243,8 +1244,6 @@ common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
-common#:#objs_chat#:#Chats
-common#:#selected_items#:#Personal Items
 common#:#objs_grp#:#Groups
 common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_lm#:#Learning Modules
@@ -1424,6 +1423,7 @@ common#:#select_all#:#Select All
 common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
 common#:#selected#:#Selected
+common#:#selected_items#:#Personal Items
 common#:#send#:#Send
 common#:#sender#:#Sender
 common#:#sent#:#Sent

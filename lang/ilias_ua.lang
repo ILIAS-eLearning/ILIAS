@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Доступ на читання до визначень О
 common#:#objf_visible#:#Визначення Об'єкта є видимі
 common#:#objf_write#:#Редагувати Визначення Об'єкта
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Підтвердити Дію
 common#:#objs_crs#:#Courses###18 Feb 2004 new variable
 common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Вибрати Усе
 common#:#select_file#:#Вибрати файл
 common#:#select_mode#:#Вибрати режим
 common#:#selected#:#Вибраний
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Відіслати
 common#:#sender#:#Відправник
 common#:#sent#:#Відісланий

@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Confirm Deletion###26 Nov 2003 new variable
 common#:#objs_crs#:#Courses###18 Feb 2004 new variable
 common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Selectionner tout
 common#:#select_file#:#Selectionner fichier
 common#:#select_mode#:#Selectionner mode
 common#:#selected#:#Selectionné
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Envoyer
 common#:#sender#:#Expéditeur
 common#:#sent#:#Envoyé

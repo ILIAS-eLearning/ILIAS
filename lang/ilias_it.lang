@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
 common#:#objf_visible#:#Vedere le definizioni degli oggetti
 common#:#objf_write#:#Modificare le definizioni degli oggetti
 common#:#objs_cat#:#Categorie
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Conferma la cancellazione
 common#:#objs_crs#:#Corsi
 common#:#objs_dbk#:#Libri digitali
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Seleziona tutto
 common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
 common#:#selected#:#Selezionati
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Invia
 common#:#sender#:#Mittente
 common#:#sent#:#Inviato

@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Lees-recht op object-definities
 common#:#objf_visible#:#Object-definities zijn zichtbaar
 common#:#objf_write#:#Wijzig object-definities
 common#:#objs_cat#:#Kategoriën
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Bevestig activiteit
 common#:#objs_crs#:#Cursussen
 common#:#objs_dbk#:#Digilib-boeken
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Selecteer alles
 common#:#select_file#:#Selecteer bestand
 common#:#select_mode#:#Selecteer modus
 common#:#selected#:#Geselecteerd
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Zend
 common#:#sender#:#Zender
 common#:#sent#:#Gezonden
