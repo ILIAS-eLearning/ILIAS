@@ -35,6 +35,8 @@ require_once("content/classes/class.ilStructureObject.php");
 
 class ilLMTOCExplorer extends ilLMExplorer
 {
+	var	$offline;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -43,15 +45,33 @@ class ilLMTOCExplorer extends ilLMExplorer
 	*/
 	function ilLMTOCExplorer($a_target,&$a_lm_obj)
 	{
+		$this->offline = false;
 		parent::ilLMExplorer($a_target, $a_lm_obj);
 		$this->setExpandTarget("lm_presentation.php?frame=".$_GET["frame"]."&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 	}
+	
+	/**
+	* set offline mode
+	*/
+	function setOfflineMode($a_offline = true)
+	{
+		$this->offline = $a_offline;
+	}
 
+	/**
+	* get offline mode
+	*/
+	function offlineMode()
+	{
+		return $this->offline;
+	}
+	
 	/**
 	* standard implementation for title, maybe overwritten by derived classes
 	*/
 	function buildTitle($a_title, $a_id, $a_type)
 	{
+//echo "<br>-$a_title-$a_type-$a_id-";
 		if ($a_type == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_id,
@@ -71,6 +91,57 @@ class ilLMTOCExplorer extends ilLMExplorer
 			}
 		}
 	}
+	
+	
+	/**
+	* get image path (may be overwritten by derived classes)
+	*/
+	function getImage($a_name)
+	{
+		return ilUtil::getImagePath($a_name, false, "output", $this->offlineMode());
+	}
+
+	
+	/**
+	* build link target
+	*/
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		if (!$this->offlineMode())
+		{
+			return parent::buildLinkTarget($a_node_id, $a_type);
+		}
+		else
+		{
+			if ($a_node_id < 1)
+			{
+				$a_node_id = $this->tree->getRootId();
+			}
+			if ($a_type != "pg")
+			{
+				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+				$a_node_id = $a_node["child"];
+			}
+			return "frame_".$a_node_id."_maincontent.html";
+		}
+	}
+	
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		if ($this->offlineMode())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 
 } // END class.ilLMTOCExplorer
 ?>

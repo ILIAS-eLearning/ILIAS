@@ -80,12 +80,12 @@ class ilLMExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
-		$tpl->setVariable("LINK_TARGET", $this->target);
+		$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget("",""));
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		$tpl->parseCurrentBlock();
 		
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
+		//$tpl->setCurrentBlock("row");
+		//$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
 	}

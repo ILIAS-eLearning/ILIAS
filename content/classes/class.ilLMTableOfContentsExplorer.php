@@ -43,6 +43,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	 */
 	var $root_id;
 	var $output;
+	var $offline;
 
 	/**
 	* Constructor
@@ -65,20 +66,35 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		if ($showViewInFrameset) 
+		{
+			$this->setFrameTarget("bottom");
+		}
+		else
+		{
+			$this->setFrameTarget("_top");
+		}
 
-                if ($showViewInFrameset) 
-                {
-                    $this->setFrameTarget("bottom");
-                }
-                else
-                {
-                    $this->setFrameTarget("_top");
-                }
+	}
 
+	/**
+	* set offline mode
+	*/
+	function setOfflineMode($a_offline = true)
+	{
+		$this->offline = $a_offline;
+	}
+
+	/**
+	* get offline mode
+	*/
+	function offlineMode()
+	{
+		return $this->offline;
 	}
 
 	/**
@@ -117,26 +133,76 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		
 	}
 
+	/**
+	* get target frame
+	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-                if ($showViewInFrameset) 
-                {
-                    return "bottom";
-                }
-                else
-                {
-                    return "_top";
-                }
+		if ($showViewInFrameset) 
+		{
+			return "bottom";
+		}
+		else
+		{
+			return "_top";
+		}
+	}
+
+	/**
+	* build link target
+	*/
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		if (!$this->offlineMode())
+		{
+			return parent::buildLinkTarget($a_node_id, $a_type);
+		}
+		else
+		{
+			if ($a_node_id < 1)
+			{
+				$a_node_id = $this->tree->getRootId();
+			}
+			if ($a_type != "pg")
+			{
+				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+				$a_node_id = $a_node["child"];
+			}
+			return "lm_pg_".$a_node_id.".html";
+		}
 	}
 
 	/*function isClickable($a_type, $a_obj_id)
 	{
 		return true;
 	}*/
+
+	/**
+	* get image path (may be overwritten by derived classes)
+	*/
+	function getImage($a_name)
+	{
+		return ilUtil::getImagePath($a_name, false, "output", $this->offlineMode());
+	}
+	
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		if ($this->offlineMode())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 
 } // END class ilTableOfContentsExplorer

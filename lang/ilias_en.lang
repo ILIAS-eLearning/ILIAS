@@ -2435,10 +2435,12 @@ content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
+content#:#cont_public_access#:#Public access
 content#:#cont_copy_object#:#copy object
 content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_create_dir#:#Create Directory
-content#:#cont_create_export_file#:#Create Export File
+content#:#cont_create_export_file_xml#:#Create Export File (XML)
+content#:#cont_create_export_file_html#:#Create Export File (HTML)
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object

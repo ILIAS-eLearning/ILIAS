@@ -606,6 +606,7 @@ class ilLMPageObject extends ilLMObject
 		//$a_xml_writer->xmlEndTag("PageObject");
 	}
 
+
 	/**
 	* redirect script
 	*

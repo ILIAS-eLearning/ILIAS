@@ -1888,7 +1888,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
+		$this->tpl->parseCurrentBlock();
+		
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_html"));
 		$this->tpl->parseCurrentBlock();
 
 		// view last export log button
@@ -1900,10 +1906,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
-		$export_dir = $this->object->getExportDirectory();
-
-		$export_files = $this->object->getExportFiles($export_dir);
+		$export_files = $this->object->getExportFiles();
 
 		// create table
 		require_once("classes/class.ilTableGUI.php");
@@ -1921,14 +1924,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("cont_export_files"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
+			$this->lng->txt("cont_file"),
 			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
 
-		$cols = array("", "file", "size", "date");
+		$cols = array("", "type", "file", "size", "date");
 		$header_params = array("ref_id" => $_GET["ref_id"],
 			"cmd" => "exportList", "cmdClass" => strtolower(get_class($this)));
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+		$tbl->setColumnWidth(array("1%", "9%", "40%", "20%", "20%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -1938,7 +1942,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// delete button
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
@@ -1950,6 +1954,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "publishExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_public_access"));
 		$this->tpl->parseCurrentBlock();
 
 		// footer
@@ -1966,15 +1975,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			foreach($export_files as $exp_file)
 			{
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
 
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
+				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
-				$file_arr = explode("__", $exp_file);
+				$file_arr = explode("__", $exp_file["file"]);
 				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
 
 				$this->tpl->parseCurrentBlock();
@@ -1984,7 +1994,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->setVariable("NUM_COLS", 4);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -2031,10 +2041,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-
-		$export_dir = $this->object->getExportDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
+		$file = explode(":", $_POST["file"][0]);
+		$export_dir = $this->object->getExportDirectory($file[0]);
+		ilUtil::deliverFile($export_dir."/".$file[1],
+			$file[1]);
 	}
 
 	/**
@@ -2088,9 +2098,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($_POST["file"] as $file)
 		{
+				$file = explode(":", $file);
 				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->setVariable("TEXT_CONTENT", $file[1]." (".$file[0].")");
 				$this->tpl->parseCurrentBlock();
 		}
 
@@ -2123,11 +2134,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function deleteExportFile()
 	{
-		$export_dir = $this->object->getExportDirectory();
 		foreach($_SESSION["ilExportFiles"] as $file)
 		{
-			$exp_file = $export_dir."/".$file;
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			$file = explode(":", $file);
+			$export_dir = $this->object->getExportDirectory($file[0]);
+			
+			$exp_file = $export_dir."/".$file[1];
+			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
@@ -2182,7 +2195,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	/**
 	* get lm menu html
 	*/
-	function setilLMMenu()
+	function setilLMMenu($a_offline = false)
 	{
 		if (!$this->object->isActiveLMMenu())
 		{
@@ -2194,22 +2207,29 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
 		$tpl_menu->setCurrentBlock("lm_menu_btn");
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-                if ($showViewInFrameset) 
-                {
-                    $buttonTarget = "bottom";
-                }
-                else
-                {
-                    $buttonTarget = "_top";
-                }
+		if ($showViewInFrameset) 
+		{
+			$buttonTarget = "bottom";
+		}
+		else
+		{
+			$buttonTarget = "_top";
+		}
 
 		if ($this->object->isActiveTOC())
 		{
-			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			if (!$a_offline)
+			{
+				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			}
+			else
+			{
+				$tpl_menu->setVariable("BTN_LINK", "./table_of_contents.html");
+			}
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_contents"));
                         $tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
@@ -2217,132 +2237,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($this->object->isActivePrintView())
 		{
-			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
-                        $tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-			$tpl_menu->parseCurrentBlock();
+			if (!$a_offline)		// has to be implemented for offline mode
+			{
+				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
+							$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->parseCurrentBlock();
+			}
 		}
 
 		return $tpl_menu->get();
 		//return "";
-	}
-
-
-	/*
-	* list all offline files
-	*/
-	function offlineList()
-	{
-		global $tree;
-
-		$this->setTabs();
-
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create pdf file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createPDF"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_pdf_file"));
-		$this->tpl->parseCurrentBlock();
-
-		// view last export log button
-		/*
-		if (is_file($this->object->getExportDirectory()."/export.log"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
-			$this->tpl->parseCurrentBlock();
-		}*/
-
-		$offline_dir = $this->object->getOfflineDirectory();
-
-		$offline_files = $this->object->getOfflineFiles($offline_dir);
-
-		// create table
-		require_once("classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.offline_file_row.html", true);
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("cont_offline_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
-			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
-
-		$cols = array("", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"],
-			"cmd" => "offlineList", "cmdClass" => strtolower(get_class($this)));
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteOfflineFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadPDFFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($offline_files));
-		$offline_files = array_slice($offline_files, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
-		if(count($offline_files) > 0)
-		{
-			$i=0;
-			foreach($offline_files as $off_file)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $off_file);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", filesize($offline_dir."/".$off_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $off_file);
-
-				$file_arr = explode("__", $off_file);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -2354,6 +2259,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$cont_exp = new ilContObjectExport($this->object, "pdf");
 		$cont_exp->buildExportFile();
 		$this->offlineList();
+	}
+
+	/**
+	* create html package
+	*/
+	function exportHTML()
+	{
+		require_once("content/classes/class.ilContObjectExport.php");
+		$cont_exp = new ilContObjectExport($this->object, "html");
+		$cont_exp->buildExportFile();
+//echo $this->tpl->get();
+		$this->exportList();
 	}
 
 	/**

@@ -474,7 +474,10 @@ class ilExplorer
 						if ($object["child"] != $this->tree->getRootId() and ((!$this->expand_all and !in_array($object["parent"],$this->expanded))
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
-							$this->format_options["$counter"]["visible"] = false;
+							if (!$this->forceExpanded($object["child"]))
+							{
+								$this->format_options["$counter"]["visible"] = false;
+							}
 						}
 
 						// if object exists parent is container
@@ -495,7 +498,8 @@ class ilExplorer
 						++$counter;
 
 						// stop recursion if 2. level beyond expanded nodes is reached
-						if (($this->expand_all or in_array($object["parent"],$this->expanded)) or ($object["parent"] == 0))
+						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)
+							or $this->forceExpanded($object["child"]))
 						{
 							// recursive
 							$this->setOutput($object["child"],$a_depth,$object['obj_id']);
@@ -515,6 +519,14 @@ class ilExplorer
 	function showChilds($a_parent_id)
 	{
 		return true;
+	}
+	
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		return false;
 	}
 
 	/**
@@ -592,7 +604,7 @@ class ilExplorer
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -601,7 +613,7 @@ class ilExplorer
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -610,7 +622,7 @@ class ilExplorer
 			{
 				$picture = "blank";
 				$tpl->setCurrentBlock("lines");
-				$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
+				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -618,7 +630,7 @@ class ilExplorer
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif"));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			
 			$this->iconList[] = "iconid_".$a_node_id;
@@ -637,7 +649,6 @@ class ilExplorer
 			$tpl->setVariable("TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
 				$this->textwidth, true));
-
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
@@ -657,7 +668,18 @@ class ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
+	
+	/**
+	* get image path (may be overwritten by derived classes)
+	*/
+	function getImage($a_name)
+	{
+		return ilUtil::getImagePath($a_name);
+	}
 
+	/**
+	* get link target (may be overwritten by derived classes)
+	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
 		$target = (strpos($this->target, "?") === false)
@@ -667,13 +689,16 @@ class ilExplorer
 	}
 
 	/**
-	* standard implementation for title, maybe overwritten by derived classes
+	* standard implementation for title, may be overwritten by derived classes
 	*/
 	function buildTitle($a_title, $a_id, $a_type)
 	{
 		return $a_title;
 	}
 
+	/**
+	* get frame target (may be overwritten by derived classes)
+	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
 		return $this->frame_target;

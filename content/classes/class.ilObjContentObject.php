@@ -386,7 +386,7 @@ class ilObjContentObject extends ilObject
 	* (data_dir/lm_data/lm_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createExportDirectory()
+	function createExportDirectory($a_type = "xml")
 	{
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
@@ -402,7 +402,17 @@ class ilObjContentObject extends ilObject
 			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-		$export_dir = $lm_dir."/export";
+		switch ($a_type)
+		{
+			// html
+			case "html":
+				$export_dir = $lm_dir."/export_html";
+				break;
+				
+			default:		// = xml
+				$export_dir = $lm_dir."/export";
+				break;
+		}
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
@@ -413,53 +423,20 @@ class ilObjContentObject extends ilObject
 	/**
 	* get export directory of lm
 	*/
-	function getExportDirectory()
+	function getExportDirectory($a_type = "xml")
 	{
-		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
-
+		switch  ($a_type)
+		{
+			case "html":
+				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_html";
+				break;
+				
+			default:			// = xml
+				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
+				break;
+		}
 		return $export_dir;
 	}
-
-
-	/**
-	* creates data directory for offline files
-	* (data_dir/lm_data/lm_<id>/offline, depending on data
-	* directory that is set in ILIAS setup/ini)
-	*/
-	function createOfflineDirectory()
-	{
-		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
-		if(!is_writable($lm_data_dir))
-		{
-			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
-		}
-		// create learning module directory (data_dir/lm_data/lm_<id>)
-		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		ilUtil::makeDir($lm_dir);
-		if(!@is_dir($lm_dir))
-		{
-			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
-		}
-		// create Offlne subdirectory (data_dir/lm_data/lm_<id>/offline)
-		$offline_dir = $lm_dir."/offline";
-		ilUtil::makeDir($offline_dir);
-		if(!@is_dir($offline_dir))
-		{
-			$this->ilias->raiseError("Creation of Offline Directory failed.",$this->ilias->error_obj->FATAL);
-		}
-	}
-
-	/**
-	* get offline directory of lm
-	*/
-	function getOfflineDirectory()
-	{
-		$offline_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/offline";
-
-		return $offline_dir;
-	}
-
 
 	/**
 	* copy all properties and subobjects of a learning module.
@@ -1414,38 +1391,46 @@ class ilObjContentObject extends ilObject
 	/**
 	* get export files
 	*/
-	function getExportFiles($dir)
+	function getExportFiles()
 	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
 		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
+		
+		$types = array("xml", "html");
+		
+		foreach ($types as $type)
 		{
-			if ($entry != "." and
-				$entry != ".." and
-				substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+			$dir = $this->getExportDirectory($type);
+			// quit if import dir not available
+			if (!@is_dir($dir) or
+				!is_writeable($dir))
 			{
-				$file[] = $entry;
+				return array();
 			}
+	
+			// open directory
+			$cdir = dir($dir);
+	
+			// initialize array
+	
+			// get files and save the in the array
+			while ($entry = $cdir->read())
+			{
+				if ($entry != "." and
+					$entry != ".." and
+					substr($entry, -4) == ".zip" and
+					ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+				{
+					$file[$entry.$type] = array("type" => $type, "file" => $entry,
+						"size" => filesize($dir."/".$entry));
+				}
+			}
+	
+			// close import directory
+			$cdir->close();
 		}
-
-		// close import directory
-		$dir->close();
 
 		// sort files
-		sort ($file);
+		ksort ($file);
 		reset ($file);
 
 		return $file;
@@ -1489,6 +1474,357 @@ class ilObjContentObject extends ilObject
 		reset ($file);
 
 		return $file;
+	}
+	
+	/**
+	* export html package
+	*/
+	function exportHTML($a_target_dir, $log)
+	{
+		global $ilias, $tpl;
+
+		// initialize temporary target directory
+		ilUtil::delDir($a_target_dir);
+		ilUtil::makeDir($a_target_dir);
+		$mob_dir = $a_target_dir."/mobs";
+		ilUtil::makeDir($mob_dir);
+		$file_dir = $a_target_dir."/files";
+		ilUtil::makeDir($file_dir);
+
+		// export system style sheet
+		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
+		$style_name = $ilias->account->prefs["style"].".css";
+		copy($location_stylesheet, $a_target_dir."/".$style_name);
+		$location_stylesheet = ilUtil::getStyleSheetLocation();
+		
+		// export content style sheet
+		if ($this->getStyleSheetId() < 1)
+		{
+			$cont_stylesheet = "content/content.css";
+			copy($cont_stylesheet, $a_target_dir."/content.css");
+		}
+		else
+		{
+			$style = new ilObjStyleSheet($this->getStyleSheetId());
+			$style->writeCSSFile($a_target_dir."/content.css");
+		}
+
+		// get learning module presentation gui class
+		include_once("content/classes/class.ilLMPresentationGUI.php");
+		$_GET["cmd"] = "nop";
+		$lm_gui =& new ilLMPresentationGUI();
+		$lm_gui->setOfflineMode(true);
+
+		// export pages
+		$this->exportHTMLPages($lm_gui, $a_target_dir);
+		
+		// export glossary terms
+		$this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
+		
+		// export all media objects
+		foreach ($this->offline_mobs as $mob)
+		{
+			$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
+		}
+		$_GET["obj_type"]  = "MediaObject";
+		$_GET["obj_id"]  = $a_mob_id;
+		$_GET["cmd"] = "";
+		
+		// export all file objects
+		foreach ($this->offline_files as $file)
+		{
+			$this->exportHTMLFile($a_target_dir, $file);
+		}
+		
+		// export table of contents
+		if ($this->isActiveTOC())
+		{
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$content =& $lm_gui->showTableOfContents();
+			$file = $a_target_dir."/table_of_contents.html";
+				
+			// open file
+			if (!($fp = @fopen($file,"w+")))
+			{
+				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+			}
+			chmod($file, 0770);
+			fwrite($fp, $content);
+			fclose($fp);
+		}
+
+		// export images
+		$image_dir = $a_target_dir."/images";
+		ilUtil::makeDir($image_dir);
+		ilUtil::makeDir($image_dir."/browser");
+		copy(ilUtil::getImagePath("enlarge.gif", false, "filesystem"),
+			$image_dir."/enlarge.gif");
+		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
+			$image_dir."/browser/plus.gif");
+		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
+			$image_dir."/browser/minus.gif");
+		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
+			$image_dir."/browser/blank.gif");
+		copy(ilUtil::getImagePath("icon_st.gif", false, "filesystem"),
+			$image_dir."/icon_st.gif");
+		copy(ilUtil::getImagePath("icon_pg.gif", false, "filesystem"),
+			$image_dir."/icon_pg.gif");
+		copy(ilUtil::getImagePath("nav_arr_L.gif", false, "filesystem"),
+			$image_dir."/nav_arr_L.gif");
+		copy(ilUtil::getImagePath("nav_arr_R.gif", false, "filesystem"),
+			$image_dir."/nav_arr_R.gif");
+			
+		// template workaround: reset of template 
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		
+		// zip it all
+		$date = time();
+		$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
+			$this->getType()."_".$this->getId().".zip";
+//echo "zip-".$a_target_dir."-to-".$zip_file;
+		ilUtil::zip($a_target_dir, $zip_file);
+		ilUtil::delDir($a_target_dir);
+	}
+	
+	/**
+	* export file object
+	*/
+	function exportHTMLFile($a_target_dir, $a_file_id)
+	{
+		$file_dir = $a_target_dir."/files/file_".$a_file_id;
+		ilUtil::makeDir($file_dir);
+		include_once("classes/class.ilObjFile.php");
+		$file_obj = new ilObjFile($a_file_id, false);
+		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
+		if (!is_file($source_file))
+		{
+			$source_file = $file_obj->getDirectory()."/".$file_obj->getFileName();
+		}
+		copy($source_file, $file_dir."/".$file_obj->getFileName());
+	}
+
+	/**
+	* export media object to html
+	*/
+	function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame = "")
+	{
+		global $tpl;
+
+		$mob_dir = $a_target_dir."/mobs";
+
+		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+		if (@is_dir($source_dir))
+		{
+			ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
+			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+		}
+		
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$_GET["obj_type"]  = "MediaObject";
+		$_GET["mob_id"]  = $a_mob_id;
+		$_GET["frame"] = $a_frame;
+		$_GET["cmd"] = "";
+		$content =& $a_lm_gui->media();
+		$file = $a_target_dir."/media_".$a_mob_id.".html";
+
+		// open file
+		if (!($fp = @fopen($file,"w+")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}
+		chmod($file, 0770);
+		fwrite($fp, $content);
+		fclose($fp);
+		
+		// fullscreen
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		$mob_obj = new ilObjMediaObject($a_mob_id);
+		if ($mob_obj->hasFullscreenItem())
+		{
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$_GET["obj_type"]  = "";
+			$_GET["frame"]  = "";
+			$_GET["mob_id"]  = $a_mob_id;
+			$_GET["cmd"] = "fullscreen";
+			$content =& $a_lm_gui->fullscreen();
+			$file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
+	
+			// open file
+			if (!($fp = @fopen($file,"w+")))
+			{
+				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+			}
+			chmod($file, 0770);
+			fwrite($fp, $content);
+			fclose($fp);
+		}
+	}
+	
+	/**
+	* export glossary terms
+	*/
+	function exportHTMLGlossaryTerms(&$a_lm_gui, $a_target_dir)
+	{
+		foreach($this->offline_int_links as $int_link)
+		{
+			if ($int_link["type"] == "git")
+			{
+				$tpl = new ilTemplate("tpl.main.html", true, true);
+				$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+
+				$_GET["obj_id"] = $int_link["id"];
+				$_GET["frame"] = "_new";
+				$content =& $a_lm_gui->glossary();
+				$file = $a_target_dir."/term_".$int_link["id"].".html";
+					
+				// open file
+				if (!($fp = @fopen($file,"w+")))
+				{
+					die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+							" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+				}
+				chmod($file, 0770);
+				fwrite($fp, $content);
+				fclose($fp);
+
+				// store linked/embedded media objects of glosssary term
+				include_once("content/classes/class.ilGlossaryDefinition.php");
+				$defs = ilGlossaryDefinition::getDefinitionList($int_link["id"]);
+				foreach($defs as $def)
+				{
+					$def_mobs = ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
+					foreach($def_mobs as $def_mob)
+					{
+						$this->offline_mobs[$def_mob] = $def_mob;
+					}
+					
+					// get all files of page
+					$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $page["obj_id"]);
+					$this->offline_files = array_merge($this->offline_files, $def_files);
+
+				}
+				
+			}
+		}
+	}
+	
+	/**
+	* export all pages of learning module to html file
+	*/
+	function exportHTMLPages(&$a_lm_gui, $a_target_dir)
+	{
+		global $tpl;
+				
+		$pages = ilLMPageObject::getPageList($this->getId());
+		
+		$lm_tree =& $this->getLMTree();
+		$first_page = $lm_tree->fetchSuccessorNode($lm_tree->getRootId(), "pg");
+		$this->first_page_id = $first_page["child"];
+
+		// iterate all learning module pages
+		$mobs = array();
+		$int_links = array();
+		$this->offline_files = array();
+		foreach ($pages as $page)
+		{
+			$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
+			
+			// get all media objects of page
+			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
+			foreach($pg_mobs as $pg_mob)
+			{
+				$mobs[$pg_mob] = $pg_mob;
+			}
+			
+			// get all internal links of page
+			$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["obj_id"]);
+			$int_links = array_merge($int_links, $pg_links);
+			
+			// get all files of page
+			include_once("classes/class.ilObjFile.php");
+			$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
+			$this->offline_files = array_merge($this->offline_files, $pg_files);
+			
+		}
+		$this->offline_mobs = $mobs;
+		$this->offline_int_links = $int_links;
+		
+	}
+
+	/**
+	* export page html
+	*/
+	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "")
+	{
+		global $ilias, $tpl;
+//echo "<br>B: export Page HTML ($a_lm_page_id)"; flush();
+		// template workaround: reset of template 
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+
+		$_GET["obj_id"] = $a_lm_page_id;
+		$_GET["frame"] = $a_frame;
+		$content =& $a_lm_gui->layout("main.xml", false);
+		
+		if ($a_frame == "")
+		{
+			$file = $a_target_dir."/lm_pg_".$a_lm_page_id.".html";
+		}
+		else
+		{
+			if ($a_frame != "toc")
+			{
+				$file = $a_target_dir."/frame_".$a_lm_page_id."_".$a_frame.".html";
+			}
+			else
+			{
+				$file = $a_target_dir."/frame_".$a_frame.".html";
+			}
+		}
+		
+		// return if file is already existing
+		if (@is_file($file))
+		{
+			return;
+		}
+		
+		// open file
+		if (!($fp = @fopen($file,"w+")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}
+	
+		// set file permissions
+		chmod($file, 0770);
+			
+		// write xml data into the file
+		fwrite($fp, $content);
+		
+		// close file
+		fclose($fp);
+
+		if ($this->first_page_id == $a_lm_page_id && $a_frame == "")
+		{
+			copy($file, $a_target_dir."/index.html");
+		}
+
+		// write frames of frameset
+		$frameset = $a_lm_gui->getCurrentFrameSet();
+		foreach ($frameset as $frame)
+		{				
+			$this->exportPageHTML($a_lm_gui, $a_target_dir, $a_lm_page_id, $frame);
+		}
+
 	}
 
 	/**

@@ -55,11 +55,11 @@ class ilUtil
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
 	*/
-	function getImagePath($img, $in_module = false)
+	function getImagePath($img, $in_module = false, $mode = "output", $offline = false)
 	{
 		global $ilias, $styleDefinition;
 
-		if(defined("ILIAS_MODULE") and !defined("KEEP_IMAGE_PATH"))
+		if(defined("ILIAS_MODULE") and !defined("KEEP_IMAGE_PATH") and $mode != "filesystem")
 		{
 			$dir = ".";
 		}
@@ -83,7 +83,11 @@ class ilUtil
 		}
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
-		if (@file_exists($user_skin_and_style) && $st_image_dir != "")
+		if ($offline)
+		{
+			return "./images/".$img;
+		}
+		else if (@file_exists($user_skin_and_style) && $st_image_dir != "")
 		{
 			return $dir.$user_skin_and_style;
 		}
@@ -124,11 +128,11 @@ class ilUtil
 	*
 	* @access	public
 	*/
-	function getStyleSheetLocation()
+	function getStyleSheetLocation($mode = "output")
 	{
 		global $ilias;
 
-		if(defined("ILIAS_MODULE"))
+		if(defined("ILIAS_MODULE") && $mode != "filesystem")
 		{
 			$base = "../";
 		}
@@ -997,6 +1001,7 @@ class ilUtil
 	*
 	* @param	string		$mode		use "filesystem" for filesystem operations
 	*									and "output" for output operations, e.g. images
+	*
 	*/
 	function getWebspaceDir($mode = "filesystem")
 	{
@@ -1525,15 +1530,27 @@ class ilUtil
 
 		$current_dir = opendir($a_dir);
 
+		$files = array();
+		
+		// this extra loop has been necessary because of a strange bug
+		// at least on MacOS X. A looped readdir() didn't work
+		// correctly with larger directories 
+		// when an unlink happened inside the loop. Getting all files
+		// into the memory first solved the problem.
 		while($entryname = readdir($current_dir))
 		{
-			if(is_dir($a_dir."/".$entryname) and ($entryname != "." and $entryname!=".."))
+			$files[] = $entryname;
+		}
+		
+		foreach($files as $file)
+		{
+			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
 			{
-				ilUtil::delDir(${a_dir}."/".${entryname});
+				ilUtil::delDir(${a_dir}."/".${file});
 			}
-			elseif ($entryname != "." and $entryname!="..")
+			elseif ($file != "." and $file != "..")
 			{
-				unlink(${a_dir}."/".${entryname});
+				unlink(${a_dir}."/".${file});
 			}
 		}
 

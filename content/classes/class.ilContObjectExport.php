@@ -64,6 +64,13 @@ class ilContObjectExport
 		$date = time();
 		switch($this->mode)
 		{
+			case "html":
+				$this->export_dir = $this->cont_obj->getExportDirectory("html");
+				$this->subdir = $this->cont_obj->getType()."_".$this->cont_obj->getId();
+				$this->filename = $this->subdir.".zip";
+				break;
+
+			
 			case "pdf":
 				$this->export_dir = $this->cont_obj->getOfflineDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
@@ -172,6 +179,10 @@ class ilContObjectExport
 	{
 		switch ($this->mode)
 		{
+			case "html":
+				return $this->buildExportFileHTML();
+				break;
+
 			case "pdf":
 				return $this->buildExportFilePDF();
 				break;
@@ -283,7 +294,7 @@ class ilContObjectExport
 		$this->xml->xmlHeader();
 
 		// create directories
-		$this->cont_obj->createOfflineDirectory();
+	//$this->cont_obj->createExportDirectory("pdf");   //not implemened!
 		//ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		//ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
@@ -321,6 +332,27 @@ class ilContObjectExport
 
 		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("ContentObjectExport", "buildPDFFile");
+	}
+
+	/**
+	* build html package
+	*/
+	function buildExportFileHTML()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentObjectExport", "buildHTMLPackage");
+
+		// create directories
+		$this->cont_obj->createExportDirectory("html");
+
+		// get html content
+		$ilBench->start("ContentObjectExport", "buildHTMLPackage_getHTML");
+		$this->cont_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog);
+		$ilBench->stop("ContentObjectExport", "buildHTMLPackage_getHTML");
+
+		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
+		$ilBench->stop("ContentObjectExport", "buildHTMLPackage");
 	}
 
 }

@@ -793,15 +793,37 @@ class ilObjMediaObject extends ilObject
 	*/
 	function _deleteAllUsages($a_type, $a_id)
 	{
+		global $ilDB;
+		
 		$q = "DELETE FROM mob_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
+	}
+	/**
+	* get mobs of object
+	*/
+	function _getMobsOfObject($a_type, $a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM mob_usage WHERE ".
+			"usage_type = ".$ilDB->quote($a_type)." AND ".
+			"usage_id = ".$ilDB->quote($a_id);
+		$mobs = array();
+		$mob_set = $ilDB->query($q);
+		while($mob_rec = $mob_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$mobs[$mob_rec["id"]] = $mob_rec["id"];
+		}
+		return $mobs;
 	}
 
 	function _saveUsage($a_mob_id, $a_type, $a_id)
 	{
+		global $ilDB;
+		
 		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
 			" ('$a_mob_id', '$a_type', '$a_id')";
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
 	}
 
 	/**
