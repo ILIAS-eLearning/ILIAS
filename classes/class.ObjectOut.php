@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id$
+* @version $Id$Id: class.ObjectOut.php,v 1.15 2002/12/23 18:43:11 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -158,7 +158,9 @@ class ObjectOut
 			$debug = "DEBUG: <font color=\"red\">".$_GET["type"]."::".$_GET["obj_id"]."::".$_GET["cmd"]."</font><br>";
 		}
 		
-		$this->tpl->setVariable("TXT_PATH",$debug.$lng->txt("path"));
+		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$_GET["type"]);
+
+		$this->tpl->setVariable("TXT_PATH",$debug.$lng->txt($prop_name)." ".$lng->txt("of"));
 		$this->tpl->parseCurrentBlock();
 
 	}
