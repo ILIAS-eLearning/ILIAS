@@ -289,20 +289,7 @@ class ilRepositoryGUI
 		
 		foreach ($objects as $key => $object)
 		{
-			if ($object["type"] == "file" or $object["type"] == "fold")
-			{
-				if (!$found)
-				{
-					$grp_id = ilObjFolder::__getGroupId($object["child"]);
-					$found = true;
-				}
-
-				if (!$this->rbacsystem->checkAccess('create',$grp_id,$object["type"]))
-				{
-					continue;
-				}			
-			}
-			else if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
+			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
 			{
 				continue;
 			}
@@ -2233,16 +2220,6 @@ class ilRepositoryGUI
 	{
 		$found = false;
 		
-		if ($type == "file" or $type == "fold")
-		{
-			$ref_id = ilObjFolder::__getGroupId($this->cur_ref_id);
-			$found = true;
-		}
-		else
-		{
-			$ref_id = $this->cur_ref_id;
-		}
-
 		$d = $this->objDefinition->getCreatableSubObjects($type);
 
 		if (count($d) > 0)
@@ -2268,21 +2245,7 @@ class ilRepositoryGUI
 						"cat", "glo", "exc", "qpl", "tst", "chat", "htlm","fold","file")))
 
 					{
-						if ($row["name"] == "file" or $row["name"] == "fold")
-						{
-							if (!$found)
-							{
-								$ref_id = ilObjFolder::__getGroupId($this->cur_ref_id);
-								$found = true;
-							}
-						}
-						/*
-						else
-						{
-							$ref_id = $this->cur_ref_id;
-						}*/
-
-						if ($this->rbacsystem->checkAccess("create", $ref_id, $row["name"]))
+						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
 							$subobj[] = $row["name"];
 						}
@@ -2360,17 +2323,7 @@ class ilRepositoryGUI
 
 		if (!empty($new_type))	// creation
 		{
-			if ($new_type == "file" or $new_type == "fold")
-			{
-				$ref_id = ilObjFolder::__getGroupId($this->cur_ref_id);
-			}
-			else
-			{
-				$ref_id = $this->cur_ref_id;
-			}
-
-
-			if (!$this->rbacsystem->checkAccess("create", $ref_id, $new_type))
+			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".$this->lng->txt($new_type."_a")." ".$this->lng->txt("msg_no_perm_create_object2"),$this->ilias->error_obj->MESSAGE);
 			}

@@ -2348,3 +2348,284 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$update_res = $this->db->query($update_query);	
 }
 ?>
+<#160>
+<?php
+// fetch type id of file object definition
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='file'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to file object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+// fetch type id of folder object definition
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='fold'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to file object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+// 18: create_frm, 20: create_lm, 21: create_slm, 22: create_glo, 25: create_file, 26: create_fold
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','18')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','20')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','21')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','22')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','25')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','26')";
+$this->db->query($query);
+
+// fetch type id of group object definition
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='grp'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add create_glo operation assignment to grp object definition
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','22')";
+$this->db->query($query);
+
+// init rbac
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
+
+// init tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+
+// fetch obj id of group member role template
+$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$mem_role_id = $row[0];
+
+// update group role templates
+// member role
+$ops_data["chat"] = array(2,3);
+$ops_data["file"] = array(2,3);
+$ops_data["frm"] = array(2,3,4,9);
+$ops_data["glo"] = array(2,3,7,8);
+$ops_data["grp"] = array(2,3,7,8,18,25,26);
+$ops_data["lm"] = array(2,3,7,8);
+$ops_data["slm"] = array(2,3,7,8);
+$ops_data["fold"] = array(2,3,18,25,26);
+
+// sets new template permissions
+foreach ($ops_data as $type => $ops)
+{
+	// delete all template entries for each role
+	$rbacadmin->deleteRolePermission($mem_role_id, ROLE_FOLDER_ID,$type);
+	$rbacadmin->setRolePermission($mem_role_id, $type, $ops, ROLE_FOLDER_ID);
+}
+
+// copy member template settings to all group member roles
+$query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_member%'";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$dest_role_id = $row->obj_id;
+	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
+	$dest_rolf_id = $rolf_arr[0];
+	$rbacadmin->deleteRolePermission($dest_role_id,$dest_rolf_id,false);
+	$rbacadmin->copyRolePermission($mem_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
+
+	// change existing objects
+	$node_id = $tree->getParentId($dest_rolf_id);
+	
+	// GET ALL SUBNODES
+	$node_data = $tree->getNodeData($node_id);
+	$subtree_nodes = $tree->getSubTree($node_data);
+	
+	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
+	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
+	
+	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
+	$key = array_keys($all_parent_obj_of_rolf,$node_id);
+	
+	unset($all_parent_obj_of_rolf[$key[0]]);
+	
+	$check = false;
+	
+	foreach ($subtree_nodes as $node)
+	{
+		if (!$check)
+		{
+			if (in_array($node["child"],$all_parent_obj_of_rolf))
+			{
+				$lft = $node["lft"];
+				$rgt = $node["rgt"];
+				$check = true;
+				continue;
+			}
+	
+			$valid_nodes[] = $node;
+		}
+		else
+		{
+			if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+			{
+				continue;
+			}
+			else
+			{
+				$check = false;
+				$valid_nodes[] = $node;
+			}
+		}
+	}
+	
+	// prepare arrays for permission settings below
+	foreach ($valid_nodes as $key => $node)
+	{
+		$node_ids[] = $node["child"];
+		$valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($mem_role_id,$node["type"],ROLE_FOLDER_ID);
+	}
+	
+	// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+	$rbacadmin->revokePermissionList($node_ids,$dest_role_id);
+	
+	// NOW SET ALL PERMISSIONS
+	foreach ($valid_nodes as $node)
+	{
+		if (is_array($node["perms"]))
+		{
+			$rbacadmin->grantPermission($dest_role_id,$node["perms"],$node["child"]);
+		}
+	}
+} // end while
+
+// now for grp_admin roles
+// fetch obj id of group member role template
+$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$adm_role_id = $row[0];
+
+// update group role templates
+// admin role
+unset($ops_data);
+unset($rolf_arr);
+unset($node_data);
+unset($node_ids);
+unset($valid_nodes);
+
+$ops_data["chat"] = array(1,2,3,4,6);
+$ops_data["file"] = array(1,2,3,4,6);
+$ops_data["frm"] = array(1,2,3,4,6,9,10);
+$ops_data["glo"] = array(1,2,3,4,6,7,8);
+$ops_data["grp"] = array(1,2,3,4,6,7,8,18,20,21,22,25,26,29);
+$ops_data["lm"] = array(1,2,3,4,6,7,8);
+$ops_data["slm"] = array(1,2,3,4,6,7,8);
+$ops_data["fold"] = array(1,2,3,4,6,18,20,21,22,25,26);
+
+// sets new template permissions
+foreach ($ops_data as $type => $ops)
+{
+	// delete all template entries for each role
+	$rbacadmin->deleteRolePermission($adm_role_id, ROLE_FOLDER_ID,$type);
+	$rbacadmin->setRolePermission($adm_role_id, $type, $ops, ROLE_FOLDER_ID);
+}
+
+// copy member template settings to all group member roles
+$query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_admin%'";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$dest_role_id = $row->obj_id;
+	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
+	$dest_rolf_id = $rolf_arr[0];
+	$rbacadmin->deleteRolePermission($dest_role_id,$dest_rolf_id,false);
+	$rbacadmin->copyRolePermission($adm_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
+
+	// change existing objects
+	$node_id = $tree->getParentId($dest_rolf_id);
+	
+	// GET ALL SUBNODES
+	$node_data = $tree->getNodeData($node_id);
+	$subtree_nodes = $tree->getSubTree($node_data);
+	
+	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
+	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
+	
+	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
+	$key = array_keys($all_parent_obj_of_rolf,$node_id);
+	
+	unset($all_parent_obj_of_rolf[$key[0]]);
+	
+	$check = false;
+	
+	foreach ($subtree_nodes as $node)
+	{
+		if (!$check)
+		{
+			if (in_array($node["child"],$all_parent_obj_of_rolf))
+			{
+				$lft = $node["lft"];
+				$rgt = $node["rgt"];
+				$check = true;
+				continue;
+			}
+	
+			$valid_nodes[] = $node;
+		}
+		else
+		{
+			if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+			{
+				continue;
+			}
+			else
+			{
+				$check = false;
+				$valid_nodes[] = $node;
+			}
+		}
+	}
+	
+	// prepare arrays for permission settings below
+	foreach ($valid_nodes as $key => $node)
+	{
+		$node_ids[] = $node["child"];
+		$valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($adm_role_id,$node["type"],ROLE_FOLDER_ID);
+	}
+
+	// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+	$rbacadmin->revokePermissionList($node_ids,$dest_role_id);
+	
+	// NOW SET ALL PERMISSIONS
+	foreach ($valid_nodes as $node)
+	{
+		if (is_array($node["perms"]))
+		{
+			$rbacadmin->grantPermission($dest_role_id,$node["perms"],$node["child"]);
+		}
+	}
+} // end while
+?>

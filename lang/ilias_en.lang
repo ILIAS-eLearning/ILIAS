@@ -58,6 +58,7 @@ administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_trash#:#Purging trash...
 administration#:#purging_unbound_objs#:#Purging unbound objects...
+administration#:#purging_missing_objs#:#Purging missing objects...
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...
 administration#:#removing_invalid_refs#:#Removing invalid references...
 administration#:#restore_missing#:#Restore missing objects
@@ -78,7 +79,7 @@ administration#:#searching_invalid_childs#:#Searching for invalid tree entries..
 administration#:#searching_invalid_refs#:#Searching for invalid references...
 administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
-administration#:#skippede#:#skipped
+administration#:#skipped#:#skipped
 administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#View last Scanlog
@@ -676,6 +677,11 @@ common#:#file_add#:#Upload File
 common#:#file_added#:#File uploaded
 common#:#file_edit#:#Edit File
 common#:#file_new#:#New File
+common#:#file_read#:#Download File
+common#:#file_visible#:#File is visible
+common#:#file_write#:#Edit File
+common#:#file_delete#:#Delete File
+common#:#file_edit_permission#:#Change Permission settings
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_valid#:#File is valid!
@@ -693,6 +699,18 @@ common#:#fold_edit#:#Edit Folder
 common#:#fold_new#:#New Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
+common#:#fold_read#:#Read access to Folder
+common#:#fold_visible#:#Folder is visible
+common#:#fold_write#:#Edit Folder
+common#:#fold_delete#:#Delete Folder
+common#:#fold_edit_permission#:#Change Permission settings
+common#:#fold_create_chat#:#Create Chat
+common#:#fold_create_file#:#Upload File
+common#:#fold_create_fold#:#Create Folder
+common#:#fold_create_frm#:#Create Forum
+common#:#fold_create_lm#:#Create Learning Module
+common#:#fold_create_slm#:#Create SCORM Learning Module
+common#:#fold_create_glo#:#Create Glossary
 common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
@@ -780,11 +798,12 @@ common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_create#:#Create Group
 common#:#grp_create_chat#:#Create Chat
-common#:#grp_create_file#:#User may upload Files
-common#:#grp_create_fold#:#User may create Folders
+common#:#grp_create_file#:#Upload File
+common#:#grp_create_fold#:#Create Folder
 common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_lm#:#Create Learning Module
 common#:#grp_create_slm#:#Create SCORM Learning Module
+common#:#grp_create_glo#:#Create Glossary
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.
 common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.

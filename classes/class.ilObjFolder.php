@@ -79,26 +79,5 @@ class ilObjFolder extends ilObject
 			$this->folder_tree->insertNode($this->getId(), $a_parent);
 		}
 	}
-
-	/**
-	* statical function to get the group id where the folder is
-	* 
-	*/
-	function __getGroupId($a_folder_ref_id)
-	{
-		global $tree;
-		
-		$path = $tree->getPathFull($a_folder_ref_id);
-		
-		foreach ($path as $node)
-		{
-			if ($node["type"] == "grp")
-			{
-				return $node["child"];
-			}
-		}
-		
-		return false;
-	}
 } // END class.ilObjFolder
 ?>

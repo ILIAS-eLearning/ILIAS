@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -78,7 +78,7 @@ administration#:#searching_invalid_childs#:#Searching for invalid tree entries..
 administration#:#searching_invalid_refs#:#Searching for invalid references...###16 Mar 2004 new variable
 administration#:#searching_missing_objs#:#Searching for missing objects...###16 Mar 2004 new variable
 administration#:#searching_unbound_objs#:#Searching for unbound objects...###16 Mar 2004 new variable
-administration#:#skippede#:#skipped###16 Mar 2004 new variable
+administration#:#skipped#:#skipped###16 Mar 2004 new variable
 administration#:#start_scan#:#Start!###16 Mar 2004 new variable
 administration#:#systemcheck#:#Systemcheck###16 Mar 2004 new variable
 administration#:#view_last_log#:#View last Scanlog###16 Mar 2004 new variable
@@ -676,6 +676,11 @@ common#:#file_add#:#Datei hochladen
 common#:#file_added#:#Datei hochgeladen
 common#:#file_edit#:#Datei bearbeiten
 common#:#file_new#:#Neue Datei
+common#:#file_read#:#Datei runterladen
+common#:#file_visible#:#Datei ist sichtbar
+common#:#file_write#:#Datei bearbeiten
+common#:#file_delete#:#Datei löschen
+common#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_valid#:#Datei ist gültig!
@@ -692,6 +697,18 @@ common#:#fold_added#:#Ordner angelegt
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_new#:#Neuer Ordner
 common#:#folder#:#Ordner
+common#:#fold_read#:#Lesezugriff auf Ordner
+common#:#fold_visible#:#Ordner ist sichtbar
+common#:#fold_write#:#Ordner bearbeiten
+common#:#fold_delete#:#Ordner löschen
+common#:#fold_edit_permission#:#Rechteeinstellungen ändern
+common#:#fold_create_chat#:#Neuen Chat anlegen
+common#:#fold_create_file#:#Neue Datei hochladen
+common#:#fold_create_fold#:#Neuen Ordner anlegen
+common#:#fold_create_frm#:#Neues Forum anlegen
+common#:#fold_create_lm#:#Neues Lernmodul anlegen
+common#:#fold_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
@@ -780,11 +797,12 @@ common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_file#:#Benutzer kann Dateien hochladen
-common#:#grp_create_fold#:#Benutzer kann Ordner anlegen
+common#:#grp_create_file#:#Neue Datei hochladen
+common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.

@@ -222,26 +222,5 @@ class ilObjFile extends ilObject
 		$filedir = $this->getDirectory();
 		ilUtil::rCopy($filedir, $a_target_dir."/objects/".$subdir);
 	}
-
-	/**
-	* statical function to get the group id where the file is
-	* 
-	*/
-	function __getGroupId($a_file_ref_id)
-	{
-		global $tree;
-		
-		$path = $tree->getPathFull($a_file_ref_id);
-		
-		foreach ($path as $node)
-		{
-			if ($node["type"] == "grp")
-			{
-				return $node["child"];
-			}
-		}
-		
-		return false;
-	}
 } // END class.ilObjFile
 ?>
