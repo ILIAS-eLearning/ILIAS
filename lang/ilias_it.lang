@@ -491,6 +491,7 @@ common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#member#:#Membro###04 Nov 2003 new variable
 common#:#members#:#Membri
+common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
@@ -647,6 +648,7 @@ common#:#obj_usrf#:#Gestione utenti###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Configura gli utenti qui.###01 Oct 2003 new variable
 common#:#objects#:#Oggetti
 common#:#objf#:#objf###02 Oct 2003 content changed
+common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
 common#:#objs_delete#:#Cancella gli oggetti###02 Oct 2003 new variable
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
@@ -1006,6 +1008,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variabl
 content#:#cont_mob_files#:#File oggetto###27 Oct 2003 new variable
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza###27 Oct 2003 new variable
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto###27 Oct 2003 new variable
+content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
 content#:#cont_month#:#Mese###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione###26 Sep 2003 new variable
@@ -1184,6 +1187,7 @@ mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere attachment###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#Non sono stati trovati attachment###16 Apr 2003 new variable
 mail#:#mail_options_of#:#Opzioni::###16 Apr 2003 new variable
+mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_s#:#Mail###16 Apr 2003 new variable
 mail#:#mail_s_unread#:#Mail non lette###16 Apr 2003 new variable

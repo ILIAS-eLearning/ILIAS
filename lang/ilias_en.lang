@@ -648,8 +648,8 @@ common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
-common#:#objs_delete#:#Delete objects
 common#:#objs_confirm#:#Confirm Deletion
+common#:#objs_delete#:#Delete objects
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
@@ -903,7 +903,6 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
-content#:#cont_mob_usages#:#Usage
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -1009,6 +1008,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
+content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_new_assignment#:#New assignment
@@ -1187,6 +1187,7 @@ mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_options_of#:#Options
+mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_s_unread#:#Unread Mail(s)
@@ -1745,4 +1746,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-mail#:#mail_options_saved#:#Options saved
