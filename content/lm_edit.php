@@ -36,11 +36,11 @@ require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
 
-/* todo: we need the ref id here...
-if (!$rbacsystem->checkAccess("write",$_GET["lm_id"]))
+// check write permission
+if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-}*/
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
 
 // set encoding to utf-8 (only done if needed, see ilPageObjectGUI::viewWysiwyg()
 //header('Content-type: text/html; charset=UTF-8');
