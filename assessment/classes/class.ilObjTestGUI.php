@@ -25,7 +25,7 @@
 /**
 * Class ilObjTestGUI
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottm¡Zler <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI
@@ -227,7 +227,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
 		$this->tpl->setVariable("VALUE_PROCESSING_TIME", $data["processing_time"]);
 		$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
-		$this->tpl->setVariable("VALUE_STARTING_TIME", $data["starting_time"]);
+		$date_input = ilUtil::makeDateSelect("starting_date");
+		$time_input = ilUtil::makeTimeSelect("starting_time");
+		$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
@@ -875,11 +877,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 		
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", true);
 		$total_persons = $this->object->evalTotalPersons();
 		if ($total_persons) {
-			$color_class = array("tblrow1", "tblrow2");
-			$counter = 0;
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
 			$this->tpl->setVariable("TXT_VALUE", $total_persons);

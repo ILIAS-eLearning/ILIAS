@@ -618,33 +618,52 @@ class ilUtil
 
 	/**
 	*  erstellt dateselect-boxen mit voreingestelltem datum
+	*
+	* 2004/03/16 Added language and date format support (hschottm@tzi.de)
+	*
 	* @access	public
 	* @param	string	var name in formular
 	* @param	string	date
 	* @return	string	HTML select boxes
 	* @author	Aresch Yavari <ay@databay.de>
+	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
 	function makeDateSelect($prefix,$date="current")
 	{
+		global $lng;
+		
 		if ($date=="current")
 		{
 			$date = date("Y-m-d");
 		}
 
 		$time = explode("-",$date);
-		$ret .= "<select name=\"".$prefix."[d]\">\n";
+		// build day select
+		$sel_day .= "<select name=\"".$prefix."[d]\">\n";
 
 		for ($i=1;$i<=31;$i++)
 		{
 			if ($time[2]==$i) { $sel = " selected"; } else { $sel = "";}
-			$ret .= "<option".$sel.">".$i."\n";
+			$sel_day .= "<option".$sel.">".$i."\n";
 		}
 		
-		$ret .= "</select>\n";
+		$sel_day .= "</select>\n";
+		// build month select
+		$months = array(1 => $lng->txt("month_01_long"), 
+			$lng->txt("month_02_long"), 
+			$lng->txt("month_03_long"), 
+			$lng->txt("month_04_long"), 
+			$lng->txt("month_05_long"), 
+			$lng->txt("month_06_long"), 
+			$lng->txt("month_07_long"),
+			$lng->txt("month_08_long"),
+			$lng->txt("month_09_long"),
+			$lng->txt("month_10_long"),
+			$lng->txt("month_11_long"),
+			$lng->txt("month_12_long")
+		);
 
-		$months = array(1 => 'Januar', 'Februar', 'März', 'April', 'Mai','Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember');
-
-		$ret .= "<select name=\"".$prefix."[m]\">\n";
+		$sel_month .= "<select name=\"".$prefix."[m]\">\n";
 
 		for ($i=1;$i<=12;$i++)
 		{
@@ -657,12 +676,12 @@ class ilUtil
 				$sel = "";
 			}
 
-			$ret .= "<option value=\"".$i."\" ".$sel.">".$months[$i]."\n";
+			$sel_month .= "<option value=\"".$i."\" ".$sel.">".$months[$i]."\n";
 		}
 
-		$ret .= "</select>\n";
-
-		$ret .= "<select name=\"".$prefix."[y]\">\n";
+		$sel_month .= "</select>\n";
+		// build year select
+		$sel_year .= "<select name=\"".$prefix."[y]\">\n";
 
 		for ($i=0;$i<=3;$i++)
 		{
@@ -675,12 +694,87 @@ class ilUtil
 				$sel = "";
 			}
 
-			$ret .= "<option".$sel.">".(date("Y")+$i)."\n";
+			$sel_year .= "<option".$sel.">".(date("Y")+$i)."\n";
 		}
 
-		$ret .= "</select>\n";
+		$sel_year .= "</select>\n";
+		$dateformat = $lng->text["lang_dateformat"];
+		$dateformat = strtolower(preg_replace("/\W/", "", $dateformat));
+		$dateformat = strtolower(preg_replace("/(\w)/", "%%$1", $dateformat));
+		$dateformat = preg_replace("/%%d/", $sel_day, $dateformat);
+		$dateformat = preg_replace("/%%m/", $sel_month, $dateformat);
+		$dateformat = preg_replace("/%%y/", $sel_year, $dateformat);
+		return $dateformat;
+	}
 
-		return $ret;
+	/**
+	* Creates a combination of HTML selects for time inputs
+	*
+	* Creates a combination of HTML selects for time inputs.
+	* The select names are $prefix[h] for hours, $prefix[m]
+	* for minutes and $prefix[s] for seconds.
+	*
+	* @access	public
+	* @param	string	$prefix Prefix of the select name
+	* @param  boolean $short Set TRUE for a short time input (only hours and minutes). Default is TRUE
+	* @param	integer $hour Default hour value
+	* @param	integer $minute Default minute value
+	* @param	integer $second Default second value
+	* @return	string	HTML select boxes
+	* @author Helmut Schottmüller <hschottm@tzi.de>
+	*/
+	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "")
+	{
+		global $lng;
+
+		if (!strlen("$hour$minute$second")) {
+			$now = localtime();
+			$hour = $now[2];
+			$minute = $now[1];
+			$second = $now[0];
+		}
+		// build hour select
+		$sel_hour .= "<select name=\"".$prefix."[h]\">\n";
+
+		for ($i = 0; $i <= 23; $i++)
+		{
+			$sel_hour .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+		}
+		$sel_hour .= "</select>\n";
+		$sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);
+
+		// build minutes select
+		$sel_minute .= "<select name=\"".$prefix."[m]\">\n";
+
+		for ($i = 0; $i <= 59; $i++)
+		{
+			$sel_minute .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+		}
+		$sel_minute .= "</select>\n";
+		$sel_minute = preg_replace("/(value\=\"$minute\")/", "$1 selected=\"selected\"", $sel_minute);
+
+		if (!$short) {
+			// build seconds select
+			$sel_second .= "<select name=\"".$prefix."[s]\">\n";
+	
+			for ($i = 0; $i <= 59; $i++)
+			{
+				$sel_second .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+			}
+			$sel_second .= "</select>\n";
+			$sel_second = preg_replace("/(value\=\"$second\")/", "$1 selected=\"selected\"", $sel_second);
+		}
+		$timeformat = $lng->text["lang_timeformat"];
+		$timeformat = strtolower(preg_replace("/\W/", "", $timeformat));
+		$timeformat = preg_replace("/(\w)/", "%%$1", $timeformat);
+		$timeformat = preg_replace("/%%h/", $sel_hour, $timeformat);
+		$timeformat = preg_replace("/%%i/", $sel_minute, $timeformat);
+		if ($short) {
+			$timeformat = preg_replace("/%%s/", "", $timeformat);
+		} else {
+			$timeformat = preg_replace("/%%s/", $sel_second, $timeformat);
+		}
+		return $timeformat;
 	}
 	
 	/*
