@@ -47,7 +47,7 @@ common#:#add_author#:#Aggiungi autore
 common#:#add_member#:#Aggiungi membro
 common#:#add_translation#:#Aggiungi traduzione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
-common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
+common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema###24 Jan 2004 content changed
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
 common#:#administrate#:#Amministra
