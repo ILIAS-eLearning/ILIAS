@@ -1209,7 +1209,7 @@ class ilTree
 			$lft = $row->lft;
 			$rgt = $row->rgt;
 		}
-		
+
 		// GET ALL SUBNODES
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
@@ -1221,7 +1221,7 @@ class ilTree
 		{
 			$subnodes[$row["child"]] = $this->fetchNodeData($row);
 		}
-		
+
 		// SAVE SUBTREE
 		foreach($subnodes as $node)
 		{
@@ -1233,6 +1233,27 @@ class ilTree
 
 		return true;
 	}
+
+	/**
+	* check if node is saved
+	*/
+	function isSaved($a_node_id)
+	{
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 "WHERE child = '".$a_node_id."'";
+		$s = $this->ilDB->query($q);
+		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
+
+		if ($r[$this->tree_pk] < 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 	/**
 	* save node: copy a node (defined by obj_id and parent) to a new tree

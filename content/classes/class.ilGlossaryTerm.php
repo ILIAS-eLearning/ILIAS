@@ -91,14 +91,17 @@ class ilGlossaryTerm
 		$q = "SELECT * FROM glossary_term WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
 		$term_set = $this->ilias->db->query($q);
-		if ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $term_rec["id"];
+			$glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
+
+			if (ilObject::_hasUntrashedReference($glo_id))
+			{
+				return $term_rec["id"];
+			}
 		}
-		else
-		{
-			return 0;
-		}
+
+		return 0;
 	}
 
 	/**
@@ -260,6 +263,20 @@ class ilGlossaryTerm
 			" last_update = now() ".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
+	}
+
+	/**
+	* get glossary id form term id
+	*/
+	function _lookGlossaryID($term_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["glo_id"];
 	}
 
 
