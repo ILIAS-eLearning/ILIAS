@@ -185,7 +185,7 @@ class ilSetup
 		$this->ini->setVariable("server", "data_dir", $this->data_path);
  
 		$this->ini->setVariable("server", "http_path","http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]));
-		$this->ini->setVariable("server", "absolute_path",dirname($_SERVER["SCRIPT_FILENAME"]));
+		$this->ini->setVariable("server", "absolute_path",dirname($_SERVER["PATH_TRANSLATED"]));
 
 		//try to write the file
 		if ($this->ini->write()==false)

@@ -136,7 +136,7 @@ class ilFileExplorer
 		$this->target_get = 'ref_id';
 		$this->frame_target = "_top";
 		$this->order_column = "title";
-		$this->expand_target = $_SERVER["SCRIPT_NAME"];
+		$this->expand_target = $_SERVER["PATH_INFO"];
 		$this->rbac_check = true;
 		$this->output_icons = true;
 	}
@@ -191,7 +191,7 @@ class ilFileExplorer
 	* target script for expand icons
 	*
 	* @param	string		$a_exp_target	script name of target script(may include parameters)
-	*										initially set to $_SERVER["SCRIPT_NAME"]
+	*										initially set to $_SERVER["PATH_INFO"]
 	*/
 	function setExpandTarget($a_exp_target)
 	{

@@ -137,9 +137,9 @@ class Session {
         
         // Relativer Pfad?
         if ($pathInfo[0] != "/")
-            {   $pathInfo = substr(getenv("SCRIPT_NAME"),
+            {   $pathInfo = substr(getenv("PATH_INFO"),
                                    0,
-                                   strrpos(getenv("SCRIPT_NAME"),"/")+1
+                                   strrpos(getenv("PATH_INFO"),"/")+1
                                    )
                             .$pathInfo;
             }

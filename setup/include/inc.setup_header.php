@@ -67,7 +67,7 @@ require_once "../classes/class.ilErrorHandling.php";
 
 // set ilias pathes
 define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
-define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
+define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["PATH_TRANSLATED"]),0,-6));
 
 define ("TPLPATH","./templates/blueshadow");
 

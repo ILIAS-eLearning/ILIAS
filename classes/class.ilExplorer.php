@@ -169,7 +169,7 @@ class ilExplorer
 		$this->frame_target = "content";
 		$this->order_column = "title";
 		$this->tree = new ilTree(ROOT_FOLDER_ID);
-		$this->expand_target = $_SERVER["SCRIPT_NAME"];
+		$this->expand_target = $_SERVER["PATH_INFO"];
 		$this->rbac_check = true;
 		$this->output_icons = true;
 		$this->expand_variable = "expand";
@@ -244,7 +244,7 @@ class ilExplorer
 	* target script for expand icons
 	*
 	* @param	string		$a_exp_target	script name of target script(may include parameters)
-	*										initially set to $_SERVER["SCRIPT_NAME"]
+	*										initially set to $_SERVER["PATH_INFO"]
 	*/
 	function setExpandTarget($a_exp_target)
 	{

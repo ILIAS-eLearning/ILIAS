@@ -55,7 +55,7 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 		$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php","bottom");
 
 #		var_dump("<pre>",$_SERVER,"</pre");
-		switch(basename($_SERVER["SCRIPT_NAME"]))
+		switch(basename($_SERVER["PATH_INFO"]))
 		{
 			case "mail_addressbook.php":
 				$tpl->setCurrentBlock("locator_item");
