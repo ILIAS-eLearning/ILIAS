@@ -90,7 +90,7 @@ class ilObjGroup extends ilObject
 		$local_group_Roles = $this->getLocalGroupRoles();
 		return $local_group_Roles["il_grp_member_".$this->getRefId()];
 	}
-	
+
 	/**
 	* returns object id of created default adminstrator role
 	* @access	public
@@ -115,14 +115,19 @@ class ilObjGroup extends ilObject
 		{
 			if(!$this->isMember($a_user_id))
 			{
-				$this->ilias->account->addDesktopItem($this->getId(),"grp");
+				$member = new ilObjUser($a_user_id);
+				$member->addDesktopItem($this->getRefId(), "grp");
 			}
 			$this->join($a_user_id,$a_mem_status);
 
 			return true;
 		}
 		else
+		{
+			$this->ilias->raiseError(get_class($this)."::addMember(): Missing parameters !",$this->ilias->error_obj->WARNING);
 			return false;
+		}
+
 	}
 
 	/**
@@ -176,39 +181,47 @@ class ilObjGroup extends ilObject
 		}
 	}
 
+	function leave($a_user_id)
+	{
+		global $rbacadmin;
+		$rbacadmin->deassignUser($this->getGroupRoleId($a_user_id), $a_user_id);
+		ilObjUser::updateActiveRoles($a_user_id);
+		return true;
+
+	}
+
 	/**
 	* removes Member from group
 	* @access	public
 	*/
-	function removeMember($a_user_id, $a_grpId="")
+	function removeMember($a_user_id, $a_grp_id="")
 	{
-		global $rbacadmin, $rbacsystem, $rbacreview;
-
-		$arr_members = array();
-
-		if(isset($a_grp_id))
-			$grp_id = $a_grp_id;
-		else
-			$grp_id = $this->getRefId();
-
-		$grp_DefaultRoles = $this->getLocalGroupRoles($grp_id);
-
-		foreach($grp_DefaultRoles as $role_id)
+		if( isset($a_user_id) && isset($a_grp_id) )
 		{
-			$grp_assignedUsers = $rbacreview->assignedUsers($role_id);
-			foreach($grp_assignedUsers as $user)
-				array_push($arr_members, $user);
+			if( count($this->getGroupMemberIds()) > 1)
+			{
+				if( $this->isAdmin($a_user_id) && count($this->getGroupAdminIds()) < 2)
+				{
+					return "grp_err_administrator_required";
+				}
+				else
+				{
+					$this->leave($a_user_id);
+					$member = new ilObjUser($a_user_id);
+					$member->dropDesktopItem($this->getRefId(), "grp");
+					return "";
+				}
+			}
+			else
+			{
+				return "grp_err_last_member";
+			}
 		}
-		if(count($arr_members) <= 1 || !in_array($a_user_id, $arr_members))
-			return false;
 		else
 		{
-			$rbacadmin->deassignUser($this->getGroupRoleId($a_user_id), $a_user_id);
-			ilObjUser::updateActiveRoles($a_user_id);
-			return true;
+			$this->ilias->raiseError(get_class($this)."::removeMember(): Missing parameters !",$this->ilias->error_obj->WARNING);
 		}
 	}
-
 
 	/**
 	* get group Members
@@ -685,10 +698,8 @@ class ilObjGroup extends ilObject
 	{
 		if(isset($a_user_id) && isset($a_member_status))
 		{
-//			echo "memberstat:".$a_member_status;
 			$this->removeMember($a_user_id);
 			$this->join($a_user_id,$a_member_status);
-//			$this->addMember($a_user_id,$a_member_status);
 		}
 	}
 

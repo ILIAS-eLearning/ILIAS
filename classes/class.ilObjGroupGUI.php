@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.55 2003/11/18 11:25:18 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.56 2003/11/20 10:18:20 neiken Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -234,10 +234,12 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError("No permissions to change group status!",$this->ilias->error_obj->WARNING);
 		}
-//		print_r($_POST);
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->object->setGroupStatus($_POST["group_status"]);
+		if($_POST["group_reset"] == 1)
+		{
+			$this->object->setGroupStatus($_POST["group_status"]);
+		}
 		$this->object->setRegistrationFlag($_POST["enable_registration"]);
 		$this->object->setPassword($_POST["password"]);
 		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
@@ -278,6 +280,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$data["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 			$data["registration"] = $_SESSION["error_post_vars"]["registration"];
+			$data["password"] = $_SESSION["error_post_vars"]["password"];
 			$data["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];//$datetime[0];//$this->grp_object->getExpirationDateTime()[0];
 			$data["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];//$datetime[1];//$this->grp_object->getExpirationDateTime()[1];
 
@@ -287,6 +290,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$data["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
 			$data["desc"] = $this->object->getDescription();
 			$data["registration"] = $this->object->getRegistrationFlag();
+			$data["password"] = $this->object->getPassword();			
 			$datetime = $this->object->getExpirationDateTime();
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
 			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
@@ -321,6 +325,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
+		$cb_reset	    = ilUtil::formCheckBox(0,"group_reset",1,false);
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id));
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","content"));
@@ -348,6 +353,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));
 		$this->tpl->setVariable("SELECT_GROUPSTATUS", $grp_status_options);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		$this->tpl->setVariable("TXT_RESET", $this->lng->txt("group_reset"));
+		$this->tpl->setVariable("CB_RESET", $cb_reset);
 	}
 
 	/**
@@ -501,11 +508,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		if(isset($_SESSION["saved_post"]["user_id"]) && isset($_SESSION["saved_post"]["status"]) )
 		{
 			//let new members join the group
-			$newGrp = new ilObjGroup($this->object->getRefId(), true);
+			//TODO: call coremethods over "newGrp->" or "this->object->" ???
+			//Problems may raise when current object is not a group...
+//			$newGrp = new ilObjGroup($this->object->getRefId(), true);
 
 			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if(!$newGrp->join($new_member, $_SESSION["saved_post"]["status"]) )
+				if(!$this->object->addMember($new_member, $_SESSION["saved_post"]["status"]) )
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 			}
 
@@ -547,55 +556,25 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function confirmedRemoveMemberObject()
 	{
-		global $rbacsystem,$ilias;
+		global $rbacsystem;
 
-		if(isset($_SESSION["saved_post"]["user_id"]) )
+		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds() ))
 		{
-			foreach($_SESSION["saved_post"]["user_id"] as $mem_id)
+			//User needs to have administrative rights to remove members...
+			foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 			{
-				$newGrp = new ilObjGroup($_GET["ref_id"],true);
-				if($rbacsystem->checkAccess('leave',$_GET["ref_id"]))
-				{
-					//check ammount of members
-					if(count($newGrp->getGroupMemberIds()) == 1)
-					{
-						if($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
-						{
-							//GROUP DELETE
-							$this->ilias->raiseError("Gruppe loeschen, da letztes Mitglied!",$this->ilias->error_obj->MESSAGE);
-						}
-						else
-							$this->ilias->raiseError("You do not have the permissions to delete this group!",$this->ilias->error_obj->MESSAGE);
-					}
-					else
-					{
-						//MEMBER LEAVES GROUP
-						if($this->object->isMember($mem_id) && !$this->object->isAdmin($mem_id))
-						{
-//							if(!$newGrp->leave($mem_id))
-							if(!$newGrp->removeMember($mem_id))
-								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-						}
-						else	//ADMIN LEAVES GROUP
-						if($this->object->isAdmin($mem_id))
-						{
-							if(count($this->object->getGroupAdminIds()) <= 1 )
-							{
-								$this->ilias->raiseError("At least one group administrator is required! Please entitle a new group administrator first ! ",$this->ilias->error_obj->WARNING);
-							}
-//							else if(!$newGrp->leave($mem_id))
-							if(!$newGrp->removMember($mem_id))
-								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-						}
-					}
-				}
-				else
-					$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
+				$err_msg = $this->object->removeMember($member_id);
+				if(strlen($err_msg) > 0)
+					sendInfo($this->lng->txt($err_msg),true);
 			}
 		}
+		else
+		{
+			sendInfo($this->lng->txt("grp_err_no_permission"),true);
+		}
+
 		unset($_SESSION["saved_post"]);
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
-		exit();
 	}
 
 
