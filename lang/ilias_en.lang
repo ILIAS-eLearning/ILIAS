@@ -91,6 +91,7 @@ assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
 assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_applet_parameter#:#Add applet parameter
+assessment#:#add_area#:#Add area
 assessment#:#add_gap#:#Add Gap Text
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#all_available_question_pools#:#All available question pools
@@ -104,6 +105,8 @@ assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#by#:#by
+assessment#:#circle#:#Circle
+assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#cloze_text#:#Cloze text
 assessment#:#code#:#Code
 assessment#:#create_date#:#Created
@@ -128,6 +131,9 @@ assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs be
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
+assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!
+assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
@@ -154,6 +160,8 @@ assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
+assessment#:#polygon#:#Polygon
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#postpone#:#Postpone question
 assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
@@ -182,6 +190,8 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
 assessment#:#random_selection#:#Random selection
+assessment#:#rectangle#:#Rectangle
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
@@ -1756,7 +1766,6 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_clean_frames#:#Clean additional frames on navigation
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_active#:#Enable Menu
@@ -1794,6 +1803,7 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You have to select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
+content#:#cont_clean_frames#:#Clean additional frames on navigation
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
@@ -3157,13 +3167,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-assessment#:#add_area#:#Add area
-assessment#:#rectangle#:#Rectangle
-assessment#:#circle#:#Circle
-assessment#:#polygon#:#Polygon
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
-assessment#:#circle_click_center#:#Please click on center of the desired area.
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
-assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
-assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!

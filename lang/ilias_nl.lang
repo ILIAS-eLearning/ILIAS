@@ -91,6 +91,7 @@ assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Toevoegen goede/foute antwoorden
 assessment#:#add_answer_yn#:#Toevoegen ja/nee antwoorden
 assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
+assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
 assessment#:#all_available_question_pools#:#Allemaal beschikbare vraagbakken
@@ -104,6 +105,8 @@ assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
 assessment#:#by#:#door
+assessment#:#circle#:#Circle###15 Jun 2004 new variable
+assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Maak tekst af
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#create_date#:#Gecreëerd
@@ -128,6 +131,9 @@ assessment#:#fill_out_all_matching_pairs#:#Vul a.u.b. alle overeenkomende paren 
 assessment#:#fill_out_all_required_fields_add_answer#:#Vul a.u.b. alle benodigde velden voordat u antwoorden  toevoegt!
 assessment#:#fill_out_all_required_fields_add_matching#:#Vul a.u.b. alle benodigde velden voordat u overeenkomende paren toevoegt!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Vul a.u.b. alle benodigde velden voordat u openingen creëert!
+assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Definitie opening 
@@ -154,6 +160,8 @@ assessment#:#order_pictures#:#Volgorde figuren
 assessment#:#order_terms#:#Volgorde begrippen
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Punten
+assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Stel vraag uit
 assessment#:#postponed#:#Uitgesteld
 assessment#:#preview#:#Laten zien
@@ -182,6 +190,8 @@ assessment#:#question_saved_for_upload#:#De vraag is automatisch opgeslagen om r
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type
 assessment#:#random_selection#:#Random selectie
+assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Regio
 assessment#:#remove_question#:#Verwijder
 assessment#:#report_date_not_reached#:#U heeft de verslag-datum niet bereikt. U kunt de test-resultaten op %s bekijken
@@ -1793,6 +1803,7 @@ content#:#cont_choose_media_source#:#Kies Media Bron
 content#:#cont_citation_err_one#:#U moet exact één editie kiezen
 content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
 content#:#cont_citations#:#Citaten
+content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
 content#:#cont_click_br_corner#:#Klik op de rechter onderhoek van het gewenste gebied.
 content#:#cont_click_center#:#Klik op het centrum van het gewenste gebied.
 content#:#cont_click_circle#:#Klik op een cirkelpunt van het gewenste gebied.
