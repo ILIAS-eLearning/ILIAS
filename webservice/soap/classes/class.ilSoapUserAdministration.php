@@ -149,6 +149,11 @@ class ilSoapUserAdministration
 		$this->sauth->setClient($client);
 		$this->sauth->setSid($sid);
 
+		if(!$this->sauth->validateSession())
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
 		if(!strlen($user_name))
 		{
 			return $this->__raiseError('No username given. Aborting','Client');
@@ -372,7 +377,9 @@ class ilSoapUserAdministration
 	// PRIVATE
 	function __explodeSid($sid)
 	{
-		return explode('::',$sid);
+		$exploded = explode('::',$sid);
+
+		return is_array($exploded) ? $exploded : array('sid' => '','client' => '');
 	}
 
 

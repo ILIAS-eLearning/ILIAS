@@ -389,6 +389,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["cron_user_check"] = $_POST["cron_user_check"];
 				$settings["cron_link_check"] = $_POST["cron_link_check"];
 				
+				// soap
+				$settings["soap_user_administration"] = $_POST["soap_user_administration"];
 			}
 			else // all required fields ok
 			{
@@ -486,6 +488,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
                 $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
 				
+				// webservice
+				$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
 
 				// write ini settings
 				$this->ilias->ini->write();
@@ -578,6 +582,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CRON_LINK_CHECK",$this->lng->txt('check_link'));
 		$this->tpl->setVariable("CRON_LINK_CHECK_DESC",$this->lng->txt('check_link_desc'));
 
+		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
+		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
+		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
+	
 
 		// contact
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
@@ -828,6 +836,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($settings["cron_link_check"])
         {
             $this->tpl->setVariable("CRON_LINK_CHECK","checked=\"checked\"");
+        }
+        if ($settings["soap_user_administration"])
+        {
+            $this->tpl->setVariable("SOAP_USER_ADMINISTRATION_CHECK","checked=\"checked\"");
         }
 
 		// paths to tools
