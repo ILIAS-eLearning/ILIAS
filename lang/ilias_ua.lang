@@ -918,14 +918,14 @@ common#:#item#:#Елемент
 common#:#kb#:#КілоБайт
 common#:#keywords#:#Ключові слова
 common#:#lang_cs#:#Czech###17 Mar 2004 new variable
+common#:#lang_da#:#Danish###22 Apr 2004 new variable
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Німецька
-common#:#lang_dk#:#Датська
+common#:#lang_el#:#Greek###22 Apr 2004 new variable
 common#:#lang_en#:#Англійська
 common#:#lang_es#:#Іспанська
 common#:#lang_fi#:#Фінська
 common#:#lang_fr#:#Французська
-common#:#lang_gr#:#Грецька
 common#:#lang_id#:#Індонезійська
 common#:#lang_it#:#Італійська
 common#:#lang_ja#:#Японська
@@ -935,12 +935,13 @@ common#:#lang_no#:#Норвезька
 common#:#lang_path#:#Шлях до Мов
 common#:#lang_pl#:#Польська
 common#:#lang_pt#:#Португальська
-common#:#lang_se#:#Шведська
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
+common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Українська
 common#:#lang_version#:#1
+common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
 common#:#lang_xx#:#Вибір
 common#:#lang_zh#:#Спрощена Кітайська
 common#:#langfile_found#:#Мовний файл знайдено

@@ -918,14 +918,14 @@ common#:#item#:#Položka
 common#:#kb#:#KBajtů
 common#:#keywords#:#Klíčová slova
 common#:#lang_cs#:#Čeština
+common#:#lang_da#:#Danish###22 Apr 2004 new variable
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Němčina
-common#:#lang_dk#:#Dánština
+common#:#lang_el#:#Greek###22 Apr 2004 new variable
 common#:#lang_en#:#Angličtina
 common#:#lang_es#:#Španělština
 common#:#lang_fi#:#Finština
 common#:#lang_fr#:#Francouzština
-common#:#lang_gr#:#Řečtina
 common#:#lang_id#:#Indonézština
 common#:#lang_it#:#Italština
 common#:#lang_ja#:#Japonština
@@ -935,12 +935,13 @@ common#:#lang_no#:#Norština
 common#:#lang_path#:#Cesta k jazykům
 common#:#lang_pl#:#Polština
 common#:#lang_pt#:#Portugalština
-common#:#lang_se#:#Švédština
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:# 
+common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
 common#:#lang_timeformat#:#H:i:s### identical translation
 common#:#lang_ua#:#Ukrjinština
 common#:#lang_version#:#1### identical translation
+common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
 common#:#lang_xx#:#Vlastní
 common#:#lang_zh#:#Čínština
 common#:#langfile_found#:#Jazykový soubor nalezen

@@ -918,14 +918,14 @@ common#:#item#:#Objet
 common#:#kb#:#Ko
 common#:#keywords#:#Mots-clés
 common#:#lang_cs#:#Czech###17 Mar 2004 new variable
+common#:#lang_da#:#Danish###22 Apr 2004 new variable
 common#:#lang_dateformat#:#d-m-Y
 common#:#lang_de#:#Allemand
-common#:#lang_dk#:#Danois
+common#:#lang_el#:#Greek###22 Apr 2004 new variable
 common#:#lang_en#:#Anglais
 common#:#lang_es#:#Espagnol
 common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
 common#:#lang_fr#:#Français
-common#:#lang_gr#:#Greek###11 Dec 2003 new variable
 common#:#lang_id#:#Indonésien
 common#:#lang_it#:#Italien
 common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
@@ -935,12 +935,13 @@ common#:#lang_no#:#Norvégien###11 Dec 2003 content changed
 common#:#lang_path#:#Chemin des langues
 common#:#lang_pl#:#Polonais
 common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
-common#:#lang_se#:#Suédois
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
+common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
 common#:#lang_version#:#1 XXX
+common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
 common#:#lang_xx#:#Personnalisé
 common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
 common#:#langfile_found#:#Fichier de langue trouvé
