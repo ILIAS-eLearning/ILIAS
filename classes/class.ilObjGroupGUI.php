@@ -673,13 +673,165 @@ class ilObjGroupGUI extends ilObjectGUI
 		// render table
 		$tbl->render();
 	}
+	
+	
+	function newMembersObject($script="adm_object.php?", $grp_tree_infos="", $blockvar="ADM_CONTENT")
+	{
+		//create additional tabs for tab-bar
 
+		//$this->prepareOutput(true,99);
+
+		//$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
+
+		$this->tpl->addBlockFile($blockvar, "newmember","tpl.grp_newmember.html");
+
+		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("username"));
+		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("group_memstat"));
+
+		if($_POST["status"] == $this->object->getDefaultMemberRole() || !isset($_POST["status"]))
+		{
+			$checked = 0;
+		}
+		else
+		{
+			$checked = 1;
+		}
+		$radio_member = ilUtil::formRadioButton($checked ? 0:1,"status",$this->object->getDefaultMemberRole());
+		$radio_admin = ilUtil::formRadioButton($checked ? 1:0,"status",$this->object->getDefaultAdminRole());
+
+		$this->tpl->setVariable("RADIO_MEMBER", $radio_member);
+		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
+		$this->tpl->setVariable("TXT_MEMBER_STATUS", $this->lng->txt("group_memstat_member"));
+		$this->tpl->setVariable("TXT_ADMIN_STATUS", $this->lng->txt("group_memstat_admin"));
+		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
+
+		if(isset($_POST["search_user"]) )
+		{
+			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		}
+		else if(isset($_GET["search_user"]) )
+		{
+			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
+		}
+
+		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", $script."cmd=newMembers&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
+
+		//$this->tpl->parseCurrentBlock();
+
+
+
+		//query already started ?
+		if ((isset($_POST["search_user"]) && isset($_POST["status"])) || ( isset($_GET["search_user"]) && isset($_GET["status"])))//&& isset($_GET["ref_id"]) )
+		{
+			if(!isset($_POST["search_user"]))
+			{
+				$_POST["search_user"]= $_GET["search_user"];
+			}
+
+			$member_ids = ilObjUser::searchUsers($_POST["search_user"]);
+
+			$maxcount = count ($member_ids);
+
+			if(count($member_ids) == 0)
+			{
+				sendInfo($this->lng->txt("search_no_match"),true);
+				header ("Location: ".$script."cmd=newmembers&ref_id=".$_GET["ref_id"]);
+				exit();
+			}
+			else
+			{
+				//INTERIMS SOLUTION
+				$_SESSION["status"] = $_POST["status"];
+
+				foreach($member_ids as $member)
+				{
+					$this->data["data"][$member["usr_id"]]= array(
+						"check"		=> ilUtil::formCheckBox(0,"user_id[]",$member["usr_id"]),
+						"login"        => $member["login"],
+						"firstname"       => $member["firstname"],
+						"lastname"        => $member["lastname"]
+						);
+				}
+
+				//display search results
+				infoPanel();
+
+				$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+
+				// load template for table content data
+				$this->tpl->setVariable("FORMACTION", $script."cmd=gateway&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&".$grp_tree_infos);//&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+				$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+
+				$this->data["buttons"] = array(	"canceldelete"  => $this->lng->txt("cancel"),
+								"assignMember"  => $this->lng->txt("assign"));
+
+				$this->tpl->setCurrentBlock("tbl_action_row");
+				$this->tpl->setVariable("COLUMN_COUNTS",4);
+				$this->tpl->setVariable("TPLPATH",$this->tplPath);
+
+				foreach ($this->data["buttons"] as $name => $value)
+				{
+					$this->tpl->setCurrentBlock("tbl_action_btn");
+					$this->tpl->setVariable("BTN_NAME",$name);
+					$this->tpl->setVariable("BTN_VALUE",$value);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				//sort data array
+
+				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+
+				$offset = intval($_GET["offset"]);
+				$limit = intval($_GET["limit"]);
+
+				if ($limit == 0)
+				{
+					$limit = 10;	// TODO: move to user settings
+				}
+
+				if ($offset == "")
+				{
+					$offset = 0;	// TODO: move to user settings
+				}
+
+				// create table
+				include_once "./classes/class.ilTableGUI.php";
+
+				$tbl = new ilTableGUI($this->data["data"]);
+
+				// title & header columns
+				$tbl->setTitle($this->lng->txt("search_result"),"icon_usr_b.gif",$this->lng->txt("member list"));
+				$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+				$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname")));
+				$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"],"search_user"=>$_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"],"status"=>$_POST["status"] ? $_POST["status"] : $_GET["status"]));
+
+				$tbl->setColumnWidth(array("5%","25%","35%","35%"));
+
+				$this->tpl->setCurrentBlock("tbl_action_row");
+				$this->tpl->parseCurrentBlock();
+				// control
+				$tbl->setOrderColumn($_GET["sort_by"]);
+				$tbl->setOrderDirection($_GET["sort_order"]);
+				$tbl->setLimit($_GET["limit"]);
+				$tbl->setOffset($_GET["offset"]);
+				$tbl->setMaxCount($maxcount);
+
+				$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+				// render table
+				$tbl->render();
+			}
+		}
+
+
+		//$this->tpl->show();
+	}
 
 	/**
 	* displays search form for new users
 	* @access public
 	*/
-	function newMembersObject()
+	/*function newMembersObject()
 	{
 		$this->getTemplateFile("newmember","grp");
 
@@ -760,7 +912,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"],"search_user"=>$_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"],"status"=>$_POST["status"] ? $_POST["status"] : $_GET["status"]));
 
 			$tbl->setColumnWidth(array("5%","25%","35%","35%"));
-			
+
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->parseCurrentBlock();
 
@@ -776,7 +928,9 @@ class ilObjGroupGUI extends ilObjectGUI
 			// render table
 			$tbl->render();
 		}
-	}
+	}*/
+
+
 
 	function membersobject($script="adm_object.php?", $blockvar="ADM_CONTENT", $gateway_option="&cmd=gateway")
 	{
@@ -804,14 +958,14 @@ class ilObjGroupGUI extends ilObjectGUI
 			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$member->getLogin();
 			$link_change = $script."cmd=changeMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 
-			if($member_id == $account_id)
+			if(($member_id == $account_id && $rbacsystem->checkAccess('leave',$this->ref_id,'usr')) || $rbacsystem->checkAccess("delete",$this->object->getRefId() ))
 			{
 				$link_leave = $script."type=grp&cmd=removeMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 			}
-			else
+			/*else
 			{
 				$link_leave = $script."type=grp&cmd=removeMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
-			}
+			}*/
 
 			//build function
 			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ) )
@@ -819,7 +973,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
 
-			if ($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
+			if (($member_id == $account_id && $rbacsystem->checkAccess('leave',$this->ref_id,'usr')) || $rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
 			{
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
@@ -915,14 +1069,16 @@ class ilObjGroupGUI extends ilObjectGUI
 			//user is member
 			$this->tpl->setVariable("COLUMN_COUNTS",5);//user must be member
 		}
-
+		$maxcount = count($this->data["data"]);
 		//sort data array
 		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+		//$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
+		
 		// create table
 		include_once "./classes/class.ilTableGUI.php";
-		$tbl = new ilTableGUI($output);
+
+		$tbl = new ilTableGUI($this->data["data"]);
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
@@ -951,7 +1107,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($this->data["data"]));
+		$tbl->setMaxCount($maxcount);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->render();
 	}
