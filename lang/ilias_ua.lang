@@ -4228,14 +4228,14 @@ payment#:#pay_bmf_bank_code#:#Банківський код
 payment#:#pay_bmf_card_holder#:#Власник картки
 payment#:#pay_bmf_card_number#:#Номер картки
 payment#:#pay_bmf_check_number#:#Перевірити номер
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card_data#:#Credit card###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry_data#:#Debit entry###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
+payment#:#pay_bmf_check_terms_conditions#:#Будь ласка підтвердіть, що ви прочитали постанови та угоди та прийняли їх.
+payment#:#pay_bmf_credit_card#:#Кредитна картка
+payment#:#pay_bmf_credit_card_data#:#Кредитна картка
+payment#:#pay_bmf_credit_card_not_valid#:#Дані кредтиної картки що ви ввели не є дійсними. Будь ласка перевірте чи усі поля заповнені коректно.
+payment#:#pay_bmf_debit_entry#:#Дебетний запис (тільки акаунти німецьких банків)
+payment#:#pay_bmf_debit_entry_data#:#Дебетний запис
+payment#:#pay_bmf_debit_entry_not_valid#:#Дані що ви ввели по дебетному запису не є коректні. Будь ласка перевірте чи усі поля заповнені коректно.
+payment#:#pay_bmf_description_credit_card#:#Будь ласка перевірте, чи усі предмети, що ви бажали замовити знаходяться у корзині. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
 payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###29 Nov 2004 new variable
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###29 Nov 2004 new variable
