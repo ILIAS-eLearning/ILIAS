@@ -95,7 +95,7 @@ assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
-assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
+assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
@@ -112,7 +112,7 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Tests warten zu dürfen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
+assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -122,7 +122,7 @@ assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
-assessment#:#counter#:#Counter###06 Oct 2004 new variable
+assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
@@ -283,7 +283,7 @@ assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
-assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
+assessment#:#remove_solution#:#Musterlösung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
@@ -299,7 +299,7 @@ assessment#:#selected_image#:#Ausgewählte Grafik
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
-assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
+assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
@@ -412,8 +412,8 @@ assessment#:#tst_status_ok#:#Der Status des Tests ist in Ordnung. Es gibt keine 
 assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
-assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
-assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
+assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
+assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
@@ -590,7 +590,7 @@ common#:#actions#:#Aktionen
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
-common#:#active#:#Active###14 Sep 2004 new variable
+common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -629,7 +629,7 @@ common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
 common#:#alm_read#:#AICC Lernmodul lesen
 common#:#alm_visible#:#AICC Lernmodul ist sichtbar
 common#:#alm_write#:#AICC Lernmodul bearbeiten
-common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
+common#:#already_delivered_files#:#Bereits abgegebene Dateien
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
@@ -787,7 +787,7 @@ common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
-common#:#city#:#Ort###14 Sep 2004 content changed
+common#:#city#:#Ort
 common#:#clear#:#Abbrechen
 common#:#client ip#:#Client IP###14 Sep 2004 content changed
 common#:#client_id#:#Mandanten ID
@@ -904,7 +904,7 @@ common#:#delete_selected#:#Auswahl löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
+common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
@@ -929,7 +929,7 @@ common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!###1
 common#:#enable#:#Aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
-common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
+common#:#enter_filename_deliver#:#Geben Sie eine Bearbeitung zum Abgeben an
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
@@ -967,7 +967,7 @@ common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_files#:#Dateien
-common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
+common#:#exc_files_returned#:#Abgegebene Dateien
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung(Mitglieder)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Arbeitsanweisung
@@ -993,7 +993,7 @@ common#:#exc_visible#:#Übung ist sichtbar
 common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
+common#:#exercise_time_over#:#Sie haben das Enddatum für verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei###14 Sep 2004 content changed
@@ -1018,7 +1018,7 @@ common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_visible#:#Datei ist sichtbar
 common#:#file_write#:#Datei bearbeiten
-common#:#filename#:#Filename###06 Oct 2004 new variable
+common#:#filename#:#Dateiname
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
@@ -1247,7 +1247,7 @@ common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
-common#:#inactive#:#Inactive###14 Sep 2004 new variable
+common#:#inactive#:#Inaktik
 common#:#inbox#:#Posteingang
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
@@ -1458,9 +1458,9 @@ common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
-common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
+common#:#message_no_delivered_files#:#Sie haben noch keine Bearbeitung abgegeben!
 common#:#message_to#:#Nachricht an:
-common#:#meta_data#:#Metadaten###14 Sep 2004 content changed
+common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
 common#:#mob#:#Media Objekt
@@ -1658,7 +1658,7 @@ common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays#:#Paymenteinstellungen
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Fragenpool für Test###24 Sep 2004 content changed
+common#:#obj_qpl#:#Fragenpool für Test
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck###14 Sep 2004 content changed
 common#:#obj_role#:#Rolle
@@ -1699,7 +1699,7 @@ common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
 common#:#objs_delete#:#Objekte löschen
-common#:#objs_exc#:#Übungen###14 Sep 2004 content changed
+common#:#objs_exc#:#Übungen
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
@@ -1707,22 +1707,22 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_lm#:#ILIAS Lernmodule###24 Sep 2004 content changed
+common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
 common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Fragenpools für Tests###24 Sep 2004 content changed
+common#:#objs_qpl#:#Fragenpools für Tests
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_sahs#:#SCORM/AICC Lernmodule
-common#:#objs_spl#:#Fragenpools für Umfragen###24 Sep 2004 content changed
+common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
 common#:#objs_tst#:#Tests
-common#:#objs_type#:#Objekttypen###14 Sep 2004 content changed
+common#:#objs_type#:#Objekttypen
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
@@ -1760,7 +1760,7 @@ common#:#path_to_htmldoc#:#HTMLdoc Befehlszeile
 common#:#path_to_java#:#JAVA Befehlszeile
 common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
-common#:#pathes#:#Pfade###14 Sep 2004 content changed
+common#:#pathes#:#Pfade
 common#:#pay_methods#:#Bezahlarten
 common#:#payment_system#:#Bezahlungssystem
 common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
@@ -1778,7 +1778,7 @@ common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
 common#:#personal_profile#:#Persönliches Profil
-common#:#persons#:#Personen###14 Sep 2004 content changed
+common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
 common#:#pg_added#:#Seite angelegt
@@ -1791,8 +1791,8 @@ common#:#phone_office#:#Telefon Arbeit
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
-common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
-common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_delete#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie zu löschen!
+common#:#please_select_a_delivered_file_to_download#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie herunterzuladen!
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#preconditions#:#Vorbedingungen
@@ -2166,8 +2166,8 @@ common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
-common#:#zip#:#PLZ###14 Sep 2004 content changed
-common#:#zipcode#:#Postleitzahl###14 Sep 2004 content changed
+common#:#zip#:#PLZ
+common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
