@@ -5,7 +5,7 @@
 * @modulegroup	language
 * @author 		unknown 
 * @version		$Id$
-
+*/
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
@@ -30,9 +30,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-3rd_party_software#:#3rd party software###21 Nov 2003 new variable
-3rd_party_software#:#3rd party software###28 Nov 2003 new variable
-3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
 access_status#:#Access status###21 Nov 2003 new variable
@@ -154,7 +151,6 @@ lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Polaco
 lang_se#:#Sueco
 lang_se#:#Swedish###28 Nov 2003 new variable
-lang_ua#:#Ukrainian
 lang_xx#:#Predefinido
 language#:#Idioma
 languages#:#Idiomas
@@ -211,6 +207,7 @@ pre_error#:#One or two things failed. Please correct the problems first or you c
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
 pre_folder_write#:#Writable ILIAS 3 folder
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
+pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###12 Dec 2003 new variable
 pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
 pre_php_version#:#Versión PHP
 preliminaries#:#Preliminaries
@@ -262,7 +259,6 @@ status#:#Status###21 Nov 2003 new variable
 step#:#Step###21 Nov 2003 new variable
 street#:#Street###21 Nov 2003 new variable
 submit#:#Enviar
-target#:#target###28 Nov 2003 new variable
 title#:#Title###21 Nov 2003 new variable
 unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unzip_path#:#Path to Unzip###21 Nov 2003 new variable
