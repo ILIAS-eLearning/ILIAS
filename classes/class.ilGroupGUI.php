@@ -180,11 +180,30 @@ class ilGroupGUI extends ilObjectGUI
 				$msg =  "Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>".
 					"Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.";
 				$cmd_submit = "applyForMembership";
-				$readonly ="";
+				$readonly ="readonly";
+				break;
+			case 2:
+				if($this->object->registrationPossible() == true)
+				{
+					$msg =  "Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Registrierungspasswortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>".
+						"Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.";
+					$readonly ="";				
+					$cmd_submit = "applyForMembership";				
+					$stat = "Registrierungpasswort erforderlich";						
+				}
+				else
+				{
+					$msg = "Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.".
+						"<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.";
+					$cmd_submit = "groupList";								
+					$readonly ="readonly";					
+					$stat = "Registrierungszeitraum abgelaufen";
+					sendInfo($this->lng->txt("registration_expired"),true);
+				}
 				break;
 		}
 			
-		$this->prepareOutput(false, $tab);
+//		$this->prepareOutput(false, 0);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
 		$this->tpl->addBlockFile("CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
 		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
@@ -213,17 +232,36 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $ilias;
 
-		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
-		$res = $this->ilias->db->query($q);
-		if($res->numRows() > 0)
-		{
-			sendInfo($this->lng->txt("already_applied"),true);
-		}
-		else
-		{
-			$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+		if($this->object->getRegistrationFlag() == 1)
+		{		
+			$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
 			$res = $this->ilias->db->query($q);
-			sendInfo($this->lng->txt("application_completed"),true);
+			if($res->numRows() > 0)
+			{
+				sendInfo($this->lng->txt("already_applied"),true);
+			}
+			else
+			{
+				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+				$res = $this->ilias->db->query($q);
+				sendInfo($this->lng->txt("application_completed"),true);
+			}
+		}
+		else if($this->object->getRegistrationFlag() == 2)	//PASSWORD REGISTRATION
+		{
+			if(strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible()==true)
+			{
+				$this->joinGroupObject();
+				sendInfo($this->lng->txt("registration_completed"),true);
+
+			}
+			else if(strcmp($this->object->getPassword(),$_POST["subject"]) != 0 && $this->object->registrationPossible()==true)
+			{
+				sendInfo($this->lng->txt("wrong_password"),true);
+			}
+			else
+				sendInfo($this->lng->txt("registration_not_possible"),true);
+			
 		}
 		header("location: grp_list.php");
 	}
@@ -301,8 +339,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
-		
-		
+				
 		//build form
 		$opts = ilUtil::formSelect(0,"group_status_select",$stati,false,true);
 
@@ -634,6 +671,7 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
 				}
+				ilObjUser::updateActiveRoles($mem_id);		
 			}
 		}
 
@@ -760,13 +798,18 @@ class ilGroupGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 			$data["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-			$data["registration"] = $_SESSION["error_post_vars"]["registration"];						
+			$data["password"] = $_SESSION["error_post_vars"]["password"];
+			$data["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];
+			$data["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];
 		}
 		else
 		{
 			$data["title"] = $this->grp_object->getTitle();
 			$data["desc"] = $this->grp_object->getDescription();
-			$data["registration"] = $this->object->getRegistrationFlag();			
+			$data["password"] = $this->grp_object->getPassword();
+			$datetime = $this->grp_object->getExpirationDateTime();
+			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
+			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "edit", "tpl.grp_edit.html");
@@ -782,7 +825,22 @@ class ilGroupGUI extends ilObjectGUI
 		//build form
 		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
-		$cb_registration = ilUtil::formCheckbox($this->object->getRegistrationFlag(), "enable_registration", 1, false);
+//		$cb_keyregistration = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_keyregistration", 1, false);		
+//		$cb_registration = ilUtil::formCheckbox($this->object->getRegistrationFlag(), "enable_registration", 1, false);
+		$checked = array(0=>0,1=>0,2=>0);
+		switch($this->object->getRegistrationFlag())
+		{
+			case 0: $checked[0]=1;
+				break;
+			case 1: $checked[1]=1;
+				break;
+			case 2: $checked[2]=1;
+				break;				
+		}
+		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
+		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
+		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
+//		$cb_password = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_password", 1, false);
 		
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
@@ -790,9 +848,24 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_CANCEL", "view" );
 		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
+		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);				
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));		
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));				
+		
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));				
+		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);				
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));						
+		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);				
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));						
+		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);						
+
+		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("expiration_date"));						
+		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));						
+		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));								
+		
+		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);				
+		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));		
+		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));				
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->show();
@@ -889,7 +962,6 @@ class ilGroupGUI extends ilObjectGUI
 		if($this->object->join($this->ilias->account->getId(),0))
 			sendInfo($this->lng->txt("assignment_completed"),true);
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-
 	}
 	/**
 	* displays search form for new users
@@ -1254,7 +1326,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id."&active=5";			//link for tab
 		$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[5]["tab_text"] = 'application_list';						//tab -text
+		$tab[5]["tab_text"] = 'applicants_list';						//tab -text
 
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
@@ -1385,6 +1457,44 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->prepareOutput(false, $tab);
 
+		$tab[0] = array ();
+		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+		$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] ='resources';
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';						//tab -text
+		
+		$tab[2] = array ();
+		$tab[2]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
+		$tab[2]["ftabtype"] = 'tabactive';						//tab is marked
+		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
+				
+		//check if trash is filled
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		
+		if (count($objects) > 0)
+		{
+			$tab[4] = array ();
+			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[4]["tab_text"] = 'trash';						//tab -text
+		}
+
+		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
+		{
+			$tab[3] = array ();
+			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[3]["tab_text"] = "properties";				//tab -text
+		}
 		$applications = $this->object->getApplicationList();
 
 		$img_contact = "pencil";
@@ -1615,7 +1725,49 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';						//tab -text
+
+		$tab[2] = array ();
+		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id;			//link for tab
+		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
+
+		$tab[5] = array ();
+		$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
+		$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[5]["tab_text"] = 'applicants_list';						//tab -text
+				
+		//check if trash is filled
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		
+		if (count($objects) > 0)
+		{
+			$tab[4] = array ();
+			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[4]["tab_text"] = 'trash';						//tab -text
+		}
+
+		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
+		{
+			$tab[3] = array ();
+			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[3]["tab_text"] = "properties";				//tab -text
+		}
+
+//		$this->prepareOutput(false, $tab);
 		$this->prepareOutput(false, 0);
+		
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
@@ -1799,7 +1951,7 @@ class ilGroupGUI extends ilObjectGUI
 		else if(!isset($_SESSION["viewmode"]))
 			$_SESSION["viewmode"] = "flat";	//default viewmode
 
-		if ($obj_grp->isMember()==false && $obj_grp->getRegistrationFlag() == 1)
+		if ($obj_grp->isMember()==false && $obj_grp->getRegistrationFlag() != 0)
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
@@ -1980,11 +2132,13 @@ class ilGroupGUI extends ilObjectGUI
 		else
 		{
 			if(isset($_POST["group_status"]))
-			{
+			{	
 				$this->grp_object->setTitle($_POST["Fobject"]["title"]);
 				$this->grp_object->setDescription($_POST["Fobject"]["desc"]);
 				$this->grp_object->setGroupStatus($_POST["group_status"]);
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
+				$this->grp_object->setPassword($_POST["password"]);
+				$this->grp_object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
 				$this->update = $this->grp_object->update();
 			}
 		}
