@@ -201,12 +201,20 @@ class ilGroupExplorer extends ilExplorer
 				$this->target."?" : $this->target."&";
 			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			*/
-			
+
 			$tpl->setVariable("LINK_TARGET", $this->getURLbyType($a_option));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-			
-			$tpl->setVariable("TARGET", " target=\"bottom\"");
-			
+
+			if ($a_option["type"] == "lm" || $a_option["type"] == "dbk")
+			{
+				$tpl->setVariable("TARGET", " target=\"ilContObj".$a_option["obj_id"]."\"");
+			}
+			else
+			{
+				$tpl->setVariable("TARGET", " target=\"bottom\"");
+			}
+
+
 			/*if ($this->frame_target != "")
 			{
 				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
@@ -256,18 +264,18 @@ class ilGroupExplorer extends ilExplorer
 				{
 					$thr_page = "new";
 				}
-				
+
 				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["child"];
 				break;
-	
+
 			case "crs":
 				$URL = "lo_list.php?cmd=displayList&ref_id=".$cont_data["child"];
 				break;
-	
+
 			case "lm":
 				$URL = "content/lm_presentation.php?ref_id=".$cont_data["child"];
 				break;
-	
+
 			case "fold":
 				$URL = "group.php?cmd=view&ref_id=".$cont_data["child"]."&viewmode=flat&type=fold";
 				break;
