@@ -36,9 +36,9 @@ chdir("..");
 /*
 $fp=fopen("./content/scorm.log", "a+");
 foreach ($HTTP_POST_VARS as $key=>$value)
-	fputs($fp, "HTTP_POST_VARS[$key] = $value <br>";
+	fputs($fp, "HTTP_POST_VARS[$key] = $value \n");
 foreach ($HTTP_GET_VARS as $key=>$value)
-	fputs($fp, "HTTP_GET_VARS[$key] = $value <br>";
+	fputs($fp, "HTTP_GET_VARS[$key] = $value \n");
 fclose($fp);	
 */
 		
@@ -78,6 +78,7 @@ $cmd = ($_GET["cmd"] == "")
 				require_once "./include/inc.header.php";
 				
 				$type="hlm";
+
 			}
 		}
 	}
