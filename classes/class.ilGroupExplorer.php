@@ -67,6 +67,8 @@ class ilGroupExplorer extends ilExplorer
 		{
 			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
+			$objects = $this->sortNodes($objects);
+
 			foreach ($objects as $key => $object)
 			{
 				//ask for FILTER
@@ -118,8 +120,12 @@ class ilGroupExplorer extends ilExplorer
 
 						++$counter;
 
-						// Recursive
-						$this->setOutput($object["child"],$a_depth);
+						// stop recursion if 2. level beyond expanded nodes is reached 
+						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						{
+							// recursive
+							$this->setOutput($object["child"],$a_depth);
+						}
 					} //if
 				} //if FILTER
 			} //foreach

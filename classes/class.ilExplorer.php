@@ -391,8 +391,12 @@ class ilExplorer
 
 						++$counter;
 
-						// Recursive
-						$this->setOutput($object["child"],$a_depth);
+						// stop recursion if 2. level beyond expanded nodes is reached 
+						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						{
+							// recursive
+							$this->setOutput($object["child"],$a_depth);
+						}
 					} //if
 				} //if FILTER
 			} //foreach
@@ -791,7 +795,6 @@ class ilExplorer
 	*/
 	function sortNodes($a_nodes)
 	{
-//echo "<br/>";
 		foreach ($a_nodes as $key => $node)
 		{
 			if ($node["type"] == "adm")
@@ -802,7 +805,6 @@ class ilExplorer
 			}
 		}
 
-//var_dump($match);
 		// cut off adm node
 		isset($match) ? array_splice($a_nodes,$match,1) : "";
 		
