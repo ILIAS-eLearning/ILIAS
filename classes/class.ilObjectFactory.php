@@ -205,8 +205,52 @@ class ilObjectFactory
 		$obj->setRefId($a_ref_id);
 		$obj->setObjDataRecord($object_rec);
 		$obj->read();
-
 		return $obj;
+	}
+
+	/**
+	* get object type by reference id
+	*
+	* @param	int		$obj_id		object id
+	* @return	string	object type
+	*/
+	function getTypeByRefId($a_ref_id,$stop_on_error = true)
+	{
+		global $ilias, $objDefinition;
+
+		// check reference id
+		if (!isset($a_ref_id))
+		{
+			if ($stop_on_error === true)
+			{
+				$message = "ilObjectFactory::getTypeByRefId(): No ref_id given!";
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				exit();
+			}
+			
+			return false;
+		}
+
+		// read object data
+		$q = "SELECT * FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
+			 "WHERE object_reference.ref_id='".$a_ref_id."'";
+		$object_set = $ilias->db->query($q);
+
+		if ($object_set->numRows() == 0)
+		{
+			if ($stop_on_error === true)
+			{
+				$message = "ilObjectFactory::getTypeByRefId(): Object with ref_id ".$a_ref_id." not found!";
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				exit();
+			}
+			
+			return false;
+		}
+
+		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $object_rec["type"];
 	}
 }
 ?>

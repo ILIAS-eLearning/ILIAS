@@ -57,14 +57,33 @@ class ilObjContentObject extends ilObject
 	{
 		// this also calls read() method! (if $a_id is set)
 		$this->ilObject($a_id,$a_call_by_reference);
+
 		if ($a_id == 0)
 		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
+			$this->initMeta();
 		}
 
 		$this->mob_ids = array();
 		$this->file_ids = array();
+	}
+
+	/**
+	* init meta data object if needed
+	*/
+	function initMeta()
+	{
+		if (!is_object($this->meta_data))
+		{
+			if ($this->getId())
+			{
+				$new_meta =& new ilMetaData($this->getType(), $this->getId());
+			}	
+			else
+			{
+				$new_meta =& new ilMetaData();
+			}
+			$this->assignMetaData($new_meta);
+		}
 	}
 
 	/**
@@ -82,6 +101,7 @@ class ilObjContentObject extends ilObject
 			{
 				//$this->meta_data->setLanguage($ilUser->getLanguage());
 			}
+			$this->initMeta();
 			$this->meta_data->setId($this->getId());
 			$this->meta_data->setType($this->getType());
 			$this->meta_data->setTitle($this->getTitle());
@@ -134,10 +154,11 @@ class ilObjContentObject extends ilObject
 	function read()
 	{
 		parent::read();
+#		echo "Content<br>\n";
+
 		$this->lm_tree = new ilTree($this->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
 		$this->readProperties();
 		//parent::read();
@@ -150,8 +171,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function getTitle()
 	{
-//		return parent::getTitle();
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
 	}
 
 	/**
@@ -159,7 +179,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function setTitle($a_title)
 	{
-//		parent::setTitle($a_title);
+		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
 	}
 
@@ -170,8 +190,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function getDescription()
 	{
-//		return parent::getDescription();
-		return $this->meta_data->getDescription();
+		return parent::getDescription();
 	}
 
 	/**
@@ -179,7 +198,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function setDescription($a_description)
 	{
-//		parent::setTitle($a_title);
+		parent::setDescription($a_description);
 		$this->meta_data->setDescription($a_description);
 	}
 
@@ -200,6 +219,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function &getMetaData()
 	{
+		$this->initMeta();
 		return $this->meta_data;
 	}
 
@@ -209,6 +229,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function updateMetaData()
 	{
+		$this->initMeta();
 		$this->meta_data->update();
 		if ($this->meta_data->section != "General")
 		{
@@ -227,11 +248,13 @@ class ilObjContentObject extends ilObject
 
 	function getImportId()
 	{
+		$this->initMeta();
 		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
+		$this->initMeta();
 		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 

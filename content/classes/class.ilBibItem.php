@@ -47,6 +47,8 @@ class ilBibItem
 	
 	var $meta;
 
+	var $language;
+
 	/**
 	* Constructor
 	* @access	public
@@ -386,7 +388,14 @@ class ilBibItem
 	{
 		$this->__initNestedSet();
 
-		$bibData["booktitle"] = "NO TITLE";
+/*		if (is_object($this->obj))
+		{
+			$bibData["booktitle"] = $this->obj->getTitle();
+		}
+		else
+		{*/
+			$bibData["booktitle"] = "NO TITLE";
+/*		}*/
 		$bibData["edition"] = "N/A";
 		$bibData["publisher"] = "";
 		$bibData["year"] = "N/A";
@@ -406,6 +415,7 @@ class ilBibItem
 			</Bibliography>
 		';
 		$this->nested_obj->import($xml, $this->getID(), "bib");
+
 		return $bibData;
 	}
 
@@ -533,6 +543,17 @@ class ilBibItem
 		asort($cntrs);
 		return $cntrs;
 
+	}
+
+	// GENERAL: Language
+	function setLanguage($a_lang)
+	{
+		$this->language = $a_lang;
+	}
+
+	function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**

@@ -745,8 +745,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
 
+		/* update title and description in object data */
+		if (is_object($newObj->meta_data))
+		{
+			$newObj->meta_data->read();
+			$newObj->setTitle($newObj->meta_data->getTitle());
+			$newObj->setDescription($newObj->meta_data->getDescription());
 			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
-		$this->ilias->db->query($q);
+			$this->ilias->db->query($q);
+		}
 
 		ilUtil::redirect("adm_object.php?".$this->link_params);
 
