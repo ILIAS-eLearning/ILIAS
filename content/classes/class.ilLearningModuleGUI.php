@@ -149,6 +149,8 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	{
 		require_once ("classes/class.ilObjStyleSheetGUI.php");
 		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
 		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
 			$this->object->getRefId()."&cmd=post");
 		$style_gui->editObject();
@@ -166,9 +168,33 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	{
 		require_once ("classes/class.ilObjStyleSheetGUI.php");
 		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
 		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
 			$this->object->getRefId()."&cmd=post");
 		$style_id = $style_gui->newStyleParameterObject();
+	}
+
+	function refreshStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->refreshObject();
+	}
+
+	function deleteStyleParameter()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->deleteStyleParameterObject();
 	}
 
 	function chapters()

@@ -71,6 +71,8 @@ common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
+common#:#save_return#:#Save and Return
+common#:#save_refresh#:#Save and Refresh
 common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!

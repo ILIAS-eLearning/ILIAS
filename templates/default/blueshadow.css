@@ -148,6 +148,15 @@ td.locator {
 	text-align:left;
 }
 
+/* must reset all values of td style */
+td.il_no_style {
+	font-size:normal;
+	font-weight:normal;
+	background-image:none;
+	background-color:white;
+}
+
+
 
 a.tblheader, a.tblheader:visited
 {
@@ -395,62 +404,6 @@ img.imgtab {
 .content {
 	margin:0px;
 }
-
-/* ------------------ styles for lm content, should be separated
-	in a distinct css sometime, alex -------------- */
-
-
-p.ilc_Standard
-{
-}
-
-p.ilc_List
-{
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-p.ilc_Headline
-{
-	margin-top: 5px;
-	margin-bottom: 10px;
-	font-size:20px;
-	font-weight: bold;
-}
-
-p.ilc_Example
-{
-	padding-left: 20px;
-	border-left: 3px;
-	border-left-style: solid;
-	border-left-color: blue;
-}
-
-p.ilc_Citation
-{
-	color: brown;
-	font-style: italic;
-}
-
-p.ilc_Mnemonic
-{
-	margin-left: 20px;
-	margin-right: 20px;
-	color: red;
-	padding: 10px;
-	border: 1px;
-	border-style: solid;
-	border-color: red;
-}
-
-p.ilc_Additional
-{
-	padding: 10px;
-	border: 1px;
-	border-style: solid;
-	border-color: blue;
-}
-
 
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
