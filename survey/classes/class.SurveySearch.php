@@ -187,7 +187,7 @@ class SurveySearch {
 		{
 			$str_where .= " AND (" . $where . ")";
 		}
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = object_reference.obj_id AND survey_question.obj_fi > 0$str_where";
+		$query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND ISNULL(survey_question.original_id) AND survey_question.obj_fi = object_reference.obj_id AND survey_question.obj_fi > 0$str_where";
 		$result = $this->ilDB->query($query);
 		$result_array = array();
 		global $rbacsystem;
