@@ -182,6 +182,8 @@ assessment#:#import_question#:#Import pytań
 assessment#:#internal_links#:#Łączniki wewnętrzne
 assessment#:#internal_links_update#:#Uaktualnij
 assessment#:#javaapplet#:#Java Aplet Javy
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
@@ -524,6 +526,7 @@ common#:#account_expires_body#:#Twoje konto jest limitowane, jego ważność sko
 common#:#account_expires_subject#:#[ILIAS 3] Twoje konto straciło ważność
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
+common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
 common#:#active_roles#:#Aktywne role
@@ -1117,6 +1120,7 @@ common#:#htlm_read#:#Czytanie Modułu Nauczania HTML
 common#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
 common#:#htlm_write#:#Edycja Modułu Nauczania HTML
 common#:#http_path#:#Ścieżka http
+common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
@@ -1609,6 +1613,7 @@ common#:#ok#:#OK
 common#:#old#:#Stary
 common#:#online_chapter#:#Rozdział Online
 common#:#online_version#:#Wersja Online
+common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#options#:#Opcje
