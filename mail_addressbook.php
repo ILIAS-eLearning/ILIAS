@@ -35,8 +35,11 @@ require_once "./include/inc.mail.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 require_once "classes/class.ilAddressbook.php";
+require_once "classes/class.ilFormatMail.php";
 
 $lng->loadLanguageModule("mail");
+
+$umail = new ilFormatMail($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_addressbook.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -185,10 +188,25 @@ $entries_max_hits = 20;
 if($entries)
 {
 	$counter = 0;
-	$tpl->setCurrentBlock("addr_search");
 
 	foreach($entries as $entry)
 	{
+		if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+		{
+			$tpl->setCurrentBlock("smtp");
+			$tpl->setVariable("EMAIL_SMTP",$entry["email"]);
+			$tpl->setVariable("EMAIL_LINK","./mail_new?mobj_id=".$_GET["mobj_id"].
+									"&type=address&rcp=".urlencode($entry["email"]));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock("no_smtp");
+			$tpl->setVariable("EMAIL",$entry["email"]);
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("addr_search");
 		// LINKBAR
 		if($entries_count > $entries_max_hits)
 		{
@@ -218,10 +236,10 @@ if($entries)
 			$tpl->setVariable("CHECKED",in_array($entry["addr_id"],$_POST["entry_id"]) ? 'checked' : '');
 		}
 		$tpl->setVariable("ENTRY_ID",$entry["addr_id"]);
+		$tpl->setVariable("LOGIN_LINK","./mail_new?mobj_id=".$_GET["mobj_id"]."&type=address&rcp=".urlencode($entry["login"]));
 		$tpl->setVariable("LOGIN",$entry["login"]);
 		$tpl->setVariable("FIRSTNAME",$entry["firstname"]);
 		$tpl->setVariable("LASTNAME",$entry["lastname"]);
-		$tpl->setVariable("EMAIL",$entry["email"]);
 		$tpl->parseCurrentBlock();
 	}		
 }

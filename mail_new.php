@@ -219,6 +219,10 @@ switch($_GET["type"])
 		$mail_data["m_message"] = $umail->appendSignature();
 		break;
 
+	case 'address':
+			$mail_data["rcp_to"] = urldecode($_GET["rcp"]);
+			break;
+
 	default:
 		// GET DATA FROM POST
 		$mail_data = $_POST;
