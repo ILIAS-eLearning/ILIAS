@@ -128,5 +128,18 @@ class ilObjSCORMLearningModule extends ilObject
 		// always call parent delete function at the end!!
 		return true;
 	}
+
+
+        /**
+        * Validate all XML-Files in a SCOM-Directory 
+        *
+        * @access       public
+        * @return       boolean true if all object data were removed; false if only a references were removed
+        */
+	function validate($directory)
+	{
+		return true;
+	}
+
 } // END class.ilObjSCORMLearningModule
 ?>
