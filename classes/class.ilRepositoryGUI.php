@@ -29,6 +29,8 @@ include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
 include_once("course/classes/class.ilObjCourseGUI.php");
 include_once("classes/class.ilTabsGUI.php");
+include_once("classes/class.ilObjUserGUI.php");
+
 
 /**
 * Class ilRepositoryGUI
@@ -41,7 +43,7 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI
 
 *
 * @package core
@@ -160,6 +162,27 @@ class ilRepositoryGUI
 				$this->prepareOutput();
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 
+				$this->tpl->show();
+				break;
+
+			case "ilobjusergui":
+				include_once("./classes/class.ilObjUserGUI.php");
+
+
+				if(!$_GET['obj_id'])
+				{
+					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+
+					$this->prepareOutput();
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
+				else
+				{
+					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
+
+					$this->prepareOutput();
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
 				$this->tpl->show();
 				break;
 
@@ -3023,7 +3046,8 @@ class ilRepositoryGUI
 		// this is a stupid workaround for a bug in PEAR:IT
 		$modifier = 1;
 
-		if (!empty($_GET["obj_id"]))
+		// ... and to make it more stupid ...
+		if (!empty($_GET["obj_id"]) and $_GET['cmdClass'] != 'ilobjusergui')
 		{
 			$modifier = 0;
 		}
@@ -3039,7 +3063,6 @@ class ilRepositoryGUI
 
 		foreach ($path as $key => $row)
 		{
-
 			if ($key < count($path) - $modifier)
 			{
 				$this->tpl->touchBlock("locator_separator");
@@ -3239,7 +3262,9 @@ class ilRepositoryGUI
 		{
 			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".$this->lng->txt($new_type."_a")." ".$this->lng->txt("msg_no_perm_create_object2"),$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".
+										 $this->lng->txt($new_type."_a")." ".$this->lng->txt("msg_no_perm_create_object2"),
+										 $this->ilias->error_obj->MESSAGE);
 			}
 			else
 			{

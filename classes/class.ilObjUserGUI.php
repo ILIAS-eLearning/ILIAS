@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.86 2004/08/13 15:52:44 smeyer Exp $
+* $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -36,6 +36,8 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjUserGUI extends ilObjectGUI
 {
+	var $ilCtrl;
+
 	/**
 	* array of gender abbreviations
 	* @var		array
@@ -63,9 +65,14 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
+		global $ilCtrl;
+
 		$this->type = "usr";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 		$this->usrf_ref_id =& $this->ref_id;
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this,'obj_id');
 
 		// for gender selection. don't change this
 		// maybe deprecated
@@ -74,7 +81,44 @@ class ilObjUserGUI extends ilObjectGUI
 							  'f'    => "salutation_f"
 							  );
 	}
+	function &executeCommand()
+	{
+		global $rbacsystem;
 
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
+	}
+
+
+	function cancelObject()
+	{
+		session_unregister("saved_post");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			$return_location = $_GET["cmd_return_location"];
+			ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
+	}
 	/**
 	* display user create form
 	*/
@@ -176,8 +220,11 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $this->usrf_ref_id."&new_type=".$this->type));
+		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+		#														   $this->usrf_ref_id."&new_type=".$this->type));
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -615,7 +662,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->usrf_ref_id.$obj_str));
+		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".
+		#														   $this->usrf_ref_id.$obj_str));
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -852,7 +902,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$userObj->setTitle($userObj->getFullname());
 		$userObj->setDescription($userObj->getEmail());
 
-		$userObj->setTimeLimitOwner($this->ilias->account->getId());
+		$userObj->setTimeLimitOwner($this->object->getRefId());
         $userObj->setTimeLimitUnlimited($_POST["time_limit"]["unlimited"]);
         $userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
         $userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
@@ -899,7 +949,15 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("user_added"),true);
 
-		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
+		
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
 	}
 
 	/**
@@ -1105,7 +1163,15 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// feedback
 		sendInfo($msg,true);
-		ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
 	}
 
 
@@ -1229,8 +1295,21 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
-		exit();
+
+
+		#header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".
+		#	   $this->obj_id."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
+		#	   $_GET["sort_order"]."&offset=".$_GET["offset"]);
+		#exit();
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
+
 	}
 
 	/**
@@ -1345,7 +1424,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->usrf_ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		#$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->usrf_ref_id.$obj_str."&cmd=assignSave&sort_by=".
+		#						$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
 
 		include_once "./classes/class.ilTableGUI.php";
 
@@ -1353,7 +1435,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",
+					   $this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		foreach ($this->data["cols"] as $val)
@@ -1363,11 +1446,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array(
-								"ref_id"	=> $this->usrf_ref_id,
-								"obj_id"	=> $this->obj_id,
-								"cmd"		=> "roleassignment"
-							  );
+		$header_params = array("ref_id"	=> $this->usrf_ref_id,
+							   "obj_id"	=> $this->obj_id,
+							   "cmd"	=> "roleassignment",
+							   "cmdClass" => "ilobjusergui",
+							   "cmdNode" => $_GET["cmdNode"]);
 
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		//$tbl->setColumnWidth(array("4","","15%","30%","24%"));

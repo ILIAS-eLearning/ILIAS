@@ -4499,3 +4499,7 @@ PRIMARY KEY ( `pobject_id` )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#278>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

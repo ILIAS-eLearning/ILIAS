@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.17 2004/08/23 10:37:18 shofmann Exp $
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,6 +81,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 		global $rbacsystem;
 
 
+		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+
 		#if ($rbacsystem->checkAccess('read',$this->ref_id))
 		#{
 		#	$tabs_gui->addTarget("view_content",
@@ -90,6 +92,11 @@ class ilObjCategoryGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("edit_properties",
 								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+		if($rbacsystem->checkAccess('cat_edit_user',$this->ref_id))
+		{
+			$tabs_gui->addTarget("administrate_users",
+								 $this->ctrl->getLinkTarget($this, "listUsers"), "", get_class($this));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
@@ -670,5 +677,212 @@ class ilObjCategoryGUI extends ilObjectGUI
 		sendInfo($lng->txt("categories_imported"), true);
 		ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
 	}
+
+	// METHODS for local user administration
+	function listUsersObject()
+	{
+		include_once './classes/class.ilLocalUser.php';
+
+		global $rbacsystem;
+
+		$this->ctrl->setReturn($this,'listUsers');
+		#$_SESSION['filtered_users'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_users'];
+
+		if(!$rbacsystem->checkAccess("cat_admin_users",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!count($users = ilLocalUser::_getAllUserIds($this->object->getRefId())))
+		{
+			sendInfo($this->lng->txt('no_local_user'));
+
+			return true;
+		}
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjusergui','create'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('add_user'));
+		$this->tpl->parseCurrentBlock();
+
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html');
+
+		$parent = ilLocalUser::_getFolderIds();
+		if(0 and count($parent) > 1)
+		{
+			$this->tpl->setCurrentBlock("filter");
+			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect($parent));
+			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FILTER_NAME",'listUsers');
+			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('applyFilter'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$counter = 0;
+		$editable = false;
+		foreach($users as $user_id)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByObjId($user_id,false);
+
+			if($tmp_obj->getTimeLimitOwner() == $this->object->getRefId())
+			{
+				$editable = true;
+				$f_result[$counter][]	= ilUtil::formCheckbox(0,"user_ids[]",$tmp_obj->getId());
+
+				$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_id);
+				$f_result[$counter][]	= '<a href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','edit').'">'.
+					$tmp_obj->getLogin().'</a>';
+			}
+			else
+			{
+				$f_result[$counter][]	= '&nbsp;';
+				$f_result[$counter][]	= $tmp_obj->getLogin();
+			}
+
+			$f_result[$counter][]	= $tmp_obj->getFirstname();
+			$f_result[$counter][]	= $tmp_obj->getLastname();
+
+			/*
+			switch($tmp_obj->getTimeLimitOwner())
+			{
+				case ilLocalUser::_getUserFolderId():
+					$f_result[$counter][]	= $this->lng->txt('global');
+					break;
+
+				default:
+					$f_result[$counter][] = ilObject::_lookupTitle(ilObject::_lookupObjId($tmp_obj->getTimeLimitOwner()));
+			}
+			*/
+			// role assignment
+			$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_id);
+			$f_result[$counter][]	= '[<a href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','roleassignment').'">'.
+				$this->lng->txt('edit').'</a>]';
+			
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showUsersTable($f_result,$editable);
+		
+		return true;
+	}
+
+	// PRIVATE
+	function __showUsersTable($a_result_set,$footer = true)
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMAACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+
+		if($footer)
+		{
+			// SET FOOTER BUTTONS
+			$tpl->setVariable("COLUMN_COUNTS",5);
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+			$tpl->setCurrentBlock("tbl_action_button");
+			$tpl->setVariable("BTN_NAME","deleteUser");
+			$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+			$tpl->parseCurrentBlock();
+			
+			$tpl->setCurrentBlock("tbl_action_row");
+			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+			$tpl->parseCurrentBlock();
+		}
+
+		$tbl->setTitle($this->lng->txt("users"),"icon_usr_b.gif",$this->lng->txt("users"));
+		$tbl->setHeaderNames(array('',
+								   $this->lng->txt("username"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt('role_assignment')));
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname",
+								  "roleassignment"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "listUsers",
+								  "cmdClass" => "ilobjcategorygui",
+								  "cmdNode" => $_GET["cmdNode"]));
+		$tbl->setColumnWidth(array("4%","24%","24%","24%","24%"));
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set,$editable);
+		$tbl->render();
+
+		$this->tpl->setVariable("USERS_TABLE",$tbl->tpl->get());
+
+		return true;
+	}		
+
+	function __setTableGUIBasicData(&$tbl,&$result_set,$footer = true)
+	{
+
+		$offset = $_GET["offset"];
+		// init sort_by (unfortunatly sort_by is preset with 'title'
+		if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
+		{
+			$_GET["sort_by"] = "login";
+		}
+		$order = $_GET["sort_by"];
+		$direction = $_GET["sort_order"];
+	
+		$tbl->setOrderColumn($order);
+		$tbl->setOrderDirection($direction);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($result_set));
+		if($footer)
+		{
+			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		}
+		else
+		{
+			$tbl->disable('footer');
+		}
+		$tbl->setData($result_set);
+	}
+
+	function &__initTableGUI()
+	{
+		include_once "./classes/class.ilTableGUI.php";
+
+		return new ilTableGUI(0,false);
+	}
+
+	function __buildFilterSelect($a_parent_ids)
+	{
+		$action[0] = $this->lng->txt('all_users');
+
+		foreach($a_parent_ids as $parent)
+		{
+			switch($parent)
+			{
+				case ilLocalUser::_getUserFolderId():
+					$action[ilLocalUser::_getUserFolderId()] = $this->lng->txt('global_users'); 
+					
+					break;
+
+				default:
+					$action[$parent] = $this->lng->txt('users').' ('.ilObject::_lookupTitle(ilObject::_lookupObjId($parent)).')';
+
+					break;
+			}
+		}
+		return ilUtil::formSelect($_SESSION['filtered_users'],"filter",$action,false,true);
+
+	}
+	
+
 } // END class.ilObjCategoryGUI
 ?>
