@@ -174,6 +174,21 @@ class ilObjForum extends ilObject
 		}
 		return true;
 	}
+
+	function markAllThreadsRead($a_usr_id)
+	{
+		$query = "SELECT * FROM frm_data, frm_threads ".
+			"WHERE top_frm_fk = '".$this->getId()."' ".
+			"AND top_pk = thr_top_fk ";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->markThreadRead($a_usr_id,$row->thr_pk);
+		}
+
+		return true;
+	}
 		
 
 	function markPostRead($a_usr_id,$a_thread_id,$a_post_id)
