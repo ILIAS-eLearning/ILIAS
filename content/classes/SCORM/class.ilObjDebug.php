@@ -28,11 +28,13 @@
 
 class ilObjDebug {
         function ilObjDebug($file) {
-                $this->file=fopen($file,"a");
+        				//Todo: fix this ! Warning: fopen(/opt/ilias/www/htdocs/ilias3/debug/debug.ilObjSCORMTracking): failed to open stream: No such file or directory 
+                //$this->file=fopen($file,"a");
         }
                                                                                                                              
         function debug($message) {
-                fwrite($this->file,$message);
+        				//Todo: fix this ! Warning: fopen(/opt/ilias/www/htdocs/ilias3/debug/debug.ilObjSCORMTracking): failed to open stream: No such file or directory 
+                //fwrite($this->file,$message);
         }
 }
 ?>
