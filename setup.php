@@ -883,6 +883,6 @@ function showMenulink()
 }
 
 $tpl->setVariable("LANG", $_GET["lang"]);
-
+header('Content-type: text/html; charset=UTF-8');
 $tpl->show();
 ?>

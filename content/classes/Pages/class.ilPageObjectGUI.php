@@ -837,7 +837,7 @@ class ilPageObjectGUI
 		//$cont_obj =& new ilObjContentObject($content_obj, true);
 
 		$objs = $this->ilias->account->getClipboardObjects("mob");
-		$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
 		$tbl->setMaxCount(count($objs));
 

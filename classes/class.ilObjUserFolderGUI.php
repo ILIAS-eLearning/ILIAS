@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.18 2003/08/22 14:12:05 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.19 2003/10/29 21:56:13 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -90,8 +90,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// now compute control information
@@ -321,8 +320,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// now compute control information

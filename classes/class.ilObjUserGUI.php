@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.59 2003/11/03 12:08:36 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.61 2003/11/03 16:00:22 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -824,8 +824,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		$assigned_roles = $rbacreview->assignedRoles($this->object->getId());

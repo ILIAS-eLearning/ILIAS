@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.10 2003/07/09 15:41:34 shofmann Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.11 2003/08/15 11:06:32 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -92,8 +92,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
 		foreach ($this->data["data"] as $key => $val)
@@ -313,8 +312,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
 		foreach ($this->data["data"] as $key => $val)

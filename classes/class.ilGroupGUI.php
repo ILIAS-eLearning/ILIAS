@@ -1265,8 +1265,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 
 				//sort data array
-				include_once "./include/inc.sort.php";
-				$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
 				$offset = intval($_GET["offset"]);
 				$limit = intval($_GET["limit"]);
@@ -1770,24 +1769,21 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		//sort data array
-		include_once "./include/inc.sort.php";
-		include_once "./classes/class.ilTableGUI.php";
-
-
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
 
 		if ($limit == 0) $limit = 10;	// TODO: move to user settings
 		if ($offset == "") $offset = 0;	// TODO: move to user settings
 
-		if(isset($this->data["data"]) )
+		if (isset($this->data["data"]))
 		{
-			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+			//sort data array
+			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 			$output = array_slice($this->data["data"],$offset,$limit);
 		}
 
 		// create table
+		include_once "./classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
 
 		// title & header columns
@@ -1942,7 +1938,6 @@ class ilGroupGUI extends ilObjectGUI
 	function show_content()
 	{
 		global $rbacsystem;
-		include_once "./include/inc.sort.php";
 		
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
@@ -1988,7 +1983,7 @@ class ilGroupGUI extends ilObjectGUI
 		/* count objects for statements in footer of table */
 		$maxcount = count($objects);
 		/* sort array and slice it to handle groups containing more than 10 objects */
-		$objects = sortArray($objects, $_GET["sort_by"], $_GET["sort_order"]);
+		$objects = ilUtil::sortArray($objects, $_GET["sort_by"], $_GET["sort_order"]);
 		$objects = array_slice($objects,$_GET["offset"],$_GET["limit"]);
 
 		if (count($objects) > 0)
@@ -2514,14 +2509,11 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		//sort data array
-		include_once "./include/inc.sort.php";
-		include_once "./classes/class.ilTableGUI.php";
-
-		$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-
+		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// create table
+		include_once "./classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
 
 		// title & header columns

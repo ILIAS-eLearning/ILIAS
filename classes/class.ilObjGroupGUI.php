@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.51 2003/11/05 16:30:12 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.52 2003/11/05 17:19:02 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -748,8 +748,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 
 			//sort data array
-			include_once "./include/inc.sort.php";
-			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 			// create table
@@ -862,14 +861,11 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		//sort data array
-		include_once "./include/inc.sort.php";
-		include_once "./classes/class.ilTableGUI.php";
-
-		$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-
+		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// create table
+		include_once "./classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));

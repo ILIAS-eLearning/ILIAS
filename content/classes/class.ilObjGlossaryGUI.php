@@ -252,8 +252,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setMaxCount(count($term_list));
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		//$term_list = sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
+		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
 		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 
 		// render table

@@ -32,9 +32,6 @@
 * @package	ilias-core
 */
 
-// for sorting content array
-include_once "./include/inc.sort.php";
-
 class ilTableGUI
 {
 	var $title;					// table title name
@@ -391,7 +388,7 @@ class ilTableGUI
 
 	function sortData()
 	{
-		$this->data = sortArray($this->data,$this->order_column,$this->order_direction);
+		$this->data = ilUtil::sortArray($this->data,$this->order_column,$this->order_direction);
 		$this->data = array_slice($this->data,$this->offset,$this->limit);
 	}
 

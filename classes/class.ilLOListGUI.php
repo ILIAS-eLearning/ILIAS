@@ -263,8 +263,7 @@ class ilLOListGUI
 		}
 
 		$maxcount = count($lr_arr);		// for numinfo in table footer
-		include_once "./include/inc.sort.php";
-		$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
+		$lr_arr = ilUtil::sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$lr_arr = array_slice($lr_arr,$offset,$limit);
 
 		// load template for table

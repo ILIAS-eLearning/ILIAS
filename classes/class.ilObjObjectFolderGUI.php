@@ -90,8 +90,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// now compute control information
