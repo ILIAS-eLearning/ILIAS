@@ -376,7 +376,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   
 //    if ($this->view_mode == VIEW_MODE_STANDARD) {
       $this->tpl->setCurrentBlock("standard");
-      $this->tpl->setVariable("EDIT", $this->lng->txt("edit"));
+//      $this->tpl->setVariable("EDIT", $this->lng->txt("edit"));
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
       $this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
@@ -437,11 +437,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
           if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-            $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">$data->title</a>");
-          } else {
-            $this->tpl->setVariable("QUESTION_TITLE", $data->title);
+            $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
           }
-          $this->tpl->setVariable("PREVIEW", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>");
+          $this->tpl->setVariable("QUESTION_TITLE", $data->title);
+          $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 					$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=$data->question_id" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" boder=\"0\" /></a>");
