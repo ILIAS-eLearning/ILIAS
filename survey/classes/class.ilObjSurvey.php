@@ -1971,7 +1971,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess('read', $row->ref_id))
+			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				$result_array[$row->ref_id] = $row->title;
 			}

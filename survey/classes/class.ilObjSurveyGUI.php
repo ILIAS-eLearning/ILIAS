@@ -1149,7 +1149,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		if (count($questionpools))
+		{
+			$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		}
+		else
+		{
+			sendInfo($this->lng->txt("create_questionpool_before_add_question"));
+		}
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 	}
