@@ -37,10 +37,11 @@ require_once "./classes/class.ilObjForum.php";
 
 $lng->loadLanguageModule("forum");
 
+$forumObj = new ilObjForum($_GET["ref_id"]);
+
 // delete post and its sub-posts
 if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 {
-	$forumObj = new ilObjForum($_GET["ref_id"]);
 	$frm = new ilForum();
 
 	$frm->setForumId($forumObj->getId());
@@ -70,13 +71,19 @@ if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 	sendInfo($lng->txt("forums_post_deleted"));
 }
 
-$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.forums_frameset.html"; 
+$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.forums_frameset.html";
+
+$session_name = "viewmode_".$forumObj->getId();
 
 if (isset($_GET["viewmode"]))
 {
-	$_SESSION["viewmode"] = $_GET["viewmode"];
+	$_SESSION[$session_name] = $_GET["viewmode"];
 }
-if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
+if(!$_SESSION[$session_name])
+{
+	$_SESSION[$session_name] = $forumObj->getDefaultView() == 1 ? 'tree' : 'flat';
+}
+if (file_exists($startfilename) and ($_SESSION[$session_name] == "tree"))
 {
 	$tpl = new ilTemplate("tpl.forums_frameset.html", false, false);
 	if(isset($_GET["target"]))
