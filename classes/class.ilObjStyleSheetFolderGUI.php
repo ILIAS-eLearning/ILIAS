@@ -31,7 +31,7 @@
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+include_once "class.ilObjectGUI.php";
 
 class ilObjStyleSheetFolderGUI extends ilObjectGUI
 {
@@ -75,7 +75,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilias;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -104,12 +104,13 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		// title
-		$header_names = array("", $this->lng->txt("title"));
+		$header_names = array("", $this->lng->txt("title"),
+			$this->lng->txt("purpose"));
 		$tbl->setHeaderNames($header_names);
 
 		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars(array("", "title"), $header_params);
-		$tbl->setColumnWidth(array("0%", "100%"));
+		$tbl->setHeaderVars(array("", "title", "purpose"), $header_params);
+		$tbl->setColumnWidth(array("0%", "80%", "20%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -118,12 +119,19 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		
 		// get style ids
-		$style_ids = $this->object->getStyles();
+		$style_entries = array();
+		$styles = $this->object->getStyles();
+		foreach($styles as $style)
+		{
+			$style_entries[$style["title"].":".$style["id"]]
+				= $style;
+		}
+		ksort($style_entries);
 		
 		// todo
-		$tbl->setMaxCount(count($style_ids));
+		$tbl->setMaxCount(count($style_entries));
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 2);
+		$this->tpl->setVariable("COLUMN_COUNTS", 3);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -131,8 +139,11 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		$this->showActions(true);
 
 		include_once ("classes/class.ilObjStyleSheet.php");
+		
+		$fixed_style = $ilias->getSetting("fixed_content_style_id");
+		$default_style = $ilias->getSetting("default_content_style_id");
 
-		foreach ($style_ids as $style_id)
+		foreach ($style_entries as $style)
 		{
 			$this->tpl->setCurrentBlock("style_row");
 		
@@ -141,13 +152,21 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 				? "tblrow1"
 				: "tblrow2";
 
-			$this->tpl->setVariable("CHECKBOX_ID", $style_id);
-			$this->tpl->setVariable("TXT_TITLE", ilObject::_lookupTitle($style_id));
-			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style_id));
+			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
+			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
+			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
 			$this->tpl->setVariable("LINK_STYLE",
 				"adm_object.php?ref_id=".$_GET["ref_id"].
-				"&obj_id=".$style_id);
+				"&obj_id=".$style["id"]);
 			$this->tpl->setVariable("ROWCOL", $css_row);
+			if ($style["id"] == $fixed_style)
+			{
+				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_fixed"));
+			}
+			if ($style["id"] == $default_style)
+			{
+				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_default"));
+			}
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("tbl_content");
@@ -155,7 +174,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 
 		} //if is_array
 		
-		if (count($style_ids) == 0)
+		if (count($style_entries) == 0)
 		{
             $tbl->disable("header");
 			$tbl->disable("footer");
@@ -174,6 +193,187 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		$tbl->render();
 	}
 	
+	/**
+	* display deletion confirmation screen
+	*
+	* @access	public
+ 	*/
+	function deleteStyleObject($a_error = false)
+	{
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
+
+		if(!$a_error)
+		{
+			sendInfo($this->lng->txt("info_delete_sure"));
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT", $this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+		
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach ($_POST["id"] as $id)
+		{
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_styf.gif"));
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("TEXT_CONTENT",ilObject::_lookupTitle($id));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		$buttons = array("confirmedDelete"  => $this->lng->txt("confirm"),
+			"cancelDelete"  => $this->lng->txt("cancel"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	
+	/**
+	* delete selected style objects
+	*/
+	function confirmedDeleteObject()
+	{
+		global $ilias;
+		
+		foreach($_SESSION["saved_post"] as $id)
+		{
+			$this->object->removeStyle($id);
+			$style_obj =& $ilias->obj_factory->getInstanceByObjId($id);
+			$style_obj->delete();
+		}
+		$this->object->update();
+		
+		ilUtil::redirect($this->getReturnLocation("delete",$this->ctrl->getLinkTarget($this,"")));
+	}
+	
+	
+	/**
+	* toggle global default style
+	*
+	* @access	public
+ 	*/
+	function toggleGlobalDefaultObject()
+	{
+		global $ilias;
+		
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$ilias->deleteSetting("fixed_content_style_id");
+		$def_style = $ilias->getSetting("default_content_style_id");
+		
+		if ($def_style != $_POST["id"][0])
+		{
+			$ilias->setSetting("default_content_style_id", $_POST["id"][0]);
+		}
+		else
+		{
+			$ilias->deleteSetting("default_content_style_id");
+		}
+		
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+	}
+
+	/**
+	* toggle global fixed style
+	*
+	* @access	public
+ 	*/
+	function toggleGlobalFixedObject()
+	{
+		global $ilias;
+		
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$ilias->deleteSetting("default_content_style_id");
+		$fixed_style = $ilias->getSetting("fixed_content_style_id");
+		if ($fixed_style == $_POST["id"][0])
+		{
+			$ilias->deleteSetting("fixed_content_style_id");
+		}
+		else
+		{
+			$ilias->setSetting("fixed_content_style_id", $_POST["id"][0]);
+		}
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+	}
+
+	
+	/**
+	* show possible action (form buttons)
+	*
+	* @param	boolean
+	* @access	public
+ 	*/
+	function showActions($with_subobjects = false)
+	{
+
+		// delete
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "deleteStyle");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		// set global default
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "toggleGlobalDefault");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalDefault"));
+		$this->tpl->parseCurrentBlock();
+		
+		// set global default
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "toggleGlobalFixed");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("toggleGlobalFixed"));
+		$this->tpl->parseCurrentBlock();
+
+		if ($with_subobjects === true)
+		{
+			$this->showPossibleSubObjects();
+		}
+		
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	
 	/**
 	* get tabs

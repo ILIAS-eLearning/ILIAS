@@ -180,16 +180,39 @@ class ilLMEditorGUI
 	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.lm_edit_frameset.html", false, false, "content");
-		$this->tpl->setVariable("REF_ID",$this->ref_id);
 		if ($this->lm_obj->getType() == "dbk")
 		{
 			$this->tpl->setVariable("HREF_EXPLORER",
 				$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
+			if ($_GET["to_page"]== 1)
+			{
+				$this->tpl->setVariable("HREF_EDITOR",
+					$this->ctrl->getLinkTargetByClass(
+						array("ilobjdlbookgui", "illmpageobjectgui"),
+						"view"));
+			}
+			else
+			{
+				$this->tpl->setVariable("HREF_EDITOR",
+					$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "properties"));
+			}
 		}
 		else
 		{
 			$this->tpl->setVariable("HREF_EXPLORER",
 				$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
+						if ($_GET["to_page"]== 1)
+			{
+				$this->tpl->setVariable("HREF_EDITOR",
+					$this->ctrl->getLinkTargetByClass(
+						array("ilobjlearningmodulegui", "illmpageobjectgui"),
+						"view"));
+			}
+			else
+			{
+				$this->tpl->setVariable("HREF_EDITOR",
+					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "properties"));
+			}
 		}
 		$this->tpl->show();
 	}

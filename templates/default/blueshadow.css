@@ -1177,6 +1177,7 @@ a.ilc_LMMenu
 	border-color: #DDDDDD;
 	border-color: #909090;
 	background-color: #EBEBEB;
+	white-space: nowrap;
 }
 
 div.ilc_TableOfContents

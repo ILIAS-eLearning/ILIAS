@@ -96,7 +96,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$style_id = $ret;
 					$this->object->setStyleSheetId($style_id);
 					$this->object->update();
-					$this->ctrl->redirect($this, "properties");
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
 				break;
 
@@ -192,24 +192,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
-		// test purpose: create stylesheet
-		if ($this->object->getStyleSheetId() == 0)
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create_stylesheet"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else // test purpose: edit stylesheet
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit_stylesheet"));
-			$this->tpl->parseCurrentBlock();
-		}
-
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "fixTreeConfirm"));
 		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
@@ -248,6 +230,52 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
 			$layouts, false, true);
 		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
+
+		// style
+		$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style"));
+		$layouts = ilObjLearningModule::getAvailableLayouts();
+		$fixed_style = $this->ilias->getSetting("fixed_content_style_id");
+		if ($fixed_style > 0)
+		{
+			$this->tpl->setVariable("VAL_STYLE",
+				ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("style_edit");
+			if ($this->object->getStyleSheetId() > 0)
+			{
+				$this->tpl->setVariable("VAL_STYLE",
+					ilObject::_lookupTitle($this->object->getStyleSheetId()));
+					
+				// edit icon
+				$this->tpl->setVariable("LINK_STYLE_EDIT",
+					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+				$this->tpl->setVariable("TXT_STYLE_EDIT",
+					$this->lng->txt("edit"));
+				$this->tpl->setVariable("IMG_STYLE_EDIT",
+					ilUtil::getImagePath("icon_pencil.gif"));
+					
+				// delete icon
+				$this->tpl->setVariable("LINK_STYLE_DROP",
+					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+				$this->tpl->setVariable("TXT_STYLE_DROP",
+					$this->lng->txt("delete"));
+				$this->tpl->setVariable("IMG_STYLE_DROP",
+					ilUtil::getImagePath("delete.gif"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_STYLE",
+					$this->lng->txt("default"));
+				$this->tpl->setVariable("LINK_STYLE_CREATE",
+					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+				$this->tpl->setVariable("TXT_STYLE_CREATE",
+					$this->lng->txt("create"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// page header
 		$this->tpl->setVariable("TXT_PAGE_HEADER", $this->lng->txt("cont_page_header"));
@@ -1130,17 +1158,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
 		}
-                if ($showViewInFrameset) 
-                {
-        		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-                }
-                else
-                {
-        		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-                }
+				
+		// set page view link
+		if ($showViewInFrameset)
+		{
+			$view_frame = "bottom";
+		}
+		else
+		{
+			$view_frame = "ilContObj".$this->object->getID();
+		}
+		$this->tpl->setVariable("BTN_TARGET"," target=\"$view_frame\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
-
 
 		parent::viewObject();
 
@@ -2388,7 +2418,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id="
 									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
-							$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 				$tpl_menu->parseCurrentBlock();
 			}
 		}

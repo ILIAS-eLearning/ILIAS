@@ -1856,6 +1856,8 @@ common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
 common#:#obj_file#:#File
+common#:#toggleGlobalDefault#:#Toggle Global Default
+common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
@@ -2113,6 +2115,9 @@ common#:#require_street#:#Require street
 common#:#require_zipcode#:#Require zip code
 common#:#required_field#:#Required
 common#:#reset#:#Reset
+common#:#global_fixed#:#Global Fixed
+common#:#purpose#:#Purpose
+common#:#global_default#:#Global Default
 common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
 common#:#right#:#Right
@@ -2484,6 +2489,7 @@ content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Full Screen
 content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_added_term#:#Term added
+content#:#cont_style#:#Style
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
@@ -4471,7 +4477,7 @@ survey#:#search_questions#:#Search questions
 survey#:#search_term#:#Search term
 survey#:#search_type_all#:#Search in all question types
 survey#:#search_users#:#Users
-survey#:#select_max_one_item#:#Please select one item only
+common#:#select_max_one_item#:#Please select one item only
 survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question

@@ -300,6 +300,34 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* set link for "view page" button
+	*
+	* @param	string		link target
+	* @param	string		target frame
+	*/
+	function setViewPageLink($a_link, $a_target = "")
+	{
+		$this->view_page_link = $a_link;
+		$this->view_page_target = $a_target;
+	}
+	
+	/**
+	* get view page link
+	*/
+	function getViewPageLink()
+	{
+		return $this->view_page_link;
+	}
+	
+	/**
+	* get view page target frame
+	*/
+	function getViewPageTarget()
+	{
+		return $this->view_page_target;
+	}
+
+	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -388,6 +416,17 @@ class ilPageObjectGUI
 				
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
+				
+				if ($this->getViewPageLink() != "")
+				{
+					$this->tpl->setCurrentBlock("view_link");
+					$this->tpl->setVariable("LINK_VIEW_PAGE",
+						$this->getViewPageLink());
+					$this->tpl->setVariable("TARGET_VIEW_PAGE",
+						$this->getViewPageTarget());
+					$this->tpl->setVariable("TXT_VIEW_PAGE", $this->lng->txt("view"));
+					$this->tpl->parseCurrentBlock();
+				}
 					
 				// javascript activation
 				$sel_js_mode = "disable";

@@ -90,6 +90,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		switch($next_class)
 		{
 			case "ilpageobjectgui":
+			
+				// Determine whether the view of a learning resource should
+				// be shown in the frameset of ilias, or in a separate window.
+				$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+			
 				$this->ctrl->setReturn($this, "view");
 				//require_once("content/classes/class.ilContObjLocatorGUI.php");
 				//$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
@@ -101,6 +106,19 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$int_links = $page_object->getInternalLinks();
 				$link_xml = $this->getLinkXML($int_links);
 				$page_gui =& new ilPageObjectGUI($page_object);
+				
+				// set page view link
+				if ($showViewInFrameset)
+				{
+					$view_frame = "bottom";
+				}
+				else
+				{
+					$view_frame = "ilContObj".$this->content_object->getID();
+				}
+				$page_gui->setViewPageLink("../goto.php?target=pg_".$this->obj->getId(),
+					$view_frame);
+					
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);

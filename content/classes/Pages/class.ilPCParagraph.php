@@ -298,13 +298,13 @@ class ilPCParagraph extends ilPageContent
 
 		if ($a_wysiwyg == 1)
 		{
-			$a_text = str_replace("&","&amp;",$a_text);
-			$a_text = str_replace("<","&lt;",$a_text);
-			$a_text = str_replace(">","&gt;",$a_text);
+			//$a_text = str_replace("&","&amp;",$a_text);
+			//$a_text = str_replace("<","&lt;",$a_text);
+			//$a_text = str_replace(">","&gt;",$a_text);
 
 			$wysiwygUtil = new ilWysiwygUtil();
 			$a_text = $wysiwygUtil->convertFromPost($a_text);
-			$a_text = addslashes($a_text);
+			//$a_text = addslashes($a_text);
 
 		}
 

@@ -264,7 +264,8 @@ class ilObjectGUI
 	{
 		// temp. for groups and systemfolder
 		// TODO: use this style for all objects
-		if ($this->object->getType() == "grp" or $this->object->getType() == "adm")
+		if ($this->object->getType() == "grp" or $this->object->getType() == "adm"
+			or $this->object->getType() == "sty")
 		{
 			include_once "./classes/class.ilTabsGUI.php";
 			$tabs_gui =& new ilTabsGUI();
