@@ -68,6 +68,13 @@ class Object
 	
 	/**
 	* saves new object in admin interface
+	* 
+	* @param	integer		obj_id
+	* @param	integer		parent_id
+	* @param	string		obj_type
+	* @param	string		new_obj_type
+	* @param	array		title & description
+	* @return	integer		new obj_id
 	* @access	public
 	**/
 	function saveObject($a_obj_id = '', $a_parent = '' ,$a_type = '' , $a_new_type = '' , $a_data = '')
@@ -81,7 +88,7 @@ class Object
 		$a_new_type = $a_new_type ? $a_new_type : $_GET["new_type"];
 		$a_data = $a_data ? $a_data : $_POST["Fobject"];
 		
-		if($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_type))
+		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_type))
 		{
 			// create and insert object in objecttree
 			$new_obj_id = createNewObject($a_new_type, $a_data);
@@ -89,7 +96,7 @@ class Object
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
-			foreach($parentRoles as $parRol)
+			foreach ($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 				$ops = $rbacreview->getOperations($parRol["obj_id"], $a_new_type, $parRol["parent"]);
@@ -100,7 +107,8 @@ class Object
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
-		return true;
+		
+		return $new_obj_id;
 	}
 
 	/**
