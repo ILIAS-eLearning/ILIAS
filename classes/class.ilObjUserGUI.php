@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.42 2003/08/12 16:13:34 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.43 2003/08/18 18:15:29 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -99,11 +99,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($userObj->getPref("public_upload")=="y")
 		{
 			//Getting the flexible path of image form ini file
-			// TODO: ini vars are located in $ilias object!!
-			include_once "classes/class.ilSetup.php";
-			$mySetup = new ilSetup();
-			$mySetup->readIniFile();
-			$webspace_dir = $mySetup->getWebspacePath();
+			$webspace_dir = $this->ilias->ini->readVariable("server","webspace_dir");
 			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
 			$this->tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 		}
@@ -288,7 +284,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
-
+			$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
 
 			// FILL SAVED VALUES IN CASE OF ERROR
 			$this->tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
@@ -302,8 +298,24 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
 			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
-
 			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
+
+			// language selection
+			$languages = $this->lng->getInstalledLanguages();
+	
+			foreach ($languages as $lang_key)
+			{
+				$this->tpl->setCurrentBlock("language_selection");
+				$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
+				$this->tpl->setVariable("LANGSHORT", $lang_key);
+	
+				if ($this->ilias->getSetting("language") == $lang_key)
+				{
+					$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+				}
+	
+				$this->tpl->parseCurrentBlock();
+			} // END language selection
 
 			// EMPTY SAVED VALUES not needed; done by system
 			//unset($_SESSION["error_post_vars"]);
@@ -418,7 +430,26 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
+		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
 
+		// language selection
+		$languages = $this->lng->getInstalledLanguages();
+
+		foreach ($languages as $lang_key)
+		{
+			$this->tpl->setCurrentBlock("language_selection");
+			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
+			$this->tpl->setVariable("LANGSHORT", $lang_key);
+
+			if ($this->object->getLanguage() == $lang_key)
+			{
+				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+			}
+
+			$this->tpl->parseCurrentBlock();
+		} // END language selection
+
+		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
 
 		if (true)
@@ -428,7 +459,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
-
+		
 		if ($user_is_online)
 		{
 			// BEGIN TABLE ROLES
@@ -522,6 +553,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 		//insert user data in table user_data
 		$userObj->saveAsNew();
+		
+		// setup user preferences
+		$userObj->setLanguage($_POST["usr_language"]);
+		$userObj->writePrefs();
 
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
@@ -574,8 +609,8 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 	/**
-
-	* updates user object
+	* Does input checks and updates a user account if everything is fine.
+	* @access	public
 	*/
 	function updateObject()
 	{
@@ -631,10 +666,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->updateLogin($_POST["Fobject"]["login"]);
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
+		$this->object->setLanguage($_POST["usr_language"]);
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
-		// sent email
+		// send email
 		if ($_POST["send_mail"] == "y")
 		{
 			include_once "classes/class.ilFormatMail.php";
