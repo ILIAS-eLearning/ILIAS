@@ -58,7 +58,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function ilGroupGUI($a_data,$a_id,$a_call_by_reference)
 	{
-		global $tpl, $ilias, $lng, $tree, $rbacsystem, $objDefinition;
+		global $tpl, $ilias, $lng, $tree, $rbacsystem, $objDefinition, $offset, $limit;
 
 		$this->type ="grp";
 		$this->ilias =& $ilias;
@@ -83,7 +83,8 @@ class ilGroupGUI extends ilObjectGUI
 
 		$_GET["offset"] = intval($_GET["offset"]);
 		$_GET["limit"] = intval($_GET["limit"]);
-
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
 		if ($_GET["limit"] == 0)
 		{
 			$_GET["limit"] = 10;	// TODO: move to user settings
@@ -699,6 +700,7 @@ class ilGroupGUI extends ilObjectGUI
 			unset($_SESSION["status"]);
 			unset($_SESSION["saved_post"]);
 		}
+		sendInfo($this->lng->txt("usr_added"));
 		header("Location: group.php?cmd=view&".$this->link_params);
 	}
 		
@@ -1886,8 +1888,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$d = $this->objDefinition->getCreatableSubObjects("grp");
 
-		$import = false;
-
+		$import = false;		
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
@@ -1947,6 +1948,7 @@ class ilGroupGUI extends ilObjectGUI
 	function show_content()
 	{
 		global $rbacsystem;
+		include_once "./include/inc.sort.php";
 /*
 		//$k[0] = "normal";
 		$k[0] = array('normal');
@@ -1986,7 +1988,6 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3]["tab_text"] = "properties";				//tab -text
 		}
 
-//		$this->prepareOutput(false, $tab);
 		$this->prepareOutput(false, 0);
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
@@ -1996,6 +1997,12 @@ class ilGroupGUI extends ilObjectGUI
 		// set offset & limit
 
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
+		/* count objects for statements in footer of table */
+		$maxcount = count($objects);
+		/* sort array and slice it to handle groups containing more than 10 objects */
+		$objects = sortArray($objects, $_GET["sort_by"], $_GET["sort_order"]);
+		$objects = array_slice($objects,$_GET["offset"],$_GET["limit"]);
+
 		if (count($objects) > 0)
 		{
 			foreach ($objects as $key => $object)
@@ -2023,6 +2030,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 		}*/
+
 		$cont_num = count($cont_arr);
 		// render table content data
 		if ($cont_num > 0)
@@ -2046,9 +2054,9 @@ class ilGroupGUI extends ilObjectGUI
 					}
 					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo" or $cont_data["type"] == "slm")
 					{
-						
+
 						$link_target = "bottom";
-					
+
 					}
 					else
 					{
@@ -2156,8 +2164,9 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("EXPLORER",$output);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		$this->tpl->show();
+
 	}
 
 	/**
@@ -2377,7 +2386,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		header("Location: group.php?".$this->link_params);
 	}
-		
+
 	function viewObject()
 	{
 		//necessary for gateway calls
@@ -2477,7 +2486,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."  \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
 		// load template for table content data
@@ -2502,8 +2511,8 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("BTN_VALUE",$value);
 				$this->tpl->parseCurrentBlock();
 			}
-			$subobj[0] = "member";
-			$opts = ilUtil::formSelect(12,"new_type", $subobj);
+			$subobj[0] = $this->lng->txt("member");
+			$opts = ilUtil::formSelect(12,"new_type", $subobj, false, true);
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			$this->tpl->setVariable("BTN_NAME", "newmembers");
