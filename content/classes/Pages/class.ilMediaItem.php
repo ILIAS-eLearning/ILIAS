@@ -547,7 +547,7 @@ class ilMediaItem
 		$this->saveMapWorkImage();
 	}
 
-	function addAreaToMapWorkCopy("Rect", $coords);
+	//function addAreaToMapWorkCopy("Rect", $coords);
 
 	/**
 	* output raw map work copy file
