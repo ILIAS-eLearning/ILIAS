@@ -80,26 +80,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
-//echo "<br>nextclass:$next_class:cmd:$cmd:";
+
+		if ($_GET["q_id"] < 1)
+		{
+			$q_type = ($_POST["sel_question_types"] != "")
+				? $_POST["sel_question_types"]
+				: $_GET["sel_question_types"];
+		}
+
+echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
 			case "ass_multiplechoicegui":
 				$this->ctrl->setReturn($this, "questions");
-				if ($_GET["q_id"] < 1)
-				{
-					$q_type = ($_POST["sel_question_types"] != "")
-						? $_POST["sel_question_types"]
-						: $_GET["sel_question_types"];
-				}
-//echo "<br>q_id:".$_GET["q_id"];
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
-				if ($cmd != "preview")
+				if ($cmd != "preview" && $cmd != "assessment")
 				{
 					$this->getQuestionTemplate($q_gui, $q_type);
 				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
-				if ($cmd != "preview")
+				if ($cmd != "preview" && $cmd != "assessment")
 				{
 					$this->tpl->setCurrentBlock("adm_content");
 					$this->tpl->parseCurrentBlock();
@@ -174,15 +175,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$ret =& $this->executeCommand();
 		return $ret;
-
-		$this->editQuestionForm($_POST["sel_question_types"]);
-		$question =& $this->object->createQuestion($type);
-		$question->showEditForm();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->parseCurrentBlock();
-
 	}
-
 
 	/**
 	* save object
@@ -426,8 +419,8 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-		$question =& $this->object->createQuestion("", $_GET["edit"]);
-		$total_of_answers = $this->object->get_total_answers($_GET["edit"]);
+		$question =& $this->object->createQuestion("", $_GET["q_id"]);
+		$total_of_answers = $question->getTotalAnswers();
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", true);
@@ -472,9 +465,10 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		//    $this->set_question_form($type, $_GET["edit"]);
 	}
 
-	function deleteQuestions($checked_questions)
+	function deleteQuestionsObject()
 	{
 echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
+		$checked_questions = $_POST["q_id"];
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", true);
 
@@ -764,7 +758,7 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 				}
 				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
 
-				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+				//$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
 
 				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
 				$this->tpl->setVariable("LINK_PREVIEW",
@@ -773,7 +767,13 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-				$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=" . $data["question_id"] . "" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" border=\"0\" /></a>");
+				//$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"".
+				//	$_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=" . $data["question_id"].""."\"><img src=\"".ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" border=\"0\" /></a>");
+				$this->tpl->setVariable("LINK_ASSESSMENT",
+					$this->ctrl->getLinkTargetByClass($class, "assessment"));
+				$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("qpl_assessment_of_questions"));
+				$this->tpl->setVariable("IMG_ASSESSMENT",
+					ilUtil::getImagePath("assessment.gif", true));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
@@ -1163,7 +1163,7 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
-//echo "<br>ilObjQuestionPoolGUI->setLocator()";
+echo "<br>ilObjQuestionPoolGUI->setLocator()";
 		$ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{

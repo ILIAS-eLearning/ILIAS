@@ -177,6 +177,11 @@ class ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function cancel()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
 	/**
 	* output assessment
 	*/
@@ -189,7 +194,7 @@ echo "<br>ASS_QuestionGUI->assessmentObject()";
 		// catch feedback message
 		sendInfo();
 
-		$this->setLocator();
+		//$this->setLocator();
 
 		$title = $this->lng->txt("qpl_assessment_of_questions");
 		if (!empty($title))
