@@ -351,6 +351,28 @@ class TUtil
 		}
 		return $objects;
 	}
+
+	
+	
+	function checkFormEmpty ($emptyFields)
+	{		
+		
+		$feedback = "";		
+
+		foreach ($emptyFields as $key => $val)
+		{				
+			if ($val == "") {
+				if ($feedback != "") $feedback .= ", ";
+				$feedback .= $key;					
+			}			
+		}		
+		
+		
+		return $feedback;
+	}
+	
+	
+
 	
 	/**
 	* Linkbar
@@ -435,5 +457,6 @@ class TUtil
 			return false;
 		}
 	}
+
 } // END class.util
 ?>
