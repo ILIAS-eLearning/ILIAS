@@ -106,6 +106,8 @@ assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
 assessment#:#ass_questions#:#Domande
 assessment#:#by#:#da
+assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
+assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circonferenza
 assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area desiderata.
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
@@ -212,6 +214,8 @@ assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
+assessment#:#radio_set#:#Set###17 Aug 2004 new variable
+assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
 assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Selezione casuale
@@ -336,6 +340,7 @@ assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
 assessment#:#upload_imagemap#:#Upload una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
+assessment#:#when#:#when###17 Aug 2004 new variable
 assessment#:#width#:#Larghezza
 assessment#:#working_time#:#Tempo di esecuzione
 bibitem#:#bibitem_add#:#Aggiungi

@@ -105,6 +105,8 @@ assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
 assessment#:#by#:#przez
+assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
+assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Koło
 assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#cloze_text#:#Uzupełnij tekst
@@ -202,6 +204,8 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
+assessment#:#radio_set#:#Set###17 Aug 2004 new variable
+assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
 assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Wybór przypadkowy
@@ -323,6 +327,7 @@ assessment#:#unlock#:#Oblokuj
 assessment#:#unlock_question#:#To pytanie jest używane przez conajmniej jeden test i są   %s potwierdzone rezultaty. Jeśli odznaczysz pytanie wszystkie rezultaty testów z tym pytaniem zostaną usunięte po zapisaniu pytania. Jeśli chcesz używać zmienionej wersji tego pytania, ale nie chcesz usuwać dotychczasowych rezultatów, to możesz zduplikować pytanie w puli pytań i zmienić jego wersję.
 assessment#:#upload_imagemap#:#Załaduj mapę bitową
 assessment#:#uploaded_material#:#Załadowany Materiał
+assessment#:#when#:#when###17 Aug 2004 new variable
 assessment#:#width#:#Szerokość
 assessment#:#working_time#:#Czas Pracy
 bibitem#:#bibitem_add#:#Dodaj
