@@ -118,6 +118,7 @@ assessment#:#create_imagemap#:#Crea una immaggine con mappa
 assessment#:#create_new#:#Nuova domanda
 assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
+assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
 assessment#:#duplicate#:#Duplica
 assessment#:#end_tag#:#Fine tag
