@@ -58,4 +58,5 @@ $lm_editor_gui->executeCommand();
 
 //echo "lm_edit end:".$_SESSION["il_map_il_target"].":<br>";
 $ilBench->save();
+
 ?>

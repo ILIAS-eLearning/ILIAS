@@ -21,13 +21,13 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilTableGUI.php");
-require_once("classes/class.ilObjGroupGUI.php");
-require_once("classes/class.ilObjFolderGUI.php");
-require_once("classes/class.ilObjFolder.php");
-require_once("classes/class.ilObjFileGUI.php");
-require_once("classes/class.ilObjFile.php");
-require_once("classes/class.ilTabsGUI.php");
+include_once("classes/class.ilTableGUI.php");
+include_once("classes/class.ilObjGroupGUI.php");
+include_once("classes/class.ilObjFolderGUI.php");
+include_once("classes/class.ilObjFolder.php");
+include_once("classes/class.ilObjFileGUI.php");
+include_once("classes/class.ilObjFile.php");
+include_once("classes/class.ilTabsGUI.php");
 
 /**
 * Class ilRepositoryGUI
@@ -181,7 +181,6 @@ class ilRepositoryGUI
 					$cmd = $this->ctrl->getCmd("ShowList");
 					//$next_class = "";
 				}
-
 				$this->cmd = $cmd;
 				$this->$cmd();
 				break;

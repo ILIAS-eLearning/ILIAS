@@ -130,7 +130,7 @@ class ilTemplate extends ilTemplateX
 	function show($part = "DEFAULT")
 	{
 		global $ilias;
-		
+
 		header('Content-type: text/html; charset=UTF-8');
 
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
@@ -150,12 +150,17 @@ class ilTemplate extends ilTemplateX
 #			$this->parseCurrentBlock();
 			}
 		}
-		
+
 		// display ILIAS footer
 		if ($part !== false)
 		{
 			$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
 			$this->setVariable("ILIAS_VERSION",$ilias->getSetting("ilias_version"));
+			if (DEVMODE)
+			{
+				$this->setVariable("MEMORY_USAGE",
+					", Memory Usage: ".memory_get_usage()." Bytes");
+			}
 		}
 
 		if ($part == "DEFAULT" or is_bool($part))

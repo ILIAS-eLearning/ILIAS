@@ -26,14 +26,14 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.80 2004/04/28 15:53:10 akill Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.81 2004/04/29 11:35:27 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
-require_once "class.ilRegisterGUI.php";
+include_once "class.ilObjectGUI.php";
+include_once "class.ilRegisterGUI.php";
 
 class ilObjGroupGUI extends ilObjectGUI
 {
@@ -46,7 +46,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->type = "grp";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
-	
+
 	function _forwards()
 	{
 		return array("ilRegisterGUI");
