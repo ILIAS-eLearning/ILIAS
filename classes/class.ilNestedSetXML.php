@@ -44,24 +44,24 @@ class ilNestedSetXML
     var $db;
 
     /**
-    *   Linker und Rechter Rand eines Tags
+    *   Left and right edge tags
     */
     var $LEFT = 0;
     var $RIGHT = 0;
     
     /**
-    *   Verschachtelungstiefe der Tags. 
-    *   Wird mit in der DB gespeichert.
+    *   Nesting level of the tags. 
+    *   stored in database
     */ 
     var $DEPTH = 0;
     
     /**
-    *   Die Buch-Obj-ID
+    *   book-Obj-ID
     */
     var $obj_id;
     
     /**
-    *   Der Typ der Daten zu denen dieser Eintrag gehört.
+    *   The type of the data to those this entry belongs.
     */
     var $obj_type;
     
@@ -71,8 +71,7 @@ class ilNestedSetXML
     var $xml_parser;
     
     /**
-    *   Hier steht der letzte TAG-Name drin. Wird benötigt um Textblöcke die zusammengehören, 
-    *   vom SAX-Parser aber einzeln übergeben werden zusammenhängend zu speichern
+    *   last Tag-Name found
     */
     var $lastTag = "";
     
@@ -84,7 +83,7 @@ class ilNestedSetXML
     var $ilias;
 	
     /**
-	* dom-Objekt, welches die XML-Daten der Nested-Set-Struktur in einer DOM-Struktur bereithält. 
+	* dom-Object 
 	* @var object dom
 	* @access public
 	*/
@@ -113,7 +112,7 @@ class ilNestedSetXML
 
 
     /**
-    *   Methode die aufgerufen wird, bei einem einleitenden Tag
+    *   Method is called, at an introductory TAG
     *   @access private
     *
     *   @param  parser  parser      xml-parser-handle  
@@ -132,8 +131,7 @@ class ilNestedSetXML
         $this->DEPTH++;
         
         /**
-        *   Eintragen des TAG-Names. Die hier erzeugte PK ist wichtig für die Parameter.
-        *   Daher kann der Tag-Name nicht mit in die NestedSet-Tabelle, da diese zunächst nur Temporär angelegt wird und keine PKs hat. 
+        *   Insert Tag-Name 
         */
         $this->db->query("INSERT INTO xmltags ( tag_name,tag_depth ) VALUES ('".$name."','".$this->DEPTH."') ");
         // $pk = mysql_insert_id();
@@ -142,22 +140,12 @@ class ilNestedSetXML
 
         $pk = $row[0];
 
-        /**
-        *   Verschieben der rechten Ränder der schon eingetragenen TAGs
-        *   Es müssen beim Import nur rechte Ränder verschoben werden, da von links nach rechts der NestedSetBaum aufgespalten wird.
-        */
         $Q = "UPDATE NestedSetTemp SET ns_r=ns_r+2 WHERE ns_r>='".($this->LEFT)."' AND ns_book_fk='".$this->obj_id."' ";
         $this->db->query($Q);
 
-        /**
-        *   Eintragen des neues NestedSet-Eintrags mit den neuen Rändern.
-        */
         $Q = "INSERT INTO NestedSetTemp (ns_book_fk,ns_type,ns_tag_fk,ns_l,ns_r) VALUES ('".$this->obj_id."','".$this->obj_type."','".$pk."',".$this->LEFT.",".$this->RIGHT.") ";
         $this->db->query($Q);
         
-        /**
-        *   Wenn Attribute vorhanden sind, dann diese in die Datenbank-Tabelle xmlparam eintragen.
-        */
         if (is_array($attrs) && count($attrs)>0)
 		{
             reset ($attrs);
@@ -172,11 +160,7 @@ class ilNestedSetXML
     }
 
     /**
-    *   Methode die aufgerufen wird, bei einem textblock
-    *   Content zwischen Tags werden wie eigene Tags in der Datenbank abgelegt, um 
-    *   die Struktur der XML-Daten zu erhalten.
-    *   Folgen mehrere Content-Blöcke hintereinander werden diese zusammengefügt.
-    *   Der SAX-XML-Parser behandelt einzelne Zeilen wie eigene Content-Blocke.
+    *   Method to insert tag-content
     *
     *   @access private
     *
@@ -187,10 +171,8 @@ class ilNestedSetXML
 	{
         // {{{
         /**
-        *   Variable, die dien primary-key des letzten Content-Blocks speichert, 
-        *   falls als nächstes ein weiterer Content-Block folgt, kann an diesen Datensatz
-        *   angehängt werden.
-        *   @var    integer    value_pk    Primary-Key des letzten Content-Blocks
+        *   primary-key of last-content-block 
+        *   @var    integer    value_pk    Primary-Key of last Content-Blocks
         *   @access private
         */
         static $value_pk;
@@ -223,7 +205,7 @@ class ilNestedSetXML
     }
 
     /**
-    *   Methode die aufgerufen wird, bei einem schließenden Tag
+    *   method called at a closing tag
     *   @access private
     *
     *   @param  parser  parser  xml-parser-handle
@@ -239,10 +221,10 @@ class ilNestedSetXML
     }
 
     /**
-    *   Import-Funktion.
-    *   @param  String  xmldata     Die XML-Struktur als Text
-    *   @param  int     obj_id      Die Buch-ID
-    *   @param  string  obj_type    Objekt-Typ
+    *   Import-Function.
+    *   @param  String  xmldata     xml-structure
+    *   @param  int     obj_id      book-ID
+    *   @param  string  obj_type    Object-Type
     *
 	*   @access	public
     */
@@ -250,14 +232,12 @@ class ilNestedSetXML
 	{
         // {{{
         /**
-        *   Löschen der Temporären Tabelle, falls diese noch existiert
+        *   drop temporary table
         */
         $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
         
         /**
-        *   Anlegen einer neuen Temporären Tabelle, in der die Nested-Set-Struktur aufgebaut wird.
-        *   Diese Tabelle wird nur während des Imports benötigt.
-        *   Danach werden die Daten in die eigentliche Tabelle übertragen und diese Tabelle wieder gelöscht.
+        *   create new temp-Table
         */        
         $Q = "CREATE TEMPORARY TABLE NestedSetTemp (
           ns_book_fk int(11)  NOT NULL,
@@ -281,7 +261,7 @@ class ilNestedSetXML
         $this->db->query("DELETE FROM NestedSetTemp");
 
         /**
-        *   Initialisieren des XML-Parsers
+        *   initialize XML-Parser
         */
         $this->xml_parser = xml_parser_create("UTF-8");
         xml_parser_set_option($this->xml_parser, XML_OPTION_CASE_FOLDING, false);
@@ -295,7 +275,7 @@ class ilNestedSetXML
         xml_parser_free($this->xml_parser);
 
         /**
-        *   Übertragen der erzeugten Nested-Set-Struktur und löschen der temporären Tabelle.
+        *   transfer nested-set-structure ito table and drop temp-Table
         */
         $this->deleteAllDbData();
 
@@ -307,7 +287,7 @@ class ilNestedSetXML
     /**
     *
     *   @param  obj     a_object
-    *   @param  String  a_method    Funktions-Name
+    *   @param  String  a_method    Function-Name
     */
 	function setParameterModifier(&$a_object, $a_method)
 	{
@@ -316,13 +296,13 @@ class ilNestedSetXML
 	}
 
     /**
-    *   Export-Funktion.
-    *   Erzeugt aus der Nested-Set-Strukt in der Datenbank einen XML-Text   
+    *   Export-Function.
+    *   creates xml out of nested-set-structure   
     *
-    *   @param  int     obj_id  Buchid
-    *   @param  string  type    Objekt-Type deren XML-Struktur exportiert werden soll.
+    *   @param  int     obj_id  book-id
+    *   @param  string  type    Object-Type of XML-Struktur
     *
-    *   @return String  Die Xml-Struktur als Text
+    *   @return String  xml-Structur
     
 	*   @access    public
     */
@@ -342,7 +322,7 @@ class ilNestedSetXML
 		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) 
         {
 
-			// {{{ Anfang & Endtag
+			// {{{ tags
 			$Anfang = "<".$row[tag_name];
             $query = "SELECT * FROM xmlparam WHERE tag_fk='$row[tag_pk]'";
 			$result_param = $this->db->query($query);
@@ -378,10 +358,6 @@ class ilNestedSetXML
 
 			$D = $row[tag_depth];
 
-            /**
-            *   Feststellen in welcher Schachteltiefe sich der aktuelle TAG befindet.
-            *   Je nach, ob ebene tiefer, höher oder gleich ist, muß das anfügen der End-Tags erfolgen.
-            */
 			if ($D==$lastDepth) 
             {
 				$xml .= $xmlE[$D];
@@ -407,9 +383,6 @@ class ilNestedSetXML
 
 		}
 
-        /**
-        *   am Ende müssen die noch 'übrigen' End-Tags angefügt werden.
-        */
 		for ($i=$lastDepth;$i>0;$i--) 
         {
 			$xml .= $xmlE[$i];
@@ -420,10 +393,10 @@ class ilNestedSetXML
 	}
 
     /**
-    *   Initialisieren der Nested-Set-Struktur
+    *   initilialize Nested-Set-Structur
     *
-    *   @param  integer     obj_id      Die Objekt-Id
-    *   @param  string      obj_type    der Typ des Objekts deren Nested-Set-Struktur initialisiert werden soll.
+    *   @param  integer     obj_id      object-id
+    *   @param  string      obj_type    type of object
 	*   @access	public
     */
     function init($obj_id,$obj_type)
@@ -442,7 +415,7 @@ class ilNestedSetXML
     }
 
     /**
-    *   Ermittelt den ersten Tag-Namen der in den bereichen $this-LEFT und $this->RIGHT zu dinden ist.
+    *   find first tag-name
     *
     *   @return string tagname
     *
@@ -460,11 +433,11 @@ class ilNestedSetXML
     }
 
     /**
-    *   setzt den Tag-Namen auf den angegebenen wert.
+    *   set tag-name
     *
-    *   @param  string  tagName Der Tagname der gesetzt werden soll.
+    *   @param  string  tagName name of tag to be changed
     *
-    *   @return string  tagName der Tagname, der zuvor in der Datenbank gestanden hatte
+    *   @return string  old tagname
     *
         @access public
     */
@@ -524,7 +497,7 @@ class ilNestedSetXML
     }
 	
     /**
-    *   Setzt den Content eines Tags auf den übergebenen Wert
+    *   set tag-content
     *
     *   @param      string  value
 	*   @access    public
@@ -556,19 +529,19 @@ class ilNestedSetXML
         {
 			
 			/**
-			*	Neu hinzufügen.
+			*	add new
 			*/
 			
 		}
 	}
 
     /**
-    *   Erimttelt einen Knoten in einer DOM-Struktur
+    *   get node in dom-structure
     *
     *   @param  object  doc
-    *   @param  string  qry     der Pfad der den Knoten innerhalb der Dom-Struktur definiert
+    *   @param  string  qry     path to node
     *
-    *   @return object  nodeset der Knoten der zum Pfad gehört, oder NULL
+    *   @return object  nodeset 
 	*   @access    public
     */
 	function getXpathNodes(&$doc, $qry) 
@@ -594,13 +567,10 @@ class ilNestedSetXML
 	*/
 	function initDom()
 	{
-        /**
-        *   Aus der Nested-Set-Struktur zunächst XML erzeugen. 
-        */
 		$xml = $this->export($this->obj_id, $this->obj_type);
 
 /*
-        zu Testzwecken kann das hier einkommentiert werden.
+        for testing
 		$xml_test = '
 		<MetaData>
 			<General Structure="Atomic">
@@ -620,9 +590,6 @@ class ilNestedSetXML
 		} 
         else 
         {
-            /**
-            *   Aus der XML-Struktur jetzt eine DOM-Struktur erzeugen und das DOM-Objekt in $this->DOM ablegen.
-            */
 			$this->dom = domxml_open_mem($xml);
 			return(true);
 		}
@@ -631,9 +598,9 @@ class ilNestedSetXML
 	/**
 	*	parse XML code and add it to a given DOM object as a new node
     *
-    *   @param  string  xPath   der Pfad innerhalb der XML-Struktur
-    *   @param  string  xml     die XML-Struktur die eingefügt werden soll
-    *   @param  integer index   an welcher stelle soll der Eintrag erfolgen.
+    *   @param  string  xPath   path
+    *   @param  string  xml     xml to add
+    *   @param  integer index   index to add
     *
     *   @return boolean
 	*   @access    public
@@ -656,9 +623,9 @@ class ilNestedSetXML
 	/**
 	*	returns first content of this node
     *
-    *   @param  string  xPath   Pfad zum gesuchten DOM-Knoten
+    *   @param  string  xPath   path
     *
-    *   @return string  content Inhalt des Knotens
+    *   @return string  content of node
 	*   @access    public
 	*/
 	function getFirstDomContent($xPath) 
@@ -679,9 +646,9 @@ class ilNestedSetXML
 	/**
 	*	deletes node
     *
-    *   @param  string  xPath   Pfad zum gesuchten Knoten
-    *   @param  string  name    Name des zu löschenden Knotens
-    *   @param  integer index   index des zu löschenden Knotens
+    *   @param  string  xPath   path
+    *   @param  string  name    name
+    *   @param  integer index   index
     *
     *   @return boolean
 	*   @access    public
@@ -1263,10 +1230,10 @@ class ilNestedSetXML
 	}
 
     /**
-    *   ermittelt den ersten DOM-Knoten
+    *   first dom-node
     *
-    *   @param  string  xPath   der Pfad der zum gesuchten Knoten führt.
-    *   @return object  node    der gefundene erste Knoten aus der Domstruktur
+    *   @param  string  xPath   path
+    *   @return object  node    first node
 	*   @access    public
     */
 	function getFirstDomNode($xPath)
@@ -1277,16 +1244,13 @@ class ilNestedSetXML
 
 	/**
 	*	imports xml-data from dom new into nestedSet
-    *   löscht zunächst die aktuellen Nested-Set-Daten in der Datenbank und erzeugt dann aus der DOM-Struktur eine neue NEsted-Set-Struktur.
 	*   @access    public
 	*/
 	function updateFromDom()
 	{
 
 		$this->deleteAllDbData();
-
 		$xml = $this->dom->dump_mem(0);
-
 		$this->import($xml,$this->obj_id,$this->obj_type);
 
 	}
