@@ -17,6 +17,8 @@ include_once("./classes/class.Setup.php");
 include_once("./classes/class.Language.php");
 include_once("HTML/IT.php");
 
+$VERSION = "0.9 - $Revision$";
+
 //instantiate template - later in the program please use own Templateclass
 $tpl = new IntegratedTemplate("./templates");
 $tpl->loadTemplatefile("tpl.setup.html", false, true);
@@ -47,6 +49,7 @@ foreach ($langs as $row)
 //main language texts
 $tpl->setVariable("TXT_SETUP", $lng->txt("setup"));
 $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
+$tpl->setVariable("VERSION", $VERSION);
 
 
 //third step of installation process
