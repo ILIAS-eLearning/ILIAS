@@ -107,6 +107,10 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("cont_title"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+		
+		$this->tpl->setVariable("TXT_OR", $this->lng->txt("cont_or"));
+		$this->tpl->setVariable("TXT_EXAMPLE", $this->lng->txt("cont_example"));
+		
 	}
 	
 	function showItl() 
@@ -123,7 +127,7 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("TXT_FOOTNOTES", $this->lng->txt("cont_title_footnotes"));
 		$this->tpl->setVariable("TXT_INSERT_NEW_FOOTNOTES", $this->lng->txt("cont_insert_new_footnote"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 	}
 	
 	
