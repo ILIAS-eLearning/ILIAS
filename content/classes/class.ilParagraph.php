@@ -144,7 +144,10 @@ class ilParagraph extends ilPageContent
 		}
 		else
 		{
-			$this->par_node->remove_attribute("Characteristic");
+			if ($this->par_node->get_attribute("Characteristic") != "")
+			{
+				$this->par_node->remove_attribute("Characteristic");
+			}
 		}
 	}
 
