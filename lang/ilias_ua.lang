@@ -1010,10 +1010,10 @@ common#:#dbk_create#:#Створити Digilib Книгу
 common#:#dbk_delete#:#Видалити Digilib Книгу
 common#:#dbk_edit_permission#:#Змінити настройки прав
 common#:#dbk_new#:#Нова Digilib Book
-common#:#dbk_read#:#Доступ на читання до Digibook###24 Sep 2004 content changed
-common#:#dbk_visible#:#Digibook є видимою###24 Sep 2004 content changed
-common#:#dbk_write#:#Редагувати Digibook###24 Sep 2004 content changed
-common#:#default#:#Умовчання
+common#:#dbk_read#:#Доступ на читання до Digilib Книги
+common#:#dbk_visible#:#Digilib Книга є видимою
+common#:#dbk_write#:#Редагувати Digilib Книгу
+common#:#default#:#Замовчання
 common#:#default_language#:#Мова за Умовчанням
 common#:#default_perm_settings#:#Права по замовчанню
 common#:#default_role#:#Роль по Замовчанню
@@ -1023,39 +1023,39 @@ common#:#default_skin_style#:#Вигляд / Стиль по Замовчанн�
 common#:#default_style#:#Стиль по Замовчанню
 common#:#delete#:#Видалити
 common#:#delete_all#:#Видалити Усе
-common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
+common#:#delete_all_rec#:#Видалити усі записи
 common#:#delete_object#:#Видалити Об'єкт(и)
 common#:#delete_selected#:#Видалити Відмічене
-common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
+common#:#delete_tr_data#:#Видалити дані, що відслідковувались
 common#:#deleted#:#Видалено
-common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
+common#:#deleted_user#:#Користувач був видалений
+common#:#deliver#:#Deliver вправа
 common#:#department#:#Відділ
 common#:#desc#:#Опис
 common#:#description#:#Опис
 common#:#desired_password#:#Потрібний Пароль
-common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable#:#відключений
 common#:#disabled#:#Відключений
-common#:#domain#:#Domain###03 Apr 2004 new variable
+common#:#domain#:#Домен
 common#:#down#:#Вниз
 common#:#download#:#Зпвантажити
-common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
+common#:#download_all_returned_files#:#Завантажити усі повернені файли
 common#:#drafts#:#Чернетки
 common#:#drop#:#Викинути
 common#:#edit#:#Редагувати
 common#:#edit_data#:#редагувати дані
 common#:#edit_operations#:#Редагувати Операції
-common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
+common#:#edit_perm_ruleset#:#Редагувати правила прав по замовчанню
 common#:#edit_properties#:#Редагувати Властивості
-common#:#edit_roleassignment#:#Edit role assignment###16 Sep 2004 new variable
+common#:#edit_roleassignment#:#Редагувати призначення ролі
 common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
 common#:#editor#:#Редактор
-common#:#email#:#E-mail###05 Nov 2004 new variable
-common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
-common#:#email_not_valid#:#Введена вами email адресa не є коректною!###14 Sep 2004 content changed
+common#:#email#:#E-mail
+common#:#email_footer#:#<br />powered by ILIAS
+common#:#email_not_valid#:#Введена вами email адресa не є коректною!
 common#:#enable#:#Дозволити
-common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
+common#:#enable_hist_user_comments#:#Дозволити коментарії користувачів в історії
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
