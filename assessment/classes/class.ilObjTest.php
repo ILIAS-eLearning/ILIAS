@@ -942,6 +942,25 @@ class ilObjTest extends ilObject
 			$this->ilias->db->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
+		
+		// renumber sequence of remaining questions
+		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi=%s ORDER BY sequence ASC",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		$test_question_id_arr = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			array_push($test_question_id_arr, $row->test_question_id);
+		}		
+		$counter = 1;
+		foreach ($test_question_id_arr as $key => $value) {
+			$query = sprintf("UPDATE tst_test_question SET sequence = %s WHERE test_question_id = %s",
+				$this->ilias->db->quote($counter),
+				$this->ilias->db->quote($value)
+			);
+			$result = $this->ilias->db->query($query);
+			$counter++;
+		}
 	}
 	
 /**
