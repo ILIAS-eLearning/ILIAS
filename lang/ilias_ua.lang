@@ -2820,7 +2820,7 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
-content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
+content#:#cont_rvalue#:#Значення
 content#:#cont_saved_map_area#:#Збережена карта області
 content#:#cont_saved_map_data#:#Зберегти дані карти
 content#:#cont_sc_auto_review#:#Встановити режим уроку 'огляд' якщо студент закінчив SCO
@@ -2835,9 +2835,9 @@ content#:#cont_sc_stat_passed#:#Пройдений
 content#:#cont_sc_stat_running#:#Запущений
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
-content#:#cont_score#:#Score###10 Jul 2004 new variable
-content#:#cont_scorm_type#:#adlcp:scormtype###05 Nov 2004 new variable
-content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
+content#:#cont_score#:#Рахунок
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_item#:#Виберіть принаймні один об'єкт.
 content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
 content#:#cont_select_max_one_term#:#Будь ласка виберіть тільки один термін
 content#:#cont_select_one_edition#:#Будь ласка виберіть принаймні одну версію.
@@ -2849,26 +2849,26 @@ content#:#cont_series#:#Серії
 content#:#cont_series_editor#:#Редактор Серій
 content#:#cont_series_title#:#Назва серій
 content#:#cont_series_volume#:#Гучність серій
-content#:#cont_set_after#:#insert after###29 Nov 2004 new variable
-content#:#cont_set_before#:#insert before###29 Nov 2004 new variable
-content#:#cont_set_cancel#:#cancel###29 Nov 2004 new variable
+content#:#cont_set_after#:#вставити після
+content#:#cont_set_before#:#вставити до
+content#:#cont_set_cancel#:#відмінити
 content#:#cont_set_class#:#Встановити Класс
-content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
-content#:#cont_set_into#:#insert into###29 Nov 2004 new variable
-content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
-content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
-content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
+content#:#cont_set_edit_mode#:#Встановити Режим Редагування
+content#:#cont_set_into#:#вставити в
+content#:#cont_set_link#:#Встановити Посилання
+content#:#cont_set_shape#:#Редагувати Форму
+content#:#cont_set_start_file#:#Встановити Початковий Файл
 content#:#cont_set_width#:#Встановити Ширину
 content#:#cont_shape#:#Форма
 content#:#cont_show#:#Показати
 content#:#cont_show_citation#:#Показати з цитуванням
-content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
-content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
+content#:#cont_show_line_numbers#:#Показати номери строки
+content#:#cont_show_print_view#:#Показати Друкований Вид
 content#:#cont_size#:#Розмір (Байтів)
-content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
-content#:#cont_source#:#Quelle###01 Apr 2004 content changed
-content#:#cont_src#:#Source code###16 Jun 2004 new variable
-content#:#cont_src_other#:#other###18 Jun 2004 new variable
+content#:#cont_skip_chapter#:#Пропустити цю главу
+content#:#cont_source#:#Quelle
+content#:#cont_src#:#Вихідний код
+content#:#cont_src_other#:#інший
 content#:#cont_st_on_pg#:#this function is not allowed.###29 Nov 2004 new variable
 content#:#cont_st_title#:#Назва Глави
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
