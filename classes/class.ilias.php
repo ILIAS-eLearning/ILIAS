@@ -92,6 +92,9 @@ class ILIAS extends PEAR
 	function ILIAS()
 	{
 		$this->PEAR();
+		
+		// prepare file access to work with safe mode
+		umask(0117);
 
 		// get settings from ini file
 		$this->ini = new IniFile($this->INI_FILE);
@@ -193,6 +196,8 @@ class ILIAS extends PEAR
 	* @param	string		keyword
 	* @param	string		value
 	* @return	integer		value
+	* 
+	* TODO: changed to replace-statement
 	*/
 	function setSetting($key, $value)
 	{
