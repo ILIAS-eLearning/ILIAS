@@ -134,12 +134,9 @@ class ilLMEditorGUI
 				$this->tree = new ilTree($this->lm_obj->getId());
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
-//echo "1:".$this->lm_obj->getId().":";
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
-//echo "1a";
 					$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
-//echo "1b";
 					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
 //echo "1c";
 					if($type != "content")
