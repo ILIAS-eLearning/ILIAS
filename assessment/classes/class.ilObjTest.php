@@ -2902,7 +2902,7 @@ class ilObjTest extends ilObject
 * @return array A random selection of questions
 * @access public
 */
-	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0)
+	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "")
 	{
 		global $rbacsystem;
 		
@@ -2937,6 +2937,7 @@ class ilObjTest extends ilObject
 
 		$forbidden_pools =& $this->getForbiddenQuestionpools();
 		$forbidden = "";
+		$constraint_qpls = "";
 		if (count($forbidden_pools))
 		{
 			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
@@ -2944,7 +2945,19 @@ class ilObjTest extends ilObject
 		$result_array = array();
 		if ($questionpool == 0)
 		{
-			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause";
+			if (is_array($qpls))
+			{
+				if (count($qpls) > 0)
+				{
+					$qplidx = array();
+					foreach ($qpls as $idx => $arr)
+					{
+						array_push($qplidx, $arr["qpl"]);
+					}
+					$constraint_qpls = " AND qpl_questions.obj_fi IN (" . join($qplidx, ",") . ")";
+				}
+			}
+			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden$constraint_qpls AND qpl_questions.complete = '1'$original_clause";
 		}
 			else
 		{
@@ -2959,7 +2972,7 @@ class ilObjTest extends ilObject
 			// take all available questions
 			if ($questionpool == 0)
 			{
-				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause";
+				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden$constraint_qpls AND qpl_questions.complete = '1'$original_clause";
 			}
 				else
 			{
@@ -2986,7 +2999,7 @@ class ilObjTest extends ilObject
 			{
 				if ($questionpool == 0)
 				{
-					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
+					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$forbidden$constraint_qpls AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
 				}
 					else
 				{

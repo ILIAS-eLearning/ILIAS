@@ -2083,6 +2083,13 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->getRandomQuestionCount() > 0)
 				{
+					$qpls =& $this->object->getRandomQuestionpools();
+					$rndquestions = $this->object->randomSelectQuestions($this->object->getRandomQuestionCount(), 0, 1, $qpls);
+					foreach ($rndquestions as $question_id)
+					{
+						$this->object->saveRandomQuestion($question_id);
+					}
+					$this->object->loadQuestions();
 				}
 				else
 				{
