@@ -499,3 +499,18 @@ common#:#mail_maxtime_mail#:#Max. days to keep mails
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
 common#:#in_kb#:#in Kb
 common#:#days#:#Days
+common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_deleted#:#The mail(s) have been deleted
+common#:#mail_delete_error#:#Error deleting mail(s)
+common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+common#:#mail_moved#:#The mail(s) have been moved
+common#:#mail_move_error#:#Error moving mail(s)
+common#:#mail_mails_of#:#Mails of
+common#:#mail_to_search#:#To search
+common#:#mail_cc_search#:#CC search
+common#:#mail_bc_search#:#BC search
+common#:#mail_message_send#:#The message is send
+common#:#mail_saved#:#The message is saved
+common#:#mail_send_error#:#Error sending mail
+common#:#mail_search_word#:#Search word
+common#:#mail_attachments#:#Attachments
