@@ -4842,16 +4842,36 @@ INDEX ( `question_fi` )
 ) COMMENT = 'defines an answerblock, a combination of given answers of a test question';
 
 <#319>
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,23);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,24);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,27);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,28);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,29);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,31);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,32);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,42);
-REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,43);
+<?php>
+// fetch type id of folder object definition
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='fold'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
 
+// add operation assignment to folder object definition
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','23')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','24')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','27')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','28')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','29')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','42')";
+$this->db->query($query);
+$query = "REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','43')";
+$this->db->query($query);
+?>
+
+<#320>
+# add group & course operation assignments
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,17);
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,23);
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,24);
