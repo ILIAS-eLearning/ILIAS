@@ -27,9 +27,10 @@ include_once("classes/class.ilObjFolderGUI.php");
 include_once("classes/class.ilObjFolder.php");
 include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
-include_once("classes/class.ilObjCourseGUI.php");
+include_once("./course/classes/class.ilObjCourseGUI.php");
 include_once("classes/class.ilTabsGUI.php");
 include_once("classes/class.ilObjUserGUI.php");
+include_once("classes/class.ilObjUserFolderGUI.php");
 include_once("classes/class.ilObjRoleGUI.php");
 
 
@@ -186,45 +187,15 @@ class ilRepositoryGUI
 				$this->tpl->show();
 				break;
 				
+
 			case "ilobjuserfoldergui":
+
 				include_once("./classes/class.ilObjUserFolderGUI.php");
 
+				$this->gui_obj =& new ilObjUserFolderGUI('',$_GET['ref_id'],true,false);
+				$this->prepareOutput();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 
-				if(!$_GET['obj_id'])
-				{
-					$this->gui_obj = new ilObjUserFolderGUI("",$_GET['ref_id'],true, false);
-
-					$this->prepareOutput();
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				else
-				{
-					$this->gui_obj = new ilObjUserFolderGUI("", $_GET['obj_id'],false, false);
-
-					$this->prepareOutput();
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				$this->tpl->show();
-				break;
-
-			case "ilobjrolegui":
-
-				include_once("./classes/class.ilObjRoleGUI.php");
-
-				if(!$_GET['obj_id'])
-				{
-					$this->gui_obj = new ilObjRoleGUI("",$_GET['ref_id'],true, false);
-
-					#$this->prepareOutput();
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				else
-				{
-					$this->gui_obj = new ilObjRoleGUI("", $_GET['obj_id'],false, false);
-
-					#$this->prepareOutput();
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
 				$this->tpl->show();
 				break;
 

@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.32 2004/09/15 23:52:30 bblackmoor Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.33 2004/09/20 05:52:31 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -36,14 +36,44 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjUserFolderGUI extends ilObjectGUI
 {
+	var $ctrl;
+
 	/**
 	* Constructor
 	* @access public
 	*/
 	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
+		global $ilCtrl;
+
+		define('USER_FOLDER_ID',7);
+
+		$this->ctrl =& $ilCtrl;
+
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+	}
+
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
 	}
 
 	/**
@@ -719,8 +749,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function importCancelledObject()
 	{
 
-		//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
-
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
 		if($this->ctrl->getTargetScript() == 'adm_object.php')
@@ -732,7 +760,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 		}
-
 	}
 
 	/**
@@ -748,11 +775,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
+		include_once './classes/class.ilObjRole.php';
+
 		global $rbacreview;
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		#$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
 		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_global_role"));
 		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
@@ -791,6 +821,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$gl_roles = array();
 		foreach ($all_gl_roles as $obj_data)
 		{
+			// check assignmetn permission if called from lokal admin
+			if($this->object->getRefId() != USER_FOLDER_ID)
+			{
+				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				{
+					continue;
+				}
+			}
 			// exclude anonymous role from list
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
@@ -923,11 +961,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		require_once("classes/class.ilUserImportParser.php");
 		$importParser = new ilUserImportParser($_POST["xml_file"]);
+		$importParser->setFolderId($this->object->getRefId());
 		$importParser->setRoleAssignment($_POST["role_assign"]);
 		$importParser->startParsing();
 
 		sendInfo($this->lng->txt("user_imported"), true);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect($this->ctrl->getLinkTarget($this));
+		}
+		else
+		{
+			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+		}
 	}
 
 

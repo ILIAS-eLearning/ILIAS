@@ -37,6 +37,7 @@ require_once("classes/class.ilSaxParser.php");
 */
 class ilUserImportParser extends ilSaxParser
 {
+	var $folder_id;
 	var $roles;
 
 	/**
@@ -57,6 +58,19 @@ class ilUserImportParser extends ilSaxParser
 		parent::ilSaxParser($a_xml_file);
 	}
 
+	/**
+	* assign users to this folder (normally the usr_folder)
+	* But if called from local admin => the ref_id of the category
+	* @access	public
+	*/
+	function setFolderId($a_folder_id)
+	{
+		$this->folder_id = $a_folder_id;
+	}
+	function getFolderId()
+	{
+		return $this->folder_id;
+	}
 
 	/**
 	* set event handler
@@ -198,7 +212,7 @@ class ilUserImportParser extends ilSaxParser
 						$this->userObj->setDescription($this->userObj->getEmail());
 
 						// default time limit settings
-						$this->userObj->setTimeLimitOwner(7); // seven is usrf-Id
+						$this->userObj->setTimeLimitOwner($this->getFolderId()); 
 						$this->userObj->setTimeLimitUnlimited(1);
 						$this->userObj->setTimeLimitFrom(time());
 						$this->userObj->setTimeLimitUntil(time());
