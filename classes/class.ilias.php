@@ -107,7 +107,10 @@ class ILIAS extends PEAR
 			exit;
 		}
 		
+		// set constants
 		define(DEBUG,$this->ini->readVariable("system","DEBUG"));
+		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID')); 
+		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
 		
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
