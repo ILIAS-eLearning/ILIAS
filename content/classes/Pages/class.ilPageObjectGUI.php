@@ -280,7 +280,7 @@ class ilPageObjectGUI
 			$this->displayValidationError($_SESSION["il_pg_error"]);
 		}
 		unset($_SESSION["il_pg_error"]);
-		
+
 		if(isset($_SESSION["citation_error"]))
 		{
 			sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
@@ -296,7 +296,7 @@ class ilPageObjectGUI
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
+echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
