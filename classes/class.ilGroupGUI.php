@@ -162,7 +162,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			case 0:
 				$stat = $this->lng->txt("group_no_registration");
-				$msg  = $this->lng->txt("group_no_registratoin_msg");
+				$msg  = $this->lng->txt("group_no_registration_msg");
 				$readonly ="readonly";
 				$subject ="";
 				$cmd_submit = "joinGroup";
@@ -374,8 +374,6 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function canceldeleteObject()
 	{
-		session_unregister("saved_post");
-
 		sendInfo($this->lng->txt("action_aborted"),true);
 
 		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
@@ -605,26 +603,18 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-//		if(session_is_registered("saved_post"))
-//			session_unregister("saved_post");
-		// the variable $_SESSION["saved_post"] is aleady set  for the method  "confirmedDelete"
-		session_register(array("saved_post"=>"user_id"));
 		if ($confirm != "confirmedDelete")
 		{
 
 			if (is_array($user_id))
 			{
 				$_SESSION["saved_post"]["user_id"] = $user_id;
-//				$_SESSION["saved_post"] = $user_id;
 			}
 			else
 			{
 				$_SESSION["saved_post"]["user_id"][0] = $user_id;
-//				$_SESSION["martin"][0] = $user_id;
 			}
 		}
-
-		print_r($_SESSION);
 
 		$this->tpl->setVariable("COLUMN_COUNTS", "4");
 
@@ -655,6 +645,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function confirmedAssignApplicantsObject()
 	{
+
 		if($_SESSION["saved_post"])
 		{
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
@@ -662,22 +653,18 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				$user =& $this->ilias->obj_factory->getInstanceByObjId($new_member);
-				if (!$newGrp->join($new_member,0))
+//				if (!$newGrp->join($new_member,0))
+//				if (!$newGrp->addMember($new_member, 0))
+				if (!$this->object->addMember($new_member, 0))
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 				}
 				else
 				{
 					$this->object->deleteApplicationListEntry($new_member);
-					$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all according objects like forums, learningmodules,etc..",array(),array('normal'));
-//					ilObjUser::updateActiveRoles($new_member);
+					$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$newGrp->getTitle(),"You have been assigned to the group as a member. You can now access all group specific objects like forums, learningmodules,etc..",array(),array('normal'));
 				}
 			}
-/*
-			if(session_is_registered("status"))
-				session_unregister("status");
-			session_unregister("user_id");
-*/
 			unset($_SESSION["user_id"]);
 		}
 		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
@@ -685,29 +672,46 @@ class ilGroupGUI extends ilObjectGUI
 
 	function confirmedAssignMemberObject($a_userIds="")
 	{
-//		print_r($_SESSION);
-		if($_SESSION["user_id"])
-//		if (isset($_SESSION["saved_post"]) && isset($_SESSION["status"]))
+		if (isset($_SESSION["saved_post"]) && isset($_SESSION["status"]))
 		{
-			//let new members join the group
-			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-//			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
-			foreach ($_SESSION["user_id"] as $new_member)
+			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if (!$newGrp->join($new_member, $_SESSION["status"]))
+				if (!$this->object->addMember($new_member, $_SESSION["status"]))
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 				}
 			}
 			unset($_SESSION["user_id"]);
-			session_unregister("saved_post");
-			session_unregister("status");
 			sendInfo($this->lng->txt("usr_added"),true);
 		}
 
 		header("Location: group.php?cmd=view&".$this->link_params);
 	}
+	
+	function confirmedLeaveGroupObject()
+	{
+		
+		switch($this->object->leaveGroup())
+		{
+			case 0: sendInfo($this->lng->txt("membership_annulled"),true);
+				header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
+				break;
+			case 1: sendInfo($this->lng->txt("at_least_one_groupadministrator_is_needed"),true);
+				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+				break;
+			case 2: sendInfo($this->lng->txt("group_needs_to_be_deleted"),true);
+				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);			
+				break;
+			default:sendInfo($this->lng->txt("an_error_occured"),true);
+				header("Location: group.php?cmd=view&ref_id=".$this->ref_id);
+	
+		}
 
+		if(!$this->object->leaveGroup())
+			$this->ilias->raiseError(get_class($this)."::confirmedleaveGroupObject(): Core Method ".get_class($this->object)."::leaveGroup() returned false!",$this->ilias->error_obj->WARNING);
+	
+	}
+	
 	/**
 	* remove members from group
 	* @access public
@@ -715,10 +719,24 @@ class ilGroupGUI extends ilObjectGUI
 	function confirmedRemoveMemberObject()
 	{
 		global $rbacsystem;
+		if (isset($_SESSION["saved_post"]["user_id"]) )
+		{
+			//User needs to have administrative rights to remove members...
+			if(in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
+				foreach($_SESSION["saved_post"]["user_id"] as $member_id)
+				{
+					if(!$this->object->removeMember($member_id))
+						$this->ilias->raiseError(get_class($this)."::confirmedRemoveMemberObject(): Core Method ".get_class($this->object)."::removeMember() returned false!",$this->ilias->error_obj->WARNING);
+				}
+		}
 
+/*		
+		if (isset($_SESSION["saved_post"]["user_id"]) )
+=======
 //		print_r($_SESSION);
 //		if (isset($_SESSION["saved_post"]["user_id"]) )
 		if (isset($_SESSION["user_id"]) )
+>>>>>>> 1.146
 		{
 //			foreach($_SESSION["saved_post"]["user_id"] as $mem_id)
 			foreach($_SESSION["user_id"] as $mem_id)
@@ -770,13 +788,8 @@ class ilGroupGUI extends ilObjectGUI
 //				ilObjUser::updateActiveRoles($mem_id);
 			}
 		}
-
-//		if(session_is_registered("saved_post"))
-//			session_unregister("saved_post");
-			unset($_SESSION["user_id"]);
-		session_unregister("user_id");
-
-
+*/
+		unset($_SESSION["saved_post"]);
 		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -1198,8 +1211,8 @@ class ilGroupGUI extends ilObjectGUI
 	
 	function joinGroupObject()
 	{
-//		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
-		if ($this->object->join($this->ilias->account->getId(),0))
+//		if ($this->object->join($this->ilias->account->getId(),0))
+		if ($this->object->joinGroup(0))
 		{
 			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("assignment_completed"),true);
@@ -1255,7 +1268,7 @@ class ilGroupGUI extends ilObjectGUI
 			{
 				//INTERIMS SOLUTION
 				$_SESSION["status"] = $_POST["status"];
-				session_register("status");
+
 				foreach($member_ids as $member)
 				{
 					$this->data["data"][$member["usr_id"]]= array(
@@ -1616,6 +1629,30 @@ class ilGroupGUI extends ilObjectGUI
 
 	}
 
+	/**
+	* remove member object from group preparation(messages,link)
+	* @access	public
+	*/
+	function leaveGroupObject()
+	{
+		$user_ids = array();
+		$user_ids = $_GET["mem_id"];
+		if(isset($user_ids))
+		{
+			$confirm = "confirmedLeaveGroup";
+			$cancel  = "canceldelete";
+			$info	 = "info_delete_sure";
+			$status  = "";
+			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
+			$this->tpl->show();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
+			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		}
+	}
+	
 	/**
 	* remove member object from group preparation(messages,link)
 	* @access	public
@@ -1993,7 +2030,6 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 		}
-
 
 		$this->tpl->addBlockfile("CONTENT", "group_content", "tpl.grp_view.html");
 		$this->tpl->addBlockfile("TABLE", "group_table", "tpl.table.html");
@@ -2387,14 +2423,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		//if current user is admin he is able to add new members to group
 
-		/*$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-		if (in_array($_SESSION["AccountId"], $admin_ids))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("add_member"));
-			$this->tpl->parseCurrentBlock();
-		}*/
 
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
@@ -2402,6 +2430,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
+		$account_id = $this->ilias->account->getId();
 
 		foreach($member_ids as $member_id)
 		{
@@ -2409,15 +2438,18 @@ class ilGroupGUI extends ilObjectGUI
 
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
 			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
-			$link_leave = "group.php?type=grp&cmd=removeMemberObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
+			if($member_id == $account_id)
+				$link_leave = "group.php?type=grp&cmd=leaveGroupObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
+			else
+				$link_leave = "group.php?type=grp&cmd=removeMemberObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 
 			//build function
-//			if (in_array($_SESSION["AccountId"], $admin_ids))
 			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
-				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
+			if($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId()))
+				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";			
 /*
 //			if (in_array($_SESSION["AccountId"], $admin_ids) || $member->getId() == $_SESSION["AccountId"])
 			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
@@ -2580,6 +2612,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function setLocator()
 	{
+
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		// ### AA 03.11.10 added new locator GUI class ###
@@ -2592,7 +2625,7 @@ class ilGroupGUI extends ilObjectGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		// navigate locator
 		//TODO: grp_list existiert nicht mehr !!!
-		$ilias_locator->navigate($i++,$this->lng->txt("groups"),"grp_list.php","bottom");
+//		$ilias_locator->navigate($i++,$this->lng->txt("groups"),"grp_list.php","bottom");
 
 		foreach ($path2 as $key => $row)
 		{
@@ -2610,7 +2643,7 @@ class ilGroupGUI extends ilObjectGUI
 
 				// ### AA 03.11.10 added new locator GUI class ###
 				// navigate locator
-				$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
+//				$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
 			}
 			else
 			{
@@ -2631,11 +2664,11 @@ class ilGroupGUI extends ilObjectGUI
 				// navigate locator
 				if ($this->tree->getRootId() == $row["child"])
 				{
-					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"group.php?ref_id=".$row["child"],"bottom");
+//					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"group.php?ref_id=".$row["child"],"bottom");
 				}
 				else
 				{
-					$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
+//					$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
 				}
 			}
 
