@@ -23,7 +23,7 @@ $tpl->setVariable("BTN_TXT", $lng->txt("back"));
 $tpl->parseCurrentBlock();
 
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","forums_threads_new?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=forums_threads_liste");
+$tpl->setVariable("BTN_LINK","forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=forums_threads_liste");
 $tpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 $tpl->parseCurrentBlock();
 
