@@ -44,5 +44,31 @@ class ilObj<module_name>GUI extends ilObjectGUI
 		$this->type = "<type ID>";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
+	
+	/**
+	* save object
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacadmin;
+
+		// create and insert forum in objecttree
+		$newObj = parent::saveObject();
+
+		// setup rolefolder & default local roles
+		//$roles = $newObj->initDefaultRoles();
+
+		// ...finally assign role to creator of object
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
+
+		// put here object specific stuff
+			
+		// always send a message
+		sendInfo($this->lng->txt("object_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		exit();
+	}
 } // END class.ilObj<module_name>
 ?>
