@@ -391,13 +391,12 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 	/**
-	* create new object form
+	* create new group object form
 	*/
 	function create()
 	{
-		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacsystem;
-
+		
 		if (isset($_POST["new_type"]))
 		{
 			$new_type =  $_POST["new_type"];
@@ -405,6 +404,12 @@ class ilGroupGUI extends ilObjectGUI
 		else
 		{
 			$new_type =	 $_GET["type"];
+		}
+
+		// CHECK ACCESS 'write' of role folder
+		if (!$rbacsystem->checkAccess('create',$this->grp_id,$new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
 		}
 
 		$data = array();
@@ -886,17 +891,21 @@ class ilGroupGUI extends ilObjectGUI
 		// because grp object is the the first RBAC-parent object
 		if ($new_type == "fold" or $new_type == "file")
 		{
-			$check_type = "grp";
-		}else{
-			$check_type = $new_type;
+			if (!$rbacsystem->checkAccess("create_".$new_type, $this->grp_id))
+			{
+				$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
-
-		$this->prepareOutput(false, 99);
-		$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
-		// TODO: get rid of $_GET variable
-		if (!$rbacsystem->checkAccess("create", $this->grp_id, $check_type))
+		else
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$this->prepareOutput(false, 99);
+			$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
+
+			// TODO: get rid of $_GET variable
+			if (!$rbacsystem->checkAccess("create", $this->grp_id, $new_type))
+			{
+				$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
 		// temp. switch for file upload
