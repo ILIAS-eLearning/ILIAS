@@ -1145,25 +1145,33 @@ class ilObjGroup extends ilObject
 
 	function linkGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
 	{
-		$grp_tree = new ilGroupTree($this->getRefId());
-		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		
-		if ($_GET["parent_non_rbac_id"] > 0)
+		$subnodes = $a_params;
+
+		foreach ($subnodes as $ref_id => $subnode)
 		{
-			foreach ($a_params as $parameter)
-			{ 
-				$new_node =& $this->ilias->obj_factory->getInstanceByRefId($parameter);
-				$this->insertGroupNode($new_node->getRefId(),$_GET["parent_non_rbac_id"],$this->getRefId(),$new_node->getId());
+			$this->insertGroupNode($ref_id,$a_ref_id,$this->getRefId());
+			// ... remove top_node from list ...
+			array_shift($subnode);
+	
+			// ... insert subtree of top_node if any subnodes exist
+			if (count($subnode) > 0)
+			{
+				foreach ($subnode as $node)
+				{
+					$this->insertGroupNode($node["child"],$node["parent"],$this->getRefId());
+				}
 			}
 		}
 
-		else
+//vd($a_params);exit;
+		//$grp_tree = new ilGroupTree($this->getRefId());
+		
+		/*foreach ($a_params as $new_ref_id => old_ref_id)
 		{
-			foreach ($a_params as $parameter)
-			{
-				$new_node =& $this->ilias->obj_factory->getInstanceByRefId($parameter);
-				$this->insertGroupNode($new_node->getRefId(),$this->getRefId(),$this->getRefId(),$new_node->getId());
-			}
+			$new_node =& $this->ilias->obj_factory->getInstanceByRefId($parameter);
+			$this->insertGroupNode($new_node->getRefId(),$this->getRefId(),$this->getRefId(),$new_node->getId());
+		}*/
+
 			//get (direct) children of the node where the event occured
 			/*$childrenNodes = $this->tree->getChilds($_GET["ref_id"]);
 		
@@ -1188,7 +1196,6 @@ class ilObjGroup extends ilObject
 					
 				}
 			}*/
-		}
 	}
 	
 	function newGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
