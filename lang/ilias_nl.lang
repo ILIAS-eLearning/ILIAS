@@ -110,6 +110,8 @@ assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
 assessment#:#available_points#:#Beschikbare punten
 assessment#:#by#:#door
+assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Geselecteerd
@@ -298,6 +300,7 @@ assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#start_tag#:#Start-tag
 assessment#:#starting_time_not_reached#:#De start-tijd is nog niet bereikt
 assessment#:#symbol#:#Symbool
+assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Vul alle uwlege applet-parameters voordat u toevoegen een nieuwe parameter toevoegd !
@@ -1437,6 +1440,7 @@ common#:#mails#:#Mail
 common#:#manage_tracking_data#:#Beheer tracking-gegevens
 common#:#mark_all_read#:#Markeer alles als gelezen
 common#:#mark_all_unread#:#Markeer alles als niet gelezen
+common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maximum aantal rekords
 common#:#max_time#:#Maximum tijd
 common#:#member#:#Lid
@@ -2119,6 +2123,7 @@ common#:#user_detail#:#Detail-gegevens
 common#:#user_imported#:#Gebruikers-import gereed
 common#:#user_language#:#Gebruikers-taal
 common#:#user_not_chosen#:#U heeft geen groeps-lid gekozen!
+common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistische gegevens
 common#:#userdata#:#Gebruikers-gegevens
 common#:#username#:#Gebruikers-naam

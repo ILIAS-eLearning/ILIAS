@@ -111,7 +111,6 @@ assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Available points
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Cancel the test
-assessment#:#test_cancelled#:#The test was cancelled
 assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
@@ -307,6 +306,7 @@ assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
 assessment#:#symbol#:#Symbol
+assessment#:#test_cancelled#:#The test was cancelled
 assessment#:#text_gap#:#Text gap
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
@@ -1448,6 +1448,7 @@ common#:#mails#:#Mail
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
+common#:#matriculation#:#Matriculation number
 common#:#max_number_rec#:#Maximum number of records
 common#:#max_time#:#Maximum time
 common#:#member#:#Member
@@ -1807,8 +1808,6 @@ common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
 common#:#profile_changed#:#Your profile has changed
-common#:#user_profile_other#:#Other Information
-common#:#matriculation#:#Matriculation number
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
 common#:#pub_section#:#Public Section
@@ -2132,6 +2131,7 @@ common#:#user_detail#:#Detail Data
 common#:#user_imported#:#User import complete.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
+common#:#user_profile_other#:#Other Information
 common#:#user_statistics#:#Statistical Data
 common#:#userdata#:#User data
 common#:#username#:#User name

@@ -110,6 +110,8 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
+assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Tests warten zu dürfen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#change_solution#:#Musterlösung wechseln
@@ -304,6 +306,7 @@ assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#symbol#:#Symbol
+assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
@@ -1441,6 +1444,7 @@ common#:#mails#:#Mails###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Tracking-Daten verwalten
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
+common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
@@ -2123,6 +2127,7 @@ common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
+common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
