@@ -5,8 +5,15 @@
 		<td class="ilInvisibleBorder">
 
 			<div class="il_Header">
-				<h1>{HEADER}</h1>
 				<table width="100%">
+					<tr>
+					<td align="left" colspan="2"><h1>{HEADER}</h1></td>
+					<td align="right">
+<!-- BEGIN cancel_test -->
+						<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test -->
+					</td>
+					</tr>
 					<tr>
 						<td align="left">
 <!-- BEGIN prev -->
@@ -57,11 +64,62 @@ text-align: center;">
 {QUESTION_FEEDBACK}
 {RESULT_DESCRIPTION}
 <p>
-<!-- BEGIN cancel_test --><input type="submit" class="submit" name="cmd[cancelTest]" value="{BUTTON_CANCELTEST}" /><!-- END cancel_test -->
 <!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
 </p>
 {SYSTEMSETTINGS}
-		</td>
+<!-- BEGIN navigation_bottom -->
+			<div class="il_Header">
+				<table width="100%">
+					<tr>
+						<td align="left">
+<!-- BEGIN prev_bottom -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev_bottom -->
+						</td>
+						<td align="center">
+<!-- BEGIN percentage_bottom -->
+<div align="left" style="height: 15px;
+width: {HUNDRED_PERCENT}px; 
+background: #ffffff; 
+border: 1px solid #333333; 
+margin: .5em; 
+padding: 0;">
+<div align="center" style="height:15px; 
+width: {PERCENTAGE}px; 
+margin: 0; 
+padding: 0; 
+background: #C0C0C0" >
+<span style="font: 12px Verdana, Arial, sans-serif; 
+color: #000000; 
+text-align: center;">
+&nbsp;{PERCENTAGE_VALUE}%
+</span>
+</div>
+</div>
+<!-- END percentage_bottom -->
+					</td>
+					<td align="right">
+<!-- BEGIN postpone_bottom -->
+<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+&nbsp;&nbsp;
+<!-- END postpone_bottom -->
+<!-- BEGIN next_bottom -->
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<!-- END next_bottom -->
+					</td>
+				</tr>
+				<tr>
+				<td align="left" colspan="2"></td>
+				<td align="right">
+<!-- BEGIN cancel_test_bottom -->
+					<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test_bottom -->
+				</td>
+				</tr>
+			</table>
+		</div>
+<!-- END navigation_bottom -->
+</td>
 	</tr>
 </table>
 </form>

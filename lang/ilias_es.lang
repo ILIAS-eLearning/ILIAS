@@ -56,7 +56,7 @@ administration#:#nothing_to_purge#:#Nada que eliminar...
 administration#:#nothing_to_remove#:#Nada que eliminar...
 administration#:#nothing_to_restore#:#Nad que restaurar...
 administration#:#options#:#Opciones
-administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
+administration#:#passwd_auto_generate#:#Generación y Reenvío de Contraseñas
 administration#:#purge_missing#:#Eliminar objetos inexistentes
 administration#:#purge_missing_desc#:#Eliminar todos los objetos inexistentes y sobredimensionados del sistema
 administration#:#purge_trash#:#Eliminar objetos borrados
@@ -104,7 +104,7 @@ assessment#:#add_area#:#Añadir area
 assessment#:#add_gap#:#Añadir texto 'Gap'
 assessment#:#add_imagemap#:#Añadir mapa de imagen
 assessment#:#add_matching_pair#:#Añadir opcion de "unir parejas"
-assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
+assessment#:#add_questionpool#:#Añadir repositorio de preguntas
 assessment#:#add_solution#:#Añadir solución recomendada
 assessment#:#all_available_question_pools#:#Todos los depósitos de preguntas disponibles
 assessment#:#answer#:#Respuesta
@@ -120,15 +120,15 @@ assessment#:#apply#:#Aplicar
 assessment#:#ass_create_export_file#:#Crear fichero de exportación
 assessment#:#ass_export_files#:#Exportar ficheros
 assessment#:#ass_file#:#Fichero
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Pregunta
 assessment#:#ass_questions#:#Preguntas
 assessment#:#ass_size#:#Tamaño
 assessment#:#available_points#:#Puntos disponibles
-assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#average_reached_points#:#Puntuación media alcanzada
+assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
-assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
+assessment#:#cannot_edit_test#:#¡No posee suficientes permisos para editar el test!
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!
 assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar el test!
 assessment#:#cannot_maintain_test#:#¡No tiene los permisos suficientes para mantener el test!
@@ -139,10 +139,10 @@ assessment#:#checkbox_unchecked#:#Caja no marcada
 assessment#:#circle#:#Circulo
 assessment#:#circle_click_center#:#Por favor haga click en el centro del area deseada.
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
+assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.
 assessment#:#cloze_text#:#Texto "rellenar el hueco"
 assessment#:#code#:#Código
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
+assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? 
 assessment#:#coordinates#:#Coordenadas
 assessment#:#correct_solution_is#:#La solución correcta es
@@ -152,17 +152,17 @@ assessment#:#create_gaps#:#Crear hueco (gap)
 assessment#:#create_imagemap#:#Crear un mapa de imagen
 assessment#:#create_new#:#Crear nuevo
 assessment#:#delete_area#:#Borrar area
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
+assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo número de caracteres para esta respuesta es ilimitada.
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
 assessment#:#detail_max_processing_time_reached#:#¡Se ha superado el tiempo máximo permitido para el test!
 assessment#:#detail_starting_time_not_reached#:#El test no estará disponible hasta %s
 assessment#:#direct_feedback#:#Verifique su solución
 assessment#:#duplicate#:#Duplicar
-assessment#:#duplicate_matching_values_selected#:#Ha seleccionado una pareja de valores duplicada!
-assessment#:#duplicate_order_values_entered#:#Ha introducido un orden de valores duplicado!
+assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
+assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
 assessment#:#duplicate_tst#:#Duplicar Test
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
-assessment#:#ects_fill_out_all_values#:#Por favor introduzca un valor para cada nota ECTS!
+assessment#:#ects_fill_out_all_values#:#¡Por favor introduzca un valor para cada nota ECTS!
 assessment#:#ects_grade#:#nota ECTS
 assessment#:#ects_grade_a#:#Un gran rendimiento con algunos errores menores
 assessment#:#ects_grade_a_short#:#EXCELENTE
@@ -186,8 +186,8 @@ assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 
 assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'E'!
 assessment#:#ects_use_fx_grade#:#Use la nota 'FX', si los participantes alcanzaron al menos
 assessment#:#ects_use_fx_grade_part2#:#por ciento de los puntos totales.
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
+assessment#:#edit_content#:#Editar contenido
+assessment#:#edit_properties#:#Editar propiedades
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
@@ -196,23 +196,23 @@ assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta
 assessment#:#error_open_image_file#:#Error abriendo un fichero de imagen!
 assessment#:#error_open_java_file#:#Error abriendo un applet java!
 assessment#:#error_save_image_file#:#Error grabando un fichero de imagen!
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Evaluación para los nuevos usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Gap número %s con el valor %s es %s.Usted recibió %s puntos.
-assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
+assessment#:#eval_concatenation#:#Concatenación
 assessment#:#eval_data#:#Datos de Evaluación
-assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
-assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
+assessment#:#eval_found_selected_groups#:#Grupos seleccionados
+assessment#:#eval_found_selected_users#:#Usuarios seleccionados
 assessment#:#eval_imagemap_result#:#La selección del mapa de imagen es %s. Usted recibió %s puntos.
 assessment#:#eval_java_result#:#La respuesta para el valor %s is %s. Usted recibió %s puntos.
 assessment#:#eval_legend_link#:#Por favor, revise la leyenda para el significado de los símbolos de las cabeceras de columna.
 assessment#:#eval_matching_result#:#La pareja %s - %s es %s.Usted recibió %s puntos.
 assessment#:#eval_order_result#:#El orden para el valor %s es %s. Usted recibió %s puntos.
-assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
-assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
-assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
-assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
-assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
+assessment#:#eval_search_groups#:#Grupos
+assessment#:#eval_search_term#:#Buscar término
+assessment#:#eval_search_users#:#Usuarios
+assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir a la evaluación estadística
+assessment#:#eval_selected_users#:#Evaluación para los usuarios seleccionados
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -252,16 +252,16 @@ assessment#:#javaapplet_unsuccessful_saved#:#Ocurrió un error grabando los resu
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
-assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
-assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
-assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
-assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
-assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
-assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
-assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
+assessment#:#log_create_new_test#:#Nuevo Test creado
+assessment#:#log_mark_added#:#Nota añadida
+assessment#:#log_mark_changed#:#Nota modificada
+assessment#:#log_mark_removed#:#Nota eliminada
+assessment#:#log_modified_test#:#El test fué modificado
+assessment#:#log_no_test_fields_changed#:#Grabado, pero nada fué modificado
+assessment#:#log_question_added#:#Pregunta añadida en la posición
+assessment#:#log_question_position_changed#:#Posición de la pregunta modificada
+assessment#:#log_question_removed#:#Pregunta eliminada
+assessment#:#log_user_data_removed#:#Todos los datos de usuario eliminados
 assessment#:#maintenance#:#Mantenimiento
 assessment#:#mark_schema#:#Esquema de calificación
 assessment#:#match_terms_and_definitions#:#Emparejar términos y definiciones
@@ -271,7 +271,7 @@ assessment#:#matching_pair#:#Pareja 'Matching'
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material para descargar
 assessment#:#material_file#:#Fichero de Material
-assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
+assessment#:#maxchars#:#Máximo número de caracteres
 assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
 assessment#:#meaning#:#Significado
 assessment#:#min_percentage_ne_0#:#¡Debe definir un porcentaje mínimo de 0 por ciento! El esquema de calificación no fue grabado.
@@ -281,7 +281,7 @@ assessment#:#no_passed_mark#:#¡Debe configurar al menos una calificación a "SU
 assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregunta para moverla!
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
-assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
 assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
@@ -322,13 +322,13 @@ assessment#:#qt_matching#:#Pregunta de tipo 'Unir parejas'
 assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
-assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
+assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el depósito de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
-assessment#:#question_title#:#Question title###17 Dec 2004 new variable
-assessment#:#question_type#:#Tipo de Pregunta
+assessment#:#question_title#:#Titulo de la pregunta
+assessment#:#question_type#:#Tipo de pregunta
 assessment#:#questionpool_not_entered#:#Por favor introduzca un nombre para un depósito de preguntas!
-assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
+assessment#:#questions_from#:#preguntas de
 assessment#:#radio_set#:#Activar
 assessment#:#radio_unset#:#Desactivar
 assessment#:#random_accept_sample#:#-Accept sample-
@@ -350,9 +350,9 @@ assessment#:#save_finish#:#Grabar y finalizar el test###21 Dec 2004 content chan
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?###21 Dec 2004 content changed
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente###21 Dec 2004 content changed
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior###21 Dec 2004 content changed
-assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
-assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
-assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
+assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
+assessment#:#search_found_groups#:#Grupos encontrados 
+assessment#:#search_found_users#:#Usuarios encontrados
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
 assessment#:#select_gap#:#Seleccionar hueco
@@ -367,13 +367,13 @@ assessment#:#solution_hint#:#Solución recomendada
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
 assessment#:#starting_time_not_reached#:#No ha alcanzado el tiempo de comienzo
-assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
+assessment#:#statistical_data#:#Datos estadísticos
 assessment#:#suggested_solution_added_successfully#:#¡Configuró satisfactoriamente una solución recomendada!
 assessment#:#symbol#:#Símbolo
 assessment#:#test_cancelled#:#El test fue cancelado
-assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
+assessment#:#text_answers_saved#:#¡Puntuación de la pregunta de texto modificados!
 assessment#:#text_gap#:#Hueco de texto
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
+assessment#:#text_maximum_chars_allowed#:#Por favor no introduzca más de %s caracteres. Cualquier caracter extra será truncado.
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vacíos para el applet antes de añadir un nuevo parámetro!
 assessment#:#true#:#Verdadero
@@ -416,11 +416,11 @@ assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.
-assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
+assessment#:#tst_no_more_available_questionpools#:#No hay más repositorios de preguntas disponibles
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un repositorio de preguntas para este test aleatorio! Por favor seleccione al menos un repositorio.
 assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita 'crear nuevas preguntas' o 'explorar en busca de preguntas'.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los repositorios para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un repositorio dado
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!
 assessment#:#tst_no_tries#:#-none-
 assessment#:#tst_nr_of_tries#:#Número máximo de intentos
@@ -434,11 +434,11 @@ assessment#:#tst_question_type#:#Tipo de pregunta
 assessment#:#tst_questions_inserted#:#Pregunta(s) insertada!
 assessment#:#tst_questions_removed#:#Pregunta(s) eliminada!
 assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###06 Dec 2004 new variable
-assessment#:#tst_random_questionpools#:#Source questionpools###06 Dec 2004 new variable
+assessment#:#tst_random_qpl_unselected#:#Hay al menos un repositorio no seleccionado! No necesita añadir un nuevo repositorio de preguntas
+assessment#:#tst_random_questionpools#:#Repositorios de preguntas origen
 assessment#:#tst_random_select_questionpool#:#Seleccione el depósito de preguntas desde el que desea elegir preguntas
-assessment#:#tst_random_test#:#Random test###05 Dec 2004 new variable
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be generated by a random generator###05 Dec 2004 new variable
+assessment#:#tst_random_test#:#Test aleatorio
+assessment#:#tst_random_test_description#:#Si se activa, las preguntas del test serán generadas de modo aleatorio
 assessment#:#tst_reached_points#:#Puntos conseguidos
 assessment#:#tst_remove_questions#:#Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 assessment#:#tst_remove_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s).Eliminar preguntas de este test eliminará todos los resultados de test de estos usuarios. Está seguro de que quiere eliminar las siguientes pregunta(s) del test?
@@ -454,7 +454,7 @@ assessment#:#tst_score_type#:#Tipo de informe de puntuación
 assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un fichero para importar!
 assessment#:#tst_select_questionpool#:#Por favor seleccione un depósito de preguntas para almacenar la pregunta creada
 assessment#:#tst_select_questionpools#:#Por favor seleccione un repositorio de preguntas para almacenar las preguntas importadas
-assessment#:#tst_select_random_questions#:#Select the questionpool(s) and the amount of questions for the random test###06 Dec 2004 new variable
+assessment#:#tst_select_random_questions#:#Seleccione los repositorios y la cantidad de preguntas para el test aleatorio
 assessment#:#tst_select_tsts#:#Por favor seleccione un test para duplicar
 assessment#:#tst_sequence#:#Secuencia
 assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
@@ -494,8 +494,8 @@ assessment#:#tst_status_not_entered#:#no introducido
 assessment#:#tst_status_ok#:#El estado del test es OK. No hay elementos sin rellenar.
 assessment#:#tst_status_progress#:#en progreso
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
-assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
+assessment#:#tst_total_questions#:#Cantidad total de preguntas
+assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los repositorios serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada repositorio seleccionado!
 assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests procesados anteriormente han sido eliminados
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!
@@ -579,8 +579,8 @@ bibitem#:#bibitem_year#:#Año
 chat#:#chat_active#:#Chat Activo
 chat#:#chat_active_users#:#Usuario (activo)
 chat#:#chat_add_allowed_hosts#:#Por favor añada las direcciones IP de las máquinas con permiso para acceder al servidor Chat.
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
+chat#:#chat_add_external_ip#:#Por favor introduzca la IP externa del servidor
+chat#:#chat_add_internal_ip#:#Por favor introduzca la IP interna del servidor
 chat#:#chat_add_moderator_password#:#Por favor introduzca una contraseña para el moderador.
 chat#:#chat_add_port#:#Por favor añada el puerto del servidor.
 chat#:#chat_aqua#:#aqua
@@ -641,8 +641,8 @@ chat#:#chat_rooms_deleted#:#Sala(s) eliminada(s)
 chat#:#chat_select_one_room#:#Por favor seleccione una sala
 chat#:#chat_server_allowed#:#máquinas permitidas
 chat#:#chat_server_allowed_b#:#(ej: 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
+chat#:#chat_server_external_ip#:#IP externa del Servidor
+chat#:#chat_server_internal_ip#:#IP interna del Servidor
 chat#:#chat_server_logfile#:#ruta al fichero de log
 chat#:#chat_server_loglevel#:#nivel de log
 chat#:#chat_server_not_active#:#El servidor de chat no está activado
@@ -654,7 +654,7 @@ chat#:#chat_silver#:#plata
 chat#:#chat_status#:#Estado
 chat#:#chat_status_saved#:#El estado ha sido modificado
 chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_teal#:#teal
+chat#:#chat_teal#:#teal###01 Feb 2005 new variable
 chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Por favor inserte un nombre
 chat#:#chat_to_chat_body#:#Ir al chat
@@ -673,11 +673,11 @@ common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
 common#:#access#:#acceso
 common#:#account_expires_body#:#Su cuenta es limitada, su acceso finaliza en:
 common#:#account_expires_subject#:#[ILIAS 3]  Su acceso finaliza
-common#:#action#:#Action###29 Nov 2004 new variable
+common#:#action#:#Acción
 common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#acciones
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
-common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)###18 Oct 2004 content changed
+common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests
+common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)
 common#:#activate_tracking#:#Activar Seguimiento
 common#:#activation#:#Activación
 common#:#active#:#Activo
@@ -721,7 +721,7 @@ common#:#alm_leave#:#Darse de baja del Módulo de aprendizaje AICC
 common#:#alm_read#:#Acceso de lectura al Módulo de aprendizaje AICC
 common#:#alm_visible#:#Módulo de aprendizaje AICC visible
 common#:#alm_write#:#Editar Módulo de aprendizaje AICC
-common#:#already_delivered_files#:#Already delivered files###19 Oct 2004 new variable
+common#:#already_delivered_files#:#Ficheros ya enviados
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
@@ -738,23 +738,23 @@ common#:#approve_date#:#Admitido
 common#:#approve_recipient#:#Login ID del gestor de admisiones
 common#:#archive#:#archivo
 common#:#are_you_sure#:#Está seguro?
-common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
+common#:#articels_unread#:#Artículos no leídos:
 common#:#as_of#:#as of###29 Nov 2004 new variable
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
-common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
-common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
-common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
-common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
-common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
-common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
-common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
+common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
+common#:#assessment_log_datetime#:#Fecha/hora
+common#:#assessment_log_for_test#:#Para el test
+common#:#assessment_log_no_log#:#¡No hay datos de informe disponibles para el test seleccionado y el período de tiempo especificado!
+common#:#assessment_log_open_calendar#:#Haga click aquí para abrir un calendario para la selección de la fecha (se requiere el uso de Javascript)
+common#:#assessment_log_question#:#Pregunta
+common#:#assessment_log_select_test#:#--- Por favor seleccione un test ---
+common#:#assessment_log_text#:#Mensaje de Log
+common#:#assessment_log_user_answer#:#El usuario respondió una pregunta
+common#:#assessment_log_user_answers#:#Mostrar acciones de usuario
+common#:#assessment_settings#:#Configuración de la herramienta de Test
+common#:#assf_edit_permission#:#Modificar configuración de permisos
+common#:#assf_read#:#Acceso a la administración de Tests
+common#:#assf_visible#:#La administración de Test es visible
+common#:#assf_write#:#Editar administración de Tests
 common#:#assign#:#Asignar
 common#:#assign_global_role#:#Asignar al rol global
 common#:#assign_lo_forum#:#asignar objeto de aprendizaje foro
@@ -771,7 +771,7 @@ common#:#auth_configure#:#configurar...
 common#:#auth_edit_permission#:#Modificar configuración de permisos
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticar usuarios mediante servidor LDAP
-common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
+common#:#auth_ldap_not_configured#:#LDAP no está configurado aún
 common#:#auth_local#:#base de datos ILIAS
 common#:#auth_local_desc#:#Autenticar usuarios mediante base de datos local ILIAS (por defecto)
 common#:#auth_mode#:#Modo de Autenticación
@@ -789,7 +789,7 @@ common#:#auth_write#:#Editar Configuración de autenticación
 common#:#author#:#autor
 common#:#authors#:#autores
 common#:#auto_registration#:#Admitir nuevos registros automáticamente
-common#:#available#:#Available###23 Dec 2004 new variable
+common#:#available#:#Disponible
 common#:#available_languages#:#idiomas disponibles
 common#:#average_time#:#Tiempo medio
 common#:#back#:#atrás
@@ -843,7 +843,7 @@ common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
-common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_url#:#Crear URL
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -894,11 +894,11 @@ common#:#check#:#comprobar
 common#:#check_all#:#Comprobar todo
 common#:#check_langfile#:#Por favor, compruebe su lenguaje de idioma
 common#:#check_languages#:#Comprobar Idiomas
-common#:#check_link#:#Link check###18 Dec 2004 new variable
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
+common#:#check_link#:#Comprobar Enlaces
+common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los módulos de aprendizaje ILIAS serán chequeados si están activos.
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
-common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_user_accounts#:#Comprobar cuentas de usuario
+common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
@@ -906,10 +906,10 @@ common#:#choose_language#:#escoja su idioma
 common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#city#:#ciudad
-common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
-common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
+common#:#cleaned_file#:#El fichero ha sido limpiado.
+common#:#cleaning_failed#:#La limpieza falló.
 common#:#clear#:#-clear-
-common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
+common#:#clear_clipboard#:#Vaciar portapapeles.
 common#:#client ip#:#Ip Cliente
 common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID de Cliente
@@ -952,15 +952,15 @@ common#:#create#:#create
 common#:#create_date#:#Creado el
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
-common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
+common#:#cron_jobs#:#Trabajos Planificados
+common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
 common#:#crs#:#crs
 common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
 common#:#crs_added#:#Curso Añadido
 common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###01 Mar 2005 new variable
 common#:#crs_archives#:#Archivos
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
+common#:#crs_at_least_one_admin#:#Debe haber al menos un administrador de curso.
 common#:#crs_available#:#Curso disponible
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
 common#:#crs_create#:#Crear Curso
@@ -1046,18 +1046,18 @@ common#:#delete_selected#:#eliminar seleccionados
 common#:#delete_tr_data#:#Eliminar datos de seguimiento
 common#:#deleted#:#borrados
 common#:#deleted_user#:#El usuario ha sido eliminado
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
+common#:#deliver#:#Enviar ejercicio.
 common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
 common#:#desired_password#:#contraseña deseada
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
-common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable#:#deshabilitar
 common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
 common#:#down#:#-Abajo-
 common#:#download#:#descargar
-common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
+common#:#download_all_returned_files#:#Descargar todos los ficheros -devueltos-.
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
@@ -1069,18 +1069,18 @@ common#:#edit_roleassignment#:#Editar asignación de rol
 common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#editado en
 common#:#editor#:#editor
-common#:#email#:#email###04 Mar 2005 content changed
-common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
+common#:#email#:#email
+common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#La dirección de correo electrónico introducida no es válida!
 common#:#enable#:#habilitar
-common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
-common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
-common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
+common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
+common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al log de historia de páginas.
+common#:#enable_js_edit#:#Habilitar Edición JavaScript
+common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para todos los objectos de contenido (módulos de aprendizaje, Glosarios, Preguntas de Evaluación, Libros Digitales)
+common#:#enable_password_assistance#:#Habilitar Asistencia de Contraseña
 common#:#enable_registration#:#Habilitar registro de usuarios
 common#:#enabled#:#habilitado
-common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
+common#:#enter_filename_deliver#:#Introduzca ejercicio a enviar
 common#:#enumerate#:#enumerar
 common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
@@ -1102,7 +1102,7 @@ common#:#err_unknown_error#:#Error desconocido
 common#:#err_wrong_header#:#Razón: Cabecera Errónea
 common#:#err_wrong_login#:#Login Incorrecto
 common#:#err_wrong_password#:#Contraseña Incorrecta
-common#:#error#:#Error###29 Nov 2004 new variable
+common#:#error#:#Error
 common#:#error_parser#:#Error ejecutando el 'parser'
 common#:#error_recipient#:#destinatario de errores
 common#:#exc#:#Actividad
@@ -1119,7 +1119,7 @@ common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
 common#:#exc_edit_until#:#Editar hasta
 common#:#exc_files#:#Ficheros
-common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
+common#:#exc_files_returned#:#Ficheros Devueltos
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
 common#:#exc_instruction#:#Instrucciones de trabajo
@@ -1145,7 +1145,7 @@ common#:#exc_visible#:#Actividad es visible
 common#:#exc_write#:#Editar actividad
 common#:#excs#:#Actividades
 common#:#execute#:#ejecutar
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
+common#:#exercise_time_over#:#Ha alcanzado el tiempo límite del ejercicio. ¡Ya no puede enviar ficheros!
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
 common#:#export_html#:#Exportar como fichero HTML
@@ -1161,7 +1161,7 @@ common#:#file_added#:#Fichero cargado
 common#:#file_delete#:#Eliminar fichero
 common#:#file_edit#:#Editar Fichero
 common#:#file_edit_permission#:#Modificar configuración de permisos
-common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
+common#:#file_is_infected#:#El fichero está infectado por un virus.
 common#:#file_new#:#Nuevo Fichero
 common#:#file_not_found#:#Fichero no encontrado
 common#:#file_not_valid#:#Fichero no válido
@@ -1171,7 +1171,7 @@ common#:#file_valid#:#Fichero válido
 common#:#file_version#:#version facilitada en el fichero
 common#:#file_visible#:#El fichero es visible
 common#:#file_write#:#Editar fichero
-common#:#filename#:#Filename###06 Oct 2004 new variable
+common#:#filename#:#Nombre de Fichero
 common#:#files#:#Ficheros
 common#:#files_location#:#ubicación de los ficheros
 common#:#fill_out_all_required_fields#:#por favor rellene todos los campos requeridos
@@ -1242,7 +1242,7 @@ common#:#gdf_new#:#Nueva Definición
 common#:#gender#:#género
 common#:#gender_f#:#Mujer
 common#:#gender_m#:#Hombre
-common#:#general_settings#:#General settings###29 Nov 2004 new variable
+common#:#general_settings#:#Configuración General
 common#:#generate#:#generar
 common#:#glo#:#Glosario
 common#:#glo_a#:#un Glosario
@@ -1258,10 +1258,10 @@ common#:#glo_read#:#Acceso de Lectura al Glosario
 common#:#glo_upload_file#:#Fichero
 common#:#glo_visible#:#El Glosario es visible
 common#:#glo_write#:#Editar Glosario
-common#:#global#:#Global
 common#:#global_default#:#Global Default###01 Mar 2005 new variable
 common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
+common#:#global#:#Global
+common#:#global_settings#:#Configuración Global
 common#:#global_user#:#Usuarios Globales
 common#:#glossaries#:#Glosarios
 common#:#glossary#:#glosario
@@ -1368,21 +1368,21 @@ common#:#guest#:#Invitado
 common#:#guests#:#Invitados
 common#:#header_title#:#Título de Cabecera
 common#:#help#:#ayuda
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#ocultar
 common#:#hide_details#:#ocultar detalles
 common#:#hide_structure#:#deshabilitar vista estructural
-common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
-common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
-common#:#history#:#History###29 Nov 2004 new variable
+common#:#hist_dbk:pg_create#:#Página creada
+common#:#hist_dbk:pg_cut#:#Página cortada del capítulo "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Página pegada en el capítulo"%1" [%2]
+common#:#hist_dbk:pg_update#:#Página modificada
+common#:#hist_file_create#:#Fichero creado, fichero es "%1". 
+common#:#hist_file_replace#:#Fichero reemplazado, nuevo ficher es "%1", nueva versión es %2.
+common#:#hist_lm:pg_create#:#Página creada
+common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
+common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
+common#:#hist_lm:pg_update#:#Página modificada
+common#:#hist_no_entries#:#No hay entradas en la historia.
+common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
 common#:#hlm_added#:#Módulo de aprendizaje HACP añadido
@@ -1395,7 +1395,7 @@ common#:#hlm_read#:#Acceso de lectura a Módulo de aprendizaje HACP
 common#:#hlm_visible#:#Módulo de aprendizaje HACP visible
 common#:#hlm_write#:#Editar Módulo de aprendizaje HACP
 common#:#hobby#:#Intereses/Hobbies
-common#:#home#:#Home
+common#:#home#:#Inicio
 common#:#host#:#host
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
@@ -1429,7 +1429,7 @@ common#:#icrs_write#:#Edit iLinc Course###01 Mar 2005 new variable
 common#:#id#:#ID
 common#:#identifier#:#identificador
 common#:#if_no_title_then_filename#:#Dejar en blanco para mostrar el nombre de fichero
-common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
+common#:#if_no_title_then_url#:#Dejar en blanco para mostrar la URL
 common#:#ilias_version#:#version de ILIAS
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
@@ -1438,7 +1438,7 @@ common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contact
 common#:#import#:#importar
 common#:#import_alm#:#Importar paquete  AICC
 common#:#import_categories#:#Importar Categorías
-common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
+common#:#import_dbk#:#Importar Libro Digital
 common#:#import_file#:#Importar Fichero
 common#:#import_file_not_valid#:#La importación del fichero no es válida
 common#:#import_finished#:#Número de mensajes importados
@@ -1459,7 +1459,7 @@ common#:#in#:#en
 common#:#in_use#:#idioma de usuario
 common#:#inactive#:#Inactivo
 common#:#inbox#:#Bandeja de Entrada
-common#:#info#:#Information###29 Nov 2004 new variable
+common#:#info#:#Información
 common#:#info_assign_sure#:#¿Está seguro de que quiere asignar los siguientes usuario(s)?
 common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?
 common#:#info_deleted#:#Objeto(s) eliminado(s)
@@ -1490,7 +1490,7 @@ common#:#ingmedia_welcome#:#, welcome to your personal desktop!!###01 Oct 2003 n
 common#:#inifile#:#fichero de inicialización
 common#:#input_error#:#Error de Entrada
 common#:#insert#:#Insertar
-common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
+common#:#insert_object_here#:#Insertar objecto aquí
 common#:#inst_id#:#ID de instalación
 common#:#inst_info#:#información de instalación
 common#:#inst_name#:#nombre de la instalación
@@ -1513,7 +1513,7 @@ common#:#lang_en#:#Inglés
 common#:#lang_es#:#Español
 common#:#lang_fi#:#Finlandés
 common#:#lang_fr#:#Francés
-common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_ge#:#Georgiano
 common#:#lang_hu#:#Húngaro
 common#:#lang_id#:#Indonesio
 common#:#lang_it#:#Italiano
@@ -1542,12 +1542,12 @@ common#:#languages_already_uninstalled#:#Extraño. Idioma(s) elegido(s) ya está
 common#:#languages_updated#:#Todos los idiomas instalados han sido actualizados.
 common#:#last_access#:#Last access:###01 Mar 2005 new variable
 common#:#last_change#:#último cambio
-common#:#last_update#:#Last Update###29 Nov 2004 new variable
+common#:#last_update#:#Última Actualización
 common#:#last_visit#:#Última visita
 common#:#lastname#:#apellido
 common#:#launch#:#-lanzar-
-common#:#ldap#:#LDAP###05 Nov 2004 new variable
-common#:#ldap_basedn#:#LDAP BaseDN###05 Nov 2004 new variable
+common#:#ldap#:#LDAP
+common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#Configurar Autenticación LDAP
 common#:#ldap_edit_permission#:#Modificar configuración de permisos
 common#:#ldap_login_key#:#Atributo para login name
@@ -1568,13 +1568,13 @@ common#:#learning_objects#:#Objetos de Aprendizaje
 common#:#learning_resources#:#Recursos de Aprendizaje
 common#:#level#:#nivel
 common#:#link#:#enlace
-common#:#link_check#:#Link check###18 Dec 2004 new variable
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
-common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
-common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
-common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
-common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
-common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
+common#:#link_check#:#Chequear Enlaces
+common#:#link_check_body_top#:#Recibe este correo porque quiere ser informado sobre enlaces inválidos de los siguientes módulos de aprendizaje: 
+common#:#link_check_message_b#:#If se habilita, será inforado sobre enlaces inválidos por correo
+common#:#link_check_message_disabled#:#Mensajes deshabilitados
+common#:#link_check_message_enabled#:#Mensajes habilitados
+common#:#link_check_subject#:#[ILIAS 3] Comprobar enlaces
+common#:#link_checker_refreshed#:#Vista Refrescada
 common#:#linked_object#:#El objeto ha sido enlazado
 common#:#linked_pages#:#páginas enlazadas
 common#:#list_of_pages#:#lista de páginas
@@ -1623,7 +1623,7 @@ common#:#login_time#:#Tiempo online
 common#:#login_to_ilias#:#entrada a ILIAS
 common#:#logout#:#salir
 common#:#logout_text#:#Ha abandonado ILIAS. Su sesión ha sido cerrada.
-common#:#logs#:#Log data###07 Jan 2005 new variable
+common#:#logs#:#Datos de Log
 common#:#los#:#objetos de aprendizaje
 common#:#los_last_visited#:#últimos objetos de aprendizaje visitados
 common#:#mail#:#correo
@@ -1665,7 +1665,7 @@ common#:#mails#:#correos
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento
 common#:#mark_all_read#:#marcar todos como leídos
 common#:#mark_all_unread#:#marcar todos como no leídos
-common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
+common#:#matriculation#:#Número de Matriculación
 common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#member#:#Miembro
@@ -1683,7 +1683,7 @@ common#:#mep_visible#:#Nuevo Depósito Multimedia visible
 common#:#mep_write#:#Editar contenido del Depósito Multimedia
 common#:#message#:#mensaje
 common#:#message_content#:#contenido del mensaje
-common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
+common#:#message_no_delivered_files#:#¡No ha enviado un fichero!
 common#:#message_to#:#mensaje a:
 common#:#meta_data#:#Meta Datos
 common#:#migrate#:#migrar
@@ -1776,8 +1776,8 @@ common#:#msg_no_scan_log#:#Scan Log no implementado aún
 common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
-common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
-common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
+common#:#msg_no_title#:#Por favor introduzca un título.
+common#:#msg_no_url#:#No introdujo una URL
 common#:#msg_not_available_for_anon#:#La página especificada sólo está accesible para usuarios registrados
 common#:#msg_not_in_itself#:#No es posible pegar el objeto sobre sí mismo
 common#:#msg_nothing_found#:#Nada encontrado
@@ -1785,7 +1785,7 @@ common#:#msg_obj_created#:#Objeto creado
 common#:#msg_obj_exists#:#Este objeto ya existe en esta carpeta
 common#:#msg_obj_modified#:#Modificaciones guardadas
 common#:#msg_obj_no_link#:#no está permitido ser enlazado
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
+common#:#msg_obj_not_deletable_sold#:#El sistema de pago está activado para los siguientes objetos. No puede ser eliminados.
 common#:#msg_perm_adopted_from1#:#configuración de permisos adoptada desde
 common#:#msg_perm_adopted_from2#:#(La configuración ha sido guardada!)
 common#:#msg_perm_adopted_from_itself#:#No puede adoptar configuraciones de permisos desde el rol/plantilla de rol actual
@@ -1815,7 +1815,7 @@ common#:#new_appointment#:#Nueva Cita
 common#:#new_folder#:#nueva carpeta
 common#:#new_group#:#nuevo grupo
 common#:#new_language#:#Nuevo idioma
-common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
+common#:#new_list_password#:#Nuevas sugerencias
 common#:#new_mail#:#Nuevo correo!
 common#:#news#:#noticias
 common#:#next#:#siguiente
@@ -1834,7 +1834,7 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
-common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
+common#:#no_invalid_links#:#No se encontraron enlaces inválidos.
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
 common#:#no_local_users#:#No hay usuario local
@@ -1861,7 +1861,7 @@ common#:#obj#:#obj
 common#:#obj_adm#:#Configuración del Sistema
 common#:#obj_adm_desc#:#carpeta de configuración principal del sistema conteniendo todos los paneles para administrar tu instalación ILIAS.
 common#:#obj_alm#:#Módulo de aprendizaje AICC
-common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
+common#:#obj_assf#:#Tests
 common#:#obj_auth#:#Autenticación
 common#:#obj_auth_desc#:#Configure su modo de autenticación (local, LDAP, ...)
 common#:#obj_cat#:#Categoría
@@ -1925,7 +1925,7 @@ common#:#obj_trac_desc#:#Datos de seguimiento de usuario (accesos)
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definición del tipo de objeto
 common#:#obj_type#:#Tipo de Objeto
-common#:#obj_url#:#URL###23 Oct 2004 new variable
+common#:#obj_url#:#URL
 common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
@@ -1971,10 +1971,10 @@ common#:#objs_st#:#Capítulos
 common#:#objs_svy#:#Encuestas
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#tipo de Objeto
-common#:#objs_url#:#URLs###23 Oct 2004 new variable
+common#:#objs_url#:#URLs
 common#:#objs_usr#:#Usuarios
 common#:#of#:#de
-common#:#offline#:#offline###10 Dec 2004 new variable
+common#:#offline#:#offline
 common#:#offline_version#:#versión offline
 common#:#ok#:#OK
 common#:#old#:#old
@@ -1994,14 +1994,14 @@ common#:#page_edit#:#editar página
 common#:#pages#:#Páginas
 common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
-common#:#passed#:#Passed###07 Dec 2004 new variable
+common#:#passed#:#Superado
 common#:#passwd#:#contraseña
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
 common#:#password#:#contraseña
-common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.###12 Nov 2004 new variable
+common#:#password_assistance_disabled#:#La asistencia de contraseña estará únicamente disponible cuando la autentificación se realice mediante la base de datos ILIAS.
+common#:#password_assistance_info#:#Si la asistencia de contraseña está habilitada, un enlace con el texto "¿Olvidó su contraseña" es mostrado en la página de entrada de ILIAS. Los usuarios pueden usar este enlace para asignar una nueva contraseña a su cuenta de usuario, sin necesitar asistencia de un administrador de sistema.
 common#:#paste#:#pegar
 common#:#pasteChapter#:#Pegar
 common#:#pastePage#:#Pegar

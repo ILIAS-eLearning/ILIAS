@@ -2796,9 +2796,28 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("percentage_bottom");
+					$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+					$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+					$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("cancel_test");
-				$this->tpl->setVariable("BUTTON_CANCELTEST", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+				$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+				$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("cancel_test_bottom");
+				$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+				$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+				$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+				$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
 				$this->tpl->parseCurrentBlock();
 
 				if ($this->object->getEnableProcessingTime())
@@ -3119,36 +3138,62 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 		}
 
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $formaction);
-
 		if(!$_GET['crs_show_result'])
 		{
 			if ($sequence == 1)
 			{
+				$this->tpl->setCurrentBlock("prev");
 				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("prev_bottom");
+				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
+				$this->tpl->setCurrentBlock("prev");
 				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("prev_bottom");
+				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+				$this->tpl->parseCurrentBlock();
 			}
-		}
-		if ($finish)
-		{
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-		}
-		else
-		{
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
 		}
 
 		if ($postpone_allowed)
 		{
 			if (!$is_postponed)
 			{
+				$this->tpl->setCurrentBlock("postpone");
 				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("postpone_bottom");
+				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+				$this->tpl->parseCurrentBlock();
 			}
 		}
+
+		if ($finish)
+		{
+			$this->tpl->setCurrentBlock("next");
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("next_bottom");
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("next");
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("next_bottom");
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $formaction);
 
 		$this->tpl->parseCurrentBlock();
 	}
