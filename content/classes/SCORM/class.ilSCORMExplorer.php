@@ -407,7 +407,7 @@ class ilSCORMExplorer extends ilExplorer
 					$call = "IliasLaunchSahs";
 				}
 
-				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
 				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.".$call."('".$a_node_id."');return false;\"");
 			}
