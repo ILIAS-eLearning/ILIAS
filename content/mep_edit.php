@@ -41,10 +41,11 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
-
 // editor GUI class does the rest
 require_once "./content/classes/class.ilObjMediaPoolGUI.php";
 $ilCtrl->setTargetScript("mep_edit.php");
+
+$ilCtrl->getCallStructure("ilObjMediaPoolGUI");
 $media_pool_gui =& new ilObjMediaPoolGUI("", $_GET["ref_id"],true, false);
 $media_pool_gui->executeCommand();
 

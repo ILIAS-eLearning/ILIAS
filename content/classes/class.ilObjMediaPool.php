@@ -244,5 +244,39 @@ class ilObjMediaPool extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+
+	/**
+	* get childs of node
+	*/
+	function getChilds($obj_id = "")
+	{
+		if ($obj_id == "")
+		{
+			$obj_id = $this->tree->getRootId();
+		}
+
+		$objs = $this->tree->getChildsByType($obj_id, "fold");
+		$mobs = $this->tree->getChildsByType($obj_id, "mob");
+		foreach($mobs as $key => $mob)
+		{
+			$objs[] = $mob;
+		}
+
+		return $objs;
+	}
+
+	function getParentId($obj_id = "")
+	{
+		if ($obj_id == "")
+		{
+			return false;
+		}
+		if ($obj_id == $this->tree->getRootId())
+		{
+			return false;
+		}
+
+		return $this->tree->getParentId($obj_id);
+	}
 }
 ?>

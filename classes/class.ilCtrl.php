@@ -44,23 +44,66 @@ class ilCtrl
 	{
 	}
 
+	function getCallStructure($a_class)
+	{
+		$this->called_forward[$a_class] = $a_class;
+
+		$methods = get_class_methods($a_class);
+
+		if (!is_array($methods))
+		{
+			$a_class = strtolower($a_class);
+			if ($this->parent[$a_class][0] == "")
+			{
+				echo "<b>Error in ilCtrl::getCallStructure():</b><br> $a_class is not included!";
+			}
+			else
+			{
+				echo "<b>Error in ilCtrl::getCallStructure:</b><br> $a_class is not included within ".
+					$this->parent[$a_class][0]."!<br><br>";
+				echo "$a_class is returned by ".$this->parent[$a_class][0]."::_forwards()".
+					" but $a_class is not included at the top of ".$this->parent[$a_class][0].
+					" class file.";
+			}
+			exit;
+		}
+
+		if (in_array(strtolower("_forwards"), $methods))
+		{
+			$forw = call_user_func(array($a_class, "_forwards"));
+			$this->forwards($a_class, $forw);
+			if (is_array($forw))
+			{
+				foreach($forw as $forw_class)
+				{
+					if (!isset($this->called_forward[$forw_class]))
+					{
+						$this->getCallStructure($forw_class);
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	* stores which classes forward to which other classes
 	*/
-	function forwards(&$a_obj, $a_gui_class)
+	function forwards($a_from_class, $a_to_class)
 	{
-		if (is_array($a_gui_class))
+		$a_from_class = strtolower($a_from_class);
+
+		if (is_array($a_to_class))
 		{
-			foreach($a_gui_class as $gui_class)
+			foreach($a_to_class as $to_class)
 			{
-				$this->forward[strtolower(get_class($a_obj))][] = strtolower($gui_class);
-				$this->parent[strtolower($gui_class)][] = strtolower(get_class($a_obj));
+				$this->forward[$a_from_class][] = strtolower($to_class);
+				$this->parent[strtolower($to_class)][] = $a_from_class;
 			}
 		}
 		else
 		{
-			$this->forward[strtolower(get_class($a_obj))][] = strtolower($a_gui_class);
-			$this->parent[strtolower($a_gui_class)][] = strtolower(get_class($a_obj));
+			$this->forward[strtolower(get_class($a_obj))][] = strtolower($a_to_class);
+			$this->parent[strtolower($a_to_class)][] = strtolower(get_class($a_obj));
 		}
 	}
 
@@ -167,34 +210,29 @@ class ilCtrl
 
 	function getFormAction(&$a_gui_obj)
 	{
-		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters(get_class($a_gui_obj), $script);
-		$script = ilUtil::appendUrlParameterString($script,
-			"cmdClass=".get_class($a_gui_obj)."&cmd=post");
+		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), "post");
 		return $script;
 	}
 
 	function redirect(&$a_gui_obj, $a_cmd = "")
 	{
-		$cmd_str = ($a_cmd != "")
-			? "&cmd=".$a_cmd
-			: "";
-		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters(get_class($a_gui_obj), $script);
-		$script = ilUtil::appendUrlParameterString($script,
-			"cmdClass=".get_class($a_gui_obj).$cmd_str);
+		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
 		ilUtil::redirect($script);
 	}
 
 	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
 	{
+		return $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+	}
+
+	function getLinkTargetByClass($a_class, $a_cmd  = "")
+	{
+		$a_class = strtolower($a_class);
 		$cmd_str = ($a_cmd != "")
 			? "&cmd=".$a_cmd
 			: "";
 		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters(get_class($a_gui_obj), $script);
-		$script = ilUtil::appendUrlParameterString($script,
-			"cmdClass=".get_class($a_gui_obj).$cmd_str);
+		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
 
 		return $script;
 	}
@@ -215,13 +253,10 @@ class ilCtrl
 		$a_class = strtolower(get_class($a_gui_obj));
 
 		$ret_class = $this->searchReturnClass($a_class);
-
 		if($ret_class)
 		{
 			$script = $this->getTargetScript();
-			$script = $this->getUrlParameters($ret_class, $script);
-			$script = ilUtil::appendUrlParameterString($script,
-				"cmdClass=".$ret_class."&cmd=".$this->return[$ret_class]);
+			$script = $this->getUrlParameters($ret_class, $script, $this->return[$ret_class]);
 			ilUtil::redirect($script);
 		}
 	}
@@ -238,45 +273,78 @@ class ilCtrl
 					return $parent;
 				}
 			}
+			foreach($this->parent[$a_class] as $parent)
+			{
+				$par_ret = $this->searchReturnClass($parent);
+				if ($par_ret != "")
+				{
+					return $par_ret;
+				}
+			}
 		}
 		return false;
 	}
 
-	function getUrlParameters($a_class, $a_str)
+	function getUrlParameters($a_class, $a_str, $a_cmd = "")
 	{
 		$a_class = strtolower($a_class);
+
+		$params = $this->getParameterArrayByClass($a_class, $a_cmd);
+		foreach ($params as $par => $value)
+		{
+			$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
+		}
+
+		return $a_str;
+	}
+
+	function getParameterArray(&$a_gui_obj, $a_cmd = "")
+	{
+		return $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd);
+	}
+
+	function getParameterArrayByClass($a_class, $a_cmd = "")
+	{
+		$a_class = strtolower($a_class);
+
+		$params = array();
 
 		// append parameters of parent classes
 		if (is_array($this->parent[$a_class]))
 		{
 			foreach($this->parent[$a_class] as $parent)
 			{
-				$a_str = $this->getUrlParameters($parent, $a_str);
+				$par_params = $this->getParameterArrayByClass($parent);
+				foreach($par_params as $key => $value)
+				{
+					$params[$key] = $value;
+				}
 			}
 		}
 
 		// append parameters of current class
-		$param = array();
 		if (is_array($this->save_parameter[$a_class]))
 		{
 			foreach($this->save_parameter[$a_class] as $par)
 			{
-				$param[$par] = $_GET[$par];
+				$params[$par] = $_GET[$par];
 			}
 		}
 		if (is_array($this->parameter[$a_class]))
 		{
 			foreach($this->parameter[$a_class] as $par => $value)
 			{
-				$param[$par] = $value;
+				$params[$par] = $value;
 			}
 		}
-		foreach ($param as $par => $value)
-		{
-			$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
-		}
 
-		return $a_str;
+		if ($a_cmd != "")
+		{
+			$params["cmd"] = $a_cmd;
+		}
+		$params["cmdClass"] = $a_class;
+
+		return $params;
 	}
 
 
