@@ -89,6 +89,7 @@ class ilObjUser extends ilObject
     var $approve_date;
     var $active;
     var $ilinc_id; // unique Id for netucate ilinc service
+    var $client_ip; // client ip to check before login
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -296,6 +297,7 @@ class ilObjUser extends ilObject
 		$this->setMatriculation($a_data["matriculation"]);
 		$this->setEmail($a_data["email"]);
 		$this->setHobby($a_data["hobby"]);
+		$this->setClientIP($a_data["client_ip"]);
 
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
@@ -354,7 +356,7 @@ class ilObjUser extends ilObject
                 . "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,matriculation,approve_date,active,"
+                . "referral_comment,matriculation,client_ip, approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
@@ -366,7 +368,7 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::addSlashes($this->city)."','".ilUtil::addSlashes($this->zipcode)."','".ilUtil::addSlashes($this->country)."', "
                 . "'".ilUtil::addSlashes($this->phone_office)."','".ilUtil::addSlashes($this->phone_home)."', "
                 . "'".ilUtil::addSlashes($this->phone_mobile)."','".ilUtil::addSlashes($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '" .$this->approve_date."', '".$this->active."', "
+                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '". ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
                 . ")";
 		}
@@ -388,7 +390,7 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::prepareDBString($this->city)."','".ilUtil::prepareDBString($this->zipcode)."','".ilUtil::prepareDBString($this->country)."', "
                 . "'".ilUtil::prepareDBString($this->phone_office)."','".ilUtil::prepareDBString($this->phone_home)."', "
                 . "'".ilUtil::prepareDBString($this->phone_mobile)."','".ilUtil::prepareDBString($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".$this->approve_date."','".$this->active."', "
+                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".ilUtil::prepareDBString($this->client_ip)."', '".$this->approve_date."','".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
                 . ")";
 		}
@@ -460,6 +462,7 @@ class ilObjUser extends ilObject
             "fax='".ilUtil::prepareDBString($this->fax)."', ".
             "referral_comment='".ilUtil::prepareDBString($this->referral_comment)."', ".
             "matriculation='".ilUtil::prepareDBString($this->matriculation)."', ".
+            "client_ip='".ilUtil::prepareDBString($this->client_ip)."', ".
             "approve_date='".ilUtil::prepareDBString($this->approve_date)."', ".
             "active='".ilUtil::prepareDBString($this->active)."', ".
             "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
@@ -1376,6 +1379,25 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* set client ip number
+	* @access	public
+	* @param	string	client ip
+	*/
+	function setClientIP($a_str)
+	{
+		$this->client_ip = $a_str;
+	}
+
+	/**
+	* get client ip number
+	* @access	public
+	*/
+	function getClientIP()
+	{
+		return $this->client_ip;
+	}
+
+	/**
 	* set matriculation number
 	* @access	public
 	* @param	string	matriculation number
@@ -1503,26 +1525,6 @@ class ilObjUser extends ilObject
     function getComment()
     {
         return $this->referral_comment;
-    }
-
-    /**
-    * set client ip
-    * @access   public
-    * @param    string  hobby
-    */
-    function setClientIP($a_ip)
-    {
-		// XXX To be implemented
-    }
-
-    /**
-    * get client ip
-    * @access   public
-    */
-    function getClientIP()
-    {
-		// XXX To be implemented
-        return null;
     }
 
     /**

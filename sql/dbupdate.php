@@ -5877,3 +5877,8 @@ CREATE TABLE `webr_items` (
 <#418>
 ALTER TABLE benchmark MODIFY module VARCHAR(150);
 ALTER TABLE benchmark MODIFY benchmark VARCHAR(150);
+
+<#419>
+ALTER TABLE usr_data ADD COLUMN `client_ip` VARCHAR(15) AFTER `ilinc_id`;
+
+
