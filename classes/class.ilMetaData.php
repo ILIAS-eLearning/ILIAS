@@ -83,8 +83,8 @@ class ilMetaData
 	function clean($a_data)
 	{
 		$a_data = preg_replace("/&(?!amp;|lt;|gt;|quot;)/","&amp;",$a_data);
-		$a_data = preg_replace("/</","lt&;",$a_data);
-		$a_data = preg_replace("/>/","gt&;",$a_data);
+		$a_data = preg_replace("/</","&lt;",$a_data);
+		$a_data = preg_replace("/>/","&gt;",$a_data);
 
 		return $a_data;
 	}
