@@ -1326,10 +1326,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$delete_constraint = 1;
 			}
 		}
-		if ($_POST["cmd"]["constraints"] or $add_constraint or $delete_constraint)
+		if ($_POST["cmd"]["constraints"] or $add_constraint or $delete_constraint or $_GET["constraints"])
 		{
 			$checked_questions = array();
 			$checked_questionblocks = array();
+			if ($_GET["constraints"])
+			{
+				$survey_questions =& $this->object->getSurveyQuestions();
+				if (strcmp($survey_questions[$_GET["constraints"]]["questionblock_id"], "") == 0)
+				{
+					array_push($checked_questions, $_GET["constraints"]);
+				}
+				else
+				{
+					array_push($checked_questionblocks, $survey_questions[$_GET["constraints"]]["questionblock_id"]);
+				}
+			}
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/cb_(\d+)/", $key, $matches)) {
 					array_push($checked_questions, $matches[1]);
@@ -1474,6 +1486,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$questionpools =& $this->object->getQuestionpoolTitles();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", true) . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
 		if (count($survey_questions) > 0)
 		{
 			foreach ($survey_questions as $question_id => $data)
@@ -1487,6 +1500,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("block");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					if (count($data["constraints"]))
+					{
+						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
+					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
 					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
@@ -1502,9 +1519,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+				if ($data["obligatory"] == 1)
+				{
+					$this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
+				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
+				{
+					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
+				}
 				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				if (!$data["questionblock_id"])
@@ -1578,6 +1603,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("QUESTION_CONSTRAINTS", $this->lng->txt("constraints"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("spl"));
@@ -2330,5 +2356,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->getRefId());
 	}
 
+	/*function prepareOutput()
+	{
+		$this->tpl->addBlockFile("JAVASCRIPT_EDITOR", "javascript", "tpl.il_svy_editor_javascript.html", true);
+		$this->tpl->setCurrentBlock("javascript");
+		$location_stylesheet = ilUtil::getStyleSheetLocation();
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
+		$this->tpl->setVariable("TEXTAREA_NAME", "introduction");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ONLOAD", " onload=\"initDocument()\"");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		$this->setAdminTabs($_POST["new_type"]);
+		$this->setLocator();
+
+	}
+*/
 } // END class.ilObjSurveyGUI
 ?>

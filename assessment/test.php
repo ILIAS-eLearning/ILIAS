@@ -144,14 +144,14 @@ else
 	//Arlon added
 	if(DEVMODE)
 	{
-		require_once "./tracking/classes/class.ilUserTracking.php";
+/*		require_once "./tracking/classes/class.ilUserTracking.php";
 		if($_GET["ref_id"]!="")
 		{
 		$ip = getenv ("REMOTE_ADDR"); 
 		$track = new ilUserTracking();
 		$track->insertUserTracking($_SESSION["AccountId"],$_GET["ref_id"],$ip);
 		}
-	}
+*/	}
 	require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 	//echo $class_constr.":".$method;
 	switch ($_GET["cmd"]) 
