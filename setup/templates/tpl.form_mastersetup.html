@@ -12,7 +12,7 @@
 	  <input type="radio" name="form[chk_datadir_path]" value="0" {CHK_DATADIR_PATH_CREATE}/>create&nbsp;
 	  <input type="radio" name="form[chk_datadir_path]" value="1" {CHK_DATADIR_PATH_TARGET}/>target
 	  </td>
-      <td class="option_desc">mandatory</td>
+      <td class="option_desc">{TXT_DATADIR_COMMENT1}</td>
     </tr>
 <!-- END setup_datadir -->
 <!-- BEGIN display_datadir -->
@@ -22,7 +22,7 @@
     <tr>
       <td class="option">{TXT_DATADIR_PATH}</td>
       <td class="option_value">{DATADIR_PATH}</td>
-      <td class="option_desc" colspan="2">cannot be changed in this setup version</td>
+      <td class="option_desc" colspan="2">{TXT_DATADIR_COMMENT2}</td>
     </tr>
 <!-- END display_datadir -->
 
@@ -33,8 +33,8 @@
     <tr>
       <td class="option">{TXT_LOG_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="form[log_path]" value="{LOG_PATH}" /></td>
-      <td class="option_value"><input type="checkbox" name="form[chk_log_status]" value="1" {CHK_LOG_STATUS}/>disable logging</td>
-      <td class="option_desc">enter with filename. File will be created.</td>
+      <td class="option_value"><input type="checkbox" name="form[chk_log_status]" value="1" {CHK_LOG_STATUS}/>{TXT_DISABLE_LOGGING}</td>
+      <td class="option_desc">{TXT_LOG_COMMENT}</td>
     </tr>
 <!-- END setup_log -->
 
@@ -45,32 +45,32 @@
     <tr>
       <td class="option">{TXT_CONVERT_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="form[convert_path]" value="{CONVERT_PATH}" /></td>
-      <td class="option_value"><input type="checkbox" name="form[chk_convert_path]" value="1" {CHK_CONVERT_PATH}/>disable check</td>
-      <td class="option_desc">required for displaying thumbnails of images</td>
+      <td class="option_value"><input type="checkbox" name="form[chk_convert_path]" value="1" {CHK_CONVERT_PATH}/>{TXT_DISABLE_CHECK}</td>
+      <td class="option_desc">{TXT_CONVERT_COMMENT}</td>
     </tr>
     <tr>
       <td class="option">{TXT_ZIP_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="form[zip_path]" value="{ZIP_PATH}" /></td>
-      <td class="option_value"><input type="checkbox" name="form[chk_zip_path]" value="1" {CHK_ZIP_PATH}/>disable check</td>
-      <td class="option_desc">required for exporting learning modules</td>
+      <td class="option_value"><input type="checkbox" name="form[chk_zip_path]" value="1" {CHK_ZIP_PATH}/>{TXT_DISABLE_CHECK}</td>
+      <td class="option_desc">{TXT_ZIP_COMMENT}</td>
     </tr>
     <tr>
       <td class="option">{TXT_UNZIP_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="form[unzip_path]" value="{UNZIP_PATH}" /></td>
-      <td class="option_value"><input type="checkbox" name="form[chk_unzip_path]" value="1" {CHK_UNZIP_PATH}/>disable check</td>
-      <td class="option_desc">required for importing learning modules</td>
+      <td class="option_value"><input type="checkbox" name="form[chk_unzip_path]" value="1" {CHK_UNZIP_PATH}/>{TXT_DISABLE_CHECK}</td>
+      <td class="option_desc">{TXT_UNZIP_COMMENT}</td>
     </tr>
     <tr>
       <td class="option">{TXT_JAVA_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="form[java_path]" value="{JAVA_PATH}" /></td>
-      <td class="option_value"><input type="checkbox"  name="form[chk_java_path]" value="1" {CHK_JAVA_PATH}/>disable check</td>
-      <td class="option_desc">required for SCORM Learning modules</td>
+      <td class="option_value"><input type="checkbox"  name="form[chk_java_path]" value="1" {CHK_JAVA_PATH}/>{TXT_DISABLE_CHECK}</td>
+      <td class="option_desc">{TXT_JAVA_COMMENT}</td>
     </tr>
     <tr>
       <td class="option">{TXT_HTMLDOC_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="form[htmldoc_path]" value="{HTMLDOC_PATH}" /></td>
-      <td class="option_value"><input type="checkbox"  name="form[chk_htmldoc_path]" value="1" {CHK_HTMLDOC_PATH}/>disable check</td>
-      <td class="option_desc">required to generate PDF billings (Paymentsystem)</td>
+      <td class="option_value"><input type="checkbox"  name="form[chk_htmldoc_path]" value="1" {CHK_HTMLDOC_PATH}/>{TXT_DISABLE_CHECK}</td>
+      <td class="option_desc">{TXT_HTMLDOC_COMMENT}</td>
     </tr>
 <!-- END setup_tools -->
 

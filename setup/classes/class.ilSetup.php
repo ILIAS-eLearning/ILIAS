@@ -492,19 +492,19 @@ class ilSetup extends PEAR
 	{
 		if (empty($a_auth_data["client_id"]))
 		{
-			$this->error = "no_client_id_given";
+			$this->error = "no_client_id";
 			return false;
 		}
 
 		if (empty($a_auth_data["username"]))
 		{
-			$this->error = "no_username_given";
+			$this->error = "no_username";
 			return false;
 		}
 
 		if (empty($a_auth_data["password"]))
 		{
-			$this->error = "no_password_given";
+			$this->error = "no_password";
 			return false;
 		}
 		
@@ -517,7 +517,7 @@ class ilSetup extends PEAR
 		
 		if (!$this->client->db_exists)
 		{
-			$this->error = "could_not_connect_to_database: consult_system_administrator";
+			$this->error = "no_db_connect_consult_admin";
 			unset($this->client);
 			return false;		
 		}
@@ -1044,7 +1044,7 @@ class ilSetup extends PEAR
 
 			if (!@touch($log_path))
 			{
-				$this->error = "could_not create_logfile";
+				$this->error = "could_not_create_logfile";
 				return false;
 			}
 		}
