@@ -542,9 +542,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $rbacreview;
 
 		$obj_str = "&obj_id=".$this->obj_id;
-	
+
 		$_POST["search_string"] = $_POST["search_string"] ? $_POST["search_string"] : urldecode($_GET["search_string"]);
-        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : urldecode($_GET["search_fields"]);
+        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : array();
 
         if (empty($_POST["search_string"]))
         {
