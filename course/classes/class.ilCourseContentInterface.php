@@ -160,11 +160,6 @@ class ilCourseContentInterface
 				{
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
-
-					$tpl->setCurrentBlock("crs_file");
-					$tpl->setVariable("FILE_TITLE",$this->lng->txt('download'));
-					$tpl->setVariable("FILE_LINK",$this->cci_client_obj->ctrl->getLinkTargetByClass('ilObjFileGUI'));
-					$tpl->parseCurrentBlock();
 				}
 				if(!$conditions_ok)
 				{
