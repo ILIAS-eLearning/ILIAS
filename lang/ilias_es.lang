@@ -235,6 +235,7 @@ common#:#group_filesharing#:#group file sharing
 common#:#group_members#:#Group Members###12 Jun 2003 new variable
 common#:#group_name#:#Groupname###29 Apr 2003 new variable
 common#:#group_not_available#:#any group available###12 Jun 2003 new variable
+common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
 common#:#group_status_private#:#Private###29 Apr 2003 new variable
@@ -739,6 +740,7 @@ content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
 content#:#cont_caption#:#Caption###11 Jun 2003 new variable
+content#:#cont_change_type#:#Change Type###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Chapters and Pages###04 Aug 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
