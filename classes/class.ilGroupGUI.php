@@ -36,7 +36,7 @@ require_once("classes/class.ilObjGroup.php");
 *
 * @package group
 */
-class ilGroupGUI extends ilObjGroupGUI
+class ilGroupGUI extends ilObjectGUI
 {
 	var $g_obj;
 	var $g_tree;
@@ -228,9 +228,15 @@ class ilGroupGUI extends ilObjGroupGUI
 	}
 
 	$this->tpl->setCurrentBlock("btn_cell");
-	$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
+	
+	//right solution
+	//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
+	//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+	//temp.solution
+	$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
+	
+	
 	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-	$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 	$this->tpl->parseCurrentBlock();
 	
 	if ($this->tree->getSavedNodeData($this->ref_id))
@@ -558,7 +564,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		break;	
 		
 		case "crs":
-			$URL = "lo_content.php?ref_id=".$cont_data["ref_id"];
+			$URL = "lo_list.php?cmd=displayList&ref_id=".$cont_data["ref_id"];
 		break;
 		
 		case "le":
@@ -746,8 +752,10 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-			 
+			 	echo "parent_id:".$ref_id;
 				$parent_id = $this->tree->getParentId($ref_id);
+				echo "parent_id:".$parent_id;
+				
 				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
 				$tmpObj->notify("cut", $tmpObj->getRefId());
 				unset($tmpObj);
@@ -770,7 +778,10 @@ class ilGroupGUI extends ilObjGroupGUI
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
-
+				
+				// paste top_node also to the grp_tree table          
+				$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
+				
 				// ... remove top_node from list ...
 				array_shift($subnode);
 				
@@ -783,6 +794,11 @@ class ilGroupGUI extends ilObjGroupGUI
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
+						
+						// ... put the node also into the grp_tree table
+						$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($node["parent"]);
+						$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
+						
 					}
 				}
 			}
@@ -810,7 +826,10 @@ class ilGroupGUI extends ilObjGroupGUI
 				$new_ref_id = $obj_data->createReference();
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
-
+				
+				// paste top_node also to the grp_tree table          
+				$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
+				
 				// ... remove top_node from list ...
 				array_shift($subnode);
 				
@@ -835,6 +854,11 @@ class ilGroupGUI extends ilObjGroupGUI
 
 							$obj_data->putInTree($new_parent);
 							$obj_data->setPermissions($new_parent);
+							
+							// ... put the node also into the grp_tree table
+							$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
+							$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
+							
 						}
 						else
 						{
@@ -923,7 +947,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	* @access	public
 	*/
 	function cutObject()
-	{
+	{	
 		global $rbacsystem;
 
 		if (!isset($_POST["id"]))
@@ -974,7 +998,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function clearObject()
 	{
-		//session_unregister("clipboard");
+		session_unregister("clipboard");
 		
 		header("location: group.php?cmd=displayList");
 		exit();
@@ -1295,7 +1319,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-echo "haaaaaaaaaal111";
+
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
@@ -1321,9 +1345,9 @@ echo "haaaaaaaaaal111";
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
-echo "haaaaaaaaaal";
+
 		header("location: group.php?ref_id=".$_GET["ref_id"]);
-		echo "hallo";
+		
 		exit();
 	}
 	/**
@@ -2181,10 +2205,8 @@ echo "haaaaaaaaaal";
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-
-
-		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId(),$grp_tree);
+		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
 
 
 		// always send a message

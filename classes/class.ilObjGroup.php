@@ -657,7 +657,7 @@ class ilObjGroup extends ilObject
 			
 		
 		//var_dump($this->grp_tree);
-		return $grp_tree;
+		//return $grp_tree;
 	}
 	
 	/*
@@ -667,9 +667,10 @@ class ilObjGroup extends ilObject
 	*@param integer obj_id of of the parent node
 	+@param integer obj_id of the group (tree_id)
 	*/
-	function insertGroupNode($new_node_obj_id,$new_node_ref_id, $parent_obj_id,$grp_tree )
-	{	
-		$grp_tree->setTreeId($parent_obj_id);
+	function insertGroupNode($new_node_obj_id,$parent_obj_id,$grp_tree_id,$new_node_ref_id=-1 )
+	{	//echo $new_node_obj_id."-".$parent_obj_id."-".$grp_tree_id."-".$new_node_ref_id;
+		$grp_tree = new ilTree($grp_tree_id);
+		$grp_tree->setTableNames("grp_tree","object_data");
 		
 		//todo berprfen ob eintrag schon existiert
 		
@@ -833,18 +834,20 @@ class ilObjGroup extends ilObject
 				break;
 			
 			case "cut":
-				echo "Group ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
+				echo "cut";
+				//echo "Group ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 				
 			case "copy":
-				var_dump("<pre>",$a_params,"</pre>");
-				echo "Group ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Group ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 
 			case "paste":
-				echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
+				echo "paste";
+				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 		}

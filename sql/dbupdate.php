@@ -1013,9 +1013,10 @@ $ops[1] = array("crs",5,6,3,2);//crs
 $ops[2] = array("fold",5,6,3,2,4);//fold
 $ops[3] = array("frm",5,6,3,2);//frm
 $ops[4] = array("grp",6,3,2,4,1,8,7);//grp
-$ops[5] = array("le",5,6,3,2);//le
+$ops[5] = array("lm",5,6,3,2);//lm
 $ops[6] = array("mob",5,6,3,2);//mob
-$ops[7] = array("rolf",2,3,4);//rolf
+$ops[7] = array("slm",5,6,3,2);//slm
+$ops[8] = array("rolf",2,3,4);//rolf
 
 foreach ($ops as $object)
 {
@@ -1051,8 +1052,9 @@ $ops[1] = array("crs",5,6,3,2);//crs
 $ops[2] = array("fold",5,6,3,2,4);//fold
 $ops[3] = array("frm",5,6,3,2);//frm
 $ops[4] = array("grp",3,2,4,8,7);//grp
-$ops[5] = array("le",5,6,3,2);//le
-$ops[6] = array("mob",5,6,3,2);//mob
+$ops[5] = array("lm",5,6,3,2);//lm
+$ops[5] = array("slm",5,6,3,2);//slm
+$ops[7] = array("mob",5,6,3,2);//mob
 
 
 foreach ($ops as $object)
