@@ -647,6 +647,7 @@ addNATI("iln",	"iln",	"iliasiln");
 
 function buttonX() 
 {
+// {{{
 
 	var ancestors = editor.getAllAncestors();
 	
@@ -789,7 +790,7 @@ function buttonX()
 		}
 	
 	}
-	
+	// }}}
 }
 
 function checkAllowTagInside3(which) 
@@ -994,6 +995,8 @@ function addInternalLink(Link,title)
 	//Link = Link.replace("&quot;","\"",Link);
 	//Link = Link.replace("&quot;","\"",Link);
 	
+	
+
 	Link = Link.replace("[iln ","<a class=\"iliasiln\" ");
 	Link = Link.replace("\"]","\">");
 	Link = Link.replace(" [/iln]","");
@@ -1037,8 +1040,38 @@ function buttonExternalLink()
 	
 function buttonInternalLink() 
 {
-	w = window.open("{LINK_ILINK}","itl","width=600,height=800,resizable=yes");
-	setTimeout("w.focus()",500);
+
+	found = false;
+	var ancestors = editor.getAllAncestors();
+	for (k=0;k<ancestors.length-1;k++)
+	{
+		var el = ancestors[k];
+		var cl = el.className;
+		var tn = el.tagName.toLowerCase();
+		
+		if (tn=="a" && cl=="iliasiln") 
+		{
+			found = true;
+			break;
+		}
+	}
+	
+	if(editor.hasSelectedText()) 
+	{
+		if (editor.getSelectedHTML().indexOf("iliasiln")!=-1) 
+		{
+			found = true;
+		}
+	}
+	
+	if (!found) {
+		w = window.open("{LINK_ILINK}","itl","width=600,height=800,resizable=yes");
+		setTimeout("w.focus()",500);
+	} else {
+		if(confirm('{REMOVELINK}')) {
+			buttonX();
+		}
+	}
 }	
 	
 
