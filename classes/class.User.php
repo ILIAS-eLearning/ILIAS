@@ -271,8 +271,8 @@ class User extends PEAR
                  AND read=0";
 		 $mails[] = array(
 			 "id" => 1,
-			 "from" => "Peter Gabriel",
-			 "email" => "pgabriel@databay.de",
+			 "from" => "Hermann Mustermann",
+			 "email" => "herm@nn.de",
 			 "subject" => "Hello",
 			 "body" => "This is a test mail",
 			 "datetime" => $lng->formatDate(date("Y-m-d"))
