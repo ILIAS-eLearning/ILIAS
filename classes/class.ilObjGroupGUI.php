@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.77 2004/04/19 13:48:24 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.78 2004/04/26 20:38:13 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1349,8 +1349,6 @@ class ilObjGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		parent::importObject();
-		return true;
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"],"grp"))
 		{
