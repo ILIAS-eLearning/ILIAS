@@ -416,4 +416,16 @@
 	<action name="clear">clear</action>
 	<action name="removeFromSystem">btn_remove_system</action>
 </object>
+<object name="tax" class_name="Taxonomy" checkbox="1" translate="0" rbac="1" devmode="1">
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="taxf" class_name="TaxonomyFolder" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+	<subobj name="tax" import="1">tax</subobj>
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
+	<action name="delete">delete</action>
+</object>
 </objects>
