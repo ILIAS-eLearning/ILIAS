@@ -575,7 +575,7 @@ class ilContObjParser extends ilSaxParser
 				{
 //echo "<br><b>assign to current object</b>";
 					$this->current_object->assignMetaData($this->meta_data);
-					if(get_class($this->current_object) == "ilobjlearningmodule")
+					if (strtolower(get_class($this->current_object)) == "ilobjlearningmodule")
 					{
 						$this->meta_data->setId($this->content_object->getId());
 						$this->meta_data->setType("lm");
@@ -943,7 +943,7 @@ class ilContObjParser extends ilSaxParser
 			case "MetaData":
 
 				$this->in_meta_data = false;
-                if(get_class($this->current_object) == "illmpageobject" && !$this->in_media_object)
+                if(strtolower(get_class($this->current_object)) == "illmpageobject" && !$this->in_media_object)
 				{
 					// Metadaten eines PageObjects sichern in NestedSet
 					if (is_object($this->lm_page_object))
@@ -968,7 +968,7 @@ class ilContObjParser extends ilSaxParser
 						$nested->import($xml,$this->lm_page_object->getId(),"pg");
 					}
                 }
-				else if(get_class($this->current_object) == "ilstructureobject")
+				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
 					// determine parent
 					$cnt = count($this->structure_objects);
@@ -1000,9 +1000,9 @@ class ilContObjParser extends ilSaxParser
 					$xml = $nested->dom->dump_mem(0);
 					$nested->import($xml,$this->current_object->getId(),"st");
 				}
-				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule" ||
-					get_class($this->current_object) == "ilobjcontentobject" ||
-					(get_class($this->current_object) == "ilobjglossary" && $this->in_glossary))
+				else if(strtolower(get_class($this->current_object)) == "ilobjdlbook" || strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
+					strtolower(get_class($this->current_object)) == "ilobjcontentobject" ||
+					(strtolower(get_class($this->current_object)) == "ilobjglossary" && $this->in_glossary))
 				{
 					// Metadaten eines ContentObjects sichern in NestedSet
 					include_once("./classes/class.ilNestedSetXML.php");
@@ -1021,7 +1021,7 @@ class ilContObjParser extends ilSaxParser
 //echo $this->in_glossary;
 					$nested->import($xml,$this->current_object->getId(),$this->current_object->getType());
 				}
-				else if(get_class($this->current_object) == "ilglossarydefinition" && !$this->in_media_object)
+				else if(strtolower(get_class($this->current_object)) == "ilglossarydefinition" && !$this->in_media_object)
 				{
 //echo "<br><br>class:".get_class($this->current_object).":".htmlentities($this->meta_data->getXMLContent()).":<br>";
 					$this->glossary_definition->create();
@@ -1047,11 +1047,11 @@ class ilContObjParser extends ilSaxParser
                 }
 
 
-				if(get_class($this->current_object) == "ilobjlearningmodule" ||
-					get_class($this->current_object) == "ilobjdlbook" ||
-					get_class($this->current_object) == "ilobjglossary")
+				if(strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
+					strtolower(get_class($this->current_object)) == "ilobjdlbook" ||
+					strtolower(get_class($this->current_object)) == "ilobjglossary")
 				{
-					if (get_class($this->current_object) == "ilobjglossary" &&
+					if (strtolower(get_class($this->current_object)) == "ilobjglossary" &&
 						$this->content_object->getType() != "glo")
 					{
 //echo "<br><b>getting2: ".$this->content_object->getTitle()."</b>";
