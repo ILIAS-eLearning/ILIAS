@@ -29,7 +29,9 @@
 * @version $Id$
 * This class is aggregated in folders, groups which have a parent course object
 * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
-* 
+*
+* @ilCtrl_Calls ilCourseContentInterface: ilConditionHandlerInterface
+
 * @extends Object
 * @package ilias-core
 */
@@ -65,7 +67,37 @@ class ilCourseContentInterface
 		return true;
 	}
 
-	
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+
+		switch($next_class)
+		{
+
+			case "ilconditionhandlerinterface":
+				include_once './classes/class.ilConditionHandlerInterface.php';
+
+				$new_gui =& new ilConditionHandlerInterface($this,$_GET['item_id']);
+				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+				$this->ctrl->forwardCommand($new_gui);
+				break;
+
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
+	}
+
 	function cci_init(&$client_class,$a_ref_id)
 	{
 		$this->cci_ref_id = $a_ref_id;
@@ -460,6 +492,18 @@ class ilCourseContentInterface
 		}
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editItem.html","course");
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+	
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->ctrl->setParameterByClass('ilConditionHandlerInterface','item_id',(int) $_GET['item_id']);
+		$this->tpl->setVariable("BTN_LINK",
+								$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+		$this->tpl->parseCurrentBlock();
+	
+	
+	
 		$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$_GET["item_id"]);
 		$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
 
@@ -516,8 +560,8 @@ class ilCourseContentInterface
 																					  date("G",$activation_end)));
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->cciGetDateSelect("minute","crs[activation_end][minute]",
 																					  date("i",$activation_end)));
-		$this->cci_client_obj->initConditionHandlerGUI($_GET['item_id']);
-		$this->tpl->setVariable("PRECONDITION_TABLE",$this->cci_client_obj->chi_obj->chi_list());
+#		$this->cci_client_obj->initConditionHandlerGUI($_GET['item_id']);
+#		$this->tpl->setVariable("PRECONDITION_TABLE",$this->cci_client_obj->chi_obj->chi_list());
 
 	}
 

@@ -31,6 +31,8 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerInterface
+*
 * @package content
 */
 class ilStructureObjectGUI extends ilLMObjectGUI
@@ -81,8 +83,22 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
+			case "ilconditionhandlerinterface":
+				include_once './classes/class.ilConditionHandlerInterface.php';
+
+				$this->setTabs();
+				$this->initConditionHandlerInterface();
+				$this->ctrl->forwardCommand($this->condHI);
+				break;
+
 			default:
-				if (($cmd == "create") && ($_POST["new_type"] == "pg"))
+				if($cmd == 'listConditions')
+				{
+					$this->setTabs();
+					$this->initConditionHandlerInterface();
+					$ret =& $this->condHI->executeCommand();
+				}
+				elseif(($cmd == "create") && ($_POST["new_type"] == "pg"))
 				{
 					$this->setTabs();
 					$pg_gui =& new ilLMPageObjectGUI($this->content_object);
@@ -615,65 +631,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function initConditionHandlerInterface()
 	{
 		include_once("classes/class.ilConditionHandlerInterface.php");
+
 		$this->condHI =& new ilConditionHandlerInterface($this);
+		$this->condHI->setAutomaticValidation(false);
 		$this->condHI->setTargetType("st");
 		$this->condHI->setTargetId($this->obj->getId());
 		$this->condHI->setTargetTitle($this->obj->getTitle());
 	}
 	
-	/**
-	* list preconditions of chapter
-	*/
-	function preconditions()
-	{
-		$this->setTabs();		
-		$this->initConditionHandlerInterface();
-		
-		$condList =& $this->condHI->chi_list();
-		$this->tpl->setVariable("ADM_CONTENT", $condList);
-		$this->tpl->parseCurrentBlock();
-		
-	}
-	
-	/**
-	* condition trigger object selection
-	*/
-	function chi_selector()
-	{
-		$this->setTabs();
-		$this->initConditionHandlerInterface();
-		$this->condHI->chi_selector("content", "ADM_CONTENT");
-	}		
-
-	/**
-	* assign trigger object to chapter
-	*/
-	function chi_assign()
-	{
-		$this->initConditionHandlerInterface();
-		$this->condHI->chi_assign(false);
-		$this->preconditions();
-	}
-
-	/**
-	* update conditions of chapter
-	*/
-	function chi_update()
-	{
-		$this->initConditionHandlerInterface();
-		$this->condHI->chi_update();
-		$this->preconditions();
-	}
-	
-	/**
-	* delete precondition(s)
-	*/
-	function chi_delete()
-	{
-		$this->initConditionHandlerInterface();
-		$this->condHI->chi_delete();
-		$this->preconditions();
-	}
 
 	/**
 	* cancel creation of new page or chapter

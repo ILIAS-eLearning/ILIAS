@@ -273,6 +273,23 @@ class ilConditionHandler
 		return array('crs','exc','tst');
 	}
 
+
+	function getOperatorsByTargetType($a_type)
+	{
+		switch($a_type)
+		{
+			case 'crs':
+			case 'exc':
+				return array('passed');
+
+			case 'tst':
+				return array('passed','finished','not_finished');
+
+			default:
+				return array();
+		}
+	}
+
 	/**
 	* store new condition in database
 	* NOT STATIC

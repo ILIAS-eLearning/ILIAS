@@ -28,7 +28,7 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -78,6 +78,22 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case "ilconditionhandlerinterface":
+				include_once './classes/class.ilConditionHandlerInterface.php';
+
+				if($_GET['item_id'])
+				{
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				else
+				{
+					$new_gui =& new ilConditionHandlerInterface($this);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				break;
+
 			case "ilregistergui":
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
