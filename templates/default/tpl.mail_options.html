@@ -1,26 +1,27 @@
-	  {LOCATOR}
-	  {BUTTONS}
-	  {MESSAGE}
-	<TABLE WIDTH="100%" CELLPADDING=4 CELLSPACING=0 BORDER=0>
-	  <!-- BEGIN confirm -->
-	  <FORM ACTION="{ACTION_DELETE_CONFIRM}" method="post">
-		<TR>
-		  <TD>&nbsp;</TD>
-		  <TD>
-			<input class="submit" type=submit value="{TXT_DELETE_CONFIRM}" name="cmd"/>
-			<input class="submit" type=submit value="{TXT_DELETE_CANCEL}" name="cmd"/>
-		  </TD>
-		</TR>
-	  </FORM>
-		<!-- END confirm --> 
-		<!-- BEGIN edit -->
-		<tr>
-		  <td>
-			<H3>{FOLDER_OPTIONS}</H3>
-		  </td>
-		</tr>
-		<TR>
-		  <FORM ACTION="{ACTION_FOLDER_EDIT}" method="post">
+	<H1>{TXT_OPTIONS_OF}</H1>
+	{INFOPANEL}
+	{LOCATOR}
+	{BUTTONS}
+	{MESSAGE}
+	<FORM ACTION="{ACTION}" method="post">
+	  <!-- BEGIN confirm_delete -->
+	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+		  <tr>
+			<td align="center" valign="top" height="30">
+			  <input class="submit" type="submit" name="cmd" value="{TXT_DELETE_CONFIRM}"/>
+			  <input class="submit" type="submit" name="cmd" value="{TXT_DELETE_CANCEL}"/>
+			</td>
+		  </tr>
+	  </table>
+	  <!-- END confirm_delete -->
+	  <TABLE WIDTH="100%" CELLPADDING=4 CELLSPACING=0 BORDER=0>
+		  <!-- BEGIN edit -->
+		  <tr>
+			<td>
+			  <H3>{FOLDER_OPTIONS}</H3>
+			</td>
+		  </tr>
+		  <TR>
 			<TR>
 			  <TD align="right">{TXT_NAME}</TD>
 			  <TD>
@@ -42,10 +43,8 @@
 				</TABLE>
 			  </TD>
 			</TR>
-		  </FORM>
-		  <!-- END edit -->
-		  <!-- BEGIN add -->
-		  <FORM ACTION="{ACTION_FOLDER_ADD}" method="post">
+			<!-- END edit -->
+			<!-- BEGIN add -->
 			<TR>
 			  <TD align="right">{TXT_NAME_ADD}</TD>
 			  <TD>
@@ -58,10 +57,8 @@
 				<input class="submit" type=submit value="{TXT_FOLDER_ADD}" name="cmd"/>
 			  </TD>
 			</TR>
-		  </FORM>
-		  <!-- END add -->
-		  <!-- BEGIN options -->
-		  <FORM ACTION="{ACTION_GLOBAL}" method="post">
+			<!-- END add -->
+			<!-- BEGIN options -->
 			<tr>
 			  <td>
 				<H3>{GLOBAL_OPTIONS}</H3>
@@ -95,7 +92,7 @@
 			  <TD>&nbsp;</TD>
 			  <TD><input class="submit" type=submit value="{TXT_SAVE}" name="cmd"/></TD>
 			</TR>
-		  </FORM>
-		  <!-- END options -->
-	</TABLE>
+			<!-- END options -->
+	  </TABLE>
+	</FORM>
 	
