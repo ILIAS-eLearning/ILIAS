@@ -68,7 +68,7 @@ class ilUserTracking {
 		$q = "SELECT * from ut_access "
 		." WHERE "
 		." user_id = ".$ilDB->quote($ilUser->getId())
-		." order by acc_time desc limit 1 ";
+		." order by acctime desc limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
 	}
@@ -82,8 +82,7 @@ class ilUserTracking {
 	* @param	string		$a_sub_type			subobject type (e.g. "pg")
 	* @param	string		$a_action_type		"read", "write", ...
 	*/
-	function _trackAccess($a_obj_id, $a_obj_type,
-		$a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
+	function _trackAccess($a_obj_id, $a_obj_type,$a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
 	{
 		global $ilUser, $ilDB;
 
@@ -106,23 +105,10 @@ class ilUserTracking {
 		}
 		else
 		{
-			/*
-			if(strstr($_SERVER["HTTP_USER_AGENT"], "MSIE"))
-			{
-				$browser = 'msie';
-			}
-			else if(strstr($_SERVER["HTTP_USER_AGENT"], "NETS"))
-			{
-				$browser = 'netscrape';
-			}
-			else
-			{
-				$browser = 'others';
-			}*/
 			$q = "INSERT INTO ut_access ("
 				."user_id, action_type, php_script, client_ip,"
 				."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
-				."language, browser, session_id, acc_time"
+				."language, browser, session_id, acctime"
 				.") VALUES ("
 				.$ilDB->quote($user_id).","
 				.$ilDB->quote($a_action_type).","
@@ -319,8 +305,8 @@ class ilUserTracking {
 	function countNum($from,$from1,$condition)
 	{
 		$q = "SELECT count(*) from ut_access "
-			." WHERE (acc_time > '".$from
-			."' AND acc_time <='".$from1."')"
+			." WHERE (acctime > '".$from
+			."' AND acctime <='".$from1."')"
 			." AND ".$condition;
 			//echo $condition;echo "<br>";
 		$res = $this->ilias->db->query($q);
@@ -329,9 +315,9 @@ class ilUserTracking {
 	}
 	function selectTime($from,$to,$condition)
 	{
-		$q = "SELECT acc_time from ut_access "
-			." WHERE (acc_time >= '".$from
-			."' AND acc_time <='".$to."')"
+		$q = "SELECT acctime from ut_access "
+			." WHERE (acctime >= '".$from
+			."' AND acctime <='".$to."')"
 			." AND ".$condition;
 			echo $q;
 			echo "<br>";
