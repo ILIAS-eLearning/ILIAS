@@ -182,6 +182,7 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
 assessment#:#tst_general_properties#:#General properties
+assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
@@ -250,7 +251,6 @@ assessment#:#tst_status_progress#:#in progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is
-assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
@@ -1523,7 +1523,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_create_mob#:#Create Media Object
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1574,6 +1573,7 @@ content#:#cont_coords#:#Coordinates
 content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
+content#:#cont_create_mob#:#Create Media Object
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout

@@ -182,6 +182,7 @@ assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variab
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
 assessment#:#tst_general_properties#:#Algemene eigenschappen
+assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
@@ -1572,6 +1573,7 @@ content#:#cont_coords#:#Coördinaten
 content#:#cont_create_dir#:#Creëer directory
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
+content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
