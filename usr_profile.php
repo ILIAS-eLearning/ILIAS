@@ -109,6 +109,7 @@ function upload_file()
 	{
 		unlink($show_file);
 	}
+	
 	system(ilUtil::getConvertCmd()." $target_file -geometry 200x200 JPEG:$show_file");
 	system(ilUtil::getConvertCmd()." $target_file -geometry 100x100 JPEG:$thumb_file");
 	system(ilUtil::getConvertCmd()." $target_file -geometry 75x75 JPEG:$xthumb_file");

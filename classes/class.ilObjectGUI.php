@@ -185,6 +185,32 @@ class ilObjectGUI
 			}
 		}
 	}
+	
+	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
+	}
+
 
 	/**
 	* determines wether objects are referenced or not (got ref ids or not)

@@ -44,8 +44,7 @@ include_once("classes/class.ilObjRoleGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI
-
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
 *
 * @package core
 */
@@ -180,6 +179,27 @@ class ilRepositoryGUI
 				else
 				{
 					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
+
+					$this->prepareOutput();
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
+				$this->tpl->show();
+				break;
+				
+			case "ilobjuserfoldergui":
+				include_once("./classes/class.ilObjUserFolderGUI.php");
+
+
+				if(!$_GET['obj_id'])
+				{
+					$this->gui_obj = new ilObjUserFolderGUI("",$_GET['ref_id'],true, false);
+
+					$this->prepareOutput();
+					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				}
+				else
+				{
+					$this->gui_obj = new ilObjUserFolderGUI("", $_GET['obj_id'],false, false);
 
 					$this->prepareOutput();
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
@@ -870,7 +890,7 @@ class ilRepositoryGUI
 			//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
 			{
 				$this->showPossibleSubObjects($this->gui_obj->object->getType());
-			}
+			}			
 		}
 
 		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
