@@ -1091,7 +1091,7 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "GlossaryTerm":
-				$this->glossary_term->setTerm($this->chr_data);
+				$this->glossary_term->setTerm(trim($this->chr_data));
 				$this->glossary_term->create();
 				break;
 
@@ -1117,7 +1117,7 @@ class ilContObjParser extends ilSaxParser
 			case "Format":
 				if ($this->in_media_item)
 				{
-					$this->media_item->setFormat($this->chr_data);
+					$this->media_item->setFormat(trim($this->chr_data));
 				}
 				if ($this->in_meta_data)
 				{
@@ -1125,34 +1125,34 @@ class ilContObjParser extends ilSaxParser
 				}
 				if ($this->in_file_item)
 				{
-					$this->file_item->setFileType($this->chr_data);
+					$this->file_item->setFileType(trim($this->chr_data));
 				}
 				break;
 
 			case "Title":
-				$this->current_object->setTitle($this->chr_data);
-				$this->meta_data->setTitle($this->chr_data);
+				$this->current_object->setTitle(trim($this->chr_data));
+				$this->meta_data->setTitle(trim($this->chr_data));
 				break;
 
 			case "Language":
 				if (is_object($this->meta_data))
 				{
-					$this->meta_data->setLanguage($this->chr_data);
+					$this->meta_data->setLanguage(trim($this->chr_data));
 				}
 				else if (is_object($this->bib_item))
 				{
-					$this->bib_item->setLanguage($this->chr_data);
+					$this->bib_item->setLanguage(trim($this->chr_data));
 				}
 				break;
 
 			case "Description":
-				$this->meta_data->setDescription($this->chr_data);
+				$this->meta_data->setDescription(trim($this->chr_data));
 				break;
 
 			case "Caption":
 				if ($this->in_media_object)
 				{
-					$this->media_item->setCaption($this->chr_data);
+					$this->media_item->setCaption(trim($this->chr_data));
 				}
 				break;
 
@@ -1162,7 +1162,7 @@ class ilContObjParser extends ilSaxParser
 				if ($this->in_media_item)
 				{
 					$this->media_item->setLocationType($this->loc_type);
-					$this->media_item->setLocation($this->chr_data);
+					$this->media_item->setLocation(trim($this->chr_data));
 				}
 				if ($this->in_meta_data)
 				{
@@ -1170,8 +1170,8 @@ class ilContObjParser extends ilSaxParser
 				}
 				if ($this->in_file_item)
 				{
-					$this->file_item->setFileName($this->chr_data);
-					$this->file_item->setTitle($this->chr_data);
+					$this->file_item->setFileName(trim($this->chr_data));
+					$this->file_item->setTitle(trim($this->chr_data));
 				}
 				break;
 

@@ -236,6 +236,7 @@ class ilPageObject
 		{
 			case "PageContent":
 				$child_node =& $cont_node->first_child();
+//echo "<br>nodename:".$child_node->node_name();
 				switch($child_node->node_name())
 				{
 					case "Paragraph":
