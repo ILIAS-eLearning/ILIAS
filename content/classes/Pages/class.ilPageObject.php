@@ -551,15 +551,17 @@ class ilPageObject
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink[@Type = 'MediaObject']";
 		$res =& xpath_eval($xpc, $path);
+
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			if (($res->nodeset[$i]->get_attribute("TargetFrame") == "") ||
 				(!$a_inline_only))
 			{
 				$target = $res->nodeset[$i]->get_attribute("Target");
-				if (substr($target, 0, 4) == "il__")
+				$id_arr = explode("_", $target);
+				if (($id_arr[1] == IL_INST_ID) ||
+					(substr($target, 0, 4) == "il__"))
 				{
-					$id_arr = explode("_", $target);
 					$mob_id = $id_arr[count($id_arr) - 1];
 					$mob_ids[$mob_id] = $mob_id;
 				}
