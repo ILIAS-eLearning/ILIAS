@@ -175,8 +175,8 @@ common#:#forums_posts#:#Alle Beiträge
 common#:#forums_posts_not_available#:#Keine Artikel verfügbar
 common#:#forums_respond#:#Beitrag beantworten
 common#:#forums_the_post#:#Beitrag
-common#:#forums_thread#:#Thema###25 Mar 2003 content changed
-common#:#forums_thread_articles#:#Beiträge zum Thema###25 Mar 2003 content changed
+common#:#forums_thread#:#Thema
+common#:#forums_thread_articles#:#Beiträge zum Thema
 common#:#forums_thread_create_date#:#Erstellt am
 common#:#forums_thread_create_from#:#Erstellt von
 common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
@@ -186,7 +186,7 @@ common#:#forums_topics_overview#:#Themen-Übersicht
 common#:#forums_your_reply#:#Ihre Antwort
 common#:#forward#:#Weiterleiten
 common#:#frm#:#Forum
-common#:#from#:#Von###25 Mar 2003 content changed
+common#:#from#:#Von
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
@@ -221,7 +221,7 @@ common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
-common#:#kb#:#KByte###25 Mar 2003 new variable
+common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
@@ -278,41 +278,41 @@ common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
 common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
-common#:#mail_a_root#:#Mailbox###25 Mar 2003 new variable
+common#:#mail_a_root#:#Mailbox
 common#:#mail_allow_smtp#:#SMTP zulassen
-common#:#mail_attachments#:#Attachments###25 Mar 2003 new variable
-common#:#mail_b_inbox#:#Inbox###25 Mar 2003 new variable
-common#:#mail_bc_search#:#BC search###25 Mar 2003 new variable
-common#:#mail_c_trash#:#Trash###25 Mar 2003 new variable
-common#:#mail_cc_search#:#CC search###25 Mar 2003 new variable
-common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
-common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
-common#:#mail_deleted#:#The mail(s) have been deleted###25 Mar 2003 new variable
-common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
+common#:#mail_attachments#:#Attachments
+common#:#mail_b_inbox#:#Inbox
+common#:#mail_bc_search#:#BC search
+common#:#mail_c_trash#:#Trash
+common#:#mail_cc_search#:#CC search
+common#:#mail_d_drafts#:#Drafts
+common#:#mail_delete_error#:#Error deleting mail(s)
+common#:#mail_deleted#:#The mail(s) have been deleted
+common#:#mail_e_sent#:#Sent
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Mails of###25 Mar 2003 new variable
-common#:#mail_mark_read#:#Mark mails read###25 Mar 2003 new variable
-common#:#mail_mark_unread#:#Mark mails unread###25 Mar 2003 new variable
+common#:#mail_mails_of#:#Mails of
+common#:#mail_mark_read#:#Mark mails read
+common#:#mail_mark_unread#:#Mark mails unread
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxsize_mail#:#Max. Mailgrösse
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails 
-common#:#mail_message_send#:#The message is send###25 Mar 2003 new variable
-common#:#mail_move_error#:#Error moving mail(s)###25 Mar 2003 new variable
-common#:#mail_move_to#:#Move mails to###25 Mar 2003 new variable
-common#:#mail_moved#:#The mail(s) have been moved###25 Mar 2003 new variable
+common#:#mail_message_send#:#The message is send
+common#:#mail_move_error#:#Error moving mail(s)
+common#:#mail_move_to#:#Move mails to
+common#:#mail_moved#:#The mail(s) have been moved
 common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Ungelesene Mail(s)
-common#:#mail_saved#:#The message is saved###25 Mar 2003 new variable
-common#:#mail_search_word#:#Search word###25 Mar 2003 new variable
-common#:#mail_select_one#:#You have to select one mail.###25 Mar 2003 new variable
-common#:#mail_send_error#:#Error sending mail###25 Mar 2003 new variable
+common#:#mail_saved#:#The message is saved
+common#:#mail_search_word#:#Search word
+common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail erfolgreich versendet!
-common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 2003 new variable
-common#:#mail_to_search#:#To search###25 Mar 2003 new variable
-common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
+common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+common#:#mail_to_search#:#To search
+common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
@@ -413,7 +413,7 @@ common#:#read#:#Lesen
 common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_list#:#Refresh List
-common#:#registered_since#:#Eingetragen seit###25 Mar 2003 content changed
+common#:#registered_since#:#Eingetragen seit
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
 common#:#reset#:#Zurücksetzen
