@@ -224,7 +224,7 @@ class ilObjectDefinition extends ilSaxParser
 		$subobjects = $this->getSubObjects($a_obj_name);
 		
 		unset($subobjects["rolf"]);
-		
+
 		return $subobjects;
 	}
 
@@ -382,6 +382,9 @@ class ilObjectDefinition extends ilSaxParser
 				$this->current_tag_name = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"] = $a_attribs["module"];
+//echo "name:".$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"].":".
+//	"mode:".$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"].":<br>";
+
 				break;
 			case 'action':
 				$this->current_tag = "action";
@@ -409,13 +412,13 @@ class ilObjectDefinition extends ilSaxParser
 			switch($this->current_tag)
 			{
 				case "subobj":
-					$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["lng"] = $a_data;
+					$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["lng"] .= $a_data;
 					break;
 				case "action" :
-					$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["lng"] = $a_data;
+					$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["lng"] .= $a_data;
 					break;
 				case "property" :
-					$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["lng"] = $a_data;
+					$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["lng"] .= $a_data;
 					break;
 				default:
 					break;

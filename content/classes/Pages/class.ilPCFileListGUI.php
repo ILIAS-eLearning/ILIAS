@@ -137,12 +137,10 @@ class ilPCFileListGUI extends ilPageContentGUI
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("INPUT_TITLE", "flst_title");
-//echo htmlentities($this->content_obj->getListTitle())."<br>";
-//echo addslashes($this->content_obj->getListTitle())."<br>";
-//echo $this->content_obj->getListTitle()."<br>";
+
+		// todo: this doesnt work if title contains " quotes
+		// ... addslashes doesnt work
 		$this->tpl->setVariable("VALUE_TITLE", $this->content_obj->getListTitle());
-		//$this->tpl->setVariable("VALUE_TITLE", "--papp \"Huhu\"--");
-		//$this->tpl->setVariable("VALUE_TITLE2", "--papp \"Huhu\"--");
 
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
