@@ -28,9 +28,9 @@ require_once("content/classes/class.ilObjLearningModule.php");
 require_once("classes/class.ilMetaData.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
 require_once("content/classes/Pages/class.ilPCTable.php");
-require_once("content/classes/Pages/class.ilMediaObject.php");
-require_once("content/classes/Pages/class.ilMediaItem.php");
-require_once("content/classes/Pages/class.ilMapArea.php");
+require_once("content/classes/Media/class.ilObjMediaObject.php");
+require_once("content/classes/Media/class.ilMediaItem.php");
+require_once("content/classes/Media/class.ilMapArea.php");
 require_once("content/classes/class.ilBibItem.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTerm.php");
@@ -443,7 +443,7 @@ class ilContObjParser extends ilSaxParser
 			case "MediaObject":
 //echo "<br>---NEW MEDIAOBJECT---<br>";
 				$this->in_media_object = true;
-				$this->media_object =& new ilMediaObject();
+				$this->media_object =& new ilObjMediaObject();
 				break;
 
 			case "MediaAlias":
