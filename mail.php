@@ -299,14 +299,28 @@ foreach ($mail_data as $mail)
 	}
 
 	// GET FULLNAME OF SENDER
-	$tmp_user = new ilObjUser($mail["sender_id"]);
-	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
-	if(!($login = $tmp_user->getLogin()))
+	
+	if($_GET['mobj_id'] == $mbox->getSentFolder() or $_GET['mobj_id'] == $mbox->getDraftsFolder())
 	{
-		$login = $mail["import_name"]." (".$lng->txt("imported").")";
+		if($mail['rcp_to'])
+		{
+			$tpl->setVariable("MAIL_LOGIN",$mail['rcp_to']);
+		}
+		else
+		{
+			$tpl->setVariable("MAIL_LOGIN",$lng->txt('not_available'));
+		}
 	}
-	$tpl->setVariable("MAIL_LOGIN",$login);
-
+	else
+	{
+		$tmp_user = new ilObjUser($mail["sender_id"]);
+		$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
+		if(!($login = $tmp_user->getLogin()))
+		{
+			$login = $mail["import_name"]." (".$lng->txt("imported").")";
+		}
+		$tpl->setVariable("MAIL_LOGIN",$login);
+	}
 	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
 	// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
 	if($_GET["mobj_id"] == $mbox->getDraftsFolder())
@@ -341,7 +355,14 @@ $tpl->setVariable("TXT_UNREAD_MAIL_S",$lng->txt("mail_s_unread"));
 $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s"));
 
 //columns headlines
-$tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
+if($_GET['mobj_id'] == $mbox->getSentFolder() or $_GET['mobj_id'] == $mbox->getDraftsFolder())
+{
+	$tpl->setVariable("TXT_SENDER", $lng->txt("recipient"));
+}
+else
+{
+	$tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
+}
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 //	$tpl->setVariable("MAIL_SORT_SUBJ","link");
 $tpl->setVariable("TXT_DATE",$lng->txt("date"));
