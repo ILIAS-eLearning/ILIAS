@@ -179,7 +179,7 @@ if ($script != "login.php" && $script != "index.php")
 $location_stylesheet = ilUtil::getStyleSheetLocation();
 
 $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-$tpl->setVariable("TPLPATH",dirname($location_stylesheet));
+$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 
 if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 {

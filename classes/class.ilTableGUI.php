@@ -324,8 +324,6 @@ class ilTableGUI
 		// table title help
 		if ($this->enabled["help"] && $this->enabled["title"])
 		{
-			echo $this->help_page;
-			
 			$this->tpl->setCurrentBlock("tbl_header_title_help");
 			$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath($this->help_icon));
 			$this->tpl->setVariable("TBL_HELP_LINK",$this->help_page);
