@@ -168,6 +168,7 @@ assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
+assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
@@ -183,6 +184,7 @@ assessment#:#polygon_click_starting_point#:#Please click on the starting point o
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
 assessment#:#preview#:#Anteprima
+assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazione per la domanda selezionata. La domanda non &#232; mai stata usata in un test.
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte

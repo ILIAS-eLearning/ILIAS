@@ -162,6 +162,7 @@ assessment#:#material_download#:#Materiał do pobrania
 assessment#:#material_file#:#Plik z materiałem
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Znaczenie
+assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
@@ -173,6 +174,7 @@ assessment#:#polygon_click_starting_point#:#Kliknij na punkt startowy wieloboku.
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
+assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego pytania. Pytanie nigdy nie było użyte w teście.
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
