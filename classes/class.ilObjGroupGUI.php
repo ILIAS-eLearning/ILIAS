@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.54 2003/11/17 09:17:36 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.55 2003/11/18 11:25:18 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -201,6 +201,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
 
+		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 		header("Location: ".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
