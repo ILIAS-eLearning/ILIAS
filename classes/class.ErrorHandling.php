@@ -107,9 +107,16 @@ class ErrorHandling
 	*/
 	function sendInfo($a_info)
 	{
+		global $tpl;
+
 		if(!$_SESSION["info"])
 		{
 			$_SESSION["info"] = $a_info;
+			$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("INFO",$_SESSION["info"]);
+			session_unregister("info");
+			$tpl->parseCurrentBlock();
 		}
 	}
 		
