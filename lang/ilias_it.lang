@@ -2671,8 +2671,8 @@ crs#:#crs_max_members_reached#:#E'stato raggiunto il numero massimo di iscritti
 crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
-crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
-crs#:#crs_member_unblocked#:#Iscritto (bloccato)
+crs#:#crs_member_blocked#:#Iscritto (non-bloccato)###03 Nov 2004 content changed
+crs#:#crs_member_unblocked#:#Iscritto (bloccato)###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#L'iscritto &#232; stato aggiornato
 crs#:#crs_members_deleted#:#Eliminati iscritti
 crs#:#crs_members_print_title#:#Iscritti al corso

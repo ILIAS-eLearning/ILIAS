@@ -2521,8 +2521,8 @@ crs#:#crs_max_members_reached#:#Została osiągnięta maksymalna liczba uczestni
 crs#:#crs_mem_change_status#:#Status zmian
 crs#:#crs_mem_send_mail#:#Wyślij pocztę
 crs#:#crs_member#:#Członek
-crs#:#crs_member_blocked#:#Członek (zablokowany)
-crs#:#crs_member_unblocked#:#Członek (odblokowany)
+crs#:#crs_member_blocked#:#Członek (zablokowany)###03 Nov 2004 content changed
+crs#:#crs_member_unblocked#:#Członek (odblokowany)###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Członek został uaktualniony
 crs#:#crs_members_deleted#:#Usunięci uczestnicy
 crs#:#crs_members_print_title#:#Uczestnicy kursu
@@ -2537,7 +2537,7 @@ crs#:#crs_no_archive_selected#:#Nie wybrano archiwum
 crs#:#crs_no_archives_available#:#Brak dostępnych archiwów
 crs#:#crs_no_archives_selected#:#Wybierz archiwum
 crs#:#crs_no_groups_selected#:#Wybierz grupę
-crs#:#crs_no_items_found#:#Brak pozycji kursu
+crs#:#crs_no_items_found#:#Brak pozycji kursu###03 Nov 2004 content changed
 crs#:#crs_no_language#:#Brak języka
 crs#:#crs_no_member_selected#:#Wybierz jednego uczestnika
 crs#:#crs_no_members_assigned#:#Brak uczestników przydzielonych do tego kursu
