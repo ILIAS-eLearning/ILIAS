@@ -33,48 +33,51 @@
 <!-- language file start -->
 3rd_party_software#:#Drittanbieter-Programme
 absolute_path#:#Absoluter Pfad
-available_clients#:#Vorhandene Mandanten
 access#:#Zugang
-unknown_display_mode#:#Unbekannter Anzeigemodus
 access_status#:#Zugangsstatus
+admin_login#:#als Systemadministrator anmelden
+available_clients#:#Vorhandene Mandanten
 available_languages#:#Verfügbare Sprachen
 back#:#zurück
+cannot_create_datadir_no_write_access#:#Kein Schreibzugriff. Datenverzeichnis kann nicht angelegt werden
 change#:#ändern
 change_basic_settings#:#Grundeinstellungen ändern
-no_client_name#:#KEIN NAME
-change_sort_direction#:#Sortierrichtung ndern
 change_password#:#Passwort ändern
+change_sort_direction#:#Sortierrichtung ndern
+check_failed_convert#:#Convert-Test fehlgeschlagen
+check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
+check_failed_java#:#Java-Test fehlgeschlagen
+check_failed_unzip#:#Unzip-Test fehlgeschlagen
+check_failed_zip#:#Zip-Test fehlgeschlagen
 choose_language#:#Bitte wählen Sie Ihre Sprache
 choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. 
 choose_password#:#Bitte geben Sie das gewünschte Passwort ein
 city#:#Ort
+client#:#Mandant
+client_access_mode_changed#:#Zugangsstatus des Mandanten geändert
 client_data#:#Informationen über den Mandanten
 client_id#:#Mandanten ID
-client_login#:#Bei einem Mandanten anmelden
-admin_login#:#als Systemadministrator anmelden
 client_info#:#Beschreibung
 client_institution#:#Institution
+client_login#:#Bei einem Mandanten anmelden
 client_name#:#Name
-contact#:#Kontaktdaten
 client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen
-client_access_mode_changed#:#Zugangsstatus des Mandanten geändert
+contact#:#Kontaktdaten
 contact_data#:#Kontaktdaten des Systemadministrators
 convert_path#:#Convert-Befehlszeile
-nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
 convert_path_comment#:#Wird benötigt, um Vorschaubilder zu erzeugen
+could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
 country#:#Land
 create#:#anlegen
+create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
 create_new_client#:#Neuen Mandanten anlegen
-check_failed_convert#:#Convert-Test fehlgeschlagen
-check_failed_zip#:#Zip-Test fehlgeschlagen
-check_failed_unzip#:#Unzip-Test fehlgeschlagen
-check_failed_java#:#Java-Test fehlgeschlagen
-check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
+create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
+data_path#:#data path###05 Jan 2004 new variable 
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
+database_exists#:#Datenbank existiert bereits
 database_install#:#Datenbank installieren
 database_installed#:#Datenbank installiert
-database_exists#:#Datenbank existiert bereits
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
 database_needs_update#:#Datenbank benötigt ein Update
 database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
@@ -84,6 +87,7 @@ database_version#:#Ihre Datenbankversion
 datadir_path#:#Pfad zum Datenverzeichnis
 datadir_path_comment1#:#Basisverzeichnis für Dateien
 datadir_path_comment2#:#Kann nicht geändert werden.
+datadir_webspacedir_match#:#Datenverzeichnis und Webspaceverzeichnis sind gleich! Sie müssen für das Datenverzeichnis ein eigenes Verzeichnis angeben.
 date#:#Datum
 db_conn#:#Verbindungsdaten zur Datenbank
 db_host#:#Datenbankserver
@@ -97,21 +101,21 @@ default#:#Standard
 default_client_changed#:#Mandant als Standard festgelegt
 default_language#:#Standardsprache
 delete#:#löschen
+delete_confirm#:#Mandant löschen bestätigen
+delete_info#:#Sind Sie sicher?
 details#:#Details
+dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen 
 disable#:#ausschalten
 disable_check#:#nicht prüfen
 disable_logging#:#deaktivieren
-display_clientlist#:#Freie Mandantenauswahl
-lang_min_one_language#:#Sie müssen mindestens eine Sprache installieren
 disabled#:#ausgeschaltet
-filled_out#:#korrekt ausgefüllt
+display_clientlist#:#Freie Mandantenauswahl
 email#:#Email
 email_not_valid#:#Ungültige Emailadresse
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
-enter_password#:#Bitte geben Sie das Passwort ein
 enable#:#einschalten
-missing_data#:#Daten unvollständig
 enabled#:#eingeschaltet
+enter_password#:#Bitte geben Sie das Passwort ein
 env_ok#:#Ok. Hört sich gut an.
 env_using#:#ILIAS 3 wird betrieben auf
 env_warning#:#ILIAS 3 wurde auf Linux und Windows jeweils mit dem Apache-Webserver getestet!<br/>Möglicherweise läuft die Software auch in dieser Softwareumgebung.
@@ -124,6 +128,7 @@ file_does_not_exist#:#Datei existiert nicht.
 file_version#:#file version
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
+filled_out#:#korrekt ausgefüllt
 finish#:#Installation abschliessen
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 finish_setup#:#Abschliessen der Installationen
@@ -140,16 +145,16 @@ ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS Version
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
-info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn dann nicht klappt (z.B aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
 info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
-info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
+info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldet Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
+info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
+info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
@@ -185,7 +190,6 @@ ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 lang_de#:#Deutsch
-lang_zh#:#Chinesisch
 lang_dk#:#Dänisch
 lang_en#:#Englisch
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
@@ -194,14 +198,15 @@ lang_fr#:#Französisch
 lang_id#:#Indonesisch
 lang_it#:#Italienisch
 lang_lt#:#Litauisch
-lang_no#:#Norwegisch
+lang_min_one_language#:#Sie müssen mindestens eine Sprache installieren
 lang_nl#:#Niederländisch
+lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
+lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
 lang_pl#:#Polnisch
-setup_finished#:#Installation abgeschlossen
 lang_se#:#Schwedisch
-lang_ua#:#Ukrainisch
 lang_xx#:#benutzerdefiniert
+lang_zh#:#Chinesisch
 langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
 language#:#Sprache
 languages#:#Sprachen
@@ -210,8 +215,6 @@ lastname#:#Nachname
 list#:#Liste
 list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
-delete_confirm#:#Mandant löschen bestätigen
-delete_info#:#Sind Sie sicher?
 log_path#:#Ort der Logdatei
 log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt
 logged_out#:#Sie sind nun ausgeloggt.
@@ -221,52 +224,53 @@ login_invalid#:#Anmeldung fehlgeschlagen. Login ist ungültig
 login_to_ilias#:#bei ILIAS anmelden
 logout#:#ausloggen
 main_datadir_outside_webspace#:#Basisverzeichnis für Daten ausserhalb des Webspaces
+missing_data#:#Daten unvollständig
 name#:#Name
 new#:#neu
 next#:#Weiter
+nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
 nic_reg_disable#:#Keine Registrierung
-nic_reg_disabled#:#NIC Registrierung abgeschaltet
 nic_reg_disable_comment#:#(später registrieren)
+nic_reg_disabled#:#NIC Registrierung abgeschaltet
 nic_reg_email#:#Per Email
-nic_reg_enter_id#:#Übermittelte NIC ID
-nic_reg_enter_checksum#:#Übermittelte Prüfsumme
-nic_reg_failed#:#NIC Registrierung fehlgeschlagen
 nic_reg_enabled#:#NIC-ID erhalten!
+nic_reg_enter_checksum#:#Übermittelte Prüfsumme
 nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-Id an
-nic_registration#:#NIC Registrierung
+nic_reg_enter_id#:#Übermittelte NIC ID
+nic_reg_failed#:#NIC Registrierung fehlgeschlagen
 nic_reg_online#:#Über das Internet
+nic_registration#:#NIC Registrierung
 no_changes#:#Keine Änderungen
 no_client_id#:#Keine Mandanten ID angegeben
+no_client_name#:#KEIN NAME
+no_clients_available#:#No Clients available###05 Jan 2004 new variable 
 no_database#:#Keine Datenbank
 no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator
 no_db_update_file#:#dbupdate.php nicht gefunden!
-dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen 
-no_username#:#Kein Benutzername angegeben
 no_password#:#Kein Passwort angegeben
-no_path_given#:#Keinen Pfad angegeben
-no_path_log#:#Log-Pfad nicht angegeben
-no_path_datadir#:#Kein Datenverzeichnis angegeben
 no_path_convert#:#Convert-Pfad nicht angegeben
+no_path_datadir#:#Kein Datenverzeichnis angegeben
+no_path_given#:#Keinen Pfad angegeben
+no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
+no_path_java#:#Java-Pfad nicht angegeben
+no_path_log#:#Log-Pfad nicht angegeben
 no_path_unzip#:#Unzip-Pfad nicht angegeben
 no_path_zip#:#Zip-Pfad nicht angegeben
-no_path_java#:#Java-Pfad nicht angegeben
-no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
-no_valid_client_id#:#Keine gültige Mandanten ID
 no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
+no_username#:#Kein Benutzername angegeben
+no_valid_client_id#:#Keine gültige Mandanten ID
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
-could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
 online#:#Online
 or#:#oder
 out_of_webspace#:#(out of webspace)
+overall_status#:#Installationsstatus
 overview#:#Übersicht
+pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
 password#:#Passwort
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
+password_enter_old#:#You must enter your old password first!###05 Jan 2004 new variable
 password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um später diese Einstellungen zu ändern oder neue Mandanten anzulegen.
-cannot_create_datadir_no_write_access#:#Kein Schreibzugriff. Datenverzeichnis kann nicht angelegt werden
-create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
-create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
-pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
 password_new_master#:#Administrator-Passwort ändern
 password_not_match#:#Passworteingaben stimmen nicht überein
 password_old_wrong#:#Falsches Passwort
@@ -283,26 +287,24 @@ pathes#:#Pfade
 phone#:#Telefon
 port#:#Port
 position#:#Position
-pre_cookies_enabled#:#Cookies sind eingeschaltet
 pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS 3.
+pre_cookies_enabled#:#Cookies sind eingeschaltet
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
 pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
 pre_folder_create_error#:#Im ILIAS 3 Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
 pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
 pre_folder_write_error#:#Das ILIAS 3 Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
+pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
 pre_php_version#:#PHP-Version
-pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
+pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS 3.
 pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser PHP-Version.
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
-pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS 3.
+pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
-pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 preliminaries#:#Vorbereitende Massnahmen
 prev#:#Zurück
-overall_status#:#Installationsstatus
-lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
 required_field#:#Erforderliche Angaben
 reset#:#Zurücksetzen
 root_access#:#Administrator-Zugang
@@ -324,6 +326,7 @@ setup_contact_data#:#Kontaktdaten ausfüllen
 setup_database#:#Datenbank installieren
 setup_database_desc#:#Erstellung der Datenbank
 setup_db_first#:#Please legen Sie zuerst die Datenbank an!
+setup_finished#:#Installation abgeschlossen
 setup_first_client#:#Erstinstallation eines Mandanten
 setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
 setup_inifile#:#ini-Datei erzeugen
@@ -335,9 +338,9 @@ setup_mainmenu#:#Setup Hauptmenü
 setup_menu#:#setup menü
 setup_nic_desc#:#Registrierung Ihrer Installation beim ILIAS-NIC-Server
 setup_not_finished#:#Installation nicht beendet
-setup_pass_title#:#Passwort für Administratorzugriff
 setup_pass#:#Passwort
 setup_pass2#:#Passwort wiederholen
+setup_pass_title#:#Passwort für Administratorzugriff
 setup_password#:#Setup-Passwort erstellen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
 setup_process_status#:#Status des Installationsverlaufes
@@ -353,11 +356,11 @@ sort_by_this_column#:#Nach dieser Spalte sortieren
 status#:#Status
 step#:#Schritt
 street#:#Strasse
-client#:#Mandant
 submit#:#Abschicken
 title#:#Titel
 unknown_client_id#:#Unbekannter Mandant
 unknown_command#:#Unbekannter Befehl
+unknown_display_mode#:#Unbekannter Anzeigemodus
 unzip_path#:#Unzip-Befehlszeile
 unzip_path_comment#:#Wird benötigt, um Lernmodule zu importieren
 update_applied#:#Update eingespielt
@@ -371,4 +374,3 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
-datadir_webspacedir_match#:#Datenverzeichnis und Webspaceverzeichnis sind gleich! Sie müssen für das Datenverzeichnis ein eigenes Verzeichnis angeben.
