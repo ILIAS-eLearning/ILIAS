@@ -13,7 +13,7 @@ $tpl = new Template("tpl.group_new.html", false, true);
 
 //$tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("groups_new"));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("new_group"));
 
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
