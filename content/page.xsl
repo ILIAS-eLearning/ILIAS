@@ -679,6 +679,19 @@
 		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
 			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
+			<xsl:if test="./Size">
+				<xsl:choose>
+					<xsl:when test="./Size > 1000000">
+						(<xsl:value-of select="round(./Size div 10000) div 100"/> MB)
+					</xsl:when>
+					<xsl:when test="./Size > 1000">
+						(<xsl:value-of select="round(./Size div 10) div 100"/> KB)
+					</xsl:when>
+					<xsl:otherwise>
+						(<xsl:value-of select="./Size"/> B)
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
 		</a>
 		<!-- <xsl:value-of select="@HierId"/> -->
 		<xsl:if test="$mode = 'edit'">

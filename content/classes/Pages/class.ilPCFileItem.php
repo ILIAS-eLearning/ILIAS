@@ -82,7 +82,7 @@ class ilPCFileItem extends ilPageContent
 		// Format
 		$form_node =& $this->dom->create_element("Format");
 		$form_node =& $new_item->append_child($form_node);
-		$form_node->set_content($a_location);
+		$form_node->set_content($a_format);
 	}
 
 
@@ -110,7 +110,7 @@ class ilPCFileItem extends ilPageContent
 		// Format
 		$form_node =& $this->dom->create_element("Format");
 		$form_node =& $new_item->append_child($form_node);
-		$form_node->set_content($a_location);
+		$form_node->set_content($a_format);
 	}
 
 
