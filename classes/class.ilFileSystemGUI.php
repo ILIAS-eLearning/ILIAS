@@ -35,10 +35,11 @@ class ilFileSystemGUI
 
 	function ilFileSystemGUI($a_main_directory)
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $lng, $ilCtrl, $tpl, $ilias;
 
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
+		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->main_dir = $a_main_directory;
 //echo "<br>main_dir:".$this->main_dir.":";
@@ -124,7 +125,7 @@ class ilFileSystemGUI
 		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.directory_row.html", false);
 
 		$num = 0;
 
@@ -135,13 +136,13 @@ class ilFileSystemGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
-			$this->lng->txt("cont_size"), $this->lng->txt("cont_purpose")));
+			$this->lng->txt("cont_size")));
 
-		$cols = array("", "", "dir_file", "size", "purpose");
+		$cols = array("", "", "dir_file", "size");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
 			"cmd" => "listFiles", "hier_id" => $_GET["hier_id"]);
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
+		$tbl->setColumnWidth(array("1%", "1%", "60%", "40%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -151,12 +152,24 @@ class ilFileSystemGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 		//$tbl->setMaxCount(30);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "deleteFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		// unzip button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "unzipFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("unzip"));
+		$this->tpl->parseCurrentBlock();
+
+		// download button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
 		$this->tpl->parseCurrentBlock();
 
 		// footer
@@ -284,14 +297,16 @@ class ilFileSystemGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		if ($_POST["file"][0] == "..")
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
 		$file = $cur_dir."/".$_POST["file"][0];
-		$location = (!empty($cur_subdir))
-			? $cur_subdir."/".$_POST["file"][0]
-			: $_POST["file"][0];
 
 		if (@is_file($file))
 		{
@@ -305,6 +320,69 @@ class ilFileSystemGUI
 
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "listFiles");
+	}
+
+	/**
+	* delete object file
+	*/
+	function unzipFile()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_dir = (!empty($cur_subdir))
+			? $this->main_dir."/".$cur_subdir
+			: $this->main_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+
+		if (@is_file($file))
+		{
+			ilUtil::unzip($file);
+		}
+
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "listFiles");
+	}
+
+	/**
+	* delete object file
+	*/
+	function downloadFile()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_dir = (!empty($cur_subdir))
+			? $this->main_dir."/".$cur_subdir
+			: $this->main_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+
+		if (@is_file($file) && !(@is_dir($file)))
+		{
+			ilUtil::deliverFile($file, $_POST["file"][0]);
+			exit;
+		}
+		else
+		{
+			$this->ctrl->saveParameter($this, "cdir");
+			$this->ctrl->redirect($this, "listFiles");
+		}
 	}
 
 	/**
