@@ -254,3 +254,38 @@ subscription#:#subscription
 install#:#install
 lo_other_langs#:#lo's in other langauges
 unknown#:#UNKNOWN
+ilias_version#:#ILIAS version
+db_version#:#database version
+installation_id#:#installation ID
+host#:#host
+ip_adress#:#IP adress
+server_port#:#server port
+server_software#:#server software
+http_path#:#http path
+absolute_path#:#absolute path
+inst_info#:#installation info
+path_to_convert#:#path to convert
+path_to_zip#:#path to zip
+path_to_unzip#:#path to unzip
+path_to_java#:#path to java
+path_to_babylon#:#path to babylon
+feedback_recipient#:#feedback recipient
+error_recipient#:#error recipient
+pub_section#:#public section
+news#:#news
+payment_system#:#payment system
+group_filesharing#:#group file sharing
+crs_management_system#:#crs management system
+enable#:#enable
+server#:#server
+port#:#port
+basedn#:#BaseDN
+ldap#:#LDAP
+contact_information#:#contact information
+must_fill_in#:#must fill in
+position#:#position
+inst_name#:#installation name
+usr_skin#:#user skin
+default#:#default
+pda#:#pda
+portal#:#portal

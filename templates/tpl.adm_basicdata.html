@@ -50,61 +50,73 @@
       <td>{TXT_INST_INFO}</td>
       <td><input type="text" SIZE=40 maxlength=128 name="inst_info" value="{INST_INFO}"></td>
     </tr>
-    <tr class="tblrow2">
+    <tr class="tblrow1">
       <td>{TXT_CONVERT_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="convert_path" value="{CONVERT_PATH}"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_ZIP_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="zip_path" value="{ZIP_PATH}"></td>
     </tr>
-    <tr class="tblrow2">
+    <tr class="tblrow1">
       <td>{TXT_UNZIP_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="unzip_path" value="{UNZIP_PATH}"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_JAVA_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="java_path" value="{JAVA_PATH}"></td>
     </tr>
-    <tr class="tblrow2">
+    <tr class="tblrow1">
       <td>{TXT_BABYLON_PATH}</td>
       <td><input type="text" SIZE=40 maxlength=250 name="babylon_path" value="{BABYLON_PATH}"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_FEEDBACK_RECIPIENT}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="feedback" value="{FEEDBACK}"></td>
     </tr>
-    <tr class="tblrow2">
+    <tr class="tblrow1">
       <td>{TXT_ERROR_RECIPIENT}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="errors" value="{ERRORS}"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_PUB_SECTION}</td>
       <td><input type="checkbox" name="pub_section"  value="y"></td>
     </tr>
-    <tr class="tblrow2">
+    <tr class="tblrow1">
       <td>{TXT_NEWS}</td>
       <td><input type="checkbox" name="news"  value="y"></td>
     </tr>
-    <tr class="tblrow1">
-      <td>{TXT_PAYMENT}</td>
-      <td><input type="checkbox" name="payment"  value="1"></td>
-    </tr>
     <tr class="tblrow2">
+      <td>{TXT_PAYMENT_SYSTEM}</td>
+      <td><input type="checkbox" name="payment_system"  value="1"></td>
+    </tr>
+    <!--
+    <tr class="tblrow1">
       <td>{TXT_FORWARD_PASSWORD}</td>
       <td><input type="checkbox" name="forward_password"  value="y"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_FORWARD_PW_SENDER}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="forward_pw_sender" value="{FORWARD_PW_SENDER}"></td>
     </tr>
-    <tr class="tblrow2">
+    -->
+    <tr class="tblrow1">
       <td>{TXT_GROUP_FILE_SHARING}</td>
       <td><input type="checkbox" name="group_file_sharing"  value="y"></td>
     </tr>
-    <tr class="tblrow1">
+    <tr class="tblrow2">
       <td>{TXT_CRS_MANAGEMENT_SYSTEM}</td>
       <td><input type="checkbox" name="cms_enable"  value="y"></td>
+    </tr>
+    <tr class="tblrow1">
+        <td>{TXT_USR_SKIN}</td>
+        <td>
+                <select name="usr_skin">
+                        <option {SELECTED_DEFAULT} value="m">{TXT_DEFAULT}</option>
+                        <option {SELECTED_PDA} value="f">{TXT_PDA}</option>
+                        <option {SELECTED_PORTAL} value="m">{TXT_PORTAL}</option>
+                </select>
+        </td>
     </tr>
     </table>
 

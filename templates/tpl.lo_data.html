@@ -53,11 +53,19 @@
         </select>
 	  </td>
       <td>
-        {TXT_FIRSTNAME}
-        <input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size=20><br>
-        {TXT_LASTNAME}
-        <input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size=20><br>
-        <input type="submit" name="new_author" value="{TXT_ADD_AUTHOR}">
+        <table border=0>
+        <tr>
+          <td>{TXT_FIRSTNAME}</td>
+          <td><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size=20></td>
+        <tr>
+          <td>{TXT_LASTNAME}</td>
+          <td><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size=20></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" name="new_author" value="{TXT_ADD}"></td>
+        </tr>
+        </table>
       </td>
     </tr>
     <tr>
@@ -78,18 +86,20 @@
         </select>
 	  </td>
       <td>
-	    {TXT_FIRSTNAME}<br>
-	    <input type="text" name="contrib_firstname" value="{FIRSTNAME}" size="20">
-        {TXT_LASTNAME}
-		<input type="text" name="contrib_surname" value="{LASTNAME}" size="20">
-        <input type="submit" name="new_contrib" value="{TXT_ADD_MEMBER}">
+        <table border=0>
+        <tr>
+          <td>{TXT_FIRSTNAME}</td>
+          <td><input type="text" name="contrib_firstname" value="{FIRSTNAME}" size=20></td>
+        <tr>
+          <td>{TXT_LASTNAME}</td>
+          <td><input type="text" name="contrib_surname" value="{LASTNAME}" size=20></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" name="new_contrib" value="{TXT_ADD}"></td>
+        </tr>
+        </table>
 	  </td>
-    </tr>
-    <tr>
-      <td colspan=2 height=0></td>
-	</tr>
-    <tr class="tblrow1">
-      <td colspan=2>In den Auswahllisten k&ouml;nnen ganze Bereiche mittels <br>SHIFT + Mausklick, bzw. mehrere einzelne oder keine Eintr&auml;ge <br>durch CTRL + Mausklick selektiert werden (Windows)<br>Falls die gew&uuml;nschte Person nicht in der Liste auftaucht,<br>k&ouml;nnen Sie in den Textfelder rechts einen neuen<br>Autoren/Mitwirkenden eingeben.</td>
     </tr>
     <tr>
       <td colspan=2>&nbsp;</td>
@@ -103,9 +113,13 @@
       <td colspan=2 ><input type=text name=keys value="" size=45 maxlength=3000></td>
     </tr>
     <tr>
+      <td colspan=2>&nbsp;</td>
+    </tr>
+    <tr>
       <td class="tblheader">{TXT_LANGUAGE}</td>
       <td class="tblheader">{TXT_LEVEL}</td>
     </tr>
+
     <tr class="tblrow2">
       <td>
 	    <select name="lang">
@@ -129,10 +143,10 @@
       <td colspan=2>&nbsp;</td>
     </tr>
 
-
     <tr class="tblheader">
       <td colspan=2>{TXT_CATEGORIES}</td>
     </tr>
+
     <tr class="tblrow2">
       <td colspan=2>
 <!-- BEGIN category -->
