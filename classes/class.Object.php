@@ -159,27 +159,6 @@ class Object
 
 
 	/**
-	* get reference id (deprecated -> getRefId())
-	* @access	public
-	* @return	int		reference id
-	*/
-	function get_ref_id()
-	{
-		return $this->ref_id;
-	}
-
-	/**
-	* set reference id (deprecated -> setRefId())
-	* @access	public
-	* @param	int		$a_id		reference id
-	*/
-	function set_ref_id($a_id)
-	{
-		$this->ref_id = $a_id;
-	}
-
-
-	/**
 	* set reference id
 	* @access	public
 	* @param	int		$a_id		reference id
