@@ -1646,8 +1646,10 @@ class ilLMPresentationGUI
 					$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 						ilObjStyleSheet::getSyntaxStylePath());
 					$this->tpl->parseCurrentBlock();*/
-
-					$this->tpl->setVariable("CONTENT", $page_object_gui->showPage());
+					$page_content = $page_object_gui->showPage();
+					//$page_content = str_replace("class", "papp", $page_content);
+					//$page_content = str_replace("ilc_PageTitle", "", $page_content);
+					$this->tpl->setVariable("CONTENT", $page_content);
 				}
 
 				$this->tpl->parseCurrentBlock();
