@@ -69,6 +69,8 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$inhalt1[] = array($inc_type,"usr_bookmarks.php",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
 }
+
+/*
 include_once "./payment/classes/class.ilPaymentVendors.php";
 include_once "./payment/classes/class.ilPaymentTrustees.php";
 
@@ -78,6 +80,7 @@ if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
 {
 	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('payment_admin'),'bottom');
 }
+*/
 
 
 include_once "./tracking/classes/class.ilUserTracking.php";
