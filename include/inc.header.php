@@ -148,7 +148,7 @@ if ($ilias->auth->getAuth())
 		$ilias->account->refreshLogin();
 	}	
 }
-elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php")
+elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php" and $script != "usr_agreement.php" and $script!= "register.php")
 {
 	header("Location: index.php?reload=true");
 }
