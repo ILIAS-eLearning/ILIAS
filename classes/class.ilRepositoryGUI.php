@@ -1268,7 +1268,7 @@ class ilRepositoryGUI
 
 			foreach ($tests as $tst_data)
 			{
-          $obj_link = "#";
+          $obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
 
 				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]))
 				{
