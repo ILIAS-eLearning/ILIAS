@@ -49,7 +49,7 @@ $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
 $courses = $ilias->account->getCourses();
 
 //forums
-$frm_obj = TUtil::getObjectsByOperations('frm','visible');
+$frm_obj = TUtil::getObjectsByOperations('frm','read');
 $frmNum = count($frm_obj); 
 $lastLogin = $ilias->account->data["LastLogin"];
 
