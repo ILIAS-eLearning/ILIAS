@@ -1113,7 +1113,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		$matching_values = array();
 		foreach ($_POST as $key => $value)
 		{
-			if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+			if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
 			{
 				if ($value >= 0)
 				{
@@ -1160,7 +1160,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	
 			foreach ($_POST as $key => $value)
 			{
-				if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
 				{
 					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($ilUser->id),

@@ -1081,7 +1081,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$order_values = array();
 		foreach ($_POST as $key => $value)
 		{
-			if (preg_match("/order_(\d+)/", $key, $matches))
+			if (preg_match("/^order_(\d+)/", $key, $matches))
 			{
 				if (strcmp($value, "") != 0)
 				{
@@ -1128,7 +1128,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	
 			foreach ($_POST as $key => $value)
 			{
-				if (preg_match("/order_(\d+)/", $key, $matches))
+				if (preg_match("/^order_(\d+)/", $key, $matches))
 				{
 					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 						$db->quote($ilUser->id),

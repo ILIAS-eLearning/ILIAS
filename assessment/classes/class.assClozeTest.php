@@ -1463,7 +1463,7 @@ class ASS_ClozeTest extends ASS_Question
     $result = $db->query($query);
 
     foreach ($_POST as $key => $value) {
-      if (preg_match("/gap_(\d+)/", $key, $matches)) {
+      if (preg_match("/^gap_(\d+)/", $key, $matches)) {
         $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
