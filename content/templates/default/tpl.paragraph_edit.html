@@ -468,7 +468,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-x",
       tooltip   : "",	//Internal link
-      image     : "<span class=ilc_Quotation>X</span>",
+      image     : "<strike>LN</strike>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -489,7 +489,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += "sub {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;}";
 	cfg.pageStyle += "sup {font-size:middle;font-weight:normal;color:green;vertical-align:middle;}";
 	
-	cfg.statusBar = true;
+	cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
 // "bold", "italic",
@@ -570,12 +570,6 @@ function buttonX()
 {
 
 	var ancestors = editor.getAllAncestors();
-
-	var el = ancestors[0];
-	var cl = el.className;
-	var tn = el.tagName.toLowerCase();
-	if (tn=="strong" || tn=="em") return;
-	
 	if(ancestors.length<=1) {
 	
 		editor.surroundHTML("!1!1!","!2!2!");
