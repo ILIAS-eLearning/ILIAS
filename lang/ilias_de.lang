@@ -149,6 +149,7 @@ chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
+chat#:#chat_drop_user#:#Benutzer ausladen
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
@@ -934,6 +935,7 @@ common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
+common#:#no_chat_in_personal_list#:#Es sind keine Chats abonniert
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
@@ -2246,5 +2248,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#no_chat_in_personal_list#:#Es sind keine Chats abonniert
-chat#:#chat_drop_user#:#Benutzer ausladen

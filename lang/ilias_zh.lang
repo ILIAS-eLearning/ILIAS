@@ -166,6 +166,7 @@ chat#:#chat_chatroom_rename#:#Edit chatroom###05 Mar 2004 new variable
 chat#:#chat_chatrooms#:#Chatrooms###05 Mar 2004 new variable
 chat#:#chat_color#:#Font color###05 Mar 2004 new variable
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###05 Mar 2004 new variable
+chat#:#chat_drop_user#:#User kicked###09 Mar 2004 new variable
 chat#:#chat_edit#:#Edit chat ###05 Mar 2004 new variable
 chat#:#chat_face#:#Font type###05 Mar 2004 new variable
 chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
@@ -951,6 +952,7 @@ common#:#next#:#下一个
 common#:#nickname#:#昵称
 common#:#no#:#否
 common#:#no_bm_in_personal_list#:#未定义书签
+common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#未选中选项栏
 common#:#no_date#:#无日期
 common#:#no_frm_in_personal_list#:#个人列表中无论坛。

@@ -207,6 +207,7 @@ lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
 lang_pl#:#Polnisch
+lang_pt#:#Portuguese###09 Mar 2004 new variable
 lang_se#:#Schwedisch
 lang_ua#:#Ukrainisch
 lang_xx#:#benutzerdefiniert
