@@ -212,23 +212,21 @@ if ($frmNum > 0)
 				$tpl->setVariable("LAST_POST", $lpCont);
 				
 				// get dates of moderators
-				if ($topicData["top_mods"] > 0)
-				{			
-					$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);
-												
-					for ($i = 0; $i < count($MODS); $i++)
+				$MODS = $frm->getModerators();
+											
+				for ($i = 0; $i < count($MODS); $i++)
+				{
+					unset($moderator);						
+					$moderator = $frm->getUser($MODS[$i]);
+					
+					if ($moderators != "")
 					{
-						unset($moderator);						
-						$moderator = $frm->getUser($MODS[$i]);
-						
-						if ($moderators != "")
-						{
-							$moderators .= ", ";
-						}
-
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>";
+						$moderators .= ", ";
 					}
-				}							
+
+					$moderators .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>";
+				}
+					
 				$tpl->setVariable("MODS",$moderators); 
 				
 				$tpl->setVariable("FORUM_ID", $topicData["top_pk"]);				

@@ -326,7 +326,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 else
 {
 	$tpl->setCurrentBlock("threads_no");
-	$tpl->setVAriable("TXT_MSG_NO_THREADS_AVAILABLE",$lng->txt("forums_threads_not_available"));
+	$tpl->setVariable("TXT_MSG_NO_THREADS_AVAILABLE",$lng->txt("forums_threads_not_available"));
 	$tpl->parseCurrentBlock("threads_no");
 }
 
