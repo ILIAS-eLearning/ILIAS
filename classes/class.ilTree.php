@@ -611,7 +611,7 @@ class ilTree
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
 	* @access	public
-	* @param	integer	node_id of endnode (optional)
+	* @param	integer	node_id of endnode
 	* @param	integer	node_id of startnode (optional)
 	* @return	array	ordered path info (id,title,parent) from start to end
 	*/

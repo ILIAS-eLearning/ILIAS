@@ -77,6 +77,7 @@ class ilObjFolder extends ilObject
 	}
 	
 	//todo make it more flexible; it should be useful also for categories  
+	/*
 	function putInGrpTree($local_table,$parent_id)
 	{  
 		//echo "type".$parent_type."type";
@@ -92,12 +93,35 @@ class ilObjFolder extends ilObject
 		$this->gtree->setTableNames($this->table_tree,$this->table_obj_data);
 		
 		$local_tree->insertNode($this->getId(), $parent_id);
+	}*/
+	
+	/**
+	* insert folder into grp_tree
+	*
+	*/
+	function putInTree($a_parent_ref)
+	{
+		$grp_id = $this->getGroupId($a_parent_ref);
+		
+		$gtree = new ilTree($grp_id,$grp_id);
+		$gtree->setTableNames("grp_tree","object_data","object_reference");
+		
+		$gtree->insertNode($this->getRefId(), $a_parent_ref);
 	}
 	
-	function setRefId($tree_id,$obj_id,$parent)
+	/**
+	* get the tree_id of group where folder belongs to
+	* 
+	* @param	string	ref_id of parent under which folder is inserted
+	* @access	private
+	*/
+	function getGroupId($a_parent_ref)
 	{
-		$query = "UPDATE grp_tree SET ref_id = -1 WHERE tree=".$tree_id." AND child=".$obj_id." AND parent=".$parent;   
-		$this->ilias->db->query($query);
+		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
+		$r = $this->ilias->db->query($q);
+		$row = $r->fetchRow();
+		
+		return $row[0];
 	}
 } // END class.ilObjFolder
 ?>

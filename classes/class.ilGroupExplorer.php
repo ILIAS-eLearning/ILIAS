@@ -25,8 +25,6 @@ require_once("classes/class.ilObjectFactory.php");
 
 class ilGroupExplorer extends ilExplorer
 {
-	
-	
 	/**
 	* Constructor
 	* @access	public
@@ -37,19 +35,13 @@ class ilGroupExplorer extends ilExplorer
 	{
 		parent::ilExplorer($a_target);
 		
-		
 		$this->tree = new ilTree($a_ref_id,$a_ref_id);
 		$this->tree->setTableNames("grp_tree","object_data","object_reference");
 		
-		
-		
-		/*echo "-".$this->tree->readRootId();
-		echo "-".$this->tree->getRootId();
-		echo "-".$this->tree->getTreeId();
-		echo " BR ";*/
-		
-		
+		// temp. disabled for folders
+		$this->rbac_check = false;
 	}
+
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
@@ -67,6 +59,7 @@ class ilGroupExplorer extends ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
+
 		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
 		//echo $a_parent_id;var_dump($objects);
 		if (count($objects) > 0)
@@ -84,6 +77,7 @@ class ilGroupExplorer extends ilExplorer
 						{
 							$parent_index = $this->getIndex($object);
 						}
+
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];

@@ -88,9 +88,9 @@ if (isset($_POST["cmd"]))
 //echo "-------------";
 //echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 
-if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
+if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 {
-	//var_dump($_GET);echo "---";	var_dump($_POST);
+	//var_dump($_GET);echo "---";	var_dump($_POST);exit;
 
 	//echo " post";
 
@@ -104,7 +104,6 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 		}
 		else
 		{
-
 			if (isset($_POST["cmd"]))
 			{
 				$cmd = key($_POST["cmd"]);
@@ -140,7 +139,6 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 				require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 				$obj = new $class_constr($data, $id, $call_by_reference);
 				$method= $cmd."Object";
-				//echo ("hit ".$class_constr.$method);
 				$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 				$obj->$method();
 			}
