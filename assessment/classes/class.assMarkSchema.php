@@ -21,7 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "PEAR.php";
 require_once "./assessment/classes/class.assMark.php";
 
 /**
@@ -34,7 +33,7 @@ require_once "./assessment/classes/class.assMark.php";
 * @module   class.assMarkSchema.php
 * @modulegroup   Assessment
 */
-class ASS_MarkSchema extends PEAR {
+class ASS_MarkSchema {
 /**
 * An array containing all mark steps defined for the test
 * 

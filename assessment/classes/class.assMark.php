@@ -21,7 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "PEAR.php";
 
 /**
 * A class defining marks for assessment test objects
@@ -33,7 +32,7 @@ require_once "PEAR.php";
 * @module   class.assMark.php
 * @modulegroup   Assessment
 */
-class ASS_Mark extends PEAR {
+class ASS_Mark {
 /**
 * The short name of the mark
 * 
