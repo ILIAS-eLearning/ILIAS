@@ -1480,10 +1480,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_SELECT_RANDOM_QUESTIONS", $this->lng->txt("tst_select_random_questions"));
 		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS", $this->lng->txt("tst_total_questions"));
 		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_total_questions_description"));
-		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $_POST["total_questions"]);
+		$total_questions = $this->object->getRandomQuestionCount();
+		if (array_key_exists("total_questions", $_POST))
+		{
+			$total_questions = $_POST["total_questions"];
+		}
+		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $total_questions);
 		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
 		$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
 
