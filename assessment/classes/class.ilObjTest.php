@@ -346,13 +346,13 @@ class ilObjTest extends ilObject
 	*/
 	function update()
 	{
-		$this->updateMetaData();
 		if (!parent::update())
 		{			
 			return false;
 		}
 
 		// put here object specific stuff
+		$this->updateMetaData();
 		
 		return true;
 	}
@@ -749,18 +749,18 @@ class ilObjTest extends ilObject
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($this->getId()),
-        $db->quote($this->author),
-        $db->quote($this->test_type),
-        $db->quote($this->introduction), 
-        $db->quote($this->sequence_settings),
-        $db->quote($this->score_reporting),
-        $db->quote(sprintf("%d", $this->nr_of_tries)),
-        $db->quote($this->processing_time),
+				$db->quote($this->getId() . ""),
+        $db->quote($this->author . ""),
+        $db->quote($this->test_type . ""),
+        $db->quote($this->introduction . ""), 
+        $db->quote($this->sequence_settings . ""),
+        $db->quote($this->score_reporting . ""),
+        $db->quote(sprintf("%d", $this->nr_of_tries) . ""),
+        $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
-        $db->quote($this->reporting_date),
-        $db->quote($this->starting_time),
-        $db->quote($this->ending_time),
+        $db->quote($this->reporting_date . ""),
+        $db->quote($this->starting_time . ""),
+        $db->quote($this->ending_time . ""),
 				$db->quote("$complete"),
 				$db->quote($this->ects_output . ""),
 				$db->quote($this->ects_grades["A"] . ""),
@@ -778,17 +778,17 @@ class ilObjTest extends ilObject
     } else {
       // Vorhandenen Datensatz aktualisieren
       $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, complete = %s WHERE test_id = %s",
-        $db->quote($this->author), 
-        $db->quote($this->test_type), 
-        $db->quote($this->introduction), 
-        $db->quote($this->sequence_settings), 
-        $db->quote($this->score_reporting), 
-        $db->quote(sprintf("%d", $this->nr_of_tries)), 
-        $db->quote($this->processing_time),
+        $db->quote($this->author . ""), 
+        $db->quote($this->test_type . ""), 
+        $db->quote($this->introduction . ""), 
+        $db->quote($this->sequence_settings . ""), 
+        $db->quote($this->score_reporting . ""), 
+        $db->quote(sprintf("%d", $this->nr_of_tries) . ""), 
+        $db->quote($this->processing_time . ""),
 				$db->quote("$this->enable_processing_time"),
-        $db->quote($this->reporting_date), 
-        $db->quote($this->starting_time), 
-        $db->quote($this->ending_time), 
+        $db->quote($this->reporting_date . ""), 
+        $db->quote($this->starting_time . ""), 
+        $db->quote($this->ending_time . ""), 
 				$db->quote($this->ects_output . ""),
 				$db->quote($this->ects_grades["A"] . ""),
 				$db->quote($this->ects_grades["B"] . ""),
@@ -1809,8 +1809,8 @@ class ilObjTest extends ilObject
 	*/
 	function getDescription()
 	{
-//		return parent::getDescription();
-		return $this->meta_data->getDescription();
+		return parent::getDescription();
+//		return $this->meta_data->getDescription();
 	}
 
 	/**
@@ -1887,21 +1887,21 @@ class ilObjTest extends ilObject
 	*/
 	function updateMetaData()
 	{
-		$this->initMeta();
+//		$this->initMeta();
 		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
+//		if ($this->meta_data->section != "General")
+//		{
+//			$meta = $this->meta_data->getElement("Title", "General");
+//			$this->meta_data->setTitle($meta[0]["value"]);
+//			$meta = $this->meta_data->getElement("Description", "General");
+//			$this->meta_data->setDescription($meta[0]["value"]);
+//		}
+//		else
+//		{
+//			$this->setTitle($this->meta_data->getTitle());
+//			$this->setDescription($this->meta_data->getDescription());
+//		}
+//		parent::update();
 	}
 	
 /**
@@ -2351,7 +2351,7 @@ class ilObjTest extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools()
+	function &getAvailableQuestionpools($use_object_id = false)
 	{
 		global $rbacsystem;
 		
@@ -2362,7 +2362,14 @@ class ilObjTest extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				$result_array[$row->ref_id] = $row->title;
+				if ($use_object_id)
+				{
+					$result_array[$row->obj_id] = $row->title;
+				}
+				else
+				{
+					$result_array[$row->ref_id] = $row->title;
+				}
 			}
 		}
 		return $result_array;
@@ -2925,6 +2932,17 @@ class ilObjTest extends ilObject
 		$qtiAssessment->append_child($qtiObjectives);
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
 		$qtiMetadata = $domxml->create_element("qtimetadata");
+		// test type
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("test_type");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getTestType()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// sequence settings
 		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
 		$qtiFieldLabel = $domxml->create_element("fieldlabel");
@@ -2954,17 +2972,6 @@ class ilObjTest extends ilObject
 		$qtiFieldLabel->append_child($qtiFieldLabelText);
 		$qtiFieldEntry = $domxml->create_element("fieldentry");
 		$qtiFieldEntryText = $domxml->create_text_node($this->getDescription());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		// test type
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("test_type");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getTestType()));
 		$qtiFieldEntry->append_child($qtiFieldEntryText);
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
@@ -3025,6 +3032,20 @@ class ilObjTest extends ilObject
 			$qtiMetadatafield->append_child($qtiFieldEntry);
 			$qtiMetadata->append_child($qtiMetadatafield);
 		}
+		foreach ($this->mark_schema->mark_steps as $index => $mark)
+		{
+			// mark steps
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("mark_step_$index");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("<short>%s</short><official>%s</official><percentage>%.2f</percentage><passed>%d</passed>", $mark->get_short_name(), $mark->get_official_name(), $mark->get_minimum_level(), $mark->get_passed()));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
 		$qtiAssessment->append_child($qtiMetadata);
 		$root->append_child($qtiAssessment);
 		$xml = $domxml->dump_mem(true);
@@ -3037,6 +3058,232 @@ class ilObjTest extends ilObject
 			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
 		}
 		return $xml;
+	}
+	
+	/**
+	* Imports the test properties from XML into the test object
+	*
+	* Imports the test properties from XML into the test object
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		$this->mark_schema->flush();
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$domxml = domxml_open_mem($xml_text);
+		if (!empty($domxml))
+		{
+			$root = $domxml->document_element();
+			$this->setTitle($root->get_attribute("title"));
+			$item = $root;
+			$itemnodes = $item->child_nodes();
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (strpos($comment, "ILIAS Version") === false)
+						{
+							$this->setDescription($comment);
+						}
+						break;
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+						{
+							$this->enable_processing_time = 1;
+							$this->setProcessingTime(sprintf("%02d:%02d:%02d", $matches[4], $matches[5], $matches[6]));
+						}
+						break;
+					case "assessmentcontrol":
+						$this->setScoreReporting($node->get_attribute("solutionswitch"));
+						break;
+					case "objectives":
+						$material = $node->first_child();
+						if (strcmp($material->get_attribute("label"), "introduction") == 0)
+						{
+							$mattext = $material->first_child();
+							$this->setIntroduction($mattext->get_content());
+						}
+						break;
+					case "qtimetadata":
+						$metadata_fields = $node->child_nodes();
+						foreach ($metadata_fields as $index => $metadata_field)
+						{
+							$fieldlabel = $metadata_field->first_child();
+							$fieldentry = $fieldlabel->next_sibling();
+							switch ($fieldlabel->get_content())
+							{
+								case "sequence_settings":
+									$this->setSequenceSettings($fieldentry->get_content());
+									break;
+								case "author":
+									$this->setAuthor($fieldentry->get_content());
+									break;
+								case "description":
+									$this->setDescription($fieldentry->get_content());
+									break;
+								case "test_type":
+									$this->setTestType($fieldentry->get_content());
+									break;
+								case "reporting_date":
+									$iso8601period = $fieldentry->get_content();
+									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+									{
+										$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+									}
+									break;
+								case "nr_of_tries":
+									$this->setNrOfTries($fieldentry->get_content());
+									break;
+								case "starting_time":
+									$iso8601period = $fieldentry->get_content();
+									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+									{
+										$this->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+									}
+									break;
+								case "ending_time":
+									$iso8601period = $fieldentry->get_content();
+									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+									{
+										$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+									}
+									break;
+							}
+							if (preg_match("/mark_step_\d+/", $fieldlabel->get_content()))
+							{
+								$xmlmark = $fieldentry->get_content();
+								preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
+								$mark_short = $matches[1];
+								preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
+								$mark_official = $matches[1];
+								preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
+								$mark_percentage = $matches[1];
+								preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
+								$mark_passed = $matches[1];
+								$this->mark_schema->add_mark_step($mark_short, $mark_official, $mark_percentage, $mark_passed);
+							}
+						}
+						break;
+				}
+			}
+			$result = true;
+		}
+		return $result;
+	}
+	
+	/**
+	* Imports a test from XML into the ILIAS database
+	*
+	* Imports a test from XML into the ILIAS database
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function importObject($file_info, $questionpool_id)
+	{
+		// check if file was uploaded
+		$source = $file_info["tmp_name"];
+		$error = 0;
+		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
+		{
+//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		// check correct file type
+		if (strcmp($file_info["type"], "text/xml") != 0)
+		{
+//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		if (!$error)
+		{
+			// import file as a test
+			$fh = fopen($source, "r");
+			if (!$fh)
+			{
+//			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			$xml = fread($fh, filesize($source));
+			$result = fclose($fh);
+			if (!$result)
+			{
+//			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			if (preg_match("/(<assessment[^>]*>.*?<\/assessment>)/si", $xml, $matches))
+			{
+				// read test properties
+				$succeeded = $this->from_xml($matches[1]);
+				if (!$succeeded)
+				{
+//			$this->ilias->raiseError("The test properties do not contain proper values!",$this->ilias->error_obj->MESSAGE);
+					$error = 1;
+					return $error;
+				}
+			}
+			else
+			{
+//			$this->ilias->raiseError("No test properties found. Cannot import test!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			$question_counter = 1;
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					$question = "";
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case CLOZE_TEST_IDENTIFIER:
+								$question = new ASS_ClozeTest();
+								break;
+							case IMAGEMAP_QUESTION_IDENTIFIER:
+								$question = new ASS_ImagemapQuestion();
+								break;
+							case MATCHING_QUESTION_IDENTIFIER:
+								$question = new ASS_MatchingQuestion();
+								break;
+							case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+								$question = new ASS_MultipleChoice();
+								break;
+							case ORDERING_QUESTION_IDENTIFIER:
+								$question = new ASS_OrderingQuestion();
+								break;
+							case JAVAAPPLET_QUESTION_IDENTIFIER:
+								$question = new ASS_JavaApplet();
+								break;
+						}
+						if ($question)
+						{
+							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
+							{
+								$question->setObjId($questionpool_id);
+								$question->saveToDb();
+								$question_id = $question->duplicate(true);
+								$this->questions[$question_counter++] = $question_id;
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		}
+		return $error;
 	}
 } // END class.ilObjTest
 ?>
