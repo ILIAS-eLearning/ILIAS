@@ -454,11 +454,12 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function updatePost($message, $pos_pk,$notify)
+	function updatePost($message, $pos_pk,$notify,$subject)
 	{		
 		$q = "UPDATE frm_posts ".
 				 "SET ".
 				 "pos_message = '".addslashes($message)."',".
+				 "pos_subject = '".addslashes($subject)."',".
 				 "pos_update = '".date("Y-m-d H:i:s")."',".
 				 "update_user = '".$_SESSION["AccountId"]."', ".
 			     "notify = '".$notify."' ".

@@ -94,7 +94,6 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 						$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
 											$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
 					}
-					
 					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
 					$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
 					
@@ -105,7 +104,8 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 					
 				// prepare post
 				$node["message"] = $frmEx->prepareText($node["message"]);
-							
+
+				$tplEx->setVariable("SUBJECT",$node["subject"]);
 				$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 				$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
 				$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
@@ -177,6 +177,7 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			// prepare post
 			$node["message"] = $frmEx->prepareText($node["message"]);
 					
+			$tplEx->setVariable("SUBJECT",$node["pos_subject"]);
 			$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 			$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
 			$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
@@ -264,7 +265,7 @@ elseif ($_POST["action"] == "html")
 															$node["update"]." - ".strtolower($lng->txt("from"))." ".
 															$lastuser->getLogin()."]");
 									}
-									
+
 									$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
 									$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
 									
@@ -276,6 +277,7 @@ elseif ($_POST["action"] == "html")
 								// prepare post
 								$node["message"] = $frmEx->prepareText($node["message"]);
 										
+								$tplEx->setVariable("SUBJECT",$node["pos_subject"]);
 								$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 								$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
 								$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
@@ -447,6 +449,7 @@ elseif ($_POST["action"] == "html")
 								// prepare post
 								$node["message"] = $frmEx->prepareText($node["message"]);
 										
+								$tplEx->setVariable("SUBJECT",$node["subject"]);
 								$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 								$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
 								$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
