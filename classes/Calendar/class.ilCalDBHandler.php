@@ -150,7 +150,7 @@ class ilCalDBHandler
                  break;
          default: $query = "INSERT INTO {$dbTable} ({$fields}) VALUES ({$values})";
       }
-	   //echo "<b>SQL query:</b> ".$query."<br>";
+//echo "<b>DBHandler:insert:</b> ".$query."<br>";
 		$result = $this->ilias->db->query($query);
 	}
 
@@ -159,11 +159,12 @@ class ilCalDBHandler
 	* @param string dbTable, string values (<column>=<new value>), string whereCondition
 	* @access public
 	*/
-	
+
 	function update($dbTable, $values, $whereCondition) {
 		if (strlen($dbTable) != 0 && strlen($values) != 0 && strlen($whereCondition) != 0) {
 			$query = "UPDATE {$dbTable} SET {$values} WHERE {$whereCondition}";
 			$result = $this->ilias->db->query($query);
+//echo "DBHandler->update():".$query."<br>";
 		}
 		else {
 			die ($this->className . "::update(): incorrect parameters.");
@@ -175,7 +176,7 @@ class ilCalDBHandler
 	* @param string dbTable, string whereCondition
 	* @access public
 	*/
-	
+
 	function delete($dbTable, $whereCondition, $delete=false) {
 		if (strlen($dbTable) != 0 && strlen($whereCondition) != 0) {
 			$query = "DELETE FROM {$dbTable} WHERE {$whereCondition}";

@@ -56,15 +56,16 @@ class ilAppointmentHandler
 		}
 		return $finalAppointmentArrayList;
 	}
-		
+
 	function insertAppointment($user, $appointment) {
 		if ($appointment != null) {
 			$dbHandler = new ilCalDBHandler();
-			
-			$appointmentUnionId = time() + mt_rand(1,1000000) + $appointment->getOwnerId();
 
+			$appointmentUnionId = time() + mt_rand(1,1000000) + $appointment->getOwnerId();
+//echo "AppHandler:insertApp()<br>";
 			for($ii=0;$ii<count($user);$ii++) {
 				if ($user[$ii] != "" && $user[$ii] != null) {
+//echo "user:".$user[$ii]."<br>";
 					$placeHolder = $appointment->getStartTimestamp() + mt_rand(1, 99);
 					$currentUser = $user[$ii];
 					$dbtable = "cal_appointment";
@@ -72,10 +73,10 @@ class ilAppointmentHandler
 					$values = "'".$placeHolder."', 1, 1, 1, 'Private', 0, 0, 0, ".$currentUser;
 					$number_of_values = 3;
 					$dbHandler->insert($number_of_values, $dbtable, $fields, $values);
-		
+
 					$where = "cal_appointment.term = '".$placeHolder."' AND cal_appointment.userId=".$currentUser;
 					$appointmentResultSet = $dbHandler->select($dbtable, "", $where);
-					
+
 					if (count($appointmentResultSet) != 1)
 						die("AppointmentHandler::insertAppointment: got not exact one new appointment from DB");
 					else {
@@ -83,7 +84,7 @@ class ilAppointmentHandler
 						$currentAppointmentId = $row[0];
 					}
 					unset($appointmentResultSet);
-					
+
 					$values =  "cal_appointment.access = '".$appointment->getAccess()."', ".
 								  "cal_appointment.categoryId = ".$appointment->getCategoryId().", ".
 								  "cal_appointment.description = '".$appointment->getDescription()."', ".
@@ -97,11 +98,11 @@ class ilAppointmentHandler
 								  "cal_appointment.ownerId = ".$appointment->getOwnerId();
 								  "cal_appointment.userId = ".$currentUser;
 					$whereCondition = "cal_appointment.appointmentId = ".$currentAppointmentId;
-		
-					$dbHandler->update($dbtable, $values, $whereCondition);				
-					
+
+					$dbHandler->update($dbtable, $values, $whereCondition);
+
 					if ($appointment->getSerial() == 1) {
-					
+
 						$dbtable = "cal_appointmentrepeats";
 						$fields = "appointmentId, endTimestamp, type, weekdays";
 						if ($appointment->getSer_stop() == "")
@@ -113,11 +114,11 @@ class ilAppointmentHandler
 						$number_of_values = 3;
 						$dbHandler-> insert($number_of_values, $dbtable, $fields, $values);
 					}
-				}	
-			}		
+				}
+			}
 		}
 	}
-		
+
 	function setAppointmentArrayList($userId, $st, $et) {
 		global $appointmentArrayList, $arrayIndex, $startTimestamp, $endTimestamp;
 		$startTimestamp = $st;
