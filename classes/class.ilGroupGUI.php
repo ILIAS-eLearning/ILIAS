@@ -2610,6 +2610,8 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function setLocator()
 	{
+		global $ilias_locator;
+		
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		// ### AA 03.11.10 added new locator GUI class ###

@@ -470,6 +470,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "")
 	{
+		global $ilias_locator;
+		
 		if(!defined("ILIAS_MODULE"))
 		{
 			parent::setLocator($a_tree, $a_id);
