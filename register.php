@@ -226,7 +226,12 @@ function displayForm ()
 	// fill presets
 	foreach ($data["fields"] as $key => $val)
 	{
-		$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
+		$str = $lng->txt($key);
+		if ($key == "title")
+		{
+			$str = $lng->txt("person_title");
+		}
+		$tpl->setVariable("TXT_".strtoupper($key), $str);
 
 		if ($key == "default_role")
 		{
