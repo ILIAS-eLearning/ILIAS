@@ -232,7 +232,7 @@ class ilPageObjectGUI
 		return $this->output_submode;
 	}
 
-	
+
 	function setSourcecodeDownloadScript ($script_name) {
 		$this->sourcecode_download_script = $script_name;
 	}
@@ -385,14 +385,16 @@ class ilPageObjectGUI
 			unset($_SESSION["citation_error"]);
 		}
 
-
 		// get title
 		$pg_title = $this->getPresentationTitle();
+
+		//$content = str_replace("&nbsp;", "", $content);
 
 		// run xslt
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
+
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";

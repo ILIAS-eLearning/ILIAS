@@ -1173,6 +1173,7 @@ class ilLMPresentationGUI
 			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
 			$xml.="</dummy>";
 		}
+
 //echo htmlentities($xml); exit;
 
 		// todo: utf-header should be set globally
@@ -1477,8 +1478,8 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LINK_BACK",
 			"lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 
-//		$this->tpl->setVariable("FORMACTION", "lm_presentation.php?ref_id=".$_GET["ref_id"]
-//			."&obj_id=".$_GET["obj_id"]."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_presentation.php?ref_id=".$_GET["ref_id"]
+			."&obj_id=".$_GET["obj_id"]."&cmd=post");
 
 		$tree = $this->lm->getLMTree();
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));

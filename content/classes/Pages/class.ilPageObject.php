@@ -1496,11 +1496,12 @@ class ilPageObject
 				$content .= $this->dom->dump_node($childs[$j]);
 			}
 
-			if ($subchar == "html")
-			{
-				$content = str_replace("&lt;", "&amp;amp;lt;", $content);
-				$content = str_replace("&gt;", "&amp;amp;gt;", $content);
-			}
+			//if ($subchar == "html")
+			//{
+			$content = str_replace("&amp;lt;", "&lt;", $content);
+			$content = str_replace("&amp;gt;", "&gt;", $content);
+			$content = str_replace("&", "&amp;amp;", $content);
+			//}
 
 			while ($context_node->has_child_nodes ())
 			{
