@@ -5,6 +5,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package ilias-core
@@ -88,9 +89,8 @@ switch ($_GET["cmd"])
 	case "update":
 		break;
 
-	// edit object
+	// no more edit() here! all calls moved to "out" class
 	case "edit":
-		$data = $obj->editObject($_GET["order"], $_GET["direction"]);
 		break;
 
 	// create object

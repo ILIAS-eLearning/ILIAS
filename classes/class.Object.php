@@ -318,14 +318,14 @@ class Object
 		return $this->id;
 	}
 
-	
+
 	/*
 	* update object in db
 	*/
 	function update()
 	{
 		global $ilias;
-		
+
 		// cut length of text
 		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
 		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
@@ -547,32 +547,6 @@ class Object
 
 
 	/**
-	* edit object
-	* @access	public
-	**/
-	function editObject($a_order, $a_direction)
-	{
-		global $rbacsystem, $lng;
-
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$obj = getObjectByReference($this->ref_id);
-
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $obj["title"];
-			$data["fields"]["desc"] = $obj["desc"];
-			$data["cmd"] = "update";
-			return $data;
- 		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}
-	}
-
-	
-	/**
 	* show permissions of object
 	* @access	public
 	**/
@@ -607,7 +581,7 @@ class Object
 					$data["check_inherit"][] = TUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
-			
+
 			$ope_list = getOperationList($obj["type"]);
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($ope_list as $key => $operation)
@@ -629,12 +603,12 @@ class Object
 		{
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
-		
+
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->id);
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->id;
 		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
-		
+
 		if ($rbacsystem->checkAccess("edit permission", $this->id) &&
 		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
 		{
@@ -657,13 +631,13 @@ class Object
 	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree,$rbacsystem,$rbacreview,$rbacadmin;
-		
+
 		// TODO: get rid of $_GET variables
 
 		if ($rbacsystem->checkAccess('edit permission',$this->id))
 		{
 			$rbacadmin->revokePermission($this->id);
-			
+
 			foreach ($a_perm as $key => $new_role_perms)
 			{
 				// $key enthaelt die aktuelle Role_Id
@@ -854,7 +828,7 @@ class Object
 			$data["empty"] = true;
 			return $data;
 		}
-	}		
+	}
 
 	/**
 	* returns the parent object id of $_GET["parent"]
@@ -865,21 +839,22 @@ class Object
 	function getParentObjectId($a_start = 0)
 	{
 		global $tree;
-		
+
 		$a_start = $a_start ? $a_start : $_GET["parent"];
-		
+
 		$path_ids = $tree->getPathId($a_start,ROOT_FOLDER_ID);
 		array_pop($path_ids);
-		
+
 		return array_pop($path_ids);
 	} //function
+
 
 	function getSubObjects()
 	{
 		global $rbacsystem,$rbacadmin;
-		
+
 		$data = array();
-		
+
 		// show only objects with permission 'create'
 		$objects = $rbacadmin->getModules($this->type,$this->id);
 

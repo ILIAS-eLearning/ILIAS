@@ -92,29 +92,6 @@ class LanguageObject extends Object
 		}
 	}
 
-	/*
-	* DESC MISSING
-	* 
-	*/
-	function editObject($a_order, $a_direction)
-	{
-		global $rbacsystem, $rbacreview;
-
-		if ($rbacsystem->checkAccess('write',$this->parent) || $this->id == $_SESSION["AccountId"])
-		{
-			$data = array();
-			$lng2 = new Language($this->id);
-
-			$data["fields"] = array();
-			$data["fields"]["name"] = $lng2->name;
-
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit language",$this->ilias->error_obj->WARNING);
-		}
-	}
 
 	/**
 	* install current language

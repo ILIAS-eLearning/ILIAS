@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.7 2003/03/12 16:52:25 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.8 2003/03/13 17:48:30 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -12,6 +12,14 @@
 class UserObjectOut extends ObjectOut
 {
 	/**
+	* array of gender abbreviations
+	* @var array
+	* @access public
+	*/
+	var $gender;
+
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -19,6 +27,12 @@ class UserObjectOut extends ObjectOut
 	{
 		$this->type = "usr";
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
+
+		// for gender selection. don't change this
+		$this->gender = array(
+							  'm'    => "salutation_m",
+							  'f'    => "salutation_f"
+							  );
 	}
 	
 	function createObject()
@@ -37,11 +51,83 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
+
+	/**
+	* display user edit form
+	*/
 	function editObject()
 	{
+		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
+
+		if ($rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
+		{
+			// Userobjekt erzeugen
+			$user = new User($this->obj_id);
+
+			// gender selection
+			$gender = TUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
+
+			// role selection
+			$obj_list = getObjectList("role");
+
+			foreach ($obj_list as $obj_data)
+			{
+				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+			}
+
+			$def_role = $rbacadmin->getDefaultRole($user->getId());
+			$role = TUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
+
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["login"] = $user->getLogin();
+			$data["fields"]["passwd"] = "********";	// will not be saved
+			$data["fields"]["title"] = $user->getTitle();
+			$data["fields"]["gender"] = $gender;
+			$data["fields"]["firstname"] = $user->getFirstname();
+			$data["fields"]["lastname"] = $user->getLastname();
+			$data["fields"]["institution"] = $user->getInstitution();
+			$data["fields"]["street"] = $user->getStreet();
+			$data["fields"]["city"] = $user->getCity();
+			$data["fields"]["zipcode"] = $user->getZipcode();
+			$data["fields"]["country"] = $user->getCountry();
+			$data["fields"]["phone"] = $user->getPhone();
+			$data["fields"]["email"] = $user->getEmail();
+			$data["fields"]["default_role"] = $role;
+
+			$data["active_role"]["access"] = true;
+
+			// BEGIN ACTIVE ROLE
+			$assigned_roles = $rbacreview->assignedRoles($user->getId());
+
+			foreach ($assigned_roles as $key => $role)
+			{
+			   // BEGIN TABLE_ROLES
+			   $obj = getObject($role);
+
+			   if($user->getId() == $_SESSION["AccountId"])
+			   {
+				  $data["active_role"]["access"] = true;
+				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
+			   }
+			   else
+			   {
+				  $data["active_role"]["access"] = false;
+				  $box = "";
+			   }
+
+			   $data["active_role"][$role]["checkbox"] = $box;
+			   $data["active_role"][$role]["title"] = $obj["title"];
+			}
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_obj->WARNING);
+		}
+
 		$this->getTemplateFile("edit","usr");
 
-		foreach ($this->data["fields"] as $key => $val)
+		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
@@ -59,7 +145,7 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->setCurrentBlock("TABLE_ROLES");
 
 		$counter = 0;
-		foreach($this->data["active_role"] as $role_id => $role)
+		foreach($data["active_role"] as $role_id => $role)
 		{
 		   ++$counter;
 		   $this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",TUtil::switchColor($counter,"tblrow2","tblrow1"));
@@ -72,7 +158,7 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
 
-		if($this->data["active_role"]["access"] == true)
+		if($data["active_role"]["access"] == true)
 		{
 		   $this->tpl->touchBlock("TABLE_SUBMIT");
 	    }
@@ -144,7 +230,8 @@ class UserObjectOut extends ObjectOut
 	function updateObject()
 	{
 		global $rbacsystem, $rbacadmin;
-		if ($rbacsystem->checkAccess("write", $this->object->getRefId())
+
+		if ($rbacsystem->checkAccess("write", $_GET["ref_id"])
 			|| $this->object->getId() == $_SESSION["AccountId"])
 		{
 			$user = new User($this->object->getId());

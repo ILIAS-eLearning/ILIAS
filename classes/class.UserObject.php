@@ -112,87 +112,9 @@ class UserObject extends Object
 
 		// delete rbac data of user
 		$rbacadmin->removeUser($a_obj_id);
-		
+
 		// delete object_data entry
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1);
-	}
-
-	
-	/**
-	* edit user data
-	* @access	public
-	*/
-	function editObject($a_order, $a_direction)
-	{
-		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
-		
-		// TODO: get rid of $_GET vars
-		if ($rbacsystem->checkAccess('write',$_GET["parent"]) || $this->id == $_SESSION["AccountId"])
-		{
-			// Userobjekt erzeugen
-			$user = new User($this->id);
-			
-			// gender selection
-			$gender = TUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
-
-			// role selection
-			$obj_list = getObjectList("role");
-			
-			foreach ($obj_list as $obj_data)
-			{
-				$rol[$obj_data["obj_id"]] = $obj_data["title"];
-			}
-			
-			$def_role = $rbacadmin->getDefaultRole($user->getId());
-			$role = TUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
-
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["login"] = $user->getLogin();
-			$data["fields"]["passwd"] = "********";	// will not be saved
-			$data["fields"]["title"] = $user->getTitle();
-			$data["fields"]["gender"] = $gender;
-			$data["fields"]["firstname"] = $user->getFirstname();
-			$data["fields"]["lastname"] = $user->getLastname();
-			$data["fields"]["institution"] = $user->getInstitution();
-			$data["fields"]["street"] = $user->getStreet();
-			$data["fields"]["city"] = $user->getCity();
-			$data["fields"]["zipcode"] = $user->getZipcode();
-			$data["fields"]["country"] = $user->getCountry();
-			$data["fields"]["phone"] = $user->getPhone();					
-			$data["fields"]["email"] = $user->getEmail();
-			$data["fields"]["default_role"] = $role;
-			
-			$data["active_role"]["access"] = true;
-
-			// BEGIN ACTIVE ROLE
-			$assigned_roles = $rbacreview->assignedRoles($user->getId());
-
-			foreach ($assigned_roles as $key => $role)
-			{
-			   // BEGIN TABLE_ROLES
-			   $obj = getObject($role);
-
-			   if($user->getId() == $_SESSION["AccountId"])
-			   {
-				  $data["active_role"]["access"] = true;
-				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
-			   }
-			   else
-			   {
-				  $data["active_role"]["access"] = false;
-				  $box = "";
-			   }
-
-			   $data["active_role"][$role]["checkbox"] = $box;
-			   $data["active_role"][$role]["title"] = $obj["title"];
-			}
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_obj->WARNING);
-		}
 	}
 
 

@@ -3,7 +3,7 @@
 * Class TypeDefinitionObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.5 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.6 2003/03/12 16:52:25 akill Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -149,21 +149,97 @@ class TypeDefinitionObjectOut extends ObjectOut
 
 
 	/**
-	* save object!?
+	* save (de-)activation of operations on object
 	*/
 	function saveObject()
 	{
-		$this->alterOperationsOnObject();
+		global $rbacadmin,$rbacreview;
+
+		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+		foreach ($_POST["id"] as $ops_id => $status)
+		{
+			if ($status == 'enabled')
+			{
+				if (!in_array($ops_id,$ops_valid))
+				{
+					$rbacreview->assignPermissionToObject($_GET["obj_id"],$ops_id);
+				}
+			}
+
+			if ($status == 'disabled')
+			{
+				if (in_array($ops_id,$ops_valid))
+				{
+					$rbacreview->deassignPermissionFromObject($_GET["obj_id"],$ops_id);
+//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
+				}
+			}
+		}
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=view");
+		exit();
 	}
 
 
+	/**
+	* display edit form
+	*/
 	function editObject()
 	{
+		global $rbacsystem, $rbacadmin, $tpl;
+
+		// RBAC deactived for testing
+		//if ($rbacsystem->checkAccess('write',$_GET["parent"]))
+		//{
+			//prepare objectlist
+			$this->data = array();
+			$this->data["data"] = array();
+			$this->data["ctrl"] = array();
+
+			$this->data["cols"] = array("", "type", "operation", "description", "status");
+
+			$ops_valid = $rbacadmin->getOperationsOnType($this->obj_id);
+
+			if ($ops_arr = getOperationList('', $a_order, $a_direction))
+			{
+				$options = array("e" => "enabled","d" => "disabled");
+
+				foreach ($ops_arr as $key => $ops)
+				{
+					// BEGIN ROW
+					if (in_array($ops["ops_id"],$ops_valid))
+					{
+						$ops_status = 'e';
+					}
+					else
+					{
+						$ops_status = 'd';
+					}
+
+					$obj = $ops["ops_id"];
+					$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
+
+					//visible data part
+					$this->data["data"][] = array(
+						"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_perm_b.gif\" border=\"0\">",
+						"title" => $ops["operation"],
+						"description" => $ops["desc"],
+						"status" => $ops_options
+					);
+
+				}
+			}
+
+		//}
+		//else
+		//{
+		//	$this->ilias->raiseError("No permission to edit operations",$this->ilias->error_obj->WARNING);
+		//}
+
 		$this->getTemplateFile("edit");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&cmd=save&obj_id=".$_GET["obj_id"]."&parent=".
-						  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&cmd=save&obj_id=".$_GET["obj_id"].
+			"&ref_id=".$_GET["ref_id"]);
 
 		//table header
 		foreach ($this->data["cols"] as $key)
@@ -184,7 +260,6 @@ class TypeDefinitionObjectOut extends ObjectOut
 		for ($i=0; $i< count($this->data["data"]); $i++)
 		{
 			$data = $this->data["data"][$i];
-			$ctrl = $this->data["ctrl"][$i];
 
 			$num++;
 
@@ -193,7 +268,7 @@ class TypeDefinitionObjectOut extends ObjectOut
 
 			$this->tpl->touchBlock("empty_cell");
 			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->setVariable("TEXT", "");
+			//$this->tpl->setVariable("TEXT", "");
 			$this->tpl->parseCurrentBlock();
 
 			//data
@@ -204,16 +279,15 @@ class TypeDefinitionObjectOut extends ObjectOut
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
-				} //foreach
-			
-			$this->tpl->setCurrentBlock("table_row");	
+			} //foreach
+
+			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		} //for
-		
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("save"));
 	}
-	
+
 
 } // END class.TypeDefinitionObjectOut
 ?>

@@ -3,8 +3,8 @@
 * Class Object
 * Basic methods of all Output classes
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.37 2003/03/13 21:24:48 akill Exp $
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$Id: class.ObjectOut.php,v 1.38 2003/03/14 16:25:06 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -116,6 +116,7 @@ class ObjectOut
 	function readObject($obj_class)
 	{
 		require_once("./classes/class.".$obj_class.".php");
+
 		if ($this->call_by_reference)
 		{
 			$this->object =& new $obj_class($_GET["ref_id"], true);
@@ -367,10 +368,38 @@ class ObjectOut
 		exit();
 	}
 
+
+	/**
+	* edit object
+	*/
 	function editObject()
 	{
+		global $rbacsystem, $lng;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			$fields = array();
+			$fields["title"] = $this->object->getTitle();
+			$fields["desc"] = $this->object->getDescription();
+			$this->displayEditForm($fields);
+		}
+	}
+
+
+	/**
+	* display edit form (usually called by editObject)
+	*
+	* @access	private
+	* @param	array	$fields		key/value pairs of input fields
+	*/
+	function displayEditForm($fields)
+	{
 		$this->getTemplateFile("edit");
-		foreach ($this->data["fields"] as $key => $val)
+		foreach ($fields as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
@@ -487,38 +516,6 @@ class ObjectOut
 	}
 
 
-	/**
-	* alter operations
-	*/
-	function alterOperationsOnObject()
-	{
-		global $rbacadmin,$rbacreview;
-
-		$ops_valid = $rbacadmin->getOperationsOnType($_GET["ref_id"]);
-
-		foreach ($_POST["id"] as $ops_id => $status)
-		{
-			if ($status == 'enabled')
-			{
-				if (!in_array($ops_id,$ops_valid))
-				{
-					$rbacreview->assignPermissionToObject($_GET["ref_id"],$ops_id);
-				}
-			}
-
-			if ($status == 'disabled')
-			{
-				if (in_array($ops_id,$ops_valid))
-				{
-					$rbacreview->deassignPermissionFromObject($_GET["ref_id"],$ops_id);
-//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
-				}
-			}
-		}
-		return true;
-	}
-
-	
 	/**
 	* display object list
 	*/

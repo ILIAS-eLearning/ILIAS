@@ -3,7 +3,7 @@
 * Class ObjectFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ObjectFolderObjectOut.php,v 1.5 2003/03/14 16:25:06 shofmann Exp $
+* $Id$
 *
 * @extends Object
 * @package ilias-core
@@ -50,9 +50,8 @@ class ObjectFolderObjectOut extends ObjectOut
 			}
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"].
+				"&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -100,7 +99,7 @@ class ObjectFolderObjectOut extends ObjectOut
 							$link = "lo_view.php?";
 						}
 
-						$link.= "&type=typ&obj_id=".$obj["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"];
+						$link.= "&type=typ&obj_id=".$obj["obj_id"]."&ref_id=".$_GET["ref_id"];
 
 						if ($key == "title" || $key == "type")
 						{
