@@ -398,6 +398,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 	function addSuggestedSolution()
 	{
+		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
 			$result = $this->writePostData();

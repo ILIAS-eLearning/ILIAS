@@ -614,6 +614,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 
 	function addSuggestedSolution()
 	{
+		$_SESSION["subquestion_index"] = 0;
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
 			$this->writePostData();
