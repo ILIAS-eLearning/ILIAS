@@ -78,9 +78,9 @@ function saveForm()
 {
 	global $tpl, $ilias, $lng, $rbacadmin;
 
-	$tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
-	sendInfo();
-	InfoPanel();
+	//$tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
+	//sendInfo();
+	//InfoPanel();
 
 	//check, whether user-agreement has been accepted
 	if (! ($_POST["status"]=="accepted") )
