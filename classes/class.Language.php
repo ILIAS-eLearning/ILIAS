@@ -1,5 +1,4 @@
 <?php
-
 /**
 * language handling
 *
@@ -101,8 +100,17 @@ class Language
 		
 		$this->ilias =& $ilias;
 		
-		$this->MASTERLANGFILE = $this->ilias->ini->readVariable("language","masterfile");
-		$this->LANGUAGESDIR = $this->ilias->ini->readVariable("server","lang_path");
+		// if no ilias.ini.php was found set default values (->for setup-routine)
+		if ($ilias)
+		{
+			$this->MASTERLANGFILE = $this->ilias->ini->readVariable("language","masterfile");
+			$this->LANGUAGESDIR = $this->ilias->ini->readVariable("server","lang_path");		
+		}
+		else
+		{
+			$this->MASTERLANGFILE = "languages.txt";
+			$this->LANGUAGESDIR = "./lang";
+		}
 		
 		$this->setMasterFile($this->MASTERLANGFILE);
 	    $txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
