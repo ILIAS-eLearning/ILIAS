@@ -3,7 +3,8 @@
  * Class ObjectFolderObject
  * @extends class.Object.php
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$
+ * @version $Id$
+ * @package ilias-core
  * 
  */
 include_once("classes/class.Object.php");

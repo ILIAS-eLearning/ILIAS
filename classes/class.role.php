@@ -1,12 +1,9 @@
 <?
-/*
-+---------------------------------------------------------------+
-/ classes/class.role.php                                      /
-/                                                               /
-/ Rechte-Klasse von ILIAS3                                      /
-/ Berechnet die Rechte und šberprft die Zugriffsrechte         /
-/                                                               /
-+---------------------------------------------------------------+
+/**
+* Rechte-Klasse von ILIAS3                                      /
+* Berechnet die Rechte und šberprft die Zugriffsrechte         /
+* @version $Id$
+* @package ilias-core
 */
 
 /* permission system:

@@ -3,7 +3,8 @@
  * Class RbacAdmin 
  * core functions for role based access control
  * @author Stefan Meyer <smeyer@databay.de>
- * $Id$
+ * @version $Id$
+ * @package rbac
  */
 include_once "classes/class.Object.php";
 class RbacAdmin

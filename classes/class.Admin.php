@@ -3,7 +3,8 @@
  * Class Admin
  * Core functions for Role Based Access Control
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
+ * @version $Id$ 
+ * @package ilias-core
  * 
 */
 class Admin 

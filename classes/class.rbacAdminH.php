@@ -3,7 +3,8 @@
  * class RbacAdminH
  * extensions for hierachical Rbac (maybe later)
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
+ * @version $Id$ 
+ * @package rbac
  * 
 */
 class RbacAdminH extends RbacAdmin

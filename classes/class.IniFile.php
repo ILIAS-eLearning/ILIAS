@@ -23,7 +23,7 @@
  * //Save the file
  * $ini->save_data();
  * 
- * @package ilias
+ * @package application
  * @author Mircho Mirev <?@?.com>
  * @author Peter Gabriel <peter@gabriel-online.net>
  * @version $Id$

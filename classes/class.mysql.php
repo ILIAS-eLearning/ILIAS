@@ -1,24 +1,16 @@
 <?php
-/*
-+---------------------------------------------------------------+
-/ classes/class.mysql.php                                       /
-/                                                               /
-/ MySQL-Klasse fr Datenbankabfragen von ILIAS3                 /
-/                                                               /
-/                                                               /
-+---------------------------------------------------------------+
+/**
+* MySQL-Klasse fr Datenbankabfragen von ILIAS3
+* @version $Id$
+* @author NETUseAG <info@netuseag.de>
+* @package ilias-core
 */
 
 /*
- * Session Management for PHP3
- *
- * Copyright (c) 1998-2000 NetUSE AG
+*  Copyright (c) 1998-2000 NetUSE AG
  *                    Boris Erdmann, Kristian Koehntopp
  *
- * $Id$
- *
- */ 
-
+*/
 class DB_Sql extends PEAR {
   
   /* public: connection parameters */

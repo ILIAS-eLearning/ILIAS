@@ -3,7 +3,8 @@
  * class RbacSystem
  * system function like checkAccess, addActiveRole ...
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
+ * @version $Id$ 
+ * @package rbac
  * 
  */
 include_once "classes/class.Object.php";

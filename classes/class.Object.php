@@ -3,7 +3,8 @@
  * Class Object
  * Basic functions for all objects
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
+ * @version $Id$ 
+ * @package ilias-core
  * 
  */
 class Object

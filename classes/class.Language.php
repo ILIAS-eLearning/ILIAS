@@ -7,7 +7,7 @@ include_once("DB.php");
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
-* @package ilias-core
+* @package application
 */
 class Language
 {

@@ -4,6 +4,7 @@
 * @author Stefan Kesseler <skesseler@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
+* @package application
 */
 
 require_once('HTML/ITX.php');

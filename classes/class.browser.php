@@ -1,12 +1,9 @@
 <?php
-/*
-+---------------------------------------------------------------+
-/ classes/class.browser.php                                     /
-/                                                               /
-/ Hilsmodul-Klasse von ILIAS3                                   /
-/ Bisher noch nicht genutzt                                     /
-/                                                               /
-+---------------------------------------------------------------+
+/**
+* Hilfsmodul-Klasse von ILIAS
+* Bisher noch nicht genutzt 
+* @package ilias-core
+* @version $Id$
 */
 
   /**************************************************************************\
