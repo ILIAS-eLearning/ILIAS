@@ -1287,3 +1287,6 @@ ALTER TABLE learning_module ADD COLUMN page_header
 # remove obsolete columns in rbac tables
 ALTER TABLE rbac_fa DROP parent_obj;
 ALTER TABLE rbac_pa DROP set_id;
+<#63>
+# add primary key to rbac_ua (required for REPLACE statement)
+ALTER TABLE rbac_ua ADD PRIMARY KEY (usr_id,rol_id); 

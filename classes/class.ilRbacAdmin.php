@@ -192,10 +192,10 @@ class ilRbacAdmin
 			$a_default = "n";
 		}
 
-		$q = "INSERT INTO rbac_ua ".
+		$q = "REPLACE INTO rbac_ua ".
 			 "VALUES ('".$a_usr_id."','".$a_rol_id."','".$a_default."')";
-		$this->ilias->db->query($q);
-		
+		$res = $this->ilias->db->query($q);
+
 		// workaround to auto assign current user to a role in the active session
 		// code is the same as in rbacreview::assignedRoles() but I don't used the function to keep rbacadmin & rbacreview independent
 		if ($this->ilias->account->getId() == $_SESSION["AccountId"])
