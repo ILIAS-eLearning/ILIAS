@@ -201,6 +201,7 @@ common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
 common#:#forums#:#Forums
+common#:#forums_overview#:#Forums Overview
 common#:#frm#:#Forum
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#Add Forum
@@ -356,8 +357,6 @@ common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
-common#:#msg_min_one_active_role#:#Each user must have at least one active role!
-common#:#msg_min_one_role#:#Each user must have at least one role!
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
@@ -375,9 +374,12 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
+common#:#msg_is_last_role#:#You deassigned the following users from their last role
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
+common#:#msg_min_one_active_role#:#Each user must have at least one active role!
+common#:#msg_min_one_role#:#Each user must have at least one role!
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -482,7 +484,6 @@ common#:#owner#:#Owner
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
 common#:#parameter#:#Parameter
-common#:#msg_is_last_role#:#You deassigned the following users from their last role
 common#:#parse#:#Parse
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
@@ -771,7 +772,6 @@ forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
 forum#:#forums_overview#:#Forums Overview
-common#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified
 forum#:#forums_post_new_entry#:#New article has been inscribed
