@@ -547,6 +547,9 @@ common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
+common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
+common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
 common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
 common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
@@ -785,6 +788,7 @@ common#:#err_1_param#:#Slechts 1 parameter!
 common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_count_param#:#Reden: Verkeerde aantal parameters
 common#:#err_in_line#:#Fout in regel
+common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!
 common#:#err_no_param#:#Geen parameter!
 common#:#err_over_3_param#:#Meer dan 3 parameters!
@@ -1153,8 +1157,14 @@ common#:#last_visit#:#Laatste bezoek
 common#:#lastname#:#Achternaam
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
+common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
+common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Wijzig rechten-instellingen
+common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Lees-recht tot LDAP-instellingen
+common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
+common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
+common#:#ldap_tls#:#Use LDAP TLS###28 Jul 2004 new variable
 common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar
 common#:#ldap_write#:#Wijzig LDAP-instellingen
 common#:#learning module#:#Learning Module###24 Jun 2004 new variable

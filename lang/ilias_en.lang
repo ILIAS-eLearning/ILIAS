@@ -493,12 +493,6 @@ common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#ldap_configure#:#Configure LDAP Authentication
-common#:#ldap_tls#:#Use LDAP TLS
-common#:#ldap_server#:#LDAP Server URL
-common#:#ldap_basedn#:#LDAP BaseDN
-common#:#ldap_search_base#:#LDAP Search base
-common#:#ldap_port#:#LDAP Port
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
@@ -553,6 +547,9 @@ common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
+common#:#auth_mode#:#Authentication mode
+common#:#auth_mode_changed_to#:#Authentication mode changed to
+common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server
 common#:#auth_read#:#Access	authentication settings
@@ -791,6 +788,7 @@ common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_in_line#:#Error in line
+common#:#err_invalid_port#:#Invalid port number
 common#:#err_no_langfile_found#:#No language file found!
 common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
@@ -864,10 +862,6 @@ common#:#file_version#:#Version Provided in File
 common#:#file_visible#:#File is visible
 common#:#file_write#:#Edit File
 common#:#files#:#Files
-common#:#err_invalid_port#:#Invalid port number
-common#:#auth_mode_changed_to#:#Authentication mode changed to
-common#:#auth_mode#:#Authentication mode
-common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#firstname#:#First name
@@ -1163,8 +1157,14 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last name
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
+common#:#ldap_basedn#:#LDAP BaseDN
+common#:#ldap_configure#:#Configure LDAP Authentication
 common#:#ldap_edit_permission#:#Change permission settings
+common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Read access to LDAP settings
+common#:#ldap_search_base#:#LDAP Search base
+common#:#ldap_server#:#LDAP Server URL
+common#:#ldap_tls#:#Use LDAP TLS
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
 common#:#learning module#:#Learning Module
