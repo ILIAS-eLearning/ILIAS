@@ -18,6 +18,20 @@ input, textarea {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	font-size:13px;
 }
+
+a.menu:link, a.menu:visited {
+	color:#a0c0ff;
+	text-decoration:underline;
+}
+
+a.menu:hover {
+	color:#ff9900;
+}
+
+span.il_menu {
+	color:#f7f7f7;
+}
+
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
