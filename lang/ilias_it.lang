@@ -37,9 +37,9 @@
 administration#:#analyze_data#:#Verifica dell'integrit&#224; dei dati
 administration#:#analyze_desc#:#Esame del sistema per oggetti corrotti/invalidi/mancanti/scollegati.
 administration#:#analyzing#:#Sto verificando ...
-administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
-administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
-administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!###17 Nov 2004 new variable
+administration#:#analyzing_tree_structure#:#Sto analizzando la struttura dell'albero...
+administration#:#check_tree#:#Verifica la struttura dell'albero
+administration#:#check_tree_desc#:#Verifica della consistenza dell'intera struttura dell'albero. In base alle dimensioni dell'albero, potrebbe occorrere un po' di tempo!
 administration#:#clean#:#Pulizia
 administration#:#clean_desc#:#Elimina i riferimenti e le voci dell'albero invalide. Compatta la struttura dell'albero.
 administration#:#cleaning#:#Sto pulendo ...
@@ -55,7 +55,7 @@ administration#:#nothing_to_purge#:#Niente da liberare ...
 administration#:#nothing_to_remove#:#Niente da eliminare ...
 administration#:#nothing_to_restore#:#Niente da ripristinare ...
 administration#:#options#:#Opzioni
-administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
+administration#:#passwd_auto_generate#:#Invio/Creazione password
 administration#:#purge_missing#:#Libera gli oggetti mancanti
 administration#:#purge_missing_desc#:#Rimuovi tutti gli oggetti mancanti o scollegati trovati nel sistema.
 administration#:#purge_trash#:#Svuota il cestino
@@ -66,8 +66,8 @@ administration#:#purging_trash#:#Sto svuotando il cestino ...
 administration#:#purging_unbound_objs#:#Sto liberando gli oggetti scollegati ...
 administration#:#removing_invalid_childs#:#Rimuovi le voci non valide dall'albero ...
 administration#:#removing_invalid_refs#:#Rimuovi i riferimenti non validi ...
-administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
-administration#:#restore_missing#:#Rirpistina gli oggetti mancanti
+administration#:#removing_invalid_rolfs#:#Sto rimuovendo le cartelle non valide...
+administration#:#restore_missing#:#Ripristina gli oggetti mancanti
 administration#:#restore_missing_desc#:#Ripristina gli oggetti mancanti e scollegati nella cartella di ricupero.
 administration#:#restore_trash#:#Ripristina gli oggetti cancellati.
 administration#:#restore_trash_desc#:#Ripristina nella cartella di ricupero tutti gli oggetti che sono nel cestino.
@@ -83,14 +83,14 @@ administration#:#scanning_system#:#Sto esaminando il sistema ...
 administration#:#searching_deleted_objs#:#Sto cercando gli oggetti cancellati ...
 administration#:#searching_invalid_childs#:#Sto cercando gli elementi non validi dell'albero ...
 administration#:#searching_invalid_refs#:#Sto cercando i riferimenti non validi ...
-administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...###17 Nov 2004 new variable
+administration#:#searching_invalid_rolfs#:#Sto cercando le cartelle non valide...
 administration#:#searching_missing_objs#:#Sto cercando gli oggetti mancanti ...
 administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ...
 administration#:#skipped#:#saltato
 administration#:#start_scan#:#Inizia!
 administration#:#stop_scan#:#Ferma!
 administration#:#systemcheck#:#Controllo del sistema
-administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.###17 Nov 2004 new variable
+administration#:#tree_corrupt#:#L'albero &#232; corrotto! Puoi vedere i dettagli nel file di log.
 administration#:#view_last_log#:#Vedi l'ultimo log
 administration#:#view_log#:#Vedi dettagli
 assessment#:#0_unlimited#:#(0 = senza limite)
@@ -103,7 +103,7 @@ assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
-assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
+assessment#:#add_questionpool#:#Aggiungi raccolta di domande
 assessment#:#add_solution#:#Aggiungi soluzione suggerita
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
@@ -136,7 +136,7 @@ assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area deside
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
 assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#code#:#Codice
-assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###12 Nov 2004 new variable
+assessment#:#confirm_sync_questions#:#La domanda che &#232; stata modificata &#232; la copia di una che &#232; stata creata per un sondaggio ancora attivo. Vuoi cambiare anche la domanda originale?
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
 assessment#:#counter#:#Contatore
@@ -283,7 +283,7 @@ assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modifica
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qpl_question_is_in_use#:#La domanda che stai per modificare &#232; inserita in %s test. Se modifichi la domanda, NON verranno modificate le domande nei test, perch&#232; il sistema crea una copia delle domande quando queste vengono inserite in un test!
 assessment#:#qpl_questions_deleted#:#Domande eliminate
-assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
+assessment#:#qpl_select_file_for_import#:#Devi il file da importare!
 assessment#:#qt_cloze#:#con risposta da completare
 assessment#:#qt_imagemap#:#con immagine a mappa
 assessment#:#qt_javaapplet#:#con applet java
@@ -295,7 +295,7 @@ assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automat
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#questionpool_not_entered#:#Per favore inserisci il nome della raccolta di domande!
-assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
+assessment#:#questions_from#:#domande da
 assessment#:#radio_set#:#Seleziona
 assessment#:#radio_unset#:#Deseleziona
 assessment#:#random_accept_sample#:#Accetta esempio
@@ -338,11 +338,11 @@ assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
-assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!###29 Nov 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Tutti i dati relativi agli utenti di questo test sono stati cancellati!
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
-assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi di cui hai bisogno per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?###29 Nov 2004 content changed
+assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi che puoi effettuare per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
 assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
@@ -357,7 +357,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test pas
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno inserito il test
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Genera un Foglio elettronico
-assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
+assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro che vuoi inserire le seguenti domande nel test?
 assessment#:#tst_insert_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da  %s utente(i). Inserire domande nel test causer&#224 la cancellazione di tutti i risultati per questo utente. Sei sicuro che vuoi inserire le seguenti domande nel test?
@@ -375,7 +375,7 @@ assessment#:#tst_missing_marks#:#Non hai indicato uno schema di punteggio per il
 assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda nel test.
 assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore vai nella sezione dei metadati e inserisci un titolo.
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
-assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
+assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi crearne di nuove.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
@@ -391,11 +391,11 @@ assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
 assessment#:#tst_random_nr_of_questions#:#Quante domande?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###06 Dec 2004 new variable
-assessment#:#tst_random_questionpools#:#Source questionpools###06 Dec 2004 new variable
+assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.
+assessment#:#tst_random_questionpools#:#Raccolta di domande sorgente
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dal quale scegliere le domande
-assessment#:#tst_random_test#:#Random test###05 Dec 2004 new variable
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be generated by a random generator###05 Dec 2004 new variable
+assessment#:#tst_random_test#:#Test casuale
+assessment#:#tst_random_test_description#:#Se selezionate, le domande del test saranno generate casualmente
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_remove_questions#:#Sei sicuro che vuoi eliminare le seguenti domande dal test?
 assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
@@ -411,7 +411,7 @@ assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_file_for_import#:#Devi scegliere un file da importare!
 assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
-assessment#:#tst_select_random_questions#:#Select the questionpool(s) and the amount of questions for the random test###06 Dec 2004 new variable
+assessment#:#tst_select_random_questions#:#Seleziona la(e) raccolta(e) di domande ed il numero di domande che comporranno il test casuale
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
@@ -451,8 +451,8 @@ assessment#:#tst_status_not_entered#:#non inserito
 assessment#:#tst_status_ok#:#Lo stato del test &#232; OK. Non ci sono elementi mancanti.
 assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
-assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
+assessment#:#tst_total_questions#:#Numero di domande
+assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, il numero di domande inserite nella raccolta viene ignorato ed il numero rappresenta le domande prelevate da ogni raccolta!
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo del test. Tutti i test precedentemente svolti sono stati eliminati!
 assessment#:#tst_type_comment#:#Attenzione: modificando il tipo del test, verranno eliminati tutti i test svolti precedentemente!
@@ -550,7 +550,7 @@ chat#:#chat_chatrooms#:#Chatroom
 chat#:#chat_color#:#Colori dei font
 chat#:#chat_delete_sure#:#Sei sicuro di voler eliminare questa chatroom
 chat#:#chat_drop_user#:#Utente tolto
-chat#:#chat_edit#:#Modifica chat###29 Nov 2004 content changed
+chat#:#chat_edit#:#Modifica chat
 chat#:#chat_face#:#Tipo font
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#grigio
@@ -628,7 +628,7 @@ common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
 common#:#account_expires_body#:#La tua iscrizione &#232; limitata, scadr&#224; il:
 common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
-common#:#action#:#Action###29 Nov 2004 new variable
+common#:#action#:#Azione
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
@@ -692,8 +692,8 @@ common#:#approve_date#:#Approvato il
 common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
-common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
-common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#articels_unread#:#Articoli da leggere:
+common#:#as_of#:#di
 common#:#assign#:#Assegna
 common#:#assign_global_role#:#Assegnato ad un ruolo globale
 common#:#assign_lo_forum#:#Assegna il forum
@@ -754,14 +754,14 @@ common#:#cannot_find_xml#:#Non ho trovato nessun file XML.
 common#:#cannot_uninstall_language_in_use#:#Non &egrave; possibile rimuovere la lingua che &#232; correntemente in uso!
 common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lingua di sistema!
 common#:#cannot_unzip_file#:#Non posso decomprimere il file.
-common#:#cat#:#Categoria
-common#:#cat_a#:#Una categoria
-common#:#cat_add#:#Aggiungi categoria
-common#:#cat_added#:#Categoria aggiunta
+common#:#cat#:#Contesto
+common#:#cat_a#:#Un contesto
+common#:#cat_add#:#Aggiungi contesto
+common#:#cat_added#:#Contesto aggiunto
 common#:#cat_cat_administrate_users#:#Amministrare utenti locali
-common#:#cat_create#:#Crea una categoria
+common#:#cat_create#:#Crea un contesto
 common#:#cat_create_alm#:#Creare un modulo AICC
-common#:#cat_create_cat#:#Creare una categoria
+common#:#cat_create_cat#:#Creare un contesto
 common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
@@ -780,16 +780,16 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_delete#:#Eliminare un categoria
-common#:#cat_edit#:#Modificare un categoria
+common#:#cat_delete#:#Eliminare un contesto
+common#:#cat_edit#:#Modificare un contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#cat_new#:#Nuova categoria
-common#:#cat_read#:#Accedere in lettura ad una categoria
+common#:#cat_new#:#Nuovo contesto
+common#:#cat_read#:#Accedere in lettura ad un contesto
 common#:#cat_read_users#:#Accedere in lettura agli utenti locali
-common#:#cat_visible#:#Vedere una categoria
-common#:#cat_write#:#Modificare una categoria
-common#:#categories#:#Categorie
-common#:#categories_imported#:#Imporazione categorie completata.
+common#:#cat_visible#:#Vedere un contesto
+common#:#cat_write#:#Modificare un contesto
+common#:#categories#:#Contesti
+common#:#categories_imported#:#Importazione contesti completata.
 common#:#cc#:#CC
 common#:#cen#:#Evento principale
 common#:#cen_add#:#Aggiungi l'evento principale
@@ -991,10 +991,10 @@ common#:#email#:#Email
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
 common#:#enable#:#Abilita
-common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
-common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
-common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
+common#:#enable_hist_user_comments#:#Abilita i commenti degli utenti nella storia
+common#:#enable_js_edit#:#Abilita la modifica di JavaScript
+common#:#enable_js_edit_info#:#Questa opzione abilita la modifica dei JavaScript per tutti gli oggetti contenuti (Moduli ILIAS, Glossari, Domande, Libreria digitale) 
+common#:#enable_password_assistance#:#Abilita il servizio di assistenza per la password
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
 common#:#enabled#:#Abilitata
 common#:#enter_filename_deliver#:#Indica l'esercitazione da inviare
@@ -1019,7 +1019,7 @@ common#:#err_unknown_error#:#Errore sconosciuto
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
 common#:#err_wrong_password#:#Password errata
-common#:#error#:#Error###29 Nov 2004 new variable
+common#:#error#:#Errore
 common#:#error_parser#:#Errore nell'esecuzione del parser
 common#:#error_recipient#:#Destinatario per gli errori
 common#:#exc#:#Esercitazione
@@ -1043,7 +1043,7 @@ common#:#exc_instruction#:#Istruzioni per l'esecuzione
 common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati assegnati a questa eserciziotazione
 common#:#exc_members_assigned#:#Membri assegnati
 common#:#exc_new#:#Nuova esercitazione
-common#:#exc_no_members_assigned#:#Nessun membro assegnato
+common#:#exc_no_members_assigned#:#Nessun membro iscritto
 common#:#exc_notices#:#Note
 common#:#exc_obj#:#Esercitazione
 common#:#exc_read#:#Accedere in lettura ad una esercitazione
@@ -1158,7 +1158,7 @@ common#:#gdf_new#:#Nuova definizione
 common#:#gender#:#Sesso
 common#:#gender_f#:#Femminile
 common#:#gender_m#:#Maschile
-common#:#general_settings#:#General settings###29 Nov 2004 new variable
+common#:#general_settings#:#Impostazioni generali
 common#:#generate#:#Generato
 common#:#glo#:#Glossario
 common#:#glo_a#:#un glossario
@@ -1283,18 +1283,18 @@ common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
-common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
-common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
-common#:#history#:#History###29 Nov 2004 new variable
+common#:#hist_dbk:pg_create#:#Pagina creata
+common#:#hist_dbk:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Pagina incollata nel capitolo "%1" [%2]
+common#:#hist_dbk:pg_update#:#Pagina modificata
+common#:#hist_file_create#:#File creato, il nome &#232; "%1".
+common#:#hist_file_replace#:#File sostituito, il nuovo nome &#232; "%1", nuova versione di %2.
+common#:#hist_lm:pg_create#:#Pagina creata
+common#:#hist_lm:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
+common#:#hist_lm:pg_paste#:#Pagina incollata nel capitolo "%1" [%2]
+common#:#hist_lm:pg_update#:#Pagina modificata
+common#:#hist_no_entries#:#NEssuna voce nella storia
+common#:#history#:#Storia
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Modulo HACP
 common#:#hlm_added#:#Modulo HACP aggiunto
@@ -1331,8 +1331,8 @@ common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
 common#:#import_alm#:#Importa un modulo AICC
-common#:#import_categories#:#Importa categorie
-common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
+common#:#import_categories#:#Importa contesti
+common#:#import_dbk#:#Importa Libri digitali
 common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
@@ -1353,7 +1353,7 @@ common#:#in#:#in
 common#:#in_use#:#Lingua utente
 common#:#inactive#:#Inattivo
 common#:#inbox#:#Posta in arrivo
-common#:#info#:#Information###29 Nov 2004 new variable
+common#:#info#:#Informazioni
 common#:#info_assign_sure#:#Sei sicuro di voler assegnare i seguenti utenti?
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
@@ -1434,7 +1434,7 @@ common#:#languages_already_installed#:#Attenzione. La lingua scelta &#232; gi&#2
 common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&#224; stata rimossa.
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.
 common#:#last_change#:#Data ultima modifica
-common#:#last_update#:#Last Update###29 Nov 2004 new variable
+common#:#last_update#:#Data ultimo aggiornamento
 common#:#last_visit#:#Ultima visita
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
@@ -1553,7 +1553,7 @@ common#:#matriculation#:#Numero di matricola
 common#:#max_number_rec#:#Numero massimo di record
 common#:#max_time#:#Tempo massimo
 common#:#member#:#Iscritto
-common#:#members#:#Iscritti
+common#:#members#:#Utenti iscritti
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
 common#:#mep#:#Libreria multimediale
 common#:#mep_add#:#Aggiungi libreria multimediale
@@ -1657,7 +1657,7 @@ common#:#msg_no_scan_log#:#Scansione del log non ancora implementata.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
-common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
+common#:#msg_no_title#:#Per favore inserisci un titolo.
 common#:#msg_no_url#:#Non hai indicato l'URL
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
@@ -1666,7 +1666,7 @@ common#:#msg_obj_created#:#Oggetto creato.
 common#:#msg_obj_exists#:#Questo oggetto esiste gi&#224; nella cartella
 common#:#msg_obj_modified#:#Modifiche salvate.
 common#:#msg_obj_no_link#:#non possono essere collegati
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
+common#:#msg_obj_not_deletable_sold#:#Il pagamento &#232; stato attivato per i seguenti oggetti. Non possono perci&#242; essere modificati.
 common#:#msg_perm_adopted_from1#:#Impostazione dei permessi adottata da
 common#:#msg_perm_adopted_from2#:#(l&#039;impostazione &#232; stata salvata!)
 common#:#msg_perm_adopted_from_itself#:#Non puoi assegnare le impostazioni dei permessi del corrente ruolo/template di ruolo a se stesso.
@@ -1696,7 +1696,7 @@ common#:#new_appointment#:#Nuovo appuntamento
 common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
-common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
+common#:#new_list_password#:#Password suggerite
 common#:#new_mail#:#Nuova email!
 common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
@@ -1706,7 +1706,7 @@ common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
-common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
+common#:#no_datasets#:#La tabella &#232; vuota
 common#:#no_date#:#Manca la data
 common#:#no_description#:#Nessuna descrizione
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
@@ -1735,14 +1735,14 @@ common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
-common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS 3.
+common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutte le schede per poter amministrare la tua installazione di ILIAS 3.
 common#:#obj_alm#:#Modulo AICC
 common#:#obj_auth#:#Autenticazione
-common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (locale, LDAP, ...)
-common#:#obj_cat#:#Categoria
+common#:#obj_auth_desc#:#Configura la modalit&#224; di autenticazione (locale, LDAP, ...)
+common#:#obj_cat#:#Contesto
 common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
-common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
+common#:#obj_chac_desc#:#Configura il server di chat. Abilita/Disabilita chat.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
@@ -1755,14 +1755,14 @@ common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
 common#:#obj_ldap#:#Impostazioni LDAP
-common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
+common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP.
 common#:#obj_lm#:#Modulo ILIAS
 common#:#obj_lng#:#Lingua
 common#:#obj_lngf#:#Impostazioni lingue
-common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
+common#:#obj_lngf_desc#:#Configura e installa le lingue di sistema.
 common#:#obj_lo#:#Unit&#224; didattica
 common#:#obj_mail#:#Impostazioni posta
-common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
+common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail.
 common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
 common#:#obj_not_found#:#Oggetto non trovato
@@ -1772,14 +1772,14 @@ common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS 3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pays#:#Impostazioni pagamenti
-common#:#obj_pays_desc#:#Configura le impostazioni dei pagamenti e dei venditori
+common#:#obj_pays_desc#:#Configura le impostazioni dei pagamenti e dei venditori.
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande (per test)
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
 common#:#obj_rolf#:#Gestione ruoli
-common#:#obj_rolf_desc#:#Configura i tuoi ruoli qui.
+common#:#obj_rolf_desc#:#Configura i ruoli.
 common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
@@ -1792,7 +1792,7 @@ common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
 common#:#obj_trac#:#Tracciamento utenti
-common#:#obj_trac_desc#:#Dati accessi utente
+common#:#obj_trac_desc#:#Configura la modalit&#224; di tracciamento degli utenti.
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1800,7 +1800,7 @@ common#:#obj_url#:#URL
 common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
-common#:#obj_usrf_desc#:#Configura gli utenti qui.
+common#:#obj_usrf_desc#:#Configura gli utenti.
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
@@ -1810,7 +1810,7 @@ common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
 common#:#objf_visible#:#Vedere le definizioni degli oggetti
 common#:#objf_write#:#Modificare le definizioni degli oggetti
 common#:#objs_alm#:#Modulo AICC
-common#:#objs_cat#:#Categorie
+common#:#objs_cat#:#Contesti
 common#:#objs_chat#:#Chat
 common#:#objs_confirm#:#Conferma la cancellazione
 common#:#objs_crs#:#Corsi
@@ -1867,8 +1867,8 @@ common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegl
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
 common#:#passwd_wrong#:#La password inserita &#232; sbagliata!
 common#:#password#:#Password
-common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.###12 Nov 2004 new variable
+common#:#password_assistance_disabled#:#Il servizio di assistenza per la password &#232; disponibile solamente se l'autenticazione viene effettuata utilizzando il database di ILIAS.
+common#:#password_assistance_info#:#Se il servizio di assistenza per la password &#232; attivo, viene mostrato sulla pagina di login un link con la dicitura "Dimenticata la password?". Gli utenti possono usare questo link per ottenere una nuova password, senza l'intervento dell'amministratore.
 common#:#paste#:#Incolla
 common#:#pasteChapter#:#Incolla capitolo
 common#:#pastePage#:#Incolla pagina
@@ -1934,7 +1934,7 @@ common#:#qpl_delete#:#Eliminare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
-common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
+common#:#qpl_upload_file#:#Upload file
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
 common#:#query_data#:#Invia
@@ -1950,12 +1950,12 @@ common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
 common#:#refuse#:#Rifiutato
-common#:#reg_mail_body_salutation#:#Hello###29 Nov 2004 new variable
-common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!###29 Nov 2004 new variable
-common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:###29 Nov 2004 new variable
-common#:#reg_mail_body_text3#:#Further personal information:###29 Nov 2004 new variable
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data###29 Nov 2004 new variable
-common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.###29 Nov 2004 new variable
+common#:#reg_mail_body_salutation#:#Ciao
+common#:#reg_mail_body_text1#:#Benvenuto in ILIAS!
+common#:#reg_mail_body_text2#:#Per accedere ad ILIAS utilizza i seguenti dati:
+common#:#reg_mail_body_text3#:#Ulteriori informazioni personali:
+common#:#reg_mail_subject#:#ILIAS - I tuoi dati di accesso
+common#:#reg_passwd_via_mail#:#La password verr&#232; inviata all'indirizzo di email indicato qui sotto.variable
 common#:#register#:#Registra
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).
 common#:#registered_since#:#Registrato dal
@@ -1969,7 +1969,7 @@ common#:#remove_personal_picture#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
 common#:#rename#:#Rinomina
 common#:#rename_file#:#Rinomina il file
-common#:#replace_file#:#Replace File###29 Nov 2004 new variable
+common#:#replace_file#:#Sosituisci il file
 common#:#reply#:#Rispondi
 common#:#repository#:#Repository
 common#:#require_city#:#Citt&#224; obbligatoria
@@ -2043,7 +2043,7 @@ common#:#rolt_add#:#Aggiungi template di ruolo
 common#:#rolt_added#:#Template di ruolo aggiunto
 common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
-common#:#root_create_cat#:#Creare nuove categorie
+common#:#root_create_cat#:#Creare nuovi contesti
 common#:#root_edit#:#Modificare il nodo di sistema
 common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sistema
 common#:#root_read#:#Accedere in lettura al sistema
@@ -2088,7 +2088,7 @@ common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
 common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#select_object_to_link#:#Per favore seleziona l'oggetto che vuoi collegare
-common#:#select_password#:#Select a new password###29 Nov 2004 new variable
+common#:#select_password#:#Scegli una nuova password
 common#:#select_questionpool#:#Raccolta di domande per Test
 common#:#select_questionpool_option#:#Per favore scegli una raccolta di domande
 common#:#selected#:#Selezionati
@@ -2099,7 +2099,7 @@ common#:#sent#:#Inviato
 common#:#sequence#:#Sequenza
 common#:#sequences#:#Sequenze
 common#:#server#:#Server
-common#:#server_data#:#Dati della macchina###29 Nov 2004 content changed
+common#:#server_data#:#Dati del server
 common#:#server_software#:#Software
 common#:#set#:#Imposta
 common#:#setSystemLanguage#:#Imposta come lingua di sistema
@@ -2115,7 +2115,7 @@ common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
-common#:#size#:#Size###29 Nov 2004 new variable
+common#:#size#:#Dimensione
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#spl#:#Raccolta di domande (per sondaggi)
@@ -2144,7 +2144,7 @@ common#:#subchapter_new#:#Nuovo paragrafo
 common#:#subject#:#Oggetto
 common#:#subject_module#:#Argomento del modulo
 common#:#submit#:#Conferma
-common#:#subobjects#:#Sotto categorie
+common#:#subobjects#:#Sotto oggetto
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
 common#:#sure_delete_selected_users#:#Sei sicuro di voler eliminare gli utenti selezionati
@@ -2267,7 +2267,7 @@ common#:#user_access#:#Accessi utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
 common#:#user_cant_receive_mail#:#l'utente non pu&#242; usare la mail di sistema
-common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_comment#:#Commento utente
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
 common#:#user_imported#:#Importazione utenti completata.
@@ -2348,10 +2348,10 @@ content#:#cont_Unordered#:#Non ordinato
 content#:#cont_act_number#:#Numerazione capitoli
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
-content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
+content#:#cont_add_change_comment#:#Aggiungi commento con i cambiamenti
 content#:#cont_add_definition#:#Aggiungi termine
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo
-content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
+content#:#cont_added_comment#:#Il commento &#232; stato aggiunto nella storia.
 content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
@@ -2393,12 +2393,12 @@ content#:#cont_click_next_or_save#:#Per favore, clicca nel punto successivo del 
 content#:#cont_click_next_point#:#Per favore, clicca nel punto successivo del poligono.
 content#:#cont_click_starting_point#:#Per favore, clicca nel punto di partenza del poligono.
 content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore sinistro dell'area desiderata.
-content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
+content#:#cont_confirm_delete#:#veramente eliminare?
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
 content#:#cont_contents#:#Contenuti
 content#:#cont_coords#:#Coordinate
-content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
+content#:#cont_copy_object#:#copia oggetto
 content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
@@ -2420,8 +2420,8 @@ content#:#cont_dependencies#:#Dipendenze
 content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
-content#:#cont_disable_js#:#Disabilita i JavaScript###29 Nov 2004 content changed
-content#:#cont_disable_media#:#Disabilita Multimedia###29 Nov 2004 content changed
+content#:#cont_disable_js#:#Disabilita i JavaScript
+content#:#cont_disable_media#:#Disabilita i file multimediali
 content#:#cont_download_title#:#Download titolo
 content#:#cont_ed_align_center#:#allineam: centrato
 content#:#cont_ed_align_left#:#allineam: a sinistra
@@ -2429,8 +2429,8 @@ content#:#cont_ed_align_left_float#:#allineam: left float
 content#:#cont_ed_align_right#:#allineam: a destra
 content#:#cont_ed_align_right_float#:#allineam: right float
 content#:#cont_ed_class#:#Stile
-content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
-content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
+content#:#cont_ed_col_left#:#sposta la colonna a sinistra
+content#:#cont_ed_col_right#:#sposta la colonna a destra
 content#:#cont_ed_copy_clip#:#copia negli appunti
 content#:#cont_ed_delete#:#elimina
 content#:#cont_ed_delete_col#:#elimina colonna
@@ -2445,8 +2445,8 @@ content#:#cont_ed_insert_list#:#inserisci Lista
 content#:#cont_ed_insert_media#:#inserisci Media
 content#:#cont_ed_insert_par#:#inserisci Paragr.
 content#:#cont_ed_insert_table#:#inserisci Tabella
-content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
-content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
+content#:#cont_ed_item_down#:#sposta loggetto in basso
+content#:#cont_ed_item_up#:#sposta l'oggetto in alto
 content#:#cont_ed_moveafter#:#sposta dopo
 content#:#cont_ed_movebefore#:#sposta prima
 content#:#cont_ed_new_col_after#:#nuova colonna dopo
@@ -2456,9 +2456,9 @@ content#:#cont_ed_new_item_before#:#nuovo elemento prima
 content#:#cont_ed_new_row_after#:#nuova riga dopo
 content#:#cont_ed_new_row_before#:#nuova riga prima
 content#:#cont_ed_paste_clip#:#incolla dagli appunti
-content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
-content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
-content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
+content#:#cont_ed_row_down#:#sposta la riga in basso
+content#:#cont_ed_row_up#:#sposta la riga in alto
+content#:#cont_ed_split_page_next#:#suddividi nella pagina successiva
 content#:#cont_ed_width#:#Larghezza
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
@@ -2471,18 +2471,18 @@ content#:#cont_edit_src#:#Modifica codice sorgente
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
-content#:#cont_enable_js#:#Abilita i JavaScript###29 Nov 2004 content changed
-content#:#cont_enable_media#:#Abilita Multimedia###29 Nov 2004 content changed
-content#:#cont_example#:#e.g.###29 Nov 2004 new variable
+content#:#cont_enable_js#:#Abilita i JavaScript
+content#:#cont_enable_media#:#Abilita i file multimediali
+content#:#cont_example#:#cio&#232;
 content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
-content#:#cont_external_url#:#external url###29 Nov 2004 new variable
+content#:#cont_external_url#:#url esterna
 content#:#cont_file#:#File
 content#:#cont_files#:#File
 content#:#cont_fix_tree#:#Correggi la struttura
 content#:#cont_fix_tree_confirm#:#Per favore, esegui questo comando solo se la struttura dell'albero del modulo &#232; corrotta, cio&#232; se sono presenti elementi vuoti nella vista ad albero.
 content#:#cont_format#:#Formato
-content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
+content#:#cont_format_error#:#Questa operazione non &#232; consentita in questo caso!
 content#:#cont_free_pages#:#Pagine libere
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
@@ -2499,7 +2499,7 @@ content#:#cont_insert_file_item#:#Inserisci il file.
 content#:#cont_insert_file_list#:#Inserisci l'elenco di file.
 content#:#cont_insert_list#:#Inserisci lista
 content#:#cont_insert_mob#:#Inserisci oggetto multimediale
-content#:#cont_insert_new_footnote#:#insert new footnore###29 Nov 2004 new variable
+content#:#cont_insert_new_footnote#:#inserisci una nuova nota in fondo alla pagina
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
 content#:#cont_insert_src#:#Inserisci codice sorgente
@@ -2549,7 +2549,7 @@ content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
 content#:#cont_mob_usages#:#Utilizzo
 content#:#cont_month#:#Mese
-content#:#cont_move_object#:#move object###29 Nov 2004 new variable
+content#:#cont_move_object#:#sposta l'oggetto
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple
 content#:#cont_name#:#Nome
 content#:#cont_new_area#:#Nuova area di collegamento
@@ -2569,7 +2569,7 @@ content#:#cont_nr_rows#:#Numero di righe
 content#:#cont_obj_removed#:#Oggetti cancellati.
 content#:#cont_offline#:#Versione Offline
 content#:#cont_online#:#Online
-content#:#cont_or#:#or###29 Nov 2004 new variable
+content#:#cont_or#:#o
 content#:#cont_order#:#Tipo di ordinamento
 content#:#cont_organization#:#Organizzazione
 content#:#cont_organizations#:#Organizzazioni
@@ -2627,12 +2627,12 @@ content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Editore della serie
 content#:#cont_series_title#:#Titolo della serie
 content#:#cont_series_volume#:#Volume della serie
-content#:#cont_set_after#:#insert after###29 Nov 2004 new variable
-content#:#cont_set_before#:#insert before###29 Nov 2004 new variable
-content#:#cont_set_cancel#:#cancel###29 Nov 2004 new variable
+content#:#cont_set_after#:#inserisci dopo
+content#:#cont_set_before#:#inserisci prima
+content#:#cont_set_cancel#:#cancella
 content#:#cont_set_class#:#Imposta classe
 content#:#cont_set_edit_mode#:#Cambia modalit&#224;
-content#:#cont_set_into#:#insert into###29 Nov 2004 new variable
+content#:#cont_set_into#:#inserisci all'interno
 content#:#cont_set_link#:#Imposta il collegamento
 content#:#cont_set_shape#:#Modifica la forma
 content#:#cont_set_start_file#:#Imposta file di partenza
@@ -2646,7 +2646,7 @@ content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_src#:#Codice sorgente
 content#:#cont_src_other#:#altro
-content#:#cont_st_on_pg#:#this function is not allowed.###29 Nov 2004 new variable
+content#:#cont_st_on_pg#:#questa funzione non &#232; consentita.
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
 content#:#cont_status#:#Stato
@@ -2666,10 +2666,10 @@ content#:#cont_term#:#Termine
 content#:#cont_terms#:#Termini
 content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
-content#:#cont_title#:#title###29 Nov 2004 new variable
-content#:#cont_title_footnotes#:#Footnotes###29 Nov 2004 new variable
+content#:#cont_title#:#titolo
+content#:#cont_title_footnotes#:#Pi&#232; di pagina
 content#:#cont_toc#:#Tabella dei contenuti
-content#:#cont_toc_mode#:#Modalit&#224; menu###03 Dec 2004 content changed
+content#:#cont_toc_mode#:#Modalit&#224; menu
 content#:#cont_top#:#Alto
 content#:#cont_total_time#:#Tempo totale
 content#:#cont_tracking_data#:#Dati tracciati
@@ -2706,11 +2706,11 @@ crs#:#crs_activation#:#Attivazione
 crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
 crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
 crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
-crs#:#crs_add_member#:#Aggiungi iscritto
-crs#:#crs_add_subscribers#:#Aggiungi iscritto
+crs#:#crs_add_member#:#Iscrivi utente
+crs#:#crs_add_subscribers#:#Iscrivi utente
 crs#:#crs_added#:#Aggiunto nuovo corso
-crs#:#crs_added_member#:#Iscritti al corso
-crs#:#crs_added_member_body#:#Sei stato accettato a questo corso.
+crs#:#crs_added_member#:#Utente iscritto
+crs#:#crs_added_member_body#:#Sei stato iscritto a questo corso.
 crs#:#crs_added_new_archive#:#Aggiunto un nuovo archivio
 crs#:#crs_admin#:#Amministratore
 crs#:#crs_admin_no_notify#:#Amministratore (senza notifica)
@@ -2726,7 +2726,7 @@ crs#:#crs_archive_type_disabled#:#Accesso disabilitato
 crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
 crs#:#crs_auto_fill#:#Riempimento automatico
 crs#:#crs_blocked#:#Accesso negato
-crs#:#crs_blocked_member#:#Iscrizioni al corso
+crs#:#crs_blocked_member#:#Iscritti al corso
 crs#:#crs_blocked_member_body#:#La tua iscrizione al corso &#232; terminata.
 crs#:#crs_cancel_subscription#:#Cancellazioni dal Corso
 crs#:#crs_cancel_subscription_body#:#Un utente si &#232; cancellato dal corso.
@@ -2737,14 +2737,14 @@ crs#:#crs_contact_name#:#Nome
 crs#:#crs_contact_phone#:#Telefono
 crs#:#crs_contact_responsibility#:#Responsibilit&#224;
 crs#:#crs_content#:#Contenuto del corso
-crs#:#crs_copy_cat_not_allowed#:#Non &#232; possibile copiare le categorie
+crs#:#crs_copy_cat_not_allowed#:#Non &#232; possibile copiare i contesti
 crs#:#crs_count_members#:#Numero di iscritti
 crs#:#crs_create_date#:#Crea scadenza
 crs#:#crs_dates#:#Scadenze
-crs#:#crs_delete_member#:#Elimina iscritti
-crs#:#crs_delete_members_sure#:#Vuoi eliminare l'iscrizione dei seguenti membri da questo corso
-crs#:#crs_delete_subscribers#:#Elimina iscritti
-crs#:#crs_delete_subscribers_sure#:#Vuoi eliminare i seguenti utenti
+crs#:#crs_delete_member#:#Cancella iscrizione
+crs#:#crs_delete_members_sure#:#Vuoi cancellare l'iscrizione dei seguenti utenti a questo corso?
+crs#:#crs_delete_subscribers#:#Cancella iscrizione
+crs#:#crs_delete_subscribers_sure#:#Vuoi cancellare l'iscrizione dei seguenti utenti
 crs#:#crs_details#:#Dettagli del corso
 crs#:#crs_dismiss_member#:#Iscritti al corso
 crs#:#crs_dismiss_member_body#:#La tua iscrizione &#232; terminata
@@ -2754,8 +2754,8 @@ crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_from#:#Da:
 crs#:#crs_header_archives#:#Archivi del corso
-crs#:#crs_header_delete_members#:#Elimina iscritti
-crs#:#crs_header_edit_members#:#Modifica iscritti
+crs#:#crs_header_delete_members#:#Cancella iscrizione
+crs#:#crs_header_edit_members#:#Modifica iscrizioni
 crs#:#crs_header_members#:#Iscritti al corso
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Informazioni per l'iscrizione
@@ -2770,7 +2770,7 @@ crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
 crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_unblocked#:#Iscritto (bloccato)
-crs#:#crs_member_updated#:#L'iscritto &#232; stato aggiornato
+crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
 crs#:#crs_members_print_title#:#Iscritti al corso
 crs#:#crs_members_title#:#Iscritti al corso
@@ -2857,10 +2857,10 @@ crs#:#crs_unblocked#:#Ingresso libero
 crs#:#crs_unblocked_member#:#Iscritti al corso
 crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
-crs#:#crs_unsubscribe#:#Annulla iscrizione
-crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso
-crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso
-crs#:#crs_users_added#:#Iscritto utente a questo corso
+crs#:#crs_unsubscribe#:#Cancella iscrizione
+crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso?
+crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
+crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso
 crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Archivi
@@ -3101,9 +3101,9 @@ forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere q
 forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
 forum#:#forums_last_post#:#Ultimo messaggio
-forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
+forum#:#forums_mark_read#:#Segna come letto
 forum#:#forums_moderators#:#Moderatori
-forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
+forum#:#forums_new_articles#:#Nuovo articolo
 forum#:#forums_new_entries#:#Nuovi forum
 forum#:#forums_new_thread#:#Nuovo argomento
 forum#:#forums_not_available#:#Forum non disponbile
@@ -3122,15 +3122,15 @@ forum#:#forums_thread#:#Argomento
 forum#:#forums_thread_articles#:#Messaggi dell'argomento
 forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
-forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
+forum#:#forums_thread_marked#:#Questo argomento &#232; stato segnato come letto.
 forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
 forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta
-forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
-forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
-forum#:#is_read#:#mark read###02 Dec 2004 new variable
+forum#:#frm_default_view#:#Vista predefinita
+forum#:#frm_title_required#:#Per favore, inserisci un titolo.
+forum#:#is_read#:#segna come letto
 mail#:#also_as_email#:#Anche tramite eMail
 mail#:#bc#:#BC
 mail#:#forward#:#Inoltra
@@ -3731,93 +3731,93 @@ meta#:#meta_yes#:#Si
 payment#:#currency_cent#:#Centesimi
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Durata
-payment#:#excel_export#:#Excel export###29 Nov 2004 new variable
-payment#:#info#:#Informations about the pay method###29 Nov 2004 new variable
-payment#:#pay_add_to_shopping_cart#:#Add to shopping cart###29 Nov 2004 new variable
-payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.###29 Nov 2004 new variable
-payment#:#pay_all#:#All###29 Nov 2004 new variable
-payment#:#pay_article#:#Article###29 Nov 2004 new variable
-payment#:#pay_bank_data#:#Bank data###29 Nov 2004 new variable
-payment#:#pay_bill_no#:#Incoice no.###29 Nov 2004 new variable
-payment#:#pay_bmf_account_holder#:#Account holder###29 Nov 2004 new variable
-payment#:#pay_bmf_account_number#:#Account number###29 Nov 2004 new variable
-payment#:#pay_bmf_back#:#back###29 Nov 2004 new variable
-payment#:#pay_bmf_bank_code#:#Bank code###29 Nov 2004 new variable
-payment#:#pay_bmf_card_holder#:#Card holder###29 Nov 2004 new variable
-payment#:#pay_bmf_card_number#:#Card number###29 Nov 2004 new variable
-payment#:#pay_bmf_check_number#:#Check number###29 Nov 2004 new variable
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card_data#:#Credit card###29 Nov 2004 new variable
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry_data#:#Debit entry###29 Nov 2004 new variable
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###29 Nov 2004 new variable
-payment#:#pay_bmf_house_number#:#House number###29 Nov 2004 new variable
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###29 Nov 2004 new variable
-payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
-payment#:#pay_bmf_or#:#or###29 Nov 2004 new variable
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.###29 Nov 2004 new variable
-payment#:#pay_bmf_payment_type#:#Kind of paying###29 Nov 2004 new variable
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.###29 Nov 2004 new variable
-payment#:#pay_bmf_personal_data#:#Your personal data###29 Nov 2004 new variable
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_please_select#:#Please select###29 Nov 2004 new variable
-payment#:#pay_bmf_po_box#:#PO Box###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.###29 Nov 2004 new variable
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.###29 Nov 2004 new variable
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions_show#:#show###29 Nov 2004 new variable
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.###29 Nov 2004 new variable
-payment#:#pay_bmf_total_amount#:#Total amount###29 Nov 2004 new variable
-payment#:#pay_bmf_validity#:#valid until###29 Nov 2004 new variable
-payment#:#pay_bmf_vat_included#:#VAT included###29 Nov 2004 new variable
-payment#:#pay_bmf_your_order#:#Your order###29 Nov 2004 new variable
-payment#:#pay_click_to_buy#:#Buy now###29 Nov 2004 new variable
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.###29 Nov 2004 new variable
-payment#:#pay_customer_no#:#Customer no.###29 Nov 2004 new variable
+payment#:#excel_export#:#Esportazione in formato Excel
+payment#:#info#:#Informazioni sui metodi di pagamento
+payment#:#pay_add_to_shopping_cart#:#Aggiungi al carrello
+payment#:#pay_added_to_shopping_cart#:#Aggiunto al carrello
+payment#:#pay_all#:#Tutto
+payment#:#pay_article#:#Articolo
+payment#:#pay_bank_data#:#Dati bancari
+payment#:#pay_bill_no#:#Ordine n.
+payment#:#pay_bmf_account_holder#:#Intestatario del conto
+payment#:#pay_bmf_account_number#:#Numero del conto
+payment#:#pay_bmf_back#:#indietro
+payment#:#pay_bmf_bank_code#:#Codice bancario
+payment#:#pay_bmf_card_holder#:#Itestatario della carta
+payment#:#pay_bmf_card_number#:#Numero della carta
+payment#:#pay_bmf_check_number#:#Controlla il numero
+payment#:#pay_bmf_check_terms_conditions#:#Per favore, conferma che hai letto i termini e le condizioni di acquisto e che le accetti
+payment#:#pay_bmf_credit_card#:#Carta di credito
+payment#:#pay_bmf_credit_card_data#:#Dati carta di credito
+payment#:#pay_bmf_credit_card_not_valid#:#I dati della carta di credito non sono validi. Controlla che tutti i campi siano stati indicati correttamente.
+payment#:#pay_bmf_debit_entry#:#Voce a debito
+payment#:#pay_bmf_debit_entry_data#:#Voce a debito
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_description_credit_card#:#Per favore, controlla che tutti gli articoli che avresti voluto ordinare siano nel carrello. Riempiendo i campi con i dati della tua carta di credito e cliccando sul pulsante "Salva" confermerai l'ordine che verrà eseguito immediatamente. Il controllo dei dati avverrà in pochi secondi.
+payment#:#pay_bmf_description_debit_entry#:#Per favore, controlla che tutti gli articoli che avresti voluto ordinare siano nel carrello. Riempiendo i campi con i dati a debito e cliccando sul pulsante "Salva" confermerai l'ordine che verrà eseguito immediatamente. Il controllo dei dati avverrà in pochi secondi.
+payment#:#pay_bmf_description_payment_type#:#Per favore, scegli la modalit&#224; di pagamento.
+payment#:#pay_bmf_description_personal_data#:#Per favore, riempi i campi seguenti.
+payment#:#pay_bmf_house_number#:#Numero di casa
+payment#:#pay_bmf_info#:#L'accesso al materiale seguente non &#232; libero. Se vuoi consultare un particolare oggetto seleziona il prezzo. Puoi acquistare uno o pi&#249; oggetti utilizzando il pulsante "Aggiungi al carrello". In questo modo avrai immediato accesso agli oggetti scelti
+payment#:#pay_bmf_optional#:#opzionale
+payment#:#pay_bmf_or#:#o
+payment#:#pay_bmf_password_not_valid#:#La tua password non &#232; valida.
+payment#:#pay_bmf_payment_type#:#Tipo di pagamento
+payment#:#pay_bmf_payment_type_not_valid#:#Il tipo di pagamento che hai selezionato non &#232; valido. Scegli un'altro tipo.
+payment#:#pay_bmf_personal_data#:#I tuoi dati personali
+payment#:#pay_bmf_personal_data_not_valid#:#I tuoi dati personali non sono validi. Per favore, verifica che tutti i campi siano riempiti correttamente.
+payment#:#pay_bmf_please_select#:#Per favore scegli
+payment#:#pay_bmf_po_box#:#Casella Postale
+payment#:#pay_bmf_server_error_code#:#Il server di pagamento ha comunicato un errore
+payment#:#pay_bmf_server_error_communication#:#Si &#232; verificato un errrore nella comunicazione con il server di pagamento
+payment#:#pay_bmf_server_error_sysadmin#:#Contatta l'amministratore di sistema se vuoi avere ulteriori informazioni.
+payment#:#pay_bmf_shopping_cart_empty#:#Il tuo carrello &#232; vuoto.
+payment#:#pay_bmf_street_or_pobox#:#Per favore indica l'indirizzo o il numero di casella postale.
+payment#:#pay_bmf_terms_conditions#:#Condizioni e termini generali
+payment#:#pay_bmf_terms_conditions_read#:#Ho letto le condizioni ed i termini generali e li accetto.
+payment#:#pay_bmf_terms_conditions_show#:#mostra
+payment#:#pay_bmf_thanks#:#Grazie. Il tuo ordine &#232; stato accettato.
+payment#:#pay_bmf_total_amount#:#Totale
+payment#:#pay_bmf_validity#:#valido fino a
+payment#:#pay_bmf_vat_included#:#Tasse incluse
+payment#:#pay_bmf_your_order#:#Il tuo ordine
+payment#:#pay_click_to_buy#:#Compra ora
+payment#:#pay_confirm_order#:#Per favore, conferma il tuo ordine inserendo la tua password.
+payment#:#pay_customer_no#:#Cliente n.
 payment#:#pay_deleted_booking#:#L'elemento &#232; stato cancellato.
-payment#:#pay_deleted_items#:#The selected items have been deleted.###29 Nov 2004 new variable
-payment#:#pay_ending#:#ends with###29 Nov 2004 new variable
+payment#:#pay_deleted_items#:#L'elemento selezionato &#232; stato cancellato.
+payment#:#pay_ending#:#termina il 
 payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###29 Nov 2004 new variable
-payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.###29 Nov 2004 new variable
-payment#:#pay_filter#:#Filter###29 Nov 2004 new variable
-payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###29 Nov 2004 new variable
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###29 Nov 2004 new variable
+payment#:#pay_expires_info#:#Questo oggetto &#232; disponibile, ma il pagamento &#232; scaduto e non puoi comprarlo.
+payment#:#pay_filter#:#Filtro
+payment#:#pay_goto_buyed_objects#:#Vai agli oggetti acquistati
+payment#:#pay_goto_shopping_cart#:#Vai al carrello
 payment#:#pay_header#:#Pagamenti
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###29 Nov 2004 new variable
+payment#:#pay_item_already_in_sc#:#Questo oggetto &#232; gi&#224; stato inserito nel carrello.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
 payment#:#pay_locator#:#Pagamenti
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.###29 Nov 2004 new variable
-payment#:#pay_message_hello#:#Dear###29 Nov 2004 new variable
-payment#:#pay_message_regards#:#Yours sincerely###29 Nov 2004 new variable
-payment#:#pay_message_subject#:#Your ILIAS order###29 Nov 2004 new variable
-payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.###29 Nov 2004 new variable
+payment#:#pay_message_attachment#:#Come confermato nel tuo ordine, invieremo la fattura (in formato PDF) in allegato.
+payment#:#pay_message_hello#:#Caro
+payment#:#pay_message_regards#:#Cordiali saluti.
+payment#:#pay_message_subject#:#Il vostro ordine in ILIAS 3.
+payment#:#pay_message_thanks#:#Grazie per aver ordinato con ILIAS 3.
 payment#:#pay_no_vendors_created#:#Non sono stati creati venditori
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.###29 Nov 2004 new variable
-payment#:#pay_order_date_from#:#Order date from###29 Nov 2004 new variable
-payment#:#pay_order_date_til#:#Order date til###29 Nov 2004 new variable
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.###29 Nov 2004 new variable
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.###29 Nov 2004 new variable
-payment#:#pay_reset_filter#:#Reset filter###29 Nov 2004 new variable
-payment#:#pay_select_one_item#:#Please select one item.###29 Nov 2004 new variable
-payment#:#pay_select_price#:#Please select a new price.###29 Nov 2004 new variable
-payment#:#pay_send_order#:#Send order###29 Nov 2004 new variable
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.###29 Nov 2004 new variable
-payment#:#pay_starting#:#starts with###29 Nov 2004 new variable
-payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data###29 Nov 2004 new variable
-payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment###29 Nov 2004 new variable
-payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order###29 Nov 2004 new variable
-payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###29 Nov 2004 new variable
-payment#:#pay_update_view#:#Update view###29 Nov 2004 new variable
+payment#:#pay_not_buyed_any_object#:#Non hai comprato nessun oggetto.
+payment#:#pay_order_date_from#:#Ordini a partire da
+payment#:#pay_order_date_til#:#Ordini fino a 
+payment#:#pay_payed_credit_card#:#L'ordine &#232; stato acquistato con carta di credito.
+payment#:#pay_payed_debit_entry#:#L'ordine &#232; stato acquistato con una voce a debito.
+payment#:#pay_reset_filter#:#Azzera il filtro.
+payment#:#pay_select_one_item#:#Seleziona un item.
+payment#:#pay_select_price#:#Scegli un nuovo prezzo.
+payment#:#pay_send_order#:#Invia l'ordine.
+payment#:#pay_shopping_cart_empty#:#Il tuo carrello &#232; vuoto.
+payment#:#pay_starting#:#inizia con
+payment#:#pay_step1#:#Il tuo ordine - Fase 1 di 3: Inserisci i tuoi dati personali
+payment#:#pay_step2#:#Il tuo ordine - Fase 2 di 3: Scegli il tipo di pagamento
+payment#:#pay_step3_credit_card#:#Il tuo ordine - Fase 3 di 3: Inserisci i dati della tual carta di credito e invia l'ordine
+payment#:#pay_step3_debit_entry#:#Il tuo ordine - Fase 3 di 3: Inserisci i tuoi dati bancari e invia l'ordine
+payment#:#pay_update_view#:#Aggiorna la pagina
 payment#:#paya_access#:#Accesso
 payment#:#paya_add_price#:#Aggiungi nuovo prezzo
 payment#:#paya_add_price_title#:#Nuovo prezzo
@@ -3826,7 +3826,7 @@ payment#:#paya_added_new_price#:#Creato nuovo prezzo.
 payment#:#paya_added_trustee#:#Creato nuovo amministratore.
 payment#:#paya_bookings_available#:#Questo oggetto &#232; stato venduto. Per favore elimina prima tutti i dati statistici.
 payment#:#paya_buyable#:#Acquistabile
-payment#:#paya_buyed_objects#:#Buyed objects###29 Nov 2004 new variable
+payment#:#paya_buyed_objects#:#Oggetti acquistati
 payment#:#paya_count_purchaser#:#Numero dei venditori
 payment#:#paya_customer#:#Clienti
 payment#:#paya_delete_price#:#Prezzo cancellato
@@ -3844,7 +3844,7 @@ payment#:#paya_enter_login#:#Per favore indica l'utente
 payment#:#paya_err_adding_object#:#Errore nell'aggiunta dell'utente
 payment#:#paya_error_update_booking#:#Errore nel salvataggio dei dati statistici.
 payment#:#paya_expires#:#Pagamento scaduto
-payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
+payment#:#paya_filter_reseted#:#Filtro azzerato
 payment#:#paya_header#:#Amministrazione pagamenti
 payment#:#paya_insert_only_numbers#:#Per favore inserisci solo cifre.
 payment#:#paya_locator#:#Amministrazione pagamenti
@@ -3873,7 +3873,7 @@ payment#:#paya_perm_stat#:#Modifica statistiche
 payment#:#paya_price_not_valid#:#Questo prezzo non &#232; valido. Per favore indica solo cifre.
 payment#:#paya_select_object_to_sell#:#Per favore scegli l'oggetto che vuoi vendere.
 payment#:#paya_select_pay_method_first#:#Per favore scegli un metodo di pagamento prima.
-payment#:#paya_sell_object#:#Sell object###04 Oct 2004 new variable
+payment#:#paya_sell_object#:#Oggetti in vendita
 payment#:#paya_shopping_cart#:#Carrello degli acquisti
 payment#:#paya_statistic#:#Statistica
 payment#:#paya_sure_delete_object#:#Sei sicuro di voler interrompere il pagamento per questo oggetto? In caso affermativo tutti i dati andranno persi.
@@ -3890,24 +3890,24 @@ payment#:#paya_updated_trustees#:#Permessi modificati.
 payment#:#paya_user_already_assigned#:#Utente gi&#224; assegnato.
 payment#:#paya_vendor#:#Venditore
 payment#:#pays_active_bookings#:#Prenotazione attivata
-payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
+payment#:#pays_add_info#:#Informazioni aggiuntive per il pagamento (opzionali)
 payment#:#pays_add_vendor#:#Aggiungi venditore
 payment#:#pays_added_vendor#:#Venditore aggiunto
-payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
+payment#:#pays_address#:#Indirizzo per la fatturazione
 payment#:#pays_already_assigned_vendors#:#I seguenti numeri di utenti sono gi&#224; stati assegnati:
 payment#:#pays_assigned_vendors#:#I seguenti numeri di venditori sono presenti nella lista dei venditori:
-payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
+payment#:#pays_bank_data#:#Dabi bancari per la fatturazione
 payment#:#pays_bill#:#Conto
-payment#:#pays_bmf#:#BMF###05 Nov 2004 new variable
+payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Centro di pagamento
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.###29 Nov 2004 new variable
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)###29 Nov 2004 new variable
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)###29 Nov 2004 new variable
+payment#:#pays_cost_center_not_valid#:#Per favore, indica un centro di costo valido.
+payment#:#pays_currency_subunit#:#Monetazione (1/100) (cio&#232; Centesimi)
+payment#:#pays_currency_unit#:#Monetazione (cio&#232; EURO)
 payment#:#pays_delete_vendor#:#Annulla assegnamento utenti
 payment#:#pays_deleted_number_vendors#:#I seguenti numeri di venditori sono stati eliminati:
-payment#:#pays_edit_vendor#:#Edit user###29 Nov 2004 new variable
-payment#:#pays_general_settings#:#General settings###29 Nov 2004 new variable
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pays_edit_vendor#:#Modifica l'utente
+payment#:#pays_general_settings#:#Impostazioni generali
+payment#:#pays_general_settings_not_valid#:#Le tue impostazioni generali non sono valide. Per favore, controlla se tutti i campi sono stati riempiti correttamente.
 payment#:#pays_header_select_vendor#:#Selezione venditori
 payment#:#pays_no_username_given#:#Nessun nome indicato
 payment#:#pays_no_valid_username_given#:#Nessun valido utente indicato
@@ -3918,29 +3918,29 @@ payment#:#pays_objects_bmf_exist#:#Il metodo di pagamento 'BMF' &#232; attivo pe
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Metodi di pagamento
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file###29 Nov 2004 new variable
+payment#:#pays_pdf_path#:#Percorso per la generazione delle fatture in formato PDF
 payment#:#pays_sure_delete_selected_vendors#:#Sei sicuro di voler cancellare i venditori selezionati
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.###29 Nov 2004 new variable
-payment#:#pays_updated_general_settings#:#Your general settings were updated.###29 Nov 2004 new variable
+payment#:#pays_too_many_vendors_selected#:#Scegli almeno un cliente per poter eseguire questa azione.
+payment#:#pays_updated_general_settings#:#Le tue impostazioni generali sono state aggiornate.
 payment#:#pays_updated_pay_method#:#Metodo di pagamento modificato.
 payment#:#pays_user_already_assigned#:#L'utente &#232; gi&#224; stato assegnato alla lista dei venditori
-payment#:#pays_vat_rate#:#VAT rate in % (optional)###29 Nov 2004 new variable
+payment#:#pays_vat_rate#:#Tasse da applicare in % (opzionale)
 payment#:#pays_vendor#:#Venditore
 payment#:#price_a#:#Prezzo
-payment#:#prices#:#Prices###29 Nov 2004 new variable
+payment#:#prices#:#Prezzi
 payment#:#update#:#Aggiornamento
-pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
-pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.###12 Nov 2004 new variable
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###12 Nov 2004 new variable
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.###12 Nov 2004 new variable
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###12 Nov 2004 new variable
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.###12 Nov 2004 new variable
-pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance###12 Nov 2004 new variable
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.###12 Nov 2004 new variable
-pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".###12 Nov 2004 new variable
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###12 Nov 2004 new variable
-pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###12 Nov 2004 new variable
+pwassist#:#password_assistance#:#Servizio di assistenza per le password
+pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.
+pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell'utente e la nuova password nei campi qui sotto.
+pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.
+pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\nIl nome dell'utente che &#232; stato indicato non corrisponde all'utente per il quale hai chiesto assistenza.
+pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.
+pwassist#:#pwassist_mail_sent#:#Un messaggio &#232; stato inviato a %1$s.\nPer favore controlla la tua casella di posta.
+pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
+pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\nIL servizio di assistenza per le password non &#232; consentito per l'utente che hai specificato.
+pwassist#:#pwassist_password_assigned#:#La password &#232; stata assegnata con successo all'utente "%1$s".
+pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.
+pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di sistema.\nLa password non pu&#242; essere assegnata all'utente indicato per un errore nell'aggiornamento del Database.
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_and#:#AND
@@ -3986,7 +3986,7 @@ search#:#search_select_one_select#:#--Scegli una cartella--
 search#:#search_show_result#:#Mostra
 search#:#search_user#:#Utenti
 survey#:#add_category#:#Aggiungi categoria
-survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
+survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
 survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
@@ -3999,7 +3999,7 @@ survey#:#arithmetic_mean#:#Valore aritmetico
 survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel sondaggio?
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel sondaggio?
 survey#:#back#:#<< Indietro
-survey#:#before#:#before###19 Nov 2004 new variable
+survey#:#before#:#prima
 survey#:#browse_for_questions#:#Scegli le domande
 survey#:#cannot_export_questionpool#:#Non hai diritti sufficienti per esportare la raccolta di domande per sondaggi!
 survey#:#cannot_export_survey#:#Non hai diritti sufficienti per esportare il sondaggio!
@@ -4012,9 +4012,9 @@ survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
+survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!
 survey#:#concatenation#:#Concatenazione
-survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
+survey#:#confirm_sync_questions#:#La domanda che hai cambiato &#232; la copia di una che &#232; stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?
 survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
@@ -4085,13 +4085,13 @@ survey#:#dp_standard_numbers#:#Numeri standard
 survey#:#duplicate#:#Duplica
 survey#:#duplicate_svy#:#Duplica il sondaggio
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
-survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
-survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
+survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificarne i vincoli
+survey#:#edit_heading#:#Modifica l'intestazione
 survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del sondaggio
 survey#:#enter_value#:#Inserisci un valore
-survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
+survey#:#error_add_heading#:#Per favore aggiungi l'intestazione!
 survey#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
 survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!
 survey#:#evaluation#:#Di prova
@@ -4101,9 +4101,9 @@ survey#:#exit#:#Esci
 survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
-survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###29 Nov 2004 new variable
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###29 Nov 2004 new variable
-survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_delete_category#:#Per favore completa tutti i campi richiesti prima di effettuare la cancellazione delle categorie!
+survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti i campi richiesti prima di effettuare spostamento delle categorie!
+survey#:#fill_out_all_required_fields_save_phrase#:#Per favore completa tutti i campi richiesti prima di salvare la frase!
 survey#:#filter#:#Filtro
 survey#:#filter_all_question_types#:#Tutti i tipi di domande
 survey#:#filter_all_questionpools#:#Tutte le raccolte di domande (per sondaggi)
@@ -4114,8 +4114,8 @@ survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
 survey#:#harmonic_mean#:#Significato armonico
-survey#:#heading#:#Heading###10 Nov 2004 new variable
-survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
+survey#:#heading#:#Intestazione
+survey#:#horizontal#:#orizzontale
 survey#:#import_question#:#Importa domande
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima
@@ -4137,11 +4137,11 @@ survey#:#material_file#:#File materiale
 survey#:#maximum#:#Valore massimo
 survey#:#median#:#Medio
 survey#:#median_between#:#tra
-survey#:#menuback#:#Back###29 Nov 2004 new variable
-survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
+survey#:#menuback#:#Indietro
+survey#:#menubacktosurvey#:#Indietro al sondaggio
 survey#:#message_mail_survey_id#:#Hai iniziato in modo anomino il sondaggio &quot;%s&quot;. Per riprendere il sondaggio, hai bisogno del codice :<br><br><strong>%s</strong><br><br> a 32 cifre ad esso associato. E' possibile riprendere il sondaggio solo se viene interrotto prima della fine.
-survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
-survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
+survey#:#metric_question_floating_point#:#Il valore indicato &#232; un numero con la virgola. I numeri con la virgola non sono consentiti per questo tipo di domanda!
+survey#:#metric_question_not_a_value#:#Il valore indicato non &#232; un numero!
 survey#:#metric_question_out_of_bounds#:#Il valore che hai inserito non &#232; compreso tra i valori minimo e massimo!
 survey#:#minimum#:#Valore minimo
 survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore e superiore!
@@ -4154,7 +4154,7 @@ survey#:#next_question_rows#:#Domande %d - %d di %d >>
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
 survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!
-survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificare i vincoli!
+survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificarne i vincoli!
 survey#:#no_question_selected_for_move#:#Per favore, scegli almeno una domanda da spostare!
 survey#:#no_question_selected_for_removal#:#Per favore, scegli almeno una domanda o un blocco di domande da eliminare!
 survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibili!
@@ -4174,10 +4174,10 @@ survey#:#on#:#attivo
 survey#:#online#:#online
 survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
-survey#:#orientation#:#Orientation###18 Nov 2004 new variable
+survey#:#orientation#:#Orientamento
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
 survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
-survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
+survey#:#phrase_saved#:#La frase &#232; stata salvata con successo!
 survey#:#predefined_users#:#Utenti predefiniti
 survey#:#preview#:#Anteprima
 survey#:#previous_question_rows#:#<< Domande %d - %d di %d
@@ -4231,7 +4231,7 @@ survey#:#search_term#:#Ricerca il termine
 survey#:#search_type_all#:#Ricerca in tutti i tipi di domande
 survey#:#search_users#:#Utenti
 survey#:#select_max_one_item#:#Per favore scegli un solo oggetto
-survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
+survey#:#select_phrase_to_add#:#Per favore scegli una frase da aggiungere alla domanda!
 survey#:#select_prior_question#:#Seleziona la domanda precedente
 survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
 survey#:#select_questionpool_short#:#Raccolta di domande per sondaggio
@@ -4248,20 +4248,20 @@ survey#:#start_survey#:#Inizia il sondaggio
 survey#:#subject_mail_survey_id#:#Il codice per del tuo sondaggio &#232; "%s"
 survey#:#subtype#:#Sottotipo
 survey#:#survey_code_message_sent#:#Il codice del sondaggio che ti consente di riprenderlo dal punto in cui &#232; stato interrotto, ti &#232; stato inviato con una eMail!
-survey#:#survey_finish#:#Salva e finisci il sondaggio >>>###29 Nov 2004 content changed
+survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
 survey#:#survey_is_offline#:#Non puoi eseguire il sondaggio! Il sondaggio &#232; offline.
-survey#:#survey_next#:#Salva e vai avanti >>>###29 Nov 2004 content changed
+survey#:#survey_next#:#Salva e vai avanti >>>
 survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il sondaggio &#232; offline!
 survey#:#survey_online_warning#:#Il sondaggio &#232; online. Non puoi modificare le domande!
-survey#:#survey_previous#:#<<< Salva e torna indietro###29 Nov 2004 content changed
-survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###29 Nov 2004 new variable
+survey#:#survey_previous#:#<<< Salva e torna indietro
+survey#:#survey_question_obligatory#:#(Questa domanda &#232; obbligatoria. Devi rispondere.)
 survey#:#survey_questions#:#Domande
 survey#:#survey_skip_finish#:#Salta e finisci il sondaggio >>>
 survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
 survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente
 survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
-survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale###29 Nov 2004 content changed
+survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
 survey#:#svy_create_export_file#:#Crea il file di export
 survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
@@ -4270,8 +4270,8 @@ survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propriet&#224; del sondaggio! Per favore inserisci il nome dell'autore.
 survey#:#svy_missing_questions#:#Non hai inserito nessuna domanda nel sondaggio! Per favore aggiungi almeno una domanda al sondaggio.
 survey#:#svy_missing_title#:#Non hai indicato il titolo del sondaggio! Per favore vai nella sezione dei metadati e specifica il titolo.
-survey#:#svy_page_error#:#Si &#232; verificato un errore rispondendo ad una domanda del sondaggio. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
-survey#:#svy_page_errors#:#Si sino verificati degli errori rispondendo alle domande del sondaggio. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
+survey#:#svy_page_error#:#Si &#232; verificato un errore rispondendo ad una domanda del sondaggio. Specifica la domanda se vuoi avere maggiori informazioni sull'errore!
+survey#:#svy_page_errors#:#Si sono verificati degli errori rispondendo alle domande del sondaggio. Specifica le domande se vuoi avere maggiori informazioni sugli errori!
 survey#:#svy_select_file_for_import#:#Devi scegliere un file da importare !
 survey#:#svy_select_questionpools#:#Per favore scegli la raccolta nella quale inserire le domande importate
 survey#:#svy_select_surveys#:#Per favore scegli un sondaggio da duplicare
@@ -4293,8 +4293,8 @@ survey#:#users_answered#:#Utenti che hanno risposto
 survey#:#users_skipped#:#Utenti che hanno saltato
 survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
 survey#:#values#:#Valori
-survey#:#vertical#:#vertical###18 Nov 2004 new variable
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
+survey#:#vertical#:#verticale
+survey#:#view_constraints_introduction#:#Stai vedendo i vincoli definiti per le seguenti domande/blocchi di domande:
 survey#:#view_phrase#:#Vedi frase
 survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai sondaggi indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei sondaggi elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro sondaggio, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
 survey#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
