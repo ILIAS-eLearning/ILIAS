@@ -561,3 +561,35 @@ INSERT INTO settings (keyword,value) VALUES ('system_user_id','6');
 <#56>
 ALTER TABLE `exc_members` ADD `notice` TEXT AFTER `usr_id` ,
 ADD `returned` TINYINT( 1 ) AFTER `notice` ;
+
+<#57>
+<?php
+
+  // GET DEFAULT OPERATIONS FOR EXC-OBJECT
+$query = "SELECT DISTINCT(ops_id) AS id FROM rbac_operations ".
+	"WHERE operation IN('visible','read','write','create','delete','edit permission')";
+
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ops_ids[] = $row->id;
+}
+// GET type_id of exc object
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type = 'typ' ".
+	"AND title = 'exc'";
+
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$type_id = $row->obj_id;
+}
+// INSERT OPERATIONS
+foreach($ops_ids as $id)
+{
+	$query = "INSERT INTO rbac_ta ".
+		"SET typ_id = '".$type_id."', ".
+		"ops_id = '".$id."'";
+	$this->db->query($query);
+}
+?>
