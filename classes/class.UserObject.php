@@ -37,7 +37,6 @@ class UserObject extends Object
 							  );
 	}
 
-
 	/**
 	* delete user
 	* @access	public
