@@ -50,6 +50,7 @@ class ilPageObjectGUI
 	var $output2template;
 	var $link_params;
 	var $bib_id;
+	var $citation;
 
 	/**
 	* Constructor
@@ -69,6 +70,7 @@ class ilPageObjectGUI
 
 		// USED FOR TRANSLATIONS
 		$this->template_output_var = "PAGE_CONTENT";
+		$this->citation = false;
 	}
 
 	function setBibId($a_id)
@@ -207,6 +209,16 @@ class ilPageObjectGUI
 		return $this->output_submode;
 	}
 
+	function enableCitation($a_enabled)
+	{
+		$this->citation = $a_enabled;
+	}
+
+	function isEnabledCitation()
+	{
+		return $this->citation;
+	}
+
 	/*
 	* display content of page
 	*/
@@ -269,7 +281,7 @@ class ilPageObjectGUI
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
-						 'bib_id' => $this->getBibId());
+						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation());
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

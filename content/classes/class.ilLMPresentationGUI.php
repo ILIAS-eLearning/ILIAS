@@ -52,6 +52,7 @@ class ilLMPresentationGUI
 		$this->tpl =& $tpl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
+		$cmd = $cmd == "edpost" ? "ilCitation" : $cmd;
 
 		// Todo: check lm id
 		$this->lm =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
@@ -408,12 +409,14 @@ class ilLMPresentationGUI
 							case "lm":
 								unset($_SESSION["tr_id"]);
 								unset($_SESSION["bib_id"]);
+								unset($_SESSION["citation"]);
+
 								$page_content = $this->ilPage($child);
 								break;
 
 							case "dbk":
 								$this->setSessionVars();
-								if($_GET["obj_id"] or $_POST["action"] == "show")
+								if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
 								{
 									// SHOW PAGE IF PAGE WAS SELECTED
 									$pageContent = $this->ilPage($child);
@@ -437,7 +440,10 @@ class ilLMPresentationGUI
 
 					case "ilLMNavigation":
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"] or $_POST["action"] == "show" or $this->lm->getType() == 'lm')
+						if($_GET["obj_id"] or 
+						   $_POST["action"] == "show" or 
+						   $_POST["action"] == "show_citation" or 
+						   $this->lm->getType() == 'lm')
 						{
 							$this->ilLMNavigation();
 						}
@@ -702,13 +708,14 @@ class ilLMPresentationGUI
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
-
 		$subtree = $lmtree->getSubTree($lmtree->getNodeData(1));
 		$node = $lmtree->getNodeData($current_page_id);
 		$pos = array_search($node,$subtree);
 		unset($lmtree);
 
-		$lmtree = new ilTree($_SESSION["tr_id"]);
+		$this->tr_obj =& $this->ilias->obj_factory->getInstanceByRefId($_SESSION["tr_id"]);
+
+		$lmtree = new ilTree($this->tr_obj->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
 
@@ -728,7 +735,7 @@ class ilLMPresentationGUI
 
 		if(!$page_id)
 		{
-			$this->tpl->setVariable("TRANSLATION_CONTENT","NO TRANSLATION FOUND");
+			$this->tpl->setVariable("TRANSLATION_CONTENT","NO TRNSLATION FOUND");
 			return false;
 		}
 		
@@ -764,8 +771,8 @@ class ilLMPresentationGUI
 
 		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
-		//$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		$page_object_gui->setTargetScript("lm_presentation.php?ref_id=".
+										  $this->lm->getRefId()."&obj_id=".$_GET["obj_id"]);
 #		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
@@ -776,7 +783,19 @@ class ilLMPresentationGUI
 
 	}
 
-		
+	function ilCitation()
+	{
+		$page_id = $this->getCurrentPageId();
+		$this->tpl = new ilTemplate("tpl.page.html",true,true,true);
+		$this->ilLocator();
+
+		include_once("content/classes/Pages/class.ilPageObject.php");
+
+		$this->pg_obj =& new ilPageObject($this->lm->getType(),$page_id);
+		$xml = $this->pg_obj->getXMLContent();
+		$this->lm_gui->showCitation($xml);
+		$this->tpl->show();
+	}
 
 	function ilPage(&$a_page_node)
 	{
@@ -806,6 +825,7 @@ class ilLMPresentationGUI
 
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
+		$page_object_gui->enableCitation((bool) $_SESSION["citation"]);
 
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
@@ -814,8 +834,10 @@ class ilLMPresentationGUI
 
 		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
-		//$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+
+		// ADDED FOR CITATION
+		$page_object_gui->setTargetScript("lm_presentation.php?ref_id=".
+			$this->lm->getRefId()."&obj_id=".($_GET["obj_id"] ? $_GET["obj_id"] : $page_id)."&cmd=ilCitation&frame=".$_GET["frame"]);
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
 
@@ -1117,8 +1139,25 @@ class ilLMPresentationGUI
 	// PRIVATE METHODS
 	function setSessionVars()
 	{
-		if($_POST["action"] == "show")
+		if($_POST["action"] == "show" or $_POST["action"] == "show_citation")
 		{
+			if($_POST["action"] == "show_citation")
+			{
+				// ONLY ONE EDITION
+				if(count($_POST["target"]) != 1)
+				{
+					sendInfo($this->lng->txt("cont_citation_err_one"));
+					$_POST["action"] = "";
+					$_POST["target"] = 0;
+					return false;
+				}
+				$_SESSION["citation"] = 1;
+			}
+			else
+			{
+				unset($_SESSION["citation"]);
+			}
+
 			if(isset($_POST["tr_id"]))
 			{
 				$_SESSION["tr_id"] = $_POST["tr_id"];
