@@ -604,7 +604,7 @@ class ilSearchGUI
 					$f_result[$counter][] = $this->__formatLink($book["link"],$book["target"]);
 
 					break;
-					
+
 				case "content":
 					// GET INSTANCE OF PAGE OBJECT
 					include_once ("content/classes/class.ilLMObjectFactory.php");
@@ -619,12 +619,14 @@ class ilSearchGUI
 
 					$f_result[$counter][]		= ilUtil::formCheckbox(0,"dbk[content][]",$counter);
 					$f_result[$counter][]		= $tmp_obj->getTitle();
-					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					//$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					$f_result[$counter][] =
+						ilLMPageObject::_getPresentationTitle($book["page_id"],$tmp_obj->getPageHeader());
 					$f_result[$counter][]		= $this->__getContextPath($book["id"]);
-					
+
 					include_once "./content/classes/class.ilObjDlBook.php";
 					list($book["link"],$book["target"]) = ilObjDlBook::_getLinkToObject($book["id"],"content",$book["page_id"]);
-					
+
 					$f_result[$counter][] = $this->__formatLink($book["link"],$book["target"]);
 
 					unset($tmp_page_obj);
@@ -681,7 +683,9 @@ class ilSearchGUI
 
 					$f_result[$counter][]		= ilUtil::formCheckbox(0,"lm[content][]",$counter);
 					$f_result[$counter][]		= $tmp_obj->getTitle();
-					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					//$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
+					$f_result[$counter][] =
+						ilLMPageObject::_getPresentationTitle($book["page_id"],$tmp_obj->getPageHeader());
 					$f_result[$counter][] = $this->__getContextPath($book["id"]);
 
 					include_once "./content/classes/class.ilObjContentObject.php";
@@ -830,8 +834,11 @@ class ilSearchGUI
 							continue;
 						}
 						$tmp_page_obj->setLMId($tmp_result[$a_subtype][$result_id]["id"]);
-						
-						$title .= " -> ".$tmp_page_obj->getPresentationTitle();
+
+						//$title .= " -> ".$tmp_page_obj->getPresentationTitle();
+						$title .= " -> ".
+							ilLMPageObject::_getPresentationTitle($tmp_result[$a_subtype][$result_id]["page_id"], $tmp_obj->getPageHeader());
+
 						$target = addslashes(serialize(array("type" => $a_type,
 															 "subtype" => $a_subtype,
 															 "id" => $tmp_result[$a_subtype][$result_id]["id"],
