@@ -556,6 +556,7 @@ mail#:#mail_bc_not_valid#:#The Bc recipient is not valid###16 Apr 2003 new varia
 mail#:#mail_bc_search#:#BC search###16 Apr 2003 new variable
 mail#:#mail_cc_not_valid#:#The Cc recipient is not valid###16 Apr 2003 new variable
 mail#:#mail_cc_search#:#CC search###16 Apr 2003 new variable
+mail#:#mail_change_to_folder#:#Switch to folder:###24 Apr 2003 new variable
 mail#:#mail_check_your_email_addr#:#Your email address is not valid###16 Apr 2003 new variable
 mail#:#mail_compose#:#Compose Message###16 Apr 2003 new variable
 mail#:#mail_deleted#:#The mail(s) have been deleted###16 Apr 2003 new variable
@@ -581,6 +582,7 @@ mail#:#mail_move_error#:#Error moving mail(s)###16 Apr 2003 new variable
 mail#:#mail_move_to#:#Move mails to###16 Apr 2003 new variable
 mail#:#mail_moved#:#The mail(s) have been moved###16 Apr 2003 new variable
 mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###16 Apr 2003 new variable
+mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#No attachments found###16 Apr 2003 new variable
 mail#:#mail_options_of#:#Options:###16 Apr 2003 new variable

@@ -311,7 +311,7 @@ common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Nachrichten
+common#:#mail_mails_of#:#Nachrichten###24 Apr 2003 content changed
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxsize_mail#:#Max. Mailgrösse
@@ -556,6 +556,7 @@ mail#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
 mail#:#mail_bc_search#:#BC Empfänger suchen
 mail#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC Empfänger suchen
+mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
 mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
@@ -578,12 +579,13 @@ mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
-mail#:#mail_move_to#:#Verschieben nach:
+mail#:#mail_move_to#:#Verschieben nach:###24 Apr 2003 content changed
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
-mail#:#mail_options_of#:#Einstellungen
+mail#:#mail_options_of#:#Einstellungen###24 Apr 2003 content changed
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
@@ -600,5 +602,3 @@ mail#:#search_addressbook#:#Adressbuchsuche
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
 mail#:#search_system#:#Systemsuche
-mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
-mail#:#mail_new_file#:#Neue Datei hinzufügen:

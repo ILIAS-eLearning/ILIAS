@@ -556,6 +556,7 @@ mail#:#mail_bc_not_valid#:#The Bc recipient is not valid
 mail#:#mail_bc_search#:#BC search
 mail#:#mail_cc_not_valid#:#The Cc recipient is not valid
 mail#:#mail_cc_search#:#CC search
+mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your email address is not valid
 mail#:#mail_compose#:#Compose Message
 mail#:#mail_deleted#:#The mail(s) have been deleted
@@ -581,6 +582,7 @@ mail#:#mail_move_error#:#Error moving mail(s)
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail(s) have been moved
 mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
+mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_options_of#:#Options
@@ -600,5 +602,3 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
-mail#:#mail_change_to_folder#:#Switch to folder:
-mail#:#mail_new_file#:#Add new file:
