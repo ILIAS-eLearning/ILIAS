@@ -1249,3 +1249,32 @@ CREATE TABLE style_parameter (
 	parameter	VARCHAR(100),
 	value		VARCHAR(100));
 
+<#59>
+# accommodating rbac tables. removing all obsolete entries
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','objf','4','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('24','4');
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','usrf','6','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('22','6');
+DELETE FROM rbac_templates WHERE type IN ('usr','typ','rolt','lng','role','lo','uset','note','le','fold','bm');
+DELETE FROM object_data WHERE type='typ' AND title='uset';
+DELETE FROM rbac_ta WHERE typ_id IN ('12','26','27','29','30','31','32');
+<?php
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='note'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$id = $row->obj_id;
+
+$query = "DELETE FROM rbac_ta WHERE typ_id='$id'";
+$this->db->query($query);
+?>
+# set only create permission for non rbac protected objects to admin role
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','role','5','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('30','5');
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','role','5','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('30','5');
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','rolt','5','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('27','5');
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','usr','5','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('12','5');
+REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','lo','5','8');
+REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('31','5');
