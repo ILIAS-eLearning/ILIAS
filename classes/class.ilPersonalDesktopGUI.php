@@ -114,10 +114,11 @@ class ilPersonalDesktopGUI
 				: $a_type;
 
 			$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
+			$this->lng->loadLanguageModule("assessment");
+			$this->lng->loadLanguageModule("survey");
 			foreach($items as $item)
 			{
 				if (strcmp($a_type, "tst")==0) {
-					$this->lng->loadLanguageModule("assessment");
 					$tpl->setCurrentBlock("tbl_tstheader");
 					if (($tstCount < $unsetCount)&&($unsetFlag==0)) {
 						$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_not_entered"));
@@ -133,6 +134,21 @@ class ilPersonalDesktopGUI
 					}
 					$tstCount++;
 					$tpl->parseCurrentBlock();
+				}
+				if (strcmp($a_type, "svy")==0) {
+					switch ($item["finished"])
+					{
+						case 0:
+							$tpl->setCurrentBlock("finished");
+							$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
+							$tpl->parseCurrentBlock();
+							break;
+						case 1:
+							$tpl->setCurrentBlock("finished");
+							$tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
+							$tpl->parseCurrentBlock();
+							break;
+					}
 				}
 
 
