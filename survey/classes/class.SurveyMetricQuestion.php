@@ -377,16 +377,29 @@ class SurveyMetricQuestion extends SurveyQuestion {
 			$item = $root->first_child();
 			$this->setTitle($item->get_attribute("title"));
 			$this->gaps = array();
-			$comment = $item->first_child();
-			if (strcmp($comment->node_name(), "qticomment") == 0)
-			{
-				$this->setDescription($comment->get_content());
-			}
 			$itemnodes = $item->child_nodes();
 			foreach ($itemnodes as $index => $node)
 			{
 				switch ($node->node_name())
 				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (strpos($comment, "ILIAS Version=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Questiontype=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Author=") !== false)
+						{
+							$comment = str_replace("Author=", "", $comment);
+							$this->setAuthor($comment);
+						}
+						else
+						{
+							$this->setDescription($comment);
+						}
+						break;
 					case "itemmetadata":
 						$qtimetadata = $node->first_child();
 						$metadata_fields = $qtimetadata->child_nodes();
@@ -472,6 +485,10 @@ class SurveyMetricQuestion extends SurveyQuestion {
 		$qtiIdent->append_child($qtiComment);
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".METRIC_QUESTION_IDENTIFIER);
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Author=".$this->getAuthor());
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 
