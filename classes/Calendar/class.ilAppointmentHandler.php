@@ -590,21 +590,21 @@ class ilAppointmentHandler
 		$appointmentArrayList = $this->setAppointmentArrayList($userId, $startTimestamp, $endTimestamp);
 		return $appointmentArrayList;
 	}
-		
+
 	function deleteAppointment($userId, $appointmentId, $appointmentUnionId) {
 		$dbHandler = new ilCalDBHandler;
 		$appointment = $this->getSingleAppointment($appointmentId);
-		
+
 		if ($appointmentUnionId == Null || $appointmentUnionId == "" || $appointmentUnionId == 0) {
-		    
+
 			$dbtable = "cal_appointmentrepeats";
 			$where = "cal_appointmentrepeats.appointmentId = $appointmentId";
 			$appointmentRepeatsResultset = $dbHandler->select($dbtable, $where);
-										
+
 			$dbtable = "cal_appointment";
 			$where = "cal_appointment.appointmentId = $appointmentId";
 			$dbHandler-> delete($dbtable, $where);
-								
+
 			$dbtable = "cal_appointmentrepeats";
 			$where = "cal_appointmentrepeats.appointmentId = $appointmentId";
 			$dbHandler-> delete($dbtable, $where);
@@ -719,12 +719,12 @@ class ilAppointmentHandler
 	
 	
 	function deleteOldAppointments() {
-		$lastDelete = strtotime("- 1 year");
+		$lastDelete = strtotime("-400 days");
 		$dbh = new ilCalDBHandler();
-		
+
 		$dbh->delete("cal_appointment", "startTimestamp<".$lastDelete." AND serial=0");
 	}
-	
+
 	function getSingleAppointment($aid) {
 		if ($aid == "" || $aid == null || $aid < 0) {
 			return new ilAppointment();
