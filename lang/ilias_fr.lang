@@ -655,8 +655,8 @@ common#:#obj_usrf#:#Comptes utilisateurs
 common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
 common#:#objects#:#Objets
 common#:#objf#:#Définition d'objet
-common#:#objs_delete#:#Détruire objets
 common#:#objs_confirm#:#Confirm Deletion###26 Nov 2003 new variable
+common#:#objs_delete#:#Détruire objets
 common#:#of#:#de
 common#:#offline_version#:#Version hors-ligne
 common#:#ok#:#OK
