@@ -1303,6 +1303,7 @@ class ilMetaDataGUI
 
 	function edit($a_temp_var, $a_temp_block, $a_formaction, $a_section = "", $a_language = "")
 	{
+//echo "<br>ilMetaDataGUI::edit-start-";
 		if ($a_language == "")
 		{
 			$a_language = $this->ilias->account->getLanguage();
@@ -1313,11 +1314,12 @@ class ilMetaDataGUI
 		{
 			$a_section = "General";
 		}
-		$sections = array("General", "Lifecycle", "Meta-Metadata", "Technical", 
+		$sections = array("General", "Lifecycle", "Meta-Metadata", "Technical",
 						  "Educational", "Rights", "Relation", "Annotation", "Classification");
 		if (in_array($a_section, $sections))
 		{
 			$func = "fill" . str_replace("-", "", $a_section);
+//echo "<br>ilMetaDataGUI::edit-$func-";
 			$this->$func($a_formaction, $a_section, $a_language);
 		}
 
@@ -1334,6 +1336,7 @@ class ilMetaDataGUI
 		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->parseCurrentBlock();
+//echo "<br>ilMetaDataGUI::edit-stop-";
 	}
 
 	function save($a_section = "General")

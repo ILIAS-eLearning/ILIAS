@@ -310,17 +310,17 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
-
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];
-
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+
 		if ($this->updated !== true)
 		{
 			$this->insert();
 			return;
 		}
 		$this->updated = $this->pg_obj->update();
+
 		if ($this->updated === true)
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2004 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -306,6 +306,18 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 									"text"	=> "new_mail"
 									//"img"	=> "icon_mail.gif"
 									);
+}
+
+// php5 downward complaince to php 4 dom xml
+if (version_compare(PHP_VERSION,'5','>='))
+{
+	require_once("include/inc.xml5compliance.php");
+}
+
+// php5 downward complaince to php 4 sablotorn xslt
+if (version_compare(PHP_VERSION,'5','>='))
+{
+	require_once("include/inc.xsl5compliance.php");
 }
 
 $ilBench->stop("Core", "HeaderInclude");

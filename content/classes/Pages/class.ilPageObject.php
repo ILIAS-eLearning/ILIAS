@@ -702,7 +702,6 @@ class ilPageObject
 	*/
 	function addHierIDs()
 	{
-
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
@@ -711,6 +710,7 @@ class ilPageObject
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$cnode = $res->nodeset[$i];
+
 			// get hierarchical id of previous sibling
 			$sib_hier_id = "";
 			while($cnode =& $cnode->previous_sibling())
@@ -1214,7 +1214,7 @@ class ilPageObject
 		// count the parent children
 		$parent_childs =& $parent_node->child_nodes();
 		$cnt_parent_childs = count($parent_childs);
-
+//echo "ZZ$a_mode";
 		switch ($a_mode)
 		{
 			// insert new node after sibling at $a_pos
@@ -1236,6 +1236,7 @@ class ilPageObject
 				break;
 
 			case IL_INSERT_BEFORE:
+//echo "INSERT_BEF";
 				$new_node =& $a_cont_obj->getNode();
 				$succ_node =& $this->getContentNode($a_pos);
 				$new_node =& $succ_node->insert_before($new_node, $succ_node);
@@ -1255,6 +1256,7 @@ class ilPageObject
 					$new_node =& $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
 				}
 				$a_cont_obj->setNode($new_node);
+//echo "PP";
 				break;
 		}
 
@@ -1427,10 +1429,7 @@ class ilPageObject
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Paragraph[@Characteristic = 'Code']";
-
 		$res = & xpath_eval($xpc, $path);
-
-
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$context_node = $res->nodeset[$i];
@@ -1452,7 +1451,8 @@ class ilPageObject
 				$content .= $this->dom->dump_node($childs[$j]);
 			}
 
-			while ($context_node->has_child_nodes ()) {
+			while ($context_node->has_child_nodes ())
+			{
 				$node_del = $context_node->first_child ();
 				$context_node->remove_child ($node_del);
 			}
