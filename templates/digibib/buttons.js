@@ -1,6 +1,6 @@
 if (document.images)
 {
-	var path = "./templates/default/images/navbar/";
+	var path = "./templates/digibib/images/navbar/";
 	
 	imag = new Array();
 	imag[0]  = path + "desk.gif";
