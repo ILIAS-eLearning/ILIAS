@@ -3,14 +3,20 @@
 	</style>
 {STATUSLINE}
 	<div class="invisible_border">
-	  <div class="il_Header"><h1>{TXT_SEARCH}</h1>
-<div class="il_Tab">
-		  {TABS}	  
-		</div>
+	  <form class="il_Form" action="{H_FORMACTION}" method="post">
+		<div class="il_Header"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+			  <tr>
+				<td><h1>{TXT_HEADER}</h1></td>
+			  </tr>
+			  <tr>
+				<td><div class="il_Tab">{TABS}</div></td>
+			  </tr>
+		  </table>
 	  </div>
 	  {BUTTONS}
 	  <br />
 	  {MESSAGE}
+	  <br />
 	  <form action="{SEARCH_ACTION}" METHOD="post">
 		<table class="std">
 <tr class="tblheader">
@@ -85,10 +91,11 @@
 				</div>
 			  </td>
 			</tr>
-		</table>
-	  </form>
-	  {USR}<br />
-	  {GRP}<br />
-	  {DBK}<br />
-	  {LM}
+		  </table>
+		  <br />
+		  {USR}<br />
+		  {GRP}<br />
+		  {DBK}<br />
+		  {LM}
+		</form>
 	</div>

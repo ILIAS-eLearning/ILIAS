@@ -1754,3 +1754,12 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+search#:#search_select_one#:#Select one folder
+search#:#search_my_search_results#:#My search results
+search#:#search_search_results#:#Search results
+search#:#search_select_one_result#:#Select at least one search result
+search#:#search_results_saved#:#Search results saved
+search#:#search_delete_sure#:#The folder and its content will be deleted permanantly
+search#:#search_new_folder#:#New folder
+search#:#search_search_no_results_saved#:#There are no search results saved
+search#:#search_group#:#Groups

@@ -1478,6 +1478,7 @@ class ilObjGroup extends ilObject
 	/**
 	 * STATIC METHOD
 	 * search for group data. This method is called from class.ilSearch
+	 * This method used by class.ilSearchGUI.php to a link to the results
 	 * @param	object object of search class
 	 * @static
 	 * @access	public
@@ -1501,10 +1502,23 @@ class ilObjGroup extends ilObject
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter]["id"]				=  $row->ref_id;
-			$result_data[$counter]["link"]				=  "group.php?cmd=view&ref_id=".$row->ref_id;
-			$result_data[$counter++]["target"]			=  "";
+			#$result_data[$counter]["link"]				=  "group.php?cmd=view&ref_id=".$row->ref_id;
+			#$result_data[$counter++]["target"]			=  "";
 		}
 		return $result_data ? $result_data : array();
+	}
+
+	/**
+	 * STATIC METHOD
+	 * create a link to the object
+	 * @param	int uniq id
+	 * @return array array('link','target')
+	 * @static
+	 * @access	public
+	 */
+	function _getLinkToObject($a_id)
+	{
+		return array("group.php?cmd=view&ref_id=".$a_id,"");
 	}
 } //END class.ilObjGroup
 ?>

@@ -23,9 +23,9 @@
 
 
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilSearchGUI.php";
+require_once "./classes/class.ilSearchAdministrationGUI.php";
 
-$search_gui = new ilSearchGUI($_SESSION["AccountId"]);
+$search_admin_gui = new ilSearchAdministrationGUI($_SESSION["AccountId"]);
 
 $tpl->show();
 ?>
