@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilObjPaymentSettings
+* Class ilPaymentVendors
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -31,63 +31,79 @@
 * @package ilias-core
 */
 
-require_once "./classes/class.ilObject.php";
-
-class ilObjPaymentSettings extends ilObject
+class ilPaymentVendors
 {
-	var $payment_vendors_obj = null;
+	var $db = null;
+
+	var $vendors = array();
 
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjPaymentSettings($a_id = 0,$a_call_by_reference = true)
+	function ilPaymentVendors()
 	{
-		define("ILIAS_MODULE","payment");
-		define("KEEP_IMAGE_PATH",1);
+		global $ilDB;
 
-		$this->type = "pays";
-		$this->ilObject($a_id,$a_call_by_reference);
+		$this->db =& $ilDB;
 
-		$this->lng->loadLanguageModule('crs');
-		$this->lng->loadLanguageModule('payment');
-
-	}
-	
-
-	/**
-	* update object data
-	*
-	* @access	public
-	* @return	boolean
-	*/
-	function update()
-	{
-		if (!parent::update())
-		{			
-			return false;
-		}
-
-		// put here object specific stuff
-		
-		return true;
+		$this->__read();
 	}
 
-	function initPaymentVendorsObject()
+	function getVendors()
 	{
-		if(!is_object($this->payment_vendors_obj))
+		return $this->vendors;
+	}
+	function isAssigned($a_usr_id)
+	{
+		return isset($this->vendors[$a_usr_id]);
+	}
+
+	function add($a_usr_id)
+	{
+		if(isset($this->vendors[$a_usr_id]))
 		{
-			include_once "./payment/classes/class.ilPaymentVendors.php";
+			die("class.ilPaymentVendors::add() Vendor already exists");
+		}
+		$query = "INSERT INTO payment_vendors ".
+			"SET vendor_id = '".$a_usr_id."', ".
+			"cost_center = '".IL_INST_ID."_".$a_usr_id."'";
 
-			$this->payment_vendors_obj =& new ilPaymentVendors();
+		$this->db->query($query);
+		$this->__read();
+
+		return true;
+	}
+	function delete($a_usr_id)
+	{
+		if(!isset($this->vendors[$a_usr_id]))
+		{
+			die("class.ilPaymentVendors::delete() Vendor does not exist");
+		}
+		$query = "DELETE FROM payment_vendors ".
+			"WHERE vendor_id = '".$a_usr_id."'";
+
+		$this->db->query($query);
+		$this->__read();
+		
+		return true;
+	}
+
+	// PRIVATE
+	function __read()
+	{
+		$this->vendors = array();
+
+		$query = "SELECT * FROM payment_vendors ";
+		$res = $this->db->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->vendors[$row->vendor_id]['vendor_id'] = $row->vendor_id;
+			$this->vendors[$row->vendor_id]['cost_center'] = $row->cost_center;
 		}
 		return true;
 	}
 
-		
-
-
-} // END class.ilObjPaymentSettings
+} // END class.ilPaymentVendors
 ?>
