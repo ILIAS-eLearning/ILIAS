@@ -379,7 +379,6 @@ class ilTree
 		//
 		// i changed the processing here.
 		// mail any errors to alex.killing@gmx.de (22.5.2003)
-		// TODO: default switch does not work. tree is not spreaded correctly. (shofmann 3.6.03)
 		//
 		switch ($a_pos)
 		{
