@@ -778,7 +778,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
 			}
 			$counter = 1;
-			for ($i = 0; $i < $table["rowcount"] - 1; $i += $table["step"])
+			for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
 			{
 				$this->tpl->setCurrentBlock("pages");
 				if ($table["startrow"] == $i)
@@ -795,7 +795,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("navigation_bottom");
 			$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
 			$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
-			$this->tpl->setVariable("TEXT_ITEM_END", $table["startrow"] + $table["step"]);
+			$end = $table["startrow"] + $table["step"];
+			if ($end > $table["rowcount"])
+			{
+				$end = $table["rowcount"];
+			}
+			$this->tpl->setVariable("TEXT_ITEM_END", $end);
 			$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
