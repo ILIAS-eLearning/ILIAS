@@ -246,6 +246,18 @@ class ilObjFileBasedLM extends ilObject
 		return $this->online;
 	}
 
+	/**
+	* check wether content object is online
+	*/
+	function _lookupOnline($a_id)
+	{
+		$q = "SELECT * FROM file_based_lm WHERE id = '".$a_id."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return ilUtil::yn2tf($lm_rec["online"]);
+	}
+
 
 	/**
 	* copy all entries of your object.

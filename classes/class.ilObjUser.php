@@ -1577,7 +1577,7 @@ class ilObjUser extends ilObject
 	*/
 	function getDesktopItems($a_types)
 	{
-		global $ilUser;
+		global $ilUser, $rbacsystem;
 
 		if (!is_array($a_types))
 		{
@@ -1605,6 +1605,45 @@ class ilObjUser extends ilObject
 					$item_set = $this->ilias->db->query($q);
 					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 					{
+						// check wether objects are online
+						$skip = false;
+						switch($a_type)
+						{
+							case "lm":
+							case "dbk":
+								include_once("content/classes/class.ilObjContentObject.php");
+								if (!ilObjContentObject::_lookupOnline($item_rec["obj_id"]))
+								{
+									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+									{
+										$skip = true;
+									}
+								}
+								break;
+
+							case "htlm":
+								include_once("content/classes/class.ilObjFileBasedLM.php");
+								if (!ilObjFileBasedLM::_lookupOnline($item_rec["obj_id"]))
+								{
+									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+									{
+										$skip = true;
+									}
+								}
+								break;
+
+							case "slm":
+								include_once("classes/class.ilObjSCORMLearningModule.php");
+								if (!ilObjSCORMLearningModule::_lookupOnline($item_rec["obj_id"]))
+								{
+									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+									{
+										$skip = true;
+									}
+								}
+								break;
+						}
+
 						if($a_type == "glo")
 						{
 							$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
@@ -1647,10 +1686,14 @@ class ilObjUser extends ilObject
 								"&obj_id=".$item_rec["parameters"];
 							$target = "ilContObj".$item_rec["obj_id"];
 						}
-						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
-							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"parameters" => $item_rec["parameters"], "description" => $item_rec["description"],
-							"link" => $link, "target" => $target, "edit_link" => $edit_link);
+
+						if (!$skip)
+						{
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+								array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+								"parameters" => $item_rec["parameters"], "description" => $item_rec["description"],
+								"link" => $link, "target" => $target, "edit_link" => $edit_link);
+						}
 					}
 					break;
 
