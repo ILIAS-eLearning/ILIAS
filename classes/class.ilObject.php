@@ -578,7 +578,7 @@ class ilObject
 	{
 		global $log;
 
-		if (!isset($this->obj_id))
+		if (!isset($this->id))
 		{
 			$message = "ilObject::countReferences(): No obj_id given!";
 			$log->writeWarning($message);
@@ -586,7 +586,7 @@ class ilObject
 		}
 
 		$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
-		 	"WHERE obj_id = '".$this->obj_id."'";
+		 	"WHERE obj_id = '".$this->id."'";
 		$row = $this->ilias->db->getRow($q);
 
 		return $row->num;

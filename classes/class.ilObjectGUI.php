@@ -1102,6 +1102,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		/*
 		foreach ($_POST["trash_id"] as $id)
 		{
 			//$obj_data = getObject($id);
@@ -1118,7 +1119,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
 									 implode(',',$no_delete),$this->ilias->error_obj->MESSAGE);
 		}
-
+*/
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
@@ -1136,13 +1137,12 @@ class ilObjectGUI
 				// Todo: I think it must be distinguished between obj and ref ids here somehow
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
 				$node_obj->delete();
-				//$this->object->delete($node["obj_id"],$node["parent"]);
 			}
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
 
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
@@ -2087,8 +2087,14 @@ class ilObjectGUI
 		{
 			return;
 		}
-
-		sendInfo($this->lng->txt("info_trash"));
+		
+		/* TODO: fix message display in conjunction with sendIfno & raiseError functionality
+		$this->tpl->addBlockfile("MESSAGE", "adm_trash", "tpl.message.html");
+		$this->tpl->setCurrentBlock("adm_trash");
+		$this->tpl->setVariable("MSG",$this->lng->txt("info_trash"));
+		$this->tpl->parseCurrentBlock();
+		*/
+		//sendInfo($this->lng->txt("info_trash"));
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 
