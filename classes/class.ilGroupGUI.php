@@ -612,10 +612,6 @@ class ilGroupGUI extends ilObjectGUI
 					$this->tpl->setVariable("OWNER", $newuser->getFullName());
 					$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
 					//TODO
-					if ($cont_data["ref_id"] != -1)
-					{
-						$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["child"]));
-					}
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -632,17 +628,17 @@ class ilGroupGUI extends ilObjectGUI
 		// buttons in bottom-bar
 		if ($access)
 		{
-			$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
-			$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
+			$tbl->setHeaderVars(array("checkbox","title","description","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
 			$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
 			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->SetVariable("COLUMN_COUNTS", "6");
+			$this->tpl->SetVariable("COLUMN_COUNTS", "5");
 			$this->showActions(true);
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
-			$tbl->setHeaderVars(array("title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
+			$tbl->setHeaderVars(array("title","description","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
 			$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
 		}
 
