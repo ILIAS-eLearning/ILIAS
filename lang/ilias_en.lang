@@ -68,7 +68,6 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
-common#:#in#:#in
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
 common#:#bm#:#Bookmark
@@ -273,13 +272,13 @@ common#:#group_new_registrations#:#New Registrations
 common#:#group_no_registration#:#no registration required
 common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.
 common#:#group_not_available#:#No group available
-common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.
+common#:#group_objects#:#Group Objects
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
-common#:#group_req_password#:#Registration password required
+common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.
 common#:#group_registration_expired#:#Period of registraton expired
+common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.
-common#:#group_objects#:#Group Objects
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_public#:#Public
@@ -310,6 +309,7 @@ common#:#ilias_version#:#ILIAS version
 common#:#import#:#Import
 common#:#import_lm#:#Import Learningmodule
 common#:#import_slm#:#Import SCORM Package
+common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?

@@ -161,7 +161,7 @@ common#:#dbk_added#:#Digilib Book added###02 Oct 2003 new variable
 common#:#dbk_new#:#New Digilib Book###02 Oct 2003 new variable
 common#:#default#:#default
 common#:#default_language#:#Default Language###20 Mar 2003 new variable
-common#:#default_role#:#def_role
+common#:#default_roles#:#Default Roles###01 Nov 2003 new variable
 common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
 common#:#default_style#:#Default Style###20 Mar 2003 new variable
 common#:#delete#:#delete
@@ -256,6 +256,7 @@ common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
 common#:#glo_new#:#New Glossary###22 Sep 2003 new variable
 common#:#glossary#:#glossary
 common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
+common#:#group_access_denied#:#Access Denied###01 Nov 2003 new variable
 common#:#group_any_objects#:#No Subobjects avilable ###12 Jun 2003 new variable
 common#:#group_desc#:#Group Description###29 Oct 2003 new variable
 common#:#group_details#:#Group Details###12 Jun 2003 new variable
@@ -265,8 +266,17 @@ common#:#group_memstat#:#Member Status###01 Oct 2003 new variable
 common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
 common#:#group_memstat_member#:#Member###01 Oct 2003 new variable
 common#:#group_name#:#Groupname###29 Apr 2003 new variable
+common#:#group_new_registrations#:#New Registrations###01 Nov 2003 new variable
+common#:#group_no_registration#:#no registration required###01 Nov 2003 new variable
+common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.###01 Nov 2003 new variable
 common#:#group_not_available#:#any group available###12 Jun 2003 new variable
 common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
+common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###01 Nov 2003 new variable
+common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###01 Nov 2003 new variable
+common#:#group_registration_expired#:#Period of registraton expired###01 Nov 2003 new variable
+common#:#group_req_password#:#Registration password required###01 Nov 2003 new variable
+common#:#group_req_registration#:#Registration required###01 Nov 2003 new variable
+common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###01 Nov 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
@@ -297,6 +307,7 @@ common#:#ilias_version#:#ILIAS version
 common#:#import#:#import
 common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
 common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
+common#:#in#:#in###01 Nov 2003 new variable
 common#:#in_use#:#user language
 common#:#inbox#:#inbox
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
