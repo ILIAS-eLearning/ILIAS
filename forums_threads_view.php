@@ -129,11 +129,22 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			$tpl->setVariable("LINKBAR", $linkbar);
 	}
 	
+	$jump = 0;
+	
 	foreach($subtree_nodes as $node)
 	{
+		if ($_GET["pos_pk"] && $_GET["pos_pk"] == $node["pos_pk"])
+			$jump ++;
 		
 		if ($posNum > $pageHits && $z >= ($Start+$pageHits))
-			break;
+		{
+			if ($_GET["pos_pk"] && $jump < 1)
+			{
+				header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
+				exit();
+			}
+			else break;
+		}
 		
 		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
@@ -182,6 +193,8 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			
 			$node["message"] = $frm->prepareText($node["message"]);
 			
+			$node["message"] = TUtil::makeClickable($node["message"]);
+			
 			$tpl->setVariable("POST",$node["message"]);	
 			
 			$tpl->parseCurrentBlock("posts_row");		
@@ -202,7 +215,7 @@ else
 //$posPath = $frm->getForumPath($_GET["obj_id"], $_GET["parent"], $topicData["top_pk"], $_GET["thr_pk"]);
 
 $tpl->setCurrentBlock("posttable");
-//$tpl->setVariable("TXT_POST_PATH", $posPath);
+$tpl->setVariable("COUNT_POST", $lng->txt("forums_count_art").": ".$posNum);
 $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_POST", $lng->txt("forums_the_post"));
 $tpl->parseCurrentBlock("posttable");

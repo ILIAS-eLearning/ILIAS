@@ -125,6 +125,7 @@ else
 }
 
 $tpl->setCurrentBlock("threadtable");
+$tpl->setVariable("COUNT_THREAD", $lng->txt("forums_count_thr").": ".$thrNum);
 $tpl->setVariable("TXT_DATE", $lng->txt("date"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_AUTHOR", $lng->txt("forums_thread_create"));
