@@ -18,8 +18,13 @@ if ($rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
 	$tpl->parseCurrentBlock();
 }
 
+if(is_dir($tpl->tplPath."/".$ilias->account->prefs["style"]))
+	$image_dir = "/".$ilias->account->prefs["style"];
+else
+	$image_dir = "";
 
 $tpl->setCurrentBlock("navigation");
+$tpl->setVariable("IMAGE_DIR", $image_dir);
 $tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
 $tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 $tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
