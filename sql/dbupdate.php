@@ -937,3 +937,6 @@ CREATE TABLE meta_keyword(
 UPDATE object_data SET title='lm' WHERE title='le' AND type='typ';
 UPDATE object_data SET type='lm' WHERE type='le';
 
+<#40>
+INSERT INTO object_data (type, title, description, owner, create_date, last_update) VALUES
+	('typ', 'slm', 'SCORM Learning Module', -1, now(), now());
