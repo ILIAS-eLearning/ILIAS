@@ -263,21 +263,21 @@ $tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));
 
 $users = ilUtil::getUsersOnline();
 
-$user_list = "";
+$num = 0;
 	
 foreach ($users as $user_id => $user)
 {
 	if ($user_id != ANONYMOUS_USER_ID)
 	{
-		$user_list .= $user["login"].", ";
+		$num++;
 	}
 	else
 	{
 		$guests = $user["num"];
 	}
 }
-	
-// parse text
+
+// parse guests text
 if (empty($guests))
 {
 	$guest_text = "";
@@ -291,10 +291,17 @@ else
 	$guest_text = $guests." ".$lng->txt("guests");		
 }
 
-if (!empty($user_list))
+// parse registered users text
+if ($num > 0)
 {
-	// remove last commata
-	$user_list = substr($user_list,0,-2);
+	if ($num == 1)
+	{
+		$user_list = $num." ".$lng->txt("registered_user");	
+	}
+	else
+	{
+		$user_list = $num." ".$lng->txt("registered_users");	
+	}
 	
 	// add details link
 	if ($_GET["cmd"] == "whoisdetail")
