@@ -105,6 +105,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		if (count($this->object->suggested_solutions))
 		{
 			$solution_array = $this->object->getSuggestedSolution(0);
+			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));

@@ -1226,8 +1226,9 @@ class ASS_Question
 		);
 	}
 	
-	function getInternalLinkHref($target = "")
+	function _getInternalLinkHref($target = "")
 	{
+		global $ilDB;
 		$linktypes = array(
 			"lm" => "LearningModule",
 			"pg" => "PageObject",
@@ -1250,9 +1251,9 @@ class ASS_Question
 					require_once "./content/classes/class.ilLMObject.php";
 					$lm_id = ilLMObject::_lookupContObjID($target_id);
 					$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id = %s",
-						$this->ilias->db->quote($lm_id . "")
+						$ilDB->quote($lm_id . "")
 					);
-					$result = $this->ilias->db->query($query);
+					$result = $ilDB->query($query);
 					if ($result->numRows())
 					{
 						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
