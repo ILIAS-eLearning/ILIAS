@@ -37,6 +37,7 @@ class ilGlossaryTermGUI
 	var $lng;
 	var $tpl;
 	var $glossary;
+	var $term;
 
 	/**
 	* Constructor
@@ -49,6 +50,10 @@ class ilGlossaryTermGUI
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
+		if($a_id != 0)
+		{
+			$this->term =& new ilGlossaryTerm($a_id);
+		}
 	}
 
 	function setGlossary(&$a_glossary)
@@ -82,6 +87,30 @@ class ilGlossaryTermGUI
 		$term->setTerm($_POST["term"]);
 		$term->setLanguage($_POST["term_language"]);
 		$term->create();
+	}
+
+	function editTerm()
+	{
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
+		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$_GET["term_id"]."&cmd=post");
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
+		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
+		$this->tpl->setVariable("INPUT_TERM", "term");
+		$this->tpl->setVariable("VALUE_TERM", $this->term->getTerm());
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$lang = ilMetaData::getLanguages();
+		$select_language = ilUtil::formSelect ($this->term->getLanguage(),"term_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
+		$this->tpl->setVariable("BTN_NAME", "updateTerm");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+	}
+
+	function update()
+	{
+		$this->term->setTerm($_POST["term"]);
+		$this->term->setLanguage($_POST["term_language"]);
+		$this->term->update();
 	}
 
 }
