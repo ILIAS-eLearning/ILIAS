@@ -238,72 +238,20 @@ class ilObjTestGUI extends ilObjectGUI
   }
 
 	function questionsObject() {
+    $add_parameter = $this->get_add_parameter();
+
 		if ($_GET["up"] > 0) {
-			// Move a question up in sequence
-			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND question_fi=%s",
-				$this->ilias->db->db->quote($_GET["edit"]),
-				$this->ilias->db->db->quote($_GET["up"])
-			);
-			$result = $this->ilias->db->query($query);
-			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-			if ($data->sequence > 1) {
-				// OK, it's not the top question, so move it up
-				$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND sequence=%s",
-					$this->ilias->db->db->quote($_GET["edit"]),
-					$this->ilias->db->db->quote($data->sequence - 1)
-				);
-				$result = $this->ilias->db->query($query);
-				$data_previous = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				// change previous dataset
-				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
-					$this->ilias->db->db->quote($data->sequence),
-					$this->ilias->db->db->quote($data_previous->test_question_id)
-				);
-				$result = $this->ilias->db->query($query);
-				// move actual dataset up
-				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
-					$this->ilias->db->db->quote($data->sequence - 1),
-					$this->ilias->db->db->quote($data->test_question_id)
-				);
-				$result = $this->ilias->db->query($query);
-			}
+			$this->object->question_move_up($_GET["up"]);
 		}
 		if ($_GET["down"] > 0) {
-			// Move a question down in sequence
-			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND question_fi=%s",
-				$this->ilias->db->db->quote($_GET["edit"]),
-				$this->ilias->db->db->quote($_GET["down"])
-			);
-			$result = $this->ilias->db->query($query);
-			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND sequence=%s",
-				$this->ilias->db->db->quote($_GET["edit"]),
-				$this->ilias->db->db->quote($data->sequence + 1)
-			);
-			$result = $this->ilias->db->query($query);
-			if ($result->numRows() == 1) {
-				// OK, it's not the last question, so move it down
-				$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				// change next dataset
-				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
-					$this->ilias->db->db->quote($data->sequence),
-					$this->ilias->db->db->quote($data_next->test_question_id)
-				);
-				$result = $this->ilias->db->query($query);
-				// move actual dataset down
-				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
-					$this->ilias->db->db->quote($data->sequence + 1),
-					$this->ilias->db->db->quote($data->test_question_id)
-				);
-				$result = $this->ilias->db->query($query);
-			}
+			$this->object->question_move_up($_GET["down"]);
 		}
 		if ($_POST["cmd"]["insert_question"]) {
-			header("location:il_as_question_manager.php");
+			//header("location:il_as_question_manager.php");
 			exit();
 		}
 		if ($_POST["cmd"]["create_question"]) {
-			header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
+			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
 			exit();
 		}
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
@@ -315,14 +263,10 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if (count($checked_questions) > 0) {
 				foreach ($checked_questions as $key => $value) {
-					$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-						$this->ilias->db->db->quote($this->get_id()),
-						$this->ilias->db->db->quote($value)
-					);
-					$result = $this->ilias->db->query($query);
+					$this->object->remove_question($value);
 				}
 			} elseif (count($checked_questions) == 0) {
-				sendInfo("Please check at least one question to remove it");
+				sendInfo($this->lng->txt("tst_no_question_selected_for_removal"));
 			}
 		}
 

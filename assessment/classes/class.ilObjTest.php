@@ -898,6 +898,105 @@ class ilObjTest extends ilObject
     $this->starting_time = $starting_time;
   }
   
+/**
+* Removes a question from the test object
+* 
+* Removes a question from the test object
+*
+* @param integer $question_id The database id of the question to be removed
+* @access public
+* @see $test_id
+*/
+	function remove_question($question_id) {
+		if (!$question_id)
+			return;
+		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+			$this->ilias->db->db->quote($this->get_test_id()),
+			$this->ilias->db->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Moves a question up in order
+* 
+* Moves a question up in order
+*
+* @param integer $question_id The database id of the question to be moved up
+* @access public
+* @see $test_id
+*/
+	function question_move_up($question_id) {
+		// Move a question up in sequence
+		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+			$this->ilias->db->db->quote($this->get_test_id()),
+			$this->ilias->db->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		if ($data->sequence > 1) {
+			// OK, it's not the top question, so move it up
+			$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
+				$this->ilias->db->db->quote($this->get_test_id()),
+				$this->ilias->db->db->quote($data->sequence - 1)
+			);
+			$result = $this->ilias->db->query($query);
+			$data_previous = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			// change previous dataset
+			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				$this->ilias->db->db->quote($data->sequence),
+				$this->ilias->db->db->quote($data_previous->test_question_id)
+			);
+			$result = $this->ilias->db->query($query);
+			// move actual dataset up
+			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				$this->ilias->db->db->quote($data->sequence - 1),
+				$this->ilias->db->db->quote($data->test_question_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
+* Moves a question down in order
+* 
+* Moves a question down in order
+*
+* @param integer $question_id The database id of the question to be moved down
+* @access public
+* @see $test_id
+*/
+	function question_move_down($question_id) {
+		// Move a question down in sequence
+		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+			$this->ilias->db->db->quote($this->get_test_id()),
+			$this->ilias->db->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
+			$this->ilias->db->db->quote($this->get_test_id()),
+			$this->ilias->db->db->quote($data->sequence + 1)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1) {
+			// OK, it's not the last question, so move it down
+			$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			// change next dataset
+			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				$this->ilias->db->db->quote($data->sequence),
+				$this->ilias->db->db->quote($data_next->test_question_id)
+			);
+			$result = $this->ilias->db->query($query);
+			// move actual dataset down
+			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				$this->ilias->db->db->quote($data->sequence + 1),
+				$this->ilias->db->db->quote($data->test_question_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
   function get_question_type($question_id) {
     if ($question_id < 1)
       return -1;
