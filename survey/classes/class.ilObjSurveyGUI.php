@@ -851,18 +851,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$classes = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$titles = $this->object->getQuestionpoolTitles();
+				$forbidden_pools =& $this->object->getForbiddenQuestionpools();
+				$existing_questions =& $this->object->getExistingQuestions();
 				foreach ($search->search_results as $data)
 				{
-					$this->tpl->setCurrentBlock("result_row");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-					$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_POOL", $titles[$data["ref_id"]]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
+					if ((!in_array($data["question_id"], $existing_questions)) && (!in_array($data["obj_fi"], $forbidden_pools)))
+					{
+						$this->tpl->setCurrentBlock("result_row");
+						$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+						$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+						$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
+						$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+						$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+						$this->tpl->setVariable("QUESTION_POOL", $titles[$data["ref_id"]]);
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
 				}
 				$this->tpl->setCurrentBlock("search_results");
 				$this->tpl->setVariable("RESULT_IMAGE", ilUtil::getImagePath("icon_spl_b.gif"));
