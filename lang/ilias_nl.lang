@@ -1599,6 +1599,7 @@ common#:#show_list#:#Laat lijst zien
 common#:#show_members#:#Laat leden zien
 common#:#show_owner#:#Laat eigenaar zien
 common#:#show_structure#:#Schakelen structured-View in
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Handtekening
 common#:#slm#:#SCORM lesmodule
 common#:#slm_added#:#SCORM lesmodule toegevoegd
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Rechthoek
 content#:#cont_Reference#:#Referentie
 content#:#cont_Remark#:#Opmerking
 content#:#cont_Roman#:#Romeins I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Ongesorteerd
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Toevoegen gebied
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype

@@ -1616,6 +1616,7 @@ common#:#show_list#:#显示列表
 common#:#show_members#:#显示成员
 common#:#show_owner#:#显示拥有者
 common#:#show_structure#:#激活结构化视图
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#签名
 common#:#slm#:#SCORM学习模块
 common#:#slm_added#:#已增加SCORM学习模块
@@ -1785,6 +1786,7 @@ content#:#cont_Rect#:#长方形
 content#:#cont_Reference#:#参考
 content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#未排序的
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#增加区域
@@ -1990,6 +1992,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校
 content#:#cont_scorm_type#:#adlcpscorm类型

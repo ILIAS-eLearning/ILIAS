@@ -1599,6 +1599,7 @@ common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_owner#:#Pokaż właściciela
 common#:#show_structure#:#Włącz widok strukturalny
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Podpis
 common#:#slm#:#SCORM (MN)
 common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Wielokąt
 content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Dodaj powierzchnię
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM

@@ -1599,6 +1599,7 @@ common#:#show_list#:#Показати Список
 common#:#show_members#:#Показати Членів
 common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Сігнатура
 common#:#slm#:#SCORM Учбовий Модуль
 common#:#slm_added#:#SCORM Учбовий модуль доданий
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Прямокутник
 content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Невпорядкований
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Додати Область
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_scorm_type#:#adlcp:scormtype

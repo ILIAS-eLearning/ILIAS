@@ -1599,6 +1599,7 @@ common#:#show_list#:#Zobrazit seznam
 common#:#show_members#:#Zobrazit členy
 common#:#show_owner#:#Zobrazit vlastníka
 common#:#show_structure#:#Povolit strukturovaný pohled
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Signatura
 common#:#slm#:#Výukový modul SCORM
 common#:#slm_added#:#Výukový modul SCORM přidán
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Rectangle###16 Mar 2004 new variable
 content#:#cont_Reference#:#Odkaz
 content#:#cont_Remark#:#Poznámka
 content#:#cont_Roman#:#Římské I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Nesetříděný
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Add Area###16 Mar 2004 new variable
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
 content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
 content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
 content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#název
 content#:#cont_school#:#Škola
 content#:#cont_scorm_type#:#adlcp:scormtype### identical translation

@@ -1599,6 +1599,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
+common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
@@ -1768,6 +1769,7 @@ content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
@@ -1973,6 +1975,7 @@ content#:#cont_sc_stat_failed#:#Nicht bestanden
 content#:#cont_sc_stat_incomplete#:#Nicht vollständig
 content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
+content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
