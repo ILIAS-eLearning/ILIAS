@@ -691,9 +691,12 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				{
 					$purpose[] = $this->lng->txt("cont_std_view");
 				}
-				if ($full_item->getLocation() == $compare)
+				if($this->content_obj->hasFullscreenItem())
 				{
-					$purpose[] = $this->lng->txt("cont_fullscreen");
+					if ($full_item->getLocation() == $compare)
+					{
+						$purpose[] = $this->lng->txt("cont_fullscreen");
+					}
 				}
 				$this->tpl->setVariable("TXT_PURPOSE", implode($purpose, ", "));
 

@@ -208,7 +208,9 @@ class ilPageObject
 					case "MediaObject":
 						require_once("content/classes/Pages/class.ilMediaObject.php");
 						$mal_node =& $child_node->first_child();
-						$mob =& new ilMediaObject($mal_node->get_attribute("OriginId"));
+						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
+						$mob_id = $id_arr[count($id_arr) - 1];
+						$mob =& new ilMediaObject($mob_id);
 						$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
@@ -469,7 +471,9 @@ class ilPageObject
 		$mob_ids = array();
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
-			$mob_ids[$res->nodeset[$i]->get_attribute("OriginId")] = true;
+			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
+			$mob_id = $id_arr[count($id_arr) - 1];
+			$mob_ids[$mob_id] = true;
 		}
 
 		// determine all inline internal media links
@@ -480,8 +484,9 @@ class ilPageObject
 		{
 			if ($res->nodeset[$i]->get_attribute("TargetFrame") == "")
 			{
-				$id = explode("_", $res->nodeset[$i]->get_attribute("Target"));
-				$mob_ids[$id[1]] = true;
+				$id_arr = explode("_", $res->nodeset[$i]->get_attribute("Target"));
+				$mob_id = $id_arr[count($id_arr) - 1];
+				$mob_ids[$mob_id] = true;
 			}
 		}
 
@@ -502,7 +507,7 @@ class ilPageObject
 	function getMediaAliasElement($a_mob_id, $a_nr = 1)
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//MediaObject/MediaAlias[@OriginId='$a_mob_id']";
+		$path = "//MediaObject/MediaAlias[@OriginId='il__mob_$a_mob_id']";
 		$res =& xpath_eval($xpc, $path);
 		$mal_node =& $res->nodeset[$a_nr - 1];
 		$mob_node =& $mal_node->parent_node();
@@ -658,8 +663,6 @@ class ilPageObject
 			"('".$this->getId()."', '".$this->getParentId()."','".addslashes($this->getXMLContent()).
 			"', '".$this->getParentType()."')";
 		$this->ilias->db->query($query);
-
-		$this->saveMobUsage($this->getXMLContent());
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
 
@@ -672,7 +675,6 @@ class ilPageObject
 			"SET content = '".addslashes($this->getXMLContent())."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
 		$this->ilias->db->query($query);
-		$this->saveMobUsage($this->getXMLContent());
 	}
 
 	/**
@@ -724,7 +726,8 @@ class ilPageObject
 		$usages = array();
 		for ($i=0; $i < count($res->nodeset); $i++)
 		{
-			$mob_id = $res->nodeset[$i]->get_attribute("OriginId");
+			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
+			$mob_id = $id_arr[count($id_arr) - 1];
 			if ($mob_id > 0)
 			{
 				$usages[$mob_id] = true;
@@ -772,14 +775,6 @@ class ilPageObject
 	function create()
 	{
 		$this->createFromXML();
-		/*
-		$this->setXMLContent("<PageObject></PageObject>");
-		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
-			"('".$this->getId()."', '".$this->getParentId()."','".$this->getXMLContent().
-			"', '".$this->getParentType()."')";
-		$this->ilias->db->query($query);*/
-//echo "created page:".htmlentities($this->getXMLContent())."<br>";
-
 	}
 
 	/**

@@ -287,7 +287,7 @@ class ilPageObjectGUI
 			session_unregister("citation_error");
 			unset($_SESSION["citation_error"]);
 		}
-			
+
 
 		// get title
 		$pg_title = $this->getPresentationTitle();
