@@ -498,7 +498,9 @@ INSERT INTO lng_data VALUES ('common', 'lang_es', 'en', 'Spanish');
 INSERT INTO lng_data VALUES ('common', 'lang_fr', 'en', 'Franz&ouml;sish');
 INSERT INTO lng_data VALUES ('common', 'lang_it', 'en', 'Italienish');
 INSERT INTO lng_data VALUES ('common', 'lang_id', 'en', 'Indonesish');
+
 INSERT INTO lng_data VALUES ('common', 'lang_xx', 'en', 'benutzerdefiniert');
+
 <#4>
 # CREATE NEW ROOT FOLDER OBJECT
 INSERT INTO object_data VALUES ('33', 'typ', 'root', 'Root Folder Object', '0', now(), now());
@@ -507,3 +509,11 @@ INSERT INTO rbac_ta VALUES ('33','1');
 INSERT INTO rbac_ta VALUES ('33','2');
 INSERT INTO rbac_ta VALUES ('33','3');
 INSERT INTO rbac_ta VALUES ('33','4');
+
+<#5>
+#INSERT COLUMN IN rbac_ua FOR DEFAULT ROLE
+ALTER TABLE rbac_ua ADD default_role VARCHAR(100);
+UPDATE rbac_ua SET default_role = 'n';
+
+<#6>
+INSERT INTO rbac_ta VALUES ('33','5');
