@@ -86,8 +86,8 @@ common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 common#:#change#:#ändern
-common#:#change_assignment#:#Zuweisung ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
+common#:#change_assignment#:#Zuweisung ändern###07 Aug 2003 content changed
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
@@ -685,6 +685,7 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
 content#:#cont_dependencies#:#Dependencies
+content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
