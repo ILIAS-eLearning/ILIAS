@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+###09 Mar 2004 new variable
 3rd_party_software#:#Software di terze parti
 absolute_path#:#Percorso assoluto
 access#:#Accedi
@@ -378,3 +379,4 @@ wrong_password#:#Password errata!
 zip_path#:#Percorso dello Zip
 zip_path_comment#:#Richiesto per l&#039;importazione dei Learning module
 zipcode#:#Codice Postale
+zipcode1#:#Zipcode1###09 Mar 2004 new variable
