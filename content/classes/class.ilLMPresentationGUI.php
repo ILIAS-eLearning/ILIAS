@@ -1237,9 +1237,18 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			//$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
 			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"], $this->lm->getPageHeader());
-			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
-				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+			if (!$this->lm->cleanFrames())
+			{
+				$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
+					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+			}
+			else
+			{
+				$output = "<a href=\"lm_presentation.php?cmd=layout&obj_id=".
+					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\" target=\"_top\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+			}
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
 			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
@@ -1264,9 +1273,18 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			//$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"], $this->lm->getPageHeader());
-			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
-				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+			if (!$this->lm->cleanFrames())
+			{
+				$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
+					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+			}
+			else
+			{
+				$output = " <a href=\"lm_presentation.php?cmd=layout&obj_id=".
+					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+			}
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
 			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);

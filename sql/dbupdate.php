@@ -3534,3 +3534,6 @@ ALTER TABLE scorm_lm ADD COLUMN credit ENUM('credit','no_credit') NOT NULL DEFAU
 <#214>
 ALTER TABLE scorm_lm ADD COLUMN default_lesson_mode ENUM('normal','browse') NOT NULL DEFAULT 'normal';
 ALTER TABLE scorm_lm ADD COLUMN auto_review ENUM('y','n') NOT NULL DEFAULT 'n';
+
+<#215>
+ALTER TABLE content_object ADD COLUMN clean_frames ENUM('y','n') NOT NULL DEFAULT 'n';
