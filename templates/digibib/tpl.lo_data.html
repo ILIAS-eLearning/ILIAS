@@ -1,46 +1,46 @@
 	<form action="{ACTION}" method="post">
-
+	
 	<h1>{TXT_EDIT_DATA}: {LO_TITLE}</h1>
-
+	
 	<table cellpadding="2" cellspacing="0" border="0">
-		<tr>
-			<td class="tblheader" colspan="2">{TXT_TITLE}</td>
+		<tr class="tblheader">
+			<td colspan="2">{TXT_TITLE}</td>
 		</tr>
-		<tr>
-			<td colspan="2" class="tblrow2"><input type="text" name="title" value="{TITLE}" size="45" /></td>
+		<tr class="tblrow2">
+			<td colspan="2"><input type="text" name="title" value="{TITLE}" size="45" /></td>
 		</tr>
-		<tr>
-			<td colspan="2" class="tblrow2">{TXT_UID}</td>
+		<tr class="tblrow1">
+			<td colspan="2">{TXT_UID}</td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_PUBLISHING_ORGANISATION}</td>
+	
+		<tr class="tblheader">
+			<td colspan="2">{TXT_PUBLISHING_ORGANISATION}</td>
+		</tr>
+		<tr class="tblrow2">
+			<td colspan="2"><input type="text" name="publishing_organisation" value="{PUBLISHING_ORGANISATION}" size="45" /></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2"><input type="text" name="publishing_organisation" value="{PUBLISHING_ORGANISATION}" size="45" /></td>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+	
+		<tr class="tblheader">
+			<td colspan="2">{TXT_SUMMARY}</td>
+		</tr>
+		<tr class="tblrow2">
+			<td colspan="2"><textarea name="description" cols="45" rows="10"></textarea></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_SUMMARY}</td>
+		
+		<tr class="tblheader">
+			<td colspan="2">{TXT_AUTHORS}</td>
 		</tr>
-		<tr>
-			<td colspan="2" class="tblrow2"><textarea name="description" cols="45" rows="10"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
-		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_AUTHORS}</td>
-		</tr>
-		<tr>
-			<td class="tblrow2">
+		<tr class="tblrow2">
+			<td>
 				<select name="sel_auths[]" size="8" multiple="multiple">
 				<!-- BEGIN selauthors -->
 				<!-- {SELAUTHOR_SEL} -->
@@ -48,7 +48,7 @@
 				<!-- END selauthors -->
 				</select>
 			</td>
-			<td class="tblrow1">
+			<td>
 			<table border="0">
 				<tr>
 					<td>{TXT_FIRSTNAME}</td>
@@ -66,14 +66,14 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_MEMBERS}</td>
+		
+		<tr class="tblheader">
+			<td colspan="2">{TXT_MEMBERS}</td>
 		</tr>
-		<tr>
-			<td class="tblrow2">
+		<tr class="tblrow2">
+			<td>
 				<select name="sel_cons[]" size="8" multiple="multiple">
 				<!-- BEGIN selmembers -->
 				<!--  {SELMEMBER_SEL} -->
@@ -81,7 +81,7 @@
 				<!-- END selmembers -->
 				</select>
 			</td>
-			<td class="tblrow1">
+			<td>
 			<table border="0">
 				<tr>
 					<td>{TXT_FIRSTNAME}</td>
@@ -99,25 +99,25 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_KEYWORDS} ({TXT_COMMA_SEPARATED})</td>
+		
+		<tr class="tblheader">
+			<td colspan="2">{TXT_KEYWORDS} ({TXT_COMMA_SEPARATED})</td>
+		</tr>
+		<tr class="tblrow2">
+			<td colspan="2" ><input type="text" name="keys" value="" size="45" maxlength="3000" /></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2"><input type="text" name="keys" value="" size="45" maxlength="3000" /></td>
-		</tr>
-		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="tblheader">{TXT_LANGUAGE}</td>
 			<td class="tblheader">{TXT_LEVEL}</td>
 		</tr>
-
-		<tr>
-			<td class="tblrow2">
+		
+		<tr class="tblrow2">
+			<td>
 				<select name="lang">
 				<!-- BEGIN language -->
 				<option value="{LANG_ABBR}">{LANG_NAME}</option>
@@ -126,7 +126,7 @@
 				<option value="other">{TXT_OTHER}</option>
 				</select>
 			</td>
-			<td class="tblrow1">
+			<td>
 				<select name="level">
 				<option value="0">{TXT_NONE}</option>
 				<!-- BEGIN level -->
@@ -136,15 +136,15 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="tblrow2">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblheader">{TXT_CATEGORIES}</td>
+		
+		<tr class="tblheader">
+			<td colspan="2">{TXT_CATEGORIES}</td>
 		</tr>
-
-		<tr>
-			<td colspan="2" class="tblrow2">
+		
+		<tr class="tblrow2">
+			<td colspan="2">
 			<!-- BEGIN category -->
 			{TXT_NAME}<br>
 			<input type="checkbox" name="{SUBCAT_ID}" value="1" /> {TXT_SUBCAT_NAME}<br>

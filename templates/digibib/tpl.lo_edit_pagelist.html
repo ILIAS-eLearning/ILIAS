@@ -6,20 +6,20 @@
 
     <br><form action="{FORMACTION}" method="post">
 
-    <table cellpadding="2" cellspacing="0" border="0">
-    <tr>
-      <td class="tblheader" align="center">{TXT_ID}</td>
-      <td class="tblheader" align="center">{TXT_TITLE}</td>
-      <td class="tblheader" colspan=2 align="center"><a href="ed_page.php?cmd=na&amp;le=5&amp;inst=1"><img border=0 src="{TPLPATH}/images/new.gif" width=16 height=16></a></td>
-      <td class="tblheader" align="center">{TXT_STATUS}</td>
+    <table cellpadding=2 cellspacing=0 border=0>
+    <tr class="tblheader">
+      <td align="center">{TXT_ID}</td>
+      <td align="center">{TXT_TITLE}</td>
+      <td colspan=2 align="center"><a href="ed_page.php?cmd=na&amp;le=5&amp;inst=1"><img border=0 src="{TPLPATH}/images/new.gif" width=16 height=16></a></td>
+      <td align="center">{TXT_STATUS}</td>
     </tr>
         <!-- BEGIN row -->
-    <tr>
-      <td class="tblrow1" align="center" valign="top">{ID}</td>
-      <td class="tblrow2" valign="top">{TITLE}</td>
-      <td class="tblrow1" valign="top"><a href="{LINK_EDIT}" onMouseOver="window.status='{TXT_CHANGE}';return true;"><img border=0 src="{TPLPATH}/images/change.gif" width=16 height=16 alt="{TXT_CHANGE}"></a></td>
-      <td class="tblrow2" valign="top"><a href="{LINK_DEL}" onMouseOver="window.status='{TXT_DELETE}';return true;" onClick="return confirm('{TXT_ARE_YOU_SURE}');" ><img border=0 src="{TPLPATH}/images/delete.gif" width=16 height=16 alt="{TXT_DELETE}"></a></td>
-      <td class="tblrow1">{STATUS}</td>
+    <tr class="{ROWCOL}">
+      <td align="center" valign="top">{ID}</td>
+      <td valign="top">{TITLE}</td>
+      <td valign="top"><a href="{LINK_EDIT}" onMouseOver="window.status='{TXT_CHANGE}';return true;"><img border=0 src="{TPLPATH}/images/change.gif" width=16 height=16 alt="{TXT_CHANGE}"></a></td>
+      <td valign="top"><a href="{LINK_DEL}" onMouseOver="window.status='{TXT_DELETE}';return true;" onClick="return confirm('{TXT_ARE_YOU_SURE}');" ><img border=0 src="{TPLPATH}/images/delete.gif" width=16 height=16 alt="{TXT_DELETE}"></a></td>
+      <td>{STATUS}</td>
     </tr>
     <!-- END row -->
     </table>
