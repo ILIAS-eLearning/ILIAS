@@ -1146,18 +1146,21 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
-			
-			// dive in recursive manner in each already deleted subtree and remove these objects too
-			$this->removeDeletedNodes($id);
 
-			// FIRST DELETE ALL ENTRIES IN RBAC TREE
-			$this->tree->deleteTree($node_data);
+			// remember already checked deleted node_ids
+			$checked[] = -(int) $id;
+
+			// dive in recursive manner in each already deleted subtrees and remove these objects too
+			$this->removeDeletedNodes($id,$checked);
 
 			foreach ($subtree_nodes as $node)
 			{
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
 				$node_obj->delete();
 			}
+
+			// FIRST DELETE ALL ENTRIES IN RBAC TREE
+			$this->tree->deleteTree($node_data);
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
@@ -1174,28 +1177,33 @@ class ilObjectGUI
 	* @param	integer ref_id of source object
 	* @param    boolean 
 	*/
-	function removeDeletedNodes($a_node_id)
+	function removeDeletedNodes($a_node_id,$a_checked)
 	{
-		$q = "SELECT DISTINCT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
+		$q = "SELECT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
 		$r = $this->ilias->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$deleted_tree = new ilTree($row->tree);
-			$row->tree = $row->tree * (-1);
-			$del_node_data = $deleted_tree->getNodeData($row->tree);
-
-			$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
-
-			$this->removeDeletedNodes($row->tree);					
-
-			$this->tree->deleteTree($del_node_data);
-		
-			foreach ($del_subtree_nodes as $node)
+			// only continue recursion if fetched node wasn't touched already!
+			if (!in_array($row->tree,$a_checked))
 			{
-				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
-				$node_obj->delete();
-			}			
+				$deleted_tree = new ilTree($row->tree);
+				$a_checked[] = $row->tree;
+			
+				$row->tree = $row->tree * (-1);
+				$del_node_data = $deleted_tree->getNodeData($row->tree);
+				$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
+
+				$this->removeDeletedNodes($row->tree,$a_checked);
+			
+				foreach ($del_subtree_nodes as $node)
+				{
+					$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+					$node_obj->delete();
+				}
+			
+				$this->tree->deleteTree($del_node_data);
+			}
 		}
 		
 		return true;
