@@ -1487,18 +1487,22 @@ class ilObjSurvey extends ilObject
 * @access public
 */
 	function &getQuestionpoolTitles() {
-		global $tree;
+		global $rbacsystem;
+		
 		$qpl_titles = array();
-		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
-			$this->ilias->db->quote("spl")
-		);
+		// get all available questionpools and remove the trashed questionspools
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
 		$result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$qpl_titles["$data->ref_id"] = $data->title;
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			{
+				$qpl_titles["$row->obj_id"] = $row->title;
+			}
 		}
 		return $qpl_titles;
 	}
-
+	
 /**
 * Move questions to another position
 *
@@ -2023,11 +2027,11 @@ class ilObjSurvey extends ilObject
 		global $rbacsystem;
 		
 		$result_array = array();
-		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				$result_array[$row->ref_id] = $row->title;
 			}
@@ -2778,7 +2782,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if (!$rbacsystem->checkAccess('read', $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
+			if (!$rbacsystem->checkAccess("write", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
 			{
 				array_push($forbidden_pools, $row->obj_id);
 			}
@@ -2793,7 +2797,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0)
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
 		$where = "";
@@ -2811,6 +2815,16 @@ class ilObjSurvey extends ilObject
 			}
 		}
   
+		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
+		{
+			$where .= " AND survey_questiontype.type_tag = " . $this->ilias->db->quote($filter_question_type);
+		}
+		
+		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
+		{
+			$where .= " AND survey_question.obj_fi = $filter_questionpool";
+		}
+  
     // build sort order for sql query
 		$order = "";
 		$images = array();
@@ -2826,7 +2840,7 @@ class ilObjSurvey extends ilObject
             $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
-            $order = " ORDER BY question_type_id $value";
+            $order = " ORDER BY questiontype_id $value";
             $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
@@ -3020,5 +3034,27 @@ class ilObjSurvey extends ilObject
 		);
 	}
 
+	/**
+	* Creates a list of all available question types
+	*
+	* Creates a list of all available question types
+	*
+	* @return array An array containing the available questiontypes
+	* @access public
+	*/
+	function &_getQuestiontypes()
+	{
+		global $ilDB;
+		
+		$questiontypes = array();
+		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
+		$query_result = $ilDB->query($query);
+		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questiontypes, $row["type_tag"]);
+		}
+		return $questiontypes;
+	}
+		
 } // END class.ilObjSurvey
 ?>
