@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.16 2003/05/13 15:06:55 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.17 2003/05/16 13:39:22 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -48,10 +48,10 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 		
 		// for gender selection. don't change this
 		$this->gender = array(
