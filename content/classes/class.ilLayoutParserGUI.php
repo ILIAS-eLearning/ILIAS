@@ -21,10 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilParagraph.php");
-
 /**
-* Page Parser, parses xml content of page as stored in db table lm_page_object
+* Layout Parser. Parse presentation layout for object (e.g. learning module)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -32,11 +30,8 @@ require_once("content/classes/class.ilParagraph.php");
 * @extends ilSaxParser
 * @package content
 */
-class ilPageParser extends ilSaxParser
+class ilLayoutParserGUI extends ilSaxParser
 {
-	var $paragraph;
-	var $page_object;
-	var $xml_data;
 	var $current_element;
 
 
@@ -44,39 +39,14 @@ class ilPageParser extends ilSaxParser
 	* Constructor
 	* @access	public
 	*/
-	function ilPageParser(&$a_page_object, $a_xml_data)
+	function ilLayoutParser(&$a_lm_object, $a_xml_file)
 	{
 		global $ilias, $lng;
+		parent::ilSaxParser($a_xml_file);
 
-//echo "Parsing:".htmlentities($a_xml_data).":<br>";
-		$a_xml_data = "<dummy>".$a_xml_data."</dummy>";
-		$this->page_object =& $a_page_object;
-		$this->xml_data = $a_xml_data;
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
 		$this->current_element = array();
-
-		parent::ilSaxParser($a_xml_file);	//???
-	}
-
-	function startParsing()
-	{
-		$xml_parser = $this->createParser();
-		$this->setOptions($xml_parser);
-		$this->setHandlers($xml_parser);
-		$this->parse($xml_parser);
-		$this->freeParser($xml_parser);
-	}
-
-
-	function parse($a_xml_parser)
-	{
-		$parseOk = xml_parse($a_xml_parser, $this->xml_data);
-		if(!$parseOk
-		   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
-		{
-			$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
-		}
 	}
 
 
@@ -134,20 +104,7 @@ class ilPageParser extends ilSaxParser
 //echo "BeginTag:$a_name:<br>";
 		switch($a_name)
 		{
-			case "Paragraph":
-				$this->paragraph =& new ilParagraph();
-				$this->paragraph->setLanguage($a_attribs["Language"]);
-				$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
-				$this->page_object->appendContent($this->paragraph);
-				break;
-
-			case "br":
-				if (is_object($this->paragraph))
-				{
-					$this->paragraph->appendText("<br />");
-				}
-				break;
-
+			case "ilFrameset
 		}
 		$this->beginElement($a_name);
 	}
