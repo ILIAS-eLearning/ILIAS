@@ -261,15 +261,15 @@ class ilTableGUI
 	*/
 	function setOrderDirection($a_order_direction)
 	{
-		if ($a_order_direction == "DESC")
+		if ($a_order_direction == "desc")
 		{
-			$this->order_direction = "DESC";
-			$this->sort_order = "ASC";
+			$this->order_direction = "desc";
+			$this->sort_order = "asc";
 		}
 		else
 		{
-			$this->order_direction = "ASC"; // set default sort order to "ASC"
-			$this->sort_order = "DESC";
+			$this->order_direction = "asc"; // set default sort order to "ASC"
+			$this->sort_order = "desc";
 		}
 	}
 
