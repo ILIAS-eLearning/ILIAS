@@ -1514,6 +1514,15 @@ class ilRepositoryGUI
 
 					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
 				}
+				
+				// show delete link
+				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("group_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
