@@ -17,8 +17,6 @@ if ($folder == "")
 
 $tpl = new Template("tpl.mail.html", true, true);
 
-$lng = new Language($ilias->account->data["language"]);
-
 //get mails from user
 $myMails = new UserMail($ilias->db, $ilias->account->Id);
 

@@ -9,8 +9,6 @@
 include("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
-
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("chg_password"));
 
 $tplbtn = new Template("tpl.buttons.html", true, true);

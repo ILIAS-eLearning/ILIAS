@@ -101,15 +101,8 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	// init user
 	$ilias->account =& new User($ilias->db,$AccountId);
 	
-	//language handling
-	// TODO: Load user settings for languages first
-	if ($lang == "")
-	{
-		$lang = $ilias->ini->readVariable("language","default");
-	}
-	
 	//init language
-	$lng = new Language($lang);
+	$lng = new Language($ilias->account->prefs["language"]);
 
 	// init obj_id & parent; on first start obj_id is set to 1
 	$obj_id = $obj_id ? $obj_id : ROOT_FOLDER_ID; // for downward compatibility

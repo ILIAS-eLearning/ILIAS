@@ -9,7 +9,6 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 
 //display buttons
@@ -70,7 +69,7 @@ foreach ($langs as $row)
 	$tpl->setCurrentBlock("sel_lang");
 	$tpl->setVariable("LANG", $row["name"]);
 	$tpl->setVariable("LANGSHORT", $row["id"]);
-	if ($ilias->account->data["language"] == $row["id"])
+	if ($ilias->account->prefs["language"] == $row["id"])
 	{
 		$tpl->setVariable("SELECTED_LANG", "selected");
 	}
