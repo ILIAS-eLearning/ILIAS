@@ -878,7 +878,7 @@ class ilObjCourse extends ilObject
 				return ilCourseMembers::_hasPassed($a_obj_id,$ilias->account->getId());
 				
 			default:
-				return false;
+				return true;
 		}
 	}
 } //END class.ilObjCourse

@@ -2330,8 +2330,8 @@ crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
-crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Migliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
-crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nocht begonnen.
+crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
+crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen.
 crs#:#crs_reg_until#:#Anmeldungszeitraum
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses.
 crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet.
@@ -2379,7 +2379,7 @@ crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Kursmitgliedschaft
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wieder hergestellt.
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wiederhergestellt.
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Abmelden
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
@@ -3528,3 +3528,21 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
+common#:#condition_passed#:#Bestanden
+common#:#condition_update#:#Speichern
+common#:#add_condition#:#Neue Verknüpfung anlegen
+common#:#preconditions#:#Vorbedingungen
+common#:#condition#:#Bedingung
+common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
+common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
+common#:#crs_status_blocked#:#[Zugang gesperrt]
+common#:#crs_status_pending#:#[Anmeldung wird bearbeitet]
+common#:#condition_precondition#:#Vorbedingungen:
+common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
+common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
+crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
+common#:#crs_member_passed#:#Bestanden
+common#:#crs_member_not_passed#:#Nicht bestanden
+common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
+crs#:#crs_passed#:#Bestanden

@@ -150,7 +150,6 @@ class ilRepositoryGUI
 			$next_class = get_class($obj)."gui";
 			$obj_type = $obj->getType();
 		}*/
-
 		$cmd = $this->ctrl->getCmd();
 		switch ($next_class)
 		{
@@ -166,7 +165,7 @@ class ilRepositoryGUI
 
 			case "ilobjcoursegui":
 				include_once("./course/classes/class.ilObjCourseGUI.php");
-				
+
 				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
 
 				$this->prepareOutput();

@@ -107,6 +107,8 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
 			case "crs":
+				#return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjcoursegui";
+				// seems not to work in some cases
 				$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
 				$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
 				return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
@@ -159,9 +161,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
-				$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
-				return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
+				return "repository.php?ref_id=".$a_node_id."&set_mode=flat";
+				#$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
+				#$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
+				#return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
 				
 			case "frm":
 				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";

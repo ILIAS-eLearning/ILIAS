@@ -402,5 +402,39 @@ class ilExerciseMembers
 
 		return true;
 	}
+
+	function _hasSolved($a_exc_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		// check if user is owner
+		$query = "SELECT owner FROM object_data ".
+			"WHERE obj_id = '".$a_exc_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->owner == $a_usr_id)
+			{
+				return true;
+			}
+		}
+
+		// check if user has solved exercise
+		$query = "SELECT solved FROM exc_members ".
+			"WHERE obj_id = '".$a_exc_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->solved == 1)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 } //END class.ilObjExercise
 ?>

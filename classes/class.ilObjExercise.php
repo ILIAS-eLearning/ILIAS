@@ -300,5 +300,21 @@ class ilObjExercise extends ilObject
 		return implode(',',$tmp_members ? $tmp_members : array());
 	}
 
+	function _checkCondition($a_exc_id,$a_operator,$a_value)
+	{
+		global $ilias;
+
+		switch($a_operator)
+		{
+			case 'passed':
+				return ilExerciseMembers::_hasSolved($a_exc_id,$ilias->account->getId());
+
+			default:
+				return true;
+		}
+		return true;
+	}	
+				
+
 } //END class.ilObjExercise
 ?>
