@@ -383,13 +383,13 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
-	function finishSco () 
+	function finishSco ()
 	{
 		global $lng;
 		$this->tpl = new ilTemplate("tpl.scorm_finish_sco.html", true, true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
-		$this->tpl->setCurrentBlock("tree_aufmotz");
+		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sco_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
 			"scorm/".str_replace(" ", "_", $_GET["status"]).'.gif')
@@ -405,7 +405,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
-	function unloadSco () 
+	function unloadSco ()
 	{
 		$this->tpl = new ilTemplate("tpl.scorm_unload_sco.html", true, true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
