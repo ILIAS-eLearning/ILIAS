@@ -201,7 +201,7 @@ class ilConditionHandlerInterface
 		{
 			$this->ch_obj->deleteCondition($condition_id);
 		}
-		sendInfo('condition_deleted');
+		sendInfo($this->lng->txt('condition_deleted'));
 		return true;
 	}
 	function chi_selector()
@@ -249,7 +249,7 @@ class ilConditionHandlerInterface
 		}
 		else
 		{
-			sendInfo('added_condition');
+			sendInfo($this->lng->txt('added_new_condition'));
 		}
 		return true;
 	}
