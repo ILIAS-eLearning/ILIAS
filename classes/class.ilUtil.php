@@ -1205,6 +1205,15 @@ class ilUtil
 		return $target_str;
 	}
 
+	function dumpString($a_str)
+	{
+		$ret = $a_str.": ";
+		for($i=0; $i<strlen($a_str); $i++)
+		{
+			$ret.= ord(substr($a_str,$i,1))." ";
+		}
+		return $ret;
+	}
 
 } // END class.ilUtil
 ?>

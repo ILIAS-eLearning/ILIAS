@@ -740,6 +740,15 @@
 						<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
+
+				<!-- parameter -->
+				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+					<param>
+					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+					</param>
+				</xsl:for-each>
+
 			</xsl:for-each>
 		</object></td></tr>
 

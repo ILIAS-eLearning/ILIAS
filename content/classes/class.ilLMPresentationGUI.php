@@ -924,7 +924,7 @@ class ilLMPresentationGUI
 		//$pg_frame = $_GET["frame"];
 		$wb_path = ilUtil::getWebspaceDir("output");
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$mode = ($_GET["cmd" == "fullscreen"])
+		$mode = ($_GET["cmd"] == "fullscreen")
 			? "fullscreen"
 			: "media";
 		$params = array ('mode' => $mode,

@@ -238,26 +238,9 @@ class ilMediaObject extends ilObjMediaObject
 		for($i=0; $i<count($media_items); $i++)
 		{
 			$item =& $media_items[$i];
-			$query = "INSERT INTO media_item (mob_id, purpose, location, ".
-				"location_type, format, width, ".
-				"height, halign, caption, nr) VALUES ".
-				"('".$this->getId()."',".
-				"'".$item->getPurpose()."','".$item->getLocation()."','".
-				$item->getLocationType()."','".$item->getFormat()."','".
-				$item->getWidth()."','".$item->getHeight()."','".$item->getHAlign().
-				"','".$item->getCaption()."','".($i+1)."')";
-			$this->ilias->db->query($query);
-//echo "create_mob:$query:<br>";
-			$item_id = getLastInsertId();
-
-			// create mob parameters
-			$params = $item->getParameters();
-			foreach($params as $name => $value)
-			{
-				$query = "INSERT INTO mob_parameter(med_item_id, name, value) VALUES ".
-					"('".$item_id."', '$name','$value')";
-				$this->ilias->db->query($query);
-			}
+			$item->setMobId($this->getId());
+			$item->setNr($i+1);
+			$item->create();
 		}
 
 	}
@@ -270,49 +253,16 @@ class ilMediaObject extends ilObjMediaObject
 		// update mob
 		parent::update();
 
-		// delete media parameter
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getId()."'";
-		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$query = "DELETE FROM mob_parameter WHERE med_item_id = '".$item_rec["id"]."'";
-			$this->ilias->db->query($query);
-		}
-
-		// delete media items
-		$query = "DELETE FROM media_item WHERE mob_id = '".$this->getId()."'";
-		$this->ilias->db->query($query);
+		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
 		// iterate all items
 		$media_items =& $this->getMediaItems();
 		for($i=0; $i<count($media_items); $i++)
 		{
 			$item =& $media_items[$i];
-//echo "<b>".$query."</b>";
-
-			// create item
-			$query = "INSERT INTO media_item (mob_id, purpose, location, ".
-				"location_type, format, width, ".
-				"height, halign, caption, nr) VALUES ".
-				"('".$this->getId()."',".
-				"'".$item->getPurpose()."','".$item->getLocation()."','".
-				$item->getLocationType()."','".$item->getFormat()."','".
-				$item->getWidth().
-				"','".$item->getHeight()."','".$item->getHAlign().
-				"','".$item->getCaption()."','".($i+1)."')";
-			$this->ilias->db->query($query);
-
-			$item_id = getLastInsertId();
-
-			// create parameters
-			$params = $item->getParameters();
-			foreach($params as $name => $value)
-			{
-				$query = "INSERT INTO mob_parameter(med_item_id, name, value) VALUES ".
-					"('".$item_id."', '$name','$value')";
-				$this->ilias->db->query($query);
-			}
-
+			$item->setMobId($this->getId());
+			$item->setNr($i+1);
+			$item->create();
 		}
 	}
 
@@ -501,6 +451,15 @@ class ilMediaObject extends ilObjMediaObject
 			$cap_node->set_content($media_item->getCaption());
 		}
 
+		$pars = $media_item->getParameters();
+		foreach($pars as $par => $val)
+		{
+			$par_node =& $this->dom->create_element("Parameter");
+			$par_node =& $item_node->append_child($par_node);
+			$par_node->set_attribute("Name", $par);
+			$par_node->set_attribute("Value", $val);
+		}
+
 		// fullscreen view
 		$fullscreen_item =& $this->getMediaItem("Fullscreen");
 		if (is_object($fullscreen_item))
@@ -522,14 +481,22 @@ class ilMediaObject extends ilObjMediaObject
 			}
 
 			// caption
-			if ($media_item->getCaption() != "")
+			if ($fullscreen_item->getCaption() != "")
 			{
 				$cap_node =& $this->dom->create_element("Caption");
 				$cap_node =& $item_node->append_child($cap_node);
 				$cap_node->set_attribute("Align", "bottom");
-				$cap_node->set_content($media_item->getCaption());
+				$cap_node->set_content($fullscreen_item->getCaption());
 			}
 
+			$pars = $fullscreen_item->getParameters();
+			foreach($pars as $par => $val)
+			{
+				$par_node =& $this->dom->create_element("Parameter");
+				$par_node =& $item_node->append_child($par_node);
+				$par_node->set_attribute("Name", $par);
+				$par_node->set_attribute("Value", $val);
+			}
 		}
 	}
 
