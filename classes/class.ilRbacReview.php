@@ -76,7 +76,7 @@ class ilRbacReview
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
 		
 		$q = "SELECT DISTINCT obj_id FROM object_data ".
-			 "WHERE title ='".$a_title."' ".
+			 "WHERE title ='".addslashes($a_title)."' ".
 			 "AND type IN('role','rolt')".
 			 $clause;
 		$r = $this->ilias->db->query($q);

@@ -83,7 +83,7 @@ class ilGroup
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
 
 		$q = "SELECT obj_id FROM object_data ".
-			 "WHERE title = '".$a_group_name ."' ".
+			 "WHERE title = '".addslashes($a_group_name)."' ".
 			 "AND type = 'grp'".
 			 $clause;
 		$r = $this->ilias->db->query($q);

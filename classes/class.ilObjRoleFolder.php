@@ -131,7 +131,7 @@ class ilObjRoleFolder extends ilObject
 		// check if role title is unique
 		if ($rbacreview->roleExists($a_title))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$a_title."' ".
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($a_title)."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}		
 

@@ -87,7 +87,7 @@ class ilObjFileGUI extends ilObjectGUI
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			$this->tpl->parseCurrentBlock();
 		}
 

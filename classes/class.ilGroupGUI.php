@@ -332,7 +332,7 @@ class ilGroupGUI extends ilObjectGUI
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 		}
 
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
@@ -723,7 +723,7 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -832,7 +832,7 @@ class ilGroupGUI extends ilObjectGUI
 		foreach ($data as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1279,7 +1279,7 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			}
 
 			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
