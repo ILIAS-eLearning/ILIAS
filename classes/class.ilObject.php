@@ -138,19 +138,61 @@ class ilObject
 
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
-			$obj = $this->$obj_data_record;
+			$obj = $this->obj_data_record;
 		}
-		
-		if ($this->referenced)
+		else if ($this->referenced)
 		{
-			$obj = getObjectByReference($this->ref_id);
-			$this->id = $obj["obj_id"];
+			// check reference id
+			if (!isset($this->ref_id))
+			{
+				$message = "ilObject::read(): No ref_id given!";
+				$log->writeWarning($message);
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+			}
+
+			// read object data
+			$q = "SELECT * FROM object_data ".
+				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
+			 	"WHERE object_reference.ref_id='".$this->ref_id."'";
+			$object_set = $ilias->db->query($q);
+	
+			// check number of records
+			if ($object_set->numRows() == 0)
+			{
+				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found!";
+				$log->writeWarning($message);
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			}
+
+			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 		else
 		{
-			$obj = getObject($this->id);
+			// check object id
+			if (!isset($this->id))
+			{
+				$message = "ilObject::read(): No obj_id given!";
+				$log->writeWarning($message);
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			}
+
+			// read object data
+			$q = "SELECT * FROM object_data ".
+				 "WHERE obj_id = '".$this->id."'";
+			$object_set = $ilias->db->query($q);
+
+			// check number of records
+			if ($object_set->numRows() == 0)
+			{
+				$message = "ilObject::read(): Object with obj_id: ".$this->id." not found!";
+				$log->writeWarning($message);
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			}
+
+			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 
+		$this->id = $obj["obj_id"];
 		$this->type = $obj["type"];
 		$this->title = $obj["title"];
 		$this->desc = $obj["description"];
