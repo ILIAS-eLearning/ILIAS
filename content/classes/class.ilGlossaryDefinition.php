@@ -42,6 +42,7 @@ class ilGlossaryDefinition
 	var $glo_id;
 	var $meta_data;
 	var $page_object;
+	var $short_text;
 
 	/**
 	* Constructor
@@ -72,7 +73,7 @@ class ilGlossaryDefinition
 		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTermId($def_rec["term_id"]);
-		//$this->setPageId($def_rec["language"]);
+		$this->setShortText($def_rec["short_text"]);
 
 		$this->page_object =& new ilPageObject("gdf", $this->id);
 	}
@@ -112,6 +113,16 @@ class ilGlossaryDefinition
 		return $this->term_id;
 	}
 
+	function setShortText($a_text)
+	{
+		$this->short_text = $a_text;
+	}
+
+	function getShortText()
+	{
+		return $this->short_text;
+	}
+
 	function &getPageObject()
 	{
 		return $this->page_object;
@@ -121,8 +132,8 @@ class ilGlossaryDefinition
 	{
 		$term =& new ilGlossaryTerm($this->getTermId());
 
-		$q = "INSERT INTO glossary_definition (term_id)".
-			" VALUES ('".$this->getTermId()."')";
+		$q = "INSERT INTO glossary_definition (term_id, short_text)".
+			" VALUES ('".$this->getTermId()."','".$this->getShortText()."')";
 
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
@@ -140,7 +151,7 @@ class ilGlossaryDefinition
 	{
 		$q = "UPDATE glossary_definition SET ".
 			" term_id = '".$this->getTermId()."', ".
-			" page_id = '".$this->getPageId()."' ".
+			" short_text = '".$this->getShortText()."' ".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
@@ -156,7 +167,8 @@ class ilGlossaryDefinition
 		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
-				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"]);
+				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
+				"short_text" => $def_rec["short_text"]);
 		}
 		return $defs;
 	}

@@ -54,6 +54,8 @@ class ilPageObject
 	var $contains_int_link;
 	var $parent_type;
 	var $parent_id;
+	var $update_listeners;
+	var $update_listener_cnt;
 
 	/**
 	* Constructor
@@ -68,6 +70,8 @@ class ilPageObject
 		$this->ilias =& $ilias;
 
 		$this->contains_int_link = false;
+		$this->update_listeners = array();
+		$this->update_listener_cnt = 0;
 
 		if($a_id != 0)
 		{
@@ -152,6 +156,26 @@ class ilPageObject
 	function getParentType()
 	{
 		return $this->parent_type;
+	}
+
+	function addUpdateListener(&$a_object, $a_method, $a_parameters = "")
+	{
+		$cnt = $this->update_listener_cnt;
+		$this->update_listeners[$cnt]["object"] =& $a_object;
+		$this->update_listeners[$cnt]["method"] = $a_method;
+		$this->update_listeners[$cnt]["parameters"] = $a_parameters;
+		$this->update_listener_cnt++;
+	}
+
+	function callUpdateListeners()
+	{
+		for($i=0; $i<$this->update_listener_cnt; $i++)
+		{
+			$object =& $this->update_listeners[$i]["object"];
+			$method = $this->update_listeners[$i]["method"];
+			$parameters = $this->update_listeners[$i]["parameters"];
+			$object->$method($parameters);
+		}
 	}
 
 	function &getContentObject($a_hier_id)
@@ -349,6 +373,25 @@ class ilPageObject
 					return "";
 				}
 			}
+		}
+	}
+
+
+	function getFirstParagraphText()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//Paragraph[1]";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			$cont_node =& $res->nodeset[0]->parent_node();
+			$par =& new ilPCParagraph($this->dom);
+			$par->setNode($cont_node);
+			return $par->getText();
+		}
+		else
+		{
+			return "";
 		}
 	}
 
@@ -615,6 +658,7 @@ class ilPageObject
 				"WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
 			$this->ilias->db->query($query);
+			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
 		}

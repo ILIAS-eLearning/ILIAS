@@ -50,3 +50,7 @@ RENAME TABLE lm_page_object TO page_object;
 ALTER TABLE page_object DROP PRIMARY KEY;
 ALTER TABLE page_object MODIFY parent_type VARCHAR(4) NOT NULL DEFAULT 'lm';
 ALTER TABLE page_object ADD PRIMARY KEY (page_id, parent_type);
+
+<#11>
+ALTER TABLE glossary_definition DROP COLUMN page_id;
+ALTER TABLE glossary_definition ADD COLUMN short_text VARCHAR(200) NOT NULL DEFAULT '';
