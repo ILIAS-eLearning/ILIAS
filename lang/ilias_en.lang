@@ -544,6 +544,7 @@ common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
+common#:#obj_trac_desc#:#User access tracking data
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_find_xml#:#Cannot find any XML-file.
@@ -551,7 +552,15 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
+common#:#statistic#:#Statistic
+common#:#hours_of_day#:#Hours of day
+common#:#days_of_period#:#Days of period
+common#:#any_language#:#Any language
 common#:#cat_a#:#a Category
+common#:#tracked_objects#:#Tracked objects
+common#:#all_lms#:#All learning modules
+common#:#all_tsts#:#All tests
+common#:#user_access#:#Access per user
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
@@ -1354,6 +1363,8 @@ common#:#obj_adm_desc#:#Main system settings folder containing all panels to adm
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
+common#:#obj_trac#:#User Tracking
+common#:#tracking_data#:#Tracking Data
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
@@ -1710,9 +1721,13 @@ common#:#tests#:#Tests
 common#:#time#:#Time
 common#:#time_d#:#Day
 common#:#time_h#:#Hour
-common#:#time_segment#:#Time Segment
+common#:#query_data#:#Query data
+common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
+common#:#tracking_settings#:#Tracking Settings
+common#:#activate_tracking#:#Activate Tracking
+common#:#save_user_related_data#:#Save user related access data
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe
 common#:#today#:#Today

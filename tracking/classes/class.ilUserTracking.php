@@ -137,6 +137,8 @@ class ilUserTracking {
 		}
 		return $result;
 	}
+
+	/*
 	function searchTitle($user_id)
 	{
 		$q = " SELECT title from object_data "
@@ -148,12 +150,14 @@ class ilUserTracking {
 			$result[$i]=$res->fetchRow();
 		}
 		return $result;
-	}
+	}*/
+
+
 	function numDay($from,$to)
 	{
 		$from = strtotime($from);
 		$to = strtotime($to);
-		$dayf = date ("d",$from); 
+		$dayf = date ("d",$from);
 		$dayt = date ("d",$to);
 		$yearf = date ("Y",$from); 
 		$yeart = date ("Y",$to); 
@@ -185,10 +189,10 @@ class ilUserTracking {
 		$month = date("m",$time);
 		$year = date("Y",$time);
 		$hour = date("H",$time);
-		$min = date("i",$time); 
-		$sec = date("s",$time); 
+		$min = date("i",$time);
+		$sec = date("s",$time);
 		$hour = $hour+1;
-		$ret = date("H:i:s", mktime($hour,$min,$sec,$month,$day,$year)); 
+		$ret = date("H:i:s", mktime($hour,$min,$sec,$month,$day,$year));
 		return $ret;
 	}
 	function addDay($time)
@@ -197,13 +201,14 @@ class ilUserTracking {
 		$day = date("d",$time);
 		$month = date("m",$time);
 		$year = date("y",$time);
-		$min = date("i",$time); 
+		$min = date("i",$time);
 		$hour = date("h",$time);
-		$sec = date("s",$time); 
+		$sec = date("s",$time);
 		$day = $day + 1;
 		$ret = date ("Y-m-d", mktime($hour,$min,$sec,$month,$day,$year));
 		return $ret;
 	}
+
 	function getSubId($id)
 	{
 		$q = "SELECT obj_id from object_data "
@@ -255,6 +260,7 @@ class ilUserTracking {
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
+//echo $q;
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -268,6 +274,7 @@ class ilUserTracking {
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
+//echo $q;
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -278,6 +285,7 @@ class ilUserTracking {
 	function searchUserId($condition)
 	{
 		$q = "SELECT user_id from ut_access where ".$condition;
+//echo $q;
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -309,6 +317,7 @@ class ilUserTracking {
 			."' AND acc_time <='".$from1."')"
 			." AND ".$condition;
 			//echo $condition;echo "<br>";
+//echo $q;
 		$res = $this->ilias->db->query($q);
 		$result = $res->fetchRow();
 		return $result[0];
@@ -328,6 +337,8 @@ class ilUserTracking {
 		}
 		return $result;
 	}
+
+	/*
 	function getlm($id)
 	{
 		$q = "SELECT title from object_data "
@@ -336,12 +347,15 @@ class ilUserTracking {
 		." and "
 		." owner = ".$id;
 		$res = $this->ilias->db->query($q);
+
+		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
 			$result[$i]=$res->fetchRow();
 		}
 		return $result;
-	}
+	}*/
+
 	function getTest($id)
 	{
 		$q = "SELECT title from object_data "

@@ -1354,6 +1354,7 @@ common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Install
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
+common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs

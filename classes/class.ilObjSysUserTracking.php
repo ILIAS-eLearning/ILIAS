@@ -205,5 +205,77 @@ class ilObjSysUserTracking extends ilObject
 
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
+
+
+	/**
+	* get total number of tracking records
+	*/
+	function getRecordsTotal()
+	{
+		global $ilDB;
+
+		$q = "SELECT count(*) AS cnt FROM ut_access";
+		$cnt_set = $ilDB->query($q);
+
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $cnt_rec["cnt"];
+	}
+
+
+	/**
+	* enable user tracking
+	*/
+	function enableTracking($a_enable)
+	{
+		global $ilias;
+
+		if ($a_enable)
+		{
+			$ilias->setSetting("enable_tracking", 1);
+		}
+		else
+		{
+			$ilias->setSetting("enable_tracking", 0);
+		}
+	}
+
+	/**
+	* check wether user tracking is enabled or not
+	*/
+	function _enabledTracking()
+	{
+		global $ilias;
+
+		return (boolean) $ilias->getSetting("enable_tracking");
+	}
+
+	/**
+	* enable tracking of user related data
+	*/
+	function enableUserRelatedData($a_enable)
+	{
+		global $ilias;
+
+		if ($a_enable)
+		{
+			$ilias->setSetting("save_user_related_data", 1);
+		}
+		else
+		{
+			$ilias->setSetting("save_user_related_data", 0);
+		}
+	}
+
+	/**
+	* check wether user related tracking is enabled or not
+	*/
+	function _enabledUserRelatedData()
+	{
+		global $ilias;
+
+		return (boolean) $ilias->getSetting("save_user_related_data");
+	}
+
 } // END class.ilObjSysUserTracking
 ?>
