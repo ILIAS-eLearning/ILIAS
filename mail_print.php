@@ -46,8 +46,13 @@ $mail_data = $umail->getMail($_GET["mail_id"]);
 // SET MAIL DATA
 // FROM
 $tplprint->setVariable("TXT_FROM", $lng->txt("from"));
+
 $tmp_user = new ilObjUser($mail_data["sender_id"]); 
-$tplprint->setVariable("FROM", $tmp_user->getFullname());
+if(!($login = $tmp_user->getFullname()))
+{
+	$login = $mail_data["import_name"]." (".$lng->txt("imported").")";
+}
+$tplprint->setVariable("FROM", $login);
 // TO
 $tplprint->setVariable("TXT_TO", $lng->txt("to"));
 $tplprint->setVariable("TO", $mail_data["rcp_to"]);

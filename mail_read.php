@@ -124,7 +124,7 @@ $tpl->setVariable("FROM", $tmp_user->getFullname());
 
 if(!($login = $tmp_user->getLogin()))
 {
-	$login = $lng->txt("unknown");
+	$login = $mail_data["import_name"]." (".$lng->txt("imported").")";
 }
 $tpl->setVariable("MAIL_LOGIN",$login);
 $tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');

@@ -298,7 +298,7 @@ foreach ($mail_data as $mail)
 	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
 	if(!($login = $tmp_user->getLogin()))
 	{
-		$login = $lng->txt("unknown");
+		$login = $mail["import_name"]." (".$lng->txt("imported").")";
 	}
 	$tpl->setVariable("MAIL_LOGIN",$login);
 
