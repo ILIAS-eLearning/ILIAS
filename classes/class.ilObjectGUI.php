@@ -58,7 +58,6 @@ class ilObjectGUI
 	* @access       private
 	*/
 	var $object;
-
 	var $ref_id;
 	var $obj_id;
 
@@ -111,7 +110,6 @@ class ilObjectGUI
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
-
 
 	/**
 	* set admin tabs
@@ -211,7 +209,6 @@ class ilObjectGUI
 		
 		if (isset($_GET["obj_id"]))
 		{
-			//$obj_data = getObject($_GET["obj_id"]);
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 
 			$this->tpl->setCurrentBlock("locator_item");
@@ -238,7 +235,6 @@ class ilObjectGUI
 		$this->tpl->setVariable("TXT_PATH",$debug.$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
 		$this->tpl->parseCurrentBlock();
 	}
-
 
 	/**
 	* copy object to clipboard
@@ -294,7 +290,6 @@ class ilObjectGUI
 
 		$_SESSION["clipboard"] = $clipboard;
 	}
-
 
 	/**
 	* paste object from clipboard to current place
@@ -385,7 +380,6 @@ class ilObjectGUI
 		$this->clearObject();
 	}
 
-
 	/**
 	* clear clipboard
 	*/
@@ -399,7 +393,6 @@ class ilObjectGUI
 
 		session_unregister("clipboard");
 	}
-
 
 	/**
 	* cut an object out from tree an copy information to clipboard
@@ -451,7 +444,6 @@ class ilObjectGUI
 
 		$_SESSION["clipboard"] = $clipboard;
 	}
-
 
 	/**
 	* create an new reference of an object in tree
@@ -509,7 +501,6 @@ class ilObjectGUI
 
 		$_SESSION["clipboard"] = $clipboard;
 	} // END COPY
-
 
 	/**
 	* clone Object subtree
@@ -575,7 +566,6 @@ class ilObjectGUI
 //		$this->clearObject();
 	}
 
-
 	/**
 	* clone all nodes
 	*/
@@ -593,7 +583,6 @@ class ilObjectGUI
 			$this->cloneSavedNodes($child["child"],$child["parent"],$new_object_id,$a_dest_id,$a_tree_id);
 		}
 	}
-
 
 	/**
 	* get object back from trash
@@ -637,7 +626,6 @@ class ilObjectGUI
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-
 
 	/**
 	* recursive method to insert all saved nodes of the clipboard
@@ -756,7 +744,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("info_deleted"),true);
 	}
 
-
 	/**
 	* cancel deletion (todo: find better operation name)
 	*/
@@ -764,7 +751,6 @@ class ilObjectGUI
 	{
 		session_unregister("saved_post");
 	}
-
 
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
@@ -826,7 +812,6 @@ class ilObjectGUI
 		exit();
 	}
 
-
 	/**
 	* gateway for all button actions
 	* @access	public
@@ -886,7 +871,6 @@ class ilObjectGUI
 		}
 	}
 
-
 	/**
 	* create new object form
 	*/
@@ -920,8 +904,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
-	}
-
+	
 
 	/**
 	* save object
@@ -954,7 +937,6 @@ class ilObjectGUI
 		exit();
 	}
 
-
 	/**
 	* edit object
 	*/
@@ -974,7 +956,6 @@ class ilObjectGUI
 			$this->displayEditForm($fields);
 		}
 	}
-
 
 	/**
 	* display edit form (usually called by editObject)
@@ -1019,7 +1000,6 @@ class ilObjectGUI
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
-
 
 	/**
 	* show permissions of current node
@@ -1159,7 +1139,6 @@ class ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	
 	/**
 	* save permissions
 	*/
@@ -1243,7 +1222,6 @@ class ilObjectGUI
 		exit();
 	}
 
-
 	/**
 	* add local role
 	*/
@@ -1311,7 +1289,6 @@ class ilObjectGUI
 		exit();
 	}
 
-
 	/*
 	* display object owner
 	*/
@@ -1325,7 +1302,6 @@ class ilObjectGUI
 		$this->tpl->setVariable("CMD","update");
 		$this->tpl->parseCurrentBlock();
 	}
-
 
 	/**
 	* display object list
@@ -1380,8 +1356,17 @@ class ilObjectGUI
 				}
 				else
 				{
+					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role")
+					{
+						$link_id = $ctrl["obj_id"];
+					}
+					else
+					{
+						$link_id = $ctrl["ref_id"];					
+					}
+
 					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["ref_id"]);
+					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1498,7 +1483,7 @@ class ilObjectGUI
 			}
 			//visible data part
 			$this->data["data"][] = array(
-				"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"]."_b.gif\" border=\"0\">",
+				"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
 				"title" => $val["title"],
 				"description" => $val["desc"],
 				"last_change" => ilFormat::formatDate($val["last_update"])
@@ -1512,7 +1497,6 @@ class ilObjectGUI
 
 		$this->displayList();
 	}
-
 
 	/**
 	* display deletion confirmation screen
@@ -1533,14 +1517,22 @@ class ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-			//$obj_data = getObject($id);
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			if ($this->call_by_reference)
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);			
+			}
+			else
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+			}
+
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),
 				"title"       => $obj_data->getTitle(),
 				"desc"        => $obj_data->getDescription(),
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
+
 		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
 								  "confirm"  => $lng->txt("confirm"));
 

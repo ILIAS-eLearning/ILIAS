@@ -33,14 +33,13 @@ class ilObjRoleFolder extends ilObject
 	{
 		global $rbacadmin;
 
-
 		$roles = $rbacadmin->getRolesAssignedToFolder($this->getId());
 
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
 		require_once("./classes/class.ilObjRole.php");
 		$obj = new ilObjRole();
 		
-		foreach($roles as $role)
+		foreach ($roles as $role)
 		{
 			$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role);
 			$role_obj->delete();
