@@ -6,9 +6,9 @@
 * @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
 *
-* @package ilias
+* @package ilias-forum
 */
-class Forum
+class ilForum
 {
 	/**
 	* ilias object
@@ -30,7 +30,7 @@ class Forum
 	* @var string class name
 	* @access private
 	*/
-	var $className="Forum";
+	var $className="ilForum";
 	
 	/**
 	* database table field for sorting the results
@@ -57,7 +57,7 @@ class Forum
 	* Constructor
 	* @access	public
 	*/
-	function Forum()
+	function ilForum()
 	{
 		global $ilias;
 
@@ -1061,4 +1061,3 @@ class Forum
 		return $text;
 	}
 } // END class.Forum
-

@@ -8,9 +8,9 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.Forum.php";
+require_once "classes/class.ilForum.php";
 
-$frm = new Forum();
+$frm = new ilForum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");

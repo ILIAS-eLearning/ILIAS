@@ -9,7 +9,7 @@
 * @package ilias-core
 */
 
-require_once "class.Forum.php";
+require_once "class.ilForum.php";
 require_once "class.ilObject.php";
 
 class ilObjForum extends ilObject
@@ -33,7 +33,7 @@ class ilObjForum extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 		
 		// TODO: needs to rewrite scripts that are using Forum outside this class
-		$this->Forum = new Forum();
+		$this->Forum = new ilForum();
 	}
 
 	/**

@@ -3,7 +3,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
