@@ -163,6 +163,41 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
+	
+/**
+* Displays a preview of a question
+*
+* Displays a preview of a question
+*
+* @param string $question_id The database id of the question
+* @access public
+*/
+	function outPreviewForm($question_id)
+	{
+		$questiontype = $this->object->getQuestiontype($question_id);
+		switch ($questiontype)
+		{
+			case "qt_nominal":
+				$question = new SurveyNominalQuestionGUI();
+				break;
+			case "qt_ordinal":
+				$question = new SurveyOrdinalQuestionGUI();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestionGUI();
+				break;
+			case "qt_text":
+				$question = new SurveyTextQuestionGUI();
+				break;
+		}
+		$question->object->loadFromDb($question_id);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
+		$question->outPreviewForm();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("FORM_ACTION", $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
 
 	
 /**
@@ -310,11 +345,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   {
     global $rbacsystem;
 
-/*    if ($_GET["preview"]) {
-      $this->out_preview_page($_GET["preview"]);
+    if ($_GET["preview"]) {
+      $this->outPreviewForm($_GET["preview"]);
       return;
     }
-*/
+
 		if ($_GET["create"]) 
 		{
 			// create a new question from a survey

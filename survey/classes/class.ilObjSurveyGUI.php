@@ -607,7 +607,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HIDDEN_VALUE", "$id");
 			$this->tpl->parseCurrentBlock();
 		}
-
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -641,6 +640,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		$this->tpl->setCurrentBlock("obligatory");
+		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
+		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -865,7 +868,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$this->tpl->setCurrentBlock("option_v");
 							$this->tpl->setVariable("OPTION_VALUE", $sequence);
-							$this->tpl->setVariable("OPTION_TEXT", "$sequence - $vartitle");
+							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - $vartitle");
 							$this->tpl->parseCurrentBlock();
 						}
 						break;
@@ -956,7 +959,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 									break;
 								case "qt_nominal":
 								case "qt_ordinal":
-									$value = sprintf("%d", $constraint["value"]) . " - " . $variables[sprintf("%d", $constraint["value"])];
+									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[sprintf("%d", $constraint["value"])];
 									break;
 							}
 							$this->tpl->setCurrentBlock("constraint");
@@ -1113,7 +1116,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						array_push($questionblock, $value);
 					}
 				}
-				$this->object->createQuestionblock($_POST["title"], $questionblock);
+				$this->object->createQuestionblock($_POST["title"], $_POST["obligatory"], $questionblock);
 			}
 		}
 
