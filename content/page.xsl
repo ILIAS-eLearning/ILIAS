@@ -254,6 +254,8 @@
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+            <xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
+            <xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
 			<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 		</xsl:if>
         <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
