@@ -35,10 +35,10 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?
-//		if(!$rbacsystem->checkAccess($val["id"],"visible"))
-//		{
-//			continue;
-//		}
+		if(!$rbacsystem->checkAccess("visible",$val["id"],$_GET["obj_id"]))
+		{
+			continue;
+		}
 		
 		$num++;
 		
