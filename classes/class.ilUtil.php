@@ -60,12 +60,13 @@ class ilUtil
 
 		if(defined("ILIAS_MODULE"))
 		{
-			$base = "../";
+			$dir = ".";
 		}
 		else
 		{
-			$base = "./";
+			$dir = "";
 		}
+		$base = "./";
 		if ($in_module)
 		{
 			$base.= ILIAS_MODULE."/";
@@ -75,15 +76,40 @@ class ilUtil
 			$ilias->account->prefs["style"]."/images/".$img;
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
+//echo ":".$user_skin_and_style.":<br>";
 		if (file_exists($user_skin_and_style))
 		{
-			return $user_skin_and_style;
+			return $dir.$user_skin_and_style;
 		}
 		else if (file_exists($user_skin))
 		{
-			return $user_skin;
+			return $dir.$user_skin;
 		}
-		return $default;
+		return $dir.$default;
+	}
+
+	function getJSPath($a_js)
+	{
+		global $ilias;
+		
+		if(defined("ILIAS_MODULE"))
+		{
+			$dir = ".";
+		}
+		else
+		{
+			$dir = "";
+		}
+		$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."/".$a_js;
+		$default = "./templates/".$ilias->account->skin."/".$a_js;
+		if(@is_file($in_style))
+		{
+			return $dir.$in_style;
+		}
+		else
+		{
+			return $dir.$default;
+		}
 	}
 
 	/**

@@ -109,10 +109,35 @@ class ilLMPresentationGUI
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
-				echo "wanna process ".$child->node_name(). "<br>";
+				switch ($child->node_name())
+				{
+					case "ilMainMenu":
+						$this->ilMainMenu();
+						break;
+				}
 			}
+			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->show();
+	}
+
+	function ilMainMenu()
+	{
+		$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$this->tpl->setVariable("IMG_COURSE", ilUtil::getImagePath("navbar/course.gif", false));
+		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
+		$this->tpl->setVariable("IMG_FORUMS", ilUtil::getImagePath("navbar/newsgr.gif", false));
+		$this->tpl->setVariable("IMG_SEARCH", ilUtil::getImagePath("navbar/search.gif", false));
+		$this->tpl->setVariable("IMG_LITERAT", ilUtil::getImagePath("navbar/literat.gif", false));
+		$this->tpl->setVariable("IMG_GROUPS", ilUtil::getImagePath("navbar/groups.gif", false));
+		$this->tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
+		$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("navbar/help.gif", false));
+		$this->tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("navbar/feedb.gif", false));
+		$this->tpl->setVariable("IMG_LOGOUT", ilUtil::getImagePath("navbar/logout.gif", false));
+		$this->tpl->setVariable("IMG_ILIAS", ilUtil::getImagePath("navbar/ilias.gif", false));
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
 	}
 
 	function processNodes(&$a_content, &$a_node)

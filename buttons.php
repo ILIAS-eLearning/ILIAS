@@ -34,6 +34,20 @@
 require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "navigation", "tpl.main_buttons.html");
+$tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
+$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+$tpl->setVariable("IMG_COURSE", ilUtil::getImagePath("navbar/course.gif", false));
+$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
+$tpl->setVariable("IMG_FORUMS", ilUtil::getImagePath("navbar/newsgr.gif", false));
+$tpl->setVariable("IMG_SEARCH", ilUtil::getImagePath("navbar/search.gif", false));
+$tpl->setVariable("IMG_LITERAT", ilUtil::getImagePath("navbar/literat.gif", false));
+$tpl->setVariable("IMG_GROUPS", ilUtil::getImagePath("navbar/groups.gif", false));
+$tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
+$tpl->setVariable("IMG_HELP", ilUtil::getImagePath("navbar/help.gif", false));
+$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("navbar/feedb.gif", false));
+$tpl->setVariable("IMG_LOGOUT", ilUtil::getImagePath("navbar/logout.gif", false));
+$tpl->setVariable("IMG_ILIAS", ilUtil::getImagePath("navbar/ilias.gif", false));
+$tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
 include("./include/inc.mainmenu.php");
 
 $tpl->show();

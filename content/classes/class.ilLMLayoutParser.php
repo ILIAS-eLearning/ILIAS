@@ -43,6 +43,33 @@ class ilLMLayoutParser extends ilSaxParser
 	}
 
 	/**
+	* generate a tag with given name and attributes
+	*
+	* @param	string		"start" | "end" for starting or ending tag
+	* @param	string		element/tag name
+	* @param	array		array of attributes
+	*/
+	function buildTag ($type, $name, $attr="")
+	{
+		$tag = "<";
+
+		if ($type == "end")
+			$tag.= "/";
+
+		$tag.= $name;
+
+		if (is_array($attr))
+		{
+			while (list($k,$v) = each($attr))
+				$tag.= " ".$k."=\"$v\"";
+		}
+
+		$tag.= ">";
+
+		return $tag;
+	}
+
+	/**
 	* set event handler
 	* should be overwritten by inherited class
 	* @access	private
@@ -62,7 +89,8 @@ class ilLMLayoutParser extends ilSaxParser
 	{
 		switch($a_name)
 		{
-			case "LearningModule":
+			case "ilFrameset":
+				$this->content .= $this->buildTag("start", "frameset", $a_attribs);
 				break;
 		}
 	}
@@ -74,7 +102,8 @@ class ilLMLayoutParser extends ilSaxParser
 	{
 		switch($a_name)
 		{
-			case "PageObject":
+			case "ilFrameset":
+				$this->content .= $this->buildTag("end", "frameset");
 				break;
 		}
 	}
