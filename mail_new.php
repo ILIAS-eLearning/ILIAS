@@ -39,7 +39,7 @@ if ($_GET["func"] != "")
 }
 
 $tpl->setVariable("ACTION", "mail_new.php");
-$tpl->setVariable("TXT_RECIPIENT", $lng->txt("recipient"));
+$tpl->setVariable("TXT_RECIPIENT", $lng->txt("to"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
 $tpl->setVariable("TXT_CC", $lng->txt("cc"));
 $tpl->setVariable("TXT_SEARCH_CC_RECIPIENT", $lng->txt("search_cc_recipient"));
