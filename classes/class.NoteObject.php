@@ -1,7 +1,7 @@
 <?php
 /**
 * Class NoteObject
-*
+	*
 * @author M.Maschke
 * @version $Id: 
 * 
@@ -49,11 +49,26 @@ class NoteObject extends Object
 	*/
 	function createObject($lo_title, $note_text)
 	{
-	
-		$FNoteObject["title"] 	= "todo: titel der LO";
-		$FNoteObject["desc"]  	= $text;			//todo:nach 20zeichen abschneiden
+		global $rbacadmin, $rbacsystem;
+		if(strlen($lo_title) > 70)
+		{
+			$lo_title 				= substr($lo_title,0,67);		//title in object_data has only 70digits
+			$lo_title			   .= "...";
+		}
+		$FNoteObject["title"] 	= $lo_title;
+		if(strlen($note_text) > 40)
+		{
+			$note_text  			= substr($note_text,0,37);
+			$note_text			   .= "...";
+		}
+		$FNoteObject["desc"]  	= $note_text;
 		$note_id	 			= createNewObject("note",$FNoteObject);
-
+/*		
+		//get own role id
+		$my_roleId = $rbacadmin->assignedRoles(
+		//enter permissions of new note object
+		$rbacadmin->grantPermission($note_id,
+*/
 		return $note_id;	
 	}
 
@@ -65,16 +80,35 @@ class NoteObject extends Object
 	* @param	text	text
 	* @access	public
 	*/
-	function saveNote($obj_id, $ref_lo, $text)
+	function saveNote($obj_id, $ref_lo, $lo_title, $text, $rate)
 	{
 		$create_date = date("Y-m-d G:i:s");
 
-		$query = "INSERT INTO note_data (note_id, lo_id, text, create_date)".
-				 " VALUES ('".$obj_id."','".$ref_lo."','".$text."','".$create_date."')";
+		$query = "INSERT INTO note_data (note_id, lo_id,  text, create_date, important, good, question, bad)".
+				 " VALUES ('".$obj_id."','".$ref_lo."','".$text."','".$create_date."','".$rate["important"]."','".$rate["good"]."','".$rate["question"]."','".$rate["bad"]."')";
 
 		$res = $this->ilias->db->query($query);
 	}
 
+	function updateNote($obj_id, $note_text, $rate)
+	{
+		$create_date = date("Y-m-d G:i:s");
+		if(strlen($note_text) > 40)
+		{
+			$note_text  			= substr($note_text,0,37);
+			$note_text			   .= "...";
+		}
+	
+		//update table note_data
+		$query_nd = "UPDATE note_data SET text='".$note_text."', question='".$rate["question"]."', ".
+				    "important='".$rate["important"]."', good='".$rate["good"]."', ".
+   				    "bad='".$rate["bad"]."' WHERE note_id='".$obj_id."'";
+		//update table object_data
+		$query_od = "UPDATE object_data SET description='".$note_text."' WHERE obj_id='".$obj_id."'";
+		$res1 = $this->ilias->db->query($query_nd);
+		$res2 = $this->ilias->db->query($query_od);
+		
+	}
 	function edit()
 	{
 	}
