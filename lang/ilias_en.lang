@@ -110,8 +110,8 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
-assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_start_test#:#Start the test
+assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_types#:#Test types
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
@@ -1222,7 +1222,6 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
-content#:#cont_select_item#:#Select at least one item.
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
@@ -1402,6 +1401,7 @@ content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_one_edition#:#Please select at least one edition.

@@ -110,6 +110,7 @@ assessment#:#tst_sequence_fixed#:#Sekwencja pytań została ustawiona
 assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu
 assessment#:#tst_sequence_properties#:#Cechy sekwencji
 assessment#:#tst_session_settings#:#Ustawienia sesji
+assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
 assessment#:#tst_types#:#Typy testów
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
@@ -1400,6 +1401,7 @@ content#:#cont_saved_map_data#:#Zachowana mapa danych
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM
+content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Wybierz tylko jedną pozycję.
 content#:#cont_select_max_one_term#:#Wybierz tylko jeden termin.
 content#:#cont_select_one_edition#:#Wybierz conajmniej jedną edycję.

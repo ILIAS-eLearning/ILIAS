@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Caminho absoluto
 common#:#accept_usr_agreement#:#Aceitar acordo de utilização?
@@ -234,6 +235,7 @@ common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercício
 common#:#exc_save_changes#:#Salvar
 common#:#exc_search_for#:#Procurar por
+common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
 common#:#exc_send_exercise#:#Enviar exercício
 common#:#exc_sent#:#O exercício foi enviado aos utilizadores seleccionados
 common#:#exc_status_returned#:#Returnou
@@ -575,7 +577,6 @@ common#:#msg_no_search_result#:#Nenhumas entradas encontradas
 common#:#msg_no_search_string#:#Por favor insira a sua consulta
 common#:#msg_not_available_for_anon#:#A página que escolheu apenas é acessível por utilizadores registados
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nada_encontrado
 common#:#msg_obj_created#:#Objecto criado.
 common#:#msg_obj_exists#:#Este objecto já existe nesta pasta
@@ -640,7 +641,6 @@ common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Grupo
 common#:#obj_ldap#:#Definições LDAP
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Linguagem
 common#:#obj_lngf#:#Linguagens
@@ -1077,6 +1077,7 @@ content#:#cont_roman#:#Romano i, ii, ...
 content#:#cont_sc_title#:#título
 content#:#cont_school#:#Escola
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_one_edition#:#Please select at least one edition.
@@ -1798,4 +1799,3 @@ search#:#search_select_one_result#:#Seleccione pelo menos um resultado da procur
 search#:#search_select_one_select#:#--Seleccione uma pasta--
 search#:#search_show_result#:#Mostra
 search#:#search_user#:#Utilizadores
-common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
