@@ -82,7 +82,14 @@ class ilErrorHandling
 
 			$_SESSION["message"] = $message;
 
-			header("location: error.php");
+			if(!defined("ILIAS_MODULE"))
+			{
+				header("location: error.php");
+			}
+			else
+			{
+				header("location: ../error.php");
+			}
 			exit;
 		}
 
