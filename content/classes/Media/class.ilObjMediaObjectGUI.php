@@ -583,8 +583,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
 		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
-		$this->tpl->setVariable("FORMACTION1", $this->getTargetScript().
-			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+		$this->tpl->setVariable("FORMACTION1", ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=post&cdir=".urlencode($cur_subdir)));
 //echo "--".$this->getTargetScript().
 			//"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post"."--<br>";
 		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
@@ -603,8 +603,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", $this->getTargetScript().
-			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=post&cdir=".urlencode($cur_subdir)));
 
 		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -732,6 +732,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function createDirectoryObject()
 	{
+//echo "cdir:".$_GET["cdir"].":<br>";
 		// determine directory
 		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
 		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
@@ -747,8 +748,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			ilUtil::makeDir($cur_dir."/".$new_dir);
 		}
 
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editFiles&cdir=".$_GET["cdir"]));
 	}
 
 	/**
@@ -767,8 +768,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editFiles&cdir=".$_GET["cdir"]));
 	}
 
 	/**
@@ -808,8 +809,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$format = ilObjMediaObject::getMimeType($file);
 		$std_item->setFormat($format);
 		$this->object->update();
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editFiles&cdir=".$_GET["cdir"]));
 	}
 
 
@@ -867,8 +868,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$full_item->setFormat($format);
 		}
 		$this->object->update();
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"&cmd=editFiles&cdir=".$_GET["cdir"]));
 	}
 
 
@@ -880,7 +881,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->object->removeMediaItem("Fullscreen");
 		$this->object->update();
 		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit&cmdClass=ilObjMediaObjectGUI"));
+			"cmd=edit"));
 	}
 
 
@@ -906,7 +907,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->object->update();
 		}
 		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit&cmdClass=ilObjMediaObjectGUI"));
+			"cmd=edit"));
 	}
 
 
@@ -974,8 +975,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			ilUtil::delDir($file);
 		}
 
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editFiles&cdir=".$cur_subdir));
 	}
 
 
@@ -1094,6 +1095,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function editMapAreasObject()
 	{
+		$_SESSION["il_map_edit_target_script"] = $this->getTargetScript();
+
 		//$this->initMapParameters();
 		$this->handleMapParameters();
 
@@ -1273,7 +1276,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		unset($_SESSION["il_map_area_nr"]);*/
 	}
 
-	function newArea()
+	function newAreaObject()
 	{
 		$_SESSION["il_map_edit_coords"] = "";
 		$_SESSION["il_map_edit_mode"] = "";
@@ -1283,13 +1286,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$_SESSION["il_map_il_target"] = "";
 		$_SESSION["il_map_il_targetframe"] = "";
 		$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
-		$this->addArea(false);
+		$this->addAreaObject(false);
 	}
 
 	/**
 	* add new area
 	*/
-	function addArea($a_handle = true)
+	function addAreaObject($a_handle = true)
 	{
 		// init all SESSION variables if "ADD AREA" button is pressed
 		/*
@@ -1627,7 +1630,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			case "MediaObject":
-				require_once("content/classes/Pages/class.ilObjMediaObject.php");
+				require_once("content/classes/Media/class.ilObjMediaObject.php");
 				$mob =& new ilObjMediaObject($t_arr[count($t_arr) - 1]);
 				$link_str = $this->lng->txt("mob").
 					": ".$mob->getTitle()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
@@ -1640,7 +1643,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* update map areas
 	*/
-	function updateAreas()
+	function updateAreasObject()
 	{
 		$st_item =& $this->object->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
@@ -1651,15 +1654,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$area->update();
 		}
 		sendInfo($this->lng->txt("cont_saved_map_data"), true);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editMapAreas"));
 	}
 
 
 	/**
 	* delete map areas
 	*/
-	function deleteAreas()
+	function deleteAreasObject()
 	{
 		if (!isset($_POST["area"]))
 		{
@@ -1682,15 +1685,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->object->update();
 			sendInfo($this->lng->txt("cont_areas_deleted"), true);
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editMapAreas"));
 	}
 
 
 	/**
 	* save new or updated map area
 	*/
-	function saveArea()
+	function saveAreaObject()
 	{
 		switch ($_SESSION["il_map_edit_mode"])
 		{
@@ -1765,11 +1768,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->initMapParameters();
 		sendInfo($this->lng->txt("cont_saved_map_area"), true);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editMapAreas"));
 	}
 
-	function editLink()
+	function editLinkObject()
 	{
 		$_SESSION["il_map_edit_coords"] = "";
 		$_SESSION["il_map_edit_mode"] = "";
@@ -1829,7 +1832,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->editMapArea(false, false, true, "link", $_POST["area"][0]);
 	}
 
-	function editShape()
+	function editShapeObject()
 	{
 		$_SESSION["il_map_area_nr"] = "";
 		$_SESSION["il_map_edit_coords"] = "";
@@ -1839,13 +1842,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$_SESSION["il_map_il_ltype"] = "";
 		$_SESSION["il_map_il_target"] = "";
 		$_SESSION["il_map_il_targetframe"] = "";
-		$this->setShape(false);
+		$this->setShapeObject(false);
 	}
 
 	/**
 	* edit shape of existing map area
 	*/
-	function setShape($a_handle = true)
+	function setShapeObject($a_handle = true)
 	{
 		if($a_handle)
 		{
@@ -1895,7 +1898,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 				else if ($cnt_coords == 2)
 				{
-					$this->saveArea();
+					$this->saveAreaObject();
 				}
 				break;
 
@@ -1916,7 +1919,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					}
 					$_SESSION["il_map_edit_coords"] = $coords;
 
-					$this->saveArea();
+					$this->saveAreaObject();
 				}
 				break;
 
@@ -1943,17 +1946,19 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	*
 	*/
+	/*
 	function copyToClipboard()
 	{
 		$this->ilias->account->addObjectToClipboard($this->object->getId(), $this->object->getType()
 			, $this->object->getTitle());
 		sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		ilUtil::redirect($this->getReturnLocation());
-	}
+	}*/
 
 	/**
 	*
 	*/
+	/*
 	function centerAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
@@ -1992,7 +1997,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		ilUtil::redirect($this->getReturnLocation());
-	}
+	}*/
 
 	/**
 	* set admin tabs
