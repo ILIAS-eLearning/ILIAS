@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.14 2003/04/24 17:09:37 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.15 2003/05/04 18:50:22 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -222,7 +222,8 @@ class ilObjUserGUI extends ilObjectGUI
 		   $this->tpl->parseCurrentBlock();
 		}
 		// END TABLE ROLES
-		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".
+								$_GET["ref_id"]."&obj_id=$_GET[obj_id]");
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
 
@@ -456,7 +457,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		$_SESSION["RoleId"] = $_POST["active"];
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=edit");
+		header("Location: adm_object.php?ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]&cmd=edit");
 		exit;
 	}	   
 
