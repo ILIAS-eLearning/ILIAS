@@ -185,7 +185,7 @@ class ASS_ClozeTest extends ASS_Question {
       // Anworten wegschreiben
       foreach ($this->gaps as $key => $value) {
         foreach ($value as $answer_id => $answer_obj) {
-          $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, `order`, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+          $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
             $db->quote($this->id),
             $db->quote($key),
             $db->quote($answer_obj->get_answertext()),
@@ -232,7 +232,7 @@ class ASS_ClozeTest extends ASS_Question {
         $this->cloze_type = $data->cloze_type;
         $this->materials = $data->materials;
       }
-      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, `order` ASC",
+      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
         $db->quote($question_id)
       );
       $result = $db->query($query);
@@ -244,7 +244,7 @@ class ASS_ClozeTest extends ASS_Question {
             array_push($this->gaps, $answer_array);
             $counter = $data->gap_id;
           }
-          array_push($this->gaps[$counter], new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->order, $data->correctness));
+          array_push($this->gaps[$counter], new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->aorder, $data->correctness));
         }
       }
     }
