@@ -271,7 +271,7 @@ class ilGroupGUI extends ilObjectGUI
 			//$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
 			//$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 			//temp.solution
-			$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
+			$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -519,7 +519,7 @@ class ilGroupGUI extends ilObjectGUI
 
 			foreach ($cont_arr as $cont_data)
 			{
-				//temporary solution later rolf shoul be viewablle for grp admin
+				//temporary solution later rolf should be viewablle for grp admin
 				if ($cont_data["type"]!="rolf")
 				{
 				$this->tpl->setCurrentBlock("tbl_content");
@@ -535,6 +535,7 @@ class ilGroupGUI extends ilObjectGUI
 					$link_target = "_self";
 				}
 				$obj_link = $this->getURLbyType($cont_data);
+
 
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
@@ -568,7 +569,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setTitle($lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
-		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"));
+		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"),array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
 		$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
 
 		// control
@@ -1826,7 +1827,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION","group.php?cmd=save&ref_id=".$_GET["ref_id"].
+			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"].
 
 				"&new_type=".$_POST["new_type"]);
 
@@ -1849,67 +1850,12 @@ class ilGroupGUI extends ilObjectGUI
 	//ToDo: move this functionality from functon "save" to function "saveobject"
 	}
 
-	/**                          cmd=displaylist&ref_id=".$_GET["ref_id"]
-	* show possible action (form buttons)
-	*
-	* @access	public
- 	*/
-	function showActions($with_subobjects = false)
-	{
-		$notoperations = array();
-		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
-		if (empty($_SESSION["clipboard"]))
-		{
-			$notoperations[] = "paste";
-			$notoperations[] = "clear";
-		}
-		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
-		if ($_SESSION["clipboard"])
-		{
-			$notoperations[] = "cut";
-			$notoperations[] = "copy";
-			$notoperations[] = "link";
-		}
-
-		$operations = array();
-
-		$d = $this->objDefinition->getActions("grp");
-
-		foreach ($d as $row)
-		{
-			if (!in_array($row["name"], $notoperations))
-			{
-				$operations[] = $row;
-			}
-		}
-
-		if (count($operations) > 0)
-		{
-			foreach ($operations as $val)
-			{
-
-
-				$this->tpl->setCurrentBlock("tbl_action_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
-				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		if ($with_subobjects == true)
-		{
-			$this->showPossibleSubObjects();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->parseCurrentBlock();
-	}
-
 	/**
 	* show possible subobjects (pulldown menu)
 	*
 	* @access	public
  	*/
+
 	function showPossibleSubObjects()
 	{
 		$d = $this->objDefinition->getSubObjects("grp");
@@ -2305,7 +2251,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-		header("location: group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
+		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
