@@ -264,6 +264,16 @@ class ilObjTest extends ilObject
 */
 	var $test_types;
 
+/**
+* The percentiles of the ECTS grades for this test
+* 
+* The percentiles of the ECTS grades for this test
+*
+* @var array
+*/
+  var $ects_grades;
+
+
 	/**
 	* Constructor
 	* @access	public
@@ -293,6 +303,16 @@ class ilObjTest extends ilObject
 		$this->test_formats = 7;
 		$this->ects_output = 0;
 		$this->ects_fx = "";
+		global $lng;
+		$lng->loadLanguageModule("assessment");
+		$this->mark_schema->create_simple_schema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
+		$this->ects_grades = array(
+			"A" => 90,
+			"B" => 65,
+			"C" => 35,
+			"D" => 10,
+			"E" => 0
+		);
 		//$this->mark_schema = new ASS_MarkSchema();
 		if ($a_id == 0)
 		{
@@ -834,6 +854,7 @@ class ilObjTest extends ilObject
 				$this->ending_time = $data->ending_time;
 				$this->ects_output = $data->ects_output;
 				$this->ects_fx = $data->ects_fx;
+				$this->mark_schema->flush();
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->loadQuestions();
 			}

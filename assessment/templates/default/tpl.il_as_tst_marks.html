@@ -34,8 +34,17 @@
 	<td class="std">{TEXT_OUTPUT_ECTS_GRADES}</td>
 </tr>
 <tr class="tblrow1">
-	<td class="tblrow1"><input type="checkbox" name="chbECTS" value="1" id="chbECTS"{CHECKED_ECTS} /></td>
-	<td class="tblrow1"><label for="chbECTS">{TEXT_ALLOW_ECTS_GRADES}</label></td>
+	<td class="tblrow1" valign="top"><input type="checkbox" name="chbECTS" value="1" id="chbECTS"{CHECKED_ECTS} /></td>
+	<td class="tblrow1"><label for="chbECTS">{TEXT_ALLOW_ECTS_GRADES}</label>
+	<table border="0">
+	<tr><td class="bold">{ECTS_GRADE}</td><td class="bold">{PERCENTILE}</td></tr>
+	<tr><td>{ECTS_GRADE_A}</td><td><input type="text" name="ects_grade_a" value="{VALUE_GRADE_A}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_B}</td><td><input type="text" name="ects_grade_b" value="{VALUE_GRADE_B}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_C}</td><td><input type="text" name="ects_grade_c" value="{VALUE_GRADE_C}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_D}</td><td><input type="text" name="ects_grade_d" value="{VALUE_GRADE_D}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_E}</td><td><input type="text" name="ects_grade_e" value="{VALUE_GRADE_E}" size="3" /></td></tr>
+	</table>
+	</td>
 </tr>
 <tr class="tblrow2">
 	<td class="tblrow2"><input type="checkbox" name="chbUseFX" value="1" id="chbUseFX"{CHECKED_FX} /></td>
