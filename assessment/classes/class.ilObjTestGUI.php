@@ -2108,6 +2108,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char++);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_total_participants"));
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_median") . "\">$char</div>");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char++);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_median"));
+				$this->tpl->parseCurrentBlock();
 				switch ($_POST["export_type"])
 				{
 					case TYPE_XLS:
@@ -2115,6 +2122,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_participant"), $format_title);
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_median"), $format_title);
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_total_participants"), $format_title);
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_median"), $format_title);
 						break;
 					case TYPE_SPSS:
 					case TYPE_PRINT:
@@ -2122,6 +2130,7 @@ class ilObjTestGUI extends ilObjectGUI
 						array_push($csvrow, $this->lng->txt("tst_stat_result_rank_participant"));
 						array_push($csvrow, $this->lng->txt("tst_stat_result_rank_median"));
 						array_push($csvrow, $this->lng->txt("tst_stat_result_total_participants"));
+						array_push($csvrow, $this->lng->txt("tst_stat_result_median"));
 						break;
 				}
 			}
@@ -2202,16 +2211,21 @@ class ilObjTestGUI extends ilObjectGUI
 				$stat_eval =& $this->object->evalStatistical($key);
 				$evaluation_array[$key] = $stat_eval;
 			}
-			
+
 			// calculate the median
 			$median_array = array();
-			foreach ($evaluation_array as $key => $value)
-			{
-				array_push($median_array, $value["resultspoints"]);
+			if ($_POST["cmd"]["stat_all_users"] or $_POST["stat_all_users"]) {
+				foreach ($evaluation_array as $key => $value)
+				{
+					array_push($median_array, $value["resultspoints"]);
+				}
+				sort($median_array);
+				reset($median_array);
 			}
-			sort($median_array);
-			reset($median_array);
-
+			else
+			{
+				$median_array =& $this->object->getMedianArray();
+			}
 			$median = 0;
 			if ((count($median_array) % 2) == 0)
 			{
@@ -2452,6 +2466,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$total_participants = count($median_array);
 					$this->tpl->setVariable("TXT_DATA", $total_participants);
 					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $median);
+					$this->tpl->parseCurrentBlock();
 					switch ($_POST["export_type"])
 					{
 						case TYPE_XLS:
@@ -2459,6 +2477,7 @@ class ilObjTestGUI extends ilObjectGUI
 							$worksheet->write($row, $column++, $rank_participant);
 							$worksheet->write($row, $column++, $rank_median);
 							$worksheet->write($row, $column++, $total_participants);
+							$worksheet->write($row, $column++, $median);
 							break;
 						case TYPE_SPSS:
 						case TYPE_PRINT:
@@ -2466,6 +2485,7 @@ class ilObjTestGUI extends ilObjectGUI
 							array_push($csvrow, $rank_participant);
 							array_push($csvrow, $rank_median);
 							array_push($csvrow, $total_participants);
+							array_push($csvrow, $median);
 							break;
 					}
 				}

@@ -316,6 +316,11 @@ assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_stat_all_users#:#All users
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work
+assessment#:#tst_stat_result_mark_median#:#Mark of median
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant
+assessment#:#tst_stat_result_rank_median#:#Rank of median
+assessment#:#tst_stat_result_total_participants#:#Total number of participants
+assessment#:#tst_stat_result_median#:#Median of test result in points
 assessment#:#tst_stat_result_distancemedian#:#Distance to median
 assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#First visit
