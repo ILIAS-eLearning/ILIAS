@@ -718,31 +718,33 @@ class ASS_ClozeTest extends ASS_Question {
     }
     return $points;
   }
-  
+
 /**
 * Saves the learners input of the question to the database
 * 
 * Saves the learners input of the question to the database
 *
+* @param integer $test_id The database id of the test containing this question
 * @access public
 * @see $answers
 */
-  function save_working_data($limit_to = LIMIT_NO_LIMIT) {
-    global $ilias;
-    $db =& $ilias->db->db;
-    
-    $query = sprintf("DELETE FROM dum_assessment_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $db->quote($this->ilias->account->id),
-      $db->quote($_GET["test"]),
+  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
+    global $ilDB;
+		global $ilUser;
+    $db =& $ilDB->db;
+
+    $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+      $db->quote($ilUser->id),
+      $db->quote($test_id),
       $db->quote($this->get_id())
     );
     $result = $db->query($query);
     
     foreach ($_POST as $key => $value) {
       if (preg_match("/gap_(\d+)/", $key, $matches)) {
-        $query = sprintf("INSERT INTO dum_assessment_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-          $db->quote($this->ilias->account->id),
-          $db->quote($_GET["test"]),
+        $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+					$db->quote($ilUser->id),
+					$db->quote($test_id),
           $db->quote($this->get_id()),
           $db->quote($matches[1]),
           $db->quote($value)
@@ -750,7 +752,7 @@ class ASS_ClozeTest extends ASS_Question {
         $result = $db->query($query);
       }
     }
-    parent::save_working_data($limit_to);
+    //parent::save_working_data($limit_to);
   }
 }
 

@@ -502,7 +502,7 @@ class ASS_Question extends PEAR {
 * @see $answers
 */
   function save_working_data($limit_to = LIMIT_NO_LIMIT) {
-    global $ilias;
+/*    global $ilias;
     $db =& $ilias->db->db;
     
     // Increase the number of tries for that question
@@ -518,7 +518,7 @@ class ASS_Question extends PEAR {
       $db->quote($data->solution_order_id)
     );
     $result = $db->query($query);
-  }
+*/  }
 
 /**
 * Duplicates the question in the database
@@ -564,6 +564,34 @@ class ASS_Question extends PEAR {
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
+
+/**
+* Loads solutions of the active user from the database an returns it
+* 
+* Loads solutions of the active user from the database an returns it
+*
+* @param integer $test_id The database id of the test containing this question
+* @access public
+* @see $answers
+*/
+	function &get_solution_values($test_id) { 
+    global $ilDB;
+		global $ilUser;
+    $db =& $ilDB->db;
+
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+			$db->quote($ilUser->id),
+			$db->quote($test_id),
+			$db->quote($this->get_id())
+		);
+		$result = $db->query($query);
+		$values = array();
+		while	($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			array_push($values, $row);
+		}
+		return $values;
+	}
+
 }
 
 ?>
