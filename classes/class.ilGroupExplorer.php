@@ -39,7 +39,7 @@ class ilGroupExplorer extends ilExplorer
 		$this->tree = new ilTree($a_ref_id,$a_ref_id);
 		$this->tree->setTableNames("grp_tree","object_data","object_reference");
 		$this->setSessionExpandVariable("grp_expand");				
-		$this->setExpandTarget("group.php?cmd=show_content&ref_id=".$a_ref_id."&tree=true");
+		$this->setExpandTarget("group.php?cmd=view&ref_id=".$a_ref_id."&viewmode=tree");
 		// temp. disabled for folders
 		$this->rbac_check = false;
 	}
@@ -204,12 +204,8 @@ class ilGroupExplorer extends ilExplorer
 			$tpl->setVariable("LINK_TARGET", $this->getURLbyType($a_option));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			
-			if($a_option["type"]=="fold")
-			{
-				$tpl->setVariable("TARGET", " target=\"content\"");
-			}else{
-				$tpl->setVariable("TARGET", " target=\"bottom\"");
-			}
+			$tpl->setVariable("TARGET", " target=\"bottom\"");
+			
 			/*if ($this->frame_target != "")
 			{
 				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
@@ -236,11 +232,31 @@ class ilGroupExplorer extends ilExplorer
 	* access public
 	*/
 	function getURLbyType($cont_data)
-	{
+	{	
+		global $ilias;
+		
 		switch ($cont_data["type"])
 		{
 	  		case "frm":
-				$URL = "forums_threads_liste.php?ref_id=".$cont_data["child"];
+			
+				$obj_frm = & $this->ilias->obj_factory->getInstanceByRefId($cont_data["child"]);
+				
+				require_once "classes/class.ilForum.php";
+				
+				$frm = new ilForum();
+				$frm->setWhereCondition("top_frm_fk = ".$obj_frm->getId());
+				$topicData = $frm->getOneTopic();		
+			
+				if ($topicData["top_num_threads"] > 0)
+				{
+					$thr_page = "liste";
+				}
+				else
+				{
+					$thr_page = "new";
+				}
+				
+				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["child"];
 				break;
 	
 			case "crs":
@@ -252,7 +268,7 @@ class ilGroupExplorer extends ilExplorer
 				break;
 	
 			case "fold":
-				$URL = "group.php?cmd=show_content&ref_id=".$cont_data["child"]."&tree=true&type=fold";
+				$URL = "group.php?cmd=view&ref_id=".$cont_data["child"]."&viewmode=flat&type=fold";
 				break;
 
 			case "file":
