@@ -1426,20 +1426,33 @@ class ilObjUser extends ilObject
 		switch ($a_type)
 		{
 			case "lm":
+			case "glo":
+			case "dbk":
 				$q = "SELECT oref.ref_id, obj.title, parameters FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
-					"it.type = 'lm' AND ".
+					"it.type = '$a_type' AND ".
 					"it.user_id = '".$this->getId()."' ".
 					"ORDER BY title";
 				$item_set = $this->ilias->db->query($q);
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+					if($a_type == "glo")
+					{
+						$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
+							"&obj_id=".$item_rec["parameters"];
+						$target = "bottom";
+					}
+					else
+					{
+						$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
+							"&obj_id=".$item_rec["parameters"];
+						$target = "_top";
+					}
+					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"parameters" => $item_rec["parameters"],
-						"link" => "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
-						"&obj_id=".$item_rec["parameters"], "target" => "_top");
+						"link" => $link, "target" => $target);
 				}
 				break;
 
@@ -1454,11 +1467,11 @@ class ilObjUser extends ilObject
 				$item_set = $this->ilias->db->query($q);
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
 				}
 				break;
-				
+
 			case "grp":
 				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
@@ -1470,11 +1483,11 @@ class ilObjUser extends ilObject
 				$item_set = $this->ilias->db->query($q);
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"link" => "group.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
 				}
 				break;
-				
+
 			default:
 				break;
 		}
