@@ -2017,69 +2017,8 @@ class ilObjectGUI
 		$this->data["buttons"] = array( "confirmedDelete"  => $this->lng->txt("confirm"),
 								  "cancelDelete"  => $this->lng->txt("cancel"));
 
-//		$this->getTemplateFile("confirm");
+		$this->getTemplateFile("confirm");
 
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=assignSave&sort_by=name&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
-
-		// create table
-		include_once "./classes/class.ilTableGUI.php";
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("user_assignment")." (".$this->lng->txt("search_result").")","icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		
-		foreach ($this->data["cols"] as $val)
-		{
-			$header_names[] = $this->lng->txt($val);
-		}
-		
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = array(
-							"ref_id"		=> $this->ref_id,
-							"obj_id"		=> $this->obj_id,
-							"cmd"			=> "searchUser",
-							"search_string" => urlencode($_POST["search_string"])
-					  		);
-
-		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);
-
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
-
-		// display action button
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "assignSave");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->showActions(true);
-		
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$tbl->render();		
-		
-		
-		
-		
-		
 		sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
