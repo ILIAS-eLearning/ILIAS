@@ -359,30 +359,11 @@ function trimDeluxe ($a_text)
 }
 
 /**
-* TODO: move to class.util
-* shorten a string to given length.
-* Adds 3 dots at the end of string (optional)
-* TODO: do not cut within words (->wordwrap function)
-* @access	public
-* @param	string	string to be shortened
-* @param	integer	string length in chars
-* @param	boolean	adding 3 dots (true) or not (false, default)
-* @return	string 	shortended string
+* TODO: replace this function in other classes by util method
 */
 function shortenText ($a_str, $a_len, $a_dots = "false")
 {
-	if (strlen($a_str) > $a_len)
-	{
-
-		$a_str = substr($a_str,0,$a_len); 
-
-		if ($a_dots)
-		{
-			$a_str .= "...";
-		}
-	}
-
-	return $a_str;
+	return ilUtil::shortenText ($a_str, $a_len, $a_dots);
 }
 
 /**

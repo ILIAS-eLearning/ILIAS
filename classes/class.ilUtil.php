@@ -83,29 +83,39 @@ class ilUtil
 	* @param	string	variable name in formular
 	* @param	array	array with $options (key = lang_key, value = long name)
 	* @param	boolean
+	* @param	boolean	if true, the option values are displayed directly, otherwise
+	*					they are handled as language variable keys and the corresponding
+	*					language variable is displayed
 	*/
-	function formSelect ($selected,$varname,$options,$multiple = false)
+	function formSelect ($selected,$varname,$options,$multiple = false,$direct_text = false)
 	{
 		global $lng;
-		
+
 		$multiple ? $multiple = " multiple=\"multiple\"" : "";
 		$str = "<select name=\"".$varname ."\"".$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
-		
+
 			$str .= " <option value=\"".$val."\"";
 
 			if ($selected == $key)
 			{
 				$str .= " selected=\"selected\"";
 			}
-			
-			$str .= ">".$lng->txt($val)."</option>\n";
+
+			if($direct_text)
+			{
+				$str .= ">".$val."</option>\n";
+			}
+			else
+			{
+				$str .= ">".$lng->txt($val)."</option>\n";
+			}
 		}
 
 		$str .= "</select>\n";
-		
+
 		return $str;
 	}
 
@@ -597,5 +607,32 @@ class ilUtil
 
 		return true;
 	}
+
+	/**
+	* shorten a string to given length.
+	* Adds 3 dots at the end of string (optional)
+	* TODO: do not cut within words (->wordwrap function)
+	* @access	public
+	* @param	string	string to be shortened
+	* @param	integer	string length in chars
+	* @param	boolean	adding 3 dots (true) or not (false, default)
+	* @return	string 	shortended string
+	*/
+	function shortenText ($a_str, $a_len, $a_dots = "false")
+	{
+		if (strlen($a_str) > $a_len)
+		{
+
+			$a_str = substr($a_str,0,$a_len);
+
+			if ($a_dots)
+			{
+				$a_str .= "...";
+			}
+		}
+
+		return $a_str;
+	}
+
 } // END class.util
 ?>
