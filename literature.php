@@ -24,10 +24,8 @@ foreach ($lit as $row)
 	$tpl->parseCurrentBlock();
 }
 
-$tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_LITERATURE",  $lng->txt("literature_bookmarks"));
 $tpl->setVariable("TXT_DESCRIPTION",  $lng->txt("description"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
-$tpl->parseCurrentBlock();
 $tpl->show();
 ?>

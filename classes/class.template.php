@@ -81,6 +81,8 @@ class Template extends IntegratedTemplateExtension
 */
     function show($part = "DEFAULT") {
 
+		$this->fillVars();
+
         // ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		if ($_SESSION["message"] || $_SESSION["info"])
 		{
@@ -99,8 +101,6 @@ class Template extends IntegratedTemplateExtension
 		   }
 		   $this->parseCurrentBlock();
 		}
-
-		$this->fillVars();
 
         if ($part == "DEFAULT") {
             parent::show();

@@ -30,7 +30,7 @@ if ($_GET["cmd"] != "")
 $tpl->addBlockFile("CONTENT", "content", "tpl.bookmarks.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$ilias->error_obj->sendInfo("Attention: Functions to handle bookmarks is not implemented yet.",$ilias->error_obj->MESSAGE);
+$ilias->error_obj->sendInfo("Attention: Functions to handle bookmarks is not implemented yet.");
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","bookmark_newfolder.php");
@@ -61,7 +61,6 @@ foreach ($bm as $row)
 	$tpl->parseCurrentBlock();
 }
 
-$tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
