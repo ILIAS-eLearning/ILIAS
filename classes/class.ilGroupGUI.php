@@ -150,7 +150,7 @@ class ilGroupGUI extends ilObjectGUI
 
 
 
-	function accessDenied($aStatus="")
+	function accessDenied()
 	{
 		global $ilias, $rbacsystem;
 		$grpObj = new ilObjGroup($_GET["ref_id"],true);
@@ -189,6 +189,7 @@ class ilGroupGUI extends ilObjectGUI
 				else
 				{
 					$msg = $this->lng->txt("group_password_registration_expired_msg");
+					$msg_send = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=root";
 					$cmd_submit = "groupList";
 					$readonly ="readonly";
 					$stat = $this->lng->txt("group_registration_expired");
@@ -200,7 +201,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
 		$this->tpl->addBlockFile("CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
-		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("group_access_denied"));
 		$this->tpl->setVariable("TXT_MESSAGE",$msg);
 
 		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name").":");
@@ -208,7 +209,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("group_desc").":");
 		$this->tpl->setVariable("GRP_DESC",$grp->getDescription());
 		$this->tpl->setVariable("TXT_GRP_OWNER",$this->lng->txt("owner").":");
-		$this->tpl->setVariable("GRP_OWNER",$owner->getFullname());
+		$this->tpl->setVariable("GRP_OWNER",$owner->getLogin());
 		$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("group_status").":");
 		$this->tpl->setVariable("GRP_STATUS", $stat);
 		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
@@ -657,7 +658,6 @@ class ilGroupGUI extends ilObjectGUI
 		if($_SESSION["saved_post"])
 		{
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-//			$mail  = new ilMail($this->ilias->account->getId());
 			$mail  = new ilMail($_SESSION["AccountId"]);
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
@@ -669,13 +669,7 @@ class ilGroupGUI extends ilObjectGUI
 				else
 				{
 					$this->object->deleteApplicationListEntry($new_member);
-//					$k = array('normal');
-					//$k[0] = "normal";
-//					$mail = new Mail($_SESSION["AccountId"]);
-//					function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
-//					print_r($mail->sendMail($user->getLogin(),"","","you have been assigned to...","dirnne","",$k));
-//					$mail->sendMail($user->getLogin(),"","","you have been assigned to ...","sind drinne","","");
-//					$mail->sendInternalMail(207,6,$user->getLogin(),"","","","system",0,"you have been assigned to ...","sind drinne",6);
+					$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all according objects like forums, learningmodules,etc..",array(),array('normal'));
 					ilObjUser::updateActiveRoles($new_member);		
 				}
 			}
@@ -1542,7 +1536,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
 
 		$tab[2] = array ();
-		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id."&active=2";			//link for tab
+		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id;			//link for tab
 		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
