@@ -34,7 +34,6 @@
 // to the corresponding mode!
 <!-- language file start -->
 administration#:#analyze_data#:#Analyse der Datenintegrität
-administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
 administration#:#analyze_desc#:#Durchsucht das System nach ungültigen/fehlenden/kaputten/unverlinkten Objekten
 administration#:#analyzing#:#Analysiere...
 administration#:#clean#:#Aufräumen
