@@ -371,8 +371,6 @@ class ilContObjParser extends ilSaxParser
 			case "Glossary":
 				$this->in_glossary = true;
 				$this->glossary_object =& new ilObjGlossary();
-				$this->glossary_object->setTitle($this->content_object->getTitle()." - ".
-					$this->lng->txt("glossary"));
 				$this->glossary_object->setDescription("");
 				$this->glossary_object->create();
 				$this->glossary_object->createReference();
@@ -387,6 +385,7 @@ class ilContObjParser extends ilSaxParser
 				$this->glossary_term =& new ilGlossaryTerm();
 				$this->glossary_term->setGlossaryId($this->glossary_object->getId());
 				$this->glossary_term->setLanguage($a_attribs["Language"]);
+				$this->glossary_term->setImportId($a_attribs["Id"]);
 				break;
 
 			case "Definition":
@@ -740,8 +739,15 @@ class ilContObjParser extends ilSaxParser
                 }
 
 
-				if(get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjdlbook" )
+				if(get_class($this->current_object) == "ilobjlearningmodule" ||
+					get_class($this->current_object) == "ilobjdlbook" ||
+					get_class($this->current_object) == "ilobjglossary")
 				{
+					if (get_class($this->current_object) == "ilobjglossary")
+					{
+						$this->current_object->setTitle($this->content_object->getTitle()." - ".
+							$this->lng->txt("glossary"));
+					}
 					$this->current_object->update();
 				}
 				break;

@@ -131,6 +131,17 @@ class ilObjGlossary extends ilObject
 		// todo: glossary attributes/properties
 	}
 
+	function getImportId()
+	{
+		return $this->meta_data->getImportIdentifierEntryID();
+	}
+
+	function setImportId($a_id)
+	{
+		$this->meta_data->setImportIdentifierEntryID($a_id);
+	}
+
+
 	function getTermList()
 	{
 		$list = ilGlossaryTerm::getTermList($this->getId());

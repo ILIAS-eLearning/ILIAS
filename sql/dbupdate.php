@@ -159,3 +159,6 @@ ALTER TABLE lm_data ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
 
 <#24>
 ALTER TABLE object_data ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
+
+<#25>
+ALTER TABLE glossary_term ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';

@@ -174,6 +174,16 @@ class ilObjContentObject extends ilObject
 		parent::update();
 	}
 
+	function getImportId()
+	{
+		return $this->meta_data->getImportIdentifierEntryID();
+	}
+
+	function setImportId($a_id)
+	{
+		$this->meta_data->setImportIdentifierEntryID($a_id);
+	}
+
 	/**
 	* update complete object (meta data and properties)
 	*/
