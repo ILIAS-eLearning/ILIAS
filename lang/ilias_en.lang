@@ -48,7 +48,6 @@ assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
 assessment#:#filter#:#Filter
-common#:#msg_obj_no_link#:#are not allowed to be linked
 assessment#:#gap_selection#:#Gap selection
 assessment#:#last_update#:#Last update
 assessment#:#matches#:#matches
@@ -77,21 +76,21 @@ assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
 assessment#:#tst_general_properties#:#General properties
-assessment#:#tst_types#:#Test types
 assessment#:#tst_introduction#:#Introduction
-assessment#:#tst_sequence#:#Sequence
-assessment#:#tst_sequence_properties#:#Sequence properties
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
-assessment#:#tst_score_type#:#Score reporting type
-assessment#:#tst_score_reporting#:#Score reporting
-assessment#:#tst_report_after_question#:#Report the score after every question is answered
-assessment#:#tst_report_after_test#:#Report the score after completing the whole test
-assessment#:#tst_score_reporting_date#:#Score reporting date
-assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_processing_time#:#Max. processing time
+assessment#:#tst_report_after_question#:#Report the score after every question is answered
+assessment#:#tst_report_after_test#:#Report the score after completing the whole test
+assessment#:#tst_score_reporting#:#Score reporting
+assessment#:#tst_score_reporting_date#:#Score reporting date
+assessment#:#tst_score_type#:#Score reporting type
+assessment#:#tst_sequence#:#Sequence
+assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
+assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
+assessment#:#tst_sequence_properties#:#Sequence properties
+assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_starting_time#:#Starting time
+assessment#:#tst_types#:#Test types
 common#:#3rd_party_software#:#3rd party software 
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -747,6 +746,7 @@ common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_modified#:#Modifications saved.
+common#:#msg_obj_no_link#:#are not allowed to be linked
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
@@ -840,9 +840,17 @@ common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#objects#:#Objects
+common#:#objf#:#Objectdefinitions
+common#:#objf_edit_permission#:#Change permission settings
+common#:#objf_read#:#Read access to Objectdefinitions
+common#:#objf_visible#:#Objectdefinitions are visible
+common#:#objf_write#:#Edit Objectdefinitions
 common#:#objs_cat#:#Categories
+common#:#objs_confirm#:#Confirm Action
 common#:#objs_crs#:#Courses
 common#:#objs_dbk#:#Digilib Books
+common#:#objs_delete#:#Delete objects
 common#:#objs_exc#:#Exersices
 common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
@@ -863,14 +871,6 @@ common#:#objs_st#:#Chapters
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objecttypes
 common#:#objs_usr#:#Users
-common#:#objects#:#Objects
-common#:#objf#:#Objectdefinitions
-common#:#objf_edit_permission#:#Change permission settings
-common#:#objf_read#:#Read access to Objectdefinitions
-common#:#objf_visible#:#Objectdefinitions are visible
-common#:#objf_write#:#Edit Objectdefinitions
-common#:#objs_confirm#:#Confirm Action
-common#:#objs_delete#:#Delete objects
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK

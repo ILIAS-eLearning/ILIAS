@@ -75,6 +75,22 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
+assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
+assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
+assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
+assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
+assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
+assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
+assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
+assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
+assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
+assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
+assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
@@ -726,11 +742,11 @@ common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
-common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
 common#:#msg_nothing_found#:#Nichts gefunden!
 common#:#msg_obj_created#:#Objekt angelegt!
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
 common#:#msg_obj_modified#:#Änderungen gespeichert!
+common#:#msg_obj_no_link#:#können nicht verknüpft werden
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
@@ -787,7 +803,6 @@ common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
-common#:#msg_obj_no_link#:#können nicht verknüpft werden
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
@@ -825,9 +840,17 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#objects#:#Objekte
+common#:#objf#:#Objektdefinitionen
+common#:#objf_edit_permission#:#Rechteeinstellungen ändern
+common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
+common#:#objf_visible#:#Objektdefinitionen sind sichtbar
+common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_cat#:#Kategorien
+common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
+common#:#objs_delete#:#Objekte löschen
 common#:#objs_exc#:#Übungen
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
@@ -840,22 +863,14 @@ common#:#objs_lo#:#Lernobjekte
 common#:#objs_mob#:#Multimedia Objekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Question Pools
+common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
 common#:#objs_st#:#Kapitel
-common#:#objs_tst#:#Tests
+common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objekttypen
 common#:#objs_usr#:#Benutzer
-common#:#objects#:#Objekte
-common#:#objf#:#Objektdefinitionen
-common#:#objf_edit_permission#:#Rechteeinstellungen ändern
-common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
-common#:#objf_visible#:#Objektdefinitionen sind sichtbar
-common#:#objf_write#:#Objektdefinitionen bearbeiten
-common#:#objs_confirm#:#Bestätige Aktion
-common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK

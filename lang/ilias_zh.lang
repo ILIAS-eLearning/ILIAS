@@ -92,6 +92,22 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
+assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
+assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
+assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
+assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
+assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
+assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
+assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
+assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
+assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
+assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
+assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 common#:#3rd_party_software#:#3rd party software###17 Dec 2003 new variable
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
@@ -743,11 +759,11 @@ common#:#msg_no_search_string#:#请输入您的问题
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
-common#:#msg_not_possible_link#:#不可以创建对象联接类型
 common#:#msg_nothing_found#:#无任何发现
 common#:#msg_obj_created#:#已创建对象。
 common#:#msg_obj_exists#:#此对象已存在于文件夹中
 common#:#msg_obj_modified#:#已保存修改。
+common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
 common#:#msg_perm_adopted_from1#:#权限设置取纳于
 common#:#msg_perm_adopted_from2#:#（已保存设置！）
 common#:#msg_perm_adopted_from_itself#:#您不能从当前角色或角色模板本身取得权限。
@@ -847,8 +863,31 @@ common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new var
 common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
+common#:#objs_cat#:#Categories###18 Feb 2004 new variable
 common#:#objs_confirm#:#Confirm Action###17 Dec 2003 new variable
+common#:#objs_crs#:#Courses###18 Feb 2004 new variable
+common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
 common#:#objs_delete#:#删除对象
+common#:#objs_exc#:#Exersices###18 Feb 2004 new variable
+common#:#objs_file#:#Files###18 Feb 2004 new variable
+common#:#objs_fold#:#Folders###18 Feb 2004 new variable
+common#:#objs_frm#:#Forums###18 Feb 2004 new variable
+common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
+common#:#objs_grp#:#Groups###18 Feb 2004 new variable
+common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
+common#:#objs_lng#:#Languages###18 Feb 2004 new variable
+common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
+common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
+common#:#objs_note#:#Notes###18 Feb 2004 new variable
+common#:#objs_pg#:#Pages###18 Feb 2004 new variable
+common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
+common#:#objs_role#:#Roles###18 Feb 2004 new variable
+common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
+common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_st#:#Chapters###18 Feb 2004 new variable
+common#:#objs_tst#:#Tests###18 Feb 2004 new variable
+common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
+common#:#objs_usr#:#Users###18 Feb 2004 new variable
 common#:#of#:#的
 common#:#offline_version#:#离线版本
 common#:#ok#:#是
