@@ -272,7 +272,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}*/
 
 		// check correct file type
-		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip")
+		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip" && $HTTP_POST_FILES["xmldoc"]["type"] != "application/x-zip-compressed")
 		{
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}
