@@ -1311,8 +1311,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		echo $_POST["new_type"];
-		var_dump($this->id);
+		
 		
 		//TODO: check the
 		// creates a child object
