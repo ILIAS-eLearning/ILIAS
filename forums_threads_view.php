@@ -589,9 +589,12 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 			if($node["author"])
 			{
-				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
-								  $usr_data["usr_id"]."&backurl=forums_threads_liste&offset=".
-								  $Start."\">".$usr_data["login"]."</a>");
+				$backurl = urlencode("forums_frameset.php?ref_id=".$_GET["ref_id"].
+									 "&thr_pk=".$_GET["thr_pk"].
+									 "&pos_pk=".$node["pos_pk"]."#".$node["pos_pk"]);
+
+				$tpl->setVariable("AUTHOR","<a target=\"bottom\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+								  $usr_data["usr_id"]."&backurl=".$backurl."\">".$usr_data["login"]."</a>");
 			}
 			else
 			{
