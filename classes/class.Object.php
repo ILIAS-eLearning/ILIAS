@@ -25,6 +25,13 @@ class Object
 	var $id;
 	
 	/**
+	* object list
+	* @var		array	contains all child objects of current object
+	* @access	private
+	*/
+	var $objectList;
+	
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -505,41 +512,6 @@ class Object
 		
 		$admin = new Admin();
 		return $admin->clearObject();
-	}
-
-	/**
-	* create path
-	* TODO: ist die Function nicht grosser quatsch?
-	* @access	private
-	* @param	integer	node_id
-	* @param	integer	node_id of parent_node
-	* @return	string
-	* @deprecated
-	*/
-	function getPath($a_id = 0, $a_id_parent = 0)
-	{		
-		global $tree;
-
-		if (!$a_id)
-		{
-			$a_id = $_GET["obj_id"];
-		}
-
-		if (!$a_id_parent)
-		{
-			$a_id_parent = $_GET["parent"];
-		}
-
-		$path = $tree->getPathFull($a_id,$a_id_parent);
-
-		$path[] = array(
-			"id"	 => $_GET["obj_id"],
-			"title"  => "Titel",
-			"parent" => $_GET["parent"],
-			"parent_parent" => $_GET["parent_parent"]
-		);
-		
-		return $tree->showPath($path,"content.php");
 	}
 
 	/**
