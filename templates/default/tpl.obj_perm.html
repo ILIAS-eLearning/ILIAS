@@ -23,8 +23,15 @@
 <tr class="tblheader">
 
   <td class="std" width="30%" align="left">{TXT_OPERATION}</td>
-    	<!-- BEGIN ROLENAMES -->
-  <td class="std">{ROLE_NAME}
+    <!-- BEGIN ROLENAMES -->
+  <td class="std">
+<!-- BEGIN ROLELINK_OPEN -->
+<a href="{LINK_ROLE_RULESET}" alt="{TXT_ROLE_RULESET}" title="{TXT_ROLE_RULESET}">
+<!-- END ROLELINK_OPEN -->
+{ROLE_NAME}
+<!-- BEGIN ROLELINK_CLOSE -->
+</a>
+<!-- END ROLELINK_CLOSE -->
   </td>
 	<!-- END ROLENAMES -->
 
