@@ -32,24 +32,12 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
-common#:#who_is_online#:#Who is online?
-common#:#msg_no_search_string#:#Please enter your query
-common#:#msg_no_search_result#:#No entries found
-common#:#with#:#with
-common#:#search_result#:#Search result
-common#:#users_online#:#Users online
-common#:#login_time#:#Current online time
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#user_assignment#:#User Assignment
-common#:#role_assignment#:#Role Assignment
-common#:#err_session_expired#:#Your session is expired!
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
-common#:#usr_agreement_empty#:#The agreement contains no text.
+common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#search_user#:#Search User
-common#:#search_new#:#New Search
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -57,6 +45,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
+common#:#all_objects#:#All Objects
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
@@ -93,6 +82,7 @@ common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#censorship
 common#:#change#:#Change
+common#:#change_assignment#:#change assignment
 common#:#change_existing_objects#:#Change existing Objects
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -157,8 +147,6 @@ common#:#disabled#:#Disabled
 common#:#download#:#Download
 common#:#drafts#:#Drafts
 common#:#edit#:#Edit
-common#:#all_objects#:#All Objects
-common#:#locator#:#Locator:
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
@@ -177,6 +165,7 @@ common#:#err_in_line#:#Error in line
 common#:#err_no_langfile_found#:#No language file found!
 common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
+common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#error_recipient#:#Error Recipient
@@ -287,6 +276,7 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
+common#:#learning_objects#:#Learning Objects
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#linked_pages#:#Linked Pages
@@ -306,15 +296,16 @@ common#:#lo_new#:#New Learning Object
 common#:#lo_no_content#:#No Learning Ressources Available
 common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
+common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
+common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
-common#:#properties#:#Properties
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Addressbook
 common#:#mail_allow_smtp#:#Allow SMTP
@@ -324,6 +315,7 @@ common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
+common#:#mail_folders#:#Mail Folders
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mails_of#:#Mails
 common#:#mail_maxsize_attach#:#Max. attachment size
@@ -349,7 +341,6 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
 common#:#min_one_active_role#:#Each user must have at least one active role!
-common#:#active_roles#:#Active Roles
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
@@ -387,6 +378,8 @@ common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.
+common#:#msg_no_search_result#:#No entries found
+common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nothing_found
@@ -399,13 +392,12 @@ common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings fro
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name.
+common#:#msg_roleassignment_changed#:#Roleassigment changed
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#Userassigment changed
-common#:#msg_roleassignment_changed#:#Roleassigment changed
-common#:#change_assignment#:#change assignment
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#New
@@ -504,6 +496,7 @@ common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
 common#:#profile_changed#:#Your profile has changed
+common#:#properties#:#Properties
 common#:#pub_section#:#Public Section
 common#:#public_profile#:#Public Profile
 common#:#publication#:#Publication
@@ -528,6 +521,7 @@ common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role#:#Role
 common#:#role_added#:#Role added
+common#:#role_assignment#:#Role Assignment
 common#:#role_deleted#:#Role deleted
 common#:#roles#:#Roles
 common#:#rolf#:#Role Folder
@@ -546,7 +540,10 @@ common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
 common#:#search_in#:#Search in
+common#:#search_new#:#New Search
 common#:#search_recipient#:#Search Recipient
+common#:#search_result#:#Search result
+common#:#search_user#:#Search User
 common#:#sections#:#Sections
 common#:#select#:#Select
 common#:#select_all#:#Select All
@@ -584,6 +581,7 @@ common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Subject
 common#:#submit#:#Submit
+common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
 common#:#summary#:#Summary
 common#:#system#:#System
@@ -616,13 +614,16 @@ common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
 common#:#user_added#:#User added
+common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted
 common#:#user_language#:#User Language
 common#:#userdata#:#Userdata
 common#:#username#:#Username
 common#:#users#:#Users
+common#:#users_online#:#Users online
 common#:#usr#:#User
 common#:#usr_agreement#:#User Agreement
+common#:#usr_agreement_empty#:#The agreement contains no text.
 common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
@@ -633,46 +634,13 @@ common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
+common#:#who_is_online#:#Who is online?
+common#:#with#:#with
 common#:#write#:#Write
 common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#learning_objects#:#Learning Objects
-content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
-content#:#cont_std_view#:#Standard View
-common#:#subobjects#:#Subobjects
-content#:#cont_def_organization#:#default
-content#:#cont_xml_base#:#xml:base
-content#:#cont_import_id#:#identifier
-content#:#cont_sc_title#:#title
-content#:#cont_structure#:#structure
-content#:#cont_item#:#Item
-content#:#cont_manifest#:#Manifest
-content#:#cont_version#:#version
-content#:#cont_id_ref#:#identifierref
-content#:#cont_is_visible#:#isvisible
-content#:#cont_parameters#:#parameters
-content#:#cont_prerequisites#:#adlcp:prerequisites
-content#:#cont_prereq_type#:#adlcp:prerequisites.type
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_time_limit_action#:#adlcp:timelimitaction
-content#:#cont_data_from_lms#:#adlcp:datafromlms
-content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_resource_type#:#type
-content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_href#:#href
-content#:#cont_files#:#Files
-content#:#cont_dependencies#:#Dependencies
-content#:#cont_organizations#:#Organizations
-content#:#cont_organization#:#Organization
-content#:#cont_resources#:#Resources
-content#:#cont_resource#:#Resource
-content#:#cont_reference#:#Reference
-content#:#cont_orig_size#:#Original Size
-content#:#cont_fullscreen#:#Fullscreen
-content#:#cont_parameter#:#Parameter
-content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
@@ -687,45 +655,78 @@ content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
+content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_content#:#Content
+content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
-content#:#cont_edit_mob_properties#:#Edit Media Object Properties
+content#:#cont_def_organization#:#default
+content#:#cont_dependencies#:#Dependencies
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
+content#:#cont_edit_mob_properties#:#Edit Media Object Properties
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_file#:#File
+content#:#cont_files#:#Files
+content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_height#:#Height
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#identifier
 content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
+content#:#cont_is_visible#:#isvisible
+content#:#cont_item#:#Item
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lm_properties#:#Learning Module Properties
+content#:#cont_manifest#:#Manifest
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_order#:#Order Type
+content#:#cont_organization#:#Organization
+content#:#cont_organizations#:#Organizations
+content#:#cont_orig_size#:#Original Size
 content#:#cont_page_header#:#Page Header
 content#:#cont_pages#:#Pages
+content#:#cont_parameter#:#Parameter
+content#:#cont_parameters#:#parameters
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
+content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Reference
+content#:#cont_resource#:#Resource
+content#:#cont_resource_type#:#type
+content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
+content#:#cont_sc_title#:#title
+content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_st_title#:#Chapter Title
+content#:#cont_std_view#:#Standard View
+content#:#cont_structure#:#structure
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_width#:#Table Width
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_top#:#Top
+content#:#cont_version#:#version
 content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
+content#:#cont_xml_base#:#xml:base
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#st#:#Chapter
@@ -763,7 +764,6 @@ forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BC
-common#:#mail_folders#:#Mail Folders
 mail#:#forward#:#Forward
 mail#:#linebreak#:#Linebreak
 mail#:#mail_add_recipient#:#Please enter a recipient
