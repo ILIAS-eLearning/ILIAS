@@ -33,12 +33,12 @@ $bm = $ilias->account->getBookmarks();
 
 foreach ($bm as $row)
 {
-	$i++;
-	$tpl->setCurrentBlock("bookmarkrow");
-	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
-	$tpl->setVariable("URL", $row["url"]);
-	$tpl->setVariable("DESC", $row["desc"]);
-	$tpl->parseCurrentBlock();
+        $i++;
+        $tpl->setCurrentBlock("bookmarkrow");
+        $tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
+        $tpl->setVariable("URL", $row["url"]);
+        $tpl->setVariable("DESC", $row["desc"]);
+        $tpl->parseCurrentBlock();
 }
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
