@@ -79,7 +79,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	}
 	else $tpl->setVariable("NO_BTN", "<br><br>"); 
 	
-	if ($_GET["cmd"] == "replypost")
+	if ($_GET["cmd"] == "ready_showreply" || $_GET["cmd"] == "ready_showedit")
 	{		
 		$formData = $_POST["formData"];
 		
@@ -94,9 +94,16 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		}
 		else
 		{			
-			$newPost = $frm->generatePost($_GET["obj_id"], $_GET["parent"], $topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);
-			
-			$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_new_entry"));
+			if ($_GET["cmd"] == "ready_showreply")
+			{
+				$newPost = $frm->generatePost($_GET["obj_id"], $_GET["parent"], $topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
+				$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_new_entry"));
+			}
+			else
+			{				
+				if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
+					$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_modified"));
+			}
 		}
 	}
 	
@@ -152,25 +159,41 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			// Auf Post antworten
 			if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) 
 			{
-				if ($_GET["cmd"] == "showreply" && $_GET["pos_pk"] == $node["pos_pk"])
+				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
 				{
 					$tpl->setCurrentBlock("reply_post");
-					$tpl->setVariable("FORM_ANKER", $_GET["pos_pk"]);
-					$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
+					$tpl->setVariable("REPLY_ANKER", $_GET["pos_pk"]);
+					if ($_GET["cmd"] == "showreply")
+						$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
+					else
+						$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_edit_post"));
 					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
-					$tpl->setVariable("FORM_MESSAGE", "[quote]".$node["message"]."[/quote]");
+					if ($_GET["cmd"] == "showreply")
+						$tpl->setVariable("FORM_MESSAGE", "[quote]".$node["message"]."[/quote]");
+					else
+						$tpl->setVariable("FORM_MESSAGE", $node["message"]);
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
-					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=replypost&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
+					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
 					$tpl->parseCurrentBlock("reply_post");
 				}
 				else
 				{			
+					// Button: Beitrag bearbeiten
+					if ($frm->checkEditRight($node["pos_pk"]))
+					{
+						$tpl->setCurrentBlock("edit_cell");
+						$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("edit")."</a>"); 
+						$tpl->parseCurrentBlock("edit_cell");
+					}
+					
+					// Button: Beitrag beantworten
 					$tpl->setCurrentBlock("reply_cell");
 					$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>"); 
 					$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
 					$tpl->parseCurrentBlock("reply_cell");
-					$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+					
+					$tpl->setVariable("POST_ANKER", $node["pos_pk"]);					
 				}
 			}
 			else $tpl->setVariable("POST_ANKER", $node["pos_pk"]);
@@ -184,9 +207,10 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			$author = $frm->getModerator($node["author"]);	
 			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
 			
-			if ($node["update"] != $node["create_date"]) {
+			if ($node["update_user"] > 0) {
 				$node["update"] = $frm->convertDate($node["update"]);
-				$tpl->setVariable("POST_UPDATE",$lng->txt("edited_at").": ".$node["update"]);
+				$updUser = $frm->getModerator($node["update_user"]);					
+				$tpl->setVariable("POST_UPDATE","[".$lng->txt("edited_at").": ".$node["update"]." ".$lng->txt("from").": ".$updUser["SurName"]."]");
 			}		
 			$node["create_date"] = $frm->convertDate($node["create_date"]);
 			$tpl->setVariable("POST_DATE",$node["create_date"]);	

@@ -207,24 +207,20 @@ class Forum
 			"pos_thr_fk"   	=> $thread,
             "pos_usr_id" 	=> $user,
             "pos_message"   => strip_tags($message),
-            "pos_date"   	=> date("Y-m-d H:i:s"),            
-            "pos_update" 	=> date("Y-m-d H:i:s")
+            "pos_date"   	=> date("Y-m-d H:i:s")            
         );
 		
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,pos_update) ";
+		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date) ";
 		$q .= "VALUES ";
-		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."','".$pos_data["pos_update"]."')";
+		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."')";
 		$result = $this->ilias->db->query($q);
 		
 		// get last insert id and return it
 		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();	
-		
-		//$tree->tree_id = $obj_id;
-		//$tree->insertNode($lastInsert[0],$thread,$obj_id);		
+		$lastInsert = $res->fetchRow();					
 		
 		// Eintrag in tree-table
 		if ($firstPos == "yes") $this->addPostTree($thread, $lastInsert[0]);		
@@ -291,15 +287,14 @@ class Forum
             "thr_top_fk"   	=> $topic,
 			"thr_usr_id" 	=> $user,
             "thr_subject"   => $subject,
-            "thr_date"   	=> date("Y-m-d H:i:s"),            
-            "thr_update" 	=> date("Y-m-d H:i:s")
+            "thr_date"   	=> date("Y-m-d H:i:s")            
         );
 		
 		// insert new thread into frm_threads
 		$q = "INSERT INTO frm_threads ";
-		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update) ";
+		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date) ";
 		$q .= "VALUES ";
-		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".$thr_data["thr_subject"]."','".$thr_data["thr_date"]."','".$thr_data["thr_update"]."')";
+		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".$thr_data["thr_subject"]."','".$thr_data["thr_date"]."')";
 		$result = $this->ilias->db->query($q);
 		
 		// get last insert id and return it
@@ -315,6 +310,28 @@ class Forum
 		$newPost = $this->generatePost($obj_id, $parent_id, $topic, $lastInsert[0], $user, $message, 0, "yes");
 		
 	}
+	
+	
+	/**
+	* update dataset in frm_posts
+	* @param	int	$pos_pk	
+	* @param	string	$message	
+	* @access public
+	*/
+	function updatePost($message, $pos_pk)
+	{		
+		$query = "UPDATE frm_posts ".
+				 "SET ".
+				 "pos_message = '".$message."',".
+				 "pos_update = '".date("Y-m-d H:i:s")."',".
+				 "update_user = '".$_SESSION["AccountId"]."' ".				 
+				 "WHERE pos_pk = '".$pos_pk."'";
+		$res = $this->ilias->db->query($query);
+	
+		return true;		
+		
+	}
+	
 	
 	
 	function getThreadList($topic)
@@ -665,6 +682,7 @@ class Forum
 					"date"			=> $a_row->date,
 					"create_date"	=> $a_row->pos_date,
 					"update"		=> $a_row->pos_update,					
+					"update_user"	=> $a_row->update_user,
 					"tree"			=> $a_row->thr_fk,					
 					"parent"		=> $a_row->parent_pos,
 					"lft"			=> $a_row->lft,
