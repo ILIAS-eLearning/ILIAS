@@ -796,6 +796,28 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Returns true, if a test is complete for use
+*
+* Returns true, if a test is complete for use
+*
+* @return boolean True, if the test is complete for use, otherwise false
+* @access public
+*/
+	function _isComplete($obj_id)
+	{
+		$test = new ilObjTest($obj_id, false);
+		$test->loadFromDb();
+		if (($test->getTitle()) and ($test->author) and (count($test->mark_schema->mark_steps)) and (count($test->questions)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
 * Saves the ECTS status (output of ECTS grades in a test) to the database
 * 
 * Saves the ECTS status (output of ECTS grades in a test) to the database
@@ -2967,6 +2989,10 @@ class ilObjTest extends ilObject
           case "updated":
             $order = " ORDER BY TIMESTAMP $value";
             $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "qpl":
+            $order = " ORDER BY obj_fi $value";
+            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
         }
       }
