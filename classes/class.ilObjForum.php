@@ -92,6 +92,9 @@ class ilObjForum extends ilObject
 	// METHODS FOR UN-READ STATUS
 	function getCountUnread($a_usr_id,$a_thread_id = 0)
 	{
+		global $ilBench;
+
+		$ilBench->start("Forum",'getCountRead');
 		if(!$a_thread_id)
 		{
 			// Get topic_id
@@ -125,6 +128,7 @@ class ilObjForum extends ilObject
 			}
 			$unread = $num_posts - $count_read;
 
+			$ilBench->stop("Forum",'getCountRead');
 			return $unread > 0 ? $unread : 0;
 		}
 		else
@@ -151,8 +155,10 @@ class ilObjForum extends ilObject
 			}
 			$unread = $num_posts - $count_read;
 
+			$ilBench->stop("Forum",'getCountRead');
 			return $unread > 0 ? $unread : 0;
 		}
+		$ilBench->stop("Forum",'getCountRead');
 		return false;
 	}
 	function markThreadRead($a_usr_id,$a_thread_id)
@@ -212,9 +218,17 @@ class ilObjForum extends ilObject
 	// METHODS FOR NEW STATUS
 	function getCountNew($a_usr_id,$a_thread_id = 0)
 	{
+		global $ilBench;
+
+		$ilBench->start('Forum','getCountNew');
 		if($a_thread_id)
 		{
-			return $this->__getCountNew($a_usr_id,$a_thread_id);
+			$num = $this->__getCountNew($a_usr_id,$a_thread_id);
+			$ilBench->stop('Forum','getCountNew');
+
+			return $num;
+			
+
 		}
 		else
 		{
@@ -231,6 +245,7 @@ class ilObjForum extends ilObject
 			{
 				$counter += $this->__getCountNew($a_usr_id,$row->pos_thr_fk);
 			}
+			$ilBench->stop('Forum','getCountNew');
 			return $counter;
 		}
 		return 0;
@@ -282,6 +297,10 @@ class ilObjForum extends ilObject
 	
 	function updateUserAccess($a_thread_id)
 	{
+		global $ilBench;
+
+		$ilBench->start('Forum','updateUserAccess');
+
 		// Get all users
 		$query = "SELECT usr_id FROM usr_data ";
 		$res = $this->ilias->db->query($query);
@@ -303,6 +322,8 @@ class ilObjForum extends ilObject
 			$this->ilias->db->query($query);
 
 		}
+		$ilBench->stop('Forum','updateUserAccess');
+
 		return true;
 	}
 
@@ -357,6 +378,18 @@ class ilObjForum extends ilObject
 
 		$query = "DELETE FROM frm_user_read ".
 			"WHERE post_id = '".$a_post_id."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+
+	function _deleteAccessEntries($a_thread_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM frm_thread_access ".
+			"WHERE thread_id = '".$a_thread_id."'";
 
 		$ilDB->query($query);
 
@@ -567,6 +600,10 @@ class ilObjForum extends ilObject
 
 		// delete read infos
 		$query = "DELETE FROM frm_user_read WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+
+		// delete thread access entries
+		$query = "DELETE FROM frm_thread_access WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 
 		return true;
