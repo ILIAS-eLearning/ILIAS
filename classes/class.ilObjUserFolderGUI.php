@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.17 2003/08/15 11:05:48 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.18 2003/08/22 14:12:05 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,7 +65,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "type", "name", "email", "last_change");
+		$this->data["cols"] = array("", "type", "name", "last_change");
 
 		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{
@@ -78,8 +78,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					//visible data part
 					$this->data["data"][] = array(
 								"type"			=> $val["type"],
-								"name"			=> $val["title"],
-								"email"			=> $val["desc"],
+								"name"			=> $val["title"]."#separator#".$val["desc"],
+								//"email"			=> $val["desc"],
 								"last_change"	=> $val["last_update"],
 								"obj_id"		=> $val["obj_id"]
 							);

@@ -1859,7 +1859,7 @@ class ilObjectGUI
 
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("15","15","30%","45%","25%"));
+		$tbl->setColumnWidth(array("15","15","75%","25%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -1868,21 +1868,6 @@ class ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		// display action buttons only if at least 1 object in the list can be manipulated
-		// temp. deactivated
-		/*if (is_array($this->data["data"][0]))
-		{
-			foreach ($this->data["ctrl"] as $val)
-			{
-				if ($this->objDefinition->hasCheckbox($val["type"]))
-				{
-					// SHOW VALID ACTIONS
-					$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-					$this->showActions(true);
-					break;
-				}
-			}
-		}*/
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		$this->showActions(true);
 
@@ -1949,15 +1934,15 @@ class ilObjectGUI
 						}
 					}
 
+					if ($key == "name" || $key == "title")
+					{
+						$name_field = explode("#separator#",$val);
+					}
+
 					if ($key == "title" || $key == "name" || $key == "type")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);
-
-						if ($_GET["type"] == "lo" && $key == "type")
-						{
-							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
-						}
 
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->touchBlock("end_link");
@@ -1998,7 +1983,19 @@ class ilObjectGUI
 						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					if ($key == "name" || $key == "title")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+					
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
@@ -2039,7 +2036,7 @@ class ilObjectGUI
 		$this->objectList = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-		$this->data["cols"] = array("", "type", "title", "description", "last_change");
+		$this->data["cols"] = array("", "type", "title", "last_change");
 
 		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
@@ -2054,8 +2051,8 @@ class ilObjectGUI
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
-										"title" => $val["title"],
-										"description" => $val["desc"],
+										"title" => $val["title"]."#separator#".$val["desc"],
+										//"description" => $val["desc"],
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);

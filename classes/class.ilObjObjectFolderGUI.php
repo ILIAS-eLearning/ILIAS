@@ -69,7 +69,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("type","title","description","last_change");
+		$this->data["cols"] = array("type","title","last_change");
 
 		if ($list = getObjectList("typ",$_GET["order"], $_GET["direction"]))
 		{
@@ -78,8 +78,8 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 				//visible data part
 				$this->data["data"][] = array(
 						"type"			=> $val["type"],
-						"title"			=> $val["title"],
-						"description"	=> $val["desc"],
+						"title" => $val["title"]."#separator#".$val["desc"],
+						//"description"	=> $val["desc"],
 						"last_change"	=> $val["last_update"],
 						"obj_id"		=> $val["obj_id"]
 					);
@@ -145,6 +145,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		$tbl->setColumnWidth(array("15","75%","25%"));
 		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -193,6 +194,11 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 						}
 					}
 
+					if ($key == "title")
+					{
+						$name_field = explode("#separator#",$val);
+					}
+
 					if ($key == "title" || $key == "type")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
@@ -209,7 +215,19 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					if ($key == "title")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+				
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
