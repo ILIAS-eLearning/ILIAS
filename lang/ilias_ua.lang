@@ -994,7 +994,7 @@ common#:#date#:#Дата
 common#:#dateplaner#:#Календар
 common#:#day#:#День
 common#:#days#:#Дні
-common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
+common#:#days_of_period#:#Дні періода
 common#:#db_host#:#Хост з Базою даних
 common#:#db_name#:#Ім'я Бази даних
 common#:#db_need_update#:#База даних потребує оновлення!
@@ -1002,12 +1002,12 @@ common#:#db_pass#:#Пароль до Бази даних
 common#:#db_type#:#Тип Бази даних
 common#:#db_user#:#Користувач Бази даних
 common#:#db_version#:#Версія Бази даних
-common#:#dbk#:#Digilib Book###05 Nov 2004 new variable
-common#:#dbk_a#:#a Digilib Book###05 Nov 2004 new variable
-common#:#dbk_add#:#Додати Digilib Book
-common#:#dbk_added#:#Digilib Book додана
-common#:#dbk_create#:#Створити Digibook###24 Sep 2004 content changed
-common#:#dbk_delete#:#Видалити Digibook###24 Sep 2004 content changed
+common#:#dbk#:#Digilib Книга
+common#:#dbk_a#:#Digilib Книга
+common#:#dbk_add#:#Додати Digilib Книгу
+common#:#dbk_added#:#Digilib Книга додана
+common#:#dbk_create#:#Створити Digilib Книгу
+common#:#dbk_delete#:#Видалити Digilib Книгу
 common#:#dbk_edit_permission#:#Змінити настройки прав
 common#:#dbk_new#:#Нова Digilib Book
 common#:#dbk_read#:#Доступ на читання до Digibook###24 Sep 2004 content changed
