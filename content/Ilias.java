@@ -20,11 +20,22 @@ public class Ilias extends Applet
 
  	public void init()
   {
-    user_id = getParameter("user_id");
+  /*  user_id = getParameter("user_id");
 	  item_id = getParameter("item_id");
 		session_id = getParameter("session_id");
 		code_base = getParameter("code_base");						
+		*/
   }
+
+	public String SetParameter(String user_id, String item_id, String session_id, String code_base)
+	{
+		this.user_id=user_id;
+		this.item_id=item_id;
+		this.session_id=session_id;
+		this.code_base=code_base;
+		
+		return "true";
+	}
 
   public String LMSInitialize(String s)
   {
@@ -82,7 +93,7 @@ public class Ilias extends Applet
     try
     {
     	//URL _url = new URL(getCodeBase() + "scorm_server.php?PHPSESSID="+session_id+"&"+urlString);
-    	URL _url = new URL(code_base+"/scorm_server.php?"+urlString);        		
+    	URL _url = new URL(code_base+"/scorm_server.php?PHPSESSID="+session_id+"&"+urlString);        		
     System.out.println(_url);
 			URLConnection _urlconnection=_url.openConnection();	                        
 		System.out.println(_urlconnection);
