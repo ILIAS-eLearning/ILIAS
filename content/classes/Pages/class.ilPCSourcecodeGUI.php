@@ -245,17 +245,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			{
 				$s_lang = $ilUser->getLanguage();
 			}
-
-			// set characteristic of new paragraphs in list items to "List"
-			$cont_obj =& $this->pg_obj->getContentObject($this->getHierId());
-			if (is_object($cont_obj))
-			{
-				if ($cont_obj->getType() == "li" ||
-					($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
-				{
-					$s_char = "List";
-				}
-			}
+			
 			$s_showlinenumbers = 'CHECKED';
 			$s_isexample = '';			
 			$s_subchar = '';
@@ -373,15 +363,19 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];
 
-		$uploaded = $this->upload_source();		
-		
-		
+		$uploaded = $this->upload_source();
+				
 		$this->content_obj->setCharacteristic   ($_POST["par_characteristic"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle    ($_POST["par_downloadtitle"]);
 		$this->content_obj->setShowLineNumbers  (($_POST["par_showlinenumbers"]=='on')?'y':'n');
 		$this->content_obj->setCharacteristic   (($_POST["par_isexample"]=='on')?'Code-Example':'Code');
 				
+		if ($uploaded) {
+			$this->insert ();
+			return;
+		}
+		
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
 		
 		if ($this->updated !== true)
@@ -398,7 +392,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$this->insert();
+			$this->insert ();
 		}
 	}
 
