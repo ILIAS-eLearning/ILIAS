@@ -137,6 +137,7 @@ class ilCron
 		include_once'../classes/class.ilLinkChecker.php';
 
 		$link_checker =& new ilLinkChecker($this->db);
+		$link_checker->setMailStatus(true);
 
 		$invalid = $link_checker->checkLinks();
 		foreach($link_checker->getLogMessages() as $message)

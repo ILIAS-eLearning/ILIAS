@@ -5188,6 +5188,7 @@ while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 ?>
 <#361>
+DROP TABLE IF EXISTS `link_check_report`;
 CREATE TABLE `link_check_report` (
   `obj_id` int(11) NOT NULL default '0',
   `usr_id` int(11) NOT NULL default '0',
@@ -5223,4 +5224,15 @@ INDEX ( `test_fi` , `evaluator_fi` , `group_fi` )
 ) COMMENT = 'Contains the groups someone has chosen for a statistical evaluation';
 <#364>
 ALTER TABLE `tst_eval_groups` CHANGE `eval_users_id` `eval_groups_id` int(11) NOT NULL DEFAULT NULL auto_increment;
+
+<#365>
+DROP TABLE IF EXISTS `link_check`;
+CREATE TABLE `link_check` (
+  `obj_id` int(11) NOT NULL default '0',
+  `page_id` int(11) NOT NULL default '0',
+  `url` varchar(255) NOT NULL default '',
+  `parent_type` varchar(8) NOT NULL default '',
+  `http_status_code` int(4) NOT NULL default '0',
+  `last_check` int(11) NOT NULL default '0'
+) TYPE=MyISAM;
 

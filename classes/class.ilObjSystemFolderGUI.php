@@ -384,6 +384,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// registration
 				$settings["enable_registration"] = $_POST["enable_registration"];
+
+				// cron
+				$settings["cron_user_check"] = $_POST["cron_user_check"];
+				$settings["cron_link_check"] = $_POST["cron_link_check"];
+				
 			}
 			else // all required fields ok
 			{
@@ -477,6 +482,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $this->ilias->setSetting("require_referral_comment",$_POST["require_referral_comment"]);
                 $this->ilias->setSetting("require_matriculation",$_POST["require_matriculation"]);
 
+				// cron
+                $this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
+                $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
+				
+
 				// write ini settings
 				$this->ilias->ini->write();
 
@@ -559,6 +569,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("path_to_java"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("path_to_htmldoc"));
+
+		// Cron
+		$this->tpl->setVariable("TXT_CRON",$this->lng->txt('cron_jobs'));
+		$this->tpl->setVariable("TXT_CRON_DESC",$this->lng->txt('cron_jobs_desc'));
+		$this->tpl->setVariable("TXT_CRON_USER_ACCOUNTS",$this->lng->txt('check_user_accounts'));
+		$this->tpl->setVariable("CRON_USER_ACCOUNTS_DESC",$this->lng->txt('check_user_accounts'));
+		$this->tpl->setVariable("TXT_CRON_LINK_CHECK",$this->lng->txt('check_link'));
+		$this->tpl->setVariable("CRON_LINK_CHECK_DESC",$this->lng->txt('check_link_desc'));
+
 
 		// contact
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
@@ -801,6 +820,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($settings["require_matriculation"])
         {
             $this->tpl->setVariable("REQUIRE_MATRICULATION","checked=\"checked\"");
+        }
+        if ($settings["cron_user_check"])
+        {
+            $this->tpl->setVariable("CRON_USER_CHECK","checked=\"checked\"");
+        }
+        if ($settings["cron_link_check"])
+        {
+            $this->tpl->setVariable("CRON_LINK_CHECK","checked=\"checked\"");
         }
 
 		// paths to tools

@@ -607,7 +607,6 @@ components:
 
         - Auth
         - HTML_Template_IT
-
 		- HTTP_Request ( if cron-jobs are used)
 
     They can be obtained directly from the Web using the PEAR command line
@@ -615,6 +614,7 @@ components:
 
         /opt/ilias/bin/pear install Auth
         /opt/ilias/bin/pear install HTML_Template_IT
+        /opt/ilias/bin/pear install HTTP_Request
 
     Important note: Some users experienced problems with the Auth module
 	version 1.3.0r3 beta (white screen after login). If you have similar

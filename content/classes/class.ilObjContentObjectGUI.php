@@ -2498,7 +2498,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		if((bool) !$ilias->getSetting('cron') and (bool) !$ilias->getSetting('cron_link_check'))
+		if((bool) $ilias->getSetting('cron_link_check'))
 		{
 			include_once './classes/class.ilLinkCheckNotify.php';
 
