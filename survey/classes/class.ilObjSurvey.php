@@ -2227,20 +2227,40 @@ class ilObjSurvey extends ilObject
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["HARMONIC_MEAN"] = "";
-				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
+				$prefix = "";
+				if (strcmp(key($cumulated), "") != 0)
+				{
+					$prefix = (key($cumulated)+1) . " - ";
+				}
+				$result_array["MODE"] =  $prefix . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				foreach ($variables as $key => $value)
 				{
-					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => (float)((int)$cumulated[$key]/$result->numRows()));
+					$percentage = 0;
+					if ($result->numRows() > 0)
+					{
+						$percentage = (float)((int)$cumulated[$key]/$result->numRows());
+					}
+					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
 				break;
 			case "qt_ordinal":
-				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
+				$prefix = "";
+				if (strcmp(key($cumulated), "") != 0)
+				{
+					$prefix = (key($cumulated)+1) . " - ";
+				}
+				$result_array["MODE"] =  $prefix . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				foreach ($variables as $key => $value)
 				{
-					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => (float)((int)$cumulated[$key]/$result->numRows()));
+					$percentage = 0;
+					if ($result->numRows() > 0)
+					{
+						$percentage = (float)((int)$cumulated[$key]/$result->numRows());
+					}
+					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
 				ksort($cumulated, SORT_NUMERIC);
 				$median = array();
@@ -2274,7 +2294,12 @@ class ilObjSurvey extends ilObject
 				$counter = 0;
 				foreach ($cumulated as $value => $nr_of_users)
 				{
-					$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => (float)($nr_of_users/$result->numRows()));
+					$percentage = 0;
+					if ($result->numRows() > 0)
+					{
+						$percentage = (float)($nr_of_users/$result->numRows());
+					}
+					$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => $percentage);
 				}
 				$median = array();
 				$total = 0;
