@@ -299,10 +299,10 @@ class ilObjGroup extends ilObject
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
+				//$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
 				//the assignment stops the inheritation
-				//if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
-				//		$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
+				if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
+						$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
 			}//END foreach
 		}
 
@@ -337,6 +337,7 @@ class ilObjGroup extends ilObject
 	function getGroupStatus()
 	{
 		global $rbacsystem,$rbacreview;
+
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 
@@ -348,13 +349,13 @@ class ilObjGroup extends ilObject
 		//if one global role has no permission to join the group is officially closed !
 		foreach($arr_globalRoles as $role)
 		{
-			if( $rbacsystem->checkPermission($this->getRefId(), $role ,"join") == false)
+			if ($rbacsystem->checkPermission($this->getRefId(), $role ,"join") == false)
 			{
 				return 1;
 			}
 		}
-		return 0;
 
+		return 0;
 	}
 
 	/**

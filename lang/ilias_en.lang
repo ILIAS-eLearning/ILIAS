@@ -386,7 +386,8 @@ common#:#lo_overview#:#LO Overview
 common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Login data
-common#:#login_exists#:#There is already a user with this loginname! Please choose another one
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
+common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout

@@ -387,6 +387,7 @@ common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie eine andere Gruppenbezeichnung.
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
