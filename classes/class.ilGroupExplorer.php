@@ -140,6 +140,7 @@ class ilGroupExplorer extends ilExplorer
 			if (!strcmp($a_option["type"],"grp"))
 			{
 				$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&ref_id=".$a_node_id);
+				$tpl->setVariable("TARGET", " target=\"bottom\"");
 			}
 			else
 			{
@@ -148,10 +149,13 @@ class ilGroupExplorer extends ilExplorer
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("TITLE", $a_option["title"]);
 
-			if ($this->frameTarget != "")
+			if ($this->frameTarget != "" && strcmp($a_option["type"],"grp"))
 			{
 				$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
 			}
+			
+			
+			
 			$tpl->parseCurrentBlock();
 		}
 		else			// output text only
