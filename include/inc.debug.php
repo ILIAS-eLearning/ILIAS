@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * debugging functions
 * 
@@ -31,17 +30,30 @@
 * @package ilias-develop
 */
 
-
 /**
-* shortcut for formatted var_dump output
-* 
+* shortcut for var_dump
 * @access	public
-* @param	mixed
+* @param	mixed	any number of parameters
 */
-function vd($mixed)
+function vd()
 {
-	echo "<pre>";
-	var_dump($mixed);
-	echo "</pre>";
+	$numargs = func_num_args();
+
+	if ($numargs == 0)
+	{
+		return false;
+	}
+	
+	$arg_list = func_get_args();
+	$num = 1;
+
+	
+	foreach ($arg_list as $arg)
+	{
+		echo "<pre>variable ".$num.":<br/>";
+		var_dump($arg);
+		echo "</pre><br/>";
+		$num++;
+	}
 }
 ?>
