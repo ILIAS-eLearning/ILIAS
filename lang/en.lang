@@ -100,7 +100,7 @@ mail#:#mail
 mail_s_unread#:#unread mail(s)
 mails#:#mails
 members#:#members
-message_to#:#message to
+message_to#:#message to:
 migrate#:#migrate
 msg_changes_ok#:#the changes were ok
 msg_nothing_found#:#msg_nothing_found
@@ -213,3 +213,6 @@ reply#:#reply
 forward#:#forward
 print#:#print
 message#:#message
+archive#:#archive
+drafts#:#drafts
+trash#:#trash
