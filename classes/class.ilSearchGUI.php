@@ -430,10 +430,16 @@ class ilSearchGUI
 		$this->tpl->setVariable("AND_CHECKED",$this->search->getCombination() == "and" ? "checked=\"checked\"" : "");
 
 		$search_for = $this->search->getSearchFor();
-		$this->tpl->setVariable("USR_CHECKED",in_array("usr",$search_for) ? "checked=\"checked\"" : "");
-		$this->tpl->setVariable("GRP_CHECKED",in_array("grp",$search_for) ? "checked=\"checked\"" : "");
+
 		$this->tpl->setVariable("LM_CHECKED",in_array("lm",$search_for) ? "checked=\"checked\"" : "");
 		$this->tpl->setVariable("DBK_CHECKED",in_array("dbk",$search_for) ? "checked=\"checked\"" : "");
+
+		// hide options if user is not logged in
+		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->tpl->setVariable("USR_CHECKED",in_array("usr",$search_for) ? "checked=\"checked\"" : "");
+			$this->tpl->setVariable("GRP_CHECKED",in_array("grp",$search_for) ? "checked=\"checked\"" : "");
+		}
 
 		$search_in = array("meta" => $this->lng->txt("search_meta"),"content" => $this->lng->txt("search_content"));
 
@@ -442,11 +448,15 @@ class ilSearchGUI
 		$this->tpl->setVariable("DBK_SELECT",ilUtil::formSelect($this->search->getSearchInByType("dbk")
 																,"search_in[dbk]",$search_in,false,true));
 		// TABLE TEXT
-		$this->tpl->setVariable("TXT_USER",$this->lng->txt("obj_usr"));
-		$this->tpl->setVariable("TXT_GROUPS",$this->lng->txt("obj_grp"));
+		// hide options if user is not logged in
 		$this->tpl->setVariable("TXT_LM",$this->lng->txt("obj_lm"));
 		$this->tpl->setVariable("TXT_DBK",$this->lng->txt("obj_dbk"));
 
+		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->tpl->setVariable("TXT_USER",$this->lng->txt("obj_usr"));
+			$this->tpl->setVariable("TXT_GROUPS",$this->lng->txt("obj_grp"));
+		}
 
 		// TEXT VARIABLES
 		$this->tpl->setVariable("TXT_SEARCHTERM",$this->lng->txt("search_search_term"));
