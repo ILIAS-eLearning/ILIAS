@@ -11,7 +11,7 @@ require_once "./include/inc.header.php";
 require_once "classes/class.ilObjForum.php";
 
 $forumObj = new ilObjForum($_GET["ref_id"]);
-$frm = new Forum();
+$frm = new ilForum();
 $frm->setForumId($forumObj->getId());
 
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
