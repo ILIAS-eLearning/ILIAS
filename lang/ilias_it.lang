@@ -435,6 +435,7 @@ common#:#usr_skin#:##user skin
 common#:#usr_style#:#stile
 common#:#usrf#:#usrf
 common#:#version#:#versione
+common#:#view#:#View###22 Jan 2003 new variable
 common#:#view_content#:#contenuto
 common#:#visible_layers#:##visible layers
 common#:#visits#:#visits

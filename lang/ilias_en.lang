@@ -435,6 +435,7 @@ common#:#usr_skin#:#user skin
 common#:#usr_style#:#usr style
 common#:#usrf#:#user folder
 common#:#version#:#version
+common#:#view#:#View
 common#:#view_content#:#view content
 common#:#visible_layers#:#visible layers
 common#:#visits#:#visits
@@ -443,4 +444,3 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you may add local roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
-common#:#view#:#View
