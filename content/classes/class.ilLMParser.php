@@ -27,6 +27,7 @@ require_once("content/classes/class.ilLearningModule.php");
 require_once("classes/class.ilMetaData.php");
 require_once("content/classes/class.ilParagraph.php");
 require_once("content/classes/class.ilLMTable.php");
+require_once("content/classes/class.ilMediaObject.php");
 
 /**
 * Learning Module Parser
@@ -44,6 +45,7 @@ class ilLMParser extends ilSaxParser
 	var $learning_module;	// current learning module
 	var $page_object;		// current page object
 	var $structure_objects;	// array of current structure objects
+	var $media_object;
 	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
 	var $meta_data;			// current meta data object
 	var $paragraph;
@@ -54,6 +56,7 @@ class ilLMParser extends ilSaxParser
 	var $container;
 	var $in_page_object;	// are we currently within a PageObject? true/false
 	var $in_meta_data;		// are we currently within MetaData? true/false
+	var $in_media_object;
 	var $lm_object;
 	var $keyword_language;
 
@@ -243,6 +246,31 @@ class ilLMParser extends ilSaxParser
 				$this->page_object->setOriginID($a_attribs["OriginId"]);
 				break;
 
+			case "MediaObject":
+				$this->in_media_object = true;
+				$this->media_object =& new ilMediaObject();
+				break;
+
+			case "MediaAlias":
+				$this->media_object->setAlias(true);
+				$this->page_object->setOriginID($a_attribs["OriginId"]);
+				break;
+
+			case "Layout":
+				if (is_object($this->media_object) && $this->in_media_object)
+				{
+					$this->media_object->setWidth($a_attribs["Width"]);
+					$this->media_object->setHeight($a_attribs["Height"]);
+				}
+				break;
+
+			case "Parameter":
+				if (is_object($this->media_object) && $this->in_media_object)
+				{
+					$this->media_object->setParameter($a_attribs["Name"], $a_attribs["Value"]);
+				}
+				break;
+
 			case "MetaData":
 				$this->in_meta_data = true;
 				$this->meta_data =& new ilMetaData();
@@ -326,6 +354,13 @@ class ilLMParser extends ilSaxParser
 				unset ($this->container[count($this->container) - 1]);
 				break;
 
+			case "MediaObject":
+				$this->in_media_object = false;
+				$this->media_object->create();
+				$this->mob_mapping[$this->media_object->getOriginId()]
+						= $this->media_object->getId();
+				break;
+
 			case "MetaData":
 				$this->in_meta_data = false;
 				// save structure object at the end of its meta block
@@ -384,8 +419,8 @@ class ilLMParser extends ilSaxParser
 		if(!empty($a_data))
 		{
 			// append all data to page, if we are within PageObject,
-			// but not within MetaData
-			if($this->in_page_object && !$this->in_meta_data)
+			// but not within MetaData or MediaObject
+			if ($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
 			{
 				$this->page_object->appendXMLContent($a_data);
 			}

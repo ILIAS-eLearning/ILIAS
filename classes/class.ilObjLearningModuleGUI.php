@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.16 2003/06/24 07:42:41 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.17 2003/06/24 14:49:15 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -285,14 +285,14 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			chdir($newObj->getImportDirectory());
 			$unzip = $this->ilias->getSetting("unzip_path");
 			$unzipcmd = $unzip." ".$file["basename"];
-echo "unzipcmd :".$unzipcmd.":<br>";
+//echo "unzipcmd :".$unzipcmd.":<br>";
 			exec($unzipcmd);
 			chdir($cdir);
 
 			// determine filename of xml file
 			$subdir = basename($file["basename"],".".$file["extension"]);
 			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-echo "xmlfile:".$xml_file;
+//echo "xmlfile:".$xml_file;
 
 			require_once ("content/classes/class.ilLMParser.php");
 			$lmParser = new ilLMParser($newObj, $xml_file);

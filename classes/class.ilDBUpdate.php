@@ -173,7 +173,7 @@ class ilDBUpdate
 	{
 		$f = $this->fileVersion;
 		$c = $this->currentVersion;
-	
+
 		if ($c < $f)
 		{
 			$msg = array();
@@ -182,8 +182,7 @@ class ilDBUpdate
 				if ($this->applyUpdateNr($i) == false)
 				{
 					$msg[] = array(
-						//"msg" => "update_error: ".$this->error,
-						"msg" => "update_error",
+						"msg" => "update_error: ".$this->error,
 						"nr" => $i
 					);
 					$this->updateMsg = $msg;
@@ -197,7 +196,7 @@ class ilDBUpdate
 					);
 				}
 			}
-			
+
 			$this->updateMsg = $msg;
 		}
 		else
@@ -206,7 +205,7 @@ class ilDBUpdate
 		}
 		return true;
 	}
-	
+
 	/**
 	 * apply an update
 	 * @param int nr number what patch to apply
@@ -226,14 +225,14 @@ class ilDBUpdate
 		{
 			$i++;
 		}
-	
+
 		//update not found
 		if ($i == count($this->filecontent))
 		{
 			$this->error = "update_not_found";
 			return false;
 		}
-	
+
 		$i++;
 
 		//update found, now extract this update to a new array
@@ -243,7 +242,7 @@ class ilDBUpdate
 			$update[] = trim($this->filecontent[$i]);
 			$i++;
 		}
-	
+
 		//now you have the update, now process it
 		$sql = array();
 		$php = array();
@@ -256,7 +255,7 @@ class ilDBUpdate
 				if (count($sql)>0)
 				{
 					if ($this->execQuery($this->db, implode("\n", $sql)) == false)
-					{	
+					{
 						$this->error = "dump_error: ".$this->error;
 						return false;
 					}
@@ -272,7 +271,7 @@ class ilDBUpdate
 					$php = array();
 				}
 				$mode = "sql";
-	
+
 			}
 			else
 			{
@@ -280,18 +279,18 @@ class ilDBUpdate
 				{
 					$sql[] = $row;
 				}
-	
+
 				if ($mode == "php")
 				{
 					$php[] = $row;
 				}
 			} //else
 		} //foreach
-	
+
 		if ($mode == "sql" && count($sql) > 0)
 		{
 			if ($this->execQuery($this->db, implode("\n", $sql)) == false)
-			{  
+			{
 				$this->error = "dump_error: ".$this->error;
 				return false;
 			}

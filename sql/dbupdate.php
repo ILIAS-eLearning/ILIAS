@@ -60,7 +60,7 @@ CREATE TABLE frm_threads (
 <#3>
 # set system adminstrator login to root/homer
 UPDATE usr_data SET 
-login='root', 
+login='root',
 passwd='dfa8327f5bfa4c672a04f9b38e348a70' 
 WHERE usr_id='6';
 
@@ -124,7 +124,7 @@ UPDATE rbac_ta SET ops_id='6' WHERE typ_id='33' AND ops_id='5';
 
 <#10>
 #  set missing primary key an auto increment flag for some lo_tables
-ALTER TABLE `lo_attribute_name_leaf` DROP PRIMARY KEY , ADD PRIMARY KEY ( `leaf_id` ); 
+ALTER TABLE `lo_attribute_name_leaf` DROP PRIMARY KEY , ADD PRIMARY KEY ( `leaf_id` );
 ALTER TABLE `lo_attribute_name_leaf` CHANGE `leaf_id` `leaf_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `lo_attribute` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `attribute_id` );
@@ -445,7 +445,7 @@ CREATE TABLE mail_attachment (
 	path text NOT NULL,
 	PRIMARY KEY  (mail_id)
 	) TYPE=MyISAM;
-	
+
 DROP TABLE IF EXISTS mail_obj_data;
 CREATE TABLE mail_obj_data (
 	obj_id int(11) NOT NULL auto_increment,
@@ -1103,3 +1103,24 @@ foreach ($ops as $ops_id)
 	}
 }
 ?>
+
+<#46>
+CREATE TABLE media_object
+(
+	id int NOT NULL DEFAULT '0',
+	mime varchar(100),
+	width varchar(10),
+	height varchar(10),
+	file varchar(200),
+	caption text,
+	PRIMARY KEY (id)
+);
+
+<#47>
+CREATE TABLE mob_parameter
+(
+	mob_id int NOT NULL,
+	name varchar(50),
+	value text,
+	INDEX (mob_id)
+);
