@@ -85,14 +85,14 @@ class XMLStruct
 		$newNode = $dom->create_element($this->name);
 		if ($this->content != "")
 		{
-			$newNode->set_content(utf8_encode(implode("", $this->content)));
+			$newNode->set_content(implode("", $this->content));
 		}
 		if (is_array($this->attrs))
 		{
 #			vd($this->attrs);
 			reset ($this->attrs);
 			while (list ($key, $val) = each ($this->attrs)) {
-				$newNode->set_attribute($key, utf8_encode($val));
+				$newNode->set_attribute($key, $val);
 			}			
 		}
 		$node = $node->append_child($newNode);

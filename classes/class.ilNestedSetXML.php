@@ -878,24 +878,24 @@ class ilNestedSetXML
 				$xml = '<General Structure="' . $meta["Structure"] . '">';
 				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$xml .= '<Identifier Catalog="' . utf8_encode($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  utf8_encode($meta["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Identifier"][$i]["Value"]) . '</Identifier>';
+					$xml .= '<Identifier Catalog="' . $meta["Identifier"][$i]["Catalog"] . '" Entry="' .  $meta["Identifier"][$i]["Entry"] . '">' . $meta["Identifier"][$i]["Value"] . '</Identifier>';
 				}
-				$xml .= '<Title Language="' . $meta["Title"]["Language"] . '">' . utf8_encode($meta["Title"]["Value"]) . '</Title>';
+				$xml .= '<Title Language="' . $meta["Title"]["Language"] . '">' . $meta["Title"]["Value"] . '</Title>';
 				for ($i = 0; $i < count($meta["Language"]); $i++)
 				{
 					$xml .= '<Language Language="' . $meta["Language"][$i]["Language"] . '">' . $meta["Language"][$i]["Value"] . '</Language>';
 				}
 				for ($i = 0; $i < count($meta["Description"]); $i++)
 				{
-					$xml .= '<Description Language="' . $meta["Description"][$i]["Language"] . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+					$xml .= '<Description Language="' . $meta["Description"][$i]["Language"] . '">' . $meta["Description"][$i]["Value"] . '</Description>';
 				}
 				for ($i = 0; $i < count($meta["Keyword"]); $i++)
 				{
-					$xml .= '<Keyword Language="' . $meta["Keyword"][$i]["Language"] . '">' . utf8_encode($meta["Keyword"][$i]["Value"]) . '</Keyword>';
+					$xml .= '<Keyword Language="' . $meta["Keyword"][$i]["Language"] . '">' . $meta["Keyword"][$i]["Value"] . '</Keyword>';
 				}
 				if ($meta["Coverage"] != "")
 				{
-					$xml .= '<Coverage Language="' . $meta["Coverage"]["Language"] . '">' . utf8_encode($meta["Coverage"]["Value"]) . '</Coverage>';
+					$xml .= '<Coverage Language="' . $meta["Coverage"]["Language"] . '">' . $meta["Coverage"]["Value"] . '</Coverage>';
 				}
 				$xml .= '</General>';
 #				echo htmlspecialchars($xml);
@@ -907,14 +907,14 @@ class ilNestedSetXML
 			else if ($nodes[0]->node_name() == "Lifecycle")
 			{
 				$xml = '<Lifecycle Status="' . $meta["Status"] . '">';
-				$xml .= '<Version Language="' . $meta["Version"]["Language"] . '">' . utf8_encode($meta["Version"]["Value"]) . '</Version>';
+				$xml .= '<Version Language="' . $meta["Version"]["Language"] . '">' . $meta["Version"]["Value"] . '</Version>';
 				for ($i = 0; $i < count($meta["Contribute"]); $i++)
 				{
-					$xml .= '<Contribute Role="' . utf8_encode($meta["Contribute"][$i]["Role"]) . '">';
-					$xml .= '<Date>' . utf8_encode($meta["Contribute"][$i]["Date"]) . '</Date>';
+					$xml .= '<Contribute Role="' . $meta["Contribute"][$i]["Role"] . '">';
+					$xml .= '<Date>' . $meta["Contribute"][$i]["Date"] . '</Date>';
 					for ($j = 0; $j < count($meta["Contribute"][$i]["Entity"]); $j++)
 					{
-						$xml .= '<Entity>' . utf8_encode($meta["Contribute"][$i]["Entity"][$j]) . '</Entity>';
+						$xml .= '<Entity>' . $meta["Contribute"][$i]["Entity"][$j] . '</Entity>';
 					}
 					$xml .= '</Contribute>';
 				}
@@ -929,22 +929,22 @@ class ilNestedSetXML
 			{
 
 				$xml = '<Meta-Metadata MetadataScheme="' . $meta["MetadataScheme"] . '" Language="' . $meta["Language"] . '">';
-				$xml .= '<Version Language="' . $meta["Version"]["Language"] . '">' . utf8_encode($meta["Version"]["Value"]) . '</Version>';
 				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$xml .= '<Identifier Catalog="' . utf8_encode($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  utf8_encode($meta["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Identifier"][$i]["Value"]) . '</Identifier>';
+					$xml .= '<Identifier Catalog="' . $meta["Identifier"][$i]["Catalog"] . '" Entry="' .  $meta["Identifier"][$i]["Entry"] . '">' . $meta["Identifier"][$i]["Value"] . '</Identifier>';
 				}
 				for ($i = 0; $i < count($meta["Contribute"]); $i++)
 				{
-					$xml .= '<Contribute Role="' . utf8_encode($meta["Contribute"][$i]["Role"]) . '">';
-					$xml .= '<Date>' . utf8_encode($meta["Contribute"][$i]["Date"]) . '</Date>';
+					$xml .= '<Contribute Role="' . $meta["Contribute"][$i]["Role"] . '">';
+					$xml .= '<Date>' . $meta["Contribute"][$i]["Date"] . '</Date>';
 					for ($j = 0; $j < count($meta["Contribute"][$i]["Entity"]); $j++)
 					{
-						$xml .= '<Entity>' . utf8_encode($meta["Contribute"][$i]["Entity"][$j]) . '</Entity>';
+						$xml .= '<Entity>' . $meta["Contribute"][$i]["Entity"][$j] . '</Entity>';
 					}
 					$xml .= '</Contribute>';
 				}
 				$xml .= '</Meta-Metadata>';
+#				echo htmlspecialchars($xml);
 
 				$update = true;
 			}
@@ -964,7 +964,7 @@ class ilNestedSetXML
 				}
 				for ($i = 0; $i < count($meta["Location"]); $i++)
 				{
-					$xml .= '<Location Type="' . $meta["Location"][$i]["Type"] . '">' . utf8_encode($meta["Location"][$i]["Value"]) . '</Location>';
+					$xml .= '<Location Type="' . $meta["Location"][$i]["Type"] . '">' . $meta["Location"][$i]["Value"] . '</Location>';
 				}
 				if (is_array($meta["Requirement"]))
 				{
@@ -1009,15 +1009,15 @@ class ilNestedSetXML
 				}
 				if (is_array($meta["InstallationRemarks"]))
 				{
-					$xml .= '<InstallationRemarks Language="' . $meta["InstallationRemarks"]["Language"] . '">' . utf8_encode($meta["InstallationRemarks"]["Value"]) . '</InstallationRemarks>';
+					$xml .= '<InstallationRemarks Language="' . $meta["InstallationRemarks"]["Language"] . '">' . $meta["InstallationRemarks"]["Value"] . '</InstallationRemarks>';
 				}
 				if (is_array($meta["OtherPlattformRequirements"]))
 				{
-					$xml .= '<OtherPlattformRequirements Language="' . $meta["OtherPlattformRequirements"]["Language"] . '">' . utf8_encode($meta["OtherPlattformRequirements"]["Value"]) . '</OtherPlattformRequirements>';
+					$xml .= '<OtherPlattformRequirements Language="' . $meta["OtherPlattformRequirements"]["Language"] . '">' . $meta["OtherPlattformRequirements"]["Value"] . '</OtherPlattformRequirements>';
 				}
 				if ($meta["Duration"] != "")
 				{
-					$xml .= '<Duration>' . utf8_encode($meta["Duration"]) . '</Duration>';
+					$xml .= '<Duration>' . $meta["Duration"] . '</Duration>';
 				}
 				$xml .= '</Technical>';
 				echo htmlspecialchars($xml);
@@ -1030,18 +1030,18 @@ class ilNestedSetXML
 			{
 
 				$xml = '<Educational InteractivityType="' . $meta["InteractivityType"] . '" LearningResourceType="' . $meta["LearningResourceType"] . '" InteractivityLevel="' . $meta["InteractivityLevel"] . '" SemanticDensity="' . $meta["SemanticDensity"] . '" IntendedEndUserRole="' . $meta["IntendedEndUserRole"] . '" Context="' . $meta["Context"] . '" Difficulty="' . $meta["Difficulty"] . '">';
-				$xml .= '<TypicalLearningTime>' . utf8_encode($meta["TypicalLearningTime"]) . '</TypicalLearningTime>';
+				$xml .= '<TypicalLearningTime>' . $meta["TypicalLearningTime"] . '</TypicalLearningTime>';
 				for ($i = 0; $i < count($meta["TypicalAgeRange"]); $i++)
 				{
-					$xml .= '<TypicalAgeRange Language="' . utf8_encode($meta["TypicalAgeRange"][$i]["Language"]) . '">' . utf8_encode($meta["TypicalAgeRange"][$i]["Value"]) . '</TypicalAgeRange>';
+					$xml .= '<TypicalAgeRange Language="' . $meta["TypicalAgeRange"][$i]["Language"] . '">' . $meta["TypicalAgeRange"][$i]["Value"] . '</TypicalAgeRange>';
 				}
 				for ($i = 0; $i < count($meta["Description"]); $i++)
 				{
-					$xml .= '<Description Language="' . utf8_encode($meta["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+					$xml .= '<Description Language="' . $meta["Description"][$i]["Language"] . '">' . $meta["Description"][$i]["Value"] . '</Description>';
 				}
 				for ($i = 0; $i < count($meta["Language"]); $i++)
 				{
-					$xml .= '<Language Language="' . utf8_encode($meta["Language"][$i]["Language"]) . '">' . utf8_encode($meta["Language"][$i]["Value"]) . '</Language>';
+					$xml .= '<Language Language="' . $meta["Language"][$i]["Language"] . '">' . $meta["Language"][$i]["Value"] . '</Language>';
 				}
 				$xml .= '</Educational>';
 
@@ -1055,7 +1055,7 @@ class ilNestedSetXML
 				$xml = '<Rights Cost="' . $meta["Cost"] . '" CopyrightAndOtherRestrictions="' . $meta["CopyrightAndOtherRestrictions"] . '">';
 				for ($i = 0; $i < count($meta["Description"]); $i++)
 				{
-					$xml .= '<Description Language="' . utf8_encode($meta["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+					$xml .= '<Description Language="' . $meta["Description"][$i]["Language"] . '">' . $meta["Description"][$i]["Value"] . '</Description>';
 				}
 				$xml .= '</Rights>';
 
@@ -1074,11 +1074,11 @@ class ilNestedSetXML
 					$xml .= '<Resource>';
 					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Identifier"]); $i++)
 					{
-						$xml .= '<Identifier_ Catalog="' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Catalog"]) . '" Entry="' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Value"]) . '</Identifier_>';
+						$xml .= '<Identifier_ Catalog="' . $meta["Relation"][$j]["Resource"]["Identifier"][$i]["Catalog"] . '" Entry="' . $meta["Relation"][$j]["Resource"]["Identifier"][$i]["Entry"] . '">' . $meta["Relation"][$j]["Resource"]["Identifier"][$i]["Value"] . '</Identifier_>';
 					}
 					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Description"]); $i++)
 					{
-						$xml .= '<Description Language="' . utf8_encode($meta["Relation"][$j]["Resource"]["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Relation"][$j]["Resource"]["Description"][$i]["Value"]) . '</Description>';
+						$xml .= '<Description Language="' . $meta["Relation"][$j]["Resource"]["Description"][$i]["Language"] . '">' . $meta["Relation"][$j]["Resource"]["Description"][$i]["Value"] . '</Description>';
 					}
 					$xml .= '</Resource>';
 					$xml .= '</Relation>';
@@ -1097,9 +1097,9 @@ class ilNestedSetXML
 					$meta["Annotation"][0] = $meta;
 					$i = 0;
 					$xml = '<Annotation>';
-					$xml .= '<Entity>' . utf8_encode($meta["Annotation"][$i]["Entity"]) . '</Entity>';
-					$xml .= '<Date>' . utf8_encode($meta["Annotation"][$i]["Date"]) . '</Date>';
-					$xml .= '<Description Language="' . utf8_encode($meta["Annotation"][$i]["Description"]["Language"]) . '">' . utf8_encode($meta["Annotation"][$i]["Description"]["Value"]) . '</Description>';
+					$xml .= '<Entity>' . $meta["Annotation"][$i]["Entity"] . '</Entity>';
+					$xml .= '<Date>' . $meta["Annotation"][$i]["Date"] . '</Date>';
+					$xml .= '<Description Language="' . $meta["Annotation"][$i]["Description"]["Language"] . '">' . $meta["Annotation"][$i]["Description"]["Value"] . '</Description>';
 					$xml .= '</Annotation>';
 #					echo htmlspecialchars($xml);
 #				}
@@ -1119,17 +1119,17 @@ class ilNestedSetXML
 					for ($k = 0; $k < count($meta["Classification"][$j]["TaxonPath"]); $k++)
 					{
 						$xml .= '<TaxonPath>';
-						$xml .= '<Source Language="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Language"]) . '">' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Value"]) . '</Source>';
+						$xml .= '<Source Language="' . $meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Language"] . '">' . $meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Value"] . '</Source>';
 						for ($i = 0; $i < count($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"]); $i++)
 						{
-							$xml .= '<Taxon Language="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Language"]) . '" Id="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Id"]) . '">' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Value"]) . '</Taxon>';
+							$xml .= '<Taxon Language="' . $meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Language"] . '" Id="' . $meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Id"] . '">' . $meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Value"] . '</Taxon>';
 						}
 						$xml .= '</TaxonPath>';
 					}
-					$xml .= '<Description Language="' . utf8_encode($meta["Classification"][$j]["Description"]["Language"]) . '">' . utf8_encode($meta["Classification"][$j]["Description"]["Value"]) . '</Description>';
+					$xml .= '<Description Language="' . $meta["Classification"][$j]["Description"]["Language"] . '">' . $meta["Classification"][$j]["Description"]["Value"] . '</Description>';
 					for ($i = 0; $i < count($meta["Classification"][$j]["Keyword"]); $i++)
 					{
-						$xml .= '<Keyword Language="' . $meta["Classification"][$j]["Keyword"][$i]["Language"] . '">' . utf8_encode($meta["Classification"][$j]["Keyword"][$i]["Value"]) . '</Keyword>';
+						$xml .= '<Keyword Language="' . $meta["Classification"][$j]["Keyword"][$i]["Language"] . '">' . $meta["Classification"][$j]["Keyword"][$i]["Value"] . '</Keyword>';
 					}
 					$xml .= '</Classification>';
 #					echo htmlspecialchars($xml);
