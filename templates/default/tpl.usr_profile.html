@@ -5,7 +5,7 @@
 <form method="POST" action="{FORMACTION}">
 <table class="std">
 <tr class="tblheader">
-  <td class="std" colspan="2">{TXT_USR_DATA} <span class="default">{TXT_OF} {USR_FULLNAME}</span></td>
+  <td class="std" colspan="2">{TXT_USR_DATA} {TXT_OF} {USR_FULLNAME}</td>
 </tr>
 <tr>
         <td class="option">{TXT_NICKNAME}</td>
@@ -14,9 +14,6 @@
 <tr>
         <td class="option">{TXT_DEFAULT_ROLE}</td>
         <td class="option_value">{DEFAULT_ROLE}</td>
-</tr>
-<tr>
-  <td colspan="2">&nbsp;</td>
 </tr>
 <tr class="tblheader">
   <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
@@ -41,9 +38,6 @@
 <tr>
         <td class="option">{TXT_TITLE}</td>
         <td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"/></td>
-</tr>
-<tr>
-  <td colspan="2">&nbsp;</td>
 </tr>
 <tr class="tblheader">
   <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
@@ -75,9 +69,6 @@
 <tr>
         <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
         <td class="option_value"><input type="text" name="usr_email" maxlength="40" size="40" value="{EMAIL}"/></td>
-</tr>
-<tr>
-  <td colspan="2">&nbsp;</td>
 </tr>
 <tr class="tblheader">
   <td class="std" colspan="2">{TXT_SETTINGS}</td>
@@ -113,10 +104,8 @@
    </td>
 </tr>
 <tr>
-  <td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
-</tr>
-<tr>
-  <td colspan="2" align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></td>
+  <td class="submit" colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
+  <div align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
 </tr>
 </table>
 </form>
