@@ -99,7 +99,6 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		$this->setAdminTabs();
 		$this->setLocator();
 	}
 
@@ -208,23 +207,24 @@ class ilGlossaryPresentationGUI
 	function listDefinitions()
 	{
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->setLocator();
+		$this->setTabs();
 
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();
 
-		//$this->admin_tabs[] = array("cont_definitions","listDefinitions");
-		//$this->admin_tabs[] = array("meta_data","editTerm");
 		$term =& new ilGlossaryTerm($_GET["term_id"]);
+		$this->tpl->setVariable("HEADER",
+			$this->lng->txt("cont_term").": ".$term->getTerm());
+
 
 		// load template for table
-		$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
-		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->setLocator();
-		$this->setAdminTabs("term_edit");
-		$this->tpl->setVariable("TXT_HEADER",
-			$this->lng->txt("cont_term").": ".$term->getTerm());
+		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
+		//$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 			"&cmd=post&term_id=".$_GET["term_id"]);
@@ -361,47 +361,31 @@ class ilGlossaryPresentationGUI
 
 	}
 
-	function setAdminTabs($mode = "std")
+	/**
+	* output tabs
+	*/
+	function setTabs()
 	{
-		switch($mode)
-		{
-			case "std":
-				//$tabs[] = array("cont_definitions","listDefinitions");
-				//$tabs[] = array("properties","editTerm");
-				break;
-		}
 
-		if (!is_array($tabs))
-		{
-			return;
-		}
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
 
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+
+	}
 
 
-		foreach ($tabs as $row)
-		{
-			$i++;
-
-			if ($row[1] == $_GET["cmd"])
-			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
-			}
-			else
-			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
-				$_GET["def"]."&term_id=".$_GET["term_id"]."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
-		}
+	/**
+	* get tabs
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			"glossary_presentation.php?ref_id=".$_GET["ref_id"], "",
+			"");
 
 	}
 
