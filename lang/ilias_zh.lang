@@ -61,6 +61,10 @@ common#:#add#:#增加
 common#:#add_author#:#增加作者
 common#:#add_member#:#增加成员
 common#:#add_translation#:#增加翻译
+common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
+common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
+common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
 common#:#administrate#:#管理
 common#:#administration#:#管理
 common#:#administrator#:#管理员
@@ -107,11 +111,26 @@ common#:#cancel#:#撤销
 common#:#cannot_uninstall_language_in_use#:#您不可能卸载当前正使用的语言！
 common#:#cannot_uninstall_systemlanguage#:#您不能卸载系统语言！
 common#:#cat#:#类别
-common#:#cat_a#:#一个类别
+common#:#cat_a#:#一个类别###13 Jan 2004 content changed
 common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
+common#:#cat_create#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
+common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
+common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
+common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
+common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
+common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
 common#:#cat_edit#:#编辑类别
-common#:#cat_new#:#新类别
+common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#cat_new#:#新类别###13 Jan 2004 content changed
+common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
+common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
+common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#类别
 common#:#cc#:#抄送
 common#:#censorship#:#审查
@@ -160,9 +179,21 @@ common#:#crs_a#:#一种课程
 common#:#crs_add#:#增加课程
 common#:#crs_added#:#已增加课程
 common#:#crs_available#:#可提供的课程
+common#:#crs_create#:#Create Course###13 Jan 2004 new variable
+common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
+common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
 common#:#crs_edit#:#编辑课程
+common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
+common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
 common#:#crs_management_system#:#课程管理系统
 common#:#crs_new#:#新课程
+common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
+common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
+common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
 common#:#current_password#:#当前口令
 common#:#cut#:#剪切
 common#:#cutPage#:#剪切
@@ -184,7 +215,13 @@ common#:#dbk#:#数字图书
 common#:#dbk_a#:#一本数字图书
 common#:#dbk_add#:#加入数字图书
 common#:#dbk_added#:#数字图书已加入
+common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
+common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
+common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#dbk_new#:#新数字图书
+common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
+common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
+common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#缺省
 common#:#default_language#:#缺省语言
 common#:#default_role#:#缺省角色
@@ -235,10 +272,13 @@ common#:#exc_add#:#增加练习
 common#:#exc_added#:#练习已增加
 common#:#exc_ask_delete#:#删除文件？
 common#:#exc_assign_usr#:#指定用户
+common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
 common#:#exc_date_not_valid#:#日期无效
 common#:#exc_deassign_members#:#删除用户
+common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
 common#:#exc_edit#:#已创建新练习
 common#:#exc_edit_exercise#:#编辑练习
+common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#exc_edit_until#:#编辑到
 common#:#exc_files#:#文件
 common#:#exc_groups#:#组
@@ -250,6 +290,7 @@ common#:#exc_new#:#新练习
 common#:#exc_no_members_assigned#:#无成员被指定
 common#:#exc_notices#:#通知
 common#:#exc_obj#:#练习
+common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
 common#:#exc_save_changes#:#保存
 common#:#exc_search_for#:#搜寻
 common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
@@ -260,6 +301,8 @@ common#:#exc_status_saved#:#练习已更新
 common#:#exc_status_solved#:#已解决
 common#:#exc_upload_error#:#上载文件出错
 common#:#exc_users#:#用户
+common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
+common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
 common#:#excs#:#Exercises###17 Dec 2003 new variable
 common#:#execute#:#执行
 common#:#export_html#:#导出为html文件
@@ -298,8 +341,16 @@ common#:#frm#:#论坛
 common#:#frm_a#:#一个论坛
 common#:#frm_add#:#增加论坛
 common#:#frm_added#:#论坛已增加
+common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
+common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
+common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
 common#:#frm_edit#:#编辑论坛
+common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
 common#:#frm_new#:#新论坛
+common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
+common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
+common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
 common#:#from#:#从
 common#:#fullname#:#名字
 common#:#functions#:#功能
@@ -312,8 +363,16 @@ common#:#generate#:#生成
 common#:#glo#:#词汇表
 common#:#glo_a#:#一个词汇表
 common#:#glo_add#:#增加词汇表
-common#:#glo_added#:#词汇表已增加
+common#:#glo_added#:#词汇表已增加###13 Jan 2004 content changed
+common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
+common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
+common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
+common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
 common#:#glo_new#:#新词汇表
+common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
+common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
+common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
 common#:#glossaries#:#Glossaries###17 Dec 2003 new variable
 common#:#glossary#:#词汇表
 common#:#glossary_added#:#词汇表已增加
@@ -351,7 +410,15 @@ common#:#grp#:#组
 common#:#grp_a#:#一个组
 common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
+common#:#grp_create#:#Create Group###13 Jan 2004 new variable
+common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
+common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
+common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
 common#:#grp_edit#:#编辑组
+common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###17 Dec 2003 new variable
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
 common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
@@ -359,14 +426,19 @@ common#:#grp_err_last_member#:#Last member could not be removed, please delete g
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###17 Dec 2003 new variable
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###17 Dec 2003 new variable
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###17 Dec 2003 new variable
+common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
+common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
 common#:#grp_mem_change_status#:#更改组状态
 common#:#grp_mem_leave#:#从组中删除成员
 common#:#grp_mem_send_mail#:#给成员发消息
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#已有一个组使用这个名字！请选择另一名字！
 common#:#grp_new#:#新组
+common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
 common#:#grp_register#:#Register###17 Dec 2003 new variable
 common#:#grp_registration_completed#:#Registration completed###17 Dec 2003 new variable
+common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
+common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
 common#:#guest#:#客人
 common#:#guests#:#客人
 common#:#help#:#帮助
@@ -467,6 +539,10 @@ common#:#last_visit#:#上次访问
 common#:#lastname#:#姓
 common#:#launch#:#推出
 common#:#ldap#:#LDAP
+common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
+common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
+common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
 common#:#learning_objects#:#学习对象
 common#:#learning_resources#:#学习资源
 common#:#level#:#水平
@@ -477,12 +553,23 @@ common#:#list_of_questions#:#问题列表
 common#:#literature#:#文献
 common#:#literature_bookmarks#:#文献书签
 common#:#lm#:#学习模块
-common#:#lm_a#:#一个学习模块
+common#:#lm_a#:#一个学习模块###13 Jan 2004 content changed
 common#:#lm_add#:#增加学习模块
-common#:#lm_added#:#学习模块已增加
+common#:#lm_added#:#学习模块已增加###13 Jan 2004 content changed
+common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
+common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
+common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
+common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
 common#:#lm_new#:#新学习模块
+common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
+common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
+common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
 common#:#lng#:#语言
-common#:#lngf#:#语言文件夹
+common#:#lngf#:#语言文件夹###13 Jan 2004 content changed
+common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
+common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
 common#:#lo#:#学习对象
 common#:#lo_available#:#学习模块及课程概观
 common#:#lo_categories#:#学习对象类别
@@ -512,6 +599,7 @@ common#:#mail_d_drafts#:#草稿
 common#:#mail_delete_error#:#删除时出错
 common#:#mail_delete_error_file#:#删除文件时出错
 common#:#mail_e_sent#:#发送
+common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#mail_folders#:#邮件夹
 common#:#mail_intern_enable#:#激活
 common#:#mail_mails_of#:#邮件
@@ -521,12 +609,17 @@ common#:#mail_maxsize_mail#:#邮件最大字节数
 common#:#mail_maxtime_attach#:#附件保存最多天数
 common#:#mail_maxtime_mail#:#邮件保存最多天数
 common#:#mail_not_sent#:#邮件未被发送！
+common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
 common#:#mail_search_no#:#未找到条目
 common#:#mail_search_word#:#搜索词
 common#:#mail_select_one#:#您必须选择一个邮件
 common#:#mail_send_error#:#发送邮件出错
 common#:#mail_sent#:#邮件已发送！
+common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
 common#:#mail_system#:#系统消息
+common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
+common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
+common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
 common#:#mail_z_local#:#用户文件夹
 common#:#mails#:#邮件
 common#:#mark_all_read#:#全部邮件标记为已读
@@ -652,6 +745,7 @@ common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部
 common#:#obj_cat#:#类别
 common#:#obj_crs#:#课程
 common#:#obj_dbk#:#数字图书
+common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
 common#:#obj_file#:#文件
 common#:#obj_fold#:#文件夹
 common#:#obj_frm#:#论坛
@@ -659,7 +753,6 @@ common#:#obj_glo#:#术语表
 common#:#obj_grp#:#组
 common#:#obj_ldap#:#LDAP设置
 common#:#obj_ldap_desc#:#在此配置LDAP
-common#:#obj_le#:#学习模块
 common#:#obj_lm#:#学习模块
 common#:#obj_lng#:#语言
 common#:#obj_lngf#:#语言
@@ -667,6 +760,7 @@ common#:#obj_lngf_desc#:#在此管理系统语言
 common#:#obj_lo#:#学习对象
 common#:#obj_mail#:#邮件设置
 common#:#obj_mail_desc#:#在此配置全局邮件设置
+common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
 common#:#obj_not_found#:#未找到对象
 common#:#obj_note#:#注解
 common#:#obj_notf#:#注解管理
@@ -680,7 +774,7 @@ common#:#obj_rolf_desc#:#在此管理角色
 common#:#obj_rolf_local#:#局部角色
 common#:#obj_rolf_local_desc#:#所包含的局部角色的对象为
 common#:#obj_rolt#:#角色模板
-common#:#obj_root#:#根目录
+common#:#obj_root#:#根目录###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM学习模块
 common#:#obj_st#:#章
 common#:#obj_typ#:#对象类型定义
@@ -691,6 +785,10 @@ common#:#obj_usrf#:#用户账号
 common#:#obj_usrf_desc#:#在此管理用户账号
 common#:#objects#:#对象
 common#:#objf#:#对象定义
+common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
+common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
+common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
 common#:#objs_confirm#:#Confirm Action###17 Dec 2003 new variable
 common#:#objs_delete#:#删除对象
 common#:#of#:#的
@@ -799,14 +897,26 @@ common#:#role_deleted#:#已删除角色
 common#:#role_edit#:#编辑角色
 common#:#role_new#:#新角色
 common#:#roles#:#角色
-common#:#rolf#:#角色夹
+common#:#rolf#:#角色夹###13 Jan 2004 content changed
 common#:#rolf_added#:#已增加角色夹
+common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
+common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
+common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
+common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
 common#:#rolt#:#角色模板
 common#:#rolt_a#:#一个角色模板
 common#:#rolt_add#:#增加角色模板
 common#:#rolt_added#:#已增加角色模板
 common#:#rolt_edit#:#编辑角色模板
 common#:#rolt_new#:#新角色模板
+common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
+common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
+common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
+common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
 common#:#salutation#:#问候
 common#:#salutation_f#:#先生/女士
 common#:#salutation_m#:#先生
@@ -849,8 +959,16 @@ common#:#show_members#:#显示成员
 common#:#show_owner#:#显示拥有者
 common#:#show_structure#:#激活结构化视图
 common#:#signature#:#签名
-common#:#slm#:#SCORM学习模块
-common#:#slm_added#:#已增加SCORM学习模块
+common#:#slm#:#SCORM学习模块###13 Jan 2004 content changed
+common#:#slm_added#:#已增加SCORM学习模块###13 Jan 2004 content changed
+common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
+common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#根据此列分类
 common#:#st_a#:#一章
@@ -928,7 +1046,13 @@ common#:#usr_edit#:#编辑用户
 common#:#usr_new#:#新用户
 common#:#usr_skin_style#:#Skin / Style###17 Dec 2003 new variable
 common#:#usr_style#:#用户风格
-common#:#usrf#:#用户文件夹
+common#:#usrf#:#用户文件夹###13 Jan 2004 content changed
+common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
+common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
+common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
+common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
+common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
 common#:#validate#:#验证
 common#:#value#:#值
 common#:#version#:#版本
