@@ -358,20 +358,20 @@ class ilForum
 		$q .= "VALUES ";
 		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."','".$notify."')";
 		$result = $this->ilias->db->query($q);
-		
+
 		// get last insert id and return it
-		$lastInsert = getLastInsertId();					
-		
+		$lastInsert = $this->ilias->db->getLastInsertId();
+
 		// entry in tree-table
 		if ($parent_pos == 0)
 		{
 			$this->addPostTree($thread, $lastInsert);
-		}		
+		}
 		else
 		{
 			$this->insertPostNode($lastInsert,$parent_pos,$thread);
 		}
-		
+
 		// string last post
 		$lastPost = $topic."#".$thread."#".$lastInsert;
 			
@@ -417,10 +417,10 @@ class ilForum
 		$q .= "VALUES ";
 		$q .= "('".$thr_data["thr_top_fk"]."','".$thr_data["thr_usr_id"]."','".$thr_data["thr_subject"]."','".$thr_data["thr_date"]."')";
 		$result = $this->ilias->db->query($q);
-		
+
 		// get last insert id and return it
-		$lastInsert = getLastInsertId();				
-				
+		$lastInsert = $this->ilias->db->getLastInsertId();
+
 		// update topic
 		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
 		$q .= "WHERE top_pk = '" . $topic . "'";
@@ -428,11 +428,11 @@ class ilForum
 
 		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify);
 	}
-	
+
 	/**
 	* update dataset in frm_posts
-	* @param	string	message	
-	* @param	integer	pos_pk	
+	* @param	string	message
+	* @param	integer	pos_pk
 	* @return	boolean
 	* @access	public
 	*/

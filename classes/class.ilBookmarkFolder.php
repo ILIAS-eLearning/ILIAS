@@ -126,7 +126,7 @@ class ilBookmarkFolder
 				"VALUES ('".$_SESSION["AccountId"]."','".$this->getTitle()."','','bmf')";
 		$this->ilias->db->query($q);
 
-		$this->setId(getLastInsertId());
+		$this->setId($this->ilias->db->getLastInsertId());
 
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}

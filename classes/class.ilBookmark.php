@@ -122,7 +122,7 @@ class ilBookmark
 
 		$this->ilias->db->query($q);
 
-		$this->setId(getLastInsertId());
+		$this->setId($this->ilias->db->getLastInsertId());
 
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
