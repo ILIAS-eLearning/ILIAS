@@ -156,7 +156,6 @@ class ilLinkChecker
 		$matches = array();
 
 		$pattern_complete = '/\<ExtLink Href="([^"]*)"\>/';
-		$pattern_link = '/(.*)(:\/\/)(.*)/';
 
 		if(preg_match_all($pattern_complete,$a_page['content'],$matches))
 		{
@@ -164,7 +163,9 @@ class ilLinkChecker
 			{
 				$url_data = parse_url($matches[1][$i]);
 
+				$lm_id = $this->__getObjIdByPageId($a_page['page_id']);
 				$link[] = array('page_id'  => $a_page['page_id'],
+								'obj_id'   => $lm_id,
 								'type'	   => $a_page['type'],
 								'complete' => $matches[1][$i],
 								'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
@@ -210,6 +211,16 @@ class ilLinkChecker
 		return $invalid ? $invalid : array();
 	}
 
+	function __getObjIdByPageId($a_page_id)
+	{
+		$query = "SELECT lm_id FROM lm_data ".
+			"WHERE obj_id = '".$a_page_id."'";
+
+		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+		return $row->lm_id ? $row->lm_id : 0;
+	}
+
 	function __saveInDB()
 	{
 		$this->__clearDBData();
@@ -218,6 +229,7 @@ class ilLinkChecker
 		{
 			$query = "INSERT INTO link_check ".
 				"SET page_id = '".$link['page_id']."', ".
+				"obj_id = '".$link['obj_id']."', ".
 				"url = '".substr($link['complete'],0,255)."', ".
 				"parent_type = '".$link['type']."'";
 

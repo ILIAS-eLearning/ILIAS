@@ -5187,4 +5187,17 @@ while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$res2 = $this->db->query($query);
 }
 ?>
-
+<#361>
+CREATE TABLE `link_check_report` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`obj_id`,`usr_id`)
+) TYPE=MyISAM;
+<#362>
+DROP TABLE IF EXISTS `link_check`;
+CREATE TABLE `link_check` (
+  `obj_id` int(11) NOT NULL default '0',
+  `page_id` int(11) NOT NULL default '0',
+  `url` varchar(255) NOT NULL default '',
+  `parent_type` varchar(8) NOT NULL default ''
+) TYPE=MyISAM;
