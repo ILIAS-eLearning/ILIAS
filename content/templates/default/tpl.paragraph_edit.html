@@ -378,7 +378,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-com",
       tooltip   : "Kommentar",
-      image     : "&nbsp;<span class=ilc_Comment>C</span>",
+      image     : "<span class=ilc_Comment>C</span>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -393,7 +393,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-quot",
       tooltip   : "Quotation",
-      image     : "&nbsp;<span class=ilc_Quotation>Q</span>",
+      image     : "<span class=ilc_Quotation>Q</span>",
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
@@ -460,7 +460,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	//cfg.statusBar = false;
+	cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
 
@@ -470,7 +470,7 @@ function initEditor(TextAreaName)
 		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
 		  "ilias-fn", "ilias-xtl", "ilias-itl",
 		  "separator",
-		  "copy", "cut", "paste", "htmlmode"
+		  "copy", "cut", "paste"
 		  
           ],
 
