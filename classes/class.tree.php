@@ -173,7 +173,7 @@ class Tree
 		}
 		else
 		{
-			return false;
+			return array();
 		}
 	}
 
@@ -380,7 +380,9 @@ class Tree
 				 "AND T3.parent = '".$a_endparent."' ".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
+				 "AND T1.tree = '".$this->tree_id." '".
 				 "AND T2.tree = '".$this->tree_id." '".
+				 "AND T3.tree = '".$this->tree_id." '".
 				 "ORDER BY sort_col DESC";
 
 		$res = $this->ilias->db->query($query);
@@ -623,6 +625,7 @@ class Tree
 				 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
 				 "AND (v.child != s.child OR s.lft = '1') ".
 				 "AND s.tree = '".$a_tree_id."' ".
+				 "AND v.tree = '".$a_tree_id."' ".
 				 "GROUP BY s.child ".
 				 "ORDER BY s.lft";
 
@@ -703,14 +706,16 @@ class Tree
 	*/
 	function getParentNodeData($a_node_id,$a_parent_id)
 	{
-		$query = "SELECT * FROM tree s,tree v, object_data ".
-				 "WHERE object_data.obj_id = v.child ".
-				 "AND s.child = '".$a_node_id."' ".
-				 "AND s.parent = '".$a_parent_id."' ".
-				 "AND s.parent = v.child ".
-				 "AND s.lft > v.lft ".
-				 "AND s.rgt < v.rgt ".
-				 "AND s.tree = '".$this->tree_id."'";
+	   $query = "SELECT * FROM tree s,tree v, object_data ".
+		   "WHERE object_data.obj_id = v.child ".
+		   "AND s.child = '".$a_node_id."' ".
+		   "AND s.parent = '".$a_parent_id."' ".
+		   "AND s.parent = v.child ".
+		   "AND s.lft > v.lft ".
+		   "AND s.rgt < v.rgt ".
+		   "AND s.tree = '".$this->tree_id."' ".
+		   "AND v.tree = '".$this->tree_id."'";
+
 		$res = $this->ilias->db->query($query);
 
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -725,19 +730,19 @@ class Tree
 	* @param	integer		parent id of start node
 	* @param    integer     object id of query node
 	* @param    integer     parent id of query node
-	* @return	boolean		false if result set is empty
+	* @return	integer		number of entries
 	*/
 	function isGrandChild($a_start_node,$a_start_parent,$a_query_node,$a_query_parent)
 	{
 		$query = "SELECT * FROM tree s,tree v ".
-				"WHERE s.child = '".$a_start_node."' ".
-				"AND s.parent = '".$a_start_parent."' ".
-				"AND v.child = '".$a_query_node."' ".
-				"AND v.parent = '".$a_query_parent."' ".
-				"AND s.tree = '".$this->tree_id."' ".
-				"AND v.lft BETWEEN s.lft AND s.rgt ".
-				"AND v.rgt BETWEEN s.lft AND s.rgt";
- 
+		   "WHERE s.child = '".$a_start_node."' ".
+		   "AND s.parent = '".$a_start_parent."' ".
+		   "AND v.child = '".$a_query_node."' ".
+		   "AND v.parent = '".$a_query_parent."' ".
+		   "AND s.tree = '".$this->tree_id."' ".
+		   "AND v.tree = '".$this->tree_id."' ".
+		   "AND v.lft BETWEEN s.lft AND s.rgt ".
+		   "AND v.rgt BETWEEN s.lft AND s.rgt";
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
 	}
@@ -801,5 +806,54 @@ class Tree
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
 	}
+	/**
+	* save subtree: copy a subtree (defined by obj_id and parent) to a new tree
+    *               with tree_id -obj_id.This is neccessary for cut/copy   
+ 	* @param	integer	tree_id
+ 	* @param	integer	obj_id
+    * @param    integer parent
+	* @return	integer
+	* @access	public
+	*/
+	function saveSubtree($a_obj_id,$a_parent,$a_tree)
+	{
+	   // GET LEFT AND RIGHT VALUE
+	   $query = "SELECT * FROM tree ".
+		  "WHERE tree = '".$a_tree."' ".
+		  "AND child = '".$a_obj_id."' ".
+		  "AND parent = '".$a_parent."'";
+	   $res = $this->ilias->db->query($query);
+	   while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	   {
+		  $lft = $row->lft;
+		  $rgt = $row->rgt;
+	   }
+	   // GET ALL SUBNODES
+	   $query = "SELECT * FROM tree ".
+		  "WHERE tree = '".$a_tree."' ".
+		  "AND lft >= '".$lft."' ".
+		  "AND rgt <= '".$rgt."'";
+	   $res = $this->ilias->db->query($query);
+	   while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	   {
+		  $subnodes[$row->child]["tree"]   = $row->tree;
+		  $subnodes[$row->child]["child"]  = $row->child;
+		  $subnodes[$row->child]["parent"] = $row->parent;
+		  $subnodes[$row->child]["lft"]    = $row->lft;
+		  $subnodes[$row->child]["rgt"]    = $row->rgt;
+		  $subnodes[$row->child]["depth"]  = $row->depth;
+	   }
+	   // SAVE SUBTREE
+	   foreach($subnodes as $node)
+	   {
+		  $query = "INSERT INTO tree ".
+			 "VALUES ('".-$a_obj_id."','".$node["child"]."','".$node["parent"]."','".
+			 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
+		  $res = $this->ilias->db->query($query);
+	   }
+	   return true;
+	}
+	   
+		  
 } // END class.tree
 ?>
