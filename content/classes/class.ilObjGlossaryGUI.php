@@ -54,7 +54,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
@@ -469,6 +469,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function listTerms()
 	{
+		global $ilUser;
+
 		//$this->getTemplate();
 		//$this->setTabs();
 		//$this->setLocator();
@@ -485,15 +487,36 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
+		// export button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
 		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 
+		// glossary term list template
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
+		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
+		$this->tpl->setVariable("TXT_ADD2", $this->lng->txt("add"));
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$lang = ilMetaData::getLanguages();
+
+		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+		{
+			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+		}
+		else
+		{
+			$s_lang = $ilUser->getLanguage();
+		}
+
+		$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
+
 
 		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
 
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_row.html", true);
@@ -526,7 +549,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 		$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
-		$this->setSubObjects(array("term" => array()));
+		//$this->setSubObjects(array("term" => array()));
 		$this->showActions(true);
 
 		// footer
@@ -553,31 +576,79 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				for($j=0; $j<count($defs); $j++)
 				{
 					$def = $defs[$j];
-					$this->tpl->setCurrentBlock("definition");
+
+					// up
+					if ($j > 0)
+					{
+						$this->tpl->setCurrentBlock("move_up");
+						$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
+						$this->ctrl->setParameter($this, "term_id", $term["id"]);
+						$this->ctrl->setParameter($this, "def", $def["id"]);
+						$this->tpl->setVariable("LINK_UP",
+							$this->ctrl->getLinkTarget($this, "moveDefinitionUp"));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					// down
+					if ($j+1 < count($defs))
+					{
+						$this->tpl->setCurrentBlock("move_down");
+						$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
+						$this->ctrl->setParameter($this, "term_id", $term["id"]);
+						$this->ctrl->setParameter($this, "def", $def["id"]);
+						$this->tpl->setVariable("LINK_DOWN",
+							$this->ctrl->getLinkTarget($this, "moveDefinitionDown"));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					// delete
+					$this->tpl->setCurrentBlock("delete");
+					$this->ctrl->setParameterByClass($this, "term_id", $term["id"]);
+					$this->ctrl->setParameterByClass($this, "def", $def["id"]);
+					$this->tpl->setVariable("LINK_DELETE",
+						$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));
+					$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
+
+					// edit
+					$this->tpl->setCurrentBlock("edit");
 					$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
 					$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
-					$this->tpl->setVariable("DEF_LINK",
+					$this->tpl->setVariable("LINK_EDIT",
 						$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
-					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+					$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$this->tpl->parseCurrentBlock();
+
+					// text
+					$this->tpl->setCurrentBlock("definition");
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
 					$short_str = str_replace("<", "&lt;", $short_str);
 					$short_str = str_replace(">", "&gt;", $short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("definition_row");
+					$this->tpl->parseCurrentBlock();
 				}
+
 				$this->tpl->setCurrentBlock("check_col");
 				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
+
+				// edit term link
+				$this->tpl->setCurrentBlock("edit_term");
+				$this->ctrl->setParameter($this, "term_id", $term["id"]);
+				$this->tpl->setVariable("LINK_EDIT_TERM",
+					$this->ctrl->getLinkTarget($this, "editTerm"));
+				$this->tpl->setVariable("TXT_EDIT_TERM", $this->lng->txt("edit"));
+				$this->tpl->parseCurrentBlock();
+
 				$this->tpl->setCurrentBlock("tbl_content");
 
+				// output term and language
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->ctrl->setParameterByClass("ilGlossaryTermGUI", "term_id", $term["id"]);
-				$this->tpl->setVariable("TARGET_TERM",
-					$this->ctrl->getLinkTargetByClass("ilGlossaryTermGUI", "listDefinitions"));
-				//"glossary_edit.php?ref_id=".
-				//	$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
@@ -590,6 +661,151 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	* add term
+	*/
+	function addTerm()
+	{
+		// add term
+		include_once ("content/classes/class.ilGlossaryTerm.php");
+		$term =& new ilGlossaryTerm();
+		$term->setGlossary($this->object);
+		$term->setTerm(ilUtil::stripSlashes($_POST["new_term"]));
+		$term->setLanguage($_POST["term_language"]);
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
+		$term->create();
+
+		// add first definition
+		$def =& new ilGlossaryDefinition();
+		$def->setTermId($term->getId());
+		$def->setTitle(ilUtil::stripSlashes($_POST["new_term"]));
+		$def->create();
+
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
+		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+	}
+
+	/**
+	* move a definiton up
+	*/
+	function moveDefinitionUp()
+	{
+		include_once("content/classes/class.ilGlossaryDefinition.php");
+
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->moveUp();
+
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+	/**
+	* move a definiton down
+	*/
+	function moveDefinitionDown()
+	{
+		include_once("content/classes/class.ilGlossaryDefinition.php");
+
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->moveDown();
+
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+	/**
+	* deletion confirmation screen
+	*/
+	function confirmDefinitionDeletion()
+	{
+		//$this->getTemplate();
+		//$this->displayLocator();
+		//$this->setTabs();
+
+		$term = new ilGlossaryTerm($_GET["term_id"]);
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+
+		//$this->tpl->setVariable("HEADER",
+		//	$this->lng->txt("cont_term").": ".$term->getTerm());
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
+
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$page =& new ilPageObject("gdf", $definition->getId());
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setTemplateOutput(false);
+		$output = $page_gui->preview();
+
+		$this->tpl->setCurrentBlock("definition");
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("LINK_CANCEL",
+			$this->ctrl->getLinkTarget($this, "cancelDefinitionDeletion"));
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
+		$this->ctrl->setParameter($this, "def", $definition->getId());
+		$this->tpl->setVariable("LINK_CONFIRM",
+			$this->ctrl->getLinkTarget($this, "deleteDefinition"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function cancelDefinitionDeletion()
+	{
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+
+	function deleteDefinition()
+	{
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->delete();
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+	/**
+	* edit term
+	*/
+	function editTerm()
+	{
+		$term = new ilGlossaryTerm($_GET["term_id"]);
+		//$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$term->getTerm());
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
+		$this->ctrl->setParameter($this, "term_id", $_GET["term_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
+		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
+		$this->tpl->setVariable("INPUT_TERM", "term");
+		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($term->getTerm()));
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$lang = ilMetaData::getLanguages();
+		$select_language = ilUtil::formSelect ($term->getLanguage(),"term_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
+		$this->tpl->setVariable("BTN_NAME", "updateTerm");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+	}
+
+
+	/**
+	* update term
+	*/
+	function updateTerm()
+	{
+		$term = new ilGlossaryTerm($_GET["term_id"]);
+
+		$term->setTerm(ilUtil::stripSlashes($_POST["term"]));
+		$term->setLanguage($_POST["term_language"]);
+		$term->update();
+		sendinfo($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this, "listTerms");
 	}
 
 
@@ -1097,8 +1313,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->ctrl->setParameterByClass("ilGlossaryTermGUI", "term_id", $_POST["id"][0]);
-		$this->ctrl->redirectByClass("ilGlossaryTermGUI", "addDefinition");
+		// add term
+		include_once ("content/classes/class.ilGlossaryTerm.php");
+		$term =& new ilGlossaryTerm($_POST["id"][0]);
+
+		// add first definition
+		$def =& new ilGlossaryDefinition();
+		$def->setTermId($term->getId());
+		$def->setTitle(ilUtil::stripSlashes($term->getTerm()));
+		$def->create();
+
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
+		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		
 	}
 
 	function getTemplate()

@@ -144,11 +144,13 @@ class ilGlossaryLocatorGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		/*
 		if (is_object($this->definition))
 		{
 			$this->tpl->touchBlock("locator_separator");
-		}
+		}*/
 
+		/*
 		if (is_object($this->term))
 		{
 			$this->tpl->setCurrentBlock("locator_item");
@@ -164,14 +166,16 @@ class ilGlossaryLocatorGUI
 					"&cmd=listDefinitions&term_id=".$this->term->getId());
 			}
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		//$this->tpl->touchBlock("locator_separator");
 
 		if (is_object($this->definition))
 		{
 			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
+			$this->tpl->setVariable("ITEM", $this->term->getTerm()." (".
+				$this->lng->txt("cont_definition")." ".
+				$this->definition->getNr().")");
 			if ($this->mode == "edit")
 			{
 				$this->tpl->setVariable("LINK_ITEM",

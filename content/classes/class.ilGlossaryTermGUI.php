@@ -81,7 +81,7 @@ class ilGlossaryTermGUI
 		{
 
 			case "iltermdefinitioneditorgui":
-				$this->ctrl->setReturn($this, "listDefinitions");
+				//$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit =& new ilTermDefinitionEditorGUI();
 				$ret =& $def_edit->executeCommand();
 				break;
