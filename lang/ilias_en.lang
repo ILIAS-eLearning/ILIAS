@@ -1902,8 +1902,12 @@ common#:#obj_root#:#ILIAS root node
 common#:#obj_sahs#:#Learning Module SCORM/AICC
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
-common#:#obj_styf#:#Style Folder
-common#:#obj_styf_desc#:#Manage system styles here.
+common#:#obj_stys#:#Style Settings 
+common#:#obj_stys_desc#:#Manage system skin and style settings here
+common#:#stys_edit_permission#:#Change permission settings
+common#:#stys_read#:#Read access to style settings
+common#:#stys_visible#:#Style settings are visible
+common#:#stys_write#:#Edit style settings
 common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies

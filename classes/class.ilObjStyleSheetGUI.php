@@ -357,7 +357,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "styf")
+			if ($fold->getType() == "stys")
 			{
 				$fold->addStyle($newObj->getId());
 				$fold->update();
@@ -391,7 +391,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "styf")
+			if ($fold->getType() == "stys")
 			{				
 				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 			}
@@ -412,7 +412,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "styf")
+			if ($fold->getType() == "stys")
 			{				
 				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 			}
@@ -457,7 +457,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "styf")
+			if ($fold->getType() == "stys")
 			{				
 				// back to upper context
 				$tabs_gui->addTarget("back",

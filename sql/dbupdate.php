@@ -5696,3 +5696,16 @@ CREATE TABLE IF NOT EXISTS `crs_start` (
   PRIMARY KEY  (`crs_start_id`),
   KEY `crs_id` (`crs_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1;
+<#406>
+<?php
+// change style folder to style settings
+$query = "UPDATE object_data SET title='stys', description='Style Settings'".
+		" WHERE title='styf' AND type='typ'";
+$this->db->query($query);
+
+// change style folder to style settings
+$query = "UPDATE object_data SET type='stys', title = 'System Style Settings',".
+		" description = 'Manage system skin and style settings here' ".
+		" WHERE type='styf' ";
+$this->db->query($query);
+?>
