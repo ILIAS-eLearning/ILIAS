@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id*
+* @version $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -130,7 +130,6 @@ class ilObjUserGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $ilias, $rbacsystem, $rbacreview, $styleDefinition;
-		
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
 		
@@ -194,7 +193,6 @@ class ilObjUserGUI extends ilObjectGUI
 		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
 		
 		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
-		
 		$data = array();
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
@@ -219,7 +217,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["create_date"] = "";
 		$data["fields"]["approve_date"] = "";
-		$data["fields"]["active"] = "";
+		$data["fields"]["active"] = " checked=\"checked\"";
 		$data["fields"]["default_role"] = $roles;
 		
 		$this->getTemplateFile("edit","usr");
@@ -275,7 +273,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
-		
+
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
 		{
@@ -299,7 +297,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
-		
+
 			$active = $_SESSION["error_post_vars"]["Fobject"]["active"];
 			if ($active)
 			{
@@ -582,10 +580,10 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = $this->object->getFax();
 		$data["fields"]["email"] = $this->object->getEmail();
 		$data["fields"]["hobby"] = $this->object->getHobby();
-        $data["fields"]["referral_comment"] = $this->object->getComment();
-        $data["fields"]["create_date"] = $this->object->getCreateDate();
-        $data["fields"]["approve_date"] = $this->object->getApproveDate();
-        $data["fields"]["active"] = $this->object->getActive();
+		$data["fields"]["referral_comment"] = $this->object->getComment();
+		$data["fields"]["create_date"] = $this->object->getCreateDate();
+		$data["fields"]["approve_date"] = $this->object->getApproveDate();
+		$data["fields"]["active"] = $this->object->getActive();
 
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 		{
@@ -736,11 +734,11 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
 
-            $active = $data["fields"]["active"];
-            if ($active)
-            {
-                $this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
-            }
+			$active = $data["fields"]["active"];
+			if ($active)
+			{
+				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+			}
 		}
 		
 		if (AUTH_CURRENT != AUTH_LOCAL)
