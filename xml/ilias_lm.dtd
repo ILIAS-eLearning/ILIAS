@@ -53,7 +53,7 @@
 <!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
 <!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical*, Educational?, Rights?, Relation*, Annotation*, Classification*)>
 <!-- 1 General information about the resource as a whole -->
-<!ELEMENT General (Identifier+, Title, Language+, Description+, Keyword+, Coverage*)>
+<!ELEMENT General (Identifier+, Title, Language+, Description+, Keyword+, Coverage?)>
 <!ATTLIST General
 	Structure (Atomic | Collection | Networked | Hierarchical | Linear) #REQUIRED
 >
@@ -103,8 +103,8 @@
 	Role (Author | Publisher | Unknown | Initiator | Terminator | Editor | GraphicalDesigner | TechnicalImplementer | ContentProvider | TechnicalValidator | EducationalValidator | ScriptWriter | InstructionalDesigner | SubjectMatterExpert | Creator | Validator) #REQUIRED
 >
 <!-- 2.3.2 The identification of and information about the people or organizations contributing to this resource, most relevant first-->
-<!-- LOM standard proposed Entity (#PCDATA | vCard). Support for vCards will be added later. First goal is to keep database structure simple to get it to work :-) shofmann 2002-25-10 -->
-<!ELEMENT Entity (#PCDATA | Entity)*>
+<!-- LOM standard proposed Entity (#PCDATA | vCard). Support for vCards will be added later. -->
+<!ELEMENT Entity (#PCDATA)>
 <!-- 2.3.3 This sub-category defines the date of the contribution-->
 <!ELEMENT Date (#PCDATA)>
 <!-- 3. Specific information about the meta-data record itself -->
@@ -117,7 +117,7 @@
 <!-- 4. Technical requirements and characteristics of the resource -->
 <!ELEMENT Technical (Size?, Location*, (Requirement* | OrComposite*)?, InstallationRemarks?, OtherPlatformRequirements?, Duration?)>
 <!ATTLIST Technical
-	Format (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml) #REQUIRED
+	Format (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml | httpd-unix-directory) #REQUIRED
 >
 <!-- 4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes,GB,etc.-->
 <!ELEMENT Size (#PCDATA)>
@@ -154,7 +154,7 @@
 <!-- 4.7 Time continuous resource takes when  -->
 <!ELEMENT Duration (#PCDATA)>
 <!-- 5. Key educational or pedagogic characteristics of the resource -->
-<!ELEMENT Educational (TypicalAgeRange, TypicalLearningTime, Description*)>
+<!ELEMENT Educational (TypicalAgeRange+, TypicalLearningTime, Description*, Language*)>
 <!ATTLIST Educational
 	InteractivityType (Active | Expositive | Mixed) #REQUIRED
 	LearningResourceType (Exercise | Simulation | Questionnaire | Diagram | Figure | Graph | Index | Slide | Table | NarrativeText | Exam | Experiment | ProblemStatement | SelfAssessment | Lecture) #REQUIRED
@@ -182,7 +182,7 @@
 <!ATTLIST Relation
 	Kind (IsPartOf | HasPart | IsVersionOf | HasVersion | IsFormatOf | HasFormat | References | IsReferencedBy | IsBasedOn | IsBasisFor | Requires | IsRequiredBy) #REQUIRED
 >
-<!-- 7.2  The target resource that this relationship references-->
+<!-- 7.2  The target resource that this relationship references -->
 <!-- the Identifier should be of type IDREF cause its value is a reference -->
 <!-- using the XML IDREF stating the CatalogEntry is obsolete (the CatalogEntry information could be retrieved with XSLT) -->
 <!ELEMENT Resource (Identifier_+, Description+)>
