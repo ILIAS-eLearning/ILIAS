@@ -1982,6 +1982,8 @@ class ilObjUser extends ilObject
 				case "sahs":
 				case "htlm":
 				case "mep":
+				case "spl":
+				case "qpl":
 					$q = "SELECT obj.description, oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
@@ -2084,6 +2086,18 @@ class ilObjUser extends ilObject
 							$target = "bottom";
 							$edit_link = "";
 						}
+						elseif ($a_type == "qpl")
+						{
+							$link = "assessment/questionpool.php?ref_id=".$item_rec["ref_id"];
+							$target = "bottom";
+							$edit_link = "";
+						}
+						elseif ($a_type == "spl")
+						{
+							$link = "survey/questionpool.php?ref_id=".$item_rec["ref_id"];
+							$target = "bottom";
+							$edit_link = "";
+						}
 						else
 						{
 							if ($item_rec["parameters"] != "")
@@ -2122,6 +2136,11 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "forums_threads_liste.php?cmd=properties&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
 
@@ -2141,6 +2160,11 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "repository.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmd=edit&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
 				case "grp":
@@ -2158,6 +2182,11 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjgroupgui", "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmdClass=ilobjgroupgui&cmd=edit&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
 				case "crs":
@@ -2175,8 +2204,36 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjcoursegui", "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmdClass=ilobjcoursegui&cmd=edit&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
+				case "file":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'file' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"link" => "repository.php?cmd=sendfile&ref_id=".$item_rec["ref_id"]);
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$item_rec["ref_id"];
+                                                }
+					}
+					break;
+
 				case "exc":
 					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
@@ -2192,6 +2249,11 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "exercise.php?cmd=view&ref_id=".$item_rec["ref_id"], "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "exercise.php?cmd=edit&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
 
@@ -2211,6 +2273,11 @@ class ilObjUser extends ilObject
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 							"description" => $item_rec["description"],
 							"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+
+                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+                                                {
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "chat/chat_rep.php?cmd=edit&ref_id=".$item_rec["ref_id"];
+                                                }
 					}
 					break;
 			}
@@ -2232,7 +2299,8 @@ class ilObjUser extends ilObject
 					{
 						$states[$row["ref_id"]] = (int)$row["state"];
 					}
-				}
+
+                                }
 				foreach ($items as $key => $value)
 				{
 					$items[$key]["finished"] = $states[$value["id"]];
