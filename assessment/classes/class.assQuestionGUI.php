@@ -447,11 +447,16 @@ class ASS_QuestionGUI
 	{
 		$this->writePostData();
 		$this->object->saveToDb();
-		if ($_GET["calling_test"])
+		$originalexists = $this->object->_questionExists($this->object->original_id);
+		if ($_GET["calling_test"] && $originalexists)
 		{
-			//$_GET["ref_id"] = $_GET["calling_test"];
 			$this->originalSyncForm();
-			///ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
+		elseif ($_GET["calling_test"] && !$originalexists)
+		{
+			$_GET["ref_id"] = $_GET["calling_test"];
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+			return;
 		}
 		elseif ($_GET["test_ref_id"])
 		{
@@ -486,11 +491,16 @@ class ASS_QuestionGUI
 		$old_id = $_GET["q_id"];
 		$this->writePostData();
 		$this->object->saveToDb();
-		if ($_GET["calling_test"])
+		$originalexists = $this->object->_questionExists($this->object->original_id);
+		if ($_GET["calling_test"] && $originalexists)
 		{
-			//$_GET["ref_id"] = $_GET["calling_test"];
 			$this->originalSyncForm();
-//			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
+		elseif ($_GET["calling_test"] && !$originalexists)
+		{
+			$_GET["ref_id"] = $_GET["calling_test"];
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+			return;
 		}
 		elseif ($_GET["test_ref_id"])
 		{
