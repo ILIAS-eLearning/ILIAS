@@ -35,15 +35,15 @@ class ilContObjLocatorGUI
 	var $mode;
 	var $temp_var;
 	var $tree;
-	var $obj;
 	var $lng;
 	var $tpl;
 
 
 	function ilContObjLocatorGUI($a_tree)
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $ilCtrl;
 
+		$this->ctrl =& $ilCtrl;
 		$this->tree =& $a_tree;
 		$this->mode = "std";
 		$this->temp_var = "LOCATOR";
@@ -57,9 +57,9 @@ class ilContObjLocatorGUI
 		$this->temp_var = $a_temp_var;
 	}
 
-	function setObject($a_obj)
+	function setObjectID($a_obj_id)
 	{
-		$this->obj =& $a_obj;
+		$this->obj_id = $a_obj_id;
 	}
 
 	function setContentObject($a_cont_obj)
@@ -70,22 +70,23 @@ class ilContObjLocatorGUI
 	/**
 	* display locator
 	*/
-	function display()
+	function display($a_gui_class)
 	{
 		global $lng;
 
 		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html");
 
-		if (is_object($this->obj) && $this->tree->isInTree($this->obj->getId()))
+		if (($this->obj_id != 0) && $this->tree->isInTree($this->obj_id))
 		{
-			$path = $this->tree->getPathFull($this->obj->getId());
+			$path = $this->tree->getPathFull($this->obj_id);
 		}
 		else
 		{
 			$path = $this->tree->getPathFull($this->tree->getRootId());
-			if (is_object($this->obj))
+			if ($this->obj_id != 0)
 			{
-				$path[] = array("child" => $this->obj->getId(), "title" => $this->obj->getTitle());
+				$path[] = array("type" => "pg", "child" => $this->obj_id,
+					"title" => ilLMPageObject::_getPresentationTitle($this->obj_id));
 			}
 		}
 
@@ -99,22 +100,46 @@ class ilContObjLocatorGUI
 			}
 
 			$this->tpl->setCurrentBlock("locator_item");
+			$transit = "";
 			if ($row["child"] == 1)
 			{
 				$title = $this->cont_obj->getTitle();
 				$cmd = "properties";
+				$cmdClass = $a_gui_class;
 			}
 			else
 			{
 				$title = $row["title"];
-				$cmd = "view";
+				switch($row["type"])
+				{
+					case "st":
+						$cmdClass = "ilStructureObjectGUI";
+						$cmd = "view";
+						if ($this->ctrl->getCmdClass() != "ilstructureobjectgui")
+						{
+							$transit = array($a_gui_class);
+						}
+						break;
+
+					case "pg":
+						$cmdClass = "ilLMPageObjectGUI";
+						$cmd = "view";
+						if ($this->ctrl->getCmdClass() != "illmpageobjectgui")
+						{
+							$transit = array($a_gui_class);
+						}
+						break;
+				}
 			}
 			$this->tpl->setVariable("ITEM", $title);
 			$obj_str = ($row["child"] == 1)
 				? ""
 				: "&obj_id=".$row["child"];
-			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=$cmd&ref_id=".
-				$this->cont_obj->getRefId().$obj_str);
+
+			$this->ctrl->setParameterByClass($cmdClass, "obj_id", $row["child"]);
+			$link = $this->ctrl->getLinkTargetByClass($cmdClass, $cmd, $transit);
+			$this->ctrl->setParameterByClass($cmdClass, "obj_id", $_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ITEM", $link);
 			$this->tpl->parseCurrentBlock();
 		}
 
