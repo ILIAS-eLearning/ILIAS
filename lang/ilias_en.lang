@@ -4250,3 +4250,6 @@ common#:#reg_mail_body_text3#:#Further personal information:
 common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
 common#:#select_password#:#Select a new password
 common#:#new_list_password#:#New suggestions
+common#:#as_of#:#as of
+payment#:#paya_filter_reseted#:#Filter reseted.
+payment#:#excel_export#:#Excel export
