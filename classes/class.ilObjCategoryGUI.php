@@ -910,11 +910,11 @@ class ilObjCategoryGUI extends ilObjectGUI
 	function assignSaveObject()
 	{
 		global $rbacreview,$rbacadmin;
-		
+
 		include_once './classes/class.ilLocalUser.php';
 		
 		// check hack
-		if(!isset($_GET['obj_id']) or !in_array($_GET['obj_id'],ilLocalUser::_getAllUserIds($this->object->getRefId())))
+		if(!isset($_REQUEST['obj_id']) or !in_array($_REQUEST['obj_id'],ilLocalUser::_getAllUserIds()))
 		{
 			sendInfo('no_user_selected');
 			$this->listUsersObject();
@@ -935,16 +935,16 @@ class ilObjCategoryGUI extends ilObjectGUI
 							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
 
 		$new_role_ids = $_POST['role_ids'] ? $_POST['role_ids'] : array();
-		$assigned_roles = $rbacreview->assignedRoles((int) $_GET['obj_id']);
+		$assigned_roles = $rbacreview->assignedRoles((int) $_REQUEST['obj_id']);
 		foreach($roles as $role)
 		{
 			if(in_array($role['obj_id'],$new_role_ids) and !in_array($role['obj_id'],$assigned_roles))
 			{
-				$rbacadmin->assignUser($role['obj_id'],(int) $_GET['obj_id']);
+				$rbacadmin->assignUser($role['obj_id'],(int) $_REQUEST['obj_id']);
 			}
 			if(in_array($role['obj_id'],$assigned_roles) and !in_array($role['obj_id'],$new_role_ids))
 			{
-				$rbacadmin->deassignUser($role['obj_id'],(int) $_GET['obj_id']);
+				$rbacadmin->deassignUser($role['obj_id'],(int) $_REQUEST['obj_id']);
 			}
 		}
 		sendInfo($this->lng->txt('role_assignment_updated'));

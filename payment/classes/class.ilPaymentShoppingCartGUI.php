@@ -78,6 +78,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 	function showItems()
 	{
+		include_once './payment/classes/class.ilPaymentPrices.php';
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html',true);
 
@@ -112,13 +113,15 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			$f_result[$counter][] = $tmp_obj->getTitle();
 			$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 
-			$price = $price_arr['unit_value'].' '.$this->lng->txt('currency_euro');
+			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
 
-			if($price_arr['sub_unit_value'])
-			{
-				$price .= ' '.$price_arr['sub_unit_value'].' '.$this->lng->txt('currency_cent');
-			}
-			$f_result[$counter][] = $price;
+			#$price = $price_arr['unit_value'].' '.$this->lng->txt('currency_euro');
+
+			#if($price_arr['sub_unit_value'])
+			#{
+			#	$price .= ' '.$price_arr['sub_unit_value'].' '.$this->lng->txt('currency_cent');
+			#}
+			#$f_result[$counter][] = $price;
 
 			unset($tmp_obj);
 			unset($tmp_pobject);
