@@ -56,6 +56,7 @@ common#:#appointment#:#Appointment###01 Sep 2003 new variable
 common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
+common#:#assign#:#Zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
@@ -766,6 +767,8 @@ content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_assign_translation#:#Übersetzung zuordnen
+content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
 content#:#cont_caption#:#Bildunterschrift
@@ -784,6 +787,7 @@ content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definition###01 Sep 2003 new variable
 content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
+content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details###19 Sep 2003 new variable
 content#:#cont_edit_mob#:#Media Objekt editieren
@@ -804,6 +808,7 @@ content#:#cont_import_id#:#identifier
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
+content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal_link#:#interner link
 content#:#cont_is_visible#:#isvisible
@@ -831,8 +836,11 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Monat
+content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#Neuer Begriff
+content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
+content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#No Page found.###22 Aug 2003 new variable
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
@@ -865,7 +873,9 @@ content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only###19 Sep 2003 new variable
 content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
+content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
 content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
+content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Series editor###19 Sep 2003 new variable
 content#:#cont_series_title#:#Serientitel
@@ -889,6 +899,8 @@ content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
+content#:#cont_translations#:#Übersetzung(en)
+content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Veröffentlichungsort
@@ -1415,15 +1427,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-content#:#cont_new_assignment#:#Neue Zuordnung
-content#:#cont_del_assignment#:#Zuordnung löschen
-content#:#cont_translations#:#Übersetzung(en)
-content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
-content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
-content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
-content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
-content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
-content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
-content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
-common#:#assign#:#Zuordnen
-content#:#cont_assign_translation#:#Übersetzung zuordnen

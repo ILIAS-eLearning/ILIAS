@@ -56,6 +56,7 @@ common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
+common#:#assign#:#Assign
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_user_to_role#:#Assign User to Role
 common#:#at_location#:#at location
@@ -766,6 +767,8 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_assign_translation#:#Assign translation
+content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
@@ -784,6 +787,7 @@ content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_organization#:#default
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitions
+content#:#cont_del_assignment#:#Delete assignment
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details
 content#:#cont_edit_mob#:#Edit Media Object
@@ -804,6 +808,7 @@ content#:#cont_import_id#:#identifier
 content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
+content#:#cont_insert_search#:#Please insert a search term
 content#:#cont_insert_table#:#Insert Table
 content#:#cont_internal_link#:#internal link
 content#:#cont_is_visible#:#isvisible
@@ -831,8 +836,11 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Month
+content#:#cont_new_assignment#:#New assignment
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
+content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
+content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
 content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
@@ -865,7 +873,9 @@ content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_one_translation#:#Please select one translation
 content#:#cont_select_term#:#Select a term
+content#:#cont_select_translation#:#Please select the assignment from the list above
 content#:#cont_series#:#Series
 content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
@@ -889,6 +899,8 @@ content#:#cont_terms#:#Terms
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table of Contents
 content#:#cont_top#:#Top
+content#:#cont_translations#:#Translation(s)
+content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Where published
@@ -1415,15 +1427,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-content#:#cont_new_assignment#:#New assignment
-content#:#cont_del_assignment#:#Delete assignment
-content#:#cont_translations#:#Translation(s)
-content#:#cont_translations_assigned#:#The translation(s) have been assigned
-content#:#cont_no_object_found#:#Could not find any object with this title
-content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
-content#:#cont_insert_search#:#Please insert a search term
-content#:#cont_select_one_translation#:#Please select one translation
-content#:#cont_assignments_deleted#:#The assignments have been deleted
-content#:#cont_select_translation#:#Please select the assignment from the list above
-common#:#assign#:#Assign
-content#:#cont_assign_translation#:#Assign translation
