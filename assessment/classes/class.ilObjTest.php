@@ -1897,9 +1897,21 @@ class ilObjTest extends ilObject
 * @see $questions
 */
 	function getQuestionTitle($sequence) {
-		$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($this->questions[$sequence])
-		);
+		global $ilUser;
+		if ($ilUser->id > 0)
+		{
+			$active = $this->getActiveTestUser($ilUser->id);
+			$seq = split(",", $active->sequence);
+			$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
+				$this->ilias->db->quote($this->questions[$seq[$sequence-1]])
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
+				$this->ilias->db->quote($this->questions[$sequence])
+			);
+		}
     $result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->title;

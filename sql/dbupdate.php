@@ -5152,3 +5152,39 @@ CREATE TABLE `link_check` (
   `url` varchar(255) NOT NULL default '',
   `parent_type` varchar(8) NOT NULL default ''
 ) TYPE=MyISAM;
+<#360>
+<?php
+// convert all single response mc questions and remove the 'when not set' option 
+$query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 1";
+$res = $this->db->query($query);
+while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+		$this->db->quote($row1->answer_id . "")
+	);
+	$res2 = $this->db->query($query);
+}
+
+// convert all imagemap questions and remove the 'when not set' option 
+$query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6";
+$res = $this->db->query($query);
+while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+		$this->db->quote($row1->answer_id . "")
+	);
+	$res2 = $this->db->query($query);
+}
+
+// convert all close questions and remove the 'when not set' option 
+$query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6 AND qpl_answers.cloze_type = '1'";
+$res = $this->db->query($query);
+while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+		$this->db->quote($row1->answer_id . "")
+	);
+	$res2 = $this->db->query($query);
+}
+?>
+
