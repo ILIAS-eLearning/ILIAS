@@ -213,13 +213,13 @@ common#:#enabled#:#已激活
 common#:#enumerate#:#例举
 common#:#err_1_param#:#只一个参数！
 common#:#err_2_param#:#只两个参数！
-common#:#err_count_param#:#原因#:#错误参数计算！
+common#:#err_count_param#:#原因错误参数计算！
 common#:#err_in_line#:#行内出错
 common#:#err_no_langfile_found#:#未找到语言文件！
 common#:#err_no_param#:#无参数！
 common#:#err_over_3_param#:#多于三个参数！
 common#:#err_session_expired#:#您的对话已过期！
-common#:#err_wrong_header#:#原因#:#错误文件头！
+common#:#err_wrong_header#:#原因错误文件头！
 common#:#err_wrong_login#:#错误登录。
 common#:#error_recipient#:#错误收件人
 common#:#exc#:#练习
@@ -279,7 +279,7 @@ common#:#fold_new#:#新文件夹
 common#:#folders#:#文件夹
 common#:#force_accept_usr_agreement#:#您必须接受用户协议！
 common#:#forename#:#名
-common#:#form_empty_fields#:#请填写这些域#:#
+common#:#form_empty_fields#:#请填写这些域
 common#:#forum#:#论坛
 common#:#forums#:#论坛
 common#:#forums_overview#:#论坛概观
@@ -317,7 +317,7 @@ common#:#group_memstat_member#:#成员
 common#:#group_name#:#组名称
 common#:#group_new_registrations#:#新注册
 common#:#group_no_registration#:#无需注册
-common#:#group_no_registration_msg#:#您还不是此组成员。基于管理的原因您必须加入所请求的组。<br> 作为组成员您将获得下列益处#:#<br>- 您将得到新闻和更新的通知<br>- 您将可以访问相应的对象，如论坛、学习模块，等等。<br><br>您可以在任何时间取消您的成员资格。
+common#:#group_no_registration_msg#:#您还不是此组成员。基于管理的原因您必须加入所请求的组。<br> 作为组成员您将获得下列益处<br>- 您将得到新闻和更新的通知<br>- 您将可以访问相应的对象，如论坛、学习模块，等等。<br><br>您可以在任何时间取消您的成员资格。
 common#:#group_not_available#:#无组可用
 common#:#group_objects#:#组对象
 common#:#group_password_registration_expired_msg#:#注册此组的期限已过，不能再发布。请联系相应组的拥有者或管理员。
@@ -375,7 +375,7 @@ common#:#ingmedia_good_morning#:#早晨好
 common#:#ingmedia_good_night#:#晚安
 common#:#ingmedia_hello#:#您好
 common#:#ingmedia_info_about_work1#:#在
-common#:#ingmedia_info_about_work2#:#，您上次曾到过这里。您可以按这里继续#:#
+common#:#ingmedia_info_about_work2#:#，您上次曾到过这里。您可以按这里继续
 common#:#ingmedia_level_zero#:#水平相同
 common#:#ingmedia_pers_dates#:#个人数据
 common#:#ingmedia_reg_fo#:#已注册的论坛
@@ -387,7 +387,7 @@ common#:#ingmedia_use_title#:#更改用户数据
 common#:#ingmedia_user_agree#:#协议
 common#:#ingmedia_vis_le#:#已访问的学习模块
 common#:#ingmedia_visited_le#:#您至今所访问过的全部学习模块。
-common#:#ingmedia_welcome#:#，欢迎访问个人桌面#:#
+common#:#ingmedia_welcome#:#，欢迎访问个人桌面
 common#:#inifile#:#Ini-文件
 common#:#input_error#:#输入错误
 common#:#insert#:#插入
@@ -417,7 +417,7 @@ common#:#lang_pl#:#波兰语
 common#:#lang_se#:#瑞典语
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
-common#:#lang_timeformat#:#小时#:#分#:#秒
+common#:#lang_timeformat#:#小时分秒
 common#:#lang_version#:#1
 common#:#lang_xx#:#自定义
 common#:#langfile_found#:#找到语言文件
@@ -456,7 +456,7 @@ common#:#lo_new#:#新学习对象
 common#:#lo_no_content#:#无可用学习资源
 common#:#lo_other_langs#:#其它语言中学习对象的
 common#:#lo_overview#:#学习对象概观
-common#:#locator#:#地点#:#
+common#:#locator#:#地点
 common#:#login#:#登录
 common#:#login_as#:#已登录为
 common#:#login_data#:#登录数据
@@ -500,7 +500,7 @@ common#:#member#:#成员
 common#:#members#:#成员
 common#:#message#:#消息
 common#:#message_content#:#消息内容
-common#:#message_to#:#消息发送到#:#
+common#:#message_to#:#消息发送到
 common#:#meta_data#:#元数据
 common#:#migrate#:#移植
 common#:#mob#:#媒体对象
@@ -514,8 +514,8 @@ common#:#msg_cancel#:#操作已取消
 common#:#msg_changes_ok#:#更改成功
 common#:#msg_clear_clipboard#:#剪贴板已清除
 common#:#msg_cloned#:#已拷贝选择的对象
-common#:#msg_copy_clipboard#:#选择的对象已存于剪贴板（操作#:#拷贝）
-common#:#msg_cut_clipboard#:#选择的对象已存于剪贴板（操作#:#剪切）
+common#:#msg_copy_clipboard#:#选择的对象已存于剪贴板（操作贝）
+common#:#msg_cut_clipboard#:#选择的对象已存于剪贴板（操作剪切）
 common#:#msg_cut_copied#:#选择的对象已移动
 common#:#msg_deleted_role#:#角色已删除
 common#:#msg_deleted_roles#:#角色已删除
@@ -525,30 +525,30 @@ common#:#msg_deleted_rolts#:#角色模板已删除
 common#:#msg_error_copy#:#拷贝出错
 common#:#msg_failed#:#对不起，操作失败
 common#:#msg_is_last_role#:#您取消了下列用户的全局角色
-common#:#msg_link_clipboard#:#选择的对象已存于剪贴板（操作#:#链接）
+common#:#msg_link_clipboard#:#选择的对象已存于剪贴板（操作链接）
 common#:#msg_linked#:#选择的对象已链接
-common#:#msg_may_not_contain#:#此对象可能不包含对象类型#:#
+common#:#msg_may_not_contain#:#此对象可能不包含对象类型
 common#:#msg_min_one_active_role#:#每个用户当前必须具有至少一个全局角色！
 common#:#msg_min_one_role#:#每个用户必须具有至少一个全局角色！
 common#:#msg_multi_language_selected#:#您为不同的翻译选择了相同的语言！
 common#:#msg_no_default_language#:#未指定缺省语言！您必须定义一个语言为缺省语言。
 common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言
-common#:#msg_no_perm_copy#:#您无权限拷贝下列对象#:#
-common#:#msg_no_perm_create#:#您无权限创建下列对象#:#
+common#:#msg_no_perm_copy#:#您无权限拷贝下列对象
+common#:#msg_no_perm_create#:#您无权限创建下列对象
 common#:#msg_no_perm_create_object1#:#您无权限创建
 common#:#msg_no_perm_create_object2#:#在此地点！
 common#:#msg_no_perm_create_role#:#您无权限增加角色
 common#:#msg_no_perm_create_rolf#:#您无权限创建角色夹。因此，您不可以在这里停止角色继承或增加角色。
 common#:#msg_no_perm_create_rolt#:#您无权限增加角色模板
 common#:#msg_no_perm_create_user#:#您无权限增加用户
-common#:#msg_no_perm_cut#:#您无权限剪切下列对象#:#
-common#:#msg_no_perm_delete#:#您无权限删除下列对象#:#
-common#:#msg_no_perm_link#:#您无权限从下列对象创建链接#:#
+common#:#msg_no_perm_cut#:#您无权限剪切下列对象
+common#:#msg_no_perm_delete#:#您无权限删除下列对象
+common#:#msg_no_perm_link#:#您无权限从下列对象创建链接
 common#:#msg_no_perm_modify_role#:#您无权限修改角色
 common#:#msg_no_perm_modify_rolt#:#您无权限修改角色模板
 common#:#msg_no_perm_modify_user#:#您无权限修改用户日期　
-common#:#msg_no_perm_paste#:#您无权限粘贴下列对象#:#
+common#:#msg_no_perm_paste#:#您无权限粘贴下列对象
 common#:#msg_no_perm_perm#:#您无权限编辑权限设置
 common#:#msg_no_perm_write#:#您无写权限
 common#:#msg_no_rolf_allowed1#:#对象
@@ -557,7 +557,7 @@ common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
-common#:#msg_not_possible_link#:#不可以创建对象联接#:#类型
+common#:#msg_not_possible_link#:#不可以创建对象联接类型
 common#:#msg_nothing_found#:#无任何发现
 common#:#msg_obj_created#:#已创建对象。
 common#:#msg_obj_exists#:#此对象已存在于文件夹中
@@ -576,7 +576,7 @@ common#:#msg_sysrole_not_deletable#:#不能删除系统角色
 common#:#msg_sysrole_not_editable#:#系统角色设置可能已更改。系统角色赋予所有指定用户无限制地访问全部对象和功能。
 common#:#msg_trash_empty#:#无删除的对象
 common#:#msg_undeleted#:#已恢复删除的对象。
-common#:#msg_user_last_role1#:#下列用户只被指派此角色#:#
+common#:#msg_user_last_role1#:#下列用户只被指派此角色
 common#:#msg_user_last_role2#:#为删除此角色请删除用户或指派其为其它角色。
 common#:#msg_userassignment_changed#:#已更改用户分派
 common#:#multimedia#:#多媒体
@@ -945,7 +945,7 @@ content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
 content#:#cont_create_dir#:#创建目录
 content#:#cont_cross_reference#:#交叉参考
-content#:#cont_data_from_lms#:#adlcp#:#来自于学习管理系统的数据
+content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
 content#:#cont_def_layout#:#缺省版面
 content#:#cont_def_organization#:#缺省版面
 content#:#cont_definition#:#定义
@@ -1002,8 +1002,8 @@ content#:#cont_lk_term#:#术语表中的术语
 content#:#cont_lk_term_new#:#术语表中的术语（新框架）
 content#:#cont_lm_properties#:#学习模块属性
 content#:#cont_manifest#:#声明
-content#:#cont_mastery_score#:#adlcp#:#技能分数
-content#:#cont_max_time_allowed#:#adlcp#:#允许的最长时间
+content#:#cont_mastery_score#:#adlcp技能分数
+content#:#cont_max_time_allowed#:#adlcp允许的最长时间
 content#:#cont_mob_files#:#对象文件
 content#:#cont_mob_inst_prop#:#即时属性
 content#:#cont_mob_prop#:#对象属性
@@ -1034,12 +1034,12 @@ content#:#cont_parameters#:#参数
 content#:#cont_personal_clipboard#:#个人剪贴板
 content#:#cont_pg_content#:#页内容
 content#:#cont_pg_title#:#页标题
-content#:#cont_prereq_type#:#adlcp#:#先决条件。类型
-content#:#cont_prerequisites#:#adlcp#:#先决条件
+content#:#cont_prereq_type#:#adlcp先决条件。类型
+content#:#cont_prerequisites#:#adlcp先决条件
 content#:#cont_preview#:#预览
 content#:#cont_publisher#:#出版者
 content#:#cont_purpose#:#用途
-content#:#cont_ref_helptext#:#例如， http#:#//www.server.org/myimage.jpg)
+content#:#cont_ref_helptext#:#例如， http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#参考
 content#:#cont_resource#:#资源
 content#:#cont_resource_type#:#类型
@@ -1047,7 +1047,7 @@ content#:#cont_resources#:#资源
 content#:#cont_roman#:#罗马数字 i, ii, …
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校
-content#:#cont_scorm_type#:#adlcp#:#scorm类型
+content#:#cont_scorm_type#:#adlcpscorm类型
 content#:#cont_select_max_one_item#:#请只选择一项
 content#:#cont_select_max_one_term#:#只选择一项
 content#:#cont_select_one_translation#:#请选择一种翻译
@@ -1076,7 +1076,7 @@ content#:#cont_table_width#:#表格宽度
 content#:#cont_target_within_source#:#目标不必在源对象中。
 content#:#cont_term#:#术语
 content#:#cont_terms#:#术语
-content#:#cont_time_limit_action#:#adlcp#:#时间限制操作
+content#:#cont_time_limit_action#:#adlcp时间限制操作
 content#:#cont_toc#:#目录
 content#:#cont_top#:#向上
 content#:#cont_translations#:#翻译
@@ -1087,7 +1087,7 @@ content#:#cont_version#:#版本
 content#:#cont_where_published#:#发行处
 content#:#cont_width#:#宽度
 content#:#cont_wysiwyg#:#所得即所见内容
-content#:#cont_xml_base#:#xml#:#库
+content#:#cont_xml_base#:#xml库
 content#:#cont_year#:#年
 content#:#pages from#:#页源于
 content#:#par#:#段落
@@ -1149,7 +1149,7 @@ mail#:#mail_bc_search#:#秘密抄送搜索
 mail#:#mail_byte#:#字节
 mail#:#mail_cc_not_valid#:#抄送收件人无效
 mail#:#mail_cc_search#:#抄送搜索
-mail#:#mail_change_to_folder#:#转换到文件夹#:#
+mail#:#mail_change_to_folder#:#转换到文件夹
 mail#:#mail_check_your_email_addr#:#您的电子邮件地址无效
 mail#:#mail_compose#:#写作消息
 mail#:#mail_deleted#:#邮件已删除
@@ -1173,13 +1173,13 @@ mail#:#mail_insert_query#:#请插入询问
 mail#:#mail_intern#:#内部的
 mail#:#mail_mark_read#:#标记邮件为已读
 mail#:#mail_mark_unread#:#标记邮件为未读
-mail#:#mail_maxsize_attachment_error#:#上载限制为#:#
+mail#:#mail_maxsize_attachment_error#:#上载限制为
 mail#:#mail_message_send#:#消息已发
 mail#:#mail_move_error#:#移动邮件出错
-mail#:#mail_move_to#:#移到#:#
+mail#:#mail_move_to#:#移到
 mail#:#mail_moved#:#邮件已移动
 mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
-mail#:#mail_new_file#:#增加新文件#:#
+mail#:#mail_new_file#:#增加新文件
 mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
 mail#:#mail_no_attachments_found#:#未找到附件
 mail#:#mail_options_of#:#选项
