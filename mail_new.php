@@ -9,7 +9,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new Template("tpl.mail_new.html", false, false);
+$tpl = new Template("tpl.mail_new.html", true, true);
 
 $lng = new Language($ilias->account->data["language"]);
 
@@ -17,6 +17,13 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");
 
+if ($_POST["msg_send"] != "")
+{
+	$myMails = new UserMail($ilias->db, $ilias->account->Id);
+	$myMails->sendMail($_POST["msg_to"], $_POST["msg_subject"], $_POST["msg_content"]);
+}
+
+$tpl->setVariable("ACTION", "mail_new.php");
 $tpl->setVariable("TXT_RECIPIENT", $lng->txt("recipient"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
 $tpl->setVariable("TXT_CC", $lng->txt("cc"));

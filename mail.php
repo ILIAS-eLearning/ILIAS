@@ -34,6 +34,7 @@ if ($_POST["func"] != "")
 {
 	switch ($_POST["func"])
 	{
+	
 		case "read":
 			//check if a mail is selected
 			if ($marker[0]!="")
@@ -41,13 +42,20 @@ if ($_POST["func"] != "")
 				header("location: mail_read.php?id=".$marker[0]);
 			}
 			break;
+			
 		case "del":
 			for ($i=0; $i<count($marker); $i++)
 			{
-				$myMails->setStatus($marker[$i], "rcp", "delete");
+				if ($folder=="trash")
+				{
+					$myMails->setStatus($marker[$i], "rcp", "deleted");
+				}
+				else
+					$myMails->rcpDelete($marker[$i]);
 			}
 			header("location: mail.php?folder=".$folder);
 			break;
+			
 		case "mark_read":
 			for ($i=0; $i<count($marker); $i++)
 			{
@@ -55,6 +63,7 @@ if ($_POST["func"] != "")
 			}
 			header("location: mail.php?folder=".$folder);
 			break;
+			
 		case "mark_unread":
 			for ($i=0; $i<count($marker); $i++)
 			{
@@ -68,6 +77,8 @@ if ($_POST["func"] != "")
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");
+
+$tpl->setVariable("ACTION", "mail.php?folder=".$folder);
 
 //set actionsselectbox
 $tpl->setVariable("TXT_ACTIONS", $lng->txt("actions"));
@@ -110,7 +121,7 @@ foreach ($mails["msg"] as $row)
 	$tpl->setVariable("MAIL_FROM", $row["from"]);
 	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
 	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
-	$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
+	$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
 	$tpl->setVariable("MAIL_LINK_DEL", "");
 	$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
 	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
