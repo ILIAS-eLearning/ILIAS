@@ -1803,14 +1803,14 @@ content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
-content#:#cont_page_header#:#Seitentitel
+content#:#cont_page_header#:#Überschrift der Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_personal_clipboard#:#Persönliches Clipboard
 content#:#cont_pg_content#:#Seiteninhalt
-content#:#cont_pg_title#:#Seitentitel
+content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
@@ -1857,7 +1857,7 @@ content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
-content#:#cont_st_title#:#Kapitel-Titel
+content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
@@ -1874,7 +1874,7 @@ content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Verzeichnis und Inhalt
+content#:#cont_toc_mode#:#Inhaltsverzeichnis bei toc2win-Modus
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_data#:#Protokolldaten
