@@ -509,6 +509,7 @@ common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
 common#:#all_tsts#:#All tests
+common#:#all_authors#:#All authors
 common#:#allow_register#:#Available in registration form for new users
 common#:#alm#:#AICC Learning Module
 common#:#alm_added#:#AICC Learning Module added
@@ -649,6 +650,7 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
+common#:#client_ip#:#Client Ip
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
 common#:#clipboard#:#Clipboard
@@ -1396,6 +1398,7 @@ common#:#not_logged_in#:#Your are not logged in
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
+common#:#object#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_alm#:#AICC Learning Module
@@ -1841,6 +1844,8 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
+common#:#user_statistics#:#Statistical Data
+common#:#user_detail#:#Detail Data
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
