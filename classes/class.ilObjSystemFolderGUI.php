@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.18 2003/11/18 13:40:47 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.19 2003/11/18 13:57:27 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -49,7 +49,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	// display basicdata formular
 	function viewObject()
 	{
-		global $tree,$rbacsystem,$tpl,$ilias,$lng;
+		global $tree, $rbacsystem, $tpl, $ilias,$lng, $styleDefinition;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -71,7 +71,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				continue;
 			}
-				
+
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
@@ -80,11 +80,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
-				
+
 			//control information is set below
 
 	    } //foreach
-		
+
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
@@ -96,7 +96,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->data["ctrl"][$key] = array(
 											"type" => $val["type"],
 											"ref_id" => $val["ref_id"]
-											);		
+											);
 
 			unset($this->data["data"][$key]["ref_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
@@ -223,7 +223,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->ini->write();
 
 				$settings = $ilias->getAllSettings();
-				
+
 				// feedback
 				sendInfo($lng->txt("saved_successfully"));
 			}
@@ -252,14 +252,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_DEFAULT_LANGUAGE", $lng->txt("default_language"));
 		$tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $lng->txt("feedback_recipient"));
 		$tpl->setVariable("TXT_ERROR_RECIPIENT", $lng->txt("error_recipient"));
-		
+
 		include ("./classes/class.ilDBUpdate.php");
 		$dbupdate = new ilDBUpdate($ilias->db,true);
-		
+
 		if (!$dbupdate->getDBVersionStatus())
 		{
 			$tpl->setVariable("TXT_DB_UPDATE", "&nbsp;(<span class=\"warning\">".$lng->txt("db_need_update")."</span>)");
-		} 
+		}
 
 		// modules
 		//$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
@@ -313,28 +313,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
 		$tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
 
-		// get all skins
-		$ilias->getSkins();
-		
+		// get all templates
+		$templates = $styleDefinition->getAllTemplates();
+
 		$tpl->setCurrentBlock("selectskin");
-				
-		foreach ($ilias->skins as $skin)
+
+		foreach ($templates as $template)
 		{
-			// get styles for skin
-			$ilias->getStyles($skin["name"]);
+			// get styles definition for template
+			$styleDef =& new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
 
-			reset($ilias->styles);
-
-			foreach ($ilias->styles as $style)
+			foreach ($styles as $style)
 			{
-				if ($ilias->ini->readVariable("layout","skin") == $skin["name"] &&
-					$ilias->ini->readVariable("layout","style") == $style["name"])
+				if ($ilias->ini->readVariable("layout","skin") == $template["id"] &&
+					$ilias->ini->readVariable("layout","style") == $style["id"])
 				{
 					$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 				}
-		
-				$tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
-				$tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+
+				$tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+				$tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$tpl->parseCurrentBlock();
 			}
 		}
