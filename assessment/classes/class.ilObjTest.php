@@ -167,15 +167,6 @@ class ilObjTest extends ilObject
   var $test_type;
 
 /**
-* Test formats
-* 
-* The test formats given for the user
-*
-* @var integer
-*/
-  var $test_formats;
-  
-/**
 * Number of tries the user is allowed to do
 * 
 * Number of tries the user is allowed to do. If set to 0, the user has
@@ -306,7 +297,6 @@ class ilObjTest extends ilObject
 		$this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
 		$this->test_type = TYPE_ASSESSMENT;
-		$this->test_formats = 7;
 		$this->ects_output = 0;
 		$this->ects_fx = "";
 		$this->random_test = 0;
@@ -977,7 +967,7 @@ class ilObjTest extends ilObject
 * @param object $db A pear DB object
 * @access public
 */
-  function saveToDb($properties_only = false)
+  function saveToDb($properties_only = FALSE)
   {
     global $ilias;
     $db =& $ilias->db;
@@ -1075,11 +1065,11 @@ class ilObjTest extends ilObject
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
 	        $db->quote($this->test_id)
 				);
-				$result = $db->query($query);
+				$logresult = $db->query($query);
 				$newrow = array();
-				if ($result->numRows() == 1)
+				if ($logresult->numRows() == 1)
 				{
-					$newrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					$newrow = $logresult->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 				$changed_fields = array();
 				foreach ($oldrow as $key => $value)
@@ -4724,7 +4714,12 @@ class ilObjTest extends ilObject
 		
 		$newObj = new ilObjTest();
 		$newObj->setType("tst");
-		$newObj->setTitle($original->getTitle());
+    $counter = 2;
+    while ($newObj->testTitleExists($newObj->getTitle() . " ($counter)")) 
+		{
+      $counter++;
+    }
+		$newObj->setTitle($original->getTitle() . " ($counter)");
 		$newObj->setDescription($original->getDescription());
 		$newObj->create(true);
 		$newObj->createReference();
@@ -4739,7 +4734,6 @@ class ilObjTest extends ilObject
 		$newObj->score_reporting = $original->getScoreReporting();
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->test_type = $original->getTestType();
-		$newObj->test_formats = $original->getTestFormats();
 		$newObj->nr_of_tries = $original->getNrOfTries();
 		$newObj->processing_time = $original->getProcessingTime();
 		$newObj->enable_processing_time = $original->getEnableProcessingTime();
@@ -4771,7 +4765,6 @@ class ilObjTest extends ilObject
 		}
 		
 		$newObj->saveToDb();		
-
 		// clone meta data
 		$meta_data =& new ilMetaData($original->getType(), $original->getId());
 		include_once("./classes/class.ilNestedSetXML.php");

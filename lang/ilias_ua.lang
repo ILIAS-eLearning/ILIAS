@@ -3,7 +3,7 @@
 *
 * @module		language file ukrainian
 * @modulegroup	language
-* @author 		Matthias Kunkel <squash@univ.kiev.ua>
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
 */
 
@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Будь ласка введіть значе�
 assessment#:#ects_range_error_e#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня E!
 assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень, якщо провалений учасник досяг хоча б
 assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Кігцевий тег
 assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
 assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!

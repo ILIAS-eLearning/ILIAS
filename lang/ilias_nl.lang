@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Voer een waarde in tussen 0 en 100 voor ECTS-s
 assessment#:#ects_range_error_e#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal E.
 assessment#:#ects_use_fx_grade#:#Gebruik de 'FX' schaal, wanneer de niet succesvolle participanten minstens
 assessment#:#ects_use_fx_grade_part2#:#percentage van het totaal aantal punten.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Eind-tag
 assessment#:#ending_time_reached#:#De eind-tijd is bereikt
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable

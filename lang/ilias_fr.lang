@@ -180,6 +180,8 @@ assessment#:#ects_range_error_d#:#Veuillez saisir une valeur entre 0 et 100 pour
 assessment#:#ects_range_error_e#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS E.
 assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants ont échoué
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
 assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son répertoire de destination.
