@@ -222,7 +222,7 @@ class ilChatRoom
 		if($res->numRows())
 		{
  			$query = "UPDATE chat_user ".
-				"SET last_conn_timestamp = now() ".
+				"SET last_conn_timestamp = '".time()."' ".
 				"WHERE usr_id = '".$this->getUserId()."' ".
 				"AND room_id = '".$this->getRoomId()."' ".
 				"AND chat_id = '".$this->getRefId()."'";
@@ -233,7 +233,7 @@ class ilChatRoom
 				"SET usr_id = '".$this->getUserId()."', ".
 				"room_id = '".$this->getRoomId()."', ".
 				"chat_id = '".$this->getRefId()."', ".
-				"last_conn_timestamp = now()";
+				"last_conn_timestamp = '".time()."'";
 		}
 		$res = $this->ilias->db->query($query);
 		return true;
@@ -243,7 +243,7 @@ class ilChatRoom
 		$query = "SELECT * FROM chat_user ".
 			"WHERE chat_id = '".$chat_id."' ".
 			"AND room_id = '".$room_id."' ".
-			"AND last_conn_timestamp > now() - 100";
+			"AND last_conn_timestamp > ".time()." - 30";
 		$res = $this->ilias->db->query($query);
 
 		return $res->numRows();
@@ -254,7 +254,7 @@ class ilChatRoom
 		$query = "SELECT * FROM chat_user ".
 			"WHERE chat_id = '".$this->ref_id."' ".
 			"AND room_id = '".$this->room_id."' ".
-			"AND last_conn_timestamp > now() - 100";
+			"AND last_conn_timestamp > ".time()." - 30";
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
