@@ -83,7 +83,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["offset"] = 0;
 		}
-
+		$lng->loadlanguageModule("search");
 		$_GET["offset"] = intval($_GET["offset"]);
 		$_GET["limit"] = intval($_GET["limit"]);
 		$offset = intval($_GET["offset"]);
@@ -131,6 +131,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("permSave","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("addrole","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("newmembers","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
 
 
 		$cmd = $_GET["cmd"];
@@ -1247,7 +1248,7 @@ class ilGroupGUI extends ilObjectGUI
 	function newMembersObject()
 	{
 		//create additional tabs for tab-bar
-
+		
 		$this->prepareOutput(true,99);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
@@ -1285,7 +1286,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "group.php?type=grp&cmd=newMembersObject&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
 
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 
 
 
@@ -1302,21 +1303,9 @@ class ilGroupGUI extends ilObjectGUI
 
 			if(count($member_ids) == 0)
 			{
-				//var_dump($member_ids);
-				//var_dump($_POST);
-				//echo ("_______________________________");
-				//var_dump($_GET);
-				//exit();
-				//$this->ilias->raiseError($this->lng->txt("user_not_chosen"),$this->ilias->error_obj->MESSAGE);
-				//exit();
-				//if (isset($_GET["search_user"]))
-				//{
-			//		echo ("hallo");
-		//		}
-				$this->ilias->raiseError("No matching results !",$this->ilias->error_obj->MESSAGE);
-				$this->tpl->show();
+				sendInfo($this->lng->txt("search_no_match"),true);
+				header ("Location: group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
 				exit();
-
 			}
 			else
 			{
