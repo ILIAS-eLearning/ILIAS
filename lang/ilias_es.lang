@@ -138,6 +138,7 @@ common#:#file_version#:#version provided in file
 common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#please fill out all required fields
 common#:#firstname#:#firstname
+common#:#flatview#:#Flat view###07 Feb 2003 new variable
 common#:#folder#:#folder
 common#:#folders#:#folders
 common#:#forename#:#forename
@@ -225,6 +226,7 @@ common#:#lang_xx#:#Custom
 common#:#language#:#language
 common#:#languages#:#languages
 common#:#last_change#:#last change
+common#:#last_visit#:#Last visit###07 Feb 2003 new variable
 common#:#lastname#:#lastname
 common#:#launch#:#launch
 common#:#ldap#:#LDAP
@@ -240,10 +242,11 @@ common#:#literature_bookmarks#:#literature bookmarks
 common#:#lng#:#idioma
 common#:#lngf#:#idiomaf
 common#:#lo#:#learning object
-common#:#lo_available#:#Overview learning modules & courses
+common#:#lo_available#:#Overview learning modules & courses###07 Feb 2003 content changed
 common#:#lo_categories#:#lo categories
 common#:#lo_edit#:#edit learning object
 common#:#lo_new#:#new learning object
+common#:#lo_no_content#:#No learning ressources available###07 Feb 2003 new variable
 common#:#lo_other_langs#:#lo's in other langauges
 common#:#lo_overview#:#lo overview
 common#:#login#:#login
@@ -387,6 +390,7 @@ common#:#set_offline#:#set offline
 common#:#set_online#:#set online
 common#:#set_system_language#:#set system language
 common#:#show_list#:#show list###17 Jan 2003 new variable
+common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
@@ -415,6 +419,7 @@ common#:#today#:#today
 common#:#total#:#total
 common#:#tpl_path#:#template path
 common#:#trash#:#trash
+common#:#treeview#:#Tree view###07 Feb 2003 new variable
 common#:#type#:#type
 common#:#type_your_message_here#:#type your message here
 common#:#uid#:#uid

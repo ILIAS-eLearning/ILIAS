@@ -138,7 +138,7 @@ common#:#file_version#:#version provided in file
 common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#please fill out all required fields
 common#:#firstname#:#firstname
-common#:#folder#:#folder
+common#:#flatview#:#Flat viewcommon#:#folder#:#folder
 common#:#folders#:#folders
 common#:#forename#:#forename
 common#:#form_empty_fields#:#please complete these fields:
@@ -225,6 +225,7 @@ common#:#lang_xx#:#Custom
 common#:#language#:#language
 common#:#languages#:#languages
 common#:#last_change#:#last change
+common#:#last_visit#:#Last visit
 common#:#lastname#:#lastname
 common#:#launch#:#launch
 common#:#ldap#:#LDAP
@@ -241,10 +242,10 @@ common#:#lng#:#language
 common#:#lngf#:#language folder
 common#:#lo#:#learning object
 common#:#lo_available#:#Overview learning modules & courses
-common#:#lo_no_content#:#No learning ressources available
 common#:#lo_categories#:#lo categories
 common#:#lo_edit#:#edit learning object
 common#:#lo_new#:#new learning object
+common#:#lo_no_content#:#No learning ressources available
 common#:#lo_other_langs#:#lo's in other langauges
 common#:#lo_overview#:#lo overview
 common#:#login#:#login
@@ -388,6 +389,7 @@ common#:#set_offline#:#set offline
 common#:#set_online#:#set online
 common#:#set_system_language#:#set system language
 common#:#show_list#:#show list
+common#:#show_members#:#display members
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
@@ -416,6 +418,7 @@ common#:#today#:#today
 common#:#total#:#total
 common#:#tpl_path#:#template path
 common#:#trash#:#trash
+common#:#treeview#:#Tree view
 common#:#type#:#type
 common#:#type_your_message_here#:#type your message here
 common#:#uid#:#uid
@@ -445,7 +448,3 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you may add local roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
-common#:#show_members#:#display members
-common#:#last_visit#:#Last visit
-common#:#treeview#:#Tree view
-common#:#flatview#:#Flat view
