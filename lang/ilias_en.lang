@@ -433,3 +433,7 @@ common#:#forums_count_thr#:#number of threads
 common#:#forums_count_art#:#number of articles
 common#:#by#:#by
 common#:#launch#:#launch
+common#:#info_trash#:#Deleted Objects
+common#:#btn_undelete#:#undelete
+common#:#btn_remove_system#:#remove from system
+common#:#msg_trash_empty#:#There are no deleted objects
