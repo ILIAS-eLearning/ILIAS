@@ -113,3 +113,19 @@ VALUES (
 '14', '9'
 );
 
+<#7>
+# change data type in `frm_data`
+ALTER TABLE `frm_data` CHANGE `top_mods` `top_mods` INT NOT NULL ;
+
+# new forum operation in `rbac_operations`
+INSERT INTO `rbac_operations` ( `ops_id` , `operation` , `description` ) 
+VALUES (
+'10', 'delete post', 'delete forum articles'
+);
+
+# new operation link in `rbac_ta`
+INSERT INTO `rbac_ta` ( `typ_id` , `ops_id` ) 
+VALUES (
+'14', '10'
+);
+
