@@ -134,7 +134,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
 					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";			
-					$lpCont .= "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$author->getLogin()."</a>";
+					$lpCont .= "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["login"]."</a>";
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);			
