@@ -151,6 +151,7 @@ class ilLMEditorGUI
 
 						case "meta":
 							$meta_gui =& new ilMetaDataGUI($obj->getMetaData());
+							$meta_gui->setLMObject($this->lm_obj);
 							$meta_gui->setMetaDataObject($obj->getMetaData());
 							$meta_gui->edit();
 							break;
