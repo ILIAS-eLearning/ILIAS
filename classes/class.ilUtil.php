@@ -1250,6 +1250,7 @@ class ilUtil
 		header("Connection: close");
 
 		readfile( $a_file );
+		exit;
 	}
 
 	/**

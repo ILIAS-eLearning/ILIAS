@@ -216,6 +216,33 @@ class ilStructureObject extends ilLMObject
 		}
 	}
 
+	/**
+	* export object to fo
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportFO(&$a_xml_writer)
+	{
+		global $ilBench;
+
+		//$expLog->write(date("[y-m-d H:i:s] ")."Structure Object ".$this->getId());
+
+		// fo:block (complete)
+		$attrs = array();
+		$attrs["font-family"] = "Times";
+		$attrs["font-size"] = "14pt";
+		$a_xml_writer->xmlElement("fo:block", $attrs, $this->getTitle());
+
+		// page objects
+		//$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjects");
+		//$this->exportXMLPageObjects($a_xml_writer, $a_inst);
+		//$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjects");
+
+		// structure objects
+		//$this->exportFOStructureObjects($a_xml_writer);
+
+	}
 
 }
 ?>

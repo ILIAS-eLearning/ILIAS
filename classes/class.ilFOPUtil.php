@@ -21,32 +21,52 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* learning module presentation script
+* utility functions for xml-fo
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-*
-* @package content
+* @package ilias-core
 */
-
-define("ILIAS_MODULE", "content");
-chdir("..");
-require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
-
-// check read permission
-if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+class ilFOPUtil
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-}
 
-// learning module presentation class does the rest
-require_once "./content/classes/class.ilLMPresentationGUI.php";
-$lm_presentation = new ilLMPresentationGUI();
+	/**
+	* get fop command
+	*/
+	function getFOPCmd()
+	{
+		return PATH_TO_FOP;
+	}
 
-$ilBench->save();
+	/**
+	* convert fo file to pdf file
+	*
+	* @param	string		$a_from				source fo file
+	* @param	string		$a_to				target pdf file
+	*/
+	function makePDF($a_from, $a_to)
+	{
+		$fop_cmd = ilFOPUtil::getFOPCmd()." -fo ".
+			$a_from." -pdf ".$a_to;
+echo $fop_cmd."<br>";
+		echo ":";
 
-//$tpl->show();
+		//error_reporting(E_ALL);
 
+/* Add redirection so we can get stderr. */
+$handle = popen($fop_cmd.' 2>&1', 'r');
+echo "'$handle'; " . gettype($handle) . "\n";
+$read = fread($handle, 2096);
+echo $read;
+pclose($handle);
+
+		$ret = exec($fop_cmd, $arr, $r2);
+		echo $ret.$r2;
+		echo ":";
+		var_dump($arr);
+	}
+
+} // END class.ilFOPUtil
 ?>

@@ -966,6 +966,14 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
+		// track user access to page
+		if(DEVMODE)
+		{
+			require_once "./tracking/classes/class.ilUserTracking.php";
+			ilUserTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
+				$page_id, "pg", "read");
+		}
+
 		$ilBench->stop("ContentPresentation", "ilPage");
 
 		return $page_object_gui->presentation();
