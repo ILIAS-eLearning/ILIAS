@@ -85,13 +85,20 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		return true;
 	}
+
+
+	/**
+	* canceledObject is called when operation is canceled, method links back
+	* @access	public
+	*/
 	function cancelMemberObject()
 	{
-
 		$this->__unsetSessionVariables();
-		$this->membersObject();
-		
-		return true;
+
+		$return_location = "members";
+
+		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 
 	function viewObject()
@@ -1869,7 +1876,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tpl->setVariable("MEMBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
 			$tpl->setVariable("MEMBERS_IMG_ALT",$this->lng->txt('crs_header_members'));
 			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
-			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
+			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
 			$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
 			$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
 			$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
@@ -1902,7 +1909,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tpl->setVariable("SUBSCRIBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
 			$tpl->setVariable("SUBSCRIBERS_IMG_ALT",$this->lng->txt('crs_subscribers'));
 			$tpl->setVariable("SUBSCRIBERS_TABLE_HEADER",$this->lng->txt('crs_subscribers'));
-			$tpl->setVariable("TXT_SLOGIN",$this->lng->txt('login'));
+			$tpl->setVariable("TXT_SLOGIN",$this->lng->txt('username'));
 			$tpl->setVariable("TXT_SFIRSTNAME",$this->lng->txt('firstname'));
 			$tpl->setVariable("TXT_SLASTNAME",$this->lng->txt('lastname'));
 			$tpl->setVariable("TXT_STIME",$this->lng->txt('crs_time'));
@@ -2017,26 +2024,36 @@ class ilObjCourseGUI extends ilObjectGUI
 	}
 
 
-
 	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
 	{
-		switch($from)
+        switch($from)
 		{
 			case "members":
 				$offset = $_GET["update_members"] ? $_GET["offset"] : 0;
-				$order = $_GET["update_members"] ? $_GET["sort_by"] : '';
+				$order = $_GET["update_members"] ? $_GET["sort_by"] : 'login';
 				$direction = $_GET["update_members"] ? $_GET["sort_order"] : '';
 				break;
 
 			case "subscribers":
 				$offset = $_GET["update_subscribers"] ? $_GET["offset"] : 0;
-				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : '';
+				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : 'login';
 				$direction = $_GET["update_subscribers"] ? $_GET["sort_order"] : '';
+				break;
+				
+			case "group":
+				$offset = $_GET["offset"];
+	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
+				$direction = $_GET["sort_order"];
 				break;
 
 			default:
 				$offset = $_GET["offset"];
-				$order = $_GET["sort_by"];
+				// init sort_by (unfortunatly sort_by is preset with 'title'
+	           	if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
+                {
+                    $_GET["sort_by"] = "login";
+                }
+                $order = $_GET["sort_by"];
 				$direction = $_GET["sort_order"];
 				break;
 		}
@@ -2048,6 +2065,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl->setMaxCount(count($result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
+		//var_dump("<pre>",$result_set,"</pre>");
 	}
 		
 
@@ -2080,7 +2098,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 
 		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
-		$tbl->setHeaderNames(array($this->lng->txt("login"),
+		$tbl->setHeaderNames(array($this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt('crs_passed'),
@@ -2133,7 +2151,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("login"),
+								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname")));
 		$tbl->setHeaderVars(array("",
@@ -2196,8 +2214,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
 
 
-		$this->__setTableGUIBasicData($tbl,$a_result_set);
-		$tbl->disable('sort');
+		$this->__setTableGUIBasicData($tbl,$a_result_set,"group");
 		$tbl->render();
 		
 		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
@@ -2230,7 +2247,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tbl->setTitle($this->lng->txt("crs_header_delete_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_delete_members"));
-		$tbl->setHeaderNames(array($this->lng->txt("login"),
+		$tbl->setHeaderNames(array($this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("role")));
@@ -2276,7 +2293,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tbl->setTitle($this->lng->txt("crs_header_delete_subscribers"),"icon_usr_b.gif",$this->lng->txt("crs_header_delete_members"));
-		$tbl->setHeaderNames(array($this->lng->txt("login"),
+		$tbl->setHeaderNames(array($this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("crs_time")));
@@ -2449,7 +2466,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
-		// SET FORMAACTION
+		// SET FORMACTION
 		$tpl->setCurrentBlock("tbl_form_header");
 
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -2479,7 +2496,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("login"),
+								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("crs_role"),
@@ -2552,7 +2569,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("login"),
+								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("crs_time")));

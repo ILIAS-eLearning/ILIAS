@@ -114,9 +114,6 @@ class ilRepositoryGUI
 			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 		}
 
-		// set no limit for hits/page
-		$_GET["limit"] = 9999;
-
 		$this->categories = array();
 		$this->learning_resources = array();
 		$this->forums = array();
@@ -488,8 +485,10 @@ class ilRepositoryGUI
 	{
 		global $objDefinition, $ilBench;
 		
-		
-		$this->getFlatListData($this->cur_ref_id);
+		// set no limit for hits/page
+		$_GET["limit"] = 9999;
+
+        $this->getFlatListData($this->cur_ref_id);
 
 		$ilBench->start("Repository", "FlatList");
 
