@@ -30,7 +30,8 @@ body { margin:0px; }
 	</td>
 </tr>
 </table>
-<br />
+</form>
+<form action="{FORMACTION2}" name="post" method="post" {TARGET2}>
 <!-- BEGIN chapter_list -->
 <table class="fullwidth">
 <tr class="tblheader">
@@ -41,7 +42,9 @@ body { margin:0px; }
 </tr>
 <tr>
 	<td class="submit">
+	<!-- BEGIN change_cont_obj -->
 	<input type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}">
+	<!-- END change_cont_obj -->
 	<!-- BEGIN new_mob -->
 	<input type="submit" class="submit" name="cmd[{CMD_NEW_MOB}]" value="{BTN_NEW_MOB}">
 	<!-- END new_mob -->

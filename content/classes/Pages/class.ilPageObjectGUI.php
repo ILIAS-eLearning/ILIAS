@@ -440,6 +440,7 @@ class ilPageObjectGUI
 		}
 
 		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post".$typestr);
+		$tpl->setVariable("FORMACTION2", $this->getTargetScript()."&cmd=post".$typestr);
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),
@@ -474,8 +475,10 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->parseCurrentBlock();
 
 				foreach($nodes as $node)
 				{
@@ -513,8 +516,10 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->parseCurrentBlock();
 
 				foreach($nodes as $node)
 				{
@@ -545,8 +550,10 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("glossary"));
 				$tpl->setVariable("TXT_CONT_TITLE", $glossary->getTitle());
+				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->parseCurrentBlock();
 
 				foreach($terms as $term)
 				{
@@ -566,6 +573,7 @@ class ilPageObjectGUI
 
 			// media object
 			case "Media":
+				$tpl->setVariable("TARGET2", " target=\"content\" ");
 				//require_once("./content/classes/class.ilObjMediaObject.php");
 				$cont_obj =& new ilObjContentObject($content_obj, true);
 
