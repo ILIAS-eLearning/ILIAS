@@ -140,7 +140,7 @@ class ilSaxParser extends PEAR
 		while($data = fread($a_fp,4096))
 		{
 			$parseOk = xml_parse($a_xml_parser,$data,feof($a_fp));
-			if(!$parseOk 
+			if(!$parseOk
 			   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
 			{
 				$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
