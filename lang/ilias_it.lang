@@ -93,6 +93,7 @@ assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
 assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
+assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Rispondi
@@ -107,6 +108,7 @@ assessment#:#ass_questions#:#Domande
 assessment#:#by#:#da
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
+assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
@@ -167,6 +169,8 @@ assessment#:#order_terms#:#Ordina i termini
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
 assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
+assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
@@ -197,6 +201,7 @@ assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#random_selection#:#Selezione casuale
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
