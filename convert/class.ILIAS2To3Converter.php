@@ -33,81 +33,81 @@ require_once "class.XmlWriter.php";
 * The XML file and the raw data files belonging to the LearningModule 
 * are packaged into a sigle zip file.
 * 
-* @author Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
-* @version $Id$
+* @author	Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
+* @version	$Id$
 */
 class ILIAS2To3Converter
 {
 	/**
 	* database handle from pear database class 
-	* @var object
-	* @access private
+	* @var		object
+	* @access	private
 	*/
 	var $db;
 	
 	/**
 	* object handle from utility class 
-	* @var object
-	* @access private
+	* @var		object
+	* @access	private
 	*/
 	var $utils;
 	
 	/**
 	* object hangle from XML writer class 
-	* @var object
-	* @access private 
+	* @var		object
+	* @access	private 
 	*/
 	var $xml;
 	
 	/**
 	* learninigunit id 
-	* @var integer
-	* @access private 
+	* @var		integer
+	* @access	private 
 	*/
 	var $luId;
 	
 	/**
 	* ILIAS 2 base directory 
-	* @var string
-	* @access private 
+	* @var		string
+	* @access	private 
 	*/
 	var $iliasDir;
 	
 	/**
 	* source directory 
-	* @var string
-	* @access private 
+	* @var		string
+	* @access	private 
 	*/
 	var $sourceDir;
 	
 	/**
 	* target directory 
-	* @var string
-	* @access private 
+	* @var		string
+	* @access	private 
 	*/
 	var $targetDir;
 	
 	/**
 	* current language 
-	* @var string
-	* @access private 
+	* @var		string
+	* @access	private 
 	*/
 	var $curLang;
 	
 	/**
-	* metadata set (General) 
-	* @var array
-	* @access private 
+	* metadata set (element General) 
+	* @var		array
+	* @access	private 
 	*/
 	var $metaData;
 	
 	/**
 	* constructor 
-	* @param string	user
-	* @param string	password
-	* @param string	host
-	* @param string	database
-	* @access public 
+	* @param	string	user
+	* @param	string	password
+	* @param	string	host
+	* @param	string	database
+	* @access	public
 	*/
 	function ILIAS2To3Converter ($user, $pass, $host, $dbname, $iliasDir, $sDir, $tDir)
 	{
@@ -133,20 +133,23 @@ class ILIAS2To3Converter
 	
 	/**
 	* destructor 
-	* @access private
+	* @access	public
 	*/
 	function _ILIAS2To3Converter ()
 	{
 		// quit connection
 		$this->db->disconnect();
+		
+		// destroy utility object
+		$this->utils->_ILIAS2To3Utils;
 	}
 	
 	/**
 	* DB query wrapper
-	* @param string	sql statement
-	* @param string	calling script (to fill with __FILE__)
-	* @param string	calling script line (to fill with __LINE__)
-	* @access private
+	* @param	string	sql statement
+	* @param	string	calling script (to fill with __FILE__)
+	* @param	string	calling script line (to fill with __LINE__)
+	* @access	private
 	*/
 	function dbQuery ($sql, $file = "", $line  = "")
 	{
@@ -165,7 +168,12 @@ class ILIAS2To3Converter
 		}
 	}
 	
-	// ILIAS 2 Metadata --> ILIAS3 MetaData
+	/**
+	* Exports ILIAS 2 Metadata to ILIAS3 MetaData
+	* @param	integer	object id
+	* @param	string	object type [le|st|pg|img|imap|mm|file|el|test|mc|glos|gl]
+	* @access	private
+	*/
 	function exportMetadata ($id, $type)
 	{
 		//-------------------------
@@ -191,7 +199,7 @@ class ILIAS2To3Converter
 				$result->free();
 				
 				// there is not dedicated metadata for chapters in ILIAS 2
-				// set the minimum data needed in ILIAS 3´in an array
+				// set array with the minimum data needed in ILIAS 3
 				$gen = $this->metaData;
 				// reset catalog, identifier entry and title
 				$gen["Catalog"]		= "ILIAS2 ".$glied["inst"];
@@ -225,7 +233,7 @@ class ILIAS2To3Converter
 					$image["datei"] = $id;
 				}
 				
-				// set mimetype, size and location for the image file into an array
+				// set array with mimetype, size and location for the image file
 				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
 				break;
 			
@@ -245,7 +253,7 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// set mimetype, size and location for the imagemap file into an array
+				// set array with mimetype, size and location for the image file
 				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/imagemap".$id."/".$id.".".$map["type"]);
 				break;
 			
@@ -267,12 +275,12 @@ class ILIAS2To3Converter
 				// object's standard view, local file (object)
 				if ($mm["st_type"] == "file")
 				{
-					// set mimetype, size and location for the multimedia file into an array
+					// set array with mimetype, size and location for the image file
 					$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["file"]);
 				}
 				else // referenced file (object)
 				{
-					// set mimetype, size and location for the multimedia file into an array
+					// set array with mimetype, size and location for the image file
 					$tech[] = $this->utils->getTechInfo($mm["verweis"]);
 				}
 				
@@ -282,12 +290,12 @@ class ILIAS2To3Converter
 					// local file (object)
 					if ($mm["full_type"] == "file")
 					{
-						// set mimetype, size and location for the multimedia file into an array
+						// set array with mimetype, size and location for the image file
 						$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["full_file"]);
 					}
 					else // referenced file (object)
 					{
-						// set mimetype, size and location for the multimedia file into an array
+						// set array with mimetype, size and location for the image file
 						$tech[] = $this->utils->getTechInfo($mm["full_ref"]);
 					}
 				}
@@ -305,7 +313,7 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// set mimetype, size and location for the multimedia file into an array
+				// set array with mimetype, size and location for the image file
 				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/file".$id."/".$file["file"]);
 				break;
 			
@@ -315,7 +323,7 @@ class ILIAS2To3Converter
 			
 			case "test": // Test
 				// there is not dedicated metadata for test (as a whole) in ILIAS 2
-				// set the minimum data needed in ILIAS 3´in an array ***
+				// set array with the minimum data needed in ILIAS 3
 				$gen = $this->metaData;
 				// reset identifier entry
 				$gen["Entry"]		= $type;
@@ -327,7 +335,7 @@ class ILIAS2To3Converter
 			
 			case "glos": // Glossary
 				// there is not dedicated metadata for glossary (as a whole) in ILIAS 2
-				// set the minimum data needed in ILIAS 3´in an array ***
+				// set array with the minimum data needed in ILIAS 3
 				$gen = $this->metaData;
 				// reset identifier entry
 				$gen["Entry"]		= $type;
@@ -350,7 +358,7 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// set Lifecycle (Contribute) data in an array ***
+				// set array with Lifecycle (Contribute) data
 				$cont["Role"]			= "Author";
 				$cont["Entity"]			= $row["firstname"]." ".$row["surname"];
 				$cont["Date"]			= $row["utime"];
@@ -377,7 +385,7 @@ class ILIAS2To3Converter
 			$result->free();
 			
 			// save current language in the dedicated object var
-			// (used in objects) ***
+			// (used while objects processing)
 			if ($type == "le")
 			{
 			    if ($meta["lang"] <> "")
@@ -410,7 +418,7 @@ class ILIAS2To3Converter
 			$gen["Language"]	= $meta["lang"];
 			$gen["Description"]	= $meta["description"];
 			
-			// set Lifecycle data in an array ***
+			// set array with Lifecycle data
 			$life["Status"]			= $this->utils->selectStatus($meta["status"]);
 			$life["Version"]		= "Not available"; // default
 			$cont["Role"]			= "Publisher";
@@ -418,7 +426,7 @@ class ILIAS2To3Converter
 			$cont["Date"]			= $meta["publish_date"];
 			$life["Contribute"][]	= $cont;
 			
-			// set Educational data in an array ***
+			// set array with Educational data
 			$edu["InteractivityType"]		= "Expositive"; // default
 			$edu["LearningResourceType"]	= $this->utils->selectMaterialType($mtype["mtype"]);
 			$edu["InteractivityLevel"]		= "Medium"; // default
@@ -429,7 +437,7 @@ class ILIAS2To3Converter
 			$edu["TypicalAgeRange"]			= "Not available"; // default
 			$edu["TypicalLearningTime"]		= "00:00:00"; // default
 			
-			// set Classification data in an array ***
+			// set array with Classification data
 			$tax["Purpose"]	= "EducationalLevel";
 			$tax["Taxon"]	= $this->utils->selectMaterialLevel($meta["material_level"]);
 			$class[]		= $tax;
@@ -483,7 +491,7 @@ class ILIAS2To3Converter
 					// free result set
 					$result2->free();
 					
-					// set Lifecycle (Contribute) data in an array ***
+					// set array with Lifecycle (Contribute) data
 					$cont["Role"]			= "Author";
 					$cont["Entity"]			= $row2["author_firstname"]." ".$row2["author_surname"];
 					$cont["Date"]			= $meta["last_modified_date"];
@@ -491,7 +499,7 @@ class ILIAS2To3Converter
 				}
 				else
 				{
-					// set Lifecycle (Contribute) data in an array ***
+					// set array with Lifecycle (Contribute) data
 					$cont["Role"]			= "Author";
 					$cont["Entity"]			= $row["author_firstname"]." ".$row["author_surname"];
 					$cont["Date"]			= $meta["last_modified_date"];
@@ -526,7 +534,7 @@ class ILIAS2To3Converter
 					// free result set
 					$result2->free();
 					
-					// set Lifecycle (Contribute) data in an array ***
+					// set array with Lifecycle (Contribute) data
 					$cont["Role"]			= "TechnicalImplementer";
 					$cont["Entity"]			= $row2["contrib_firstname"]." ".$row2["contrib_surname"];
 					$cont["Date"]			= $meta["last_modified_date"];
@@ -534,7 +542,7 @@ class ILIAS2To3Converter
 				}
 				else
 				{
-					// set Lifecycle (Contribute) data in an array ***
+					// set array with Lifecycle (Contribute) data
 					$cont["Role"]			= "TechnicalImplementer";
 					$cont["Entity"]			= $row["contrib_firstname"]." ".$row["contrib_surname"];
 					$cont["Date"]			= $meta["last_modified_date"];
@@ -568,7 +576,7 @@ class ILIAS2To3Converter
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				// set Classification data in an array ***
+				// set array with Classification data
 				$tax["Purpose"]	= "Discipline";
 				$tax["Taxon"]	= $row["discipline"];
 				$class[]		= $tax;
@@ -587,7 +595,7 @@ class ILIAS2To3Converter
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				// set Classification data in an array ***
+				// set array with Classification data
 				$tax["Purpose"]	= "Discipline";
 				$tax["Taxon"]	= $row["subdiscipline"];
 				$class[]		= $tax;
@@ -600,7 +608,7 @@ class ILIAS2To3Converter
 			// table 'meta_ibo_right' --> information not used in ILIAS 3
 			
 			// save minimal metadata (MetaData..General) in the dedicated object var
-			// (used in object with no metadata in ILIAS 2) ***
+			// (used in objects with no metadata in ILIAS 2)
 			if ($type == "le")
 			{
 			    $this->metaData = $gen;
@@ -650,7 +658,7 @@ class ILIAS2To3Converter
 		
 		// 1.6 ..General..Covarage --> unavailable in ILIAS 2
 		
-		// 2 MetaData..Lifecycle ***
+		// 2 MetaData..Lifecycle
 		if (is_array($life))
 		{
 			// (starttag)
@@ -687,7 +695,7 @@ class ILIAS2To3Converter
 		
 		// 3 MetaData..Meta-Metadata  --> unavailable in ILIAS 2
 		
-		// 4 MetaData..Technical ***
+		// 4 MetaData..Technical
 		if (is_array($tech))
 		{
 			foreach ($tech as $value) 
@@ -748,7 +756,7 @@ class ILIAS2To3Converter
 		
 		// 8 MetaData..Annotation --> unavailable in ILIAS 2
 		
-		// 9 MetaData..Classification ***
+		// 9 MetaData..Classification
 		if (is_array($class))
 		{
 			foreach ($class as $value) 
@@ -793,7 +801,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("MetaData");
 	}
 	
-	// ILIAS 2 Image (element) --> ILIAS 3 MediaObject
+	/**
+	* Exports ILIAS 2 Image (element) to ILIAS 3 MediaObject
+	* @param	integer	image (element) id
+	* @access	private
+	*/
 	function exportImage ($id)
 	{
 		//-------------------------
@@ -821,7 +833,7 @@ class ILIAS2To3Converter
 		// Todo: resolve 'align' (image-alignment)
 		
 		//--------------
-		// copy file(s): ***
+		// copy file(s):
 		//--------------
 		$this->utils->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
 		
@@ -842,7 +854,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("MediaObject");
 	}
 	
-	// ILIAS 2 Imagemap (element) --> ILIAS 3 MediaObject
+	/**
+	* Exports ILIAS 2 Imagemap (element) to ILIAS 3 MediaObject
+	* @param	integer	imagemap (element) id
+	* @access	private
+	*/
 	function exportImagemap ($id)
 	{
 		//-------------------------
@@ -864,7 +880,7 @@ class ILIAS2To3Converter
 		// Todo: resolve 'align' (imagemap-alignment)
 		
 		//--------------
-		// copy file(s): ***
+		// copy file(s):
 		//--------------
 		$this->utils->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
 		
@@ -885,7 +901,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("MediaObject");
 	}
 	
-	// ILIAS 2 Multimedia --> ILIAS 3 MediaObject
+	/**
+	* Exports ILIAS 2 Multimedia object to ILIAS 3 MediaObject
+	* @param	integer	multimedia object id
+	* @access	private
+	*/
 	function exportMultimedia ($id)
 	{
 		//-------------------------
@@ -905,7 +925,7 @@ class ILIAS2To3Converter
 		$result->free();
 		
 		//--------------
-		// copy file(s): ***
+		// copy file(s):
 		//--------------
 		// if kept locally
 		if ($mm["st_type"] == "file" or
@@ -975,7 +995,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("MediaObject");
 	}
 	
-	// ILIAS 2 File --> ILIAS 3 MediaObject
+	/**
+	* Exports ILIAS 2 File object to ILIAS 3 MediaObject
+	* @param	integer	file objects id
+	* @access	private
+	*/
 	function exportFile ($id)
 	{
 		//-------------------------
@@ -984,7 +1008,7 @@ class ILIAS2To3Converter
 		// table 'file' not needed at all!
 		
 		//--------------
-		// copy file(s): ***
+		// copy file(s):
 		//--------------
 		$this->utils->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
 		
@@ -1006,7 +1030,11 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* convert text to paragraph and vri to IntLink ***
+	* Exports ILIAS 2 Text to ILIAS 3 Paragraph
+	* @param	string	text data
+	* @param	string	value for attribute Characteristic of element Paragraph
+	* @param	boolean	markup the data as Code (TRUE) or not (FALSE)
+	* @access	private
 	*/
 	function exportText ($data, $character = "", $code = FALSE)
 	{
@@ -1019,7 +1047,7 @@ class ILIAS2To3Converter
 			// ***
 			for ($i = 0; $i < count($text); $i++)
 			{
-				// *** test ob leer
+				// *** test if empty
 				if (!empty($text[$i]))
 				{
 					// ***
@@ -1096,19 +1124,20 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* convert vri to IntLink ***
-	* $vri array
+	* Exports ILIAS 2 vri Link to ILIAS 3 IntLink
+	* @param	array	vri link array with fields "inst", "type", "id" and "target"
+	* @access	private
 	*/
 	function exportVri ($vri)
 	{
 		// initialize switch
 		$resolve = TRUE;
 		
-		// resolve VRI-Link to IntLink
+		// resolve vri Link to IntLink
 		switch ($vri["type"]) 
 		{
 			case "st":
-				// *** get page corresponding to structure 
+				// get page corresponding to structure 
 				// and check if it is a part of the learnining unit 
 				$sql =	"SELECT st.page AS page ".
 						"FROM struktur AS st, page AS pg ".
@@ -1128,7 +1157,7 @@ class ILIAS2To3Converter
 					// reset link data
 					$vri["id"] = $row["page"];
 					$vri["type"] = "pg";
-					$type = "pg"; // ***
+					$type = "pg";
 				}
 				else
 				{
@@ -1138,9 +1167,9 @@ class ILIAS2To3Converter
 				$result->free();
 				break;
 			
-			case "pg": // *** le, gl, mc???
+			case "pg":
 			case "ab":
-				// *** check if page (type = 'le|gl|mc' is a part of the learnining unit 
+				// check if page (type = 'le|gl|mc' is a part of the learnining unit 
 				$sql =	"SELECT id, pg_typ ".
 						"FROM page ".
 						"WHERE id = ".$vri["id"]." ".
@@ -1158,17 +1187,17 @@ class ILIAS2To3Converter
 					if ($row["pg_typ"] == "le")
 					{
 						$vri["type"] = "pg";
-						$type = "pg"; // ***
+						$type = "pg";
 					}
 					if ($row["pg_typ"] == "gl")
 					{
 						$vri["type"] = "gl";
-						$type = "pg"; // ***
+						$type = "pg";
 					}
 					if ($row["pg_typ"] == "mc")
 					{
 						$vri["type"] = "mc";
-						$type = "mc"; // ***
+						$type = "mc";
 					}
 				}
 				else
@@ -1180,8 +1209,10 @@ class ILIAS2To3Converter
 				break;
 			
 			case "mm":
-				// *** is der test hier nötig
-				$type = "mm"; // ***
+				// no test needed
+				
+				// reset link data
+				$type = "mm";
 				break;
 		}
 		
@@ -1210,7 +1241,7 @@ class ILIAS2To3Converter
 			// Paragraph
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
-			$text = "VRI-Link could not be resolved - Target object is not a part of current learningunit. ";
+			$text = "Link could not be resolved - Target object is not a part of current learningunit. ";
 			$text .= "[".$vri["content"]." ";
 			$text .= "Target=".$vri["id"]." ";
 			$text .= "Type=".$vri["type"];
@@ -1222,7 +1253,11 @@ class ILIAS2To3Converter
 		}
 	}
 	
-	// ILIAS 2 Element --> ILIAS 3 Paragraph or MediaObject (depends on type)
+	/**
+	* Exports ILIAS 2 Element to ILIAS 3 Paragraph or MediaObject (depends on type)
+	* @param	integer	element id
+	* @access	private
+	*/
 	function exportElement ($id)
 	{
 		//-------------------------
@@ -1618,7 +1653,7 @@ class ILIAS2To3Converter
 				// TestItem..Hint ***
 				if ($mc["vristr"] <> "")
 				{
-					// *** falls vorhanden VRI auflösen, sonst nicht vorhanden
+					// Todo: resolve possible vri links
 				}
 				break;
 			
@@ -1757,7 +1792,11 @@ class ILIAS2To3Converter
 		}
 	}
 	
-	// ILIAS 2 Glossar --> ILIAS 3 GlossaryItem
+	/**
+	* Exports ILIAS 2 Glossar to ILIAS 3 GlossaryItem
+	* @param	integer	glossary id
+	* @access	private
+	*/
 	function exportGlossary ($id)
 	{
 		//-------------------------
@@ -1815,7 +1854,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("GlossaryItem");
 	}
 	
-	// ILIAS 2 multiple choice Test --> ILIAS 3 TestItem
+	/**
+	* Exports ILIAS 2 Multiple Choice Test to ILIAS 3 TestItem
+	* @param	integer	test (page) id (type = 'mc')
+	* @access	private
+	*/
 	function exportTest ($id)
 	{
 		//-------------------------
@@ -1871,7 +1914,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("TestItem");
 	}
 	
-	// ILIAS 2 Page --> ILIAS 3 PageObject
+	/**
+	* Exports ILIAS 2 Page to ILIAS 3 PageObject
+	* @param	integer	page id (type = 'le')
+	* @access	private
+	*/
 	function exportPage ($id)
 	{
 		//-------------------------
@@ -2026,7 +2073,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("PageObject");
 	}
 	
-	// ILIAS 2 Structure (chapter) --> ILIAS 3 StructureObject
+	/**
+	* Exports Structure 2 to ILIAS 3 StructureObject
+	* @param	integer	structure (gliederung) id
+	* @access	private
+	*/
 	function exportStructure ($id)
 	{
 		//-------------------------
@@ -2100,7 +2151,11 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("StructureObject");
 	}
 	
-	// ILIAS 2 Learningunit --> ILIAS 3 LearningModule
+	/**
+	* Exports Learningunit 2 to ILIAS 3 LearningModule
+	* @param	integer	learningunit id
+	* @access	private
+	*/
 	function exportLearningunit ($id)
 	{
 		//-------------------------
@@ -2116,7 +2171,7 @@ class ILIAS2To3Converter
 		// check row number
 		if ($result->numRows() == 0)
 		{
-			die ("ERROR: No Learningunit with the id ".$id." available."); // ***
+			die ("ERROR: No Learningunit with the id ".$id." available.");
 		}
 		$result->free();
 		
@@ -2360,9 +2415,13 @@ class ILIAS2To3Converter
 		$this->xml->xmlEndTag("LearningModule");
 	}
 	
-	// output ILIAS 3 LearninigModule and corresponding raw data files into a (zip ***) file
-	// public
-	function dumpLearningModuleFile ($luId)
+	/**
+	* Outputs ILIAS 3 LearninigModule and corresponding raw data files into a (Todo: zip) file
+	* @param	integer	learningunit id
+	* @param	boolean	indent text (TRUE) or not (FALSE)
+	* @access	public
+	*/
+	function dumpLearningModuleFile ($luId, $format = TRUE)
 	{
 		// set member var for Learningunit
 		$this->luId = $luId;
@@ -2387,14 +2446,14 @@ class ILIAS2To3Converter
 		
 		// dump xml document to screen ***
 		echo "<PRE>";
-		echo htmlentities($this->xml->xmlDumpMem());
+		echo htmlentities($this->xml->xmlDumpMem($format));
 		echo "</PRE>";
 		
 		// dump xml document to file ***
-		$this->xml->xmlDumpFile($this->targetDir."lm.xml");
+		$this->xml->xmlDumpFile($this->targetDir."lm.xml", $format);
 		
 		// destroy writer object
-		$xml->_XmlWriter;
+		$this->xml->_XmlWriter;
 	}
 }
 

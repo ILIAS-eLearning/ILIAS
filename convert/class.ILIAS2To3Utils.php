@@ -1,25 +1,41 @@
 <?php
 
 /**
-* Utility functions for content-converting from ILIAS2 to ILIAS3 using DOMXML
-*
-* Dependencies:
+* ILIAS 2 to ILIAS 3 content-converting utility class
 * 
-* @author Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
-* @version $Id$
+* Utility functions for ILIAS 2 to ILIAS 3 content-converting class
+* 
+* @author	Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
+* @version	$Id$
 */
 
 class ILIAS2To3Utils
 {
-	//-----------
-	// properties
-	//-----------
+	/**
+	* constructor 
+	* @access	public
+	*/
+	function ILIAS2To3Utils ()
+	{
+		// no operation
+	}
 	
-	//-------
-	//methods
-	//-------
+	/**
+	* destructor 
+	* @access	public
+	*/
+	function _ILIAS2To3Utils ()
+	{
+		// no operation
+	}
 	
-	// select AggregationLevel from type according to concept paper *** verfeinern/verifizieren
+	/**
+	* Selects value for attribute Structure in element General
+	* according to ILIAS 2 object type
+	* @param	string	object type [le|st|pg|mm|file|el|test|mc|glos|gl]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectStructure ($type)
 	{
 		switch ($type) 
@@ -67,21 +83,17 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// select target type for vri links ***
+	/**
+	* Selects value for attribute Type in element IntLink
+	* according to ILIAS 2 object type
+	* @param	string	object type [pg|mm|mc|gl]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectTargetType ($type)
 	{
 		switch ($type) 
 		{
-			/* ***
-			case "le":
-				$str = "";
-				break;
-			
-			case "st":
-				$str = "StructureObject";
-				break;
-			*/
-			
 			case "pg":
 				$str = "PageObject";
 				break;
@@ -90,29 +102,9 @@ class ILIAS2To3Utils
 				$str = "MediaObject";
 				break;
 			
-			/* ***
-			case "file":
-				$str = "";
-				break;
-			
-			case "el":
-				$str = "";
-				break;
-			
-			case "test":
-				$str = "Collection";
-				break;
-			*/
-			
 			case "mc":
 				$str = "TestItem";
 				break;
-			
-			/* ***
-			case "glos":
-				$str = "";
-				break;
-			*/
 			
 			case "gl":
 				$str = "GlossaryItem";
@@ -121,7 +113,13 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert status values ***
+	/**
+	* Selects value for attribute LearningResourceType in element Educational
+	* according to ILIAS 2 material type
+	* @param	string	material type [1-8]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectMaterialType ($materialType)
 	{
 		switch ($materialType) 
@@ -164,7 +162,13 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert status values ***
+	/**
+	* Selects value for attribute Status in element Lifecycle
+	* according to ILIAS 2 status type
+	* @param	string	status type [draft|final|revised]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectStatus ($status)
 	{
 		switch ($status) 
@@ -191,7 +195,13 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert difficulty values ***
+	/**
+	* Selects value for attribute Difficulty in element Educational
+	* according to ILIAS 2 difficulty type
+	* @param	string	status type [0-4]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectDifficulty ($difficulty)
 	{
 		switch ($difficulty) 
@@ -222,7 +232,13 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert level values ***
+	/**
+	* Selects value for attribute Context in element Educational
+	* according to ILIAS 2 level type
+	* @param	string	level type [0-11]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectLevel ($level)
 	{
 		switch ($level)
@@ -281,7 +297,13 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert difficulty values ***
+	/**
+	* Selects value for attribute LearningResourceType in element Educational
+	* according to ILIAS 2 material level type
+	* @param	string	material level type [0|5]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectMaterialLevel ($materialLevel)
 	{
 		switch ($materialLevel) 
@@ -300,33 +322,36 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	// convert answer values ***
+	/**
+	* Selects answer value according to ILIAS 2 answer
+	* @param	string	answer [y|r|n|f|j]
+	* @return	string	answer value [Right|Wrong]
+	* @access	public
+	*/
 	function selectAnswer ($answer)
 	{
 		switch ($answer) 
 		{
 			case "y":
 			case "r":
+			case "j":
 				$str = "Right";
 				break;
 			
-			case "n":
 			case "f":
-				$str = "Wrong";
-				break;
-			
-			case "j":
-				$str = "Yes";
-				break;
-			
 			case "n":
-				$str = "No";
+				$str = "Wrong";
 				break;
 		}
 		return $str;
 	}
 	
-	// convert boolean ***
+	/**
+	* Selects boolean value according to ILIAS 2 data
+	* @param	string	answer [w|r|y|j|n|f]
+	* @return	string	boolean value
+	* @access	public
+	*/
 	function selectBool ($data)
 	{
 		switch ($data) 
@@ -349,13 +374,14 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
-	/* ***
-	// convert alignment values ***
+	/**
+	* Selects alignment values ***
+	*//*
 	function selectAlignment ($align)
 	{
 		switch ($align)
 		{
-			/* ***
+			/*
 			case 0: // left, wrapped by text
 			case 1: // left
 			case 2: // right, wrapped by text
@@ -395,7 +421,13 @@ class ILIAS2To3Utils
 	}
 	*/
 	
-	// convert area shape ***
+	/**
+	* Selects value for attribute Shape in element MapArea
+	* according to ILIAS 2 shape type
+	* @param	string	material level type [rect|circle|poly]
+	* @return	string	attribute value
+	* @access	public
+	*/
 	function selectShape ($shape)
 	{
 		switch ($shape) 
@@ -418,18 +450,18 @@ class ILIAS2To3Utils
 	}
 	
 	/**
-	* fetch all vri tags in a string
+	* Fetches all vri tags in a string
 	*
-	* *** Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
+	* Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
 	* vri_fetch($string,"st") returns an array $arr with $arr["inst"]->100, $arr["type"]->"st"
 	* and $arr["id"]->20.
 	*
-	* @param string $data string, that should be searched through
-	* @param string $types vri types, that should be searched, separated by "|", e.g. "mm|st"
-	* @param boolean $limiter true, if vri in input string doesn´t contain tag limiter "<" and ">" (default TRUE)
-	* @param boolean $vri true, if vri in input string doesn´t contain vri string "vri=" (default TRUE)
-	*
-	* @return	array	array with fields "inst", "type", "id" and "target"; false, if no vri was found
+	* @param	string	string, that should be searched through
+	* @param	string	vri types, that should be searched, separated by "|", e.g. "mm|st"
+	* @param	boolean	true, if vri in input string doesn´t contain tag limiter "<" and ">"
+	* @param	boolean	true, if vri in input string doesn´t contain vri string "vri="
+	* @return	array	array with fields "inst", "type", "id" and "target"; FALSE, if no vri was found
+	* @access	public
 	*/
 	function fetchVri ($data, $types, $limiter = TRUE, $vri = TRUE)
 	{
@@ -470,12 +502,6 @@ class ILIAS2To3Utils
 		// get all vri tags
 		preg_match_all($vriTag, $data, $matches, PREG_SET_ORDER);
 		
-		/* ***
-		echo "<pre>";
-		htmlentities(print_r($matches));
-		echo "</pre>";
-		*/
-		
 		if (is_array($matches))
 		{
 			// fill vri array	
@@ -493,24 +519,18 @@ class ILIAS2To3Utils
 		{
 			return FALSE;	
 		}
-		
-		/* ***
-		echo "<pre>";
-		htmlentities(print_r($vriSet));
-		echo "</pre>";
-		*/
 	}
 	
 	/**
-	* fetch all text parts between vri tags in a string
+	* Fetches all text parts between vri tags in a string
 	*
-	* *** Example: If the string contains "some text  some text <vri=!100!st!20!> a link </vri> some text"
+	* Example: If the string contains "some text  some text <vri=!100!st!20!> a link </vri> some text"
 	* fetchText($string) returns an array $arr with $arr[0]->"some text" , $arr[1]->"some text"
 	* vri tags must contain limiter and vri string
 	*
-	* @param string $data string, that should be searched through
-	*
-	* @return	array	array with text parts; false, otherwise ***
+	* @param	string	string, that should be searched through
+	* @return	array	array with text parts; FALSE, otherwise
+	* @access	public
 	*/
 	function fetchText ($data)
 	{
@@ -533,12 +553,6 @@ class ILIAS2To3Utils
 		// get all text parts splitted by vri tags
 		$matches = preg_split($vriTag, $data);
 		
-		/* ***
-		echo "<pre>";
-		htmlentities(print_r($matches));
-		echo "</pre>";
-		*/
-		
 		if (is_array($matches))
 		{
 			return $matches;	
@@ -549,7 +563,12 @@ class ILIAS2To3Utils
 		}
 	}
 	
-	// fetch parameters for multimedia objects ***
+	/**
+	* Fetches parameters for multimedia objects in ILIAS 2
+	* @param	string	string, that should be searched through
+	* @return	array	2-dimensional array with parameters; FALSE, otherwise
+	* @access	public
+	*/
 	function fetchParams ($data)
 	{
 		// set regular expressiion for parameter
@@ -557,12 +576,6 @@ class ILIAS2To3Utils
 		
 		// get all parameters
 		preg_match_all($regExp, $data, $matches, PREG_SET_ORDER);
-		
-		/* ***
-		echo "<pre>";
-		htmlentities(print_r($matches));
-		echo "</pre>";
-		*/
 		
 		if (is_array($matches))
 		{
@@ -578,15 +591,14 @@ class ILIAS2To3Utils
 		{
 			return FALSE;	
 		}
-		
-		/* ***
-		echo "<pre>";
-		htmlentities(print_r($params));
-		echo "</pre>";
-		*/
 	}
 	
-	// get size of a file *** takes full path to a local file
+	/**
+	* Gets size of a (local) file
+	* @param	string	full path to a local file
+	* @return	integer	size in byte
+	* @access	public
+	*/
 	function getFileSize ($file)
 	{
 		// get mimetype
@@ -600,7 +612,15 @@ class ILIAS2To3Utils
 		return $size;
 	}
 	
-	// get mimetype for a file *** takes full path to a local file
+	/**
+	* Gets mimetype of a (local) file
+	* 
+	* ! needs special entry in php.ini !
+	* 
+	* @param	string	full path to a local file
+	* @return	string	mimetype (formatted to fit in the DTD)
+	* @access	public
+	*/
 	function getMimeType ($file)
 	{
 		// get mimetype
@@ -614,7 +634,16 @@ class ILIAS2To3Utils
 		return $mime;
 	}
 	
-	// ***
+	/**
+	* Sets an array with the minimum data
+	* (mimetype, size and location of a file)
+	* needed for element Technical in ILIAS 3
+	*
+	* @param	string	full path to target directory
+	* @param	string	target file name
+	* @return	array	Technical data
+	* @access	public
+	*/
 	function getTechInfo ($tDir, $tFile = "")
 	{
 		// set absolute and relative path to the file
@@ -633,9 +662,9 @@ class ILIAS2To3Utils
 	}
 	
 	/**
-	*  *** creates a directory, if it doesn't exist
-	*
-	* @param string $dir directory name and path
+	* Creates a directory, if it doesn't exist
+	* @param	string	directory name and path
+	* @access	public
 	*/
 	function makeDir ($dir)
 	{
@@ -647,10 +676,11 @@ class ILIAS2To3Utils
 	}
 	
 	/**
-	* *** copies content of a directory $sDir recursively to a directory $tDir
-	*
-	* @param string $sDir source directory
-	* @param string $tDir target directory
+	* Copies content of a directory $sDir recursively to a directory $tDir
+	* @param	string	source directory
+	* @param	string	target directory
+	* @return	boolean	TRUE for sucess, FALSE otherwise
+	* @access	public
 	*/
 	function rCopy ($sDir, $tDir)
 	{
@@ -699,9 +729,17 @@ class ILIAS2To3Utils
 		return TRUE;
 	}
 	
+	/**
+	* Gets names of all image files corresponding to a image element in ILIAS 2
+	* @param	string	full path to source directory
+	* @param	integer	image id
+	* @param	string	image name
+	* @return	array	names
+	* @access	public
+	*/
 	function getImageNames ($sDir, $imageId, $imageName)
 	{
-		// initialize arrays ***
+		// initialize array
 		$types = array("", ".gif", ".jpg", "-s.gif", "-s.jpg");
 		
 		foreach ($types as $type) 
@@ -721,6 +759,15 @@ class ILIAS2To3Utils
 		return $names;
 	}
 	
+	/**
+	* Copies object files from a source to a target directory
+	* @param	string	full path to source directory
+	* @param	string	full path to target directory
+	* @param	integer	object id
+	* @param	strning	object type [img|imap|mm|file]
+	* @param	strning	target file name (only for [img|imap])
+	* @access	public
+	*/
 	function copyObjectFiles ($sDir, $tDir, $id, $type, $tName = Null)
 	{
 		switch ($type) 
@@ -760,7 +807,7 @@ class ILIAS2To3Utils
 			
 			// files of multimedia objects
 			case "mm":
-			// files (*** el_filelist)
+			// files
 			case "file":
 				// build target directory
 				$this->makeDir($tDir);
