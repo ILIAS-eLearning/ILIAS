@@ -117,15 +117,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
@@ -231,7 +222,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
     $add_parameter = $this->getAddParameter();
-
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -239,7 +229,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
-		//$this->setLocator();
+		$this->setLocator();
 
 		if (!empty($title))
 		{
@@ -2558,67 +2548,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function printEvaluationObject()
 	{
-		$tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
-		$row_classes = array("tblrow1", "tblrow2");
-		if (!$_GET[$this->lng->txt("question")]) {
-			foreach ($_SESSION["print_eval"] as $key => $value)
-			{
-				if ($key == 0)
-				{
-					$tpl->setCurrentBlock("titlecol");
-					for ($i = 0; $i < count($value); $i++)
-					{
-						$tpl->setVariable("TXT_TITLE", $value[$i]);
-						$tpl->parseCurrentBlock();
-					}
-				}
-				else if (preg_match("/\d+/", $key))
-				{
-					$tpl->setCurrentBlock("datacol");
-					for ($i = 0; $i < count($value); $i++)
-					{
-						$tpl->setVariable("TXT_DATA", $value[$i]);
-						$tpl->parseCurrentBlock();
-					}
-					$tpl->setCurrentBlock("row");
-					$tpl->setVariable("ROW_CLASS", $row_classes[$key % 2]);
-					$tpl->parseCurrentBlock();
-				}
-			}
-
-			$tpl->setCurrentBlock("heading");
-			$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$tpl->setVariable("PRINT_TYPE", "summary");
-			$tpl->parseCurrentBlock();
-			$tpl->show();
-		}
-		else
-		{
-			foreach ($_SESSION[$this->lng->txt("question").$_GET[$this->lng->txt("question")]] as $key => $value)
-			{
-				$i=0;
-				$row_num = 1;
-				while ($i < count($value))
-				{
-					$tpl->setCurrentBlock("detail_title");
-					$tpl->setVariable("TXT_TITLE", $value[$i++]);
-					$tpl->setVariable("TXT_DATA", $value[$i++]);
-					$tpl->parseCurrentBlock();
-
-					$tpl->setCurrentBlock("row");
-					$tpl->setVariable("ROW_CLASS", $row_classes[$row_num % 2]);
-					$tpl->parseCurrentBlock();
-					$row_num++;
-				}
-			}
-			$tpl->setCurrentBlock("heading");
-			$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-			$tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-			$tpl->parseCurrentBlock();
-			$tpl->show();
-		}
-		exit();
+		$this->evaluationObject($_POST["detail"], 1);
+		exit;
 	}
 
 	function evaluationuserObject()
@@ -2639,18 +2570,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function evaluationObject($details = 0)
+	function evaluationObject($details = 0, $print = 0)
 	{
 		global $ilUser;
 
-//		$this->ctrl->setCmd("evaluation");
-//		$this->ctrl->setCmdClass("ilobjsurveygui");
 		require_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
 		$format_datetime = "";
 		$format_title = "";
-
+		if ($print)
+		{
+			unset($_POST["export_format"]);
+		}
 		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
 		$surveyname = preg_replace("/\s/", "_", $object_title);
 
@@ -2713,17 +2645,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
     $add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
-		$this->setEvalTabs();
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-		//$this->setLocator();
-		$this->tpl->setVariable("HEADER", $title);
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
+		if (!$print)
+		{
+			$this->setEvalTabs();
+			sendInfo();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
+		}
+		else
+		{
+			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
+		}
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
@@ -2731,7 +2662,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$eval = $this->object->getEvaluation($data["question_id"], $ilUser->id);
 			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". " . $data["title"]);
 			$maxlen = 37;
 			if (strlen($data["questiontext"]) > $maxlen + 3)
 			{
@@ -3127,7 +3058,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 				exit();
 				break;
 		}
-		$this->tpl->setCurrentBlock("adm_content");
+		if (!$print)
+		{
+			$this->tpl->setCurrentBlock("adm_content");
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("__global__");
+			$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
+			$this->tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
+			$this->tpl->setVariable("PRINT_TYPE", "summary");
+		}
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
@@ -3140,6 +3081,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
+		$this->tpl->setVariable("VALUE_DETAIL", $details);
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -3153,6 +3095,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("CMD_EXPORT", "evaluation");
 		}
 		$this->tpl->parseCurrentBlock();
+		if ($print)
+		{
+			$this->tpl->show();
+		}
 	}
 
 	/**
@@ -3993,7 +3939,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
-
 		// catch feedback message
 		sendInfo();
 
@@ -4303,7 +4248,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* form for new test object duplication
+	* form for new survey object duplication
 	*/
 	function cloneAllObject()
 	{
@@ -4315,7 +4260,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		require_once "./survey/classes/class.ilObjSurvey.php";
 		ilObjSurvey::_clone($_POST["svy"]);
-		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		$this->ctrl->redirect($this, "post");
 	}
 	
 	/**
@@ -4336,7 +4281,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadObject(false);
-		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		$this->ctrl->redirect($this, "post");
 	}
 
 	/**

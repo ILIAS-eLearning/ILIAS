@@ -152,9 +152,18 @@ if (!isset($_GET["ref_id"]))
 	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
 }
 
+switch ($_GET["cmd"]) 
+{
+	case "run":
+		$prepare_output = false;
+		break;
+	default:
+		$prepare_output = true;
+		break;
+}
 $ilCtrl->setTargetScript("survey.php");
 $ilCtrl->getCallStructure("ilobjsurveygui");
-$qp_gui =& new ilObjSurveyGUI("", $_GET["ref_id"], true, true);
+$qp_gui =& new ilObjSurveyGUI("", $_GET["ref_id"], true, $prepare_output);
 $ilCtrl->forwardCommand($qp_gui);
 
 $tpl->show();
