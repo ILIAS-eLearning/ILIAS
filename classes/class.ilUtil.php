@@ -856,7 +856,7 @@ class ilUtil
 		{
 			$where = "WHERE user_id = '".$a_user_id."'";
 		}
-		
+
 		$q = "SELECT DISTINCT user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
 			 "LEFT JOIN usr_data ON user_id=usr_id ".$where;
 		$r = $ilias->db->query($q);
@@ -933,5 +933,14 @@ class ilUtil
 		chdir($cdir);
 	}
 
+	/**
+	* get full java path (dir + java command)
+	*/
+	function getJavaPath()
+	{
+		global $ilias;
+
+		return $ilias->getSetting("java_path");
+	}
 } // END class.ilUtil
 ?>

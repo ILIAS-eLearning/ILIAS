@@ -37,7 +37,7 @@ require_once "classes/class.ilObjSCORMValidator.php";
 */
 class ilObjSCORMLearningModule extends ilObject
 {
-	//var $meta_data;
+	var $validator;
 
 	/**
 	* Constructor
@@ -94,7 +94,7 @@ class ilObjSCORMLearningModule extends ilObject
 
 	/**
 	* copy all properties and subobjects of a SCROM LearningModule.
-	* 
+	*
 	* @access	public
 	* @return	integer	new ref id
 	*/
@@ -132,17 +132,26 @@ class ilObjSCORMLearningModule extends ilObject
 	}
 
 
-        /**
-        * Validate all XML-Files in a SCOM-Directory 
-        *
-        * @access       public
-        * @return       boolean true if all XML-Files are wellfomred and valid
-        */
+	/**
+	* Validate all XML-Files in a SCOM-Directory
+	*
+	* @access       public
+	* @return       boolean true if all XML-Files are wellfomred and valid
+	*/
 	function validate($directory)
 	{
-		$ref = new ilObjSCORMValidator($directory);
-		$returnValue = $ref->validate();
+		$this->validator =& new ilObjSCORMValidator($directory);
+		$returnValue = $this->validator->validate();
 		return $returnValue;
+	}
+
+	function getValidationSummary()
+	{
+		if(is_object($this->validator))
+		{
+			return $this->validator->getSummary();
+		}
+		return "";
 	}
 
 } // END class.ilObjSCORMLearningModule

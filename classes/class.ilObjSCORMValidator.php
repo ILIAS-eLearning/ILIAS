@@ -33,15 +33,20 @@
 class ilObjSCORMValidator {
 		var $dir,$flag,$summary;
 
-		function validateXML($file) {
-			$error = system("/usr/local/java/bin/java -jar /opt/ilias/www/htdocs/ilias3/java/vali.jar ".$file." 2>&1");
-			if (!$error) {
-				$this->summary .= $file." is ok!<br>";
-			} else {
-				$this->summary .= $file." is not valid!<br>Errormessage is:<br>".$error;
+		function validateXML($file)
+		{
+			exec(ilUtil::getJavaPath()." -jar ".ILIAS_ABSOLUTE_PATH."/java/vali.jar ".$file." 2>&1", $error);
+			if (count($error) != 0)
+			{
+				$this->summary[] = "";
+				$this->summary[] = "<b>File: $file</b>";
+				foreach($error as $line)
+				{
+					$this->summary[] = $line;
+				}
 			}
 		}
-																     
+
 		function searchDir($dir) {
 			if (is_dir($dir)) {
 				if ($dh = opendir($dir)) {
@@ -61,18 +66,35 @@ class ilObjSCORMValidator {
 				closedir($dh);
 			}
 		}
-																     
+
 		function ilObjSCORMValidator($directory) {
 			$this->dir = $directory.'/';
 		}
 
-		function validate() {
+		function validate()
+		{
+			$this->summary = array();
 			$this->searchDir($this->dir);
-			return $this->flag;
+			if(count($this->summary) == 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
-		function getSummary() {
-			return $this->summary;
+		function getSummary()
+		{
+			$summary = "";
+
+			foreach ($this->summary as $line)
+			{
+				$summary .= $line."<br>";
+			}
+
+			return $summary;
 		}
 }
 
