@@ -114,7 +114,7 @@ $module_dir = ($module == "")
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 //echo $class_constr.":".$method;
-if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"]) or (strcmp($_GET["cmd"], "assessment") == 0)) {
+if ((strcmp($_GET["cmd"], "questions") == 0) and (($_POST["cmd"]["create"]) or ($_POST["id"]) or ($_GET["edit"]))) {
 	$prepare_output = false;
 } else {
 	$prepare_output = true;
