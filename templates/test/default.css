@@ -1,6 +1,6 @@
 body {
         color:#222222;
-        background-color:#dddddd;
+        background-color:#d8c37f;
         font-family:Verdana,Arial,Helvetica,sans-serif;
         font-size:small;
                 margin:10px;
@@ -11,7 +11,7 @@ td {
 
 .btnbar {
 	background-color:#006699;
-	background-image: url(images/cellpic4.gif);
+	background-image: url(images/navbar/back.gif);
 }
 
 input, textarea {
