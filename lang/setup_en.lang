@@ -79,6 +79,7 @@ create_new_client#:#Create new client
 create_webdir_failed#:#Creation of web directory failed
 data_path#:#data path
 database#:#database
+collation#:#Collation
 database_create#:#Create database
 database_exists#:#database exists
 database_install#:#Install database
@@ -155,6 +156,9 @@ ilias_setup#:#ILIAS 3 setup
 ilias_version#:#ILIAS version
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asterisk must be filled out. All information is stored in your database. On the next screen you may register your installation at the ILIAS-NIC server; registration transmits this data to the ILIAS-NIC server.
 info_text_db#:#The database does not exist or is empty. Click the button below to install your database. If a database with the chosen name does not yet exist, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail (i.e. due to restricted access permissions), please contact the system administrator of the database server and ask him to create a database with desired name prior to installing ILIAS.
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
+example#:#Example
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.
 info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.
 info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!

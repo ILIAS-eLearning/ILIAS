@@ -1700,7 +1700,7 @@ class ilSetupGUI extends ilSetup
 				{
 					if ($_POST["form"]["chk_db_create"])
 					{
-						if (!$this->createDatabase())
+						if (!$this->createDatabase($_POST["collation"]))
 						{
 							$message = $this->lng->txt($this->getError());
 							$this->raiseError($message,$this->error_obj->MESSAGE);
@@ -1794,6 +1794,9 @@ class ilSetupGUI extends ilSetup
 				$this->client->status["db"]["status"] = true;
 				$this->client->status["db"]["comment"] = "version ".$dbupdate->getCurrentVersion();
 			}
+			
+			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
+			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
 		}
 		else
 		{
@@ -1811,6 +1814,55 @@ class ilSetupGUI extends ilSetup
 
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db"));
+			
+			// output version
+			$ilDB = new ilDbx($this->client->dsn_host);
+			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
+			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			
+			// collation selection ( see utf8 collations at
+			// http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html )
+			if ($ilDB->isMySQL4_1OrHigher())
+			{
+				$collations = array
+				(
+					"utf8_unicode_ci",
+					"utf8_general_ci",
+					"utf8_czech_ci",
+					"utf8_danish_ci",
+					"utf8_estonian_ci",
+					"utf8_icelandic_ci",
+					"utf8_latvian_ci",
+					"utf8_lithuanian_ci",
+					"utf8_persian_ci",
+					"utf8_polish_ci",
+					"utf8_roman_ci",
+					"utf8_romanian_ci",
+					"utf8_slovak_ci",
+					"utf8_slovenian_ci",
+					"utf8_spanish2_ci",
+					"utf8_spanish_ci",
+					"utf8_swedish_ci",
+					"utf8_turkish_ci"
+				);
+				foreach($collations as $collation)
+				{
+					$this->tpl->setCurrentBlock("collation_item");
+					$this->tpl->setVariable("VAL_COLLATION_ITEM", $collation);
+					$this->tpl->setVariable("TXT_COLLATION_ITEM", $collation);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("collation_selection");
+				$this->tpl->setVariable("TXT_COLLATION", $this->lng->txt("collation"));
+				$this->tpl->parseCurrentBlock();
+				//$this->tpl->setCurrentBlock("setup_content");
+				$this->tpl->setVariable("COLLATION_INFO1", $this->lng->txt("info_text_db_collation1"));
+				$this->tpl->setVariable("COLLATION_EXAMPLE",
+					"<br /><br />".$this->lng->txt("example").": CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci");
+				$this->tpl->setVariable("COLLATION_INFO2", "<br /><br />".$this->lng->txt("info_text_db_collation2")." ".
+					"<a target=\"_new\" href=\"http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html\">".
+					" MySQL Reference Manual :: 10.11.1 Unicode Character Sets</a>");
+			}
 		}
 		
 		$this->tpl->parseCurrentBlock();

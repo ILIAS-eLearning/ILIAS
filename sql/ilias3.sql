@@ -134,8 +134,8 @@ CREATE TABLE `ass_log` (
 
 CREATE TABLE `benchmark` (
   `cdate` datetime default NULL,
-  `module` varchar(200) default NULL,
-  `benchmark` varchar(200) default NULL,
+  `module` varchar(150) default NULL,
+  `benchmark` varchar(150) default NULL,
   `duration` double(14,5) default NULL,
   KEY `module` (`module`,`benchmark`)
 ) TYPE=MyISAM;
@@ -775,7 +775,7 @@ CREATE TABLE `dp_changed_dates` (
   `status` int(15) NOT NULL default '0',
   `timestamp` int(10) NOT NULL default '0',
   PRIMARY KEY  (`ID`)
-) TYPE=MyISAM COMMENT='Tabelle für Anzeige von Geänderten Termindaten';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r Anzeige von Geï¿½nderten Termindaten';
 
 #
 # Dumping data for table `dp_changed_dates`
@@ -817,7 +817,7 @@ CREATE TABLE `dp_keyword` (
   `user_ID` int(15) NOT NULL default '0',
   `keyword` varchar(20) NOT NULL default '',
   PRIMARY KEY  (`ID`)
-) TYPE=MyISAM COMMENT='Tabelle für Schlagwörter';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r Schlagwï¿½rter';
 
 #
 # Dumping data for table `dp_keyword`
@@ -834,7 +834,7 @@ CREATE TABLE `dp_keywords` (
   `date_ID` int(15) NOT NULL default '0',
   `keyword_ID` int(15) NOT NULL default '0',
   PRIMARY KEY  (`ID`)
-) TYPE=MyISAM COMMENT='Tabelle für die Zuordnung der Schlagwörter';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r die Zuordnung der Schlagwï¿½rter';
 
 #
 # Dumping data for table `dp_keywords`
@@ -852,7 +852,7 @@ CREATE TABLE `dp_neg_dates` (
   `user_ID` int(15) NOT NULL default '0',
   `timestamp` int(14) default NULL,
   PRIMARY KEY  (`ID`)
-) TYPE=MyISAM COMMENT='Tabelle für die negativen Termine';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r die negativen Termine';
 
 #
 # Dumping data for table `dp_neg_dates`
@@ -870,7 +870,7 @@ CREATE TABLE `dp_properties` (
   `dv_starttime` time NOT NULL default '00:00:00',
   `dv_endtime` time NOT NULL default '00:00:00',
   PRIMARY KEY  (`ID`)
-) TYPE=MyISAM COMMENT='Tabelle für UserEinstellungen';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r UserEinstellungen';
 
 #
 # Dumping data for table `dp_properties`

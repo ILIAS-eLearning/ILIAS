@@ -248,7 +248,7 @@ class ilSetup extends PEAR
 	* create client database
 	* @return	boolean
 	*/
-	function createDatabase()
+	function createDatabase($a_collation = "")
 	{
 		if ($this->client->checkDatabaseExists())
 		{
@@ -264,7 +264,16 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-		$sql = "CREATE DATABASE ".$this->client->getdbName();
+		if ($a_collation != "")
+		{
+			$sql = "CREATE DATABASE ".$this->client->getdbName().
+				" CHARACTER SET utf8".
+				" COLLATE ".$a_collation;
+		}
+		else
+		{
+			$sql = "CREATE DATABASE ".$this->client->getdbName();
+		}
 		$r = $db->query($sql);
 
 		if (DB::isError($r))
