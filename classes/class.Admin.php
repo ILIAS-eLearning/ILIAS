@@ -165,5 +165,12 @@ class Admin
 		}
 	}
 	
+	// claers the clipboard
+	function clearObject()
+	{
+		$_SESSION["clipboard"] = "";
+		session_unregister("clipboard");	
+	}
+	
 } // end class.Admin.php
 ?>

@@ -56,6 +56,7 @@ if (isset($_POST["cmd"]))
 if (!empty($clipboard))
 {
 	$tplContent->touchBlock("btn_paste");
+	$tplContent->touchBlock("btn_clear");
 }
 
 // determine sort direction
