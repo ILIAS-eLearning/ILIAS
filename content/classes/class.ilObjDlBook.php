@@ -54,12 +54,12 @@ class ilObjDlBook extends ilObjContentObject
 		include_once("./classes/class.ilNestedSetXML.php");
 		
 		// anhand der ref_id die obj_id ermitteln.
-		$query = "SELECT * FROM object_reference WHERE ref_id='".$ref_id."' ";
+		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$ref_id."' AND object_reference.obj_id=object_data.obj_id ";
         $result = $this->ilias->db->query($query);
 
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		
-		$obj_id = $row["obj_id"];
+		$obj_id = $objRow["obj_id"];
 
 		// Jetzt alle lm_data anhand der obj_id auslesen.
 		$query = "SELECT * FROM lm_data WHERE lm_id='".$obj_id."' ";
@@ -128,11 +128,30 @@ class ilObjDlBook extends ilObjContentObject
 		// TODO: Handle file-output
 		
 		
+		
 		/*
 		echo "<pre>";
 		echo htmlspecialchars($xml);
 		echo "</pre>";
 		*/
+		$fileName = $objRow["title"].".xml";
+		$fileName = str_replace(" ","_",$fileName);
+		
+		
+		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+		header("Content-type: application/octet-stream");
+		if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) {
+			header ("Content-Disposition: attachment; filename=" . $fileName);
+		} else {
+			header ("Content-Disposition: inline; filename=$fileName" );
+		}
+		header ("Content-length:".(string)(strlen ($xml)) );
+		
+		echo $xml;
 		
 	}
 

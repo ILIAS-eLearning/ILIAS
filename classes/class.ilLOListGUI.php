@@ -388,13 +388,42 @@ class ilLOListGUI
 
 	function export()
 	{
+		
+		//  select min one element
+		if(!is_array($_POST["items"]) || count($_POST["items"])==0 )
+		{
+			$this->message .= $this->lng->txt("select_one");
+			$this->view();
+			return;
+		}
+		
+		// select max one element
+		if(count($_POST["items"])>1)
+		{
+			$this->message .= $this->lng->txt("select_one");
+			$this->view();
+			return;
+		}
+		
 		if($_POST["items"])
 		{
+			
 			foreach($_POST["items"] as $item)
 			{
+				/**
+				*	exports just dbk-objects.
+				*/
+				$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
+				if ($tmp_obj->getType() == "dbk" ) {
+					require_once "content/classes/class.ilObjDlBook.php";
+					$dbk =& new ilObjDlBook($this->id, true);
+					$dbk->export($item);
+				}
+				
 				// DO SOMETHING $item = ref_id of selected object
 			}
 		}
+		$this->view();
 	}
 
 	function addToDesk()
