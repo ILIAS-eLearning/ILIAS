@@ -38,6 +38,7 @@ class ilSearch
 	* @access public
 	*/	
 	var $ilias;
+	var $rbacsystem;
 	var $user_id;				// INTEGER USED FOR SAVED RESULTS
 	var $search_string;			// INPUT FROM SEARCH FORM
 	var $parsed_str;			// PARSED INPUT
@@ -53,10 +54,11 @@ class ilSearch
 	*/
 	function ilSearch($a_user_id = 0)
 	{
-		global $ilias;
+		global $ilias,$rbacsystem;
 		
 		// Initiate variables
 		$this->ilias =& $ilias;
+		$this->rbacsystem =& $rbacsystem;
 		$this->user_id = $a_user_id;
 
 		// READ OLD SEARCH RESULTS FROM DATABASE
@@ -183,12 +185,14 @@ class ilSearch
 					include_once "./content/classes/class.ilObjContentObject.php";
 					$this->act_type = 'lm';
 					$result["lm"] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
+					$result["lm"] = $this->__checkAccess($result["lm"]);
 					break;
 
 				case "dbk":
 					include_once "./content/classes/class.ilObjDlBook.php";
 					$this->act_type = 'dbk';
 					$result["dbk"] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
+					$result["dbk"] = $this->__checkAccess($result["dbk"]);
 					break;
 			}
 		}
@@ -419,6 +423,22 @@ class ilSearch
 			$ids[] = $result["id"];
 		}
 		return $ids ? $ids : array();
+	}
+
+	function __checkAccess($a_results)
+	{
+		if(is_array($a_results))
+		{
+			foreach($a_results as $result)
+			{
+				if($this->rbacsystem->checkAccess("read",$result["id"]))
+				{
+					$checked_result[] = $result;
+				}
+			}
+			return $checked_result ? $checked_result : array();
+		}
+		return false;
 	}
 } // END class.Search
 ?>
