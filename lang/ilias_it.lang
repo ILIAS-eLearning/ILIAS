@@ -212,6 +212,8 @@ assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
+assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
+assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Selezione casuale
 assessment#:#rectangle#:#Rettangolo
 assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore destro dell'area desiderata.
