@@ -76,6 +76,8 @@ class ilRbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 
+		//return true;
+		
 		// exclude system role from rbac
 		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
@@ -93,14 +95,15 @@ class ilRbacSystem
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
 		}
 
-		$create = false;
+		//$create = false;
+		//$ops_arr = array();
+		
 		$operations = explode(",",$a_operations);
-		$ops_arr = array();
 
 		foreach ($operations as $operation)
 		{
-			$ops_id = getOperationId($operation);
-		
+			//$ops_id = getOperationId($operation);
+			
 			// Case 'create': naturally there is no rbac_pa entry
 			// => looking for the next template and compare operation with template permission
 			if ($operation == "create")
@@ -109,8 +112,18 @@ class ilRbacSystem
 				{
 					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking 'create' permission",
 											 $this->ilias->error_obj->WARNING);
+					exit();
 				}
+				
+				$ops_id = getOperationId($operation."_".$a_type);
+			}
+			else
+			{
+				$ops_id = getOperationId($operation);
+			}
+			
 
+				/*
 				$obj = $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 		
 				if ($objDefinition->getSubObjectsAsString($obj->getType()) == "")
@@ -151,24 +164,27 @@ class ilRbacSystem
 				else
 				{
 					return false;
-				}
+				}*/
 
-			} // END CASE 'create'
+			//} // END CASE 'create'
 	
 			// Um nur eine Abfrage zu haben
 			$in = " IN ('";
 			$in .= implode("','",$_SESSION["RoleId"]);
 			$in .= "')";
+
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
 				 "AND obj_id = '".$a_ref_id."' ";
 			$r = $this->ilias->db->query($q);
 
 			$ops = array();
+
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
+
 			if (in_array($ops_id,$ops))
 			{
 				continue;
