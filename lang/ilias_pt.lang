@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#Você não tem permissão para editar esta qu
 assessment#:#qpl_edit_select_multiple#:#Por favor seleccione apenas uma questão para editar
 assessment#:#qpl_edit_select_none#:#Por favor seleccione uma questão para editar
 assessment#:#qpl_export_select_none#:#Por favor seleccione pelo menos uma questão para exportar
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Fechar questão
 assessment#:#qt_imagemap#:#Questão de Mapa de Imagem

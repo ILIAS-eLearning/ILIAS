@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###0
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###7 June 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
