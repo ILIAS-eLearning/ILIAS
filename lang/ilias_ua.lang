@@ -309,12 +309,12 @@ assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений
 assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#time_format#:#HH MM SS
-assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
+assessment#:#too_many_empty_parameters#:#Будь ласка заповніть пусті параметри аплету перед додаванням нових параметрів!
 assessment#:#true#:#Правда
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
-assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
-assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
-assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
+assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
+assessment#:#tst_already_taken#:#Тест вже вибраний
+assessment#:#tst_anon_eval#:#Анонімно зібрані результати
+assessment#:#tst_browse_for_questions#:#Огляд для питань
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
