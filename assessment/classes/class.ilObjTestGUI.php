@@ -4073,7 +4073,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
 		if (!strcmp($_POST["meta_section"], "General")) {
-			//$this->updateObject();
+			$meta = $_POST["meta"];
+			$this->object->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
+			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
+			$this->object->update();
 		}
 		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
