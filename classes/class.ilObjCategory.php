@@ -131,6 +131,11 @@ class ilObjCategory extends ilObject
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
+		if (empty($a_title))
+		{
+			$a_title = "NO TITLE";
+		}
+
 		$q = "INSERT INTO object_translation ".
 			 "(obj_id,title,description,lang_code,lang_default) ".
 			 "VALUES ".
