@@ -61,6 +61,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->type ="grp";
 		$this->ilias =& $ilias;
+		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
@@ -146,6 +147,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function setAdminTabs($settabs=false, $addtabs="")
 	{
+		 
 		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 		{
 			$ftabtype = "tabactive";
@@ -159,7 +161,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		if ($settabs)
 		{
-
+			
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $ttabtype);
 			$this->tpl->setVariable("TAB_TARGET", "bottom");
@@ -200,18 +202,20 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_SESSION["viewmode"] = $_GET["viewmode"];
 		}
-
+	//$_SESSION["viewmode"]="tree";
 		// tree frame
 		if ($_SESSION["viewmode"] == "tree")
-		{
+		{//echo $_GET["ref_id"];
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
-			$this->tpl->setVariable ("SOURCE", "group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
+			$this->tpl->setVariable ("SOURCE", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			//$this->tpl->setVariable ("SOURCE", "group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
 			$this->tpl->show();
 		}
 		else	// list
 		{
-
-			$this->displayList();
+			$this->show_content();
+			//$this->displayList();
 		}
 	}
 
@@ -231,7 +235,7 @@ class ilGroupGUI extends ilObjectGUI
 		require_once "./classes/class.ilExplorer.php";
 		require_once "./classes/class.ilTableGUI.php";
 
-		$this->prepareOutput();
+		$this->prepareOutput("true");
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
 
 		// set offset & limit
@@ -395,9 +399,11 @@ class ilGroupGUI extends ilObjectGUI
 		require_once "classes/class.ilGroupExplorer.php";
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-
-		$exp = new ilGroupExplorer("group.php?cmd=displayList");
-
+		
+		//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe übergeben kann
+		
+		//$exp = new ilGroupExplorer("group.php?cmd=displayList",$_GET["ref_id"]);
+		$exp = new ilExplorer("group.php?cmd=displayList");
 		if ($_GET["expand"] == "")
 		{
 			$expanded = "1";
@@ -406,14 +412,21 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$expanded = $_GET["expand"];
 		}
-
+		
 		$exp->setExpand($expanded);
 
 		//filter object types
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
 		$exp->addFilter("grp");
+		$exp->addFilter("frm");
+		$exp->addFilter("lm");
+		$exp->addFilter("slm");
+		$exp->addFilter("glo");
+		$exp->addFilter("crs");
 		$exp->setFiltered(true);
+		
+		
 
 		//build html-output
 		$exp->setOutput(0);
@@ -422,7 +435,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("groups"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		//$this->tpl->setVariable("ACTION", "group_menu.php?expand=".$_GET["expand"]);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->show();
@@ -438,20 +450,59 @@ class ilGroupGUI extends ilObjectGUI
 	{
 
 		global $tree, $tpl, $lng, $rbacsystem;
-
+		
+		
+		
 		$tab = array();
+		
+		
+		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+		{
+			$tab0 = "tabinactive";
+			$tab1 = "tabactive";
+		}
+		else
+		{
+			$tab0 = "tabactive";
+			$tab1 = "tabinactive";
+		}
+		
+		/*$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", $ttabtype);
+		$this->tpl->setVariable("TAB_TARGET", "bottom");
+		$this->tpl->setVariable("TAB_LINK", "group.php?cmd=choose_view&viewmode=tree&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
+		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", $ftabtype);
+		$this->tpl->setVariable("TAB_TARGET", "bottom");
+		$this->tpl->setVariable("TAB_LINK", "group.php?cmd=choose_view&viewmode=flat&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
+		$this->tpl->parseCurrentBlock();*/
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"]; 	//link for tab
-		$tab[0]["ftabtype"] = 'tabactive'; 					//tab is marked
+		$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
+		$tab[0]["ftabtype"] = $tab0; 					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] = 'group_objects'; 					//tab -text
-
+		$tab[0]["tab_text"] = 'treeview'; 
+		
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';					//tab is marked
-		$tab[1]["target"] = "bottom";						//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';					//tab -text
+		$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+		$tab[1]["ftabtype"] = $tab1;  					//tab is marked
+		$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[1]["tab_text"] ='flatview'; 
+		
+		/*$tab[2] = array ();
+		$tab[2]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"]; 	//link for tab
+		$tab[2]["ftabtype"] = 'tabactive'; 					//tab is marked
+		$tab[2]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[2]["tab_text"] = 'group_objects'; 					//tab -text
+		*/
+		$tab[2] = array ();
+		$tab[2]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
+		$tab[2]["ftabtype"] = 'tabinactive';					//tab is marked
+		$tab[2]["target"] = "bottom";						//target-frame of tab_cmd
+		$tab[2]["tab_text"] = 'group_members';					//tab -text
 		
 		//check if trash is filled
 		$objects = $this->tree->getSavedNodeData($_GET["ref_id"]);
@@ -2193,7 +2244,7 @@ echo "asdf";
 	*
 	* @access	public
 	*/
- 	function save()
+ 	/*function save()
 	{
 		global $rbacsystem;
 
@@ -2222,7 +2273,7 @@ echo "asdf";
 
 		header("location: group.php?cmd=choose_view&ref_id=".$_GET["ref_id"]);
 		exit();
-	}
+	}*/
 
 
 	/**

@@ -578,54 +578,58 @@ class ilObjGroup extends ilObject
 			return false;
 	}
 
-	function createNewGroupTree($objGrpId,$objGrpRefId)
+	function createNewGroupTree($objGrpRefId)
 	{
 		
-		//echo "grp_obj_id".$objGrpId."-grp_ref_id".$objGrpRefId;
-		$grp_tree = new ilTree($objGrpId);
-		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		$grp_tree->addTree($objGrpId,$objGrpRefId);
 		
-		$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=0 AND child=".$objGrpRefId." AND obj_id IS NULL";
+		$grp_tree = new ilTree($objGrpRefId);
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
+
+		$grp_tree->addTree($objGrpRefId);
+
+		
+		$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=0 AND child=".$objGrpRefId;
 		$this->ilias->db->query($q1);
 		
-		$q2 = "UPDATE grp_tree SET obj_id=".$objGrpId." WHERE parent=0 AND child=".$objGrpRefId." AND obj_id IS NULL";
-		$this->ilias->db->query($q2);
-			
+
+		$objGrp =& $this->ilias->obj_factory->getInstanceByRefId($objGrpRefId);
+		$objGrpId = $objGrp->getId();
 		
-		//var_dump($this->grp_tree);
-		//return $grp_tree;
+		$q2 = "UPDATE grp_tree SET obj_id=".$objGrpId." WHERE parent=0 AND child=".$objGrpRefId;
+		$this->ilias->db->query($q2);
 	}
 	
 	/*
 	*
 	*@param integer ref_id of the new object
 	*@param integer ref_id of of the parent node
-	+@param integer obj_id of the group (tree_id)
+	+@param integer ref_id of the group (tree_id)
 	*@param integer obj_id of the new object
 	*/
 	function insertGroupNode($new_node_ref_id,$parent_ref_id,$grp_tree_id,$new_node_obj_id=-1 )
-	{	//echo $new_node_obj_id."-".$parent_obj_id."-".$grp_tree_id."-".$new_node_ref_id;
+	{	
+		//echo $new_node_obj_id."-".$parent_obj_id."-".$grp_tree_id."-".$new_node_ref_id;
 		$grp_tree = new ilTree($grp_tree_id);
-		$grp_tree->setTableNames("grp_tree","object_data");
-		
-		//todo berprfen ob eintrag schon existiert
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
 		$grp_tree->insertNode($new_node_ref_id,$parent_ref_id);
-		
+
 		if(isset($new_node_obj_id) && $new_node_obj_id > 0)
-		{echo "ref_da";
+		{
 			$q1 = "UPDATE grp_tree SET obj_id=".$new_node_obj_id." WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q1);
 			
+
 			$q2 = "UPDATE grp_tree SET perm=1 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q2);
 		}
 		else
 		{	
+
 			$q1 = "UPDATE grp_tree SET obj_id=-1 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q1);
 		
+
 			$q2 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q2);
 		}
@@ -675,7 +679,7 @@ class ilObjGroup extends ilObject
 		//$groupObj->setGroupStatus($this->getGroupStatus());
 		
 		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
-		$groupObj->createNewGroupTree();
+		$groupObj->createNewGroupTree($groupObj->getRefId());
 
 		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
 		unset($groupObj);
@@ -806,7 +810,7 @@ class ilObjGroup extends ilObject
 	{
 		
 		$grp_tree = new ilTree($this->getId());
-		$grp_tree->setTableNames("grp_tree","object_data");
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	
 		if($_GET["parent_non_rbac_id"] > 0)
 		{  
@@ -852,7 +856,7 @@ class ilObjGroup extends ilObject
 		}
 		
 		$old_grp_tree = new ilTree($tmp_object->getId());
-		$old_grp_tree->setTableNames("grp_tree","object_data");
+		$old_grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
 		if ($a_parent_non_rbac_id > 0)
 		{
@@ -877,7 +881,7 @@ class ilObjGroup extends ilObject
 	function linkGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
 	{
 		$grp_tree = new ilTree($this->getId());
-		$grp_tree->setTableNames("grp_tree","object_data");
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
 		if ($_GET["parent_non_rbac_id"] > 0)
 		{
@@ -923,17 +927,28 @@ class ilObjGroup extends ilObject
 	}
 	
 	
-	function newGrpTree($a_ref_id,$a_parent_non_rbac_id)
-	{  
-//var_dump($this->tree);exit;
+
+
+	function newGrpTree($a_ref_id,$a_params)
+	{  	
+		
+		$object =& $this->ilias->obj_factory->getInstanceByRefId($a_params);
+		$this->insertGroupNode($object->getRefId(), $a_ref_id  ,$this->getRefId(),$object->getId());
+		
+		
+		
+		/*$grp_tree = new ilTree($this->getRefId());
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
+
 
 		$grp_tree = new ilTree($this->getId());
 		$grp_tree->setTableNames("grp_tree","object_data");
+
 		
 		//if  grp object not in grp_table first put it in
 		if(!$grp_tree->isInTree($this->getRefId()))
 		{
-			$this->createNewGroupTree($this->getId(),$this->getRefId());
+			//$this->createNewGroupTree($this->getRefId());
 		}
 		//else condition will be executed only if the Object already exists in the grp_tree table
 		else
@@ -967,7 +982,11 @@ class ilObjGroup extends ilObject
 					}
 				}
 			}
-		}
+
+			
+		}*/
+		
+
 	}
 	
 	function copyGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
@@ -975,7 +994,7 @@ class ilObjGroup extends ilObject
 		//echo $a_ref_id."-".$a_parent_non_rbac_id; var_dump($a_params);
 		
 		$grp_tree = new ilTree($this->getId());
-		$grp_tree->setTableNames("grp_tree","object_data");
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
 		if ($_GET["parent_non_rbac_id"] > 0)
 		{
@@ -1023,8 +1042,9 @@ class ilObjGroup extends ilObject
 	function confirmedDeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
 	{
 		$grp_tree = new ilGroupTree($this->getId());
-		//$grp_tree->setTableNames("grp_tree","object_data");
 
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
+		
 		// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 		foreach ($a_params as $id)
 		{
@@ -1157,10 +1177,13 @@ class ilObjGroup extends ilObject
 				break;
 			
 			case "new":
-				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;				
-				$this->newGrpTree($a_ref_id,$a_parent_non_rbac_id);
 				
+				//avoids error during saving a new grp object
+				if ($a_params!= $this->getRefId())
+				{
+					$this->newGrpTree($a_ref_id,$a_params);
+				}
+
 				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
@@ -1171,7 +1194,7 @@ class ilObjGroup extends ilObject
 		{	
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
-
+			
 			if($parent_type == $this->getType())
 			{
 				$a_node_id = (int) $tree->getParentId($a_node_id);

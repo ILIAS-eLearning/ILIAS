@@ -180,7 +180,7 @@ class ilMainMenuGUI
 							"SCRIPT_SEARCH" => "search.php",
 							"SCRIPT_LITERAT" => "literature.php",
 							"SCRIPT_FORUMS" => "forums.php",
-							"SCRIPT_GROUPS" => "group.php",
+							"SCRIPT_GROUPS" => "grp_list.php",
 							"SCRIPT_FEEDB" => "feedback.php",
 							"SCRIPT_LOGOUT" => "logout.php" );
 		foreach($scripts as $var => $script)
