@@ -76,7 +76,7 @@ class ilContObjParser extends ilSaxParser
 	var $glossary_object;
 	var $file_item;
 	var $keyword_language;
-	var $pages_with_int_links;
+	var $pages_to_parse;
 	var $mob_mapping;
 	var $file_item_mapping;
 	var $subdir;
@@ -107,7 +107,7 @@ class ilContObjParser extends ilSaxParser
 		//$this->lm_id = $a_lm_id;
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
-		$this->pages_with_int_links = array();
+		$this->pages_to_parse = array();
 		$this->mobs_with_int_links = array();
 		$this->mob_mapping = array();
 		$this->file_item_mapping = array();
@@ -142,7 +142,7 @@ class ilContObjParser extends ilSaxParser
 //echo "<b>storeTree</b><br>";
 		$this->storeTree();
 //echo "<b>processIntLinks</b><br>";
-		$this->processIntLinks();
+		$this->processPagesToParse();
 //echo "<b>copyMobFiles</b><br>";
 		$this->copyMobFiles();
 //echo "<b>copyFileItems</b><br>";
@@ -192,9 +192,9 @@ class ilContObjParser extends ilSaxParser
 
 
 	/**
-	* updates all internal links
+	* parse pages that contain files, mobs and/or internal links
 	*/
-	function processIntLinks()
+	function processPagesToParse()
 	{
 		/*
 		$pg_mapping = array();
@@ -204,7 +204,7 @@ class ilContObjParser extends ilSaxParser
 		}*/
 //echo "<br><b>processIntLinks</b>";
 		// outgoin internal links
-		foreach($this->pages_with_int_links as $page_id)
+		foreach($this->pages_to_parse as $page_id)
 		{
 			$page_obj =& new ilPageObject($this->content_object->getType(), $page_id);
 			$page_obj->buildDom();
@@ -454,6 +454,10 @@ class ilContObjParser extends ilSaxParser
 //echo "<br>---NEW MEDIAALIAS---<br>";
 				$this->media_object->setAlias(true);
 				$this->media_object->setOriginID($a_attribs["OriginId"]);
+				if (is_object($this->page_object))
+				{
+					$this->page_object->needsImportParsing(true);
+				}
 				break;
 
 			case "MediaItem":
@@ -525,6 +529,10 @@ class ilContObjParser extends ilSaxParser
 				$this->file_item =& new ilObjFile();
 				$this->file_item->setTitle("dummy");
 				$this->file_item->create();
+				if (is_object($this->page_object))
+				{
+					$this->page_object->needsImportParsing(true);
+				}
 				break;
 
 			////////////////////////////////////////////////
@@ -769,7 +777,11 @@ class ilContObjParser extends ilSaxParser
 					// collect pages with internal links
 					if ($this->page_object->containsIntLink())
 					{
-						$this->pages_with_int_links[] = $this->page_object->getId();
+						$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
+					}
+					if ($this->page_object->needsImportParsing())
+					{
+						$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
 					}
 				}
 
@@ -1034,7 +1046,7 @@ class ilContObjParser extends ilSaxParser
 				//	= $this->lm_page_object->getId();
 				if ($this->page_object->containsIntLink())
 				{
-					$this->pages_with_int_links[] = $this->page_object->getId();
+					$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
 				}
 				break;
 
