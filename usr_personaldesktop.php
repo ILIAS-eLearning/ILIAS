@@ -82,7 +82,7 @@ if ($mails["unread"]>0)
 		$tpl->setVariable("MAIL_ID", $row["id"]);
 		$tpl->setVariable("MAIL_FROM", $row["from"]);
 		$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-		$tpl->setVariable("MAIL_DATE", $row["datetime"]);
+		$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"]));
 		$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
 		$tpl->setVariable("MAIL_LINK_DEL", "");
 		$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
@@ -109,7 +109,7 @@ if (count($lessonsLastVisited)>0)
                 $i++;
                 $tpl->setCurrentBlock("tbl_lo_row");
                 $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-                $tpl->setVAriable("LO_TIME", $row["datetime"]);
+                $tpl->setVAriable("LO_TIME", Format::formatDate($row["datetime"]));
                 $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["id"]);
                 $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["id"]."&amp;page=".$row["pageid"]);
                 $tpl->setVAriable("LO_TITLE", $row["title"]);
@@ -187,7 +187,7 @@ if ($frmNum > 0)
 					$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
 					$tpl->setVariable("ROWCOL", $rowCol);				
 					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?obj_id=".$frm_data["obj_id"]."&parent=".$frm_data["parent"]."\">".$topicData["top_name"]."</a>");								
-					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
+					$tpl->setVariable("LAST_POST", Format::formatDate($lastPost["pos_date"]));
 					$tpl->parseCurrentBlock("tbl_frm_row");
 				}
 				
@@ -215,7 +215,6 @@ if ($frmNum > 0)
 	}
 	
 }
-
 // output
 $tpl->show();
 ?>

@@ -132,7 +132,7 @@ foreach ($mails["msg"] as $row)
 	$tpl->setVariable("MAIL_ID", $row["id"]);
 	$tpl->setVariable("MAIL_FROM", $row["from"]);
 	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
+	$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"]));
 	$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
 	$tpl->setVariable("MAIL_LINK_DEL", "");
 	$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));

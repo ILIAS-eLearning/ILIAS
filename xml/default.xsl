@@ -15,7 +15,7 @@
 		 different treatments for different aggregation levels
 		 highest aggregation level at the moment is 2 -->
 
-<xsl:template match="LearningObject">
+<xsl:template match="BibObject">
   <xsl:choose>
 		<xsl:when test="MetaData/General/@AggregationLevel=1">
 			<xsl:choose>
@@ -36,7 +36,7 @@
 						<tr>
 							<td class="ImageCaption" id="lo_view">
 								<xsl:text>Abbildung</xsl:text>
-								<xsl:number count="LearningObject"/>
+								<xsl:number count="BibObject"/>
 								<xsl:text>: </xsl:text>
 								<xsl:value-of select="MetaData/General/Title"/>
 							</td>
@@ -65,7 +65,7 @@
 						<tr>
 							<td class="ImageCaption" id="lo_view">
 								<xsl:text>Abbildung</xsl:text>
-								<xsl:number count="LearningObject"/>
+								<xsl:number count="BibObject"/>
 								<xsl:text>: </xsl:text>
 								<xsl:value-of select="MetaData/General/Title"/>
 							</td>
@@ -94,7 +94,7 @@
 						<tr>
 							<td class="ImageCaption" id="lo_view">
 								<xsl:text>Abbildung</xsl:text>
-								<xsl:number count="LearningObject"/>
+								<xsl:number count="BibObject"/>
 								<xsl:text>: </xsl:text>
 								<xsl:value-of select="MetaData/General/Title"/>
 							</td>
@@ -180,7 +180,7 @@
 
 <xsl:template match="LO">
 	<a>
-		<xsl:attribute name="href">lo_view.php?lm_id=<xsl:value-of select="@lm"/>&amp;lo_id=<xsl:value-of select="@id"/></xsl:attribute>	
+		<xsl:attribute name="href"><xsl:value-of select="@lm"/>&amp;lo_id=<xsl:value-of select="@id"/></xsl:attribute>	
 		<xsl:value-of select="@title"/>
 	</a>
 	<br/>
