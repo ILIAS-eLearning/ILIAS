@@ -1030,9 +1030,17 @@ class ilSetupGUI extends ilSetup
 				$this->tpl->parseCurrentBlock();
 			}
 
+			$this->tpl->setCurrentBlock("tbl_action_btn");
 			$this->tpl->setVariable("TPLPATH",TPLPATH);			
 			$this->tpl->setVariable("BTN_NAME","changedefault");
 			$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("set_default_client"));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("TPLPATH",TPLPATH);			
+			$this->tpl->setVariable("COLUMN_COUNTS","7");
+			$this->tpl->parseCurrentBlock();
+
 		}
 	}
 
