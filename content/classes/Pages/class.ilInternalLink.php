@@ -118,7 +118,7 @@ class ilInternalLink
 				$id = ilLMObject::_getIdForImportId($a_target);
 				if($id > 0)
 				{
-					return "il__pg_".$id;
+					return "il__st_".$id;
 				}
 				break;
 

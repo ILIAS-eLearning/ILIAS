@@ -244,8 +244,15 @@ class ilObjFile extends ilObject
 
 			// unlink file
 			$file = $this->getDirectory()."/".$this->getFileName();
-			unlink($file);
-			rmdir($this->getDirectory());
+			if (@is_file($file))
+			{
+				unlink($file);
+			}
+
+			if (@is_dir($this->getDirectory()))
+			{
+				rmdir($this->getDirectory());
+			}
 
 			return true;
 		}

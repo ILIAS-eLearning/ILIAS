@@ -642,6 +642,33 @@ class ilObject
 	}
 
 	/**
+	* checks wether object is in trash
+	*/
+	function _isInTrash($a_ref_id)
+	{
+		global $tree;
+
+		return $tree->isSaved($a_ref_id);
+	}
+
+	/**
+	* checks wether an object has at least one reference that is not in trash
+	*/
+	function _hasUntrashedReference($a_obj_id)
+	{
+		$ref_ids  = ilObject::_getAllReferences($a_obj_id);
+		foreach($ref_ids as $ref_id)
+		{
+			if(!ilObject::_isInTrash($ref_id))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff

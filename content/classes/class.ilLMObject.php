@@ -276,6 +276,10 @@ class ilLMObject
 	/**
 	* get current object id for import id (static)
 	*
+	* import ids can exist multiple times (if the same learning module
+	* has been imported multiple times). we get the object id of
+	* the last imported object, that is not in trash
+	*
 	* @param	int		$a_import_id		import id
 	*
 	* @return	int		id
@@ -285,14 +289,18 @@ class ilLMObject
 		$q = "SELECT * FROM lm_data WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $this->ilias->db->query($q);
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $obj_rec["obj_id"];
+			$lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
+
+			// link only in learning module, that is not trashed
+			if (ilObject::_hasUntrashedReference($lm_id))
+			{
+				return $obj_rec["obj_id"];
+			}
 		}
-		else
-		{
-			return 0;
-		}
+
+		return 0;
 	}
 
 	/**
@@ -339,6 +347,9 @@ class ilLMObject
 		}
 	}
 
+	/**
+	* get learning module / digibook id for lm object
+	*/
 	function _lookupContObjID($a_id)
 	{
 		global $ilDB;
