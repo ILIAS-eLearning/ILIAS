@@ -614,61 +614,61 @@ class ilObjUser extends ilObject
 		return $this->fullname;
 	}
 
+// ### AA 03.09.01 updated page access logger ###
 	/**
-	* get last read lessons
+	* get read lessons, ordered by timestamp
 	* @access	public
 	* @return	array	lessons
-	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getLastVisitedLessons()
 	{
-		global $lng;
-
-		//initialize array
-		$lessons = array();
 		//query
-		$q = "SELECT * FROM lessons ".
-			 "WHERE user_fk='".$this->id."' ".
-			 "AND read='1'";
+		$q = "SELECT * FROM lo_access ".
+			"WHERE usr_id='".$this->id."' ".
+			"ORDER BY timestamp DESC";
+		$rst = $this->ilias->db->query($q);
 
-			$lessons[] = array(
-					"id" => 1,
-					"title" => "Lesson 1",
-					"content" => "This is Lesson One",
-					"page" => "Contents",
-					"pageid" => "1",
-					"datetime" => date("Y-m-d")
-					);
-		return $lessons;
+		// fill array
+		$result = array();
+		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result[] = array(
+			"timestamp"	=>	$record->timestamp,
+			"usr_id"		=>	$record->usr_id,
+			"lm_id"		=>	$record->lm_id,
+			"obj_id"		=>	$record->obj_id,
+			"lm_title"	=>	$record->lm_title);
+		}
+		return $result;
 	}
 
+// ### AA 03.09.01 updated page access logger ###
 	/**
-	* get all lessons
+	* get all lessons, unordered
 	* @access	public
 	* @return	array	lessons
-	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getLessons()
 	{
-		//initialize array
-		$lessons = array();
-
 		//query
-		$sql = "SELECT * FROM lessons
-				WHERE user_fk='".$this->id."'
-				AND read=1";
+		$q = "SELECT * FROM lo_access ".
+			"WHERE usr_id='".$this->id."' ";
+		$rst = $this->ilias->db->query($q);
 
-/*		$lessons[] = array(
-			"id" => 1,
-			"title" => "Lesson 1",
-			"content" => "This is Lesson One",
-			"page" => "Contents",
-			"pageid" => "1",
-			"datetime" => $lng->fmtDate(date("Y-m-d"))
-			);
-*/
-		return $lessons;
+		// fill array
+		$result = array();
+		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result[] = array(
+			"timestamp"	=>	$record->timestamp,
+			"usr_id"		=>	$record->usr_id,
+			"lm_id"		=>	$record->lm_id,
+			"obj_id"		=>	$record->obj_id,
+			"lm_title"	=>	$record->lm_title);
+		}
+		return $result;
 	}
+
 
 	/**
 	* get courses the user has access to
