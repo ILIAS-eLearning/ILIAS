@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.24 2003/06/12 12:32:57 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.25 2003/06/23 09:13:32 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -275,7 +275,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// of image"y" show user infomation
-		
+
 		if($this->public_upload()=="y") {
 		//Getting the flexible path of image form ini file
 		require_once "classes/class.ilSetup.php";
@@ -431,6 +431,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$data["fields"]["country"] = "";
 			$data["fields"]["phone"] = "";
 			$data["fields"]["email"] = "";
+			$data["fields"]["hobbie"] = "";
 			$data["fields"]["default_role"] = $role;
 
 			$this->getTemplateFile("edit","usr");
@@ -448,7 +449,8 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 			$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
-			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));		
+			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
+
 
 			// FILL SAVED VALUES IN CASE OF ERROR
 			$this->tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
@@ -462,12 +464,13 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
 			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
-
+$this->tpl->setVariable("HOBBIE",$_SESSION["error_post_vars"]["Fobject"]["hobbie"]);
+;
 			// EMPTY SAVED VALUES
 			unset($_SESSION["error_post_vars"]);
 		}
 
-		
+
 	}
 
 
@@ -511,6 +514,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$data["fields"]["country"] = $this->object->getCountry();
 			$data["fields"]["phone"] = $this->object->getPhone();
 			$data["fields"]["email"] = $this->object->getEmail();
+			$data["fields"]["hobbie"] = $this->object->getHobbie();
 			$data["fields"]["default_role"] = $role;
 
 			$data["active_role"]["access"] = true;
