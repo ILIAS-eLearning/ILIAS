@@ -441,6 +441,7 @@ class ilPageObjectGUI
 		require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 		$page_editor =& new ilPageEditorGUI($this->getPageObject());
 		$page_editor->setTargetScript($this->getTargetScript());
+//echo ":".$this->getTargetScript().":<br>";
 		if(!empty($this->tabs))
 		{
 			$page_editor->setTabs($this->tabs);

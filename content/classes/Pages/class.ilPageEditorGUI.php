@@ -323,8 +323,10 @@ class ilPageEditorGUI
 
 		$tabs_gui =& new ilTabsGUI;
 
-		$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
-			$_GET["obj_id"]);
+		/*$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
+			$_GET["obj_id"]);*/
+		$tabs_gui->setTargetScript($this->getTargetScript());
+
 		if ($mode != "mob")
 		{
 			if(empty($this->tabs))
