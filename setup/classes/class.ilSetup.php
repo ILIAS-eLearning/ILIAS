@@ -1106,8 +1106,8 @@ class ilSetup extends PEAR
 
 		$webspace_dir = ILIAS_ABSOLUTE_PATH . "/data";
 		
-		// datadir may not point to webspace dir
-		if (ereg($webspace_dir,$datadir_path))
+		// datadir may not point to webspace dir or to any place under webspace_dir
+		if (ereg($webspace_dir,$datadir_path) or preg_match($webspace_dir,$datadir_path))
 		{
 			$this->error = "datadir_webspacedir_match";
 			return false;
