@@ -75,7 +75,12 @@ function beginDrag()
 
 function doMouseUp(id) 
 {
-	if (dragDropShow) alert(dragId+" - "+overId);
+	if (dragDropShow) {
+		//alert(dragId+" - "+overId);
+		DID = overId.substr(7);
+		OID = dragId.substr(7);
+		doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
+	}
 	dragId = "";
 	mouseIsDown = false;
 	dragDropShow = false;
@@ -170,7 +175,7 @@ function doCloseContextMenu()
 setTimeout("doCloseContextMenu()",200);
 
 var clickcmdid = 0;
-function doActionForm(cmd,command,value) 
+function doActionForm(cmd, command, value, target)    
 {
     doCloseContextMenuCounter = 2;
     if(cmd=="cmd[exec]") 
@@ -195,7 +200,10 @@ function doActionForm(cmd,command,value)
 		setTimeout("nextMenuClick()",500);
 	}
 	
+	//alert(target+" - "+command+" - "+value+" - "+cmd);
+	
     html = "<form name=cmform id=cmform method=post action='"+actionUrl+"'>";
+    html += "<input type=hidden name='target[]' value='"+target+"'>";
     html += "<input type=hidden name='"+command+"' value='"+value+"'>";
     html += "<input type=hidden name='"+cmd+"' value='Ok'>";
     html += "</form>";
@@ -237,7 +245,8 @@ function followmouse1(e)
 		Mposy = e.clientY + document.body.scrollTop;
 	}
     
-    if (mouseIsDown) {
+    if (mouseIsDown) 
+	{
         
         if ( Math.sqrt((Mposx-oldMposx)*(Mposx-oldMposx) + (Mposy-oldMposy)*(Mposy-oldMposy)) > 4 ) 
 		{
@@ -280,7 +289,7 @@ function doKeyUp(e)
 }
 
 document.onmousemove=followmouse1;
-document.onkeydown=doKeyDown;
-document.onkeyup=doKeyUp;
+//document.onkeydown=doKeyDown;
+//document.onkeyup=doKeyUp;
 
 

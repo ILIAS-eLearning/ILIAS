@@ -492,7 +492,7 @@
 	<xsl:if test = "$javascript = 'enable'">
 		<tr>
 			<td onMouseOver="M_in(this);" onMouseOut="M_out(this);">
-			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>');</xsl:attribute>
+			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '');</xsl:attribute>
 			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
 			</td>
 		</tr>
