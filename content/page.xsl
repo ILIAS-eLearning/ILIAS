@@ -1552,7 +1552,7 @@
 	<xsl:for-each select="render_choice/response_label">
 		<xsl:if test='@match_max'>
 			<tr>
-			<td class="nobackground"><xsl:apply-templates/></td>
+			<td class="nobackground"><b><xsl:apply-templates/></b></td>
 			<td class="nobackground">matches</td>
 			<td class="nobackground">
 			<select>
