@@ -572,7 +572,7 @@ class ilObjectGUI
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
 				
-				$this->notify->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
+				$this->object->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
 				
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
