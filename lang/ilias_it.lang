@@ -262,7 +262,6 @@ common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new varia
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
 common#:#group_status#:#Stato del gruppo###29 Apr 2003 new variable
 common#:#group_status_closed#:#Chiuso###29 Apr 2003 new variable
-common#:#group_status_private#:#Privato###29 Apr 2003 new variable
 common#:#group_status_public#:#Pubblico###29 Apr 2003 new variable
 common#:#groups#:#Gruppi
 common#:#groups_overview#:#Descrizione gruppi###12 Jun 2003 new variable
