@@ -170,6 +170,48 @@ class ilObjectDefinition extends ilSaxParser
 			return $props;
 		}
 	}
+	
+	/**
+	* get devmode status by type
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function getDevMode($a_obj_name)
+	{
+		if (DEVMODE)
+		{
+			return false;
+		}
+		
+		return (bool) $this->obj_data[$a_obj_name]["devmode"];
+	}
+
+	/**
+	* get all object types in devmode
+	*
+	* @access	public
+	* @return	array	object types set to development
+	*/
+	function getDevModeAll()
+	{
+		if (DEVMODE)
+		{
+			return array();
+		}
+
+		$types = array_keys($this->obj_data);
+		
+		foreach ($types as $type)
+		{
+			if ($this->getDevMode($type))
+			{
+				$devtypes[] = $type;
+			}
+		}
+
+		return $devtypes ? $devtypes : array();
+	}
 
 	/**
 	* get all subobjects by type
@@ -225,7 +267,19 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		$subobjects = $this->getSubObjects($a_obj_type);
 		
+		// remove role folder object from list
 		unset($subobjects["rolf"]);
+		
+		$sub_types = array_keys($subobjects);
+
+		// remove object types in development from list
+		foreach ($sub_types as $type)
+		{
+			if ($this->getDevMode($type))
+			{
+				unset($subobjects[$type]);
+			}
+		}
 
 		return $subobjects;
 	}
@@ -367,6 +421,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
 				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];
 				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
+				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";

@@ -2119,6 +2119,12 @@ class ilObjectGUI
 			{
 				continue;
 			}
+			
+			// hide object types in devmode
+			if ($this->objDefinition->getDevMode($val["type"]))
+			{
+				continue;
+			}
 
 			//visible data part
 			$this->data["data"][] = array(

@@ -148,17 +148,38 @@ class ilExplorer
 	var $post_sort;
 
 	/**
+	* set object type filter true/false
+	* @var boolean
+	* @access private
+	*/
+	var $filtered = false;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
 	*/
 	function ilExplorer($a_target)
 	{
-		global $ilias;
+		global $ilias, $objDefinition;
 
 		if (!isset($a_target) or !is_string($a_target))
 		{
 			$this->ilias->raiseError(get_class($this)."::Constructor(): No target given!",$this->ilias->error_obj->WARNING);
+		}
+		
+		// autofilter object types in devmode
+		$devtypes = $objDefinition->getDevModeAll();
+		
+		if (count($devtypes > 0))
+		{
+			// activate filter if objects found in devmode
+			$this->setFiltered(true);
+
+			foreach ($devtypes as $type)
+			{
+				$this->addFilter($type);
+			}
 		}
 
 		$this->ilias =& $ilias;
@@ -359,6 +380,7 @@ class ilExplorer
 		{
 			$objects = array();
 		}
+
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
@@ -371,7 +393,7 @@ class ilExplorer
 			foreach ($objects as $key => $object)
 			{
 				//ask for FILTER
-				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
+				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
 					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
 					{
@@ -379,6 +401,7 @@ class ilExplorer
 						{
 							$parent_index = $this->getIndex($object);
 						}
+
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
@@ -743,9 +766,9 @@ class ilExplorer
 	}
 	
 	/**
-	* adds item to the filter
+	* removes item from the filter
 	* @access	public
-	* @param	string		object type to delete
+	* @param	string		object type to remove
 	* @return	boolean
 	*/
 	function delFilter($a_item)
@@ -767,6 +790,7 @@ class ilExplorer
 					$deleted = 1;
 				}
 			}
+
 			$this->filter = $tmp;
 		}
 		else
