@@ -255,6 +255,11 @@ class SurveyOrdinalQuestionGUI {
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("questiontype"));
+		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -393,6 +398,14 @@ class SurveyOrdinalQuestionGUI {
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
     $this->object->setQuestiontext(ilUtil::stripSlashes($_POST["question"]));
+		if ($_POST["obligatory"])
+		{
+			$this->object->setObligatory(1);
+		}
+		else
+		{
+			$this->object->setObligatory(0);
+		}
     // adding materials uris
     $saved = $this->writeOtherPostData();
 

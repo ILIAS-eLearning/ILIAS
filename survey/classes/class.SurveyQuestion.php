@@ -113,6 +113,15 @@ class SurveyQuestion {
 * @var string
 */
   var $questiontext;
+
+/**
+* Contains the obligatory state of the question
+*
+* Contains the obligatory state of the question
+*
+* @var boolean
+*/
+  var $obligatory;
 	
 /**
 * The reference to the ILIAS class
@@ -182,6 +191,7 @@ class SurveyQuestion {
     }
     $this->id = -1;
     $this->survey_id = -1;
+		$this->obligatory = 1;
 	}
 	
 /**
@@ -230,6 +240,26 @@ class SurveyQuestion {
 */
   function setTitle($title = "") {
     $this->title = $title;
+  }
+
+/**
+* Sets the obligatory state of the question
+*
+* Sets the obligatory state of the question
+*
+* @param boolean $obligatory True, if the question is obligatory, otherwise false
+* @access public
+* @see $obligatory
+*/
+  function setObligatory($obligatory = 1) {
+		if ($obligatory)
+		{
+	    $this->obligatory = 1;
+		}
+		else
+		{
+	    $this->obligatory = 0;
+		}
   }
 
 /**
@@ -433,6 +463,19 @@ class SurveyQuestion {
 */
   function getId() {
     return $this->id;
+  }
+
+/**
+* Gets the obligatory state of the question
+*
+* Gets the obligatory state of the question
+*
+* @return boolean True, if the question is obligatory, otherwise false
+* @access public
+* @see $obligatory
+*/
+  function getObligatory() {
+    return $this->obligatory;
   }
 
 /**
