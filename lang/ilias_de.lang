@@ -439,3 +439,117 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
+common#:#obj_not_found#:#Kein Objekt gefunden
+common#:#cut#:#ausschneiden
+common#:#copy#:#kopieren
+common#:#paste#:#einfügen
+common#:#clear#:#abbrechen
+common#:#required_field#:#erforderliches Feld
+common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
+common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#permission#:#Recht
+common#:#roles#:#Rollen
+common#:#uninstall#:#deinstallieren
+common#:#frm#:#Forum
+common#:#obj#:#Objekt
+common#:#cat#:#Kategorie
+common#:#le#:#Lernmodul
+common#:#grp#:#Gruppe
+common#:#crs#:#Kurs
+common#:#file#:#Datei
+common#:#rolf#:#Rollenordner
+common#:#rolt#:#Rollenvorlage
+common#:#lngf#:#Sprachordner
+common#:#lng#:#Sprache
+common#:#usr#:#Benutzer
+common#:#user#:#Benutzer
+common#:#usrf#:#Benutzerordner
+common#:#objf#:#Objektordner
+common#:#system_choose_language#:#Systemsprache w&auml;hlen
+common#:#role#:#Rolle
+common#:#passwd#:#Passwort
+common#:#desc#:#Beschreibung
+common#:#default_role#:#Standardrolle
+common#:#enabled#:#eingeschaltet
+common#:#disabled#:#ausgeschaltet
+common#:#import#:#import
+common#:#change_language#:#Benutzersprache ändern
+common#:#update_language#:#Sprache updaten
+common#:#check_language#:#Sprache checken
+common#:#set_system_language#:#Systemsprache ändern
+common#:#in_use#:#Benutzersprache
+common#:#lang_de#:#Deutsch
+common#:#lang_en#:#Englisch
+common#:#lang_dk#:#D&auml;nisch
+common#:#lang_pl#:#Polnisch
+common#:#lang_se#:#Schwedisch
+common#:#lang_no#:#Norwegisch
+common#:#lang_es#:#Spanisch
+common#:#lang_fr#:#Franz&ouml;sisch
+common#:#lang_it#:#Italienisch
+common#:#lang_id#:#Indonesisch
+common#:#lang_xx#:#benutzerdefiniert
+common#:#forums_not_available#:#Keine Foren verfügbar
+common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_moderators#:#Moderatoren
+common#:#forums_new_thread#:#Neues Thema
+common#:#permission_denied#:#Kein Zugriffsrecht
+common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
+common#:#today#:#Heute
+common#:#forums_thread#:#Thema
+common#:#forums_threads#:#Themen
+common#:#forums_topics_overview#:#Themen-Übersicht
+common#:#forums_posts#:#Alle Beiträge
+common#:#forums_the_post#:#Beitrag
+common#:#forums_articles#:#Beiträge
+common#:#forums_thread_create#:#Erstellt von
+common#:#operation#:#Operation
+common#:#edit_operations#:#Operationen bearbeiten
+common#:#file_not_found#:#Datei nicht gefunden
+common#:#new_language#:#Neue Sprache
+common#:#forums_threads_not_available#:#Keine Themen verfügbar
+common#:#forums_posts_not_available#:#Keine Artikel verfügbar
+common#:#author#:#Autor
+common#:#registered_since#:#Eingetragen seit
+common#:#context#:#Kontext
+common#:#forums_respond#:#Beitrag beantworten
+common#:#forums_your_reply#:#Ihre Antwort
+common#:#of#:#von
+common#:#edited_at#:#Bearbeitet am
+common#:#order_by#:#Sortieren nach
+common#:#answers#:#Antworten
+common#:#mandatory_fields#:#Pflichtfelder
+common#:#visits#:#Besuche
+common#:#delete_object#:#Lösche Objekte
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#cancel#:#verwerfen
+common#:#confirm#:#bestätigen
+common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden: Nr.
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen: Nr.:
+common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
+common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
+common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen: Nr.
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen: Nr.
+common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
+common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#forums_thread_articles#:#Beiträge zum Thema
+common#:#forums_count#:#Anzahl Foren
+common#:#forums_count_thr#:#Anzahl Themen
+common#:#forums_count_art#:#Anzahl Beiträge
+common#:#by#:#durch
+common#:#launch#:#Start
+common#:#info_trash#:#Gelöschte Objekte
+common#:#btn_undelete#:#wiederherstellen
+common#:#btn_remove_system#:#aus System entfernen
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
+common#:#forums_edit_post#:#Beitrag bearbeiten
+common#:#forums_post_modified#:#Beitrag wurde bearbeitet
+common#:#forums_post_deleted#:#Beitrag wurde gelöscht
+common#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beiträg mit all seinen Antwort-Beiträgen gelöscht werden soll?
+
