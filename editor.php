@@ -48,9 +48,9 @@ for ($i = 0; $i < 5; $i++)
 	$tpl->setVAriable("TITLE", $lng->txt("lo").$i);
 	$status = "on";
 	$switchstatus = "off";
-	$tpl->setVariable("LINK_STATUS", "editor.php?func=set".$switchstatus."line&amp;id=".$id);
-	$tpl->setVariable("LINK_GENERATE", "editor.php?func=generate&amp;id=".$id);
-	$tpl->setVariable("LINK_ANNOUNCE", "mail.php?func=announce&amp;id=".$id);
+	$tpl->setVariable("LINK_STATUS", "editor.php?cmd=set".$switchstatus."line&amp;id=".$id);
+	$tpl->setVariable("LINK_GENERATE", "editor.php?cmd=generate&amp;id=".$id);
+	$tpl->setVariable("LINK_ANNOUNCE", "mail.php?cmd=announce&amp;id=".$id);
 	$tpl->setVariable("LINK_EDIT", "lo_edit.php?id=".$id);
 	$tpl->setVAriable("STATUS", $status);
 	$tpl->setVariable("TXT_LO_SET_STATUS", $lng->txt("set_".$switchstatus."line"));

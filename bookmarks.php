@@ -12,9 +12,9 @@ include("./classes/class.Bookmarks.php");
 
 $myBm = new Bookmarks($ilias->db, $ilias->account->Id);
 
-if ($_GET["func"] != "")
+if ($_GET["cmd"] != "")
 {
-	switch ($_GET["func"])
+	switch ($_GET["cmd"])
 	{
 		case "del":
 			$myBm->delete($id);
@@ -57,9 +57,9 @@ foreach ($bm as $row)
 	$tpl->setVariable("DESC", $row["name"]);
 	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 	$tpl->setVariable("TXT_DEL", $lng->txt("delete"));
-	$tpl->setVariable("LINK_DEL", "bookmarks.php?func=del&amp;id=".$row["id"]);
+	$tpl->setVariable("LINK_DEL", "bookmarks.php?cmd=del&amp;id=".$row["id"]);
 	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
-	$tpl->setVariable("LINK_EDIT", "bookmark_new.php?func=edit&amp;id=".$row["id"]);
+	$tpl->setVariable("LINK_EDIT", "bookmark_new.php?cmd=edit&amp;id=".$row["id"]);
 	$tpl->parseCurrentBlock();
 }
 
