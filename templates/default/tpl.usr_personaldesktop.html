@@ -42,39 +42,58 @@ body { margin:0px; }
 <!-- END tbl_system_msg_row -->
     </table>
 <!-- END tbl_system_msg -->
+
+<!-- BEGIN tbl_mails -->
+<h2>{NEW_MAIL}</h2>
+    <table class="fullwidth">
+    <tr class="tblheader">
+      <td class="std"><b>{NEW_TXT_SENDER}</b></td>
+      <td class="std"><b>{NEW_TXT_SUBJECT}</b></td>
+      <td class="std"><b>{NEW_TXT_DATE}</b></td>
+    </tr>
+<!-- BEGIN tbl_mails_row -->
+<tr class="{ROWCOL}">
+  <td class="std" valign="middle">{NEW_MAIL_FROM}</td>
+  <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}" target="bottom">{NEW_MAIL_SUBJ}</a></td>
+  <td class="std" valign="middle">{NEW_MAIL_DATE}</td>
+</tr>
+<!-- END tbl_mails_row -->
+    </table>
+<!-- END tbl_mails -->
+
 <!-- BEGIN tbl_users -->
 <h2>{TXT_USERS_ONLINE}</h2>
     <table class="fullwidth">
-	<tr class="tblheader">
+    <tr class="tblheader">
       <td class="std" valign="top" colspan="5">{USER_LIST}</td>
-	</tr>
+    </tr>
 <!-- BEGIN tbl_users_header -->
-	<tr class="tblheader">
-		<td class="std" valign="middle" align="center" width="1%">&nbsp;</td>
-		<td class="std" valign="top" width="30%"><b>{TXT_USR_LOGIN}</b></td>
-		<td class="std" valign="top" width="48%"><b>{TXT_USR_FULLNAME}</b></td>
-		<td class="std" valign="top" width="20%"><b>{TXT_USR_LOGIN_TIME}</b></td>
-		<td class="std" valign="top" width="1%">&nbsp;</td>
-	</tr>
+    <tr class="tblheader">
+        <td class="std" valign="middle" align="center" width="1%">&nbsp;</td>
+        <td class="std" valign="top" width="30%"><b>{TXT_USR_LOGIN}</b></td>
+        <td class="std" valign="top" width="48%"><b>{TXT_USR_FULLNAME}</b></td>
+        <td class="std" valign="top" width="20%"><b>{TXT_USR_LOGIN_TIME}</b></td>
+        <td class="std" valign="top" width="1%">&nbsp;</td>
+    </tr>
 <!-- END tbl_users_header -->
 <!-- BEGIN tbl_users_row -->
     <tr class="{ROWCOL}">
-		<td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
-		<!-- BEGIN usr_image -->
-		<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
-		<!-- END usr_image -->
-		</td>
-		<td class="std" valign="top">{USR_LOGIN}</td>
-		<td class="std" valign="top">{USR_FULLNAME}</td>
-		<td class="std" valign="top">{USR_LOGIN_TIME}</td>
-		<td class="std" valign="top" nowrap="1">
+        <td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
+        <!-- BEGIN usr_image -->
+        <img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+        <!-- END usr_image -->
+        </td>
+        <td class="std" valign="top">{USR_LOGIN}</td>
+        <td class="std" valign="top">{USR_FULLNAME}</td>
+        <td class="std" valign="top">{USR_LOGIN_TIME}</td>
+        <td class="std" valign="top" nowrap="1">
 <!-- BEGIN profile_link -->
-	    <a href="profile.php?user={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
+        <a href="profile.php?user={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
 <!-- END profile_link -->
 <!-- BEGIN mailto_link -->
-		<a href="mail_new.php?type=new&rcp_to={USR_LOGIN}"><img src="{IMG_MAIL}" alt="{ALT_TXT_MAIL}" title="{ALT_TXT_MAIL}" border="0"/></a>
+        <a href="mail_new.php?type=new&rcp_to={USR_LOGIN}"><img src="{IMG_MAIL}" alt="{ALT_TXT_MAIL}" title="{ALT_TXT_MAIL}" border="0"/></a>
 <!-- END mailto_link -->
-	  </td>
+      </td>
     </tr>
 <!-- END tbl_users_row -->
     </table>
@@ -85,21 +104,21 @@ body { margin:0px; }
 <h2>{TXT_BM_HEADER}</h2>
 <table class="fullwidth">
   <tr class="tblheader">
-	<td class="std"><b>{TXT_BM_TITLE}</b></td>
+    <td class="std"><b>{TXT_BM_TITLE}</b></td>
   </tr>
 <!-- BEGIN tbl_bm_row -->
   <tr class="{ROWCOL}">
-	<td class="std"><a href="{BM_LINK}" class="navigation" target="{BM_TARGET}">{BM_TITLE}</a>
-	&nbsp;
+    <td class="std"><a href="{BM_LINK}" class="navigation" target="{BM_TARGET}">{BM_TITLE}</a>
+    &nbsp;
 <!-- BEGIN tbl_bm_drop -->
 [<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 <!-- END tbl_bm_drop -->
-	</td>
+    </td>
   </tr>
 <!-- END tbl_bm_row -->
 <!-- BEGIN tbl_no_bm -->
   <tr class="{ROWCOL}">
-	<td class="std">{TXT_NO_BM}</td>
+    <td class="std">{TXT_NO_BM}</td>
   </tr>
 <!-- END tbl_no_bm -->
 </table>
@@ -110,25 +129,25 @@ body { margin:0px; }
 <table class="fullwidth">
 <!-- BEGIN tbl_tstheader -->
   <tr class="tblheader">
-	<td class="std"><b>{TXT_TST_TITLE}</b></td>
+    <td class="std"><b>{TXT_TST_TITLE}</b></td>
   </tr>
 <!-- END tbl_tstheader -->
 <!-- BEGIN tbl_tst_row -->
   <tr class="{ROWCOL}">
-	<td class="std">
+    <td class="std">
 <!-- BEGIN linked_test -->
-	<a href="{TST_LINK}" class="navigation" target="bottom">{TST_TITLE}</a>
+    <a href="{TST_LINK}" class="navigation" target="bottom">{TST_TITLE}</a>
 <!-- END linked_test -->
 <!-- BEGIN unlinked_test -->
-	{TST_TITLE_UNLINKED}
+    {TST_TITLE_UNLINKED}
 <!-- END unlinked_test -->
-	&nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
-	</td>
+    &nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
+    </td>
   </tr>
 <!-- END tbl_tst_row -->
 <!-- BEGIN tbl_no_tst -->
   <tr class="{ROWCOL}">
-	<td class="std" colspan="2">{TXT_NO_TST}</td>
+    <td class="std" colspan="2">{TXT_NO_TST}</td>
   </tr>
 <!-- END tbl_no_tst -->
 </table>

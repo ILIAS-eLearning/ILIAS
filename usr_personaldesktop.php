@@ -1,24 +1,24 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 
@@ -42,32 +42,32 @@ require_once "classes/class.ilPersonalDesktopGUI.php";
 // catch hack attempts
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
-	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+    $ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
 }
 
 switch($_GET["cmd"])
 {
-	case "dropItem":
-		$ilias->account->dropDesktopItem($_GET["id"], $_GET["type"]);
-		break;
+    case "dropItem":
+        $ilias->account->dropDesktopItem($_GET["id"], $_GET["type"]);
+        break;
 
-	case "removeMember":
-		//$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
-		//$groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
-		//$err_msg = $groupObj->removeMember($ilias->account->getId());
-		if (strlen($err_msg) > 0)
-			$ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
-		break;
+    case "removeMember":
+        //$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
+        //$groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
+        //$err_msg = $groupObj->removeMember($ilias->account->getId());
+        if (strlen($err_msg) > 0)
+            $ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
+        break;
 
 }
 /*if ($_GET["action"] == "removeMember")
 {
-	$groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
-	//$err_msg = $groupObj->removeMember("usr_personaldesktop.php" , "loaction: usr_personaldesktop.php");//$ilias->account->getId());
-	if(strlen($err_msg) > 0)
-		$ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
-	exit();
-	break;
+    $groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
+    //$err_msg = $groupObj->removeMember("usr_personaldesktop.php" , "loaction: usr_personaldesktop.php");//$ilias->account->getId());
+    if(strlen($err_msg) > 0)
+        $ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
+    exit();
+    break;
 }*/
 
 //add template for content
@@ -115,9 +115,10 @@ $deskgui =& new ilPersonalDesktopGUI();
 
 $deskgui->displaySelectedItems();
 $deskgui->displaySystemMessages();
+$deskgui->displayMails();
 $deskgui->displayUsersOnline();
 $deskgui->displayBookmarks();
-//$deskgui->displayTests();				// see display selected items
+//$deskgui->displayTests();             // see display selected items
 
 // output
 $tpl->show();
