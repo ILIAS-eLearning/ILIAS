@@ -59,7 +59,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
-		$this->object->save_to_db();
 
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();
@@ -246,12 +245,12 @@ class ilObjTestGUI extends ilObjectGUI
     $add_parameter = $this->get_add_parameter();
 
 		if ($_POST["cmd"]["new_simple"]) {
-			$this->object->mark_schema->create_simple_schema("failed", "failed", 0, "passed", "passed", 50);
-		} else {
+			$this->object->mark_schema->create_simple_schema("failed", "failed", 0, 0, "passed", "passed", 50, 1);
+		} elseif (count($_POST)) {
 			$this->object->mark_schema->flush();
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
-					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"]);
+					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["cb_passed_$matches[1]"]);
 				}
 			}
 			if ($_POST["cmd"]["new"]) {
@@ -272,6 +271,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->mark_schema->sort();
 		}
 
+		if ($_POST["cmd"]["save"]) {
+			$this->object->mark_schema->save_to_db($this->object->get_test_id());
+		}
+
+		if ($_POST["cmd"]["apply"]) {
+			$this->object->mark_schema->save_to_db($this->object->get_test_id());
+		}
+
+		if ($_POST["cmd"]["cancel"]) {
+		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", true);
 		$marks = $this->object->mark_schema->mark_steps;
 		$rows = array("tblrow1", "tblrow2");
@@ -284,6 +294,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("MARK_PASSED", strtolower($this->lng->txt("tst_mark_passed")));
 			$this->tpl->setVariable("MARK_ID", "$key");
 			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
+			if ($value->get_passed()) {
+				$this->tpl->setVariable("MARK_PASSED_CHECKED", " checked=\"checked\"");
+			}
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}

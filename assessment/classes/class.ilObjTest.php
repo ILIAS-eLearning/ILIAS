@@ -35,6 +35,20 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "class.assMarkSchema.php";
 
+define("TEST_FIXED_SEQUENCE", 0);
+define("TEST_POSTPONE", 1);
+
+define("REPORT_AFTER_QUESTION", 0);
+define("REPORT_AFTER_TEST", 1);
+
+define("TEST_FORMAT_NEW", 1);
+define("TEST_FORMAT_RESUME", 2);
+define("TEST_FORMAT_REVIEW", 4);
+
+define("TYPE_ASSESSMENT", "1");
+define("TYPE_SELF_ASSESSMENT", "2");
+define("TYPE_NAVIGATION_CONTROLLING", "3");
+
 class ilObjTest extends ilObject
 {
 /**
@@ -230,7 +244,6 @@ class ilObjTest extends ilObject
     $this->test_type = TYPE_ASSESSMENT;
     $this->test_formats = 7;
     $this->mark_schema = new ASS_MarkSchema();
-  	$this->load_from_db();
 	}
 
 	/**
@@ -251,7 +264,23 @@ class ilObjTest extends ilObject
 		return true;
 	}
 	
-	/**
+	function createReference() {
+		parent::createReference();
+		$this->save_to_db();
+	}
+
+/**
+	* read object data from db into object
+	* @param	boolean
+	* @access	public
+	*/
+	function read($a_force_db = false)
+	{
+		parent::read($a_force_db);
+		$this->load_from_db();
+	}
+	
+/**
 	* copy all entries of your object.
 	* 
 	* @access	public
@@ -516,9 +545,8 @@ class ilObjTest extends ilObject
       );
       $result = $db->query($query);
     }
-
     if ($result == DB_OK) {
-      $this->mark_schema->save_to_db($db, $this->test_id);
+      $this->mark_schema->save_to_db($this->test_id);
     }
   }
 
@@ -551,17 +579,18 @@ class ilObjTest extends ilObject
         $this->nr_of_tries = $data->nr_of_tries;
         $this->processing_time = $data->processing_time;
         $this->starting_time = $data->starting_time;
-      }
-      $this->mark_schema->load_from_db($db, $this->test_id);
-      $query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-        $db->quote($this->test_id)
-      );
-      $result = $db->query($query);
-      while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        $this->questions[$data->sequence] = $data->question_fi;
+
+				$this->mark_schema->load_from_db($this->test_id);
+				$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+					$db->quote($this->test_id)
+				);
+				$result = $db->query($query);
+				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+					$this->questions[$data->sequence] = $data->question_fi;
+				}
       }
     }
-  }
+ }
 
 /**
 * Sets the authors name
@@ -613,6 +642,19 @@ class ilObjTest extends ilObject
 */
   function get_introduction() {
     return $this->introduction;
+  }
+
+/**
+* Gets the database id of the additional test data
+* 
+* Gets the database id of the additional test data
+*
+* @return integer The database id of the additional test data
+* @access public
+* @see $test_id
+*/
+  function get_test_id() {
+    return $this->test_id;
   }
 
 /**

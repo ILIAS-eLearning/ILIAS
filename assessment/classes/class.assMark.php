@@ -62,6 +62,15 @@ class ASS_Mark extends PEAR {
   var $minimum_level;
 
 /**
+* The passed status of the mark
+* 
+* The passed status of the mark. 0 indicates that the mark is failed, 1 indicates that the mark is passed
+*
+* @var integer
+*/
+  var $passed;
+
+/**
 * ASS_Mark constructor
 * 
 * The constructor takes possible arguments an creates an instance of the ASS_Mark object.
@@ -74,12 +83,14 @@ class ASS_Mark extends PEAR {
   function ASS_Mark(
     $short_name = "",
     $official_name = "",
-    $minimum_level = 0
+    $minimum_level = 0,
+		$passed = 0
   ) 
   {
     $this->short_name = $short_name;
     $this->official_name = $official_name;
     $this->minimum_level = $minimum_level;
+		$this->passed = $passed;
   }
   
 /**
@@ -93,6 +104,19 @@ class ASS_Mark extends PEAR {
 */
   function get_short_name() {
     return $this->short_name;
+  }
+  
+/**
+* Returns passed status of the mark
+* 
+* Returns the passed status of the mark
+*
+* @return string The passed status of the mark
+* @access public
+* @see $passed
+*/
+  function get_passed() {
+    return $this->passed;
   }
   
 /**
@@ -132,6 +156,19 @@ class ASS_Mark extends PEAR {
 */
   function set_short_name($short_name = "") {
     $this->short_name = $short_name;
+  }
+
+/**
+* Sets the passed status the mark
+* 
+* Sets the passed status of the mark
+*
+* @param integer $passed The passed status of the mark
+* @access public
+* @see $passed
+*/
+  function set_passed($passed = 0) {
+    $this->passed = $passed;
   }
 
 /**
