@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.61 2003/12/16 14:21:29 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.62 2004/01/16 10:27:07 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -199,7 +199,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
 		$groupObj->setPassword($_POST["password"]);
-		$groupObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
+		$groupObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 		$groupObj->setGroupStatus($_POST["group_status"]);		//0=public,1=private,2=closed
 
 		//save new group in grp_tree table
@@ -300,7 +300,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$datetime = $this->object->getExpirationDateTime();
 
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
-			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
+			$data["expirationtime"] =  substr($datetime[1],0,5);//$this->grp_object->getExpirationDateTime()[1];
 
 		}
 
