@@ -192,7 +192,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			{
 				$cmd = key($_POST["cmd"]);
 			}
-
 			$this->$cmd();
 		}
 		$this->tpl->show();
@@ -311,6 +310,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
+		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->setLocator();
 		$this->setAdminTabs("term_edit");
 		$this->tpl->setVariable("TXT_HEADER",
