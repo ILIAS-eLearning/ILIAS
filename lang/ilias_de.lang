@@ -109,8 +109,8 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Tests warten zu dürfen!
+assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -133,8 +133,8 @@ assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
-assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
-assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
+assessment#:#ects_fill_out_all_values#:#Bitte geben Sie einen Wert für jede ECTS-Note an!
+assessment#:#ects_grade#:#ECTS-Note
 assessment#:#ects_grade_a#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
 assessment#:#ects_grade_a_short#:#HERVORRAGEND
 assessment#:#ects_grade_b#:#überdurchschnittliche Leistungen, aber einige Fehler
@@ -150,17 +150,17 @@ assessment#:#ects_grade_f_short#:#NICHT BESTANDEN
 assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistungen anerkannt werden
 assessment#:#ects_grade_fx_short#:#NICHT BESTANDEN
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
-assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!###23 Sep 2004 new variable
-assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!###23 Sep 2004 new variable
-assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!###23 Sep 2004 new variable
-assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!###23 Sep 2004 new variable
-assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
+assessment#:#ects_range_error_a#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note A an!
+assessment#:#ects_range_error_b#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note B an!
+assessment#:#ects_range_error_c#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note C an!
+assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note D an!
+assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
 assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
+assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
+assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Feher beim Öffnen eines Java-Applets!
@@ -189,10 +189,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
 assessment#:#filter#:#Filter
-assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+assessment#:#filter_all_question_types#:#Alle Fragentypen
+assessment#:#filter_all_questionpools#:#Alle Fragenpools
+assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
+assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
@@ -206,8 +206,8 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java Applet
-assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
-assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
+assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
+assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -233,7 +233,7 @@ assessment#:#order_terms#:#Terme ordnen
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_short#:#bestanden
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
-assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
+assessment#:#percentile#:#Perzentil
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
 assessment#:#polygon#:#Polygonzug
@@ -269,7 +269,7 @@ assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
-assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
+assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#radio_set#:#Ausgewählt
 assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
@@ -307,13 +307,13 @@ assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden 
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
+assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_ending_time#:#Endzeit
-assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
+assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
@@ -408,7 +408,7 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)###03 Oct 2004 content changed
+assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
@@ -983,7 +983,7 @@ common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#export#:#Export
-common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
+common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei###14 Sep 2004 content changed
 common#:#export_xml#:#Exportieren als XML-Datei###14 Sep 2004 content changed
 common#:#faq_exercise#:#FAQ/übungskapitel
@@ -3675,8 +3675,8 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase anfügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
-survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
-survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
+survey#:#anonymize_survey#:#Umfragedaten anonymisieren
+survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerinnendaten anonymisiert und können nicht zurückverfolgt werden
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
@@ -3687,7 +3687,7 @@ survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
@@ -3768,7 +3768,7 @@ survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
-survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
+survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#excel#:#Microsoft Excel
@@ -3777,10 +3777,10 @@ survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
-survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+survey#:#filter_all_question_types#:#Alle Fragentypen
+survey#:#filter_all_questionpools#:#Alle Fragenpools
+survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
+survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 survey#:#finished#:#beendet
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
@@ -3797,7 +3797,7 @@ survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
-survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
+survey#:#label_resume_survey#:#Bitte geben Sie den aus 32 Zeichen bestehenden Umfragecode ein
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
@@ -3806,7 +3806,7 @@ survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
-survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
+survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -3901,9 +3901,9 @@ survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
-survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
+survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s
 survey#:#subtype#:#Untertyp
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
+survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
@@ -3927,8 +3927,8 @@ survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
 survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
+survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 32 Zeichen bestehenden Umfragecode ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Umfragecode auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
+survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Umfragecode eingeben
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
