@@ -1442,17 +1442,21 @@ class ilObjUser extends ilObject
 					{
 						$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
 							"&obj_id=".$item_rec["parameters"];
+						$edit_link = "content/glossary_edit.php?ref_id=".$item_rec["ref_id"].
+							"&obj_id=".$item_rec["parameters"];
 						$target = "bottom";
 					}
 					else
 					{
 						$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
 							"&obj_id=".$item_rec["parameters"];
+						$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"].
+							"&obj_id=".$item_rec["parameters"];
 						$target = "_top";
 					}
 					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"parameters" => $item_rec["parameters"],
-						"link" => $link, "target" => $target);
+						"link" => $link, "target" => $target, "edit_link" => $edit_link);
 				}
 				break;
 
