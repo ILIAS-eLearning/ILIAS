@@ -370,6 +370,10 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $user)
 		{
+			if(!ilObjectFactory::ObjectIdExists($user["id"]))
+			{
+				continue;
+			}
 			$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"]);
 			
 			$f_result[$counter][]	= $tmp_obj->getLogin();
@@ -380,7 +384,7 @@ class ilSearchGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $f_result;
+		return $f_result ? $f_result : array();
 	}
 
 	function __formatGroupResult($a_res)
@@ -394,6 +398,10 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $group)
 		{
+			if(!$this->tree->isInTree($group["id"]))
+			{
+				continue;
+			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($group["id"]);
 			
 			$f_result[$counter][]	= $tmp_obj->getTitle();
@@ -403,7 +411,7 @@ class ilSearchGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $f_result;
+		return $f_result ? $f_result : array();
 	}
 
 	function __formatDigiLibResult($a_res,$a_search_in)
@@ -417,6 +425,10 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $book)
 		{
+			if(!$this->tree->isInTree($book["id"]))
+			{
+				continue;
+			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
 			switch($a_search_in)
 			{
@@ -445,8 +457,7 @@ class ilSearchGUI
 			++$counter;
 		}
 
-		return $f_result;
-
+		return $f_result ? $f_result : array();
 	}
 
 	function __formatLearningModuleResult($a_res,$a_search_in)
@@ -460,6 +471,10 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $book)
 		{
+			if(!$this->tree->isInTree($book["id"]))
+			{
+				continue;
+			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
 			switch($a_search_in)
 			{
@@ -487,7 +502,7 @@ class ilSearchGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		return $f_result;
+		return $f_result ? $f_result : array();
 	}
 
 	function __getContextPath($a_endnode_id, $a_startnode_id = 1)
