@@ -179,9 +179,17 @@ class ilLocatorGUI
 					// locator entry
 					if ($i == $this->locator_level)
 					{
-						$this->tpl->setCurrentBlock("locator_text");
-						$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-						$this->tpl->parseCurrentBlock("locator_text");
+						if ($this->display_frame) {
+							$this->tpl->setCurrentBlock("locator_text");
+							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
+							$this->tpl->parseCurrentBlock("locator_text");
+						} else {
+							$this->tpl->setCurrentBlock("locator_text");
+							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
+							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
+							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
+							$this->tpl->parseCurrentBlock("locator_text");
+						}
 					}
 					else
 					{

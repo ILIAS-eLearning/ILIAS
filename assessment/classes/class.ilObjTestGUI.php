@@ -38,6 +38,8 @@ require_once "class.assQuestionGUI.php";
 
 class ilObjTestGUI extends ilObjectGUI
 {
+	var $sequence;
+	
 	/**
 	* Constructor
 	* @access public
@@ -589,6 +591,13 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		$this->sequence = $_GET["sequence"];
+		if ($_POST["cmd"]["next"]) {
+			$this->sequence++;
+		} elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0)) {
+			$this->sequence--;
+		}
+
 		$this->setLocator();
 
 		if (!empty($title))
@@ -596,7 +605,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if (!$_GET["sequence"]) {
+		if (!$this->sequence) {
 			// show introduction page
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
 			$this->tpl->setCurrentBlock("info_row");
@@ -639,17 +648,23 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=1");
 			$this->tpl->parseCurrentBlock();
 		} else {
-			$sequence = $_GET["sequence"];
-			if (($_POST["cmd"]["next"]) and ($sequence != count($this->object->questions))) {
-				$sequence++;
-			} elseif (($_POST["cmd"]["previous"]) and ($sequence != 1)) {
-				$sequence--;
+			if ($this->sequence <= $this->object->get_question_count()) {
+				// show next/previous question
+				$question_gui = new ASS_QuestionGui();
+				$question_gui->create_question("", $this->object->questions[$this->sequence]);
+				if ($this->sequence == $this->object->get_question_count()) {
+					$finish = true;
+				} else {
+					$finish = false;
+				}
+				$question_gui->out_working_question($this->sequence, $finish);
+			} else {
+				// finish test
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
+				$this->tpl->setCurrentBlock("adm_content");
+				$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
+				$this->tpl->parseCurrentBlock();
 			}
-	
-			// show questions
-			$question_gui = new ASS_QuestionGui();
-			$question_gui->create_question("", $this->object->questions[$sequence]);
-			$question_gui->out_working_question($sequence);
 		}
 	}
 		
@@ -700,13 +715,24 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-
 		foreach ($path as $key => $row)
 		{
 			if (strcmp($row["title"], "ILIAS") == 0) {
 				$row["title"] = $this->lng->txt("repository");
 			}
-			$ilias_locator->navigate($i++,$row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+			if ($this->ref_id == $row["child"]) {
+				if ($_GET["cmd"]) {
+					$param = "&cmd=" . $_GET["cmd"];
+				} else {
+					$param = "";
+				}
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
+				if ($this->sequence) {
+					$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+				}
+			} else {
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+			}
 		}
 
 		if (isset($_GET["obj_id"]))
@@ -714,7 +740,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
 		}
-    $ilias_locator->output(true);
+    $ilias_locator->output();
 	}
 } // END class.ilObjTestGUI
 

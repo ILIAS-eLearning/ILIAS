@@ -78,6 +78,8 @@ assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
+assessment#:#save_finish#:#Save and finish the test
+assessment#:#save_introduction#:#Save and goto introduction
 assessment#:#save_next#:#Save and goto next question
 assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
