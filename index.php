@@ -33,6 +33,14 @@
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
+if ($_GET["cmd"] == "login")
+{
+	$ilias->auth->logout();
+	session_destroy();
+	header("location: login.php");
+	exit();
+}
+
 // Specify your start page in ilias.ini.php
 $start = $ilias->ini->readVariable("server", "start");
 
@@ -40,6 +48,11 @@ $start = $ilias->ini->readVariable("server", "start");
 if ($start == "")
 {
 	$start = "login.php";
+}
+
+if ($ilias->getSetting("pub_section") == "y")
+{
+	$start = "nologin.php";
 }
 
 // catch reload

@@ -90,7 +90,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias;
 
 		// administration button
-		if ($rbacsystem->checkAccess("visible", ROOT_FOLDER_ID))
+		if ($rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
 		{
 			$this->tpl->setCurrentBlock("userisadmin");
 			$this->tpl->setVariable("IMG_ADMIN2", ilUtil::getImagePath("navbar/admin.gif", false));
@@ -99,6 +99,23 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("adm_index.php"));
 			$this->tpl->setVariable("TARGET2", $this->target);
 			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		{
+			$this->tpl->setCurrentBlock("userisanonymous");
+			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
+			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
+			$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("userisloggedin");
+			$this->tpl->setVariable("TXT_WELCOME",$lng->txt("welcome"));
+			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
+			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
+			$this->tpl->parseCurrentBlock();		
 		}
 
 		$var2image = array( "IMG_DESK" => "navbar/desk.gif",

@@ -13,6 +13,17 @@ td {
 .btnbar {
 	background-color:#ffffff;
 	background-image: url(blueshadow/images/navbar/back.gif);
+	color:#ffffff;
+}
+
+a.menu:link, a.menu:visited {
+	color:#f7f7f7;
+	text-decoration:underline;
+	font-size:9px;
+}
+
+a.menu:hover {
+	color:#2255a0;
 }
 
 input, textarea {
