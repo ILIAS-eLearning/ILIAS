@@ -640,6 +640,21 @@ class ilObjGroup extends ilObject
 		return false;
 
 	}
+	/**
+	* is Admin
+	* @access	public
+	* @param	integer	user_id
+	* @param	boolean, true if user is group administrator
+	*/
+	function isAdmin($a_userId)
+	{
+		global $rbacreview;
+		$grp_Roles = $this->getDefaultGroupRoles();
+		if( in_array($a_userId,$rbacreview->assignedUsers($grp_Roles["grp_admin_role"]) ))
+			return true;
+		else
+			return false;
+	}
 
 	function createNewGroupTree($objGrpId,$objGrpRefId)
 	{
@@ -836,7 +851,7 @@ class ilObjGroup extends ilObject
 			
 			}
 			
-			
+
 		}
 	
 	
@@ -885,7 +900,7 @@ class ilObjGroup extends ilObject
 					//insert the new node into the 'grp_tree' table	
 					$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 					$this->insertGroupNode($new_node->getId(),$object->getId(),$this->getId(),$new_node->getRefId());
-						
+
 					//$params = array_diff($params,array($value));
 						
 					//repeat the procedure one level deeper			
