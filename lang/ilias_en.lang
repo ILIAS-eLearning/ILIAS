@@ -208,8 +208,8 @@ assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
-assessment#:#tst_eval_total_finished#:#Total finished tests
-assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests
+assessment#:#tst_eval_total_finished#:#Total completed tests
+assessment#:#tst_eval_total_finished_average_time#:#Average processing time for completed tests
 assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
@@ -3012,7 +3012,7 @@ survey#:#exit#:#Exit
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
-survey#:#finished#:#finished
+survey#:#finished#:#completed
 survey#:#found_questions#:#Found questions
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
@@ -3053,7 +3053,7 @@ survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
-survey#:#not_finished#:#not finished
+survey#:#not_finished#:#not completed
 survey#:#obligatory#:#obligatory
 survey#:#off#:#off
 survey#:#offline#:#offline
@@ -3120,7 +3120,7 @@ survey#:#start_date#:#Start date
 survey#:#start_survey#:#Start survey
 survey#:#subtype#:#Subtype
 survey#:#survey_finish#:#save and finish survey
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
+survey#:#survey_finished#:#You have completed the survey. Thank you for your participation!
 survey#:#survey_next#:#save >>>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
@@ -3146,3 +3146,4 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#export_data_as#:#Export data as
 survey#:#excel#:#Microsoft Excel
 survey#:#csv#:#Comma separated value (CSV)
+survey#:#not_started#:#not started

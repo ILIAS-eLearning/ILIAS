@@ -1781,7 +1781,14 @@ class ilObjUser extends ilObject
 				$states = array();
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$states[$row["ref_fi"]] = $row["state"];
+					if (strcmp($row["state"], "") == 0)
+					{
+						$states[$row["ref_fi"]] = $row["state"];
+					}
+					else
+					{
+						$states[$row["ref_fi"]] = (int)$row["state"];
+					}
 				}
 				foreach ($items as $key => $value)
 				{
