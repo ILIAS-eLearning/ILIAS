@@ -765,7 +765,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("msg_cancel"), true);
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
 	
 	/**
@@ -858,7 +858,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -2133,7 +2133,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2459,7 +2459,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
@@ -2553,7 +2553,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("test_cancelled"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		
@@ -2842,7 +2842,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				if($_GET['crs_show_result'])
 				{
-					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=".(int) $_GET['crs_show_result']));
 				}
 				
 			}
@@ -4657,7 +4657,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -4834,14 +4834,14 @@ class ilObjTestGUI extends ilObjectGUI
 						}
 					}
 				} else {
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?ref_id=".$row["child"],"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"");
 				}
 			}
 
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
+				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?cmd=frameset&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
 			}
 		}
 		$ilias_locator->output();

@@ -687,9 +687,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("LINK_ITEM", "../repository.php?ref_id=".$row["child"]);
+					$this->tpl->setVariable("LINK_ITEM", "../repository.php?cmd=frameset&ref_id=".$row["child"]);
+					$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+					$this->tpl->setVariable("LINK_TARGET", " target=\"$t_frame\" ");
 				}
-				//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
 
 				$this->tpl->parseCurrentBlock();
 

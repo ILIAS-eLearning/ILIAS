@@ -992,7 +992,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?ref_id=".$row["child"],"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"");
 				}
 			}
 

@@ -1391,7 +1391,8 @@ class ilLMPresentationGUI
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
 						$href = "../goto.php?target=".$obj_type."_".$target_id;
-						$ltarget = "ilContObj".$obj_id;
+						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
+						$ltarget = $t_frame;
 						break;
 
 				}

@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.19 2004/12/01 14:12:09 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.20 2004/12/02 10:53:25 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -69,6 +69,7 @@ class ilObjForumGUI extends ilObjectGUI
 					$cmd = "showThreads";
 				}
 				$cmd .= "Object";
+
 				$this->$cmd();
 					
 				break;
