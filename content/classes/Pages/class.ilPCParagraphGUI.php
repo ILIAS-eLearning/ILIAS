@@ -74,7 +74,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		global $ilUser;
+		global $ilUser, $ilias;
 		
 		// set tabs
 		$this->setTabs();
@@ -145,7 +145,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
 		
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable" &&
+			$ilias->getSetting("enable_js_edit")) 
 		{
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}

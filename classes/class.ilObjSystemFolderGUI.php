@@ -365,6 +365,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
 				$settings["password_assistance"] = $_POST["password_assistance"];
+				$settings["js_edit"] = $_POST["js_edit"];
 				$settings["https"] = $_POST["https"];
 				
 				// contact
@@ -420,6 +421,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
 				$this->ilias->setSetting('https',$_POST['https']);
 				$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
+				$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
 
 				// contact
 				$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -532,7 +534,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_INFO", $this->lng->txt("password_assistance_info"));
 
-
+		// Javascript Editing
+		$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
+		$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
+		
 		// Registration
 		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("registration"));
 		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
@@ -681,6 +686,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if($settings['password_assistance'])
 		{
 			$this->tpl->setVariable("PASSWORD_ASSISTANCE","checked=\"checked\"");
+		}
+		
+		// js editing
+		if($settings['enable_js_edit'])
+		{
+			$this->tpl->setVariable("JS_EDIT","checked=\"checked\"");
 		}
 
 

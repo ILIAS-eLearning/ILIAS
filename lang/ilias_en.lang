@@ -978,6 +978,8 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_password_assistance#:#Enable password assistance
+common#:#enable_js_edit#:#Enable JavaScript Editing
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
 common#:#enter_filename_deliver#:#Enter exercise to deliver
