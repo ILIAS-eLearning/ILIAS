@@ -156,12 +156,12 @@ class ilLMPresentationGUI
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
                         // $o = $this->layout();
-                        
+
                         $output .= "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_PageTitle\">".$this->lm->title."</div><p>";
 						$output .= $o;
 
 						$output .= "\n<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>\n";
-                        
+
 
 
 					}
@@ -188,7 +188,7 @@ class ilLMPresentationGUI
 				$printTpl->setVariable("CONTENT",$output);
 
                 // $printTpl->setVariable("BOOKTITLE",$this->lm->title);
-                
+
 				/*
 				echo "<font face=verdana size=1>";
 				echo nl2br(htmlspecialchars($printTpl->get()));
@@ -228,12 +228,12 @@ class ilLMPresentationGUI
 					@chmod($export_dir."/".$fileName."/css", 0755);
 
 				}
-                
+
                 if($_POST["type"] == "xml")
                 {
                     //vd($_GET["ref_id"]);
                     $tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-                    
+
                     if ($tmp_obj->getType() == "dbk" ) {
                         require_once "content/classes/class.ilObjDlBook.php";
                         $dbk =& new ilObjDlBook($_GET["ref_id"]);
@@ -254,43 +254,43 @@ class ilLMPresentationGUI
 
 					$css1 = file("./templates/default/blueshadow.css");
 					$css1 = implode($css1,"");
-					
+
 					$fp = fopen($export_dir."/".$fileName."/css/blueshadow.css","wb");
 					fwrite($fp,$css1);
 					fclose($fp);
-	
+
 					$css2 = file("./content/content.css");
 					$css2 = implode($css2,"");
-					
+
 					$fp = fopen($export_dir."/".$fileName."/css/content.css","wb");
 					fwrite($fp,$css2);
 					fclose($fp);
-					
-					
+
+
 					$fp = fopen($export_dir."/".$fileName."/".$fileName.".html","wb");
 					fwrite($fp,$html);
 					fclose($fp);
-					
+
 					ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
-					
+
                     ilUtil::deliverFile($export_dir."/".$fileName.".zip", $fileName.".zip");
-					
-				} 
-                else if ($_POST["type"]=="pdf") 
+
+				}
+                else if ($_POST["type"]=="pdf")
 				{
-                    
+
                     ilUtil::html2pdf($html, $export_dir."/".$fileName.".pdf");
-                    
+
                     ilUtil::deliverFile($export_dir."/".$fileName.".pdf", $fileName.".pdf");
-                    
+
 				}
 
 				exit;
 		}
-		
+
 	}
 	function offlineexportform() {
-		
+
 		switch($this->lm->getType())
 		{
 			case "dbk":

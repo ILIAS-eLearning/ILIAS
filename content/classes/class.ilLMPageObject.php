@@ -76,6 +76,14 @@ class ilLMPageObject extends ilLMObject
 		}
 	}
 
+	function _ilLMPageObject()
+	{
+		if(is_object($this->page_object))
+		{
+			unset($this->page_object);
+		}
+	}
+
 	/**
 	*
 	*/
@@ -195,6 +203,74 @@ class ilLMPageObject extends ilLMObject
 		{
 			return $this->getTitle();
 		}
+	}
+
+	/**
+	* export page object to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXML(&$a_xml_writer, $a_mode = "normal")
+	{
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("PageObject", $attrs);
+
+		switch ($a_mode)
+		{
+			case "normal":
+				// MetaData
+				$this->exportXMLMetaData($a_xml_writer);
+
+				// PageContent
+				$this->exportXMLPageContent($a_xml_writer);
+				break;
+
+			case "alias":
+				$attrs = array();
+				$attrs["OriginId"] = "il_".$a_xml_writer->getInstId().
+					"_pg_".$this->getId();
+				$a_xml_writer->xmlElement("PageAlias", $attrs);
+				break;
+		}
+
+		// Layout
+		// not implemented
+
+		$a_xml_writer->xmlEndTag("PageObject");
+	}
+
+
+	/**
+	* export page objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+
+	/**
+	* export page objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLPageContent(&$a_xml_writer)
+	{
+		$cont_obj =& $this->getContentObject();
+		//$page_obj = new ilPageObject($cont_obj->getType(), $this->getId());
+
+		$this->page_obj->buildDom();
+		$this->page_obj->insertInstIntoIDs($a_xml_writer->getInstId());
+		$this->page_obj->getXMLFromDom(false, false, false, "", true);
+
+		$this->page_obj->freeDom();
 	}
 
 }
