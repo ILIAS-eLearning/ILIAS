@@ -11,8 +11,27 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.NoteObject.php";
 require_once "./classes/class.NoteFolderObject.php";
 
+global $rbacadmin;
 $myNote = new NoteObject();
 $myNoteFolder = new NoteFolderObject($ilias->account->Id);
+$testNoteFolder = new NoteFolderObject(320);
+
+//zeige gruppenmitglieder an
+$users = $rbacreview->assignedUsers(247);
+$roles = $rbacreview->assignedRoles(305);
+//print_r($users);
+/*
+foreach($users as $user)
+{
+	$user_details = getObject($user);	
+	print_r($user_details);
+}
+
+*/
+//$test2=$rbacadmin->getRoleListByObject(244,);
+//$test2=$rbacadmin->getRolesAssignedToFolder(244);
+//$test2=$rbacadmin->getRoleFolderOfObject(244);
+//print_r($test2);
 
 //form has been submitted
 if ($_POST["submit"] = "delete")
@@ -34,13 +53,14 @@ if ($_GET["cmd"] != "")
 			//create new note
 			$obj_id = $myNote->createObject($_POST["lo_title"], $_POST["note_text"]);
 			//save to database
-			$myNote->saveNote($obj_id, $_POST["lo_id"], $_POST["lo_title"], $_POST ["note_text"]);
+			$myNote->saveNote($obj_id, $_POST["lo_id"], $_POST["lo_title"], $_POST ["note_text"], $_POST["rate"]);
 			//save in table tree
-			$myNoteFolder->addNote($obj_id);
+			$myNoteFolder->addNote($obj_id, 247);
+			$testNoteFolder->addNote($obj_id);			
 			break;
 
 		case "update":
-			$myNote->updateNote($_GET["id"], $_POST["note_text"]);
+			$myNote->updateNote($_GET["id"], $_POST["note_text"], $_POST["rate"]);
 			break;
 
 		case "edit":
@@ -71,13 +91,13 @@ foreach ($myNotes as $row)
 	$i++;
 	$tpl->setCurrentBlock("noterow");
 	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
-	$tpl->setVariable("NOTE_ID", $row->note_id);		//perhaps lo's title is display here
-	$tpl->setVariable("TITLE", $row->lo_title);		//perhaps lo's title is display here
-	$tpl->setVariable("DESC", $row->text);
+	$tpl->setVariable("NOTE_ID", $row["obj_id"]);		//perhaps lo's title is display here
+	$tpl->setVariable("TITLE", $row["title"]);		//perhaps lo's title is display here
+	$tpl->setVariable("DESC", $row["desc"]);
 	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 	$tpl->setVariable("TXT_VIEW", $lng->txt("view"));
-	$tpl->setVariable("LINK_VIEW", "note_view.php?cmd=view&amp;id=".$row->note_id);
-	$tpl->setVariable("LINK_EDIT", "note_new.php?cmd=edit&amp;id=".$row->note_id);
+	$tpl->setVariable("LINK_VIEW", "note_view.php?cmd=view&amp;id=".$row["obj_id"]);
+	$tpl->setVariable("LINK_EDIT", "note_new.php?cmd=edit&amp;id=".$row["obj_id"]);
 	$tpl->parseCurrentBlock();
 }
 
