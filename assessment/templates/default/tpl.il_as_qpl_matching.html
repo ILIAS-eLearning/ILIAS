@@ -33,10 +33,8 @@
 	</tr>
 	<tr>
 		<td class="option">{TEXT_MATCHING_PAIR}:</td>
-		<td class="option_value"><input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="text" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" /></td>
-		<td class="option_value">{TEXT_MATCHES}</td>
 		<!-- BEGIN definitions -->
-		<td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="text" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
+		<td class="option_value"><input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="text" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" /></td>
 		<!-- END definitions -->
 		<!-- BEGIN pictures -->
 		<td class="option_value">
@@ -44,15 +42,17 @@
 		{UPLOADED_IMAGE}<br>
 		<!-- END imageupload -->
 		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
-		<input type="hidden" name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" value="{IMAGE_FILENAME}" />
-		<input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="file" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" />
-		<input type="submit" class="submit" name="cmd[upload_{A_ANSWER_ORDER}]" value="{UPLOAD}" />
+		<input type="hidden" name="left_{ANSWER_ORDER}_{ANSWER_ID}" value="{IMAGE_FILENAME}" />
+		<input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="file" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" />
+		<input type="submit" class="submit" name="cmd[upload_{ANSWER_ORDER}]" value="{UPLOAD}" />
 		</td>
 		<!-- END pictures -->
-		<td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
+		<td class="option_value">{TEXT_MATCHES}</td>
+		<td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="text" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
+		<td class="option_value">{TEXT_POINTS}: <input name="points_{A_ANSWER_ORDER}" type="text" id="points_{A_ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
 		<td class="option_value">
 		<!-- BEGIN deletebutton -->
-		<input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" />
+		<input type="submit" class="submit" name="cmd[delete_{A_ANSWER_ORDER}]" value="{DELETE}" />
 		<!-- END deletebutton -->
 		</td>
 	</tr>
