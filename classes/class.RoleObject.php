@@ -8,6 +8,7 @@
  * 
 */
 include_once("classes/class.Object.php");
+
 class RoleObject extends Object
 {
 	function RoleObject(&$a_ilias)
@@ -91,7 +92,7 @@ class RoleObject extends Object
 					{
 						foreach($folders as $folder)
 						{
-							$path_cmp = $tree->showPathId($folder,1);
+							$path_cmp = $tree->getPathId($folder,1);
 							if(in_array($parent,$path_cmp))
 							{
 								$to_delete[] = $folder;
