@@ -2,15 +2,15 @@
 
 require_once "./classes/class.ilXML2DOM.php";
 
-class ilNestedSetXML 
+class ilNestedSetXML
 {
     // {{{ Vars
-    
+
     /**
     *   Datenbank-handle
     */
     var $db;
-    
+
     /**
     *   Linker und Rechter Rand eines Tags
     */
@@ -49,7 +49,7 @@ class ilNestedSetXML
 	var $dom;
 	
     // }}}
-    
+
     function ilNestedSetXML() 
 	{
         global $ilias;
@@ -60,9 +60,11 @@ class ilNestedSetXML
         $this->LEFT = 0;
         $this->RIGHT = 0;
         $this->DEPTH = 0;
+
+		$this->param_modifier = "";
     }
 
-    
+
     /**
     *   Methode die aufgerufen wird, bei einem einleitenden Tag
     */
@@ -83,7 +85,7 @@ class ilNestedSetXML
         // $pk = mysql_insert_id();
         $r = $this->db->query("SELECT LAST_INSERT_ID()");
         $row = $r->fetchRow();
-        
+
         $pk = $row[0];
         
         /**
@@ -101,7 +103,7 @@ class ilNestedSetXML
         $this->db->query($Q);
         
         
-        if (is_array($attrs) && count($attrs)>0) 
+        if (is_array($attrs) && count($attrs)>0)
 		{
             reset ($attrs);
             while (list ($key, $val) = each ($attrs)) 
@@ -130,12 +132,12 @@ class ilNestedSetXML
         
         if(trim($data)!="") {
             //vd(array("Text",$data));
-            
+
             if ($this->lastTag == "TAGVALUE") 
 			{
                 
                 $this->db->query("UPDATE xmlvalue SET tag_value=concat(tag_value,'".addslashes($data)."') WHERE tag_value_pk='".$value_pk."' ");
-                
+
             } else {
                 $tag_pk = $this->startElement($this->xml_parser,"TAGVALUE",array());
                 $this->endElement($this->xml_parser,"TAGVALUE");
@@ -220,66 +222,80 @@ class ilNestedSetXML
         // }}}
     }
 
+	function setParameterModifier(&$a_object, $a_method)
+	{
+		$this->param_modifier =& $a_object;
+		$this->param_modifier_method = $a_method;
+	}
+
     /**
     *   Export-Funktion.
     *   @param  obj_id  int Buchid
     *   @return String  Die Xml-Struktur als Text
     */
-    function export($obj_id, $type)
+	function export($obj_id, $type)
 	{
-        // {{{
+		// {{{
 		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk=tag_pk AND ns_book_fk='$obj_id' AND ns_type='$type' ORDER BY ns_l";
 
-        $result = $this->db->query($query);
+		$result = $this->db->query($query);
 		if (DB::isError($result))
 		{
-       	    die($this->className."::checkTable(): ".$result->getMessage().":<br>".$q);
+			die($this->className."::checkTable(): ".$result->getMessage().":<br>".$q);
 		}
 
-        $xml = "";
+		$xml = "";
 		$lastDepth = -1;
 
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) {
+		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) {
 
 			// {{{ Anfang & Endtag
-            $Anfang = "<".$row[tag_name];
-            $result_param = $this->db->query("SELECT * FROM xmlparam WHERE tag_fk='$row[tag_pk]'");
-            while (is_array($row_param = $result_param->fetchRow(DB_FETCHMODE_ASSOC) ) ) {
-                $Anfang .= " ".$row_param[param_name]."=\"".$row_param[param_value]."\"";
-            }
+			$Anfang = "<".$row[tag_name];
+			$result_param = $this->db->query("SELECT * FROM xmlparam WHERE tag_fk='$row[tag_pk]'");
+			while (is_array($row_param = $result_param->fetchRow(DB_FETCHMODE_ASSOC) ) )
+			{
+				$param_value = $row_param[param_value];
+				if (is_object($this->param_modifier))
+				{
+					$obj =& $this->param_modifier;
+					$method = $this->param_modifier_method;
+					$param_value = $obj->$method($row[tag_name], $row_param[param_name], $param_value);
+				}
+				$Anfang .= " ".$row_param[param_name]."=\"".$param_value."\"";
+			}
 
-            $Anfang .= ">";
-            $Ende = "</".$row[tag_name].">";
-            // }}}
+			$Anfang .= ">";
+			$Ende = "</".$row[tag_name].">";
+			// }}}
 
 			// {{{ TagValue
-            if ($row[tag_name]=="TAGVALUE") {
-                $result_value = $this->db->query("SELECT * FROM xmlvalue WHERE tag_fk='$row[tag_pk]' ");
-                $row_value = $result_value->fetchRow(DB_FETCHMODE_ASSOC);
-                $Anfang = $row_value["tag_value"];
-                $Ende = "";
+			if ($row[tag_name]=="TAGVALUE") {
+				$result_value = $this->db->query("SELECT * FROM xmlvalue WHERE tag_fk='$row[tag_pk]' ");
+				$row_value = $result_value->fetchRow(DB_FETCHMODE_ASSOC);
+				$Anfang = $row_value["tag_value"];
+				$Ende = "";
 
-                /*
-                $Anfang = str_replace("<","&lt;",$Anfang);
-                $Anfang = str_replace(">","&gt;",$Anfang);
-                */
-                $Anfang = htmlspecialchars($Anfang);
-                // $Anfang = utf8_encode($Anfang);
-            }
+				/*
+				$Anfang = str_replace("<","&lt;",$Anfang);
+				$Anfang = str_replace(">","&gt;",$Anfang);
+				*/
+				$Anfang = htmlspecialchars($Anfang);
+				// $Anfang = utf8_encode($Anfang);
+			}
 			// }}}
 
 			/*
-            if ( $row[tag_depth] == $lastDepth ) {
-                $xml .= $E[$lastDepth];
-                unset($E[$lastDepth]);
-            } else if ( $row[tag_depth] < $lastDepth ) {
-                $xml .= $E[$lastDepth];
-                unset($E[$lastDepth]);
+			if ( $row[tag_depth] == $lastDepth ) {
+				$xml .= $E[$lastDepth];
+				unset($E[$lastDepth]);
+			} else if ( $row[tag_depth] < $lastDepth ) {
+				$xml .= $E[$lastDepth];
+				unset($E[$lastDepth]);
 
-                $xml .= $E[$row[tag_depth]];
-                unset($E[$row[tag_depth]]);
-            }
-            */
+				$xml .= $E[$row[tag_depth]];
+				unset($E[$row[tag_depth]]);
+			}
+			*/
 
 
 			$D = $row[tag_depth];
@@ -298,50 +314,50 @@ class ilNestedSetXML
 				$xml .= $Anfang;
 				$xmlE[$D] = $Ende;
 			}
-			
-			
+
+
 			//$xmlE[$D] = $Ende.$xmlE[$D];
-			
-			
-            //$xml .= $Anfang;
-            
-            $lastDepth = $D;
-            
-            //$E[$lastDepth] = $Ende . $E[$lastDepth]; 
-                
-        }
+
+
+			//$xml .= $Anfang;
+
+			$lastDepth = $D;
+
+			//$E[$lastDepth] = $Ende . $E[$lastDepth];
+
+		}
 
 		for ($i=$lastDepth;$i>0;$i--) {
 			$xml .= $xmlE[$i];
 		}
-        
-        /*
-        for ($i=count($E);$i>=0;$i--) {
-            $xml .= $E[$i];
-        }
+
+		/*
+		for ($i=count($E);$i>=0;$i--) {
+			$xml .= $E[$i];
+		}
 		*/
 		/*
 		$X = str_replace("</","\n</",$xml);
 		echo nl2br(htmlspecialchars($X));
 		exit;
 		*/
-        return($xml);
-        // }}}
-    }
-    
+		return($xml);
+		// }}}
+	}
+
     // ------------------------------------------------------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------------------------------------------------------
     // {{{  Zusätzliche Funktionen
-    function init($obj_id,$obj_type) 
+    function init($obj_id,$obj_type)
 	{
         // {{{
 		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-        
+
         // vd($row);
-        
+
         $this->LEFT = $row["ns_l"];
         $this->RIGHT = $row["ns_r"];
         $this->DEPTH = $row["tag_depth"];

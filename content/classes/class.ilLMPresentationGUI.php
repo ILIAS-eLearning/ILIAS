@@ -201,17 +201,8 @@ class ilLMPresentationGUI
 				/**
 				*	Check if export-directory exists
 				*/
+				$this->lm->createExportDirectory();
 				$export_dir = $this->lm->getExportDirectory();
-				if ($export_dir==false)
-				{
-					$this->lm->createExportDirectory();
-
-					$export_dir = $this->lm->getExportDirectory();
-					if ($export_dir==false)
-					{
-						$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
-					}
-				}
 
 				/**
 				*	create html-offline-directory

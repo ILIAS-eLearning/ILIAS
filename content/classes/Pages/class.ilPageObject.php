@@ -104,7 +104,7 @@ class ilPageObject
 	{
 
 //echo "<br><br>".$this->getId().":xml:".htmlentities($this->getXMLContent(true)).":<br>";
-		$this->dom = domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
+		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
@@ -480,7 +480,7 @@ class ilPageObject
 	* get all media objects, that are referenced and used within
 	* the page
 	*/
-	function collectMediaObjects()
+	function collectMediaObjects($a_inline_only = true)
 	{
 //echo htmlentities($this->getXMLFromDom());
 		// determine all media aliases of the page
@@ -501,15 +501,41 @@ class ilPageObject
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
-			if ($res->nodeset[$i]->get_attribute("TargetFrame") == "")
+			if (($res->nodeset[$i]->get_attribute("TargetFrame") == "") ||
+				(!$a_inline_only))
 			{
-				$id_arr = explode("_", $res->nodeset[$i]->get_attribute("Target"));
-				$mob_id = $id_arr[count($id_arr) - 1];
-				$mob_ids[$mob_id] = $mob_id;
+				$target = $res->nodeset[$i]->get_attribute("Target");
+				if (substr($target, 0, 4) == "il__")
+				{
+					$id_arr = explode("_", $target);
+					$mob_id = $id_arr[count($id_arr) - 1];
+					$mob_ids[$mob_id] = $mob_id;
+				}
 			}
 		}
 
 		return $mob_ids;
+	}
+
+	/**
+	* get all file items that are used within the page
+	*/
+	function collectFileItems()
+	{
+
+		// determine all media aliases of the page
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem/Identifier";
+		$res =& xpath_eval($xpc, $path);
+		$file_ids = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("Entry"));
+			$file_id = $id_arr[count($id_arr) - 1];
+			$file_ids[$file_id] = $file_id;
+		}
+
+		return $file_ids;
 	}
 
 	/**
@@ -1107,6 +1133,7 @@ class ilPageObject
 	*/
 	function insertInstIntoIDs($a_inst)
 	{
+//echo "insertinto:$a_inst:<br>";
 		// insert inst id into internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -1130,13 +1157,29 @@ class ilPageObject
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
-			$orig_id = $res->nodeset[$i]->get_attribute("OriginId");
-			if (substr($target, 0, 4) == "il__")
+			$origin_id = $res->nodeset[$i]->get_attribute("OriginId");
+			if (substr($origin_id, 0, 4) == "il__")
 			{
 				$new_id = "il_".$a_inst."_".substr($origin_id, 4, strlen($origin_id) - 4);
 				$res->nodeset[$i]->set_attribute("OriginId", $new_id);
 			}
 		}
+		unset($xpc);
+
+		// insert inst id file item identifier entries
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem/Identifier";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$origin_id = $res->nodeset[$i]->get_attribute("Entry");
+			if (substr($origin_id, 0, 4) == "il__")
+			{
+				$new_id = "il_".$a_inst."_".substr($origin_id, 4, strlen($origin_id) - 4);
+				$res->nodeset[$i]->set_attribute("Entry", $new_id);
+			}
+		}
+		unset($xpc);
 	}
 
 }

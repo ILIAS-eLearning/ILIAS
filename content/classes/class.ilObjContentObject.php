@@ -62,6 +62,9 @@ class ilObjContentObject extends ilObject
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+
+		$this->mob_ids = array();
+		$this->file_ids = array();
 	}
 
 	/**
@@ -357,13 +360,8 @@ class ilObjContentObject extends ilObject
 	* (data_dir/lm_data/lm_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createExportDirectory($ref_id = "")
+	function createExportDirectory()
 	{
-        if ($ref_id == "")
-		{
-			$ref_id = $this->getRefId();
-		}
-
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
@@ -371,23 +369,15 @@ class ilObjContentObject extends ilObject
 				.") not writeable.",$this->ilias->error_obj->FATAL);
 		}
 		// create learning module directory (data_dir/lm_data/lm_<id>)
-		$lm_dir = $lm_data_dir."/lm_".$ref_id;
-		if(!@is_dir($lm_dir))
-		{
-			@mkdir($lm_dir);
-			@chmod($lm_dir,0755);
-		}
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		ilUtil::makeDir($lm_dir);
 		if(!@is_dir($lm_dir))
 		{
 			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $lm_dir."/export";
-		if(!@is_dir($export_dir))
-		{
-			@mkdir($export_dir);
-			@chmod($export_dir,0755);
-		}
+		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
 			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
@@ -397,21 +387,11 @@ class ilObjContentObject extends ilObject
 	/**
 	* get export directory of lm
 	*/
-	function getExportDirectory($ref_id = "")
+	function getExportDirectory()
 	{
-        if ($ref_id == "")
-		{
-			$ref_id = $this->getRefId();
-		}
-		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$ref_id."/export";
-		if(@is_dir($export_dir))
-		{
-			return $export_dir;
-		}
-		else
-		{
-			return false;
-		}
+		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
+
+		return $export_dir;
 	}
 
 
@@ -817,7 +797,7 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer, $a_inst = 0)
+	function exportXML(&$a_xml_writer, $a_inst = 0, $a_target_dir = "")
 	{
 		$attrs = array();
 		switch($this->getType())
@@ -836,13 +816,17 @@ class ilObjContentObject extends ilObject
 		$this->exportXMLMetaData($a_xml_writer);
 
 		// StructureObjects
+//echo "ContObj:".$a_inst.":<br>";
 		$this->exportXMLStructureObjects($a_xml_writer, $a_inst);
 
 		// PageObjects
-		$this->exportXMLPageObjects($a_xml_writer);
+		$this->exportXMLPageObjects($a_xml_writer, $a_inst);
 
 		// MediaObjects
-		$this->exportXMLMediaObjects($a_xml_writer, $a_inst);
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir);
+
+		// FileItems
+		$this->exportFileItems($a_target_dir);
 
 		// Glossary
 		// not implemented
@@ -865,10 +849,20 @@ class ilObjContentObject extends ilObject
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "insertInstInMeta");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
 	}
 
+	function insertInstInMeta($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param = "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
+	}
 
 	/**
 	* export structure objects to xml (see ilias_co.dtd)
@@ -876,7 +870,7 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLStructureObjects(&$a_xml_writer)
+	function exportXMLStructureObjects(&$a_xml_writer, $a_inst = 0)
 	{
 		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
 		foreach ($childs as $child)
@@ -887,7 +881,7 @@ class ilObjContentObject extends ilObject
 			}
 
 			$structure_obj = new ilStructureObject($this, $child["obj_id"]);
-			$structure_obj->exportXML($a_xml_writer);
+			$structure_obj->exportXML($a_xml_writer, $a_inst);
 			unset($structure_obj);
 		}
 	}
@@ -899,22 +893,29 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLPageObjects(&$a_xml_writer)
+	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
 	{
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
 			// export xml to writer object
 			$page_obj = new ilLMPageObject($this, $page["obj_id"]);
-			$page_obj->exportXML($a_xml_writer);
+			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
 
 			// collect media objects
 			$mob_ids = $page_obj->getMediaObjectIDs();
-
 			foreach($mob_ids as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
 			}
+
+			// collect all file items
+			$file_ids = $page_obj->getFileItemIds();
+			foreach($file_ids as $file_id)
+			{
+				$this->file_ids[$file_id] = $file_id;
+			}
+
 			unset($page_obj);
 		}
 	}
@@ -925,7 +926,7 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLMediaObjects(&$a_xml_writer, $a_inst = 0)
+	function exportXMLMediaObjects(&$a_xml_writer, $a_inst = 0, $a_target_dir = "")
 	{
 		include_once("content/classes/Pages/class.ilMediaObject.php");
 
@@ -933,7 +934,24 @@ class ilObjContentObject extends ilObject
 		{
 			$media_obj = new ilMediaObject($mob_id);
 			$media_obj->exportXML($a_xml_writer, $a_inst);
+			$media_obj->exportFiles($a_target_dir);
 			unset($media_obj);
+		}
+	}
+
+	/**
+	* export files of file itmes
+	*
+	*/
+	function exportFileItems($a_target_dir)
+	{
+		include_once("classes/class.ilObjFile.php");
+
+		foreach ($this->file_ids as $file_id)
+		{
+			$file_obj = new ilObjFile($file_id, false);
+			$file_obj->export($a_target_dir);
+			unset($file_obj);
 		}
 	}
 

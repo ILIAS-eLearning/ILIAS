@@ -70,6 +70,7 @@ class ilLMPageObject extends ilLMObject
 		$this->is_alias = false;
 		$this->contains_int_link = false;
 		$this->mobs_contained  = array();
+		$this->files_contained  = array();
 
 		if($a_id != 0)
 		{
@@ -259,8 +260,19 @@ class ilLMPageObject extends ilLMObject
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "insertInstInMeta");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+	}
+
+	function insertInstInMeta($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param = "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
 	}
 
 
@@ -272,13 +284,17 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportXMLPageContent(&$a_xml_writer, $a_inst = 0)
 	{
+//echo "exportxmlpagecontent:$a_inst:<br>";
 		$cont_obj =& $this->getContentObject();
 		//$page_obj = new ilPageObject($cont_obj->getType(), $this->getId());
 
 		$this->page_object->buildDom();
 		$this->page_object->insertInstIntoIDs($a_inst);
-		$this->mobs_contained = $this->page_object->collectMediaObjects();
-		$this->page_object->getXMLFromDom(false, false, false, "", true);
+		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
+		$this->files_contained = $this->page_object->collectFileItems();
+		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
+		$xml = str_replace("&","&amp;", $xml);
+		$a_xml_writer->appendXML($xml);
 
 		$this->page_object->freeDom();
 	}
@@ -291,6 +307,16 @@ class ilLMPageObject extends ilLMObject
 	function getMediaObjectIds()
 	{
 		return $this->mobs_contained;
+	}
+
+	/**
+	* get ids of all file items within the page
+	*
+	* note: this method must be called afer exportXMLPageContent
+	*/
+	function getFileItemIds()
+	{
+		return $this->files_contained;
 	}
 
 }

@@ -373,9 +373,16 @@ class ilMapArea
 	*
 	* @return	string		link target
 	*/
-	function getTarget()
+	function getTarget($a_insert_inst = false, $a_inst = 0)
 	{
-		return $this->il_target;
+		$target = $this->il_target;
+
+		if (substr($target, 0, 4) == "il__")
+		{
+			$target = "il_".$a_inst."_".substr($target, 4, strlen($target) - 4);
+		}
+
+		return $target;
 	}
 
 	/**

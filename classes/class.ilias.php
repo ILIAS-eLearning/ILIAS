@@ -134,20 +134,20 @@ class ILIAS
 		// load setup.ini
 		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
 		$this->ini_ilias->read();
-		
+
 		define("ILIAS_DATA_DIR",$this->ini_ilias->readVariable("clients","datadir"));
 		define("ILIAS_WEB_DIR",$this->ini_ilias->readVariable("clients","path"));
-		
+
 		define ("ILIAS_HTTP_PATH",$this->ini_ilias->readVariable('server','http_path'));
 		define ("ILIAS_ABSOLUTE_PATH",$this->ini_ilias->readVariable('server','absolute_path'));
 
 		// logging
-		define ("ILIAS_LOG_DIR",$this->ini_ilias->readVariable("log","path"));		
-		define ("ILIAS_LOG_FILE",$this->ini_ilias->readVariable("log","file"));		
-		define ("ILIAS_LOG_ENABLED",$this->ini_ilias->readVariable("log","enabled"));		
+		define ("ILIAS_LOG_DIR",$this->ini_ilias->readVariable("log","path"));
+		define ("ILIAS_LOG_FILE",$this->ini_ilias->readVariable("log","file"));
+		define ("ILIAS_LOG_ENABLED",$this->ini_ilias->readVariable("log","enabled"));
 
 		// read path + command for third party tools from ilias.ini
-		define ("PATH_TO_CONVERT",$this->ini_ilias->readVariable("tools","convert"));	
+		define ("PATH_TO_CONVERT",$this->ini_ilias->readVariable("tools","convert"));
 		define ("PATH_TO_ZIP",$this->ini_ilias->readVariable("tools","zip"));
 		define ("PATH_TO_UNZIP",$this->ini_ilias->readVariable("tools","unzip"));
 		define ("PATH_TO_JAVA",$this->ini_ilias->readVariable("tools","java"));
@@ -164,9 +164,9 @@ class ILIAS
 		{
 			$this->client_id = $_COOKIE["ilClientId"];
 		}
-		
+
 		$this->INI_FILE = "./".ILIAS_WEB_DIR."/".$this->client_id."/client.ini.php";
-		
+
 //		$this->PEAR();
 
 		// prepare file access to work with safe mode
@@ -181,12 +181,12 @@ class ILIAS
 		{
 			ilUtil::redirect("./setup/setup.php");
 		}
-		
+
 		if (!$this->ini->readVariable("client","access"))
 		{
 			die("client disabled");
 		}
-		
+
 		// set constants
 		define ("DEBUG",$this->ini->readVariable("system","DEBUG"));
 		define ("DEVMODE",$this->ini->readVariable("system","DEVMODE"));
@@ -195,7 +195,7 @@ class ILIAS
 		define ("ROLE_FOLDER_ID",$this->ini->readVariable('system','ROLE_FOLDER_ID'));
 		define ("MAIL_SETTINGS_ID",$this->ini->readVariable('system','MAIL_SETTINGS_ID'));
 
-		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));		
+		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));
 		define ("MAXLENGTH_OBJ_DESC",$this->ini->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
 		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".$this->client_id);
@@ -208,16 +208,19 @@ class ILIAS
 					 ":".$this->ini->readVariable("db", "pass").
 					 "@".$this->ini->readVariable("db", "host").
 					 "/".$this->ini->readVariable("db", "name");
-		
+
 		$this->db = new ilDBx($this->dsn);
-			
+
 		// set anonymous user & role id and system role id
 		define ("ANONYMOUS_USER_ID",$this->getSetting("anonymous_user_id"));
 		define ("ANONYMOUS_ROLE_ID",$this->getSetting("anonymous_role_id"));
 		define ("SYSTEM_USER_ID",$this->getSetting("system_user_id"));
 		define ("SYSTEM_ROLE_ID",$this->getSetting("system_role_id"));
 		define ("RECOVERY_FOLDER_ID",$this->getSetting("recovery_folder_id"));
-		
+
+		// installation id
+		define ("IL_INST_ID", $this->getSetting("inst_id"));
+
 		// build option string for PEAR::Auth
 		$this->auth_params = array(
 									'dsn'		  => $this->dsn,

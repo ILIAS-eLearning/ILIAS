@@ -1605,7 +1605,7 @@ function makeDirParents($a_dir) {
 		{
 			return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
 		}
-	
+
 		if ($array_sortorder == "desc")
 		{
 			return strcasecmp($b[$array_sortby], $a[$array_sortby]);	
@@ -1738,6 +1738,21 @@ function makeDirParents($a_dir) {
 	{
 		header("Location: ".$a_script);
 		exit;
+	}
+
+	/**
+	* inserts installation id into ILIAS id
+	*
+	* e.g. "il__pg_3" -> "il_43_pg_3"
+	*/
+	function insertInstIntoID($a_value)
+	{
+		if (substr($a_value, 0, 4) == "il__")
+		{
+			$a_value = "il_".IL_INST_ID."_".substr($a_value, 4, strlen($a_value) - 4);
+		}
+
+		return $a_value;
 	}
 
 

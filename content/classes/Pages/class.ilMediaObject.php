@@ -410,6 +410,7 @@ class ilMediaObject extends ilObjMediaObject
 
 				// meta data
 				$nested = new ilNestedSetXML();
+				$nested->setParameterModifier($this, "insertInstInMeta");
 				$xml.= $nested->export($this->getId(), $this->getType());
 
 				$media_items =& $this->getMediaItems();
@@ -450,7 +451,7 @@ class ilMediaObject extends ilObjMediaObject
 					{
 						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
 					}
-					$xml .= $item->getMapAreasXML();
+					$xml .= $item->getMapAreasXML(true, $a_inst);
 					$xml .= "</MediaItem>";
 				}
 				break;
@@ -466,6 +467,35 @@ class ilMediaObject extends ilObjMediaObject
 	function exportXML(&$a_xml_writer, $a_inst = 0)
 	{
 		$a_xml_writer->appendXML($this->getXML(IL_MODE_FULL, $a_inst));
+	}
+
+
+	/**
+	* export all media files of object to target directory
+	* note: target directory must be the export target directory,
+	* "/objects/il_<inst>_mob_<mob_id>/..." will be appended to this directory
+	*
+	* @param	string		$a_target_dir		target directory
+	*/
+	function exportFiles($a_target_dir)
+	{
+		$subdir = "il_".IL_INST_ID."_mob_".$this->getId();
+		ilUtil::makeDir($a_target_dir."/objects/".$subdir);
+
+		$mobdir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->getId();
+		ilUtil::rCopy($mobdir, $a_target_dir."/objects/".$subdir);
+//echo "from:$mobdir:to:".$a_target_dir."/objects/".$subdir.":<br>";
+	}
+
+
+	function insertInstInMeta($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param = "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
 	}
 
 
