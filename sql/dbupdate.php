@@ -4469,3 +4469,5 @@ ALTER  TABLE `qpl_answers`   CHANGE `matchingtext`  `matchingtext`  TEXT NULL;
 
 <#271>
 DELETE FROM settings WHERE keyword='ldap_enable';
+<#272>
+UPDATE settings SET value = '3.2.0_beta1 2004/09/02' WHERE keyword = 'ilias_version' LIMIT 1;
