@@ -2554,8 +2554,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->__initLinkChecker();
 
+		if(!$this->link_checker_obj->checkPear())
+		{
+			sendInfo($this->lng->txt('missing_pear_library'));
+			$this->linkChecker();
+
+			return false;
+		}
+
 		$this->link_checker_obj->checkLinks();
-		sendInfo($this->lng->txt('linker_checker_refreshed'));
+		sendInfo($this->lng->txt('link_checker_refreshed'));
 
 		$this->linkChecker();
 
