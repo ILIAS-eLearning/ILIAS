@@ -1019,7 +1019,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->prepareOutput(true,4);
-		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_edit"));
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$data = array();
@@ -1087,7 +1087,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_CANCEL", "view" );
 		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("properties"));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("grp_edit"));
 		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration_mode"));
@@ -1534,7 +1534,7 @@ class ilGroupGUI extends ilObjectGUI
 		/////////////////////
 
 		$this->prepareOutput(true, 7);
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
 
 		$this->tpl->setCurrentBlock("tableheader");
