@@ -291,6 +291,7 @@ foreach ($mail_data as $mail)
 	// GET FULLNAME OF SENDER
 	$tmp_user = new ilObjUser($mail["sender_id"]);
 	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
+	$tpl->setVariable("MAIL_LOGIN",$tmp_user->getLogin());
 
 	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
 	// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
