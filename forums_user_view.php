@@ -39,17 +39,17 @@ $tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
 $tpl->setVariable("LOGIN",$author["login"]);	
 
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("FIRSTNAME",$author["firstname"]);	
-$tpl->setVariable("SURNAME",$author["surname"]);	
+$tpl->setVariable("FIRSTNAME",$author["FirstName"]);	
+$tpl->setVariable("SurName",$author["SurName"]);	
 
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TITLE",$author["title"]);
+$tpl->setVariable("TITLE",$author["Title"]);
 
 $tpl->setVariable("TXT_GENDER", $lng->txt("gender"));
-$tpl->setVariable("GENDER",$author["gender"]);
+$tpl->setVariable("GENDER",$author["Gender"]);
 
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-$tpl->setVariable("EMAIL",$author["email"]);
+$tpl->setVariable("EMAIL",$author["Email"]);
 
 $tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
 $tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["create_date"]));
