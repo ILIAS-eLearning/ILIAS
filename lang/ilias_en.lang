@@ -228,7 +228,7 @@ assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the question pool if you do not want to keep it!
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
 assessment#:#radio_set#:#Set
@@ -294,7 +294,7 @@ assessment#:#tst_maximum_points#:#Maximum points
 assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
 assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.
 assessment#:#tst_missing_questions#:#You do not have any questions in the test! Please add at least one question into the test.
-assessment#:#tst_missing_title#:#You have not entered a test title! Please go to the meta data section and enter a title.
+assessment#:#tst_missing_title#:#You have not entered a test title! Please go to the metadata section and enter a title.
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
@@ -336,7 +336,9 @@ assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_stat_all_users#:#All users
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
 assessment#:#tst_stat_result_distancemedian#:#Distance to median
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#First visit
 assessment#:#tst_stat_result_lastvisit#:#Last visit
 assessment#:#tst_stat_result_mark_median#:#Mark of median
@@ -561,6 +563,7 @@ common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
 common#:#all_tsts#:#All tests
 common#:#all_users#:#All users
+common#:#allow_assign_users#:#Allow user assignment for local administrators.
 common#:#allow_register#:#Available in registration form for new users
 common#:#alm#:#AICC Learning Module
 common#:#alm_added#:#AICC Learning Module added
@@ -979,7 +982,7 @@ common#:#fold_visible#:#Folder is visible
 common#:#fold_write#:#Edit Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
-common#:#force_accept_usr_agreement#:#You have to accept user agreement!
+common#:#force_accept_usr_agreement#:#You must accept the user agreement!
 common#:#forename#:#Forename
 common#:#forgot_password#:#Forgot password?
 common#:#form_empty_fields#:#Please complete these fields:
@@ -1052,18 +1055,18 @@ common#:#group_no_registration_msg#:#You are not a member of this group so far. 
 common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
-common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the administrator of this group.<br />You are automatically assigned to the group if your password is correct.
+common#:#group_password_registration_msg#:#To join this group you must enter the password provided by the administrator of this group.<br />You are automatically assigned to the group if your password is correct.
 common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
 common#:#group_registration_expired#:#Period of registration expired
 common#:#group_registration_mode#:#Registration Mode
 common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
-common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br />You will receive a message when you get assigned to the group.
+common#:#group_req_registration_msg#:#To join this group you must register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br />You will receive a message when you get assigned to the group.
 common#:#group_reset#:#Reset Group Permissions
 common#:#group_status#:#Group is
 common#:#group_status_closed#:#Closed
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Group is visible; User may subscribe.<br />Closed: Group is not visible for non-members; User has to be invited by a member to join.
 common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
@@ -1201,7 +1204,7 @@ common#:#ingmedia_pers_dates#:#Personal data
 common#:#ingmedia_reg_fo#:#Registered forums
 common#:#ingmedia_reg_le#:#Registered LE
 common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you have to accept the user agreement.
+common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
 common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
 common#:#ingmedia_use_title#:#Change user data.
 common#:#ingmedia_user_agree#:#Agreement
@@ -1359,7 +1362,7 @@ common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_read#:#Read access to Mail settings
 common#:#mail_search_no#:#No entries found
 common#:#mail_search_word#:#Search word
-common#:#mail_select_one#:#You have to select one mail
+common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_smtp_mail#:#User may send mail via SMTP
@@ -1368,7 +1371,7 @@ common#:#mail_system_message#:#User may send internal system messages
 common#:#mail_visible#:#Mail settings are visible
 common#:#mail_write#:#Edit Mail settings
 common#:#mail_z_local#:#User Folders
-common#:#mails#:#Mails
+common#:#mails#:#Mail
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
@@ -1390,7 +1393,7 @@ common#:#mep_write#:#Edit Media Pool Content
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
-common#:#meta_data#:#Meta Data
+common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
 common#:#mob#:#Media Object
@@ -1439,7 +1442,7 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
-common#:#msg_is_last_role#:#You deassigned the following users from their last global role
+common#:#msg_is_last_role#:#You removed the last global role from the following users
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
@@ -1450,7 +1453,7 @@ common#:#msg_no_default_language#:#No default language specified! You must defin
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -1465,7 +1468,7 @@ common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking da
 common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
 common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
 common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
-common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
+common#:#msg_no_perm_modify_user#:#You have no permission to modify user data
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
@@ -1477,7 +1480,7 @@ common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_scan_log#:#Scan log not implemented yet
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role 
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_nothing_found#:#msg_nothing_found
@@ -1491,17 +1494,17 @@ common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings fro
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name
-common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for autogenerated roles. Please choose another name
-common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed
-common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again.
-common#:#msg_roleassignment_changed#:#Roleassigment changed
-common#:#msg_sysrole_not_deletable#:#The systemrole cannot be deleted
+common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for automatically generated roles. Please choose another name
+common#:#msg_roleassignment_active_changed#:#Active role assignment changed
+common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved to the user's profile! If the user logs in again, all active role assignments reset to their saved values.
+common#:#msg_roleassignment_changed#:#Role assignment changed
+common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
-common#:#msg_userassignment_changed#:#Userassigment changed
+common#:#msg_userassignment_changed#:#User assignment changed
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#My Bookmarks
 common#:#my_frms#:#My Forums
@@ -1533,9 +1536,10 @@ common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_objects#:#No objects
 common#:#no_permission_to_join#:#You are not allowed to join this group!
+common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
 common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
-common#:#no_users_applied#:#Please select an user.
+common#:#no_users_applied#:#Please select a user.
 common#:#no_users_selected#:#Please select one user.
 common#:#none#:#None
 common#:#normal#:#Normal
@@ -1579,7 +1583,7 @@ common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
-common#:#obj_objf#:#Objectdefinitions
+common#:#obj_objf#:#Object definitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pays#:#Payment settings
@@ -1587,7 +1591,7 @@ common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool (Assessment)
 common#:#obj_recf#:#Restored Objects
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.
+common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -1605,7 +1609,7 @@ common#:#obj_taxf_desc#:#Folder for taxonomies
 common#:#obj_trac#:#User Tracking
 common#:#obj_trac_desc#:#User access tracking data
 common#:#obj_tst#:#Test
-common#:#obj_typ#:#Objecttype Definition
+common#:#obj_typ#:#Object Type Definition
 common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
@@ -1614,11 +1618,11 @@ common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#objects#:#Objects
-common#:#objf#:#Objectdefinitions
+common#:#objf#:#Object definitions
 common#:#objf_edit_permission#:#Change permission settings
-common#:#objf_read#:#Read access to Objectdefinitions
-common#:#objf_visible#:#Objectdefinitions are visible
-common#:#objf_write#:#Edit Objectdefinitions
+common#:#objf_read#:#Read access to Object definitions
+common#:#objf_visible#:#Object definitions are visible
+common#:#objf_write#:#Edit Object definitions
 common#:#objs_alm#:#AICC Learning Modules
 common#:#objs_cat#:#Categories
 common#:#objs_chat#:#Chats
@@ -1649,7 +1653,7 @@ common#:#objs_spl#:#Question Pools (Surveys)
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
 common#:#objs_tst#:#Tests
-common#:#objs_type#:#Objecttypes
+common#:#objs_type#:#Object Types
 common#:#objs_usr#:#Users
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
@@ -1686,7 +1690,7 @@ common#:#path_to_htmldoc#:#Path to HTMLdoc
 common#:#path_to_java#:#Path to Java
 common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
-common#:#pathes#:#Pathes
+common#:#pathes#:#Paths
 common#:#payment_system#:#Payment System
 common#:#pays_edit#:#Edit payment settings
 common#:#pays_edit_permission#:#Change permission settings
@@ -1703,7 +1707,7 @@ common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
 common#:#personal_profile#:#Personal Profile
-common#:#persons#:#Personen
+common#:#persons#:#Persons
 common#:#pg_a#:#a page
 common#:#pg_add#:#Add page
 common#:#pg_added#:#Page added
@@ -1730,7 +1734,7 @@ common#:#public_profile#:#Public Profile
 common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
 common#:#published#:#Published
-common#:#publishing_organisation#:#Publishing Organisation
+common#:#publishing_organisation#:#Publishing Organization
 common#:#qpl#:#Question pool (Assessment)
 common#:#qpl_add#:#Add question pool
 common#:#qpl_delete#:#Delete Question Pool
@@ -1747,6 +1751,7 @@ common#:#quote#:#Quote
 common#:#read#:#Read
 common#:#recf_edit#:#Edit RecoveryFolder
 common#:#recipient#:#Recipient
+common#:#referral_comment#:#How did you hear about ILIAS?
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh Languages
 common#:#refresh_list#:#Refresh List
@@ -1766,7 +1771,28 @@ common#:#rename#:#Rename
 common#:#rename_file#:#Rename File
 common#:#reply#:#Reply
 common#:#repository#:#Repository
-common#:#required_field#:#Required Field
+common#:#require_city#:#Require city
+common#:#require_country#:#Require country
+common#:#require_default_role#:#Require role
+common#:#require_department#:#Require department
+common#:#require_email#:#Require email
+common#:#require_fax#:#Require fax
+common#:#require_firstname#:#Require first name
+common#:#require_gender#:#Require gender
+common#:#require_hobby#:#Require hobby
+common#:#require_institution#:#Require institution
+common#:#require_lastname#:#Require last name
+common#:#require_login#:#Require login
+common#:#require_mandatory#:#mandatory
+common#:#require_passwd#:#Require password
+common#:#require_passwd2#:#Require retype password
+common#:#require_phone_home#:#Require home phone
+common#:#require_phone_mobile#:#Require mobile phone
+common#:#require_phone_office#:#Require office phone
+common#:#require_referral_comment#:#Require referral comment
+common#:#require_street#:#Require street
+common#:#require_zipcode#:#Require zip code
+common#:#required_field#:#Required
 common#:#reset#:#Reset
 common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
@@ -1791,7 +1817,7 @@ common#:#rolf_create_role#:#Create new Role definition
 common#:#rolf_create_rolt#:#Create new Role definition template
 common#:#rolf_delete#:#Delete Roles/Role templates
 common#:#rolf_edit_permission#:#Change permission settings
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles
+common#:#rolf_edit_userassignment#:#Change user assignment of Roles
 common#:#rolf_read#:#Read access to Roles/Role templates
 common#:#rolf_visible#:#Roles/Role templates are visible
 common#:#rolf_write#:#Edit default permission settings of Roles/Role templates
@@ -1830,9 +1856,12 @@ common#:#save_user_related_data#:#Save user related access data
 common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
+common#:#search_active#:#Include active users
 common#:#search_for#:#Search For
 common#:#search_in#:#Search in
+common#:#search_inactive#:#Include inactive users
 common#:#search_new#:#New Search
+common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.
 common#:#search_recipient#:#Search Recipient
 common#:#search_result#:#Search result
 common#:#search_user#:#Search User
@@ -1882,7 +1911,7 @@ common#:#st_add#:#Add chapter
 common#:#st_added#:#Chapter added
 common#:#st_edit#:#Edit chapter
 common#:#st_new#:#New chapter
-common#:#startpage#:#Startpage
+common#:#startpage#:#Start page
 common#:#statistic#:#Statistic
 common#:#status#:#Status
 common#:#step#:#Step
@@ -1913,6 +1942,7 @@ common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
 common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
+common#:#system_information#:#System Information
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#table_mail_import#:#Mail import
@@ -1940,7 +1970,7 @@ common#:#time_h#:#Hour
 common#:#time_limit#:#Access
 common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.
 common#:#time_limit_applied_users#:#Applied users
-common#:#time_limit_no_users_selected#:#Please select an user.
+common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
 common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.
 common#:#time_limit_reached#:#Your access period is expired.
@@ -1976,7 +2006,8 @@ common#:#tst_visible#:#Test is visible
 common#:#tst_write#:#Edit Test
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your useraccount.
+common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
+common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
@@ -2027,7 +2058,7 @@ common#:#usrf#:#User accounts
 common#:#usrf_create_user#:#Create new user account
 common#:#usrf_delete#:#Delete user accounts
 common#:#usrf_edit_permission#:#Change access to user accounts
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts
+common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
 common#:#usrf_read#:#Read access to user accounts
 common#:#usrf_read_users#:#Role assignment for local administrators
 common#:#usrf_visible#:#User accounts are visible
@@ -2048,8 +2079,8 @@ common#:#write#:#Write
 common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
-common#:#zip#:#Postal Code
-common#:#zipcode#:#Postal Code
+common#:#zip#:#Zip Code
+common#:#zipcode#:#Zip Code
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
@@ -2078,7 +2109,7 @@ content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_fullscreen#:#Add Fullscreen
+content#:#cont_add_fullscreen#:#Add Full Screen
 content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
@@ -2087,16 +2118,16 @@ content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
-content#:#cont_assign_full#:#Assign Fullscreen
+content#:#cont_assign_full#:#Assign Full Screen
 content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
 content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_autoindent#:#Auto Indent
 content#:#cont_back#:#Back
-content#:#cont_booktitle#:#Booktitle
+content#:#cont_booktitle#:#Book title
 content#:#cont_bottom#:#Bottom
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.
-content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
+content#:#cont_cant_del_full#:#Deletion of full screen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
@@ -2109,7 +2140,7 @@ content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_choose_media_source#:#Choose Media Source
-content#:#cont_citation_err_one#:#You have to select exactly one edition
+content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
 content#:#cont_clean_frames#:#Clean additional frames on navigation
@@ -2197,8 +2228,8 @@ content#:#cont_fix_tree#:#Fix structure
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Free Pages
-content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
-content#:#cont_fullscreen#:#Fullscreen
+content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in directory.
+content#:#cont_fullscreen#:#Full Screen
 content#:#cont_get_link#:#get link
 content#:#cont_get_orig_size#:#Set original size
 content#:#cont_glo_properties#:#Glossary Properties
@@ -2299,7 +2330,7 @@ content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
-content#:#cont_remove_fullscreen#:#Remove Fullscreen
+content#:#cont_remove_fullscreen#:#Remove Full Screen
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
@@ -2385,7 +2416,7 @@ content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_where_published#:#Where published
 content#:#cont_width#:#Width
-content#:#cont_wysiwyg#:#Content Wysiwyg
+content#:#cont_wysiwyg#:#Content WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
@@ -2565,18 +2596,18 @@ dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#Day View
 dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.
 dateplaner#:#ERROR_DB#:#Database write error!
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates
-dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm
-dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.
+dateplaner#:#ERROR_DB_CONNECT#:#The database is disconnected.
+dateplaner#:#ERROR_DEL_MSG#:#This is a recurring date. Would you like to delete one date or the series
+dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.
-dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm
+dateplaner#:#ERROR_ROTATIONEND#:#Wrong recurring end date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Wrong recurring end date input. Recurring end date is before start date.
+dateplaner#:#ERROR_SHORTTEXT#:#Wrong short text input. Short text is required.
+dateplaner#:#ERROR_STARTDATE#:#Wrong start date input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Wrong start time. Format: hh:mm
 dateplaner#:#ERROR_TS#:#Incorrect date format
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
@@ -2660,51 +2691,52 @@ dateplaner#:#extra_dates#:#One Day Dates
 dateplaner#:#free#:#free
 dateplaner#:#freetime#:#free Time in group
 dateplaner#:#group#:#group
-dateplaner#:#help_day#:#Calendar dayview
-dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.
-dateplaner#:#help_enddate#:#Enddate - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment.<br />The symbol opens a small calendar for chosing the appropriate date.
-dateplaner#:#help_endrotation#:#Endtime syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calender for choosing the appropriate date
-dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format
-dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.
-dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]
-dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br />Hereby the starttime, endtime and enddate are hidden.
+dateplaner#:#help_day#:#Calendar day view
+dateplaner#:#help_day_l#:#In the day view all dates of a chosen day are displayed.
+dateplaner#:#help_enddate#:#End date - syntax[dd/mm/yyyy]
+dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_endrotation#:#End time syntax[dd/mm/yyyy]
+dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calendar for choosing the appropriate date
+dateplaner#:#help_endtime#:#End time - syntax[hh/mm] 24-hour format
+dateplaner#:#help_endtime_l#:#Contains the end time of the appointment using 24-hour format.
+dateplaner#:#help_filename#:#dp_help_en.html
+dateplaner#:#help_fullday#:#Whole day date - syntax[on/off]
+dateplaner#:#help_fullday_l#:#If the date stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
 dateplaner#:#help_further#:#<br /><b>click here for further information.</b>
-dateplaner#:#help_group#:#Groupdates selection
-dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created.<br />After chosing this it is possible to view the unscheduled time of the group.
+dateplaner#:#help_group#:#Group dates selection
+dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has administrator rights and for which a date can be created.<br />After choosing this it is possible to view the unscheduled time of the group.
 dateplaner#:#help_inbox#:#Calendar Inbox
-dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.
+dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group dates are displayed.
 dateplaner#:#help_keyword#:#Keyword selection
-dateplaner#:#help_keywordUse#:#Keyword  selection
-dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entrys.
+dateplaner#:#help_keywordUse#:#Keyword selection
+dateplaner#:#help_keywordUse_l#:#Choose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entries.
 dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
-dateplaner#:#help_list#:#Calendar datelist
-dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.
-dateplaner#:#help_month#:#Calendar monthview
-dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.
+dateplaner#:#help_list#:#Calendar date list
+dateplaner#:#help_list_l#:#In the date list, all dates over a given period of time are displayed.
+dateplaner#:#help_month#:#Calendar month view
+dateplaner#:#help_month_l#:#In the month view all dates of a given month are displayed.
 dateplaner#:#help_properties_alt#:#Changes the keyword
-dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br />Change the keyword in the textfield . Important: max. 20 characters.
+dateplaner#:#help_properties_alt_l#:#Choose a keyword from the dialog box.<br />Change the keyword in the text field. Important: max. 20 characters.
 dateplaner#:#help_properties_del#:#Deletes the keyword
-dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.
+dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.
+dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
 dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.
-dateplaner#:#help_rotation#:#Rotation
-dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
-dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters
-dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.
-dateplaner#:#help_startdate#:#Startdate - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment.<br />The symbol opens a small calendar for chosing the appropriate date.
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format
-dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.
+dateplaner#:#help_properties_time#:#Display time for day view/week view
+dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
+dateplaner#:#help_rotation#:#Recurrence
+dateplaner#:#help_rotation_l#:#Contains the type of the recurrence / repetition.
+dateplaner#:#help_shorttext#:#Short text, max. 50 characters
+dateplaner#:#help_shorttext_l#:#Here one can enter the short text for a given date.
+dateplaner#:#help_startdate#:#Start date - syntax[dd/mm/yyyy]
+dateplaner#:#help_startdate_l#:#Contains the start point of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_starttime#:#Start time - syntax[hh/mm] 24-hour format
+dateplaner#:#help_starttime_l#:#Contains the start point of the appointment using 24-hour format.
 dateplaner#:#help_text#:#Text
 dateplaner#:#help_text_l#:#Here one can enter the text for a given date.
-dateplaner#:#help_week#:#Calendar weekview
-dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.
+dateplaner#:#help_week#:#Calendar week view
+dateplaner#:#help_week_l#:#In the week view all dates of a given week are displayed.
 dateplaner#:#hour#:#hour
 dateplaner#:#importDates#:#Import of Outlook Dates
 dateplaner#:#inbox#:#Inbox
@@ -2737,9 +2769,9 @@ dateplaner#:#newDates#:#New dates
 dateplaner#:#newKeyword#:#New:
 dateplaner#:#new_doc#:#create new date
 dateplaner#:#no_entry#:#no dates available
-dateplaner#:#o_day_date#:#24h date
+dateplaner#:#o_day_date#:#24-hour date
 dateplaner#:#of#:#of
-dateplaner#:#open_day#:#dayview
+dateplaner#:#open_day#:#day view
 dateplaner#:#pmonth#:#next month
 dateplaner#:#printlist#:#print
 dateplaner#:#properties#:#Properties
@@ -2754,8 +2786,8 @@ dateplaner#:#r_nonrecurring#:#Once
 dateplaner#:#r_week#:#every week
 dateplaner#:#r_year#:#every year
 dateplaner#:#readimportfile#:#insert
-dateplaner#:#rotation#:#Rotation
-dateplaner#:#rotation_dates#:#Rotation Dates
+dateplaner#:#rotation#:#Recurrence
+dateplaner#:#rotation_dates#:#Recurrence dates
 dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -2771,7 +2803,7 @@ dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Short Text
 dateplaner#:#singleDate#:#single date
-dateplaner#:#starttime_for_view#:#Starttime for view:
+dateplaner#:#starttime_for_view#:#Start time for view:
 dateplaner#:#timedate#:#Time / Date
 dateplaner#:#timeslice#:#Time:
 dateplaner#:#title#:#ILIAS calendar
@@ -2804,7 +2836,7 @@ forum#:#forums_not_available#:#Forums Not Available
 forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified
-forum#:#forums_post_new_entry#:#New article has been inscribed
+forum#:#forums_post_new_entry#:#New article has been created
 forum#:#forums_posts#:#All articles
 forum#:#forums_posts_not_available#:#Articles Not Available
 forum#:#forums_print_thread#:#Print Thread
@@ -2813,18 +2845,18 @@ forum#:#forums_respond#:#Post Reply
 forum#:#forums_subject#:#Subject
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Topic
-forum#:#forums_thread_articles#:#Articles to the topic
+forum#:#forums_thread_articles#:#Articles of the topic
 forum#:#forums_thread_create_date#:#Created at
 forum#:#forums_thread_create_from#:#Created from
-forum#:#forums_thread_new_entry#:#New topic has been inscribed
+forum#:#forums_thread_new_entry#:#New topic has been created
 forum#:#forums_threads#:#Threads
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
 mail#:#also_as_email#:#Also as Email
-mail#:#bc#:#BC
+mail#:#bc#:#BCC
 mail#:#forward#:#Forward
-mail#:#linebreak#:#Linebreak
+mail#:#linebreak#:#Line break
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
@@ -2832,21 +2864,21 @@ mail#:#mail_add_to_addressbook#:#Add to address book
 mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
-mail#:#mail_bc_not_valid#:#The Bc recipient is not valid
-mail#:#mail_bc_search#:#BC search
+mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
+mail#:#mail_bc_search#:#BCC search
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#The Cc recipient is not valid
+mail#:#mail_cc_not_valid#:#The CC recipient is not valid
 mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your email address is not valid
 mail#:#mail_compose#:#Compose Message
-mail#:#mail_deleted#:#The mail(s) are deleted
+mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_email_forbidden#:#You are not allowed to send email
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_file_name#:#Filename
-mail#:#mail_file_size#:#Filesize
+mail#:#mail_file_name#:#File name
+mail#:#mail_file_size#:#File size
 mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
@@ -2856,42 +2888,42 @@ mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
-mail#:#mail_incoming#:#Incoming mails
+mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
 mail#:#mail_incoming_smtp#:#forward to email address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
-mail#:#mail_mark_read#:#Mark mails read
-mail#:#mail_mark_unread#:#Mark mails unread
+mail#:#mail_mark_read#:#Mark mail read
+mail#:#mail_mark_unread#:#Mark mail unread
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_message_send#:#Message sent
-mail#:#mail_move_error#:#Error moving mail(s)
+mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
-mail#:#mail_moved#:#The mail(s) have been moved
-mail#:#mail_moved_to_trash#:#Mail(s) have been moved to trash
+mail#:#mail_moved#:#The mail has been moved
+mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
-mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external mails
+mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external mail
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
-mail#:#mail_s#:#Mail(s)
-mail#:#mail_s_unread#:#Unread Mail(s)
+mail#:#mail_s#:#Mail
+mail#:#mail_s_unread#:#Unread Mail
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_search_addressbook#:#search in address book
 mail#:#mail_search_system#:#search in system
-mail#:#mail_select_one_entry#:#You have to select one entry
-mail#:#mail_select_one_file#:#You have to select one file
-mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail(s)
+mail#:#mail_select_one_entry#:#You must select one entry
+mail#:#mail_select_one_file#:#You must select one file
+mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail
 mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
-mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
+mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_to_search#:#To search
-mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
-mail#:#search_bc_recipient#:#Search BC Recipient
+mail#:#mail_user_addr_n_valid#:#Following users have no valid email address
+mail#:#search_bc_recipient#:#Search BCC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
@@ -3153,7 +3185,7 @@ meta#:#meta_coverage#:#Coverage
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Delete
 meta#:#meta_description#:#Description
-meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficulty#:#Difficulty
 meta#:#meta_dificult#:#Difficult
 meta#:#meta_draft#:#Draft
@@ -3196,145 +3228,145 @@ meta#:#meta_is_required_by#:#Is Required By
 meta#:#meta_is_version_of#:#Is Version Of
 meta#:#meta_keyword#:#Keyword
 meta#:#meta_kind#:#Kind
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#afrikaans
-meta#:#meta_l_am#:#amharic
-meta#:#meta_l_ar#:#arabic
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaijani
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#byelorussian
-meta#:#meta_l_bg#:#bulgarian
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tibetan
-meta#:#meta_l_br#:#breton
-meta#:#meta_l_ca#:#catalan
-meta#:#meta_l_co#:#corsican
-meta#:#meta_l_cs#:#czech
-meta#:#meta_l_cy#:#welsh
-meta#:#meta_l_da#:#danish
-meta#:#meta_l_de#:#german
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greek
-meta#:#meta_l_en#:#english
-meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#spanish
-meta#:#meta_l_et#:#estonian
-meta#:#meta_l_eu#:#basque
-meta#:#meta_l_fa#:#persian (farsi)
-meta#:#meta_l_fi#:#finnish
-meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#french
-meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irish
-meta#:#meta_l_gd#:#scots gaelic
-meta#:#meta_l_gl#:#galician
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#hebrew
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croatian
-meta#:#meta_l_hu#:#hungarian
-meta#:#meta_l_hy#:#armenian
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesian
-meta#:#meta_l_ie#:#interlingue
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#icelandic
-meta#:#meta_l_it#:#italian
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#japanese
-meta#:#meta_l_jv#:#javanese
-meta#:#meta_l_ka#:#georgian
-meta#:#meta_l_kk#:#kazakh
-meta#:#meta_l_kl#:#greenlandic
-meta#:#meta_l_km#:#cambodian
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#korean
-meta#:#meta_l_ks#:#kashmiri
-meta#:#meta_l_ku#:#kurdish
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latin
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lithuanian
-meta#:#meta_l_lv#:#latvian;lettish
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedonian
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolian
-meta#:#meta_l_mo#:#moldavian
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malay
-meta#:#meta_l_mt#:#maltese
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#nepali
-meta#:#meta_l_nl#:#dutch
-meta#:#meta_l_no#:#norwegian
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polish
-meta#:#meta_l_ps#:#pashto;pushto
-meta#:#meta_l_pt#:#portuguese
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#romanian
-meta#:#meta_l_ru#:#russian
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanskrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croatian
-meta#:#meta_l_si#:#singhalese
-meta#:#meta_l_sk#:#slovak
-meta#:#meta_l_sl#:#slovenian
-meta#:#meta_l_sm#:#samoan
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somali
-meta#:#meta_l_sq#:#albanian
-meta#:#meta_l_sr#:#serbian
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanese
-meta#:#meta_l_sv#:#swedish
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamil
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmen
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turkish
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ukrainian
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbek
-meta#:#meta_l_vi#:#vietnamese
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#chinese
-meta#:#meta_l_zu#:#zulu
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkhazian
+meta#:#meta_l_af#:#Afrikaans
+meta#:#meta_l_am#:#Amharic
+meta#:#meta_l_ar#:#Arabic
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aymara
+meta#:#meta_l_az#:#Azerbaijani
+meta#:#meta_l_ba#:#Bashkir
+meta#:#meta_l_be#:#Byelorussian
+meta#:#meta_l_bg#:#Bulgarian
+meta#:#meta_l_bh#:#Bihari
+meta#:#meta_l_bi#:#Bislama
+meta#:#meta_l_bn#:#Bengali;bangla
+meta#:#meta_l_bo#:#Tibetan
+meta#:#meta_l_br#:#Breton
+meta#:#meta_l_ca#:#Catalan
+meta#:#meta_l_co#:#Corsican
+meta#:#meta_l_cs#:#Czech
+meta#:#meta_l_cy#:#Welsh
+meta#:#meta_l_da#:#Danish
+meta#:#meta_l_de#:#German
+meta#:#meta_l_dz#:#Bhutani
+meta#:#meta_l_el#:#Greek
+meta#:#meta_l_en#:#English
+meta#:#meta_l_eo#:#Esperanto
+meta#:#meta_l_es#:#Spanish
+meta#:#meta_l_et#:#Estonian
+meta#:#meta_l_eu#:#Basque
+meta#:#meta_l_fa#:#Persian (farsi)
+meta#:#meta_l_fi#:#Finnish
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faroese
+meta#:#meta_l_fr#:#French
+meta#:#meta_l_fy#:#Frisian
+meta#:#meta_l_ga#:#Irish
+meta#:#meta_l_gd#:#Scots gaelic
+meta#:#meta_l_gl#:#Galician
+meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gu#:#Gujarati
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Hebrew
+meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hr#:#Croatian
+meta#:#meta_l_hu#:#Hungarian
+meta#:#meta_l_hy#:#Armenian
+meta#:#meta_l_ia#:#Interlingua
+meta#:#meta_l_id#:#Indonesian
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Icelandic
+meta#:#meta_l_it#:#Italian
+meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_ja#:#Japanese
+meta#:#meta_l_jv#:#Javanese
+meta#:#meta_l_ka#:#Georgian
+meta#:#meta_l_kk#:#Kazakh
+meta#:#meta_l_kl#:#Greenlandic
+meta#:#meta_l_km#:#Cambodian
+meta#:#meta_l_kn#:#Kannada
+meta#:#meta_l_ko#:#Korean
+meta#:#meta_l_ks#:#Kashmiri
+meta#:#meta_l_ku#:#Kurdish
+meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_la#:#Latin
+meta#:#meta_l_ln#:#Lingala
+meta#:#meta_l_lo#:#Laothian
+meta#:#meta_l_lt#:#Lithuanian
+meta#:#meta_l_lv#:#Latvian;lettish
+meta#:#meta_l_mg#:#Malagasy
+meta#:#meta_l_mi#:#Maori
+meta#:#meta_l_mk#:#Macedonian
+meta#:#meta_l_ml#:#Malayalam
+meta#:#meta_l_mn#:#Mongolian
+meta#:#meta_l_mo#:#Moldavian
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malay
+meta#:#meta_l_mt#:#Maltese
+meta#:#meta_l_my#:#Burmese
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepali
+meta#:#meta_l_nl#:#Dutch
+meta#:#meta_l_no#:#Norwegian
+meta#:#meta_l_oc#:#Occitan
+meta#:#meta_l_om#:#Afan (oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
+meta#:#meta_l_pl#:#Polish
+meta#:#meta_l_ps#:#Pashto;pushto
+meta#:#meta_l_pt#:#Portuguese
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rhaeto-romance
+meta#:#meta_l_rn#:#Kurundi
+meta#:#meta_l_ro#:#Romanian
+meta#:#meta_l_ru#:#Russian
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
+meta#:#meta_l_sh#:#Serbo-croatian
+meta#:#meta_l_si#:#Singhalese
+meta#:#meta_l_sk#:#Slovak
+meta#:#meta_l_sl#:#Slovenian
+meta#:#meta_l_sm#:#Samoan
+meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_so#:#Somali
+meta#:#meta_l_sq#:#Albanian
+meta#:#meta_l_sr#:#Serbian
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sundanese
+meta#:#meta_l_sv#:#Swedish
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmen
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
+meta#:#meta_l_to#:#Tonga
+meta#:#meta_l_tr#:#Turkish
+meta#:#meta_l_ts#:#Tsonga
+meta#:#meta_l_tt#:#Tatar
+meta#:#meta_l_tw#:#Twi
+meta#:#meta_l_ug#:#Uigur
+meta#:#meta_l_uk#:#Ukrainian
+meta#:#meta_l_ur#:#Urdu
+meta#:#meta_l_uz#:#Uzbek
+meta#:#meta_l_vi#:#Vietnamese
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
+meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_yi#:#Yiddish
+meta#:#meta_l_yo#:#Yoruba
+meta#:#meta_l_za#:#Zhuang
+meta#:#meta_l_zh#:#Chinese
+meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Language
 meta#:#meta_learner#:#Learner
 meta#:#meta_learning_resource_type#:#Learning Resource Type
@@ -3359,19 +3391,19 @@ meta#:#meta_narrative_text#:#Narrative Text
 meta#:#meta_networked#:#Networked
 meta#:#meta_new_element#:#New Element
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#No meta data available for the Annotation section.
-meta#:#meta_no_classification#:#No meta data available for the Classification section.
-meta#:#meta_no_educational#:#No meta data available for Educational section.
-meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.
-meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.
-meta#:#meta_no_relation#:#No meta data available for the Relation section.
-meta#:#meta_no_rights#:#No meta data available for the Rights section.
-meta#:#meta_no_technical#:#No meta data available for Technical section.
+meta#:#meta_no_annotation#:#No metadata available for the Annotation section.
+meta#:#meta_no_classification#:#No metadata available for the Classification section.
+meta#:#meta_no_educational#:#No metadata available for Educational section.
+meta#:#meta_no_lifecycle#:#No metadata available for Lifecycle section.
+meta#:#meta_no_meta_metadata#:#No metadata available for Meta-Metadata section.
+meta#:#meta_no_relation#:#No metadata available for the Relation section.
+meta#:#meta_no_rights#:#No metadata available for the Rights section.
+meta#:#meta_no_technical#:#No metadata available for Technical section.
 meta#:#meta_none#:#None
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
 meta#:#meta_other#:#Other
-meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
+meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Please select
 meta#:#meta_prerequisite#:#Prerequisite
@@ -3422,11 +3454,11 @@ payment#:#pay_no_vendors_created#:#No vendors created
 payment#:#pays_active_bookings#:#Active bookings
 payment#:#pays_add_vendor#:#Add vendor
 payment#:#pays_added_vendor#:#Added new vendor
-payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:
-payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:
+payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
+payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
 payment#:#pays_cost_center#:#Cost center
 payment#:#pays_delete_vendor#:#Deassign user
-payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:
+payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_no_username_given#:#No username given
 payment#:#pays_no_valid_username_given#:#No valid username given
@@ -3435,31 +3467,35 @@ payment#:#pays_number_bookings#:#Active bookings
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
 payment#:#pays_vendor#:#Vendor
+search#:#search_active#:#Include active users
 search#:#search_all_results#:#All results
+search#:#search_and#:#and
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
 search#:#search_dbk_content#:#Digital Library (content)
-search#:#search_dbk_meta#:#Digital Library (meta data)
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly
+search#:#search_dbk_meta#:#Digital Library (metadata)
+search#:#search_delete_sure#:#The object and its contents will be deleted permanently
 search#:#search_group#:#Groups
 search#:#search_in_result#:#Search within results
+search#:#search_inactive#:#Include inactive users
 search#:#search_lm_content#:#Learning materials (content)
-search#:#search_lm_meta#:#Learning materials (meta data)
-search#:#search_meta#:#Meta data
-search#:#search_minimum_three#:#Your search has to be at least three characters long
+search#:#search_lm_meta#:#Learning materials (metadata)
+search#:#search_meta#:#Metadata
+search#:#search_minimum_three#:#Your search must be at least three characters long
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
 search#:#search_move_to#:#Move to:
 search#:#search_my_search_results#:#My search results
 search#:#search_new_folder#:#New folder
-search#:#search_no_category#:#You haven't selected any search categories
-search#:#search_no_match#:#Your search didn't match any results
+search#:#search_no_category#:#You have not selected any search categories
+search#:#search_no_match#:#Your search did not match any results
 search#:#search_no_results_saved#:#No results saved.
-search#:#search_no_search_term#:#You haven't selected any search term
-search#:#search_no_selection#:#You did no selection.
+search#:#search_no_search_term#:#You have not selected any search terms
+search#:#search_no_selection#:#You made no selection.
 search#:#search_object_renamed#:#Object renamed.
 search#:#search_objects_deleted#:#Object(s) deleted.
 search#:#search_objects_moved#:#Objects moved.
 search#:#search_one_action#:#Select one action.
+search#:#search_or#:#or
 search#:#search_rename_title#:#Rename title
 search#:#search_results_saved#:#Search results saved
 search#:#search_save_as_select#:#Save as:
@@ -3467,7 +3503,7 @@ search#:#search_search_for#:#Search for
 search#:#search_search_no_results_saved#:#There are no search results saved
 search#:#search_search_results#:#Search results
 search#:#search_search_term#:#Search term
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.
+search#:#search_select_exactly_one_object#:#You must select exactly one object.
 search#:#search_select_one#:#Select one folder
 search#:#search_select_one_action#:#--Select one action--
 search#:#search_select_one_folder_select#:#--Select one folder--
@@ -3483,16 +3519,16 @@ survey#:#already_completed_survey#:#You have already completed the survey! You a
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic mean
-survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?
+survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
-survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!
-survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!
-survey#:#cannot_participate_survey#:#You have no rights to participate the survey!
+survey#:#cannot_maintain_survey#:#You do not possess sufficient permissions to maintain the survey!
+survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
+survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Category
-survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
+survey#:#category_delete_confirm#:#Are you sure you want to delete the following categories?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#concatenation#:#Concatenation
@@ -3539,7 +3575,7 @@ survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define question block
-survey#:#disinvite#:#Disinvite
+survey#:#disinvite#:#Uninvite
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
@@ -3553,9 +3589,9 @@ survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not a
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
-survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)
-survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)
+survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-more positive-undecided-more negative-most certainly not)
+survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (yes-no)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (yes-undecided-no)
 survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
@@ -3565,7 +3601,7 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undec
 survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Duplicate
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the constraints
 survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_phrase_title#:#Please enter a phrase title
@@ -3586,7 +3622,7 @@ survey#:#harmonic_mean#:#Harmonic mean
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
 survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
-survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
+survey#:#insert_missing_questionblock#:#Please select at least one question block to insert it into the survey!
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
@@ -3617,7 +3653,7 @@ survey#:#no_category_selected_for_move#:#Please check at least one category to m
 survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
-survey#:#no_questionblocks_available#:#There are no questionblocks available
+survey#:#no_questionblocks_available#:#There are no question blocks available
 survey#:#no_questions_available#:#There are no questions available!
 survey#:#no_search_results#:#There are no search results!
 survey#:#no_target_selected_for_move#:#You must select a target position!
@@ -3653,18 +3689,18 @@ survey#:#qpl_questions_deleted#:#Question(s) deleted.
 survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
-survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!
+survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
 survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Text question
 survey#:#question_has_constraints#:#Constraints
 survey#:#question_obligatory#:#The question is obligatory!
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the question pool if you do not want to keep it!
+survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
 survey#:#questionblock_has_constraints#:#Constraints
-survey#:#questionblocks#:#Questionblocks
+survey#:#questionblocks#:#Question blocks
 survey#:#questions#:#Questions
 survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#questions_removed#:#Question(s) and/or question block(s) removed!
@@ -3714,7 +3750,7 @@ survey#:#svy_all_user_data_deleted#:#All user data of this survey has been delet
 survey#:#svy_delete_all_user_data#:#Delete all user data
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
-survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the meta data section and enter a title.
+survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the metadata section and enter a title.
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
@@ -3733,5 +3769,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
-common#:#allow_assign_users#:#Allow user assignment for local administrators.
