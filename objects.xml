@@ -282,9 +282,8 @@
 	<property name="roleassignment">role_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="usrf" class_name="UserFolder" checkbox="0" inherit="1" translate="sys" rbac="1">
+<object name="usrf" class_name="UserFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="usr">usr</subobj>
-	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="appliedUsers">applied_users</property>
 	<property name="perm">perm_settings</property>
