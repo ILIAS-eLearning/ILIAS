@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file italian
@@ -122,10 +122,10 @@ assessment#:#ass_file#:#File
 assessment#:#ass_questions#:#Domande
 assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
-assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#average_reached_points#:#Punteggio medio raggiunto
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
-assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
+assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
@@ -138,7 +138,7 @@ assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area deside
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
 assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#code#:#Codice
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
+assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
 assessment#:#confirm_sync_questions#:#La domanda che &#232; stata modificata &#232; la copia di una che &#232; stata creata per un sondaggio ancora attivo. Vuoi cambiare anche la domanda originale?
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
@@ -189,23 +189,23 @@ assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'impo
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#error_open_java_file#:#Errore nell'apertura dell'applet java!
 assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Valutazione per tutti gli utenti
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
-assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
+assessment#:#eval_concatenation#:#Concatenazione
 assessment#:#eval_data#:#Dati di valutazione
-assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
-assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
+assessment#:#eval_found_selected_groups#:#Gruppi selezionati
+assessment#:#eval_found_selected_users#:#Utenti selezionati
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
 assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
-assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
-assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
-assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
-assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
-assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
+assessment#:#eval_search_groups#:#Gruppi
+assessment#:#eval_search_term#:#Ricerca termine
+assessment#:#eval_search_users#:#Utenti
+assessment#:#eval_search_userselection#:#Ricerca gli utenti che vuoi inserire tra nelle valutazioni statistiche
+assessment#:#eval_selected_users#:#Valutazione per gli utenti selezionati
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato&nbsp; 
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -263,7 +263,7 @@ assessment#:#no_passed_mark#:#Devi scegliere almeno un voto come SUPERATO! Lo sc
 assessment#:#no_question_selected_for_move#:#Per favore seleziona la domanda che vuoi spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arrivo!
-assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#no_user_or_group_selected#:#Per favore indica cosa stai ricercando (utenti e/o gruppi)!
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
@@ -306,7 +306,7 @@ assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
-assessment#:#question_title#:#Question title###17 Dec 2004 new variable
+assessment#:#question_title#:#Titolo della domanda
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#questionpool_not_entered#:#Per favore inserisci il nome della raccolta di domande!
 assessment#:#questions_from#:#domande da
@@ -327,12 +327,12 @@ assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
 assessment#:#save_edit#:#Salva e vedi il contenuto
-assessment#:#save_finish#:#Salva e finisci il test###21 Dec 2004 content changed
-assessment#:#save_introduction#:#Salva e vai all'introduzione###21 Dec 2004 content changed
-assessment#:#save_next#:#Salva e vai alla domanda successiva###21 Dec 2004 content changed
-assessment#:#save_previous#:#Salva e vai alla domanda precedente###21 Dec 2004 content changed
-assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
-assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
+assessment#:#save_finish#:#Salva e finisci il test
+assessment#:#save_introduction#:#Salva e vai all'introduzione
+assessment#:#save_next#:#Salva e vai alla domanda successiva
+assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#search_found_groups#:#Gruppi trovati
+assessment#:#search_found_users#:#Utenti trovati
 assessment#:#see_details_for_further_information#:#Vedi dettagli per la risposta suggerita
 assessment#:#select_an_answer#:#--- Seleziona una risposta ---
 assessment#:#select_gap#:#Seleziona spazio
@@ -347,7 +347,7 @@ assessment#:#solution_hint#:#Soluzione suggerita
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
-assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
+assessment#:#statistical_data#:#Dati statistici
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
@@ -457,9 +457,9 @@ assessment#:#tst_stat_result_resultspoints#:#Risultati dei test in punti
 assessment#:#tst_stat_result_specification#:#Specifiche per la valutazione dei dati
 assessment#:#tst_stat_result_timeofwork#:#Tempo di esecuzione
 assessment#:#tst_stat_result_total_participants#:#Numero totale dei partecipanti
-assessment#:#tst_stat_selected_users#:#Utenti selezionati###15 Dec 2004 content changed
+assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
-assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica###15 Dec 2004 content changed
+assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
 assessment#:#tst_status_completed#:#completato
 assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
 assessment#:#tst_status_missing#:#Mancano alcuni elementi che sono richiesti nel test!
@@ -847,11 +847,11 @@ common#:#check#:#Controlla
 common#:#check_all#:#Controlla tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
-common#:#check_link#:#Link check###18 Dec 2004 new variable
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
+common#:#check_link#:#Verifica il link
+common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
-common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_user_accounts#:#Verifica gli utenti
+common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -898,8 +898,8 @@ common#:#create#:#Crea
 common#:#create_date#:#Creato il
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
-common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
+common#:#cron_jobs#:#Cron jobs
+common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo automatico che agisce ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
@@ -1483,13 +1483,13 @@ common#:#learning_objects#:#Unit&#224; didattiche
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
 common#:#link#:#Collega
-common#:#link_check#:#Link check###18 Dec 2004 new variable
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
-common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
-common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
-common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
-common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
-common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
+common#:#link_check#:#Verifica link
+common#:#link_check_body_top#:#Hai ricevuto questa mail perch&#232; hai scelto di voler essere informato sui collegamenti che non sono pi&#249; validi dei seguenti moduli:
+common#:#link_check_message_b#:#Se selezionato, sarai informato sui collegamenti che non sono pi&#249; validi tramite eMail.
+common#:#link_check_message_disabled#:#Mail disabilitata
+common#:#link_check_message_enabled#:#Mail abilitata
+common#:#link_check_subject#:#[ILIAS 3] verifica collegamenti
+common#:#link_checker_refreshed#:#Vista aggiornata
 common#:#linked_object#:#L'oggetto &#232; stato collegato
 common#:#linked_pages#:#Pagine collegate
 common#:#list_of_pages#:#Lista di pagine
@@ -1743,7 +1743,7 @@ common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
 common#:#no_global_role_left#:#Tutti gli utenti devono essere assegnati ad almeno un ruolo.
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo
-common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
+common#:#no_invalid_links#:#Non sono stati trovati collegamenti non validi.
 common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_local_users#:#Non ci sono utenti locali
@@ -1874,7 +1874,7 @@ common#:#objs_type#:#Tipi di oggetti
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
 common#:#of#:#di
-common#:#offline#:#offline###10 Dec 2004 new variable
+common#:#offline#:#offline
 common#:#offline_version#:#Versione offline
 common#:#ok#:#OK
 common#:#old#:#Vecchio
@@ -1894,7 +1894,7 @@ common#:#page_edit#:#Modifica pagina
 common#:#pages#:#Pagine
 common#:#parameter#:#Parametro
 common#:#parse#:#Analizza
-common#:#passed#:#Passed###07 Dec 2004 new variable
+common#:#passed#:#Superato
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
@@ -2004,7 +2004,7 @@ common#:#rename#:#Rinomina
 common#:#rename_file#:#Rinomina il file
 common#:#replace_file#:#Sosituisci il file
 common#:#reply#:#Rispondi
-common#:#repository#:#Repository
+common#:#repository#:#Risorse
 common#:#require_city#:#Citt&#224; obbligatoria
 common#:#require_country#:#Nazione obbligatoria
 common#:#require_default_role#:#Ruolo obbligatorio
@@ -2340,7 +2340,7 @@ common#:#vcard#:#Biglietto da visita
 common#:#vcard_download#:#Download del biglietto da visita
 common#:#vendors#:#Venditori
 common#:#version#:#Versione
-common#:#versions#:#Versions###10 Dec 2004 new variable
+common#:#versions#:#Versioni
 common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
@@ -2359,9 +2359,9 @@ content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
 content#:#all#:#Tutti
-content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
-content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
-content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
+content#:#all_pages#:#l'intero modulo 
+content#:#choose_public_mode#:#Gliutenti non registrati possono accedere
+content#:#choose_public_pages#:#Scegli le pagine accessibili a tutti
 content#:#cont_Additional#:#Aggiuntive
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
 content#:#cont_Circle#:#Cerchio
@@ -2438,10 +2438,10 @@ content#:#cont_coords#:#Coordinate
 content#:#cont_copy_object#:#copia oggetto
 content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
-content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
-content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_html#:#Crea file di export (HTML)
+content#:#cont_create_export_file_xml#:#Crea file di export (XML)
 content#:#cont_create_folder#:#Crea cartella
-content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
+content#:#cont_create_html_version#:#Crea un Package HTML
 content#:#cont_create_mob#:#Crea un oggetto multimediale
 content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni di tipo 'Normale')
 content#:#cont_credit_off#:#Senza crediti
@@ -2583,7 +2583,7 @@ content#:#cont_matching_question_javascript_hint#:#Per favore trascina le defini
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
+content#:#cont_missing_preconditions#:#Devi soddisfare i seguenti prerequisiti per poter accedere al capitolo "%s".
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
@@ -2598,7 +2598,7 @@ content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale
 content#:#cont_new_term#:#Nuovo termine
-content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
+content#:#cont_no_access#:#Accesso non consentito
 content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso
 content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
@@ -2609,12 +2609,12 @@ content#:#cont_nr_items#:#Numero di elementi
 content#:#cont_nr_rows#:#Numero di righe
 content#:#cont_obj_removed#:#Oggetti cancellati.
 content#:#cont_offline#:#Versione Offline
-content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
-content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
+content#:#cont_offline_files#:#Versioni offline
+content#:#cont_offline_versions#:#Versioni offline
 content#:#cont_online#:#Online
 content#:#cont_or#:#o
 content#:#cont_order#:#Tipo di ordinamento
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
+content#:#cont_ordering_question_javascript_hint#:#Per favore trascina una definizione/immagine sulla definizione/immagine dove vuoi metterla e rilasciala. La definizione/immagine che sta sotto e tutte le definizioni/immagini che seguono verranno spostate verso il basso.
 content#:#cont_organization#:#Organizzazione
 content#:#cont_organizations#:#Organizzazioni
 content#:#cont_orig_size#:#Dimensioni originali
@@ -2631,7 +2631,7 @@ content#:#cont_prereq_type#:#tipo di prerequisiti
 content#:#cont_prerequisites#:#prerequisiti
 content#:#cont_preview#:#Anteprima
 content#:#cont_print_view#:#Vista per la stampa
-content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
+content#:#cont_public_access#:#Accesso pubblico
 content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
@@ -2688,7 +2688,7 @@ content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_show_line_numbers#:#Mostra i numeri di linea
 content#:#cont_show_print_view#:#Mostra la vista per la stampa
 content#:#cont_size#:#Dimensioni
-content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
+content#:#cont_skip_chapter#:#Salta questo capitolo 
 content#:#cont_source#:#Sorgente
 content#:#cont_src#:#Codice sorgente
 content#:#cont_src_other#:#altro
@@ -2741,11 +2741,11 @@ content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
-content#:#public_section#:#Public Section###19 Dec 2004 new variable
+content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
 content#:#select_a_file#:#Per favore seleziona un file.
-content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
-content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
+content#:#selected_pages_only#:#solamente le pagine selezionate sotto 
+content#:#set_public_mode#:#Imposta in modalit&#224; di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
@@ -3836,7 +3836,7 @@ payment#:#pay_customer_no#:#Cliente n.
 payment#:#pay_deleted_booking#:#L'elemento &#232; stato cancellato.
 payment#:#pay_deleted_items#:#L'elemento selezionato &#232; stato cancellato.
 payment#:#pay_ending#:#termina il 
-payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###29 Nov 2004 new variable
+payment#:#pay_entitled_retrieve#:#Indica di ricavare i dati per
 payment#:#pay_expires_info#:#Questo oggetto &#232; disponibile, ma il pagamento &#232; scaduto e non puoi comprarlo.
 payment#:#pay_filter#:#Filtro
 payment#:#pay_goto_buyed_objects#:#Vai agli oggetti acquistati
@@ -4040,12 +4040,12 @@ survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferior
 survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
 survey#:#already_completed_survey#:#Hai gi&#224; completato il sondaggio! Non puoi eseguirlo di nuovo.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
+survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.
+survey#:#anonymize_key_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter riprendere il sondaggio, vverr&#224; creata dal sistema una stringa di 32 caratteri che ti sar&#224; inviata nella tua casella postale in ILIAS quando inizierai il sondaggio. Il tuo codice di accesso &#232; <br /><span class="bold">%s</span>.<br />Per favore inseriscilo nel campo testo qui sotto.
+survey#:#anonymize_resume_introduction#:#Per favore inserisci il tuo codice di accesso per riprendere il sondaggio. Ti &#232; stato inviato nella casella postale di ILIAS quando hai iniziato il sondaggio.
 survey#:#anonymize_survey#:#Rendi anonimi i dati del sondaggio
 survey#:#anonymize_survey_explanation#:#Se attivato, tutti i dati degli utenti saranno resi anonimi e non possono essere tracciati.
-survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
+survey#:#anonymous_with_personalized_survey#:#Devi essere un utente registrato per poter eseguire un sondaggio personalizzato!
 survey#:#answer#:#Risposta
 survey#:#apply#:#Conferma
 survey#:#arithmetic_mean#:#Valore aritmetico
@@ -4054,10 +4054,10 @@ survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande
 survey#:#back#:#<< Indietro
 survey#:#before#:#prima
 survey#:#browse_for_questions#:#Scegli le domande
-survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
-survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
-survey#:#cannot_export_questionpool#:#Non hai diritti sufficienti per esportare la raccolta di domande per sondaggi!
-survey#:#cannot_export_survey#:#Non hai diritti sufficienti per esportare il sondaggio!
+survey#:#cannot_create_survey_codes#:#Non hai sufficienti diritti per creare codici di accesso al sondaggio!
+survey#:#cannot_edit_survey#:#Non hai sufficienti diritti per poter modificare il sondaggio!
+survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!
+survey#:#cannot_export_survey#:#Non hai sufficienti diritti per esportare il sondaggio!
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondaggio!
@@ -4067,13 +4067,13 @@ survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
-survey#:#chart#:#Chart###17 Dec 2004 new variable
+survey#:#chart#:#Grafico
 survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!
-survey#:#codes#:#Access codes###20 Dec 2004 new variable
-survey#:#combobox#:#Combobox###22 Dec 2004 new variable
+survey#:#codes#:#Codici di accesso
+survey#:#combobox#:#Menu a tendina
 survey#:#concatenation#:#Concatenazione
-survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
-survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
+survey#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del sondaggio?
+survey#:#confirm_remove_heading#:#Sei sicuro di voler eliminare l'intestazione?
 survey#:#confirm_sync_questions#:#La domanda che hai cambiato &#232; la copia di una che &#232; stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?
 survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
@@ -4118,7 +4118,7 @@ survey#:#dc_varying#:#variante
 survey#:#dc_verygood#:#molto buono
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
+survey#:#description_maxchars#:#Se non &#232; indicato, la risposta non ha un numero massimo di caratteri (senza limite).
 survey#:#disinvite#:#Annulla l'invito
 survey#:#display_all_available#:#Mostra tutto
 survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d'accordo -d'accordo-indeciso-in disaccordo-molto in disaccordo)
@@ -4150,15 +4150,15 @@ survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi 
 survey#:#edit_heading#:#Modifica l'intestazione
 survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
-survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
+survey#:#enter_anonymous_id#:#Codice di accesso al sondaggio
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del sondaggio
-survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
-survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
+survey#:#enter_questionblock_title#:#Per favore indica un titolo per il blocco di domande!
+survey#:#enter_valid_number_of_codes#:#Per favore indica un numero valido per poter generare i codici di accesso al sondaggio!
 survey#:#enter_value#:#Inserisci un valore
 survey#:#error_add_heading#:#Per favore aggiungi l'intestazione!
 survey#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
-survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!###09 Dec 2004 content changed
-survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
+survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!
+survey#:#eval_legend_link#:#Per favore controlla nella legenda il significato dei simboli nell'intestazione delle colonne.
 survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
 survey#:#excel#:#Microsoft Excel
@@ -4195,12 +4195,12 @@ survey#:#invited_groups#:#Gruppi invitati
 survey#:#invited_users#:#Utenti invitati
 survey#:#label_resume_survey#:#Inserisci il codice a 32 cifre del sondaggio
 survey#:#last_update#:#Data ultima modifica
-survey#:#legend#:#Legend###10 Dec 2004 new variable
+survey#:#legend#:#Legenda
 survey#:#lower_limit#:#Limite inferiore
 survey#:#maintenance#:#Manutenzione
 survey#:#manage_phrases#:#Gestione frasi
 survey#:#material_file#:#File materiale
-survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
+survey#:#maxchars#:#Numero massimo di caratteri
 survey#:#maximum#:#Valore massimo
 survey#:#median#:#Medio
 survey#:#median_between#:#tra
@@ -4217,7 +4217,7 @@ survey#:#mode_nr_of_selections#:#Nr di selezioni
 survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
 survey#:#multiple_choice_multiple_response#:#A scelta multipla (risposta multipla)
 survey#:#multiple_choice_single_response#:#A scelta multipla (risposta singola)
-survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
+survey#:#new_survey_codes#:#nuovo codice di accesso al sondaggio
 survey#:#next_question_rows#:#Domande %d - %d di %d >>
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
 survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
@@ -4235,7 +4235,7 @@ survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte
 survey#:#non_ratio#:#con risposta intera
 survey#:#not_finished#:#non terminato
 survey#:#not_started#:#non iniziato
-survey#:#not_used#:#not used###20 Dec 2004 new variable
+survey#:#not_used#:#non usato
 survey#:#obligatory#:#obbligatorio
 survey#:#off#:#inattivo
 survey#:#offline#:#offline
@@ -4300,7 +4300,7 @@ survey#:#search_term#:#Ricerca il termine
 survey#:#search_type_all#:#Ricerca in tutti i tipi di domande
 survey#:#search_users#:#Utenti
 survey#:#select_max_one_item#:#Per favore scegli un solo oggetto
-survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
+survey#:#select_option#:#--- Scegli un valore ---
 survey#:#select_phrase_to_add#:#Per favore scegli una frase da aggiungere alla domanda!
 survey#:#select_prior_question#:#Seleziona la domanda precedente
 survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
@@ -4310,19 +4310,19 @@ survey#:#select_svy_option#:#--- Seleziona un sondaggio ---
 survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di destinazione nella quale spostare le categorie e premi uno dei pulsanti Inserisci!
 survey#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!
 survey#:#select_value#:#Seleziona un valore
-survey#:#selection#:#Selection###22 Dec 2004 new variable
+survey#:#selection#:#Seleziona
 survey#:#set_filter#:#Imposta filtro
-survey#:#skipped#:#skipped###10 Dec 2004 new variable
+survey#:#skipped#:#saltato
 survey#:#spl_select_file_for_import#:#Devi scegliere un file da importare!
 survey#:#start_date#:#Giorno di esecuzione
 survey#:#start_date_not_reached#:#Non puoi eseguire il sondaggio fino a che la data di inizio non &#232; stata raggiunta!
 survey#:#start_survey#:#Inizia il sondaggio
 survey#:#subject_mail_survey_id#:#Il codice per del tuo sondaggio &#232; "%s"
 survey#:#subtype#:#Sottotipo
-survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
+survey#:#survey_code#:#Codice di accesso al sondaggio
 survey#:#survey_code_message_sent#:#Il codice del sondaggio che ti consente di riprenderlo dal punto in cui &#232; stato interrotto, ti &#232; stato inviato con una eMail!
-survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
-survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
+survey#:#survey_code_no_codes#:#Non hai ancora creato nessun codice di accesso al sondaggio.
+survey#:#survey_code_used#:#Il codice %#232; stato usato
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
 survey#:#survey_is_offline#:#Non puoi eseguire il sondaggio! Il sondaggio &#232; offline.
@@ -4340,9 +4340,9 @@ survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
 survey#:#svy_create_export_file#:#Crea il file di export
 survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
-survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
-survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
-survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
+survey#:#svy_eval_cumulated#:#Risultati aggregati
+survey#:#svy_eval_detail#:#Risultati aggregati (dettagli)
+survey#:#svy_eval_user#:#Risultati dell'utente specificato
 survey#:#svy_export_files#:#Exporta file
 survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propriet&#224; del sondaggio! Per favore inserisci il nome dell'autore.
@@ -4359,7 +4359,7 @@ survey#:#svy_statistical_evaluation#:#Valutazione statistica
 survey#:#svy_status_missing#:#Ci sono elementi obbligatori che mancano nel sondaggio!
 survey#:#svy_status_missing_elements#:#I seguenti elementi sono mancanti:
 survey#:#svy_status_ok#:#Lo stato del sondaggio &#232; OK. Non ci sono elementi mancanti.
-survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
+survey#:#text_maximum_chars_allowed#:#Per favore non inserire pi&#249; %s caratteri. Ogni carattere ulteriore non verr&#224; considerato.
 survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
 survey#:#text_resume_survey#:#Stai per riprendere un sondaggio anonimo. Per continuare il sondaggio con i valori precedentemente inseriti, inserisci il codice a 32 cifre che hai ricevuto quando lo hai iniziato (ti &#232; stato inviato con una eMail nella tua Cartella).
 survey#:#title_resume_survey#:#Riprendi il sondaggio - Inserisci il codice corrispondente
@@ -4368,7 +4368,7 @@ survey#:#unlimited_users#:#Illimitato
 survey#:#uploaded_material#:#Materiale Uploadato
 survey#:#upper_limit#:#Limite superiore
 survey#:#upper_limit_must_be_greater#:#Il limite superiore deve essere maggiore del limite inferiore!
-survey#:#used#:#used###20 Dec 2004 new variable
+survey#:#used#:#usato
 survey#:#users_answered#:#Utenti che hanno risposto
 survey#:#users_skipped#:#Utenti che hanno saltato
 survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
