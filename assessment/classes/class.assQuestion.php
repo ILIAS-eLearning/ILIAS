@@ -1366,24 +1366,14 @@ class ASS_Question
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
-					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $target_id;
+					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "PageObject":
 				case "StructureObject":
-					require_once "./content/classes/class.ilLMObject.php";
-					$lm_id = ilLMObject::_lookupContObjID($target_id);
-					$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id = %s",
-						$ilDB->quote($lm_id . "")
-					);
-					$result = $ilDB->query($query);
-					if ($result->numRows())
-					{
-						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-						$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=layout&ref_id=".$row["ref_id"]."&obj_id=".$target_id;
-					}
+					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "GlossaryItem":
-					$href = ILIAS_HTTP_PATH . "/content/glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$target_id . "&offset=0";
+					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "MediaObject":
 					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;

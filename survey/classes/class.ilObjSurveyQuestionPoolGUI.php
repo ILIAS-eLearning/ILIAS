@@ -632,7 +632,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* display the import form to import questions into the questionpool
 	*/
-		function importObject()
+		function importQuestionsObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_import_question.html", true);
 		$this->tpl->setCurrentBlock("adm_content");

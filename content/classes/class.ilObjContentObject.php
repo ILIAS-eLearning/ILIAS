@@ -27,8 +27,7 @@
 *
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
-*
-* $Id$
+* @version $Id$
 *
 * @extends ilObject
 * @package ilias-core
@@ -983,6 +982,25 @@ class ilObjContentObject extends ilObject
 		}
 	}
 
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng;
+
+		if ($rbacsystem->checkAccess("read", $a_target))
+		{
+			ilUtil::redirect("content/lm_presentation.php?ref_id=$a_target");
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+		}
+	}
+	
 	function checkTree()
 	{
 		$tree = new ilTree($this->getId());

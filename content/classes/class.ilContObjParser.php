@@ -1005,9 +1005,8 @@ class ilContObjParser extends ilSaxParser
 
 
 			case "MetaData":
-
 				$this->in_meta_data = false;
-                if(strtolower(get_class($this->current_object)) == "illmpageobject" && !$this->in_media_object)
+				if(strtolower(get_class($this->current_object)) == "illmpageobject" && !$this->in_media_object)
 				{
 					// Metadaten eines PageObjects sichern in NestedSet
 					if (is_object($this->lm_page_object))
@@ -1031,7 +1030,28 @@ class ilContObjParser extends ilSaxParser
 //echo "<br><br>".htmlentities($xml);
 						$nested->import($xml,$this->lm_page_object->getId(),"pg");
 					}
-                }
+        }
+				else if((strtolower(get_class($this->current_object)) == "ilobjquestionpool" ||
+					strtolower(get_class($this->current_object)) == "ilobjtest") &&
+					!$this->in_media_object && !$this->in_page_object)
+				{
+					// Metadaten eines Questionpool-Objekts sichern in NestedSet
+					include_once("./classes/class.ilNestedSetXML.php");
+					$nested = new ilNestedSetXML();
+					$xml = $this->meta_data->getXMLContent();
+//echo "<br><br>".htmlentities($xml);
+					$nested->dom = domxml_open_mem($xml);
+					$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+					if (is_array($nodes))
+					{
+						$nodes[0]["Entry"] = "il__" . $this->current_object->getType() . "_" . $this->current_object->getId();
+						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+					}
+					$xml = $nested->dom->dump_mem(0);
+//$xml = str_replace("&quot;", "\"", $xml);
+//echo "<br><br>".htmlentities($xml);
+					$nested->import($xml, $this->current_object->getId(), $this->current_object->getType());
+				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
 					// determine parent
@@ -1108,7 +1128,7 @@ class ilContObjParser extends ilSaxParser
 //echo "<br><br>class:".get_class($this->current_object).":".htmlentities($xml).":<br>";
 //echo "<br>ID:".$this->glossary_definition->getId().":Type:gdf";
 					$nested->import($xml,$this->glossary_definition->getId(),"gdf");
-                }
+				}
 
 
 				if(strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||

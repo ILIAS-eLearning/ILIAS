@@ -1862,7 +1862,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($_POST["cmd"]["saveObligatory"])
 		{
-			$obligatory_states = array();
+			$obligatory = array();
 			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/obligatory_(\d+)/", $key, $matches))
