@@ -643,19 +643,19 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
-                if ($showViewInFrameset) {
-                    $menu = new ilMainMenuGUI("bottom", true);
-                }
-                else
-                {
-                    $menu = new ilMainMenuGUI("_top", true);
-                }
+		if ($showViewInFrameset) {
+			$menu = new ilMainMenuGUI("bottom", true);
+		}
+		else
+		{
+			$menu = new ilMainMenuGUI("_top", true);
+		}
 		$menu->setTemplate($this->tpl);
 		$menu->addMenuBlock("CONTENT", "navigation");
 		$menu->setTemplateVars();
@@ -1057,6 +1057,10 @@ class ilLMPresentationGUI
 	*/
 	function getLinkXML($a_int_links, $a_layoutframes)
 	{
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 		if ($a_layoutframes == "")
 		{
 			$a_layoutframes = array();
@@ -1090,7 +1094,11 @@ class ilLMPresentationGUI
 								: $ltarget;
 							if ($ltarget == "")
 							{
-								$ltarget="_top";
+								if ($showViewInFrameset) {
+									$ltarget="_parent";
+								} else {
+									$ltarget="_top";
+								}
 							}
 							$href = "lm_presentation.php?obj_type=$type&amp;cmd=layout&amp;ref_id=".$_GET["ref_id"].
 								"&amp;obj_id=".$target_id."&amp;frame=$nframe";
