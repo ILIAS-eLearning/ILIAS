@@ -3040,7 +3040,7 @@ CREATE TABLE aicc_lm (
 
 ?>
 
-<#194>
+<#195>
 ALTER TABLE scorm_tracking2 DROP PRIMARY KEY;
 ALTER TABLE scorm_tracking2 MODIFY lvalue VARCHAR(64) NOT NULL;
 ALTER TABLE scorm_tracking2 ADD PRIMARY KEY (user_id, sco_id, lvalue);
