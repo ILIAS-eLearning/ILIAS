@@ -172,7 +172,7 @@ class UserObjectOut extends ObjectOut
 	function saveObject()
 	{
 		global $rbacsystem,$rbacadmin,$tree;
-		
+
 		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
 			$user = new User();
@@ -221,6 +221,8 @@ class UserObjectOut extends ObjectOut
 		{
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
+		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		exit();
 	}
 
 	
