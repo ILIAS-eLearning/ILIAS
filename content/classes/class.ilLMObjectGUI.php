@@ -41,6 +41,7 @@ class ilLMObjectGUI
 	var $lng;
 	var $obj;
 	var $objDefinition;
+	var $ctrl;
 	var $content_object;
 	var $actions;
 
@@ -52,11 +53,12 @@ class ilLMObjectGUI
 	*/
 	function ilLMObjectGUI(&$a_content_obj)
 	{
-		global $ilias, $tpl, $lng, $objDefinition;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 		$this->objDefinition =& $objDefinition;
 		$this->content_object =& $a_content_obj;
 	}

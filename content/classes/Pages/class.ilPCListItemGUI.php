@@ -46,6 +46,27 @@ class ilPCListItemGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
 
 	/**
 	* insert new list item after current one
@@ -54,7 +75,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -64,7 +85,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -74,7 +95,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
 }

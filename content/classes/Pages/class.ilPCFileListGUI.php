@@ -46,6 +46,26 @@ class ilPCFileListGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
 
 	/**
 	* insert new file list form
@@ -54,12 +74,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		global $ilUser;
 
+		$this->setTabs();
+
 		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
 
@@ -125,7 +145,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -138,12 +158,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
+		$this->setTabs();
+
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_file_list_properties"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
 
@@ -183,7 +203,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -191,5 +211,31 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
+	}
+
 }
 ?>

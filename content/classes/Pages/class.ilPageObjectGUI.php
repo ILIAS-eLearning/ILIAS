@@ -21,8 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 require_once("./content/classes/Pages/class.ilPageObject.php");
 require_once("./classes/class.ilDOMUtil.php");
+
 
 /**
 * Class ilPageObjectGUI
@@ -39,6 +41,7 @@ class ilPageObjectGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $ctrl;
 	var $obj;
 	var $output_mode;
 	var $output_submode;
@@ -58,10 +61,13 @@ class ilPageObjectGUI
 	*/
 	function ilPageObjectGUI(&$a_page_object)
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
+		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 		$this->obj =& $a_page_object;
 		$this->output_mode = "presentation";
@@ -72,6 +78,12 @@ class ilPageObjectGUI
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
 	}
+
+	function _forwards()
+	{
+		return array("ilPageEditorGUI");
+	}
+
 
 	function setBibId($a_id)
 	{
@@ -238,6 +250,40 @@ class ilPageObjectGUI
 		$this->tabs = $a_tabs;
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+//echo ":$next_class:";
+		if ($next_class != "")
+		{
+			$cmd = $this->ctrl->getCmd();
+			switch($next_class)
+			{
+				case "ilpageeditorgui":
+					$page_editor =& new ilPageEditorGUI($this->getPageObject());
+					$page_editor->setTargetScript($this->getTargetScript());
+//echo ":".$this->getTargetScript().":<br>";
+					if(!empty($this->tabs))
+					{
+						$page_editor->setTabs($this->tabs);
+					}
+					$page_editor->setLocator($this->locator);
+					$page_editor->setHeader($this->getHeader());
+					$page_editor->setReturnLocation($this->getReturnLocation());
+					$page_editor->executeCommand();
+					break;
+
+				default:
+					$ret =& $this->cmd();
+					break;
+			}
+		}
+	}
+
+
 	/*
 	* display content of page
 	*/
@@ -264,7 +310,8 @@ class ilPageObjectGUI
 					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
 				}
 			}
-			$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
+			//$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 		}
 
 		// get content
@@ -438,7 +485,6 @@ class ilPageObjectGUI
 	function showPageEditor()
 	{
 //echo "PGObjGUI::showPageEditor";
-		require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 		$page_editor =& new ilPageEditorGUI($this->getPageObject());
 		$page_editor->setTargetScript($this->getTargetScript());
 //echo ":".$this->getTargetScript().":<br>";

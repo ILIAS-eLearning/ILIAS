@@ -361,7 +361,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 				//$cmd.="Object";
 				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
-				if($cmd == "create" || $cmd == "returnToContext")
+				if ($cmd == "create")
 				{
 					$ret_obj = $_GET["obj_id"];
 				}
@@ -375,7 +375,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				}
 				else
 				{
+					$this->ctrl->setParameter($this, "obj_id", $ret_obj);
 					$this->ctrl->setReturn($this, "listMedia");
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 				}
 				$this->getTemplate();
 				$ilObjMediaObjectGUI->setAdminTabs();

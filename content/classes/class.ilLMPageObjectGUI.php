@@ -24,7 +24,8 @@
 require_once("./content/classes/class.ilLMObjectGUI.php");
 require_once("./content/classes/class.ilLMPageObject.php");
 require_once("./content/classes/Pages/class.ilPageObjectGUI.php");
-require_once("./content/classes/Pages/class.ilPageEditorGUI.php");
+//require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+require_once ("content/classes/class.ilInternalLinkGUI.php");
 
 /**
 * Class ilLMPageObjectGUI
@@ -54,6 +55,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	}
 
+	function _forwards()
+	{
+		return (array("ilPageObjectGUI", "ilInternalLinkGUI"));
+	}
 
 	/**
 	* set content object dependent page object (co page)
@@ -63,6 +68,50 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->obj =& $a_pg_obj;
 		$this->obj->setLMId($this->content_object->getId());
 		$this->actions = $this->objDefinition->getActions($this->obj->getType());
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+		if ($next_class != "")
+		{
+			$cmd = $this->ctrl->getCmd();
+
+			switch($next_class)
+			{
+				case "ilpageobjectgui":
+					require_once("content/classes/class.ilContObjLocatorGUI.php");
+					$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
+					$contObjLocator->setObject($this->obj);
+					$contObjLocator->setContentObject($this->content_object);
+
+					require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+					$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+					$page_gui->setLocator($contObjLocator);
+					$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
+					$page_gui->setTargetScript("lm_edit.php?ref_id=".
+						$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+					$page_gui->setReturnLocation("lm_edit.php?ref_id=".
+						$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
+					$ret =& $page_gui->executeCommand();
+					break;
+
+				case "ilinternallinkgui":
+					require_once("content/classes/class.ilInternalLinkGUI.php");
+					$link_gui = new ilInternalLinkGUI("StructureObject", $this->content_object->getRefId());
+					$link_gui->setMode("normal");
+					$link_gui->setSetLinkTargetScript(
+						$this->ctrl->getLinkTarget($this, "setInternalLink"));
+					//$link_gui->filterLinkType("Media");
+					$ret =& $link_gui->executeCommand();
+					break;
+
+			}
+		}
 	}
 
 
@@ -170,11 +219,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$page_gui->$cmd();
 	}
 
+	/*
 	function editMob()
 	{
 		$this->forwardToMediaObjGUI("edit");
-	}
+	}*/
 
+	/*
 	function forwardToMediaObjGUI($cmd)
 	{
 		require_once("content/classes/class.ilContObjLocatorGUI.php");
@@ -182,7 +233,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$contObjLocator->setObject($this->obj);
 		$contObjLocator->setContentObject($this->content_object);
 
-		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 		$media =& new ilMediaObject($_GET["mob_id"]);
 		$media_gui =& new ilPCMediaObjectGUI($this->obj->getPageObject(), $media);
 		//$page_gui->setLocator($contObjLocator);
@@ -192,7 +242,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		//$page_gui->setReturnLocation("lm_edit.php?ref_id=".
 		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
 		$media_gui->$cmd();
-	}
+	}*/
 
 	/*
 	* preview

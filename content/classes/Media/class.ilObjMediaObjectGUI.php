@@ -1516,7 +1516,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				// internal link list
 				$this->ctrl->setParameter($this, "linkmode", "map");
 				$this->tpl->setVariable("LINK_ILINK",
-					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp",
+					array("ilObjMediaObjectGUI")));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 				$this->tpl->parseCurrentBlock();
@@ -2045,22 +2046,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this), $meta_section);
 	}
 
-
-	/**
-	* show link help
-	*/
-	/*
-	function showLinkHelpObject()
-	{
-		require_once("content/classes/class.ilInternalLinkGUI.php");
-		$link_gui =& new ilInternalLinkGUI("Media_Media", 0);
-		$link_gui->setMode("link");
-		$link_gui->setSetLinkTargetScript(
-			$this->ctrl->getLinkTarget($this, "setInternalLink"));
-		$link_gui->filterLinkType("Media");
-		$link_gui->showLinkHelp();
-	}*/
-
 	/**
 	*
 	*/
@@ -2125,28 +2110,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI;
-		$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+
+		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && $this->object->getType() == "mob")
 		{
 			$title = $this->object->getTitle();
 			$this->tpl->setVariable("HEADER", $title);
-
-			$tabs[] = array("cont_mob_prop", "edit");
-			$tabs[] = array("cont_mob_files", "editFiles");
-			$tabs[] = array("cont_mob_usages", "showUsages");
-
-			$st_item =& $this->object->getMediaItem("Standard");
-			if (is_object($st_item))
-			{
-				$format = $st_item->getFormat();
-				if (substr($format, 0, 5) == "image")
-				{
-					$tabs[] = array("cont_map_areas", "editMapAreas");
-				}
-			}
-
-			$tabs[] = array("meta_data", "editMeta");
 		}
 		else
 		{
@@ -2154,18 +2125,56 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
 		}
 
-		$tabs[] = array("cont_back", "returnToContext");
+		// output tabs
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
-		/*
-		$tabs_gui->setTabs(array(array("cont_mob_inst_prop", "editAlias"),
-			array("cont_mob_prop", "edit"),
-			array("cont_mob_files", "editFiles"),
-			array("cont_mob_usages", "showUsages"),
-			array("cont_back", "returnToContext")
-			));*/
-		$tabs_gui->setTabs($tabs);
+	}
 
-		$tabs_gui->display();
+	function getTabs(&$tabs_gui)
+	{
+		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
+		if (is_object($this->object) && $this->object->getType() == "mob")
+		{
+			// object properties
+			$tabs_gui->addTarget("cont_mob_prop",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit",
+				get_class($this));
+
+			// object files
+			$tabs_gui->addTarget("cont_mob_files",
+				$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
+				get_class($this));
+
+			// object usages
+			$tabs_gui->addTarget("cont_mob_usages",
+				$this->ctrl->getLinkTarget($this, "showUsages"), "showUsages",
+				get_class($this));
+
+			// link areas
+			$st_item =& $this->object->getMediaItem("Standard");
+			if (is_object($st_item))
+			{
+				$format = $st_item->getFormat();
+				if (substr($format, 0, 5) == "image")
+				{
+					$tabs_gui->addTarget("cont_map_areas",
+						$this->ctrl->getLinkTarget($this, "editMapAreas"), "editMapAreas",
+						get_class($this));
+				}
+			}
+
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+				get_class($this));
+
+			//$tabs[] = array("meta_data", "editMeta");
+		}
+
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
 	}
 
 }

@@ -37,6 +37,7 @@ class ilPageContentGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $ctrl;
 	var $pg_obj;
 	var $hier_id;
 	var $dom;
@@ -50,12 +51,13 @@ class ilPageContentGUI
 	*/
 	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $ilCtrl;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->pg_obj =& $a_pg_obj;
+		$this->ctrl =& $ilCtrl;
 
 		$this->content_obj =& $a_content_obj;
 
@@ -66,6 +68,7 @@ class ilPageContentGUI
 		}
 	}
 
+	/*
 	function setTargetScript($a_target_script)
 	{
 		$this->target_script = $a_target_script;
@@ -84,7 +87,7 @@ class ilPageContentGUI
 	function getReturnLocation()
 	{
 		return $this->return_location;
-	}
+	}*/
 
 	/**
 	* get hierarchical id in dom object
@@ -94,6 +97,9 @@ class ilPageContentGUI
 		return $this->hier_id;
 	}
 
+	/**
+	* delete content element
+	*/
 	function delete()
 	{
 		$updated = $this->pg_obj->deleteContent($this->hier_id);
@@ -105,9 +111,12 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
+	/**
+	* move content element after another element
+	*/
 	function moveAfter()
 	{
 		// check if a target is selected
@@ -127,7 +136,7 @@ class ilPageContentGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
-//echo "PCGUItarget:".$_POST["target"][0]."<br>";
+
 		// move
 		$updated = $this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
 		if($updated !== true)
@@ -138,9 +147,12 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
+	/**
+	* move content element before another element
+	*/
 	function moveBefore()
 	{
 		// check if a target is selected
@@ -171,7 +183,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
 

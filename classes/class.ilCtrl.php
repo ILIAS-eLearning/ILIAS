@@ -42,6 +42,43 @@ class ilCtrl
 	*/
 	function ilCtrl()
 	{
+		$this->transit = array();
+//echo "<br><br>:".$_GET["cmdTransit"].":";
+		if (is_array($_GET["cmdTransit"]))
+		{
+			foreach($_GET["cmdTransit"] as $transClass)
+			{
+//echo "<br>:$transClass:";
+				$this->transit[] = strtolower($transClass);
+			}
+		}
+	}
+
+	function getNextTransit()
+	{
+		reset($this->transit);
+		foreach($this->transit as $transClass)
+		{
+			if ($transClass != "")
+			{
+//echo "<br><br>".$transClass;
+				return $transClass;
+			}
+		}
+
+		return false;
+	}
+
+	function removeTransit()
+	{
+		for($i=0; $i<count($this->transit); $i++)
+		{
+			if ($this->transit[$i] != "")
+			{
+				$this->transit[$i] = "";
+				return;
+			}
+		}
 	}
 
 	function getCallStructure($a_class)
@@ -139,7 +176,15 @@ class ilCtrl
 	*/
 	function getNextClass($a_gui_obj)
 	{
+		$this->store_transit = $this->transit;
+
 		$next = $this->searchNext(get_class($a_gui_obj));
+		$this->transit = $this->store_transit;
+		if ($this->getNextTransit() == $next)
+		{
+			$this->removeTransit();
+		}
+//echo "<br><br><b>".get_class($a_gui_obj)."</b>->$next";
 		return $next;
 	}
 
@@ -148,21 +193,44 @@ class ilCtrl
 	*/
 	function searchNext($a_class)
 	{
+		if ($transClass = $this->getNextTransit())
+		{
+			$targetClass = $transClass;
+		}
+		else
+		{
+			$targetClass = $this->getCmdClass();
+		}
+//echo "<br>...$a_class:$targetClass:";
+
+//echo "search:$a_class:".$this->getCmdClass().":<br>";
 		if (is_array($this->forward[$a_class]))
 		{
+			// check forwards of current class
 			foreach($this->forward[$a_class] as $next_class)
 			{
-				if (strtolower($next_class) == strtolower($this->getCmdClass()))
+				if (strtolower($next_class) == strtolower($targetClass))
 				{
-					return $this->getCmdClass();
-				}
-				else
-				{
-					$ret = $this->searchNext($next_class);
-					if ($ret != "")
+					// found command class
+					if (strtolower($next_class) == strtolower($this->getCmdClass()))
 					{
-						return $next_class;
+						return $this->getCmdClass();
 					}
+
+					// found a transit class
+					$this->removeTransit();				// remove transit
+					$this->searchNext($next_class);		// go on with search
+				}
+			}
+
+			// recursively search each forward
+			reset($this->forward[$a_class]);
+			foreach($this->forward[$a_class] as $next_class)
+			{
+				$ret = $this->searchNext($next_class);
+				if ($ret != "")
+				{
+					return $next_class;
 				}
 			}
 		}
@@ -201,6 +269,36 @@ class ilCtrl
 	}
 
 	/**
+	* set the current command
+	*
+	* IMPORTANT NOTE:
+	*
+	* please use this function only in exceptional cases
+	* it is not intended for setting commands in forms or links!
+	* use the corresponding parameters of getFormAction() and
+	* getLinkTarget() instead.
+	*/
+	function setCmd($a_cmd)
+	{
+		$_GET["cmd"] = $a_cmd;
+	}
+
+	/**
+	* set the current command class
+	*
+	* IMPORTANT NOTE:
+	*
+	* please use this function only in exceptional cases
+	* it is not intended for setting the command class in forms or links!
+	* use the corresponding parameters of getFormAction() and
+	* getLinkTarget() instead.
+	*/
+	function setCmdClass($a_cmd_class)
+	{
+		$_GET["cmdClass"] = $a_cmd_class;
+	}
+
+	/**
 	* determines responsible class for current command
 	*/
 	function getCmdClass()
@@ -210,7 +308,17 @@ class ilCtrl
 
 	function getFormAction(&$a_gui_obj)
 	{
-		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), "post");
+		$script =  $this->getFormActionByClass(get_class($a_gui_obj));
+		if($_GET["cmdClass"] == get_class($a_gui_obj))
+		{
+			$script = $this->appendTransitClasses($script);
+		}
+		return $script;
+	}
+
+	function getFormActionByClass($a_class)
+	{
+		$script = $this->getLinkTargetByClass($a_class, "post");
 		return $script;
 	}
 
@@ -222,10 +330,15 @@ class ilCtrl
 
 	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
 	{
-		return $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+		if($_GET["cmdClass"] == get_class($a_gui_obj))
+		{
+			$script = $this->appendTransitClasses($script);
+		}
+		return $script;
 	}
 
-	function getLinkTargetByClass($a_class, $a_cmd  = "")
+	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "")
 	{
 		$a_class = strtolower($a_class);
 		$cmd_str = ($a_cmd != "")
@@ -234,6 +347,14 @@ class ilCtrl
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
 
+		if(is_array($a_transits))
+		{
+			foreach($a_transits as $transit)
+			{
+				$script = ilUtil::appendUrlParameterString($script, "cmdTransit[]=".$transit);
+			}
+		}
+//echo $script.":$a_class:<br>";
 		return $script;
 	}
 
@@ -242,22 +363,39 @@ class ilCtrl
 	*/
 	function setReturn(&$a_gui_obj, $a_cmd)
 	{
-		$this->return[get_class($a_gui_obj)] = $a_cmd;
+		$script = $this->getTargetScript();
+		$script = $this->getUrlParameters(get_class($a_gui_obj), $script, $a_cmd);
+//echo ":".$script.":<br>";
+		$this->return[get_class($a_gui_obj)] = $script;
 	}
 
 	/**
 	* redirects to next parent class that used setReturn
 	*/
-	function returnToParent($a_gui_obj)
+	function returnToParent(&$a_gui_obj)
 	{
-		$a_class = strtolower(get_class($a_gui_obj));
+		$script = $this->getParentReturn($a_gui_obj);
+		$script = ilUtil::appendUrlParameterString($script,
+			"redirectSource=".get_class($a_gui_obj));
+		ilUtil::redirect($script);
+	}
 
+	function getRedirectSource()
+	{
+		return $_GET["redirectSource"];
+	}
+
+	function getParentReturn(&$a_gui_obj)
+	{
+		return $this->getParentReturnByClass(get_class($a_gui_obj));
+	}
+
+	function getParentReturnByClass($a_class)
+	{
 		$ret_class = $this->searchReturnClass($a_class);
 		if($ret_class)
 		{
-			$script = $this->getTargetScript();
-			$script = $this->getUrlParameters($ret_class, $script, $this->return[$ret_class]);
-			ilUtil::redirect($script);
+			return $this->return[$ret_class];
 		}
 	}
 
@@ -298,9 +436,43 @@ class ilCtrl
 		return $a_str;
 	}
 
-	function getParameterArray(&$a_gui_obj, $a_cmd = "")
+	function appendTransitClasses($a_str)
 	{
-		return $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd);
+		if (is_array($_GET["cmdTransit"]))
+		{
+			reset($_GET["cmdTransit"]);
+			foreach ($_GET["cmdTransit"] as $transit)
+			{
+				$a_str = ilUtil::appendUrlParameterString($a_str, "cmdTransit[]=".$transit);
+			}
+		}
+		return $a_str;
+	}
+
+	function getTransitArray()
+	{
+		$trans_arr = array();
+		if (is_array($_GET["cmdTransit"]))
+		{
+			reset($_GET["cmdTransit"]);
+			foreach ($_GET["cmdTransit"] as $key => $transit)
+			{
+				$trans_arr["cmdTransit[".$key."]"] = $transit;
+			}
+		}
+		return $trans_arr;
+	}
+
+	function getParameterArray(&$a_gui_obj, $a_cmd = "", $a_incl_transit = true)
+	{
+		$par_arr = $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd);
+
+		if ($a_incl_transit)
+		{
+			$trans_arr = $this->getTransitArray();
+			$par_arr = array_merge($par_arr, $trans_arr);
+		}
+		return $par_arr;
 	}
 
 	function getParameterArrayByClass($a_class, $a_cmd = "")

@@ -47,21 +47,41 @@ class ilPCTableGUI extends ilPageContentGUI
 	}
 
 	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
+
+	/**
 	* edit properties form
 	*/
 	function edit()
 	{
+
+		$this->setTabs();
+
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_properties.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_tab_properties"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
-
-		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
 
 		// table
 		$this->tpl->setVariable("TXT_TABLE", $this->lng->txt("cont_table"));
@@ -188,7 +208,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -205,17 +225,14 @@ class ilPCTableGUI extends ilPageContentGUI
 	{
 		global $ilUser;
 
+		$this->setTabs();
+
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
-
-		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
 
 		for($i=1; $i<=10; $i++)
 		{
@@ -267,7 +284,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -276,19 +293,29 @@ class ilPCTableGUI extends ilPageContentGUI
 	}
 
 	/**
-	* create table as first child of a container (e.g. a TableData Element)
+	* output tabs
 	*/
-	//function create_child()
-	//{
-		/*
-		$new_par = new ilParagraph($this->dom);
-		$new_par->createNode();
-		$new_par->setText($new_par->input2xml($_POST["par_content"]));
-		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
 
-		//ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-		//	$this->pg_obj->getId());
-	//}
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
+	}
 
 }
 ?>
