@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.67 2003/12/05 16:44:03 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.68 2003/12/05 17:24:01 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -297,39 +297,46 @@ class ilObjUserGUI extends ilObjectGUI
 				$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
 
 				// only list roles that are not set to status "deleted"
-				if (!$rbacreview->isDeleted($rolf[0]))
+				if (count($rolf) > 0)
 				{
-					$path = "";
-	
-					if ($this->tree->isInTree($rolf[0]))
+					if (!$rbacreview->isDeleted($rolf[0]))
 					{
-						$tmpPath = $this->tree->getPathFull($rolf[0]);
-	
-						// count -1, to exclude the role folder itself
-						for ($i = 0; $i < (count($tmpPath)-1); $i++)
+						$path = "";
+		
+						if ($this->tree->isInTree($rolf[0]))
 						{
-							if ($path != "")
+							$tmpPath = $this->tree->getPathFull($rolf[0]);
+		
+							// count -1, to exclude the role folder itself
+							for ($i = 0; $i < (count($tmpPath)-1); $i++)
 							{
-								$path .= " > ";
+								if ($path != "")
+								{
+									$path .= " > ";
+								}
+		
+								$path .= $tmpPath[$i]["title"];
 							}
-	
-							$path .= $tmpPath[$i]["title"];
 						}
+						else
+						{
+							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
+						}
+		
+						if (in_array($role,$active_roles))
+						{
+							$data["active_role"][$role]["active"] = true;
+						}
+		
+						$data["active_role"][$role]["title"] = $roleObj->getTitle();
+						$data["active_role"][$role]["context"] = $path;
+		
+						unset($roleObj);
 					}
-					else
-					{
-						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
-					}
-	
-					if (in_array($role,$active_roles))
-					{
-						$data["active_role"][$role]["active"] = true;
-					}
-	
-					$data["active_role"][$role]["title"] = $roleObj->getTitle();
-					$data["active_role"][$role]["context"] = $path;
-	
-					unset($roleObj);
+				}
+				else
+				{
+					$path = "<b>No role folder found for role ".$role."!</b>";
 				}
 			}
 		}
