@@ -125,7 +125,7 @@ class ilObjectGUI
 		{
 			$tabs[] = array($row["lng"], $row["name"]);
 		}
-		
+
 		if (isset($_GET["obj_id"]))
 		{
 			$object_link = "&obj_id=".$_GET["obj_id"];
@@ -149,10 +149,12 @@ class ilObjectGUI
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $tabtype);
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
+			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
+			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
 			$this->tpl->setVariable("TAB_LINK", "adm_object.php?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
-		}	
+		}
 	}
 
 	function setLocator($a_tree = "", $a_id = "")
@@ -161,10 +163,10 @@ class ilObjectGUI
 		{
 			$a_tree =& $this->tree;
 		}
-		
+
 		if (!($a_id))
 		{
-			$a_id = $_GET["ref_id"]; 
+			$a_id = $_GET["ref_id"];
 		}
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
