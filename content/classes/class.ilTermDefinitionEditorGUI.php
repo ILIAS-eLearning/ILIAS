@@ -100,11 +100,63 @@ class ilTermDefinitionEditorGUI
 					$this->saveMeta();
 					break;
 
+				case "confirmDefinitionDeletion":
+					$this->confirmDefinitionDeletion();
+					break;
+
+				case "cancelDefinitionDeletion":
+					$this->cancelDefinitionDeletion();
+					break;
+
+				case "deleteDefinition":
+					$this->deleteDefinition();
+					break;
+
 				default:
 					$page_gui->$cmd();
 			}
 		}
 
+	}
+
+
+	function confirmDefinitionDeletion()
+	{
+		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
+
+		$page =& new ilPageObject("gdf", $this->definition->getId());
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setTemplateOutput(false);
+		$output = $page_gui->preview();
+
+		$this->tpl->setCurrentBlock("definition");
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("LINK_CANCEL",
+			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=cancelDefinitionDeletion&def=".$this->definition->getId());
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("LINK_CONFIRM",
+			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=deleteDefinition&def=".$this->definition->getId());
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function cancelDefinitionDeletion()
+	{
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+			"&term_id=".$this->term->getId());
+		exit;
+	}
+
+
+	function deleteDefinition()
+	{
+		$this->definition->delete();
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+			"&term_id=".$this->term->getId());
+		exit;
 	}
 
 
