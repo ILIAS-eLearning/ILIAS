@@ -595,7 +595,6 @@ class ilTree
 			 "ORDER BY sort_col DESC";
 
 		$r = $this->ilias->db->query($q);
-
 		if ($r->numRows() > 0)
 		{
 			return $r;
@@ -628,14 +627,14 @@ class ilTree
 		}
 
 		$r = $this->fetchPath($a_endnode_id, $a_startnode_id);
-				
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$path[] = $this->fetchNodeData($row);
 		}
 
 		return $path;
-	}	
+	}
 
 	/**
 	* get path from a given startnode to a given endnode
