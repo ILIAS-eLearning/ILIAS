@@ -40,7 +40,7 @@ require_once "class.ilGroupTree.php";
 class ilObjGroup extends ilObject
 {
 	var $ref_grpId;
-	
+
 	var $obj_grpId;
 
 	var $m_grpStatus;
@@ -93,7 +93,7 @@ class ilObjGroup extends ilObject
 				{
 					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_user_id, true);
 				}
-				
+
 				ilObjUser::updateActiveRoles($a_user_id);
 
 				return true;
@@ -536,16 +536,22 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	integer	user_id
 	*/
-	function isMember($a_userId)
+	function isMember($a_userId="")
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $ilias;
 
-		$grp_Roles = $this->getDefaultGroupRoles();
+		if($a_userId=="")
+			$a_userId = $this->ilias->account->getId();
 
-		foreach ($grp_Roles as $role_id)
+		if($this->getType() == "grp")
 		{
-			if( in_array($a_userId,$rbacreview->assignedUsers($role_id) ))
-				return true;
+			$grp_Roles = $this->getDefaultGroupRoles();
+
+			foreach ($grp_Roles as $role_id)
+			{
+				if( in_array($a_userId,$rbacreview->assignedUsers($role_id) ))
+					return true;
+			}
 		}
 		return false;
 
