@@ -26,7 +26,7 @@ require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
 require_once "classes/class.ilTemplate.php";
 require_once "classes/class.ilias.php";
-require_once "classes/class.ilUser.php";
+require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilFormat.php";
 require_once "classes/class.ilObjectDefinition.php";
 require_once "classes/class.perm.php";
@@ -73,9 +73,9 @@ $objDefinition->startParsing();
 //var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
 
-$ilias->account = new ilUser();
+$ilias->account = new ilObjUser();
 
-//but in login.php and index.php don't check for authentication 
+//but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
 if ($script != "login.php" && $script != "index.php")
@@ -92,7 +92,7 @@ if ($script != "login.php" && $script != "index.php")
 		$_SESSION["AccountId"] = $ilias->account->checkUserId($_SESSION["AccountId"]);
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReviewH();
-		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);			
+		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 	}
 	else
 	{
@@ -104,7 +104,7 @@ if ($script != "login.php" && $script != "index.php")
 	
 	if ($script == "logout.php")
 	{
-		$ilias->account->refreshLogin();		
+		$ilias->account->refreshLogin();
 	}
 	
 	//init language

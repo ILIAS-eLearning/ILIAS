@@ -147,7 +147,7 @@ class ilObject
 			{
 				$message = "ilObject::read(): No ref_id given!";
 				$log->writeWarning($message);
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+				$ilias->raiseError($message,$ilias->error_obj->WARNING);
 			}
 
 			// read object data
@@ -155,7 +155,7 @@ class ilObject
 				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 			 	"WHERE object_reference.ref_id='".$this->ref_id."'";
 			$object_set = $ilias->db->query($q);
-	
+
 			// check number of records
 			if ($object_set->numRows() == 0)
 			{
@@ -334,7 +334,7 @@ class ilObject
 
 		if($this->getOwner() != -1)
 		{
-			$owner = new ilUser($this->getOwner());
+			$owner = new ilObjUser($this->getOwner());
 		}
 
 		if (is_object($owner))

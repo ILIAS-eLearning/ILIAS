@@ -3,7 +3,7 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.6 2003/04/01 07:31:53 akill Exp $
+* @version	$Id$
 *
 * @extends	ilObject
 * @package	ilias-core
@@ -307,7 +307,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	*/
 	function setuserlangObject()
 	{
-		require_once "classes/class.ilUser.php";
+		require_once "classes/class.ilObjUser.php";
 
 		if (!isset($_POST["id"]))
 		{
@@ -333,7 +333,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("lang_".$newUserLangObj->getKey())." ".$this->lng->txt("language_not_installed")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$curUser = new ilUser($_SESSION["AccountId"]);
+		$curUser = new ilObjUser($_SESSION["AccountId"]);
 		$curUser->setLanguage($newUserLangObj->getKey());
 		$curUser->update();
 		//$this->setUserLanguage($new_lang_key);

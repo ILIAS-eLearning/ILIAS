@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.ilUser.php";
+require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilGroup.php";
 require_once "classes/class.ilAddressbook.php";
 
@@ -69,7 +69,7 @@ if($_GET["type"] == 'addr')
 
 if($_GET["type"] == 'system')
 {
-	$user = new ilUser();
+	$user = new ilObjUser();
 	$users = $user->searchUsers(addslashes(urldecode($_GET["search"])));
 	if($users)
 	{

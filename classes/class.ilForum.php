@@ -621,11 +621,11 @@ class ilForum
    	*/
 	function getUser($a_user_id)
 	{
-		$userObj = new ilUser($a_user_id);
-		
+		$userObj = new ilObjUser($a_user_id);
+
 		return $userObj;
 	}
-	
+
 	/**
    	* checks edit-right for given post-ID
 	*

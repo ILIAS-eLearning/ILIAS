@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.11 2003/04/01 14:49:34 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.12 2003/04/07 07:16:24 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -111,11 +111,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
 		{
-			// Userobjekt erzeugen
-			$user = new ilUser($this->obj_id);
 
 			// gender selection
-			$gender = ilUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
+			$gender = ilUtil::formSelect($this->object->gender,"Fobject[gender]",$this->gender);
 
 			// role selection
 			$obj_list = getObjectList("role");
@@ -125,31 +123,31 @@ class ilObjUserGUI extends ilObjectGUI
 				$rol[$obj_data["obj_id"]] = $obj_data["title"];
 			}
 
-			$def_role = $rbacadmin->getDefaultRole($user->getId());
+			$def_role = $rbacadmin->getDefaultRole($this->object->getId());
 			$role = ilUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
 
 			$data = array();
 			$data["fields"] = array();
-			$data["fields"]["login"] = $user->getLogin();
+			$data["fields"]["login"] = $this->object->getLogin();
 			$data["fields"]["passwd"] = "********";	// will not be saved
 			$data["fields"]["passwd2"] = "********";	// will not be saved
-			$data["fields"]["title"] = $user->getTitle();
+			$data["fields"]["title"] = $this->object->getUTitle();
 			$data["fields"]["gender"] = $gender;
-			$data["fields"]["firstname"] = $user->getFirstname();
-			$data["fields"]["lastname"] = $user->getLastname();
-			$data["fields"]["institution"] = $user->getInstitution();
-			$data["fields"]["street"] = $user->getStreet();
-			$data["fields"]["city"] = $user->getCity();
-			$data["fields"]["zipcode"] = $user->getZipcode();
-			$data["fields"]["country"] = $user->getCountry();
-			$data["fields"]["phone"] = $user->getPhone();
-			$data["fields"]["email"] = $user->getEmail();
+			$data["fields"]["firstname"] = $this->object->getFirstname();
+			$data["fields"]["lastname"] = $this->object->getLastname();
+			$data["fields"]["institution"] = $this->object->getInstitution();
+			$data["fields"]["street"] = $this->object->getStreet();
+			$data["fields"]["city"] = $this->object->getCity();
+			$data["fields"]["zipcode"] = $this->object->getZipcode();
+			$data["fields"]["country"] = $this->object->getCountry();
+			$data["fields"]["phone"] = $this->object->getPhone();
+			$data["fields"]["email"] = $this->object->getEmail();
 			$data["fields"]["default_role"] = $role;
 
 			$data["active_role"]["access"] = true;
 
 			// BEGIN ACTIVE ROLE
-			$assigned_roles = $rbacreview->assignedRoles($user->getId());
+			$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
 			foreach ($assigned_roles as $key => $role)
 			{
@@ -157,7 +155,7 @@ class ilObjUserGUI extends ilObjectGUI
 				require_once "./classes/class.ilObjRole.php";
 				$roleObj = new ilObjRole($role);
 
-				if ($user->getId() == $_SESSION["AccountId"])
+				if ($this->object->getId() == $_SESSION["AccountId"])
 				{
 					$data["active_role"]["access"] = true;
 					$box = ilUtil::formCheckBox(in_array($role, $_SESSION["RoleId"]),'active[]',$role);
@@ -198,12 +196,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 
 		$this->tpl->setCurrentBlock("inform_user");
-		
+
 		if (true)
 		{
 			$tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
 		}
-		
+
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
 
@@ -282,23 +280,20 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
-		$user = new ilUser();
-		$user->assignData($_POST["Fobject"]);
-
-		//create new ilUserObject
 		require_once("./classes/class.ilObjUser.php");
 		$userObj = new ilObjUser();
-		$userObj->setTitle($user->getFullname());
-		$userObj->setDescription($user->getEmail());
+		$userObj->assignData($_POST["Fobject"]);
+		$userObj->setTitle($userObj->getFullname());
+		$userObj->setDescription($userObj->getEmail());
 		$userObj->create();
 
-		$user->setId($userObj->getId());
+		//$user->setId($userObj->getId());
 
 		//insert user data in table user_data
-		$user->saveAsNew();
+		$userObj->saveAsNew();
 
 		//set role entries
-		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
+		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
 		//create new usersetting entry
 		/*
@@ -396,23 +391,16 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
-		$user = new ilUser($this->object->getId());
-		$user->assignData($_POST["Fobject"]);
-		$user->update();
-
-		// reset user's passwd if is it NOT ******** (8 asterisks)
+		$this->object->assignData($_POST["Fobject"]);
 		if ($_POST["Fobject"]["passwd"] != "********")
 		{
-			$user->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
+			$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
 		}
-		
-		// update login
-		$user->updateLogin($_POST["Fobject"]["login"]);
-
-		$this->object->setTitle($user->getFullname());
-		$this->object->setDescription($user->getEmail());
+		$this->object->updateLogin($_POST["Fobject"]["login"]);
+		$this->object->setTitle($this->object->getFullname());
+		$this->object->setDescription($this->object->getEmail());
 		$this->update = $this->object->update();
-		$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $user->getId());
+		$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
 		// sent email
 		if ($_POST["send_mail"] == "y")
@@ -420,26 +408,26 @@ class ilObjUserGUI extends ilObjectGUI
 			require_once "classes/class.ilFormatMail.php";
 
 			$umail = new ilFormatMail($_SESSION["AccountId"]);
-			
+
 			$attachments = array();
-			
+
 			// mail body
-			$body = $this->lng->txt("login").": ".$user->getLogin()."\n\r".
+			$body = $this->lng->txt("login").": ".$this->object->getLogin()."\n\r".
 					$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
-					$this->lng->txt("title").": ".$user->getTitle()."\n\r".
-					$this->lng->txt("gender").": ".$user->getGender()."\n\r".
-					$this->lng->txt("firstname").": ".$user->getFirstname()."\n\r".
-					$this->lng->txt("lastname").": ".$user->getLastname()."\n\r".
-					$this->lng->txt("institution").": ".$user->getInstitution()."\n\r".
-					$this->lng->txt("street").": ".$user->getStreet()."\n\r".
-					$this->lng->txt("city").": ".$user->getCity()."\n\r".
-					$this->lng->txt("zipcode").": ".$user->getZipcode()."\n\r".
-					$this->lng->txt("country").": ".$user->getCountry()."\n\r".
-					$this->lng->txt("phone").": ".$user->getPhone()."\n\r".
-					$this->lng->txt("email").": ".$user->getEmail()."\n\r".
+					$this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
+					$this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
+					$this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
+					$this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
+					$this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
+					$this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
+					$this->lng->txt("city").": ".$this->object->getCity()."\n\r".
+					$this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
+					$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
+					$this->lng->txt("phone").": ".$this->object->getPhone()."\n\r".
+					$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
 					$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
-				
-			if ($error_message = $umail->sendMail($user->getLogin(),"","",$this->lng->txt("profile_changed"),$body,$attachments,"normal",0))
+
+			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",$this->lng->txt("profile_changed"),$body,$attachments,"normal",0))
 			{
 				$msg = $this->lng->txt("saved_successfully")."<br/>".$error_message;
 			}
@@ -452,7 +440,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$msg = $this->lng->txt("saved_successfully");
 		}
-		
+
 		// feedback
 		sendInfo($msg,true);
 

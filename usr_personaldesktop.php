@@ -10,7 +10,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilUser.php";
+require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
 //add template for content
@@ -90,7 +90,7 @@ if(count($smails))
 		$tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
 
 		// GET SENDER NAME
-		$user = new ilUser($mail["sender_id"]);
+		$user = new ilObjUser($mail["sender_id"]);
 		
 		//new mail or read mail?
 		$tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
