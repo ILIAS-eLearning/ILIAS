@@ -153,6 +153,11 @@ common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
 common#:#db_version#:#Database Version
+common#:#dbk#:#Digilib Book
+common#:#dbk_a#:#a Digilib Book
+common#:#dbk_add#:#Add Digilib Book
+common#:#dbk_added#:#Digilib Book added
+common#:#dbk_new#:#New Digilib Book
 common#:#default#:#Default
 common#:#default_language#:#Default Language
 common#:#default_role#:#Default Role
@@ -219,11 +224,6 @@ common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
-common#:#dbk#:#Digilib Book
-common#:#dbk_a#:#a Digilib Book
-common#:#dbk_add#:#Add Digilib Book
-common#:#dbk_added#:#Digilib Book added
-common#:#dbk_new#:#New Digilib Book
 common#:#folders#:#Folders
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
@@ -271,6 +271,9 @@ common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
+common#:#grp_mem_change_status#:#Change member status
+common#:#grp_mem_leave#:#Dismiss member from group
+common#:#grp_mem_send_mail#:#Send member a message
 common#:#grp_new#:#New Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
@@ -530,10 +533,10 @@ common#:#obj_adm#:#System Settings
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
+common#:#obj_dbk#:#Digilib Book
 common#:#obj_file#:#File
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
-common#:#obj_dbk#:#Digilib Book
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
@@ -568,6 +571,7 @@ common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
+common#:#objs_delete#:#Delete objects
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
@@ -579,10 +583,6 @@ common#:#optimize#:#Optimize
 common#:#options#:#Options
 common#:#order_by#:#Order by
 common#:#other#:#Other
-common#:#grp_mem_change_status#:#Change member status
-common#:#grp_mem_leave#:#Dismiss member from group
-common#:#grp_mem_send_mail#:#Send member a message
-common#:#remove#:#Dismiss
 common#:#overview#:#Overview
 common#:#owner#:#Owner
 common#:#page#:#Page
@@ -648,6 +648,7 @@ common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asteriks are required information).
 common#:#registered_since#:#Registered since
 common#:#registration#:#New account registration
+common#:#remove#:#Dismiss
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#reply#:#Reply
@@ -1542,7 +1543,6 @@ meta#:#meta_or_composite#:#Or Composite
 meta#:#meta_other#:#Other
 meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
 meta#:#meta_pc_dos#:#PC-DOS
-common#:#objs_delete#:#Delete objects
 meta#:#meta_please_select#:#Please select
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
