@@ -74,6 +74,10 @@ administration#:#scan_completed#:#Scan completed
 administration#:#scan_details#:#Scan details
 administration#:#scan_modes#:#Scan modes used
 administration#:#scan_only#:#Scan only
+common#:#ldap_version#:#LDAP protokoll version
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
+common#:#ldap_login_key#:#Attribute for login name
 administration#:#scanning_system#:#Scanning system...
 administration#:#searching_deleted_objs#:#Searching for deleted objects...
 administration#:#searching_invalid_childs#:#Searching for invalid tree entries...
