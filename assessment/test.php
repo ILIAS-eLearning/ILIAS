@@ -149,7 +149,7 @@ else
 		{
 		$ip = getenv ("REMOTE_ADDR"); 
 		$track = new ilUserTracking();
-		$track->insertUserTracking($_SESSION["AccountId"],$ref_id,$ip);
+		$track->insertUserTracking($_SESSION["AccountId"],$_GET["ref_id"],$ip);
 		}
 	}
 	require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
