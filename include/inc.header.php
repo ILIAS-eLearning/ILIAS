@@ -151,7 +151,7 @@ if ($mail_id = hasNewMail())
 	
 	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
-									"img"	=> "icon_cat.gif"
+									"img"	=> "icon_mail.gif"
 									);
 }
 ?>
