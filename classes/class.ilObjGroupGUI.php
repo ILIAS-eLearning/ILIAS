@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.41 2003/10/16 12:33:30 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.42 2003/10/20 15:17:49 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -169,7 +169,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// update object data
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("grp_updated"),true);
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		header("Location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->object->getRefId()));
 		exit();
 	}
