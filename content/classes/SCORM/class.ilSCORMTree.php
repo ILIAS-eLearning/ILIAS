@@ -45,7 +45,7 @@ class ilSCORMTree extends ilTree
 	{
 		parent::ilTree($a_id);
 		$this->setTableNames('scorm_tree','scorm_object');
-		$this->setTreeTablePK("slm_id");
+		$this->setTreeTablePK('slm_id');
 	}
 }
 ?>
