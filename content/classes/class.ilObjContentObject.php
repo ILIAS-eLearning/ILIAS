@@ -807,10 +807,10 @@ class ilObjContentObject extends ilObject
 		switch($a_type)
 		{
 			case "content":
-				return array("content/lm_presentation.php?ref_id=".$a_ref_id."&obj_id=".$a_obj_id,"_top");
+				return array("content/lm_presentation.php?ref_id=".$a_ref_id."&obj_id=".$a_obj_id,"_blank");
 				
 			case "meta":
-				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_top");
+				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_blank");
 		}
 	}
 
