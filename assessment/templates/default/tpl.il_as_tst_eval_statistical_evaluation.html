@@ -33,6 +33,7 @@
 </form>
 <!-- END userselect -->
 <!-- BEGIN output -->
+<form name="form_output_eval" method="post" action="{FORM_ACTION}">
 <table class="fullwidth_nowrap">
 <tr class="tblheader">
 <!-- BEGIN titlecol -->
@@ -40,6 +41,7 @@
 <!-- END titlecol -->
 </tr>
 <!-- BEGIN row -->
+<input type="hidden" name="user_{USER_ID}" value="{USER_ID}" />
 <tr class="{COLOR_CLASS}">
 <!-- BEGIN datacol -->
 <td class="{COLOR_CLASS}">{TXT_DATA}</td>
@@ -52,17 +54,12 @@
 </tr>
 <!-- END emptyrow -->
 </table>
-<!-- END output -->
 </br>
 <!-- BEGIN xls_btn -->
-<table width="100%">
-<tr>
-<td width=100%>
-<input type="submit" class="submit" name="cmd[genXls]" value="{GENERATE_XLS}"
-</td></tr>
-</table>
+<input type="submit" class="submit" name="cmd[genXls]" value="{GENERATE_XLS}" />
 <!-- END xls_btn -->
-
+</form>
+<!-- END output -->
 <!-- BEGIN legend -->
 <h2><a name="legend"></a>{TXT_LEGEND}</h2>
 <br />

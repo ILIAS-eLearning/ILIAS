@@ -36,7 +36,7 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "classes/class.ilMetaDataGUI.php";
 require_once "class.assQuestionGUI.php";
-require_once "class.ilXlsGenerator.php";
+require_once "classes/class.ilXlsGenerator.php";
 
 class ilObjTestGUI extends ilObjectGUI
 {
@@ -1397,6 +1397,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("row");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("USER_ID", $key);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -1411,6 +1412,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("output");
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->parseCurrentBlock();
 		}
 			else
 		{
