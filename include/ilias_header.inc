@@ -26,7 +26,6 @@ require_once "classes/class.AdmTabs.php";
 require_once "classes/class.util.php";
 require_once "classes/class.User.php";
 require_once "classes/class.format.php";
-require_once "classes/class.prevnextnavbar.php";
 require_once "classes/class.ObjectDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
@@ -45,16 +44,7 @@ require_once "classes/class.rbacReviewH.php";
 // include error_handling
 require_once "classes/class.ErrorHandling.php";
 
-// DEBUG: formatted var_dump
-function vd($mixed)
-{
-	echo "<pre>";
-	var_dump($mixed);
-	echo "</pre>";
-}
-
 session_start();
-
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
 if($_SESSION["message"])
@@ -65,9 +55,10 @@ if($_SESSION["message"])
 // load main class
 $ilias = new ILIAS;
 
-// set constants
-define ("ROOT_FOLDER_ID",$ilias->ini->readVariable('system','ROOT_FOLDER_ID')); 
-define ("SYSTEM_FOLDER_ID",$ilias->ini->readVariable('system','SYSTEM_FOLDER_ID'));
+if (DEBUG)
+{
+	require_once "include/debug.inc";
+}
 
 //authenticate
 $ilias->auth->start();
@@ -77,7 +68,6 @@ $log = new Log("ilias.log");
 
 //load object definitions
 $objDefinition = new ObjectDefinition();
-
 
 //instantiate user object
 $ilias->account = new User();
@@ -128,7 +118,6 @@ if ($script != "login.php" && $script != "index.php")
 	
 	// init tree
 	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
-
 }	
 
 // instantiate main template
@@ -145,5 +134,4 @@ if ($script != "login.php" && $script != "index.php")
 }
 
 $tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css");
-
 ?>
