@@ -190,7 +190,7 @@ class RoleObject extends Object
 		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$_GET[parent]");
+			header("Location: content.php?obj_id=$_GET[parent]&parent=$_GET[parent_parent]");
 			exit();
 		}
 		else
