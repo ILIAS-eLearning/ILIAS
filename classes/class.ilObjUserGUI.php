@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.35 2003/07/29 14:02:40 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.36 2003/07/30 15:16:50 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -342,35 +342,54 @@ class ilObjUserGUI extends ilObjectGUI
 			$data["fields"]["email"] = $this->object->getEmail();
 			$data["fields"]["hobby"] = $this->object->getHobby();
 
-			// gather data for active roles
-			$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
-
-			foreach ($assigned_roles as $key => $role)
+			if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 			{
-				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role);
+				$user_is_online = false;
+			}
+			else
+			{
+				$user_is_online = true;
 
-				// fetch context path of role
-				$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
-			
-				$path = "";		
-					
-				$tmpPath = $this->tree->getPathFull($rolf[0]);		
+				// extract serialized role Ids from session data
+				preg_match("/RoleId.*?;\}/",$user_online[$this->object->getId()]["data"],$matches);
 
-				// count -1, to exclude the role folder itself
-				for ($i = 0; $i < (count($tmpPath)-1); $i++)
+				$active_roles = unserialize(substr($matches[0],7));
+				
+				// gather data for active roles
+				$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
+
+				foreach ($assigned_roles as $key => $role)
 				{
-					if ($path != "")
+					$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role);
+
+					// fetch context path of role
+					$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
+			
+					$path = "";		
+					
+					$tmpPath = $this->tree->getPathFull($rolf[0]);		
+
+					// count -1, to exclude the role folder itself
+					for ($i = 0; $i < (count($tmpPath)-1); $i++)
 					{
-						$path .= " > ";
+						if ($path != "")
+						{
+							$path .= " > ";
+						}
+
+						$path .= $tmpPath[$i]["title"];						
+					}					
+
+					if (in_array($role,$active_roles))
+					{
+						$data["active_role"][$role]["active"] = true;
 					}
 
-					$path .= $tmpPath[$i]["title"];						
-				}					
-
-				$data["active_role"][$role]["title"] = $roleObj->getTitle();
-				$data["active_role"][$role]["context"] = $path;
+					$data["active_role"][$role]["title"] = $roleObj->getTitle();
+					$data["active_role"][$role]["context"] = $path;
 								
-				unset($roleObj);
+					unset($roleObj);
+				}
 			}
 		}
 
@@ -403,29 +422,37 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
 
-		// BEGIN TABLE ROLES
-		$this->tpl->setCurrentBlock("TABLE_ROLES");
-		
-		$counter = 0;
-
-		foreach ($data["active_role"] as $role_id => $role)
+		if ($user_is_online)
 		{
-			++$counter;
-			$this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
-			$this->tpl->setVariable("ROLECONTEXT",$role["context"]);
-			$this->tpl->setVariable("ROLENAME",$role["title"]);
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE ROLES
+			// BEGIN TABLE ROLES
+			$this->tpl->setCurrentBlock("TABLE_ROLES");
+		
+			$counter = 0;
 
-		// BEGIN ACTIVE ROLES
-		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
-		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=roleassignment&ref_id=".
-								$_GET["ref_id"]."&obj_id=$_GET[obj_id]");
-		$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
-		$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_assignment"));
-		$this->tpl->parseCurrentBlock();
-		// END ACTIVE ROLES
+			foreach ($data["active_role"] as $role_id => $role)
+			{
+				++$counter;
+				$css_row = ilUtil::switchColor($counter,"tblrow2","tblrow1");
+				($role["active"]) ? $checked = "checked=\"checked\"" : $checked = "";
+
+				$this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",$css_row);
+				$this->tpl->setVariable("ROLECONTEXT",$role["context"]);
+				$this->tpl->setVariable("ROLENAME",$role["title"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $role_id);
+				$this->tpl->setVariable("CHECKED", $checked);
+				$this->tpl->parseCurrentBlock();
+			}
+			// END TABLE ROLES
+
+			// BEGIN ACTIVE ROLES
+			$this->tpl->setCurrentBlock("ACTIVE_ROLE");
+			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".
+									$_GET["ref_id"]."&obj_id=$_GET[obj_id]");
+			$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
+			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
+			$this->tpl->parseCurrentBlock();
+			// END ACTIVE ROLES
+		}
 	}
 
 	/**
@@ -653,12 +680,32 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function activeRoleSaveObject()
 	{
-		if (!count($_POST["active"]))
+		if (!count($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("min_one_active_role"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		$_SESSION["RoleId"] = $_POST["active"];
+		
+		if ($this->object->getId() == $_SESSION["AccountId"])
+		{
+			$_SESSION["RoleId"] = $_POST["id"];
+		}
+		else
+		{
+			if (count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
+			{
+				//var_dump("<pre>",$user_online,$_POST["id"],"</pre>");exit;
+				
+				$roles = "RoleId|".serialize($_POST["id"]);
+				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$this->object->getId()]["data"]);
+			
+				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
+				$this->ilias->db->query($q);			
+			}
+			else
+			{
+				// user went offline - do nothing
+			}
+		}
 
 		header("Location: adm_object.php?ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]&cmd=edit");
 		exit;
@@ -682,7 +729,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
 			
 			$assigned_roles = array_intersect($rbacreview->assignedRoles($this->object->getId()),$_SESSION["role_list"]);
-				
+
 			foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
 			{
 				$rbacadmin->deassignUser($role,$this->object->getId());
@@ -693,7 +740,9 @@ class ilObjUserGUI extends ilObjectGUI
 				$rbacadmin->assignUser($role,$this->object->getId(),false);
 			}
 				
-			if ($_SESSION["AccountId"] == $this->object->getId())
+			$online_users = ilUtil::getUsersOnline();
+			
+			if (in_array($this->object->getId(),array_keys($online_users)))
 			{
 				$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$this->object->getId()."'";
 				$r = $this->ilias->db->query($q);
@@ -703,7 +752,18 @@ class ilObjUserGUI extends ilObjectGUI
 					$role_arr[] = $row->rol_id;
 				}
 				
-				$_SESSION["RoleId"] = $role_arr;
+				if ($_SESSION["AccountId"] == $this->object->getId())
+				{
+					$_SESSION["RoleId"] = $role_arr;
+				}
+				else
+				{
+					$roles = "RoleId|".serialize($role_arr);
+					$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users[$this->object->getId()]["data"]);
+			
+					$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
+					$this->ilias->db->query($q);
+				}
 			}
 		}
 		
