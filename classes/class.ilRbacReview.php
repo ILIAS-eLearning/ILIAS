@@ -530,6 +530,21 @@ class ilRbacReview
 	}
 
 	/**
+	* get only 'global' roles
+	* @access	public
+	* @return	array		Array with rol_ids
+	*/
+	function getGlobalRolesArray()
+	{
+		foreach($this->getRolesOfRoleFolder(ROLE_FOLDER_ID,false) as $role_id)
+		{
+			$ga[] = array('obj_id'		=> $role_id,
+						  'role_type'	=> 'global');
+		}
+		return $ga ? $ga : array();
+	}
+
+	/**
 	* get only 'global' roles (with flag 'assign_users')
 	* @access	public
 	* @return	array		Array with rol_ids

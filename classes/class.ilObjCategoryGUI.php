@@ -853,7 +853,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		// check local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
-		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId())
+		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
+		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
 		{
 			$check_disable = true;
 		}
@@ -867,7 +868,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 		else
 		{
-			$global_roles = $rbacreview->getGlobalRoles();
+			$global_roles = $rbacreview->getGlobalRolesArray();
 		}
 		$roles = array_merge($global_roles,
 							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
@@ -944,7 +945,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 		else
 		{
-			$global_roles = $rbacreview->getGlobalRoles();
+			$global_roles = $rbacreview->getGlobalRolesArray();
 		}
 		$roles = array_merge($global_roles,
 							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
@@ -984,7 +985,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 		else
 		{
-			$ga = $rbacreview->getGlobalRoles();
+			$ga = $rbacreview->getGlobalRolesArray();
 		}
 		#$ga = array();
 		#$ga = $rbacreview->getGlobalAssignableRoles();
