@@ -128,7 +128,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$data = $_FILES["Fobject"];
 
 		// delete trailing '/' in filename
-		if (substr($data["name"]["file"],-1) == '/')
+		while (substr($data["name"]["file"],-1) == '/')
 		{
 			$data["name"]["file"] = substr($data["name"]["file"],0,-1);
 		}
@@ -165,6 +165,99 @@ class ilObjFileGUI extends ilObjectGUI
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 	
+	/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject()
+	{
+		$data = $_FILES["Fobject"];
+
+		// delete trailing '/' in filename
+		while (substr($data["name"]["file"],-1) == '/')
+		{
+			$data["name"]["file"] = substr($data["name"]["file"],0,-1);
+		}
+
+		if (empty($data["name"]["file"]) && empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$_POST["Fobject"]["title"] = $_FILES["Fobject"]["name"]["file"];
+		}
+
+		if (!empty($data["name"]["file"]))
+		{
+			$this->object->replaceFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
+			$this->object->setFileName($_FILES["Fobject"]["name"]["file"]);
+			$this->object->setFileType($_FILES["Fobject"]["type"]["file"]);
+		}
+		
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+		//ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
+	}
+
+	
+	/**
+	* edit object
+	*
+	* @access	public
+	*/
+	function editObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$fields = array();
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		}
+		else
+		{
+			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
+			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+		}
+		
+		$this->getTemplateFile("edit");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TITLE", $fields["title"]);
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+		$this->tpl->setVariable("DESC", $fields["desc"]);
+		$this->tpl->setVariable("TXT_REPLACE_FILE", $this->lng->txt("replace_file"));
+		//$this->tpl->parseCurrentBlock();
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		//$this->tpl->parseCurrentBlock();
+	}
+	
 	function sendFileObject()
 	{
 		$this->object->sendFile();
@@ -190,6 +283,30 @@ class ilObjFileGUI extends ilObjectGUI
 		//ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 	}
 	
+	
+	/**
+	* history
+	*
+	* @access	public
+	*/
+	function historyObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		require_once("classes/class.ilHistoryGUI.php");
+		
+		$hist_gui =& new ilHistoryGUI($this->object->getId());
+		$hist_html = $hist_gui->getHistoryTable();
+		
+		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+	}
+
+	
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
@@ -202,13 +319,19 @@ class ilObjFileGUI extends ilObjectGUI
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 		}
+		
+		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget("history",
+				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
+		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
 		}
-
+		
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
 			$tabs_gui->addTarget("show_owner",

@@ -347,6 +347,7 @@
 </object>
 <object name="file" class_name="File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1">
 	<property name="edit">edit_properties</property>
+	<property name="history">history</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
