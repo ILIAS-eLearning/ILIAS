@@ -133,13 +133,21 @@ class ilCourseContentInterface
 				#if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
 				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
 				$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
+				$obj_frame = ilRepositoryExplorer::buildFrameTarget($cont_data["type"],$cont_data["child"],$cont_data["obj_id"]);
 				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id'])
 					&& $obj_link != "")	
 				{
 					$tpl->setCurrentBlock("crs_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
 					$tpl->setVariable("READ_LINK", $obj_link);
-					$tpl->setVariable("READ_TARGET", "bottom");
+					if ($obj_frame == "")
+					{
+						$tpl->setVariable("READ_TARGET", "bottom");
+					}
+					else
+					{
+						$tpl->setVariable("READ_TARGET", $obj_frame);
+					}
 					$tpl->parseCurrentBlock();
 				}
 				else
