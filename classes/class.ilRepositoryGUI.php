@@ -68,7 +68,11 @@ class ilRepositoryGUI
 
 	function executeCommand()
 	{
-		$this->showList();
+		$cmd = (!empty($_GET["cmd"]))
+			? $_GET["cmd"]
+			: "showList";
+
+		$this->$cmd();
 	}
 
 	function showList()
@@ -339,13 +343,6 @@ class ilRepositoryGUI
 					$tpl->setVariable("VIEW_TARGET", "bottom");
 				}
 
-				// scorm learning modules
-				if ($lr_data["type"] == "crs")
-				{
-					$obj_link = "lo_list.php?cmd=displayList&ref_id=".$lr_data["ref_id"];
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-				}
-
 				$tpl->setVariable("IMG", $obj_icon);
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
@@ -471,7 +468,11 @@ class ilRepositoryGUI
 				// add to desktop link
 				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
 				{
-					$tpl->setVariable("TO_DESK_LINK", "forums.php?cmd=addToDesk&item_id=".$data["ref_id"]);
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+						"&item_ref_id=".$data["ref_id"].
+						"&type=frm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
 					$tpl->setVariable("TXT_TO_DESK", "(".$lng->txt("to_desktop").")");
 				}
 				// create-dates of forum
@@ -482,7 +483,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("START_DATE_TXT1", $lng->txt("launch"));
 					$tpl->setVariable("START_DATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("START_DATE", $frm->convertDate($topicData["top_date"]));
-					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["top_usr_id"]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>");
+					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$topicData["top_usr_id"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
 				}
 
 				// when forum was changed ...
@@ -493,14 +494,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
 					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
-					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["update_user"]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>");
+					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
 				}
 
 				// show content of last-post
 				if (is_array($lastPost))
 				{
 					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";
-					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
+					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$lastPost["pos_usr_id"]."&backurl=repository&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
 					$lpCont .= $lastPost["pos_date"];
 				}
 
@@ -521,7 +522,7 @@ class ilRepositoryGUI
 							$moderators .= ", ";
 						}
 
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>";
+						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
 					}
 				}
 				$tpl->setVariable("MODS",$moderators);
@@ -676,7 +677,7 @@ class ilRepositoryGUI
 		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("","title","description","owner","last_change"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
+		$tbl->setHeaderVars(array("","title","description","owner","last_change"), array("ref_id"=>$_GET["ref_id"]));
 		$tbl->setColumnWidth(array("1%","30%","39%","10%","20%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -871,6 +872,29 @@ class ilRepositoryGUI
 			}
 		}
 	}
+
+	function addToDesk()
+	{
+		if($_GET["item_ref_id"] and $_GET["type"])
+		{
+			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+			$this->showList();
+		}
+		else
+		{
+			if($_POST["items"])
+			{
+				foreach($_POST["items"] as $item)
+				{
+					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
+					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
+					unset($tmp_obj);
+				}
+			}
+			$this->showList();
+		}
+	}
+
 
 
 } // END class ilRepository

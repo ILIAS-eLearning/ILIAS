@@ -55,8 +55,7 @@ class ilGroupListGUI
 		$this->tree =& $tree;
 		$this->rbacsystem = $rbacsystem;
 		
-		
-		
+
 		$cmd = $_GET["cmd"];
 
 		if ($cmd == "")
@@ -475,7 +474,7 @@ class ilGroupListGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 
-			$this->tpl->setCurrentBlock("locator_item");			
+			$this->tpl->setCurrentBlock("locator_item");
 			if ($row["child"] != $a_tree->getRootId())
 			{
 				$this->tpl->setVariable("ITEM", $row["title"]);
