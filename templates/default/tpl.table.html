@@ -29,11 +29,16 @@
 		<!-- END tbl_header_no_link -->
 <!-- BEGIN tbl_header_cell -->
     <td class="std" nowrap="nowrap"{TBL_COLUMN_WIDTH}>
-	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">{TBL_HEADER_CELL}
+<!-- BEGIN tbl_header_link_start -->
+	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">
+<!-- END tbl_header_link_start -->
+		{TBL_HEADER_CELL}
 <!-- BEGIN tbl_order_image -->
 	  <img src="{IMG_ORDER_DIR}" border="0" valign="absmiddle" />
 <!-- END tbl_order_image -->
+<!-- BEGIN tbl_header_link_end -->
 	  </a>
+<!-- END tbl_header_link_end -->
 	</td>
 <!-- END tbl_header_cell -->
   </tr>
