@@ -57,7 +57,7 @@ class ilImagemapPreview
 	{
 		$this->imagemap_filename = $imagemap_filename;
 		$this->preview_filename = $preview_filename;
-		if (!is_file($this->preview_filename))
+		if (!@is_file($this->preview_filename))
 		{
 			$this->preview_filename = ilUtil::ilTempnam() . ".jpg";
 		}
