@@ -412,6 +412,7 @@ class ilObjectGUI
 
 	/**
 	* paste object from clipboard to current place
+	* Depending on the chosen command the object(s) are linked, copied or moved
 	*
 	* @access	public
  	*/
@@ -430,9 +431,6 @@ class ilObjectGUI
 		// PASTE IF CMD WAS 'cut' (TODO: Could be merged with 'link' routine below in some parts)
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
 		{
-			// TODO:i think this can be substituted by $this->object ????
-			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	
 			// this loop does all checks
 			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
@@ -464,7 +462,7 @@ class ilObjectGUI
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 				$obj_type = $obj_data->getType();
 			
-				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($object->getType()))))
+				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($this->object->getType()))))
 				{
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
@@ -495,6 +493,7 @@ class ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 										 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 			}
+
 /////////////////////////////////////////
 // everything ok: now paste the objects to new location
 
@@ -514,13 +513,13 @@ class ilObjectGUI
 			// now move all subtrees to new location
 			foreach($subnodes as $key => $subnode)
 			{
-				//first paste top_node....
+				// first paste top_node ...
 				$rbacadmin->revokePermission($key);
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
 			
-				// ... remove top_node from list....
+				// ... remove top_node from list ...
 				array_shift($subnode);
 				
 				// ... insert subtree of top_node if any subnodes exist
@@ -537,12 +536,9 @@ class ilObjectGUI
 			}
 		} // END IF 'cut & paste'
 
-		// PASTE IF CMD WAS 'linkt' (TODO: Could be merged with 'cut' routine above)
+		// PASTE IF CMD WAS 'link' (TODO: Could be merged with 'cut' routine above)
 		if ($_SESSION["clipboard"]["cmd"] == "link")
 		{
-			// TODO:i think this can be substituted by $this->object ????
-			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	
 			// this loop does all checks
 			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
@@ -574,7 +570,7 @@ class ilObjectGUI
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 				$obj_type = $obj_data->getType();
 			
-				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($object->getType()))))
+				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($this->object->getType()))))
 				{
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
@@ -605,8 +601,9 @@ class ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 										 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 			}
+	
 /////////////////////////////////////////
-// everything ok: now paste the objects to new location
+// everything ok: now link the objects to new location
 
 			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
@@ -617,29 +614,38 @@ class ilObjectGUI
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
 			}
-
+			
 			// now move all subtrees to new location
 			foreach ($subnodes as $key => $subnode)
 			{
-				//first paste top_node....
+				// first paste top_node....
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
-				$obj_data->createReference();
+				$new_ref_id = $obj_data->createReference();
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
 
-				// ... remove top_node from list....
+				// ... remove top_node from list ...
 				array_shift($subnode);
-
-				// ... insert subtree of top_node if any subnodes exist
+				
+				// ... store mapping of old ref_id => new_ref_id in hash array ...
+				$mapping[$new_ref_id] = $key;
+				
+				// ... insert subtree of top_node if any subnodes exist ...
 				if (count($subnode) > 0)
 				{
 					foreach ($subnode as $node)
 					{
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-						$obj_data->createReference();
-						// TODO: $node["parent"] is wrong in case of new reference!!!!
-						$obj_data->putInTree($node["parent"]);
-						$obj_data->setPermissions($node["parent"]);
+						$new_ref_id = $obj_data->createReference();
+						
+						// ... use mapping array to find out the correct new parent node where to put in the node...
+						$new_parent = array_search($node["parent"],$mapping);
+						
+						// ... append node to mapping for further possible subnodes ...
+						$mapping[$new_ref_id] = $node["child"];
+
+						$obj_data->putInTree($new_parent);
+						$obj_data->setPermissions($new_parent);
 					}
 				}
 			}
@@ -730,7 +736,8 @@ class ilObjectGUI
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-	}
+	} // END CUT
+
 	/**
 	* create an new reference of an object in tree
 	* it's like a hard link of unix
@@ -792,7 +799,7 @@ class ilObjectGUI
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 
-	} // END COPY
+	} // END LINK
 
 	/**
 	* clone Object subtree
@@ -867,7 +874,7 @@ class ilObjectGUI
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-	}
+	} // END CLONE
 
 	/**
 	* clone all nodes
