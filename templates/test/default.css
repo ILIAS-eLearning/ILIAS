@@ -1,6 +1,6 @@
 body {
         color:#222222;
-        background-color:#d8c37f;
+        background-color:#a0a0b0;
         font-family:Verdana,Arial,Helvetica,sans-serif;
         font-size:small;
                 margin:10px;
@@ -10,7 +10,7 @@ td {
 }
 
 .btnbar {
-	background-color:#006699;
+	background-color:#444499;
 	background-image: url(images/navbar/back.gif);
 }
 
@@ -24,16 +24,28 @@ input, textarea {
 .tblrow2 {
 	background-color:#F7F7F7; border: #FFFFFF; border-style: solid;
 	color:#222222;
-	height:20px;
+	padding:4px;
 }
 
 .tblrow1 {
 	background-color:#EEEEEE; border: #FFFFFF; border-style: solid;
 	color:#222222;
-	height:20px;
+	padding:4px;
+}
+
+td.cell {
+	padding:4px;
 }
 
 /* -------------------- table formatting ------------------ */
+
+table.normal {
+	width: 100%;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: #BBBBBB;
+	border-width: 1px;
+}
 
 .tblheader {
 	color: #000000; font-size: 13px; font-weight : bold;
@@ -42,13 +54,12 @@ input, textarea {
 tr.tblheader {
 	color: #000000; font-size: 13px; font-weight : bold;
 	background-color: #006699;
-	height:26px;
 	background-image: url(images/cellpic1.gif);
 }
 
 a.tblheader, a.tblheader:visited
 {
-	color:#006699;
+	color:#444499;
 }
 
 a.tblheader:hover
@@ -105,7 +116,7 @@ h2 {
 a {
         font-weight:bold;
         text-decoration:none;
-        color:#006699;
+        color:#444499;
 }
 
 a:hover {
@@ -113,44 +124,43 @@ a:hover {
 }
 
 a:visited {
-        color:#006699;
+        color:#444499;
 }
 
 /* ------------------- mail links ----------- */
 a.mailread
 {
         font-weight: normal;
-        color: #006699;
+        color: #444499;
 }
 
 a.mailunread
 {
-        color: #006699;
+        color: #444499;
         font-weight: bold;
 }
 
 /* ------------------ buttons -------------- */
 
 td.btn {
-        background-color:#006699;
-        color:#BBBBBB;
-		border-width:2px;
-		border-color:#BBBBBB;
-		border-style:outset;
-		padding:3px;
-
+	background-color:#006699;
+	color:#BBBBBB;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:3px;
 	background-image: url(images/cellpic2.jpg);
 }
 
 a.btn {
-        color:#006699;
+        color:#444499;
         text-decoration:none;
         font-size:small;
 }
 
 
 a.btn:visited {
-        color:#006699;
+        color:#444499;
         text-decoration:none;
         font-size:small;
 
