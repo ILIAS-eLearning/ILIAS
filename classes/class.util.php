@@ -274,5 +274,14 @@ class TUtil
 		}
 	}
 	
+	
+	/**
+	* show the tabs in admin section
+	* @param integer column to highlight
+	*/
+	function showTabs($hl)
+	{
+	}
+	
 } // END class.util
 ?>

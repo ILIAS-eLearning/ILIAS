@@ -91,3 +91,9 @@ a.btn:hover {
         color:#66ccff;
 }
 
+/* ------------------ tabs -------------- */
+.tab {
+	font-size: x-small;
+	color: #000000;
+	font-weight: bold;
+}
