@@ -345,7 +345,7 @@ class Admin
 
 		// SET PERMISSIONS
 		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
-		$obj = getObject($a_dest_id);
+		$obj = getObject($a_source_id);
 		foreach ($parentRoles as $parRol)
 		{
 			$ops = $rbacreview->getOperations($parRol["obj_id"], $obj["type"], $parRol["parent"]);
