@@ -252,7 +252,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 				}
 			}
-			
 			if ($page_error)
 			{
 				sendInfo($errormsg);
@@ -1709,6 +1708,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						break;
 					case "qt_nominal":
+						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
+						switch ($data["subtype"])
+						{
+							case SUBTYPE_MCSR:
+								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_single_response"));
+								break;
+							case SUBTYPE_MCMR:
+								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_multiple_response"));
+								break;
+						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
 						$this->tpl->setVariable("MODE", $eval["MODE"]);
 						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
@@ -1725,6 +1734,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						break;
 					case "qt_metric":
+						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
+						switch ($data["subtype"])
+						{
+							case SUBTYPE_NON_RATIO:
+								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("non_ratio"));
+								break;
+							case SUBTYPE_RATIO_NON_ABSOLUTE:
+								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_non_absolute"));
+								break;
+							case SUBTYPE_RATIO_ABSOLUTE:
+								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_absolute"));
+								break;
+						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
 						$this->tpl->setVariable("MODE", $eval["MODE"]);
 						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
