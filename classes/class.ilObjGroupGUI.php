@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.67 2004/02/09 11:15:49 neiken Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.68 2004/02/11 09:59:47 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -544,13 +544,16 @@ class ilObjGroupGUI extends ilObjectGUI
 		if(isset($_POST["user_id"]))
 			$user_ids = $_POST["user_id"];
 		else if(isset($_GET["mem_id"]))
-			$user_ids = $_GET["mem_id"];
+			$user_ids[] = $_GET["mem_id"];
+		
+		//bool value: says if $users_ids contains current user id
+		$is_dismiss_me = array_search($this->ilias->account->getId(),$user_ids);
+		
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
 			$cancel  = "canceled";
-			$info	 = "info_delete_sure";
-			$status  = "";
+			$info	 = ($is_dismiss_me !== false) ? "grp_dismiss_myself" : "grp_dismiss_member";			$status  = "";
 			$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status);
 		}
 		else
