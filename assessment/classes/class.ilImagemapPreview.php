@@ -74,7 +74,8 @@ class ilImagemapPreview
 		$target = "",
 		$visible = true,
 		$linecolor = "red",
-		$bordercolor = "white"
+		$bordercolor = "white",
+		$fillcolor = "\"#FFFFFFC0\""
 	)
 	{
 		array_push($this->areas, array(
@@ -84,6 +85,7 @@ class ilImagemapPreview
 			"href" => "$href",
 			"target" => "$target",
 			"linecolor" => "$linecolor",
+			"fillcolor" => "$fillcolor",
 			"bordercolor" => "$bordercolor",
 			"visible" => (int)$visible
 		));
@@ -115,9 +117,9 @@ class ilImagemapPreview
 				$x1 = $matches[3];
 				$y1 = $matches[4];
 				// draw a rect around the selection
-				$convert_cmd .=	"-stroke " . $area["bordercolor"] . " -fill none -linewidth $this->linewidth_outer -draw \"rectangle " .
+				$convert_cmd .=	"-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"rectangle " .
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
-				"-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"rectangle " .
+				"-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"rectangle " .
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" ";
 			}
 			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "circle") == 0)
@@ -127,22 +129,22 @@ class ilImagemapPreview
 				$y = $matches[2];
 				$r = $matches[3];
 				// draw a circle around the selection
-				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill none -linewidth $this->linewidth_outer -draw \"circle " .
+				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"circle " .
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
-				"-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"circle " .
+				"-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"circle " .
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" ";
 			}
 			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "poly") == 0)
 			{
 				// draw a polygon around the selection
-				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill none -linewidth $this->linewidth_outer -draw \"polygon ";
+				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"polygon ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
 				for ($i = 0; $i < count($matches[0]); $i++)
 				{
 					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
 				}
 				$convert_cmd .= "\" ";
-				$convert_cmd .= "-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"polygon ";
+				$convert_cmd .= "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"polygon ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
 				for ($i = 0; $i < count($matches[0]); $i++)
 				{
