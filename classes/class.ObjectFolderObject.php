@@ -17,6 +17,7 @@ class ObjectFolderObject extends Object
 	function ObjectFolderObject()
 	{
 		$this->Object();
+		$_GET["message"] = "Do not change any of the existing Object Definitons";
 	}
 	
 	function viewObject()

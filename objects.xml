@@ -137,6 +137,7 @@
 	<action cmd="delete">delete</action>
 </object>
 <object name="role">
+	<property cmd="view">view_content</property>
 	<property cmd="edit">edit_properties</property>
 	<property cmd="perm">perm_settings</property>
 	<property cmd="owner">show_owner</property>

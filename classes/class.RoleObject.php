@@ -22,6 +22,73 @@ class RoleObject extends Object
 	//
 	// Overwritten methods:
 	//
+
+
+	function viewObject()
+	{
+		global $rbacadmin, $tpl;
+
+		//prepare objectlist
+		$this->objectList = array();
+		$this->objectList["data"] = array();
+		$this->objectList["ctrl"] = array();
+
+		$this->objectList["cols"] = array("", "type", "title", "description", "status");
+
+		$ops_valid = $rbacadmin->getOperationsOnType($this->id);
+		
+		if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
+		{
+			$options = array("e" => "enabled","d" => "disabled");
+		
+			foreach ($ops_arr as $key => $ops)
+			{
+				// BEGIN ROW
+				if (in_array($ops["ops_id"],$ops_valid))
+				{
+					$ops_status = 'e';
+				}
+				else
+				{
+					$ops_status = 'd';
+				}
+				
+				$obj = $ops["ops_id"];
+				$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
+		/*		
+				// color changing
+				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
+		
+				$tpl->setVariable("LINK_TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");	
+				$tpl->setVariable("OPS_TITLE",$ops["operation"]);
+				$tpl->setVariable("OPS_DESC",$ops["desc"]);
+				$tpl->setVariable("IMG_TYPE","icon_perm_b.gif");
+				$tpl->setVariable("ALT_IMG_TYPE","ops");
+				$tpl->setVariable("CSS_ROW",$css_row);
+				$tpl->setVariable("OPS_ID",$ops["ops_id"]);
+				$tpl->setVariable("OPS_STATUS",$ops_options);
+				$tpl->parseCurrentBlock();
+				*/
+				//visible data part
+				$this->objectList["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_perm_b.gif\" border=\"0\">",
+					"title" => $ops["operation"],
+					"description" => $ops["desc"],
+					"status" => $ops_options
+				);
+
+				//control information
+				$this->objectList["ctrl"][] = array(
+					"type" => "perm",
+					"obj_id" => $ops["ops_id"],
+					"parent" => $this->id,
+					"parent_parent" => $this->parent
+				);
+			}
+		}
+		return $this->objectList;
+		
+	}
 	
 	/**
 	* create a role object 

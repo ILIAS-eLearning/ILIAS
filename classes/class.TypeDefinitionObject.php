@@ -18,6 +18,59 @@ class TypeDefinitionObject extends Object
 	{
 		$this->Object();
 	}
+
+	function viewObject()
+	{
+		global $rbacadmin, $tpl;
+
+		//prepare objectlist
+		$this->objectList = array();
+		$this->objectList["data"] = array();
+		$this->objectList["ctrl"] = array();
+
+		$this->objectList["cols"] = array("", "type", "title", "description", "status");
+
+		$ops_valid = $rbacadmin->getOperationsOnType($this->id);
+		
+		if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
+		{
+			$options = array("e" => "enabled","d" => "disabled");
+		
+			foreach ($ops_arr as $key => $ops)
+			{
+				// BEGIN ROW
+				if (in_array($ops["ops_id"],$ops_valid))
+				{
+					$ops_status = 'e';
+				}
+				else
+				{
+					$ops_status = 'd';
+				}
+				
+				$obj = $ops["ops_id"];
+				$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
+
+				//visible data part
+				$this->objectList["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_perm_b.gif\" border=\"0\">",
+					"title" => $ops["operation"],
+					"description" => $ops["desc"],
+					"status" => $ops_options
+				);
+
+				//control information
+				$this->objectList["ctrl"][] = array(
+					"type" => "perm",
+					"obj_id" => $ops["ops_id"],
+					"parent" => $this->id,
+					"parent_parent" => $this->parent
+				);
+			}
+		}
+		return $this->objectList;
+		
+	}
 	
 	
 	function editObject()
