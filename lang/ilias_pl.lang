@@ -60,6 +60,8 @@ assessment#:#matching_pair#:#Pasujące pary
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#points#:#Punkty
 assessment#:#possible_gap_text#:#Możliwy tekst odstępu
+assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
+assessment#:#postponed#:#postponed###07 Mar 2004 new variable
 assessment#:#preview#:#Podgląd
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
@@ -78,6 +80,8 @@ assessment#:#question_type#:#Typ pytania
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Resetuj filtr
+assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
+assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Wybierz odstęp
@@ -105,6 +109,7 @@ assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
+assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Raport punktacji
 assessment#:#tst_score_reporting_date#:#Data raportu punktacji
 assessment#:#tst_score_type#:#Typ raportu punktacji
