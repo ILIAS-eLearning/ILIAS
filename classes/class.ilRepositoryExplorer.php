@@ -205,7 +205,7 @@ class ilRepositoryExplorer extends ilExplorer
 	function showChilds($a_ref_id)
 	{
 		global $rbacsystem;
-
+//vd($a_ref_id);
 		if ($a_ref_id == 0)
 		{
 			return true;

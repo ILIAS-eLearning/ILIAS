@@ -74,11 +74,15 @@ if (!isset($_GET["type"]))
 }
 
 // determine command
-if (($cmd = $_GET["cmd"]) == "gateway")
+if ($_GET["cmd"] == "gateway" or $_GET["cmd"] == "post")
 {
 	// surpress warning if POST is not set
 	@$cmd = key($_POST["cmd"]);
 
+}
+else
+{
+	$cmd = $_GET["cmd"];
 }
 
 if (empty($cmd)) // if no cmd is given default to first property
