@@ -477,7 +477,7 @@ class ilPageObject
 			"ed_delete_row", "ed_class", "ed_width", "ed_align_left",
 			"ed_align_right", "ed_align_center", "ed_align_left_float",
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
-			"ed_new_item_after", "ed_copy_clip", "please_select");
+			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -748,6 +748,8 @@ class ilPageObject
 	*/
 	function addHierIDs()
 	{
+		$this->hier_ids = array();
+		
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
@@ -774,6 +776,7 @@ class ilPageObject
 			{
 				$node_hier_id = ilPageContent::incEdId($sib_hier_id);
 				$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+				$this->hier_ids[] = $node_hier_id;
 			}
 			else						// no sibling -> node is first child
 			{
@@ -795,11 +798,13 @@ class ilPageObject
 				{
 					$node_hier_id = $par_hier_id."_1";
 					$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+					$this->hier_ids[] = $node_hier_id;
 				}
 				else		// no sibling, no parent -> first node
 				{
 					$node_hier_id = "1";
 					$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
+					$this->hier_ids[] = $node_hier_id;
 				}
 			}
 		}
@@ -811,8 +816,17 @@ class ilPageObject
 		for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
 		{
 			$res->nodeset[$i]->set_attribute("HierId", "pg");
+			$this->hier_ids[] = "pg";
 		}
 		unset($xpc);
+	}
+	
+	/**
+	* get all hierarchical ids
+	*/
+	function getHierIds()
+	{
+		return $this->hier_ids;
 	}
 
 	function stripHierIDs()

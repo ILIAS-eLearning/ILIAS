@@ -125,6 +125,10 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->delete();
 	}
 
+	
+	/**
+	* copy page
+	*/
 	function &copy()
 	{
 

@@ -76,6 +76,15 @@ var actionUrl = "{FORMACTION}";
 
     SET_DHTML("contextmenu","actionForm","dragdropsymbol");
 
+	<!-- BEGIN add_dhtml -->
+	obj = document.getElementById("{CONTEXTMENU}");
+	if (obj)
+	{
+		ADD_DHTML("{CONTEXTMENU}");
+	}
+	<!-- END add_dhtml -->
+	
+	/*
     for (i=0;i<100;i++) {
         obj = document.getElementById("contextmenu_"+i);
         if (obj) {
@@ -85,7 +94,7 @@ var actionUrl = "{FORMACTION}";
     obj = document.getElementById("contextmenu_pg");
     if (obj) {
         ADD_DHTML("contextmenu_pg");
-    }
+    }*/
     
     /*  Nur test
     for (i=0;i<100;i++) {

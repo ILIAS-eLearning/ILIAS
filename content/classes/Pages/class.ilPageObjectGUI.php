@@ -401,12 +401,24 @@ class ilPageObjectGUI
 			}
 
 		}
+		
 		// get content
 		$builded = $this->obj->buildDom();
 		$this->obj->addFileSizes();
+		
+		// manage hierarchical ids
 		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();
+			
+			$hids = $this->obj->getHierIds();
+			
+			foreach($hids as $hid)
+			{
+				$this->tpl->setCurrentBlock("add_dhtml");
+				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_".$hid);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$this->obj->addSourceCodeHighlighting();
@@ -454,6 +466,14 @@ class ilPageObjectGUI
 		$pg_title_class = ($this->getOutputMode() == "print")
 			? "ilc_PrintPageTitle"
 			: "";
+			
+		// page splitting only for learning modules and
+		// digital books
+		$enable_split = ($this->obj->getParentType() == "lm" ||
+			$this->obj->getParentType() == "dbk")
+			? "y"
+			: "n";
+		
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 //echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
@@ -462,6 +482,7 @@ class ilPageObjectGUI
 						 'img_add' => $add_path,
 						 'img_col' => $col_path,
 						 'img_row' => $row_path,
+						 'enable_split' => $enable_split,
 						 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'fullscreen_link' => $this->getFullscreenLink(),

@@ -186,6 +186,15 @@ class ilPageContentGUI
 		}
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
+	
+	
+	/**
+	* split page at specified position
+	*/
+	function splitPage()
+	{
+		$this->pg_obj->split();
+	}
 
 
 	/**

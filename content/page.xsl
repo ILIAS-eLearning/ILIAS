@@ -48,6 +48,7 @@
 <xsl:param name="javascript" />
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
+<xsl:param name="enable_split" value="n"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -320,6 +321,7 @@
 			<table cellspacing="0" cellpadding="2" border="0">
 			<xsl:call-template name="EditMenuItems">
 				<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+				<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
 			</xsl:call-template>
 			</table>
 		</td></tr></table>
@@ -331,6 +333,7 @@
 		<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
 		<xsl:call-template name="EditMenuItems">
 			<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+			<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
 		</xsl:call-template>
 	</select>
 	<input class="ilEditSubmit" type="submit">
@@ -344,6 +347,7 @@
 <!-- Edit Menu Items -->
 <xsl:template name="EditMenuItems">
 	<xsl:param name="edit"/>
+	<xsl:param name="hier_id"/>
 
 	<xsl:if test="$edit = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -379,6 +383,14 @@
 			<xsl:with-param name="command">moveBefore</xsl:with-param>
 			<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
 		</xsl:call-template>
+
+		<!-- split page -->
+		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">splitPage</xsl:with-param>
+				<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
 		
 	</xsl:if>
 	
@@ -819,7 +831,9 @@
 			<select size="1" class="ilEditSelect">
 				<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
 				</xsl:attribute>
-				<xsl:call-template name="TableMenu"/>
+				<xsl:call-template name="TableMenu">
+					<xsl:with-param name="hier_id" select="../@HierId"/>
+				</xsl:call-template>
 			</select>
 			<input class="ilEditSubmit" type="submit">
 				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
@@ -832,7 +846,9 @@
 				<xsl:attribute name="id">contextmenu_<xsl:value-of select="../@HierId"/></xsl:attribute>
 				<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
 					<table cellspacing="0" cellpadding="2" border="0">
-					<xsl:call-template name="TableMenu"/>
+					<xsl:call-template name="TableMenu">
+						<xsl:with-param name="hier_id" select="../@HierId"/>
+					</xsl:call-template>
 					</table>
 				</td></tr></table>
 			</div>
@@ -871,6 +887,7 @@
 
 <!-- Table Menu -->
 <xsl:template name="TableMenu">
+	<xsl:param name="hier_id"/>
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
@@ -884,8 +901,16 @@
 	<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>	
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
-	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>	
-	
+	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+
+	<!-- split page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPage</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<xsl:call-template name="EditMenuAlignItems"/>
 	
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
@@ -1320,7 +1345,9 @@
 				<select size="1" class="ilEditSelect">
 					<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
 					</xsl:attribute>
-					<xsl:call-template name="MOBEditMenu"/>
+					<xsl:call-template name="MOBEditMenu">
+						<xsl:with-param name="hier_id" select="../../@HierId"/>
+					</xsl:call-template>
 				</select>
 				<input class="ilEditSubmit" type="submit">
 					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
@@ -1335,7 +1362,9 @@
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="../../@HierId"/></xsl:attribute>
 			<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
 				<table cellspacing="0" cellpadding="2" border="0">
-				<xsl:call-template name="MOBEditMenu"/>
+					<xsl:call-template name="MOBEditMenu">
+						<xsl:with-param name="hier_id" select="../../@HierId"/>
+					</xsl:call-template>
 				</table>
 			</td></tr></table>
 		</div>
@@ -1345,6 +1374,7 @@
 
 <!-- MOB edit menu -->
 <xsl:template name="MOBEditMenu">
+	<xsl:param name="hier_id"/>
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
@@ -1359,6 +1389,14 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
 	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+	
+	<!-- split page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPage</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 
 	<xsl:call-template name="EditMenuAlignItems"/>
 	
