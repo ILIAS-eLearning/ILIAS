@@ -38,13 +38,17 @@ session_destroy();
 
 //instantiate logout template
 $tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT",$lng->txt("logout_text"));
 
 if ($ilias->getSetting("pub_section"))
 {
-	$tpl->touchBlock("homelink");
+	$tpl->setCurrentBlock("homelink");
+	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
+	$tpl->parseCurrentBlock();
 }
+
+$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
+$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
+$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
 
 $tpl->show();
 ?>
