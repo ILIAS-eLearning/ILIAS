@@ -410,6 +410,11 @@ class ASS_MatchingQuestion extends ASS_Question
 			$qtiRenderChoice->append_child($qtiResponseLabel);
 		}
 
+		if ($a_shuffle)
+		{
+			$pkeys = $this->pcArrayShuffle($pkeys);
+		}
+
 		// add matchingtext
 		foreach ($pkeys as $index)
 		{
