@@ -3354,7 +3354,7 @@ meta#:#meta_yes#:#Ja
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
 payment#:#pays_active_bookings#:#Verkaufsvorgänge
 payment#:#pays_add_vendor#:#Verkäufer anlegen
-payment#:#pays_added_vendor#:#Ein neuer Verkäufern wurde angelegt.
+payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:
 payment#:#pays_assigned_vendors#:#Die folgende Anzahl an Verkäufern wurde angelegt:
 payment#:#pays_cost_center#:#Kostenstelle
@@ -3653,3 +3653,6 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
+common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
+common#:#linked_object#:#Das Objekt wurde verknüpft.
