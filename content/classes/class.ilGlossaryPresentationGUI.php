@@ -121,7 +121,7 @@ class ilGlossaryPresentationGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post&offset=".$_GET["offset"]);
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -193,7 +193,7 @@ class ilGlossaryPresentationGUI
 				$this->tpl->setCurrentBlock("view_term");
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->tpl->setVariable("LINK_VIEW_TERM", "glossary_presentation.php?ref_id=".
-					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
+					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]."&offset=".$_GET["offset"]);
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -244,7 +244,7 @@ class ilGlossaryPresentationGUI
 		//$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=post&term_id=".$_GET["term_id"]);
+			"&cmd=post&term_id=".$_GET["term_id"]."&offset=".$_GET["offset"]);
 		/*
 		$this->tpl->setVariable("TXT_ADD_DEFINITION",
 			$this->lng->txt("cont_add_definition"));
@@ -288,7 +288,7 @@ class ilGlossaryPresentationGUI
 				$this->tpl->setCurrentBlock("up");
 				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
 				$this->tpl->setVariable("LINK_UP",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]);
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]."&offset=".$_GET["offset"]);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -297,7 +297,7 @@ class ilGlossaryPresentationGUI
 				$this->tpl->setCurrentBlock("down");
 				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
 				$this->tpl->setVariable("LINK_DOWN",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]."&offset=".$_GET["offset"]);
 				$this->tpl->parseCurrentBlock();
 			}*/
 
@@ -305,10 +305,10 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
 			/*$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$this->tpl->setVariable("LINK_EDIT",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]."&offset=".$_GET["offset"]);
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]."&offset=".$_GET["offset"]);
 				*/
 			$this->tpl->parseCurrentBlock();
 		}
@@ -363,7 +363,7 @@ class ilGlossaryPresentationGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		// navigate locator
-		$ilias_locator->navigate($i++,$this->glossary->getTitle(),"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms","bottom");
+		$ilias_locator->navigate($i++,$this->glossary->getTitle(),"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms"."&offset=".$_GET["offset"],"bottom");
 
 		if (!empty($_GET["term_id"]))
 		{
@@ -371,13 +371,13 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $term->getTerm());
 			$this->tpl->setVariable("LINK_ITEM", "glossary_presentation.php?ref_id=".$_GET["ref_id"].
-				"&cmd=listDefinitions&term_id=".$term->getId());
+				"&cmd=listDefinitions&term_id=".$term->getId()."&offset=".$_GET["offset"]);
 			$this->tpl->parseCurrentBlock();
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
 			$ilias_locator->navigate($i++,$term->getTerm(),"glossary_edit.php?ref_id=".$_GET["ref_id"].
-				"&cmd=listDefinitions&term_id=".$term->getId(),"bottom");
+				"&cmd=listDefinitions&term_id=".$term->getId()."&offset=".$_GET["offset"],"bottom");
 		}
 
 		//$this->tpl->touchBlock("locator_separator");
@@ -484,7 +484,7 @@ class ilGlossaryPresentationGUI
 	{
 		// back to upper context
 		$tabs_gui->addTarget("cont_back",
-			"glossary_presentation.php?ref_id=".$_GET["ref_id"], "",
+			"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&offset=".$_GET["offset"], "",
 			"");
 
 	}
