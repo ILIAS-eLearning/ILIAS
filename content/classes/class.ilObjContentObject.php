@@ -288,6 +288,61 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	* creates data directory for export files
+	* (data_dir/lm_data/lm_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
+		if(!is_writable($lm_data_dir))
+		{
+			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		if(!@is_dir($lm_dir))
+		{
+			@mkdir($lm_dir);
+			@chmod($lm_dir,0755);
+		}
+		if(!@is_dir($lm_dir))
+		{
+			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
+		$export_dir = $lm_dir."/export";
+		if(!@is_dir($export_dir))
+		{
+			@mkdir($export_dir);
+			@chmod($export_dir,0755);
+		}
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of lm
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data".
+			"/lm_".$this->getId()."/export";
+		if(@is_dir($export_dir))
+		{
+			return $export_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	/**
 	* copy all properties and subobjects of a learning module.
 	*
 	* @access	public
