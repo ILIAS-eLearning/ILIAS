@@ -746,6 +746,7 @@ common#:#remove_translation#:#Remove translation###01 Sep 2003 new variable
 common#:#rename#:#Rename###28 Mar 2003 new variable
 common#:#reply#:#reply
 common#:#repository#:#Repository###29 Oct 2003 new variable
+common#:#dateplaner#:#Dateplaner
 common#:#required_field#:#required
 common#:#reset#:#reset
 common#:#resources#:#Resources###25 Oct 2003 new variable
