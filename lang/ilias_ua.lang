@@ -128,11 +128,11 @@ assessment#:#backtocallingtest#:#Назад до визоваючого тест
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
 assessment#:#cannot_edit_test#:#Ви не володієте достатніми правами для редагування теста!
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
+assessment#:#cannot_execute_test#:#Ви не володієте достатніми правами щоб запустити тест!
 assessment#:#cannot_export_qpl#:#Ви не володієте достатніми правами для експорту пулу питань!
 assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
 assessment#:#cannot_maintain_test#:#Ви не володієте достатніми правами для підтрики тесту!
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+assessment#:#cannot_read_questionpool#:#Ви не володієте достатніми правами щоб прочитати дані банку питань!
 assessment#:#cannot_save_metaobject#:#Ви не володієте достатніми правами дла збереження метаданих!
 assessment#:#change_solution#:#Змінити запропоноване рішення
 assessment#:#checkbox_checked#:#Перевірений
@@ -912,7 +912,7 @@ common#:#cleaning_failed#:#Очищення завершилось невдал�
 common#:#clear#:#Очистити
 common#:#clear_clipboard#:#Очистити Буфір Обміну
 common#:#client ip#:#Ip Клієнта
-common#:#client#:#Client###06 Mar 2005 new variable
+common#:#client#:#Клієнт
 common#:#client_id#:#ID Клієнта
 common#:#client_ip#:#Ip Клієнта
 common#:#clipboard#:#Буфер обміну
@@ -934,7 +934,7 @@ common#:#condition_update#:#Зберегти
 common#:#conditions_updated#:#Умови збережені
 common#:#confirm#:#Підтвердити
 common#:#confirmation#:#Підтвердження
-common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
+common#:#conflict_handling#:#Конфлікт обробок
 common#:#cont_object#:#Об'єкт
 common#:#contact_data#:#Контактна Інформація
 common#:#container#:#Контейнер
@@ -1432,7 +1432,7 @@ common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
 common#:#if_no_title_then_url#:#Залиште порожнім для відображення URL
-common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#ignore_on_conflict#:#Ігнорувати при конфлікті
 common#:#ilias_version#:#ILIAS версія
 common#:#ilinc_classrooms#:#iLinc Клас
 common#:#ilinc_courses#:#iLinc Курси
@@ -1442,7 +1442,7 @@ common#:#import#:#Імпорт
 common#:#import_alm#:#Імпортувати AICC Пакет
 common#:#import_categories#:#Імпортувати Категорії
 common#:#import_dbk#:#Імпортувати Digilib Книгу
-common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
+common#:#import_failure_log#:#Імпортувати логи невдачних операцій
 common#:#import_file#:#Імпортувати Файл
 common#:#import_file_not_valid#:#Імпортований файл не є коректним.
 common#:#import_finished#:#Кількість імпортованих повідомлень.
@@ -1458,7 +1458,7 @@ common#:#import_spl#:#Імпортувати Пул Питань для Опит
 common#:#import_svy#:#Імпортувати Опитування
 common#:#import_tst#:#Імпортувати Тест
 common#:#import_users#:#Імпортувати Користувачів
-common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
+common#:#import_warning_log#:#Імпортувати логи попереджень
 common#:#imported#:#імпортований
 common#:#in#:#в
 common#:#in_use#:#Мова Користувача
@@ -1770,7 +1770,7 @@ common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінюв�
 common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувача
 common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
 common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
-common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#msg_no_perm_read#:#Ви не маєте прав для доступу в цей розділ.
 common#:#msg_no_perm_read_lm#:#Ви не маєте прав читати цей учбовий модуль.
 common#:#msg_no_perm_read_track#:#Ви не маєте прав для доступу до відслідковування користувача.
 common#:#msg_no_perm_undelete#:#Ви не маєте права відмінити видалення наступного об'єкту(ів):
@@ -1826,8 +1826,8 @@ common#:#news#:#Новини
 common#:#next#:#наступний
 common#:#nickname#:#Нікнейм
 common#:#no#:#Ні
-common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
+common#:#no_access_item#:#Ви не маєте прав для доступу в цей розділ.
+common#:#no_access_item_public#:#Цей розділ не може бути доступним в публічній секції.
 common#:#no_access_link_object#:#Вам не дозволено зв'язувати цей об'єкт
 common#:#no_bm_in_personal_list#:#Жодної закладинки не визначено.
 common#:#no_chat_in_personal_list#:#Немає чатів в персональному списку
@@ -2149,15 +2149,15 @@ common#:#role_add#:#Додати Роль
 common#:#role_add_local#:#Додати локальну Роль
 common#:#role_add_user#:#Додати користувачів до ролі
 common#:#role_added#:#Роль додана
-common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
-common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
+common#:#role_assigned_desk_items#:#Призначені розділи робочого столу
+common#:#role_assigned_desktop_item#:#Створити нове призначення.
 common#:#role_assignment#:#Призначення Ролі
 common#:#role_assignment_updated#:#Призначення ролі було оновлено.
 common#:#role_count_users#:#Кількість користувачів
 common#:#role_deleted#:#Роль видалена
-common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
-common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
-common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
+common#:#role_deleted_desktop_items#:#Видалити призначення.
+common#:#role_desk_add#:#Призначити об'єкт робочого столу
+common#:#role_desk_none_created#:#Ні один з об'єктів робочого столу не призначений до цієї ролі.
 common#:#role_edit#:#Редагувати Роль
 common#:#role_header_edit_users#:#Змінити призначення користувача
 common#:#role_list_users#:#Список користувачів
@@ -2166,12 +2166,12 @@ common#:#role_new_search#:#Новий пошук
 common#:#role_no_groups_selected#:#Будь ласка виберіть групу
 common#:#role_no_results_found#:#Жодного результату не знайдено
 common#:#role_no_roles_selected#:#Будь ласка виберіть роль
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
+common#:#role_no_users_no_desk_items#:#Не є можливим призначити об'єкти особистого робочого столу, поки ви не можете призначати користувачів до цієї ролі.
 common#:#role_search_enter_search_string#:#Будь ласка введіть строку пошуку
 common#:#role_search_users#:#Пошук користувача
-common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
-common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
-common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
+common#:#role_select_desktop_item#:#Будь ласка виберіть один об'єкт який буде призначений до цієї ролі.
+common#:#role_select_one_item#:#Будь ласка виберіть один об'єкт.
+common#:#role_sure_delete_desk_items#:#Ви впевнені що ви бажаєте видалити наступні призначення?
 common#:#role_templates_only#:#Тільки шаблони ролі
 common#:#role_user_deassign#:#Відмінити назначення ролі користувачу
 common#:#role_user_edit#:#Редагувати дані акаунту
@@ -2316,7 +2316,7 @@ common#:#svy_delete#:#Видалити опитування
 common#:#svy_edit_permission#:#Змінити настройки прав
 common#:#svy_invite#:#Запросити користувачів до опитування
 common#:#svy_new#:#Нове опитування
-common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_no_content#:#Немає доступних опитувань
 common#:#svy_participate#:#Брати участь в опитуванні
 common#:#svy_read#:#Доступ на читання до опитування
 common#:#svy_upload_file#:#Завантажити файл
@@ -2375,12 +2375,12 @@ common#:#tpl_path#:#Шлях до Шаблона
 common#:#trac_delete#:#Видалити Дані Відслідковування
 common#:#trac_edit_permission#:#Змінити настройки прав
 common#:#trac_read#:#Читати Дані Відслідковування
-common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
-common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
-common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
-common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
-common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
-common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
+common#:#trac_visible#:#Відслідковування користувача є видимим
+common#:#tracked_objects#:#Об'єкти відслідковування
+common#:#tracking_data#:#Дані Спостереження
+common#:#tracking_data_del_confirm#:#Ви дійсно бажаєте видалити усі дані спостереження за вибраний місяць та раніше?
+common#:#tracking_data_deleted#:#Дані спостереження видалені
+common#:#tracking_settings#:#Настройки Спостереження
 common#:#translation#:#Переклад
 common#:#trash#:#Смітник
 common#:#treeview#:#Огляд у вигляді дерева
@@ -2389,71 +2389,71 @@ common#:#tst_add#:#Додати тест
 common#:#tst_delete#:#Видалити Тест
 common#:#tst_edit_permission#:#Змінити настройки прав
 common#:#tst_new#:#Новий тест
-common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
+common#:#tst_no_content#:#Немає доступних тестів
 common#:#tst_read#:#Доступ на читання до Тесту
-common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
+common#:#tst_upload_file#:#Завантажити файл
 common#:#tst_visible#:#Тест є видимим
 common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
-common#:#txt_add_object_instruction2#:#.###05 Nov 2004 new variable
-common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.###14 Sep 2004 content changed
-common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу щоб увійти в ILIAS під вашим аккаунтом.
+common#:#txt_submitted#:#Ви вдало заповнили запит стосовна акаунту в ILIAS. Ваш запит буде розглянутий системним адміністратором, та можливо активований впродовж 48 годин. Ви не в змозі увійти в систему поки ваш акаунт не буде активований.
 common#:#typ#:#Визначення Типу Об'єкту
 common#:#type#:#Тип
 common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
-common#:#uid#:#UID###05 Nov 2004 new variable
-common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
-common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
+common#:#uid#:#UID
+common#:#unambiguousness#:#Однозначність
+common#:#uncheck_all#:#Відмінити усі виділення
 common#:#uninstall#:#Деінсталювати
 common#:#uninstalled#:#деінстальовано.
 common#:#unknown#:#НЕВІДОМИЙ
 common#:#unread#:#Непрочитаний
-common#:#unselected#:#Unselected###30 Aug 2004 new variable
+common#:#unselected#:#Невибраний
 common#:#unsubscribe#:#відписатись
-common#:#unzip#:#Unzip###07 Apr 2004 new variable
+common#:#unzip#:#Unzip
 common#:#up#:#Вгору
-common#:#update#:#Edit###01 Mar 2005 new variable
+common#:#update#:#Редагувати
 common#:#update_applied#:#Обновлення Встановлено
 common#:#update_language#:#Обновити Мову
-common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
+common#:#update_on_conflict#:#Обновити при конфлікті
 common#:#upload#:#Завантажити
-common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
-common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
-common#:#url#:#URL###05 Nov 2004 new variable
-common#:#url_a#:#a URL###23 Oct 2004 new variable
-common#:#url_add#:#Add URL###23 Oct 2004 new variable
-common#:#url_added#:#URL added###23 Oct 2004 new variable
-common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
-common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
+common#:#upload_error_file_not_found#:#Помилка завантаження: Файл не знайдений.
+common#:#uploaded_and_checked#:#Файл був завантажений та перевірений, тепер ви можете почати імпортувати його.
+common#:#url#:#URL
+common#:#url_a#:#URL
+common#:#url_add#:#Додати URL
+common#:#url_added#:#URL доданий
+common#:#url_create_url#:#Створити URL
+common#:#url_delete#:#Видалити URL
 common#:#url_description#:#URL Опис
-common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
-common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
-common#:#url_new#:#New URL###23 Oct 2004 new variable
-common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
-common#:#url_read#:#Open URL###23 Oct 2004 new variable
-common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
-common#:#url_write#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit#:#Редагувати URL
+common#:#url_edit_permission#:#Змінити настройки прав
+common#:#url_new#:#Новий URL
+common#:#url_not_found#:#Файл Не Знайдений
+common#:#url_read#:#Відкрити URL
+common#:#url_visible#:#URL є видимим
+common#:#url_write#:#Редагувати URL
 common#:#user#:#Користувач
-common#:#user_access#:#Access per user###02 Jul 2004 new variable
+common#:#user_access#:#Доступ на користувача
 common#:#user_added#:#Користувач доданий
 common#:#user_assignment#:#Призначення Користувача
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
-common#:#user_comment#:#User comment###03 Dec 2004 new variable
+common#:#user_cant_receive_mail#:#користувачу не дозволено використовувати поштову систему
+common#:#user_comment#:#Коментарій користувача
 common#:#user_deleted#:#Користувач Видалений
-common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
-common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
-common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
-common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
+common#:#user_detail#:#Детальні Дані
+common#:#user_import_failed#:#Імпорт користувача пройшов невдало.
+common#:#user_imported#:#Імпорт користувача завершився вдало.
+common#:#user_imported_with_warnings#:#Імпорт користувача завершився з попередженнями.
 common#:#user_language#:#Мова Користувача
 common#:#user_not_chosen#:#Ви не вибрали члена групи!
-common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
-common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
+common#:#user_profile_other#:#Інша Інформація
+common#:#user_statistics#:#Статистичні Дані
 common#:#userdata#:#Дані користувача
 common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
-common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
+common#:#users_not_imported#:#Наступні користувачі не існують, їх повідомлення не можуть бути імпортовані
 common#:#users_online#:#Користувачі онлайн
-common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
+common#:#usertracking#:#Спостереження за Користувачем
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач
 common#:#usr_add#:#Додати Користувача
@@ -2461,27 +2461,27 @@ common#:#usr_added#:#Користувач доданий
 common#:#usr_agreement#:#Угода Користувача
 common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
-common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_hits_per_page#:#Хіти/сторінки в таблицях
 common#:#usr_new#:#Новий Користувач
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
-common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
-common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
-common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#Настройки профілю користувача
+common#:#usr_settings_header_profile_profile#:#Настройки особистого профілю
+common#:#usr_settings_saved#:#Глобальні настройки користувача збережені вдало!
 common#:#usr_skin_style#:#Скін / Стиль
 common#:#usr_style#:#Стиль Користувача
 common#:#usrf#:#Аккаунти Користувача
 common#:#usrf_create_user#:#Створити новий аккаунт користувача
 common#:#usrf_delete#:#Видалити аккаунти користувача
 common#:#usrf_edit_permission#:#Змінити настройки прав
-common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувача###14 Sep 2004 content changed
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
+common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувачів
+common#:#usrf_push_desktop_items#:#Дозволити переміщати об'єкти на особистий робочий стіл.
 common#:#usrf_read#:#Доступ на читання до акаунтів користувача
-common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
+common#:#usrf_read_users#:#Призначення ролі для локальних адміністраторів
 common#:#usrf_visible#:#Акаунти користувача є видимі
 common#:#usrf_write#:#Редагувати акаунти користувача
-common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
-common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
+common#:#usrimport_action_failed#:#Дія %1$s завершилась невдало.
+common#:#usrimport_action_ignored#:#Проігнорована дія %1$s.
+common#:#usrimport_action_replaced#:#Замінена дія %1$s на %2$s.
 common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
 common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
