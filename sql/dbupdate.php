@@ -1504,3 +1504,7 @@ CREATE TABLE sc_resource_dependency (
 	PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
+<#84>
+ALTER TABLE sc_resource_file ADD COLUMN nr INT;
+ALTER TABLE sc_resource_dependency ADD COLUMN nr INT;
+
