@@ -1529,46 +1529,50 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->parseCurrentBlock();
 		}
 
-    if ($this->question->cloze_type == CLOZE_TEXT) {
-      $this->tpl->setCurrentBlock("cloze");
-      $output = $this->question->get_cloze_text();
-      for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) {
+		$this->tpl->setCurrentBlock("cloze");
+		$output = $this->question->get_cloze_text();
+		for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) 
+		{
+			$gap = $this->question->get_gap($gapIndex);
+			if ($gap[0]->get_cloze_type() == CLOZE_TEXT) 
+			{
 				$solution_value = "";
-				foreach ($solutions as $idx => $solution) {
-					if ($solution->value1 == $gapIndex) {
+				foreach ($solutions as $idx => $solution) 
+				{
+					if ($solution->value1 == $gapIndex) 
+					{
 						$solution_value = $solution->value2;
 					}
 				}
-        $output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
-      }
-      $this->tpl->setVariable("TEXT", $output);
-      $this->tpl->parseCurrentBlock();
-    } else {
-      $this->tpl->setCurrentBlock("cloze");
-      $output = $this->question->get_cloze_text();
-      for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) {
-        $select = "<select name=\"gap_$gapIndex\">";
-        $gap = $this->question->get_gap($gapIndex);
+				$output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
+			} 
+				else 
+			{
+				$select = "<select name=\"gap_$gapIndex\">";
 				$solution_value = "";
-				foreach ($solutions as $idx => $solution) {
-					if ($solution->value1 == $gapIndex) {
+				foreach ($solutions as $idx => $solution) 
+				{
+					if ($solution->value1 == $gapIndex) 
+					{
 						$solution_value = $solution->value2;
 					}
 				}
-		$select .= "<option value=-1 SELECTED> please select </option>";
-        foreach ($gap as $key => $value) {
+				$select .= "<option value=\"-1\" selected=\"selected\">" . $this->lng->txt("please_select") . "</option>";
+				foreach ($gap as $key => $value) 
+				{
 					$selected = "";
-					if ($solution_value == $value->get_order()) {
+					if ($solution_value == $value->get_order()) 
+					{
 						$selected = " selected=\"selected\"";
 					}
-          $select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
-        }
-        $select .= "</select>";
-        $output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
-      }
-      $this->tpl->setVariable("TEXT", $output);
-      $this->tpl->parseCurrentBlock();
-    }
+					$select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
+				}
+				$select .= "</select>";
+				$output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
+			}
+		}
+		$this->tpl->setVariable("TEXT", $output);
+		$this->tpl->parseCurrentBlock();
 
     $this->tpl->setCurrentBlock("cloze_test");
     $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->question->get_title() . $postponed);
