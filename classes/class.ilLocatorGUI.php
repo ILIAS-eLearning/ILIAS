@@ -74,10 +74,12 @@ class ilLocatorGUI
 	*/
 	function ilLocatorGUI()
 	{
+	/*
 		global $_SESSION, $tpl, $lng;
 
 		$this->tpl		=& $tpl;
-		$this->lng		=& $lng;
+		$this->lng		=& $lng;	
+	*/
 	}
 	
 	/**
@@ -92,6 +94,7 @@ class ilLocatorGUI
 	*/
 	function navigate($newLocLevel,$newLocName,$newLocLink,$newLocTarget)
 	{
+		/*
 		if ($newLocLevel > -1)
 		{
 			// update local variables
@@ -121,6 +124,7 @@ class ilLocatorGUI
 			$_SESSION["locator_data"] = $this->locator_data;
 			$_SESSION["locator_level"] = $this->locator_level;
 		}
+		*/
 	}
 	
 	/**
@@ -132,6 +136,7 @@ class ilLocatorGUI
 	*/
 	function output()
 	{
+		/*
 		// update local variables
 		$this->locator_data		= $_SESSION["locator_data"];
 		$this->locator_level	= $_SESSION["locator_level"];
@@ -179,6 +184,7 @@ class ilLocatorGUI
 		
 		// output
 		$this->tpl->show();
+		*/
 	}
 	
 } // END class.LocatorGUI
