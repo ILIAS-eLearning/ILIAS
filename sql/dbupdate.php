@@ -1361,3 +1361,49 @@ if ($res->numRows())
 	$this->db->query($query);
 }
 ?>
+<#74>
+CREATE TABLE `XmlNestedSet` (
+  `ns_book_fk` int(11) NOT NULL default '0',
+  `ns_type` char(50) NOT NULL default '',
+  `ns_tag_fk` int(11) default NULL,
+  `ns_l` int(11) default NULL,
+  `ns_r` int(11) default NULL,
+  KEY `ns_tag_fk` (`ns_tag_fk`),
+  KEY `ns_l` (`ns_l`),
+  KEY `ns_r` (`ns_r`),
+  KEY `ns_book_fk` (`ns_book_fk`)
+) TYPE=MyISAM;
+CREATE TABLE `XmlParam` (
+  `tag_fk` int(11) NOT NULL default '0',
+  `param_name` char(50) NOT NULL default '',
+  `param_value` char(255) NOT NULL default '',
+  KEY `tag_fk` (`tag_fk`)
+) TYPE=MyISAM;
+CREATE TABLE `XmlTags` (
+  `tag_pk` int(11) NOT NULL auto_increment,
+  `tag_depth` int(11) NOT NULL default '0',
+  `tag_name` char(50) NOT NULL default '',
+  PRIMARY KEY  (`tag_pk`)
+) TYPE=MyISAM;
+CREATE TABLE `XmlValue` (
+  `tag_value_pk` int(11) NOT NULL auto_increment,
+  `tag_fk` int(11) NOT NULL default '0',
+  `tag_value` text NOT NULL,
+  PRIMARY KEY  (`tag_value_pk`),
+  KEY `tag_fk` (`tag_fk`)
+) TYPE=MyISAM;
+
+INSERT INTO object_data (type,title,description,owner,create_date,last_update) VALUES ('typ','dbk','Digilib Book',-1,now(),now());
+<?php
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='dbk'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$id = $row->obj_id;
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','1') ");
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','2') ");
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','3') ");
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','4') ");
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','5') ");
+$this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','6') ");
+?>
+ 
