@@ -1566,7 +1566,7 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-$a_allow = "<strong><em><code><cite>";		
+$a_allow = "<strong><em><code><cite><gap>";		
 		if ($a_strip_html)
 		{
 			$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);

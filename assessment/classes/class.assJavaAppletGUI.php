@@ -307,7 +307,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$questiontext = ilUtil::stripSlashes($_POST["question"]);
+		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
