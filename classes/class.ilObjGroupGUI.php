@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.100 2004/10/03 19:41:42 hschottm Exp $
+* @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -894,8 +894,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$_GET["sort_by"] = "login";
 		}
 
-		$img_contact = "pencil";
-		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
+		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_app_send_mail")."\" title=\"".$this->lng->txt("grp_app_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 
 		foreach ($applications as $applicant)
 		{
@@ -963,7 +962,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("functions")));
+		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("grp_options")));
 		$tbl->setHeaderVars(array("","login","fullname","subject","application_date","functions"),$this->ctrl->getParameterArray($this,"",false));
 		$tbl->setColumnWidth(array("","20%","20%","35%","20%","5%"));
 
