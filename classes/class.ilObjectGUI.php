@@ -1423,12 +1423,12 @@ class ilObjectGUI
 	*/
 	function updateObject()
 	{
-		$this->object->setTitle(ilUtil::prepareFormOutput($_POST["Fobject"]["title"]),true);
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		
+
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}

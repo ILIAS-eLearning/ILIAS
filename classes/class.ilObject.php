@@ -479,7 +479,7 @@ class ilObject
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
-			 "('".$this->type."','".ilUtil::addSlashes($this->getTitle())."','".ilUtil::addSlashes($this->getDescription())."',".
+			 "('".$this->type."','".ilUtil::prepareDBString($this->getTitle())."','".ilUtil::prepareDBString($this->getDescription())."',".
 			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
 		$this->ilias->db->query($q);
 
@@ -509,14 +509,11 @@ class ilObject
 	*/
 	function update()
 	{
-//			"title = '".ilUtil::addSlashes($this->getTitle())."',".
-//			"description = '".ilUtil::addSlashes($this->getDescription())."', ".
-
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = '".ilUtil::addSlashes($this->getTitle())."',".
-			"description = '".ilUtil::addSlashes($this->getDescription())."', ".
+			"title = '".ilUtil::prepareDBString($this->getTitle())."',".
+			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
 			"import_id = '".$this->getImportId()."', ".
 			"last_update = now() ".
 			"WHERE obj_id = '".$this->getId()."'";
@@ -835,7 +832,7 @@ class ilObject
 		$q = "UPDATE grp_tree SET child='".$a_new_ref_id."',parent='".$a_parent_ref_id."',obj_id='".$a_new_obj_id."' ".
 			 "WHERE tree='".current($grp_id)."' AND child='".$a_old_ref_id."'";
 		$this->ilias->db->query($q);
-		
+
 		return true;
 	}
 } // END class.ilObject

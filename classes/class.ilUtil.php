@@ -1222,6 +1222,8 @@ class ilUtil
 
 	/**
 	* add slashes if magic qoutes is disabled
+	* don't use that for db inserts/updates! use prepareDBString
+	* instead
 	*/
 	function addSlashes($a_str)
 	{
@@ -1253,6 +1255,20 @@ class ilUtil
 		return htmlspecialchars($a_str);
 	}
 
+
+	/**
+	* prepare a string for db writing (insert/update)
+	*
+	* @param	string		$a_str		string
+	*
+	* @return	string		escaped string
+	*/
+	function prepareDBString($a_str)
+	{
+		return addslashes($a_str);
+	}
+
+
 	/**
 	* removes object from all user's desktops
 	* @access	public
@@ -1265,7 +1281,7 @@ class ilUtil
 
 		$q = "SELECT user_id FROM desktop_item WHERE item_id = '".$a_id."'";
 		$r = $ilias->db->query($q);
-		
+
 		$users = array();
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
