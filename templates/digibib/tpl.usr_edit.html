@@ -1,0 +1,115 @@
+<form action="{FORMACTION}" method="post">
+<table cellspacing="3" cellpadding="0">
+  <tr>
+    <td align="right">{TXT_LOGIN}<sup>*</sup></td>
+    <td><input type="text" name="Fobject[login]"  value="{LOGIN}" size="20" maxsize="30" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_PASSWD}<sup>*</sup></td>
+    <td><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="20" maxsize="32" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_GENDER}<sup>*</sup></td>
+    <td>
+<!-- BEGIN gender -->
+        {GENDER}
+<!-- END gender -->
+    </td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_FIRSTNAME}<sup>*</sup></td>
+    <td><input type="text" name="Fobject[firstname]" value="{FIRSTNAME}" size="20" maxsize="20" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_LASTNAME}<sup>*</sup></td>
+    <td><input type="text" name="Fobject[lastname]" value="{LASTNAME}" size="20" maxsize="30" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_TITLE}&nbsp;</td>
+    <td><input type="text" name="Fobject[title]" value="{TITLE}" size="20" maxsize="20" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_INSTITUTION}&nbsp;</td>
+    <td><input type="text" name="Fobject[institution]" value="{INSTITUTION}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_STREET}&nbsp;</td>
+    <td><input type="text" name="Fobject[street]" value="{STREET}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_CITY}&nbsp;</td>
+    <td><input type="text" name="Fobject[city]" value="{CITY}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_ZIPCODE}&nbsp;</td>
+    <td><input type="text" name="Fobject[zipcode]" value="{ZIPCODE}" size="10" maxsize="10" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_COUNTRY}&nbsp;</td>
+    <td><input type="text" name="Fobject[country]" value="{COUNTRY}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_PHONE}&nbsp;</td>
+    <td><input type="text" name="Fobject[phone]" value="{PHONE}" size="20" maxsize="30" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_EMAIL}<sup>*</sup></td>
+    <td><input type="text" name="Fobject[email]" value="{EMAIL}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_DEFAULT_ROLE}<sup>*</sup></td>
+    <td>
+<!-- BEGIN role -->
+        {DEFAULT_ROLE}
+<!-- END role -->
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+	<td>
+      <input type="submit" value="{TXT_SAVE}" />
+    </td>
+  </tr>
+</table>
+<p class="infotext"><sup>*</sup> Required.</p>
+</form>
+<!-- BEGIN ACTIVE_ROLE -->
+<br><br>
+	<strong>
+      Active Roles
+	</strong>
+<br><br>
+	<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
+	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="tblheader">
+			<td width="20%" align="left">
+			  <div class="list-item">
+			  </div>
+			</td>
+			<td width="80%" align="left"><div class="list-item"> 
+				<strong>Roles:</strong></div>
+			</td>
+		  </tr>
+			<!-- BEGIN TABLE_ROLES -->
+			<tr class="{ACTIVE_ROLE_CSS_ROW}">
+			  <td>
+				{CHECK_ROLE}
+			  </td>
+			  <td>
+				{ROLENAME}
+			  </td>
+			</tr>
+			<!-- END TABLE_ROLES -->
+		  <!-- BEGIN TABLE_SUBMIT -->
+			<tr class="tblheader">
+			  <td>
+				<img src="images/pfeil_rechts.gif" />
+			  </td>
+			  <td>
+				<input type="submit" value="assign" />
+			  </td>
+			</tr>
+		  <!-- END TABLE_SUBMIT -->
+	  </table>
+	  </form>
+<!-- END ACTIVE_ROLE -->
