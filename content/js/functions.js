@@ -75,11 +75,16 @@ function beginDrag()
 
 function doMouseUp(id) 
 {
-	if (dragDropShow) {
+	if (dragDropShow) 
+	{
+		// mousebutton released over new object. call moveafter
 		//alert(dragId+" - "+overId);
 		DID = overId.substr(7);
 		OID = dragId.substr(7);
-		doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
+		if (DID != OID) 
+		{ 
+			doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
+		}
 	}
 	dragId = "";
 	mouseIsDown = false;
