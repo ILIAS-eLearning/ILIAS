@@ -175,8 +175,15 @@ class ilLMPageObject extends ilLMObject
 	*
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
-	function getPresentationTitle($a_mode = IL_CHAPTER_TITLE)
+	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE)
 	{
+		global $ilDB;
+
+		// select
+		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_pg_id."'";
+		$pg_set = $ilDB->query($query);
+		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+
 		if($a_mode == IL_NO_HEADER)
 		{
 			return "";
@@ -184,15 +191,16 @@ class ilLMPageObject extends ilLMObject
 
 		if($a_mode == IL_PAGE_TITLE)
 		{
-			return $this->getTitle();
+			return $pg_rec["title"];
 		}
 
-		$tree = new ilTree($this->getLMId());
+		$tree = new ilTree($pg_rec["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
-		if ($tree->isInTree($this->getId()))
+
+		if ($tree->isInTree($pg_rec["obj_id"]))
 		{
-			$pred_node = $tree->fetchPredecessorNode($this->getId(), "st");
+			$pred_node = $tree->fetchPredecessorNode($pg_rec["obj_id"], "st");
 			/*
 			require_once("content/classes/class.ilStructureObject.php");
 			$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
