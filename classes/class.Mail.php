@@ -518,7 +518,7 @@ class Mail
 			if(!$this->checkRecipients($a_rcp_bcc))
 			{
 				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_bcc_not_valid");
+				$error_message .= $this->lng->txt("mail_bc_not_valid");
 			}
 		}
 		return $error_message;
@@ -592,7 +592,7 @@ class Mail
 			if(!$valid)
 			{
 				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_bcc_not_valid");
+				$error_message .= $this->lng->txt("mail_bc_not_valid");
 			}
 		}
 		return $error_message;
@@ -729,11 +729,11 @@ class Mail
 				{
 					if(!$this->getEmailOfSender())
 					{
-						return "You have no valid email address";
+						return $lng->txt("mail_check_your_email_addr");
 					}
 					if($logins = $this->checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc))
 					{
-						$error_message = "The following users have no valid email address:<BR>";
+						$error_message = $lng->txt("mail_user_addr_n_valid")."<BR>";
 						$error_message .= implode("<BR>",$logins);
 
 						return $error_message;
@@ -747,7 +747,7 @@ class Mail
 				
 				if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$sent_id))
 				{
-					return "Error sending mail";
+					return $lng->txt("mail_send_error");
 				}
 				// SAVE ATTACHMENTS
 				if($error = $this->mfile->saveFiles($sent_id,$a_attachment))
@@ -759,7 +759,7 @@ class Mail
 			case 'email':
 				if(!$this->getEmailOfSender())
 				{
-					return "You have no valid email address";
+					return $lng->txt("mail_check_your_email_addr");
 				}
 				if($error_message = $this->checkOnlyEmail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message))
 				{
@@ -785,11 +785,11 @@ class Mail
 				{
 					if(!$this->getEmailOfSender())
 					{
-						return "You have no valid email address";
+						return $lng->txt("mail_check_your_email_addr");
 					}
 					if($logins = $this->checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc))
 					{
-						$error_message = "The following users have no valid email address:<BR>";
+						$error_message = $lng->txt("mail_user_addr_n_valid")."<BR>";
 						$error_message .= implode("<BR>",$logins);
 
 						return $error_message;
@@ -802,7 +802,7 @@ class Mail
 				
 				if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,'system'))
 				{
-					return "Error sending mail";
+					return $lng->txt("mail_send_error");
 				}
 				break;
 		}
@@ -854,6 +854,8 @@ class Mail
 		$mmail = new MimeMail();
 		$mmail->From($sender);
 		$mmail->To($a_rcp_to);
+		// Add installation name to subject
+		$a_m_subject = "[".$this->ilias->getSetting("inst_name")."] ".$a_m_subject;
 		$mmail->Subject($a_m_subject);
 		$mmail->Body($a_m_message);
 		if($a_rcp_cc)
