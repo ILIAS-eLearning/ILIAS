@@ -299,7 +299,7 @@ class ilGroupImportParser extends ilSaxParser
 		// ADMIN
 		foreach($this->group_data["admin"] as $user)
 		{
-			if($usr_id = ilObjUser::_getImportedUserId($this->group_data["owner"]))
+			if($usr_id = ilObjUser::_getImportedUserId($user))
 			{
 				$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultAdminRole());
 			}
@@ -308,9 +308,9 @@ class ilGroupImportParser extends ilSaxParser
 		// MEMBER
 		foreach($this->group_data["member"] as $user)
 		{
-			if($usr_id = ilObjUser::_getImportedUserId($this->group_data["owner"]))
+			if($usr_id = ilObjUser::_getImportedUserId($user))
 			{
-				$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultAdminRole());
+				$this->group_obj->addMember($usr_id,$this->group_obj->getDefaultMemberRole());
 			}
 		}
 		return true;
