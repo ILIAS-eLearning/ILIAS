@@ -1390,16 +1390,28 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outIntroductionPage($maxprocessingtimereached);
-		//		$this->outTestResults();
+				if (!$this->object->canViewResults()) 
+				{
+					$this->outIntroductionPage($maxprocessingtimereached);
+				}
+				else
+				{
+					$this->outTestResults();
+				}
 				return;
 			}
 			if ($maxprocessingtimereached)
 			{
 				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outIntroductionPage($maxprocessingtimereached);
-		//		$this->outTestResults();
+				if (!$this->object->canViewResults()) 
+				{
+					$this->outIntroductionPage($maxprocessingtimereached);
+				}
+				else
+				{
+					$this->outTestResults();
+				}
 				return;
 			}
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
@@ -1470,8 +1482,14 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				// finish test
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outIntroductionPage($maxprocessingtimereached);
-		//		$this->outTestResults();
+				if (!$this->object->canViewResults()) 
+				{
+					$this->outIntroductionPage($maxprocessingtimereached);
+				}
+				else
+				{
+					$this->outTestResults();
+				}
 			}
 		}
 	}
