@@ -138,6 +138,7 @@ class ilObjFile extends ilObject
 	function sendFile()
 	{
 		$file = $this->getDirectory()."/".$this->getFileName();
+
 		if(@is_file($file))
 		{
 			// send file
