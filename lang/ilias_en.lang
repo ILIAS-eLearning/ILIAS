@@ -640,6 +640,8 @@ chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
+common#:#insert_object_here#:#Insert object here
+common#:#clear_clipboard#:#Empty Clipboard
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access

@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.26 2004/07/19 15:39:24 smeyer Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.27 2004/08/18 08:48:18 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -206,6 +206,13 @@ class ilObjFolderGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+		}
+
+		// show clipboard in repository
+		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
+		{
+			$tabs_gui->addTarget("clipboard",
+				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
