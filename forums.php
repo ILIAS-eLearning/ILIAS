@@ -14,9 +14,10 @@ $frm = new Forum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-
 // catch stored message
 sendInfo();
+// display infopanel if something happened
+infoPanel();
 
 // get all forums
 $frm_obj = TUtil::getObjectsByOperations('frm','visible');
@@ -217,7 +218,7 @@ else
 $tpl->setCurrentBlock("forum");
 
 $tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
-$tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("forums_overview"));
 $tpl->setVariable("TXT_FORUM", $lng->txt("forum"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));

@@ -12,6 +12,9 @@ require_once "./include/inc.header.php";
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
+// display infopanel if something happened
+infoPanel();
+
 //display buttons
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_profile.php");

@@ -19,9 +19,11 @@ $frm->setForumId($forumObj->getId());
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 $topicData = $frm->getOneTopic();
 
-$tpl->setVariable("HEADER", $forumObj->getTitle());
+$tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+// display infopanel if something happened
+infoPanel();
 
 if (!$rbacsystem->checkAccess("write",$forumObj->getRefId()))
 {
