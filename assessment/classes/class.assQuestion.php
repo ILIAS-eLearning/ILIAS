@@ -1199,6 +1199,9 @@ class ASS_Question
 		);
 		$result = $this->ilias->db->query($query);
 		$answerblock_id = $this->ilias->db->getLastInsertId();
+		$answerblock = new EnhancedAnswerblock($this->getId());
+		$answerblock->setAnswerblockIndex(count($this->answerblocks));
+		array_push($this->answerblocks, $answerblock);
 		return $answerblock_id;
 	}
 
@@ -1322,7 +1325,7 @@ class ASS_Question
 			{
 				while ($enhancedrow = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$answerblock->addConnection($enhancedrow["answer_fi"], $enhancedrow["enhanced_order"], $enhancedrow["answer_boolean_prefix"]);
+					$answerblock->addConnection($enhancedrow["value1"], $enhancedrow["enhanced_order"], $enhancedrow["answer_boolean_prefix"]);
 				}
 			}
 			array_push($this->answerblocks, $answerblock);
@@ -1355,7 +1358,7 @@ class ASS_Question
 			$answerblock_id = $db->getLastInsertId();
 			foreach ($answerblock->connections as $order => $connection)
 			{
-				$query = sprintf("INSERT INTO qpl_answer_enhanced (answer_enhanced_id, answerblock_fi, answer_fi, answer_boolean_prefix, enhanced_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$query = sprintf("INSERT INTO qpl_answer_enhanced (answer_enhanced_id, answerblock_fi, value1, answer_boolean_prefix, enhanced_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 					$db->quote($answerblock_id . ""),
 					$db->quote($connection->getAnswerId() . ""),
 					$db->quote($connection->getBooleanPrefix() . ""),

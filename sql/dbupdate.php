@@ -4894,3 +4894,7 @@ REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,43);
 UPDATE settings SET value = '3.2.0 2004-10-20' WHERE keyword = 'ilias_version' LIMIT 1;
 <#322>
 ALTER TABLE `qpl_answer_enhanced` CHANGE `answer_fi` `answer_fi` VARCHAR( 20 ) DEFAULT '0' NOT NULL;
+<#323>
+ALTER TABLE `qpl_answer_enhanced` CHANGE `answer_fi` `value1` INT DEFAULT '0' NOT NULL;
+ALTER TABLE `qpl_answer_enhanced` ADD `value2` INT DEFAULT '0' NOT NULL AFTER `value1`;
+ALTER TABLE `qpl_answer_enhanced` DROP `answer_boolean_connection`;
