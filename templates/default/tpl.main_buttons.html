@@ -1,5 +1,5 @@
 <style>
-body { margin:0px; }
+body { margin:0px;}
 </style>
 
 <script type="text/javascript">
@@ -63,126 +63,73 @@ if (document.images)
 //-->
 </script>
 
+<div class="ilMainHeader">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr class="btnbar">
-  <td width="1%" height="1"></td>
-  <td width="43%" height="1"></td>
-  <td width="30%" height="1"></td>
-  <td width="25%" height="1"></td>
-  <td width="1%" height="1"></td>
+<tr>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td height="5" width="20"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
 </tr>
-<tr class="btnbar">
-  <td><img class="spacer" src="{IMG_SPACE}" border="0" width="10" height="1" /></td>
-  <td>
-    <table cellpadding="0" cellspacing="0" border="0">
-    <tr>
-      <td colspan="6"><img class="spacer" border="0" src="{IMG_SPACE}" width="1" height="4" /></td>
-    </tr>
-    <tr>
-
+<tr>
+	<td><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" /></td>
+	<td>
+		<table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td rowspan="2"><img style="vertical-align:bottom;" width="60" height="60" border="0" src="{HEADER_ICON}"></td>
+			<td rowspan="2"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+			<td>Open Source eLearning</td>
+		</tr>
+		<tr><td valign="bottom">
 <!-- BEGIN desktopbutton -->
-      <td><a href="{SCRIPT_DESK}" target="{TARGET_DESK}" onmouseover="swtchon(11,desk,'{TXT_PERSONAL_DESKTOP}');return true;" onmouseout="swtch(0,desk)">
-	    <img border="0" src="{IMG_DESK}" width="32" height="32" alt="{TXT_PERSONAL_DESKTOP}" title="{TXT_PERSONAL_DESKTOP}" name="desk" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE_DESK}" width="5" /></td>
+		<a class="ilMainHeader" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
 <!-- END desktopbutton -->
-
-<!--
-      <td><a class="menu" href="{SCRIPT_CATALOG}" target="{TARGET}" ">
-		{TXT_CATALOG}
-	    </a>
-	  	</td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
--->
-	  <td><a href="{SCRIPT_CATALOG}" target="{TARGET}" onmouseover="swtchon(12,courses,'{TXT_CATALOG}');return true;" onmouseout="swtch(1,courses)">
-	    <img border="0" src="{IMG_CATALOG}" width="32" height="32" alt="{TXT_CATALOG}" title="{TXT_CATALOG}" name="courses" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-
-      <td><a href="{SCRIPT_SEARCH}" target="{TARGET}" onmouseover="swtchon(14,srch,'{TXT_SEARCH}');return true;" onmouseout="swtch(3,srch)">
-	    <img border="0" src="{IMG_SEARCH}" width="32" height="32" alt="{TXT_SEARCH}" title="{TXT_SEARCH}" name="srch" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-<!-- buttons disabled
-      <td><a href="{SCRIPT_LITERAT}" target="{TARGET}" onmouseover="swtchon(15,literat,'{TXT_LITERATURE}');return true;" onmouseout="swtch(4,literat)">
-	    <img border="0" src="{IMG_LITERAT}" width="32" height="32" alt="{TXT_LITERATURE}" title="{TXT_LITERATURE}" name="literat" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
--->
-
+		<a class="ilMainHeader" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
+		<a class="ilMainHeader" href="{SCRIPT_SEARCH}" target="{TARGET}">{TXT_SEARCH}</a>
 <!-- BEGIN mailbutton -->
-      <td><a href="{SCRIPT_MAIL}" target="{TARGET_MAIL}" onmouseover="swtchon(16,mail,'{TXT_MAIL}');return true;" onmouseout="swtch(5,mail)">
-	    <img border="0" src="{IMG_MAIL}" width="32" height="32" alt="{TXT_MAIL}" title="{TXT_MAIL}" name="mail" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE_MAIL}" width="5" /></td>
+		<a class="ilMainHeader" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>
 <!-- END mailbutton -->
-
-<!--
-		<td><a href="modules/dateplaner/inbox.php" target="{TARGET}" onmouseover="swtchon(29,termin,'{TXT_DP}');return true;" onmouseout="swtch(28,termin)">
-			<img border="0" src="{IMG_DP}" width="32" height="32" alt="{TXT_DP}" title="{TXT_DP}" name="termin" /></a></td>
-		<td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
--->
-<!--
-      <td><a href="{SCRIPT_FORUMS}" target="{TARGET}" onmouseover="swtchon(17,newsgr,'{TXT_FORUMS}');return true;" onmouseout="swtch(6,newsgr)">
-	    <img border="0" src="{IMG_FORUMS}" width="32" height="32" alt="{TXT_FORUMS}" title="{TXT_FORUMS}" name="newsgr" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-
-      <td><a href="{SCRIPT_GROUPS}" target="{TARGET}" onmouseover="swtchon(18,groups,'{TXT_GROUPS}');return true;" onmouseout="swtch(7,groups)">
-	    <img border="0" src="{IMG_GROUPS}" width="32" height="32" alt="{TXT_GROUPS}" title="{TXT_GROUPS}" name="groups" /></a></td>
--->
-
-
-
-
 <!-- BEGIN userisadmin -->
-      <!--<td><img class="spacer" border="0" src="{IMG_SPACE_ADMIN}" width="5" /></td>-->
-      <td><a href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}" onmouseover="swtchon(27,admin,'{TXT_ADMINISTRATION}');return true;" onmouseout="swtch(26,admin)">
-	    <img border="0" src="{IMG_ADMIN}" width="32" height="32" alt="{TXT_ADMINISTRATION}" title="{TXT_ADMINISTRATION}" name="admin" /></a></td>
+		<a class="ilMainHeader" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
 <!-- END userisadmin -->
-    </tr>
-    <tr>
-      <td colspan="6"><img class="spacer" border="0" src="{IMG_SPACE}" width="1" height="5"</></td>
-    </tr>
-    </table>
-  </td>
-<!-- BEGIN userisanonymous -->
-  <td width="100%" align="right" nowrap="nowrap">
-  <span class="il_menu">{TXT_NOT_LOGGED_IN}!</span>
-  <br/>
-  <a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a>
-<!-- BEGIN registration_link -->  
-  <span class="il_menu">&nbsp;|&nbsp;</span>
-  <a class="menu" href="{LINK_REGISTER}" target="_top">{TXT_REGISTER}</a>
-<!-- END registration_link -->
-  </td>
-<!-- END userisanonymous -->
-<!-- BEGIN userisloggedin -->
-  <td width="100%" align="right" nowrap="nowrap">{TXT_LOGIN_AS} {USERNAME}<br/><a class="menu" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a></td>
-<!-- END userisloggedin -->
-  <td align="right">
-    <table cellpadding="0" cellspacing="0" border="0">
-    <tr>
-      <td colspan="5"><img class="spacer" border="0" src="{IMG_SPACE}" width="1" height="4" /></td>
-    </tr>
-    <tr>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-<!--
-      <td><a href="http://www.ilias.uni-koeln.de/iosbb/index.php" target="{TARGET}" onmouseover="swtchon(19,help,'{TXT_HELP}');return true;" onmouseout="swtch(8,help)" target="_{TARGET}">
-	    <img  border="0" src="{IMG_HELP}" width="32" height="32" alt="{TXT_HELP}" title="{TXT_HELP}" name="help" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-      <td><a href="{SCRIPT_FEEDB}" target="{TARGET}" onmouseover="swtchon(20,feed,'{TXT_FEEDBACK}');return true;" onmouseout="swtch(9,feed)">
-	    <img  border="0" src="{IMG_FEEDB}" width="32" height="32" alt="{TXT_FEEDBACK}" title="{TXT_FEEDBACK}" name="feed" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
--->
-	  <!--
-      <td><a href="{SCRIPT_LOGOUT}" target="_top" onmouseover="swtchon(21,logout,'{TXT_LOGOUT}');return true;" onmouseout="swtch(10,logout)">
-	    <img  border="0" src="{IMG_LOGOUT}" width="32" height="32" alt="{TXT_LOGOUT}" title="{TXT_LOGOUT}" name="logout" /></a></td>
-      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
-	  -->
-      <td><a href="http://www.ilias.uni-koeln.de" target="_blank" onmouseover="window.status='ILIAS open source - Homepage';return true;" onmouseout="window.status='';">
-	    <img  border="0" src="{IMG_ILIAS}" width="32" height="32" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a></td>
-      <td><small>&nbsp;</small></td>
-    </tr>
-    <tr>
-      <td colspan="5"><img class="spacer" border="0" src="{IMG_SPACE}" width="1" height="5"</></td>
-    </tr>
-    </table>
-  </td>
-  <td><img class="spacer" src="{IMG_SPACE}" border="0" width="10" height="1" /></td>
-</tr>
+		</td></tr>
+		</table>
+	</td>
+	<!-- BEGIN userisanonymous -->
+	<td align="right" nowrap="nowrap">
+	<div class="ilLogin">
+	<span class="il_menu">{TXT_NOT_LOGGED_IN}!</span>
+	<br/>
+	<a href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a>
+	<!-- BEGIN registration_link -->
+	<span class="il_menu">&nbsp;|&nbsp;</span>
+	<a href="{LINK_REGISTER}" target="_top">{TXT_REGISTER}</a>
+	<!-- END registration_link -->
+	</div>
+	</td>
+	<!-- END userisanonymous -->
+	<!-- BEGIN userisloggedin -->
+	<td align="right" nowrap="nowrap">
+	<div class="ilLogin">
+	{TXT_LOGIN_AS} {USERNAME}<br/><a href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
+	</div>
+	</td>
+	<!-- END userisloggedin -->
+	<td><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" /></td>
+	</tr>
+	<tr>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
+	</tr>
 </table>
+</div>
