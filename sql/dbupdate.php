@@ -3917,6 +3917,7 @@ UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_vers
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
 <#236>
 ALTER TABLE `aicc_object` CHANGE `alm_id` `slm_id` INT( 11 ) DEFAULT '0' NOT NULL;
 
@@ -4032,6 +4033,7 @@ $rbacadmin->assignRoleToFolder($member_id,ROLE_FOLDER_ID,"n");
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
 <#239>
 CREATE TABLE `crs_items` (
   `parent_id` int(11) NOT NULL default '0',
@@ -4080,6 +4082,7 @@ CREATE TABLE `crs_subscribers` (
   `sub_time` int(11) NOT NULL default '0',
   PRIMARY KEY  (`usr_id`,`obj_id`)
 ) TYPE=MyISAM;
+
 <#240>
 CREATE TABLE `crs_archives` (
   `archive_id` int(11) NOT NULL auto_increment,
@@ -4090,8 +4093,10 @@ CREATE TABLE `crs_archives` (
   `archive_size` int(11) default NULL,
   PRIMARY KEY  (`archive_id`)
 ) TYPE=MyISAM;
+
 <#241>
 ALTER TABLE `crs_archives` ADD `archive_lang` VARCHAR( 16 ) ;
+
 <#242>
 ALTER  TABLE  `tst_tests`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) DEFAULT  '0' NOT  NULL;
 ALTER  TABLE  `qpl_questions`  CHANGE  `ref_fi`  `obj_fi` INT( 10  ) UNSIGNED DEFAULT  '0' NOT  NULL;
@@ -4172,3 +4177,11 @@ $tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
 UPDATE object_data SET type = 'auth', title = 'Authentication settings', description = 'Select and configure authentication mode for all user accounts' WHERE type = 'ldap' LIMIT 1;
 UPDATE object_data SET title = 'auth', description = 'Authentication settings' WHERE type = 'typ' AND title = 'ldap' AND owner = '-1' LIMIT 1;
 INSERT INTO settings (keyword,value) VALUES ('auth_mode',1);
+
+<#247>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
+

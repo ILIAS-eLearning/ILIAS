@@ -37,113 +37,121 @@ define("CLOZE_SELECT", "1");
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment
 */
-class ASS_ClozeTest extends ASS_Question {
-/**
-* The cloze text containing variables defininig the clozes
-*
-* The cloze text containing variables defininig the clozes. The syntax for the cloze variables is *[varname],
-* where varname has to be an unique identifier.
-*
-* @var string
-*/
-  var $cloze_text;
+class ASS_ClozeTest extends ASS_Question
+{
+	/**
+	* The cloze text containing variables defininig the clozes
+	*
+	* The cloze text containing variables defininig the clozes. The syntax for the cloze variables is *[varname],
+	* where varname has to be an unique identifier.
+	*
+	* @var string
+	*/
+	var $cloze_text;
 
-/**
-* The gaps of the cloze question
-*
-* $gaps is an array of the predefined gaps of the cloze question
-*
-* @var array
-*/
-  var $gaps;
+	/**
+	* The gaps of the cloze question
+	*
+	* $gaps is an array of the predefined gaps of the cloze question
+	*
+	* @var array
+	*/
+	var $gaps;
 
-/**
-* The start tag beginning a cloze gap
-*
-* The start tag is set to "*[" by default.
-*
-* @var string
-*/
-  var $start_tag;
-/**
-* The end tag beginning a cloze gap
-*
-* The end tag is set to "]" by default.
-*
-* @var string
-*/
-  var $end_tag;
-/**
-* ASS_ClozeTest constructor
-*
-* The constructor takes possible arguments an creates an instance of the ASS_ClozeTest object.
-*
-* @param string $title A title string to describe the question
-* @param string $comment A comment string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @param string $cloze_text The question string of the cloze test
-* @param string $start_tag The start tag for a cloze gap
-* @param string $end_tag The end tag for a cloze gap
-* @param string $materials An uri to additional materials
-* @access public
-*/
-  function ASS_ClozeTest(
-    $title = "",
-    $comment = "",
-    $author = "",
-    $owner = -1,
-    $cloze_text = ""
-  )
-  {
-    $this->start_tag = "<gap>";
-    $this->end_tag = "</gap>";
-    $this->ASS_Question($title, $comment, $author, $owner);
-    $this->gaps = array();
-    $this->set_cloze_text($cloze_text);
-  }
+	/**
+	* The start tag beginning a cloze gap
+	*
+	* The start tag is set to "*[" by default.
+	*
+	* @var string
+	*/
+	var $start_tag;
 
-/**
-* Returns true, if a cloze test is complete for use
-*
-* Returns true, if a cloze test is complete for use
-*
-* @return boolean True, if the cloze test is complete for use, otherwise false
-* @access public
-*/
+	/**
+	* The end tag beginning a cloze gap
+	*
+	* The end tag is set to "]" by default.
+	*
+	* @var string
+	*/
+	var $end_tag;
+	/**
+	* ASS_ClozeTest constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the ASS_ClozeTest object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $comment A comment string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @param string $cloze_text The question string of the cloze test
+	* @param string $start_tag The start tag for a cloze gap
+	* @param string $end_tag The end tag for a cloze gap
+	* @param string $materials An uri to additional materials
+	* @access public
+	*/
+	function ASS_ClozeTest(
+		$title = "",
+		$comment = "",
+		$author = "",
+		$owner = -1,
+		$cloze_text = ""
+	)
+	{
+		$this->start_tag = "<gap>";
+		$this->end_tag = "</gap>";
+		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->gaps = array();
+		$this->set_cloze_text($cloze_text);
+	}
+
+	/**
+	* Returns true, if a cloze test is complete for use
+	*
+	* Returns true, if a cloze test is complete for use
+	*
+	* @return boolean True, if the cloze test is complete for use, otherwise false
+	* @access public
+	*/
 	function isComplete()
 	{
 		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)))
 		{
 			return true;
 		}
-			else
+		else
 		{
 			return false;
 		}
 	}
 
-/**
-* Saves a ASS_ClozeTest object to a database
-*
-* Saves a ASS_ClozeTest object to a database (experimental)
-*
-* @param object $db A pear DB object
-* @access public
-*/
-  function saveToDb($original_id = "")
-  {
-    global $ilias;
-    $db =& $ilias->db;
+	/**
+	* Saves a ASS_ClozeTest object to a database
+	*
+	* Saves a ASS_ClozeTest object to a database (experimental)
+	*
+	* @param object $db A pear DB object
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+		global $ilias;
+
+		$db =& $ilias->db;
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete())
+		{
 			$complete = 1;
 		}
-    $estw_time = $this->getEstimatedWorkingTime();
-    $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+
+		$estw_time = $this->getEstimatedWorkingTime();
+		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 		$shuffle = 1;
+
 		if (!$this->shuffle)
+		{
 			$shuffle = 0;
+		}
 
 		if ($original_id)
 		{
@@ -154,77 +162,89 @@ class ASS_ClozeTest extends ASS_Question {
 			$original_id = "NULL";
 		}
 
-    if ($this->id == -1) {
-      // Neuen Datensatz schreiben
-      $now = getdate();
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $db->quote(3),
-        $db->quote($this->obj_id),
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->owner),
-        $db->quote($this->cloze_text),
-        $db->quote($estw_time),
-        $db->quote("$this->shuffle"),
-				$db->quote("$complete"),
-        $db->quote($created),
-				$original_id
-      );
-      $result = $db->query($query);
-      if ($result == DB_OK) {
-        $this->id = $this->ilias->db->getLastInsertId();
-        // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-        if ($this->getTestId() > 0) {
-          $this->insertIntoTest($this->getTestId());
-        }
-      }
-    } else {
-      // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->cloze_text),
-        $db->quote($estw_time),
+		if ($this->id == -1)
+		{
+			// Neuen Datensatz schreiben
+			$now = getdate();
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$db->quote(3),
+				$db->quote($this->obj_id),
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->owner),
+				$db->quote($this->cloze_text),
+				$db->quote($estw_time),
 				$db->quote("$this->shuffle"),
 				$db->quote("$complete"),
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-    }
+				$db->quote($created),
+				$original_id
+			);
+			$result = $db->query($query);
+			if ($result == DB_OK)
+			{
+				$this->id = $this->ilias->db->getLastInsertId();
 
-    if ($result == DB_OK) {
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
+				// create page object of question
+				$this->createPageObject();
 
-      // Antworten schreiben
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				if ($this->getTestId() > 0)
+				{
+					$this->insertIntoTest($this->getTestId());
+				}
+			}
+		}
+		else
+		{
+			// Vorhandenen Datensatz aktualisieren
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->cloze_text),
+				$db->quote($estw_time),
+				$db->quote("$this->shuffle"),
+				$db->quote("$complete"),
+				$db->quote($this->id)
+				);
+			$result = $db->query($query);
+		}
 
-      // alte Antworten löschen
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-      // Anworten wegschreiben
-      foreach ($this->gaps as $key => $value) {
-        foreach ($value as $answer_id => $answer_obj) {
-          $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-            $db->quote($this->id),
-            $db->quote($key),
-            $db->quote($answer_obj->get_answertext()),
-            $db->quote($answer_obj->get_points()),
-            $db->quote($answer_obj->get_order()),
+		if ($result == DB_OK)
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
+
+			// Antworten schreiben
+
+			// alte Antworten löschen
+			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+			// Anworten wegschreiben
+			foreach ($this->gaps as $key => $value)
+			{
+				foreach ($value as $answer_id => $answer_obj)
+				{
+					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($this->id),
+						$db->quote($key),
+						$db->quote($answer_obj->get_answertext()),
+						$db->quote($answer_obj->get_points()),
+						$db->quote($answer_obj->get_order()),
 						$db->quote($answer_obj->get_cloze_type()),
 						$db->quote($answer_obj->get_name()),
 						$db->quote($answer_obj->get_shuffle()),
-            $db->quote($answer_obj->get_correctness())
-          );
-          $answer_result = $db->query($query);
-        }
-      }
-    }
-  }
+						$db->quote($answer_obj->get_correctness())
+						);
+					$answer_result = $db->query($query);
+				}
+			}
+		}
+	}
 
 /**
 * Loads a ASS_ClozeTest object from a database
@@ -325,23 +345,23 @@ class ASS_ClozeTest extends ASS_Question {
 		return $clone->id;
 	}
 
-/**
-* Returns a QTI xml representation of the question
-*
-* Returns a QTI xml representation of the question and sets the internal
-* domxml variable with the DOM XML representation of the QTI xml representation
-*
-* @return string The QTI xml representation of the question
-* @access public
-*/
-	function to_xml()
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
+	function to_xml($a_include_header = true)
 	{
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
 		}
 		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);		
+		$this->domxml = domxml_open_mem($xml_header);
 		$root = $this->domxml->document_element();
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
@@ -359,7 +379,7 @@ class ASS_ClozeTest extends ASS_Question {
 		$qtiPresentation->set_attribute("label", $this->getTitle());
 		// add flow to presentation
 		$qtiFlow = $this->domxml->create_element("flow");
-		
+
 		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->get_cloze_text());
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->get_gap_count(); $i++)
@@ -504,7 +524,7 @@ class ASS_ClozeTest extends ASS_Question {
 			}
 		}
 		$qtiIdent->append_child($qtiResprocessing);
-		
+
 		// PART III: qti itemfeedback
 		for ($i = 0; $i < $this->get_gap_count(); $i++)
 		{
@@ -568,7 +588,16 @@ class ASS_ClozeTest extends ASS_Question {
 				}
 			}
 		}
-		return $this->domxml->dump_mem(true);
+
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
+
 	}
 
 	/**

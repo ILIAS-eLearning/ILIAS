@@ -353,6 +353,10 @@ class ASS_OrderingQuestion extends ASS_Question
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+
+				// create page object of question
+				$this->createPageObject();
+
 				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{

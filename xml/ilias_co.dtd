@@ -63,7 +63,7 @@
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question), BibItemIdentifier*)>
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
 <!ELEMENT BibItemIdentifier EMPTY>
 <!ATTLIST BibItemIdentifier
@@ -446,6 +446,13 @@
 	Solution (Right | Wrong) #IMPLIED
 >
 <!ELEMENT Hint (Paragraph | MediaObject)+> -->
+
+<!-- Question -->
+<!ELEMENT Question EMPTY>
+<!ATTLIST Question
+	QRef CDATA #REQUIRED
+>
+
 
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->

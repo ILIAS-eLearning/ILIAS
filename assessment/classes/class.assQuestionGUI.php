@@ -105,6 +105,13 @@ class ASS_QuestionGUI
 		return "";
 	}
 
+	/**
+	* needed for page editor compliance
+	*/
+	function getType()
+	{
+		return $this->getQuestionType();
+	}
 
 	/**
 	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form

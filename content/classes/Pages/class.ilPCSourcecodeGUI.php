@@ -76,7 +76,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		// set tabs
 		$this->setTabs();
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "content");
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_src"));
@@ -185,7 +185,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "content");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_src"));
 		
 		if ($this->pg_obj->getParentType() == "lm" ||

@@ -1031,6 +1031,16 @@ div.ilc_TableOfContents
 
 /* --- Test & Assessment styles --- */
 
+div.ilc_Question
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color: red;
+}
+
 .testSheet {
 	background: #EEEEEE;
 	border-spacing: 1px;
