@@ -38,7 +38,6 @@ if($_POST["cmd"])
 			if(!$path = $mfile->getAttachmentPath($_POST["filename"],$_GET["mail_id"]))
 			{
 				sendInfo("Error reading file!");
-				break;
 			}
 			header("Content-Type: application/octet-stream");
 			header("Content-Disposition: attachment; filename=\"".$_POST["filename"]."\"");
