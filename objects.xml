@@ -43,6 +43,7 @@
 	<subobj name="tst">tst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="mep">mep</subobj>
+	<subobj name="htlm">htlm</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<property name="view">view_content</property>
@@ -179,6 +180,13 @@
 <object name="mep" class_name="MediaPool" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
 	<property name="listMedia" module="1">view_content</property>
 	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="htlm" class_name="FileBasedLM" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<property name="edit" module="n">edit</property>
+	<property name="listFiles" module="1">list_files</property>
+	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>

@@ -425,6 +425,9 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
+common#:#htlm#:#HTML Learning Module
+common#:#htlm_new#:#New HTML Learning Module
+common#:#htlm_add#:#Add HTML Learning Module
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -435,6 +438,7 @@ common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_frm#:#Create Forum
+common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
 common#:#cat_create_lm#:#Create Learning Module
@@ -863,6 +867,7 @@ common#:#ip_address#:#IP Address
 common#:#is_already_your#:#is already your
 common#:#item#:#Item
 common#:#kb#:#KByte
+common#:#htlm_edit#:#Edit HTML Learning Module Properties
 common#:#keywords#:#Keywords
 common#:#lang_cs#:#Czech
 common#:#lang_dateformat#:#Y-m-d
@@ -998,12 +1003,17 @@ common#:#mep#:#Media Pool
 common#:#mep_add#:#Add Media Pool
 common#:#mep_added#:#Added Media Pool
 common#:#mep_delete#:#Delete Media Pool
+common#:#htlm_delete#:#Delete HTML Learning Module
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_edit_permission#:#Change permission settings
+common#:#htlm_edit_permission#:#Change permission settings
 common#:#mep_new#:#New Media Pool
 common#:#mep_read#:#Read Media Pool Content
+common#:#htlm_read#:#Read HTML Learning Module
 common#:#mep_visible#:#Media Pool is visible
+common#:#htlm_visible#:#HTML Learning Module is visible
 common#:#mep_write#:#Edit Media Pool Content
+common#:#htlm_write#:#Edit HTML Learning Module
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
@@ -1195,6 +1205,8 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
+common#:#obj_htlm#:#HTML Learning Module
+common#:#objs_htlm#:#HTML Learning Modules
 common#:#obj_st#:#Chapter
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
@@ -1225,6 +1237,7 @@ common#:#objs_lm#:#Learning Modules
 common#:#objs_lng#:#Languages
 common#:#objs_lo#:#Learning Objects
 common#:#objs_mob#:#Media Objects
+common#:#objs_mep#:#Media Pools
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools
@@ -1558,6 +1571,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_list_files#:#List Files
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
