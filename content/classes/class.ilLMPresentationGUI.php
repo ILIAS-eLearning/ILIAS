@@ -1498,7 +1498,14 @@ class ilLMPresentationGUI
 
 		if (!is_array($_POST["item"]))
 		{
-			$_POST["item"][$_GET["obj_id"]] = "y";
+			if ($_GET["obj_id"] != "")
+			{
+				$_POST["item"][$_GET["obj_id"]] = "y";
+			}
+			else
+			{
+				$_POST["item"][1] = "y";
+			}
 		}
 
 		foreach ($nodes as $node)
@@ -1661,9 +1668,11 @@ class ilLMPresentationGUI
 				{
 					$chap =& new ilStructureObject($this->lm, $node["obj_id"]);
 					$this->tpl->setCurrentBlock("print_chapter");
+
+					$chapter_title = $chap->_getPresentationTitle($node["obj_id"],
+						$this->lm->isActiveNumbering());
 					$this->tpl->setVariable("CHAP_TITLE",
-						$chap->_getPresentationTitle($node["obj_id"],
-						$this->lm->isActiveNumbering()));
+						$chapter_title);
 
 					/*
 					if ($chap->getDescription() != "none" &&
@@ -1695,15 +1704,24 @@ class ilLMPresentationGUI
 					$page_object_gui->setLinkFrame($_GET["frame"]);
 					$page_object_gui->setOutputMode("print");
 
+					$page_object_gui->setPresentationTitle("");
 					if ($this->lm->getPageHeader() == IL_PAGE_TITLE)
 					{
-						$page_object_gui->setPresentationTitle(
-							ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-							$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
-					}
-					else
-					{
-						$page_object_gui->setPresentationTitle("");
+						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
+								$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+
+						// prevent page title after chapter title
+						// that have the same content
+						if ($this->lm->isActiveNumbering())
+						{
+							$chapter_title = trim(substr($chapter_title,
+								strpos($chapter_title, " ")));
+						}
+
+						if ($page_title != $chapter_title)
+						{
+							$page_object_gui->setPresentationTitle($page_title);
+						}
 					}
 
 					$page_content = $page_object_gui->showPage();
@@ -1715,6 +1733,7 @@ class ilLMPresentationGUI
 					{
 						$this->tpl->setVariable("CONTENT", $page_content."<br />");
 					}
+					$chapter_title = "";
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("print_block");
 					$this->tpl->parseCurrentBlock();
