@@ -693,7 +693,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					}
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "questionpool.php?ref_id=" . $data["ref_id"] . "&cmd=questions&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
