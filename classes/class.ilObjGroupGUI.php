@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.58 2003/11/25 10:47:07 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.59 2003/12/02 10:43:07 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -294,7 +294,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$data["registration"] = $this->object->getRegistrationFlag();
 			$data["password"] = $this->object->getPassword();
 			$datetime = $this->object->getExpirationDateTime();
-			
+
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
 			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
 
@@ -311,8 +311,9 @@ class ilObjGroupGUI extends ilObjectGUI
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 		//build form
 
-		$grp_status = $this->object->getGroupStatus();
-		$grp_status_options = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+//		$grp_status = $this->object->getGroupStatus();
+//		$grp_status_options = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+		$grp_status_options = ilUtil::formSelect(0,"group_status",$stati,false,true);
 		$checked = array(0=>0,1=>0,2=>0);
 
 		switch($this->object->getRegistrationFlag())
