@@ -2997,6 +2997,7 @@ survey#:#edit_constraints_introduction#:#You have selected the following questio
 survey#:#end_date#:#End date
 survey#:#enter_value#:#Enter a value
 survey#:#evaluation_access#:#Evaluation access
+survey#:#exit#:#Exit
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
@@ -3024,6 +3025,7 @@ survey#:#no_question_selected_for_removal#:#Please check at least one question o
 survey#:#no_questions_available#:#There are no questions available!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
+survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#obligatory#:#obligatory
 survey#:#off#:#off
@@ -3031,6 +3033,7 @@ survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#online#:#online
 survey#:#or#:#or
+survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
@@ -3069,21 +3072,18 @@ survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
 survey#:#start_survey#:#Start survey
+survey#:#survey_finish#:#save and finish survey >>>
+survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
+survey#:#survey_next#:#save and next page >>>
+survey#:#survey_previous#:#<<< save and previous page
 survey#:#survey_questions#:#Questions
+survey#:#survey_skip_finish#:#skip and finish survey >>>
+survey#:#survey_skip_next#:#skip and next page >>>
+survey#:#survey_skip_previous#:#<<< skip and previous page
+survey#:#survey_skip_start#:#<<< skip and go to start page
+survey#:#survey_start#:#<<< save and go to start page
+survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#view_phrase#:#View phrase
-survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
-survey#:#exit#:#Exit
-survey#:#survey_previous#:#<<< save and previous page
-survey#:#survey_next#:#save and next page >>>
-survey#:#survey_finish#:#save and finish survey >>>
-survey#:#survey_start#:#<<< save and go to start page
-survey#:#survey_skip_previous#:#<<< skip and previous page
-survey#:#survey_skip_next#:#skip and next page >>>
-survey#:#survey_skip_finish#:#skip and finish survey >>>
-survey#:#survey_skip_start#:#<<< skip and go to start page
