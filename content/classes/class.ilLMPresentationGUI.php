@@ -1602,6 +1602,8 @@ class ilLMPresentationGUI
 		$act_level = 99999;
 		$activated = false;
 
+		$glossary_links = array();
+		$output_header = false;
 		foreach ($nodes as $node)
 		{
 
@@ -1626,41 +1628,7 @@ class ilLMPresentationGUI
 				// output learning module header
 				if ($node["type"] == "du")
 				{
-					$this->tpl->setCurrentBlock("print_header");
-					$this->tpl->setVariable("LM_TITLE", $this->lm->getTitle());
-					if ($this->lm->getDescription() != "none")
-					{
-						$this->lm->initMeta();
-						$meta =& $this->lm->getMetaData();
-						$this->tpl->setVariable("LM_DESCRIPTION", $meta->getDescription());
-					}
-					$this->tpl->parseCurrentBlock();
-
-					// output toc
-					$nodes2 = $nodes;
-					foreach ($nodes2 as $node2)
-					{
-						if ($node2["type"] == "st")
-						{
-							for ($j=1; $j < $node2["depth"]; $j++)
-							{
-								$this->tpl->setCurrentBlock("indent");
-								$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
-								$this->tpl->parseCurrentBlock();
-							}
-							$this->tpl->setCurrentBlock("toc_entry");
-							$this->tpl->setVariable("TXT_TOC_TITLE",
-								ilStructureObject::_getPresentationTitle($node2["obj_id"],
-								$this->lm->isActiveNumbering()));
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					$this->tpl->setCurrentBlock("toc");
-					$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("print_block");
-					$this->tpl->parseCurrentBlock();
+					$output_header = true;
 				}
 
 				// output chapter title
@@ -1694,7 +1662,7 @@ class ilLMPresentationGUI
 					$page_id = $node["obj_id"];
 
 					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-					$page_object->buildDom();
+					//$page_object->buildDom();
 					$page_object_gui =& new ilPageObjectGUI($page_object);
 
 					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
@@ -1737,8 +1705,153 @@ class ilLMPresentationGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("print_block");
 					$this->tpl->parseCurrentBlock();
+
+					// get internal links
+					$int_links = ilInternalLink::_getTargetsOfSource($this->lm->getType().":pg", $node["obj_id"]);
+
+					$got_mobs = false;
+
+					foreach ($int_links as $key => $link)
+					{
+						if ($link["type"] == "git" &&
+							($link["inst"] == IL_INST_ID || $link["inst"] == 0))
+						{
+							$glossary_links[$key] = $link;
+						}
+						if ($link["type"] == "mob" &&
+							($link["inst"] == IL_INST_ID || $link["inst"] == 0))
+						{
+							$got_mobs = true;
+							$mob_links[$key] = $link;
+						}
+					}
+
+					// this is not cool because of performance reasons
+					// unfortunately the int link table does not
+					// store the target frame (we want to append all linked
+					// images but not inline images (i.e. mobs with no target
+					// frame))
+					if ($got_mobs)
+					{
+						$page_object->buildDom();
+					}
 				}
 			}
+		}
+
+		$annex_cnt = 0;
+		$annexes = array();
+
+		// glossary
+		if (count($glossary_links) > 0)
+		{
+			require_once("content/classes/class.ilGlossaryTerm.php");
+			require_once("content/classes/class.ilGlossaryDefinition.php");
+
+			// sort terms
+			$terms = array();
+			foreach($glossary_links as $key => $link)
+			{
+				$term = ilGlossaryTerm::_lookGlossaryTerm($link["id"]);
+				$terms[$term.":".$key] = $link;
+			}
+			ksort($terms);
+
+			foreach($terms as $key => $link)
+			{
+				$defs = ilGlossaryDefinition::getDefinitionList($link["id"]);
+				$def_cnt = 1;
+
+				// output all definitions of term
+				foreach($defs as $def)
+				{
+					// definition + number, if more than 1 definition
+					if (count($defs) > 1)
+					{
+						$this->tpl->setCurrentBlock("def_title");
+						$this->tpl->setVariable("TXT_DEFINITION",
+							$this->lng->txt("cont_definition")." ".($def_cnt++));
+						$this->tpl->parseCurrentBlock();
+					}
+					$page =& new ilPageObject("gdf", $def["id"]);
+					$page_gui =& new ilPageObjectGUI($page);
+					$page_gui->setTemplateOutput(false);
+					$page_gui->setOutputMode("print");
+
+					$this->tpl->setCurrentBlock("definition");
+					$output = $page_gui->showPage();
+					$this->tpl->setVariable("VAL_DEFINITION", $output);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// output term
+				$this->tpl->setCurrentBlock("term");
+				$this->tpl->setVariable("VAL_TERM",
+					$term = ilGlossaryTerm::_lookGlossaryTerm($link["id"]));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// output glossary header
+			$annex_cnt++;
+			$this->tpl->setCurrentBlock("glossary");
+			$annex_title = $this->lng->txt("cont_annex")." ".
+				chr(64+$annex_cnt).": ".$this->lng->txt("glo");
+			$this->tpl->setVariable("TXT_GLOSSARY", $annex_title);
+			$this->tpl->parseCurrentBlock();
+
+			$annexes[] = $annex_title;
+		}
+
+		// output learning module title and toc
+		if ($output_header)
+		{
+			$this->tpl->setCurrentBlock("print_header");
+			$this->tpl->setVariable("LM_TITLE", $this->lm->getTitle());
+			if ($this->lm->getDescription() != "none")
+			{
+				$this->lm->initMeta();
+				$meta =& $this->lm->getMetaData();
+				$this->tpl->setVariable("LM_DESCRIPTION", $meta->getDescription());
+			}
+			$this->tpl->parseCurrentBlock();
+
+			// output toc
+			$nodes2 = $nodes;
+			foreach ($nodes2 as $node2)
+			{
+				if ($node2["type"] == "st")
+				{
+					for ($j=1; $j < $node2["depth"]; $j++)
+					{
+						$this->tpl->setCurrentBlock("indent");
+						$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("toc_entry");
+					$this->tpl->setVariable("TXT_TOC_TITLE",
+						ilStructureObject::_getPresentationTitle($node2["obj_id"],
+						$this->lm->isActiveNumbering()));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			// annexes
+			foreach ($annexes as $annex)
+			{
+				$this->tpl->setCurrentBlock("indent");
+				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("toc_entry");
+				$this->tpl->setVariable("TXT_TOC_TITLE", $annex);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("toc");
+			$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("print_start_block");
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->show(false);

@@ -1,4 +1,4 @@
-<!-- BEGIN print_block -->
+<!-- BEGIN print_start_block -->
 <!-- BEGIN print_header -->
 <div class="ilc_PrintChapterTitle">{LM_TITLE}</div>
 <p class="ilc_Standard">{LM_DESCRIPTION}</p>
@@ -20,6 +20,8 @@
 <!-- END toc_entry -->
 <br />
 <!-- END toc -->
+<!-- END print_start_block -->
+<!-- BEGIN print_block -->
 <!-- BEGIN print_chapter -->
 <br />
 <div class="ilc_PrintChapterTitle">{CHAP_TITLE}</div>
@@ -29,6 +31,19 @@
 {CONTENT}
 <!-- END print_item -->
 <!-- END print_block -->
+<!-- BEGIN glossary -->
+<div class="ilc_PrintChapterTitle">{TXT_GLOSSARY}</div>
+<!-- BEGIN term -->
+<div class="ilc_PrintPageTitle">{VAL_TERM}</div>
+<!-- BEGIN definition -->
+<!-- BEGIN def_title -->
+<div class="ilc_PrintDefinitionTitle">{TXT_DEFINITION}</div>
+<!-- END def_title -->
+{VAL_DEFINITION}
+<br />
+<!-- END definition -->
+<!-- END term -->
+<!-- END glossary -->
 <script type="text/javascript" language="javascript1.2">
 <!--
 	// Do print the page
