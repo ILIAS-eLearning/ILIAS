@@ -465,7 +465,7 @@ class ilGroupGUI extends ilObjectGUI
 		$output = $exp->getOutput();
 		$obj_grp = & $this->ilias->obj_factory->getInstanceByRefId($this->grp_id);
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("obj_grp").":".$obj_grp->getTitle());
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER",ilUtil::shortenText($this->lng->txt("obj_grp").":".$obj_grp->getTitle(), "50", true));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->parseCurrentBlock();
 
@@ -518,13 +518,12 @@ class ilGroupGUI extends ilObjectGUI
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TARGET", "bottom");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_CANCEL", "view");
+		$this->tpl->setVariable("CMD_CANCEL", "show_content" );
 		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->show();
@@ -603,7 +602,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3] = array ();
 			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[3]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
 			$tab[3]["tab_text"] = "grp_edit";				//tab -text
 		}
 
