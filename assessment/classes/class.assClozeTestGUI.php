@@ -343,6 +343,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
+			$_GET["q_id"] = $this->object->getId();
 		}
 		return $result;
 	}
@@ -365,6 +366,17 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->saveToDb();
 		$this->ctrl->returnToParent($this);
 	}
+
+	/**
+	* upload material
+	*/
+	function uploadingMaterial()
+	{
+		//$this->setObjectData();
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
 
 	/**
 	* delete

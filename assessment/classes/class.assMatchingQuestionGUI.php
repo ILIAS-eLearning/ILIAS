@@ -314,7 +314,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* upload matching picture
+	* upload matching picture or material
 	*/
 	function upload()
 	{
@@ -428,6 +428,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
+			$_GET["q_id"] = $this->object->getId();
 		}
 		return $result;
 	}

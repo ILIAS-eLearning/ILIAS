@@ -407,6 +407,13 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
+	function uploadingMaterial()
+	{
+		//$this->setObjectData();
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
 	/**
 	* apply changes
 	*/
@@ -493,7 +500,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->object->setShuffle($_POST["shuffle"]);
 
 			// adding estimated working time and materials uris
-			$this->writeOtherPostData($result);
+			$saved = $this->writeOtherPostData($result);
 
 			if (($_POST["id"] > 0) or ($result != 1))
 			{
@@ -508,6 +515,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					if ($this->object->getId() <= 0)
 					{
 						$this->object->saveToDb();
+						$_GET["q_id"] = $this->object->getId();
 						$saved = true;
 						sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
@@ -548,6 +556,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					if ($this->object->getId() <= 0)
 					{
 						$this->object->saveToDb();
+						$_GET["q_id"] = $this->object->getId();
 						$saved = true;
 						sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
@@ -585,6 +594,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		if ($this->ctrl->getCmd == "addArea")
 		{
 			$this->object->saveToDb();
+			$saved = true;
+		}
+		if ($saved)
+		{
+			$_GET["q_id"] = $this->object->getId();
 		}
 		return $result;
 	}

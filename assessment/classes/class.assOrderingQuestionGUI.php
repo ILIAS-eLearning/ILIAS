@@ -411,6 +411,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
+			$_GET["q_id"] = $this->object->getId();
 		}
 		return $result;
 	}
