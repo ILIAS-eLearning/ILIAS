@@ -242,10 +242,21 @@ class ilSCORMPresentationGUI
 		$href = $resource->getHref();
 		$this->tpl = new ilTemplate("tpl.scorm_launch_sco.html", true, true, true);
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
+
+		// set item data
 		$this->tpl->setVariable("LAUNCH_DATA", $item->getDataFromLms());
 		$this->tpl->setVariable("MAST_SCORE", $item->getMasteryScore());
 		$this->tpl->setVariable("MAX_TIME", $item->getMaxTimeAllowed());
 		$this->tpl->setVariable("LIMIT_ACT", $item->getTimeLimitAction());
+
+		// set alternative API name
+		if ($this->slm->getAPIAdapterName() != "API")
+		{
+			$this->tpl->setCurrentBlock("alt_api_ref");
+			$this->tpl->setVariable("API_NAME", $this->slm->getAPIAdapterName());
+			$this->tpl->parseCurrentBlock();
+		}
+
 		if($ilUser->getFirstName() == "Joe")	// for test purpose
 		{
 			$this->tpl->setCurrentBlock("credit");

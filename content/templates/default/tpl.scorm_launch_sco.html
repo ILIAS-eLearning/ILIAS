@@ -8,6 +8,12 @@
 <script language="JavaScript">
 API=parent.APIFRAME.API;
 parent.API=API; // gut gell?
+
+<!-- BEGIN alt_api_ref -->
+{API_NAME}=parent.APIFRAME.API;
+parent.{API_NAME}={API_NAME};
+<!-- END alt_api_ref -->
+
 API.IliasSetValue('cmi.launch_data','{LAUNCH_DATA}');
 API.IliasSetValue('cmi.student_data.mastery_score','{MAST_SCORE}');
 API.IliasSetValue('cmi.student_data.max_time_allowed','{MAX_TIME}');
@@ -19,7 +25,7 @@ API.IliasSetValue('cmi.core.lesson_mode','{CREDIT_MODE}');
 <!-- BEGIN set_value -->
 API.IliasSetValue('{VAR}','{VALUE}');
 <!-- END set_value -->
-document.location.href = '{HREF}';
+#document.location.href = '{HREF}';
 
 </script>
 </body>
