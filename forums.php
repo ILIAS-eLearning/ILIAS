@@ -107,12 +107,12 @@ if ($frmNum > 0)
 				}
 				$tpl->setVariable("LAST_POST", $lpCont);
 				
-				if ($topicData["top_mods"] != "")
+				if ($topicData["top_mods"] > 0)
 				{			
-					$MODS = explode("#", $topicData["top_mods"]);
+					$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);											
 					for ($i = 0; $i < count($MODS); $i++)
 					{
-						unset($modData);
+						unset($modData);						
 						$modData = $frm->getModerator($MODS[$i]);	
 						if ($moderators != "") $moderators .= ", ";
 						$moderators .= "<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$modData["SurName"]."</a>";
@@ -131,9 +131,9 @@ if ($frmNum > 0)
 				}
 				$tpl->setVariable("LAST_POST", $lpCont);
 				
-				if ($topicData["top_mods"] != "")
+				if ($topicData["top_mods"] > 0)
 				{			
-					$MODS = explode("#", $topicData["top_mods"]);
+					$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);						
 					for ($i = 0; $i < count($MODS); $i++)
 					{
 						unset($modData);
@@ -144,11 +144,9 @@ if ($frmNum > 0)
 				}
 				$tpl->setVariable("MODS",$moderators); 
 			}		
+								
+			$PATH = $frm->getForumPath($data["obj_id"], $data["parent"]);
 			
-			if ($data["obj_id"] != $objID && $data["parent"] != $parentID)
-			{		
-				$PATH = $frm->getForumPath($data["obj_id"], $data["parent"]);
-			}
 			$tpl->setVariable("FORUMPATH",$PATH);
 			
 			$tpl->setVariable("DESCRIPTION",$topicData["top_description"]);

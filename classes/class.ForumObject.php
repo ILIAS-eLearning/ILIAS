@@ -111,8 +111,7 @@ class ForumObject extends Object
 	{		
 		
 		if (parent::updateObject())
-		{
-			$userData = $this->Forum->getModerator($_SESSION["AccountId"]);			
+		{			
 			$a_obj_data = $_POST["Fobject"];
 			
 			$query = "UPDATE frm_data ".
@@ -120,7 +119,7 @@ class ForumObject extends Object
 					 "top_name = '".$a_obj_data["title"]."',".
 					 "top_description = '".$a_obj_data["desc"]."',".
 					 "top_update = '".date("Y-m-d H:i:s")."',".
-					 "update_user = '".$userData["Id"]."' ".
+					 "update_user = '".$_SESSION["AccountId"]."' ".
 					 "WHERE top_frm_fk = '".$this->id."'";
 			$res = $this->ilias->db->query($query);
 		

@@ -20,7 +20,7 @@ $tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?obj_id=".$_GET["obj_id"]."&p
 $tpl->setVariable("BTN_TXT", $lng->txt("back"));
 $tpl->parseCurrentBlock();
 
-if (!$rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
+if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
@@ -47,7 +47,10 @@ $tpl->setVariable("TXT_GENDER", $lng->txt("gender"));
 $tpl->setVariable("GENDER",$author["Gender"]);
 
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-$tpl->setVariable("EMAIL",$author["Email"]);
+if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
+	$tpl->setVariable("EMAIL","<a href=\"mailto:".$author["Email"]."\">".$author["Email"]."</a>");
+}
+else $tpl->setVariable("EMAIL",$author["Email"]);
 
 $tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
 $tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["CreateDate"]));
