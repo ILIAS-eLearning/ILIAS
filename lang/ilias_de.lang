@@ -333,8 +333,8 @@ assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_starting_time#:#Startzeit
-assessment#:#tst_stat_all_users#:#Alle NutzerInnen
-assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
+assessment#:#tst_stat_all_users#:#Alle Nutzerinnen
+assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
 assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
@@ -350,7 +350,7 @@ assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
-assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
+assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
 assessment#:#tst_status_completed#:#vollständig
@@ -369,7 +369,7 @@ assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmo
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
+assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
@@ -1891,7 +1891,7 @@ common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage anfügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
-common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
+common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
@@ -2283,7 +2283,7 @@ content#:#cont_please_select#:#Bitte auswählen
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
-content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
+content#:#cont_print_view#:#Druckansicht
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -3483,7 +3483,7 @@ survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;o
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
-survey#:#category_nr_selected#:#Anzahl der TeilnehmerInnen, die diese Kategorie ausgewählt haben
+survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
 survey#:#concatenation#:#Verknüpfung
 survey#:#constraints#:#Beschränkungen
 survey#:#contains#:#Beinhaltet
@@ -3580,9 +3580,9 @@ survey#:#introduction#:#Einleitung
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#invitation#:#Einladung
 survey#:#invitation_mode#:#Einladungsmodus
-survey#:#invite_participants#:#TeilnehmerInnen einladen
+survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
-survey#:#invited_users#:#Eingeladene NutzerInnen
+survey#:#invited_users#:#Eingeladene Nutzerinnen
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
@@ -3610,7 +3610,7 @@ survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
+survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
@@ -3623,9 +3623,9 @@ survey#:#on#:#an
 survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
-survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
-survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Katgorie ausgewählt haben
-survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
+survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
+survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Katgorie ausgewählt haben
+survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fraen %d - %d von %d
 survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
@@ -3670,11 +3670,11 @@ survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Kategorien 
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
 survey#:#search_groups#:#Gruppen
-survey#:#search_invitation#:#NutzerInnen oder Gruppen durchsuchen
+survey#:#search_invitation#:#Nutzerinnen oder Gruppen durchsuchen
 survey#:#search_questions#:#Fragen suchen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
-survey#:#search_users#:#NutzerInnen
+survey#:#search_users#:#Nutzerinnen
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
 survey#:#select_relation#:#Relation auswählen
@@ -3690,7 +3690,7 @@ survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_next#:#Speichern und weiter >>>
-survey#:#survey_offline_message#:#Es können keine NutzerInnen eingeladen werden. Die Umfrage ist nicht online!
+survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<<< Speichern und zurück
 survey#:#survey_questions#:#Fragen
@@ -3716,7 +3716,7 @@ survey#:#upper_limit#:#Obere Schranke
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
 survey#:#users_answered#:#Beantwortet
 survey#:#users_skipped#:#Übersprungen
-survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben haben
+survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
