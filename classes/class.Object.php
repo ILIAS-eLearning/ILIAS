@@ -434,7 +434,7 @@ class Object
 	* @access	public
 	* 
 	**/
-	function addPermissionObject()
+	function alterOperationsOnObject()
 	{
 		global $rbacadmin,$rbacreview;
 
@@ -442,7 +442,7 @@ class Object
 
 		foreach ($_POST["id"] as $ops_id => $status)
 		{
-			if ($status == 'e')
+			if ($status == 'enabled')
 			{
 				if (!in_array($ops_id,$ops_valid))
 				{
@@ -450,7 +450,7 @@ class Object
 				}
 			}
 
-			if ($status == 'd')
+			if ($status == 'disabled')
 			{
 				if (in_array($ops_id,$ops_valid))
 				{
