@@ -1254,7 +1254,7 @@ class ilObjUser extends ilObject
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result_data[$counter]["id"]				=  $row->usr_id;
+			$result_data[$counter++]["id"]				=  $row->usr_id;
 			
 			// LINKS AND TARGETS AREN'T SAVED ANYMORE, SEARCHGUI HAS TO CALL ilObjUser::_getSearchLink 
 			// TO GET THE LINK OF SPECIFIC OBJECT

@@ -1501,7 +1501,7 @@ class ilObjGroup extends ilObject
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result_data[$counter]["id"]				=  $row->ref_id;
+			$result_data[$counter++]["id"]				=  $row->ref_id;
 			#$result_data[$counter]["link"]				=  "group.php?cmd=view&ref_id=".$row->ref_id;
 			#$result_data[$counter++]["target"]			=  "";
 		}
