@@ -705,6 +705,7 @@ class ilInternalLinkGUI
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
 		$exp->addFilter("grp");
+		$exp->addFilter("fold");
 		$exp->addFilter("crs");
 
 		switch ($a_type)
@@ -727,6 +728,7 @@ class ilInternalLinkGUI
 
 		$exp->setClickable("cat", false);
 		$exp->setClickable("grp", false);
+		$exp->setClickable("fold", false);
 		$exp->setClickable("crs", false);
 
 		$exp->setFrameTarget("");
