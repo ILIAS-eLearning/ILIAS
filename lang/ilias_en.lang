@@ -151,6 +151,7 @@ assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
+assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_general_properties#:#General properties
