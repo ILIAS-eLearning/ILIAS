@@ -925,7 +925,7 @@ class ilObjUser extends ilObject
 	*/
 	function hasAcceptedUserAgreement()
 	{
-		if ($this->accept_date != "0000-00-00 00:00:00" || $this->login == "root")
+		if ($this->accept_date != "0000-00-00 00:00:00")
 		{
 			return true;
 		}
