@@ -77,7 +77,18 @@ function loginPage()
 
 function saveForm()
 {
-	global $ilias, $lng, $rbacadmin;
+	global $tpl, $ilias, $lng, $rbacadmin;
+
+	$tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
+	
+	InfoPanel();
+	sendInfo();
+	//check, whether user-agreement has been accepted
+	if (! ($_POST["status"]=="accepted") )
+	{
+		$ilias->raiseError($lng->txt("force_accept_usr_agreement"),$ilias->error_obj->MESSAGE);
+
+	}
 
 	// check required fields
 	if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
@@ -115,6 +126,7 @@ function saveForm()
 	// TODO: check length of login and passwd
 
 	// checks passed. save user
+
 	$userObj = new ilObjUser();
 	$userObj->assignData($_POST["Fobject"]);
 	$userObj->setTitle($userObj->getFullname());
@@ -145,6 +157,7 @@ function saveForm()
 	$bmf = new ilBookmarkFolder(0, $userObj->getId());
 	$bmf->createNewBookmarkTree();
 
+
 	header("location: register.php?cmd=login&username=".$_POST["Fobject"]["login"]."&password=".$_POST["Fobject"]["passwd"]."&fullname=".urlencode($userObj->getFullname()));
 	exit();
 }
@@ -154,8 +167,13 @@ function displayForm ()
 {
 	global $tpl,$ilias,$lng;
 
+
 	//instantiate login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
+
+	sendInfo();
+
+
 
 	// role selection (only those roles marked with allow_register)
 	$q = "SELECT * FROM role_data ".
@@ -265,10 +283,43 @@ function displayForm ()
 	}
 
 	$tpl->setVariable($gender_sel,"checked=\"checked\"");
-	
+
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
-	
+	$tpl->setVariable("AGREEMENT", getUserAgreement());
+	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
+	$tpl->setVariable("ACCEPT_AGREEMENT",$lng->txt("accept_usr_agreement") );
+
 	$tpl->show();
+}
+function getUserAgreement()
+{
+	global $lng, $ilias;
+
+	$tmpPath = getcwd();
+	$agrPath = $tmpPath."/agreement";
+	chdir($agrPath);
+
+	$agreement = "agreement_".$lng->lang_user.".html";
+
+	if ($agreement)
+	{
+		if ($content = file($agreement))
+		{
+			foreach ($content as $key => $val)
+			{
+				$text .= trim(nl2br($val));
+			}
+			return $text;
+		}
+		else
+		{
+			$ilias->raiseError($lng->txt("usr_agreement_empty"),$ilias->error_obj->MESSAGE);
+		}
+	}
+	else
+	{
+		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
+	}
 }
 ?>
