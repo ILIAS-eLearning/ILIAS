@@ -681,6 +681,11 @@ td.doubleComment
 	font-weight: bold;
 }
 
+div#ilc_Page
+{
+	width: 100%;
+}
+
 /* --- content styles (will move to content.css) --- */
 div.ilc_DefinitionHeader
 {
