@@ -1622,7 +1622,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
-
+//echo ":".$_GET["new_type"].":".$_POST["new_type"].":";
 		$module = $objDefinition->getModule($_GET["new_type"]);
 		$module_dir = ($module == "")
 			? ""

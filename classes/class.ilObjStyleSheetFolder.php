@@ -35,6 +35,8 @@ require_once "class.ilObject.php";
 
 class ilObjStyleSheetFolder extends ilObject
 {
+	var $styles;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -45,6 +47,18 @@ class ilObjStyleSheetFolder extends ilObject
 	{
 		$this->type = "styf";
 		$this->ilObject($a_id,$a_call_by_reference);
+		
+		$this->styles = array();
+	}
+	
+	/**
+	* add style to style folder
+	*
+	* @param	int		$a_style_id		style id
+	*/
+	function addStyle($a_style_id)
+	{
+		$this->styles[] = $a_style_id;
 	}
 
 	/**
@@ -55,15 +69,59 @@ class ilObjStyleSheetFolder extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		if (!parent::update())
 		{			
 			return false;
 		}
 
-		// put here object specific stuff
+		// save styles of style folder
+		$q = "DELETE FROM style_folder_styles WHERE folder_id = ".
+			$ilDB->quote($this->getId());
+		$ilDB->query($q);
+		foreach($this->styles as $style)
+		{
+			$q = "INSERT INTO style_folder_styles (folder_id, style_id) VALUES".
+				"(".$ilDB->quote($this->getId()).", ".
+				$ilDB->quote($style).")";
+			$ilDB->query($q);
+		}
 		
 		return true;
 	}
+	
+	/**
+	* read style folder data
+	*/
+	function read()
+	{
+		global $ilDB;
+
+		parent::read();
+
+		// get styles of style folder
+		$q = "SELECT * FROM style_folder_styles WHERE folder_id = ".
+			$ilDB->quote($this->getId());
+
+		$style_set = $ilDB->query($q);
+		while ($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->styles[] = $style_rec["style_id"];
+		}
+	}
+	
+	
+	/**
+	* get style ids
+	*
+	* @return		array		ids
+	*/
+	function getStyles()
+	{
+		return $this->styles;
+	}
+	
 	
 	/**
 	* copy all entries of your object.

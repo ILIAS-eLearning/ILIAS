@@ -50,7 +50,7 @@ class ilObjStyleSheet extends ilObject
 		$this->style = array();
 		if($a_call_by_reference)
 		{
-			$this->ilias->raiseError("Can't instantiate media object via reference id.",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Can't instantiate style object via reference id.",$this->ilias->error_obj->FATAL);
 		}
 
 		parent::ilObject($a_id, false);
@@ -58,22 +58,23 @@ class ilObjStyleSheet extends ilObject
 
 	function setRefId()
 	{
-		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
+		$this->ilias->raiseError("Operation ilObjStyleSheet::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
 	function getRefId()
 	{
-		$this->ilias->raiseError("Operation ilObjMedia::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
+		return "";
+		//$this->ilias->raiseError("Operation ilObjStyleSheet::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
 	function putInTree()
 	{
-		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
+		$this->ilias->raiseError("Operation ilObjStyleSheet::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
 	function createReference()
 	{
-		$this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.",$this->ilias->error_obj->FATAL);
+		$this->ilias->raiseError("Operation ilObjStyleSheet::createReference() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
 	/**
