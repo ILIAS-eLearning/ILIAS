@@ -130,6 +130,7 @@ class ilForumLocatorGUI
 			}
 			$this->tpl->setVariable("ITEM", $title);
 			$this->tpl->setVariable("LINK_ITEM", $link);
+			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 			$this->tpl->parseCurrentBlock();
 		}
 
