@@ -1319,7 +1319,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_question($sequence = 1) {
+  function out_working_question($sequence = 1, $finish = false) {
     $question_type = $this->get_question_type($this->question);
     
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
@@ -1344,8 +1344,16 @@ class ASS_QuestionGUI extends PEAR {
     }
     $this->tpl->setCurrentBlock("adm_content");
     $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence");
-    $this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+		if ($sequence == 1) {
+    	$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+		} else {
+    	$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+		}
+		if ($finish) {
+	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+		} else {
+	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+		}
     $this->tpl->parseCurrentBlock();
   }
 }

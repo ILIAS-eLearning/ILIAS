@@ -1018,6 +1018,24 @@ class ilObjTest extends ilObject
     }
 	}
 	
+/**
+* Returns the title of a question with a given sequence number
+* 
+* Returns the title of a question with a given sequence number
+*
+* @param integer $sequence The sequence number of the question
+* @access public
+* @see $questions
+*/
+	function get_question_title($sequence) {
+		$query = sprintf("SELECT title from qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($this->questions[$sequence])
+		);
+    $result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->title;
+	}
+	
 	function &get_qpl_titles() {
 		$qpl_titles = array();
 		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
@@ -1122,5 +1140,10 @@ class ilObjTest extends ilObject
     }
     return 0;
   }
+	
+	function get_question_count ()
+	{
+		return count($this->questions);
+	}
 } // END class.ilObjTest
 ?>
