@@ -170,7 +170,7 @@ if ($_GET["cmd"] == "reg_fo")
 	{
 		$i++;
 		$tpl->setCurrentBlock("link_button");
-		$tpl->setVariable("TXT_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
+		$tpl->setVariable("TXT_LINK",'repository.php?ref_id='.$frm_item['id']);
 		$tpl->setVariable("TXT_LINK_TITLE", $frm_item["title"]);
 		$tpl->setVariable("TXT_LINK_IMG", $template_path."/images/layout/open.gif");
 		$tpl->parseCurrentBlock();

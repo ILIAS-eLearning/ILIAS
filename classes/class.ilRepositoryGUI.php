@@ -232,6 +232,16 @@ class ilRepositoryGUI
 				$this->tpl->show();
 				break;
 
+			case "ilobjforumgui":
+				include_once("./classes/class.ilObjForumGUI.php");
+				$this->gui_obj = new ilObjForumGUI("", $this->cur_ref_id, true, false);
+
+				$this->prepareOutput();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+
+				$this->tpl->show();
+				break;
+
 			case "ilobjfoldergui":
 			
 				include_once("./classes/class.ilObjFolderGUI.php");
@@ -274,7 +284,7 @@ class ilRepositoryGUI
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp')
+					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or $obj_type == 'frm')
 					{
 //echo "<br>--grp";
 						$this->prepareOutput();
@@ -1375,6 +1385,8 @@ class ilRepositoryGUI
 		global $lng, $rbacsystem, $ilias, $rbacreview;
 
 		include_once "classes/class.ilForum.php";
+		include_once './classes/class.ilRepositoryExplorer.php';
+
 		$frm =& new ilForum();
 		$lng->loadLanguageModule("forum");
 
@@ -1415,9 +1427,6 @@ class ilRepositoryGUI
 				$lastPost = $frm->getLastPost($topicData["top_last_post"]);
 				$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
 			}
-			// read-access
-			// TODO: this will not work :-(
-			// We have no ref_id at this point
 			if ($rbacsystem->checkAccess("read", $data["ref_id"]))
 			{
 
@@ -1428,15 +1437,15 @@ class ilRepositoryGUI
 				}
 				else
 				{
-					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".
-									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
+					$link = ilRepositoryExplorer::buildLinkTarget($data['ref_id'],'frm');
+					$tpl->setVariable('TITLE','<a href="'.$link.'">'.$topicData['top_name'].'</a>');
 				}
 
 				// edit
 				if ($this->rbacsystem->checkAccess('write', $data["ref_id"]))
 				{
 					// $tpl->setCurrentBlock("forum_edit");
-					$tpl->setVariable("EDIT_LINK","forums_threads_liste.php?cmd=properties&ref_id=".$data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK",ilRepositoryExplorer::buildEditLinkTarget($data['ref_id'],'frm'));
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					// $tpl->parseCurrentBlock();
 				}

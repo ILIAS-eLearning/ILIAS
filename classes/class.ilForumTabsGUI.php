@@ -86,7 +86,7 @@ class ilForumTabsGUI
 		if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$tabs_gui->addTarget("edit_properties",
-				"forums_threads_liste.php?cmd=properties&ref_id=".$_GET["ref_id"],
+				"repository.php?cmd=properties&ref_id=".$_GET["ref_id"],
 				"properties");
 		}
 
@@ -94,7 +94,7 @@ class ilForumTabsGUI
 		if ($rbacsystem->checkAccess("edit_permission", $_GET["ref_id"]))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				"forums_threads_liste.php?cmd=permissions&ref_id=".$_GET["ref_id"],
+				"repository.php?cmd=permissions&ref_id=".$_GET["ref_id"],
 				"permissions");
 		}
 	}

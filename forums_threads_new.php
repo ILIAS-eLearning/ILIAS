@@ -56,39 +56,6 @@ if (!$rbacsystem->checkAccess("edit_post",$forumObj->getRefId()))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-// ********************************************************************************
-// build location-links
-/*
-$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
-$tpl->touchBlock("locator_separator");
-$tpl->setCurrentBlock("locator_item");
-$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$forumObj->getRefId());
-$tpl->parseCurrentBlock();
-
-if (!$_GET["backurl"])
-{
-	$tpl->touchBlock("locator_separator");
-	$tpl->setCurrentBlock("locator_item");
-	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$forumObj->getRefId());
-	$tpl->parseCurrentBlock();
-}
-
-$tpl->setCurrentBlock("locator_item");
-$tpl->setVariable("ITEM", $topicData["top_name"].": ".$lng->txt("forums_new_thread"));
-
-if (!$_GET["backurl"])
-{
-	$tpl->setVariable("LINK_ITEM", "forums_threads_new.php?ref_id=".$forumObj->getRefId());
-}
-else
-{
-	$tpl->setVariable("LINK_ITEM", "forums_threads_new.php?ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
-}
-
-$tpl->parseCurrentBlock();
-*/
 require_once("classes/class.ilForumLocatorGUI.php");
 $frm_loc =& new ilForumLocatorGUI();
 $frm_loc->setRefId($_GET["ref_id"]);
@@ -135,13 +102,14 @@ if ($_GET["cmd"] == "newthread")
 		$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
 		$frm->updateVisits($topicData["top_pk"]);
 		// on success: change location
-		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = ".$ilDB->quote($formData["subject"])." AND thr_num_posts = 1");		
+		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = ".
+								$ilDB->quote($formData["subject"])." AND thr_num_posts = 1");		
 
 		if (is_array($thrData = $frm->getOneThread()))
 		{
-#			sendInfo($lng->txt("forums_thread_new_entry"),true);
-			header("location: forums_threads_liste.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId());
-			exit();
+			#sendInfo($lng->txt("forums_thread_new_entry"),true);
+			#header("location: forums_threads_liste.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId());
+			ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
 		} 
 	}
 }

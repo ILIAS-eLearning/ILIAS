@@ -2918,7 +2918,7 @@ class ilObjectGUI
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
 		$this->tpl->setVariable("BTN_TXT",$a_text);
-		if($a_target)
+    		if($a_target)
 		{
 			$this->tpl->setVariable("BTN_TARGET",$a_target);
 		}

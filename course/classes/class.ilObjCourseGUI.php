@@ -537,7 +537,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		else
 		{
 			sendInfo($this->object->getMessage());
-			#$ilErr->raiseError($this->object->getMessage(),$ilErr->WARNING);
 		}
 		return $this->editObject();
 	}
