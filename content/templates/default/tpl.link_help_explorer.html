@@ -19,6 +19,12 @@ body { margin:0px; }
 {TXT_EXPLORER_HEADER}
 </div>
 <div class="il_Explorer">
+<!-- BEGIN sel_clipboard -->
+<table cellpadding="3" cellspacing="0" border="0" style="margin-top:5px;"><tr><td>
+<a href="{LINK_CLIPBOARD}">{TXT_PERS_CLIPBOARD}</a>
+</td></tr></table>
+<hr size="1" />
+<!-- END sel_clipboard -->
 {EXPLORER}
 </div>
 <br/>
@@ -26,9 +32,6 @@ body { margin:0px; }
 	<form action="{ACTION}" method="post">
 	<input class="submit" type="submit" name="cmd[{BTN_REFRESH}]" value="{TXT_REFRESH}" />
 	<input class="submit" type="submit" name="cmd[{BTN_RESET}]" value="{TXT_RESET}" />
-	<!--
-	<input class="submit" type="submit" name="cmd[{BTN_STRUCTURE}]" value="{TXT_STRUCTURE}" />
-	-->
 	</form>
 </div>
 </body>
