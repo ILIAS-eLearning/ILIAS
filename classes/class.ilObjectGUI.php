@@ -379,7 +379,7 @@ class ilObjectGUI
 	* @access	public
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php",
-		$a_child_param = "ref_id", $a_output_obj = true)
+		$a_child_param = "ref_id", $a_output_obj = true, $a_root_title = "")
 	{
 		global $ilias_locator;
 
@@ -427,9 +427,18 @@ class ilObjectGUI
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
-
 			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $row["title"]);
+
+			if($a_root_title != "" && ($row["child"] == $a_tree->getRootId()))
+			{
+				$title = $a_root_title;
+			}
+			else
+			{
+				$title = $row["title"];
+			}
+
+			$this->tpl->setVariable("ITEM", $title);
 
 			$this->tpl->setVariable("LINK_ITEM",
 				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]));
@@ -437,7 +446,7 @@ class ilObjectGUI
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
-			$ilias_locator->navigate($i++,$row["title"],
+			$ilias_locator->navigate($i++,$title,
 				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]),"bottom");
 		}
 
