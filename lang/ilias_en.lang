@@ -3786,8 +3786,6 @@ search#:#search_show_result#:#Show
 search#:#search_user#:#Users
 survey#:#add_category#:#Add category
 survey#:#add_heading#:#Add heading
-survey#:#heading#:#Heading
-survey#:#edit_heading#:#Edit heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
@@ -3885,6 +3883,7 @@ survey#:#duplicate#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the constraints
+survey#:#edit_heading#:#Edit heading
 survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_phrase_title#:#Please enter a phrase title
@@ -3909,6 +3908,7 @@ survey#:#found_questions#:#Found questions
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
 survey#:#harmonic_mean#:#Harmonic mean
+survey#:#heading#:#Heading
 survey#:#import_question#:#Import question(s)
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before

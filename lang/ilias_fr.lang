@@ -3784,6 +3784,7 @@ search#:#search_select_one_select#:#--Selectionner un répertoire--
 search#:#search_show_result#:#Afficher
 search#:#search_user#:#Utilisateurs
 survey#:#add_category#:#Ajouter catégorie
+survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et haute pour les nombres standard que vous voulez ajouter comme catégories
 survey#:#add_phrase#:#Ajouter expression
 survey#:#add_phrase_introduction#:#Veuillez sélectionner une expression
@@ -3809,6 +3810,7 @@ survey#:#category_delete_confirm#:#Etes-vous sûr(e) de vouloir détruire les ca
 survey#:#category_delete_select_none#:#Veuillez cocher au moins une catégorie pour la détruire.
 survey#:#category_nr_selected#:#Nombre d'utilisateurs qui ont sélectionné cette catégorie
 survey#:#concatenation#:#Concaténation
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Contraintes
 survey#:#contains#:#Contient
 survey#:#continue#:#Continuer >>
@@ -3880,10 +3882,12 @@ survey#:#duplicate#:#Dupliquer
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Voulez-vous continuer et modifier cette question ?
 survey#:#edit_constraints_introduction#:#Vous avez sélectionné les questions / blocs de quesitons suivants pour modifier les contraintes.
+survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
 survey#:#enter_value#:#Saisissez une valeur
+survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#Une erreur s'est produite pendant l'importation des questions depuis le fichier que vous avez sélectionné.
 survey#:#error_retrieving_anonymous_survey#:#Le système n'a pas pu trouver vos données de sondage pour le sondage code %s. Veuillez vérifier le code du sondage que vous avez saisi.
 survey#:#evaluation#:#Evaluation###05 Nov 2004 new variable
@@ -3903,6 +3907,7 @@ survey#:#found_questions#:#Questions trouvées
 survey#:#geometric_mean#:#Moyenne géométrique
 survey#:#given_answers#:#Réponses données
 survey#:#harmonic_mean#:#Moyenne harmonique
+survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Insérer après
 survey#:#insert_before#:#Insérer avant

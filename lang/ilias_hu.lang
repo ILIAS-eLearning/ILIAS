@@ -3785,6 +3785,7 @@ search#:#search_select_one_select#:#--Egy mappa kiválasztása--'
 search#:#search_show_result#:#Megjelenítés
 search#:#search_user#:#Users###05 Nov 2004 new variable
 survey#:#add_category#:#Kategória felvétele
+survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasabb korlátot, hogy hány kategóriát akar felvenni.
 survey#:#add_phrase#:#Mondat hozzáadása
 survey#:#add_phrase_introduction#:#Válasszon egy mondatot: 
@@ -3810,6 +3811,7 @@ survey#:#category_delete_confirm#:#Biztosan törölni akarja az alábbi kategór
 survey#:#category_delete_select_none#:#Legalább egy kategóriát ellenőrizzen a törléshez!
 survey#:#category_nr_selected#:#Azon felhasználók száma, akik kiválasztották ezt a kategóriát
 survey#:#concatenation#:#Összefűzés
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Megszorítások
 survey#:#contains#:#Tartalmazottak
 survey#:#continue#:#Folytatás >>
@@ -3881,10 +3883,12 @@ survey#:#duplicate#:#Másodpéldány létrehozása
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Akarja folytatni és szerkeszteni ezt a kérdést?
 survey#:#edit_constraints_introduction#:#Kiválasztotta az alábbi kérdés(ek)et/kérdésblokk(ok)at a korlátozások szerkesztéséhez
+survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Végdátum
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###05 Nov 2004 new variable
 survey#:#enter_phrase_title#:#Adjon meg egy mondatcímet
 survey#:#enter_value#:#Érték megadása
+survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###05 Nov 2004 new variable
 survey#:#evaluation#:#Kiértékelés
@@ -3904,6 +3908,7 @@ survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok
 survey#:#harmonic_mean#:#Harmonic mean###05 Nov 2004 new variable
+survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Beszúrás utána
 survey#:#insert_before#:#Beszúrás előtte
