@@ -52,7 +52,7 @@ class Object
 		// creates a child object
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_GET["type"]))
+		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_POST["new_type"]))
 		{
 			$data = array();
 			$data["fields"] = array();						
@@ -70,23 +70,30 @@ class Object
 	* saves new object in admin interface
 	* @access	public
 	**/
-	function saveObject()
+	function saveObject($a_obj_id = '', $a_parent = '' ,$a_type = '' , $a_new_type = '' , $a_data = '')
 	{
 		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
+
+		// GET DEWFAULT VALUES
+		$a_obj_id = $a_obj_id ? $a_obj_id : $_GET["obj_id"];
+		$a_parent = $a_parent ? $a_parent : $_GET["parent"];
+		$a_type = $a_type ? $a_type : $_GET["type"];
+		$a_new_type = $a_new_type ? $a_new_type : $_GET["new_type"];
+		$a_data = $a_data ? $a_data : $_POST["Fobject"];
 		
-		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_GET["type"]))
+		if($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_type))
 		{
 			// create and insert object in objecttree
-			$new_obj_id = createNewObject($_GET["type"], $_POST["Fobject"]);
-			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
+			$new_obj_id = createNewObject($a_new_type, $a_data);
+			$tree->insertNode($new_obj_id,$a_obj_id);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
 			foreach($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-				$ops = $rbacreview->getOperations($parRol["obj_id"], $_GET["type"], $parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_obj_id, $_GET["obj_id"]);
+				$ops = $rbacreview->getOperations($parRol["obj_id"], $a_new_type, $parRol["parent"]);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_obj_id, $a_obj_id);
 			}
 		}
 		else
@@ -299,17 +306,7 @@ class Object
 					{
 						$role_obj["title"] = "Local roles";
 						$role_obj["desc"] = "Role Folder of object no. ".$_GET["obj_id"];
-						$rolf_id = createNewObject("rolf",$role_obj);
-						$tree->insertNode($rolf_id,$_GET["obj_id"]);
-
-						// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
-						$parentRoles = $rbacadmin->getParentRoleIds();
-						foreach ($parentRoles as $parRol)
-						{
-							// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-							$ops = $rbacreview->getOperations($parRol["obj_id"],"rolf",$parRol["parent"]);
-							$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id,$_GET["obj_id"]);
-						}
+						$this->saveObject($_GET["obj_id"],$_GET["parent"],$_GET["type"],'rolf',$role_obj);
 					}
 					else
 					{
@@ -317,27 +314,13 @@ class Object
 					}
 				}
 				// CHECK ACCESS 'write' of role folder
-				if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
+				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+				if ($rbacsystem->checkAccess('write',$rolf_data["child"],$_GET["obj_id"]))
 				{
-					// Suche die im Baum nächsten Templates der aktuellen Rolle
-					$path = $tree->getPathId($_GET["obj_id"],$_GET["parent"]);
-					$path[0] = SYSTEM_FOLDER_ID;
-					// Es muss unten im Baum gestartet werden
-					array_reverse($path);
-					$folders = $rbacadmin->getFoldersAssignedToRole($stop_inherit);
-					foreach ($path as $obj_id)
-					{
-						// IDs der zugehörigen RoleFolder
-						$rolf_data = $rbacadmin->getRoleFolderOfObject($obj_id);
-						if (in_array(array("parent" => $rolf_data["child"]),$folders) &&
-							in_array(array("parent" => $rolf_data["parent"]),$folders))
-						{
-							// FOUND
-							$rbacadmin->copyRolePermission($stop_inherit,$rolf_data["child"],$rolf_id);
-							break;
-						}
-					}
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,$_GET["obj_id"],'n');
+					$parentRoles = $rbacadmin->getParentRoleIds();
+					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+												   $rolf_data["child"],$stop_inherit);
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["obj_id"],'n');
 				}
 				else
 				{

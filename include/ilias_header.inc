@@ -68,7 +68,7 @@ $objDefinition = new ObjectDefinition();
 
 
 //instantiate user object
-$ilias->account =& new User();
+$ilias->account = new User();
 
 //but in login.php and index.php don't check for authentication 
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);

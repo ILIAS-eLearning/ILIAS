@@ -34,15 +34,11 @@ class RoleTemplateObject extends Object
 
 		if ($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-
-			// Zur Ausgabe des 'Path' wird die Private-Methode createPath() aufgerufen 
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-			$tplContent->setVariable("CMD","save");
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("TYPE",$_POST["type"]);
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = "";
+			$data["fields"]["desc"] = "";
+			return $data;
 		}
 		else
 		{
@@ -58,21 +54,23 @@ class RoleTemplateObject extends Object
 	{
 		global $rbacadmin, $rbacsystem; 
 
+
 		// CHECK ACCESS 'write' to role folder
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with the name '".
+										 $_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",
+										 $this->ilias->error_obj->WARNING);
 			}
-			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
+			$new_obj_id = createNewObject($_GET["new_type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'n');
 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
-
 		return true;
 	}
 
@@ -119,18 +117,13 @@ class RoleTemplateObject extends Object
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
-			$tplContent->setVariable("CMD","update");
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-
 			$obj = getObject($_GET["obj_id"]);
-			$tplContent->setVariable("TYPE",$obj["type"]);
 
-			$tplContent->setVariable("OBJ_ID",$obj["obj_id"]);
-			$tplContent->setVariable("OBJ_TITLE",$obj["title"]);
-			$tplContent->setVariable("OBJ_DESC",$obj["desc"]);
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $obj["title"];
+			$data["fields"]["desc"] = $obj["desc"];
+			return $data;
 		}
 		else
 		{
@@ -162,87 +155,85 @@ class RoleTemplateObject extends Object
 	* show permission templates of role
 	* @access public
 	**/
-	function permObject() 
+	function permObject()
 	{
-		global $tree, $tplContent, $rbacssystem, $rbacadmin, $rbacreview, $rbacsystem;
+		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$tplContent = new Template("role_perm.html",true,true);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
-
-			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
-			$tplContent->setVariable("MESSAGE_TOP","Permissions of template: ".$role_data["title"]);
-
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES
-			$tplContent->setCurrentBlock("OBJECT_TYPES");
 
 			foreach ($obj_data as $data)
 			{
-				$tplContent->setVariable("OBJ_TYPES",$data["title"]);
-				$tplContent->parseCurrentBlock();
+				$output["obj_types"][] = $data["title"];
 			}
+
 			// END OBJECT TYPES
 			$all_ops = getOperationList();
+
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($all_ops as $key => $operations)
 			{
+				$operation_name = $operations["operation"];
 				// BEGIN CHECK_PERM
-				$tplContent->setCurrentBlock("CHECK_PERM");
 
 				foreach ($obj_data as $data)
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
 						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["title"],$_GET["parent"]);
+
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
-						$tplContent->setVariable("CHECK_PERMISSION",$box);
+						$output["perm"]["$operation_name"][] = $box;
 					}
 					else
 					{
-						$tplContent->setVariable("CHECK_PERMISSION","");
+						$output["perm"]["$operation_name"][] = "";
 					}
-					$tplContent->parseCurrentBlock();
 				}
+
 				// END CHECK_PERM
-				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
+				// color changing
 				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
-				$tplContent->setVariable("CSS_ROW",$css_row);
-				$tplContent->setVariable("PERMISSION",$operations["operation"]);
-				$tplContent->parseCurrentBlock();
+				$output["perm"]["$operation_name"]["color"] = $css_row;
 			}
 
-			$tplContent->setVariable("COL_ANZ",count($obj_data));
-			$tplContent->setVariable("MESSAGE_TABLE","Change permissions");		
+			// END TABLE DATA OUTER
+			$output["col_anz"] = count($obj_data);
+
 			// ADOPT PERMISSIONS
-			$tplContent->setVariable("MESSAGE_MIDDLE","Adopt Permissions from Role Template");
-			
+			$output["message_middle"] = "Adopt Permissions from Role Template";
 			// BEGIN ADOPT_PERMISSIONS
-			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+
+			// sort output for correct color changing
+			ksort($parent_role_ids);
 
 			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key,"tblrow1", "tblrow2"));
-				$tplContent->setVariable("CHECK_ADOPT",$radio);
-				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
-				$tplContent->setVariable("ROLE_NAME",$par["title"]);
-				$tplContent->parseCurrentBlock();
+				$output["adopt"][$key]["css_row_adopt"] = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$output["adopt"][$key]["check_adopt"] = $radio;
+				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+				$output["adopt"][$key]["role_name"] = $par["title"];
 			}
+			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id="
+				.$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
+
 			// END ADOPT_PERMISSIONS
+			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
+				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
+			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
+			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
+		return $output;
 	}
 
 	/**

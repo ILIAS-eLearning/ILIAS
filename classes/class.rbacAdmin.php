@@ -113,7 +113,7 @@ class RbacAdmin
 	{
 		$res = $this->ilias->db->query("SELECT obj_id FROM object_data ".
 								"WHERE title ='".$a_title.
-								"' AND type = 'role'");
+								"' AND type IN('role','rolt')");
 		while($res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$id[] = $row->obj_id;
