@@ -5221,4 +5221,6 @@ CREATE TABLE `tst_eval_groups` (
 PRIMARY KEY ( `eval_users_id` ) ,
 INDEX ( `test_fi` , `evaluator_fi` , `group_fi` )
 ) COMMENT = 'Contains the groups someone has chosen for a statistical evaluation';
+<#364>
+ALTER TABLE `tst_eval_groups` CHANGE `eval_users_id` `eval_groups_id` int(11) NOT NULL DEFAULT NULL auto_increment;
 
