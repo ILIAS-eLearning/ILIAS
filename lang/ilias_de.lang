@@ -546,10 +546,6 @@ common#:#auth_edit_permission#:#Rechteeinstellungen �ndern
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_local#:#ILIAS Datenbank
-common#:#ldap_version#:#LDAP Protokollversion
-common#:#ldap_v2#:#LDAPv2
-common#:#ldap_v3#:#LDAPv3
-common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
@@ -686,9 +682,11 @@ common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
+common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
+common#:#copy_to#:#nach
 common#:#count#:#Anzahl
 common#:#country#:#Land
 common#:#course#:#Kurs
@@ -700,6 +698,7 @@ common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
+common#:#crs_archives#:#Archive
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
@@ -1164,11 +1163,15 @@ common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#LDAP Authentifizierung konfigurieren
 common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
+common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
 common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
 common#:#ldap_tls#:#Benutze LDAP TLS
+common#:#ldap_v2#:#LDAPv2###07 Aug 2004 new variable
+common#:#ldap_v3#:#LDAPv3###07 Aug 2004 new variable
+common#:#ldap_version#:#LDAP Protokollversion
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
 common#:#learning module#:#Lernmodul
@@ -1405,6 +1408,7 @@ common#:#news#:#News
 common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
+common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
@@ -1540,6 +1544,7 @@ common#:#online_version#:#Online Version
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
+common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
 common#:#order_by#:#Sortieren nach
 common#:#other#:#Andere
 common#:#overview#:#übersicht
@@ -1702,6 +1707,7 @@ common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
+common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
@@ -2212,6 +2218,165 @@ content#:#read offline#:#Offline lesen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+crs#:#crs_accept_subscriber#:#Kursanmeldung
+crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
+crs#:#crs_access_password#:#Passwort
+crs#:#crs_activation#:#Aktivierung
+crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
+crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
+crs#:#crs_add_member#:#Mitglied(er) hinzufügen
+crs#:#crs_add_subscribers#:#Benutzer hinzufügen
+crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
+crs#:#crs_added_member#:#Kursmitgliedschaft
+crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
+crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
+crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
+crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
+crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
+crs#:#crs_archive#:#Archivierung
+crs#:#crs_archive_disabled#:#Deaktiviert
+crs#:#crs_archive_download#:#Herunterladen
+crs#:#crs_archive_lang#:#Sprache
+crs#:#crs_archive_read#:#Lesezugriff
+crs#:#crs_archive_select_type#:#Zugriff auf Archive
+crs#:#crs_archive_type#:#Archivtyp
+crs#:#crs_archive_type_disabled#:#Kein Zugriff
+crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
+crs#:#crs_auto_fill#:#Automatisch auffüllen
+crs#:#crs_blocked#:#Zugang gesperrt
+crs#:#crs_blocked_member#:#Kursmitgliedschaft
+crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft wurde beendet.
+crs#:#crs_contact#:#Kontakt
+crs#:#crs_contact_consultation#:#Sprechstunde
+crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
+crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
+crs#:#crs_contact_phone#:#Telefon
+crs#:#crs_contact_responsibility#:#Zuständigkeit
+crs#:#crs_content#:#Kursinhalt
+crs#:#crs_count_members#:#Anzahl der Mitglieder
+crs#:#crs_create_date#:#Erstellungsdatum
+crs#:#crs_dates#:#Termine
+crs#:#crs_delete_member#:#Mitglied(er) löschen
+crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
+crs#:#crs_delete_subscribers#:#Anmeldungen löschen
+crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
+crs#:#crs_details#:#Kursdetails
+crs#:#crs_dismiss_member#:#Kursmitgliedschaft
+crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft wurde beendet.
+crs#:#crs_edit_archive#:#Archive bearbeiten
+crs#:#crs_end#:#Ende
+crs#:#crs_export#:#Kursexport
+crs#:#crs_file_name#:#Dateiname
+crs#:#crs_from#:#Von:
+crs#:#crs_header_archives#:#Kursarchive
+crs#:#crs_header_delete_members#:#Mitglieder löschen
+crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
+crs#:#crs_header_members#:#Kursmitglieder
+crs#:#crs_html#:#HTML###07 Aug 2004 new variable
+crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
+crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
+crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
+crs#:#crs_info_reg_direct#:#Sie können sich direkt für den Kurs anmelden.
+crs#:#crs_info_reg_password#:#Die Mitgliedschaft zu diesem Kurs verlangt die Eingabe eines Passwortes. Wenn Ihnen dieses nicht mitgeteilt wurde, können Sie sich nicht anmelden.
+crs#:#crs_list_users#:#Benutzer auflisten
+crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
+crs#:#crs_mem_change_status#:#Status ändern
+crs#:#crs_mem_send_mail#:#Mail verschicken
+crs#:#crs_member#:#Mitglied
+crs#:#crs_member_blocked#:#Mitglied (gesperrt)
+crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
+crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen.
+crs#:#crs_members_print_title#:#Kursmitglieder
+crs#:#crs_members_title#:#Kursmitglieder
+crs#:#crs_move_down#:#Nach unten verschieben
+crs#:#crs_move_up#:#Nach oben verschieben
+crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
+crs#:#crs_new_search#:#Neue Suche
+crs#:#crs_new_subscription#:#Kursneuanmeldung
+crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet.
+crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
+crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
+crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
+crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt.
+crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
+crs#:#crs_no_language#:#Keine Sprache angegeben
+crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt.
+crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet.
+crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
+crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden.
+crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt.
+crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt.
+crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
+crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
+crs#:#crs_not_available#:#-Nicht angegeben-
+crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
+crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt.
+crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
+crs#:#crs_options#:#Aktionen
+crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt.
+crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
+crs#:#crs_print_list#:#Liste ausdrucken
+crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
+crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
+crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Migliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
+crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nocht begonnen.
+crs#:#crs_reg_until#:#Anmeldungszeitraum
+crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses.
+crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet.
+crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt.
+crs#:#crs_registration#:#Kursanmeldung
+crs#:#crs_reject_subscriber#:#Kursanmeldung
+crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt.
+crs#:#crs_role#:#Rolle
+crs#:#crs_role_status#:#Rolle/Status
+crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein.
+crs#:#crs_search_for#:#Suchen nach:
+crs#:#crs_search_members#:#Benutzersuche
+crs#:#crs_search_str#:#Suchbegriff
+crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
+crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
+crs#:#crs_settings#:#Kurseinstellungen
+crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
+crs#:#crs_size#:#Dateigröße
+crs#:#crs_sort_activation#:#Nach Aktivierung
+crs#:#crs_sort_manual#:#Manuelle Sortierung
+crs#:#crs_sort_title#:#Nach Titel
+crs#:#crs_sortorder#:#Sortierung
+crs#:#crs_start#:#Start###07 Aug 2004 new variable
+crs#:#crs_status#:#Status###07 Aug 2004 new variable
+crs#:#crs_status_changed#:#Kursstatus
+crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert.
+crs#:#crs_structure#:#Kursstruktur
+crs#:#crs_subscribers#:#Anmeldungen
+crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht.
+crs#:#crs_subscription#:#Anmeldung
+crs#:#crs_subscription_max_members#:#Maiximale Mitgliederanzahl
+crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
+crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
+crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
+crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
+crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
+crs#:#crs_subscription_successful#:#Sind wurden für den Kurs angemeldet.
+crs#:#crs_subscription_type#:#Anmeldungsart
+crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
+crs#:#crs_syllabus#:#Lernziel
+crs#:#crs_time#:#Datum der Anmeldung
+crs#:#crs_to#:#Bis:
+crs#:#crs_tutor#:#Tutor###07 Aug 2004 new variable
+crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
+crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
+crs#:#crs_unblocked#:#Freigeschaltet
+crs#:#crs_unblocked_member#:#Kursmitgliedschaft
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wieder hergestellt.
+crs#:#crs_unlimited#:#Unbegrenzt
+crs#:#crs_unsubscribe#:#Abmelden
+crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
+crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
+crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
+crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
+crs#:#crs_xml#:#XML###07 Aug 2004 new variable
+crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
@@ -3352,168 +3517,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-crs#:#crs_details#:#Kursdetails
-crs#:#crs_syllabus#:#Lernziel
-crs#:#crs_contact#:#Kontakt
-crs#:#crs_contact_name#:#Name
-crs#:#crs_contact_responsibility#:#Zuständigkeit
-crs#:#crs_contact_email#:#Email
-crs#:#crs_contact_phone#:#Telefon
-crs#:#crs_contact_consultation#:#Sprechstunde
-crs#:#crs_dates#:#Termine
-crs#:#crs_activation#:#Aktivierung
-crs#:#crs_subscription#:#Anmeldung
-crs#:#crs_archive#:#Archivierung
-crs#:#crs_not_available#:#-Nicht angegeben-
-crs#:#crs_from#:#Von:
-crs#:#crs_to#:#Bis:
-crs#:#crs_unlimited#:#Unbegrenzt
-crs#:#crs_archive_disabled#:#Deaktiviert
-crs#:#crs_settings#:#Kurseinstellungen
-crs#:#crs_start#:#Start
-crs#:#crs_end#:#Ende
-crs#:#crs_offline#:#Offline
-crs#:#crs_subscription_type#:#Anmeldungsart
-crs#:#crs_subscription_max_members#:#Maiximale Mitgliederanzahl
-crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
-crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
-crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
-crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
-crs#:#crs_sortorder#:#Sortierung
-crs#:#crs_sort_manual#:#Manuelle Sortierung
-crs#:#crs_sort_title#:#Nach Titel
-crs#:#crs_sort_activation#:#Nach Aktivierung
-crs#:#crs_archive_select_type#:#Zugriff auf Archive
-crs#:#crs_archive_type_disabled#:#Kein Zugriff
-crs#:#crs_archive_read#:#Lesezugriff
-crs#:#crs_archive_download#:#Herunterladen
-crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
-crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
-crs#:#crs_edit_archive#:#Archive bearbeiten
-crs#:#crs_xml#:#XML
-crs#:#crs_html#:#HTML
-crs#:#crs_pdf#:#PDF
-crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
-crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
-crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
-crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
-crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
-crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
-crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
-crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
-crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet.
-crs#:#crs_admin#:#Administrator
-crs#:#crs_tutor#:#Tutor
-crs#:#crs_member#:#Mitglied
-crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
-crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
-crs#:#crs_blocked#:#Zugang gesperrt
-crs#:#crs_unblocked#:#Freigeschaltet
-crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
-crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
-crs#:#crs_member_blocked#:#Mitglied (gesperrt)
-crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
-crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
-crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
-crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
-crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
-crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
-crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
-crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
-crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
-crs#:#crs_search_str#:#Suchbegriff
-crs#:#crs_search_for#:#Suchen nach:
-crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt.
-crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt.
-crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt.
-crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anmeldungen gelöscht werden sollen?
-crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abmelden möchten?
-crs#:#crs_unsubscribe#:#Abmelden
-crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
-crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt.
-crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen.
-crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht.
-crs#:#crs_search_members#:#Benutzersuche
-crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein.
-crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden.
-crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt.
-crs#:#crs_new_search#:#Neue Suche
-crs#:#crs_role#:#Rolle
-crs#:#crs_status#:#Status
-crs#:#crs_members_title#:#Kursmitglieder
-crs#:#crs_subscribers#:#Anmeldungen
-crs#:#crs_time#:#Datum der Anmeldung
-crs#:#crs_members_print_title#:#Kursmitglieder
-crs#:#crs_role_status#:#Rolle/Status
-crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
-crs#:#crs_list_users#:#Benutzer auflisten
-crs_#:#crs_archives#:#Archive
-crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
-crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
-crs#:#crs_move_up#:#Nach oben verschieben
-crs#:#crs_move_down#:#Nach unten verschieben
-crs#:#crs_count_members#:#Anzahl der Mitglieder
-crs#:#crs_header_delete_members#:#Mitglieder löschen
-crs#:#crs_header_archives#:#Kursarchive
-crs#:#crs_file_name#:#Dateiname
-crs#:#crs_create_date#:#Erstellungsdatum
-crs#:#crs_size#:#Dateigröße
-crs#:#crs_archive_lang#:#Sprache
-crs#:#crs_archive_type#:#Archivtyp
-crs#:#crs_delete_member#:#Mitglied(er) löschen
-crs#:#crs_add_member#:#Mitglied(er) hinzufügen
-crs#:#crs_options#:#Aktionen
-crs#:#crs_add_subscribers#:#Benutzer hinzufügen
-crs#:#crs_delete_subscribers#:#Anmeldungen löschen
-crs#:#crs_auto_fill#:#Automatisch auffüllen
-crs#:#crs_no_language#:#Keine Sprache angegeben
-crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
-crs#:#crs_header_members#:#Kursmitglieder
-crs#:#crs_print_list#:#Liste ausdrucken
-crs#:#crs_mem_send_mail#:#Mail verschicken
-crs#:#crs_mem_change_status#:#Status ändern
-crs#:#crs_content#:#Kursinhalt
-crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
-crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_export#:#Kursexport
-crs#:#crs_reject_subscriber#:#Kursanmeldung
-crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt.
-crs#:#crs_accept_subscriber#:#Kursanmeldung
-crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
-crs#:#crs_dismiss_member#:#Kursmitgliedschaft
-crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft wurde beendet.
-crs#:#crs_blocked_member#:#Kursmitgliedschaft
-crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft wurde beendet.
-crs#:#crs_unblocked_member#:#Kursmitgliedschaft
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft wurde wieder hergestellt.
-crs#:#crs_added_member#:#Kursmitgliedschaft
-crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
-crs#:#crs_status_changed#:#Kursstatus
-crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert.
-crs#:#crs_new_subscription#:#Kursneuanmeldung
-crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet.
-crs#:#crs_subscription_successful#:#Sind wurden für den Kurs angemeldet.
-crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt.
-crs#:#crs_registration#:#Kursanmeldung
-crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
-crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
-crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
-crs#:#crs_info_reg_direct#:#Sie können sich direkt für den Kurs anmelden.
-crs#:#crs_info_reg_password#:#Die Mitgliedschaft zu diesem Kurs verlangt die Eingabe eines Passwortes. Wenn Ihnen dieses nicht mitgeteilt wurde, können Sie sich nicht anmelden.
-crs#:#crs_reg_until#:#Anmeldungszeitraum
-crs#:#crs_access_password#:#Passwort
-crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt.
-crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses.
-crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet.
-crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
-crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nocht begonnen.
-crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen.
-crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Migliedern wurde überschritten. Sie werden auf die Warteliste gesetzt.
-common#:#crs_archives#:#Archive
-common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
-common#:#copy_to#:#nach
-common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
-common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
-common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.

@@ -117,6 +117,7 @@ email_not_valid#:#Email is not valid###21 Nov 2003 new variable
 en_by_default#:#(Anglų kalbos pašalinti negalima).
 enable#:#enable###05 Jan 2003 new variable
 enabled#:#enabled###05 Jan 2003 new variable
+enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#Prašom įvesti slaptažodį
 env_ok#:#Taigi, viskas atrodo teisingai.
 env_using#:#ILIAS 3 veiks ant
