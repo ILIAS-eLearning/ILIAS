@@ -31,6 +31,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+<<<<<<< ilias_en.lang
+=======
+>>>>>>> 1.57
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -102,6 +105,8 @@ common#:#cut#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#date#:#Date
+common#:#days#:#Days
+common#:#days#:#Days
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
 common#:#db_pass#:#Database Password
@@ -176,8 +181,8 @@ common#:#forums_respond#:#Respond to an Article
 common#:#forums_the_post#:#Article
 common#:#forums_thread#:#Topic
 common#:#forums_thread_articles#:#Articles to the topic
-common#:#forums_thread_create_from#:#Created from
 common#:#forums_thread_create_date#:#Created at
+common#:#forums_thread_create_from#:#Created from
 common#:#forums_thread_new_entry#:#New topic has been inscribed
 common#:#forums_threads#:#Threads
 common#:#forums_threads_not_available#:#Topics Not Available
@@ -206,6 +211,8 @@ common#:#inbox#:#Inbox
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_trash#:#Deleted Objects
+common#:#inform_user_mail#:#Send email to inform user about changes
+common#:#inform_user_mail#:#Send email to inform user about changes
 common#:#information_abbr#:#Info
 common#:#inifile#:#Ini-File
 common#:#input_error#:#Input error
@@ -215,9 +222,13 @@ common#:#inst_name#:#Installation Name
 common#:#install#:#Install
 common#:#installed#:#Installed
 common#:#institution#:#Institution
+common#:#internal_system#:#Internal system
+common#:#internal_system#:#Internal system
 common#:#ip_address#:#IP Address
 common#:#is_already_your#:#is already your
 common#:#item#:#Item
+common#:#kb#:#KByte
+common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#German
@@ -267,15 +278,81 @@ common#:#lo_no_content#:#No Learning Ressources Available
 common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
 common#:#login#:#Login
+common#:#login_data#:#Login data
+common#:#login_data#:#Login data
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
+common#:#mail_a_root#:#Mailbox
+common#:#mail_a_root#:#Mailbox
+common#:#mail_allow_smtp#:#Allow SMTP
+common#:#mail_allow_smtp#:#Allow SMTP
+common#:#mail_attachments#:#Attachments
+common#:#mail_attachments#:#Attachments
+common#:#mail_b_inbox#:#Inbox
+common#:#mail_b_inbox#:#Inbox
+common#:#mail_bc_search#:#BC search
+common#:#mail_bc_search#:#BC search
+common#:#mail_c_trash#:#Trash
+common#:#mail_c_trash#:#Trash
+common#:#mail_cc_search#:#CC search
+common#:#mail_cc_search#:#CC search
+common#:#mail_d_drafts#:#Drafts
+common#:#mail_d_drafts#:#Drafts
+common#:#mail_delete_error#:#Error deleting mail(s)
+common#:#mail_delete_error#:#Error deleting mail(s)
+common#:#mail_deleted#:#The mail(s) have been deleted
+common#:#mail_deleted#:#The mail(s) have been deleted
+common#:#mail_e_sent#:#Sent
+common#:#mail_e_sent#:#Sent
+common#:#mail_intern_enable#:#Enable
+common#:#mail_intern_enable#:#Enable
+common#:#mail_mails_of#:#Mails of
+common#:#mail_mails_of#:#Mails of
+common#:#mail_mark_read#:#Mark mails read
+common#:#mail_mark_read#:#Mark mails read
+common#:#mail_mark_unread#:#Mark mails unread
+common#:#mail_mark_unread#:#Mark mails unread
+common#:#mail_maxsize_attach#:#Max. attachment size
+common#:#mail_maxsize_attach#:#Max. attachment size
+common#:#mail_maxsize_box#:#Max. mailbox size
+common#:#mail_maxsize_box#:#Max. mailbox size
+common#:#mail_maxsize_mail#:#Max. mail size
+common#:#mail_maxsize_mail#:#Max. mail size
+common#:#mail_maxtime_attach#:#Max. days to keep attachments
+common#:#mail_maxtime_attach#:#Max. days to keep attachments
+common#:#mail_maxtime_mail#:#Max. days to keep mails 
+common#:#mail_maxtime_mail#:#Max. days to keep mails 
+common#:#mail_message_send#:#The message is send
+common#:#mail_message_send#:#The message is send
+common#:#mail_move_error#:#Error moving mail(s)
+common#:#mail_move_error#:#Error moving mail(s)
+common#:#mail_move_to#:#Move mails to
+common#:#mail_move_to#:#Move mails to
+common#:#mail_moved#:#The mail(s) have been moved
+common#:#mail_moved#:#The mail(s) have been moved
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
+common#:#mail_saved#:#The message is saved
+common#:#mail_saved#:#The message is saved
+common#:#mail_search_word#:#Search word
+common#:#mail_search_word#:#Search word
+common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_send_error#:#Error sending mail
+common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail successfully sent!
+common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+common#:#mail_to_search#:#To search
+common#:#mail_to_search#:#To search
+common#:#mail_z_local#:#User Folders
+common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
@@ -338,6 +415,12 @@ common#:#page#:#Page
 common#:#page_edit#:#Edit Page
 common#:#parse#:#Parse
 common#:#passwd#:#Password
+common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
+common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
+common#:#passwd_wrong#:#The password you entered is wrong!
+common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#paste#:#Paste
 common#:#path#:#Path
@@ -351,6 +434,8 @@ common#:#payment_system#:#Payment System
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
+common#:#personal_data#:#Personal information
+common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_profile#:#Personal Profile
 common#:#phone#:#Phone
@@ -359,6 +444,8 @@ common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Presentation Options
 common#:#print#:#Print
+common#:#profile_changed#:#Your profile has changed
+common#:#profile_changed#:#Your profile has changed
 common#:#pub_section#:#Public Section
 common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
@@ -366,6 +453,8 @@ common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organisation
 common#:#question#:#Question
 common#:#quit#:#Quit
+common#:#quote#:#Quote
+common#:#quote#:#Quote
 common#:#read#:#Read
 common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
@@ -410,6 +499,8 @@ common#:#set#:#Set
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
 common#:#set_system_language#:#Set System Language
+common#:#settings#:#Settings
+common#:#settings#:#Settings
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
@@ -475,48 +566,4 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#mail_a_root#:#Mailbox
-common#:#mail_b_inbox#:#Inbox
-common#:#mail_c_trash#:#Trash
-common#:#mail_d_drafts#:#Drafts
-common#:#mail_e_sent#:#Sent
-common#:#mail_z_local#:#User Folders
-common#:#mail_mark_unread#:#Mark mails unread
-common#:#mail_mark_read#:#Mark mails read
-common#:#mail_move_to#:#Move mails to
-common#:#internal_system#:#Internal system
-common#:#mail_intern_enable#:#Enable
-common#:#mail_allow_smtp#:#Allow SMTP
-common#:#mail_maxsize_mail#:#Max. mail size
-common#:#mail_maxsize_attach#:#Max. attachment size
-common#:#mail_maxsize_box#:#Max. mailbox size
-common#:#mail_maxtime_mail#:#Max. days to keep mails 
-common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#kb#:#KByte
-common#:#days#:#Days
-common#:#login_data#:#Login data
-common#:#personal_data#:#Personal information
-common#:#inform_user_mail#:#Send email to inform user about changes
-common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
-common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
-common#:#passwd_wrong#:#The password you entered is wrong!
-common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
-common#:#mail_select_one#:#You have to select one mail.
-common#:#mail_deleted#:#The mail(s) have been deleted
-common#:#mail_delete_error#:#Error deleting mail(s)
-common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
-common#:#mail_moved#:#The mail(s) have been moved
-common#:#mail_move_error#:#Error moving mail(s)
-common#:#mail_mails_of#:#Mails of
-common#:#mail_to_search#:#To search
-common#:#mail_cc_search#:#CC search
-common#:#mail_bc_search#:#BC search
-common#:#mail_message_send#:#The message is send
-common#:#mail_saved#:#The message is saved
-common#:#mail_send_error#:#Error sending mail
-common#:#mail_search_word#:#Search word
-common#:#mail_attachments#:#Attachments
-common#:#settings#:#Settings
-common#:#profile_changed#:#Your profile has changed
-common#:#quote#:#Quote
 zz#:#aa#:#aa

@@ -31,6 +31,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+<<<<<<< ilias_en.lang###25 Mar 2003 new variable
+<<<<<<< ilias_en.lang###25 Mar 2003 new variable
+<<<<<<< ilias_en.lang###25 Mar 2003 new variable
 common#:#absolute_path#:#absolute path
 common#:#accept_usr_agreement#:#accept user agreement?
 common#:#access#:#access
@@ -86,7 +89,7 @@ common#:#clear#:#clear
 common#:#comma_separated#:#comma separated
 common#:#compose#:#compose
 common#:#confirm#:#confirm
-common#:#contact_information#:#contact information
+common#:#contact_data#:#Contact Information###25 Mar 2003 new variable
 common#:#context#:#context
 common#:#copy#:#copy
 common#:#country#:#country
@@ -102,6 +105,7 @@ common#:#cut#:#cut
 common#:#database#:#database
 common#:#database_version#:#current database version
 common#:#date#:#date
+common#:#days#:#Days###25 Mar 2003 new variable
 common#:#db_host#:#database host
 common#:#db_name#:#database name
 common#:#db_pass#:#database password
@@ -131,7 +135,6 @@ common#:#edited_at#:#edited at
 common#:#editor#:#editor
 common#:#email#:#email
 common#:#email_not_valid#:#The email addess you entered is not valid!###20 Mar 2003 new variable
-common#:#employee#:#employee
 common#:#enable#:#enable
 common#:#enabled#:#enabled
 common#:#enumerate#:#enumerate
@@ -175,9 +178,10 @@ common#:#forums_posts#:#all articles
 common#:#forums_posts_not_available#:#articles not available
 common#:#forums_respond#:#respond to an article
 common#:#forums_the_post#:#article
-common#:#forums_thread#:#thread
-common#:#forums_thread_articles#:#articles to the thread
-common#:#forums_thread_create#:#created from
+common#:#forums_thread#:#thread###25 Mar 2003 content changed
+common#:#forums_thread_articles#:#articles to the thread###25 Mar 2003 content changed
+common#:#forums_thread_create_date#:#Created at###25 Mar 2003 new variable
+common#:#forums_thread_create_from#:#Created from###25 Mar 2003 new variable
 common#:#forums_thread_new_entry#:#new topic has been inscribed
 common#:#forums_threads#:#threads
 common#:#forums_threads_not_available#:#topics not available
@@ -185,7 +189,7 @@ common#:#forums_topics_overview#:#topics overview
 common#:#forums_your_reply#:#your reply
 common#:#forward#:#forward
 common#:#frm#:#frm
-common#:#from#:#from:
+common#:#from#:#from:###25 Mar 2003 content changed
 common#:#functions#:#functions
 common#:#gender#:#gender
 common#:#generate#:#generate
@@ -195,7 +199,6 @@ common#:#groupname#:#groupname
 common#:#groups#:#groups
 common#:#groupscope#:#groupscope
 common#:#grp#:#grp
-common#:#guest#:#guest
 common#:#help#:#help
 common#:#host#:#host
 common#:#http_path#:#http path
@@ -207,6 +210,7 @@ common#:#inbox#:#inbox
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
 common#:#info_deleted#:#Object(s) deleted
 common#:#info_trash#:#Deleted Objects
+common#:#inform_user_mail#:#Send email to inform user about changes###25 Mar 2003 new variable
 common#:#information_abbr#:#info
 common#:#inifile#:#ini-file
 common#:#input_error#:#Input error###20 Mar 2003 new variable
@@ -216,9 +220,11 @@ common#:#inst_name#:#installation name
 common#:#install#:#install
 common#:#installed#:#installed
 common#:#institution#:#institution
+common#:#internal_system#:#Internal system###25 Mar 2003 new variable
 common#:#ip_address#:#IP address
 common#:#is_already_your#:#is already your###20 Mar 2003 new variable
 common#:#item#:#item
+common#:#kb#:#KByte###25 Mar 2003 new variable
 common#:#keywords#:#keywords
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Aleman
@@ -268,17 +274,49 @@ common#:#lo_no_content#:#No learning ressources available###07 Feb 2003 new vari
 common#:#lo_other_langs#:#lo's in other langauges
 common#:#lo_overview#:#lo overview
 common#:#login#:#login
+common#:#login_data#:#Login data###25 Mar 2003 new variable
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one.###25 Mar 2003 new variable
 common#:#login_to_ilias#:#login to ILIAS
 common#:#logout#:#logout
 common#:#los#:#learning objects
 common#:#los_last_visited#:#last visited learning objects
 common#:#mail#:#mail
+common#:#mail_a_root#:#Mailbox###25 Mar 2003 new variable
+common#:#mail_allow_smtp#:#Allow SMTP###25 Mar 2003 new variable
+common#:#mail_attachments#:#Attachments###25 Mar 2003 new variable
+common#:#mail_b_inbox#:#Inbox###25 Mar 2003 new variable
+common#:#mail_bc_search#:#BC search###25 Mar 2003 new variable
+common#:#mail_c_trash#:#Trash###25 Mar 2003 new variable
+common#:#mail_cc_search#:#CC search###25 Mar 2003 new variable
+common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
+common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
+common#:#mail_deleted#:#The mail(s) have been deleted###25 Mar 2003 new variable
+common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
+common#:#mail_intern_enable#:#Enable###25 Mar 2003 new variable
+common#:#mail_mails_of#:#Mails of###25 Mar 2003 new variable
+common#:#mail_mark_read#:#Mark mails read###25 Mar 2003 new variable
+common#:#mail_mark_unread#:#Mark mails unread###25 Mar 2003 new variable
+common#:#mail_maxsize_attach#:#Max. attachment size###25 Mar 2003 new variable
+common#:#mail_maxsize_box#:#Max. mailbox size###25 Mar 2003 new variable
+common#:#mail_maxsize_mail#:#Max. mail size###25 Mar 2003 new variable
+common#:#mail_maxtime_attach#:#Max. days to keep attachments###25 Mar 2003 new variable
+common#:#mail_maxtime_mail#:#Max. days to keep mails ###25 Mar 2003 new variable
+common#:#mail_message_send#:#The message is send###25 Mar 2003 new variable
+common#:#mail_move_error#:#Error moving mail(s)###25 Mar 2003 new variable
+common#:#mail_move_to#:#Move mails to###25 Mar 2003 new variable
+common#:#mail_moved#:#The mail(s) have been moved###25 Mar 2003 new variable
 common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
 common#:#mail_s#:#mail(s)
 common#:#mail_s_unread#:#unread mail(s)
+common#:#mail_saved#:#The message is saved###25 Mar 2003 new variable
+common#:#mail_search_word#:#Search word###25 Mar 2003 new variable
+common#:#mail_select_one#:#You have to select one mail.###25 Mar 2003 new variable
+common#:#mail_send_error#:#Error sending mail###25 Mar 2003 new variable
 common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
+common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 2003 new variable
+common#:#mail_to_search#:#To search###25 Mar 2003 new variable
+common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
 common#:#mails#:#mails
-common#:#mandatory_fields#:#mandatory fields
 common#:#mark_all_read#:#mark all as read
 common#:#mark_all_unread#:#mark all as unread
 common#:#members#:#members
@@ -303,7 +341,6 @@ common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#multimedia#:#multimedia
-common#:#must_fill_in#:#must fill in
 common#:#name#:#name
 common#:#new#:#new
 common#:#new_folder#:#new folder
@@ -313,6 +350,7 @@ common#:#news#:#news
 common#:#nickname#:#nickname
 common#:#no#:#no
 common#:#no_checkbox#:#No checkbox checked!
+common#:#no_date#:#No date###25 Mar 2003 new variable
 common#:#no_objects#:#no objects
 common#:#no_title#:#no title
 common#:#none#:#none
@@ -340,6 +378,9 @@ common#:#page#:#page
 common#:#page_edit#:#edit page
 common#:#parse#:#Parse###04 Mar 2003 new variable
 common#:#passwd#:#passwd
+common#:#passwd_invalid#:#The new password is invalid! Please choose another password.###25 Mar 2003 new variable
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###25 Mar 2003 new variable
+common#:#passwd_wrong#:#The password you entered is wrong!###25 Mar 2003 new variable
 common#:#password#:#password
 common#:#paste#:#paste
 common#:#path#:#path
@@ -353,6 +394,7 @@ common#:#payment_system#:#payment system
 common#:#perm_settings#:#permissions
 common#:#permission#:#permission
 common#:#permission_denied#:#permission denied
+common#:#personal_data#:#Personal information###25 Mar 2003 new variable
 common#:#personal_desktop#:#personal desktop
 common#:#personal_profile#:#personal profile
 common#:#phone#:#phone
@@ -361,7 +403,7 @@ common#:#port#:#port
 common#:#position#:#position
 common#:#presentation_options#:#presentation options
 common#:#print#:#print
-common#:#profile#:#profile
+common#:#profile_changed#:#Your profile has changed###25 Mar 2003 new variable
 common#:#pub_section#:#public section
 common#:#publication#:#publication
 common#:#publication_date#:#publication date
@@ -369,11 +411,12 @@ common#:#published#:#published
 common#:#publishing_organisation#:#publishing organisation
 common#:#question#:#question
 common#:#quit#:#quit
+common#:#quote#:#Quote###25 Mar 2003 new variable
 common#:#read#:#read
 common#:#recipient#:#recipient
 common#:#refresh#:#refresh
 common#:#refresh_list#:#refresh list
-common#:#registered_since#:#registered since
+common#:#registered_since#:#registered since###25 Mar 2003 content changed
 common#:#reply#:#reply
 common#:#required_field#:#required
 common#:#reset#:#reset
@@ -413,6 +456,7 @@ common#:#set#:#set
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
 common#:#set_system_language#:#set system language
+common#:#settings#:#Settings###25 Mar 2003 new variable
 common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#show owner
@@ -423,7 +467,6 @@ common#:#status#:#status
 common#:#step#:#step
 common#:#street#:#street
 common#:#structure#:#structure
-common#:#student#:#student
 common#:#subcat_name#:#subcategory name
 common#:#subchapter_new#:#new subchapter
 common#:#subject#:#subject
@@ -479,3 +522,4 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#your message
 common#:#zipcode#:#zip code
+zz#:#aa#:#aa###25 Mar 2003 new variable
