@@ -188,31 +188,14 @@ class ilGroupListGUI
 			$_SESSION["viewmode"] = "flat";
 		}
 
-		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		
+		$this->tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
+		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+		$this->tpl->setVariable("ACTIONTARGET","bottom");
+		
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		
-		//check if user got permission to create new groups
-		//TODO
-//		if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
-//			if($rbacsystem->checkAccess("create",$_GET["ref_id"]) )
-			{
-				//show "new group" button only if category or dlib objects were chosen(current object)
-//				if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
-				{
-					//var_dump($_GET); echo "----";var_dump($_POST);
-					$this->tpl->setCurrentBlock("btn_cell");
-					//right solution
-					$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=grp_list.php");
-					$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-					$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-					//temp.solution
-					//$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
-					//$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-
-
 /*		if ($this->tree->getSavedNodeData($this->ref_id))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
@@ -313,6 +296,7 @@ class ilGroupListGUI
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
 		$tbl->setMaxCount($maxcount);
+		$this->showActions(true);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -436,56 +420,7 @@ class ilGroupListGUI
 		return $path;
 	}
 
-	/**
-	* show possible subobjects (pulldown menu)
-	*
-	* @access	public
-	*/
-	function showPossibleSubObjects()
-	{
 
-		$d = $this->objDefinition->getCreatableSubObjects("cat");
-
-		if (count($d) > 0)
-		{
-			foreach ($d as $row)
-			{
-				$count = 0;
-				if ($row["max"] > 0)
-				{
-					//how many elements are present?
-					for ($i=0; $i<count($this->data["ctrl"]); $i++)
-					{
-						if ($this->data["ctrl"][$i]["type"] == $row["name"])
-						{
-							$count++;
-						}
-					}
-				}
-				if ($row["max"] == "" || $count < $row["max"])
-				{
-					if($row["name"] == "lm" || $row["name"] == "dbk" || $row["name"] == "crs")
-					{
-						$subobj[] = $row["name"];
-					}
-				}
-			}
-		}
-
-		if (is_array($subobj))
-		{
-			$this->showActionSelect($subobj);
-
-			//build form
-			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			$this->tpl->setVariable("COLUMN_COUNTS", 7);
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("BTN_NAME", "create");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
 
 	function showActionSelect(&$subobj)
 	{
@@ -632,6 +567,29 @@ class ilGroupListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+	}
+	
+	/**
+	* show possible action (form buttons)
+	*
+	* @access	public
+ 	*/
+	function showActions($with_subobjects = false)
+	{	
+	
+	
+		$subobj =array("grp");
+		
+		//build form
+		$opts = ilUtil::formSelect(12,"new_type",$subobj);
+		$this->tpl->setVariable("COLUMN_COUNTS", 7);
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("BTN_NAME", "create");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->parseCurrentBlock();
 	}
 }
 ?>
