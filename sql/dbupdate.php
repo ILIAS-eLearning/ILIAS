@@ -1629,7 +1629,6 @@ $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND ( title = 'cat' 
 $res = $this->db->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
-	echo $row->obj_id;
 	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','29')";
 	$this->db->query($query);
 }
