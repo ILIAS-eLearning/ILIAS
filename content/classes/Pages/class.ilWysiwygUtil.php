@@ -85,6 +85,10 @@ class ilWysiwygUtil
             $new["convert"] = "[com]";
             $new["convert2"] = "[/com]";
         }
+        if ($attrs["class"] == "iliasemp") {
+            $new["convert"] = "[emp]";
+            $new["convert2"] = "[/emp]";
+        }
         
         if ($attrs["class"] == "iliasquot") {
             $new["convert"] = "[quot]";
