@@ -384,7 +384,7 @@ class ilSCORMExplorer extends ilExplorer
 				else
 				{
 					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.ILIASLaunchSCO('".$a_node_id."');\"");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.init(); parent.APIFRAME.ILIASLaunchSCO('".$a_node_id."');\"");
 				}
 
 			}
