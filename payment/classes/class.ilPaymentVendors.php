@@ -105,5 +105,18 @@ class ilPaymentVendors
 		return true;
 	}
 
+	// STATIC
+	function _isVendor($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT cost_center FROM payment_vendors ".
+			"WHERE vendor_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
 } // END class.ilPaymentVendors
 ?>

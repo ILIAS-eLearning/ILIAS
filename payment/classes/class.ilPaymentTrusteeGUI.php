@@ -1,0 +1,498 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+/**
+* Class ilPaymentTrusteeGUI
+*
+* @author Stefan Meyer
+* @version $Id$
+*
+* @package core
+*/
+include_once './payment/classes/class.ilPaymentTrustees.php';
+
+class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
+{
+	var $trustee_obj = null;
+	var $user_obj;
+	var $ctrl;
+
+	function ilPaymentTrusteeGUI(&$user_obj)
+	{
+		global $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+
+		$this->ilPaymentBaseGUI();
+
+		$this->user_obj =& $user_obj;
+		$this->trustee_obj =& new ilPaymentTrustees($this->user_obj);
+
+		$this->lng->loadLanguageModule('crs');
+	}
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $tree;
+
+		$cmd = $this->ctrl->getCmd();
+		switch ($this->ctrl->getNextClass($this))
+		{
+			default:
+				if(!$cmd = $this->ctrl->getCmd())
+				{
+					$cmd = 'showTrustees';
+				}
+				$this->$cmd();
+				break;
+		}
+	}
+
+	function cancelDelete()
+	{
+		unset($_SESSION['paya_delete_trustee']);
+		$this->showTrustees();
+
+		return true;
+	}
+
+
+	function showTrustees($a_show_delete = false)
+	{
+		$_SESSION['paya_delete_trustee'] = $_SESSION['paya_delete_trustee'] ? $_SESSION['paya_delete_trustee'] : array();
+
+		$actions = array(0	=> $this->lng->txt("paya_disabled"),
+						 1 	=> $this->lng->txt("paya_enabled"));
+
+
+		$this->showButton('searchUser',$this->lng->txt('search_user'));
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_trustees.html',true);
+
+		if($a_show_delete)
+		{
+			sendInfo($this->lng->txt('paya_sure_delete_selected_trustees'));
+			$this->tpl->setCurrentBlock("confirm_delete");
+			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if(!count($this->trustee_obj->getTrustees()))
+		{
+			sendInfo($this->lng->txt('paya_no_trustees'));
+			
+			return true;
+		}
+		
+		$counter = 0;
+		$f_result = array();
+		
+		$img_mail = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".
+			$this->lng->txt("crs_mem_send_mail").
+			"\" title=\"".$this->lng->txt("crs_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
+		
+		
+		foreach($this->trustee_obj->getTrustees() as $trustee)
+		{
+			// GET USER OBJ
+			if($tmp_obj = ilObjectFactory::getInstanceByObjId($trustee['trustee_id'],false))
+			{
+				$f_result[$counter][]	= ilUtil::formCheckbox(in_array($trustee['trustee_id'],$_SESSION['paya_delete_trustee']) ? 1 : 0,
+															   "trustee[]",
+															   $trustee['trustee_id']);
+				$f_result[$counter][]	= $tmp_obj->getLogin();
+				$f_result[$counter][]	= $tmp_obj->getFirstname();
+				$f_result[$counter][]	= $tmp_obj->getLastname();
+
+				$f_result[$counter][]	= ilUtil::formSelect((int) $trustee['perm_stat'],
+															 'perm_stat['.$trustee['trustee_id'].']',
+															 $actions,
+															 false,
+															 true);
+				
+				$f_result[$counter][]	= ilUtil::formSelect((int) $trustee['perm_obj'],
+															 'perm_obj['.$trustee['trustee_id'].']',
+															 $actions,
+															 false,
+															 true);
+
+				$link_mail = "<a target=\"_blank\" href=\"../mail_new.php?type=new&mail_data[rcp_to]=".
+					$tmp_obj->getLogin()."\"".$img_mail."</a>";
+				
+				$f_result[$counter][]	= $link_mail;
+
+				unset($tmp_obj);
+				++$counter;
+			}
+
+		}
+		return $this->__showTrusteesTable($f_result);
+	}
+	function deleteTrustee()
+	{
+		if(!is_array($_POST['trustee']))
+		{
+			sendInfo($this->lng->txt('crs_no_users_selected'));
+			$this->showTrustees();
+
+			return true;
+		}
+		$_SESSION['paya_delete_trustee'] = $_POST['trustee'];
+		$this->showTrustees(true);
+		
+		return true;
+	}
+
+	function performDeleteTrustee()
+	{
+		if(is_array($_SESSION['paya_delete_trustee']))
+		{
+			foreach($_SESSION['paya_delete_trustee'] as $id)
+			{
+				$this->trustee_obj->setTrusteeId($id);
+				$this->trustee_obj->delete();
+			}
+		}
+		unset($_SESSION['paya_delete_trustee']);
+		sendInfo($this->lng->txt('paya_delete_trustee_msg'));
+		$this->showTrustees();
+
+		return true;
+	}
+
+	function update()
+	{
+		foreach($this->trustee_obj->getTrustees() as $trustee)
+		{
+			$this->trustee_obj->setTrusteeId($trustee['trustee_id']);
+			$this->trustee_obj->toggleStatisticPermission($_POST['perm_stat']["$trustee[trustee_id]"]);
+			$this->trustee_obj->toggleObjectPermission($_POST['perm_obj']["$trustee[trustee_id]"]);
+			$this->trustee_obj->modify();
+		}
+		sendInfo($this->lng->txt('paya_updated_trustees'));
+		$this->showTrustees();
+
+		return true;
+	}
+
+	function searchUser()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.paya_user_search.html",true);
+
+		$this->lng->loadLanguageModule('search');
+
+		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
+		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str"] ? $_SESSION["pays_search_str"] : "");
+		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+
+		return true;
+	}
+
+	function performSearch()
+	{
+		// SAVE it to allow sort in tables
+		$_SESSION["paya_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["paya_search_str"];
+
+
+		if(!$_POST["search_str"])
+		{
+			sendInfo($this->lng->txt("crs_search_enter_search_string"));
+			$this->searchUser();
+
+			return false;
+		}
+		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
+		{
+			sendInfo($this->lng->txt("crs_no_results_found"));
+			$this->searchUser();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",true);
+		$this->showButton("searchUser",$this->lng->txt("crs_new_search"));
+		
+		$counter = 0;
+		$f_result = array();
+		foreach($result as $user)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+			{
+				continue;
+			}
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+			
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showSearchUserTable($f_result);
+	}
+
+	function addTrustee()
+	{
+		if(!is_array($_POST["user"]))
+		{
+			sendInfo($this->lng->txt("crs_no_users_selected"));
+			$this->performSearch();
+
+			return false;
+		}
+		if(in_array($this->user_obj->getId(),$_POST['user']))
+		{
+			sendInfo($this->lng->txt('paya_not_assign_yourself'));
+			$this->performSearch();
+
+			return false;
+		}
+
+
+		// add them
+		$counter = 0;
+		foreach($_POST['user'] as $user_id)
+		{
+			if($this->trustee_obj->isTrustee($user_id))
+			{
+				continue;
+			}
+			$this->trustee_obj->setTrusteeId($user_id);
+			$this->trustee_obj->toggleStatisticPermission(false);
+			$this->trustee_obj->toggleObjectPermission(true);
+			$this->trustee_obj->add();
+			++$counter;
+		}
+
+		if($counter)
+		{
+			sendInfo($this->lng->txt('paya_added_trustee'));
+			$this->showTrustees();
+
+			return true;
+		}
+		else
+		{
+			sendInfo($this->lng->txt('paya_user_already_assigned'));
+			$this->performSearch();
+
+			return false;
+		}
+
+	}
+	function addUser()
+	{
+		if(!$_POST['trustee_login'])
+		{
+			sendInfo($this->lng->txt('paya_enter_login'));
+			$this->showTrustees();
+			
+			return false;
+		}
+		if(!$user_id = ilObjUser::getUserIdByLogin($_POST['trustee_login']))
+		{
+			sendInfo($this->lng->txt('paya_no_valid_login'));
+			$this->showTrustees();
+			
+			return false;
+		}
+		if($this->trustee_obj->isTrustee($user_id))
+		{
+			sendInfo($this->lng->txt('paya_user_already_assigned'));
+			$this->showTrustees();
+			
+			return false;
+		}
+		if($user_id == $this->user_obj->getId())
+		{
+			sendInfo($this->lng->txt('paya_not_assign_yourself'));
+			$this->showTrustees();
+
+			return false;
+		}
+		
+		// checks passed => add trustee
+		$this->trustee_obj->setTrusteeId($user_id);
+		$this->trustee_obj->toggleObjectPermission(false);
+		$this->trustee_obj->toggleStatisticPermission(true);
+		$this->trustee_obj->add();
+
+		sendInfo($this->lng->txt('paya_added_trustee'));
+		$this->showTrustees();
+
+		return true;
+	}
+	
+
+	// PRIVATE
+	function __search($a_search_string)
+	{
+		include_once("./classes/class.ilSearch.php");
+
+		$this->lng->loadLanguageModule("content");
+
+		$search =& new ilSearch($this->user_obj->getId());
+		$search->setPerformUpdate(false);
+		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
+		$search->setCombination("and");
+		$search->setSearchFor(array(0 => 'usr'));
+		$search->setSearchType('new');
+
+		if($search->validate($message))
+		{
+			$search->performSearch();
+		}
+		else
+		{
+			sendInfo($message,true);
+			$this->ctrl->redirect($this,"searchUser");
+		}
+		return $search->getResultByType('usr');
+	}
+	function __showSearchUserTable($a_result_set)
+	{
+		$tbl =& $this->initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+
+		// SET FORMACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","showTrustees");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","addTrustee");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname")));
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname"),
+							array("cmd" => 'performSearch',
+								  "cmdClass" => "ilpaymenttrusteegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+		$this->setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+		
+		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+	
+	function __showTrusteesTable($a_result_set)
+	{
+		$tbl =& $this->initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMAACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+
+		$tpl->setCurrentBlock("input_text");
+		$tpl->setVariable("PB_TXT_NAME",'trustee_login');
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME","addUser");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME","update");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("apply"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->parseCurrentBlock();
+
+		$tpl->setVariable("COLUMN_COUNTS",7);
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+		$tpl->setCurrentBlock("tbl_action_button");
+		$tpl->setVariable("BTN_NAME","deleteTrustee");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setHeaderNames(array('',
+								   $this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt("paya_perm_stat"),
+								   $this->lng->txt("paya_perm_obj"),
+								   $this->lng->txt("crs_options")));
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname",
+								  "perm_stat",
+								  "perm_obj",
+								  "options"),
+							array("cmd" => "showTrustees",
+								  "cmdClass" => "ilpaymenttrusteegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+		$tbl->setColumnWidth(array("4%","15%","15%","15%","20%","20%","15%"));
+
+
+		$this->setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+
+		$this->tpl->setVariable("TRUSTEE_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+}
+?>

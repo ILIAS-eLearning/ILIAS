@@ -38,6 +38,7 @@ require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 require_once "classes/class.ilPersonalDesktopGUI.php";
 
+
 // catch hack attempts
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
