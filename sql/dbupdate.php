@@ -863,3 +863,6 @@ ALTER TABLE mob_usage MODIFY usage_type VARCHAR(10) NOT NULL;
 
 <#66>
 UPDATE settings SET value = '3.0.0_beta1' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#67>
+ALTER TABLE int_link MODIFY source_type VARCHAR(10) NOT NULL;
