@@ -109,6 +109,7 @@ assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#door
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Volgorde-vraag
 assessment#:#question_saved_for_upload#:#De vraag is automatisch opgeslagen om ruimte op de schijf te reserveren voor het te uploaden bestand. Als U nu annuleert, moet u er rekening mee houden, dat de vraag uit de vraagbaak verwijderd moet worden indien u hem niet bewaren wil!###14 Sep 2004 content changed
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Blader voor vragen
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nu toe de test gedaan. Er zijn geen anoniem geaggregeerde resultaten beschikbaar###14 Sep 2004 content changed
 assessment#:#tst_eval_total_finished#:#Totaal aantal afgeronde testen###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde verwerkingstijd voor afgeronde testen###12 Jun 2004 content changed
@@ -694,7 +697,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Creëer kategorie
 common#:#cat_create_chat#:#Creëer Chat
 common#:#cat_create_crs#:#Creëer cursus
-common#:#cat_create_dbk#:#Creëer digibook
+common#:#cat_create_dbk#:#Creëer digibook###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Creëer oefening
 common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Creëer forum
@@ -702,7 +705,7 @@ common#:#cat_create_glo#:#Creëer woordenlijst
 common#:#cat_create_grp#:#Creëer groep
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Creëer een HTML-lesmodule
-common#:#cat_create_lm#:#Creëer lesmodule
+common#:#cat_create_lm#:#Creëer lesmodule###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Creëer een Media-pool
 common#:#cat_create_qpl#:#Creëer vragenpool###07 May 2004 content changed
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
@@ -818,7 +821,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Creëer forum
 common#:#crs_create_glo#:#Creëer woordenlijst
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_lm#:#Creëer lesmodule
+common#:#crs_create_lm#:#Creëer lesmodule###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Verwijderen cursus
 common#:#crs_edit#:#Cursus wijzigen
@@ -860,13 +863,13 @@ common#:#dbk#:#Digilib-boek
 common#:#dbk_a#:#een Digilib-boek
 common#:#dbk_add#:#Digilib-boek toevoegen
 common#:#dbk_added#:#Digilib-boek toegevoegd
-common#:#dbk_create#:#Creëer digibook
-common#:#dbk_delete#:#Verwijd Digiboek
+common#:#dbk_create#:#Creëer digibook###24 Sep 2004 content changed
+common#:#dbk_delete#:#Verwijd Digiboek###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Wijzig rechten-instellingen
 common#:#dbk_new#:#Nieuw Digilib-boek
-common#:#dbk_read#:#Lees-toegang op Digiboek
-common#:#dbk_visible#:#Digiboek is zichtbaar
-common#:#dbk_write#:#Wijzig Digiboek
+common#:#dbk_read#:#Lees-toegang op Digiboek###24 Sep 2004 content changed
+common#:#dbk_visible#:#Digiboek is zichtbaar###24 Sep 2004 content changed
+common#:#dbk_write#:#Wijzig Digiboek###24 Sep 2004 content changed
 common#:#default#:#Standaard
 common#:#default_language#:#Standaard taal
 common#:#default_perm_settings#:#Standaard rechten
@@ -1127,7 +1130,7 @@ common#:#grp_create_frm#:#Creëer forum
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#Creëer lesmodule
+common#:#grp_create_lm#:#Creëer lesmodule###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Verwijder groep
@@ -1188,7 +1191,7 @@ common#:#hobby#:#Interessen/Hobbys
 common#:#home#:#Startscherm
 common#:#host#:#Host
 common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
-common#:#htlm#:#HTML-lesmodule
+common#:#htlm#:#HTML-lesmodule###24 Sep 2004 content changed
 common#:#htlm_add#:#Toevoegen HTML-lesmodule
 common#:#htlm_delete#:#Verwijderen HTML-lesmodule
 common#:#htlm_edit#:#Wijzig eigenschappen HTML-lesmodule
@@ -1197,6 +1200,7 @@ common#:#htlm_new#:#Nieuwe HTML-lesmodule
 common#:#htlm_read#:#Lees HTML-lesmodule
 common#:#htlm_visible#:#HTML-lesmodule is zichtbaar
 common#:#htlm_write#:#Wijzig HTML-lesmodule
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#HTTP-pad
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
@@ -1333,22 +1337,22 @@ common#:#list_of_pages#:#Pagina-lijst
 common#:#list_of_questions#:#Vragenlijst
 common#:#literature#:#Literatuur
 common#:#literature_bookmarks#:#Literatuur bookmarks
-common#:#lm#:#Lesmodule
-common#:#lm_a#:#een lesmodule
-common#:#lm_add#:#Lesmodule toevoegen
-common#:#lm_added#:#Lesmodule toegevoegd
-common#:#lm_create#:#Creëer lesmodule
-common#:#lm_delete#:#Verwijder lesmodule
+common#:#lm#:#Lesmodule###24 Sep 2004 content changed
+common#:#lm_a#:#een lesmodule###24 Sep 2004 content changed
+common#:#lm_add#:#Lesmodule toevoegen###24 Sep 2004 content changed
+common#:#lm_added#:#Lesmodule toegevoegd###24 Sep 2004 content changed
+common#:#lm_create#:#Creëer lesmodule###24 Sep 2004 content changed
+common#:#lm_delete#:#Verwijder lesmodule###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Wijzig rechten-instellingen
-common#:#lm_join#:#Abonneer op  lesmodule
-common#:#lm_leave#:#Abonnement op lesmodule beëindigen
-common#:#lm_new#:#Nieuwe lesmodule
-common#:#lm_read#:#Lees-recht op lesmodule
+common#:#lm_join#:#Abonneer op  lesmodule###24 Sep 2004 content changed
+common#:#lm_leave#:#Abonnement op lesmodule beëindigen###24 Sep 2004 content changed
+common#:#lm_new#:#Nieuwe lesmodule###24 Sep 2004 content changed
+common#:#lm_read#:#Lees-recht op lesmodule###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#Lesmodule is zichtbaar
-common#:#lm_write#:#Wijzig lesmodule
+common#:#lm_visible#:#Lesmodule is zichtbaar###24 Sep 2004 content changed
+common#:#lm_write#:#Wijzig lesmodule###24 Sep 2004 content changed
 common#:#lng#:#Taal
 common#:#lngf#:#Talen
 common#:#lngf_edit_permission#:#Wijzig rechten-instellingen
@@ -1611,10 +1615,10 @@ common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Verklarende woordenlijst
 common#:#obj_grp#:#Groep
 common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
-common#:#obj_htlm#:#HTML-lesmodule
+common#:#obj_htlm#:#HTML-lesmodule###24 Sep 2004 content changed
 common#:#obj_ldap#:#LDAP-instellingen
 common#:#obj_ldap_desc#:#Configureer de globale LDAP-instellingen hier.
-common#:#obj_lm#:#Lesmodule
+common#:#obj_lm#:#Lesmodule###24 Sep 2004 content changed
 common#:#obj_lng#:#Taal
 common#:#obj_lngf#:#Talen
 common#:#obj_lngf_desc#:#Beheer uw systeem-talen hier.
@@ -1681,7 +1685,7 @@ common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groepen
 common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#HTML-lesmodules
-common#:#objs_lm#:#Lesmodules
+common#:#objs_lm#:#Lesmodules###24 Sep 2004 content changed
 common#:#objs_lng#:#Talen
 common#:#objs_lo#:#Lesobjecten
 common#:#objs_mep#:#Media Pools
@@ -1780,13 +1784,13 @@ common#:#publication_date#:#Publikatie-datum
 common#:#published#:#gepubliceerd
 common#:#publishing_organisation#:#Uitgevers-organisatie###14 Sep 2004 content changed
 common#:#qpl#:#Vraagbak###07 May 2004 content changed
-common#:#qpl_add#:#Toevoegen aan vraagbak
-common#:#qpl_delete#:#Verwijder vraagbak
+common#:#qpl_add#:#Toevoegen aan vraagbak###24 Sep 2004 content changed
+common#:#qpl_delete#:#Verwijder vraagbak###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Wijzig rechten-instellingen
-common#:#qpl_new#:#Nieuwe vraagbak
-common#:#qpl_read#:#Lees-rechten op vraagbak
-common#:#qpl_visible#:#De vraagbak is zichtbaar
-common#:#qpl_write#:#Wijzig vraagbak
+common#:#qpl_new#:#Nieuwe vraagbak###24 Sep 2004 content changed
+common#:#qpl_read#:#Lees-rechten op vraagbak###24 Sep 2004 content changed
+common#:#qpl_visible#:#De vraagbak is zichtbaar###24 Sep 2004 content changed
+common#:#qpl_write#:#Wijzig vraagbak###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Vraag
 common#:#question_pools#:#Vraagbakken

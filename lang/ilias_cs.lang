@@ -109,6 +109,7 @@ assessment#:#apply#:#Apply###16 Mar 2004 new variable
 assessment#:#ass_questions#:#Questions###16 Mar 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#by###16 Mar 2004 new variable
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Ordering Question###16 Mar 2004 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###16 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###16 Mar 2004 new variable
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions###16 Mar 2004 new v
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###16 Mar 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###16 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###16 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###16 Mar 2004 new variable
@@ -1197,6 +1200,7 @@ common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Http cesta
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID### identical translation
@@ -1333,16 +1337,16 @@ common#:#list_of_pages#:#Seznam stránek
 common#:#list_of_questions#:#Seznam otázek
 common#:#literature#:#Literatura
 common#:#literature_bookmarks#:#Záložky v literatuře
-common#:#lm#:#Výukový modul
-common#:#lm_a#:#výukový modul
-common#:#lm_add#:#Přidat výukový modul
-common#:#lm_added#:#Výukový modul přidán
+common#:#lm#:#Výukový modul###24 Sep 2004 content changed
+common#:#lm_a#:#výukový modul###24 Sep 2004 content changed
+common#:#lm_add#:#Přidat výukový modul###24 Sep 2004 content changed
+common#:#lm_added#:#Výukový modul přidán###24 Sep 2004 content changed
 common#:#lm_create#:#Create Learning Module###16 Mar 2004 new variable
 common#:#lm_delete#:#Delete Learning Module###16 Mar 2004 new variable
 common#:#lm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#lm_join#:#Subscribe to Learning Module###16 Mar 2004 new variable
 common#:#lm_leave#:#Unsubscribe from Learning Module###16 Mar 2004 new variable
-common#:#lm_new#:#Nový výukový modul
+common#:#lm_new#:#Nový výukový modul###24 Sep 2004 content changed
 common#:#lm_read#:#Read access to Learning Module###16 Mar 2004 new variable
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
@@ -1614,7 +1618,7 @@ common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Nastavení LDAP
 common#:#obj_ldap_desc#:#Zde proveďte globální nastavení LDAP.
-common#:#obj_lm#:#Výukový modul
+common#:#obj_lm#:#Výukový modul###24 Sep 2004 content changed
 common#:#obj_lng#:#Jazyk
 common#:#obj_lngf#:#Jazyky
 common#:#obj_lngf_desc#:#Správa systémových jazyků.

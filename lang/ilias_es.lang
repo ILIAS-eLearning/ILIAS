@@ -109,6 +109,7 @@ assessment#:#apply#:#Apply###05 Feb 2004 new variable
 assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#by###05 Feb 2004 new variable
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new v
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
@@ -694,7 +697,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Crear Categoría
 common#:#cat_create_chat#:#Crear Chat
 common#:#cat_create_crs#:#Crear Curso
-common#:#cat_create_dbk#:#Crear Libro Digital
+common#:#cat_create_dbk#:#Crear Libro Digital###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Crear Actividad
 common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Crear Foro
@@ -702,11 +705,11 @@ common#:#cat_create_glo#:#Crear Glosario
 common#:#cat_create_grp#:#Crear Grupo
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Crear Módulo de Aprendizaje HTML
-common#:#cat_create_lm#:#Crear Módulo de Aprendizaje
+common#:#cat_create_lm#:#Crear Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#cat_create_mep#:#-Crear Media Pool-
-common#:#cat_create_qpl#:#-Crear Question Pool-
+common#:#cat_create_qpl#:#-Crear Question Pool-###24 Sep 2004 content changed
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#cat_create_spl#:#Create Question Pool (Survey)
+common#:#cat_create_spl#:#Create Question Pool (Survey)###24 Sep 2004 content changed
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_delete#:#Eliminar Categoría
@@ -818,7 +821,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Crear Foro
 common#:#crs_create_glo#:#Crear Glosario
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_lm#:#Crear Módulo de Aprendizaje
+common#:#crs_create_lm#:#Crear Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
@@ -860,13 +863,13 @@ common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#un Digilib Book
 common#:#dbk_add#:#Añadir Digilib Book
 common#:#dbk_added#:#Digilib Book añadido
-common#:#dbk_create#:#Crear Digibook
-common#:#dbk_delete#:#Eliminar Digibook
+common#:#dbk_create#:#Crear Digibook###24 Sep 2004 content changed
+common#:#dbk_delete#:#Eliminar Digibook###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Configurar configuración de permisos
 common#:#dbk_new#:#Nuevo Digilib Book
-common#:#dbk_read#:#acceso de Lectura a Digibook
-common#:#dbk_visible#:#Digibook es visible
-common#:#dbk_write#:#Editar Digibook
+common#:#dbk_read#:#acceso de Lectura a Digibook###24 Sep 2004 content changed
+common#:#dbk_visible#:#Digibook es visible###24 Sep 2004 content changed
+common#:#dbk_write#:#Editar Digibook###24 Sep 2004 content changed
 common#:#default#:#por defecto
 common#:#default_language#:#Idioma por defecto
 common#:#default_perm_settings#:#Permisos por defecto
@@ -1009,7 +1012,7 @@ common#:#fold_create_fold#:#Crear Carpeta
 common#:#fold_create_frm#:#Crear Foro
 common#:#fold_create_glo#:#Crear Glosario
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#fold_create_lm#:#Crear Módulo de aprendizaje
+common#:#fold_create_lm#:#Crear Módulo de aprendizaje###24 Sep 2004 content changed
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
@@ -1127,7 +1130,7 @@ common#:#grp_create_frm#:#Crear Foro
 common#:#grp_create_glo#:#Crear Glosario
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#Crear Módulo de Aprendizaje
+common#:#grp_create_lm#:#Crear Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Eliminar Grupo
@@ -1188,7 +1191,7 @@ common#:#hobby#:#Intereses/Hobies
 common#:#home#:#Home
 common#:#host#:#host
 common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
-common#:#htlm#:#Módulo de aprendizaje HTML
+common#:#htlm#:#Módulo de aprendizaje HTML###24 Sep 2004 content changed
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
 common#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
 common#:#htlm_edit#:#Editar Propiedades del Módulo de Aprendizaje HTML
@@ -1197,6 +1200,7 @@ common#:#htlm_new#:#Nuevo Módulo de Aprendizaje HTML
 common#:#htlm_read#:#Leer Módulo de Aprendizaje HTML
 common#:#htlm_visible#:#El módulo de aprendizaje HTML es visible
 common#:#htlm_write#:#Editar Módulo de aprendizaje HTML
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#http path
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
@@ -1332,22 +1336,22 @@ common#:#list_of_pages#:#lista de páginas
 common#:#list_of_questions#:#lista de preguntas
 common#:#literature#:#literatura
 common#:#literature_bookmarks#:#Marcadores de Literatura
-common#:#lm#:#Módulo de Aprendizaje
-common#:#lm_a#:#un módulo de Aprendizaje
-common#:#lm_add#:#Añadir Módulo de Aprendizaje
-common#:#lm_added#:#Módulo de Aprendizaje añadido
-common#:#lm_create#:#Crear Módulo de Aprendizaje
-common#:#lm_delete#:#Eliminar Módulo de Aprendizaje
+common#:#lm#:#Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_a#:#un módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_add#:#Añadir Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_added#:#Módulo de Aprendizaje añadido###24 Sep 2004 content changed
+common#:#lm_create#:#Crear Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_delete#:#Eliminar Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Cambiar configuración de permisos
-common#:#lm_join#:#Suscribir a un Módulo de Aprendizaje
-common#:#lm_leave#:#Darse de baja en el Módulo de Aprendizaje
-common#:#lm_new#:#Nuevo Módulo de Aprendizaje
-common#:#lm_read#:#Acceso de Lectura a Módulo de Aprendizaje
+common#:#lm_join#:#Suscribir a un Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_leave#:#Darse de baja en el Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_new#:#Nuevo Módulo de Aprendizaje###24 Sep 2004 content changed
+common#:#lm_read#:#Acceso de Lectura a Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#Módulo de Aprendizaje es visible
-common#:#lm_write#:#Editar Módulo de Aprendizaje
+common#:#lm_visible#:#Módulo de Aprendizaje es visible###24 Sep 2004 content changed
+common#:#lm_write#:#Editar Módulo de Aprendizaje###24 Sep 2004 content changed
 common#:#lng#:#idioma
 common#:#lngf#:#idiomaf###13 Jan 2004 content changed
 common#:#lngf_edit_permission#:#Cambiar configuración de permisos
@@ -1610,10 +1614,10 @@ common#:#obj_frm#:#Foro
 common#:#obj_glo#:#Glosario
 common#:#obj_grp#:#Grupo
 common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
-common#:#obj_htlm#:#Módulo de Aprendizaje HTML
+common#:#obj_htlm#:#Módulo de Aprendizaje HTML###24 Sep 2004 content changed
 common#:#obj_ldap#:#Configuración LDAP
 common#:#obj_ldap_desc#:#Configure las opciones globales de LDAP aquí
-common#:#obj_lm#:#Módulo de aprendizaje
+common#:#obj_lm#:#Módulo de aprendizaje###24 Sep 2004 content changed
 common#:#obj_lng#:#Idioma
 common#:#obj_lngf#:#Administración de Idiomas
 common#:#obj_lngf_desc#:#Gestione sus idiomas del sistema aquí
@@ -1680,7 +1684,7 @@ common#:#objs_glo#:#Glosarios
 common#:#objs_grp#:#Grupos
 common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#Módulos de Aprendizaje HTML
-common#:#objs_lm#:#Módulos de Aprendizaje
+common#:#objs_lm#:#Módulos de Aprendizaje###24 Sep 2004 content changed
 common#:#objs_lng#:#Idiomas
 common#:#objs_lo#:#Objetos de Aprendizaje
 common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable

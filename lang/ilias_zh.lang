@@ -126,6 +126,7 @@ assessment#:#apply#:#申请
 assessment#:#ass_questions#:#问题
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#由
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -278,6 +279,7 @@ assessment#:#qt_ordering#:#排序问题
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#问题类型
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -318,6 +320,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new v
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
@@ -711,7 +714,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#创建类别
 common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#创建课程
-common#:#cat_create_dbk#:#创建电子图书
+common#:#cat_create_dbk#:#创建电子图书###24 Sep 2004 content changed
 common#:#cat_create_exc#:#创建练习
 common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#创建论坛
@@ -719,7 +722,7 @@ common#:#cat_create_glo#:#创建术语表
 common#:#cat_create_grp#:#创建组
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
-common#:#cat_create_lm#:#创建学习模块
+common#:#cat_create_lm#:#创建学习模块###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#创建问题集###07 May 2004 content changed
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
@@ -834,7 +837,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#创建论坛
 common#:#crs_create_glo#:#创建术语表
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_lm#:#创建学习模块
+common#:#crs_create_lm#:#创建学习模块###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
@@ -876,13 +879,13 @@ common#:#dbk#:#电子图书
 common#:#dbk_a#:#一本电子图书
 common#:#dbk_add#:#加入电子图书
 common#:#dbk_added#:#电子图书已加入
-common#:#dbk_create#:#创建电子图书
-common#:#dbk_delete#:#删除电子图书
+common#:#dbk_create#:#创建电子图书###24 Sep 2004 content changed
+common#:#dbk_delete#:#删除电子图书###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#更改许可设置
 common#:#dbk_new#:#新数字图书
-common#:#dbk_read#:#电子图书设为读访问
-common#:#dbk_visible#:#电子图书可视
-common#:#dbk_write#:#编辑电子图书
+common#:#dbk_read#:#电子图书设为读访问###24 Sep 2004 content changed
+common#:#dbk_visible#:#电子图书可视###24 Sep 2004 content changed
+common#:#dbk_write#:#编辑电子图书###24 Sep 2004 content changed
 common#:#default#:#缺省
 common#:#default_language#:#缺省语言
 common#:#default_perm_settings#:#缺省许可
@@ -1143,7 +1146,7 @@ common#:#grp_create_frm#:#创建论坛
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#创建学习模块
+common#:#grp_create_lm#:#创建学习模块###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#删除组
@@ -1213,6 +1216,7 @@ common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Http路径
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#身份
@@ -1349,22 +1353,22 @@ common#:#list_of_pages#:#页列表
 common#:#list_of_questions#:#问题列表
 common#:#literature#:#文献
 common#:#literature_bookmarks#:#文献书签
-common#:#lm#:#学习模块
-common#:#lm_a#:#一个学习模块
-common#:#lm_add#:#增加学习模块
-common#:#lm_added#:#学习模块已增加
-common#:#lm_create#:#创建学习模块
-common#:#lm_delete#:#删除学习模块
+common#:#lm#:#学习模块###24 Sep 2004 content changed
+common#:#lm_a#:#一个学习模块###24 Sep 2004 content changed
+common#:#lm_add#:#增加学习模块###24 Sep 2004 content changed
+common#:#lm_added#:#学习模块已增加###24 Sep 2004 content changed
+common#:#lm_create#:#创建学习模块###24 Sep 2004 content changed
+common#:#lm_delete#:#删除学习模块###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#更改许可设置
-common#:#lm_join#:#注册到学习模块
-common#:#lm_leave#:#从学习模块中注销
-common#:#lm_new#:#新学习模块
-common#:#lm_read#:#学习模块设为读访问
+common#:#lm_join#:#注册到学习模块###24 Sep 2004 content changed
+common#:#lm_leave#:#从学习模块中注销###24 Sep 2004 content changed
+common#:#lm_new#:#新学习模块###24 Sep 2004 content changed
+common#:#lm_read#:#学习模块设为读访问###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#学习模块可视
-common#:#lm_write#:#编辑学习模块
+common#:#lm_visible#:#学习模块可视###24 Sep 2004 content changed
+common#:#lm_write#:#编辑学习模块###24 Sep 2004 content changed
 common#:#lng#:#语言
 common#:#lngf#:#语言文件夹
 common#:#lngf_edit_permission#:#更改许可设置
@@ -1630,7 +1634,7 @@ common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#LDAP设置
 common#:#obj_ldap_desc#:#在此配置LDAP
-common#:#obj_lm#:#学习模块
+common#:#obj_lm#:#学习模块###24 Sep 2004 content changed
 common#:#obj_lng#:#语言
 common#:#obj_lngf#:#语言
 common#:#obj_lngf_desc#:#在此管理系统语言
@@ -1796,13 +1800,13 @@ common#:#publication_date#:#公布日期
 common#:#published#:#已出版
 common#:#publishing_organisation#:#出版组织###14 Sep 2004 content changed
 common#:#qpl#:#问题集###07 May 2004 content changed
-common#:#qpl_add#:#增加问题集
-common#:#qpl_delete#:#删除问题集
+common#:#qpl_add#:#增加问题集###24 Sep 2004 content changed
+common#:#qpl_delete#:#删除问题集###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#更改许可设置
-common#:#qpl_new#:#新问题集
-common#:#qpl_read#:#问题集设为读访问
-common#:#qpl_visible#:#问题集可视
-common#:#qpl_write#:#编辑问题集
+common#:#qpl_new#:#新问题集###24 Sep 2004 content changed
+common#:#qpl_read#:#问题集设为读访问###24 Sep 2004 content changed
+common#:#qpl_visible#:#问题集可视###24 Sep 2004 content changed
+common#:#qpl_write#:#编辑问题集###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#问题
 common#:#question_pools#:#问题集

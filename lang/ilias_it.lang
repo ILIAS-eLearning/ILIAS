@@ -109,6 +109,7 @@ assessment#:#apply#:#Conferma
 assessment#:#ass_questions#:#Domande
 assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Selezionato
 assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Seleziona
 assessment#:#radio_unset#:#Deseleziona
 assessment#:#random_accept_sample#:#Accetta esempio
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Cerca le domande
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_ending_time#:#Ora di fine
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
@@ -600,7 +603,7 @@ common#:#all_tsts#:#Tutti i test
 common#:#all_users#:#Tutti gli utenti
 common#:#allow_assign_users#:#Consenti di assegnare gli utenti agli amministratori locali.
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
-common#:#alm#:#Modulo AICC
+common#:#alm#:#Modulo AICC###24 Sep 2004 content changed
 common#:#alm_added#:#Modulo AICC aggiunto
 common#:#alm_create#:#Creare un modulo AICC
 common#:#alm_delete#:#Cancellare un modulo AICC
@@ -694,7 +697,7 @@ common#:#cat_create_alm#:#Creare un modulo AICC
 common#:#cat_create_cat#:#Creare una categoria
 common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
-common#:#cat_create_dbk#:#Creare un libro digitale
+common#:#cat_create_dbk#:#Creare un libro digitale###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Creare un esercizio
 common#:#cat_create_file#:#Upload di file
 common#:#cat_create_frm#:#Creare un forum
@@ -702,11 +705,11 @@ common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
 common#:#cat_create_hlm#:#Creare un modulo HACP
 common#:#cat_create_htlm#:#Creare un modulo HTML
-common#:#cat_create_lm#:#Creare un modulo ILIAS
+common#:#cat_create_lm#:#Creare un modulo ILIAS###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Creare una libreria multimediale
-common#:#cat_create_qpl#:#Creare una raccolta di domande
+common#:#cat_create_qpl#:#Creare una raccolta di domande###24 Sep 2004 content changed
 common#:#cat_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)
+common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)###24 Sep 2004 content changed
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Eliminare un categoria
@@ -816,7 +819,7 @@ common#:#crs_create_alm#:#Creare un modulo AICC
 common#:#crs_create_frm#:#Creare un forum
 common#:#crs_create_glo#:#Creare un glossario
 common#:#crs_create_hlm#:#Creare un modulo HACP
-common#:#crs_create_lm#:#Creare un modulo ILIAS
+common#:#crs_create_lm#:#Creare un modulo ILIAS###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
@@ -858,13 +861,13 @@ common#:#dbk#:#Libro digitale
 common#:#dbk_a#:#un libro digitale
 common#:#dbk_add#:#Aggiungi libro digitale
 common#:#dbk_added#:#Libro digitale aggiunto
-common#:#dbk_create#:#Crea un libro digitale
-common#:#dbk_delete#:#Cancellare i libri digitali
+common#:#dbk_create#:#Crea un libro digitale###24 Sep 2004 content changed
+common#:#dbk_delete#:#Cancellare i libri digitali###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#dbk_new#:#Nuovo libro digitale
-common#:#dbk_read#:#Accedere in lettura ai libri digitali
-common#:#dbk_visible#:#Vedere i libri digitali
-common#:#dbk_write#:#Modificare i libri digitali
+common#:#dbk_read#:#Accedere in lettura ai libri digitali###24 Sep 2004 content changed
+common#:#dbk_visible#:#Vedere i libri digitali###24 Sep 2004 content changed
+common#:#dbk_write#:#Modificare i libri digitali###24 Sep 2004 content changed
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
 common#:#default_perm_settings#:#Impostazioni predefinite dei permessi
@@ -1007,7 +1010,7 @@ common#:#fold_create_fold#:#Creare cartelle
 common#:#fold_create_frm#:#Creare forum
 common#:#fold_create_glo#:#Creare glossari
 common#:#fold_create_hlm#:#Creare modulo HACP
-common#:#fold_create_lm#:#Creare moduli
+common#:#fold_create_lm#:#Creare moduli###24 Sep 2004 content changed
 common#:#fold_create_sahs#:#Creaee un modulo SCORM/AICC
 common#:#fold_delete#:#Cancellare cartelle
 common#:#fold_edit#:#Modificare cartelle
@@ -1117,7 +1120,7 @@ common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_alm#:#Creare moduli AICC
 common#:#grp_create_chat#:#Creare Chat
-common#:#grp_create_dbk#:#Creare Libri digitali
+common#:#grp_create_dbk#:#Creare Libri digitali###24 Sep 2004 content changed
 common#:#grp_create_exc#:#Create Esercizi
 common#:#grp_create_file#:#Eseguire upload di file
 common#:#grp_create_fold#:#Creare cartelle
@@ -1125,7 +1128,7 @@ common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_glo#:#Creare glossario
 common#:#grp_create_hlm#:#Creare moduli HACP
 common#:#grp_create_htlm#:#Creare moduli HTML
-common#:#grp_create_lm#:#Creare moduli
+common#:#grp_create_lm#:#Creare moduli###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Creare raccolte multimediali
 common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_delete#:#Eliminare il gruppo
@@ -1172,7 +1175,7 @@ common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hits_per_page#:#Hits/Page
-common#:#hlm#:#Modulo HACP
+common#:#hlm#:#Modulo HACP###24 Sep 2004 content changed
 common#:#hlm_added#:#Modulo HACP aggiunto
 common#:#hlm_create#:#Creare un modulo HACP
 common#:#hlm_delete#:#Eliminare un modulo HACP
@@ -1186,7 +1189,7 @@ common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
 common#:#hours_of_day#:#Ore nel giorno
-common#:#htlm#:#Modulo HTML
+common#:#htlm#:#Modulo HTML###24 Sep 2004 content changed
 common#:#htlm_add#:#Aggiungi modulo HTML
 common#:#htlm_delete#:#Cancellare un modulo HTML
 common#:#htlm_edit#:#Modificare un modulo HTML
@@ -1195,6 +1198,7 @@ common#:#htlm_new#:#Nuovo modulo HTML
 common#:#htlm_read#:#Accedere in lettura ad un modulo HTML
 common#:#htlm_visible#:#Vedere un modulo HTML
 common#:#htlm_write#:#Modificare un modulo HTML
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#id#:#ID
@@ -1213,7 +1217,7 @@ common#:#import_forum_finished#:#Il forum &#232; stato importato.
 common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
-common#:#import_lm#:#Importa modulo
+common#:#import_lm#:#Importa modulo###24 Sep 2004 content changed
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Import un modulo SCORM/AICC
 common#:#import_users#:#Importa utenti
@@ -1331,22 +1335,22 @@ common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
 common#:#literature#:#Letteratura
 common#:#literature_bookmarks#:#Segnalibri letteratura
-common#:#lm#:#Modulo ILIAS
-common#:#lm_a#:#un Modulo ILIAS
-common#:#lm_add#:#Aggiungi modulo ILIAS
-common#:#lm_added#:#Modulo ILIAS aggiunto
-common#:#lm_create#:#Crea un modulo ILIAS
-common#:#lm_delete#:#Eliminare il modulo ILIAS
+common#:#lm#:#Modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_a#:#un Modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_add#:#Aggiungi modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_added#:#Modulo ILIAS aggiunto###24 Sep 2004 content changed
+common#:#lm_create#:#Crea un modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_delete#:#Eliminare il modulo ILIAS###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi del modulo ILIAS
-common#:#lm_join#:#Iscrivere al modulo ILIAS
-common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo ILIAS
-common#:#lm_new#:#Nuovo modulo ILIAS
-common#:#lm_read#:#Accedere in lettura al modulo ILIAS
+common#:#lm_join#:#Iscrivere al modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_new#:#Nuovo modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_read#:#Accedere in lettura al modulo ILIAS###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Vedere il modulo ILIAS
-common#:#lm_write#:#Modificare il modulo ILIAS
+common#:#lm_visible#:#Vedere il modulo ILIAS###24 Sep 2004 content changed
+common#:#lm_write#:#Modificare il modulo ILIAS###24 Sep 2004 content changed
 common#:#lng#:#Lingua
 common#:#lngf#:#Lingua
 common#:#lngf_edit_permission#:#Modificare le impostazioni dei permessi delle lingue
@@ -1592,7 +1596,7 @@ common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS 3.
-common#:#obj_alm#:#Modulo AICC
+common#:#obj_alm#:#Modulo AICC###24 Sep 2004 content changed
 common#:#obj_auth#:#Autenticazione
 common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (locale, LDAP, ...)
 common#:#obj_cat#:#Categoria
@@ -1608,11 +1612,11 @@ common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
-common#:#obj_hlm#:#Modulo HACP
-common#:#obj_htlm#:#Modulo HTML
+common#:#obj_hlm#:#Modulo HACP###24 Sep 2004 content changed
+common#:#obj_htlm#:#Modulo HTML###24 Sep 2004 content changed
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
-common#:#obj_lm#:#Modulo ILIAS
+common#:#obj_lm#:#Modulo ILIAS###24 Sep 2004 content changed
 common#:#obj_lng#:#Lingua
 common#:#obj_lngf#:#Impostazioni lingue
 common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
@@ -1630,7 +1634,7 @@ common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pays#:#Impostazioni pagamenti
 common#:#obj_pays_desc#:#Configura le impostazioni dei pagamenti e dei venditori
 common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Raccolta di domande
+common#:#obj_qpl#:#Raccolta di domande###24 Sep 2004 content changed
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
@@ -1640,8 +1644,8 @@ common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
-common#:#obj_sahs#:#Modulo SCORM/AICC
-common#:#obj_spl#:#Raccolta di domande (verifica)
+common#:#obj_sahs#:#Modulo SCORM/AICC###24 Sep 2004 content changed
+common#:#obj_spl#:#Raccolta di domande (verifica)###24 Sep 2004 content changed
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Verifica
 common#:#obj_tax#:#Tassonomia
@@ -1679,18 +1683,18 @@ common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
 common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
-common#:#objs_lm#:#Moduli
+common#:#objs_lm#:#Moduli###24 Sep 2004 content changed
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Unit&#224; didattiche
 common#:#objs_mep#:#Librerie multimediali
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
-common#:#objs_qpl#:#Raccolte di domande
+common#:#objs_qpl#:#Raccolte di domande###24 Sep 2004 content changed
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
 common#:#objs_sahs#:#Moduli SCORM/AICC
-common#:#objs_spl#:#Raccolte di domande (questionari)
+common#:#objs_spl#:#Raccolte di domande (questionari)###24 Sep 2004 content changed
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Questionari
 common#:#objs_tst#:#Test
@@ -1777,14 +1781,14 @@ common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione###14 Sep 2004 content changed
-common#:#qpl#:#Raccolta di domande
-common#:#qpl_add#:#Aggiungi raccolta di domande
-common#:#qpl_delete#:#Eliminare una raccolta di domande
+common#:#qpl#:#Raccolta di domande###24 Sep 2004 content changed
+common#:#qpl_add#:#Aggiungi raccolta di domande###24 Sep 2004 content changed
+common#:#qpl_delete#:#Eliminare una raccolta di domande###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#qpl_new#:#Nuova raccolta di domande
-common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
-common#:#qpl_visible#:#Vedere una raccolta di domande
-common#:#qpl_write#:#Modificare una raccolta di domande
+common#:#qpl_new#:#Nuova raccolta di domande###24 Sep 2004 content changed
+common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande###24 Sep 2004 content changed
+common#:#qpl_visible#:#Vedere una raccolta di domande###24 Sep 2004 content changed
+common#:#qpl_write#:#Modificare una raccolta di domande###24 Sep 2004 content changed
 common#:#query_data#:#Invia
 common#:#question#:#Domanda
 common#:#question_pools#:#Raccolte di domande
@@ -1889,7 +1893,7 @@ common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sist
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
 common#:#root_write#:#Modificare il nodo radice di ILIAS 3
-common#:#sahs#:#Modulo SCORM/AICC
+common#:#sahs#:#Modulo SCORM/AICC###24 Sep 2004 content changed
 common#:#sahs_added#:#Aggiunto modulo SCORM/AICC
 common#:#sahs_create#:#Creare un modulo SCORM/AICC
 common#:#sahs_delete#:#Eliminare un modulo SCORM/AICC
@@ -1954,14 +1958,14 @@ common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
-common#:#spl#:#Raccolta di domande (questionario)
-common#:#spl_add#:#Aggiungi raccolta di domande
-common#:#spl_delete#:#Eliminare una raccolta di domande
+common#:#spl#:#Raccolta di domande (questionario)###24 Sep 2004 content changed
+common#:#spl_add#:#Aggiungi raccolta di domande###24 Sep 2004 content changed
+common#:#spl_delete#:#Eliminare una raccolta di domande###24 Sep 2004 content changed
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#spl_new#:#Nuova raccolta di domande
-common#:#spl_read#:#Accedere in lettura alle raccolte di domande
-common#:#spl_visible#:#Vedere le raccolte di domande
-common#:#spl_write#:#Modificare le raccolta di domande
+common#:#spl_new#:#Nuova raccolta di domande###24 Sep 2004 content changed
+common#:#spl_read#:#Accedere in lettura alle raccolte di domande###24 Sep 2004 content changed
+common#:#spl_visible#:#Vedere le raccolte di domande###24 Sep 2004 content changed
+common#:#spl_write#:#Modificare le raccolta di domande###24 Sep 2004 content changed
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
