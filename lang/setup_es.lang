@@ -33,11 +33,12 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3rd Party Software###05 Jan 2004 new variable
+3rd_party_software#:#3rd Party Software
 absolute_path#:#Ruta absoluta
 access#:#Acceso
 access_status#:#Estado de Acceso
 admin_login#:#Entrar como administrador
+antivir#:#AntiVir###new variable
 available_clients#:#Instalaciones disponibles
 available_languages#:#Idiomas disponibles
 back#:#atrás
@@ -48,6 +49,7 @@ change_password#:#Cambiar contrase&ntilde;a
 change_sort_direction#:#Modificar dirección de ordenación
 check_failed_convert#:#Falló la prueba con 'convert'
 check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'
+check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'
 check_failed_java#:#Falló la prueba con 'java'
 check_failed_unzip#:#Falló la prueba con 'unzip'
 check_failed_zip#:#Falló la prueba con 'zip'
@@ -55,6 +57,7 @@ choose_language#:#escoge tu idioma
 choose_languages#:#Por favor escoja un idioma adicional y/o elimine los idiomas seleccionados.
 choose_password#:#Por favor, escoja una contrase&ntilde;a
 city#:#Ciudad
+clean_command#:#Clean Command###new variable
 client#:#Instalación
 client_access_mode_changed#:#Modificado el modo de acceso de la Instalación
 client_data#:#Información de Instalación
@@ -64,6 +67,7 @@ client_institution#:#Institución
 client_login#:#Entrar con su ID de Instalación
 client_name#:#Nombre
 client_setup_not_finished#:#Configuración de la instalación no ha finalizado aún
+collation#:#Collation###new variable
 contact#:#Información de contacto
 contact_data#:#Información de contacto
 convert_path#:#Ruta a Convert
@@ -95,6 +99,7 @@ db_conn#:#Conexión a la base de datos
 db_host#:#Servidor de la base de datos
 db_name#:#Nombre de la base de datos
 db_needs_update#:#La base de datos necesita actualizarse
+db_not_installed#:#Database not installed###new variable
 db_pass#:#Contraseña de la base de datos
 db_type#:#Tipo de base de datos
 db_user#:#Usuario de la base de datos
@@ -117,6 +122,7 @@ email_not_valid#:#Email no válido
 en_by_default#:#(Instalado por defecto y no se puede borrar).
 enable#:#habilitar
 enabled#:#habilitado
+enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###new variable
 enter_password#:#Por favor, introduce una contrase&ntilde;a
 env_ok#:#Ok. parece correcto.
 env_using#:#ILIAS 3 se ejecutará en
@@ -125,6 +131,7 @@ environment#:#Entorno
 err_create_database_failed#:#La creación de la base de datos no ha sido posible.
 err_wrong_login#:#Identificación fallida
 error_recipient#:#Error en el destinatario
+example#:#Example###new variable
 feedback_recipient#:#Destinatario de feedback
 file_does_not_exist#:#El archivo no existe.
 file_version#:#file version
@@ -135,6 +142,8 @@ finish#:#Terminar configuración
 finish_initial_setup_first#:#Por favor finalice la configuración inicial en primer lugar
 finish_setup#:#Finalizando configuracióń
 firstname#:#Nombre
+fop_path#:#Path to FOP###new variable
+fop_path_comment#:#required to generate PDF documents###new variable
 hide_clientlist#:#Ocultar selección de instalaciones
 host#:#Máquina
 htmldoc_path#:#Ruta a HTMLdoc
@@ -148,6 +157,8 @@ ilias_setup#:#configuración de ILIAS3
 ilias_version#:#versión de ILIAS
 info_text_contact#:#Aqui debe indicar información adicional sobre la instalación y los datos de contacto del administrador de sistemas de esta instalación. Los campos marcados con un asterisco deben ser rellenados. Toda la información está almacenada en su base de datos. En la próxima pantalla puede registrar su instalación en nuestro servidor ILIAS-NIC server, donde se transmitirán todos estos datos.
 info_text_db#:#La base de datos no existe o está vacía. Haga click en el botón inferior para intalar su base de datos. Haga click en el botón inferior para instalar su base de datos. Si una base de datos con el nombre elegido no existe aun, por favor marque la opción 'crear base de datos'. El proceso de configuración intentará entonces crear su base de datos automáticamente. Si la creación no debía llevarse a cabo, (ej: debido a restricción de permisos) por favor contacte con el administrador responsable del servidor de bases de datos y pídale que cree una base de datos con el nombre deseado.
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###new variable
 info_text_delete#:#Usted puede eliminar esta instalación haciendo click en el botón 'eliminar' inferior. De cualquier modo, sólo su fichero client.ini es eliminado, manteniendo todos los ficheros almacenados en los directorios de datos de la instalación y la base de datos. Los ficheros y la base de datos tienen que ser eliminadas manualmente por el administrador de sistemas.
 info_text_finish1#:#Felicidades! Su configuración de la instalación fue realizada con éxito. Haga click en 'Login' para entrar a su instalación ILIAS.
 info_text_finish2#:#Algunas configuraciones no están realizadas o son incorrectas. Por favor mire en el cuadro de proceso que debe hacerse!
@@ -160,7 +171,7 @@ info_text_login#:#Por favor introduzca el ID de su instalación y sus datos de c
 info_text_nic1#:#Obtenga un id de instalación (nic-id) desde nuestro servidor ILIAS. Se requiere un nic-id único si quiere compartir contenido con otras instalaciones ILIAS.<br/> Recomendamos usar el registro online. Si tiene problemas para conectarse (ej: está detrás de un firewall) puede obtener un nic-id via email: Por favor, haga click aquí
 info_text_nic2#:#con su información de instalación a ilias-info@uni-koeln.de. Introduzca el nic-id que recibirá en un email respuesta en el campo apropiado y seleccione 'registrar via email'
 info_text_nic3#:#Ha registrado su instalación. Su nic-id es
-info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas###28 Nov 2003 new variable
+info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas
 info_text_pathes#:#ILIAS3 soporta multiples clientes con diferentes bases de datos. Debajo usted introducirá el directorio de datos base,la localización del fichero de log y las rutas para otros programas externos que son necesarios. Esta configuración es válida para todas las instalaciones que se creen en adelante
 ini_client_id_exists#:#Un cliente con ese ID ya existe! Por favor elija otro client ID.
 ini_client_id_invalid#:#El ID que introdujo contiene caracteres inválidos
@@ -192,12 +203,13 @@ ip_address#:#Dirección IP
 java_path#:#Ruta a Java
 java_path_comment#:#requerido para usar Módulos de aprendizaje SCORM
 lang_cs#:#Checo
+lang_da#:#Danish###new variable
 lang_de#:#Alemán
-lang_dk#:#Danés
 lang_en#:#Inglés
 lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.
 lang_es#:#Espa&ntilde;ol
 lang_fr#:#Franc&eacute;s
+lang_hu#:#Hungarian###new variable
 lang_id#:#Indonés
 lang_it#:#Italiano
 lang_lt#:#Lituano
@@ -233,10 +245,10 @@ missing_data#:#Faltan datos
 name#:#Nombre
 new#:#nuevo
 next#:#Siguiente
-nic_not_disabled#:#No NIC-ID & not disablednic_reg_disabled#:#NIC registration disabled
-nic_reg_disable#:#skip NIC registrationnic_reg_disabled#:#NIC registration disabled
-nic_reg_disable_comment#:#(register later)nic_reg_disabled#:#NIC registration disabled
-nic_reg_disabled#:#NIC registration disablednic_reg_disabled#:#NIC registration disabled
+nic_not_disabled#:#No NIC-ID & not disablednic_reg_disabled
+nic_reg_disable#:#skip NIC registrationnic_reg_disabled
+nic_reg_disable_comment#:#(register later)nic_reg_disabled
+nic_reg_disabled#:#NIC registration disablednic_reg_disabled
 nic_reg_email#:#registrar mediante e-mail
 nic_reg_enabled#:#Registro de NIC habilitado
 nic_reg_enter_checksum#:#Introduzca el código enviado (checksum)
@@ -255,6 +267,7 @@ no_db_update_file#:#dbupdate.php no encontrado!
 no_password#:#No se ha introducido contraseña
 no_path_convert#:#No se ha introducido ruta a 'convert'
 no_path_datadir#:#No se ha introducido directorio de datos
+no_path_fop#:#No FOP path given###new variable
 no_path_given#:#No se introducido la ruta
 no_path_htmldoc#:#No se ha introducido la ruta para 'HTMLdoc'
 no_path_java#:#No se ha introducido la ruta para 'java'
@@ -264,6 +277,7 @@ no_path_zip#:#No se ha introducido la ruta para 'zip'
 no_setup_pass_given#:#No se ha introducido una contraseña para el setup
 no_username#:#No se ha introducido nombre de usuario
 no_valid_client_id#:#No es un ID de instalación válido
+none#:#None###new variable
 not_connected_to_db#:#No está conectado a la base de datos.
 online#:#online
 or#:#o
@@ -284,6 +298,7 @@ password_same#:#La antigua y nueva contraseña son las mismas!
 password_set#:#La contraseña ha sido guardada correctamente.
 path_not_set#:#Ruta no configurada
 path_to_convert#:#Ruta a Convert
+path_to_fop#:#Path to FOP###new variable
 path_to_htmldoc#:#Ruta a HTMLdoc
 path_to_java#:#Ruta a Java
 path_to_unzip#:#Ruta a Unzip
@@ -317,6 +332,7 @@ safe_mode_enabled#:#'Safe mode' está habilitado!
 save#:#Grabar
 save_error#:#Grabar Error!
 saved_successfully#:#Grabado con éxito
+scan_command#:#Scan Command###new variable
 select_client#:#Seleccione una instalación
 server_info#:#Información del servidor
 server_software#:#Software del servidor
@@ -357,6 +373,7 @@ setup_process_step_lang#:#instalar idiomas de sistema
 setup_process_step_nic#:#registrar en ILIAS-NIC
 setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
 setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />
+sophos#:#Sophos###new variable
 sort_by_this_column#:#Ordenar por esta columna
 status#:#Estado
 step#:#Paso
@@ -373,6 +390,7 @@ update_error#:#Error mientras se actualizaba
 update_not_found#:#Actualización no encontrada!
 username#:#nombre de usuario
 version#:#Versión
+virus_scanner#:#Virus Scanner###new variable
 webspace_dir#:#ruta del espacio web
 with#:#con
 wrong_password#:#Identificación fallida!
