@@ -48,7 +48,10 @@ class ilUtil
 		{
 			$big = "_b";
 		}
-		return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		$filename = "icon_".$a_type."$big.gif";
+
+		return "<img src=\"".ilUtil::getImagePath($filename)."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**
