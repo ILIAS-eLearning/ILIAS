@@ -291,6 +291,11 @@ div.invisible_border {
 	margin-left:15px;
 }
 
+/* ------- Helptext --------- */
+span.il_Helptext {
+	font-size:11px;
+}
+
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;

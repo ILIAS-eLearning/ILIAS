@@ -70,6 +70,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
 		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
+		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
 		$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
 		$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
 		$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
