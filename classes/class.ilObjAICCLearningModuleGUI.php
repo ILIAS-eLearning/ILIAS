@@ -33,6 +33,8 @@ require_once "classes/class.ilObjAICCCourseInterchangeFiles.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjAICCLearningModuleGUI: ilFileSystemGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -52,11 +54,6 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->tabs_gui =& new ilTabsGUI();
 
-	}
-
-	function _forwards()
-	{
-		return array("ilFileSystemGUI");
 	}
 
 	/**

@@ -45,8 +45,9 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 // editor GUI class does the rest
 require_once "./content/classes/class.ilObjGlossaryGUI.php";
 $ilCtrl->setTargetScript("glossary_edit.php");
-$ilCtrl->getCallStructure("ilObjGlossaryGUI");
+$ilCtrl->getCallStructure("ilobjglossarygui");
 $glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
-$glossary_gui->executeCommand();
+//$glossary_gui->executeCommand();
+$ilCtrl->forwardCommand($glossary_gui);
 
 ?>

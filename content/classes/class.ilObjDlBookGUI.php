@@ -25,7 +25,10 @@
 * Class ilObjDlBookGUI
 *
 * @author Databay AG <ay@databay.de>
+*
 * @version $Id$
+*
+* @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI
 *
 * @package content
 */

@@ -86,7 +86,7 @@ class ilErrorHandling extends PEAR
 	function errorHandler($a_error_obj)
 	{
 		global $log;
-		
+
 		if ($_SESSION["message"])
 		{
 			return;
@@ -137,11 +137,11 @@ class ilErrorHandling extends PEAR
 				$ilurl = parse_url(ILIAS_HTTP_PATH);
 				$subdir = substr(strstr($dirname,$ilurl["path"]),strlen($ilurl["path"]));
 				$updir = "";
-			
+
 				if ($subdir)
 				{
 					$num_subdirs = substr_count($subdir,"/");
-			
+
 					for ($i=1;$i<=$num_subdirs;$i++)
 					{
 						$updir .= "../";
@@ -150,7 +150,7 @@ class ilErrorHandling extends PEAR
 
 				ilUtil::redirect($updir."index.php");
 			}
-			
+
 			// check if already GET-Parameters exists in Referer-URI
 			if (substr($_SESSION["referer"],-4) == ".php")
 			{

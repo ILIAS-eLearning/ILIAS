@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * This class provides processing control methods
 *
@@ -55,6 +54,77 @@ class ilCtrl
 				$this->transit[] = strtolower($transClass);
 			}
 		}
+		$this->location = array();
+		$this->tab = array();
+		$this->current_node = 0;
+
+	}
+
+	function forwardCommand(&$a_gui_object)
+	{
+		$class = get_class($a_gui_object);
+//echo "<br>wanna forward from :".$this->current_node.": to :$class:";
+		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
+		if ($nr > 0)
+		{
+//echo "<br>forwarding_to:$nr:$class:"; flush();
+			$this->current_node = $nr;
+			return $a_gui_object->executeCommand();
+		}
+		echo "ERROR: Can't forward to class $class."; exit;
+//echo "end forward<br>";
+	}
+
+	function getNodeIdForTargetClass($a_par_node, $a_class)
+	{
+		$class = strtolower($a_class);
+
+		// target class is class of current node id
+		if ($class == $this->call_node[$a_par_node]["class"])
+		{
+			return $a_par_node;
+		}
+
+		// target class is child of current node id
+		foreach($this->call_node as $nr => $node)
+		{
+			if (($node["parent"] == $a_par_node) &&
+				($node["class"] == $class))
+			{
+				return $nr;
+			}
+		}
+
+		// target class is sibling
+		$par = $this->call_node[$a_par_node]["parent"];
+		if ($par != 0)
+		{
+			foreach($this->call_node as $nr => $node)
+			{
+				if (($node["parent"] == $par) &&
+					($node["class"] == $class))
+				{
+					return $nr;
+				}
+			}
+		}
+
+		// target class is parent
+		while($par != 0)
+		{
+			if ($this->call_node[$par]["class"] == $class)
+			{
+				return $par;
+			}
+			$par = $this->call_node[$par]["parent"];
+		}
+
+		echo "ERROR: Can't find target class $a_class for node $a_par_node.<br>"; exit;
+	}
+
+	function getCmdNode()
+	{
+		return $_GET["cmdNode"];
 	}
 
 	function getNextTransit()
@@ -72,6 +142,29 @@ class ilCtrl
 		return false;
 	}
 
+	function addLocation($a_title, $a_link, $a_target = "")
+	{
+		$this->location[] = array("title" => $a_title,
+			"link" => $a_link, "target" => $a_target);
+	}
+
+	function getLocations()
+	{
+		return $this->location;
+	}
+
+	function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
+	{
+		$this->tab[] = array("lang_var" => $a_lang_var,
+			"link" => $a_link, "cmd" => $a_cmd, "class" => $a_class);
+	}
+
+	function getTabs()
+	{
+		return $this->tab;
+	}
+
+
 	function removeTransit()
 	{
 		reset($this->transit);
@@ -84,8 +177,36 @@ class ilCtrl
 		}
 	}
 
+	function getCallStructure($a_class, $a_nr = 0, $a_parent = 0)
+	{
+		global $ilDB;
+
+		$a_nr++;
+		$this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
+//echo "nr:$a_nr:class:$a_class:parent:$a_parent:<br>";
+		$q = "SELECT * FROM ctrl_calls WHERE parent=".
+			$ilDB->quote(strtolower($a_class)).
+			" ORDER BY child";
+
+		$call_set = $ilDB->query($q);
+		//$forw = array();
+		$a_parent = $a_nr;
+		while($call_rec = $call_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$a_nr = $this->getCallStructure($call_rec["child"], $a_nr, $a_parent);
+			$forw[] = $call_rec["child"];
+		}
+		$this->forwards($a_class, $forw);
+//echo "<br><br>forwards:".$a_class."<br>"; var_dump($forw);
+
+		$this->root_class = $a_class;
+		return $a_nr;
+	}
+
+	/*
 	function getCallStructure($a_class)
 	{
+
 		$this->called_forward[$a_class] = $a_class;
 
 		$methods = get_class_methods($a_class);
@@ -123,9 +244,9 @@ class ilCtrl
 				}
 			}
 		}
-
+//echo "<br><br>forwards:".$a_class."<br>"; var_dump($forw);
 		$this->root_class = $a_class;
-	}
+	}*/
 
 	/**
 	* stores which classes forward to which other classes
@@ -185,9 +306,36 @@ class ilCtrl
 		$this->parameter[strtolower($a_class)][$a_parameter] = $a_value;
 	}
 
+
+	function getNextClass()
+	{
+//echo "getNextClass:";
+		$cmdNode = $this->getCmdNode();
+		if ($cmdNode == "")
+		{
+			return false;
+		}
+		else
+		{
+			if ($this->current_node == $cmdNode)
+			{
+//echo "1:".$this->call_node[$cmdNode]["class"]."<br>";
+				//return $this->call_node[$cmdNode]["class"];
+				return "";
+			}
+			else
+			{
+				$path = $this->getPathNew($this->current_node, $cmdNode);
+//echo "2:".$this->call_node[$path[1]]["class"]."<br>";
+				return $this->call_node[$path[1]]["class"];
+			}
+		}
+	}
+
 	/**
 	* get next class
 	*/
+	/*
 	function getNextClass($a_gui_obj)
 	{
 //echo "<br>getNextClass::"; flush();
@@ -203,10 +351,52 @@ class ilCtrl
 //echo "<br><b>".get_class($a_gui_obj).":".$this->getCmdClass().":</b>";
 //foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
 		return $next;
+	}*/
+
+
+	function getPathNew($a_source_node, $a_target_node)
+	{
+//echo "-".$a_source_node."-";
+		$path_rev = array();
+		$c_target = $a_target_node;
+		while ($a_source_node != $c_target)
+		{
+			$path_rev[] = $c_target;
+			$c_target = $this->call_node[$c_target]["parent"];
+			if(!($c_target > 0))
+			{
+				echo "ERROR: Path not found. Source:".$a_source_node.
+					", Target:".$a_target_node; exit;
+			}
+		}
+		if ($a_source_node == $c_target)
+		{
+			$path_rev[] = $c_target;
+		}
+		$path = array();
+		for ($i=0; $i<count($path_rev); $i++)
+		{
+			$path[] = $path_rev[count($path_rev) - ($i + 1)];
+		}
+
+		foreach($path as $node)
+		{
+//echo "<br>-->".$node.":".$this->call_node[$node]["class"];
+		}
+		return $path;
 	}
 
 	function getPath(&$path, $a_class, $a_target_class = "", $a_transits = "")
 	{
+
+		// new path
+		if(!empty($this->call_node))
+		{
+			//$path = $this->getPathNew($a_class, $a_target_class);
+		}
+
+		$this->call_node[$nr] = array("class" => $a_class, "parent" => $a_parent);
+
 		$this->bench->start("GUIControl", "getPath");
 //echo "<br>"; var_dump($a_transits);
 		if ($a_target_class == "")
@@ -215,6 +405,7 @@ class ilCtrl
 		}
 		if ($a_target_class == "")
 		{
+//echo "1:$a_class<br>";
 			$path = array($a_class);
 			return;
 		}
@@ -245,7 +436,7 @@ class ilCtrl
 	*/
 	function searchNext(&$a_path, $a_class, $a_target_class, $c_path = "")
 	{
-//echo "SN";
+//echo "SN($a_class)";
 		$a_target_class = strtolower($a_target_class);
 		$a_class = strtolower($a_class);
 
@@ -261,12 +452,13 @@ class ilCtrl
 			$targetClass = $a_target_class;
 			if ($a_class == $a_target_class)
 			{
+//echo "2:$c_class<br>";
 				$a_path = $c_path;
 				return true;
 			}
 		}
 
-//echo "<br>...$a_class:$targetClass:";
+//echo "<br>...$a_class:$targetClass:<br>";
 
 		// recursively search each forward
 		if (is_array($this->forward[$a_class]))
@@ -279,12 +471,14 @@ class ilCtrl
 					// found command class
 					if ($next_class == $a_target_class)
 					{
+//echo "3:$next_class<br>";
 						$c_path[] = $next_class;
 						$a_path = $c_path;
 						return true;
 					}
 					else
 					{
+//echo "4:$next_class<br>";
 						// found a transit class
 						$c_path[] = $next_class;
 						$this->removeTransit();					// remove transit
@@ -297,11 +491,14 @@ class ilCtrl
 				}
 			}
 			reset($this->forward[$a_class]);
+//echo "4a:($a_class)<br";
 			foreach($this->forward[$a_class] as $next_class)
 			{
+//echo "5:$a_class:$next_class<br>";
 				$c_path[] = $next_class;
 				if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
 				{
+//echo "6:YES:"; var_dump($a_path);
 					return true;
 				}
 			}
@@ -368,7 +565,9 @@ class ilCtrl
 	function setCmdClass($a_cmd_class)
 	{
 //echo "<br><b>setCmdClass:$a_cmd_class:</b>";
+		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_cmd_class);
 		$_GET["cmdClass"] = $a_cmd_class;
+		$_GET["cmdNode"] = $nr;
 	}
 
 	/**
@@ -416,14 +615,14 @@ class ilCtrl
 
 	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "", $a_prepend_transits = false)
 	{
-		$a_class = strtolower($a_class);
-//echo "<br>:".strtolower($_GET["cmdClass"]).":".$a_class.":";
+		//$a_class = strtolower($a_class);
+
+		/*
 		$transits = array();
 		if((strtolower($_GET["cmdClass"]) == $a_class) ||
 			$a_prepend_transits)
 		{
 			$transits = $this->getTransitArray();
-//echo "<br>:"; var_dump($transits);
 		}
 
 		if(is_array($a_transits))
@@ -432,25 +631,22 @@ class ilCtrl
 			{
 				$transits[] = $transit;
 			}
-		}
+		}*/
 
 
 //echo "<br>getLinkTargetByClass";
-		$cmd_str = ($a_cmd != "")
-			? "&cmd=".$a_cmd
-			: "";
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters($a_class, $script, $a_cmd, $transits);
 
+		/*
 		if(is_array($transits))
 		{
 			foreach($transits as $transit)
 			{
 				$script = ilUtil::appendUrlParameterString($script, "cmdTransit[]=".$transit);
-//echo "<br>append:$transit:";
 			}
-		}
-//echo $script.":$a_class:<br>";
+		}*/
+
 		return $script;
 	}
 
@@ -471,7 +667,7 @@ class ilCtrl
 	function setReturnByClass($a_class, $a_cmd)
 	{
 		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters(strtolower($a_class), $script, $a_cmd);
+		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
 //echo "<br>setReturn:".get_class($a_gui_obj).":".$script.":<br>";
 		$this->return[strtolower($a_class)] = $script;
 	}
@@ -512,49 +708,31 @@ class ilCtrl
 
 	function searchReturnClass($a_class)
 	{
-		$path = array();
-		$this->getPath($path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
+		//$path = array();
+		//$this->getPath($path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
+		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);
+		$path = $this->getPathNew(1, $nr);
 //var_dump($path);
 		for($i = count($path)-2; $i>=0; $i--)
 		{
-//echo "<br>:".$path[$i].":".$this->return[$path[$i]].":";
-			if ($this->return[$path[$i]] != "")
+//echo "<br>:$i:".$path[$i].":".$this->call_node[$path[$i]]["class"]
+//	       .":".$this->return[$this->call_node[$path[$i]]["class"]].":";
+			if ($this->return[$this->call_node[$path[$i]]["class"]] != "")
 			{
-				return $path[$i];
+				return $this->call_node[$path[$i]]["class"];
 			}
 		}
 
 		return false;
 
-		// append parameters of parent classes
-		if (is_array($this->parent[$a_class]))
-		{
-			foreach($this->parent[$a_class] as $parent)
-			{
-				if ($this->return[$parent] != "")
-				{
-					return $parent;
-				}
-			}
-			foreach($this->parent[$a_class] as $parent)
-			{
-				$par_ret = $this->searchReturnClass($parent);
-				if ($par_ret != "")
-				{
-					return $par_ret;
-				}
-			}
-		}
-		return false;
 	}
 
 	function getUrlParameters($a_class, $a_str, $a_cmd = "", $a_transits = "")
 	{
-//echo "<br>getUrlParameters";
-//echo "<br>"; var_dump($a_transits);
-		$a_class = strtolower($a_class);
+		//$a_class = strtolower($a_class);
 
 		$params = $this->getParameterArrayByClass($a_class, $a_cmd, $a_transits);
+
 		foreach ($params as $par => $value)
 		{
 			$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
@@ -597,46 +775,51 @@ class ilCtrl
 
 	function getParameterArray(&$a_gui_obj, $a_cmd = "", $a_incl_transit = true)
 	{
+		/*
 		if ($a_incl_transit)
 		{
 			$trans_arr = $this->getTransitArray();
-		}
+		}*/
 		$par_arr = $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd,
 			$trans_arr);
-
+		/*
 		if ($a_incl_transit)
 		{
 			$par_arr = array_merge($par_arr, $trans_arr);
-		}
+		}*/
 		return $par_arr;
 	}
 
 	function getParameterArrayByClass($a_class, $a_cmd = "", $a_transits = "")
 	{
-		$a_class = strtolower($a_class);
-
-//echo "-$a_class-";
 		if ($a_class == "")
 		{
 			return array();
 		}
 
-		// get root class
-		$root = $a_class;
-		while (isset($this->parent[$root][0]))
+		if (!is_array($a_class))
 		{
-			$root = $this->parent[$root][0];
+			$a_class = array($a_class);
 		}
-//echo "<br>:$a_class:$root:";
-		$path = array();
-		$this->getPath($path, $root, $a_class, $a_transits);
 
+		$nr = $this->current_node;
+		foreach ($a_class as $class)
+		{
+//echo "-$class-";
+			$class = strtolower($class);
+			$nr = $this->getNodeIdForTargetClass($nr, $class);
+			$target_class = $class;
+		}
+
+		// get root class
+		//$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);
+		$path = $this->getPathNew(1, $nr);
 		$params = array();
 
 		// append parameters of parent classes
-		foreach($path as $class)
+		foreach($path as $node_id)
 		{
-//echo "<br>->:$class:";
+			$class = $this->call_node[$node_id]["class"];
 			if (is_array($this->save_parameter[$class]))
 			{
 				foreach($this->save_parameter[$class] as $par)
@@ -659,7 +842,8 @@ class ilCtrl
 			$params["cmd"] = $a_cmd;
 		}
 
-		$params["cmdClass"] = $a_class;
+		$params["cmdClass"] = $target_class;
+		$params["cmdNode"] = $nr;
 
 		return $params;
 	}

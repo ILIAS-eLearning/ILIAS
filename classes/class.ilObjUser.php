@@ -1693,9 +1693,9 @@ class ilObjUser extends ilObject
 						}
 						elseif ($a_type == "slm")
 						{
-							$link = "content/scorm_presentation.php?ref_id=".$item_rec["ref_id"].
+							$link = "content/sahs_presentation.php?ref_id=".$item_rec["ref_id"].
 								"&obj_id=".$item_rec["parameters"];
-							$edit_link = "content/scorm_edit.php?ref_id=".$item_rec["ref_id"];
+							$edit_link = "content/sahs_edit.php?ref_id=".$item_rec["ref_id"];
 							$target = "ilContObj".$item_rec["obj_id"];
 						}
 						elseif ($a_type == "htlm")

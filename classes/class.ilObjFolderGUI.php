@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.22 2004/05/07 16:03:13 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.23 2004/05/07 18:42:29 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -49,11 +49,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
-	function _forwards()
-	{
-		return array();
-	}
-	
+
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
@@ -71,7 +67,7 @@ class ilObjFolderGUI extends ilObjectGUI
 				$cmd .= "Object";
 				$this->$cmd();
 				break;
-		}		
+		}
 	}
 
 	/**

@@ -42,9 +42,9 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 }
 
 require_once "./content/classes/class.ilObjFileBasedLMGUI.php";
-$ilCtrl->setTargetScript("fblm_edit.php");
+//$ilCtrl->setTargetScript("fblm_edit.php");
 
-$ilCtrl->getCallStructure("ilObjFileBasedLMGUI");
+//$ilCtrl->getCallStructure("ilObjFileBasedLMGUI");
 
 $fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 $fblm_gui->showLearningModule();

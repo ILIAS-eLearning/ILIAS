@@ -45,8 +45,9 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 require_once "./content/classes/class.ilObjMediaPoolGUI.php";
 $ilCtrl->setTargetScript("mep_edit.php");
 
-$ilCtrl->getCallStructure("ilObjMediaPoolGUI");
+$ilCtrl->getCallStructure("ilobjmediapoolgui");
 $media_pool_gui =& new ilObjMediaPoolGUI("", $_GET["ref_id"],true, false);
-$media_pool_gui->executeCommand();
+//$media_pool_gui->executeCommand();
+$ilCtrl->forwardCommand($media_pool_gui);
 
 ?>

@@ -23,6 +23,7 @@
 
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 require_once("./content/classes/Pages/class.ilPageObject.php");
+require_once("./content/classes/class.ilEditClipboardGUI.php");
 require_once("./classes/class.ilDOMUtil.php");
 
 
@@ -32,7 +33,10 @@ require_once("./classes/class.ilDOMUtil.php");
 * User Interface for Page Objects Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
+*
+* @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI
 *
 * @package content
 */
@@ -259,6 +263,12 @@ class ilPageObjectGUI
 		return $this->file_download_link;
 	}
 
+	function setIntLinkHelpDefault($a_type, $a_id)
+	{
+		$this->int_link_def_type = $a_type;
+		$this->int_link_def_id = $a_id;
+	}
+
 	/**
 	* execute command
 	*/
@@ -267,17 +277,29 @@ class ilPageObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 //echo ":$next_class:";
 		$cmd = $this->ctrl->getCmd();
+		$this->ctrl->addTab("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+			, "view", "ilEditClipboardGUI");
+
 		switch($next_class)
 		{
+			case "ileditclipboardgui":
+				//$this->ctrl->setReturn($this, "view");
+				$clip_gui = new ilEditClipboardGUI();
+				//$ret =& $clip_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				break;
+
 			case "ilpageeditorgui":
 				$page_editor =& new ilPageEditorGUI($this->getPageObject());
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
-				$page_editor->executeCommand();
+				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
+					$this->int_link_def_id);
+				//$page_editor->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($page_editor);
 				break;
 
 			default:
-
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -318,8 +340,10 @@ class ilPageObjectGUI
 					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
 				}
 			}
-
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
+			if ($this->getOutputMode() != "presentation")
+			{
+				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
+			}
 		}
 
 		// get content
@@ -330,7 +354,7 @@ class ilPageObjectGUI
 		{
 			$this->obj->addHierIDs();
 		}
-		
+
 
 		$this->obj->addSourceCodeHighlighting();
 

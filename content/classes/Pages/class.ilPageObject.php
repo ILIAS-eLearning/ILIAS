@@ -163,8 +163,8 @@ class ilPageObject
 
 	function freeDom()
 	{
-		$this->dom->free();
-		//unset($this->dom);
+		//$this->dom->free();
+		unset($this->dom);
 	}
 
 	function &getDom()
@@ -227,6 +227,7 @@ class ilPageObject
 
 	function &getContentObject($a_hier_id)
 	{
+//echo ":".$a_hier_id.":";
 //echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
 //echo "ilPageObject::getContentObject:hierid:".$a_hier_id.":<br>";
 		$cont_node =& $this->getContentNode($a_hier_id);

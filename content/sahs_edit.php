@@ -56,27 +56,30 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 					require_once "./classes/class.ilObjSCORMLearningModuleGUI.php";
 					$ilCtrl->setTargetScript("sahs_edit.php");
 					
-					$ilCtrl->getCallStructure("ilObjSCORMLearningModuleGUI");
+					$ilCtrl->getCallStructure("ilobjscormlearningmodulegui");
 					$scorm_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true, false);
-					$scorm_gui->executeCommand();
+					//$scorm_gui->executeCommand();
+					$ilCtrl->forwardCommand($scorm_gui);
 					break;
 		case "alm":
 					//AICC
 					require_once "./classes/class.ilObjAICCLearningModuleGUI.php";
 					$ilCtrl->setTargetScript("sahs_edit.php");
-					
-					$ilCtrl->getCallStructure("ilObjAICCLearningModuleGUI");
+
+					$ilCtrl->getCallStructure("ilobjaicclearningmodulegui");
 					$aicc_gui =& new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true, false);
-					$aicc_gui->executeCommand();
+					//$aicc_gui->executeCommand();
+					$ilCtrl->forwardCommand($aicc_gui);
 					break;
 		case "hlm":
 					//HACP
 					require_once "./classes/class.ilObjHACPLearningModuleGUI.php";
 					$ilCtrl->setTargetScript("sahs_edit.php");
-					
-					$ilCtrl->getCallStructure("ilObjHACPLearningModuleGUI");
+
+					$ilCtrl->getCallStructure("ilobjhacplearningmodulegui");
 					$hacp_gui =& new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true, false);
-					$hacp_gui->executeCommand();
+					//$hacp_gui->executeCommand();
+					$ilCtrl->forwardCommand($hacp_gui);
 					break;
 		default:
 					//unknown type

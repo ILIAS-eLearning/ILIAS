@@ -50,14 +50,6 @@ class ilFileSystemGUI
 	}
 
 	/**
-	* get forward classes
-	*/
-	function _forwards()
-	{
-		return array();
-	}
-
-	/**
 	* execute command
 	*/
 	function &executeCommand()

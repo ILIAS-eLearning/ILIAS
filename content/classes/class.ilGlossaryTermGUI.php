@@ -29,6 +29,8 @@ require_once("content/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI
+*
 * @package content
 */
 class ilGlossaryTermGUI
@@ -59,16 +61,6 @@ class ilGlossaryTermGUI
 		}
 	}
 
-
-	/**
-	* get forward classes
-	*/
-	function _forwards()
-	{
-		return array("ilTermDefinitionEditorGUI");
-	}
-
-
 	/**
 	* execute command
 	*/
@@ -83,7 +75,8 @@ class ilGlossaryTermGUI
 			case "iltermdefinitioneditorgui":
 				//$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit =& new ilTermDefinitionEditorGUI();
-				$ret =& $def_edit->executeCommand();
+				//$ret =& $def_edit->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($def_edit);
 				break;
 
 			default:

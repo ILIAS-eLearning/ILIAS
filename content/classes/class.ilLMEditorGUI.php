@@ -39,6 +39,8 @@ require_once ("content/classes/class.ilEditClipboard.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilLMEditorGUI: ilObjDlBookGUI, ilMetaDataGUI, ilObjLearningModuleGUI
+*
 * @package content
 */
 class ilLMEditorGUI
@@ -92,6 +94,7 @@ class ilLMEditorGUI
 	{
 		$cmd = $this->ctrl->getCmd("frameset");
 
+		/*
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
 			$this->explorer();
@@ -101,7 +104,7 @@ class ilLMEditorGUI
 		if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
 		{
 			$this->ctrl->setReturn($this, "explorer");
-		}
+		}*/
 
 		$next_class = $this->ctrl->getNextClass($this);
 //echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":<br>";
@@ -113,17 +116,20 @@ class ilLMEditorGUI
 			switch($this->lm_obj->getType())
 			{
 				case "lm":
-					$this->ctrl->setCmdClass("ilObjLearningModuleGUI");
+					//$this->ctrl->setCmdClass("ilObjLearningModuleGUI");
+					$next_class = "ilobjlearningmodulegui";
 					break;
 
 				case "dbk":
-					$this->ctrl->setCmdClass("ilObjDlBookGUI");
+					//$this->ctrl->setCmdClass("ilObjDlBookGUI");
+					$next_class = "ilobjdlbookgui";
 					break;
 			}
-			$next_class = $this->ctrl->getNextClass($this);
+			//$next_class = $this->ctrl->getNextClass($this);
 		}
 
 		// this is messed up by ilCtrl sometimes
+		/*
 		if (($this->lm_obj->getType() == "dbk") && ($next_class == "ilobjlearningmodulegui"))
 		{
 			$next_class = "ilobjdlbookgui";
@@ -131,7 +137,7 @@ class ilLMEditorGUI
 		if (($this->lm_obj->getType() == "lm") && ($next_class == "ilobjdlbookgui"))
 		{
 			$next_class = "ilobjlearningmodulegui";
-		}
+		}*/
 
 
 // if ($this->lm_obj->getType()
@@ -140,12 +146,15 @@ class ilLMEditorGUI
 			case "ilobjdlbookgui":
 				$this->main_header($this->lm_obj->getType());
 				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
-				$ret =& $book_gui->executeCommand();
+				//$ret =& $book_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($book_gui);
+
+				$this->displayLocator();
 
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get();
+				$output =  $this->tpl->get("DEFAULT", true, true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -155,12 +164,15 @@ class ilLMEditorGUI
 			case "ilobjlearningmodulegui":
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
-				$ret =& $lm_gui->executeCommand();
+				//$ret =& $lm_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($lm_gui);
+
+				$this->displayLocator();
 
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get();
+				$output =  $this->tpl->get("DEFAULT", true, true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -187,12 +199,23 @@ class ilLMEditorGUI
 	{
 		$this->tpl = new ilTemplate("tpl.lm_edit_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->ref_id);
+		if ($this->lm_obj->getType() == "dbk")
+		{
+			$this->tpl->setVariable("HREF_EXPLORER",
+				$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
+		}
+		else
+		{
+			$this->tpl->setVariable("HREF_EXPLORER",
+				$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
+		}
 		$this->tpl->show();
 	}
 
 	/**
-	* output explorer tree with bookmark folders
+	* output explorer tree
 	*/
+	/*
 	function explorer()
 	{
 		switch ($this->lm_obj->getType())
@@ -247,7 +270,7 @@ class ilLMEditorGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show(false);
 
-	}
+	}*/
 
 
 	/**
@@ -270,8 +293,8 @@ class ilLMEditorGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		//$this->tpl->setVariable("HEADER", $a_header_title);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-		$this->displayLocator($a_type);
+		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		//$this->displayLocator($a_type);
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -287,30 +310,36 @@ class ilLMEditorGUI
 
 	}
 
+
 	/**
 	* display locator
 	*/
-	function displayLocator($a_type)
+	function displayLocator()
 	{
-		switch ($a_type)
-		{
-			case "lm":
-				$a_gui_class = "ilobjlearningmodulegui";
-				break;
+		global $lng;
 
-			default:
-				$a_gui_class = "ilobjdlbookgui";
-				break;
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$modifier = 1;
+
+		$locations = $this->ctrl->getLocations();
+
+		foreach ($locations as $key => $row)
+		{
+			if ($key < count($locations)-$modifier)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $row["title"]);
+			$this->tpl->setVariable("LINK_ITEM", $row["link"]);
+			$this->tpl->parseCurrentBlock();
 		}
 
-		require_once("content/classes/class.ilContObjLocatorGUI.php");
-		$contObjLocator =& new ilContObjLocatorGUI($this->tree);
-		if ($_GET["obj_id"] != "")
-		{
-			$contObjLocator->setObjectID($_GET["obj_id"]);
-		}
-		$contObjLocator->setContentObject($this->lm_obj);
-		$contObjLocator->display($a_gui_class);
+		$this->tpl->setCurrentBlock("locator");
+		$this->tpl->parseCurrentBlock();
+
 	}
 
 }

@@ -29,6 +29,8 @@
 *
 * $Id$
 *
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI
+*
 * @extends ilObjectGUI
 * @package content
 */
@@ -70,11 +72,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 	}
 
-	function _forwards()
-	{
-		return array("ilFileSystemGUI");
-	}
-
 	/**
 	* execute command
 	*/
@@ -100,7 +97,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 						$this->lng->txt("cont_startfile"));
 				}
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
-				$ret =& $fs_gui->executeCommand();
+				//$ret =& $fs_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($fs_gui);
 				break;
 
 			default:
@@ -609,7 +607,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false, "content");
-		$this->tpl->setVariable("REF_ID",$this->ref_id);
+		$this->tpl->setVariable("HREF_FILES",$this->ctrl->getLinkTargetByClass(
+			"ilfilesystemgui", "listFiles"));
 		$this->tpl->show();
 	}
 
