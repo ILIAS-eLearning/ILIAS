@@ -249,7 +249,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 			$num++;
 
-			$obj_link = "group.php?cmd=show_content&grp_id=".$cont_data["ref_id"];
+			$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"];
 			$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 			$this->tpl->setVariable("CHECKBOX",
 				ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
@@ -1364,8 +1364,50 @@ class ilGroupGUI extends ilObjGroupGUI
 	* @access	public
 	*/
 	function saveObject()
-	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+	{	
+		global $rbacadmin,$ilias;
+			//temporary
+			// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+			if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			}
+			else
+			{
+ 				// create and insert object in objecttree
+				$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
+				include_once("classes/class.".$class_name.".php");
+				$groupObj = new $class_name();
+				$groupObj->setType($_GET["new_type"]);
+				$groupObj->setTitle($_POST["Fobject"]["title"]);
+				$groupObj->setDescription($_POST["Fobject"]["desc"]);
+				$groupObj->create();
+				$groupObj->createReference();
+				$groupObj->putInTree($_GET["ref_id"]);
+				$groupObj->setPermissions($_GET["ref_id"]);
+
+			//return $newObj;
+		}
+		$groupObj = parent::saveObject();
+
+		$rfoldObj = $groupObj->initRoleFolder();
+
+		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+
+		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
+		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
+		
+		//0=public,1=private,2=closed
+		$groupObj->setGroupStatus($_POST["group_status_select"]);
+		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId(),$grp_tree);
+
+		// always send a message
+		sendInfo($this->lng->txt("grp_added"),true);
+
+		header("location: group.php?cmd=DisplayList");
+		exit();
+		/*global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
 		
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
@@ -1388,7 +1430,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		}
 		
 		header("location: group.php?cmd=DisplayList");
-		exit();
+		exit();*/
 	}
 	
 	/**
@@ -1643,7 +1685,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			//$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
 			//	"&new_type=".$_POST["new_type"]);
 			
-			$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+			$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["parent_ref_id"].
 				"&new_type=".$new_type);
 				
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -1658,10 +1700,9 @@ class ilGroupGUI extends ilObjGroupGUI
 	* @access	public
 	*/
 	function save()
-	{	
+	{	global $rbacsystem;
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
-		global $rbacadmin,$ilias;
-
+		
 		// always call parent method first to create an object_data entry & a reference
 		$groupObj = parent::saveObject();
 
@@ -1674,18 +1715,15 @@ class ilGroupGUI extends ilObjGroupGUI
 		
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
-
+		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId(),$grp_tree);
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 		
-		
 		header("location: group.php?cmd=DisplayList");
 		exit();
-		
-		
+
 		
 	}
 	
