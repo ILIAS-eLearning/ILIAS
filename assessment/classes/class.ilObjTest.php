@@ -1706,6 +1706,31 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+	function _getActiveTestUser($user_id = "", $test_id = "") {
+		global $ilDB;
+		global $ilUser;
+		
+		$db =& $ilDB->db;
+		if (!$user_id) {
+			$user_id = $ilUser->id;
+		}
+		if (!$test_id)
+		{
+			return "";
+		}
+		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			$db->quote($user_id),
+			$db->quote($test_id)
+		);
+		
+		$result = $db->query($query);
+		if ($result->numRows()) {
+			return $result->fetchRow(DB_FETCHMODE_OBJECT);
+		} else {
+			return "";
+		}
+	}
+	
 	function setActiveTestUser($lastindex = 1, $postpone = "", $addTries = false) {
 		global $ilDB;
 		global $ilUser;
@@ -1800,6 +1825,48 @@ class ilObjTest extends ilObject
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
 		return $result_array;
+	}
+	
+/**
+* Calculates the results of a test for a given user
+* 
+* Calculates the results of a test for a given user
+* and returns an array with all test results
+*
+* @return array An array containing the test results for the given user
+* @access public
+*/
+	function &_getTestResult($user_id, $test_obj_id) {
+		$test = new ilObjTest($test_obj_id, false);
+		$test->loadFromDb();
+		$result =& $test->getTestResult($user_id);
+		return $result;
+	}
+	
+/**
+* Returns the resulting mark of a test for a given user
+* 
+* Returns the resulting mark of a test for a given user
+*
+* @param integer $user_id Database id of the user
+* @param integer $test_obj_id Object id of the test
+* @return object The resulting mark object 
+* @access public
+*/
+	function &_getMark($user_id, $test_obj_id) {
+		$test = new ilObjTest($test_obj_id, false);
+		$test->loadFromDb();
+		$result =& $test->getTestResult($user_id);
+		if ($result["test"]["total_max_points"] == 0)
+		{
+			$pct = 0;
+		}
+		else
+		{
+			$pct = ($result["test"]["total_reached_points"] / $result["test"]["total_max_points"]) * 100.0;
+		}
+		$mark = $test->mark_schema->get_matching_mark($pct);
+		return $mark;
 	}
 	
 	/**
