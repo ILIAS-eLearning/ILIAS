@@ -121,7 +121,7 @@ $deskgui->displayUsersOnline();
 $deskgui->displayGroups();
 $deskgui->displayBookmarks();
 $deskgui->displayChats();
-
+$deskgui->displayTests();
 
 // output
 $tpl->show();

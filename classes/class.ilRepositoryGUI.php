@@ -1354,6 +1354,8 @@ class ilRepositoryGUI
 
 	function showTests()
   {
+		global $ilias;
+		
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -1410,6 +1412,17 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tst_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$tst_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
+				// add to desktop link
+				if (!$ilias->account->isDesktopItem($tst_data["ref_id"], "tst"))
+				{
+					$tpl->setCurrentBlock("tst_subscribe");
+					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$tst_data["ref_id"]."&type=tst");
+
+					$tpl->setVariable("TXT_SUBSCRIBE", $this->lng->txt("to_desktop"));
 					$tpl->parseCurrentBlock();
 				}
 
