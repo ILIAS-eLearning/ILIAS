@@ -606,7 +606,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$solution_value = $solvalue->value2;
 				}
 			}
-			$feedback = $this->object->getAnswerFeedback($idx);
 			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
 				$points = 0;
@@ -621,9 +620,10 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					}
 				}
 				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $points . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
-				if ($feedback)
+				if ($this->object->suggested_solutions[$idx])
 				{
-					$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <a href=\"\">Feedback</a> " , $output);
+					$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+					$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
 				}
 			}
 			else
@@ -637,9 +637,10 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
 				$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
 				$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
-				if ($feedback)
+				if ($this->object->suggested_solutions[$idx])
 				{
-					$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " <a href=\"\">Feedback</a> " , $output);
+					$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+					$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
 				}
 			}
 		}
@@ -744,6 +745,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->editQuestion();
 				return;
 			}
+			$_POST["internalLinkType"] = $_POST["internalLinkType_$addForGap"];
 			$_SESSION["subquestion_index"] = $addForGap;
 		}
 		$this->object->saveToDb();

@@ -3549,13 +3549,20 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				if ($value["solution"])
+				if (preg_match("/http/", $value["solution"]))
 				{
 					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
 				}
 				else
 				{
-					$this->tpl->setVariable("SOLUTION_HINT", "");
+					if ($value["solution"])
+					{
+						$this->tpl->setVariable("SOLUTION_HINT", $this->lng->txt($value["solution"]));
+					}
+					else
+					{
+						$this->tpl->setVariable("SOLUTION_HINT", "");
+					}
 				}
 				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
 				$this->tpl->parseCurrentBlock();

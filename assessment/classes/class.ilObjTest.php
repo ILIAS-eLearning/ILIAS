@@ -1965,8 +1965,19 @@ class ilObjTest extends ilObject
 			} else {
 				$percentvalue = 0;
 			}
-			$solution_array = $question->getSuggestedSolution(0);
-			$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			if (count($question->suggested_solutions) == 1)
+			{
+				$solution_array = $question->getSuggestedSolution(0);
+				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			}
+			elseif (count($question->suggested_solutions) > 1)
+			{
+				$href = "see_details_for_further_information";
+			}
+			else
+			{
+				$href = "";
+			}
 			$row = array(
 				"nr" => "$key",
 				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
