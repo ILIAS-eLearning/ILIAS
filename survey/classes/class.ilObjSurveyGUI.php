@@ -40,7 +40,6 @@ require_once "./classes/class.ilSearch.php";
 require_once "./classes/class.ilObjUser.php";
 require_once "./classes/class.ilObjGroup.php";
 require_once "./survey/classes/class.SurveySearch.php";
-require_once './classes/Spreadsheet/Excel/Writer.php';
 
 define ("TYPE_XLS", "excel");
 define ("TYPE_SPSS", "csv");
@@ -2351,7 +2350,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
-		$surveyname = preg_replace("/\s/", "_", $this->object->getTitle());
+		require_once './classes/Spreadsheet/Excel/Writer.php';
+		$format_bold = "";
+		$format_percent = "";
+		$format_datetime = "";
+		$format_title = "";
+
+		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
+		$surveyname = preg_replace("/\s/", "_", $object_title);
 
 		if (!$_POST["export_format"])
 		{
@@ -2362,29 +2368,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case TYPE_XLS:
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
+
 				// sending HTTP headers
 				$workbook->send("$surveyname.xls");
+
+				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
 				$format_percent =& $workbook->addFormat();
 				$format_percent->setNumFormat("0.00%");
+				$format_datetime =& $workbook->addFormat();
+				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
 				$format_title =& $workbook->addFormat();
 				$format_title->setBold();
 				$format_title->setColor('black');
 				$format_title->setPattern(1);
 				$format_title->setFgColor('silver');
 				// Creating a worksheet
-				$mainworksheet =& $workbook->addWorksheet($this->object->getTitle());
-				$mainworksheet->write(0, 0, $this->lng->txt("title"), $format_bold);
-				$mainworksheet->write(0, 1, $this->lng->txt("question"), $format_bold);
-				$mainworksheet->write(0, 2, $this->lng->txt("question_type"), $format_bold);
-				$mainworksheet->write(0, 3, $this->lng->txt("users_answered"), $format_bold);
-				$mainworksheet->write(0, 4, $this->lng->txt("users_skipped"), $format_bold);
-				$mainworksheet->write(0, 5, $this->lng->txt("mode"), $format_bold);
-				$mainworksheet->write(0, 6, $this->lng->txt("mode_text"), $format_bold);
-				$mainworksheet->write(0, 7, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-				$mainworksheet->write(0, 8, $this->lng->txt("median"), $format_bold);
-				$mainworksheet->write(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
+				$mainworksheet =& $workbook->addWorksheet();
+				$mainworksheet->writeString(0, 0, $this->lng->txt("title"), $format_bold);
+				$mainworksheet->writeString(0, 1, $this->lng->txt("question"), $format_bold);
+				$mainworksheet->writeString(0, 2, $this->lng->txt("question_type"), $format_bold);
+				$mainworksheet->writeString(0, 3, $this->lng->txt("users_answered"), $format_bold);
+				$mainworksheet->writeString(0, 4, $this->lng->txt("users_skipped"), $format_bold);
+				$mainworksheet->writeString(0, 5, $this->lng->txt("mode"), $format_bold);
+				$mainworksheet->writeString(0, 6, $this->lng->txt("mode_text"), $format_bold);
+				$mainworksheet->writeString(0, 7, $this->lng->txt("mode_nr_of_selections"), $format_bold);
+				$mainworksheet->writeString(0, 8, $this->lng->txt("median"), $format_bold);
+				$mainworksheet->writeString(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
 				break;
 			case (TYPE_SPSS || TYPE_PRINT):
 				$csvfile = array();
@@ -2454,9 +2465,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
-					$mainworksheet->write($counter+1, 0, $data["title"]);
-					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
-					$mainworksheet->write($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
+					$mainworksheet->writeString($counter+1, 0, $data["title"]);
+					$mainworksheet->writeString($counter+1, 1, $data["questiontext"]);
+					$mainworksheet->writeString($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
 					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
 					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
 					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
@@ -2496,16 +2507,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 				switch ($_POST["export_format"])
 				{
 					case TYPE_XLS:
-						$worksheet =& $workbook->addWorksheet($data["title"]);
-						$worksheet->write(0, 0, $this->lng->txt("title"), $format_bold);
-						$worksheet->write(0, 1, $data["title"]);
-						$worksheet->write(1, 0, $this->lng->txt("question"), $format_bold);
-						$worksheet->write(1, 1, $data["questiontext"]);
-						$worksheet->write(2, 0, $this->lng->txt("question_type"), $format_bold);
-						$worksheet->write(2, 1, $this->lng->txt($eval["QUESTION_TYPE"]));
-						$worksheet->write(3, 0, $this->lng->txt("users_answered"), $format_bold);
+						$worksheet =& $workbook->addWorksheet();
+						$worksheet->writeString(0, 0, $this->lng->txt("title"), $format_bold);
+						$worksheet->writeString(0, 1, $data["title"]);
+						$worksheet->writeString(1, 0, $this->lng->txt("question"), $format_bold);
+						$worksheet->writeString(1, 1, $data["questiontext"]);
+						$worksheet->writeString(2, 0, $this->lng->txt("question_type"), $format_bold);
+						$worksheet->writeString(2, 1, $this->lng->txt($eval["QUESTION_TYPE"]));
+						$worksheet->writeString(3, 0, $this->lng->txt("users_answered"), $format_bold);
 						$worksheet->write(3, 1, $eval["USERS_ANSWERED"]);
-						$worksheet->write(4, 0, $this->lng->txt("users_skipped"), $format_bold);
+						$worksheet->writeString(4, 0, $this->lng->txt("users_skipped"), $format_bold);
 						$worksheet->write(4, 1, $eval["USERS_SKIPPED"]);
 						$rowcounter = 5;
 						break;
