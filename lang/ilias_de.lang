@@ -97,7 +97,7 @@ assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
-assessment#:#by#:#by###05 Feb 2004 new variable
+assessment#:#by#:#von
 assessment#:#cloze_text#:#Lückentext
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
@@ -877,15 +877,15 @@ common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten S
 common#:#grp_back#:#Zurück
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
-common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
+common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#grp_create_exc#:#Neue Übung anlegen
 common#:#grp_create_file#:#Neue Datei hochladen
 common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
-common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
+common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
-common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
+common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
@@ -1286,7 +1286,7 @@ common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#none#:#Keine
 common#:#normal#:#Normal
-common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
+common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#number_of_records#:#Zahl der Einträge
@@ -1423,7 +1423,7 @@ common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen
-common#:#person_title#:#Title###14 May 2004 new variable
+common#:#person_title#:#Titel
 common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
@@ -1823,7 +1823,7 @@ content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht 
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen
 content#:#cont_get_orig_size#:#Originalgröße setzen
-content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
+content#:#cont_glo_properties#:#Glossar Eigenschaften
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
