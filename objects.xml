@@ -3,11 +3,7 @@
 <objects xmlns="http://www.w3.org" version="$Id$">
 <object name="root" class_name="RootFolder" checkbox="0" inherit="0">
 	<subobj name="cat">cat</subobj>
-	<subobj name="frm">frm</subobj>
-	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
-	<subobj name="crs">crs</subobj>
-	<subobj name="file" max="1">file</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
