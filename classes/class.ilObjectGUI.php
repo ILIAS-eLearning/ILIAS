@@ -2427,7 +2427,7 @@ class ilObjectGUI
 
 		$operations = array();
 
-		if($this->actions == "")
+		if ($this->actions == "")
 		{
 			$d = $this->objDefinition->getActions($_GET["type"]);
 		}
@@ -2459,7 +2459,7 @@ class ilObjectGUI
 		{
 			$this->showPossibleSubObjects();
 		}
-
+		
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->parseCurrentBlock();
 	}
