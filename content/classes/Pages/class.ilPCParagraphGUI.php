@@ -151,13 +151,21 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$s_text = $this->content_obj->xml2output($this->content_obj->getText());
 		}
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
-		
-		if (ilPageEditorGUI::_doJSEditing()) 
+
+		if (ilPageEditorGUI::_doJSEditing())
 		{
+			// this line is necessary to prevent unwanted converts
+			// e.g. an entered "&lt;" to a "<"
+			$s_text = str_replace("&","&amp;", $s_text);
+
+			$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}
-		
+		else
+		{
+			$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
+		}
+
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -305,40 +313,19 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilBench;
 
-        /**
-        *   when using wysiwyg-editor convert span-tags to []-tags
-        */
-        if ($_POST["usedwsiwygeditor"] == 1) 
-        {
-            //echo htmlspecialchars(stripslashes($_POST["par_content"]));
-            
-            $xml = stripslashes($_POST["par_content"]);
-            
-            //echo htmlspecialchars($xml)."<p>";
-            
-            $wysiwygUtil = new ilWysiwygUtil();
-            $xml = $wysiwygUtil->convertFromPost($xml);
-            
-             $_POST["par_content"] = addslashes($xml);
-            
-            //echo htmlspecialchars($xml)."<p>";
-        }
-        
-        
 		$ilBench->start("Editor","Paragraph_update");
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
-        
-        
 /*
-header('Content-type: text/html; charset=UTF-8');
 echo "PARupdate:".$_POST["par_content"].":<br><br>";
 echo "PARupdate:".htmlentities($_POST["par_content"]).":<br><br>";
 echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":<br>";*/
 
-		$this->updated = $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
+		$this->updated = $this->content_obj->setText(
+			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
+				$_POST["usedwsiwygeditor"]));
 
 		if ($this->updated !== true)
 		{
@@ -368,32 +355,15 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 	function create()
 	{
 
-        /**
-        *   when using wysiwyg-editor convert span-tags to []-tags
-        */
-        if ($_POST["usedwsiwygeditor"] == 1) 
-        {
-            //echo htmlspecialchars(stripslashes($_POST["par_content"]));
-            
-            $xml = stripslashes($_POST["par_content"]);
-            
-            //echo htmlspecialchars($xml)."<p>";
-            
-            $wysiwygUtil = new ilWysiwygUtil();
-            $xml = $wysiwygUtil->convertFromPost($xml);
-            
-             $_POST["par_content"] = addslashes($xml);
-            
-            //echo htmlspecialchars($xml)."<p>";
-        }
-        
-        
 		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
-		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+
+		$this->updated = $this->content_obj->setText(
+			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
+				$_POST["usedwsiwygeditor"]));
 
 		if ($this->updated !== true)
 		{
