@@ -1241,7 +1241,7 @@
 
 		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
-			<object>
+			<!--<object>
 				<xsl:attribute name="data"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -1250,7 +1250,7 @@
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">elements</xsl:with-param>
 					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
+				</xsl:call-template>-->
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
@@ -1262,7 +1262,7 @@
 						<xsl:with-param name="cmobid" select="$cmobid" />
 					</xsl:call-template>
 				</embed>
-			</object>
+			<!--</object>-->
 		</xsl:otherwise>
 
 	</xsl:choose>
