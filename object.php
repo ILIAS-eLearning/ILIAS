@@ -1,6 +1,6 @@
 <?php
-
 include_once "include/ilias_header.inc";
+include_once "classes/class.Object.php";	// base class for all Object Types
 
 if(!isset($_POST["type"]))
 {

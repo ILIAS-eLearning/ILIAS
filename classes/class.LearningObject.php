@@ -1,12 +1,12 @@
 <?php
-include_once("classes/class.Object.php");
-
 /**
 * Class LearningObject
-* @extends class.Object.php
+*
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$ 
+* $Id$
 * 
+* @extends Object
+* @package ilias-core
 */
 
 class LearningObject extends Object

@@ -1,19 +1,18 @@
 <?php
-include_once("classes/class.Object.php");
-
 /**
 * Class RoleTemplateObject
-* @extends class.Object.php
-* @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
-* @package ilias-core
 * 
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$
+* 
+* @extends Object
+* @package ilias-core
 */
 class RoleTemplateObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
 	function RoleTemplateObject()
 	{
@@ -26,7 +25,7 @@ class RoleTemplateObject extends Object
 
 	/**
 	* create a role template object 
-	* @access public
+	* @access	public
 	*/
 	function createObject()
 	{
@@ -47,13 +46,13 @@ class RoleTemplateObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 	}
 
 	/**
-	* save new role
-	* @access public
+	* save a new role template object
+	* @access	public
 	**/
 	function saveObject()
 	{
@@ -64,7 +63,7 @@ class RoleTemplateObject extends Object
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("Role Exists",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with that name already exists!",$this->ilias->error_obj->WARNING);
 			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'n');
@@ -73,13 +72,14 @@ class RoleTemplateObject extends Object
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
+
 		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 		exit;
 	}
 
 	/**
-	* delete template 
-	* @access public
+	* delete a role template object 
+	* @access	public
 	**/
 	function deleteObject()
 	{
@@ -105,13 +105,14 @@ class RoleTemplateObject extends Object
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
 		}
+
 		header("Location: content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 		exit;
 	}
 
 	/**
-	* edit object
-	* @access public
+	* edit a role template object
+	* @access	public
 	* 
 	**/
 	function editObject()
@@ -140,8 +141,8 @@ class RoleTemplateObject extends Object
 	}
 
 	/**
-	* update an object
-	* @access public
+	* update a role template object
+	* @access	public
 	**/
 	function updateObject()
 	{
@@ -249,7 +250,7 @@ class RoleTemplateObject extends Object
 
 	/**
 	* save permission templates of role 
-	* @access public
+	* @access	public
 	**/
 	function permSaveObject()
 	{
@@ -278,7 +279,7 @@ class RoleTemplateObject extends Object
 
 	/**
 	* copy permissions from role or template
-	* @access public
+	* @access	public
 	**/
 	function adoptPermSaveObject()
 	{
