@@ -289,7 +289,12 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	}
+
 
 	/**
 	* paste object from clipboard to current place
@@ -378,6 +383,10 @@ class ilObjectGUI
 //		}
 
 		$this->clearObject();
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	}
 
 	/**
@@ -392,6 +401,10 @@ class ilObjectGUI
 //		}
 
 		session_unregister("clipboard");
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	}
 
 	/**
@@ -443,6 +456,9 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
 	}
 
 	/**
@@ -500,7 +516,12 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	} // END COPY
+
 
 	/**
 	* clone Object subtree
@@ -742,7 +763,12 @@ class ilObjectGUI
 
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	}
+
 
 	/**
 	* cancel deletion (todo: find better operation name)
@@ -750,7 +776,12 @@ class ilObjectGUI
 	function cancelObject()
 	{
 		session_unregister("saved_post");
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+
 	}
+
 
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
@@ -812,10 +843,12 @@ class ilObjectGUI
 		exit();
 	}
 
+
 	/**
 	* gateway for all button actions
 	* @access	public
 	*/
+	/*
 	function gatewayObject()
 	{
 		switch(key($_POST["cmd"]))
@@ -869,7 +902,7 @@ class ilObjectGUI
 			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 			exit();
 		}
-	}
+	}*/
 
 	/**
 	* create new object form
