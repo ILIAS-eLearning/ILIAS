@@ -1,0 +1,83 @@
+<p{SAFE_MODE_STYLE}>{TXT_SAFE_MODE_INFO}</p>
+<form method="POST" action="{FORMACTION}">
+<table class="std">
+<!-- BEGIN setup_datadir -->
+	<tr class="tblheader">
+      <td class="std" colspan="4">{TXT_DATADIR_TITLE}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_DATADIR_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[datadir_path]" value="{DATADIR_PATH}" /></td>
+      <td class="option_value">
+	  <input type="radio" name="form[chk_datadir_path]" value="0" {CHK_DATADIR_PATH_CREATE}/>create&nbsp;
+	  <input type="radio" name="form[chk_datadir_path]" value="1" {CHK_DATADIR_PATH_TARGET}/>target
+	  </td>
+      <td class="option_desc">mandatory</td>
+    </tr>
+<!-- END setup_datadir -->
+<!-- BEGIN display_datadir -->
+	<tr class="tblheader">
+      <td class="std" colspan="4">{TXT_DATADIR_TITLE}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_DATADIR_PATH}</td>
+      <td class="option_value">{DATADIR_PATH}</td>
+      <td class="option_desc" colspan="2">cannot be changed in this setup version</td>
+    </tr>
+<!-- END display_datadir -->
+<!-- BEGIN setup_tools -->
+	<tr class="tblheader">
+      <td class="std" colspan="4">{TXT_TOOLS_TITLE}</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_CONVERT_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[convert_path]" value="{CONVERT_PATH}" /></td>
+      <td class="option_value"><input type="checkbox" name="form[chk_convert_path]" value="1" {CHK_CONVERT_PATH}/>disable check</td>
+      <td class="option_desc">required for displaying thumbnails of images</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ZIP_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[zip_path]" value="{ZIP_PATH}" /></td>
+      <td class="option_value"><input type="checkbox" name="form[chk_zip_path]" value="1" {CHK_ZIP_PATH}/>disable check</td>
+      <td class="option_desc">required for exporting learning modules</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_UNZIP_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[unzip_path]" value="{UNZIP_PATH}" /></td>
+      <td class="option_value"><input type="checkbox" name="form[chk_unzip_path]" value="1" {CHK_UNZIP_PATH}/>disable check</td>
+      <td class="option_desc">required for importing learning modules</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_JAVA_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[java_path]" value="{JAVA_PATH}" /></td>
+      <td class="option_value"><input type="checkbox"  name="form[chk_java_path]" value="1" {CHK_JAVA_PATH}/>disable check</td>
+      <td class="option_desc">required for SCORM Learning modules</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_HTMLDOC_PATH}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[htmldoc_path]" value="{HTMLDOC_PATH}" /></td>
+      <td class="option_value"><input type="checkbox"  name="form[chk_htmldoc_path]" value="1" {CHK_HTMLDOC_PATH}/>disable check</td>
+      <td class="option_desc">???</td>
+    </tr>
+<!-- END setup_tools -->
+
+<!-- BEGIN setup_pass -->
+<tr class="tblheader">
+	<td class="std" colspan="4">{TXT_SETUP_PASS_TITLE}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SETUP_PASS}</td>
+	<td colspan="3" class="option_value"><input type="password" name="form[setup_pass]" maxlength="40" size="40" value="{SETUP_PASS}"/></td>
+</tr>
+<tr>
+	<td class="option">{TXT_SETUP_PASS2}</td>
+	<td colspan="3" class="option_value"><input type="password" name="form[setup_pass2]" maxlength="40" size="40" value="{SETUP_PASS2}"/></td>
+</tr>
+<!-- END setup_pass -->
+<tr>
+	<td class="submit" align="right" colspan="4">
+	<input class="submit" type="submit" name="cmd[{SUBMIT_CMD}]" value="{TXT_SAVE}"/>
+	</td>
+</tr>
+</table>
+</form>

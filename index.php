@@ -31,7 +31,30 @@
 * @package ilias
 */
 
-//var_dump($_POST);exit;
+// jump to setup if ILIAS3 is not installed
+if (!file_exists(getcwd()."/ilias.ini.php"))
+{
+    header("Location: ./setup/setup.php");
+	exit();
+}
+
+/****************************************************/
+// THIS CLIENT LIST IS ONLY FOR TESTING PURPOSES
+if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]))
+{	
+	include_once "./include/inc.client_list.php";
+	exit();
+}
+// THIS CLIENT LIST IS ONLY FOR TESTING PURPOSES
+/****************************************************/
+
+// start correct client
+// if no client_id is given, default client is loaded (in class.ilias.php)
+if (isset($_GET["client_id"]))
+{	
+	setcookie("ilClientId",$_GET["client_id"]);
+	$_COOKIE["ilClientId"] = $_GET["client_id"];
+}
 
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
@@ -40,7 +63,20 @@ if ($_GET["cmd"] == "login")
 {
 	$ilias->auth->logout();
 	session_destroy();
-	header("location: login.php");
+
+	// reset cookie
+	$client_id = $_COOKIE["ilClientId"];
+	setcookie("ilClientId","");
+	$_COOKIE["ilClientId"] = "";
+
+	header("location: login.php?client_id=".$client_id);
+	exit();
+}
+
+// check correct setup
+if (!$ilias->getSetting("setup_ok"))
+{
+	echo "setup is not completed. Please run setup routine again.";
 	exit();
 }
 

@@ -1,0 +1,46 @@
+{MESSAGE}
+<div class="il_Header">
+<h1>{TXT_SETUP_TITLE}</h1>
+</div>
+<p>{TXT_SETUP_WELCOME}
+<ul>
+  <li>{TXT_SETUP_INIFILE_DESC}</li>
+  <li>{TXT_SETUP_DATABASE_DESC}</li>
+  <li>{TXT_SETUP_LANGUAGES_DESC}</li>
+  <li>{TXT_SETUP_PASSWORD_DESC}</li>
+</ul>
+</p>
+<h3>{TXT_ENV_TITLE}</h3>
+<p>{TXT_ENV_INTRO}</p>
+<p>{TXT_ENV_COMMENT}</p>
+<h3>{TXT_PRE_TITLE}</h3>
+<p>{TXT_PRE_INTRO}</p>
+<table>
+<!-- BEGIN preliminary -->
+<tr>
+  <td>&nbsp;-&nbsp;</td>
+  <td>&nbsp;{TXT_PRE}&nbsp;</td>
+  <td>&nbsp;{STATUS_PRE}&nbsp;</td>
+  <td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
+</tr>
+<!-- END preliminary -->
+<!-- BEGIN preliminary_js -->
+<tr>
+  <td>&nbsp;-&nbsp;</td>
+  <td>&nbsp;{TXT_PRE}&nbsp;</td>
+<script type="text/javascript">
+<!--
+document.write("<td>&nbsp;<font color=\"green\"><strong>OK</strong></font>&nbsp;</td><td>&nbsp;<i></i>&nbsp;</td>");
+//-->
+</script>
+<noscript>
+<td>&nbsp;{STATUS_PRE}&nbsp;</td><td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
+</noscript>
+</tr>
+<!-- END preliminary_js -->
+</table>
+<br/>
+<!-- BEGIN premessage -->
+  <p class="msg"><font color="red">{TXT_PRE_ERR}</font></p>
+<!-- END premessage -->
+{NAVBUTTONS}

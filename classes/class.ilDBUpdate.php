@@ -37,7 +37,7 @@ class ilDBUpdate
 	/**
 	* db update file
 	*/
-	var $DB_UPDATE_FILE = "./sql/dbupdate.php";
+	var $DB_UPDATE_FILE;
 
 	/**
 	* current version of db
@@ -54,10 +54,20 @@ class ilDBUpdate
 	/**
 	* constructor
 	*/
-	function ilDBUpdate()
+	function ilDBUpdate($a_db_handler = 0)
 	{
-	    global $mySetup;
-		$this->db = $mySetup->db;	
+		// workaround to allow setup migration
+		if ($a_db_handler)
+		{
+			$this->db =& $a_db_handler;
+			$this->DB_UPDATE_FILE = "../sql/dbupdate.php";
+		}
+		else
+		{
+			global $mySetup;
+			$this->db = $mySetup->db;	
+			$this->DB_UPDATE_FILE = "./sql/dbupdate.php";
+		}
    
 		$this->readDBUpdateFile();
 		$this->getFileVersion();
@@ -89,11 +99,11 @@ class ilDBUpdate
 
 	function getCurrentVersion()
 	{
-		$query = "SELECT value FROM settings ".
-					 "WHERE keyword = 'db_version'";
-		$res = $this->db->query($query);
+		$q = "SELECT value FROM settings ".
+			 "WHERE keyword = 'db_version'";
+		$r = $this->db->query($q);
 			
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 			
 		$this->currentVersion = (integer) $row->value;
 
@@ -103,12 +113,12 @@ class ilDBUpdate
 	function setCurrentVersion ($a_version)
 	{
 		{
-			$query = "UPDATE settings SET ".
+			$q = "UPDATE settings SET ".
 				 "value = '".$a_version."' ".
 				 "WHERE keyword = 'db_version'";
 		}
 
-		$this->db->query($query);
+		$this->db->query($q);
 		$this->currentVersion = $a_version;
 		
 		return true;
@@ -126,7 +136,7 @@ class ilDBUpdate
 				$version = $regs[1];
 			}
 		}
-	
+
 		$this->fileVersion = (integer) $version;
 		return $this->fileVersion; 
 	}

@@ -144,6 +144,7 @@ class ilSetup
 
 		$this->ini = new ilIniFile($this->INI_FILE);
 		$this->ini->read();
+		
 		//check for error
 		if ($this->ini->ERROR != "")
 		{
