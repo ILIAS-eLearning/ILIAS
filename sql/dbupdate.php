@@ -545,3 +545,12 @@ $this->db->query($query);
 
 <#53>
 UPDATE object_data SET title='User', description='Standard role for registered users. Grants read access to most objects.' WHERE obj_id='4';
+
+<#54>
+CREATE TABLE mob_usage
+(
+	id INT NOT NULL,
+	usage_type CHAR(4) NOT NULL,
+	usage_id INT NOT NULL,
+	PRIMARY KEY (id, usage_type, usage_id)
+);

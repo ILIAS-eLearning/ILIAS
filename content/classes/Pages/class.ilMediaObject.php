@@ -500,6 +500,21 @@ class ilMediaObject extends ilObjMediaObject
 		}
 	}
 
+	/**
+	* static
+	*/
+	function _deleteAllUsages($a_type, $a_id)
+	{
+		$q = "DELETE FROM mob_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
+		$this->ilias->db->query($q);
+	}
+
+	function _saveUsage($a_mob_id, $a_type, $a_id)
+	{
+		$q = "INSERT INTO mob_usage (id, usage_type, usage_id) VALUES".
+			" ('$a_mob_id', '$a_type', '$a_id')";
+		$this->ilias->db->query($q);
+	}
 
 	/**
 	* get mime type for file
