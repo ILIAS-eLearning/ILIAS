@@ -74,7 +74,7 @@ class ilObjCategory extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{

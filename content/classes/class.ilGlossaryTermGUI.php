@@ -99,7 +99,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
 		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 		$this->tpl->setVariable("INPUT_TERM", "term");
-		$this->tpl->setVariable("VALUE_TERM", $this->term->getTerm());
+		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($this->term->getTerm()));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMetaData::getLanguages();
 		$select_language = ilUtil::formSelect ($this->term->getLanguage(),"term_language",$lang,false,true);
