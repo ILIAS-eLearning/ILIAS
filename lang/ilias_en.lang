@@ -457,7 +457,7 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 common#:#default_skin#:#Default Skin
-common#:#email_not_valid#:#The email you entered address is not valid!
+common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#default_style#:#Default Style
 common#:#default_language#:#Default Language
 common#:#pathes#:#Pathes
@@ -479,3 +479,4 @@ common#:#uninstalled#:#uninstalled.
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_not_sent#:#Mail not sent!
 common#:#smtp#:#SMTP
+common#:#typ#:#Object Type Definition

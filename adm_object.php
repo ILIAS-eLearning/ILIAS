@@ -16,9 +16,8 @@ require_once "classes/class.ObjectOut.php";
 
 /*
 echo "<pre>";
-var_dump($_SESSION);
+var_dump($_REQUEST);
 echo "</pre>";
-exit;
 */
 
 // for security
@@ -64,9 +63,13 @@ if (!isset($_GET["cmd"]))
 }
 
 // CREATE OBJECT CALLS 'createObject' METHOD OF THE NEW OBJECT
-if($_REQUEST["new_type"])
+if ($_POST["new_type"])
 {
-	$obj_type = $_REQUEST["new_type"];
+	$obj_type = $_POST["new_type"];
+}
+elseif ($_GET["new_type"])
+{
+	$obj_type = $_GET["new_type"];
 }
 else
 {

@@ -28,7 +28,7 @@ if ($_POST["msg_send"])
 	else
 	{
 		$subject = "ILIAS 3 Feedback";
-		$from_host = "From: http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"])."\n\r";
+		$from_host = "From: http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"])."\r\n";
 		$message = $from_host.$_POST["msg_content"];
 		$from_email = $ilias->account->getEmail();
 		$from_sender = $ilias->account->getFullname();

@@ -410,3 +410,9 @@ foreach ($data as $_id => $_type)
 	}
 }
 ?>
+<#19>
+#enlarge several user fields to 32 letters
+ALTER TABLE usr_data CHANGE login login VARCHAR( 32 ) NOT NULL;
+ALTER TABLE usr_data CHANGE firstname firstname VARCHAR( 32 ) NOT NULL;
+ALTER TABLE usr_data CHANGE lastname lastname VARCHAR( 32 ) NOT NULL;
+ALTER TABLE usr_data CHANGE title title VARCHAR( 32 ) NOT NULL;
