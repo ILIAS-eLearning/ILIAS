@@ -46,11 +46,12 @@ class RoleFolderObject extends Object
 						"description" => $val["desc"],
 						"last_change" => $val["last_update"]
 					);
-	
 					//control information
 					$this->objectList["ctrl"][] = array(
 						"type" => $val["type"],
 						"obj_id" => $val["obj_id"],
+						// DEFAULT ACTION IS 'permObject()'
+						"cmd"    => "perm",
 						"parent" => $this->id,
 						"parent_parent" => $this->parent,
 					);

@@ -128,8 +128,8 @@
 	<property name="owner">show_owner</property>
 </object>
 <object name="role">
-	<property name="perm">perm_settings</property>
 	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="rolf">
