@@ -906,8 +906,8 @@ common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
-common#:#cleaned_file#:#File has been cleaned.
-common#:#cleaning_failed#:#Cleaning failed.
+common#:#cleaned_file#:#Datei wurde bereinigt.
+common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client ip#:#Client IP
@@ -1070,7 +1070,7 @@ common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#E-Mail###04 Mar 2005 content changed
+common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
@@ -1571,7 +1571,7 @@ common#:#learning module#:#Lernmodul
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
-common#:#link#:#Verknüpfen
+common#:#link#:#verknüpfen
 common#:#link_check#:#Link überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Email über nicht gültige Links dieser Lerneinheit informiert.
@@ -2239,7 +2239,7 @@ common#:#select_file#:#Datei wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
-common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
+common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus. 
 common#:#select_password#:#Neues Passwort wählen
 common#:#select_questionpool#:#Fragenpool für Test
 common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
@@ -2303,7 +2303,7 @@ common#:#stys_write#:#Style-Einstellungen ändern
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
-common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
+common#:#subject_module#:#Subject Module
 common#:#submit#:#Abschicken
 common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
@@ -2939,8 +2939,8 @@ crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
-crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen###04 Mar 2005 content changed
-crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen###04 Mar 2005 content changed
+crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
+crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
@@ -3051,7 +3051,7 @@ crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritt
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
 crs#:#crs_member#:#Mitglied
-crs#:#crs_member_blocked#:#Mitglied (gesperrt)###04 Mar 2005 content changed
+crs#:#crs_member_blocked#:#Mitglied (gesperrt)
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
@@ -3194,7 +3194,7 @@ crs#:#crs_subscription#:#Anmeldung
 crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
-crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
+crs#:#crs_subscription_options_deactivated#:#Anmeldung ausgeschaltet
 crs#:#crs_subscription_options_direct#:#Direkte Anmeldung
 crs#:#crs_subscription_options_password#:#Anmeldung mit Passwort
 crs#:#crs_subscription_successful#:#Sie wurden für den Kurs angemeldet
