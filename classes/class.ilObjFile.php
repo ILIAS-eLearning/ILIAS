@@ -196,7 +196,7 @@ class ilObjFile extends ilObject
 			} while (!feof($fp));
 
 			@fclose($fp);
-
+			exit;			// prevent any output
 			return true;
 		}
 
@@ -210,11 +210,11 @@ class ilObjFile extends ilObject
 
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$fileObj->createDirectory();
-		
+
 		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$fileObj->getFileName());
 
 		unset($fileObj);
-	
+
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
 	}
