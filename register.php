@@ -62,11 +62,11 @@ function loginPage()
 	$tpl->setVariable("FORMACTION","login.php");
 	$tpl->setVariable("TARGET","target=\"_parent\"");
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
-	$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".urldecode(ilUtil::stripSlashes($_GET["fullname"]))."!");
+	$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".urldecode(ilUtil::stripSlashes($_GET["name"]))."!");
 	$tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
 	$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-	$tpl->setVariable("USERNAME", $_GET["username"]);
-	$tpl->setVariable("PASSWORD", $_GET["password"]);
+	$tpl->setVariable("USERNAME", base64_decode($_GET["user"]));
+	$tpl->setVariable("PASSWORD", base64_decode($_GET["pass"]));
 
 	$ilias->auth->logout();
 	session_destroy();
@@ -157,8 +157,7 @@ function saveForm()
 	$bmf = new ilBookmarkFolder(0, $userObj->getId());
 	$bmf->createNewBookmarkTree();
 
-
-	header("location: register.php?cmd=login&username=".$_POST["Fobject"]["login"]."&password=".$_POST["Fobject"]["passwd"]."&fullname=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
+	header("location: register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 	exit();
 }
 
