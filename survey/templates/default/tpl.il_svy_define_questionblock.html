@@ -1,0 +1,24 @@
+<h2>{DEFINE_QUESTIONBLOCK_HEADING}</h2>
+<form name="removeCategories" method="post" action="{FORM_ACTION}">
+<table class="std">
+<tr>
+<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+<td class="option_value"><input type="text" name="title" value="{VALUE_TITLE}" size="50" /></td>
+</tr>
+<!-- BEGIN obligatory -->
+<tr>
+<td class="option"></td>
+<td class="option_value"><input type="checkbox" name="obligatory" value="1"{CHECKED_OBLIGATORY} /> {TEXT_OBLIGATORY}</td>
+</tr>
+<!-- END obligatory -->
+<tr><td colspan="2" class="submit">
+<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<div align="right">
+<input name="cmd[save_questionblock]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+</td></tr>
+</table>
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+</form>
