@@ -302,6 +302,8 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -316,9 +318,22 @@ class ilObjSCORMLearningModule extends ilObject
 		// delete data directory
 		ilUtil::delDir($this->getDataDirectory());
 
-		// delete content object record
+		// delete scorm learning module record
 		$q = "DELETE FROM scorm_lm WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
+
+		// remove all scorm objects and scorm tree
+		include_once("content/classes/SCORM/class.ilSCORMTree.php");
+		include_once("content/classes/SCORM/class.ilSCORMObject.php");
+		$sc_tree = new ilSCORMTree($this->getId());
+		$items = $sc_tree->getSubTree($sc_tree->getNodeData($sc_tree->readRootId()));
+		foreach($items as $item)
+		{
+			$sc_object =& ilSCORMObject::_getInstance($item["obj_id"]);
+			$sc_object->delete();
+		}
+		$sc_tree->removeTree($sc_tree->getTreeId());
+
 
 		// always call parent delete function at the end!!
 		return true;

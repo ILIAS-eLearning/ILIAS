@@ -85,7 +85,7 @@ class ilRepositoryGUI
 				$this->cur_ref_id = $this->tree->getRootId();
 			}
 		}
-		
+
 		if (!empty($_GET["set_mode"]))
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
@@ -105,7 +105,7 @@ class ilRepositoryGUI
 		{
 			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 		}
-		
+
 		// set no limit for hits/page
 		$_GET["limit"] = 9999;
 
@@ -131,7 +131,7 @@ class ilRepositoryGUI
 	{
 		return array("ilObjGroupGUI","ilObjFolderGUI","ilObjFileGUI");
 	}
-	
+
 	/**
 	* execute command
 	*/
@@ -171,7 +171,7 @@ class ilRepositoryGUI
 				$this->gui_obj->executeCommand();
 				$this->tpl->show();
 				break;
-				
+
 			case "ilobjfoldergui":
 				include_once("./classes/class.ilObjFolderGUI.php");
 				$this->gui_obj = new ilObjFolderGUI("", $this->cur_ref_id, true, false);
@@ -306,9 +306,9 @@ class ilRepositoryGUI
 		$ilBench->stop("Repository", "FlatList_01getChilds");
 
 		$ilBench->start("Repository", "FlatList_02collectChilds");
-		
+
 		$found = false;
-		
+
 		foreach ($objects as $key => $object)
 		{
 			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
@@ -474,13 +474,13 @@ class ilRepositoryGUI
 		{
 			$this->showTests();
 		}
-		
+
 		// survey tool
 		if (count($this->survey))
 		{
 			$this->showSurveys();
 		}
-		
+
 		if (count($this->surveyquestionpools))
 		{
 			$this->showSurveyquestionpools();
@@ -1216,7 +1216,6 @@ class ilRepositoryGUI
 				$thr_page = "new";
 			}
 
-
 			$tpl->setCurrentBlock("forum_row");
 
 			$tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
@@ -1251,7 +1250,7 @@ class ilRepositoryGUI
 									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				}
 
-				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				if ($this->rbacsystem->checkAccess('delete', $data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("forum_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$data["ref_id"]);
