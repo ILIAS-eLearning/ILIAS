@@ -42,20 +42,110 @@ class ilPaymentBookings
 
 	var $bookings = array();
 
-	function ilPaymentBookings($a_user_id)
+	var $booking_id = null;
+	var $payed = null;
+	var $access = null;
+
+	function ilPaymentBookings($a_user_id = '')
 	{
 		global $ilDB;
 
 		$this->user_id = $a_user_id;
 		$this->db =& $ilDB;
 
-		$this->__read();
+		if($a_user_id)
+		{
+			$this->__read();
+		}
 	}
+
+	function setBookingId($a_booking_id)
+	{
+		return $this->booking_id = $a_booking_id;
+	}
+	function getBookingId()
+	{
+		return $this->booking_id;
+	}
+	function setPayed($a_payed)
+	{
+		$this->payed = $a_payed;
+	}
+	function getPayedStatus()
+	{
+		return $this->payed;
+	}
+	function setAccess($a_access)
+	{
+		$this->access = $a_access;
+	}
+	function getAccessStatus()
+	{
+		return $this->access;
+	}
+
+	function update()
+	{
+		if($this->getBookingId())
+		{
+			$query = "UPDATE payment_statistic ".
+				"SET payed = '".(int) $this->getPayedStatus()."', ".
+				"access = '".(int) $this->getAccessStatus()."' ".
+				"WHERE booking_id = '".$this->getBookingId()."'";
+			$this->db->query($query);
+
+			return true;
+		}
+		return false;
+	}
+
+	function delete()
+	{
+		if($this->getBookingId())
+		{
+			$query = "DELETE FROM payment_statistic ".
+				"WHERE booking_id = '".$this->getBookingId()."'";
+
+			$this->db->query($query);
+
+			return true;
+		}
+		return false;
+	}			
 
 	function getBookings()
 	{
 		return $this->bookings ? $this->bookings : array();
 	}
+
+	function getBooking($a_booking_id)
+	{
+		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po '.
+			"WHERE ps.pobject_id = po.pobject_id ".
+			"AND booking_id = '".$a_booking_id."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$booking['booking_id'] = $row->booking_id;
+			$booking['transaction'] = $row->transaction;
+			$booking['pobject_id'] = $row->pobject_id;
+			$booking['customer_id'] = $row->customer_id;
+			$booking['order_date'] = $row->order_date;
+			$booking['duration'] = $row->duration;
+			$booking['price'] = $row->price;
+			$booking['payed'] = $row->payed;
+			$booking['access'] = $row->access;
+			$booking['ref_id'] = $row->ref_id;
+			$booking['status'] = $row->status;
+			$booking['pay_method'] = $row->pay_method;
+			$booking['vendor_id'] = $row->vendor_id;
+			$booking['b_vendor_id'] = $row->b_vendor_id;
+			$booking['b_pay_method'] = $row->b_pay_method;
+		}
+		return $booking ? $booking : array();
+	}
+			
 
 	// STATIC
 	function _getCountBookingsByObject($a_pobject_id)

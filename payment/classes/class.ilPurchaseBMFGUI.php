@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 /**
-* Class ilPaymentPurchaseBMFGUI
+* Class ilPurchaseBMFGUI
 *
 * @author Stefan Meyer
 * @version $Id$
@@ -33,14 +33,16 @@
 class ilPurchaseBMFGUI
 {
 	var $ctrl;
+	var $tpl;
 
 	var $user_obj;
 
 	function ilPurchaseBMFGUI(&$user_obj)
 	{
-		global $ilCtrl;
+		global $ilCtrl,$tpl;
 
 		$this->ctrl =& $ilCtrl;
+		$this->tpl =& $tpl;
 		
 		// Get user object
 		$this->user_obj =& $user_obj;
@@ -48,6 +50,10 @@ class ilPurchaseBMFGUI
 
 	function start()
 	{
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html',true);
+
+		$this->tpl->setVariable("TXT_PATH","hallo");
+
 		// user_id $this->user_obj->getId()
 		// all 
 
