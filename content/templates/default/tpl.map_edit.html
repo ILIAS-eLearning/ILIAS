@@ -1,0 +1,56 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="fullwidth">
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_IMAGEMAP}
+		</td>
+	</tr>
+	<tr>
+		<td class="option_value" colspan="2">
+			{IMAGE_MAP}
+		</td>
+	</tr>
+</table>
+<br />
+<table class="fullwidth">
+	<tr class="tblheader">
+		<td class="std">
+			{TXT_NAME}
+		</td>
+		<td class="std">
+			{TXT_SHAPE}
+		</td>
+		<td class="std">
+			{TXT_COORDS}
+		</td>
+		<td class="std">
+			{TXT_LINK}
+		</td>
+	</tr>
+	<!-- BEGIN area_row -->
+	<tr class="{CSS_ROW}">
+		<td class="std">
+			<input type="text" size="20" maxlength="200" name="{VAR_NAME}" value="{VAL_NAME}" />
+		</td>
+		<td class="std">
+			{VAL_SHAPE}
+		</td>
+		<td class="std">
+			{VAL_COORDS}
+		</td>
+		<td class="std">
+			<input type="text" size="20" maxlength="200" name="{VAR_LINK}" value="{VAL_LINK}" />
+		</td>
+	</tr>
+	<!-- END area_row -->
+	<!-- BEGIN commands -->
+	<tr class="std">
+		<td class="submit" colspan="4">
+		<input type="submit" class="submit" name="cmd[{BTN_UPDATE}]" value="{TXT_UPDATE}">
+		&nbsp;
+		<input type="submit" class="submit" name="cmd[{BTN_ADD_AREA}]" value="{TXT_ADD_AREA}">
+		</td>
+	</tr>
+	<!-- END commands -->
+</table>
+</form>
