@@ -48,6 +48,9 @@ assessment#:#create_new#:#Crea nuovo
 assessment#:#duplicate#:#Duplica
 assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#Filtro
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -77,6 +80,7 @@ assessment#:#qt_matching#:#Domanda a corrispondenza
 assessment#:#qt_multiple_choice_mr#:#Domanda a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#Domanda a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#Domanda con risposte da ordinare
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable

@@ -191,6 +191,7 @@ intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jū
 ip_address#:#IP address###21 Nov 2003 new variable
 java_path#:#Path to Java###21 Nov 2003 new variable
 java_path_comment#:#required for SCORM Learning modules###05 Jan 2003 new variable
+lang_cs#:#Czech###09 Mar 2004 new variable
 lang_de#:#Vokiečių
 lang_dk#:#Danų
 lang_en#:#Anglų

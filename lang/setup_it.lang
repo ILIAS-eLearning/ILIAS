@@ -191,6 +191,7 @@ intro_install#:#Questa &#232; la pagina principale del processo di installazione
 ip_address#:#Indirizzo IP
 java_path#:#Percorso a Java
 java_path_comment#:#Richiesto per i Learning module di tipo SCORM
+lang_cs#:#Czech###09 Mar 2004 new variable
 lang_de#:#Tedesco
 lang_dk#:#Danese
 lang_en#:#Inglese

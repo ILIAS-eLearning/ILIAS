@@ -191,6 +191,7 @@ intro_install#:#Dit is de hoofd-pagina van de setup van ILIAS 3. Vanaf hier kunt
 ip_address#:#IP-adres
 java_path#:#Pad naar Java
 java_path_comment#:#vereist voor SCORM les-modules
+lang_cs#:#Czech###09 Mar 2004 new variable
 lang_de#:#Duits
 lang_dk#:#Deens
 lang_en#:#Engels
