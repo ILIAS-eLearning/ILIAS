@@ -116,6 +116,12 @@ class ilLMPresentationGUI
 
 	function offlineexport() {
 
+        if ($_POST["cmd"]["cancel"] != "")
+        {
+            header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=".$_GET["ref_id"]);
+            exit;
+        }
+        
 		switch($this->lm->getType())
 		{
 			case "dbk":
@@ -140,17 +146,23 @@ class ilLMPresentationGUI
 
 					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) {
 
-						if($showpage>0) $output .= "<p style=\"page-break-after:always\" />";
+                        if ($showpage>0) {
+                            if($_POST["type"] == "pdf") $output .= "<hr BREAK >\n";
+                            if($_POST["type"] == "print") $output .= "<p style=\"page-break-after:always\" />";
+                            if($_POST["type"] == "html") $output .= "<br><br><br><br>";
+                        }
 						$showpage++;
 
 
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
                         // $o = $this->layout();
+                        
+                        $output .= "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_PageTitle\">".$this->lm->title."</div><p>";
 						$output .= $o;
 
 						$output .= "\n<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>\n";
-						$output .= "<hr>\n";
+                        
 
 
 					}
@@ -159,8 +171,6 @@ class ilLMPresentationGUI
 				$printTpl = new ilTemplate("tpl.print.html", true, true, true);
 
 				//vd(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-
-
 
 				if($_POST["type"] == "print")
 				{
@@ -178,6 +188,8 @@ class ilLMPresentationGUI
 				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
 				$printTpl->setVariable("CONTENT",$output);
 
+                // $printTpl->setVariable("BOOKTITLE",$this->lm->title);
+                
 				/*
 				echo "<font face=verdana size=1>";
 				echo nl2br(htmlspecialchars($printTpl->get()));
@@ -251,46 +263,15 @@ class ilLMPresentationGUI
 					
 					ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
 					
+                    ilUtil::deliverFile($export_dir."/".$fileName.".zip", $fileName.".zip");
 					
-					header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
-					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-					header("Cache-Control: no-store, no-cache, must-revalidate");
-					header("Cache-Control: post-check=0, pre-check=0", false);
-					header("Pragma: no-cache");
-					header("Content-type: application/octet-stream");
-					if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
-					{
-						header ("Content-Disposition: attachment; filename=" . $fileName.".zip");
-					}
-					else 
-					{
-						header ("Content-Disposition: inline; filename=".$fileName.".zip" );
-					}
-					header ("Content-length:".(string)(strlen ($html)) );
-					
-					readfile( $export_dir."/".$fileName.".zip" );
-					
-				} else if ($_POST["type"]=="pdf") 
+				} 
+                else if ($_POST["type"]=="pdf") 
 				{
+                    
                     ilUtil::html2pdf($html, $export_dir."/".$fileName.".pdf");
                     
-                    header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
-					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-					header("Cache-Control: no-store, no-cache, must-revalidate");
-					header("Cache-Control: post-check=0, pre-check=0", false);
-					header("Pragma: no-cache");
-					header("Content-type: application/octet-stream");
-					if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
-					{
-						header ("Content-Disposition: attachment; filename=" . $fileName.".pdf");
-					}
-					else 
-					{
-						header ("Content-Disposition: inline; filename=".$fileName.".pdf" );
-					}
-					header ("Content-length:".(string)(strlen ($html)) );
-					
-					readfile( $export_dir."/".$fileName.".pdf" );
+                    ilUtil::deliverFile($export_dir."/".$fileName.".pdf", $fileName.".pdf");
                     
 				}
 
