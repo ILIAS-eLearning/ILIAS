@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id$
+* @version $Id$Id: class.ilForumImportParser.php,v 1.1 2004/04/08 09:59:21 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -62,6 +62,22 @@ class ilForumImportParser extends ilSaxParser
 	{
 		return $this->parent;
 	}
+
+	function __pushParentId($a_id)
+	{
+		$this->parent[] = $a_id;
+	}
+	function __popParentId()
+	{
+		array_pop($this->parent);
+
+		return true;
+	}
+	function __getParentId()
+	{
+		return $this->parent[count($this->parent) - 1];
+	}
+
 
 	/**
 	* set event handler
@@ -124,7 +140,8 @@ class ilForumImportParser extends ilSaxParser
 				// EMPTY DATA ARRAY
 				$this->thread = array();
 				$this->thread_start = true;
-				$this->parent = array(0);
+				$this->__pushParentId(0);
+				#this->parent = array(0);
 				break;
 
 			case "threadAuthor":
@@ -168,7 +185,8 @@ class ilForumImportParser extends ilSaxParser
 
 			// THREAD DATA 
 			case "thread":
-				unset($this->parent[count($this->parent)-1]);
+				$this->__popParentId();
+				#unset($this->parent[count($this->parent)-1]);
 				break;
 	
 			case "threadTitle":
@@ -181,7 +199,8 @@ class ilForumImportParser extends ilSaxParser
 				
 			// POST DATA
 			case "posting":
-				unset($this->parent[count($this->parent)-1]);
+				$this->__popParentId();
+				#unset($this->parent[count($this->parent)-1]);
 				break;
 
 			case "postingTitle":
@@ -266,9 +285,12 @@ class ilForumImportParser extends ilSaxParser
 		$topic = $this->forum_obj->getOneTopic();
 
 		// GENERATE IT AND 'INCREMENT' parent variable
-		$this->parent[] = (int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
+/*		$this->parent[] = (int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																 $this->thread["title"],
-																 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"]));
+																 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"]));*/
+		$this->__pushParentId((int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
+																	 $this->thread["title"],
+																	 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
 		$this->forum_obj->setWhereCondition("top_pk = ".$topic["top_pk"]);
@@ -280,11 +302,15 @@ class ilForumImportParser extends ilSaxParser
 	{
 		$this->forum_obj->setWhereCondition("top_frm_fk = ".$this->forum->getId());
 		$topic = $this->forum_obj->getOneTopic();
-		$post = $this->forum_obj->getPostById($this->parent[count($this->parent)-1]);
+		$post = $this->forum_obj->getPostById($this->__getParentId());
+		#$post = $this->forum_obj->getPostById($this->parent[count($this->parent)-1]);
 		
-		$this->parent[] = (int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
+/*		$this->parent[] = (int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
 															   $this->post["message"],$this->parent[count($this->parent)-1],
-															   0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"]));
+															   0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"]));*/
+		$this->__pushParentId((int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
+																 $this->post["message"],$this->parent[count($this->parent)-1],
+																 0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"])));
 
 		return true;
 	}
