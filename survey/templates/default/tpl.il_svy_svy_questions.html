@@ -11,7 +11,7 @@
 </select>&nbsp;<input type="submit" class="submit" name="cmd[create_question]" value="{BUTTON_CREATE_QUESTION}" /></p>
 <!-- END browser_actions -->
 <table class="fullwidth">
-<tr class="tblheader"><td class="std"></td><td class="std">{QUESTION_TITLE}</td><td class="std">{QUESTION_COMMENT}</td><td class="std">{QUESTION_TYPE}</td><td class="std">{QUESTION_AUTHOR}</td><td class="std">{QUESTION_POOL}</td></tr>
+<tr class="tblheader"><td class="std"></td><td class="std">{QUESTION_TITLE}</td><td class="std"></td><td class="std">{QUESTION_COMMENT}</td><td class="std">{QUESTION_TYPE}</td><td class="std">{QUESTION_AUTHOR}</td><td class="std">{QUESTION_POOL}</td><td class="std">{QUESTION_CONSTRAINTS}</td></tr>
 <!-- BEGIN QTab --> 
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}">
@@ -21,21 +21,24 @@
 </td>
 <!-- BEGIN noblock -->
 <td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
+<td class="{COLOR_CLASS}">{QUESTION_OBLIGATORY}</td>
 <td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td>
 <td class="{COLOR_CLASS}">{QUESTION_TYPE}</td>
 <td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
 <td class="{COLOR_CLASS}">{QUESTION_POOL}</td>
+<td class="{COLOR_CLASS}">{QUESTION_CONSTRAINTS}</td>
 <!-- END noblock -->
 <!-- BEGIN block -->
-<td class="{COLOR_CLASS}" colspan="5">{TEXT_QUESTIONBLOCK}</td>
+<td class="{COLOR_CLASS}" colspan="6">{TEXT_QUESTIONBLOCK}</td>
+<td class="{COLOR_CLASS}">{QUESTION_CONSTRAINTS}</td>
 <!-- END block -->
 </tr>
 <!-- END QTab --> 
 <!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="6">{TEXT_EMPTYTABLE}</td></tr>
+<tr><td class="option_value" colspan="8">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
 <!-- BEGIN QFooter -->
-<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="5">
+<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="7">
 <input class="submit" type="submit" name="cmd[remove]" value="{REMOVE}" />
 <input class="submit" type="submit" name="cmd[questionblock]" value="{QUESTIONBLOCK}" />
 <input class="submit" type="submit" name="cmd[unfold]" value="{UNFOLD}" />
