@@ -105,9 +105,12 @@ class ilLMTable extends ilPageContent
 		}
 	}
 
-	function getXML($a_utf8_encoded, $a_short_mode)
+	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
-		$xml = "<Table>";			// todo: attributes
+		$ed_id = ($a_incl_ed_ids)
+			? "ed_id=\"".$this->getEdId()."\""
+			: "";
+		$xml = "<Table $ed_id >";			// todo: attributes
 		$xml.= "<Title Language=\"de\">No Title</Title>";		// todo: make this work
 		for ($r=1; $r<=$this->rowcnt; $r++)
 		{
@@ -123,11 +126,11 @@ class ilLMTable extends ilPageContent
 				{
 					if (get_class($co_object) == "ilparagraph")
 					{
-						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
+						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
 					}
 					if (get_class($co_object) == "illmtable")
 					{
-						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
+						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
 					}
 				}
 				$xml.= "</TableData>";
@@ -137,6 +140,83 @@ class ilLMTable extends ilPageContent
 		$xml.= "</Table>";
 
 		return $xml;
+	}
+
+	/**
+	* get content object by hierarchical id
+	*/
+	function &getContent($a_cont_cnt)
+	{
+		$cnt = explode("_", $a_cont_cnt);
+		if(isset($cnt[1]))		// content is within a container (e.g. table)
+		{
+			$container_obj =& $this->getContent($cnt[0]);
+			$unset[$cnt[0]];
+			return $container_obj->getContent(implode($cnt, "_"));
+		}
+		else		// content object is direct child of this table
+		{
+			$tpos = $this->seq2TablePos($cnt[0]);
+			$co_object =& $this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]];
+			return $co_object;
+		}
+	}
+
+	function insertContent(&$a_cont_obj, $a_pos)
+	{
+		$pos = explode("_", $a_pos);
+		if(isset($pos[1]))		// content should be child of a container
+		{
+			$pos_0 = $pos[0];
+			unset($pos[0]);
+			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"));
+		}
+		else		// content should be child of table
+		{
+			$tpos = $this->seq2TablePos($pos[0] - 1);
+echo "seq:".$pos[0]."<br>";
+echo "row:".$tpos["row"].":col:".$tpos["col"].":pos:".$tpos["pos"].":<br>";
+			for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
+			{
+echo "2";
+				if($i >= ($tpos["pos"] + 1))
+				{
+echo "3";
+					$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
+				}
+			}
+			$this->content[$tpos["pos"]] =& $a_cont_obj;
+
+		}
+	}
+
+
+	/**
+	* converts a sequential content position into row, column
+	* and content position within the cell
+	*/
+	function seq2TablePos($a_seq_pos)
+	{
+		$current = 0;
+		for ($r=1; $r<=$this->rowcnt; $r++)
+		{
+			$this->setRow($r);
+			for ($c=1; $c<=$this->colcnt; $c++)
+			{
+				$this->setCol($c);
+
+				reset($this->cell[$this->row][$this->col]);
+				for($j=0; $j<count($this->cell[$this->row][$this->col]); $j++)
+				{
+					$co_object =& $this->cell[$this->row][$this->col][$j];
+					$current++;
+					if($current == $a_seq_pos)
+					{
+						return array("row" => $this->row, "col" => $this->col, "pos" => $j);
+					}
+				}
+			}
+		}
 	}
 
 	/*

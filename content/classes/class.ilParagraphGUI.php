@@ -22,6 +22,7 @@
 */
 
 require_once("./content/classes/class.ilParagraph.php");
+require_once("./content/classes/class.ilPageContent.php");
 
 /**
 * Class ilParagraphGUI
@@ -160,7 +161,7 @@ class ilParagraphGUI
 		//$content = $this->pg_obj->getContent();
 
 		//$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
-
+//echo "PARupdate:".$this->para_obj->input2xml($_POST["par_content"]).":<br>";
 		$this->para_obj->setText($this->para_obj->input2xml($_POST["par_content"]));
 		$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
@@ -173,7 +174,8 @@ class ilParagraphGUI
 	{
 		$new_par = new ilParagraph();
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
-		$this->pg_obj->insertContent($new_par, $this->cont_cnt + 1);
+		$this->pg_obj->insertContent($new_par,
+			ilPageContent::incEdId($this->cont_cnt));
 		//$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());

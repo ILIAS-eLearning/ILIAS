@@ -127,19 +127,29 @@ class ilPageObject extends ilLMObject
 		$this->content[] =& $a_content_obj;
 	}
 
-	function &getContent($a_nr = 0)
+	function &getContent($a_cont_cnt = "")
 	{
-		if($a_nr == 0)
+		if($a_cont_cnt == "")
 		{
 			return $this->content;
 		}
 		else
 		{
-			return $this->content[$a_nr];
+			$cnt = explode("_", $a_cont_cnt);
+			if(isset($cnt[1]))		// content is within a container (e.g. table)
+			{
+				$cnt_0 = $cnt[0];
+				unset($cnt[0]);
+				return $this->content[$cnt_0 - 1]->getContent(implode($cnt, "_"));
+			}
+			else
+			{
+				return $this->content[$cnt[0] - 1];		// content is in page directly
+			}
 		}
 	}
 
-	function getXMLContent($a_utf8_encoded = false, $a_short_mode = false)
+	function getXMLContent($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
 		$xml = "";
 		reset($this->content);
@@ -147,11 +157,11 @@ class ilPageObject extends ilLMObject
 		{
 			if (get_class($co_object) == "ilparagraph")
 			{
-				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
+				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
 			}
 			if (get_class($co_object) == "illmtable")
 			{
-				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
+				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
 			}
 		}
 		$utfstr = ($a_utf8_encoded)
@@ -200,14 +210,24 @@ class ilPageObject extends ilLMObject
 
 	function insertContent(&$a_cont_obj, $a_pos)
 	{
-		for($cnt = count($this->content); $cnt >= 0; $cnt--)
+		$pos = explode("_", $a_pos);
+		if(isset($pos[1]))		// content should be child of a container
 		{
-			if($cnt >= $a_pos)
-			{
-				$this->content[$cnt] =& $this->content[$cnt - 1];
-			}
+			$pos_0 = $pos[0];
+			unset($pos[0]);
+			$this->content[$pos_0 - 1]->insertContent($a_cont_obj, implode($pos, "_"));
 		}
-		$this->content[$a_pos - 1] =& $a_cont_obj;
+		else		// content should be child of page
+		{
+			for($cnt = count($this->content); $cnt >= 0; $cnt--)
+			{
+				if($cnt >= $pos[0])
+				{
+					$this->content[$cnt] =& $this->content[$cnt - 1];
+				}
+			}
+			$this->content[$pos[0] - 1] =& $a_cont_obj;
+		}
 		$this->update();
 	}
 

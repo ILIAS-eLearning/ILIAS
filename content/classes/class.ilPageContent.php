@@ -38,6 +38,7 @@ class ilPageContent
 {
 	var $ilias;
 	var $type;
+	var $ed_id; 		// hierarchical editing id
 
 	/**
 	* Constructor
@@ -53,7 +54,7 @@ class ilPageContent
 	/**
 	* abstract function, must be implemented by derived classes
 	*/
-	function getXML($a_utf8_encoded = false)
+	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
 	}
 
@@ -67,5 +68,31 @@ class ilPageContent
 		return $this->type;
 	}
 
+	/**
+	* set editing id
+	*/
+	function setEdId($a_ed_id)
+	{
+		$this->ed_id = $a_ed_id;
+	}
+
+	/**
+	* get editing id
+	*/
+	function getEdId()
+	{
+		return $this->ed_id;
+	}
+
+	/**
+	* static class method
+	* increases an hierarchical editing id at lowest level (last number)
+	*/
+	function incEdId($ed_id)
+	{
+		$id = explode("_", $ed_id);
+		$id[count($id) - 1]++;
+		return implode($id, "_");
+	}
 }
 ?>
