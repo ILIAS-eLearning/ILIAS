@@ -3828,3 +3828,38 @@ if ($guest_id and $participate_id)
 }
 
 ?>
+
+<#228>
+<?php
+
+// register new object type 'trac' for Tracking Item
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'trac', 'UserTracking object', -1, now(), now())";
+$this->db->query($query);
+
+// ADD NODE IN SYSTEM SETTINGS FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('trac', '__User Tracking', 'System user tracking', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+// register RECOVERY_FOLDER_ID in table settings
+$query = "INSERT INTO settings (keyword,value) VALUES('sys_user_tracking_id','".$row->id."')";
+$res = $this->db->query($query);
+?>

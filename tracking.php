@@ -203,6 +203,7 @@ function conditionForm ()
 		
 
 }
+
 function searchTest()
 {
 	global $tpl,$lng,$ilias;
