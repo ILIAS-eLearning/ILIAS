@@ -623,7 +623,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("group_details"),"icon_grp_b.gif",$lng->txt("group_details"));
+		$tbl->setTitle($lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif");
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
 		$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
@@ -1125,6 +1125,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$user_ids = array();
 		if(isset($_POST["user_id"]))
+
 			$user_ids = $_POST["user_id"];
 		else if(isset($_GET["mem_id"]))
 			$user_ids = $_GET["mem_id"];
@@ -1148,10 +1149,9 @@ class ilGroupGUI extends ilObjectGUI
 	* @access public
 	*/
 
-	function confirmedRemoveMember()
+	function confirmedRemoveMemberobject()
 	{
-		global $rbacsystem,$ilias;
-//		print_r($_SESSION["saved_post"]);
+		global $rbacsystem,$ilias;		
 
 		if(isset($_SESSION["saved_post"]["user_id"]) )
 		{
@@ -1206,7 +1206,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$call_by_reference="n")
 	{
-		$this->prepareOutput(false);		
+		$this->prepareOutput(false);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("confirm_action"));
 		sendInfo ($info);
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
@@ -1251,7 +1251,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		if(is_array($user_id))
 		{
-			$_SESSION["saved_post"]["user_id"] = $user_id;
+			$_SESSION["saved_post"]["user_id"] = $user_id;			
 		}
 		else
 		{
@@ -1330,7 +1330,7 @@ class ilGroupGUI extends ilObjectGUI
 
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
 			$link_change = "group.php?cmd=changeMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
-			$link_leave = "group.php?type=grp&cmd=removeMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
+			$link_leave = "group.php?type=grp&cmd=DeassignMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 
 			//build function
 			if(in_array($_SESSION["AccountId"], $admin_ids))
@@ -2073,8 +2073,8 @@ class ilGroupGUI extends ilObjectGUI
 
 
 		$member_ids = array();
-		if(isset($_POST["id"]))
-			$member_ids = $_POST["id"];
+		if(isset($_POST["user_id"]))
+			$member_ids = $_POST["user_id"];
 		else if(isset($_GET["mem_id"]))
 			$member_ids[0] = $_GET["mem_id"];
 
@@ -2159,7 +2159,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 
-		header("Location: group.php?cmd=displaylist&ref_id=".$_GET["ref_id"]);
+		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 
 	}
 
@@ -2188,90 +2188,7 @@ class ilGroupGUI extends ilObjectGUI
 			$info	 = "info_delete_sure";
 			$status  = "";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status);
-			//$this->tpl->show();
 		}
-
-		/*
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.confirm_table.html");
-		infoPanel();
-		$this->tpl->addBlockFile("CONFIRM_TABLE", "confirm_table", "tpl.table.html");
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_confirm.html");
-		sendInfo($this->lng->txt($info));
-
-		$num = 0;
-		if(is_array($user_ids))
-		{
-			foreach($user_ids as $id)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-
-				$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType("usr",$this->tpl->tplPath));
-				$this->tpl->setVariable("TITLE",$obj_data->getTitle());
-				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-				$this->tpl->setVariable("LAST_UPDATE",$obj_data->getLastUpdateDate());
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-			$num++;
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_ids);
-
-			$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType("usr",$this->tpl->tplPath));
-			$this->tpl->setVariable("TITLE",$obj_data->getTitle());
-			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-			$this->tpl->setVariable("LAST_UPDATE",$obj_data->getLastUpdateDate());
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->data["buttons"] = array( "ConfirmedDeassignMember"  => $this->lng->txt("confirm"),
-						"cancel"  => $this->lng->txt("cancel"));
-
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("COLUMN_COUNTS",4);
-		$this->tpl->setVariable("TPLPATH",$this->ilias->tplPath);
-
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-
-
-		$tbl = new ilTableGUI();
-
-		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("type","title","description","last_change"));
-		$tbl->setColumnWidth(array("3%","7%","7%","15%"));
-
-		// control
-		//$tbl->setOrderColumn($_GET["sort_by"]);
-		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->setOffset($offset);
-		$tbl->setMaxCount($maxcount);
-
-
-		$tbl->render();
-		$this->tpl->show();
-
-		}
-		else
-		{
-			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
-			h/eader("Location: group.php?cmd=displayList&ref_id=".$_GET["ref_id"]);
-		}
-*/
 	}
 
 	/**
@@ -2286,8 +2203,9 @@ class ilGroupGUI extends ilObjectGUI
 		if(isset($_SESSION["saved_post"]) )
 		{
 			//$mem_id = $_SESSION["saved_post"][0];
-			foreach($_SESSION["saved_post"] as $mem_id)
+			foreach($_SESSION["saved_post"]["user_id"] as $mem_id)
 			{
+				
 				$newGrp = new ilObjGroup($_GET["ref_id"],true);
 				//Check if user wants to skip himself
 				//if($_SESSION["AccountId"] == $_GET["mem_id"])
@@ -2360,7 +2278,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 		}
-		header("Location: group.php?cmd=displayList&ref_id=".$_GET["ref_id"]);
+		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 	}
 
 
