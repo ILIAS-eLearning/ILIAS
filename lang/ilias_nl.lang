@@ -150,6 +150,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Er is geen taxatie van 
 assessment#:#qpl_assessment_of_questions#:#Taxatie van vragen
 assessment#:#qpl_assessment_total_of_answers#:#Totaal antwoorden
 assessment#:#qpl_assessment_total_of_right_answers#:#Totaal percentage goede antwoorden (percentage van het maximum aantal punten)
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#U heeft het recht deze vraag te verwijderen!
 assessment#:#qpl_delete_select_none#:#Controleer a.u.b. minstens één vraag voor verwijderen
 assessment#:#qpl_display_fullsize_image#:#Klik hier voor een overzicht van het orginele figuur!
@@ -158,6 +159,7 @@ assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen
 assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen
 assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export
+assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Bijna overeenkomende vraag
 assessment#:#qt_imagemap#:#Figuren-kaart Vraag
 assessment#:#qt_matching#:#Overeenkomende vraag

@@ -150,6 +150,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
@@ -159,7 +160,6 @@ assessment#:#qpl_edit_select_multiple#:#Please check only one question for editi
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question

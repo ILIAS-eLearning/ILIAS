@@ -150,6 +150,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#У вас немає прав видалити це питання!
 assessment#:#qpl_delete_select_none#:#Будь ласка виберіть принаймні одне питання щоб видалити його
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
@@ -158,6 +159,7 @@ assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагув�
 assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
 assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одне питання для редагування
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
+assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Закрити питання
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#Співпадаючі питання

@@ -150,6 +150,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazio
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte
 assessment#:#qpl_assessment_total_of_right_answers#:#Percentuale totale di risposte giuste (percentuale con il punteggio massimo)
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa raccolta di domande!
 assessment#:#qpl_delete_select_none#:#Seleziona la raccolta di domande da cancellare
 assessment#:#qpl_display_fullsize_image#:#Clicca qui per mostrare l'immagine originale!
@@ -158,6 +159,7 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
+assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Domanda con risposta da completare
 assessment#:#qt_imagemap#:#Domanda con immagine a mappa
 assessment#:#qt_matching#:#Domanda a corrispondenza

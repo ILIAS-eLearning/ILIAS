@@ -150,6 +150,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###16 Mar 2004 new variable
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###16 Mar 2004 new variable
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
@@ -158,6 +159,7 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###1
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###16 Mar 2004 new variable
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###16 Mar 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###16 Mar 2004 new variable
+assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###16 Mar 2004 new variable
 assessment#:#qt_imagemap#:#Image Map Question###16 Mar 2004 new variable
 assessment#:#qt_matching#:#Matching Question###16 Mar 2004 new variable
