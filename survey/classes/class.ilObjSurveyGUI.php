@@ -40,6 +40,7 @@ require_once "classes/class.ilSearch.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilObjGroup.php";
 require_once "class.SurveySearch.php";
+require_once 'classes/Spreadsheet/Excel/Writer.php';
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -105,14 +106,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	function writePropertiesFormData()
 	{
-		$this->object->setAuthor($_POST["author"]);
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setStatus($_POST["status"]);
 		$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 		$this->object->setStartDate(sprintf("%04d-%02d-%02d", $_POST["start_date"]["y"], $_POST["start_date"]["m"], $_POST["start_date"]["d"]));
 		$this->object->setStartDateEnabled($_POST["checked_start_date"]);
 		$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
-		$this->object->setIntroduction($_POST["introduction"]);
+		$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"]));
 	}
 	
 /**
@@ -1884,6 +1885,40 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
+		switch ($_POST["export_format"])
+		{
+			case "excel":
+				// Creating a workbook
+				$workbook = new Spreadsheet_Excel_Writer();
+				// sending HTTP headers
+				$workbook->send("eval.xls");
+				
+				$format_bold =& $workbook->addFormat();
+				$format_bold->setBold();
+				$format_percent =& $workbook->addFormat();
+				$format_percent->setNumFormat("0.00%");
+				$format_title =& $workbook->addFormat();
+				$format_title->setBold();
+				$format_title->setColor('black');
+				$format_title->setPattern(1);
+				$format_title->setFgColor('silver');
+				// Creating a worksheet
+				$mainworksheet =& $workbook->addWorksheet($this->object->getTitle());
+				$mainworksheet->write(0, 0, $this->lng->txt("title"), $format_bold);
+				$mainworksheet->write(0, 1, $this->lng->txt("question"), $format_bold);
+				$mainworksheet->write(0, 2, $this->lng->txt("question_type"), $format_bold);
+				$mainworksheet->write(0, 3, $this->lng->txt("users_answered"), $format_bold);
+				$mainworksheet->write(0, 4, $this->lng->txt("users_skipped"), $format_bold);
+				$mainworksheet->write(0, 5, $this->lng->txt("mode"), $format_bold);
+				$mainworksheet->write(0, 6, $this->lng->txt("mode_text"), $format_bold);
+				$mainworksheet->write(0, 7, $this->lng->txt("mode_nr_of_selections"), $format_bold);
+				$mainworksheet->write(0, 8, $this->lng->txt("median"), $format_bold);
+				$mainworksheet->write(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
+				$mainworksheet->write(0, 10, $this->lng->txt("geometric_mean"), $format_bold);
+				$mainworksheet->write(0, 11, $this->lng->txt("harmonic_mean"), $format_bold);
+				break;
+		}
+
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1931,9 +1966,53 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
 			$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			switch ($_POST["export_format"])
+			{
+				case "excel":
+					$mainworksheet->write($counter+1, 0, $data["title"]);
+					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
+					$mainworksheet->write($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
+					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
+					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
+					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
+					switch ($eval["QUESTION_TYPE"])
+					{
+						case "qt_metric":
+							$mainworksheet->write($counter+1, 5, $eval["MODE"]);
+							$mainworksheet->write($counter+1, 6, $eval["MODE"]);
+							break;
+						default:
+							$mainworksheet->write($counter+1, 5, $matches[1]);
+							$mainworksheet->write($counter+1, 6, $matches[2]);
+							break;
+					}
+					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
+					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
+					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
+					$mainworksheet->write($counter+1, 10, $eval["GEOMETRIC_MEAN"]);
+					$mainworksheet->write($counter+1, 11, $eval["HARMONIC_MEAN"]);
+					break;				
+			}
 			$this->tpl->parseCurrentBlock();
 			if ($_GET["details"])
 			{
+				switch ($_POST["export_format"])
+				{
+					case "excel":
+						$worksheet =& $workbook->addWorksheet($data["title"]);
+						$worksheet->write(0, 0, $this->lng->txt("title"), $format_bold);
+						$worksheet->write(0, 1, $data["title"]);
+						$worksheet->write(1, 0, $this->lng->txt("question"), $format_bold);
+						$worksheet->write(1, 1, $data["questiontext"]);
+						$worksheet->write(2, 0, $this->lng->txt("question_type"), $format_bold);
+						$worksheet->write(2, 1, $this->lng->txt($eval["QUESTION_TYPE"]));
+						$worksheet->write(3, 0, $this->lng->txt("users_answered"), $format_bold);
+						$worksheet->write(3, 1, $eval["USERS_ANSWERED"]);
+						$worksheet->write(4, 0, $this->lng->txt("users_skipped"), $format_bold);
+						$worksheet->write(4, 1, $eval["USERS_SKIPPED"]);
+						$rowcounter = 5;
+						break;
+				}
 				$this->tpl->setCurrentBlock("detail");
 				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
 				$this->tpl->setVariable("TEXT_QUESTION_TEXT", $this->lng->txt("question"));
@@ -1947,6 +2026,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 				switch ($eval["QUESTION_TYPE"])
 				{
 					case "qt_ordinal":
+						switch ($_POST["export_format"])
+						{
+							case "excel":
+								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $matches[1]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $matches[2]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
+								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
+								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
+								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
+								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
+								break;
+						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
 						$this->tpl->setVariable("MODE", $eval["MODE"]);
 						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
@@ -1960,11 +2058,37 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
 								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
 								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+								switch ($_POST["export_format"])
+								{
+									case "excel":
+										$worksheet->write($rowcounter, 1, $value["title"]);
+										$worksheet->write($rowcounter, 2, $key+1);
+										$worksheet->write($rowcounter, 3, $value["selected"]);
+										$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
+										break;
+								}
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						break;
 					case "qt_nominal":
+						switch ($_POST["export_format"])
+						{
+							case "excel":
+								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $matches[1]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $matches[2]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("categories"), $format_bold);
+								$worksheet->write($rowcounter, 1, $this->lng->txt("title"), $format_title);
+								$worksheet->write($rowcounter, 2, $this->lng->txt("value"), $format_title);
+								$worksheet->write($rowcounter, 3, $this->lng->txt("category_nr_selected"), $format_title);
+								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
+								break;
+						}
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
 						switch ($data["subtype"])
 						{
@@ -1986,11 +2110,62 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
 								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
 								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+							switch ($_POST["export_format"])
+							{
+								case "excel":
+									$worksheet->write($rowcounter, 1, $value["title"]);
+									$worksheet->write($rowcounter, 2, $key+1);
+									$worksheet->write($rowcounter, 3, $value["selected"]);
+									$worksheet->write($rowcounter++, 4, $value["percentage"], $format_percent);
+									break;
+							}
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						break;
 					case "qt_metric":
+						switch ($_POST["export_format"])
+						{
+							case "excel":
+								$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
+								switch ($data["subtype"])
+								{
+									case SUBTYPE_NON_RATIO:
+										$worksheet->write($rowcounter++, 1, $this->lng->txt("non_ratio"), $format_bold);
+										break;
+									case SUBTYPE_RATIO_NON_ABSOLUTE:
+										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_non_absolute"), $format_bold);
+										break;
+									case SUBTYPE_RATIO_ABSOLUTE:
+										$worksheet->write($rowcounter++, 1, $this->lng->txt("ratio_absolute"), $format_bold);
+										break;
+								}
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_text"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MODE"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("mode_nr_of_selections"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MODE_NR_OF_SELECTIONS"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("median"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["MEDIAN"]);
+								$worksheet->write($rowcounter, 0, $this->lng->txt("arithmetic_mean"), $format_bold);
+								$worksheet->write($rowcounter++, 1, $eval["ARITHMETIC_MEAN"]);
+								if (($data["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
+								{
+									$worksheet->write($rowcounter, 0, $this->lng->txt("geometric_mean"), $format_bold);
+									$worksheet->write($rowcounter++, 1, $eval["GEOMETRIC_MEAN"]);
+								}
+								if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
+								{
+									$worksheet->write($rowcounter, 0, $this->lng->txt("harmonic_mean"), $format_bold);
+									$worksheet->write($rowcounter++, 1, $eval["HARMONIC_MEAN"]);
+								}
+								$worksheet->write($rowcounter, 0, $this->lng->txt("values"), $format_bold);
+								$worksheet->write($rowcounter, 1, $this->lng->txt("value"), $format_title);
+								$worksheet->write($rowcounter, 2, $this->lng->txt("category_nr_selected"), $format_title);
+								$worksheet->write($rowcounter++, 3, $this->lng->txt("percentage_of_selections"), $format_title);
+								break;
+						}
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
 						switch ($data["subtype"])
 						{
@@ -2012,12 +2187,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
 						$this->tpl->setVariable("TEXT_ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
 						$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
-						if ($eval["GEOMETRIC_MEAN"])
+						if (($data["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
 						{
 							$this->tpl->setVariable("TEXT_GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
 							$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
 						}
-						if ($eval["HARMONIC_MEAN"])
+						if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
 						{
 							$this->tpl->setVariable("TEXT_HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
 							$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
@@ -2029,16 +2204,36 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" . 
 								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
 								$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+							switch ($_POST["export_format"])
+							{
+								case "excel":
+									$worksheet->write($rowcounter, 1, $value["value"]);
+									$worksheet->write($rowcounter, 2, $value["selected"]);
+									$worksheet->write($rowcounter++, 3, $value["percentage"], $format_percent);
+									break;
+							}
 						}
 						$values = "<ol>$values</ol>";
 						$this->tpl->setVariable("VALUE_VALUES", $values);
 						break;
 					case "qt_text":
+						switch ($_POST["export_format"])
+						{
+							case "excel":
+								$worksheet->write($rowcounter, 0, $this->lng->txt("given_answers"), $format_bold);
+								break;
+						}
 						$this->tpl->setVariable("TEXT_TEXTVALUES", $this->lng->txt("given_answers"));
 						$textvalues = "";
 						foreach ($eval["textvalues"] as $textvalue)
 						{
 							$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
+							switch ($_POST["export_format"])
+							{
+								case "excel":
+									$worksheet->write($rowcounter++, 1, $textvalue);
+									break;
+							}
 						}
 						$textvalues = "<ul>$textvalues</ul>";
 						$this->tpl->setVariable("VALUE_TEXTVALUES", $textvalues);
@@ -2049,6 +2244,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$counter++;
 		}
 		
+		switch ($_POST["export_format"])
+		{
+			case "excel":
+				// Let's send the file
+				$workbook->close();
+				exit();
+				break;
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
@@ -2061,6 +2264,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
 		$this->tpl->setVariable("GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
 		$this->tpl->setVariable("HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
+		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
+		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
