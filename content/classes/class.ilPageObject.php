@@ -150,7 +150,7 @@ class ilPageObject extends ilLMObject
 				$xml .= $co_object->getXML();
 			}
 		}
-		return $xml;
+		return "<PageObject>".$xml."</PageObject>";
 	}
 
 	function create()

@@ -139,6 +139,31 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 	}
 
+
+	/*
+	* display content of page (wysiwyg test)
+	*/
+	function viewWysiwyg()
+	{
+		global $tree;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=post");
+
+		$content = $this->pg_obj->getXMLContent();
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		$this->tpl->setVariable("PAGE_CONTENT", htmlentities($output));
+	}
+
 	function edit()
 	{
 		//
