@@ -225,38 +225,38 @@ assessment#:#matching_pair#:#Співпадаючі пари
 assessment#:#material#:#Матеріал
 assessment#:#material_download#:#Матеріал для завантаження
 assessment#:#material_file#:#Файл матеріалу
-assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
-assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
-assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
-assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
-assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
+assessment#:#maximum_nr_of_tries_reached#:#Ви досялги максимальної кількості спроб на цей тест. Неможливо увійти в тест!
+assessment#:#meaning#:#Значення
+assessment#:#negative_points_not_allowed#:#Вам не дозволено вводити від'ємні бали!
+assessment#:#next_question_rows#:#Питання %d - %d з %d >>
+assessment#:#no_question_selected_for_move#:#Будь ласка виберіть принаймні одне питання щоб перенести його!
 assessment#:#no_questions_available#:#Немає доступних питань!
-assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
-assessment#:#or#:#or###07 Apr 2004 new variable
-assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
-assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
-assessment#:#passed_official#:#passed###04 Sep 2004 new variable
-assessment#:#passed_short#:#passed###04 Sep 2004 new variable
-assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
-assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
-assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
+assessment#:#no_target_selected_for_move#:#Ви повинні вибрати цільову позицію!
+assessment#:#or#:#або
+assessment#:#order_pictures#:#Порядок зображень
+assessment#:#order_terms#:#Порядок термінів
+assessment#:#passed_official#:#пройдено
+assessment#:#passed_short#:#пройдено
+assessment#:#percentage_solved#:#Ви вирішили %.2f відсотка цього питання!
+assessment#:#percentile#:#Процентиль
+assessment#:#please_select#:#---- будь ласка виберіть ----
 assessment#:#points#:#Бали
-assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
-assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
-assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
-assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
-assessment#:#postponed#:#postponed###07 Mar 2004 new variable
+assessment#:#polygon#:#Полігон
+assessment#:#polygon_click_next_or_save#:#Будь ласка клікніть на наступну точку полігона або збережіть область. (Клікати знову на початкову точку цього полігону не є необхідним !)
+assessment#:#polygon_click_next_point#:#Будь ласка клікніть на наступну точку полігона.
+assessment#:#polygon_click_starting_point#:#Будь ласка клікніть на початкову точку полігона.
+assessment#:#postpone#:#Відкласти питання
+assessment#:#postponed#:#відкладене
 assessment#:#preview#:#Попередній огляд
-assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
+assessment#:#previous_question_rows#:#<< Питання %d - %d з %d
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
+assessment#:#qpl_assessment_of_questions#:#Assessment of questions
+assessment#:#qpl_assessment_total_of_answers#:#Загальна кількість відповідей
+assessment#:#qpl_assessment_total_of_right_answers#:#Загальний процент правильних відповідей (процент максимальних балів)
+assessment#:#qpl_confirm_delete_questions#:#Ви впевнені що бажаєте видалити наступні питання ? Якщо ви видалите заблоковані питання то результати усіх тестів що містять залоковані питання буде також видалено.
 assessment#:#qpl_delete_rbac_error#:#У вас немає прав видалити це питання!
 assessment#:#qpl_delete_select_none#:#Будь ласка виберіть принаймні одне питання щоб видалити його
-assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
+assessment#:#qpl_display_fullsize_image#:#Клікніть сюди щоб показати оригінальне зображення!
 assessment#:#qpl_duplicate_select_none#:#Будь ласка виберіть принаймні одне питання щоб дублювати його
 assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагувати це питання
 assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
