@@ -23,7 +23,7 @@
 
 /**
 * Class ilObjTest
-* 
+*
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
@@ -2526,9 +2526,9 @@ class ilObjTest extends ilObject
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
-		
+
 		// retrieve the active test dataset for the user containing
-		// questions sequence and other information 
+		// questions sequence and other information
 		$active = $this->getActiveTestUser($user_id);
 		$sequence_array = split(",", $active->sequence);
 		sort($sequence_array, SORT_NUMERIC);
@@ -2538,23 +2538,26 @@ class ilObjTest extends ilObject
 		foreach ($sequence_array as $idx => $seq)
 		{
 			$value = $this->questions[$seq];
-//			$ilBench->start("getTestResult","instanciate question"); 
+//			$ilBench->start("getTestResult","instanciate question");
 			$question =& ilObjTest::_instanciateQuestion($value);
-//			$ilBench->stop("getTestResult","instanciate question"); 
-			$max_points = $question->getMaximumPoints();
-			$total_max_points += $max_points;
-			$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
-			$total_reached_points += $reached_points;
-			if ($max_points > 0)
-			{
-				$percentvalue = $reached_points / $max_points;
-			}
-			else
-			{
-				$percentvalue = 0;
-			}
+//			$ilBench->stop("getTestResult","instanciate question");
+
+			// sometimes we do not have an object here
+			// i don't know why (alex, 1.2.2005)
 			if (is_object($question))
 			{
+				$max_points = $question->getMaximumPoints();
+				$total_max_points += $max_points;
+				$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+				$total_reached_points += $reached_points;
+				if ($max_points > 0)
+				{
+					$percentvalue = $reached_points / $max_points;
+				}
+				else
+				{
+					$percentvalue = 0;
+				}
 				if (count($question->suggested_solutions) == 1)
 				{
 					$max_points = $question->getMaximumPoints();
