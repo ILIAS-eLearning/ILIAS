@@ -834,7 +834,7 @@ class Tree
 	function addTree($treeID,$nodeID)
 	{
 		$sqlQuery = "INSERT INTO tree (tree, child, parent, lft, rgt,depth) ".
-					"VALUES ($treeID, $nodeID, 0,0, 0, 1)";
+					"VALUES ($treeID, $nodeID, 0, 1, 2, 1)";
 		$res = $this->ilias->db->query($sqlQuery);			
 	}
 
