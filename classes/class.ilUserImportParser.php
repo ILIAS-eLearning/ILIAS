@@ -160,7 +160,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias;
+		global $ilias, $rbacadmin;
 
 		// extract roles mode
 		if ($this->mode == IL_EXTRACT_ROLES)
@@ -208,10 +208,10 @@ if ($this->userObj->getLogin() == "guest123")
 						$rbacadmin->assignUser($this->role_assign[$role_id],
 							$this->userObj->getId(), true);
 					}
+}
 
 					// init role array for next user
-					$this->roles[] = array();
-}
+					$this->roles = array();
 					break;
 
 				case "Login":
@@ -222,11 +222,11 @@ if ($this->userObj->getLogin() == "guest123")
 					switch ($this->currPasswordType)
 					{
 						case "ILIAS2":
-							$this->userObj->setIlias2EncPasswd($this-cdata);
+							$this->userObj->setPasswd($this->cdata, IL_PASSWD_CRYPT);
 							break;
 
 						case "ILIAS3":
-							$this->userObj->setEncPasswd($this-cdata);
+							$this->userObj->setPasswd($this->cdata, IL_PASSWD_MD5);
 							break;
 					}
 					break;
