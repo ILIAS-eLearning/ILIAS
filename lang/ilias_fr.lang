@@ -831,6 +831,7 @@ common#:#cat_create_spl#:#Créer jeu de questions pour sondage
 common#:#cat_create_svy#:#Créer sondage
 common#:#cat_create_tst#:#Créer test
 common#:#cat_create_url#:#Créer URL
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Détruire catégorie
 common#:#cat_edit#:#Modifier catégorie
 common#:#cat_edit_permission#:#Changer paramètres de permission
@@ -886,6 +887,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#La taille du contenu de la page est trop importante.
 common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Fichiers importables
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
@@ -940,6 +943,7 @@ common#:#create#:#Créer
 common#:#create_date#:#Créé le
 common#:#create_in#:#Créer dans
 common#:#create_stylesheet#:#Créer style
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Cours
@@ -970,6 +974,7 @@ common#:#crs_create_sahs#:#Créer module d'apprentissage SCORM/AICC
 common#:#crs_create_spl#:# Créer jeu de questions pour sondage
 common#:#crs_create_svy#:#Créer sondage
 common#:#crs_create_tst#:#Créer test
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Détruire cours
 common#:#crs_edit#:#Modifier cours
 common#:#crs_edit_permission#:#Changer les paramètres de permission
@@ -991,6 +996,7 @@ common#:#cur_number_rec#:#Nombre actuel d'enregistrements
 common#:#current_password#:#Mot de passe courant
 common#:#cut#:#Couper
 common#:#cutPage#:#Couper
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Base de données
 common#:#database_version#:#Version courante de la base de données
 common#:#dataset#:#Item
@@ -1039,7 +1045,9 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Mot de passe souhaité
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Désactivé
 common#:#domain#:#Domaine
 common#:#down#:#Bas
@@ -1048,6 +1056,7 @@ common#:#download_all_returned_files#:#Télécharger tous les fichiers retourné
 common#:#drafts#:#Brouillons
 common#:#drop#:#Supprimer
 common#:#edit#:#Modifier
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#modifier données
 common#:#edit_operations#:#Modifier opérations
 common#:#edit_perm_ruleset#:#Modifier règles de permission par défaut
@@ -1310,6 +1319,7 @@ common#:#grp_create_sahs#:#Créer module d'apprentissage  SCORM/AICC
 common#:#grp_create_spl#:#Créer jeu de questions pour des sondages
 common#:#grp_create_svy#:#Créer sondage
 common#:#grp_create_tst#:#Créer test
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Détruire groupe
 common#:#grp_dismiss_member#:#Etes-vous sûr(e) de vouloir exclure les utilisateurs suivants du groupe ?
 common#:#grp_dismiss_myself#:#Etes-vous sûr(e) de vouloir vous exclure du groupe ?
@@ -1365,6 +1375,9 @@ common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new va
 common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
 common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Module d'apprentissage HACP
@@ -1663,6 +1676,7 @@ common#:#mep_delete#:#Détruire media pool
 common#:#mep_edit#:#Modifier propriétés du media pool
 common#:#mep_edit_permission#:#Changer paramètres de permission
 common#:#mep_new#:#Nouveau media pool
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Lire le contenu du media pool
 common#:#mep_visible#:#Le media pool est visible
 common#:#mep_write#:#Modifier contenu du media pool
@@ -1701,6 +1715,7 @@ common#:#month_11_long#:#Novembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Décembre
 common#:#month_12_short#:#Déc
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Déplacer
 common#:#moveChapter#:#Déplacer
 common#:#movePage#:#Déplacer
@@ -1794,6 +1809,7 @@ common#:#my_grps#:#Mes groupes
 common#:#my_los#:#Mes cours
 common#:#my_tsts#:#Mes tests
 common#:#name#:#Nom
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Nouveau
 common#:#new_appointment#:#Nouveau rendez-vous
 common#:#new_folder#:#Nouveau fichier
@@ -1818,6 +1834,7 @@ common#:#no_frm_in_personal_list#:#Pas de forums dans la liste personnelle
 common#:#no_global_role_left#:#Tout utilisateur doit être assigné à un rôle.
 common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Pas de limite
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
@@ -1914,6 +1931,7 @@ common#:#obj_uset#:#Paramètres utilisateur
 common#:#obj_usr#:#Utilisateur
 common#:#obj_usrf#:#Comptes utilisateurs
 common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Objet
 common#:#object_added#:#Objet ajouté
 common#:#objects#:#Objets
@@ -1957,6 +1975,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Types d'objets
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utilisateurs
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#de
 common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Version hors-ligne
@@ -2056,6 +2075,7 @@ common#:#qpl_read#:#Accès en lecture au jeu de questions (test)
 common#:#qpl_upload_file#:#Téléverser fichier
 common#:#qpl_visible#:#Le jeu de questions (test) est visible
 common#:#qpl_write#:#Modifier jeu de questions (test)
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Lancer la requête
 common#:#question#:#Question
 common#:#question_pools#:#Jeux de questions
@@ -2309,6 +2329,7 @@ common#:#system_language#:#Langue système
 common#:#system_message#:#Message système
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Importer à partir de messages d'ILIAS 2
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxinomie
 common#:#tax_add#:#Ajouter taxinomie
 common#:#tax_delete#:#Détruire taxinomies
@@ -2469,6 +2490,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Valider
 common#:#value#:#Valeur
 common#:#vcard#:#Carte de visite
@@ -2484,8 +2506,32 @@ common#:#view#:#Voir
 common#:#view_content#:#Voir contenu
 common#:#visible_layers#:#Couches visibles
 common#:#visits#:#Visites
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Semaine
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Bienvenue
 common#:#who_is_online#:#Qui est connecté ?
 common#:#with#:#avec
@@ -2580,6 +2626,7 @@ content#:#cont_contents#:#Contenus
 content#:#cont_coords#:#Coordonnées
 content#:#cont_copy_object#:#insérer l'objet
 content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
@@ -2770,6 +2817,7 @@ content#:#cont_page_select_target_now#:#Page marquée pour déplacement. Sélect
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Paramètre
 content#:#cont_parameters#:#paramètres
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Presse-papier personnel
 content#:#cont_pg_content#:#Contenu de page
 content#:#cont_pg_title#:#Titre de page
@@ -2790,6 +2838,9 @@ content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
 content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Redéfinir la position de la définition
 content#:#cont_reset_pictures#:#Redéfinir la position de l'image
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Ressources

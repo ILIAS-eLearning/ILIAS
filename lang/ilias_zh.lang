@@ -863,6 +863,7 @@ common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variab
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#创建测试
 common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#删除类别
 common#:#cat_edit#:#编辑类别
 common#:#cat_edit_permission#:#更改许可设置
@@ -918,6 +919,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#页内容太长。
 common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#可导入文件
 common#:#chg_language#:#更改语言
 common#:#chg_password#:#更改口令
@@ -972,6 +975,7 @@ common#:#create#:#创建
 common#:#create_date#:#创建日期
 common#:#create_in#:#创建于
 common#:#create_stylesheet#:#创建风格
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#课程
@@ -1002,6 +1006,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
 common#:#crs_edit_permission#:#更改许可设置
@@ -1023,6 +1028,7 @@ common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#当前口令
 common#:#cut#:#剪切
 common#:#cutPage#:#剪切
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#数据库
 common#:#database_version#:#当前数据库版本
 common#:#dataset#:#数据集合
@@ -1072,7 +1078,9 @@ common#:#desc#:#描述
 common#:#description#:#描述
 common#:#desired_password#:#期望的口令
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#禁止
 common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#向下
@@ -1081,6 +1089,7 @@ common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004
 common#:#drafts#:#草稿
 common#:#drop#:#放弃
 common#:#edit#:#编辑课程
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#编辑数据
 common#:#edit_operations#:#编辑操作
 common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
@@ -1347,6 +1356,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#删除组
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？###19 Jun 2004 content changed
@@ -1402,6 +1412,9 @@ common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new va
 common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
 common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page###16 Sep 2004 new variable
 common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
@@ -1701,6 +1714,7 @@ common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
 common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
 common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
 common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
 common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
 common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
@@ -1740,6 +1754,7 @@ common#:#month_11_long#:#November###17 Mar 2004 new variable
 common#:#month_11_short#:#Nov###17 Mar 2004 new variable
 common#:#month_12_long#:#December###17 Mar 2004 new variable
 common#:#month_12_short#:#Dec###17 Mar 2004 new variable
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#移
 common#:#moveChapter#:#移
 common#:#movePage#:#移
@@ -1833,6 +1848,7 @@ common#:#my_grps#:#我的组
 common#:#my_los#:#我的学习对象
 common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
 common#:#name#:#名字
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#新的
 common#:#new_appointment#:#新的约会
 common#:#new_folder#:#新文件夹
@@ -1857,6 +1873,7 @@ common#:#no_frm_in_personal_list#:#个人列表中无论坛。
 common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#个人列表中无组。
 common#:#no_import_available#:#类型无导入
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#个人列表中无学习对象。
@@ -1953,6 +1970,7 @@ common#:#obj_uset#:#用户设置
 common#:#obj_usr#:#用户
 common#:#obj_usrf#:#用户账号
 common#:#obj_usrf_desc#:#在此管理用户账号
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#对象
@@ -1996,6 +2014,7 @@ common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#的
 common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#离线版本
@@ -2095,6 +2114,7 @@ common#:#qpl_read#:#问题集设为读访问###24 Sep 2004 content changed
 common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#问题集可视###24 Sep 2004 content changed
 common#:#qpl_write#:#编辑问题集###24 Sep 2004 content changed
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#问题
 common#:#question_pools#:#问题集
@@ -2350,6 +2370,7 @@ common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomy###15 Jul 2004 new variable
 common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
@@ -2512,6 +2533,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#验证
 common#:#value#:#值
 common#:#vcard#:#Visiting card###30 Oct 2004 new variable
@@ -2527,8 +2549,32 @@ common#:#view#:#视图
 common#:#view_content#:#视图内容
 common#:#visible_layers#:#可见层
 common#:#visits#:#访问
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#星期
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#欢迎
 common#:#who_is_online#:#谁在线？
 common#:#with#:#同
@@ -2623,6 +2669,7 @@ content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#坐标
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#创建目录
 content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
@@ -2814,6 +2861,7 @@ content#:#cont_page_select_target_now#:#页标已记为移动。现在选择目�
 content#:#cont_pages#:#页
 content#:#cont_parameter#:#参数
 content#:#cont_parameters#:#参数
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#个人剪贴板
 content#:#cont_pg_content#:#页内容
 content#:#cont_pg_title#:#页标题
@@ -2834,6 +2882,9 @@ content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
 content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
 content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#资源
 content#:#cont_resource_type#:#类型
 content#:#cont_resources#:#资源

@@ -845,6 +845,7 @@ common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
 common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
 common#:#cat_create_url#:#Twórz URL
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
 common#:#cat_edit_permission#:#Zmień ustawienia uprawnień
@@ -900,6 +901,8 @@ common#:#check_link_desc#:#Jeśli wybrane, to wszystkie zewnętrzne łączniki m
 common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
 common#:#check_user_accounts#:#Sprawdź konto użytkownika
 common#:#check_user_accounts_desc#:#Jeśli jest aktywne zadanie demona cron i ta opcja jest wybrana, to wszyscy użytkownicy którym minął termin ważności kont, zostaną powiadomieni o tym pocztą elektroniczną.
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Importowalne pliki
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
@@ -954,6 +957,7 @@ common#:#create#:#Twórz
 common#:#create_date#:#Utworzony
 common#:#create_in#:#Twórz w
 common#:#create_stylesheet#:#Twórz styl
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Zadania Cron
 common#:#cron_jobs_desc#:#Zadanie cron-a to automatyczny proces uruchamiany cyklicznie. O ustawieniu zadań znajdziesz informację w pliku 'INSTALL.
 common#:#crs#:#Kurs
@@ -984,6 +988,7 @@ common#:#crs_create_sahs#:#Twórz moduł nauczania SCORM/AICC
 common#:#crs_create_spl#:#Twórz pulę pytań dla Ankiet
 common#:#crs_create_svy#:#Twórz Ankietę
 common#:#crs_create_tst#:#Twórz Test
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
@@ -1005,6 +1010,7 @@ common#:#cur_number_rec#:#Bieżąca liczba rekordów
 common#:#current_password#:#Aktualne hasło
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Baza danych
 common#:#database_version#:#Wersja biezącej bazy danych
 common#:#dataset#:#Zestaw Danych
@@ -1054,7 +1060,9 @@ common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
 common#:#desktop_items#:#Pozycje pulpitu osobistego
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#Wyłącz
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Wyłączony
 common#:#domain#:#Domena
 common#:#down#:#Down
@@ -1063,6 +1071,7 @@ common#:#download_all_returned_files#:#Pobierz wszystkie zwrócone pliki
 common#:#drafts#:#Szkice
 common#:#drop#:#Drop
 common#:#edit#:#Edytuj
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#Edytuj dane
 common#:#edit_operations#:#Edytuj operacje
 common#:#edit_perm_ruleset#:#Edycja domyślnych reguł uprawnień
@@ -1329,6 +1338,7 @@ common#:#grp_create_sahs#:#Twórz moduł nauczania SCORM/AICC
 common#:#grp_create_spl#:#Twórz pulę pytań dla Ankiet
 common#:#grp_create_svy#:#Twórz Ankietę
 common#:#grp_create_tst#:#Twórz Test
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
 common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
@@ -1384,6 +1394,9 @@ common#:#hist_lm:pg_cut#:#Strona wycięta z rozdziału "%1" [%2]
 common#:#hist_lm:pg_paste#:#Strona wklejona do rozdziału "%1" [%2]
 common#:#hist_lm:pg_update#:#Strona została zmieniona
 common#:#hist_no_entries#:#Brak pozycji w historii.
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#Historia
 common#:#hits_per_page#:#Trafień/Stronę
 common#:#hlm#:#Moduł Nauczania HACP
@@ -1683,6 +1696,7 @@ common#:#mep_delete#:#Usuń pulę mediów
 common#:#mep_edit#:#Edytuj właściwości puli mediów
 common#:#mep_edit_permission#:#Zmiana ustawień uprawnień
 common#:#mep_new#:#Nowa pula mediów
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Czytanie zawartości puli mediów
 common#:#mep_visible#:#Pula mediów jest widoczna
 common#:#mep_write#:#Edycja zawartości puli mediów
@@ -1722,6 +1736,7 @@ common#:#month_11_long#:#Listopad
 common#:#month_11_short#:#Lis
 common#:#month_12_long#:#Grudzień
 common#:#month_12_short#:#Gru
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Przesuń
 common#:#moveChapter#:#Przesuń rozdział
 common#:#movePage#:#Przesuń stronę
@@ -1815,6 +1830,7 @@ common#:#my_grps#:#Moje grupy
 common#:#my_los#:#Moje Przedmioty Nauczania
 common#:#my_tsts#:#Moje Testy
 common#:#name#:#Nazwa
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Nowy
 common#:#new_appointment#:#Nowe spotkanie
 common#:#new_folder#:#Nowy Folder
@@ -1839,6 +1855,7 @@ common#:#no_frm_in_personal_list#:#Brak forów na prywatnej liście.
 common#:#no_global_role_left#:#Każdy użytkownik musi być przydzielony do jednej roli.
 common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
 common#:#no_import_available#:#Import nie jest dostępny dla typu
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#Nie znaleziono błędnych łączników.
 common#:#no_limit#:#Brak ograniczeń
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na prywatnej liście.
@@ -1935,6 +1952,7 @@ common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Obiekt
 common#:#object_added#:#Obiekt dodany
 common#:#objects#:#Obiekty
@@ -1978,6 +1996,7 @@ common#:#objs_tst#:#Testy
 common#:#objs_type#:#Typy obiektów
 common#:#objs_url#:#URL-e
 common#:#objs_usr#:#Użytkownicy
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#
 common#:#offline#:#offline
 common#:#offline_version#:#Wersja Offline
@@ -2077,6 +2096,7 @@ common#:#qpl_read#:#Prawo czytania puli pytań
 common#:#qpl_upload_file#:#Załaduj plik
 common#:#qpl_visible#:#Pula pytań jest widoczna
 common#:#qpl_write#:#Edycja puli pytań
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Dane zapytań
 common#:#question#:#Pytanie
 common#:#question_pools#:#Pule pytań
@@ -2332,6 +2352,7 @@ common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
 common#:#system_style_settings#:#Systemowe ustawienia stylu
 common#:#table_mail_import#:#Import poczty z ILIAS 2
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#KLasyfikacja
 common#:#tax_add#:#Dodaj klasyfikację
 common#:#tax_delete#:#Usuń klasyfikację
@@ -2494,6 +2515,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Wartość "%3$s" atrybutu 
 common#:#usrimport_xml_element_content_illegal#:#Zawartość "%2$s" elementu "%1$s" jest niedozwolona.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" musi być określony dla akcji "%2$s".
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" jest nieodpowiedni dla akcji "%2$s".
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Zatwierdź
 common#:#value#:#Wartość
 common#:#vcard#:#Wizytówka
@@ -2509,8 +2531,32 @@ common#:#view#:#Widok
 common#:#view_content#:#Zawartość
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Serwisy Internetowe
 common#:#week#:#Tydzień
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
@@ -2605,6 +2651,7 @@ content#:#cont_contents#:#Zawartość
 content#:#cont_coords#:#Koordynaty
 content#:#cont_copy_object#:#Kopiuj obiekt
 content#:#cont_copy_to_clipboard#:#Kopiuj do schowka
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_create_export_file#:#Twórz plik eksportowy
 content#:#cont_create_export_file_html#:#Twórz plik eksportowy (HTML)
@@ -2796,6 +2843,7 @@ content#:#cont_page_select_target_now#:#Strona została zaznaczona do przesunni�
 content#:#cont_pages#:#Strony
 content#:#cont_parameter#:#Parametr
 content#:#cont_parameters#:#parametry
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Osobisty pulpit
 content#:#cont_pg_content#:#Zawartość strony
 content#:#cont_pg_title#:#Tytuł strony
@@ -2816,6 +2864,9 @@ content#:#cont_repository_item#:#Pozycja dostępnych zasobów
 content#:#cont_repository_item_links#:#Łączniki pozycji dostępnych zasobów
 content#:#cont_reset_definitions#:#Przywróć definicję pozycji
 content#:#cont_reset_pictures#:#Przywróć pozycję obrazu
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby

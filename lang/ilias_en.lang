@@ -845,6 +845,7 @@ common#:#cat_create_spl#:#Create Question Pool for Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
+common#:#cat_create_webr#:#Create new web resource
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
@@ -900,6 +901,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.
+common#:#check_web_resources#:#Check web resources
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -954,6 +957,7 @@ common#:#create#:#Create
 common#:#create_date#:#Created On
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
+common#:#created#:#Create date
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#crs#:#Course
@@ -984,6 +988,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_create_spl#:#Create Question Pool for Survey
 common#:#crs_create_svy#:#Create Survey
 common#:#crs_create_tst#:#Create Test
+common#:#crs_create_webr#:#Create new web resource
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -1005,6 +1010,7 @@ common#:#cur_number_rec#:#Current number of records
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
+common#:#daily#:#daily
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
@@ -1054,7 +1060,9 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#desktop_items#:#Personal desktop items
+common#:#details#:#Details
 common#:#disable#:#disable
+common#:#disable_check#:#Disable check
 common#:#disabled#:#Disabled
 common#:#domain#:#Domain
 common#:#down#:#Down
@@ -1063,6 +1071,7 @@ common#:#download_all_returned_files#:#Download all returned files
 common#:#drafts#:#Drafts
 common#:#drop#:#Drop
 common#:#edit#:#Edit
+common#:#edit_content#:#Edit content
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
 common#:#edit_perm_ruleset#:#Edit default permission rules
@@ -1329,6 +1338,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_create_spl#:#Create Question Pool for Survey
 common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
+common#:#grp_create_webr#:#Create new web resource
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
@@ -1384,6 +1394,9 @@ common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]
 common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]
 common#:#hist_lm:pg_update#:#Page changed
 common#:#hist_no_entries#:#No entries in history.
+common#:#hist_webr_add#:#Added new web resource with title: "%1"
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"
+common#:#hist_webr_update#:#Update web resource. Title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -1683,6 +1696,7 @@ common#:#mep_delete#:#Delete Media Pool
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_edit_permission#:#Change permission settings
 common#:#mep_new#:#New Media Pool
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
 common#:#mep_read#:#Read Media Pool Content
 common#:#mep_visible#:#Media Pool is visible
 common#:#mep_write#:#Edit Media Pool Content
@@ -1722,6 +1736,7 @@ common#:#month_11_long#:#November
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
+common#:#monthly#:#monthly
 common#:#move#:#Move
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
@@ -1815,6 +1830,7 @@ common#:#my_grps#:#My Groups
 common#:#my_los#:#My Learning Objects
 common#:#my_tsts#:#My Tests
 common#:#name#:#Name
+common#:#never#:#never
 common#:#new#:#New
 common#:#new_appointment#:#New Appointment
 common#:#new_folder#:#New Folder
@@ -1936,6 +1952,7 @@ common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#obj_webr#:#Web resource
 common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#objects#:#Objects
@@ -1979,6 +1996,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Object Types
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Users
+common#:#objs_webr#:#Web resources
 common#:#of#:#Of
 common#:#offline#:#offline
 common#:#offline_version#:#Offline Version
@@ -2078,9 +2096,9 @@ common#:#qpl_read#:#Read access to Question Pool for Test
 common#:#qpl_upload_file#:#Upload file
 common#:#qpl_visible#:#Question Pool for Test is visible
 common#:#qpl_write#:#Edit Question Pool for Test
+common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#Question
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
 common#:#question_pools#:#Question pools
 common#:#quit#:#Quit
 common#:#quote#:#Quote
@@ -2334,6 +2352,7 @@ common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#system_style_settings#:#System Style Settings
 common#:#table_mail_import#:#Mail import
+common#:#target#:#Target
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
 common#:#tax_delete#:#Delete taxonomies
@@ -2496,6 +2515,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
+common#:#valid#:#Valid
 common#:#validate#:#Validate
 common#:#value#:#Value
 common#:#vcard#:#Visiting card
@@ -2511,8 +2531,32 @@ common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
+common#:#web_resources#:#Web resources
+common#:#webr#:#Web resource
+common#:#webr_active#:#Active
+common#:#webr_add#:#Add web resource
+common#:#webr_add_item#:#Add web resource
+common#:#webr_delete#:#Delete web resource
+common#:#webr_disable_check#:#Disable check 
+common#:#webr_edit#:#Edit web resource
+common#:#webr_edit_item#:#Edit web resource
+common#:#webr_edit_permission#:#Change permission settings
+common#:#webr_fillout_all#:#Please fill out all required fields.
+common#:#webr_item_updated#:#Saved modifications
+common#:#webr_join#:#Subscribe web resource
+common#:#webr_last_check#:#Last check
+common#:#webr_last_check_table#:#Last check:
+common#:#webr_leave#:#Unsubscribe web resource
+common#:#webr_modified_items#:#Saved modifications.
+common#:#webr_never_checked#:#Never checked
+common#:#webr_new#:#Add new web resource
+common#:#webr_no_items_created#:#No web resources created
+common#:#webr_read#:#Read access to web resource
+common#:#webr_visible#:#web resource is visible
+common#:#webr_write#:#Edit web resource
 common#:#webservices#:#Webservices
 common#:#week#:#Week
+common#:#weekly#:#weekly
 common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
@@ -2540,7 +2584,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_paste_from_clipboard#:#Paste from clipboard
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -2548,7 +2591,6 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_copy_to_media_pool#:#Copy to media pool
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
@@ -2609,6 +2651,7 @@ content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
 content#:#cont_copy_object#:#copy object
 content#:#cont_copy_to_clipboard#:#Copy to clipboard
+content#:#cont_copy_to_media_pool#:#Copy to media pool
 content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_export_file_html#:#Create Export File (HTML)
@@ -2800,6 +2843,7 @@ content#:#cont_page_select_target_now#:#Page marked for moving. Select target no
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
+content#:#cont_paste_from_clipboard#:#Paste from clipboard
 content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
@@ -2820,14 +2864,14 @@ content#:#cont_repository_item#:#Repository Item
 content#:#cont_repository_item_links#:#Repository Item Links
 content#:#cont_reset_definitions#:#Reset definition positions
 content#:#cont_reset_pictures#:#Reset picture positions
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.
+content#:#cont_resize_image#:#Resize images
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_rvalue#:#Value
-content#:#cont_resize_image#:#Resize images
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
@@ -4761,47 +4805,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#hist_webr_add#:#Added new web resource with title: "%1"
-common#:#hist_webr_update#:#Update web resource. Title: "%1"
-common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"
-common#:#webr_delete#:#Delete web resource
-common#:#webr_edit_permission#:#Change permission settings
-common#:#webr_join#:#Subscribe web resource
-common#:#webr_leave#:#Unsubscribe web resource
-common#:#webr_read#:#Read access to web resource
-common#:#webr_visible#:#web resource is visible
-common#:#webr_write#:#Edit web resource
-common#:#crs_create_webr#:#Create new web resource
-common#:#cat_create_webr#:#Create new web resource
-common#:#grp_create_webr#:#Create new web resource
-common#:#objs_webr#:#Web resources
-common#:#webr#:#Web resource
-common#:#webr_new#:#Add new web resource
-common#:#webr_add#:#Add web resource
-common#:#webr_no_items_created#:#No web resources created
-common#:#edit_content#:#Edit content
-common#:#webr_edit#:#Edit web resource
-common#:#webr_add_item#:#Add web resource
-common#:#target#:#Target
-common#:#webr_disable_check#:#Disable check 
-common#:#webr_fillout_all#:#Please fill out all required fields.
-common#:#web_resources#:#Web resources
-common#:#valid#:#Valid
-common#:#disable_check#:#Disable check
-common#:#details#:#Details
-common#:#webr_modified_items#:#Saved modifications.
-common#:#webr_edit_item#:#Edit web resource
-common#:#created#:#Create date
-common#:#webr_active#:#Active
-common#:#webr_last_check#:#Last check
-common#:#webr_item_updated#:#Saved modifications
-common#:#webr_never_checked#:#Never checked
-common#:#webr_last_check_table#:#Last check:
-common#:#never#:#never
-common#:#daily#:#daily
-common#:#weekly#:#weekly
-common#:#monthly#:#monthly
-common#:#quarterly#:#quarterly
-common#:#check_web_resources#:#Check web resources
-common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.
-common#:#obj_webr#:#Web resource

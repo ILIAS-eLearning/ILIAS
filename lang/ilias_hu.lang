@@ -845,6 +845,7 @@ common#:#cat_create_spl#:#Kérdésgyűjtemény létrehozása (felmérés)
 common#:#cat_create_svy#:#Felmérés létrehozás
 common#:#cat_create_tst#:#Teszt létrehozása
 common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Kategória törlése
 common#:#cat_edit#:#Kategória szerkesztése
 common#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
@@ -900,6 +901,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#A lap szövegmérete túl nagy.
 common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Importálható fájlok
 common#:#chg_language#:#Nyelv cseréje
 common#:#chg_password#:#Jelszócsere
@@ -954,6 +957,7 @@ common#:#create#:#Létrehozás
 common#:#create_date#:#Created On###05 Nov 2004 new variable
 common#:#create_in#:#Készítve: 
 common#:#create_stylesheet#:#Stílus létrehozása
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Kurzus
@@ -984,6 +988,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###05 Nov 2004 new v
 common#:#crs_create_spl#:#Create Question Pool for Survey###05 Nov 2004 new variable
 common#:#crs_create_svy#:#Create Survey###05 Nov 2004 new variable
 common#:#crs_create_tst#:#Create Test###05 Nov 2004 new variable
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Kurzus törlése
 common#:#crs_edit#:#Kurzus szerkesztése
 common#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
@@ -1005,6 +1010,7 @@ common#:#cur_number_rec#:#Rekordok jelenlegi száma
 common#:#current_password#:#Jelenlegi jelszó
 common#:#cut#:#Kivágás
 common#:#cutPage#:#Kivágás
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Adatbázis
 common#:#database_version#:#Aktuális adatbázis-verzió
 common#:#dataset#:#Tétel
@@ -1054,7 +1060,9 @@ common#:#desc#:#Leírás
 common#:#description#:#Leírás
 common#:#desired_password#:#Kívánt jelszó
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Tiltott
 common#:#domain#:#Domain###05 Nov 2004 new variable
 common#:#down#:#Le
@@ -1063,6 +1071,7 @@ common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004
 common#:#drafts#:#Vázlatok
 common#:#drop#:#Munkaasztalról levétel
 common#:#edit#:#Szerkesztés
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#adatok szerkesztése
 common#:#edit_operations#:#Műveletek szerkesztése
 common#:#edit_perm_ruleset#:#Engedélyezett hibaszabályok szerkesztése
@@ -1329,6 +1338,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###05 Nov 2004 new v
 common#:#grp_create_spl#:#Create Question Pool for Survey###05 Nov 2004 new variable
 common#:#grp_create_svy#:#Create Survey###05 Nov 2004 new variable
 common#:#grp_create_tst#:#Create Test###05 Nov 2004 new variable
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Csoport törlése
 common#:#grp_dismiss_member#:#Biztosan meg akar válni a csoport alábbi tagjaitól:
 common#:#grp_dismiss_myself#:#Biztosan kilép a csoportból?
@@ -1384,6 +1394,9 @@ common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new va
 common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
 common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page###05 Nov 2004 new variable
 common#:#hlm#:#Learning Module HACP###05 Nov 2004 new variable
@@ -1683,6 +1696,7 @@ common#:#mep_delete#:#Médiagyűjtemény törlése
 common#:#mep_edit#:#Médiagyűjtemény jellemzőinek szerkesztése
 common#:#mep_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#mep_new#:#Új médiagyűjtemény
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Médiagyűjtemény-tartalom olvasása
 common#:#mep_visible#:#A médiagyűjtemény látható
 common#:#mep_write#:#Médiagyűjtemény-tartalom szerkesztése
@@ -1722,6 +1736,7 @@ common#:#month_11_long#:#November###05 Nov 2004 new variable
 common#:#month_11_short#:#Nov.
 common#:#month_12_long#:#December###05 Nov 2004 new variable
 common#:#month_12_short#:#Dec.
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Áthelyez
 common#:#moveChapter#:#Áthelyez
 common#:#movePage#:#Áthelyez
@@ -1815,6 +1830,7 @@ common#:#my_grps#:#Csoportjaim
 common#:#my_los#:#Tananyagobjektumaim
 common#:#my_tsts#:#Tesztjeim
 common#:#name#:#Név
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Új
 common#:#new_appointment#:#Új időpont
 common#:#new_folder#:#Új mappa
@@ -1839,6 +1855,7 @@ common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.###05 Nov 2004 new variable
 common#:#no_grp_in_personal_list#:#Nincs csoport a személyes listában.
 common#:#no_import_available#:#Az import nem elérhető a típus számára
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Nincs korlát
 common#:#no_lo_in_personal_list#:#Nincs tananyagobjektum a személyes listában.
@@ -1935,6 +1952,7 @@ common#:#obj_uset#:#Felhasználói beállítások
 common#:#obj_usr#:#Felhasználó
 common#:#obj_usrf#:#Felhasználói fiókok
 common#:#obj_usrf_desc#:#Menedzselje itt a felhasználói fiókokat.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Object###05 Nov 2004 new variable
 common#:#object_added#:#Objektumok hozzáadva
 common#:#objects#:#Objektumok
@@ -1978,6 +1996,7 @@ common#:#objs_tst#:#Tesztek
 common#:#objs_type#:#Objektumtípusok
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Felhasználók
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#Of###05 Nov 2004 new variable
 common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Off-line változat
@@ -2077,6 +2096,7 @@ common#:#qpl_read#:#Olvasási elérés a kérdésgyűjteményhez
 common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#A kérdésgyűjtemény látható
 common#:#qpl_write#:#Kérdésgyűjtemény szerkesztése
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Kért adatok
 common#:#question#:#Kérdés
 common#:#question_pools#:#Kérdésgyűjtemény
@@ -2332,6 +2352,7 @@ common#:#system_language#:#Rendszernyelv
 common#:#system_message#:#Rendszerüzenet
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Levél importálása
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomy###05 Nov 2004 new variable
 common#:#tax_add#:#Add Taxonomy###05 Nov 2004 new variable
 common#:#tax_delete#:#Osztályozások törlése
@@ -2494,6 +2515,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Érvényesítés
 common#:#value#:#Érték
 common#:#vcard#:#Visiting card###30 Oct 2004 new variable
@@ -2509,8 +2531,32 @@ common#:#view#:#Nézet
 common#:#view_content#:#Tartalom nézet
 common#:#visible_layers#:#Látható rétegek
 common#:#visits#:#Látogatók
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Hét
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Üdvözöljük 
 common#:#who_is_online#:#Ki van on-line?
 common#:#with#:#Mivel
@@ -2605,6 +2651,7 @@ content#:#cont_contents#:#Tartalomjegyzék
 content#:#cont_coords#:#Koordináták
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Vágólapra  másolás
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Könyvtár létrehozása
 content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
@@ -2796,6 +2843,7 @@ content#:#cont_page_select_target_now#:#A lap áthelyezésre kijelölt. Válassz
 content#:#cont_pages#:#Lapok
 content#:#cont_parameter#:#Paraméter
 content#:#cont_parameters#:#paraméterek
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Személyes vágólap
 content#:#cont_pg_content#:#Laptartalom
 content#:#cont_pg_title#:#Lapcím
@@ -2816,6 +2864,9 @@ content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
 content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Reset definition positions###05 Nov 2004 new variable
 content#:#cont_reset_pictures#:#Reset picture positions###05 Nov 2004 new variable
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Forrás
 content#:#cont_resource_type#:#Típus
 content#:#cont_resources#:#Források

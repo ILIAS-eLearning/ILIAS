@@ -845,6 +845,7 @@ common#:#cat_create_spl#:#Creëer Vraagpool(Enquête)
 common#:#cat_create_svy#:#Creëer Enquête
 common#:#cat_create_tst#:#Creëer een test
 common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Verwijder kategorie
 common#:#cat_edit#:#Wijzig kategorie
 common#:#cat_edit_permission#:#Wijzige instellingen van de rechten
@@ -900,6 +901,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#De pagina-inhoud is te groot.
 common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Te importeren bestanden
 common#:#chg_language#:#Taal wijzigen
 common#:#chg_password#:#Wijzig wachtwoord
@@ -954,6 +957,7 @@ common#:#create#:#Creëer
 common#:#create_date#:#Gecreëerd op
 common#:#create_in#:#Creëren in
 common#:#create_stylesheet#:#Creëer stijl
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Cursus
@@ -984,6 +988,7 @@ common#:#crs_create_sahs#:#Creëer SCORM/AICC lesmodule
 common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Verwijderen cursus
 common#:#crs_edit#:#Cursus wijzigen
 common#:#crs_edit_permission#:#Wijzige instellingen van de rechten
@@ -1005,6 +1010,7 @@ common#:#cur_number_rec#:#Huidige aantal rekords
 common#:#current_password#:#Huidig wachtwoord
 common#:#cut#:#Knippen
 common#:#cutPage#:#Knippen
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Databank
 common#:#database_version#:#huidige databank-versie
 common#:#dataset#:#Item###05 Nov 2004 new variable
@@ -1054,7 +1060,9 @@ common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
 common#:#desired_password#:#Gewenste wachtwoord
 common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Uitgeschakeld
 common#:#domain#:#Domein
 common#:#down#:#Naar beneden
@@ -1063,6 +1071,7 @@ common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004
 common#:#drafts#:#Klad
 common#:#drop#:#Erop laten vallen
 common#:#edit#:#Wijzigen
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#Wijzigen gegevens
 common#:#edit_operations#:#Bewerkingen wijzigen
 common#:#edit_perm_ruleset#:#Wijzig standaard rechten-regels
@@ -1329,6 +1338,7 @@ common#:#grp_create_sahs#:#Creëer SCORM/AICC lesmodule
 common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Verwijder groep
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen?
 common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wilt verwijderen?
@@ -1384,6 +1394,9 @@ common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new va
 common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
 common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Treffers/Bladzijde
 common#:#hlm#:#HACP Lesmodule
@@ -1683,6 +1696,7 @@ common#:#mep_delete#:#Verwijder Mediapool
 common#:#mep_edit#:#Wijzig eigenschappen Media-pool
 common#:#mep_edit_permission#:#Wijzige instellingen van de rechten
 common#:#mep_new#:#Nieuwe Media-pool
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Lezen inhoud Media-pool
 common#:#mep_visible#:#Media-pool is zichtbaar
 common#:#mep_write#:#Wijzig inhoud Media-pool
@@ -1722,6 +1736,7 @@ common#:#month_11_long#:#November###05 Nov 2004 new variable
 common#:#month_11_short#:#Nov###05 Nov 2004 new variable
 common#:#month_12_long#:#December###05 Nov 2004 new variable
 common#:#month_12_short#:#Dec###05 Nov 2004 new variable
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Verplaatsen
 common#:#moveChapter#:#Verplaatsen
 common#:#movePage#:#Verplaatsen
@@ -1815,6 +1830,7 @@ common#:#my_grps#:#Mijn groepen
 common#:#my_los#:#Mijn lesobjecten
 common#:#my_tsts#:#Mijn testen
 common#:#name#:#Naam
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Nieuw
 common#:#new_appointment#:#Nieuwe afspraak
 common#:#new_folder#:#Nieuwe map
@@ -1839,6 +1855,7 @@ common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
 common#:#no_global_role_left#:#Elke gebruiker moet aan een rol toegewezen zijn.
 common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
 common#:#no_import_available#:#Importeren niet mogelijk voor type
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Geen limit
 common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
@@ -1935,6 +1952,7 @@ common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
 common#:#obj_usrf#:#Gebruiker
 common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Object###05 Nov 2004 new variable
 common#:#object_added#:#Object toegevoegd
 common#:#objects#:#Objecten
@@ -1978,6 +1996,7 @@ common#:#objs_tst#:#Testen
 common#:#objs_type#:#Object-types
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Gebruikers
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#Of###05 Nov 2004 new variable
 common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Offline Versie
@@ -2077,6 +2096,7 @@ common#:#qpl_read#:#Leesrechten op vraagpool
 common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Vraagpool is zichtbaar
 common#:#qpl_write#:#Wijzigen Vraagpool
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Opvraag-gegevens
 common#:#question#:#Vraag
 common#:#question_pools#:#Vraagpools
@@ -2332,6 +2352,7 @@ common#:#system_language#:#Systeemtaal
 common#:#system_message#:#Systeem-bericht
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Mail-import
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Voeg een taxonomie toe
 common#:#tax_delete#:#Verwijder taxonomies
@@ -2494,6 +2515,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Valideer
 common#:#value#:#Waarde
 common#:#vcard#:#Visiting card###30 Oct 2004 new variable
@@ -2509,8 +2531,32 @@ common#:#view#:#Tonen
 common#:#view_content#:#Toon inhoud
 common#:#visible_layers#:#Zichtbare laag
 common#:#visits#:#Boezoeken
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Week###05 Nov 2004 new variable
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Welkom
 common#:#who_is_online#:#Wie is online?
 common#:#with#:#met
@@ -2605,6 +2651,7 @@ content#:#cont_contents#:#Inhoud
 content#:#cont_coords#:#Inhouds-object
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Inhoud
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Coördinaten
 content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
@@ -2796,6 +2843,7 @@ content#:#cont_page_select_target_now#:#Organisatie-grootte
 content#:#cont_pages#:#Pagina-kopregel
 content#:#cont_parameter#:#Pagina geselecteerd voor verplaatsing. Selecteer waarheen.
 content#:#cont_parameters#:#Pagina's
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Parameter
 content#:#cont_pg_content#:#parameters
 content#:#cont_pg_title#:#Klembord
@@ -2816,6 +2864,9 @@ content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
 content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
 content#:#cont_reset_definitions#:#Referentie
 content#:#cont_reset_pictures#:#Verwijder Volledig Scherm
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Terugzetten positie definitie
 content#:#cont_resource_type#:#Terugzetten positie plaatsje
 content#:#cont_resources#:#Middelen

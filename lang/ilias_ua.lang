@@ -845,6 +845,7 @@ common#:#cat_create_spl#:#Створити Пул Питань (Опитуван
 common#:#cat_create_svy#:#Створити Опитування
 common#:#cat_create_tst#:#Створити Тест
 common#:#cat_create_url#:#Створити URL
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
@@ -900,6 +901,8 @@ common#:#check_link_desc#:#Якщо включено, усі зовнішні п
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
 common#:#check_user_accounts#:#Перевірити акаунти користувачів
 common#:#check_user_accounts_desc#:#Якщо cron роботи активовані та ця опція включена, усі користувачі, у яких скінчився термін дії акаунтів, будуть проінформавані через email.
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Імпортовані файли
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
@@ -954,6 +957,7 @@ common#:#create#:#Створити
 common#:#create_date#:#Створено
 common#:#create_in#:#Створити в
 common#:#create_stylesheet#:#Створити Стиль
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron задачі
 common#:#cron_jobs_desc#:#Cron задача це автоматизований процес, що виконується в напередзадані часові інтервали. Ви знайдете інформацію стосовно установки в 'INSTALL Documentation'.
 common#:#crs#:#Курс
@@ -984,6 +988,7 @@ common#:#crs_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#crs_create_spl#:#Створити Пул Питань для Опитування
 common#:#crs_create_svy#:#Створити Опитування
 common#:#crs_create_tst#:#Створити Тест
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
@@ -1005,6 +1010,7 @@ common#:#cur_number_rec#:#Поточна кількість записів
 common#:#current_password#:#Поточний Пароль
 common#:#cut#:#Вирізати
 common#:#cutPage#:#Вирізати
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#База даних
 common#:#database_version#:#Поточна Версія Бази даних
 common#:#dataset#:#Пункт
@@ -1054,7 +1060,9 @@ common#:#desc#:#Опис
 common#:#description#:#Опис
 common#:#desired_password#:#Потрібний Пароль
 common#:#desktop_items#:#Предмети на особистому робочому столі
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#відключений
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Відключений
 common#:#domain#:#Домен
 common#:#down#:#Вниз
@@ -1063,6 +1071,7 @@ common#:#download_all_returned_files#:#Завантажити усі повер�
 common#:#drafts#:#Чернетки
 common#:#drop#:#Викинути
 common#:#edit#:#Редагувати
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#редагувати дані
 common#:#edit_operations#:#Редагувати Операції
 common#:#edit_perm_ruleset#:#Редагувати правила прав по замовчанню
@@ -1329,6 +1338,7 @@ common#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#grp_create_spl#:#Створити Пул Питань для Опитування
 common#:#grp_create_svy#:#Створити Опитування
 common#:#grp_create_tst#:#Створити Тест
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити наступних користувачів з групи?
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи?
@@ -1384,6 +1394,9 @@ common#:#hist_lm:pg_cut#:#Сторінка вирізана з глави "%1" [
 common#:#hist_lm:pg_paste#:#Сторінка вставлена в главу "%1" [%2]
 common#:#hist_lm:pg_update#:#Сторінка змінена
 common#:#hist_no_entries#:#Немає записів в історії.
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#Історія
 common#:#hits_per_page#:#Хіти/Сторінка
 common#:#hlm#:#HACP Учбовий Модуль
@@ -1683,6 +1696,7 @@ common#:#mep_delete#:#Видалити Медіа Банк
 common#:#mep_edit#:#Редагувати Властивості Медіа Банку
 common#:#mep_edit_permission#:#Змінити настройки прав
 common#:#mep_new#:#Новий Медіа Банк
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Читати Вмсіст Медіа Банку
 common#:#mep_visible#:#Медіа Банк є видимим
 common#:#mep_write#:#Редагувати Вміст Медіа Банку
@@ -1722,6 +1736,7 @@ common#:#month_11_long#:#Листопад
 common#:#month_11_short#:#Лис
 common#:#month_12_long#:#Грудень
 common#:#month_12_short#:#Гру
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Перемістити
 common#:#moveChapter#:#Перемістити
 common#:#movePage#:#Перемістити
@@ -1815,6 +1830,7 @@ common#:#my_grps#:#Мої Групи
 common#:#my_los#:#Мої Учбові Об'єкти
 common#:#my_tsts#:#Мої Тести
 common#:#name#:#Ім'я
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Новий
 common#:#new_appointment#:#Нове Призначення
 common#:#new_folder#:#Нова Папка
@@ -1839,6 +1855,7 @@ common#:#no_frm_in_personal_list#:#Немає форумів в особисто
 common#:#no_global_role_left#:#Кожному користувачу має бути призначена одна роль.
 common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
 common#:#no_import_available#:#Імпорт не доступний для цього типу
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#Жодного невірного лінку не знайдено.
 common#:#no_limit#:#Немає обмеження
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
@@ -1935,6 +1952,7 @@ common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Об'єкт
 common#:#object_added#:#Об'єкт доданий
 common#:#objects#:#Об'єкти
@@ -1978,6 +1996,7 @@ common#:#objs_tst#:#Тести
 common#:#objs_type#:#Типи об'єктів
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Користувачі
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#Of
 common#:#offline#:#оффлайн
 common#:#offline_version#:#Оффлайн Версія
@@ -2077,6 +2096,7 @@ common#:#qpl_read#:#Доступ на читання до Банку Питан�
 common#:#qpl_upload_file#:#Завантажити файл
 common#:#qpl_visible#:#Банк Питань для Тесту є видимим
 common#:#qpl_write#:#Редагувати Пул Питань для Тесту
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Дані запиту
 common#:#question#:#Питання
 common#:#question_pools#:#Черги питань
@@ -2332,6 +2352,7 @@ common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
 common#:#system_style_settings#:#Настроювання Системного Стилю
 common#:#table_mail_import#:#Імпорт Пошти з ILIAS 2
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Додати Taxonomy
 common#:#tax_delete#:#Видалити taxonomies
@@ -2494,6 +2515,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Значення "%3$s" а
 common#:#usrimport_xml_element_content_illegal#:#Вміст "%2$s" елементу "%1$s" є неприпустимим.
 common#:#usrimport_xml_element_for_action_required#:#Елемент "%1$s" має бути визначений для дії "%2$s".
 common#:#usrimport_xml_element_inapplicable#:#Елемент "%1$s" є непридатним для дії "%2$s".
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Перевірити достовірність
 common#:#value#:#Значення
 common#:#vcard#:#Карта відвідувача
@@ -2509,8 +2531,32 @@ common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Вебсервіси
 common#:#week#:#Тиждень
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Ласкаво Просимо
 common#:#who_is_online#:#Хто щє онлайн?
 common#:#with#:#з
@@ -2605,6 +2651,7 @@ content#:#cont_contents#:#Вміст
 content#:#cont_coords#:#Координати
 content#:#cont_copy_object#:#копіювати об'єкт
 content#:#cont_copy_to_clipboard#:#Копіювати в буфер обміну
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_create_export_file#:#Створити Файл Експорту
 content#:#cont_create_export_file_html#:#Створити Файл Експорту (HTML)
@@ -2796,6 +2843,7 @@ content#:#cont_page_select_target_now#:#Сторінка помічена для
 content#:#cont_pages#:#Сторінки
 content#:#cont_parameter#:#Параметр
 content#:#cont_parameters#:#параметри
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Особистий Буфер Обміну
 content#:#cont_pg_content#:#Вміст Сторінки
 content#:#cont_pg_title#:#Назва Сторінки
@@ -2816,6 +2864,9 @@ content#:#cont_repository_item#:#Об'єкт Репозиторію
 content#:#cont_repository_item_links#:#Посилання на Об'єкти Репозиторію
 content#:#cont_reset_definitions#:#Скинути визначення позицій
 content#:#cont_reset_pictures#:#Скинути позиції зображення
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
