@@ -1299,6 +1299,7 @@ class ilObjUserGUI extends ilObjectGUI
                     strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
             }
 
+            $body .= $this->lng->txt('email_footer') . "\n\r";
 
 			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",
 												  $this->lng->txt("profile_changed"),$body,array(),array("normal")))
