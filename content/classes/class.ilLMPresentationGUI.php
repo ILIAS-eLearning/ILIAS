@@ -1533,13 +1533,13 @@ class ilLMPresentationGUI
 					break;
 
 				// learning module
-				case "du";
+				case "du":
 					$this->tpl->setVariable("TXT_TITLE", "<b>".$this->lm->getTitle()."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_lm.gif"));
 					break;
 
 				// chapter
-				default:
+				case "st":
 					$this->tpl->setVariable("TXT_TITLE", "<b>".
 						ilStructureObject::_getPresentationTitle($node["obj_id"],
 						$this->lm->getPageHeader(), $this->lm->isActiveNumbering())
