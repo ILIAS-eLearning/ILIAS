@@ -185,21 +185,82 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
+	function AccessDenied()
+	{
+		global $ilias;
+		$grpObj = new ilObjGroup($_GET["ref_id"],true);		
+		$grp	=& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);		
+
+		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
+		$_SESSION["status"] 	= 0;
+		
+		$tab[0] = array ();
+		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
+		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] = $this->lng->txt("grp_access"); 
+				
+		
+		if($grpObj->getGroupStatus() == 0) //open
+		{
+			$stat = "offene Gruppe";
+			$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, das Sie der gewünschten Gruppe beitreten.  
+				<br>Als Gruppenmitglied haben Sie folgende Vorteile: 
+				<br>- Sie werden über Aktualisierungen informiert  
+				<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.     
+ 				<br><br>Sie können Ihre Mitgliedschaft einfach durch anklicken des folgenden Symbols: Mitgliedschaft aufheben.";
+		}
+		else
+		{
+			$msg = "Die von Ihnen angewählte Gruppe ist geschlossen, dass heißt eine Mitgliedschaft ist zur Zeit nicht möglich!";  		
+			$stat = "geschlossene Gruppe";
+		}
+		$this->prepareOutput(false, $tab);
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
+		
+		$this->tpl->addBlockFile("CONTENT", "message", "tpl.grp_accessdenied.html");
+		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
+		$this->tpl->setVariable("TXT_MESSAGE",$msg);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("tblcontent");
+		$this->tpl->setVariable("TXT_COL1","Gruppenname:");
+		$this->tpl->setVariable("TXT_COL2",$grp->getTitle());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TXT_COL1","Beschreibung:");
+		$this->tpl->setVariable("TXT_COL2",$grp->getDescription());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TXT_COL1","Zugang:");
+		$this->tpl->setVariable("TXT_COL2",$stat);
+		$this->tpl->parseCurrentBlock();
+		
+			
+		
+		$this->tpl->show();
+		
+	}
 	/**
 	* calls current view mode (tree frame or list)
 	*/
 	function view()
 	{
+		global $rbacsystem;
 
 		if (isset($_GET["grp_viewmode"]))
 		{
 			$_SESSION["grp_viewmode"] = $_GET["grp_viewmode"];
 		}
+		else if(!isset($_SESSION["grp_viewmode"]))
+			$_SESSION["grp_viewmode"] = "flat";	//default viewmode
+		
+		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]))
+		{
+//			$this->ilias->raiseError("Permission denied! May be group is closed! ",$this->ilias->error_obj->MESSAGE);
+			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);			
+		}
 
 		// tree frame
-//		if ($_SESSION["viewmode"] == "tree")
 		if ($_SESSION["grp_viewmode"] == "tree")
-		{//echo $_GET["ref_id"];
+		{
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
 			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
 			$this->tpl->setVariable ("SOURCE", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
@@ -283,8 +344,6 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
 			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 			$tab[0]["tab_text"] ='flatview'; 
-
-			
 		}
 		
 		$tab[1] = array ();
@@ -446,7 +505,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
+			$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
 			$tbl->setHeaderVars(array("title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
 			$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
 		}
@@ -539,6 +598,7 @@ class ilGroupGUI extends ilObjectGUI
 	function removeMemberObject()
 	{
 		$user_ids = array();
+		
 		if(isset($_POST["user_id"]))
 			$user_ids = $_POST["user_id"];
 		else if(isset($_GET["mem_id"]))
@@ -549,8 +609,7 @@ class ilGroupGUI extends ilObjectGUI
 			$cancel  = "canceldelete";
 			$info	 = "info_delete_sure";
 			$status  = "";
-			$call_by_reference="n";
-			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,$call_by_reference);
+			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
 			$this->tpl->show();
 		}
 		else
@@ -636,7 +695,7 @@ class ilGroupGUI extends ilObjectGUI
 	* @param	call_by_ref = message
 	*
 	*/
-	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$call_by_reference="n")
+	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$ref_IDs="n")
 	{
 		$num =0;
 		$this->prepareOutput(false);
@@ -645,7 +704,8 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&parent_on_rbac_id=".$_GET["parent_non_rbac_id"]."&gateway=true");
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
-
+		$this->tpl->setCurrentBlock("confirmcontent");	
+		
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -658,15 +718,19 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$offset = 0;	// TODO: move to user settings
 		}
+		
 
+		
 		if (is_array($user_id))
 		{
 			$maxcount = count ($user_id);
-
 			foreach ($user_id as $id)
 			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-
+				if($ref_IDs == "y")
+					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+				else
+					$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+					
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
@@ -674,13 +738,16 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType($obj_data->getType(),$this->tpl->tplPath));
 				$this->tpl->setVariable("LAST_UPDATE", $obj_data->getLastUpdateDate());
 				$this->tpl->parseCurrentBlock();
+				unset($obj_data);
 			}
 		}
 		else
 		{
 			$maxcount = 1;
-
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
+			if($ref_IDs == "y")
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
+			else
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
 
 			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
 			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
@@ -689,8 +756,9 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		
 		// the variable $_SESSION["saved_post"] is aleady set  for the method  "confirmedDelete"
-		if ($confirm!="confirmedDelete")
+		if ($confirm != "confirmedDelete")
 		{
 			if (is_array($user_id))
 			{	
@@ -1447,7 +1515,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 		//TODO: link back
-		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
 
@@ -1501,13 +1569,13 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		//query already started ?
-		//$this->tpl->show();
 		if ((isset($_POST["search_user"]) && isset($_POST["status"])) || ( isset($_GET["search_user"]) && isset($_GET["status"])))//&& isset($_GET["ref_id"]) )
 		{
 			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
 
 			if(count($member_ids) < 1)
 			{
+				//TODO!!!
 				$this->ilias->raiseError("No matching results !",$this->ilias->error_obj->ERROR);						
 			}
 			else
@@ -1515,7 +1583,6 @@ class ilGroupGUI extends ilObjectGUI
 
 				//INTERIMS SOLUTION
 				$_SESSION["status"] = $_POST["status"];
-				//var_dump($member_ids);
 				foreach($member_ids as $member)
 				{
 					$this->data["data"][$member["usr_id"]]= array(
@@ -1524,7 +1591,6 @@ class ilGroupGUI extends ilObjectGUI
 						"firstname"       => $member["firstname"],
 						"lastname"        => $member["lastname"]
 						);
-
 				}
 
 				//display search results
@@ -1605,7 +1671,6 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			//let new members join the group
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				if (!$newGrp->join($new_member, $_SESSION["status"]))
@@ -1615,6 +1680,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 			unset($_SESSION["status"]);
+			unset($_SESSION["saved_post"]);
 		}
 		//echo ($this->link_params);
 		header("Location: group.php?cmd=show_content&".$this->link_params);
@@ -1626,6 +1692,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function assignMemberObject()
 	{
+
 		$user_ids = $_POST["user_id"];
 
 		if(isset($user_ids))
@@ -1634,7 +1701,7 @@ class ilGroupGUI extends ilObjectGUI
 			$cancel  = "canceldelete";
 			$info	 = "info_assign_sure";
 			$status  = $_SESSION["status"];
-			$this->confirmation($user_ids, $confirm, $cancel, $info, $status);
+			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
 			$this->tpl->show();
 			
 		}
