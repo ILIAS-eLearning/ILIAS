@@ -6,6 +6,8 @@
  * $Id$ 
  * 
  */
+include_once "classes/class.Object.php";
+
 class RbacSystem
 {
     var $db; // Database Handle
@@ -54,7 +56,7 @@ class RbacSystem
  * @params ObjectId, das abzufragende Recht
  * @return true false
  */
-    function checkAccess($Aoperation,$a_type = '')
+    function checkAccess($Aoperation,$a_obj_id,$a_parent,$a_type = "")
     {
 		global $ilias;
 		global $tree;
@@ -81,7 +83,7 @@ class RbacSystem
 		if($Aoperation == 'create')
 		{
 			$obj = new Object($ilias);
-			$path_ids = $tree->showPathId($_GET["obj_id"],$obj->ROOT_FOLDER_ID);
+			$path_ids = $tree->showPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
 			array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
 			$parent_roles = $rbacadmin->getParentRoles($path_ids);
 			foreach($parent_roles as $par_rol)
@@ -105,8 +107,8 @@ class RbacSystem
 
 		$query = "SELECT * FROM rbac_pa ".
 			"WHERE rol_id ".$in." ".
-			"AND obj_id = '".$_GET["obj_id"]."' ".
-			"AND set_id = '".$_GET["parent"]."'";
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND set_id = '".$a_parent."'";
 		
 		$res = $this->db->query($query);
 		

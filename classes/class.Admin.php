@@ -31,12 +31,21 @@ class Admin
 	function deleteObject()
 	{
 		global $tree;
-
+		
 		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacsystem = new RbacSystemH($this->ilias->db);
 		foreach($_POST["id"] as $id)
 		{
-			$tree->deleteTree($id);
-			$rbacadmin->revokePermission($id);
+			// CHECK ACCESS
+			if($rbacsystem->checkAccess('delete',$id,$_GET["obj_id"]))
+			{
+				$tree->deleteTree($id);
+				$rbacadmin->revokePermission($id);
+			}
+			else
+			{
+				$_SESSION["Error_Message"] = "No permission to delete Object";
+			}
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}

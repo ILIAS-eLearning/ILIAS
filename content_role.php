@@ -20,7 +20,7 @@ $tplContent->setVariable("TYPE","role");
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 $rbacadmin = new RbacAdminH($ilias->db);
-if($rbacsystem->checkAccess('read') and $role_list = $rbacadmin->getRoleListByObject($obj_id))
+if($role_list = $rbacadmin->getRoleListByObject($obj_id))
 {
 	foreach($role_list as $key => $val)
 	{
@@ -52,6 +52,9 @@ else
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
 }
-
+if($_SESSION["Error_Message"])
+{
+	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
+}
 include_once "include/ilias_footer.inc";
 ?>

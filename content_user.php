@@ -20,7 +20,7 @@ $tplContent->setVariable("TYPE","user");
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 // Wegen short circuit evaluation muss die Rechte Abfrage zuerst erfolgen
-if( $rbacsystem->checkAccess("read") and $user_data = getUserList() )
+if($user_data = getUserList() )
 {
 	foreach($user_data as $key => $val)
 	{
@@ -51,6 +51,10 @@ else
 	$tplContent->setCurrentBlock("notfound");
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
+}
+if($_SESSION["Error_Message"])
+{
+	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
 }
 
 include_once "include/ilias_footer.inc";

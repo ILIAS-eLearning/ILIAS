@@ -2,7 +2,7 @@
 include_once "include/ilias_header.inc";
 
 // on first start obj_id is set to 1
-$obj_id = $obj_id ?  $obj_id : 1;
+$_GET["obj_id"] = $_GET["obj_id"] ?  $_GET["obj_id"] : 1;
 
 $obj = getObject($obj_id);
 
@@ -10,28 +10,32 @@ $obj = getObject($obj_id);
 if($obj["type"] == 'usrf')
 {
 	header("Location: content_user.php?obj_id=$obj_id&parent=$parent");
+	exit();
 }
 // Type = rolf => Verzweige nach content_role.php
 if($obj["type"] == 'rolf')
 {
 	header("Location: content_role.php?obj_id=$obj_id&parent=$parent");
+	exit();
 }
 // Type = objf => Verzweige nach content_type.php
 if($obj["type"] == 'objf')
 {
 	header("Location: content_type.php?obj_id=$obj_id&parent=$parent");
+	exit();
 }
 // Type = adm => Verzweige nach content_adm.php
 if($obj["type"] == 'adm')
 {
 	header("Location: content_adm.php?obj_id=$obj_id&parent=$parent");
+	exit();
 }
 //  Type = type => Verzweige nach content_type.php
 if($obj["type"] == 'type')
 {
 	header("Location: content_operations.php?obj_id=$obj_id&parent=$parent");
+	exit();
 }
-
 
 // Template-Engine anschmeissen
 $tplContent = new Template("content_main.html",true,true);
@@ -55,10 +59,10 @@ if ($tree->getChilds())
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?
-		if(!$rbacsystem->checkAccess("visible"))
-		{
-			continue;
-		}
+//		if(!$rbacsystem->checkAccess("visible"))
+//		{
+//			continue;
+//		}
 		
 		$zaehler++;
 		
@@ -71,7 +75,6 @@ if ($tree->getChilds())
 		{
 			$css_row = "row_low";
 		}
-		
 		if ($val["type"] == "adm")
 		{
 			$checkbox = "&nbsp;";
@@ -103,14 +106,32 @@ else
 $type = $obj["type"];
 if (!empty($ilias->typedefinition[$type]))
 {
-	$tplContent->setCurrentBlock("type");
-	$opts = TUtil::formSelect(12,"type",TUtil::getModules($ilias->typedefinition[$type]));
-	$tplContent->setVariable("SELECT_OBJTYPE",$opts);
-	$tplContent->setVariable("OBJ_ID",$obj_id);
-	$tplContent->setVariable("TPOS",$parent);
-	$tplContent->parseCurrentBlock("opt_type","type",true);
+
+	// Show only objects with permission 'create'
+	$objects = TUtil::getModules($ilias->typedefinition[$type]);
+	foreach($objects as $key => $object)
+	{
+		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$key))
+		{
+			$createable[$key] = $object;
+		}
+	}
+	if(count($createable))
+	{
+		$opts = TUtil::formSelect(12,"type",$createable);
+		$tplContent->setCurrentBlock("type");
+		$tplContent->setVariable("SELECT_OBJTYPE",$opts);
+		$tplContent->setVariable("OBJ_ID",$obj_id);
+		$tplContent->setVariable("TPOS",$parent);
+		$tplContent->parseCurrentBlock("opt_type","type",true);
+	}
 }
 $tplContent->setVariable("OBJ_ID",$obj_id);
 $tplContent->setVariable("TPOS",$parent);
+
+if($_SESSION["Error_Message"])
+{
+	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
+}
 include_once "include/ilias_footer.inc";
 ?>
