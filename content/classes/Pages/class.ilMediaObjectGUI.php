@@ -1040,6 +1040,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editMapAreas()
 	{
+		$this->initMapParameters();
+
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
 
 		$this->tpl->setVariable("FORMACTION",
@@ -1094,6 +1096,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_UPDATE", $this->lng->txt("cont_update"));
 		$this->tpl->setVariable("BTN_ADD_AREA", "addArea");
 		$this->tpl->setVariable("TXT_ADD_AREA", $this->lng->txt("cont_add_area"));
+		$this->tpl->setVariable("BTN_SET_LINK", "setLink");
+		$this->tpl->setVariable("TXT_SET_LINK", $this->lng->txt("cont_set_link"));
 		$this->tpl->parseCurrentBlock();
 
 		// output area data
@@ -1184,17 +1188,29 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$_GET["coords"] = $_SESSION["il_map_edit_coords"];
 	}
 
+	function clearParameters()
+	{
+		unset($_SESSION["il_map_el_href"]);
+	}
+
 
 	/**
 	* recover paramters from session variables (static)
 	*/
 	function initMapParameters()
 	{
-		$_SESSION["il_map_edit_ref_id"] = "";
-		$_SESSION["il_map_edit_obj_id"] = "";
-		$_SESSION["il_map_edit_hier_id"] = "";
-		$_SESSION["il_map_edit_area_type"] = "";
-		$_SESSION["il_map_edit_coords"] = "";
+		unset($_SESSION["il_map_edit_ref_id"]);
+		unset($_SESSION["il_map_edit_obj_id"]);
+		unset($_SESSION["il_map_edit_hier_id"]);
+		unset($_SESSION["il_map_edit_area_type"]);
+		unset($_SESSION["il_map_edit_coords"]);
+		unset($_SESSION["il_map_el_href"]);
+		unset($_SESSION["il_map_il_type"]);
+		unset($_SESSION["il_map_il_ltype"]);
+		unset($_SESSION["il_map_il_target"]);
+		unset($_SESSION["il_map_il_targetframe"]);
+		unset($_SESSION["il_map_edit_mode"]);
+		unset($_SESSION["il_map_area_nr"]);
 	}
 
 
@@ -1204,10 +1220,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	function addArea()
 	{
 		// init all SESSION variables if "ADD AREA" button is pressed
+		/*
 		if ($_POST["areatype"] != "")
 		{
 			$this->initMapParameters();
-		}
+		}*/
 
 		// handle map parameters
 		$this->handleMapParameters();
@@ -1233,15 +1250,19 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 			// Circle
 			case "Circle":
-				if ($cnt_coords < 2)
+//echo $coords."BHB".$cnt_coords;
+				if ($cnt_coords <= 1)
 				{
 					$this->editMapArea(true, false, false);
 				}
-				else if ($cnt_coords == 2)
+				else
 				{
-					$c = explode(",",$coords);
-					$coords = $c[0].",".$c[1].",";	// determine radius
-					$coords .= round(sqrt(pow(abs($c[3]-$c[1]),2)+pow(abs($c[2]-$c[0]),2)));
+					if ($cnt_coords == 2)
+					{
+						$c = explode(",",$coords);
+						$coords = $c[0].",".$c[1].",";	// determine radius
+						$coords .= round(sqrt(pow(abs($c[3]-$c[1]),2)+pow(abs($c[2]-$c[0]),2)));
+					}
 					$_SESSION["il_map_edit_coords"] = $coords;
 
 					$this->editMapArea(false, true, true);
@@ -1273,9 +1294,10 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	* @param	boolean		$a_get_next_coordinate		enable next coordinate input
 	* @param	boolean		$a_output_new_area			output the new area
 	* @param	boolean		$a_save_from				output save form
+	* @param	string		$a_edit_property			"" | "link" | "shape"
 	*/
 	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
-		$a_save_form = false)
+		$a_save_form = false, $a_edit_property = "", $a_area_nr = 0)
 	{
 		$area_type = $_SESSION["il_map_edit_area_type"];
 		$coords = $_SESSION["il_map_edit_coords"];
@@ -1294,47 +1316,50 @@ class ilMediaObjectGUI extends ilPageContentGUI
 //echo "at:$area_type:<br>";
 //echo "cntcoords:".$cnt_coords.":<br>";
 //echo "coords:".$coords.":<br>";
-		switch ($area_type)
+		if ($a_edit_property == "")
 		{
-			// rectangle
-			case "Rect" :
-				if ($cnt_coords == 0)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_tl_corner"));
-				}
-				if ($cnt_coords == 1)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_br_corner"));
-				}
-				break;
+			switch ($area_type)
+			{
+				// rectangle
+				case "Rect" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_tl_corner"));
+					}
+					if ($cnt_coords == 1)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_br_corner"));
+					}
+					break;
 
-			// circle
-			case "Circle" :
-				if ($cnt_coords == 0)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_center"));
-				}
-				if ($cnt_coords == 1)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_circle"));
-				}
-				break;
+				// circle
+				case "Circle" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_center"));
+					}
+					if ($cnt_coords == 1)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_circle"));
+					}
+					break;
 
-			// polygon
-			case "Poly" :
-				if ($cnt_coords == 0)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_starting_point"));
-				}
-				else if ($cnt_coords < 3)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_point"));
-				}
-				else
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_or_save"));
-				}
-				break;
+				// polygon
+				case "Poly" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_starting_point"));
+					}
+					else if ($cnt_coords < 3)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_point"));
+					}
+					else
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_or_save"));
+					}
+					break;
+			}
 		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
@@ -1343,14 +1368,28 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// map properties input fields (name and link)
 		if ($a_save_form)
 		{
+			if ($a_edit_property != "link")
+			{
+				$this->tpl->setCurrentBlock("edit_name");
+				$this->tpl->setVariable("VAR_NAME2", "area_name");
+				$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("new_area");
-			$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
 			$this->tpl->setVariable("TXT_LINK_EXT", $this->lng->txt("cont_link_ext"));
 			$this->tpl->setVariable("TXT_LINK_INT", $this->lng->txt("cont_link_int"));
-			$this->tpl->setVariable("VAL_LINK_EXT", "http://");
-			$this->tpl->setVariable("VAR_NAME2", "area_name");
+			if ($_SESSION["il_map_el_href"] != "")
+			{
+				$this->tpl->setVariable("VAL_LINK_EXT", $_SESSION["il_map_el_href"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_LINK_EXT", "http://");
+			}
 			$this->tpl->setVariable("VAR_LINK_EXT", "area_link_ext");
 			$this->tpl->setVariable("VAR_LINK_TYPE", "area_link_type");
+
 			if ($_SESSION["il_map_il_ltype"] != "int")
 			{
 				$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
@@ -1360,7 +1399,15 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				$this->tpl->setVariable("INT_CHECKED", "checked=\"1\"");
 			}
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+
+			if ($a_edit_property == "")
+			{
+				$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_edit_area"));
+			}
 
 			$link_str = "";
 			if($_SESSION["il_map_il_target"] != "")
@@ -1383,7 +1430,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		// create/update imagemap work copy
 		$st_item =& $this->content_obj->getMediaItem("Standard");
-		$st_item->makeMapWorkCopy();
+		$st_item->makeMapWorkCopy($a_area_nr);
 
 		if ($a_output_new_area)
 		{
@@ -1431,9 +1478,19 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	{
 		$_SESSION["il_map_il_type"] = $_GET["linktype"];
 		$_SESSION["il_map_il_ltype"] = "int";
+
 		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
 		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
-		$this->addArea();
+		switch ($_SESSION["il_map_edit_mode"])
+		{
+			case "edit_link":
+				$this->setLink();
+				break;
+
+			default:
+				$this->addArea();
+				break;
+		}
 	}
 
 	/**
@@ -1501,6 +1558,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function deleteAreas()
 	{
+		if (!isset($_POST["area"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$st_item =& $this->content_obj->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
 
@@ -1519,45 +1581,116 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 	/**
-	* save new map area
+	* save new or updated map area
 	*/
 	function saveArea()
 	{
-		$area_type = $_SESSION["il_map_edit_area_type"];
-		$coords = $_SESSION["il_map_edit_coords"];
-
-		$st_item =& $this->content_obj->getMediaItem("Standard");
-		$max = ilMapArea::_getMaxNr($st_item->getId());
-
-		// make new area object
-		$area = new ilMapArea();
-		$area->setItemId($st_item->getId());
-		$area->setShape($area_type);
-		$area->setCoords($coords);
-		$area->setNr($max + 1);
-		$area->setTitle($_POST["area_name"]);
-		switch($_POST["area_link_type"])
+		switch ($_SESSION["il_map_edit_mode"])
 		{
-			case "ext":
-				$area->setLinkType(IL_EXT_LINK);
-				$area->setHref($_POST["area_link_ext"]);
+			case "edit_link":
+				$st_item =& $this->content_obj->getMediaItem("Standard");
+				$max = ilMapArea::_getMaxNr($st_item->getId());
+				$area =& new ilMapArea($st_item->getId(), $_SESSION["il_map_area_nr"]);
+
+				if ($_POST["area_link_type"] == IL_INT_LINK)
+				{
+					$area->setLinkType(IL_INT_LINK);
+					$area->setType($_SESSION["il_map_il_type"]);
+					$area->setTarget($_SESSION["il_map_il_target"]);
+					$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
+				}
+				else
+				{
+					$area->setLinkType(IL_EXT_LINK);
+					$area->setHref($_POST["area_link_ext"]);
+				}
+				$area->update();
+//echo ":".$area->getNr().":".$area->getLinkType().":";
 				break;
 
-			case "int":
-				$area->setLinkType(IL_INT_LINK);
-				$area->setType($_SESSION["il_map_il_type"]);
-				$area->setTarget($_SESSION["il_map_il_target"]);
-				$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
+			default:
+				$area_type = $_SESSION["il_map_edit_area_type"];
+				$coords = $_SESSION["il_map_edit_coords"];
+
+				$st_item =& $this->content_obj->getMediaItem("Standard");
+				$max = ilMapArea::_getMaxNr($st_item->getId());
+
+				// make new area object
+				$area = new ilMapArea();
+				$area->setItemId($st_item->getId());
+				$area->setShape($area_type);
+				$area->setCoords($coords);
+				$area->setNr($max + 1);
+				$area->setTitle($_POST["area_name"]);
+				switch($_POST["area_link_type"])
+				{
+					case "ext":
+						$area->setLinkType(IL_EXT_LINK);
+						$area->setHref($_POST["area_link_ext"]);
+						break;
+
+					case "int":
+						$area->setLinkType(IL_INT_LINK);
+						$area->setType($_SESSION["il_map_il_type"]);
+						$area->setTarget($_SESSION["il_map_il_target"]);
+						$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
+						break;
+				}
+
+				// put area into item and update media object
+				$st_item->addMapArea($area);
+				$this->content_obj->update();
 				break;
 		}
-
-		// put area into item and update media object
-		$st_item->addMapArea($area);
-		$this->content_obj->update();
 
 		sendInfo($this->lng->txt("cont_saved_map_area"), true);
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+
+	/**
+	* set link
+	*/
+	function setLink()
+	{
+		$this->handleMapParameters();
+		if ($_SESSION["il_map_area_nr"] != "")
+		{
+			$_POST["area"][0] = $_SESSION["il_map_area_nr"];
+		}
+		if (!isset($_POST["area"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["area"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$area =& $st_item->getMapArea($_POST["area"][0]);
+		//$max = ilMapArea::_getMaxNr($st_item->getId());
+
+		if ($_SESSION["il_map_edit_mode"] != "edit_link")
+		{
+			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
+			$_SESSION["il_map_il_ltype"] = $area->getLinkType();
+			$_SESSION["il_map_edit_mode"] = "edit_link";
+			if ($_SESSION["il_map_il_ltype"] == IL_INT_LINK)
+			{
+				$_SESSION["il_map_il_type"] = $area->getType();
+				$_SESSION["il_map_il_target"] = $area->getTarget();
+				$_SESSION["il_map_il_targetframe"] = $area->getTargetFrame();
+			}
+			else
+			{
+				$_SESSION["il_map_el_href"] = $area->getHref();
+			}
+		}
+
+		$this->editMapArea(false, false, true, "link", $_POST["area"][0]);
 	}
 
 
