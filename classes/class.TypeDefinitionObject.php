@@ -14,9 +14,9 @@ class TypeDefinitionObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function TypeDefinitionObject($a_id)
+	function TypeDefinitionObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 

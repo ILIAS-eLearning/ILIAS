@@ -10,86 +10,6 @@
 class TUtil
 {
 	/**
-	* Fetch system_roles and return them in array(role_id => role_name)
-	* @access	public
-	* @return	array
-	*/
-	function getRoles ()
-	{
-		global $ilias;
-		$db = $ilias->db;
-		
-		$res = $db->query("SELECT * FROM object_data
-					WHERE type = 'role' ORDER BY title");
-		
-		if ($res->numRows() > 0)
-		{
-			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$arr[$data["obj_id"]] = $data["title"];
-			}
-		}
-		else
-		{
-			return false;
-		}
-		
-		return $arr;
-	}
-	
-	/**
-	* Fetch loaded modules or possible modules in context
-	* @access	public
-	* @param	string
-	*/
-	function getModules ($a_objname)
-	{
-		global $ilias, $objDefinition;
-
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$db = $ilias->db;
-		
-		$arr = array();
-		
-		$ATypeList = $objDefinition->getSubObjectsAsString($a_objname);
-		
-		if (empty($ATypeList))
-		{
-			$query = "SELECT * FROM object_data
-					  WHERE type = 'typ'
-					  ORDER BY type";
-		}
-		else
-		{
-			$query = "SELECT * FROM object_data
-					  WHERE title IN ($ATypeList)
-					  AND type='typ'";
-		}
-
-		$res = $db->query($query);
-		
-		$rolf_exist = false;
-		
-		if (count($rbacadmin->getRoleFolderOfObject($_GET["obj_id"])) > 0)
-		{
-			$rolf_exist = true;
-		}
-		
-		if ($res->numRows() > 0)
-		{
-			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				if (!$rolf_exist || ($data["title"] != "rolf"))
-				{
-					$arr[$data["title"]] = $data["description"];
-				}
-			}
-		}
-	   
-		return $arr;
-	}
-
-	/**
 	* Builds an html image tag
 	* @param	string	object type
 	* @param	string	tpl path
@@ -245,41 +165,30 @@ class TUtil
 	}
 	
 	/**
-	* liefert den owner des objektes $Aobj_id als user_objekt zurück
+	* returns owner of given object
 	* @access	public
-	* @param	string
-	* @return	object	UserObject
+	* @param	integer	object_id
+	* @return	object	user object
 	*/
-	function getOwner ($Aobj_id)
+	function getOwner ($a_obj_id)
 	{
-		global $ilias;
-		$db = $ilias->db;
-
-		$query = "SELECT owner FROM object_data
-				  WHERE obj_id = '".$Aobj_id."'";
-
-		$res = $db->query($query);
+		$obj = getObject($a_obj_id);
 		
-		if ($res->numRows() == 1)
+		if (!is_array($obj))
 		{
-			$row = $res->fetchRow(DB_FETCHMODE_ORDERED);
-			$owner_id = $row[0];
-			
-			if ($owner_id == -1)
-			{
-				//objekt hat keinen owner
-				return false;
-			}
-
-			$owner = new User($owner_id);
-
-			return $owner;
-		}
-		else
-		{
-			// select liefert falsch row-anzahl oder nix
+			// object not found
 			return false;
-		}	
+		}
+
+		if ($obj["owner"] == -1)
+		{
+			// object has no owner
+			return false;
+		}
+
+		$owner = new User($obj["owner"]);
+
+		return $owner;
 	}
 
 	/**
@@ -303,7 +212,6 @@ class TUtil
 			return $a_css2;
 		}
 	}
-	
 	
 	/**
 	* show the tabs in admin section
@@ -358,39 +266,41 @@ class TUtil
 	}
 
 	/**
-	* Get all objejects of a specific type and check access
+	* Get all objects of a specific type and check access
 	* recursive method
 	* 
 	* @access	public
 	* @param	string	type or 'all' to get all objects
 	* @param	string	permissions to check e.g. 'visible','read' 
 	*/
-	function getObjectsByOperations($a_type,$a_operation,$a_node = 0)
+	function getObjectsByOperations($a_type,$a_operation,$a_node = ROOT_FOLDER_ID)
 	{
 		global $tree, $rbacsystem;
 		static $objects = array();
 
 		$all = $a_type == 'all' ? true : false;
 
-		if($childs = $tree->getChilds($a_node))
+		if ($childs = $tree->getChilds($a_node))
 		{
-			foreach($childs as $child)
+			foreach ($childs as $child)
 			{
 				// CHECK IF CONTAINER OBJECT IS VISIBLE
-				if($rbacsystem->checkAccess('visible',$child["obj_id"],$child["parent"],$a_type))
+				if ($rbacsystem->checkAccess('visible',$child["ref_id"],$a_type))
 				{
-					if($all or $child["type"] == $a_type)
+					if ($all or $child["type"] == $a_type)
 					{
 						// NOW CHECK FOR ASKED OPERATION
-						if($rbacsystem->checkAccess($a_operation,$child["obj_id"],$child["parent"],$a_type))
+						if ($rbacsystem->checkAccess($a_operation,$child["ref_id"],$a_type))
 						{
 							$objects[] = $child;
 						}
 					}
-					TUtil::getObjectsByOperations($a_type,$a_operation,$child["obj_id"]);
+
+					TUtil::getObjectsByOperations($a_type,$a_operation,$child["ref_id"]);
 				}
 			}
 		}
+
 		return $objects;
 	}
 	
@@ -412,8 +322,7 @@ class TUtil
 				$feedback .= $key;					
 			}			
 		}		
-		
-		
+	
 		return $feedback;
 	}
 	

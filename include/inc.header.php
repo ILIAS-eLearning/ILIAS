@@ -117,14 +117,14 @@ if ($script != "login.php" && $script != "index.php")
 	// At the moment the method in the 3 main classes are not separated properly
 	// to do this. All rbac-classes need to be cleaned up
 
-	// init obj_id & parent; on first start obj_id is set to 1
-	$obj_id = $obj_id ? $obj_id : ROOT_FOLDER_ID; // for downward compatibility
-	$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : ROOT_FOLDER_ID;
-	$parent = $parent ? $parent : 0; // for downward compatibility
-	$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
+	// init ref_id & parent; on first start ref_id is set to 1
+	//$ref_id = $ref_id ? $ref_id : ROOT_FOLDER_ID; // for downward compatibility
+	$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
+	//$parent = $parent ? $parent : 0; // for downward compatibility
+	//$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
 	
 	// init tree
-	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
+	$tree = new Tree($_GET["ref_id"]);
 }	
 
 // instantiate main template

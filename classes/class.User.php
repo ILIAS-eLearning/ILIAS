@@ -77,6 +77,7 @@ class User
 		}
 		else
 		{
+			// TODO: all code in else-structure doesn't belongs in class user !!!
 			//load default data
 			$this->prefs = array();
 			//language
@@ -246,9 +247,6 @@ class User
 		
 		$this->writePrefs();
 		
-		// TODO: get rid of this call
-		//$this->getUserData();
-
 		return true;
 	}
 	

@@ -3,7 +3,7 @@
 * Class ObjectFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ObjectFolderObjectOut.php,v 1.2 2003/02/25 17:36:49 akill Exp $
+* $Id$Id: class.ObjectFolderObjectOut.php,v 1.3 2003/02/26 13:44:10 shofmann Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -15,9 +15,10 @@ class ObjectFolderObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function ObjectFolderObjectOut($a_data)
+	function ObjectFolderObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "objf";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
 	/**

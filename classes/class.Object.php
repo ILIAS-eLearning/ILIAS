@@ -29,13 +29,22 @@ class Object
 	* @var		integer object id of object itself
 	* @access	private
 	*/
-	var $id;
+	var $id;	// true object_id!!!!
+	var $ref_id;// reference_id
 	var $type;
 	var $title;
 	var $desc;
 	var $owner;
 	var $create_date;
 	var $last_update;
+	
+	/**
+	* indicates if object is init by reference or its true object id
+	* true=reference_id; false=object_id
+	* @var		boolean
+	* @access	private
+	*/
+	var $call_by_reference;
 
 	/**
 	* object list
@@ -47,22 +56,31 @@ class Object
 	/**
 	* Constructor
 	* @access	public
+	* @param	integer	reference_id NOT object_id!!!!
 	*/
-	function Object($a_id = 0)
+	function Object($a_id = 0,$a_call_by_reference = "true")
 	{
 		global $ilias, $lng;
 
 		$this->ilias =& $ilias;
 		$this->lng = &$lng;
 
-		$this->parent = $_GET["parent"]; // possible deprecated
-		$this->parent_parent = $_GET["parent_parent"]; // // possible deprecated
-
-		$this->id = $a_id;
+		$this->call_by_reference = $a_call_by_reference;
+		
+		if ($this->call_by_reference)
+		{
+			$this->ref_id = $a_id;		
+		}
+		else
+		{
+			$this->id = $a_id;
+		}
 
 		// read object data
 		if ($a_id != 0)
+		{
 			$this->read();
+		}
 	}
 
 	/**
@@ -72,13 +90,17 @@ class Object
 	function read()
 	{
 		global $ilias;
+		
+		if ($this->call_by_reference)
+		{
+			$obj = getObjectByReference($this->ref_id);
+			$this->id = $obj["obj_id"];
+		}
+		else
+		{
+			$obj = getObject($this->id);		
+		}
 
-		$q = "SELECT * FROM object_data ".
-			 "WHERE obj_id = '".$this->id."'";
-		$r = $ilias->db->query($q);
-
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-		$obj = fetchObjectData($row);
 		$this->type = $obj["type"];
 		$this->title = $obj["title"];
 		$this->desc = $obj["description"];
@@ -109,7 +131,27 @@ class Object
 		$this->id = $a_id;
 	}
 
+	/**
+	* get reference id
+	* @access	public
+	* @return	int		reference id
+	*/
+	function get_ref_id()
+	{
+		return $this->ref_id;
+	}
 
+
+	/**
+	* set reference id
+	* @access	public
+	* @param	int		$a_id		reference id
+	*/
+	function set_ref_id($a_id)
+	{
+		$this->ref_id = $a_id;
+	}
+	
 	/**
 	* get object type
 	* @access	public
@@ -223,7 +265,7 @@ class Object
 	/**
 	* copy all entries of an object !!! IT MUST RETURN THE NEW OBJECT ID !!
 	* @access	public
-	* @return new object id
+	* @return	new object id
 	*/
 	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
 	{
@@ -243,7 +285,6 @@ class Object
 		}
 		return $new_id;
 	}
-
 
 	/**
 	* copy object to clipboard
@@ -277,8 +318,9 @@ class Object
 				}
 			}
 		}
+
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
-		if(count($no_copy))
+		if (count($no_copy))
 		{
 			$no_copy = implode(',',$no_copy);
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
@@ -295,7 +337,6 @@ class Object
 		}
 		$_SESSION["clipboard"] = $clipboard;
 	}
-
 
 	/**
 	*
@@ -369,18 +410,19 @@ class Object
 	* create object in admin interface
 	* @access	public
 	*/
-	function createObject($a_id, $a_new_type)
+	function createObject($a_ref_id, $a_new_type)
 	{
 		// creates a child object
 		global $rbacsystem;
 
 		// TODO: get rid of $_GET variable
-		if ($rbacsystem->checkAccess("create", $a_id, $_GET["parent"], $a_new_type))
+		if ($rbacsystem->checkAccess("create", $a_ref_id, $a_new_type))
 		{
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = "";
 			$data["fields"]["desc"] = "";
+
 			return $data;
 		}
 		else
@@ -400,23 +442,26 @@ class Object
 	* @return	integer		new obj_id
 	* @access	public
 	**/
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
+	function saveObject($a_parent_ref_id,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 
-		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_new_type))
+		if ($rbacsystem->checkAccess("create",$a_parent_ref_id,$a_new_type))
 		{
 			// create and insert object in objecttree
 			$this->id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
-			$tree->insertNode($this->id,$a_obj_id,$a_parent);
+			$this->ref_id = createNewReference($this->id);
+			$tree->insertNode($this->ref_id,$a_parent_ref_id);
 
+
+			// TODO: first param is required
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
 			foreach ($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 				$ops = $rbacreview->getOperations($parRol["obj_id"], $a_new_type, $parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $this->id, $a_obj_id);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $this->ref_id, $a_parent_ref_id);
 			}
 		}
 		else
@@ -424,6 +469,7 @@ class Object
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
 		
+		// NOT CHANGED
 		return $this->id;
 	}
 
@@ -435,9 +481,9 @@ class Object
 	{
 		global $rbacsystem, $lng;
 
-		if ($rbacsystem->checkAccess("write", $this->id, $this->parent))
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$obj = getObject($this->id);
+			$obj = getObjectByReference($this->ref_id);
 
 			$data = array();
 			$data["fields"] = array();
@@ -451,7 +497,6 @@ class Object
 			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 	}
-	
 
 	/**
 	* update an object
@@ -461,10 +506,11 @@ class Object
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess("write", $this->id, $this->parent))
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			updateObject($this->id,$a_data["title"],$a_data["desc"]);
 			$this->update = true;
+
 			return true;
 		}
 		else
@@ -484,11 +530,10 @@ class Object
 
 		// TODO: get rif of $_GET["parent"] in this function
 
-		$obj = getObject($this->id);
+		$obj = getObjectByReference($this->ref_id);
 
-		if ($rbacsystem->checkAccess("edit permission", $this->id, $_GET["parent"]))
+		if ($rbacsystem->checkAccess("edit permission", $this->ref_id))
 		{
-
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 			$parentRoles = $rbacadmin->getParentRoleIds();
 
@@ -537,11 +582,11 @@ class Object
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->id;
 		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
 		
-		if ($rbacsystem->checkAccess("edit permission", $this->id, $_GET["parent"]) &&
-		   $rbacsystem->checkAccess($permission, $rolf_id, $rolf_parent, "rolf"))
+		if ($rbacsystem->checkAccess("edit permission", $this->id) &&
+		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
 		{
 			// Check if object is able to contain role folder
-			$child_objects = TUtil::getModules($obj[type]);
+			$child_objects = $rbacadmin->getModules($obj["type"],$this->id);
 
 			if ($child_objects["rolf"])
 			{
@@ -562,7 +607,7 @@ class Object
 		
 		// TODO: get rid of $_GET variables
 
-		if ($rbacsystem->checkAccess('edit permission',$this->id, $_GET["parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$this->id))
 		{
 			$rbacadmin->revokePermission($this->id, $_GET["parent"]);
 			
@@ -591,7 +636,7 @@ class Object
 				if (!($rolf_id = $rolf_data["child"]))
 				{
 					// CHECK ACCESS 'create' rolefolder
-					if ($rbacsystem->checkAccess('create', $this->id, $_GET["parent"],'rolf'))
+					if ($rbacsystem->checkAccess('create', $this->id,'rolf'))
 					{
 						$role_obj["title"] = "Local roles";
 						$role_obj["desc"] = "Role Folder of object no. ".$this->id;
@@ -629,21 +674,21 @@ class Object
 	{
 		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
 
-		$object = getObject($_GET["obj_id"]);
-		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+		$object = getObject($_GET["ref_id"]);
+		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
 
 		if (!($rolf_id = $rolf_data["child"]))
 		{
-			if (!in_array('rolf',TUtil::getModules($object[type])))
+			if (!in_array('rolf',$rbacadmin->getModules($object["type"],$_GET["ref_id"])))
 			{
 				$this->ilias->raiseError("'".$object["title"]."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
 			}
 
 			// CHECK ACCESS 'create' rolefolder
-			if ($rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],'rolf'))
+			if ($rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
 			{
 				$rolf_id = createNewObject("rolf","Role Folder","Automatisch generierter Role Folder");
-				$tree->insertNode($rolf_id,$_GET["obj_id"],$_GET["parent"]);
+				$tree->insertNode($rolf_id,$_GET["ref_id"],$_GET["parent"]);
 				// Suche aller Parent Rollen im Baum
 				$parentRoles = $rbacadmin->getParentRoleIds();
 				
@@ -651,7 +696,7 @@ class Object
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 					$ops = $rbacreview->getOperations($parRol["obj_id"],'rolf',$parRol["parent"]);
-					$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id,$_GET["obj_id"]);
+					$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id,$_GET["ref_id"]);
 				}
 			}
 			else
@@ -661,10 +706,10 @@ class Object
 		}
 
 		// CHECK ACCESS 'write' of role folder
-		if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
+		if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["ref_id"]))
 		{
 			$new_obj_id = createNewObject("role",$_POST["Flocal_role"],"No description");
-			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["obj_id"],'y');
+			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["ref_id"],'y');
 		}
 		else
 		{
@@ -676,21 +721,23 @@ class Object
 	
 	/**
 	* show owner of object
-	* @access public
+	* @access	public
+	* @return	string	owners fullname or unknown
 	**/
 	function ownerObject()
 	{
-		global $tree, $lng;
+		global $lng;
 
-		$owner = TUtil::getOwner($_GET["obj_id"]);
+		$owner = TUtil::getOwner($_GET["ref_id"]);
 
 		if (is_object($owner))
-			$data = $owner->buildFullName();
+		{
+			return $owner->getFullname();
+		}
 		else
-			$data = $lng->txt("unknown");
-
-		return $data;
-
+		{
+			return $lng->txt("unknown");
+		}
 	}
 
 	/**
@@ -702,7 +749,7 @@ class Object
 	{
 		global $rbacadmin,$rbacreview;
 
-		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+		$ops_valid = $rbacadmin->getOperationsOnType($_GET["ref_id"]);
 
 		foreach ($_POST["id"] as $ops_id => $status)
 		{
@@ -710,7 +757,7 @@ class Object
 			{
 				if (!in_array($ops_id,$ops_valid))
 				{
-					$rbacreview->assignPermissionToObject($_GET["obj_id"],$ops_id);
+					$rbacreview->assignPermissionToObject($_GET["ref_id"],$ops_id);
 				}
 			}
 
@@ -718,7 +765,7 @@ class Object
 			{
 				if (in_array($ops_id,$ops_valid))
 				{
-					$rbacreview->deassignPermissionFromObject($_GET["obj_id"],$ops_id);
+					$rbacreview->deassignPermissionFromObject($_GET["ref_id"],$ops_id);
 //					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
 				}
 			}
@@ -740,6 +787,7 @@ class Object
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
 		// IF THERE IS NO REFERENCE, DELETE ENTRY IN OBJECT_DATA
+		// TODO: obsolte when ref_id is introduced
 		if(!$tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
 		{
 			deleteObject($a_obj_id);
@@ -755,7 +803,7 @@ class Object
 		global $lng,$tree;
 
 
-		$objects = $tree->getSavedNodeData($_GET["obj_id"]);
+		$objects = $tree->getSavedNodeData($_GET["ref_id"]);
 		if(count($objects))
 		{
 			$data["empty"] = false;
@@ -802,12 +850,12 @@ class Object
 
 	function getSubObjects()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$rbacadmin;
 		
 		$data = array();
 		
 		// show only objects with permission 'create'
-		$objects = TUtil::getModules($this->type);
+		$objects = $rbacadmin->getModules($this->type,$this->id);
 
 		foreach ($objects as $key => $object)
 		{

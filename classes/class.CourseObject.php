@@ -16,9 +16,9 @@ class CourseObject extends Object
 	* @param	int		$a_id		object id
 	* @access	public
 	*/
-	function CourseObject($a_id)
+	function CourseObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 } //END class.CourseObject
 ?>

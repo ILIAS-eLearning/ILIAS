@@ -16,9 +16,9 @@ class GroupObject extends Object
 	* qparam	int		$a_id	object id
 	* @access	public
 	*/
-	function GroupObject($a_id)
+	function GroupObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 } //END class.GroupObject
 ?>

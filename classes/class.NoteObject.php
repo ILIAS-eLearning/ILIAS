@@ -18,10 +18,12 @@ class NoteObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function NoteObject()
+	function NoteObject($a_id = 0,$a_call_by_reference = "")
 	{
 		global $ilias;
-		$this->ilias =& $ilias;	
+		$this->ilias =& $ilias;
+		
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 	/**

@@ -43,7 +43,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 //$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
 //mails
-$myMails = new UserMail($ilias->account->Id);
+$myMails = new UserMail($ilias->account->getId());
 $mails = $myMails->getMail();
 
 //last visited lessons
@@ -56,6 +56,7 @@ $courses = $ilias->account->getCourses();
 $frm_obj = TUtil::getObjectsByOperations('frm','read');
 $frmNum = count($frm_obj); 
 $lastLogin = $ilias->account->getLastLogin();
+
 
 //********************************************
 //* OUTPUT

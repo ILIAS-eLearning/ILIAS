@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.7 2003/02/26 13:44:10 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.8 2003/03/06 20:56:39 akill Exp $
 *
 * @extends	Object
 * @package	ilias-core
@@ -19,9 +19,12 @@ class LanguageFolderObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function LanguageFolderObjectOut($a_data)
+	function LanguageFolderObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "lngf";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
+		
+		// TODO: was soll der quatsch??
 		$this->LangFolderObject =& new LanguageFolderObject($_GET["obj_id"]);
 	}
 

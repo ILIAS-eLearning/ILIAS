@@ -32,21 +32,19 @@ class LanguageObject extends Object
 	* @param	int		$a_id		object id
 	* @access public
 	*/
-	function LanguageObject($a_id)
+	function LanguageObject($a_id,$a_call_by_reference = "")
 	{
 		global $lng;
 
-		$this->Object($a_id);
-		$obj = getObject($this->id);
-		$this->key = $obj["title"];
-		$this->status = $obj["desc"];
+		$this->Object($a_id,$a_call_by_reference);
+
+		$this->key = $this->title;
+		$this->status = $this->desc;
 		$this->lang_default = $lng->lang_default;
 		$this->lang_user = $lng->lang_user;
 		$this->lang_path = $lng->lang_path;
 		$this->separator = $lng->separator;
-
 	}
-
 
 	/**
 	* get language key
@@ -58,7 +56,6 @@ class LanguageObject extends Object
 		return $this->key;
 	}
 
-
 	/**
 	* get language status
 	*
@@ -68,7 +65,6 @@ class LanguageObject extends Object
 	{
 		return $this->status;
 	}
-
 
 	/**
 	* check if language is system language
@@ -81,20 +77,25 @@ class LanguageObject extends Object
 			return false;
 	}
 
-
 	/**
 	* check if language is system language
 	*/
 	function isUserLanguage()
 	{
 		if ($this->key == $this->lang_user)
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
-
-
+	/*
+	* DESC MISSING
+	* 
+	*/
 	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $rbacreview;
@@ -114,7 +115,6 @@ class LanguageObject extends Object
 			$this->ilias->raiseError("No permission to edit language",$this->ilias->error_obj->WARNING);
 		}
 	}
-
 
 	/**
 	* install current language
@@ -145,7 +145,6 @@ class LanguageObject extends Object
 		return "";
 	}
 
-
 	/**
 	* uninstall a language
 	*
@@ -165,7 +164,6 @@ class LanguageObject extends Object
 		return "";
 	}
 
-
 	/**
 	* remove language data from database
 	*/
@@ -174,7 +172,6 @@ class LanguageObject extends Object
 		$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
 		$this->ilias->db->query($query);
 	}
-
 
 	/**
 	* insert language data from file into database
@@ -213,7 +210,6 @@ class LanguageObject extends Object
 		chdir($tmpPath);
 	}
 
-
 	/**
 	* search ILIAS for users which have selected '$lang_key' as their prefered language and
 	* reset them to default language (english). A message is sent to all affected users
@@ -222,13 +218,12 @@ class LanguageObject extends Object
 	*/
 	function resetUserLanguage($lang_key)
 	{
-		$query = "UPDATE usr_pref SET ".
-				 "value = '".$this->lang_default."' ".
-				 "WHERE keyword = 'language' ".
-				 "AND value = '".$lang_key."'";
-		$this->ilias->db->query($query);
+		$q = "UPDATE usr_pref SET ".
+			 "value = '".$this->lang_default."' ".
+			 "WHERE keyword = 'language' ".
+			 "AND value = '".$lang_key."'";
+		$this->ilias->db->query($q);
 	}
-
 
 	/**
 	* remove lang-file haeder information from '$content'
@@ -239,9 +234,12 @@ class LanguageObject extends Object
 	* @param	string	$content	expecting an ILIAS lang-file
 	* @return	string	$content	content without header info OR false if no valid header was found
 	*/
-	function cut_header ($content) {
-		foreach ($content as $key => $val) {
-			if (trim($val) == "<!-- language file start -->") {
+	function cut_header ($content)
+	{
+		foreach ($content as $key => $val)
+		{
+			if (trim($val) == "<!-- language file start -->")
+			{
 				return array_slice($content,$key +1);
 			}
 	 	}
@@ -249,21 +247,19 @@ class LanguageObject extends Object
 	 	return false;
 	}
 
-
 	/**
 	* optimizes the db-table langdata
 	*
 	* @return	boolean	true on success
 	*/
-	function optimizeData () {
-
+	function optimizeData ()
+	{
 		// optimize
-		$query = "OPTIMIZE TABLE lng_data";
-		$this->ilias->db->query($query);
+		$q = "OPTIMIZE TABLE lng_data";
+		$this->ilias->db->query($q);
 
 		return true;
 	}
-
 
 	/**
 	* validate the logical structure the lang file
@@ -289,7 +285,8 @@ class LanguageObject extends Object
 		}
 
 		// header check
-		if (!$content = $this->cut_header(file($lang_file))) {
+		if (!$content = $this->cut_header(file($lang_file)))
+		{
 			$this->ilias->raiseError("Wrong Header in ".$lang_file,$this->ilias->error_obj->MESSAGE);
 		}
 
@@ -299,7 +296,8 @@ class LanguageObject extends Object
 			$separated = explode ($this->separator,trim($val));
 			$num = count($separated);
 
-			if ($num != 3) {
+			if ($num != 3)
+			{
 				$this->ilias->raiseError("Wrong parameter count in ".$lang_file."! Please check your language file!",$this->ilias->error_obj->MESSAGE);
 			}
 		}
@@ -309,8 +307,5 @@ class LanguageObject extends Object
 		// no error occured
 		return true;
 	}
-
-
-
 } // END class.LanguageObject
 ?>

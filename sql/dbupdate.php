@@ -385,5 +385,28 @@ DROP TABLE IF EXISTS object_reference;
 CREATE TABLE object_reference (
 ref_id INT NOT NULL AUTO_INCREMENT,
 obj_id INT NOT NULL ,
-PRIMARY KEY ( ref_id )
-);
+PRIMARY KEY (ref_id)
+) TYPE=MyISAM;
+
+<#18>
+#migrate existing objects
+<?php
+$tree_objects = array("frm","grp","cat","root","adm","lngf","objf","usrf","rolf","lm","le","lo","crs");
+
+$query = "SELECT type,obj_id FROM object_data ORDER by obj_id";
+$result = $this->db->query($query);
+
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$data[$row["obj_id"]] = $row["type"];
+}
+
+foreach ($data as $_id => $_type)
+{
+	if (in_array($_type,$tree_objects))
+	{
+		$query = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('".$_id."','".$_id."')";
+		$this->db->query($query);
+	}
+}
+?>

@@ -174,6 +174,7 @@ class DBUpdate
 					);
 				}
 			}
+			
 			$this->updateMsg = $msg;
 		}
 		else

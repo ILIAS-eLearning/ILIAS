@@ -12,8 +12,8 @@ class RbacSystem
 {
 	/**
 	* ilias object
-	* @var object ilias
-	* @access public
+	* @var		object	ilias
+	* @access	public
 	*/
 	var $ilias;
 
@@ -48,27 +48,22 @@ class RbacSystem
 	* @param	string		the type definition abbreviation (i.e.: frm,grp,crs)
 	* @return	boolean		returns true if ALL passed operations are given, otherwise false
 	*/
-	function checkAccess($a_operations,$a_obj_id,$a_parent,$a_type = "")
+	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
-
+		
+		// temp. disabled
+		return true;
+		
 		$create = false;
 		$operations = explode(",",$a_operations);
-		$ops = array();
+		$ops_arr = array();
 
 		foreach ($operations as $operation)
 		{
 			// Abfrage der ops_id der gewünschten Operation
-			$query = "SELECT ops_id FROM rbac_operations ".
-					 "WHERE operation ='".$operation."'";		    
-			
-			$res = $this->ilias->db->query($query);
-
-			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$ops_id = $row->ops_id;
-			}
-			
+			$ops_id = getOperationId($operation);
+		
 			// Case 'create': naturally there is no rbac_pa entry
 			// => looking for the next template and compare operation with template permission
 			if ($operation == "create")
@@ -86,12 +81,13 @@ class RbacSystem
 				}
 
 				// sometimes no tree-object was instated, therefore:
+				// TODO: maybe deprecated
 				if (!is_object($tree))
 				{
-					$tree = new Tree($a_obj_id,ROOT_FOLDER_ID);
+					$tree = new Tree($a_ref_id);
 				}
 
-				$path_ids = $tree->getPathId($a_obj_id,$a_parent);
+				$path_ids = $tree->getPathId($a_ref_id);
 				array_unshift($path_ids,SYSTEM_FOLDER_ID);
 				$parent_roles = $rbacadmin->getParentRoles($path_ids);
 
@@ -99,15 +95,16 @@ class RbacSystem
 				{
 					if (in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
 					{
-						$ops = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
-						
-						if (in_array($ops_id,$ops))
+						$ops_arr = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
+
+						if (in_array($ops_id,$ops_arr))
 						{
 							$create = true;
 							break;
 						}
 					}
 				}
+
 				if ($create)
 				{
 					continue;
@@ -124,19 +121,17 @@ class RbacSystem
 			$in .= implode("','",$_SESSION["RoleId"]);
 			$in .= "')";
 	
-			$query = "SELECT * FROM rbac_pa ".
-					 "WHERE rol_id ".$in." ".
-					 "AND obj_id = '".$a_obj_id."' ".
-					 "AND set_id = '".$a_parent."'";
-			
-			$res = $this->ilias->db->query($query);
+			$q = "SELECT * FROM rbac_pa ".
+				 "WHERE rol_id ".$in." ".
+				 "AND obj_id = '".$a_ref_id."' ";
+			$r = $this->ilias->db->query($q);
 
-			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+				$ops_arr = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
 			
-			if (in_array($ops_id,$ops))
+			if (in_array($ops_id,$ops_arr))
 			{
 				continue;
 			}
@@ -151,7 +146,7 @@ class RbacSystem
 	
 	/**
 	* DESCRIPTION MISSING
-	* TODO: This method could be obsolete?
+	* TODO: This method is only used in Object::permObject
 	* @access	public
 	* @param	integer		ObjectId,
 	* @param	integer		RoleIds, 
@@ -159,30 +154,28 @@ class RbacSystem
 	* @param	string
 	* @return	boolean
 	*/
-	function checkPermission($Aobj_id,$Arol_id,$Aoperation,$a_set_id)
+	function checkPermission($Aobj_id,$Arol_id,$Aoperation)
 	{
 		$ops = array();
 
 		// Abfrage der ops_id der gewünschten Operation
-		$query = "SELECT ops_id FROM rbac_operations ".
+		$q = "SELECT ops_id FROM rbac_operations ".
 				 "WHERE operation ='".$Aoperation."'";
 		
-		$res = $this->ilias->db->query($query);
+		$r = $this->ilias->db->query($q);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			//echo $row->ops_id."<br>";
 			$ops_id = $row->ops_id;
 		}
 	
-		$query = "SELECT * FROM rbac_pa ".
-				 "WHERE rol_id = '".$Arol_id."' ".
-				 "AND obj_id = '".$Aobj_id."' ".
-				 "AND set_id = '".$a_set_id."'";
+		$q = "SELECT * FROM rbac_pa ".
+			 "WHERE rol_id = '".$Arol_id."' ".
+			 "AND obj_id = '".$Aobj_id."' ";
 		
-		$res = $this->ilias->db->query($query);
+		$r = $this->ilias->db->query($q);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
@@ -190,28 +183,16 @@ class RbacSystem
 		return in_array($ops_id,$ops);
 	}
 
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
 	function getErrorMessage()
 	{
-		return $this->Error;
+
 	}
 	
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
 	function createSession()
 	{
 
 	}
 
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
 	function deleteSession()
 	{
 
@@ -226,10 +207,6 @@ class RbacSystem
 
 	}
 
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
 	function dropActiveRole()
 	{
 

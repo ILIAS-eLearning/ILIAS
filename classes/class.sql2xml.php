@@ -58,7 +58,7 @@ class sql2xml
 		global $ilias;
 		
 		$this->ilias =& $ilias;
-		$this->lm_tree = new Tree ($a_lm_id,0,$a_lm_id,$a_lm_id);
+		$this->lm_tree = new Tree ($a_lm_id,$a_lm_id,$a_lm_id);
 
 		if (!$a_lm_id)
 		{

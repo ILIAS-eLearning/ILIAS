@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.4 2002/12/17 14:41:30 smeyer Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.5 2003/02/11 14:43:22 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -13,24 +13,26 @@ class UserObjectOut extends ObjectOut
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
-	function UserObjectOut($a_data)
+	function UserObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "usr";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 	
 	function createObject()
 	{
 		$this->getTemplateFile("edit","usr");
+
 		foreach ($this->data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&obj_id=".$_GET["obj_id"].
-						  "&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&new_type=".$_POST["new_type"]);
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
@@ -38,17 +40,16 @@ class UserObjectOut extends ObjectOut
 	function editObject()
 	{
 		$this->getTemplateFile("edit","usr");
+
 		foreach ($this->data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=update"."&obj_id=".$_GET["obj_id"].
-						  "&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=update"."&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		
 
 		// BEGIN ACTIVE ROLES
 		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
@@ -66,8 +67,7 @@ class UserObjectOut extends ObjectOut
 		   $this->tpl->parseCurrentBlock();
 		}
 		// END TABLE ROLES
-		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&obj_id=".$_GET["obj_id"].
-								"&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".$_GET["ref_id"]);
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
 
@@ -75,21 +75,19 @@ class UserObjectOut extends ObjectOut
 		{
 		   $this->tpl->touchBlock("TABLE_SUBMIT");
 	    }
-
 	}
+
 	function activeRoleSaveObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit");
-		exit();
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=edit");
+		exit;
 	}	   
 
 	function updateObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["parent"]."&parent=".
+		header("Location: adm_object.php?ref_id=".$_GET["parent"]."&parent=".
 			   $_GET["parent_parent"]."&cmd=view");
-		exit();
+		exit;
 	}
-
 } // END class.UserObjectOut
 ?>
