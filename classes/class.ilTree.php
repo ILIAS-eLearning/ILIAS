@@ -1467,5 +1467,22 @@ class ilTree
 		
 		return $i;
 	}
+
+	/**
+	* STATIC METHOD
+	* Removes a single entry from a tree. The tree structure is NOT updated!
+	*
+ 	* @access	public
+	* @param	integer	tree id
+	* @param	integer	child id
+	* @param	string	db_table name. default is 'tree' (optional)
+	*/
+	function _removeEntry($a_tree,$a_child,$a_db_table = "tree")
+	{
+		global $ilDB;
+
+		$q = "DELETE from ".$a_db_table." WHERE tree='".$a_tree."' AND child='".$a_child."'";
+		$ilDB->query($q);
+	}
 } // END class.tree
 ?>
