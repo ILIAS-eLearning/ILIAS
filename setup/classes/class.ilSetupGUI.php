@@ -46,11 +46,11 @@ class ilSetupGUI extends ilSetup
 	var $btn_next_on = false;
 	var	$btn_next_cmd;
 	var	$btn_next_lng;
-	
+
 	var $revision;
 	var $version;
 	var $lang;
-	
+
 	var $cmd;						// command variable
 	var $display_mode = "view";		// view mode (setup or details)
 
@@ -61,27 +61,27 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		
+
 		//CVS - REVISION - DO NOT MODIFY
 		$this->revision = "$Revision$";
 		$this->version = "2.".substr(substr($this->revision,2),0,-2);
 		$this->lang = $this->lng->lang_key;
 
-		// init setup	
+		// init setup
 		$this->ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
 
 		// init client object if exists
 		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
-		
+
 		// for security
 		if (!$this->isAdmin() and $client_id != $_SESSION["ClientId"])
 		{
 			$client_id = $_SESSION["ClientId"];
 		}
-		
+
 		$this->ini_client_exists = $this->newClient($client_id);
 		$this->client->status = $this->getStatus();
-		
+
 		// determine command
 		if (($this->cmd = $_GET["cmd"]) == "gateway")
 		{
@@ -94,18 +94,18 @@ class ilSetupGUI extends ilSetup
 		// OR switch to 'setup'-mode if someone logs in as client and client's setup wasn't finished (-> entry in settings table doesn't exists)
 		if ($this->isAuthenticated() and !$this->client->status["finish"]["status"] and $this->cmd != "clientlist" and $this->cmd != "")
 		{
-			$this->setDisplayMode("setup");		
+			$this->setDisplayMode("setup");
 		}
 		else
 		{
 			$this->setDisplayMode($_SESSION["display_mode"]);
-		}		
+		}
 //////////////////////////////////////////////
 // output starts here
 
 		// display header
 		$this->displayHeader();
-		
+
 		// main cmd handling
 		if (!$this->isAuthenticated() or !$this->isInstalled())
 		{
@@ -130,13 +130,13 @@ class ilSetupGUI extends ilSetup
 				$this->cmdClient();
 			}
 		}
-		
+
 		if (DEBUG)
 		{
 			echo "cmd: ".$this->cmd." | access: ".$this->access_mode." | display: ".$this->display_mode;
 			var_dump($this->client->status);
 		}
-		
+
 		// display footer
 		$this->displayFooter();
 
@@ -158,11 +158,11 @@ class ilSetupGUI extends ilSetup
 				$this->checkPreliminaries();
 				$this->displayPreliminaries();
 				break;
-			
+
 			case "install":
 				$this->displayMasterSetup();
 				break;
-			
+
 			default:
 				$this->displayError($this->lng->txt("unknown_command"));
 				break;

@@ -239,7 +239,7 @@ class ilClient
 	{
 		return $this->ini->readVariable("db","pass");
 	}
-	
+
 	function getDataDir()
 	{
 		return ILIAS_DATA_DIR."/".$this->getId();
@@ -511,84 +511,84 @@ class ilClient
 			ilUtil::delDir(CLIENT_DATA_DIR);
 			$msg[] = "files_deleted";
 		}
-		
+
 		return $msg;
 	}
-	
+
 	function create()
 	{
 		//var_dump($this->getDataDir());exit;
 		// create base data dir
 		if (!ilUtil::makeDir($this->getDataDir()))
 		{
-			$this->error = "could_not_create_base_data_dir";
+			$this->error = "could_not_create_base_data_dir :".$this->getDataDir();
 			return false;
 		}
 
 		// create sub dirs in base data dir
 		if (!ilUtil::makeDir($this->getDataDir()."/mail"))
 		{
-			$this->error = "could_not_create_mail_data_dir";
+			$this->error = "could_not_create_mail_data_dir :".$this->getDataDir()."/mail";
 			return false;
 		}
 
 		if (!ilUtil::makeDir($this->getDataDir()."/lm_data"))
 		{
-			$this->error = "could_not_create_lm_data_dir";
+			$this->error = "could_not_create_lm_data_dir :".$this->getDataDir()."/lm_data";
 			return false;
 		}
 
 		if (!ilUtil::makeDir($this->getDataDir()."/forum"))
 		{
-			$this->error = "could_not_create_forum_data_dir";
+			$this->error = "could_not_create_forum_data_dir :".$this->getDataDir()."/forum";
 			return false;
 		}
 
 		if (!ilUtil::makeDir($this->getDataDir()."/files"))
 		{
-			$this->error = "could_not_create_files_data_dir";
+			$this->error = "could_not_create_files_data_dir :".$this->getDataDir()."/files";
 			return false;
 		}
-		
+
 		// create base webspace dir
 		if (!ilUtil::makeDir($this->getWebspaceDir()))
 		{
-			$this->error = "could_not_create_base_webspace_dir";
+			$this->error = "could_not_create_base_webspace_dir :".$this->getWebspaceDir();
 			return false;
 		}
 
 		// create sub dirs in base webspace dir
 		if (!ilUtil::makeDir($this->getWebspaceDir()."/lm_data"))
 		{
-			$this->error = "could_not_create_lm_webspace_dir";
+			$this->error = "could_not_create_lm_webspace_dir :".$this->getWebspaceDir()."/lm_data";
 			return false;
 		}
-					
+
 		if (!ilUtil::makeDir($this->getWebspaceDir()."/usr_images"))
 		{
-			$this->error = "could_not_create_usr_images_webspace_dir";
+			$this->error = "could_not_create_usr_images_webspace_dir :".$this->getWebspaceDir()."/usr_images";
 			return false;
 		}
 
 		if (!ilUtil::makeDir($this->getWebspaceDir()."/mobs"))
 		{
-			$this->error = "could_not_create_mobs_webspace_dir";
+			$this->error = "could_not_create_mobs_webspace_dir :".$this->getWebspaceDir()."/mobs";
 			return false;
 		}
 
 		if (!ilUtil::makeDir($this->getWebspaceDir()."/css"))
 		{
-			$this->error = "could_not_create_css_webspace_dir";
+			$this->error = "could_not_create_css_webspace_dir :".$this->getWebspaceDir()."/css";
 			return false;
 		}
-		
+
 		// write client ini
 		if (!$this->ini->write())
 		{
 			$this->error = get_class($this).": ".$this->ini->getError();
 			return false;
 		}
-		
+
 		return true;
 	}
 }
