@@ -1017,7 +1017,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$user_order = array();
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if (strcmp($data->value1, "") != 0)
+			if ((strcmp($data->value1, "") != 0) && (strcmp($data->value2, "") != 0))
 			{
 				$user_order[$data->value2] = $data->value1;
 			}
@@ -1034,9 +1034,12 @@ class ASS_OrderingQuestion extends ASS_Question
 		$points = 0;
 		foreach ($answer_order as $index => $answer_id)
 		{
-			if ($answer_id == $user_order[$index])
+			if (strcmp($user_order[$index], "") != 0)
 			{
-				$points += $this->answers[$answer_id]->get_points();
+				if ($answer_id == $user_order[$index])
+				{
+					$points += $this->answers[$answer_id]->get_points();
+				}
 			}
 		}
 		return $points;
