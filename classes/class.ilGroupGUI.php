@@ -2611,6 +2611,9 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
+		
 		$path = $this->grp_tree->getPathFull($_GET["ref_id"]);
 		$path2 = $this->tree->getPathFull($path[0]["child"]);
 		//$this->tpl->touchBlock("locator_separator");
@@ -2621,6 +2624,10 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("LINK_ITEM", "grp_list.php");
 		$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 		$this->tpl->parseCurrentBlock();*/
+
+		// ### AA 03.11.10 added new locator GUI class ###
+		// navigate locator
+		$ilias_locator->navigate($i++,$this->lng->txt("groups"),"grp_list.php","bottom");
 
 		foreach ($path2 as $key => $row)
 		{
@@ -2635,6 +2642,10 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("LINK_ITEM", "group.php?ref_id=".$row["child"]);
 				$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 				$this->tpl->parseCurrentBlock();
+				
+				// ### AA 03.11.10 added new locator GUI class ###
+				// navigate locator
+				$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
 			}
 			else
 			{
@@ -2650,6 +2661,16 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("LINK_ITEM", "repository.php?ref_id=".$row["child"]);
 				$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 				$this->tpl->parseCurrentBlock();
+				
+				// ### AA 03.11.10 added new locator GUI class ###
+				// navigate locator
+				if ($this->tree->getRootId() == $row["child"])
+				{
+					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"group.php?ref_id=".$row["child"],"bottom");
+				else
+				{
+					$ilias_locator->navigate($i++,$row["title"],"group.php?ref_id=".$row["child"],"bottom");
+				}
 			}
 
 		}

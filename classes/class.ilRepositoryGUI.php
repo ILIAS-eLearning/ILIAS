@@ -924,6 +924,9 @@ class ilRepositoryGUI
 		{
 			$modifier = 0;
 		}
+		
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
 
 		foreach ($path as $key => $row)
 		{
@@ -947,6 +950,17 @@ class ilRepositoryGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("locator");
+			
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			if ($row["child"] != $a_tree->getRootId())
+			{
+				$ilias_locator->navigate($i++,$row["title"],"repository.php?ref_id=".$row["child"],"bottom");
+			}
+			else
+			{
+				$ilias_locator->navigate($i++,$this->lng->txt("repository"),"repository.php?ref_id=".$row["child"],"bottom");
+			}
 		}
 
 		/*
