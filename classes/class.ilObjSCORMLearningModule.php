@@ -469,6 +469,51 @@ class ilObjSCORMLearningModule extends ilObject
 		return $items;
 	}
 
+	/**
+	* get all tracked items of current user
+	*/
+	function getTrackedItems()
+	{
+		global $ilUser, $ilDB, $ilUser;
+
+		$query = "SELECT DISTINCT sco_id FROM scorm_tracking2 WHERE".
+			//" user_id = ".$ilDB->quote($ilUser->getId()).
+			" ref_id = ".$ilDB->quote($this->getRefId());
+
+		$sco_set = $ilDB->query($query);
+
+		$items = array();
+		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			include_once("content/classes/SCORM/class.ilSCORMItem.php");
+			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
+			if ($sc_item->getIdentifierRef() != "")
+			{
+				$items[count($items)] =& $sc_item;
+			}
+		}
+
+		return $items;
+	}
+
+	function getTrackingData2($a_sco_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM scorm_tracking2 WHERE".
+			" ref_id = ".$ilDB->quote($this->getRefId()).
+			" AND sco_id = ".$ilDB->quote($a_sco_id).
+			" ORDER BY user_id, lvalue";
+		$data_set = $ilDB->query($query);
+
+		$data = array();
+		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$data[] = $data_rec;
+		}
+
+		return $data;
+	}
 
 } // END class.ilObjSCORMLearningModule
 ?>

@@ -220,7 +220,7 @@ class ilSCORMPresentationGUI
 
 	function launchSco()
 	{
-		global $ilUser;
+		global $ilUser, $ilDB;
 
 		$sco_id = ($_GET["sco_id"] == "")
 			? $_POST["sco_id"]
@@ -252,8 +252,120 @@ class ilSCORMPresentationGUI
 			$this->tpl->setVariable("CREDIT_MODE", "normal");
 			$this->tpl->parseCurrentBlock();
 		}
+		$query = "SELECT * FROM scorm_tracking2 WHERE".
+			" user_id = ".$ilDB->quote($ilUser->getId()).
+			" AND sco_id = ".$ilDB->quote($sco_id);
+		$val_set = $ilDB->query($query);
+		$re_value = array();
+		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+//echo "1".$val_rec["lvalue"]."-";
+			$re_value[$val_rec["lvalue"]] = $val_rec["rvalue"];
+		}
+
+		foreach($re_value as $var => $value)
+		{
+			switch ($var)
+			{
+				case "cmi.core.lesson_location":
+				case "cmi.core.lesson_status":
+				case "cmi.core.entry":
+				case "cmi.core.score.raw":
+				case "cmi.core.score.max":
+				case "cmi.core.score.min":
+				case "cmi.core.total_time":
+				case "cmi.core.exit":
+				case "cmi.suspend_data":
+				case "cmi.comments":
+				case "cmi.student_preference.audio":
+				case "cmi.student_preference.language":
+				case "cmi.student_preference.speed":
+				case "cmi.student_preference.text":
+					$this->setSingleVariable($var, $value);
+					break;
+
+				case "cmi.objectives._count":
+					$this->setSingleVariable($var, $value);
+					$this->setArray("cmi.objectives", $value, "id", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.raw", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.max", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.min", $re_value);
+					$this->setArray("cmi.objectives", $value, "status", $re_value);
+					break;
+
+				case "cmi.interactions._count":
+					$this->setSingleVariable($var, $value);
+					$this->setArray("cmi.interactions", $value, "id", $re_value);
+					for($i=0; $i<$value; $i++)
+					{
+						$var2 = "cmi.interactions.".$i.".objectives._count";
+						if (isset($v_array[$var2]))
+						{
+							$cnt = $v_array[$var2];
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "id", $re_value);
+							/*
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.raw", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.max", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.min", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "status", $re_value);*/
+						}
+					}
+					$this->setArray("cmi.interactions", $value, "time", $re_value);
+					$this->setArray("cmi.interactions", $value, "type", $re_value);
+					for($i=0; $i<$value; $i++)
+					{
+						$var2 = "cmi.interactions.".$i.".correct_responses._count";
+						if (isset($v_array[$var2]))
+						{
+							$cnt = $v_array[$var2];
+							$this->setArray("cmi.interactions.".$i.".correct_responses",
+								$cnt, "pattern", $re_value);
+							$this->setArray("cmi.interactions.".$i.".correct_responses",
+								$cnt, "weighting", $re_value);
+						}
+					}
+					$this->setArray("cmi.interactions", $value, "student_response", $re_value);
+					$this->setArray("cmi.interactions", $value, "result", $re_value);
+					$this->setArray("cmi.interactions", $value, "latency", $re_value);
+					break;
+			}
+		}
+
 		$this->tpl->show();
 	}
 
+	/**
+	* set single value
+	*/
+	function setSingleVariable($a_var, $a_value)
+	{
+		$this->tpl->setCurrentBlock("set_value");
+		$this->tpl->setVariable("VAR", $a_var);
+		$this->tpl->setVariable("VALUE", $a_value);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* set single value
+	*/
+	function setArray($a_left, $a_value, $a_name, &$v_array)
+	{
+		for($i=0; $i<$a_value; $i++)
+		{
+			$var = $a_left.".".$i.".".$a_name;
+			if (isset($v_array[$var]))
+			{
+				$this->tpl->setCurrentBlock("set_value");
+				$this->tpl->setVariable("VAR", $var);
+				$this->tpl->setVariable("VALUE", $v_array[$var]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
 }
 ?>
