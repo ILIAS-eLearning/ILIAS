@@ -628,11 +628,9 @@ class ilPageObject
 	}
 
 	/**
-	* converts all internal link targets of the page
-	*
-	* @param	array		$a_mapping		mapping array (keys: old targets, values: new targets)
+	* resolves all internal link targets of the page, if targets are available
 	*/
-	function mapIntLinks(&$a_mapping)
+	function resolveIntLinks()
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -644,11 +642,43 @@ class ilPageObject
 			switch($type)
 			{
 				case "PageObject":
+					/*
 					if(!empty($a_mapping[$target]))
 					{
 						$res->nodeset[$i]->set_attribute("Target", $a_mapping[$target]);
+					}*/
+					$id = ilLMObject::_getIdForImportId($target);
+					if($id > 0)
+					{
+						$res->nodeset[$i]->set_attribute("Target", "il__pg_".$id);
 					}
 					break;
+
+				case "StructureObject":
+					$id = ilLMObject::_getIdForImportId($target);
+					if($id > 0)
+					{
+						$res->nodeset[$i]->set_attribute("Target", "il__pg_".$id);
+					}
+					break;
+
+				case "GlossaryItem":
+					$id = ilGlossaryTerm::_getIdForImportId($target);
+					if($id > 0)
+					{
+						$res->nodeset[$i]->set_attribute("Target", "il__git_".$id);
+					}
+					break;
+
+				case "MediaObject":
+					$id = ilMediaObject::_getIdForImportId($target);
+					if($id > 0)
+					{
+						$res->nodeset[$i]->set_attribute("Target", "il__mob_".$id);
+					}
+					break;
+
+
 			}
 		}
 		unset($xpc);

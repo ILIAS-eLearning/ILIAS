@@ -164,8 +164,9 @@ class ilLMObject
 	function create($a_upload = false)
 	{
 		// insert object data
-		$query = "INSERT INTO lm_data (title, type, lm_id, import_id) ".
-			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId()."')";
+		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date) ".
+			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId().
+			"', now())";
 		$this->ilias->db->query($query);
 		$this->setId(getLastInsertId());
 
@@ -230,6 +231,28 @@ class ilLMObject
 
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
+	}
+
+	/**
+	* get current object id for import id (static)
+	*
+	* @param	int		$a_import_id		import id
+	*
+	* @return	int		id
+	*/
+	function _getIdForImportId($a_import_id)
+	{
+		$q = "SELECT * FROM lm_data WHERE import_id = '".$a_import_id."'".
+			" ORDER BY create_date DESC LIMIT 1";
+		$obj_set = $this->ilias->db->query($q);
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $obj_rec["obj_id"];
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**

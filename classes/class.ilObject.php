@@ -525,6 +525,28 @@ class ilObject
 	}
 
 	/**
+	* get current object id for import id (static)
+	*
+	* @param	int		$a_import_id		import id
+	*
+	* @return	int		id
+	*/
+	function _getIdForImportId($a_import_id)
+	{
+		$q = "SELECT * FROM object_data WHERE import_id = '".$a_import_id."'".
+			" ORDER BY create_date DESC LIMIT 1";
+		$obj_set = $this->ilias->db->query($q);
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $obj_rec["obj_id"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff
