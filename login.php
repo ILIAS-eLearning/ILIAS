@@ -17,6 +17,7 @@ if ($ilias->auth->getAuth())
 	exit;
 }
 
+
 //instantiate login template
 $tplContent = new Template("login.html", true, true);
 
