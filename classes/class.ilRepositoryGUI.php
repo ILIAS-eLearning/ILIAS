@@ -1211,6 +1211,7 @@ class ilRepositoryGUI
 		foreach($this->forums as $data)
 		{
 			unset($topicData);
+			$frm->setForumRefId($data["ref_id"]);
 
 			$frm->setWhereCondition("top_frm_fk = ".$data["obj_id"]);
 			$topicData = $frm->getOneTopic();
@@ -1327,24 +1328,22 @@ class ilRepositoryGUI
 				$tpl->setVariable("LAST_POST", $lpCont);
 
 				// get dates of moderators
-				if ($topicData["top_mods"] > 0)
+				$MODS = $frm->getModerators();
+
+				for ($i = 0; $i < count($MODS); $i++)
 				{
-					$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);
+					unset($moderator);
+					$moderator = $frm->getUser($MODS[$i]);
 
-					for ($i = 0; $i < count($MODS); $i++)
+					if ($moderators != "")
 					{
-						unset($moderator);
-						$moderator = $frm->getUser($MODS[$i]);
-
-						if ($moderators != "")
-						{
-							$moderators .= ", ";
-						}
-
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".
-							$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
+						$moderators .= ", ";
 					}
+
+					$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".
+						$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
 				}
+
 				$tpl->setVariable("MODS",$moderators);
 				$tpl->setVariable("TXT_MODERATORS", $lng->txt("forums_moderators"));
 

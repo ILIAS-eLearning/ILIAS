@@ -736,6 +736,32 @@ class ilForum
 	}
 
 	/**
+	* get all users assigned to local role il_frm_moderator_<frm_ref_id>
+	*
+	* @return	array	user_ids 
+	* @access	public
+   	*/
+	function getModerators()
+	{
+		global $rbacreview;
+		
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getForumRefId());
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+
+		foreach ($role_arr as $role_id)
+		{
+			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+			
+			if ($roleObj->getTitle() == "il_frm_moderator_".$this->getForumRefId())
+			{
+				return $rbacreview->assignedUsers($roleObj->getId());
+			}
+		}
+		
+		return array();
+	}
+
+	/**
    	* checks edit-right for given post-ID
 	*
 	* @param	integer	$post_id: post-ID
