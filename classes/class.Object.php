@@ -456,7 +456,7 @@ class Object
 /**
  * create path
  * @access private
- * @param int
+ * @param string
  * @return string
  */
 	function getPath($a_id = "")

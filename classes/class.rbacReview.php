@@ -143,7 +143,7 @@ class RbacReview extends PEAR
     }
 /**
  * @access public
- * @params int (UserID)
+ * @params int UserID
  * @return type int array (Objekt-Permissions eines Users)
  */
     function userPermissions($Ausr_id)
@@ -176,7 +176,8 @@ class RbacReview extends PEAR
     }
 /**
  * @access public
- * @params int,int (RoleID und ObjektID)
+ * @param integer RoleID
+ * @param integer ObjektID
  * @return type int array (Permissions fÅr Rolle/Objekt) 
  */
     function roleOperationsOnObject($Arol_id,$Aobj_id)
@@ -197,6 +198,7 @@ class RbacReview extends PEAR
  * @access public
  * @param int
  * @param int
+ * @param string
  * @return type array(int) Array der Operations
  */
     function getOperations($Arol_id,$Atype,$Aparent = "")

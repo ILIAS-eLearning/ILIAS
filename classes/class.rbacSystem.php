@@ -76,9 +76,9 @@ class RbacSystem extends PEAR
 
 /**	
  * @access public
- * @param integer ObjectId, das abzufragende Recht
+ * @param integer ObjectId
+ * @param integer das abzufragende Recht
  * @param integer
- * @oaram integer
  * @param string
  * @return boolean true false
  */
