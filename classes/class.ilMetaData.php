@@ -48,11 +48,7 @@ class ilMetaData
 	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 	var $id;
 	var $type;
-	var $technical_size;
-	var $technical_locations;
-	var $technical_requirements;
-	var $technical_install_lang;
-	var $technical_install_remarks;
+	var $technicals;
 
 	/**
 	* Constructor
@@ -199,129 +195,31 @@ class ilMetaData
 	}
 
 	/**
-	* TECHNICAL: Format
+	* Technical section
 	*
-	* @param	string		$a_format		mime type
+	* @param	array	$a_tech		object (of class ilMetaTechnical)
 	*/
-	function setTechnicalFormat($a_format)
+	function addTechnicalSection(&$a_tech)
 	{
-		$this->technical_format = $a_format;
+		$this->technicals[] =& $a_tech;
+		$a_tech->setType($this->getType());
+		$a_tech->setId($this->getId());
 	}
 
-	function getTechnicalFormat($a_format)
+	function getTechnicalSections()
 	{
-		return $this->technical_format;
+		return $this->technicals;
 	}
 
-	/**
-	* TECHNICAL: Size
-	*/
-	function setTechnicalSize($a_size)
+	function updateTechnicalSections()
 	{
-		$this->technical_size = $a_size;
+		ilMetaTechnical::delete($this->getId(), $this->getType());
+		foreach($this->technicals as $technical)
+		{
+			$technical->create();
+		}
 	}
 
-	function getTechnicalSize()
-	{
-		return $this->technical_size;
-	}
-
-
-	/**
-	* TECHNICAL Location
-	*/
-	function addTechnicalLocation($a_loc)
-	{
-		$this->technical_locations[] = $a_loc;
-	}
-
-	function getTechnicalLocations()
-	{
-		return $this->technical_locations;
-	}
-
-	/**
-	* TECHNICAL Requirements
-	*
-	* @param	array	$a_requirement		array(
-	*/
-	function addTechnicalRequirementSet($a_requirement_set)
-	{
-		$this->requirement_sets[] = $a_requirement_set;
-	}
-
-	function getTechnicalRequirementSets()
-	{
-		return $this->requirement_sets;
-	}
-
-
-	/**
-	* TECHNICAL Installation Remarks
-	*
-	* @param	string	$a_lang		language code
-	* @param	string	$a_remarks	installation remarks
-	*/
-	function setTechnicalInstallationRemarks($a_remarks)
-	{
-		$this->technical_install_remarks = $a_remarks;
-	}
-
-	function setTechnicalInstallationRemarksLanguage($a_lang)
-	{
-		$this->technical_install_lang = $a_lang;
-	}
-
-	function getTechnicalInstallationRemarksLanguage()
-	{
-		return $this->technical_install_lang;
-	}
-
-	function getTechnicalInstallationRemarks()
-	{
-		return $this->technical_install_remarks;
-	}
-
-
-	/**
-	* TECHNICAL Other Platform Requirements
-	*
-	* @param	string	$a_remarks	requirements
-	*/
-	function setTechnicalOtherRequirements($a_requirements)
-	{
-		$this->technical_other_req = $a_requirements;
-	}
-
-	function setTechnicalOtherRequirementsLanguage($a_lang)
-	{
-		$this->technical_other_req_lang = $a_lang;
-	}
-
-	function getTechnicalOtherRequirementsLanguage()
-	{
-		return $this->technical_other_req_lang;
-	}
-
-	function getTechnicalOtherRequirements()
-	{
-		return $this->technical_other_req;
-	}
-
-	/**
-	* TECHNICAL Duration
-	*
-	* @param	string	$a_duration		duration
-	*/
-	function setTechnicalDuration($a_duration)
-	{
-		$this->technical_duration = $a_duration;
-	}
-
-	function getTechnicalDuration()
-	{
-		return $this->technical_duration;
-	}
 
 	/**
 	* create meta data object in db
@@ -329,11 +227,12 @@ class ilMetaData
 	function create()
 	{
 		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
-			"language, description) VALUES ".
+			"language, description, tech_) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
 			"'".$this->getLanguage()."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
 		$this->updateKeywords();
+		$this->updateTechnicalSections();
 	}
 
 
