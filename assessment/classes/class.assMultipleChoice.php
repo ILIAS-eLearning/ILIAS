@@ -418,7 +418,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $this->question = $data->question_text;
         $this->response = $data->choice_response;
 				$this->setShuffle($data->shuffle);
-        $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+        $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($question_id);

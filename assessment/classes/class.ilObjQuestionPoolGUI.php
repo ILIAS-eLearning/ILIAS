@@ -201,7 +201,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $question->object->saveToDb();
 				// remove all references to the question in test solutions
 				$question->object->removeAllQuestionReferences();
-        $this->cancel_action($question->object->get_id());
+        $this->cancel_action($question->object->getId());
         exit();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
