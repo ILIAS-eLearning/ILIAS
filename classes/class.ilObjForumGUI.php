@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.13 2004/04/08 09:52:44 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.14 2004/05/13 19:21:05 akill Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -71,12 +71,13 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function properties()
 	{
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
 
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("DESC", $this->object->getDescription());
+		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$this->tpl->setVariable("DESC", ilUtil::stripSlashes($this->object->getDescription()));
 
 
 		$this->tpl->setVariable("FORMACTION", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);

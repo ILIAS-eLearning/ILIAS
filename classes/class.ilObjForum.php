@@ -71,11 +71,11 @@ class ilObjForum extends ilObject
 		{			
 			$query = "UPDATE frm_data ".
 					 "SET ".
-					 "top_name = '".$this->getTitle()."',".
-					 "top_description = '".$this->getDescription()."',".
+					 "top_name = '".ilUtil::prepareDBString($this->getTitle())."',".
+					 "top_description = '".ilUtil::prepareDBString($this->getDescription())."',".
 					 "top_update = '".date("Y-m-d H:i:s")."',".
-					 "update_user = '".$_SESSION["AccountId"]."' ".
-					 "WHERE top_frm_fk = '".$this->getId()."'";
+					 "update_user = '".(int) $_SESSION["AccountId"]."' ".
+					 "WHERE top_frm_fk = '".(int) $this->getId()."'";
 			$res = $this->ilias->db->query($query);
 		
 			return true;
