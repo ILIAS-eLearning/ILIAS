@@ -38,6 +38,10 @@ include_once("classes/class.ilTabsGUI.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjScormLearningModuleGUI, ilObjChatGUI, ilObjForumGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 *
 * @package core
 */
@@ -184,6 +188,18 @@ class ilRepositoryGUI
 				$this->tpl->show();
 				break;
 
+			/*
+			case "ilobjmediapoolgui":
+				include_once("./content/classes/class.ilObjMediaPoolGUI.php");
+				$this->gui_obj = new ilObjMediaPoolGUI("", $this->cur_ref_id, true, false);
+
+				$this->ctrl->setCmd($this->ctrl->getCmd()."Object");
+				$this->prepareOutput(false);
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+
+				$this->tpl->show();
+				break;*/
+
 			default:
 
 				if (!isset($obj_type))
@@ -212,7 +228,7 @@ class ilRepositoryGUI
 		}
 	}
 
-	function prepareOutput()
+	function prepareOutput($a_tabs_out = true)
 	{
 		// output objects
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
@@ -234,7 +250,7 @@ class ilRepositoryGUI
 		infoPanel();
 
 		// set header
-		$this->setHeader();
+		$this->setHeader($a_tabs_out);
 	}
 
 	/**
@@ -572,7 +588,7 @@ class ilRepositoryGUI
 	/**
 	* display header section (header, description, tree/flat icon)
 	*/
-	function setHeader()
+	function setHeader($a_tabs_out = true)
 	{
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
@@ -607,8 +623,11 @@ class ilRepositoryGUI
 			$this->tpl->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		$this->setAdminTabs();
+
+		if ($a_tabs_out)
+		{
+			$this->setAdminTabs();
+		}
 
 		//$this->tpl->setCurrentBlock("content");
 
@@ -621,7 +640,7 @@ class ilRepositoryGUI
 			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
 		}
 	}
-	
+
 	/**
 	* set admin tabs
 	*/
@@ -1110,7 +1129,11 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('delete', $mep_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("mep_delete");
-					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$mep_data["ref_id"]);
+					$this->ctrl->setParameterByClass("ilobjmediapoolgui",
+						"ref_id", $mep_data["ref_id"]);
+					$tpl->setVariable("DELETE_LINK",
+						$this->ctrl->getLinkTargetByClass("ilobjmediapoolgui", "delete"));
+					//"repository.php?cmd=delete&ref_id=".$mep_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
@@ -2695,10 +2718,15 @@ class ilRepositoryGUI
 
 	function executeAdminCommand()
 	{
-		$this->prepareOutput();
+		$cmd = $this->cmd;
+		$tabs_out = true;
+		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete")
+		{
+			$tabs_out = false;
+		}
+		$this->prepareOutput($tabs_out);
 
 		$id = $this->cur_ref_id;
-		$cmd = $this->cmd;
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
@@ -2743,7 +2771,6 @@ class ilRepositoryGUI
 			$class_constr = "ilObj".$class_name."GUI";
 			include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 			$obj_gui =& new $class_constr("", $this->cur_ref_id, true, false);*/
-
 			switch($cmd)
 			{
 				case "delete":

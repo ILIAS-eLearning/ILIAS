@@ -3877,3 +3877,10 @@ REPLACE INTO settings (keyword, value) VALUES ('save_user_related_data', 0);
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
+<#232>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

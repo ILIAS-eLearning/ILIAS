@@ -35,17 +35,27 @@ class ilCtrlStructureReader
 {
 	var $class_script;
 	var $class_childs;
+	var $executed;
 
 	function ilCtrlStructureReader()
 	{
 		$this->class_script = array();
 		$this->class_childs = array();
+		$this->executed = false;
 	}
 
+	/**
+	* parse code files and store call structure in db
+	*/
 	function getStructure()
 	{
-		$this->read(ILIAS_ABSOLUTE_PATH);
-		$this->store();
+		// only run one time per db_update request
+		if (!$this->executed)
+		{
+			$this->read(ILIAS_ABSOLUTE_PATH);
+			$this->store();
+			$this->executed = true;
+		}
 	}
 
 	/**

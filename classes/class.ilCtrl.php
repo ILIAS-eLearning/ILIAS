@@ -47,15 +47,6 @@ class ilCtrl
 		$this->bench =& $ilBench;
 		$this->transit = array();
 
-		/*
-		if (is_array($_GET["cmdTransit"]))
-		{
-			foreach($_GET["cmdTransit"] as $transClass)
-			{
-				$this->transit[] = strtolower($transClass);
-			}
-		}*/
-
 		$this->location = array();
 		$this->tab = array();
 		$this->current_node = 0;
@@ -167,38 +158,48 @@ class ilCtrl
 		return $_GET["cmdNode"];
 	}
 
-	/*
-	function getNextTransit()
-	{
-		reset($this->transit);
-		foreach($this->transit as $transClass)
-		{
-			if ($transClass != "")
-			{
-				return strtolower($transClass);
-			}
-		}
-
-		return false;
-	}*/
-
+	/**
+	* add a location to the locator array
+	*
+	* @param	string		$a_title	link text
+	* @param	string		$a_link		link
+	* @param	string		$a_target	target frame
+	*/
 	function addLocation($a_title, $a_link, $a_target = "")
 	{
 		$this->location[] = array("title" => $a_title,
 			"link" => $a_link, "target" => $a_target);
 	}
 
+	/**
+	* get locations array
+	*
+	* @return	array	array of locations (array("title", "link", "target"))
+	*/
 	function getLocations()
 	{
 		return $this->location;
 	}
 
+	/**
+	* add a tab to tabs array
+	*
+	* @param	string		$a_lang_var		language variable
+	* @param	string		$a_link			link
+	* @param	string		$a_cmd			command (must be same as in link)
+	* @param	string		$a_class		command class (must be same as in link)
+	*/
 	function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
 	{
 		$this->tab[] = array("lang_var" => $a_lang_var,
 			"link" => $a_link, "cmd" => $a_cmd, "class" => $a_class);
 	}
 
+	/**
+	* get tabs array
+	*
+	* @return	array		array of tab entries (array("lang_var", "link", "cmd", "class))
+	*/
 	function getTabs()
 	{
 		return $this->tab;
