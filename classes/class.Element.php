@@ -6,7 +6,7 @@
 * class to manipulate elements, e.g. datasets
 *
 * @author Databay AG <info@databay.de>
-* @package ILIAS
+* @package ilias-core
 * @access public
 * @version $Id$
 */
