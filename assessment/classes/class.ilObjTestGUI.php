@@ -3551,7 +3551,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
 				if ($value["solution"])
 				{
-					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $value["solution"] . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
+					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
 				}
 				else
 				{
