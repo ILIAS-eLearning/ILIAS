@@ -1,25 +1,49 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
+* Functions for list.php
+*
 * Include file List
 *
 * this file should manage the list functions
-* 
-* @author Frank Grümmert 
-* 
-* @version $Id: inc.list.php,v 0.9 2003/06/11 
-* @package application
-* @access public
 *
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.list.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
 */
 
 /**
 * 	void function setNavigation($fromtime_ts, $totime_ts)
-* 	@description :  stet variables in the setNavigation of list 
-* 	@param int fromtime_ts
-* 	@param int totime_ts   
-* 	@global string $actualtemplate  ( name of actual cscw skin )
+* 	 stet variables in the setNavigation of list 
+* 	@param int $fromtime_ts
+* 	@param int $totime_ts   
+* 	@global string $actualtemplate  ( name of actual skin )
 * 	@global string $templatefolder  ( name of template folder )
-* 	@global Array DP_language		( include Languageproperties )
+* 	@global Array $DP_language		( include Languageproperties )
 * 	@return string $list_navigation ( contains the output for the setNavigation )
 */
 function setNavigation($fromtime_ts, $totime_ts)
@@ -57,12 +81,12 @@ function setNavigation($fromtime_ts, $totime_ts)
 
 /**
 * 	function getContent($start_ts, $end_ts)
-* 	@description : get Content for the Week View from the sortdates functions 
-* 	@param int start_ts
-* 	@param int end_ts
-* 	@global string DP_UId     ( actual User ID )
-* 	@global $_SESSION -->		Array DP_Keywords ( actuel Keywords)
-* 	@return Array [][][] 
+* 	get Content for the Week View from the sortdates functions 
+* 	@param int $start_ts
+* 	@param int $end_ts
+* 	@global string $DP_UId     ( actual User ID )
+* 	@global array $_SESSION		--> Array DP_Keywords ( current Keywords)
+* 	@return Array[][][] $DATE
 * 			[0]	Dates			( normel Dates )
 * 			[1] WholeDates		( one day Dates )
 */
@@ -79,12 +103,12 @@ function getContent($start_ts, $end_ts, $DB)
 
 /**
 * 	function print_viewDate_list()
-* 	@description : the second Main function of the list view , to print out the List result
-* 	@param int fromtime_ts
-* 	@param int totime_ts   
-* 	@global array DP_language		( include Languageproperties )
-* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
-*   @return string list_print_float ( contains the output )
+* 	the second Main function of the list view , to print out the List result
+* 	@param int $fromtime_ts
+* 	@param int $totime_ts   
+* 	@global array $DP_language		( include Languageproperties )
+* 	@global array $DP_CSS			( contains CSS Strings from the conf.gui file )
+*   @return string $list_print_float ( contains the output )
 */
 function printDateList($fromtime_ts, $totime_ts, $DB)
 {
@@ -205,12 +229,12 @@ function printDateList($fromtime_ts, $totime_ts, $DB)
 
 /**
 * 	void function parseData ()
-* 	@description : parse the from / to date strings and retuns messages if they are not valid
-* 	@param int fromtime_ts
-* 	@param int totime_ts   
-* 	@param array Start_date
-* 	@param array End_date  
-* 	@global Array DP_language		( include Languageproperties )
+* 	parse the from / to date strings and retuns messages if they are not valid
+* 	@param int $fromtime_ts
+* 	@param int $totime_ts   
+* 	@param array $Start_date
+* 	@param array $End_date  
+* 	@global Array $DP_language		( include Languageproperties )
 *	@return array $Valid
 */
 function  parseData ($fromtime_ts, $totime_ts , $Start_date, $End_date) {
@@ -241,12 +265,12 @@ function  parseData ($fromtime_ts, $totime_ts , $Start_date, $End_date) {
 
 /**
 * 	void function setDateList()
-* 	@description : the first Main function of the list view , to list out the result
-* 	@param int fromtime_ts
-* 	@param int totime_ts   
-* 	@global Array DP_language		( include Languageproperties )
-* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
-*   @return Array Return
+* 	the first Main function of the list view , to list out the result
+* 	@param int $fromtime_ts
+* 	@param int $totime_ts   
+* 	@global Array $DP_language		( include Languageproperties )
+* 	@global array $DP_CSS			( contains CSS Strings from the conf.gui file )
+*   @return Array $Return
 *						[0] $list_navigation	( contains the navigation output )
 *						[1] $list_float			( contains the output )
 */

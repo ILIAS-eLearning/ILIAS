@@ -1,21 +1,42 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
-* Include file List
+* mini calendare picture
 *
 * this file should manage the mini calendar
-* 
-* @author Timo Weichler 
-* @author Frank Grümmert 
-* 
-* @version $Id: inc.minicalendar.php,v 0.9 2003/06/11 
-* @package application
-* @access public
 *
+* @author		Timo Weichler 
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version      $Id$                                    
+* @module       inc.minicalendar.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
 */
 
 
 // it is an action required to generate images..
-
 if ($_GET[action] == "show") {
 	$im = ImageCreate (162, 160)
       or die ("Kann keinen neuen GD-Bild-Stream erzeugen");
@@ -52,10 +73,23 @@ if ($_GET[action] == "show") {
 function showMinicalendar($month,$year, $im, $DP_Lang)
 {
 
-	//session_start();
-
-	//include language_file
-	@include_once	('../lang/dp_de.lang.php');
+	//language
+	$array_tmp = @file('../lang/dp_'.$DP_Lang.'.lang');
+	foreach($array_tmp as $v)
+	{
+		if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
+		{//Line mustn't start with a ';' and must contain at least one '=' symbol.
+			$pos		= strpos($v, '#:#', '13');
+			$offset1	= strpos($v, '#:#', '13')-13;
+			$offset2	= strpos($v, '###', '13')-$offset1-16;
+			if($offset2 != (-$offset1-16)) {
+				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3,$offset2));
+			}
+			else {
+				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3));
+			}
+		}
+	}
 
 	if(!$month || !$year)
 	{
@@ -63,7 +97,6 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 		$year = date(Y);	
 	}
 
-//$pBuf = getcwd()
 	//Wieviele Tage hat der vorherige month
 	$lastday = strftime("%d.", mktime (0,0,0,$month,0,$year));
 	//Welcher Wochentag ist der 1. des Monats
@@ -310,5 +343,4 @@ function setMinicalendar($month,$year, $DP_Lang, $app)
 	return $minical_show;
 		
 } // end func
-
 ?>

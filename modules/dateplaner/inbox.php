@@ -21,32 +21,43 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+/**
+* @author		Stefan Stahlkopf <mail@stefan-stahlkopf.de> 
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @version		$Id$
+* @module       inbox.php                            
+* @modulegroup  dateplaner                   
+* @package		dateplaner-frontend
+*/ 
+
 // include DP inbox functions
 include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.inbox.php');
-// Generiere Frames
-// -----------------------------------------  FEST ---------------------------------//
+
+/* ------------------------------------  generate frames --------------------------- */
+// -----------------------------------------  fixed ---------------------------------//
 $minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
 
-// rechter Frame wird nicht benötigt
+// right frame is curently not used
 $right	= '';
-// oberer Frame automatisch über Interface bestimmt. 
 
-// unterer Frame wird nicht benötigt
+// the up frame is detect by the interface 
+
+// down frame is curently not used
 $downtext = '';
+// --------------------------------------  end fixed  -------------------------------//
 
-// --------------------------------------  ende Fest -------------------------------//
 
-if ( isset($_POST[btn_accept]) ) 		// Wurde Button gedrückt
+if ( isset($_POST[btn_accept]) ) 								// it the btton pressed
 {
 	$i = 0;
 
-	while ( isset($_POST[$i]) )		// Solange noch weitere Termine anstehen
+	while ( isset($_POST[$i]) )									// while dates exists
 	{
-		$array = explode("-",$_POST[$i]);	// String in Array Elemente aufteilen
+		$array = explode("-",$_POST[$i]);						// catch string elements as an array
 
-		switch ($array[0])		// Welchewr Radiobutton wurde angewählt?
+		switch ($array[0])										// witch radio button was pressed ?
 		{
 			
 			case 'ok':
@@ -63,65 +74,13 @@ if ( isset($_POST[btn_accept]) ) 		// Wurde Button gedrückt
 		$i++;
 	}
 }
-// Get Dates from Database
-$newDates		= $DB->getchangedDates($DP_UId, 0);
-$changedDates	= $DB->getchangedDates($DP_UId, 1);
-$deletedDates	= $DB->getchangedDates($DP_UId, 2);
 
-//*******************************************************************************************************
-$DateID = 0;
-// Tabelle mit neuen Terminen erstellen
-if ($newDates != false)
-{
-	
-	$array = createTable($newDates, $DateID, $Gui, $DB, 1);
-	$DateID = $array[0];
-	$neueTermine = $array[1];
-}
-else
-{
-	$neueTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
-}
-
-//*******************************************************************************************************
-// Tabelle mit geänderten Terminen erstellen
-if ($changedDates != false)
-{
-	$array = createTable($changedDates,$DateID, $Gui, $DB, 1);
-	$DateID = $array[0];
-	$geänderteTermine = $array[1];
-}
-else
-{
-	$geänderteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
-}
-//*******************************************************************************************************
-// Tabelle mit gelöschten Terminen erstellen
-if ($deletedDates != false)
-{
-	$array = createTable($deletedDates,$DateID, $Gui, $DB, 0);
-	$DateID = $array[0];
-	$gelöschteTermine = $array[1];
-}
-else
-{
-	$gelöschteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
-}
-//*******************************************************************************************************
-$tableBorder = 1;
-
-eval ("\$centertxt = \"".$Gui->getTemplate("inbox_main")."\";");
-
-
-// -----------------------------------------  FEST ---------------------------------//
-// Frameset
+$centertxt = setWeekView($Gui, $DB);
+// -----------------------------------------  fixed ---------------------------------//
+// frameset template
 eval ("\$main = \"".$Gui->getTemplate("frames_set")."\";");
-// HauptTemplate
+// main template
 eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
-// --------------------------------------  ende Fest -------------------------------//
-
-
-
-
-//*******************************************************************************************************
+// --------------------------------------  end fixed --------------------------------//
+exit;
 ?>

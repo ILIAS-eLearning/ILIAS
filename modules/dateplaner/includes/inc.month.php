@@ -1,24 +1,47 @@
 <?php	
-/**
-* Include file Month
-*
-* this file should manage the month functions
-* 
-* @author Frank Grümmert 
-* 
-* @version $Id: inc.month.php,v 0.9 2003/06/11 
-* @package application
-* @access public
-*
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
 */
 
+/**
+* Functions for month.php
+*
+* Include file month
+*
+* this file should manage the month functions
+*
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.month.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
+*/
 
 /**
 * 	void function setNavigation($timestamp,$rowSpan)
-* 	@description : stet variables in the navigation of week 
-* 	@param int timestamp
-* 	@global string month_navigation		( contains the output ) 
-*	@global Array DP_language			( include Languageproperties )
+* 	set variables in the navigation of week 
+* 	@param int $timestamp
+* 	@global string $month_navigation		( contains the output ) 
+*	@global Array $DP_language			( include Languageproperties )
 */
 
 function setNavigation($timestamp)
@@ -52,9 +75,9 @@ function setNavigation($timestamp)
 
 /**
 * 	function getDayInWeek($week_ts)
-* 	@description : get number of a day into a week 
-* 	@param int week_ts
-* 	@return string tagnummer
+* 	get number of a day into a week 
+* 	@param int $week_ts
+* 	@return string $daynumber
 */
 function getDayInWeek($week_ts) 
 {
@@ -76,13 +99,13 @@ function getDayInWeek($week_ts)
 
 /**
 * 	function getContent($start_ts, $end_ts)
-* 	@description : get Content for the Week View from the sortdates functions 
-* 	@param int begin_ts
-* 	@param int end_ts
-* 	@param int $DB			  (object of th db class ) 
-* 	@global string DP_UId     ( actual User ID )
-* 	@global $_SESSION			( Array DP_Keywords ( actual Keywords)
-* 	@return Array [][][] 
+* 	get Content for the Week View from the sortdates functions 
+* 	@param int $begin_ts
+* 	@param int $end_ts
+* 	@param int $DB			    (object of th db class ) 
+* 	@global string $DP_UId		( actual User ID )
+* 	@global array $_SESSION		( Array DP_Keywords ( actual Keywords)
+* 	@return Array [][][] $DATE
 * 			[0]	Dates			( normel Dates )
 * 			[1] WholeDates		( one day Dates )
 */
@@ -101,16 +124,16 @@ function getContent($start_ts, $end_ts, $DB)
 
 /**
 *	void function setDaysInMonth($date_ts, $DATE,  $style)
-*	@description : set the Output for normal Dates into the Week view 
-*	@param int date_ts
-*	@param Array DATE[][][]				( Date Data )
-*	@param string style					( to format rows, control variable )
-*	@global Array DP_language			( include Languageproperties )
+*	set the Output for normal Dates into the Week view 
+*	@param int $date_ts
+*	@param Array[][][] $DATE			( Date Data )
+*	@param string $style				( to format rows, control variable )
+*	@global Array $DP_language			( include Languageproperties )
+* 	@global array $DP_CSS				( contains CSS Strings from the conf.gui file )
 *	@global Array $_SESSION				( include the Resolution, java script options )
-*	@global Array DP_DP_SceenWith	( include horizontal Resolution )
-* 	@global array DP_CSS				( contains CSS Strings from the conf.gui file )
-*	@global	bol $DP_JSscript			( is 1 if JavaScript disabled )
-*	@return string month_float			( contains the output )
+*	@global sting $actualtemplate		( current template )
+*	@global string $templatefolder		( current used template folder )
+*	@return string $month_float			( contains the output )
 */
 
 function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
@@ -349,16 +372,16 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 
 /**
 * 	void function setMonthView($week_ts)
-* 	@description : the Main function of the month view
-* 	@description : called from the executed file
-* 	@param int week_ts				( one timestamp in the week, which should be shown ) 
-* 	@param string first_change		( control variable )
-* 	@param string week_s			( control variable , identify the action source)
+* 	the Main function of the month view
+* 	called from the executed file
+* 	@param int $week_ts				( one timestamp in the week, which should be shown ) 
+* 	@param string $first_change		( control variable )
+* 	@param string $week_s			( control variable , identify the action source)
 * 	@param int $DB					(object of th db class ) 
-* 	@global string S_Datum			( contains Date from Table Top )
-* 	@global string style			( to format rows, control variable )
+* 	@global string $S_Datum			( contains Date from Table Top )
+* 	@global string $style			( to format rows, control variable )
 * 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
-*   @return Array Return
+*   @return Array $Return
 *						[0] string month_navigation	( contains the navigation output )
 *						[1] string month_float		( contains the output )
 *						[2] string month_string		( contains the month / year name for the output )
@@ -472,5 +495,4 @@ function setMonthView($week_ts, $week_s, $first_change, $DB)
 	Return  $Return;
 
 }// end func
-
 ?>

@@ -1,20 +1,6 @@
 <?php
-/** Modul Einstellungen für den Terminplaner: / Modul porperties fpr the dateplaner
-*	Bitte kommentieren Sie folgende 2 Zeilen aus nachdem sie die Einstellungen vorgenommen haben !
-*	please coment out these 2 lines after editing the file 
+/**  Modul porperties for the dateplaner / Modul Einstellungen für den Terminplaner: 
 */
-/*
-echo ("Die ist das Terminplaner Modul. <br> Bitte nehmen sie die Einstellunegn in der Konfigurationsdatei vor.<br><b> 'modules/dateplaner/config/conf.interface.php'</b><BR><BR>This is the dateplaner modul <BR> please set the properties in file <br> <B>'modules/dateplaner/config/conf.interface.php'</B>");
-exit;
-*/
-
-	/**
-	* ilias module directory (up to the ilias root dir)
-	* @ var string
-	* @ access private
-	*/
-
-	$modulDir = "/modules/dateplaner";
 
 	/** 
 	* relative path of the ilias root dir

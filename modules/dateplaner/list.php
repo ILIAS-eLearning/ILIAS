@@ -2,7 +2,7 @@
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source															  |
-	|	Dateplaner Modul - list													  |													
+	|	Dateplaner Modul - month												  |
 	+-----------------------------------------------------------------------------+
 	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
 	|                                                                             |
@@ -21,10 +21,18 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+/**
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @version		$Id$
+* @module       list.php                            
+* @modulegroup  dateplaner                   
+* @package		dateplaner-frontend
+*/ 
+
 // include DP list functions
 include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.list.php');
 		
-if ($_REQUEST[action]=="print") {
+if ($_REQUEST[action]=="print") { // if printview
 
 	if($_SESSION[DP_fromtime_ts])	$fromtime_ts	= $_SESSION[DP_fromtime_ts]; 
 	if($_SESSION[DP_totime_ts])		$totime_ts		= $_SESSION[DP_totime_ts];
@@ -33,18 +41,24 @@ if ($_REQUEST[action]=="print") {
 	$list_print_float = printDateList($fromtime_ts,$totime_ts, $DB);
 	eval("doOutput(\"".$Gui->getTemplate("list_print")."\");"); 
 }
-else 
+else // if not printview
 {
-	
-// Generiere Frames
-// -----------------------------------------  FEST ---------------------------------//
+/* ------------------------------------  generate frames --------------------------- */
+// -----------------------------------------  fixed ---------------------------------//
 $minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
 $keywords_float	= showKeywords($_REQUEST[S_Keywords], $DB);
-	
 eval ("\$keywords_show = \"".$Gui->getTemplate("menue_keyword")."\";");
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
-// --------------------------------------  ende Fest -------------------------------//
+
+// right frame is curently not used
+$right	= '';
+
+// the up frame is detect by the interface 
+
+// down frame is curently not used
+$downtext = '';
+// --------------------------------------  end fixed  -------------------------------//
 
 if ($_REQUEST[action]=="list") {
 	if($_REQUEST[outdata]==True) {
@@ -63,7 +77,6 @@ if ($_REQUEST[action]=="list") {
 		$Valid = parseData ($fromtime_ts, $totime_ts , $Start_date, $End_date);
 	}
 }
-
 if($Valid[0] == "TRUE" or !$Valid) {
 
 	if ($fromtime_ts and $fromtime_ts != "-1") {
@@ -113,12 +126,12 @@ $list_float			= $Return[1];
 
 eval ("\$centertxt = \"".$Gui->getTemplate("list_main")."\";");
 
-// -----------------------------------------  FEST ---------------------------------//
-// Frameset
+// -----------------------------------------  fixed ---------------------------------//
+// frameset template
 eval ("\$main = \"".$Gui->getTemplate("frames_set")."\";");
-// HauptTemplate
+// main template
 eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
-// --------------------------------------  ende Fest -------------------------------//
+// --------------------------------------  end fixed --------------------------------//
+}// end if not printview
 exit;
-}
 ?>

@@ -2,7 +2,7 @@
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source															  |
-	|	Dateplaner Modul - freetime												  |													
+	|	Dateplaner Modul - inbox												  |													
 	+-----------------------------------------------------------------------------+
 	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
 	|                                                                             |
@@ -21,15 +21,32 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+/**
+* @author		Matthias Pohl <m.pohl@gmx.net> 
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @version		$Id$
+* @module       freetime.php                            
+* @modulegroup  dateplaner                   
+* @package		dateplaner-frontend
+*/ 
+
 // include DP freetime functions
 include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.freetime.php');
 		
 
-// Generiere Frames
-// -----------------------------------------  FEST ---------------------------------//
-// linker Frame wird nicht benötigt
+/* ------------------------------------  generate frames --------------------------- */
+// -----------------------------------------  fixed ---------------------------------//
+// the left frame is not used 
 $left	= '';
-// --------------------------------------  ende Fest -------------------------------//
+
+// right frame is curently not used
+$right	= '';
+
+// the up frame is detect by the interface 
+
+// down frame is curently not used
+$downtext = '';
+// --------------------------------------  end fixed  -------------------------------//
 
 //get start- and end-time for the view-area
 $viewTsBegin = strtotime($_SESSION[DP_Starttime]);
@@ -163,13 +180,10 @@ for($i=$startDisplayQuarters; $i <=$endDisplayQuarters-1; $i++){
 }
 
 eval ("\$main = \"".$Gui->getTemplate("freetime_main")."\";");
-// -----------------------------------------  FEST ---------------------------------//
-// Frameset
-// nicht benötigt
-// HauptTemplate
+// -----------------------------------------  fixed ---------------------------------//
+// frameset template not used
+// main template
 eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
-// --------------------------------------  ende Fest -------------------------------//
-} //end else
+// --------------------------------------  end fixed --------------------------------//
 exit;
-
 ?>

@@ -1,21 +1,41 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 /**
 * Gui Class
 *
 * this class should manage the Gui function
-* 
-* @author Frank Grümmert 
-* 
-* @version $Id: class.Gui.php,v 0.9 2003/06/11 
-* @package application
-* @access public
-*
 * Die Klasse ermöglicht es Code und Statisches HTML mittels Templates auszugeben. 
 * Da die Ausgabe letztlich eine Ausgabe erzeugen soll wird eine ausführende Funktion benötigt. 
 * Als Ausführende Datei nutzt darum diese Klasse die Funktion "inc.output.php" im Includes Ordner.   
+*
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version      $Id$                                    
+* @module       class.Gui.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-gui
 */
-
 include('.'.DATEPLANER_ROOT_DIR.'/config/conf.gui.php');
 
 class Gui
@@ -37,13 +57,42 @@ class Gui
 	* @global string actualtemplate ( means the number of Template set eg. "default" )
 	* @return Sting
 	*/
-
 	function getTemplate($template, $extension="htm") {
         global $templatefolder, $actualtemplate;
 
         if(!$templatefolder) $templatefolder = "templates";
         return str_replace("\"","\\\"",implode("",file(".".DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$template.".".$extension)));
 	}
+
+	/**
+	* function gettemplate($template,$endung="htm")
+	* @description : get Inforamtion from a template File 
+	* @param string template
+	* @param string extension ( means the extension of the Template files, eg. .htm )
+	* @return Sting
+	*/
+	function getLangArray($DP_Lang) {
+		$array_tmp = file('.'.DATEPLANER_ROOT_DIR.'/lang/dp_'.$DP_Lang.'.lang');
+		foreach($array_tmp as $v)
+		{
+			if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
+			{//Line mustn't start with a ';' and must contain at least one '=' symbol.
+				$pos		= strpos($v, '#:#', '13');
+				$offset1	= strpos($v, '#:#', '13')-13;
+				$offset2	= strpos($v, '###', '13')-$offset1-16;
+				if($offset2 != (-$offset1-16)) {
+					$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3,$offset2));
+				}
+				else {
+					$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3));
+				}
+			}
+		}
+		unset($array_tmp);
+
+		return $DP_language;
+	}
+
 	/**
 	* function setToolTip($starttime, $endtime, $shortext, $text, $id)
 	* @description : set a mouse over tooltip to dates 
@@ -54,7 +103,6 @@ class Gui
 	* @param int id 
 	* @return Sting float
 	*/
-
 	function setToolTip($starttime, $endtime, $shortext, $text, $id ) {
 		$text = str_replace("\r\n","<br>" , $text);
 		$headerText = $starttime.' -  '.$endtime.' ['.$shortext.']';

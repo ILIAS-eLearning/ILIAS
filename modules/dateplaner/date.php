@@ -2,7 +2,7 @@
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source															  |
-	|	Dateplaner Modul - date													  |													
+	|	Dateplaner Modul - inbox												  |													
 	+-----------------------------------------------------------------------------+
 	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
 	|                                                                             |
@@ -21,14 +21,31 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+/**
+* @author		Bartosz Tyrakowski <tyra@freenet.de> 
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @version		$Id$
+* @module       date.php                            
+* @modulegroup  dateplaner                   
+* @package		dateplaner-frontend
+*/ 
+
 // include DP date functions
 include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.dates.php');
 
-// Generiere Frames
-// -----------------------------------------  FEST ---------------------------------//
-// linker Frame wird nicht benötigt
+/* ------------------------------------  generate frames --------------------------- */
+// -----------------------------------------  fixed ---------------------------------//
+// the left frame is not used 
 $left	= '';
-// --------------------------------------  ende Fest -------------------------------//
+
+// right frame is curently not used
+$right	= '';
+
+// the up frame is detect by the interface 
+
+// down frame is curently not used
+$downtext = '';
+// --------------------------------------  end fixed  -------------------------------//
 
 // kein Timpestamp vorhanden !
 $DateValues				= $_REQUEST[DateValues];
@@ -103,17 +120,13 @@ if($_REQUEST["dateaction"]) {
 	}
 }
 
-// -----------------------------------------  FEST ---------------------------------//
 eval ("\$main = \"".$Gui->getTemplate("date_main")."\";");
-// Frameset
-// nicht benötigt
-// HauptTemplate
-eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
-// --------------------------------------  ende Fest -------------------------------//
-
-echo ("<noscript>".$DP_language[ERROR_JAVASCRIPT]." </noscript>");
  
+// -----------------------------------------  fixed ---------------------------------//
+// frameset template not used
+// main template
+eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
+// --------------------------------------  end fixed --------------------------------//
+echo ("<noscript>".$DP_language[ERROR_JAVASCRIPT]." </noscript>");
 exit;
-
-
 ?>

@@ -1,4 +1,51 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/**
+* Functions for properties.php
+*
+* Description:
+*	These Functions are to convert CSV files to integrate it into the dateplaner
+*
+*
+* @author		Jan Hübbers <jan@huebbers.de> 
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.parse.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
+*/
+
+/**
+*	void function navigation($timestamp)
+*
+*	This function generates the timestamps for the day navigation and passes them to the template day_navigation 
+*	
+*	@param $timestamp , a required timestamp of sometime during the current day.
+*	@global $DP_language , used by the Gui to determine the language of "today" as set in the language file.
+*	@return $day_navigation , the output variable of the Gui,
+*/
 function getCSV($file){
 	$handle = fopen ($file,"r"); 
 	while ($data = fgetcsv ($handle, 1000, ",")) { // Daten werden aus der Datei
@@ -8,6 +55,13 @@ function getCSV($file){
 	return $array;
 }
 
+/**
+*	void function showArray($array)
+*
+*	@param $array 
+*	@global $DP_language , used by the Gui to determine the language of "today" as set in the language file.
+*	@return $parsedata , the output variable of the Gui,
+*/
 function showArray($array){
 	global $DP_language;
 	$format = $DP_language[date_format];
@@ -23,6 +77,13 @@ function showArray($array){
 }
 
 
+/**
+*	void function convertToDateFormat($a)
+*
+*	@param $a , a required timestamp of sometime during the current day.
+*	@global	int $DP_UId reads the User ID from the session
+*	@return array $dates 
+*/
 function convertToDateFormat($a){
 	global $DP_UId;
 	for($i=1; $i<count($a); $i++){
@@ -47,6 +108,13 @@ function convertToDateFormat($a){
 	return $dates;		
 }
 
+/**
+*	void function makeTimestamp($day, $time)
+*
+*	@param $day 
+*	@param $time 
+*	@return $timestamp 
+*/
 function makeTimestamp($day, $time){
 	$d = explode(".", $day );
 	$t = explode(":", $time);
@@ -54,6 +122,14 @@ function makeTimestamp($day, $time){
 	return	$timestamp;
 }
 
+/**
+*	void function parse($db, $_FILES)
+*
+*	@param $_FILES 
+*	@param $DB , a DB class object.
+*	@global $DP_language , used by the Gui to determine the language of "today" as set in the language file.
+*	@return 
+*/
 function parse($db, $_FILES){
 	global $DP_language;
 	$file = $_FILES['Datei'];
