@@ -146,6 +146,8 @@ assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
 assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Export###05 Feb 2004 new variable
+assessment#:#failed_official#:#failed###04 Sep 2004 new variable
+assessment#:#failed_short#:#failed###04 Sep 2004 new variable
 assessment#:#false#:#False###05 Feb 2004 new variable
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
@@ -189,6 +191,8 @@ assessment#:#no_target_selected_for_move#:#You must select a target position!###
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#passed_official#:#passed###04 Sep 2004 new variable
+assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
@@ -630,6 +634,7 @@ common#:#cat_create_chat#:#Crear Chat
 common#:#cat_create_crs#:#Crear Curso
 common#:#cat_create_dbk#:#Crear Libro Digital
 common#:#cat_create_exc#:#Crear Actividad
+common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Crear Foro
 common#:#cat_create_glo#:#Crear Glosario
 common#:#cat_create_grp#:#Crear Grupo
@@ -1007,12 +1012,12 @@ common#:#group_details#:#Detalles de Grupo
 common#:#group_filesharing#:#Compartir ficheros en grupo
 common#:#group_import#:#Group import###07 June 2004 new variable
 common#:#group_import_file#:#Import file###07 June 2004 new variable
-common#:#group_members#:#Miembros de Grupo
+common#:#group_members#:#Miembros de Grupo###04 Sep 2004 content changed
 common#:#group_memstat#:#Estado de Miembro
 common#:#group_memstat_admin#:#Administrador
 common#:#group_memstat_member#:#Miembro
 common#:#group_name#:#Nombre de Grupo
-common#:#group_new_registrations#:#Nuevos Registros
+common#:#group_new_registrations#:#Nuevos Registros###04 Sep 2004 content changed
 common#:#group_no_registration#:#no se requiere registro
 common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones  As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento.
 common#:#group_not_available#:#cualquier grupo disponible
@@ -1036,6 +1041,7 @@ common#:#groups_overview#:#Resumen de grupos
 common#:#grp#:#grp
 common#:#grp_a#:#un Grupo
 common#:#grp_add#:#Añadir Grupo
+common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#Grupo añadido
 common#:#grp_already_applied#:#Ya has solicitado tu entrada en este grupo! Por favor espere su confirmación.
 common#:#grp_back#:#Volver
@@ -1079,11 +1085,15 @@ common#:#grp_msg_member_assigned#:#Usuario(s) asignado(s) como miembro(s) del gr
 common#:#grp_msg_membership_annulled#:#Pertenencia al Grupo anulada
 common#:#grp_name_exists#:#Ya existe un grupo con este nombre! Por favor, escoja otro nombre
 common#:#grp_new#:#Nuevo Grupo
+common#:#grp_new_search#:#New search###04 Sep 2004 new variable
 common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_results_found#:#No results found###04 Sep 2004 new variable
 common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
+common#:#grp_options#:#Options###04 Sep 2004 new variable
 common#:#grp_read#:#Acceso de Lectura al Grupo
 common#:#grp_register#:#Registrar
 common#:#grp_registration_completed#:#Registro completado
+common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Grupo visible
 common#:#grp_write#:#Editar Grupo
@@ -2291,6 +2301,7 @@ content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Show###19 Sep 2003 new variable
 content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
 content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
+content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
@@ -2434,6 +2445,7 @@ crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variab
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
 crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
+crs#:#crs_no_roles_selected#:#Please select a role###04 Sep 2004 new variable
 crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
 crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
 crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable

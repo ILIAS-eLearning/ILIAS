@@ -146,6 +146,8 @@ assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
+assessment#:#failed_official#:#failed###04 Sep 2004 new variable
+assessment#:#failed_short#:#failed###04 Sep 2004 new variable
 assessment#:#false#:#Falsch
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
 assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
@@ -189,6 +191,8 @@ assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswäh
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
+assessment#:#passed_official#:#passed###04 Sep 2004 new variable
+assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
@@ -626,10 +630,10 @@ common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
-common#:#cat_create_file#:#Neue Datei hochladen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#cat_create_exc#:#Neue Übung anlegen
+common#:#cat_create_file#:#Neue Datei hochladen
 common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
@@ -1007,12 +1011,12 @@ common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_import#:#Gruppenimport
 common#:#group_import_file#:#Importdatei
-common#:#group_members#:#Mitglieder
+common#:#group_members#:#Mitglieder###04 Sep 2004 content changed
 common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
-common#:#group_new_registrations#:#Neuanmeldungen
+common#:#group_new_registrations#:#Neuanmeldungen###04 Sep 2004 content changed
 common#:#group_no_registration#:#keine Registrierung erforderlich
 common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden über Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
 common#:#group_not_available#:#keine Gruppe verfügbar
@@ -1036,6 +1040,7 @@ common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
+common#:#grp_add_member#:#Mitglied(er) hinzufügen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
 common#:#grp_back#:#Zurück
@@ -1079,11 +1084,15 @@ common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
-common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
-common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt
+common#:#grp_new_search#:#Neue Suche
+common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt###04 Sep 2004 content changed
+common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
+common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt###04 Sep 2004 content changed
+common#:#grp_options#:#Optionen
 common#:#grp_read#:#Lesezugriff auf Gruppe
 common#:#grp_register#:#Anmelden
 common#:#grp_registration_completed#:#Anmeldung abgeschlossen
+common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#grp_search_members#:#Benutzersuche
 common#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_write#:#Gruppe bearbeiten
@@ -2288,6 +2297,7 @@ content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
+content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
@@ -2347,8 +2357,7 @@ crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
-crs#:#crs_add_member#:#Mitglied(er) hinzufügen
-common#:#grp_add_member#:#Mitglied(er) hinzufügen
+crs#:#crs_add_member#:#Mitglied(er) hinzufügen###04 Sep 2004 content changed
 crs#:#crs_add_subscribers#:#Benutzer hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
@@ -2420,20 +2429,19 @@ crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
-common#:#grp_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
 crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
-crs#:#crs_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
 crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
+crs#:#crs_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt
 crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
@@ -2443,7 +2451,6 @@ crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optionen
-common#:#grp_options#:#Optionen
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
@@ -2462,7 +2469,6 @@ crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
 crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 crs#:#crs_search_for#:#Suchen nach:
 crs#:#crs_search_members#:#Benutzersuche
 crs#:#crs_search_str#:#Suchbegriff
@@ -2509,7 +2515,6 @@ crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Archive
-common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.

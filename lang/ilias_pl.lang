@@ -142,6 +142,8 @@ assessment#:#exp_eval_data#:#Eksport Daty Ważności###02 Jul 2004 content chang
 assessment#:#exp_type_excel#:#  Excel###02 Jul 2004 content changed
 assessment#:#exp_type_spss#:#  SPSS###02 Jul 2004 content changed
 assessment#:#export#:#Eksport
+assessment#:#failed_official#:#failed###04 Sep 2004 new variable
+assessment#:#failed_short#:#failed###04 Sep 2004 new variable
 assessment#:#false#:#Fałsz
 assessment#:#fill_out_all_answer_fields#:#Wypełnij wszystkie pola odpowiedzi przed dodaniem nowego!
 assessment#:#fill_out_all_matching_pairs#:#Wypełnij wszystkie pary przed dodaniem nowej!
@@ -181,6 +183,8 @@ assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
+assessment#:#passed_official#:#passed###04 Sep 2004 new variable
+assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#please_select#:#---- wybierz ----
 assessment#:#points#:#Punkty
@@ -617,6 +621,7 @@ common#:#cat_create_chat#:#Twórz czat
 common#:#cat_create_crs#:#Twórz Kurs
 common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
 common#:#cat_create_exc#:#Twórz Ćwiczenie
+common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
@@ -991,12 +996,12 @@ common#:#group_details#:#Szczegóły grupy
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_import#:#Import Grupy
 common#:#group_import_file#:#Plik Importowany
-common#:#group_members#:#Członkowie grupy
+common#:#group_members#:#Członkowie grupy###04 Sep 2004 content changed
 common#:#group_memstat#:#Status członka
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Członek
 common#:#group_name#:#Nazwa grupy
-common#:#group_new_registrations#:#Nowe rejestracje
+common#:#group_new_registrations#:#Nowe rejestracje###04 Sep 2004 content changed
 common#:#group_no_registration#:#Rejestracja nie jest konieczna
 common#:#group_no_registration_msg#:#Nie jesteś członkiem tej grupy. Jest pożądane aby należeć do grupy.<br> Jako członek masz przywileje:<br>- Dostaniesz informację o nowych uaktualnieniach.<br>- Masz dostęp np do forum, modułów nauczania, itp.<br><br>Możesz zrezygnować z członkostwa w każdej chwili.
 common#:#group_not_available#:#Żadna grupa nie jest dostępna
@@ -1020,6 +1025,7 @@ common#:#groups_overview#:#Przegląd grup
 common#:#grp#:#Grupa
 common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
+common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_already_applied#:#Już jesteś wybrany do tej grupy! Czekaj na potwierdzenie
 common#:#grp_back#:#Powrót
@@ -1063,11 +1069,15 @@ common#:#grp_msg_member_assigned#:#Użytkownicy przydzieleni jako członkowie gr
 common#:#grp_msg_membership_annulled#:#Członkostwo anulowane
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
+common#:#grp_new_search#:#New search###04 Sep 2004 new variable
 common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_results_found#:#No results found###04 Sep 2004 new variable
 common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
+common#:#grp_options#:#Options###04 Sep 2004 new variable
 common#:#grp_read#:#Prawo czytania Grupy
 common#:#grp_register#:#Zarejestruj się
 common#:#grp_registration_completed#:#Rejestracja dokonana
+common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Grupa jest widoczna
 common#:#grp_write#:#Edycja Grupy
@@ -2267,6 +2277,7 @@ content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_show_line_numbers#:#Pokaż numery wierszy
+content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_source#:#Źródło
 content#:#cont_src#:#Kod źródłowy
@@ -2410,6 +2421,7 @@ crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variab
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
 crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
+crs#:#crs_no_roles_selected#:#Please select a role###04 Sep 2004 new variable
 crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
 crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
 crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable

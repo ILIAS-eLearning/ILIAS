@@ -146,6 +146,8 @@ assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
+assessment#:#failed_official#:#failed###04 Sep 2004 new variable
+assessment#:#failed_short#:#failed###04 Sep 2004 new variable
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
 assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le coppie di risposte prima di aggiungerne un'altra!
@@ -189,6 +191,8 @@ assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arri
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
+assessment#:#passed_official#:#passed###04 Sep 2004 new variable
+assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#Hai risolto il %.2f percento di questa domanda!
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
@@ -630,6 +634,7 @@ common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
 common#:#cat_create_exc#:#Creare un esercizio
+common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
@@ -1005,12 +1010,12 @@ common#:#group_details#:#Dettagli gruppo
 common#:#group_filesharing#:#Condivisione file al gruppo
 common#:#group_import#:#Importa gruppo
 common#:#group_import_file#:#Importa file
-common#:#group_members#:#Membri del gruppo
+common#:#group_members#:#Membri del gruppo###04 Sep 2004 content changed
 common#:#group_memstat#:#Stato del membro
 common#:#group_memstat_admin#:#Amministratore
 common#:#group_memstat_member#:#Membro
 common#:#group_name#:#Nome del gruppo
-common#:#group_new_registrations#:#Nuove registrazioni
+common#:#group_new_registrations#:#Nuove registrazioni###04 Sep 2004 content changed
 common#:#group_no_registration#:#nessuna registrazione richiesta
 common#:#group_no_registration_msg#:#Non sei pi&#249; membro di questo gruppo. Per motivi amministrativi &#232; necessario appartenere al gruppo richiesto.<br> Come membro del gruppo hai i seguenti vantaggi:<br>- Sei informato sulle novit&#224; e sugli aggiornamenti<br>- Puoi accedere ad oggetti come forum, moduli, etc.<br><br>Potrai annullare la tua appartenenza in qualsiasi momento.
 common#:#group_not_available#:#Nessun gruppo disponibile
@@ -1034,6 +1039,7 @@ common#:#groups_overview#:#Descrizione gruppi
 common#:#grp#:#Gruppo
 common#:#grp_a#:#Un gruppo
 common#:#grp_add#:#Aggiungi gruppo
+common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
 common#:#grp_back#:#Indietro
@@ -1077,11 +1083,15 @@ common#:#grp_msg_member_assigned#:#Utenti ammessi come membri del gruppo
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
-common#:#grp_no_groups_selected#:#Nessun gruppo selezionato
-common#:#grp_no_roles_selected#:#Nessun ruolo selezionato
+common#:#grp_new_search#:#New search###04 Sep 2004 new variable
+common#:#grp_no_groups_selected#:#Nessun gruppo selezionato###04 Sep 2004 content changed
+common#:#grp_no_results_found#:#No results found###04 Sep 2004 new variable
+common#:#grp_no_roles_selected#:#Nessun ruolo selezionato###04 Sep 2004 content changed
+common#:#grp_options#:#Options###04 Sep 2004 new variable
 common#:#grp_read#:#Accedere in lettura al gruppo
 common#:#grp_register#:#Registra
 common#:#grp_registration_completed#:#Registrazione completata
+common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#Ricerca utenti
 common#:#grp_visible#:#Vedere il gruppo
 common#:#grp_write#:#Modificare il gruppo
@@ -2291,6 +2301,7 @@ content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_show_line_numbers#:#Mostra i numeri di linea
+content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_src#:#Codice sorgente
@@ -2350,7 +2361,7 @@ crs#:#crs_activation#:#Attivazione
 crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
 crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
 crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
-crs#:#crs_add_member#:#Aggiungi iscritto
+crs#:#crs_add_member#:#Aggiungi iscritto###04 Sep 2004 content changed
 crs#:#crs_add_subscribers#:#Aggiungi iscritto
 crs#:#crs_added#:#Aggiunto nuovo corso
 crs#:#crs_added_member#:#Iscritti al corso
@@ -2433,6 +2444,7 @@ crs#:#crs_no_member_selected#:#Per favore scegli almeno un iscritto
 crs#:#crs_no_members_assigned#:#Non ci sono iscritti a questo corso
 crs#:#crs_no_notify#:#Nessuna notifica per nuove registrazioni
 crs#:#crs_no_results_found#:#Nessun risultato
+crs#:#crs_no_roles_selected#:#Please select a role###04 Sep 2004 new variable
 crs#:#crs_no_subscribers_selected#:#Pe favore scegli un utente
 crs#:#crs_no_users_added#:#Nessun membro aggiunto
 crs#:#crs_no_users_selected#:#Non hai scelto alcun utente
