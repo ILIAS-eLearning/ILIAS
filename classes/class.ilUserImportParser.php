@@ -154,6 +154,8 @@ class ilUserImportParser extends ilSaxParser
 					break;
 			}
 		}
+
+		$this->cdata = "";
 	}
 
 
@@ -301,8 +303,6 @@ class ilUserImportParser extends ilSaxParser
 					break;
 			}
 		}
-
-		$this->cdata = "";
 	}
 
 	/**
