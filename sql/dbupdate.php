@@ -750,3 +750,32 @@ $res = $this->db->query($query);
 $query = "INSERT INTO rbac_ta VALUES('19','".$max_ops_id."')";
 $this->db->query($query);
 ?>
+
+<#29>
+DROP TABLE IF EXISTS lm_structure_object;
+CREATE TABLE lm_structure_object (
+  lm_id int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned default NULL,
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  KEY child (child),
+  KEY parent (parent)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS lm_page_object;
+CREATE TABLE lm_page_object (
+	page_id int(11) NOT NULL auto_increment,
+	lm_id int(11),
+	content blob,
+	PRIMARY KEY  (page_id)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS meta_data;
+CREATE TABLE meta_data (
+	obj_id int(11) NOT NULL,
+	obj_type char(3) NOT NULL,
+	title varchar(200) NOT NULL default '',
+	PRIMARY KEY  (obj_id, obj_type)
+) TYPE=MyISAM;

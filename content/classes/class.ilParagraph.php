@@ -95,6 +95,12 @@ class ilParagraph
 		return $this->language;
 	}
 
+	function getXML()
+	{
+		return "<Paragraph Language=\"".$this->getLanguage().
+			"\">".$this->getText()."</Paragraph>";
+	}
+
 
 }
 ?>
