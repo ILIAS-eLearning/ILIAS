@@ -481,13 +481,21 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("ANSWER_ORDER", $i);
       $this->tpl->parseCurrentBlock();
-      $this->tpl->setCurrentBlock("answers");
       $thispair = $this->question->get_matchingpair($i);
+			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
+				$this->tpl->setCurrentBlock("pictures");
+			} elseif ($this->question->get_matching_type() == MT_TERMS_DEFINITIONS) {
+				$this->tpl->setCurrentBlock("definitions");
+			}
+			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+			$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
+			$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+			$this->tpl->parseCurrentBlock();
+      $this->tpl->setCurrentBlock("answers");
       $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
       $this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
-      $this->tpl->setVariable("ANSWER_ORDER", $i);
       $this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
-      $this->tpl->setVariable("MATCHING_ID", $thispair->get_matchingtext_order());
+      $this->tpl->setVariable("ANSWER_ORDER", $i);
       $this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
       $this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
       $this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
@@ -499,9 +507,17 @@ class ASS_QuestionGUI extends PEAR {
 
     if (strlen($_POST["cmd"]["add"]) > 0) {
       // Template für neue Antwort erzeugen
+			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
+				$this->tpl->setCurrentBlock("pictures");
+			} elseif ($this->question->get_matching_type() == MT_TERMS_DEFINITIONS) {
+				$this->tpl->setCurrentBlock("definitions");
+			}
+			$this->tpl->setVariable("A_ANSWER_ORDER", $this->question->get_matchingpair_count());
+			$this->tpl->setVariable("A_MATCHING_ID", $this->question->get_random_id("matching"));
+			$this->tpl->setVariable("A_VALUE_RIGHT", "");
+			$this->tpl->parseCurrentBlock();
       $this->tpl->setCurrentBlock("answers");
       $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->question->get_matchingpair_count() + 1);
-      $this->tpl->setVariable("MATCHING_ID", $this->question->get_random_id("matching"));
       $this->tpl->setVariable("ANSWER_ID", $this->question->get_random_id("answer"));
       $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_matchingpair_count());
       $this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
@@ -526,6 +542,11 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_DEFINITIONS", $this->lng->txt("match_terms_and_definitions"));
+		if ($this->question->get_matching_type() == MT_TERMS_DEFINITIONS) {
+			$this->tpl->setVariable("SELECTED_DEFINITIONS", " selected=\"selected\"");
+		} elseif ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
+			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
+		}
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -759,6 +780,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_matching_type($_POST["matching_type"]);
     
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_matchingpairs();
