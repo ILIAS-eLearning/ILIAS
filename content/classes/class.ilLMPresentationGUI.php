@@ -83,6 +83,16 @@ class ilLMPresentationGUI
 				$this->lm_gui->export();
 				break;
 		}
+	}
+
+	function offlineexport() {
+		
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				$this->lm_gui->offlineexport();
+				break;
+		}
 		
 	}
 	

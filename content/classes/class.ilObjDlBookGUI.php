@@ -65,6 +65,37 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		
 		
 	}
+	
+	function offlineexport() {
+		
+	}
+	
+	function offlineexportform() {
+		
+		//$tpl_offline =& new ilTemplate("tpl.");
+		//vd($this->tpl);
+		$this->tpl->addBlockfile("CONTENT", "offline_content", "tpl.offline_export.html", true);
+		$this->tpl->touchBlock("offline_content");
+		$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline");
+		
+		$this->tpl->setVariable("TXT_TYPE","Export-Type");
+		$this->tpl->setVariable("TXT_HTMLEXPORT","HTML export");
+		$this->tpl->setVariable("TXT_PDFEXPORT","PDF export");
+		
+		$this->tpl->setVariable("TXT_PAGES","Pages");
+		$this->tpl->setVariable("TXT_PAGESALL","all");
+		$this->tpl->setVariable("TXT_PAGESCHAPTER","chapter");
+		if ($_GET["obj_id"] != "") $this->tpl->setVariable("TXT_PAGESPAGE","this page");
+		$this->tpl->setVariable("TXT_PAGESFROM","pages from");
+		$this->tpl->setVariable("TXT_PAGESTO","to");
+		
+		$this->tpl->setVariable("BTN_VALUE","start export");
+		
+		$this->tpl->setVariable("EXPORT_ACTION","lm_presentation.php?cmd=offlineexport&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		
+		$this->tpl->show();
+		
+	}
 
     function setilLMMenu()
 	{
@@ -74,17 +105,17 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
 		
 		$tpl_menu->setCurrentBlock("btn_cell");
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$tpl_menu->setVariable("BTN_TXT","Export");
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
 
-/*
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]);
-		$tpl_menu->setVariable("BTN_TXT","PDF-Export");
+
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexport&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$tpl_menu->setVariable("BTN_TXT","read offline");
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
-*/		
+		
 		$tpl_menu->setCurrentBlock("btn_row");
 		$tpl_menu->parseCurrentBlock();
 
