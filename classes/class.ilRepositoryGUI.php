@@ -32,6 +32,7 @@ include_once("classes/class.ilTabsGUI.php");
 include_once("classes/class.ilObjUserGUI.php");
 include_once("classes/class.ilObjUserFolderGUI.php");
 include_once("classes/class.ilObjRoleGUI.php");
+include_once("payment/classes/class.ilPaymentObject.php");
 
 
 /**
@@ -974,6 +975,8 @@ class ilRepositoryGUI
 					$lr_data["type"] == "htlm" || $lr_data["type"] == "sahs")
 				{
 
+					$isBuyable = ilPaymentObject::_isBuyable($lr_data["ref_id"]);
+
 					//$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					if ($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
@@ -981,7 +984,8 @@ class ilRepositoryGUI
 						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $read_link);
 
-						if ($showViewInFrameset) 
+						if (($isBuyable && ilPaymentObject::_hasAccess($lr_data["ref_id"]) == false) ||
+							$showViewInFrameset)
 						{
 						    $tpl->setVariable("VIEW_TARGET", "bottom");
 						} 
@@ -1003,6 +1007,14 @@ class ilRepositoryGUI
 					}
 
 					$tpl->setCurrentBlock("tbl_content");
+
+					if ($isBuyable)
+					{
+						$tpl->setCurrentBlock("lres_payment");
+						$tpl->setVariable("LRES_PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
+						$tpl->setVariable("LRES_PAYMENT_ALT_IMG",$this->lng->txt('payment_system'));
+						$tpl->parseCurrentBlock();
+					}
 
 					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
@@ -1997,7 +2009,8 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tst_visible");
 					$tpl->setVariable("V_TITLE", $tst_data["title"]);
 					$tpl->parseCurrentBlock();
-					if (($this->rbacsystem->checkAccess('write', $tst_data["ref_id"])) || ($this->rbacsystem->checkAccess('read', $tst_data["ref_id"])))
+					if (($this->rbacsystem->checkAccess('write', $tst_data["ref_id"])) || 
+						($this->rbacsystem->checkAccess('read', $tst_data["ref_id"])))
 					{
 						$tpl->setCurrentBlock("tst_warning");
 						$tpl->setVariable("HREF_WARNING", $obj_link . "&cmd=status");
@@ -2007,7 +2020,15 @@ class ilRepositoryGUI
 						$tpl->parseCurrentBlock();
 					}
 				}
-
+				// PAYMENT INFO BUTTON
+				include_once './payment/classes/class.ilPaymentObject.php';
+				if (ilPaymentObject::_isBuyable($tst_data['ref_id']))
+				{
+					$tpl->setCurrentBlock("payment");
+					$tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
+					$tpl->setVariable("PAYMENT_ALT_IMG",$this->lng->txt('payment_system'));
+					$tpl->parseCurrentBlock();
+				}
 				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("tst_edit");
@@ -2598,9 +2619,18 @@ class ilRepositoryGUI
 					$tpl->setVariable("VISIBLE_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				
+
 				$tpl->setCurrentBlock("tbl_content");
 
+				// PAYMENT INFO BUTTON
+				include_once './payment/classes/class.ilPaymentObject.php';
+				if (ilPaymentObject::_isBuyable($cont_data['ref_id']))
+				{
+					$tpl->setCurrentBlock("payment");
+					$tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
+					$tpl->setVariable("PAYMENT_ALT_IMG",$this->lng->txt('payment_system'));
+					$tpl->parseCurrentBlock();
+				}
 				if ($this->rbacsystem->checkAccess('write',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("file_edit");
@@ -2618,8 +2648,9 @@ class ilRepositoryGUI
 					//$tpl->parseCurrentBlock();
 				}
 
-                                if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "file")
-				 && $this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
+					!$this->ilias->account->isDesktopItem($cont_data["ref_id"], "file")
+					&& $this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
                                 {
                                         $tpl->setCurrentBlock("file_desklink");
                                         $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -2902,6 +2933,14 @@ class ilRepositoryGUI
 				#}
 
 				$tpl->setCurrentBlock("tbl_content");
+
+				if (ilPaymentObject::_isBuyable($cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("crs_payment");
+					$tpl->setVariable("CRS_PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
+					$tpl->setVariable("CRS_PAYMENT_ALT_IMG",$this->lng->txt('payment_system'));
+					$tpl->parseCurrentBlock();
+				}
 
 				// edit
 				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
@@ -3301,8 +3340,22 @@ class ilRepositoryGUI
 					break;
 
 				case "sendfile":
+					// PAYMENT STUFF
+					// check if object is purchased
+					include_once './payment/classes/class.ilPaymentObject.php';
+					include_once './classes/class.ilSearch.php';
+
+					if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+					{
+						ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+					}
+					if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+					{
+						$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
+					}
 					$this->gui_obj->object->sendfile();
 					break;
+					
 			}
 		}
 
@@ -3630,6 +3683,7 @@ class ilRepositoryGUI
 		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
 
 		$new_ref = $tmp_source->createReference();
+
 		$this->tree->insertNode($new_ref,$a_target);
 		$tmp_source->setPermissions($new_ref);
 		$tmp_source->initDefaultRoles();

@@ -41,12 +41,13 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function ilPaymentObjectGUI(&$user_obj)
 	{
-		global $ilCtrl;
+		global $ilCtrl,$lng;
 
 		$this->ctrl =& $ilCtrl;
 		$this->ilPaymentBaseGUI();
 		$this->user_obj =& $user_obj;
 
+		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('crs');
 
 	}
@@ -293,6 +294,9 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		include_once './payment/classes/class.ilPaymentPrices.php';
 		include_once './payment/classes/class.ilPaymentCurrency.php';
 		include_once './classes/class.ilTableGUI.php';
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		$genSet = new ilGeneralSettings();
 
 		$_SESSION['price_ids'] = $_SESSION['price_ids'] ? $_SESSION['price_ids'] : array();
 
@@ -373,11 +377,13 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$tpl->setVariable("MONTH",$this->lng->txt('paya_months'));
 			$tpl->setVariable("UNIT_NAME",'prices['.$price['price_id'].'][unit_value]');
 			$tpl->setVariable("UNIT",$price['unit_value']);
-			$tpl->setVariable("SHORTFORM",$this->lng->txt('currency_'.$currency['unit']));
+#			$tpl->setVariable("SHORTFORM",$this->lng->txt('currency_'.$currency['unit']));
+			$tpl->setVariable("SHORTFORM",$genSet->get("currency_unit"));
 			
 			$tpl->setVariable("SUB_UNIT_NAME",'prices['.$price['price_id'].'][sub_unit_value]');
 			$tpl->setVariable("SUB_UNIT",$price['sub_unit_value']);
-			$tpl->setVariable("SUB_UNIT_TXT",$this->lng->txt('currency_'.$currency['sub_unit']));
+#			$tpl->setVariable("SUB_UNIT_TXT",$this->lng->txt('currency_'.$currency['sub_unit']));
+			$tpl->setVariable("SUB_UNIT_TXT",$genSet->get("currency_subunit"));
 			$tpl->parseCurrentBlock();
 			
 			++$counter;
@@ -415,7 +421,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$tmp_obj =& ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 
-		$tbl->setTitle($tmp_obj->getTitle().' ('.$tmp_obj->getDescription().')',
+		$tbl->setTitle($tmp_obj->getTitle(),
 					   "icon_".$tmp_obj->getType()."_b.gif",
 					   $this->lng->txt("objs_".$tmp_obj->getType()));
 		$tbl->setHeaderNames(array('',
@@ -453,6 +459,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			return true;
 		}
 
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		$genSet = new ilGeneralSettings();
+
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
@@ -472,8 +482,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('paya_add_price_title'));
 		
 		// TODO show curency selector
-		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('currency_euro'));
-		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('currency_cent'));
+#		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('currency_euro'));
+#		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('currency_cent'));
+		$this->tpl->setVariable("TXT_PRICE_A",$genSet->get("currency_unit"));
+		$this->tpl->setVariable("TXT_PRICE_B",$genSet->get("currency_subunit"));
 		
 		$this->tpl->setVariable("MONTH",$this->lng->txt('paya_months'));
 		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
@@ -819,10 +831,12 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$p_obj->setPayMethod($p_obj->PAY_METHOD_NOT_SPECIFIED);
 		$p_obj->setVendorId((int) $_POST['vendor']);
 
-		if($p_obj->add())
+		if($new_id = $p_obj->add())
 		{
 			sendInfo($this->lng->txt('paya_added_new_object'));
-			$this->showObjects();
+			
+			$_GET['pobject_id'] = $new_id;
+			$this->editDetails();
 
 			return true;
 		}

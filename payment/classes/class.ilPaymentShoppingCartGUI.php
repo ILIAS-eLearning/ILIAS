@@ -92,9 +92,9 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		else
 		{
 			$this->tpl->setCurrentBlock("buy_link");
-			$this->tpl->setVariable("LINK_SCRIPT",'./start_bmf.php');
-			$this->tpl->setVariable("TXT_BUY",$this->lng->txt('pay_click_to_buy'));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("LINK_SCRIPT", './start_bmf.php');
+			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
+			$this->tpl->parseCurrentBlock("buy_link");
 		}
 
 		
@@ -108,20 +108,30 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 
-
 			$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
-			$f_result[$counter][] = $tmp_obj->getTitle();
+			$numPrices = ilPaymentPrices::_countPrices($item['pobject_id']);
+			if ($numPrices > 1)
+			{
+				if ($tmp_obj->getType() == "crs")
+				{
+					$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/repository.php?ref_id=" . $tmp_pobject->getRefId() . "&cmdClass=ilobjcoursegui&cmdNode=4\">" . $tmp_obj->getTitle() . "</a>";
+				}
+				else if ($tmp_obj->getType() == "lm")
+				{
+					$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $tmp_pobject->getRefId() . "\">" . $tmp_obj->getTitle() . "</a>";
+				}
+				else
+				{
+					$f_result[$counter][] = $tmp_obj->getTitle();
+				}
+			}
+			else
+			{
+				$f_result[$counter][] = $tmp_obj->getTitle();
+			}
 			$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 
 			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
-
-			#$price = $price_arr['unit_value'].' '.$this->lng->txt('currency_euro');
-
-			#if($price_arr['sub_unit_value'])
-			#{
-			#	$price .= ' '.$price_arr['sub_unit_value'].' '.$this->lng->txt('currency_cent');
-			#}
-			#$f_result[$counter][] = $price;
 
 			unset($tmp_obj);
 			unset($tmp_pobject);
@@ -134,6 +144,10 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	
 	function __showItemsTable($a_result_set)
 	{
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		$genSet = new ilGeneralSettings();
+
 		$tbl =& $this->initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -183,6 +197,26 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$tbl->setMaxCount(count($a_result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
+
+		// show total amount of costs
+		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
+
+		$totalAmount =  $sc_obj->getTotalAmount();
+		$vat = $sc_obj->getVat($totalAmount);
+
+		$tpl->setCurrentBlock("tbl_footer_linkbar");
+		$amount = "<b>" . $this->lng->txt("pay_bmf_total_amount") . ": " . number_format($totalAmount, 2, ',', '.') . " " . $genSet->get("currency_unit") . "</b>";
+		if ($vat > 0)
+		{
+			$amount .= "<br>\n" . $genSet->get("vat_rate") . "% " . $this->lng->txt("pay_bmf_vat_included") . ": " . number_format($vat, 2, ',', '.') . " " . $genSet->get("currency_unit");
+		}
+
+		$tpl->setVariable("LINKBAR", $amount);
+		$tpl->parseCurrentBlock("tbl_footer_linkbar");
+		$tpl->setCurrentBlock('tbl_footer');
+		$tpl->setVariable('COLUMN_COUNT',4);
+		$tpl->parseCurrentBlock();
+
 
 
 		$tbl->render();

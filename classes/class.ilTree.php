@@ -836,7 +836,7 @@ class ilTree
 			$path[] = $this->fetchNodeData($row);
 		}
 
-		return $path;
+		return $path ? $path : array();
 	}
 
 	/**

@@ -49,6 +49,7 @@ class ilPaymentBaseGUI
 		$this->SECTION_OBJECT = 2;
 		$this->SECTION_TRUSTEE = 3;
 		$this->SECTION_SHOPPING_CART = 4;
+		$this->SECTION_BUYED_OBJECTS = 5;
 
 		$this->ADMIN = 4;
 		$this->BASE = 5;
@@ -215,6 +216,12 @@ class ilPaymentBaseGUI
 			$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_SHOPPING_CART ? 'tabactive' : 'tabinactive');
 			$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentshoppingcartgui'));
 			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_shopping_cart'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_BUYED_OBJECTS ? 'tabactive' : 'tabinactive');
+			$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui'));
+			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_buyed_objects'));
 			$this->tpl->parseCurrentBlock();
 		}
 	}

@@ -534,9 +534,15 @@ class ilSearch
 
 		if (is_array($a_results))
 		{
+			
 			foreach ($a_results as $result)
 			{
 				$obj_id = ilObject::_lookupObjId($result['id']);
+				
+				if(!$this->_checkParentConditions($result['id']))
+				{
+					continue;
+				}
 
 				if(ilRepositoryExplorer::isClickable($a_type,$result['id'],$obj_id) and 
 				   ilRepositoryExplorer::isVisible($result['id'],$a_type))
@@ -551,6 +557,35 @@ class ilSearch
 		return false;
 	}
 
+	// STATIC
+	function _checkParentConditions($a_ref_id)
+	{
+		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './course/classes/class.ilObjCourse.php';
+
+		global $tree,$ilias;
+
+		foreach($tree->getPathFull($a_ref_id) as $node_data)
+		{
+			if(!ilPaymentObject::_hasAccess($node_data['child']))
+			{
+				return false;
+			}
+			if($node_data['type'] == 'crs')
+			{
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($node_data['child']);
+
+				$tmp_obj->initCourseMemberObject();
+
+				if(!$tmp_obj->members_obj->hasAccess($ilias->account->getId()))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	function __validateResults()
 	{
 		global $tree;
@@ -559,6 +594,8 @@ class ilSearch
 
 
 		// check lm meta
+
+		$this->result['lm']['meta'] = $this->__checkAccess($this->result['lm']['meta'],'lm');
 		if(is_array($this->result['lm']['meta']))
 		{
 			foreach($this->result['lm']['meta'] as $data)
@@ -569,6 +606,7 @@ class ilSearch
 				}
 			}
 		}
+		$this->result['lm']['content'] = $this->__checkAccess($this->result['lm']['content'],'lm');
 		if(is_array($this->result['lm']['content']))
 		{
 			foreach($this->result['lm']['content'] as $data)
@@ -579,6 +617,7 @@ class ilSearch
 				}
 			}
 		}
+		$this->result['dbk']['meta'] = $this->__checkAccess($this->result['dbk']['meta'],'dbk');
 		if(is_array($this->result['dbk']['meta']))
 		{
 			foreach($this->result['dbk']['meta'] as $data)
@@ -589,6 +628,7 @@ class ilSearch
 				}
 			}
 		}
+		$this->result['dbk']['content'] = $this->__checkAccess($this->result['dbk']['content'],'dbk');
 		if(is_array($this->result['dbk']['content']))
 		{
 			foreach($this->result['dbk']['content'] as $data)
@@ -599,6 +639,7 @@ class ilSearch
 				}
 			}
 		}
+		$this->result['grp'] = $this->__checkAccess($this->result['grp'],'grp');
 		if(is_array($this->result['grp']))
 		{
 			foreach($this->result['grp'] as $data)

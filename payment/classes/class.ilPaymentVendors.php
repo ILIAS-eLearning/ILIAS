@@ -54,6 +54,7 @@ class ilPaymentVendors
 	{
 		return $this->vendors;
 	}
+
 	function isAssigned($a_usr_id)
 	{
 		return isset($this->vendors[$a_usr_id]);
@@ -68,6 +69,17 @@ class ilPaymentVendors
 		$query = "INSERT INTO payment_vendors ".
 			"SET vendor_id = '".$a_usr_id."', ".
 			"cost_center = '".IL_INST_ID."_".$a_usr_id."'";
+
+		$this->db->query($query);
+		$this->__read();
+
+		return true;
+	}
+	function update($a_usr_id, $a_cost_center)
+	{
+		$query = "UPDATE payment_vendors ".
+			"SET cost_center = '".$a_cost_center."' ".
+			"WHERE vendor_id = '".$a_usr_id."'";
 
 		$this->db->query($query);
 		$this->__read();
@@ -117,6 +129,21 @@ class ilPaymentVendors
 
 		return $res->numRows() ? true : false;
 	}
+
+	function _getCostCenter($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_vendors ".
+			"WHERE vendor_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->cost_center;
+		}
+		return -1;
+	}		
 
 } // END class.ilPaymentVendors
 ?>

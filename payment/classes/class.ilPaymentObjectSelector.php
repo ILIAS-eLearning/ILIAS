@@ -70,7 +70,7 @@ class ilPaymentObjectSelector extends ilExplorer
 		$this->addFilter("adm");
 		$this->addFilter("rolf");
 		$this->addFilter("chat");
-		$this->addFilter('fold');
+		#$this->addFilter('fold');
 
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->setFiltered(true);
@@ -96,6 +96,10 @@ class ilPaymentObjectSelector extends ilExplorer
 		{
 			case 'lm':
 			case 'crs':
+			case 'tst':
+			case 'sahs':
+			case 'file':
+
 				;
 				break;
 			default:

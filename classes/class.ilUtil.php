@@ -2192,5 +2192,41 @@ $a_allow = "<strong><em><code><cite><gap>";
 		return $url;
 	}
 
+    function generatePasswords ($a_number)
+    {
+        $ret = array();
+        srand((double) microtime()*1000000);
+
+        for ($i=1; $i<=$a_number; $i++)
+        {
+            $length  = rand(6,10);
+            $next  = rand(1,2);
+            //$chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $vowels = "aeiou";
+            $consonants = "bcdfghjklmnpqrstvwxyz";
+            $pw = "";
+
+            for ($j=0; $j < $length; $j++)
+            {
+                switch ($next)
+                {
+                    case 1:
+					$pw.= $consonants[rand(0,strlen($consonants)-1)];
+					$next = 2;
+                    break;
+                    
+                    case 2:
+					$pw.= $vowels[rand(0,strlen($vowels)-1)];
+					$next = 1;
+				break;
+                }
+             }
+
+             $ret[] = $pw;
+         }
+
+         return $ret;
+    }
+
 } // END class.ilUtil
 ?>

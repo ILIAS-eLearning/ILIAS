@@ -45,11 +45,16 @@ class ilPaymentBookings
 	var $booking_id = null;
 	var $payed = null;
 	var $access = null;
+	var $admin_view = false;
 
-	function ilPaymentBookings($a_user_id = '')
+	/*
+	 * admin_view = true reads all statistic data (only_used in administration)
+	 */
+	function ilPaymentBookings($a_user_id = '',$a_admin_view = false)
 	{
 		global $ilDB;
 
+		$this->admin_view = $a_admin_view;
 		$this->user_id = $a_user_id;
 		$this->db =& $ilDB;
 
@@ -59,6 +64,7 @@ class ilPaymentBookings
 		}
 	}
 
+	// SET GET
 	function setBookingId($a_booking_id)
 	{
 		return $this->booking_id = $a_booking_id;
@@ -66,6 +72,70 @@ class ilPaymentBookings
 	function getBookingId()
 	{
 		return $this->booking_id;
+	}
+	function setTransaction($a_transaction)
+	{
+		$this->transaction = $a_transaction;
+	}
+	function getTransaction()
+	{
+		return $this->transaction;
+	}
+	function setPobjectId($a_pobject_id)
+	{
+		$this->pobject_id = $a_pobject_id;
+	}
+	function getPobjectId()
+	{
+		return $this->pobject_id;
+	}
+	function setCustomerId($a_customer_id)
+	{
+		$this->customer_id = $a_customer_id;
+	}
+	function getCustomerId()
+	{
+		return $this->customer_id;
+	}
+	function setVendorId($a_vendor_id)
+	{
+		$this->vendor_id = $a_vendor_id;
+	}
+	function getVendorId()
+	{
+		return $this->vendor_id;
+	}
+	function setPayMethod($a_pay_method)
+	{
+		$this->pay_method = $a_pay_method;
+	}
+	function getPayMethod()
+	{
+		return $this->pay_method;
+	}
+	function setOrderDate($a_order_date)
+	{
+		$this->order_date = $a_order_date;
+	}
+	function getOrderDate()
+	{
+		return $this->order_date;
+	}
+	function setDuration($a_duration)
+	{
+		$this->duration = $a_duration;
+	}
+	function getDuration()
+	{
+		return $this->duration;
+	}
+	function setPrice($a_price)
+	{
+		$this->price = $a_price;
+	}
+	function getPrice()
+	{
+		return $this->price;
 	}
 	function setPayed($a_payed)
 	{
@@ -83,7 +153,45 @@ class ilPaymentBookings
 	{
 		return $this->access;
 	}
+	function setVoucher($a_voucher)
+	{
+		$this->voucher = $a_voucher;
+	}
+	function getVoucher()
+	{
+		return $this->voucher;
+	}
+	function setTransactionExtern($a_transaction_extern)
+	{
+		$this->transaction_extern = $a_transaction_extern;
+	}
+	function getTransactionExtern()
+	{
+		return $this->transaction_extern;
+	}
 
+	function add()
+	{
+		$query = sprintf("INSERT INTO payment_statistic VALUES('',".
+						 "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+						 $this->getTransaction(),
+						 $this->getPobjectId(),
+						 $this->getCustomerId(),
+						 $this->getVendorId(),
+						 $this->getPayMethod(),
+						 $this->getOrderDate(),
+						 $this->getDuration(),
+						 $this->getPrice(),
+						 $this->getPayedStatus(),
+						 $this->getAccessStatus(),
+						 $this->getVoucher(),
+						 $this->getTransactionExtern());
+
+		$this->db->query($query);
+
+		return true;
+	}
+						 
 	function update()
 	{
 		if($this->getBookingId())
@@ -111,7 +219,38 @@ class ilPaymentBookings
 			return true;
 		}
 		return false;
-	}			
+	}
+
+	function getBookingsOfCustomer($a_usr_id)
+	{
+		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po '.
+			"WHERE ps.pobject_id = po.pobject_id ".
+			"AND customer_id = '".$a_usr_id."' ".
+			"ORDER BY order_date DESC";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
+			$booking[$row->booking_id]['transaction'] = $row->transaction;
+			$booking[$row->booking_id]['pobject_id'] = $row->pobject_id;
+			$booking[$row->booking_id]['customer_id'] = $row->customer_id;
+			$booking[$row->booking_id]['order_date'] = $row->order_date;
+			$booking[$row->booking_id]['duration'] = $row->duration;
+			$booking[$row->booking_id]['price'] = $row->price;
+			$booking[$row->booking_id]['payed'] = $row->payed;
+			$booking[$row->booking_id]['access'] = $row->access;
+			$booking[$row->booking_id]['ref_id'] = $row->ref_id;
+			$booking[$row->booking_id]['status'] = $row->status;
+			$booking[$row->booking_id]['pay_method'] = $row->pay_method;
+			$booking[$row->booking_id]['vendor_id'] = $row->vendor_id;
+			$booking[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
+			$booking[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
+			$booking[$row->booking_id]['voucher'] = $row->voucher;
+			$booking[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
+		}
+		return $booking ? $booking : array();
+	}
 
 	function getBookings()
 	{
@@ -142,6 +281,8 @@ class ilPaymentBookings
 			$booking['vendor_id'] = $row->vendor_id;
 			$booking['b_vendor_id'] = $row->b_vendor_id;
 			$booking['b_pay_method'] = $row->b_pay_method;
+			$booking['voucher'] = $row->voucher;
+			$booking['transaction_extern'] = $row->transaction_extern;
 		}
 		return $booking ? $booking : array();
 	}
@@ -163,6 +304,20 @@ class ilPaymentBookings
 		return 0;
 	}
 
+	function _getCountBookingsByCustomer($a_vendor_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
+			"WHERE customer_id = '".$a_vendor_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->bid;
+		}
+		return 0;
+	}
 	function _getCountBookingsByObject($a_pobject_id)
 	{
 		global $ilDB;
@@ -185,13 +340,86 @@ class ilPaymentBookings
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
 		
 		$query = "SELECT * FROM payment_statistic ".
-			"WHERE pobject_id = '".$a_pobject_id."'";
+			"WHERE pobject_id = '".$a_pobject_id."' ".
+			"AND customer_id = '".$usr_id."' ".
+			"AND payed = '1' ".
+			"AND access = '1'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->access ? true : false;
-		}
+			$orderDateYear = date("Y", $row->order_date);
+			$orderDateMonth = date("m", $row->order_date);
+			$orderDateDay = date("d", $row->order_date);
+			$orderDateHour = date("H", $row->order_date);
+			$orderDateMinute = date("i", $row->order_date);
+			$orderDateSecond = date("s", $row->order_date);
+			if (($orderDateMonth + $row->duration) > 12)
+			{
+				$years = floor(($orderDateMonth + $row->duration) / 12);
+				$months = ($orderDateMonth + $row->duration) - (12 * $years);
+				$orderDateYear += $years;
+				$orderDateMonth = $months;
+			}
+			else
+			{
+				$orderDateMonth += $row->duration;
+			}
+			$startDate =  date("Y-m-d H:i:s", $row->order_date);
+			$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
+			if (date("Y-m-d H:i:s") >= $startDate &&
+				date("Y-m-d H:i:s") <= $endDate)
+			{
+				return true;
+			}
+		}			
+		return false;
+	}
+	
+	function _getActivation($a_pobject_id,$a_user_id = 0)
+	{
+		global $ilDB,$ilias;
+
+		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
+		
+		$query = "SELECT * FROM payment_statistic ".
+			"WHERE pobject_id = '".$a_pobject_id."' ".
+			"AND customer_id = '".$usr_id."' ".
+			"AND payed = '1' ".
+			"AND access = '1'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$orderDateYear = date("Y", $row->order_date);
+			$orderDateMonth = date("m", $row->order_date);
+			$orderDateDay = date("d", $row->order_date);
+			$orderDateHour = date("H", $row->order_date);
+			$orderDateMinute = date("i", $row->order_date);
+			$orderDateSecond = date("s", $row->order_date);
+			if (($orderDateMonth + $row->duration) > 12)
+			{
+				$years = floor(($orderDateMonth + $row->duration) / 12);
+				$months = ($orderDateMonth + $row->duration) - (12 * $years);
+				$orderDateYear += $years;
+				$orderDateMonth = $months;
+			}
+			else
+			{
+				$orderDateMonth += $row->duration;
+			}
+			$startDate =  date("Y-m-d H:i:s", $row->order_date);
+			$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
+			if (date("Y-m-d H:i:s") >= $startDate &&
+				date("Y-m-d H:i:s") <= $endDate)
+			{
+				$activation = array(
+					"activation_start" => $row->order_date,
+					"activation_end" => mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear)
+				);
+				return $activation;
+			}
+		}			
 		return false;
 	}
 	
@@ -230,16 +458,78 @@ class ilPaymentBookings
 	// PRIVATE
 	function __read()
 	{
-		$vendors = $this->__getVendorIds();
+		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po';
+		if ($_SESSION["pay_statistics"]["customer"] or $_SESSION['pay_statistics']['vendor'])
+		{
+			$query .= ', usr_data as ud';
+		}
+		$query .= " WHERE ps.pobject_id = po.pobject_id ";
 
-		$in = 'ps.b_vendor_id IN (';
-		$in .= implode(',',$vendors);
-		$in .= ')';
-
-		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po '.
-			"WHERE ps.pobject_id = po.pobject_id ".
-			"AND ".$in." ".
-			"ORDER BY order_date DESC";
+		if ($_SESSION["pay_statistics"]["transaction_value"] != "")
+		{
+			if ($_SESSION["pay_statistics"]["transaction_type"] == 0)
+			{
+				$query .= "AND transaction_extern LIKE '" . $_SESSION["pay_statistics"]["transaction_value"] . "%' ";
+			}
+			else if ($_SESSION["pay_statistics"]["transaction_type"] == 1)
+			{
+				$query .= "AND transaction_extern LIKE '%" . $_SESSION["pay_statistics"]["transaction_value"] . "' ";
+			}
+		}
+		if ($_SESSION["pay_statistics"]["customer"] != "")
+		{
+			$query .= "AND ud.login LIKE '%" . $_SESSION["pay_statistics"]["customer"] . "%' " .
+					  "AND ud.usr_id = ps.customer_id ";
+		}
+		if ($_SESSION["pay_statistics"]["from"]["day"] != "" &&
+			$_SESSION["pay_statistics"]["from"]["month"] != "" &&
+			$_SESSION["pay_statistics"]["from"]["year"] != "")
+		{
+			$from = mktime(0, 0, 0, $_SESSION["pay_statistics"]["from"]["month"], 
+						   $_SESSION["pay_statistics"]["from"]["day"], $_SESSION["pay_statistics"]["from"]["year"]);
+			$query .= "AND order_date >= '" . $from . "' ";
+		}
+		if ($_SESSION["pay_statistics"]["til"]["day"] != "" &&
+			$_SESSION["pay_statistics"]["til"]["month"] != "" &&
+			$_SESSION["pay_statistics"]["til"]["year"] != "")
+		{
+			$til = mktime(23, 59, 59, $_SESSION["pay_statistics"]["til"]["month"], 
+						  $_SESSION["pay_statistics"]["til"]["day"], $_SESSION["pay_statistics"]["til"]["year"]);
+			$query .= "AND order_date <= '" . $til . "' ";
+		}
+		if ($_SESSION["pay_statistics"]["payed"] == "0" ||
+			$_SESSION["pay_statistics"]["payed"] == "1")
+		{
+			$query .= "AND payed = '" . $_SESSION["pay_statistics"]["payed"] . "' ";
+		}
+		if ($_SESSION["pay_statistics"]["access"] == "0" ||
+			$_SESSION["pay_statistics"]["access"] == "1")
+		{
+			$query .= "AND access = '" . $_SESSION["pay_statistics"]["access"] . "' ";
+		}
+		
+		if(!$this->admin_view)
+		{
+			$vendors = $this->__getVendorIds();
+			if (is_array($vendors) &&
+				count($vendors) > 0)
+			{
+				$in = 'ps.b_vendor_id IN (';
+				$in .= implode(',',$vendors);
+				$in .= ')';
+				
+				$query .= "AND ".$in." ";
+			}
+		}
+		else
+		{
+			if($_SESSION['pay_statistics']['vendor'])
+			{
+				$query .= "AND ud.login LIKE '%" . $_SESSION["pay_statistics"]["vendor"] . "%' " .
+					"AND ud.usr_id = ps.b_vendor_id ";
+			}
+		}
+		$query .= "ORDER BY order_date DESC";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -259,6 +549,8 @@ class ilPaymentBookings
 			$this->bookings[$row->booking_id]['vendor_id'] = $row->vendor_id;
 			$this->bookings[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
 			$this->bookings[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
+			$this->bookings[$row->booking_id]['voucher'] = $row->voucher;
+			$this->bookings[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
 			
 		}
 
