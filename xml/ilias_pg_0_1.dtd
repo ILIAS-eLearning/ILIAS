@@ -129,7 +129,7 @@
 >
 
 <!-- Code -->
-<!ELEMENT Code (#PCDATA | br)*>
+<!ELEMENT Code (#PCDATA | br | Pre)*>
 <!ATTLIST Code
 	Id ID #IMPLIED
 	ProgrammingLanguage CDATA #IMPLIED
