@@ -2135,7 +2135,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$format_title->setColor('black');
 				$format_title->setPattern(1);
 				$format_title->setFgColor('silver');
-				$worksheet =& $workbook->addWorksheet($this->object->getTitle());
+				$worksheet =& $workbook->addWorksheet();
 				break;
 			case TYPE_SPSS:
 			case TYPE_PRINT:
