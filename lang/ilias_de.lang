@@ -171,6 +171,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#deleted#:#Gelöscht
+common#:#department#:#Department###28 Oct 2003 new variable
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
@@ -207,6 +208,7 @@ common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/übungskapitel
+common#:#fax#:#Fax###28 Oct 2003 new variable
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
@@ -422,7 +424,7 @@ common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
-common#:#mail_sent#:#Ihre Nachricht wurde versandt
+common#:#mail_sent#:#Ihre Nachricht wurde versandt###28 Oct 2003 content changed
 common#:#mail_system#:#Systemnachricht
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
@@ -544,6 +546,8 @@ common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
+common#:#obj_ldap#:#LDAP-Einstellungen
+common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
@@ -552,8 +556,6 @@ common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
-common#:#obj_ldap#:#LDAP-Einstellungen
-common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
@@ -627,6 +629,9 @@ common#:#pg_added#:#Seite angelegt
 common#:#pg_edit#:#Seite bearbeiten
 common#:#pg_new#:#Neue Seite
 common#:#phone#:#Telefon
+common#:#phone_home#:#Phone, Home###28 Oct 2003 new variable
+common#:#phone_mobile#:#Phone, Mobile###28 Oct 2003 new variable
+common#:#phone_office#:#Phone, Office###28 Oct 2003 new variable
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -1002,10 +1007,15 @@ content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 forum#:#forums#:#Foren
 forum#:#forums_articles#:#Beiträge
+forum#:#forums_attachments#:#Dateianhänge
+forum#:#forums_attachments_add#:#Dateianhang hinzufügen
+forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
 forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
+forum#:#forums_delete_file#:#Dateianhang löschen
+forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?
 forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
@@ -1046,12 +1056,13 @@ mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
 mail#:#mail_bc_search#:#BC-Empfänger suchen
+mail#:#mail_byte#:#Byte###28 Oct 2003 new variable
 mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre E-Mail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht###28 Oct 2003 content changed
 mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
@@ -1059,11 +1070,11 @@ mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigrösse
 mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
-mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
+mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt###28 Oct 2003 content changed
 mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
-mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
+mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt###28 Oct 2003 content changed
 mail#:#mail_folder_options#:#Ordner Einstellungen
 mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
@@ -1072,7 +1083,8 @@ mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_intern#:#Intern
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
-mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
+mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
+mail#:#mail_message_send#:#Ihre Nachricht wurde versandt###28 Oct 2003 content changed
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
@@ -1084,12 +1096,12 @@ mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
-mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
+mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert###28 Oct 2003 content changed
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?###28 Oct 2003 content changed
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
@@ -1639,10 +1651,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-forum#:#forums_download_attachment#:#Datei herunterladen
-forum#:#forums_attachments#:#Dateianhänge
-forum#:#forums_attachments_add#:#Dateianhang hinzufügen
-forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
-forum#:#forums_delete_file#:#Dateianhang löschen
-mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
-mail#:#mail_byte#:#Byte

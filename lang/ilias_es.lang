@@ -169,6 +169,7 @@ common#:#delete_all#:#delete all
 common#:#delete_object#:#delete object(s)
 common#:#delete_selected#:#delete selected
 common#:#deleted#:#deleted
+common#:#department#:#Department###28 Oct 2003 new variable
 common#:#desc#:#description
 common#:#description#:#description
 common#:#desired_password#:#desired password
@@ -205,6 +206,7 @@ common#:#execute#:#execute
 common#:#export_html#:#export as html file###09 May 2003 new variable
 common#:#export_xml#:#export as xml file###09 May 2003 new variable
 common#:#faq_exercise#:#faq exercise
+common#:#fax#:#Fax###28 Oct 2003 new variable
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#feedback recipient
 common#:#file#:#file
@@ -243,6 +245,8 @@ common#:#functions#:#functions
 common#:#gdf_add#:#Add Definition###22 Sep 2003 new variable
 common#:#gdf_new#:#New Definition###22 Sep 2003 new variable
 common#:#gender#:#gender
+common#:#gender_f#:#Female###28 Oct 2003 new variable
+common#:#gender_m#:#Male###28 Oct 2003 new variable
 common#:#generate#:#generate
 common#:#glo#:#Glossary###15 Aug 2003 new variable
 common#:#glo_a#:#a Glossary###01 Oct 2003 new variable
@@ -537,6 +541,8 @@ common#:#obj_fold#:#Folder###02 Oct 2003 new variable
 common#:#obj_frm#:#Forum###15 May 2003 new variable
 common#:#obj_glo#:#Glossary###15 Aug 2003 new variable
 common#:#obj_grp#:#Group###15 May 2003 new variable
+common#:#obj_ldap#:#LDAP Settings###28 Oct 2003 new variable
+common#:#obj_ldap_desc#:#Configure global LDAP Settings here.###28 Oct 2003 new variable
 common#:#obj_le#:#Learning Module###15 May 2003 new variable
 common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
 common#:#obj_lng#:#Language###15 May 2003 new variable
@@ -618,6 +624,9 @@ common#:#pg_added#:#Page added###18 Sep 2003 new variable
 common#:#pg_edit#:#Edit page###18 Sep 2003 new variable
 common#:#pg_new#:#New page###18 Sep 2003 new variable
 common#:#phone#:#phone
+common#:#phone_home#:#Phone, Home###28 Oct 2003 new variable
+common#:#phone_mobile#:#Phone, Mobile###28 Oct 2003 new variable
+common#:#phone_office#:#Phone, Office###28 Oct 2003 new variable
 common#:#phrase#:#phrase
 common#:#please_enter_target#:#Please enter a target.###12 Apr 2003 new variable
 common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
@@ -992,10 +1001,15 @@ content#:#st#:#Chapter###12 May 2003 new variable
 content#:#start export#:#Start Export###22 Sep 2003 new variable
 forum#:#forums#:#Forums###08 May 2003 new variable
 forum#:#forums_articles#:#articles
+forum#:#forums_attachments#:#Attachments###28 Oct 2003 new variable
+forum#:#forums_attachments_add#:#Add attachment###28 Oct 2003 new variable
+forum#:#forums_attachments_edit#:#Edit attachment###28 Oct 2003 new variable
 forum#:#forums_available#:#available forums
 forum#:#forums_count#:#number of forums
 forum#:#forums_count_art#:#number of articles
 forum#:#forums_count_thr#:#number of threads
+forum#:#forums_delete_file#:#Delete attachment###28 Oct 2003 new variable
+forum#:#forums_download_attachment#:#Download file###28 Oct 2003 new variable
 forum#:#forums_edit_post#:#edit article
 forum#:#forums_info_censor2_post#:#Are you sure you want to continue to hide this article?###13 May 2003 new variable
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?###13 May 2003 new variable
@@ -1036,6 +1050,7 @@ mail#:#mail_addr_entries#:#Entries###16 Apr 2003 new variable
 mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
 mail#:#mail_bc_not_valid#:#The Bc recipient is not valid###16 Apr 2003 new variable
 mail#:#mail_bc_search#:#BC search###16 Apr 2003 new variable
+mail#:#mail_byte#:#Byte###28 Oct 2003 new variable
 mail#:#mail_cc_not_valid#:#The Cc recipient is not valid###16 Apr 2003 new variable
 mail#:#mail_cc_search#:#CC search###16 Apr 2003 new variable
 mail#:#mail_change_to_folder#:#Switch to folder:###24 Apr 2003 new variable
@@ -1062,6 +1077,7 @@ mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
 mail#:#mail_intern#:#Internal###26 Apr 2003 new variable
 mail#:#mail_mark_read#:#Mark mails read###16 Apr 2003 new variable
 mail#:#mail_mark_unread#:#Mark mails unread###16 Apr 2003 new variable
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:###28 Oct 2003 new variable
 mail#:#mail_message_send#:#The message is send###16 Apr 2003 new variable
 mail#:#mail_move_error#:#Error moving mail(s)###16 Apr 2003 new variable
 mail#:#mail_move_to#:#Move mails to###16 Apr 2003 new variable

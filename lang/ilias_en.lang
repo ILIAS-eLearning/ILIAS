@@ -49,11 +49,6 @@ common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
 common#:#and#:#and
-common#:#department#:#Department
-common#:#phone_office#:#Phone, Office
-common#:#phone_home#:#Phone, Home
-common#:#phone_mobile#:#Phone, Mobile
-common#:#fax#:#Fax
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
@@ -174,6 +169,7 @@ common#:#delete_all#:#Delete All
 common#:#delete_object#:#Delete Object(s)
 common#:#delete_selected#:#Delete Selected
 common#:#deleted#:#Deleted
+common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
@@ -210,6 +206,7 @@ common#:#execute#:#Execute
 common#:#export_html#:#export as html file
 common#:#export_xml#:#export as xml file
 common#:#faq_exercise#:#FAQ Exercise
+common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#file#:#File
@@ -547,6 +544,8 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
+common#:#obj_ldap#:#LDAP Settings
+common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
@@ -555,8 +554,6 @@ common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
 common#:#obj_mail_desc#:#Configure global mail settings here.
-common#:#obj_ldap#:#LDAP Settings
-common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
@@ -630,6 +627,9 @@ common#:#pg_added#:#Page added
 common#:#pg_edit#:#Edit page
 common#:#pg_new#:#New page
 common#:#phone#:#Phone
+common#:#phone_home#:#Phone, Home
+common#:#phone_mobile#:#Phone, Mobile
+common#:#phone_office#:#Phone, Office
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Please enter a target
 common#:#please_enter_title#:#Please enter a title
@@ -1005,10 +1005,15 @@ content#:#st#:#Chapter
 content#:#start export#:#Start Export
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
+forum#:#forums_attachments#:#Attachments
+forum#:#forums_attachments_add#:#Add attachment
+forum#:#forums_attachments_edit#:#Edit attachment
 forum#:#forums_available#:#Available Forums
 forum#:#forums_count#:#Number of Forums
 forum#:#forums_count_art#:#Number of Articles
 forum#:#forums_count_thr#:#Number of Threads
+forum#:#forums_delete_file#:#Delete attachment
+forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_info_censor2_post#:#Are you sure you want to continue to hide this article?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
@@ -1049,6 +1054,7 @@ mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The Bc recipient is not valid
 mail#:#mail_bc_search#:#BC search
+mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#The Cc recipient is not valid
 mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
@@ -1075,6 +1081,7 @@ mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
 mail#:#mail_mark_read#:#Mark mails read
 mail#:#mail_mark_unread#:#Mark mails unread
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail(s)
 mail#:#mail_move_to#:#Move to:
@@ -1642,10 +1649,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-forum#:#forums_download_attachment#:#Download file
-forum#:#forums_attachments#:#Attachments
-forum#:#forums_attachments_add#:#Add attachment
-forum#:#forums_attachments_edit#:#Edit attachment
-forum#:#forums_delete_file#:#Delete attachment
-mail#:#mail_maxsize_attachment_error#:#The upload limit is:
-mail#:#mail_byte#:#Byte
