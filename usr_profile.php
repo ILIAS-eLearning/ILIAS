@@ -88,34 +88,45 @@ function upload_file()
 }
 // End of function upload file
 
-
-
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-// To display picture after Uploaded
-//$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
-
 
 // display infopanel if something happened
 infoPanel();
-//http://localhost/ilias3/docss/usr_images/usr_6.jpg
-//display buttons
+
+//add template for buttons
+$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+// display buttons
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_profile.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
 $tpl->parseCurrentBlock();
+
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_password.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
 $tpl->parseCurrentBlock();
+
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
 
-$tpl->setCurrentBlock("btn_row");
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
+$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
 $tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
+$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
+$tpl->parseCurrentBlock();
+
+$tpl->touchBlock("btn_row");
+
+
+// To display picture after Uploaded
+//$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
 
 // if data are posted check on upload button
 
