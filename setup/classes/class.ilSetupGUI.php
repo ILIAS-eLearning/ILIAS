@@ -868,6 +868,8 @@ class ilSetupGUI extends ilSetup
 	function displayClientList()
 	{
 		$_SESSION["ClientId"] = "";
+		
+		$_GET["sort_by"] = ($_GET["sort_by"]) ? $_GET["sort_by"] : "name";
 
 		$clientlist = new ilClientList();
 		$list = $clientlist->getClients();
@@ -981,14 +983,12 @@ class ilSetupGUI extends ilSetup
 		}
 		
 		$tbl->setHeaderNames($header_names);
-
-		//$header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id,"cmd" => "edit");
 		$tbl->setHeaderVars($data["cols"],$header_params);
 		$tbl->setColumnWidth(array("5%","30%","10%","10%","10%","20%","15%"));
 		
 		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOrderColumn($_GET["sort_by"],"name");
+		$tbl->setOrderDirection($_GET["sort_order"],"asc");
 		$tbl->setLimit(0);
 		$tbl->setOffset(0);
 		$tbl->setMaxCount($maxcount);
