@@ -353,7 +353,7 @@ function storeCaret(textEl) {
 		while (T2.indexOf("[fn]")!=-1) 
 		{
 			Ta = T2.substr(0, T2.indexOf("[fn]") );
-			Tb = T2.substring(T2.indexOf("[fn]")+4, T2.indexOf("[/fn]") )
+			Tb = T2.substring(T2.indexOf("[fn]")+4, T2.indexOf("[/fn]") );
 			Tc = T2.substring(T2.indexOf("[/fn]")+5,T2.length);
 			
 			T2 = Tc;
@@ -362,6 +362,26 @@ function storeCaret(textEl) {
 			T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+Tb+"\">["+fnCount+"]</span>");
 		}
 		
+
+		/**
+		*	find all external links
+		*/
+		T = replaceAll(T,"[/xln]","</span>");
+		T2 = T;
+		while (T2.indexOf("[xln ")!=-1) 
+		{
+			T2 = T2.substring(T2.indexOf("[xln url=")+9,T2.length );
+			
+			Tb = T2.substr(0,T2.indexOf("]") );
+			
+			Tb = replaceAll(Tb, "&quot;","");
+			Tb = replaceAll(Tb, "\"","");
+			
+			T = T.replace("[xln url=&quot;"+Tb+"&quot;]","<span class=\"iliasxln\" url=\""+Tb+"\">");
+			T = T.replace("[xln url=\""+Tb+"\"]","<span class=\"iliasxln\" url=\""+Tb+"\">");
+		}
+		
+
 		
         while (T.indexOf("\n")>-1) 
 		{ 
