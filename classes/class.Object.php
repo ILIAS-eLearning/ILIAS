@@ -18,12 +18,13 @@ class Object
 	
 	/**
 	* Constructor
-	* @param object ilias
 	* @access public
 	*/
-	function Object(&$a_ilias)
+	function Object()
 	{
-		$this->ilias =& $a_ilias;
+		global $ilias;
+		
+		$this->ilias =& $ilias;
 	}
 	
 	/**
@@ -33,10 +34,9 @@ class Object
 	function createObject()
 	{
 		// Creates a child object
-		global $tplContent;
+		global $tplContent, $rbacsystem;
 
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
+		if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
@@ -81,7 +81,6 @@ class Object
 		else
 		{
 			$this->ilias->raiseError("No permission to create object",$this->ilias->error_obj->WARNING);
-			exit();
 		}
 		
 		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
@@ -131,6 +130,7 @@ class Object
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
+			
 			header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 			exit;
 		}
@@ -150,7 +150,7 @@ class Object
 
 		$obj = getObject($_GET["obj_id"]);
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$tplContent = new Template("object_permission.html",true,true);
 
@@ -166,7 +166,7 @@ class Object
 			// BEGIN ROLENAMES
 			$tplContent->setCurrentBlock("ROLENAMES");
 
-			foreach($parentRoles as $r)
+			foreach ($parentRoles as $r)
 			{
 				$tplContent->setVariable("ROLE_NAME",$r["title"]);
 				$tplContent->parseCurrentBlock();
@@ -175,7 +175,7 @@ class Object
 			// BEGIN CHECK_INHERIT
 			$tplContent->setCurrentBLock("CHECK_INHERIT");
 
-			foreach($parentRoles as $r)
+			foreach ($parentRoles as $r)
 			{
 				$box = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 				$tplContent->setVariable("CHECK_INHERITANCE",$box);
@@ -185,12 +185,12 @@ class Object
 			$ope_list = getOperationList($obj["type"]);
 
 			// BEGIN TABLE_DATA_OUTER
-			foreach($ope_list as $key => $operation)
+			foreach ($ope_list as $key => $operation)
 			{
 				// BEGIN CHECK_PERM
 				$tplContent->setCurrentBlock("CHECK_PERM");
 				
-				foreach($parentRoles as $role)
+				foreach ($parentRoles as $role)
 				{
 					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -201,7 +201,7 @@ class Object
 				
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
-				$css_row = $key % 2 ? "row_low" : "row_high";
+				$css_row = TUtil::switchColor($num,"row_high","row_low");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operation["operation"]);
 				$tplContent->parseCurrentBlock();
@@ -228,7 +228,7 @@ class Object
 			// Check if object is able to contain role folder
 			$child_objects = TUtil::getModules($ilias->typedefinition["$obj[type]"]);
 			
-			if($child_objects["rolf"])
+			if ($child_objects["rolf"])
 			{
 				// ADD LOCAL ROLE
 				$tplContent->setCurrentBlock("LOCAL_ROLE");
@@ -252,7 +252,7 @@ class Object
 		{
 			$rbacadmin->revokePermission($_GET["obj_id"]);
 			
-			foreach($_POST["perm"] as $key => $new_role_perms)
+			foreach ($_POST["perm"] as $key => $new_role_perms)
 			{
 				// $key enthaelt die aktuelle Role_Id
 				$rbacadmin->grantPermission($key,$new_role_perms,$_GET["obj_id"],$_GET["parent"]);
@@ -347,7 +347,7 @@ class Object
 		{
 			if (!in_array('rolf',TUtil::getModules($ilias->typedefinition["$object[type]"])))
 			{
-				$this->ilias->raiseError("$object[title] are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("'".$object["title"]."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
 			}
 
 			// CHECK ACCESS 'create' rolefolder
@@ -374,7 +374,7 @@ class Object
 		}
 
 		// CHECK ACCESS 'write' of role folder
-		if($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
+		if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
 		{
 			$role_data["title"] = $_POST["Flocal_role"];
 			$role_data["desc"] = "";
@@ -396,7 +396,7 @@ class Object
 	**/
 	function ownerObject()
 	{
-		global $tplContent,$tree;
+		global $tplContent,$tree,$lng;
 
 		$tplContent = new Template("object_owner.html",true,true);
 		$tplContent->setVariable($ilias->ini["layout"]);
@@ -414,7 +414,7 @@ class Object
 		}
 		else
 		{
-			$tplContent->setVariable("OWNER_NAME","UNKNOWN");
+			$tplContent->setVariable("OWNER_NAME",$lng->txt("unknown"));
 		}
 	}
 
@@ -483,7 +483,7 @@ class Object
 	*/
 	function getParentRoleTemplateIds($a_start_node = '')
 	{
-		global $rbacadmin,$tree;
+		global $rbacadmin, $tree;
 		
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
 
@@ -512,5 +512,5 @@ class Object
 		
 		return array_pop($path_ids);
 	}
-}
+} // END class.Object
 ?>

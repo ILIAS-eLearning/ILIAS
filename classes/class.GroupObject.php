@@ -2,23 +2,22 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class GroupObject
- * @extends class.Object.php
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package ilias-core
- * 
+* Class GroupObject
+* @extends class.Object.php
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$ 
+* @package ilias-core
+* 
 */
 class GroupObject extends Object
 {
-/**
- * constructor
- * @param object ilias
- * @access public
- */
-	function GroupObject(&$a_dbhandle)
+	/**
+	* Constructor
+	* @access public
+	*/
+	function GroupObject()
 	{
-		$this->Object($a_dbhandle);
+		$this->Object();
 	}
-} //end class
+} //END class.GroupObject
 ?>

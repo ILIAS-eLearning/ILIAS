@@ -3,22 +3,22 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class CategoryObject
- * @extends class.Object.php
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package ilias-core
- * 
+* Class CategoryObject
+* @extends class.Object.php
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$ 
+* @package ilias-core
+* 
 */
 class CategoryObject extends Object
 {
-	
 	/**
-	* @param object db
+	* Constructor
+	* @access public
 	*/
-	function CategoryObject(&$a_dbhandle)
+	function CategoryObject()
 	{
-		$this->Object($a_dbhandle);
+		$this->Object();
 	}
-}
+} // END class.CategoryObject
 ?>

@@ -2,40 +2,38 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class RoleTemplateObject
- * @extends class.Object.php
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package ilias-core
- * 
+* Class RoleTemplateObject
+* @extends class.Object.php
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$ 
+* @package ilias-core
+* 
 */
 class RoleTemplateObject extends Object
 {
-/**
- * Constructor
- * @param object ilias
- * @access public
- */
-	function RoleTemplateObject(&$a_ilias)
+	/**
+	* Constructor
+	* @access public
+	*/
+	function RoleTemplateObject()
 	{
-		$this->Object($a_ilias);
+		$this->Object();
 	}
-	//
-	// Überschriebene Methoden:
-	//
-	// PUBLIC METHODEN
 
-/**
- * create a role template object 
- * @access public
- */
+	//
+	// Overwritten methods:
+	//
+
+	/**
+	* create a role template object 
+	* @access public
+	*/
 	function createObject()
 	{
 		// Creates a child object
-		global $tplContent;
+		global $tplContent, $rbacsystem;
 
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		if($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
@@ -52,74 +50,77 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 	}
-/**
- * save new role
- * @access public
- **/
+
+	/**
+	* save new role
+	* @access public
+	**/
 	function saveObject()
 	{
-		$rbacadmin = new RbacAdminH($this->ilias->db); 
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $rbacadmin, $rbacsystem; 
 
 		// CHECK ACCESS 'write' to role folder
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
-			if($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("Role Exists",$this->ilias->error_class->WARNING);
+				$this->ilias->raiseError("Role Exists",$this->ilias->error_obj->WARNING);
 			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'n');
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		exit;
 	}
-/**
- * delete template 
- * @access public
- **/
+
+	/**
+	* delete template 
+	* @access public
+	**/
 	function deleteObject()
 	{
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $rbacsystem, $rbacadmin;
 
 		// check access write in role folder
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			// is there any id to delete
-			if($_POST["id"])
+			if ($_POST["id"])
 			{
-				$rbacadmin = new RbacAdminH($this->ilias->db);
-				foreach($_POST["id"] as $id)
+				foreach ($_POST["id"] as $id)
 				{
 					$rbacadmin->deleteTemplate($id);
 				}
 			}
 			else
 			{
-				$this->ilias->raiseError("No check box checked, nothing happened ;-).",$this->ilias->error_class->MESSAGE);
+				$this->ilias->raiseError("No check box checked, nothing happened ;-).",$this->ilias->error_obj->MESSAGE);
 			}
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->MESSAGE);
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
 		}
-		header("Location: content_role.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		header("Location: content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		exit;
 	}
-/**
- * edit object
- * @access public
- * 
- **/
+
+	/**
+	* edit object
+	* @access public
+	* 
+	**/
 	function editObject()
 	{
-		global $tplContent;
+		global $tplContent, $rbacsystem;
 
-		$rbacsystem = new RbacSystemH($this->ilias->db);
 		$parent_obj_id = $this->getParentObjectId();
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
@@ -136,46 +137,44 @@ class RoleTemplateObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}			
 	}
-/**
- * update an object
- * @access public
- **/
+
+	/**
+	* update an object
+	* @access public
+	**/
 	function updateObject()
 	{
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $rbacsystem;
 
 		$parent_obj_id = $this->getParentObjectId();
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
+
+			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$parent_obj_id);
+			exit;
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 	}
-/**
- * show permission templates of role
- * @access public
- **/
+
+	/**
+	* show permission templates of role
+	* @access public
+	**/
 	function permObject() 
 	{
-		global $tree;
-		global $tplContent;
-
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacreview = new RbacReviewH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $tree, $tplContent, $rbacssystem, $rbacadmin, $rbacreview;
 
 		$parent_obj_id = $this->getParentObjectId();
 		
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
 		{
 			$tplContent = new Template("role_perm.html",true,true);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
@@ -189,7 +188,8 @@ class RoleTemplateObject extends Object
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES
 			$tplContent->setCurrentBlock("OBJECT_TYPES");
-			foreach($obj_data as $data)
+
+			foreach ($obj_data as $data)
 			{
 				$tplContent->setVariable("OBJ_TYPES",$data["title"]);
 				$tplContent->parseCurrentBlock();
@@ -197,13 +197,14 @@ class RoleTemplateObject extends Object
 			// END OBJECT TYPES
 			$all_ops = getOperationList();
 			// BEGIN TABLE_DATA_OUTER
-			foreach($all_ops as $key => $operations)
+			foreach ($all_ops as $key => $operations)
 			{
 				// BEGIN CHECK_PERM
 				$tplContent->setCurrentBlock("CHECK_PERM");
-				foreach($obj_data as $data)
+
+				foreach ($obj_data as $data)
 				{
-					if(in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
+					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 					{
 						$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["title"],$_GET["parent"]);
 						$checked = in_array($operations["ops_id"],$selected);
@@ -219,11 +220,12 @@ class RoleTemplateObject extends Object
 				}
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
-				$css_row = $key % 2 ? "row_low" : "row_high";
+				$css_row = switchColor($key,"row_hig","row_low");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operations["operation"]);
 				$tplContent->parseCurrentBlock();
 			}
+
 			$tplContent->setVariable("COL_ANZ",count($obj_data));
 			$tplContent->setVariable("MESSAGE_TABLE","Change permissions");		
 			// ADOPT PERMISSIONS
@@ -232,10 +234,11 @@ class RoleTemplateObject extends Object
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
 			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"]);
-			foreach($parent_role_ids as $key => $par)
+
+			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$tplContent->setVariable("CSS_ROW_ADOPT",$key % 2 ? "row_low" : "row_high");
+				$tplContent->setVariable("CSS_ROW_ADOPT",switchColor($key,"row_hig","row_low"));
 				$tplContent->setVariable("CHECK_ADOPT",$radio);
 				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
 				$tplContent->setVariable("ROLE_NAME",$par["title"]);
@@ -248,26 +251,26 @@ class RoleTemplateObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 	}
-/**
- * save permission templates of role 
- * @access public
- **/
+
+	/**
+	* save permission templates of role 
+	* @access public
+	**/
 	function permSaveObject()
 	{
-		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $tree, $rbacadmin, $rbacsystem;
 
 		$parent_obj_id = $this->getParentObjectId();
-		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
 			// Alle Template Eintraege loeschen
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 
-			foreach($_POST["template_perm"] as $key => $ops_array)
+			foreach ($_POST["template_perm"] as $key => $ops_array)
 			{
 				// Setzen der neuen template permissions
 				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
@@ -275,23 +278,24 @@ class RoleTemplateObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 
+		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		exit;
 	}
-/**
- * copy permissions from role or template
- * @access public
- **/
+
+	/**
+	* copy permissions from role or template
+	* @access public
+	**/
 	function adoptPermSaveObject()
 	{
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $rbacadmin, $rbacsystem;
 
 		$parent_obj_id = $this->getParentObjectId();
 
-		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"]);
@@ -299,13 +303,11 @@ class RoleTemplateObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
-		exit();
+
+		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		exit;
 	}
-
-
-
-}
+} // END class.RoleTemplateObject
 ?>
