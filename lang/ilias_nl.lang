@@ -1843,6 +1843,7 @@ common#:#objs_type#:#Object-types
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Gebruikers
 common#:#of#:#Of###05 Nov 2004 new variable
+common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Offline Versie
 common#:#ok#:#OK###05 Nov 2004 new variable
 common#:#old#:#Oud
@@ -2308,6 +2309,7 @@ common#:#vcard#:#Visiting card###30 Oct 2004 new variable
 common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Leveranciers
 common#:#version#:#Versie
+common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Tonen
 common#:#view_content#:#Toon inhoud
 common#:#visible_layers#:#Zichtbare laag
@@ -4102,6 +4104,7 @@ survey#:#enter_value#:#U kunt de enquête niet starten. De einddatum is bereikt!
 survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Voer een gezegde-titel in
 survey#:#evaluation_access#:#Voer een waarde in
 survey#:#excel#:#Evaluatie
@@ -4138,6 +4141,7 @@ survey#:#invited_groups#:#Uitnodigings-modus
 survey#:#invited_users#:#Nodig deelnemer uit
 survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
 survey#:#last_update#:#Uitgenodigde groepen
+survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Uitgenodigde gebruikers
 survey#:#maintenance#:#Laatst bijgewerkt
 survey#:#manage_phrases#:#onderste begrenzing
@@ -4249,6 +4253,7 @@ survey#:#select_target_position_for_move#:#Selecteer a.u.b. vraagpool om de gecr
 survey#:#select_target_position_for_move_question#:#Selecteer een relaties
 survey#:#select_value#:#Selecteer a.u.b. doel-positie om de kategoriën te verplaatsen en druk op één van de invoeg-buttons!
 survey#:#set_filter#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!
+survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Selecteer een waarde
 survey#:#start_date_not_reached#:#Instellen filter

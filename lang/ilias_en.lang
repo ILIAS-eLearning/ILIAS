@@ -55,7 +55,6 @@ administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#options#:#Options
-common#:#versions#:#Versions
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
@@ -2310,6 +2309,7 @@ common#:#vcard#:#Visiting card
 common#:#vcard_download#:#Download visiting card
 common#:#vendors#:#Vendors
 common#:#version#:#Version
+common#:#versions#:#Versions
 common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
@@ -4104,6 +4104,7 @@ survey#:#enter_value#:#Enter a value
 survey#:#error_add_heading#:#Please add a heading!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
 survey#:#excel#:#Microsoft Excel
@@ -4140,6 +4141,7 @@ survey#:#invited_groups#:#Invited groups
 survey#:#invited_users#:#Invited users
 survey#:#label_resume_survey#:#Enter your 32 digit survey code
 survey#:#last_update#:#Last update
+survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower limit
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Manage phrases
@@ -4251,6 +4253,7 @@ survey#:#select_target_position_for_move#:#Please select a target position to mo
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
+survey#:#skipped#:#skipped
 survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
@@ -4312,6 +4315,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
-survey#:#legend#:#Legend
-survey#:#skipped#:#skipped

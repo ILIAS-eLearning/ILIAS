@@ -1822,6 +1822,7 @@ common#:#objs_type#:#Types d'objets
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utilisateurs
 common#:#of#:#de
+common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Version hors-ligne
 common#:#ok#:#OK
 common#:#old#:#Ancien
@@ -2283,6 +2284,7 @@ common#:#vcard#:#Carte de visite
 common#:#vcard_download#:#Télécharger carte de visite
 common#:#vendors#:#Vendeurs
 common#:#version#:#Version
+common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Voir
 common#:#view_content#:#Voir contenu
 common#:#visible_layers#:#Couches visibles
@@ -4071,6 +4073,7 @@ survey#:#enter_value#:#Saisissez une valeur
 survey#:#error_add_heading#:#Veuillez ajouter un titre.
 survey#:#error_importing_question#:#Une erreur s'est produite pendant l'importation des questions depuis le fichier que vous avez sélectionné.
 survey#:#error_retrieving_anonymous_survey#:#Le système n'a pas pu trouver vos données de sondage pour le sondage code %s. Veuillez vérifier le code du sondage que vous avez saisi.###09 Dec 2004 content changed
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Accès à l'évaluation
 survey#:#excel#:#Microsoft Excel
@@ -4107,6 +4110,7 @@ survey#:#invited_groups#:#Groupes invités
 survey#:#invited_users#:#Utilisateurs invités
 survey#:#label_resume_survey#:#Saisissez votre code de sondage à 32 chiffres
 survey#:#last_update#:#Dernière mise à jour
+survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Limite basse
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Gérer expressions
@@ -4215,6 +4219,7 @@ survey#:#select_target_position_for_move#:#Veuillez sélectionner une position c
 survey#:#select_target_position_for_move_question#:#Veuillez sélectionner une position cible pour déplacer les questions et presser un des boutons 'insérer'.
 survey#:#select_value#:#Selectionner une valeur
 survey#:#set_filter#:#Régler filtre
+survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#Vous devez choisir un fichier à importer
 survey#:#start_date#:#Date de départ
 survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant que la date de départ n'est pas arrivée.

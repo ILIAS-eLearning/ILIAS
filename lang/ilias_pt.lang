@@ -1843,6 +1843,7 @@ common#:#objs_type#:#Tipos de Objectos###14 Sep 2004 content changed
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Utilizadores
 common#:#of#:#De
+common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Versão Offline
 common#:#ok#:#OK###05 Nov 2004 new variable
 common#:#old#:#Antigo
@@ -2308,6 +2309,7 @@ common#:#vcard#:#Visiting card###30 Oct 2004 new variable
 common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Vendors###31 Aug 2004 new variable
 common#:#version#:#Versão
+common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Vista
 common#:#view_content#:#Ver Conteúdo
 common#:#visible_layers#:#Camadas Vísiveis
@@ -4102,6 +4104,7 @@ survey#:#enter_value#:#Enter a value###26 May 2004 new variable
 survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
 survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
 survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
@@ -4138,6 +4141,7 @@ survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
 survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
+survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
 survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
@@ -4249,6 +4253,7 @@ survey#:#select_target_position_for_move#:#Please select a target position to mo
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
+survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
