@@ -2157,15 +2157,15 @@ common#:#role_user_deassign#:#Відмінити назначення ролі �
 common#:#role_user_edit#:#Редагувати дані акаунту
 common#:#role_user_send_mail#:#Послати повідомлення користувачу
 common#:#roles#:#Ролі
-common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
-common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
+common#:#roles_of_import_global#:#Глобальні ролі імпортованого файлу
+common#:#roles_of_import_local#:#Локальні ролі імпортованого файлу
 common#:#rolf#:#Ролі
 common#:#rolf_added#:#Папка з Ролями додана
 common#:#rolf_create_role#:#Сторити нове визначення Ролі
 common#:#rolf_create_rolt#:#Стоврити новий шаблон визначення Ролі
 common#:#rolf_delete#:#Видалити Ролі/шаблони Ролі
 common#:#rolf_edit_permission#:#Змінити настройки прав
-common#:#rolf_edit_userassignment#:#Змінити призначити користувача Ролі###14 Sep 2004 content changed
+common#:#rolf_edit_userassignment#:#Змінити користувацьке призначення Ролей
 common#:#rolf_read#:#Доступ на читання до Ролі/шаблонів Ролі
 common#:#rolf_visible#:#Ролі/шаблони Ролі є видимі
 common#:#rolf_write#:#Редагувати Ролі/шаблони Ролі
@@ -2181,16 +2181,16 @@ common#:#root_edit_permission#:#Змінити настройки прав
 common#:#root_read#:#Доступ на читання до системи ILIAS
 common#:#root_visible#:#Система ILIAS є видима
 common#:#root_write#:#Редагувати ILIAS root node data
-common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
-common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
-common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs#:#SCORM/AICC Учбовий Модуль
+common#:#sahs_added#:#SCORM/AICC Учюовий Модуль доданий
+common#:#sahs_create#:#Створити SCORM/AICC Учбовий Модуль
+common#:#sahs_delete#:#Видалити SCORM/AICC Учбовий Модуль
+common#:#sahs_edit_permission#:#Змінити настройки прав
+common#:#sahs_join#:#Підписатись на SCORM/AICC Учбовий Модуль
+common#:#sahs_leave#:#Відписатись від SCORM/AICC Учбового Модуля
+common#:#sahs_read#:#Доступ на читання до SCORM/AICC Учбового Модуля
+common#:#sahs_visible#:#SCORM/AICC Учбовий Модуль є видимим
+common#:#sahs_write#:#Редагувати SCORM/AICC Учбовий Модуль
 common#:#salutation#:#Привітання
 common#:#salutation_f#:#Місс/Місіс
 common#:#salutation_m#:#Містер
@@ -2199,17 +2199,17 @@ common#:#save_and_back#:#Зберігти та Повернутись
 common#:#save_message#:#Зберігти Повідомлення
 common#:#save_refresh#:#Зберігти та Обновити
 common#:#save_return#:#Зберігти та Повернутись
-common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
-common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
+common#:#save_settings#:#Зберегти Настройки
+common#:#save_user_related_data#:#Зберегти дані доступу що відностяться до користувача
 common#:#saved#:#Збережено
 common#:#saved_successfully#:#Збережено Вдало
 common#:#search#:#Пошук
-common#:#search_active#:#Include active users###14 Sep 2004 new variable
-common#:#search_for#:#Search For###24 Jun 2004 new variable
+common#:#search_active#:#Включаючи єактивних користувачів
+common#:#search_for#:#Пошук По
 common#:#search_in#:#Пошук в
-common#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
+common#:#search_inactive#:#Включаючи неактивних користувачів
 common#:#search_new#:#Новий Пошук
-common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###14 Sep 2004 new variable
+common#:#search_note#:#Якщо &quot;шукати в&quot; залишити пустим, пошук вібудеться по усім користувачам. Це дозволяє вам знайти усіх активних або усіх неактивних користувачів.
 common#:#search_recipient#:#Шукати Одержувача
 common#:#search_result#:#Результат пошуку
 common#:#search_user#:#Шукати Користувача
@@ -2217,22 +2217,22 @@ common#:#sections#:#Секції
 common#:#select#:#Вибрати
 common#:#select_all#:#Вибрати Усе
 common#:#select_file#:#Вибрати файл
-common#:#select_max_one_item#:#Please select one item only###01 Mar 2005 new variable
+common#:#select_max_one_item#:#Будь ласка виберіть тільки один пункт
 common#:#select_mode#:#Вибрати режим
-common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
-common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
-common#:#select_password#:#Select a new password###29 Nov 2004 new variable
-common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
-common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
+common#:#select_object_to_copy#:#Будь ласка виберіть об'єкт який ви бажаєте скопіювати
+common#:#select_object_to_link#:#Будь ласка виберіть об'єкт який ви бажаєте зв'язати
+common#:#select_password#:#Виберіть новий пароль
+common#:#select_questionpool#:#Банк питань для Тесту
+common#:#select_questionpool_option#:#Будь ласка виберіть банк питань
 common#:#selected#:#Вибраний
-common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
+common#:#selected_items#:#Особисті Предмети
 common#:#send#:#Відіслати
 common#:#sender#:#Відправник
 common#:#sent#:#Відісланий
 common#:#sequence#:#Послідовність
 common#:#sequences#:#Послідовності
 common#:#server#:#Сервер
-common#:#server_data#:#Дані серверу ###29 Nov 2004 content changed
+common#:#server_data#:#Дані серверу
 common#:#server_software#:#Програмне Забезпечення Серверу
 common#:#set#:#Встановити
 common#:#setSystemLanguage#:#Встановити Системну Мову
@@ -2240,73 +2240,73 @@ common#:#setUserLanguage#:#Встановити Мову Користувача
 common#:#set_offline#:#Встановити Оффлайн
 common#:#set_online#:#Встановити Онлайн
 common#:#settings#:#Настройки
-common#:#show#:#Show###16 Mar 2004 new variable
+common#:#show#:#Показати
 common#:#show_details#:#показати деталі
 common#:#show_list#:#Показати Список
 common#:#show_members#:#Показати Членів
 common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
-common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
+common#:#show_users_online#:#Показати користувачів online
 common#:#signature#:#Сігнатура
-common#:#size#:#Size###29 Nov 2004 new variable
-common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
-common#:#smtp#:#SMTP###05 Nov 2004 new variable
-common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
-common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
+common#:#size#:#Розмір
+common#:#skin_style#:#Скін / Стиль по Замовчанню
+common#:#smtp#:#SMTP
+common#:#soap_user_administration#:#Зовнішнє адміністрування користувачами (SOAP)
+common#:#soap_user_administration_desc#:#Якщо довзолено, усі акаунти користувачів можуть адмініструватись через зовнішній SOAP-Клієнт.
 common#:#sort_by_this_column#:#Сортувати по цій колонці
-common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
-common#:#spl_add#:#Add question pool###07 May 2004 new variable
-common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
-common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#spl_new#:#New question pool###07 May 2004 new variable
-common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
-common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
-common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
-common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
+common#:#spl#:#Банк питань (Опитування)
+common#:#spl_add#:#Додати банк питань
+common#:#spl_delete#:#Видалити Банк Питань
+common#:#spl_edit_permission#:#Змінити настройки прав
+common#:#spl_new#:#Новий пул питань
+common#:#spl_read#:#Доступ на читання до Банку Питань
+common#:#spl_upload_file#:#Завантажити Файл
+common#:#spl_visible#:#Пул Питань є видимим
+common#:#spl_write#:#Редагувати Пул Питань
 common#:#st_a#:#глава
 common#:#st_add#:#Додати главу
 common#:#st_added#:#Глава додана
 common#:#st_edit#:#Редагувати главу
 common#:#st_new#:#Нова глава
-common#:#startpage#:#Початкова сторінка###14 Sep 2004 content changed
-common#:#statistic#:#Statistic###02 Jul 2004 new variable
+common#:#startpage#:#Початкова сторінка
+common#:#statistic#:#Статистика
 common#:#status#:#Статус
 common#:#step#:#Крок
 common#:#stop_inheritance#:#Зупинити наслідування
 common#:#street#:#Вулиця
 common#:#structure#:#Структура
-common#:#sty#:#Style###01 Mar 2005 new variable
-common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
-common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
-common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
-common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
-common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
+common#:#sty#:#Стиль
+common#:#style_activation#:#Активація Стилю
+common#:#stys_edit_permission#:#Змінити настройки прав
+common#:#stys_read#:#Доступ на читання до налаштувань стилю
+common#:#stys_visible#:#Налаштування стилю є видимі
+common#:#stys_write#:#Редагувати настроювання стилю
 common#:#subcat_name#:#Ім'я Підкатегорії
 common#:#subchapter_new#:#Нова Підглава
 common#:#subject#:#Тема
-common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
+common#:#subject_module#:#Тема Модуля
 common#:#submit#:#Підтвердити
 common#:#subobjects#:#Підоб'єкти
 common#:#subscription#:#Підписка
 common#:#summary#:#Ітого
-common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
-common#:#svy#:#Survey###07 May 2004 new variable
-common#:#svy_add#:#Add survey###07 May 2004 new variable
-common#:#svy_delete#:#Delete survey###07 May 2004 new variable
-common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
-common#:#svy_new#:#New survey###07 May 2004 new variable
-common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
-common#:#svy_read#:#Read access to survey###07 May 2004 new variable
-common#:#svy_upload_file#:#Upload file###05 Nov 2004 new variable
-common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
-common#:#svy_write#:#Edit survey###07 May 2004 new variable
-common#:#system#:#Ситсема
-common#:#system_check#:#System Check###05 Mar 2004 new variable
+common#:#sure_delete_selected_users#:#Ви впевнені що ви бажаєте видалити вибраних користувачів
+common#:#svy#:#Опитування
+common#:#svy_add#:#Додати опитування
+common#:#svy_delete#:#Видалити опитування
+common#:#svy_edit_permission#:#Змінити настройки прав
+common#:#svy_invite#:#Запросити користувачів до опитування
+common#:#svy_new#:#Нове опитування
+common#:#svy_participate#:#Брати участь в опитуванні
+common#:#svy_read#:#Доступ на читання до опитування
+common#:#svy_upload_file#:#Завантажити файл
+common#:#svy_visible#:#Опитування є видимим
+common#:#svy_write#:#Редагувати опитування
+common#:#system#:#Система
+common#:#system_check#:#Перевірка Системи
 common#:#system_choose_language#:#Вибір системної Мови
 common#:#system_groups#:#Системна Групи
 common#:#system_grp#:#Системна Група
-common#:#system_information#:#System Information###14 Sep 2004 new variable
+common#:#system_information#:#Системна Інформація
 common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
 common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
