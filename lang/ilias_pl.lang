@@ -186,14 +186,23 @@ assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku p
 assessment#:#error_open_image_file#:#Błąd otwarcia pliku graficznego!
 assessment#:#error_open_java_file#:#Błąd otwarcia apletu jawy!
 assessment#:#error_save_image_file#:#Błąd zapisu pliku graficznego!
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Dane szacunkowe
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_java_result#:#Odpowiedź dla zmiennej %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_legend_link#:#Zajrzyj do legendy aby sprawdzić znaczenie nagłówków.
 assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Eksport danej szacunkowej
 assessment#:#exp_type_excel#:#  Excel
 assessment#:#exp_type_spss#:#  SPSS
@@ -251,6 +260,7 @@ assessment#:#no_passed_mark#:#Musisz ustawić conajmniej jedno zaznaczenie aby p
 assessment#:#no_question_selected_for_move#:#Wybierz conajmniej jedno pytanie do przesunięcia!
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#no_target_selected_for_move#:#Musisz wybrać miejsce przeznaczenia!
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
@@ -317,6 +327,8 @@ assessment#:#save_finish#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
 assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
 assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Przejrzyj opis szczegółowy sugerowanych rozwiązań
 assessment#:#select_an_answer#:#--- Wybierz odpowiedź ---
 assessment#:#select_gap#:#Wybierz odstęp
@@ -331,6 +343,7 @@ assessment#:#solution_hint#:#Sugerowana odpowiedź
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
 assessment#:#starting_time_not_reached#:#Test jeszcze nie został uaktywniony
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Udało się ustawić sugerowane rozwiązanie!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Test został anulowany
@@ -440,9 +453,9 @@ assessment#:#tst_stat_result_resultspoints#:#Rezultaty testu w punktach
 assessment#:#tst_stat_result_specification#:#Specyfikacja daty końca
 assessment#:#tst_stat_result_timeofwork#:#Czas pracy
 assessment#:#tst_stat_result_total_participants#:#Liczba uczestników
-assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
+assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
-assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
+assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#ukończony
 assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
 assessment#:#tst_status_missing#:#W tym teście brak niezbędnych elementów!

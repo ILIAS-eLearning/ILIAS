@@ -186,14 +186,23 @@ assessment#:#error_importing_question#:#Відбулась помилка при
 assessment#:#error_open_image_file#:#Помилка відкриття графічного файлу!
 assessment#:#error_open_java_file#:#Помилка відкриття java аплета!
 assessment#:#error_save_image_file#:#Помилка зберігання графічного файла!
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#Вибір зі значенням %s є %s. Ви досягли %s балів.
 assessment#:#eval_cloze_result#:#Проміжок номер %s зі значенням %s є %s. Ви досягли %s балів.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Дата Оцінки
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#Вибір карти зображення є %s. Ви отримали %s балів.
 assessment#:#eval_java_result#:#Відповідь зі значенням %s є %s. Ви отримали %s балів.
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###05 Nov 2004 new variable
 assessment#:#eval_matching_result#:#Співпадаюча пара %s - %s є %s. Ви отримали %s балів.
 assessment#:#eval_order_result#:#Команда зі значенням %s є %s. Ви отримали %s балів.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -251,6 +260,7 @@ assessment#:#no_passed_mark#:#Ви маєте вказати принаймні 
 assessment#:#no_question_selected_for_move#:#Будь ласка виберіть принаймні одне питання щоб перенести його!
 assessment#:#no_questions_available#:#Немає доступних питань!
 assessment#:#no_target_selected_for_move#:#Ви повинні вибрати цільову позицію!
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#або
 assessment#:#order_pictures#:#Порядок зображень
 assessment#:#order_terms#:#Порядок термінів
@@ -317,6 +327,8 @@ assessment#:#save_finish#:#Зберегтри та закінчити тест
 assessment#:#save_introduction#:#Зберегти та перейти до передмови
 assessment#:#save_next#:#Зберегти та перейти до наступного питання
 assessment#:#save_previous#:#Зберегти та перейти до попереднього питання
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Будь ласка виберіть відповідь ---
 assessment#:#select_gap#:#Вибрати проміжок
@@ -331,6 +343,7 @@ assessment#:#solution_hint#:#Запропоноване рішення
 assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#start_tag#:#Початковий тег
 assessment#:#starting_time_not_reached#:#Ви не досягли початкового часу
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений

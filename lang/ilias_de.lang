@@ -186,14 +186,23 @@ assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fe
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Feher beim Öffnen eines Java-Applets!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Evaluationsdaten
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
@@ -251,6 +260,7 @@ assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BEST
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
@@ -317,6 +327,8 @@ assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -331,6 +343,7 @@ assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
@@ -440,9 +453,9 @@ assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
-assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
+assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
-assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
+assessment#:#tst_statistical_evaluation#:#Statistische Auswertung###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!

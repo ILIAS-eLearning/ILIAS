@@ -186,14 +186,23 @@ assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'impo
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#error_open_java_file#:#Errore nell'apertura dell'applet java!
 assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Dati di valutazione
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
 assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato&nbsp; 
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -251,6 +260,7 @@ assessment#:#no_passed_mark#:#Devi scegliere almeno un voto come SUPERATO! Lo sc
 assessment#:#no_question_selected_for_move#:#Per favore seleziona la domanda che vuoi spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arrivo!
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
@@ -317,6 +327,8 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Vedi dettagli per la risposta suggerita
 assessment#:#select_an_answer#:#--- Seleziona una risposta ---
 assessment#:#select_gap#:#Seleziona spazio
@@ -331,6 +343,7 @@ assessment#:#solution_hint#:#Soluzione suggerita
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
@@ -440,9 +453,9 @@ assessment#:#tst_stat_result_resultspoints#:#Risultati dei test in punti
 assessment#:#tst_stat_result_specification#:#Specifiche per la valutazione dei dati
 assessment#:#tst_stat_result_timeofwork#:#Tempo di esecuzione
 assessment#:#tst_stat_result_total_participants#:#Numero totale dei partecipanti
-assessment#:#tst_stat_selected_users#:#Utenti selezionati
+assessment#:#tst_stat_selected_users#:#Utenti selezionati###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
-assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
+assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#completato
 assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
 assessment#:#tst_status_missing#:#Mancano alcuni elementi che sono richiesti nel test!
