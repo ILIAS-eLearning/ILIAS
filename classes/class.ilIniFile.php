@@ -131,18 +131,16 @@ class ilIniFile
 	{
 		//use php4 function parse_ini_file
 		$this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
-		
+
 		//check if groups are filled
 		if ($this->GROUPS == false)
 		{
 			$this->error("file_not_accessible");
 			return false;
 		}
-
 		//set current group
 		$temp = array_keys($this->GROUPS);
 		$this->CURRENT_GROUP = $temp[count($temp)-1];
-
 		return true;
 	}
 
