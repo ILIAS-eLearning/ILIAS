@@ -126,6 +126,18 @@ div.invisible_border {
 	font-weight:normal;
 }
 
+.moderator_small {
+	text-decoration:none;
+	font-size:11px;
+	color:red;
+}
+
+.moderator {
+	text-decoration:none;
+	font-size:13px;
+	color:red;
+}
+
 /* ----------------- normal links ------------- */
 a {
 	text-decoration:none;

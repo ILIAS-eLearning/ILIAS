@@ -122,37 +122,50 @@ if (is_array($topicData = $frm->getOneTopic()))
 	// ********************************************************************************
 	
 	// form processing (edit & reply)
-	if ($_GET["cmd"] == "ready_showreply" || $_GET["cmd"] == "ready_showedit")
+	if ($_GET["cmd"] == "ready_showreply" || $_GET["cmd"] == "ready_showedit" || $_GET["cmd"] == "ready_censor")
 	{		
 		$formData = $_POST["formData"];
 		
-		// check form-dates
-		$checkEmptyFields = array(
-			$lng->txt("message")   => $formData["message"]	
-		);
-		
-		$errors = ilUtil::checkFormEmpty($checkEmptyFields);
-
-		if ($errors != "")
+		if ($_GET["cmd"] != "ready_censor")
 		{
-			sendInfo($lng->txt("form_empty_fields")." ".$errors);
-		}
-		else
-		{			
-			if ($_GET["cmd"] == "ready_showreply")
+			// check form-dates
+			$checkEmptyFields = array(
+				$lng->txt("message")   => $formData["message"]	
+			);
+			
+			$errors = ilUtil::checkFormEmpty($checkEmptyFields);
+	
+			if ($errors != "")
 			{
-				// reply: new post
-				$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
-				sendInfo($lng->txt("forums_post_new_entry"));
+				sendInfo($lng->txt("form_empty_fields")." ".$errors);
 			}
 			else
-			{				
-				// edit: update post
-				if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
+			{			
+				if ($_GET["cmd"] == "ready_showreply")
 				{
-					sendInfo($lng->txt("forums_post_modified"));
+					// reply: new post
+					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
+					sendInfo($lng->txt("forums_post_new_entry"));
+				}
+				else
+				{				
+					// edit: update post
+					if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
+					{
+						sendInfo($lng->txt("forums_post_modified"));
+					}
 				}
 			}
+			
+		} // if ($_GET["cmd"] != "ready_censor")
+		// insert censorship
+		elseif ($_POST["confirm"] != "" && $_GET["cmd"] == "ready_censor")
+		{
+			$frm->postCensorship($formData["cens_message"], $_GET["pos_pk"],1);
+		}
+		elseif ($_POST["cancel"] != "" && $_GET["cmd"] == "ready_censor")
+		{
+			$frm->postCensorship($formData["cens_message"], $_GET["pos_pk"]);
 		}
 	}
 	
@@ -297,32 +310,70 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("delete")."</a>"); 
 							$tpl->parseCurrentBlock("del_cell");
 						}
-					}
+						
+						// censorship
+						// 2. cens formular
+						if ($_GET["cmd"] == "censor" && $_GET["pos_pk"] == $node["pos_pk"])
+						{
+							$tpl->setCurrentBlock("censorship_cell");
+							$tpl->setVariable("CENS_ANKER", $_GET["pos_pk"]);
+							$tpl->setVariable("CENS_SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
+							$tpl->setVariable("CENS_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_censor&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
+							$tpl->setVariable("TXT_CENS_MESSAGE", $lng->txt("forums_the_post"));
+							$tpl->setVariable("TXT_CENS_COMMENT", $lng->txt("comment").":");
+							$tpl->setVariable("CENS_MESSAGE", $frm->prepareText($node["pos_cens_com"],2));
+							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel")); 
+							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm"));
+							
+							if ($node["pos_cens"] == 1)							
+								$tpl->setVariable("TXT_CENS", $lng->txt("forums_info_censor2_post"));
+							else
+								$tpl->setVariable("TXT_CENS", $lng->txt("forums_info_censor_post")); 
+							
+							$tpl->parseCurrentBlock("censorship_cell");
+						}
+						elseif (($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]) || $_GET["cmd"] != "delete")
+						{
+							// 1. cens button
+							$tpl->setCurrentBlock("cens_cell");
+							$tpl->setVariable("CENS_BUTTON","<a href=\"forums_threads_view.php?cmd=censor&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("censorship")."</a>"); 
+							$tpl->parseCurrentBlock("cens_cell");
+						}
+					} // if ($rbacsystem->checkAccess("delete post", $_GET["ref_id"]))
 					
 					if (($_GET["cmd"] != "delete") || ($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]))
 					{
 						// button: edit article
-						if ($frm->checkEditRight($node["pos_pk"]))
+						if ($frm->checkEditRight($node["pos_pk"]) && $node["pos_cens"] != 1)
 						{
 							$tpl->setCurrentBlock("edit_cell");
 							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("edit")."</a>"); 
 							$tpl->parseCurrentBlock("edit_cell");
 						}
 						
-						// button: print
-						$tpl->setCurrentBlock("print_cell");
-						$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
-						$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".$node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".$threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>"); 
-						$tpl->parseCurrentBlock("print_cell");
-						
+						if ($node["pos_cens"] != 1)
+						{
+							// button: print
+							$tpl->setCurrentBlock("print_cell");
+							//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
+							$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".$node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".$threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>"); 
+							$tpl->parseCurrentBlock("print_cell");
+						}
+						if ($node["pos_cens"] != 1)
+						{
 						// button: reply
 						$tpl->setCurrentBlock("reply_cell");
-						$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
+						//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
 						$tpl->parseCurrentBlock("reply_cell");
+						}
 												
-						$tpl->setVariable("POST_ANKER", $node["pos_pk"]);		
-					}			
+						$tpl->setVariable("POST_ANKER", $node["pos_pk"]);	
+							
+					} // if (($_GET["cmd"] != "delete") || ($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]))	
+					
+					$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
+						
 				} // else
 				
 			} // if ($rbacsystem->checkAccess("write", $_GET["ref_id"])) 
@@ -343,11 +394,30 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
 			{
+				$span_class = "";
+				
+				// last update from moderator?
+				$posMod = $frm->getModeratorFromPost($node["pos_pk"]);
+									
+				if (is_array($posMod) && $posMod["top_mods"] > 0)
+				{
+					$MODS = $rbacreview->assignedUsers($posMod["top_mods"]);
+						
+					if (is_array($MODS))
+					{
+						if (in_array($node["update_user"], $MODS))
+							$span_class = "moderator_small";
+					}					
+				}
+				
 				$node["update"] = $frm->convertDate($node["update"]);
 				unset($lastuser);
-				$lastuser = $frm->getUser($node["update_user"]);					
-				$tpl->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
-			}
+				$lastuser = $frm->getUser($node["update_user"]);	
+				if ($span_class == "")				
+					$span_class = "small";
+				$tpl->setVariable("POST_UPDATE","<span class=\"".$span_class."\"><br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]</span>");
+				
+			} // if ($node["update_user"] > 0)
 
 			$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
 			$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
@@ -365,7 +435,32 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));
 			$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-			$tpl->setVariable("POST",nl2br($node["message"]));	
+			if ($node["pos_cens"] > 0)
+				$tpl->setVariable("POST","<span class=\"moderator\">".nl2br(stripslashes($node["pos_cens_com"]))."</span>");	
+			else
+			{
+				// post from moderator?
+				$modAuthor = $frm->getModeratorFromPost($node["pos_pk"]);
+				
+				$spanClass = "";
+								
+				if (is_array($modAuthor) && $modAuthor["top_mods"] > 0)
+				{
+					unset($MODS);
+					
+					$MODS = $rbacreview->assignedUsers($modAuthor["top_mods"]);
+						
+					if (is_array($MODS))
+					{
+						if (in_array($node["author"], $MODS))
+							$spanClass = "moderator";
+					}					
+				}
+				if ($spanClass != "")
+					$tpl->setVariable("POST","<span class=\"".$spanClass."\">".nl2br($node["message"])."</span>");	
+				else
+					$tpl->setVariable("POST",nl2br($node["message"]));	
+			}
 			$tpl->parseCurrentBlock("posts_row");	
 				
 		} // if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
@@ -387,6 +482,8 @@ $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_POST", $lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 
 $tpl->parseCurrentBlock("posttable");
+
+$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
 
 $tpl->show();
 ?>

@@ -39,10 +39,11 @@
  <span class="small">{TXT_CREATE_DATE}: {POST_DATE}</span>
  {SPACER}
  <a name="{POST_ANKER}"></a>{POST}<br/>
- <span class="small">{POST_UPDATE}</span>
- <!-- BEGIN reply_cell -->
+ {POST_UPDATE}
  {SPACER}
+ <!-- BEGIN reply_cell --> 
  <span class="small">[{REPLY_BUTTON}]&nbsp;</span>
+ <!-- END reply_cell -->
  <!-- BEGIN edit_cell -->
  <span class="small">[{EDIT_BUTTON}]&nbsp;</span>
  <!-- END edit_cell -->
@@ -52,8 +53,11 @@
   <!-- BEGIN del_cell -->
  <span class="small">[{DEL_BUTTON}]&nbsp;</span>
  <!-- END del_cell -->
- <br/>
- <!-- END reply_cell -->
+   <!-- BEGIN cens_cell -->
+ <span class="small">[{CENS_BUTTON}]&nbsp;</span>
+ <!-- END cens_cell -->
+ <br/> 
+ 
  <!-- BEGIN kill_cell -->
  <form name="formular2" action="{DEL_FORMACTION}" target="bottom" method="post">
  {KILL_SPACER}<a name="{KILL_ANKER}"></a>
@@ -64,6 +68,24 @@
  </form>
  <br/>
  <!-- END kill_cell -->
+ 
+ <!-- BEGIN censorship_cell -->
+ <form name="formular3" action="{CENS_FORMACTION}" method="post">
+ {CENS_SPACER}<a name="{CENS_ANKER}"></a>
+	<table class="std">
+	<tr>
+	    <td valign="top">{TXT_CENS_COMMENT}<br>
+		<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap=virtual style="width:550px; height=80px">{CENS_MESSAGE}</textarea></td>
+	</tr>
+	</table>
+ <p class="warning">{TXT_CENS}</p>
+ <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
+ &nbsp;&nbsp;
+ <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
+ </form>
+ <br/>
+ <!-- END censorship_cell -->
+ 
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
 <table class="std">
