@@ -43,9 +43,16 @@ class domxml
 	* @param	string	xml version
 	* @access	public 
 	*/
-	function domxml ($a_version = "1.0")
+	function domxml ($a_domdocument = "")
 	{
-		$this->doc = new_xmldoc($a_version);
+		if (is_object($a_domdocument))
+		{
+			$this->doc = $a_domdocument;
+		}
+		else
+		{
+			$this->doc = new_xmldoc("1.0");
+		}
 	}
 	
 	/**
@@ -60,11 +67,11 @@ class domxml
 	function createRootElement ($a_element)
 	{
 		// check if rootNode already exists
-		if ($root = $this->doc->document_element()) {
+		if ($root = $this->getRoot()) {
 			return false;
 		}
 		
-		return $this->doc->add_child($this->doc->create_element($a_element));
+		return $this->appendChild($this->createElement($a_element));
 	}
 
 	/**
@@ -364,11 +371,98 @@ class domxml
 		return $a_node->get_elements_by_tagname($a_elementname);
 	}
 	
+	/**
+	* creates an element entry for the removed LearningObject:
+	* <LO id=[obj_id of child LO] />
+	* 
+	* @param	object	domNode
+	* @param	integer	object_id of removed LO
+	* @access	public
+	* 
+	* TODO: Moved this method to class where it fits better (LearningObject? xml2sql?)
+	*/
 	function appendReferenceNodeForLO ($a_node, $a_lo_id)
 	{
-		$newnode = $this->doc->create_element("LO");
+		$newnode = $this->createElement("LO");
 		$node = $a_node->append_child($newnode);
 		$node->set_attribute("id",$a_lo_id);
+	}
+	
+	/**
+	* wrapper for append_child
+	* Main purpose of this method is to simplify access
+	* of DOM-Functions.
+	* @param	object	domNode
+	* @return	object	domNode
+	* @access	public 
+	*/
+	function appendChild ($a_node)
+	{
+		return $this->doc->append_child($a_node);
+	}
+
+	/**
+	* wrapper for document_element
+	* Main purpose of this method is to simplify access
+	* of DOM-Functions.
+	* @return	object	domNode
+	* @access	public 
+	*/
+	function getRoot ()
+	{
+		return $this->doc->document_element();
+	}
+	
+	/**
+	* wrapper for create_element
+	* Main purpose of this method is to simplify access
+	* of DOM-Functions.
+	* @param	object	domNode
+	* @return	object	domNode
+	* @access	public 
+	*/
+	function createElement ($a_node)
+	{
+		return $this->doc->create_element($a_node);
+	}
+	
+	/**
+	* creates a complete node of type element
+	* with a text_node within the element and attributes
+	* The node is append to domDocument under the given parent_node
+	* 
+	* @param	object	domNode the place where the new created node will be inserted 
+	* @param	string	name of the element
+	* @param	array	list of attributes (optional). syntax: $arr["attr_name"] = attr_value
+	* @param	string	if any text is given a text_node will be created (optional).
+	* @return	object	domNode just created
+	* @access	public
+	*/
+	function createNode ($a_parent, $a_elementname, $a_attr_list = NULL, $a_text = NULL)
+	{
+		// create new element node
+		$node = $this->createElement($a_elementname);
+		
+		// set attributes
+		if (is_array($a_attr_list))
+		{
+			foreach ($a_attr_list as $attr => $value)
+			{
+				$node->set_attribute($attr, $value);
+			}
+		}
+		
+		// create and add a text node to the new element node
+		if (is_string($a_text))
+		{
+			$node_text = $this->doc->create_text_node($a_text);
+			$node_text = $node->append_child($node_text);
+		}
+		
+		// add element node at at the end of the children of the parent
+		$node = $a_parent->append_child($node);
+		
+		return $node;
 	}
 } // END class.domxml
 ?>
