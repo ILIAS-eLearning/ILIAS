@@ -2222,7 +2222,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or (!$this->object->getTestType == TYPE_ASSESSMENT))
+			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or ($this->object->getTestType() != TYPE_ASSESSMENT))
 			{
 				$this->tpl->setCurrentBlock("start");
 				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
