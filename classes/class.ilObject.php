@@ -668,7 +668,6 @@ class ilObject
 
 		$query = "SELECT obj_id FROM object_reference ".
 			"WHERE ref_id = '".$a_id."'";
-
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

@@ -777,6 +777,11 @@ class ilObjUser extends ilObject
 
 		ilLinkCheckNotify::_deleteUser($this->getId());
 
+		// Delete crs objectives results
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+
+		ilCourseObjectiveResult::_deleteAll($this->getId());
+
 		// delete object data
 		parent::delete();
 		return true;

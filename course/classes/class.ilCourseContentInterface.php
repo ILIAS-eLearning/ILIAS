@@ -48,11 +48,13 @@ class ilCourseContentInterface
 
 	function ilCourseContentInterface(&$client_class,$a_ref_id)
 	{
-		global $lng,$tpl,$ilCtrl;
+		global $lng,$tpl,$ilCtrl,$tree,$ilUser;
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
+		$this->tree =& $tree;
+		$this->ilUser =& $ilUser;
 
 		$this->cci_ref_id = $a_ref_id;
 		$this->cci_read();
@@ -111,6 +113,18 @@ class ilCourseContentInterface
 		
 		return true;
 	}
+	
+	function cci_objectives_ask_reset()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html","course");
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this->cci_client_obj));
+		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_reset_sure'));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("TXT_RESET",$this->lng->txt('reset'));
+
+		return true;
+	}
 
 	function cci_view()
 	{
@@ -121,13 +135,27 @@ class ilCourseContentInterface
 		global $ilias;
 
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
-			
+		$enabled_objectives = $this->cci_course_obj->enabledObjectiveView();
+		$view_objectives = ($enabled_objectives and ($this->cci_ref_id == $this->cci_course_obj->getRefId()));
+
+		// Jump to objective view if selected or user is only member
+		if(($view_objectives and !$write_perm) or ($_SESSION['crs_viewmode'] == 'objectives' and $write_perm))
+		{
+			$this->cci_objectives();
+
+			return true;
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html","course");
-		#$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
-		
+
+
+		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 		if($write_perm)
 		{
+			if($view_objectives)
+			{
+				$this->__showButton('cciObjectives',$this->lng->txt('crs_show_objectives_view'));
+			}
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
 		else
@@ -474,6 +502,37 @@ class ilCourseContentInterface
 
 		return true;
 	}
+	function cci_objectives()
+	{
+		global $rbacsystem;
+
+		if($write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id))
+		{
+			$this->__showButton('cciObjectivesEdit',$this->lng->txt('crs_edit_content'));
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
+		$this->__showButton('cciObjectivesAskReset',$this->lng->txt('crs_reset_results'));
+
+		$this->__readAccomplished();
+		$this->__readSuggested();
+		$this->__readStatus();
+
+		// (1) show infos
+		$this->__showInfo();
+
+		// (2) show objectives
+		$this->__showObjectives();
+
+		// (3) show lm's
+		$this->__showLearningMaterials();
+		// (4) show tests
+		$this->__showTests();
+		// (5) show other resources
+		$this->__showOtherResources();
+
+
+		return true;
+	}
 
 	function cci_edit()
 	{
@@ -606,8 +665,625 @@ class ilCourseContentInterface
 
 		return true;
 	}
-
 	// PRIVATE
+	function __showHideLinks($a_part)
+	{
+		if($_GET['show_hide_'.$a_part] == 1)
+		{
+			unset($_SESSION['crs_hide_'.$a_part]);
+		}
+		if($_GET['show_hide_'.$a_part] == 2)
+		{
+			$_SESSION['crs_hide_'.$a_part] = true;
+		}
+
+		$this->ctrl->setParameter($this->cci_client_obj,'show_hide_'.$a_part,$_SESSION['crs_hide_'.$a_part] ? 1 : 2);
+		$this->tpl->setVariable("LINK_HIDE_SHOW_".strtoupper($a_part),$this->ctrl->getLinkTarget($this->cci_client_obj,'cciObjectives'));
+		$this->tpl->setVariable("TXT_HIDE_SHOW_".strtoupper($a_part),$_SESSION['crs_hide_'.$a_part] ? 
+								$this->lng->txt('crs_show_link_'.$a_part) :
+								$this->lng->txt('crs_hide_link_'.$a_part));
+
+		$this->ctrl->setParameter($this->cci_client_obj,'show_hide_'.$a_part,'');
+
+		$this->tpl->setVariable("HIDE_SHOW_IMG_".strtoupper($a_part),$_SESSION['crs_hide_'.$a_part] ? 
+								ilUtil::getImagePath('a_down.gif') :
+								ilUtil::getImagePath('a_up.gif'));
+
+		return true;
+	}
+	
+	function __getAllLearningMaterials()
+	{
+		foreach($items = $this->cci_course_obj->items_obj->getItems() as $node)
+		{
+			switch($node['type'])
+			{
+				case 'lm':
+				case 'htlm':
+				case 'alm':
+				case 'sahs':
+					$all_lms[] = $node['ref_id'];
+					break;
+			}
+		}
+		return $all_lms ? $all_lms : array();
+	}
+
+	function __getAllTests()
+	{
+		foreach($items = $this->cci_course_obj->items_obj->getItems() as $node)
+		{
+			switch($node['type'])
+			{
+				case 'tst':
+					$tests[] = $node['ref_id'];
+					break;
+			}
+		}
+		return $tests ? $tests : array();
+	}
+
+	function __getOtherResources()
+	{
+		foreach($items = $this->cci_course_obj->items_obj->getItems() as $node)
+		{
+			switch($node['type'])
+			{
+				case 'lm':
+				case 'htlm':
+				case 'sahs':
+				case 'tst':
+					continue;
+
+				default:
+					$all_lms[] = $node['ref_id'];
+					break;
+			}
+		}
+		return $all_lms ? $all_lms : array();
+	}
+
+	function __showInfo()
+	{
+		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','course');
+		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_info_'.$this->objective_status));
+		
+		return true;
+	}
+		
+
+	function __showOtherResources()
+	{
+		global $ilias,$rbacsystem;
+
+		if(!count($ors = $this->__getOtherResources()))
+		{
+			return false;
+		}
+
+		$this->tpl->addBlockfile('RESOURCES_BLOCK','resources_block','tpl.crs_objectives_view_or_table.html','course');
+		$this->tpl->setVariable("TBL_TITLE_OR",$this->lng->txt('crs_other_resources'));
+
+
+		$this->__showHideLinks('or');
+
+		if(isset($_SESSION['crs_hide_or']))
+		{
+			return true;
+		}
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_or");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_OR","5%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_OR",$this->lng->txt('type'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_or");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_OR","95%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_OR",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$counter = 1;
+		foreach($ors as $or_id)
+		{
+
+			$tmp_or = ilObjectFactory::getInstanceByRefId($or_id);
+
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_or->getId());
+				
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_or->getRefId(),$tmp_or->getType());
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId());
+			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+
+			if(ilRepositoryExplorer::isClickable($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId()))
+			{
+				$this->tpl->setCurrentBlock("or_read");
+				$this->tpl->setVariable("READ_TITLE_OR",$tmp_or->getTitle());
+				$this->tpl->setVariable("READ_TARGET_OR",$obj_frame);
+				$this->tpl->setVariable("READ_LINK_OR", $obj_link);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("or_visible");
+				$this->tpl->setVariable("VISIBLE_LINK_OR",$tmp_or->getTitle());
+				$this->tpl->parseCurrentBlock();
+			}
+				// add to desktop link
+			if(!$ilias->account->isDesktopItem($tmp_or->getRefId(),$tmp_or->getType()) and 
+			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
+			{
+				if ($rbacsystem->checkAccess('read',$tmp_or->getRefId()))
+				{
+					$this->tpl->setCurrentBlock("or_desklink");
+					$this->tpl->setVariable("DESK_LINK_OR", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+											"&item_ref_id=".$tmp_or->getRefId()."&type=".$tmp_or->getType());
+
+					$this->tpl->setVariable("TXT_DESK_OR", $this->lng->txt("to_desktop"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
+			$this->tpl->setCurrentBlock("or_row");
+			$this->tpl->setVariable("OBJ_TITLE_OR",$tmp_or->getTitle());
+			$this->tpl->setVariable("IMG_TYPE_OR",ilUtil::getImagePath('icon_'.$tmp_or->getType().'.gif'));
+			$this->tpl->setVariable("TXT_IMG_OR",$this->lng->txt('obj_'.$tmp_or->getType()));
+			$this->tpl->setVariable("OBJ_CLASS_CENTER_OR",'option_value_center');
+			$this->tpl->setVariable("OBJ_CLASS_OR",'option_value');
+			$this->tpl->parseCurrentBlock();
+
+			unset($tmp_or);
+			++$counter;
+		}
+	}
+
+
+	function __showLearningMaterials()
+	{
+		global $rbacsystem,$ilias;
+
+		include_once './course/classes/class.ilCourseObjectiveLM.php';
+		include_once './classes/class.ilRepositoryExplorer.php';
+
+		if(!count($lms = $this->__getAllLearningMaterials()))
+		{
+			return false;
+		}
+		if($this->details_id)
+		{
+			$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
+		}
+
+		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','course');
+		$this->tpl->setVariable("TBL_TITLE_LMS",$this->lng->txt('crs_learning_materials'));
+
+
+		$this->__showHideLinks('lms');
+
+		if(isset($_SESSION['crs_hide_lms']))
+		{
+			return true;
+		}
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","5%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('crs_nr'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","95%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$counter = 1;
+		foreach($lms as $lm_id)
+		{
+			$tmp_lm = ilObjectFactory::getInstanceByRefId($lm_id);
+
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_lm->getId());
+				
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_lm->getRefId(),$tmp_lm->getType());
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId());
+			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+			$contentObj = false;
+
+			if(ilRepositoryExplorer::isClickable($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId()))
+			{
+				$this->tpl->setCurrentBlock("lm_read");
+				$this->tpl->setVariable("READ_TITLE_LMS",$tmp_lm->getTitle());
+				$this->tpl->setVariable("READ_TARGET_LMS",$obj_frame);
+				$this->tpl->setVariable("READ_LINK_LMS", $obj_link);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("lm_visible");
+				$this->tpl->setVariable("VISIBLE_LINK_LMS",$tmp_lm->getTitle());
+				$this->tpl->parseCurrentBlock();
+			}
+				// add to desktop link
+			if(!$ilias->account->isDesktopItem($tmp_lm->getRefId(),$tmp_lm->getType()) and 
+			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
+			{
+				if ($rbacsystem->checkAccess('read',$tmp_lm->getRefId()))
+				{
+					$this->tpl->setCurrentBlock("lm_desklink");
+					$this->tpl->setVariable("DESK_LINK_LMS", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+											"&item_ref_id=".$tmp_lm->getRefId()."&type=".$tmp_lm->getType());
+
+					$this->tpl->setVariable("TXT_DESK_LMS", $this->lng->txt("to_desktop"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setCurrentBlock("lm_row");
+			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
+
+			if($this->details_id and !$this->accomplished[$this->details_id] and $this->suggested[$this->details_id])
+			{
+				$objectives_lm_obj->setLMRefId($tmp_lm->getRefId());
+				#$objectives_lm_obj->setLMObjId($tmp_lm->getId());
+				if($objectives_lm_obj->checkExists())
+				{
+					$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
+
+					if($conditions_ok)
+					{
+						foreach($objectives_lm_obj->getChapters() as $lm_obj_data)
+						{
+							include_once './content/classes/class.ilLMObjectFactory.php';
+							
+							$st_obj = ilLMObjectFactory::getInstance($tmp_lm,$lm_obj_data['obj_id']);
+							
+							$this->tpl->setCurrentBlock("chapters");
+							$this->tpl->setVariable("TXT_CHAPTER",$this->lng->txt('chapter'));
+							$this->tpl->setVariable("CHAPTER_LINK_LMS","content/lm_presentation.php?ref_id=".$lm_obj_data['ref_id'].
+													'&obj_id='.$lm_obj_data['obj_id']);
+							$this->tpl->setVariable("CHAPTER_LINK_TARGET_LMS",$obj_frame);
+							$this->tpl->setVariable("CHAPTER_TITLE",$st_obj->getTitle());
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					$this->tpl->setVariable("OBJ_CLASS_CENTER_LMS",'option_value_center_details');
+					$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value_details');
+				}
+				else
+				{
+					$this->tpl->setVariable("OBJ_CLASS_CENTER_LMS",'option_value_center');
+					$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value');
+				}
+			}
+			else
+			{
+				$this->tpl->setVariable("OBJ_CLASS_CENTER_LMS",'option_value_center');
+				$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value');
+			}
+			$this->tpl->parseCurrentBlock();
+
+			++$counter;
+		}
+	}
+
+	function __showTests()
+	{
+		global $ilias,$rbacsystem;
+
+		include_once './course/classes/class.ilCourseObjectiveLM.php';
+
+		if(!count($tests = $this->__getAllTests()))
+		{
+			return false;
+		}
+
+		$this->tpl->addBlockfile('TEST_BLOCK','test_block','tpl.crs_objectives_view_tst_table.html','course');
+		$this->tpl->setVariable("TBL_TITLE_TST",$this->lng->txt('tests'));
+
+
+		$this->__showHideLinks('tst');
+
+		if(isset($_SESSION['crs_hide_tst']))
+		{
+			return true;
+		}
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_tst");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_TST","5%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_TST",$this->lng->txt('crs_nr'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_header_columns_tst");
+		$this->tpl->setVariable("TBL_HEADER_WIDTH_TST","95%");
+		$this->tpl->setVariable("TBL_HEADER_NAME_TST",$this->lng->txt('description'));
+		$this->tpl->parseCurrentBlock();
+
+		$counter = 1;
+		foreach($tests as $tst_id)
+		{
+
+			$tmp_tst = ilObjectFactory::getInstanceByRefId($tst_id);
+
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_tst->getId());
+				
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_tst->getRefId(),$tmp_tst->getType());
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
+			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+
+			if(ilRepositoryExplorer::isClickable($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId()))
+			{
+				$this->tpl->setCurrentBlock("tst_read");
+				$this->tpl->setVariable("READ_TITLE_TST",$tmp_tst->getTitle());
+				$this->tpl->setVariable("READ_TARGET_TST",$obj_frame);
+				$this->tpl->setVariable("READ_LINK_TST", $obj_link);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("tst_visible");
+				$this->tpl->setVariable("VISIBLE_LINK_TST",$tmp_tst->getTitle());
+				$this->tpl->parseCurrentBlock();
+			}
+				// add to desktop link
+			if(!$ilias->account->isDesktopItem($tmp_tst->getRefId(),$tmp_tst->getType()) and 
+			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
+			{
+				if ($rbacsystem->checkAccess('read',$tmp_tst->getRefId()))
+				{
+					$this->tpl->setCurrentBlock("tst_desklink");
+					$this->tpl->setVariable("DESK_LINK_TST", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+											"&item_ref_id=".$tmp_tst->getRefId()."&type=".$tmp_tst->getType());
+
+					$this->tpl->setVariable("TXT_DESK_TST", $this->lng->txt("to_desktop"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+
+
+
+			$tmp_tst = ilObjectFactory::getInstanceByRefId($tst_id);
+			
+			$this->tpl->setCurrentBlock("tst_row");
+			$this->tpl->setVariable("OBJ_TITLE_TST",$tmp_tst->getTitle());
+			$this->tpl->setVariable("OBJ_NR_TST",$counter.'.');
+
+			$this->tpl->setVariable("OBJ_CLASS_CENTER_TST",'option_value_center');
+			$this->tpl->setVariable("OBJ_CLASS_TST",'option_value');
+			$this->tpl->parseCurrentBlock();
+
+			unset($tmp_tst);
+			++$counter;
+		}
+	}
+
+	function __showObjectives()
+	{
+		include_once './course/classes/class.ilCourseObjective.php';
+
+		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
+		{
+			return false;
+		}
+		// TODO
+		if($_GET['details'])
+		{
+			$_SESSION['crs_details_id'] = $_GET['details'];
+		}
+		$this->details_id = $_SESSION['crs_details_id'] ? $_SESSION['crs_details_id'] : $objective_ids[0];
+
+		// TODO get status for table header
+		switch($this->objective_status)
+		{
+			case 'none':
+				$status = $this->lng->txt('crs_objective_accomplished');
+				break;
+
+			case 'pretest':
+				$status = $this->lng->txt('crs_objective_pretest');
+				break;
+
+			default:
+				$status = $this->lng->txt('crs_objective_result');
+		}
+
+		// show table
+		$this->tpl->addBlockfile('OBJECTIVE_BLOCK','objective_block','tpl.crs_objectives_view_table.html','course');
+
+		$this->tpl->setVariable("TBL_TITLE_OBJECTIVES",$this->lng->txt('crs_objectives'));
+
+		$this->__showHideLinks('objectives');
+
+		if(isset($_SESSION['crs_hide_objectives']))
+		{
+			return true;
+		}
+
+		// show table header
+		for($i = 0; $i < 2; ++$i)
+		{
+			$this->tpl->setCurrentBlock("tbl_header_columns");
+			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","5%");
+			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$this->lng->txt('crs_nr'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tbl_header_columns");
+			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","35%");
+			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$this->lng->txt('description'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tbl_header_columns");
+			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","10%");
+			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$status);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$max = count($objective_ids) % 2 ? count($objective_ids) + 1 : count($objective_ids); 
+		for($i = 0; $i < $max/2; ++$i)
+		{
+			$tmp_objective =& new ilCourseObjective($this->cci_course_obj,$objective_ids[$i]);
+
+			$this->tpl->setCurrentBlock("objective_row");
+
+			if($this->details_id == $objective_ids[$i])
+			{
+				$this->tpl->setVariable("OBJ_CLASS_1_OBJECTIVES",'option_value_details');
+				$this->tpl->setVariable("OBJ_CLASS_1_CENTER_OBJECTIVES",'option_value_center_details');
+			}
+			else
+			{
+				$this->tpl->setVariable("OBJ_CLASS_1_OBJECTIVES",'option_value');
+				$this->tpl->setVariable("OBJ_CLASS_1_CENTER_OBJECTIVES",'option_value_center');
+			}				
+			$this->tpl->setVariable("OBJ_NR_1_OBJECTIVES",($i + 1).'.');
+
+			$this->ctrl->setParameter($this->cci_client_obj,'details',$objective_ids[$i]);
+			$this->tpl->setVariable("OBJ_LINK_1_OBJECTIVES",$this->ctrl->getLinkTarget($this->cci_client_obj,'cciObjectives'));
+			$this->tpl->setVariable("OBJ_TITLE_1_OBJECTIVES",$tmp_objective->getTitle());
+
+			$img = $this->accomplished["$objective_ids[$i]"] ? 
+				ilUtil::getImagePath('crs_accomplished.gif') :
+				ilUtil::getImagePath('crs_not_accomplished.gif');
+
+			$txt = $this->accomplished["$objective_ids[$i]"] ? 
+				$this->lng->txt('crs_accomplished') :
+				$this->lng->txt('crs_not_accomplished');
+
+			$this->tpl->setVariable("OBJ_STATUS_IMG_1_OBJECTIVES",$img);
+			$this->tpl->setVariable("OBJ_STATUS_ALT_1_OBJECTIVES",$txt);
+
+
+			if(isset($objective_ids[$i + $max / 2]))
+			{
+				$tmp_objective =& new ilCourseObjective($this->cci_course_obj,$objective_ids[$i + $max / 2]);
+
+				$this->tpl->setCurrentBlock("objective_row");
+				if($this->details_id == $objective_ids[$i + $max / 2])
+				{
+					$this->tpl->setVariable("OBJ_CLASS_2_OBJECTIVES",'option_value_details');
+					$this->tpl->setVariable("OBJ_CLASS_2_CENTER_OBJECTIVES",'option_value_center_details');
+				}
+				else
+				{
+					$this->tpl->setVariable("OBJ_CLASS_2_OBJECTIVES",'option_value');
+					$this->tpl->setVariable("OBJ_CLASS_2_CENTER_OBJECTIVES",'option_value_center');
+				}				
+				$this->tpl->setVariable("OBJ_NR_2_OBJECTIVES",($i + $max / 2 + 1).'.');
+				$this->ctrl->setParameter($this->cci_client_obj,'details',$objective_ids[$i + $max / 2]);
+				$this->tpl->setVariable("OBJ_LINK_2_OBJECTIVES",$this->ctrl->getLinkTarget($this->cci_client_obj,'cciObjectives'));
+				$this->tpl->setVariable("OBJ_TITLE_2_OBJECTIVES",$tmp_objective->getTitle());
+
+
+				$objective_id = $objective_ids[$i + $max / 2];
+				$img = $this->accomplished[$objective_id] ? 
+					ilUtil::getImagePath('crs_accomplished.gif') :
+					ilUtil::getImagePath('crs_not_accomplished.gif');
+
+				$txt = $this->accomplished[$objective_id] ? 
+					$this->lng->txt('crs_accomplished') :
+					$this->lng->txt('crs_not_accomplished');
+
+				$this->tpl->setVariable("OBJ_STATUS_IMG_2_OBJECTIVES",$img);
+				$this->tpl->setVariable("OBJ_STATUS_ALT_2_OBJECTIVES",$txt);
+			}
+	
+			$this->tpl->parseCurrentBlock();
+			unset($tmp_objective);
+		}
+		$this->ctrl->setParameter($this->cci_client_obj,'details','');
+	}
+
+	function __readAccomplished()
+	{
+		global $ilUser;
+
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+		include_once './course/classes/class.ilCourseObjective.php';
+
+		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+		
+		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
+		{
+			return array();
+		}
+		foreach($objective_ids as $objective_id)
+		{
+			if($tmp_obj_res->hasAccomplishedObjective($objective_id))
+			{
+				$this->accomplished["$objective_id"] = true;
+			}
+			else
+			{
+				$this->accomplished["$objective_id"] = false;
+			}
+		}
+	}
+	function __readSuggested()
+	{
+		global $ilUser;
+
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+
+		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+
+		foreach($this->accomplished as $objective_id => $ok)
+		{
+			if($ok)
+			{
+				$this->suggested["$objective_id"] = false;
+			}
+			else
+			{
+				$this->suggested["$objective_id"] = $tmp_obj_res->isSuggested($objective_id);
+			}
+		}
+
+	}
+
+	function __readStatus()
+	{
+		global $ilUser;
+
+		$all_success = true;
+
+		foreach($this->accomplished as $id => $success)
+		{
+			if(!$success)
+			{
+				$all_success = false;
+			}
+		}
+		if($all_success)
+		{
+			$this->objective_status = 'finished';
+			
+			return true;
+		}
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+		include_once './course/classes/class.ilCourseObjective.php';
+
+		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+
+		$this->objective_status = $tmp_obj_res->getStatus($this->cci_course_obj->getId());
+
+		return true;
+	}
+
+	function __showButton($a_cmd,$a_text,$a_target = '')
+	{
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this->cci_client_obj,$a_cmd));
+		$this->tpl->setVariable("BTN_TXT",$a_text);
+
+		if($a_target)
+		{
+			$this->tpl->setVariable("BTN_TARGET",$a_target);
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 
 	function cci_read()
 	{

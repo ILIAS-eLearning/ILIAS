@@ -4608,3 +4608,30 @@ crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
 crs#:#crs_sortorder_abo#:#Sortierung/Abo
 crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
+crs#:#crs_no_tests_inside_crs#:#In diesem Kurs befinden sich keine Tests, die diesem Lernziel zugeordnet werden könnten.
+crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
+crs#:#crs_show_objectives_view#:#Lernziel Ansicht
+crs#:#crs_edit_content#:#Inhalt bearbeiten
+crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
+crs#:#crs_nr#:#Nr.
+crs#:#crs_hide_link_objectives#:#Lernziele verbergen
+crs#:#crs_show_link_objectives#:#Lernziele anzeigen
+crs#:#crs_hide_link_lms#:#Lernmaterialien verbergen
+crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
+crs#:#crs_hide_link_tst#:#Tests verbergen
+crs#:#crs_show_link_tst#:#Tests anzeigen
+crs#:#crs_hide_link_or#:#Andere Objekte verbergen
+crs#:#crs_show_link_or#:#Andere Objekte anzeigen
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, daß Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
+crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
+common#:#condition_finished#:#Beendet
+common#:#condition_not_finished#:#Nicht beendet
+crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien.
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlußtest erneut durchführen.
+crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
+crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Lernmaterialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlußtest durchführen.
+crs#:#crs_other_resources#:#Andere Objekte
+crs#:#crs_learning_materials#:#Lernmaterialien
+crs#:#crs_objective_accomplished#:#Erledigt
+crs#:#crs_objective_pretest#:#Selbsteinschätzung
+crs#:#crs_objective_result#:#Nach Test

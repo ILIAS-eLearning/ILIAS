@@ -54,6 +54,18 @@ class ilCourseObjectiveLM
 	{
 		return $this->lms ? $this->lms : array();
 	}
+
+	function getChapters()
+	{
+		foreach($this->lms as $lm_data)
+		{
+			if($lm_data['type'] == 'st')
+			{
+				$chapters[] = $lm_data;
+			}
+		}
+		return $chapters ? $chapters : array();
+	}
 	
 	function getLM($lm_id)
 	{
@@ -94,9 +106,8 @@ class ilCourseObjectiveLM
 	{
 		$query = "SELECT * FROM crs_objective_lm ".
 			"WHERE objective_id = '".$this->getObjectiveId()."' ".
-			"AND ref_id = '".$this->getLMRefId()."' ".
-			"AND obj_id = '".$this->getLMObjId()."'";
-
+			"AND ref_id = '".$this->getLMRefId()."' ";
+			#"AND obj_id = '".$this->getLMObjId()."'";
 		$res = $this->db->query($query);
 
 		return $res->numRows() ? true : false;
@@ -142,6 +153,8 @@ class ilCourseObjectiveLM
 	// PRIVATE
 	function __read()
 	{
+		global $tree;
+
 		$this->lms = array();
 		$query = "SELECT * FROM crs_objective_lm ".
 			"WHERE objective_id = '".$this->getObjectiveId()."'";
@@ -149,6 +162,11 @@ class ilCourseObjectiveLM
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if(!$tree->isInTree($row->ref_id))
+			{
+				$this->delete($row->lm_ass_id);
+				continue;
+			}
 			$lm['ref_id'] = $row->ref_id;
 			$lm['obj_id'] = $row->obj_id;
 			$lm['type'] = $row->type;

@@ -4611,3 +4611,30 @@ crs#:#crs_suggest_lm#:#Suggest learning materials if:
 crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription
 crs#:#crs_objective_view#:#Objective oriented view
+crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.
+crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.
+crs#:#crs_show_objectives_view#:#Objective view
+crs#:#crs_edit_content#:#Edit items
+crs#:#crs_reset_results#:#Reset results
+crs#:#crs_nr#:#Nr.
+crs#:#crs_hide_link_objectives#:#Hide objectives
+crs#:#crs_show_link_objectives#:#Show objectives
+crs#:#crs_hide_link_lms#:#Hide learning materials
+crs#:#crs_show_link_lms#:#Show learning materials
+crs#:#crs_hide_link_tst#:#Hide tests
+crs#:#crs_show_link_tst#:#Show tests
+crs#:#crs_hide_link_or#:#Hide other resources
+crs#:#crs_show_link_or#:#Show other resources
+crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.
+crs#:#crs_objectives_reseted#:#Reseted results.
+common#:#condition_finished#:#Finished
+common#:#condition_not_finished#:#Not finished
+crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.
+crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
+crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!
+crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.
+crs#:#crs_other_resources#:#Other resources
+crs#:#crs_learning_materials#:#Learning materials
+crs#:#crs_objective_accomplished#:#Accomplished
+crs#:#crs_objective_pretest#:#Self assessment
+crs#:#crs_objective_result#:#After test

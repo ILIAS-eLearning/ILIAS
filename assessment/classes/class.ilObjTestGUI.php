@@ -2800,6 +2800,12 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->outTestResults();
 				}
+				// Update objectives
+				include_once './course/classes/class.ilCourseObjectiveResult.php';
+
+				$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+				$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
+				unset($tmp_obj_res);
 			}
 		}
 	}

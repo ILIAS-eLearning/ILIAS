@@ -3213,7 +3213,10 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("crs_edit");
-					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&cmdClass=ilobjcoursegui&ref_id=".$cont_data["ref_id"]);
+
+					$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $cont_data["ref_id"]);
+					$obj_link = $this->ctrl->getLinkTargetByClass("ilObjCourseGUI",'edit');
+					$tpl->setVariable("EDIT_LINK",$obj_link);
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}

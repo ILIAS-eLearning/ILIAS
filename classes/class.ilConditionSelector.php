@@ -123,7 +123,8 @@ class ilConditionSelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
-		return in_array($a_type,$this->selectable_types) and $a_ref_id != $this->ref_id;
+		return in_array($a_type,$this->selectable_types);
+			#and $a_ref_id != $this->ref_id;
 	}
 
 	function showChilds($a_ref_id)
