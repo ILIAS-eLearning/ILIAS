@@ -74,10 +74,33 @@ if ($frmNum > 0)
 					
 			if ($rbacsystem->checkAccess("read", $data["obj_id"], $data["parent"])) 
 			{			
+				// Titel des Forums
 				if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("write", $data["obj_id"], $data["parent"]))) {
 					$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
 				}
 				else $tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$topicData["top_name"]."</a>");
+				
+				// Startdaten des Forums
+				if ($topicData["top_usr_id"] > 0)
+				{			
+					$startData = $frm->getModerator($topicData["top_usr_id"]);	
+					
+					$tpl->setVariable("START_DATE_TXT1", $lng->txt("launch"));
+					$tpl->setVariable("START_DATE_TXT2", $lng->txt("by"));
+					$tpl->setVariable("START_DATE", $frm->convertDate($topicData["top_date"]));
+					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$topicData["top_usr_id"]."&backurl=forums&offset=".$Start."\">".$startData["SurName"]."</a>"); 										
+				}
+				
+				// wenn Forum verändert wurde ...
+				if ($topicData["update_user"] > 0)
+				{			
+					$updData = $frm->getModerator($topicData["update_user"]);	
+					
+					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
+					$tpl->setVariable("LAST_UPDATE_TXT2", $lng->txt("by"));
+					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
+					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$topicData["update_user"]."&backurl=forums&offset=".$Start."\">".$updData["SurName"]."</a>"); 										
+				}
 				
 				if (is_array($lastPost)) {					
 					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			

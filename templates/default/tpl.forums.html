@@ -26,7 +26,15 @@
 
 <!-- BEGIN forum_row -->
 <tr>
- <td valign=top class="{ROWCOL}" width=20%>{TITLE}<br><i>{DESCRIPTION}</i></td>
+ <td valign=top class="{ROWCOL}" width=20%>{TITLE}<br><i>{DESCRIPTION}</i><br>
+ <!-- BEGIN start_data -->
+ <br>{START_DATE_TXT1}: {START_DATE} {START_DATE_TXT2} {START_DATE_USER}
+ <!-- END start_data -->
+ 
+ <!-- BEGIN update_data -->
+ <br>{LAST_UPDATE_TXT1}: {LAST_UPDATE} {LAST_UPDATE_TXT2} {LAST_UPDATE_USER}
+ <!-- END update_data -->
+ </td>
  <td valign=top class="{ROWCOL}">{NUM_THREADS}</td>
  <td valign=top class="{ROWCOL}">{NUM_POSTS}</td>
  <td valign=top class="{ROWCOL}">{NUM_VISITS}</td>
