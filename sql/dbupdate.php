@@ -2642,3 +2642,5 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 <#161>
 ALTER  TABLE  `qpl_answers`  ADD  `name` VARCHAR( 50  )  NOT  NULL  AFTER  `question_fi` ;
+<#162>
+ALTER  TABLE  `qpl_answers`  ADD  `shuffle` ENUM('0','1')  NOT  NULL DEFAULT '1' AFTER  `name` ;
