@@ -53,11 +53,11 @@ class ilSCORMResource extends ilSCORMObject
 	*/
 	function ilSCORMResource($a_id = 0)
 	{
-		parent::ilSCORMObject($a_id);
-		$this->setType("sre");
-
 		$this->files = array();
 		$this->dependencies = array();
+		$this->setType("sre");
+		parent::ilSCORMObject($a_id);
+
 	}
 
 	function getImportId()
@@ -155,18 +155,16 @@ class ilSCORMResource extends ilSCORMObject
 			$res_file->setHref($file_rec["href"]);
 			$this->addFile($res_file);
 		}
-
 		// read dependencies
 		$q = "SELECT * FROM sc_resource_dependency WHERE res_id = '".$this->getId().
 			"' ORDER BY nr";
 		$dep_set = $this->ilias->db->query($q);
-		while ($dep_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($dep_rec = $dep_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$res_dep =& new ilSCORMResourceDependency();
-			$res_dep->setIdentifierRef($file_rec["identifierref"]);
-			$this->addDependency($res_dependency);
+			$res_dep->setIdentifierRef($dep_rec["identifierref"]);
+			$this->addDependency($res_dep);
 		}
-
 	}
 
 	function readByIdRef($a_id_ref, $a_slm_id)

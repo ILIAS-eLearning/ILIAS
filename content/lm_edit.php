@@ -35,6 +35,7 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
+
 /* todo: we need the ref id here...
 if (!$rbacsystem->checkAccess("write",$_GET["lm_id"]))
 {

@@ -21,78 +21,38 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/SCORM/class.ilSCORMObject.php");
+require_once ("content/classes/SCORM/class.ilSCORMOrganization.php");
 
 /**
-* SCORM Resources Element
+* GUI class for SCORM Organization element
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObject
+* @extends ilSCORMObjectGUI
 * @package content
 */
-class ilSCORMResources extends ilSCORMObject
+class ilSCORMOrganizationGUI extends ilSCORMObjectGUI
 {
-	var $xml_base;
 
-
-	/**
-	* Constructor
-	*
-	* @param	int		$a_id		Object ID
-	* @access	public
-	*/
-	function ilSCORMResources($a_id = 0)
+	function ilSCORMOrganizationGUI($a_id)
 	{
-		global $lng;
-		
-		parent::ilSCORMObject($a_id);
-		$this->setType("srs");
-
-		$this->setTitle($lng->txt("cont_resources"));
+		parent::ilSCORMObjectGUI();
+		$this->sc_object =& new ilSCORMOrganization($a_id);
 	}
 
-	function getXmlBase()
+	function view()
 	{
-		return $this->xml_base;
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", true);
+		$this->tpl->setCurrentBlock("par_table");
+		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_organization"));
+		$this->displayParameter($this->lng->txt("cont_import_id"),
+			$this->sc_object->getImportId());
+		$this->displayParameter($this->lng->txt("cont_structure"),
+			$this->sc_object->getStructure());
+		$this->displayParameter($this->lng->txt("cont_sc_title"),
+			$this->sc_object->getTitle());
+		$this->tpl->parseCurrentBlock();
 	}
-
-	function setXmlBase($a_xml_base)
-	{
-		$this->xml_base = $a_xml_base;
-	}
-
-	function read()
-	{
-		parent::read();
-
-		$q = "SELECT * FROM sc_resources WHERE obj_id = '".$this->getId()."'";
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setXmlBase($obj_rec["xml_base"]);
-	}
-
-	function create()
-	{
-		parent::create();
-
-		$q = "INSERT INTO sc_resources (obj_id, xml_base) VALUES ".
-			"('".$this->getId()."', '".$this->getXmlBase()."')";
-		$this->ilias->db->query($q);
-	}
-
-	function update()
-	{
-		parent::update();
-
-		$q = "UPDATE sc_resources SET ".
-			"xml_base = '".$this->getXmlBase()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
-	}
-
-
 }
 ?>
