@@ -187,7 +187,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$menutpl->setCurrentBlock("btn_cell");
 		$menutpl->setVariable("BTN_LINK","forums_frameset.php?mark_read=1&ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET['thr_pk']);
 		$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
-		$menutpl->setVariable("BTN_TARGET",'target="$t_frame"');
+		$menutpl->setVariable("BTN_TARGET","target=\"$t_frame\"");
 		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_mark_read"));
 		$menutpl->parseCurrentBlock();
 	}
