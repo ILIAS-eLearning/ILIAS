@@ -216,7 +216,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				{
 					// reply: new post
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
-												  $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);
+												  $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"],$_POST["notify"]);
 					sendInfo($lng->txt("forums_post_new_entry"));
 					if(isset($_FILES["userfile"]))
 					{
@@ -228,7 +228,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				else
 				{
 					// edit: update post
-					if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
+					if ($frm->updatePost($formData["message"], $_GET["pos_pk"],$_POST["notify"]))
 					{
 						sendInfo($lng->txt("forums_post_modified"));
 					}
@@ -396,7 +396,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 					{
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
 					}
-
+					// NOTIFY
+					$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
+					$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
 					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".

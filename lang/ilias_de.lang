@@ -2013,3 +2013,6 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
+common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
+common#:#forum_notification#:#Benachrichtigung

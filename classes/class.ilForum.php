@@ -39,6 +39,7 @@ class ilForum
 	* @access public
 	*/
 	var $ilias;
+	var $lng;
 	
 	/**
 	* database table name
@@ -82,9 +83,10 @@ class ilForum
 	*/
 	function ilForum()
 	{
-		global $ilias;
+		global $ilias,$lng;
 
 		$this->ilias =& $ilias;
+		$this->lng =& $lng;
 	}
 
 	/**
@@ -339,7 +341,7 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($topic, $thread, $user, $message, $parent_pos=0)
+	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify)
 	{
 	
 		$pos_data = array(
@@ -352,9 +354,9 @@ class ilForum
 		
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date) ";
+		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,notify) ";
 		$q .= "VALUES ";
-		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."')";
+		$q .= "('".$pos_data["pos_top_fk"]."','".$pos_data["pos_thr_fk"]."','".$pos_data["pos_usr_id"]."','".$pos_data["pos_message"]."','".$pos_data["pos_date"]."','".$notify."')";
 		$result = $this->ilias->db->query($q);
 		
 		// get last insert id and return it
@@ -384,7 +386,10 @@ class ilForum
 		$q .= "top_last_post = '" .$lastPost. "' ";
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
-				
+
+		// FINALLY SEND MESSAGE
+		$this->__sendMessage($parent_pos);
+
 		return $lastInsert;
 	}
 	
@@ -397,7 +402,7 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message)
+	function generateThread($topic, $user, $subject, $message,$notify)
 	{
 		$thr_data = array(
 			"thr_top_fk"	=> $topic,
@@ -420,8 +425,8 @@ class ilForum
 		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
-		
-		return $this->generatePost($topic, $lastInsert, $user, $message);
+
+		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify);
 	}
 	
 	/**
@@ -431,13 +436,14 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function updatePost($message, $pos_pk)
+	function updatePost($message, $pos_pk,$notify)
 	{		
 		$q = "UPDATE frm_posts ".
 				 "SET ".
 				 "pos_message = '".addslashes($message)."',".
 				 "pos_update = '".date("Y-m-d H:i:s")."',".
-				 "update_user = '".$_SESSION["AccountId"]."' ".				 
+				 "update_user = '".$_SESSION["AccountId"]."', ".
+			     "notify = '".$notify."' ".
 				 "WHERE pos_pk = '".$pos_pk."'";
 		$this->ilias->db->query($q);
 	
@@ -1025,7 +1031,8 @@ class ilForum
 					"lft"			=> $a_row->lft,
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
-					"id"			=> $a_row->fpt_pk		
+					"id"			=> $a_row->fpt_pk,
+					"notify"		=> $a_row->notify				
 					);
 		
 		$data["message"] = stripslashes($data["message"]);
@@ -1245,8 +1252,54 @@ class ilForum
 		unset($tmp_file_obj);
 		return true;
 	}
-			
 
+
+	function __sendMessage($a_parent_pos)
+	{
+		$parent_data = $this->getOnePost($a_parent_pos);
+		
+		if($parent_data["notify"])
+		{
+			// SEND MESSAGE
+			include_once "./classes/class.ilMail.php";
+			include_once "./classes/class.ilObjUser.php";
+
+			$tmp_user =& new ilObjUser($parent_data["pos_usr_id"]);
+
+			// NONSENSE
+			$this->setWhereCondition("thr_pk='".$parent_data["pos_thr_fk"]."'");
+			$thread_data = $this->getOneThread();
+
+			#var_dump("<pre>",$thread_data,"<pre>");
+			#var_dump("<pre>",$parent_data,"<pre>");
+			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
+											   $this->__formatSubject($thread_data),
+											   $this->__formatMessage($thread_data),
+											   array(),array("normal"));
+
+			unset($tmp_user);
+			unset($tmp_mail_obj);
+		}
+	}
 	
+	function __formatSubject($thread_data)
+	{
+		return "Forum notification";
+	}
+	function __formatMessage($thread_data)
+	{
+		include_once "./classes/class.ilObjectFactory.php";
+
+		
+		$frm_obj =& ilObjectFactory::getInstanceByRefId($this->getForumRefId());
+		$title = $frm_obj->getTitle();
+		unset($frm_obj);
+		
+		$message = $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
+		$message .= $this->lng->txt("forum_post_replied");
+
+		return $message;
+	}
 	
 } // END class.Forum
