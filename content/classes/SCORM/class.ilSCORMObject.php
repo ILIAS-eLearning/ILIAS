@@ -119,8 +119,10 @@ class ilSCORMObject
 
 	function update()
 	{
+		global $ilDB;
+
 		$q = "UPDATE scorm_object SET ".
-			"title = '".$this->getTitle()."', ".
+			"title = ".$ilDB->quote($this->getTitle()).", ".
 			"type = '".$this->getType()."', ".
 			"slm_id = '".$this->getSLMId()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
