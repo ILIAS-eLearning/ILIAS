@@ -139,7 +139,7 @@ function highlight_text($text, $contextstack=undef)
 		for ($j=0; $j<$ln; $j++)
 		{
 			$currchar = $lineorig[$j];
-//print $currchar;
+//			print ":".$currchar.":";
 			// Handle opening selection blocks.
 			if (isset($this->highlightfile->selecton) && !$this->context->inselection && 
 				!$this->context->inquote && !$this->context->inbcomment && 
@@ -191,7 +191,8 @@ function highlight_text($text, $contextstack=undef)
 					
 					$line = substr($line, $j);
 					$lineout = $this->_munge($lineout);
-					$line = htmlentities($line);
+					//$line =  htmlspecialchars( htmlspecialchars($line),ENT_COMPAT,"UTF-8") ;
+					$line =  htmlspecialchars($line,ENT_COMPAT,"UTF-8") ;
 					$out.= $lineout;
 					if ($this->context->prepro) 
 					{
@@ -288,7 +289,7 @@ function highlight_text($text, $contextstack=undef)
 //print "10";
 				$startcurrmax = 0;
 				foreach($this->starttags as $starttag)
-				{
+				{					
 					if ($starttag[0] != $currchar) continue;	// Avoid doing substr.
 					$starttagln = $this->starttaglengths[$starttag];
 					
@@ -459,7 +460,11 @@ function highlight_text($text, $contextstack=undef)
 //print "19";
 				if ($this->context->inquote && isset($this->statobj) && $this->statobj->harvest_strings)
 					$this->statobj->string_cache .=$currchar;
-				$lineout .= htmlentities($currchar);
+				if ($currchar == "<") $currchar = "&lt;";
+					else if ($currchar == ">") $currchar = "&gt;";
+				//	else if ($currchar == "&") $currchar = "&amp;";		
+				$lineout .= htmlentities($currchar,ENT_COMPAT, "UTF-8") ;
+				//$lineout .= htmlspecialchars($currchar,ENT_COMPAT,"UTF-8") ;
 			}
 			if ($this->context->inquote && $this->context->escaping) 
 			{
@@ -546,7 +551,6 @@ function _munge($munge)
 				{
 					$inword = 0;
 					$oldword = $currword;
-					
 					$checkword = $oldword;
 					if ($this->highlightfile->nocase) $checkword = strtolower($checkword);
 					$currword = str_replace("<", "&lt;", $currword);
@@ -592,7 +596,8 @@ function _munge($munge)
 	}
 	else
 	{
-		$strout = htmlentities($munge);
+		//$strout =  htmlspecialchars( htmlspecialchars($munge),ENT_COMPAT,"UTF-8");
+		$strout =  htmlspecialchars( $munge,ENT_COMPAT,"UTF-8");
 	}
 
 	return $strout;
