@@ -118,7 +118,7 @@ assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#delete_area#:#Region löschen
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
-assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
+assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
@@ -131,9 +131,9 @@ assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erre
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#exp_eval_data#:#Evaluationsdaten exportieren###02 Jul 2004 content changed
-assessment#:#exp_type_excel#:#  Excel  ###02 Jul 2004 content changed
-assessment#:#exp_type_spss#:#  SPSS  ###02 Jul 2004 content changed
+assessment#:#exp_eval_data#:#Evaluationsdaten expoartieren als
+assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#false#:#Falsch
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
@@ -504,7 +504,7 @@ common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle Objekte
-common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_tsts#:#Alle Tests
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
 common#:#and#:#und
 common#:#announce#:#Ankündigen
@@ -3122,7 +3122,7 @@ survey#:#insert_before#:#Einfügen vor
 survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage anfügen wollen!
 survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage anfügen wollen!
 survey#:#introduction#:#Einleitung
-survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
+survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#invitation#:#Einladung
 survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#TeilnehmerInnen einladen
@@ -3130,7 +3130,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
-survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
+survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
@@ -3142,7 +3142,7 @@ survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
-survey#:#next_question_rows#:#Questions %d - %d of %d >>###29 Jun 2004 new variable
+survey#:#next_question_rows#:#Fragen %d - %d von %d >>
 survey#:#no_available_constraints#:#Es sind keine Beschränkungen definiert!
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
@@ -3154,7 +3154,7 @@ survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
-survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
+survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_finished#:#noch nicht abgeschlossen
@@ -3170,17 +3170,17 @@ survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen 
 survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Katgorie ausgewählt haben
 survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
 survey#:#preview#:#Vorschau
-survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
+survey#:#previous_question_rows#:#<< Fraen %d - %d von %d
+survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
 survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 survey#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
 survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it###28 Jun 2004 new variable
+survey#:#qpl_delete_phrase_select_none#:#Bitte wählen Sie mindestens eine Phrase aus, die Sie löschen wollen!
 survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Rechte, um die Frage(n) zu löschen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
 survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
-survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.###28 Jun 2004 new variable
+survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
 survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
 survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!

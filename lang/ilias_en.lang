@@ -3180,7 +3180,7 @@ survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
 survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
-survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.
+survey#:#qpl_phrases_deleted#:#Phrase(s) deleted.
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
 survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
