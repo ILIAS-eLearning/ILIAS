@@ -3,7 +3,7 @@
 *
 * @module		language file english
 * @modulegroup	language
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de> 
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
 */
 
@@ -229,12 +229,13 @@ common#:#glo#:#Glossary
 common#:#glo_added#:#Added glossary
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
-common#:#group_any_objects#:#No Subobjects avilable 
+common#:#group_any_objects#:#No Subobjects avilable
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
 common#:#group_name#:#Groupname
 common#:#group_not_available#:#any group available
+common#:#group_objects#:#Group Objects
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_private#:#Private
