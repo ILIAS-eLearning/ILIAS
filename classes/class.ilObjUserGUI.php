@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.47 2003/09/24 19:33:22 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.48 2003/09/25 09:51:45 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -694,30 +694,33 @@ class ilObjUserGUI extends ilObjectGUI
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
 			
-			$path = "";		
-					
-			$tmpPath = $this->tree->getPathFull($rolf[0]);		
-
-			// count -1, to exclude the role folder itself
-			for ($i = 1; $i < (count($tmpPath)-1); $i++)
+			// only list roles that are not deleted
+			if (!$rbacreview->isDeleted($rolf[0]))
 			{
-				if ($path != "")
+				$path = "";
+						
+				$tmpPath = $this->tree->getPathFull($rolf[0]);		
+	
+				// count -1, to exclude the role folder itself
+				for ($i = 1; $i < (count($tmpPath)-1); $i++)
 				{
-					$path .= " > ";
-				}
-
-				$path .= $tmpPath[$i]["title"];						
-			}	
-
-			//visible data part
-			$this->data["data"][] = array(
-						"type"			=> $val["type"],
-						"role"			=> $val["title"],
-						"desc"			=> $val["desc"],
-						//"last_change"	=> $val["last_update"],
-						"context"		=> $path,
-						"obj_id"		=> $val["obj_id"]
-					);
+					if ($path != "")
+					{
+						$path .= " > ";
+					}
+	
+					$path .= $tmpPath[$i]["title"];						
+				}	
+//visible data part
+				$this->data["data"][] = array(
+							"type"			=> $val["type"],
+							"role"			=> $val["title"],
+							"desc"			=> $val["desc"],
+							//"last_change"	=> $val["last_update"],
+							"context"		=> $path,
+							"obj_id"		=> $val["obj_id"]
+						);
+			}
 		} //foreach role
 
 		$this->maxcount = count($this->data["data"]);

@@ -596,5 +596,35 @@ class ilRbacReview
 		return $parent ? $parent : array();
 	}
 
-} // END class.RbacReview
+	/**
+	* checks if a rolefolder is set as deleted (negative tree_id)
+	* @access	public
+	* @param	integer	ref_id of rolefolder
+	* @return	boolean	true if rolefolder is set as deleted
+	*/
+	function isDeleted($a_node_id)
+	{
+		global $log;
+
+		$q = "SELECT tree FROM tree WHERE child ='".$a_node_id."'";
+		$r = $this->ilias->db->query($q);
+		
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		if (!$row)
+		{
+			$message = get_class($this)."::isDeleted(): Rolefolder with ref_id '".$a_node_id."' not found!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		// rolefolder is deleted
+		if ($row->tree < 0)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+} // END class.ilRbacReview
 ?>
