@@ -34,7 +34,7 @@
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#action_aborted#:#Action aborted!
+common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
@@ -97,13 +97,13 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
-common#:#check_langfile#:#Please check your language file.
+common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
 common#:#choose_location#:#Choose Location
-common#:#choose_only_one_language#:#Please choose only one language.
+common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
 common#:#comma_separated#:#Comma Separated
@@ -169,7 +169,7 @@ common#:#enabled#:#Enabled
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
-common#:#err_count_param#:#Reason: Wrong parameter count.
+common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_in_line#:#Error in line
 common#:#err_no_langfile_found#:#No language file found!
 common#:#err_no_param#:#No parameter!
@@ -279,11 +279,11 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
-common#:#language_not_installed#:#is not installed. Please install that language first.
+common#:#language_not_installed#:#is not installed. Please install that language first
 common#:#languages#:#Languages
-common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.
-common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.
-common#:#languages_updated#:#All installed languages have been updated.
+common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed
+common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled
+common#:#languages_updated#:#All installed languages have been updated
 common#:#last_change#:#Last Change
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
@@ -315,7 +315,7 @@ common#:#lo_overview#:#LO Overview
 common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Login data
-common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
@@ -342,7 +342,7 @@ common#:#mail_maxtime_mail#:#Max. days to keep mails
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_search_no#:#No entries found
 common#:#mail_search_word#:#Search word
-common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_select_one#:#You have to select one mail
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_system#:#System Message
@@ -356,16 +356,17 @@ common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
-common#:#min_one_active_role#:#Each user must have at least one active role!
+common#:#msg_min_one_active_role#:#Each user must have at least one active role!
+common#:#msg_min_one_role#:#Each user must have at least one role!
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
-common#:#msg_cancel_delete#:#Action cancelled.
+common#:#msg_cancel_delete#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
-common#:#msg_clear_clipboard#:#Clipboard cleared.
-common#:#msg_cloned#:#Selected object(s) copied.
-common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).
-common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).
+common#:#msg_clear_clipboard#:#Clipboard cleared
+common#:#msg_cloned#:#Selected object(s) copied
+common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy)
+common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut)
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_role#:#Role deleted
 common#:#msg_deleted_roles#:#Roles deleted
@@ -374,7 +375,7 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
-common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -395,7 +396,7 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
-common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.
+common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
@@ -409,7 +410,7 @@ common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
-common#:#msg_role_exists2#:#already exists! Please choose another name.
+common#:#msg_role_exists2#:#already exists! Please choose another name
 common#:#msg_roleassignment_changed#:#Roleassigment changed
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.
@@ -481,6 +482,7 @@ common#:#owner#:#Owner
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
 common#:#parameter#:#Parameter
+common#:#msg_is_last_role#:#You deassigned the following users from their last role
 common#:#parse#:#Parse
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
@@ -506,8 +508,8 @@ common#:#personal_profile#:#Personal Profile
 common#:#persons#:#Personen
 common#:#phone#:#Phone
 common#:#phrase#:#Phrase
-common#:#please_enter_target#:#Please enter a target.
-common#:#please_enter_title#:#Please enter a title.
+common#:#please_enter_target#:#Please enter a target
+common#:#please_enter_title#:#Please enter a title
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Presentation Options
@@ -643,7 +645,7 @@ common#:#users#:#Users
 common#:#users_online#:#Users online
 common#:#usr#:#User
 common#:#usr_agreement#:#User Agreement
-common#:#usr_agreement_empty#:#The agreement contains no text.
+common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
@@ -769,6 +771,7 @@ forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
 forum#:#forums_overview#:#Forums Overview
+common#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified
 forum#:#forums_post_new_entry#:#New article has been inscribed

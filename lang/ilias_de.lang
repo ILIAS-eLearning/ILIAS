@@ -34,7 +34,7 @@
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
-common#:#action_aborted#:#Aktion abgebrochen!
+common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -169,13 +169,13 @@ common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
-common#:#err_count_param#:#Grund: Falsche Parameteranzahl.
+common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
-common#:#err_wrong_header#:#Grund: Falscher Header.
+common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#Ausführen
@@ -279,11 +279,11 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
-common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
+common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert.
-common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert.
-common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
@@ -356,16 +356,17 @@ common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
-common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
+common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
+common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel_delete#:#Aktion abgebrochen
-common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
-common#:#msg_clear_clipboard#:#Zwischenablage gelöscht.
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
+common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
-common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben).
+common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
+common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles#:#Rollen gelöscht
@@ -374,8 +375,8 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen).
-common#:#msg_linked#:#Objekt(e) verknüpft.
+common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
+common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
@@ -395,7 +396,7 @@ common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um di
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
-common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
+common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_search_result#:#Keine Einträge gefunden!
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein!
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
@@ -409,9 +410,9 @@ common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
-common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen.
+common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
-common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte !
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte!
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
@@ -481,6 +482,7 @@ common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#parameter#:#Parameter
+common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Rollenzuweisung genommen
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
@@ -643,7 +645,7 @@ common#:#users#:#Benutzer
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text.
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
@@ -769,6 +771,7 @@ forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
 forum#:#forums_overview#:#Übersicht Foren
+common#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
@@ -962,10 +965,10 @@ meta#:#meta_c_KH#:#Kambodscha
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Komoren
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)###14 May 2003 new variable
-meta#:#meta_c_KR#:#Süd-Korea (Republik)###14 May 2003 new variable
-meta#:#meta_c_KW#:#Kuwait###14 May 2003 new variable
-meta#:#meta_c_KY#:#Kaiman Inseln###14 May 2003 new variable
+meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)
+meta#:#meta_c_KR#:#Süd-Korea (Republik)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KY#:#Kaiman Inseln
 meta#:#meta_c_KZ#:#Kasachstan
 meta#:#meta_c_LA#:#Laos
 meta#:#meta_c_LB#:#Libanon
@@ -975,7 +978,7 @@ meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
 meta#:#meta_c_LT#:#Litauen
-meta#:#meta_c_LU#:#Luxemburg###14 May 2003 new variable
+meta#:#meta_c_LU#:#Luxemburg
 meta#:#meta_c_LV#:#Lettland
 meta#:#meta_c_LY#:#Libyen
 meta#:#meta_c_MA#:#Morokko
@@ -988,7 +991,7 @@ meta#:#meta_c_ML#:#Mali
 meta#:#meta_c_MM#:#Myanmar
 meta#:#meta_c_MN#:#Mongolei
 meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#Northern Mariana Islands###14 May 2003 new variable
+meta#:#meta_c_MP#:#Northern Mariana Islands
 meta#:#meta_c_MQ#:#Martinique
 meta#:#meta_c_MR#:#Mauretanien
 meta#:#meta_c_MS#:#Montserrat
@@ -1002,15 +1005,15 @@ meta#:#meta_c_MZ#:#Mozambik
 meta#:#meta_c_NA#:#Namibia
 meta#:#meta_c_NC#:#Neu Kaledonien
 meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Island###14 May 2003 new variable
+meta#:#meta_c_NF#:#Norfolk Island
 meta#:#meta_c_NG#:#Nigeria
 meta#:#meta_c_NI#:#Nicaragua
-meta#:#meta_c_NL#:#Niederlande###14 May 2003 new variable
+meta#:#meta_c_NL#:#Niederlande
 meta#:#meta_c_NO#:#Norwegen
 meta#:#meta_c_NP#:#Nepal
 meta#:#meta_c_NR#:#Nauru
 meta#:#meta_c_NU#:#Niue
-meta#:#meta_c_NZ#:#Neuseeland###14 May 2003 new variable
+meta#:#meta_c_NZ#:#Neuseeland
 meta#:#meta_c_OM#:#Oman
 meta#:#meta_c_PA#:#Panama
 meta#:#meta_c_PE#:#Peru
@@ -1038,7 +1041,7 @@ meta#:#meta_c_SE#:#Schweden
 meta#:#meta_c_SG#:#Singapur
 meta#:#meta_c_SH#:#St. Helena
 meta#:#meta_c_SI#:#Slowenien
-meta#:#meta_c_SJ#:#Svalbard und Jan Mayen Inseln###14 May 2003 new variable
+meta#:#meta_c_SJ#:#Svalbard und Jan Mayen Inseln
 meta#:#meta_c_SK#:#Slowakei
 meta#:#meta_c_SL#:#Siera Leone
 meta#:#meta_c_SM#:#San Marino
@@ -1056,7 +1059,7 @@ meta#:#meta_c_TG#:#Togo
 meta#:#meta_c_TH#:#Thailand
 meta#:#meta_c_TJ#:#Tadschikistan
 meta#:#meta_c_TK#:#Tokelau
-meta#:#meta_c_TM#:#Turkmenistan###14 May 2003 new variable
+meta#:#meta_c_TM#:#Turkmenistan
 meta#:#meta_c_TN#:#Tunesien
 meta#:#meta_c_TO#:#Tonga
 meta#:#meta_c_TP#:#Ost-Timor
