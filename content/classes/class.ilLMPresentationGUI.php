@@ -361,6 +361,7 @@ class ilLMPresentationGUI
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
+
 				$child_attr = $this->attrib2arr($child->attributes());
 				switch ($child->node_name())
 				{
@@ -373,13 +374,23 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
+						if($this->lm->getType() == 'lm')
+						{
+							unset($_SESSION["tr_id"]);
+						}
 						if($_POST["action"] == "show")
 						{
+							if(isset($_POST["tr_id"]))
+							{
+								$_SESSION["tr_id"] = $_POST["tr_id"];
+							}
+							else
+							{
+								unset($_SESSION["tr_id"]);
+							}
 							if(is_array($_POST["target"]))
 							{
-								$_SESSION["bib_id"] = ",";
-								$_SESSION["bib_id"] .= implode(',',$_POST["target"]);
-								$_SESSION["bib_id"] .= ",";
+								$_SESSION["bib_id"] = ",".implode(',',$_POST["target"])."'";
 							}
 							else
 							{
@@ -390,6 +401,10 @@ class ilLMPresentationGUI
 						{
 							// SHOW PAGE IF PAGE WAS SELECTED
 							$pageContent = $this->ilPage($child);
+							if($_SESSION["tr_id"])
+							{
+								$translation_content = $this->ilTranslation($child);
+							}
 						}
 						else
 						{
@@ -467,7 +482,6 @@ class ilLMPresentationGUI
 		switch($this->lm->getType())
 		{
 			case "dbk":
-	#			return $this->ilPage($a_child);
 				return $this->lm_gui->showAbstract($_POST["target"][0]);
 
 			case "lm":
@@ -669,6 +683,86 @@ class ilLMPresentationGUI
 		}
 		return $page_id;
 	}
+	function mapCurrentPageId($current_page_id)
+	{
+		$lmtree = new ilTree($this->lm->getId());
+		$lmtree->setTableNames('lm_tree','lm_data');
+		$lmtree->setTreeTablePK("lm_id");
+
+		$subtree = $lmtree->getSubTree($lmtree->getNodeData(1));
+		$node = $lmtree->getNodeData($current_page_id);
+		$pos = array_search($node,$subtree);
+		unset($lmtree);
+
+		$lmtree = new ilTree($_SESSION["tr_id"]);
+		$lmtree->setTableNames('lm_tree','lm_data');
+		$lmtree->setTreeTablePK("lm_id");
+
+		$subtree = $lmtree->getSubTree($lmtree->getNodeData(1));
+		
+		return $subtree[$pos]["child"];
+	}
+
+
+
+	function ilTranslation(&$a_page_node)
+	{
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("content/classes/class.ilLMPageObject.php");
+
+		$page_id = $this->mapCurrentPageId($this->getCurrentPageId());
+
+		if(!$page_id)
+		{
+			$this->tpl->setVariable("TRANSLATION_CONTENT","NO TRANSLATION FOUND");
+			return false;
+		}
+		
+		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+		$page_object_gui =& new ilPageObjectGUI($page_object);
+
+		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
+
+		// read link targets
+		$childs =& $a_page_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if($child->node_name() == "LinkTarget")
+			{
+				$targets.= $this->layout_doc->dump_node($child);
+			}
+		}
+		$targets = "<LinkTargets>$targets</LinkTargets>";
+
+		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
+		$lm_pg_obj->setLMId($_SESSION["tr_id"]);
+		//$pg_obj->setParentId($this->lm->getId());
+		$page_object_gui->setLinkTargets($targets);
+
+		// USED FOR DBK PAGE TURNS
+		$page_object_gui->setBibId($_SESSION["bib_id"]);
+
+		// determine target frames for internal links
+		//$pg_frame = $_GET["frame"];
+		$page_object_gui->setLinkFrame($_GET["frame"]);
+		$page_object_gui->setOutputMode("presentation");
+		$page_object_gui->setOutputSubmode("translation");
+
+		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
+		//$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
+		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+#		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
+		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
+		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+		$page_object_gui->setTemplateOutputVar("TRANSLATION_CONTENT");
+
+
+		return $page_object_gui->presentation();
+
+	}
+
+		
 
 	function ilPage(&$a_page_node)
 	{
@@ -710,6 +804,11 @@ class ilLMPresentationGUI
 		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+
+		if($_SESSION["tr_id"])
+		{
+			$page_object_gui->setOutputSubmode("translation");
+		}
 
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",

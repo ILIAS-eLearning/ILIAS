@@ -108,8 +108,22 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		}
 		else
 		{
-			$params = array ('mode'			=> "view_simple",
-							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]");
+			$params = array ('mode'				=> "view_simple",
+							 'action'			=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]");
+
+			if($translations = $this->object->getTranslations())
+			{
+				foreach($translations as $tr_id)
+				{
+					$tmp_tpl->setCurrentBlock("TRANSLATION_ROW");
+					$tmp_tpl->setVariable("ROW_TITLE",$this->lng->txt("cont_booktitle"));
+					$tmp_tpl->setVariable("ROW_ID",$tr_id);
+					$tmp_tpl->parseCurrentBlock();
+				}
+				$tmp_tpl->setCurrentBlock("TRANSLATION");
+				$tmp_tpl->setVariable("TRANSLATION_HEADER",$this->lng->txt("cont_translations"));
+				$tmp_tpl->parseCurrentBlock();
+			}
 			$tmp_tpl->setVariable("DETAILS",$this->lng->txt("cont_details"));
 			$tmp_tpl->setVariable("SHOW",$this->lng->txt("cont_show"));
 			$tmp_tpl->setVariable("GO",$this->lng->txt("go"));
@@ -216,5 +230,199 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		return $tpl_menu->get();
 		
 	}
+
+	function properties()
+	{
+		// OVERWRITTEN METHOD, TO ADD TRANSLATIONS
+		parent::properties();
+
+		// BUTTONS
+		$this->tpl->setVariable("BTN1_NAME","addTranslation");
+		$this->tpl->setVariable("BTN1_TEXT",$this->lng->txt("cont_new_assignment"));
+		
+		if($trs = $this->object->getTranslations())
+		{
+			include_once "./classes/class.ilObjectFactory.php";
+			foreach($trs as $tr)
+			{
+				$tmp_obj = ilObjectFactory::getInstanceByRefId($tr);
+				$this->tpl->setCurrentBlock("TRANSLATION_ROW");
+				$this->tpl->setVariable("ROW_ID",$tr);
+				$this->tpl->setVariable("ROW_TITLE",$tmp_obj->getTitle());
+				$this->tpl->parseCurrentBlock();
+				
+				unset($tmp_obj);
+			}
+			$this->tpl->setVariable("BTN2_NAME","deleteTranslation");
+			$this->tpl->setVariable("BTN2_TEXT",$this->lng->txt("cont_del_assignment"));
+		}
+		$this->tpl->setCurrentBlock("TRANSLATION");
+		$this->tpl->setVariable("TRANSLATION_HEADER",$this->lng->txt("cont_translations"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function addTranslation()
+	{
+		// SEARCH CANCELED
+		if(isset($_POST["cancel"]))
+		{
+			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+			exit;
+		}
+		if(isset($_POST["select"]))
+		{
+			if(is_array($_POST["id"]))
+			{
+				foreach($_POST["id"] as $id)
+				{
+					if($id != $this->object->getRefId())
+					{
+						$this->object->addTranslation($id);
+					}
+				}
+				sendInfo($this->lng->txt("cont_translations_assigned"),true);
+				header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+				exit;
+			}
+		}
+		$show_search = true;
+
+		$this->tpl->addBlockfile("ADM_CONTENT","adm_content","tpl.dbk_search_translation.html",true);
+		$this->tpl->setVariable("F_ACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=addTranslation");
+
+		if($_POST["search_str"])
+		{
+			$result = $this->searchTranslation($_POST["search_str"]);
+
+			switch(count($result["meta"]))
+			{
+				case 0:
+					sendInfo($this->lng->txt("cont_no_object_found"));
+					break;
+				case 1:
+					if($result["meta"][0]["id"] == $this->object->getRefId())
+					{
+						sendInfo($this->lng->txt("cont_no_assign_itself"));
+						break;
+					}
+				default:
+					$this->showTranslationSelect($result);
+					$show_search = false;
+					break;
+			}
+		}
+		if($show_search)
+		{
+			$this->lng->loadLanguageModule("search");
+
+			$this->tpl->setVariable("SEARCH_TXT",$this->lng->txt("cont_insert_search"));
+			$this->tpl->setVariable("SEARCH_ASSIGN_TR",$this->lng->txt("cont_assign_translation"));
+			$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
+			$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+			$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		}
+		
+	}
+
+	function deleteTranslation()
+	{
+		if(!$_POST["id"])
+		{
+			sendInfo($this->lng->txt("cont_select_one_translation"));
+			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+			exit;
+		}
+		$this->object->deleteTranslations($_POST["id"]);
+		sendInfo($this->lng->txt("cont_assignments_deleted"));
+		header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+		exit;
+	}
+	// PRIVATE METHODS
+	function showTranslationSelect($a_result)
+	{
+		include_once "./classes/class.ilObjectFactory.php";
+
+		foreach($a_result["meta"] as $book)
+		{
+			if(!($path = $this->getContextPath($book["id"])))
+			{
+				continue;
+			}
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
+			
+			$this->tpl->setCurrentBlock("TR_SELECT_ROW");
+			$this->tpl->setVariable("ROW_ID",$book["id"]);
+			$this->tpl->setVariable("ROW_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("ROW_DESCRIPTION",$tmp_obj->getDescription());
+			$this->tpl->setVariable("ROW_KONTEXT",$path);
+			$this->tpl->parseCurrentBlock();
+					
+			unset($tmp_obj);
+		}
+		$this->tpl->setCurrentBlock("TR_SELECT");
+		$this->tpl->setVariable("SELECT_TXT",$this->lng->txt("cont_select_translation"));
+		$this->tpl->setVariable("SELECT_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("SELECT_DESCRIPTION",$this->lng->txt("description"));
+		$this->tpl->setVariable("SELECT_KONTEXT",$this->lng->txt("context"));
+
+		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("assign"));
+		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+		
+	function searchTranslation($a_search_str)
+	{
+		include_once("./classes/class.ilSearch.php");
+
+		$search =& new ilSearch($_SESSION["AccountId"]);
+		$search->setPerformUpdate(false);
+		$search->setSearchString($_POST["search_str"]);
+		$search->setCombination("and");
+		$search->setSearchFor(array(0 => 'dbk'));
+		$search->setSearchIn(array('dbk' => 'meta'));
+		$search->setSearchType('new');
+
+		if($search->validate($message))
+		{
+			$search->performSearch();
+		}
+		else
+		{
+			sendInfo($message,true);
+			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=addTranslation");
+			exit;
+		}
+		return $search->getResultByType('dbk');
+	}		
+
+	function getContextPath($a_endnode_id, $a_startnode_id = 1)
+	{
+		$path = "";
+
+		include_once("./classes/class.ilTree.php");
+		
+		$tree = new ilTree(1);
+
+		if(!$tree->isInTree($a_startnode_id) or !$tree->isInTree($a_endnode_id))
+		{
+			return '';
+		}
+		$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);
+
+		// count -1, to exclude the learning module itself
+		for ($i = 1; $i < (count($tmpPath) - 1); $i++)
+		{
+			if ($path != "")
+			{
+				$path .= " > ";
+			}
+
+			$path .= $tmpPath[$i]["title"];
+		}
+		return $path;
+	}
 }
+	
 ?>

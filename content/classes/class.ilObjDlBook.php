@@ -43,6 +43,11 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		$this->type = "dbk";
 		parent::ilObjContentObject($a_id, $a_call_by_reference);
+
+		if($a_id)
+		{
+			$this->readAssignedTranslations();
+		}
 	}
 
 	
@@ -201,6 +206,77 @@ class ilObjDlBook extends ilObjContentObject
 		readfile( $export_dir."/".$fileName.".zip" );
 		
 	}
+	function addTranslation($a_ref_id)
+	{
+		$query = "REPLACE INTO dbk_translations ".
+			"SET id = '".$this->ref_id."', ".
+			"tr_id = '".$a_ref_id."'";
+		$res = $this->ilias->db->query($query);
+
+		$query = "REPLACE INTO dbk_translations ".
+			"SET id = '".$a_ref_id."', ".
+			"tr_id = '".$this->ref_id."'";
+		$res = $this->ilias->db->query($query);
+
+		// UPDATE MEMBER VARIABLE
+		$this->readAssignedTranslations();
+
+		return true;
+	}
+
+	function addTranslations($a_arr_ref_id)
+	{
+		if(!is_array($a_arr_ref_id))
+		{
+			return false;
+		}
+		foreach($a_arr_ref_id as $ref_id)
+		{
+			$this->addTranslation($ref_id);
+		}
+		return true;
+	}
+	function deleteTranslation($a_ref_id)
+	{
+		if(!$a_ref_id)
+		{
+			return false;
+		}
+
+		$query = "DELETE FROM dbk_translations ".
+			"WHERE id = '".$this->ref_id."' ".
+			"AND tr_id = '".$a_ref_id."'";
+
+		$res = $this->ilias->db->query($query);
+
+		$query = "DELETE FROM dbk_translations ".
+			"WHERE id = '".$a_ref_id."' ".
+			"AND tr_id = '".$this->ref_id."'";
+
+		$res = $this->ilias->db->query($query);
+
+		// UPDATE MEMBER VARIABLE
+		$this->readAssignedTranslations();
+
+		return true;
+	}
+
+	function deleteTranslations($a_arr_ref_id)
+	{
+		if(!is_array($a_arr_ref_id))
+		{
+			return false;
+		}
+		foreach($a_arr_ref_id as $ref_id)
+		{
+			$this->deleteTranslation($ref_id);
+		}
+		return true;
+	}
+	function getTranslations()
+	{
+		return $this->tr_ids;
+	}
 	/**
 	 * STATIC METHOD
 	 * search for dbk data. This method is called from class.ilSearch
@@ -226,6 +302,7 @@ class ilObjDlBook extends ilObjContentObject
 					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('dbk','bib'))) ".
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'dbk'";
+
 				/*
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
 					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
@@ -274,8 +351,20 @@ class ilObjDlBook extends ilObjContentObject
 		return $result ? $result : array();
 	}
 
-	
-	
+
+	// PRIVATE METHODS
+	function readAssignedTranslations()
+	{
+		$query = "SELECT tr_id FROM dbk_translations ".
+			"WHERE id = '".$this->ref_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp_tr_ids[] = $row->tr_id;
+		}
+		return $this->tr_ids = $tmp_tr_ids ? $tmp_tr_ids : array();
+	}
 } // END class.ilObjDlBook
 
 ?>
