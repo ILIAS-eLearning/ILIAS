@@ -212,7 +212,7 @@ class ilFileDataExercise extends ilFileData
 		global $lng;
 		
 		ksort($members);
-		$tmpfile = tempnam("/tmp", "mem");
+		$tmpfile = ilUtil::ilTempnam();
 		$fh = fopen($tmpfile, "w");
 		if ($fh)
 		{
@@ -227,7 +227,7 @@ class ilFileDataExercise extends ilFileData
 		$cdir = getcwd();
 		chdir($savepath);
 		$zip = PATH_TO_ZIP;
-		$tmpfile = tempnam("/tmp", "foo");
+		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
 		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." *";
 		exec($zipcmd);

@@ -450,7 +450,7 @@ class ilExerciseMembers
 		$cdir = getcwd();
 		chdir($pathname);
 		$zip = PATH_TO_ZIP;
-		$tmpfile = tempnam("/tmp", "foo");
+		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
 		foreach ($array_filenames as $key => $filename)
 		{
