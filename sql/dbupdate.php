@@ -4674,3 +4674,42 @@ ALTER  TABLE  `tst_tests`  ADD `ects_b` DOUBLE DEFAULT  '65' NOT  NULL;
 ALTER  TABLE  `tst_tests`  ADD `ects_c` DOUBLE DEFAULT  '35' NOT  NULL;
 ALTER  TABLE  `tst_tests`  ADD `ects_d` DOUBLE DEFAULT  '10' NOT  NULL;
 ALTER  TABLE  `tst_tests`  ADD `ects_e` DOUBLE DEFAULT  '0' NOT  NULL;
+<#298>
+DROP TABLE `payment_prices`;
+<#299>
+CREATE TABLE `payment_prices` (
+  `price_id` int(11) NOT NULL auto_increment,
+  `pobject_id` int(11) NOT NULL default '0',
+  `duration` int(4) NOT NULL default '0',
+  `currency` int(4) NOT NULL default '0',
+  `unit_value` char(6) default '0',
+  `sub_unit_value` char(3) default '00',
+  PRIMARY KEY  (`price_id`)
+) TYPE=MyISAM;
+<#300>
+CREATE TABLE `payment_bill_vendor` (
+  `pobject_id` int(11) NOT NULL default '0',
+  `gender` tinyint(2) default NULL,
+  `firstname` char(64) default NULL,
+  `lastname` char(64) default NULL,
+  `title` char(64) default NULL,
+  `institution` char(64) default NULL,
+  `department` char(64) default NULL,
+  `street` char(64) default NULL,
+  `zipcode` char(16) default NULL,
+  `city` char(64) default NULL,
+  `country` char(64) default NULL,
+  `phone` char(32) default NULL,
+  `fax` char(32) default NULL,
+  `email` char(64) default NULL,
+  `account_number` char(32) default NULL,
+  `bankcode` char(32) default NULL,
+  `iban` char(64) default NULL,
+  `bic` char(64) default NULL,
+  `bankname` char(64) default NULL,
+  PRIMARY KEY  (`pobject_id`)
+) TYPE=MyISAM;
+<#301>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
