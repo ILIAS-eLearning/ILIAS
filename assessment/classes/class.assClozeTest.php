@@ -106,8 +106,8 @@ class ASS_ClozeTest extends ASS_Question {
     $owner = -1,
     $cloze_text = "",
     $cloze_type = CLOZE_TEXT,
-    $start_tag = "#",
-    $end_tag = "#"
+    $start_tag = "<gap>",
+    $end_tag = "</gap>"
   )
   {
     $this->start_tag = $start_tag;
@@ -165,7 +165,7 @@ class ASS_ClozeTest extends ASS_Question {
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -176,8 +176,6 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->cloze_text),
         $db->quote($estw_time),
         $db->quote("$this->shuffle"),
-        $db->quote($this->start_tag),
-        $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
 				$db->quote("$complete"),
         $db->quote($created)
@@ -192,7 +190,7 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, cloze_type = %s, complete = %s, start_tag = %s, end_tag = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, cloze_type = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
@@ -201,8 +199,6 @@ class ASS_ClozeTest extends ASS_Question {
 				$db->quote("$this->shuffle"),
         $db->quote($this->cloze_type),
 				$db->quote("$complete"),
-        $db->quote("$this->start_tag"),
-        $db->quote("$this->end_tag"),
         $db->quote($this->id)
       );
       $result = $db->query($query);
@@ -265,8 +261,6 @@ class ASS_ClozeTest extends ASS_Question {
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
 				$this->shuffle = $data->shuffle;
-        $this->start_tag = $data->start_tag;
-        $this->end_tag = $data->end_tag;
         $this->cloze_type = $data->cloze_type;
         $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
@@ -309,7 +303,7 @@ class ASS_ClozeTest extends ASS_Question {
     } else {
       $default_correctness = FALSE;
     }
-    preg_match_all("/" . preg_quote($this->start_tag) . "(.*?)" . preg_quote($this->end_tag) . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
+    preg_match_all("/" . preg_quote($this->start_tag, "/") . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[1] as $key => $value) {
       $cloze_words = split(",", $value);
       $answer_array = array();
@@ -394,7 +388,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @see $cloze_text
 */
   function rebuild_cloze_text() {
-    preg_match_all("/" . preg_quote($this->start_tag) . "(.*?)" . preg_quote($this->end_tag) . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
+    preg_match_all("/" . preg_quote($this->start_tag, "/") . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[1] as $key => $value) {
       $this->cloze_text = preg_replace("/$value/", $this->get_gap_text_list($key), $this->cloze_text);
     }
@@ -498,7 +492,7 @@ class ASS_ClozeTest extends ASS_Question {
     unset($this->gaps[$index]);
     $this->gaps = array_values($this->gaps);
 
-    $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag) . preg_quote($old_text) . preg_quote($this->end_tag) . "/", "", $this->cloze_text);
+    $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag, "/") . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
   }
 
 /**
@@ -542,7 +536,7 @@ class ASS_ClozeTest extends ASS_Question {
     }
     if (!$deleted) {
       $this->gaps[$index] = array_values($this->gaps[$index]);
-      $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag) . preg_quote($old_text) . preg_quote($this->end_tag) . "/", "$this->start_tag" . $this->get_gap_text_list($index) . "$this->end_tag", $this->cloze_text);
+      $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag, "/") . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "$this->start_tag" . $this->get_gap_text_list($index) . "$this->end_tag", $this->cloze_text);
     }
   }
 
