@@ -152,9 +152,7 @@
 </object>
 <object name="typ" class_name="TypeDefinition">
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
+	<property name="edit">edit_operations</property>
 </object>
 <object name="usr" class_name="User">
 	<subobj name="favf" max="1">favf</subobj>

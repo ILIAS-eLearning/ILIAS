@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.7 2002/12/16 15:17:07 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.8 2002/12/18 22:53:31 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -279,7 +279,7 @@ class ObjectOut
 		$this->tpl->setVariable("CMD","update");
 		$this->tpl->parseCurrentBlock();
 	}
-	function addPermissionObject()
+	function alterOperationsOnObject()
 	{
 	}
 
