@@ -1,0 +1,695 @@
+                       ==================================
+                        ILIAS open source - Installation
+                       ==================================
+
+          Author: Boris H. Schuermann (boris.schuermann@uni-koeln.de)
+          $Id$
+
+
+
+Contents:
+
+1.  Introduction
+
+2.  First time installation
+
+    2.1  First steps
+
+    2.2  Installing required third-party software
+
+         2.2.1  Libraries & utilities 
+
+         2.2.2  MySQL / PHP4 / Apache
+
+    2.3  Installing ILIAS
+
+    2.4  Installing optional third-party software
+	
+3.  Software updates
+
+    3.1  Updating ILIAS
+
+    3.2  Updating third-party software
+    
+4.  Appendix
+
+
+
+
+1. I N T R O D U C T I O N
+
+ILIAS is a web-based open source platform for education and training, developed
+with the server-side scripting language PHP. It uses the MySQL database and the
+Apache web server. The main target operating system is Linux. However, ILIAS may
+also be run on other Unix systems. 
+
+This document describes the installation of ILIAS Release 3 and all required
+third-party software. The procedure has been tested with RedHat Linux 6.x/7.x.
+With minor modifications it should also work with other Linux distributions,
+Solaris and other Unix systems.
+
+The following software is necessary for running ILIAS. Release numbers refer to
+the version tested and recommended for use with ILIAS. Like ILIAS itself, all
+these programs are available as open source software. 
+
+- Apache 1.3.27                http://www.apache.org
+- MySQL 3.23.54a               http://www.mysql.com
+- PHP 4.3.0                    http://www.php.net
+- GD (libgd) 1.8.4             http://www.boutell.com/gd/
+- Zlib (libz) 1.1.4            http://www.gzip.org/zlib/
+- IJG JPEG (libjpeg) 6b        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
+- ImageMagick 4.2.9            http://www.imagemagick.org
+- Info-ZIP (Zip/UnZip)         http://www.info-zip.org
+
+Please see 'Optional Software' for information about available add-ons. 
+
+In this guide it is assumed that none of the programs above are installed on
+your system. However, many Linux distributions already contain libraries and
+programs such as libttf, libz, libjpeg, libgd, ImageMagick and Zip/Unzip by
+default. If installed properly it might not be necessary to install these
+packages along with ILIAS again. 
+
+If your installation of PHP, Apache or MySQL must meet additional requirements
+or if you prefer different versions of these components, you may of course
+configure the software yourself. Just make sure that your own configuration
+supports all components used by ILIAS.
+
+Prior to compilation your system should include the following programs:
+gcc, GNU make, autoconf (>=2.13), automake (>= 1.4), libtool (>=1.4),
+perl(>=5.0), gdbm, bison,(>=1.25), flex, GNU tar.
+
+Some functions in ILIAS require outgoing Internet mail. Therefore a sendmail
+daemon should run on your system and outgoing connections should be allowed
+on port 25. 
+
+
+Conventions used in this document:
+
+- For better readability, long command lines are broke down to several lines. In
+  this case, a backslash at the end of a line indicates that the next line is to
+  be considered a continuation.
+
+- Please follow the installation steps in the given order. Some steps rely on
+  previously issued commands. 
+
+
+
+
+2  F I R S T   T I M E   I N S T A L L A T I O N
+
+2.1  First steps
+
+Following this guide all software related to ILIAS will be installed in
+/opt/ilias. If you wish to choose a different location, just change directory
+names throughout the installation process accordingly.
+
+The following directories need to be created manually:
+
+    mkdir /opt/ilias
+    mkdir /opt/ilias/src
+    mkdir /opt/ilias/src/tarballs	
+    mkdir /opt/ilias/iliasdata
+    mkdir /opt/ilias/iliasdata/files
+    mkdir /opt/ilias/iliasdata/offline
+    mkdir /opt/ilias/iliasdata/import
+    mkdir /opt/ilias/iliasdata/export
+
+Copy all source tar files to /opt/ilias/src/tarballs. GNU-Tar will extract the
+source files into separate directories in /opt/ilias/src:
+
+    cd /opt/ilias/src
+    tar -xzf tarballs/tarballname.tar.gz
+
+The ILIAS software, its documentation and the web space directory structure is
+stored in:
+
+    ilias-3.0.0.tar.gz
+
+This file may also reside in /opt/ilias/src/tarballs.
+
+
+2.2  Installing required third-party software
+
+2.2.1  Libraries & utilities
+
+If not already installed on your system, the following libraries and utility
+programs must be installed:
+
+    - ZLib (libz, compression library)
+    - GD-Library (libgd, graphics library used by PHP)
+    - IJG JPEG-Library (libjpeg, graphics library used by ImageMagick)
+    - ImageMagick (graphics tool used by ILIAS for Image format conversion)
+    - Info-ZIP (Zip/UnZip tools used for compressing offline courses)
+	
+The programs can be compiled and installed using the command sequences shown
+below. However, you may decide to install them in different locations.
+
+When compiling MySQL, PHP and the Apache please make sure the location of
+the libraries is specified in the environment variable $LD_LIBRARY_PATH. You
+may also use the command ldconfig on Linux or crle on Solaris 8 systems. 
+
+
+(a) Zlib
+
+        cd /opt/ilias/src/zlib-1.1.4
+        ./configure --prefix=/usr/local
+        make
+        make install
+
+
+(b) GD-Library
+
+        cd /opt/ilias/src/gd-1.8.4
+        make
+        make install
+	
+
+(c) IJG JPEG-library
+
+        cd /opt/ilias/src/jpeg-6b
+        ./configure --enable-shared --enable-static --prefix=/usr/local
+        make
+        make test
+        make install
+
+
+(d) ImageMagick
+
+        cd /opt/ilias/src/ImageMagick-4.2.9
+        ./configure \
+        --prefix=/opt/ilias/ImageMagick \
+        --without-perl \
+        --with-jpeg \
+        --enable-lzw=yes
+        make
+        make install
+
+(e) Info-ZIP
+
+        cd /opt/ilias/src/zip-2.3
+        make -f unix/Makefile generic
+        make -f unix/Makefile install
+        cd /opt/ilias/src/unzip-5.42
+        make -f unix/Makefile generic
+        make -f unix/Makefile install
+        
+    By default Zip and Unzip will be installed in /usr/local/bin. 
+
+
+
+2.2.2  MySQL / PHP4 / Apache
+
+After the libraries and tools are set up you may install the main third-party
+components:
+
+
+(a) MySQL database
+
+    Configure & make:	
+
+        cd /opt/ilias/src/mysql-3.23.54a
+        ./configure \
+        --prefix=/opt/ilias/mysql \
+        --localstatedir=/opt/ilias/mysqldata 
+        make
+        make install
+	
+    If the configure/make process fails, please make sure to delete the file
+    config.cache in the source directory before the next try. If in doubt, 
+    simply delete the entire source directory and extract the source code from
+    the tar file again to obtain a clean build system.
+
+    Create the directory where the databases will be located and install MySQL's
+    default databases:
+
+        mkdir /opt/ilias/mysqldata
+        scripts/mysql_install_db
+
+    Create link to init script:
+
+        cd /opt/ilias/mysql/share/mysql
+        chmod 744 mysql.server
+        cp mysql.server /etc/rc.d/init.d/
+        cd /etc/rc.d/rc3.d
+        ln -s ../init.d/mysql.server S72mysql.server
+        ln -s ../init.d/mysql.server K72mysql.server
+	 
+    The directories containing the init script and the links to it may vary. 
+    Please check the default runlevel for your system in /etc/inittab.
+	
+    On Solaris systems the init script itself may be put into /etc/init.d while
+    the links to it may be located in /etc/rc3.d.
+	
+    If you are using RedHat Linux, the standard MySQL init script may not stop
+    the MySQL daemon properly. Please see appendix A for a modified version
+    using RedHat specific init functions. In RedHat you may use chkconfig --add
+    to create the runlevel specific links automatically.
+		
+    It is recommended not to run the mysql daemon as root. The daemon user can
+    be set in /etc/rc.d/init.d/mysql.server. File ownership for /opt/ilias/mysql
+    and /opt/ilias/mysqldata needs to be set accordingly using the commands
+    'chown' and 'chgrp' on these directories recursively.
+	
+    Create a MySQL configuration file and link to it:
+
+        mkdir /opt/ilias/config
+        cd /opt/ilias/mysql/share/mysql
+        cp my-small|medium|large|huge.cnf /opt/ilias/config/my.cnf
+        cd /opt/ilias/mysqldata
+        ln -s /opt/ilias/config/my.cnf   
+	
+    MySQL version 3.23.x comes with sample configuration files for different
+    memory sizes (small, medium, large, huge). Please select the appropriate
+    file and apply further changes to /opt/ilias/config/my.cnf according to your
+    specific needs. For use with ILIAS it is recommended to enable the MySQL
+    'big-tables' option.
+	
+    Create link to error log file:
+
+        mkdir /opt/ilias/logfiles
+        cd /opt/ilias/logfiles
+        ln -s /opt/ilias/mysqldata/full-hostname.err
+
+    If desired you may also redirect database logging from /opt/ilias/mysqldata
+    (default) to /opt/ilias/logfiles by modifying the log-bin (or log-update) 
+    option in my.cnf. 
+		
+    Check if MySQL daemon can be started/stopped:
+
+        /etc/rc.d/init.d/mysql.server start
+        /etc/rc.d/init.d/mysql.server stop
+	
+    Please note that unless a password has been set for the MySQL root account,
+    any user can start the MySQL client with all privileges.
+
+		
+(b) Apache (preparation)
+
+        cd /opt/ilias/src/apache_1.3.27
+        ./configure --prefix=/opt/ilias/httpd
+
+    NOTE ON USING APACHE 2: At the time being Apache 2 is not yet recommended
+    for production use in combination with PHP. However, we are already testing
+    ILIAS with Apache 2 and PHP 4.3.0. If you like to try out Apache 2 for your
+    ILIAS system, please proceed as follows:
+	
+        - Omit the preparatory step and directly compile and install Apache 2 as
+          described in step "2.2.2 - (d) Apache" but using a different configure
+          command:
+		
+            cd /opt/ilias/src/apache_2.0.43
+            ./configure \
+            --prefix=/opt/ilias/httpd \
+            --enable-so \
+            --localstatedir=/opt/ilias/logfiles \
+            --sysconfdir=/opt/ilias/config \
+            --datadir=/opt/ilias/www
+            make
+            make install
+              
+        - Make sure this line has been added to the Apache configuration file
+          httpd.conf, which loads PHP as a Dynamic Shared Object (DSO):
+            
+            LoadModule php4_module modules/libphp4.so
+          
+        - Compile and install PHP as described in step "2.2.2 - (c) PHP" but 
+          using this configure command which installs PHP as a DSO:
+          
+            cd /opt/ilias/src/php-4.3.0
+            ./configure \
+            --prefix=/opt/ilias/php \
+            --with-apxs2=/opt/ilias/httpd/bin/apxs \
+            --with-mysql=/opt/ilias/mysql \
+            --with-zlib \
+            --with-gd \
+            --with-config-file-path=/opt/ilias/config
+            make
+            make install
+
+        - Starting the Apache 2 daemon should now also invoke the PHP module.			
+
+
+(c) PHP
+
+    Configure & make:
+
+        cd /opt/ilias/src/php-4.3.0
+        ./configure \
+        --prefix=/opt/ilias/php \
+        --with-apache=/opt/ilias/src/apache_1.3.27 \
+        --with-mysql=/opt/ilias/mysql \
+        --with-zlib \
+        --with-gd \
+        --with-config-file-path=/opt/ilias/config
+        make
+        make install
+
+    If the configure/make process fails, please make sure to delete the file
+    config.cache in the source directory before the next try. If in doubt, 
+    simply delete the entire source directory and extract the source code from
+    the tar file again to obtain a clean build system.
+
+    If there is more than one version of libgd installed on your system, you may
+    need to specify the location of the libgd version <= 1.5, e.g. by entering
+    '--with-gd=/usr/local'.
+
+    If configure fails to recognize the location of libjpeg, try to specify it
+    using the configure directive '--with-jpeg-dir'.
+
+    Copy default PHP configuration file to /opt/ilias/config:
+
+        cp php.ini-dist /opt/ilias/config/php.ini 
+		
+    Please change /opt/ilias/config/php.ini according to your needs.
+
+    IMPORTANT: In PHP versions later than 4.1 the default value for the php.ini
+    parameter 'register_globals' is set to 'off'. At the time being, ILIAS will
+    only work if 'register_globals' is enabled.
+    
+    Setting an approriate value for 'session.gc_maxlifetime' is also important.
+    It determines how many seconds an ILIAS session may be inactive before it is
+    destroyed by the PHP session management. When setting this parameter please
+    take into consideration that when working with the online course editor an
+    author may remain on the editor web page for a much longer time than a
+    regular user, e.g. when typing a longer text. However, for security reasons
+    the 'session.gc_maxlifetime' value should not be set too high. We recommend
+    to set it to 3600 seconds (= 1 hour).
+
+    Another value that might need to be changed is 'upload_max_filesize'. It
+    determines the maximum size of files to be uploaded by users. Especially
+    when using the file exchange functions in ILIAS the default value might be
+    too low and should be corrected.
+	
+	
+(d) Apache
+
+    Configure & make:
+
+        cd /opt/ilias/src/apache_1.3.27
+        ./configure \
+        --prefix=/opt/ilias/httpd \
+        --activate-module=src/modules/php4/libphp4.a \
+        --logfiledir=/opt/ilias/logfiles \
+        --sysconfdir=/opt/ilias/config \
+        --datadir=/opt/ilias/www
+        make
+        make install
+	
+                    
+    Link to startup script apachectl:
+
+        cd /opt/ilias/httpd/bin/
+        chmod 744 apachectl
+        cp apachectl /etc/rc.d/init.d/
+        cd /etc/rc.d/rc3.d
+        ln -s ../init.d/apachectl S70apachectl
+        ln -s ../init.d/apachectl K70apachectl
+        
+
+    The directories containing the init script and the links to it may vary. 
+    Please check the default runlevel for your system in /etc/inittab.
+	
+    On Solaris systems the init script itself may be put into /etc/init.d while
+    the links to it may be located in /etc/rc3.d.
+	
+    If you are using RedHat Linux, the standard Apache start/stop script may not
+    work properly. Please see APPENDIX A for a modified version using RedHat
+    specific init functions. Use chkconfig --add to create runlevel specific
+    links.
+			
+    Please change /opt/ilias/config/httpd.conf according to your needs, e.g.
+    set the user/group (default: nobody/nogroup) to run the httpd daemon. For
+    PHP support include the following directives:
+
+        DirectoryIndex index.php index.html
+
+        AddType application/x-httpd-php .php
+        AddType application/x-httpd-php .lang
+        AddType application/x-httpd-php .inc
+
+    Also please make sure that the name of your server is properly specified in
+    httpd.conf. The 'ServerName' entry should either contain the DNS name of 
+    your server or its IP address. The line should be uncommented.
+
+
+	
+2.3  Installing ILIAS
+
+
+(a) Installing the ILIAS program files
+ 
+    If you have not already done so, unpack the ILIAS tarball:
+
+        cd /opt/ilias/www/htdocs/
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.0.0.tar.gz
+		
+    All directories in your webspace ought to be secured properly, e.g. with 
+    .htaccess files. It is recommended to disable directory indexes in
+    /opt/ilias/config/httpd.conf. 
+
+    IMPORTANT:
+	
+    Please make sure that your webserver has write permission for the ./ilias/
+    directory and all its subdirectories.
+
+    The directories under /opt/ilias/iliasdata/ (recommended default location)
+    are used for storing various data that shall not appear in the web space of
+    your server. However, the web server daemon user must have read/write access
+    to them. Please set file permissions accordingly. 
+        
+	
+(b) ILIAS Setup
+
+    If not activated yet, please start the MySQL and Apache daemons, either by
+    manually executing the appropriate init script using the parameter 'start'
+    or by rebooting your system.
+	
+    Now you can start the ILIAS setup by accessing the setup script from you
+    web browser:
+
+        http://www.yourserver.com/ilias/setup.php
+     
+    Please follow the
+
+    After importing the template file it is necessary to run a migration script
+    in order make sure that recent changes in the database structure are also
+    incorporated into your database. For this purpose please access the file
+    'www.yourserver.com/ilias/sql/migration/db_migration.php' with your web
+    browser and identify yourself with the ILIAS superuser account:
+	
+        User ID: root
+        Password: homer
+
+    The migration process is performed immediately after authentication. 
+    Afterwards you may proceede to the next step.
+
+    The database migration is especially important when UPGRADING to a new
+    ILIAS release. In this case the database structure of your installation is
+    likely to be out of date. Running the migration script will ensure that the
+    new version of the ILIAS software works with your existing ILIAS database. 
+
+
+(c) Initial login
+
+    After everything has been installed, accessing /ilias/index.php (or just the
+    directory /ilias) with your web browser should bring up the ILIAS login
+    screen. Please use the ILIAS superuser account for your first login:
+
+        User ID: root
+        Password: homer
+
+    Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
+
+    The ILIAS superuser account should only be used for system installation,
+    upgrades and other special occasions. Please create your own personal
+    administrator account and use it for all regular administrative tasks.
+
+
+
+2.4  Installing optional third-party software
+
+
+(a) Zend Optimizer
+
+    As a PHP preprocessor the Zend Optimizer is used to improve the performance
+    of the PHP interpreter. It is offered by Zend Technologies Ltd. free of
+    charge, even though it is not open source software. Different versions
+    are available for Linux, Solaris and FreeBSD from:
+    
+        http://www.zend.com
+    
+    Because newer versions of ZendOptimizer look for the Apache httpd.conf in
+    the Apache directory, one should set a link to /opt/ilias/config/ in that
+    directory:
+    
+        cd /opt/ilias/httpd
+        ln -s /opt/ilias/config conf
+    
+    Having unpacked the appropriate .tar.gz file installation is fairly simple.
+    The example shows the installation of the ZendOptimizer for Linux glibc 2.1:
+        
+        mkdir /opt/ilias/Zend
+        mkdir /opt/ilias/Zend/lib
+        cd /opt/ilias/src/ZendOptimizer-2.0.3-Linux_glibc21-i386
+        ./install.sh
+        
+    Please follow the instructions given by the installation script. As the
+    location where to install the ZendOptimizer please specify /opt/ilias/Zend/.
+    The location of the php.ini file is /opt/ilias/config/php.ini.
+    
+    Your original php.ini file will be backed up in /opt/ilias/config/. The new
+    php.ini file created by the ZendOptimizer installation script will be
+    located in /opt/ilias/Zend/etc/ with a link in /opt/ilias/config/ pointing
+    to it. 
+		
+    You may find out if the ZendOptimizer is properly installed by checking the
+    beginning of the "PHP-Info" output in  the ILIAS administration menu.
+
+
+
+
+3.  S O F T W A R E  U P D A T E S
+
+3.1  Updating ILIAS
+
+Information on updating an ILIAS3 installation will be provided soon.
+
+				
+3.2  Updating third-party software
+
+Because the main third-party software components interact in different ways, 
+updating one of these components usually requires a complete re-installation
+as described in 'First Time Installation'. 
+
+MySQL, PHP and the Apache Webserver can normally be re-installed at any time 
+while retaining the original system configuration (configuration files will
+not be modified). Before doing so make sure you have backed up your system.
+The clean up your /opt/ilias/src/ directory and extract the new source files
+to this location. Configure and compile the software with the directives you
+used in the inital installation process and in the same order, starting with
+MySQL and ending with the Apache server.
+
+
+
+
+4.  A P P E N D I X: MySQL and Apache init scripts for use with RedHat 6.2
+
+
+(1) mysql - MySQL init script for RedHat Linux -----
+
+#!/bin/sh
+
+# chkconfig: 345 72 72
+# description: Mysql is a SQL (Structured Query Language) database server
+# 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+mode=$1
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+set `id`
+bindir=/opt/ilias/mysql/bin
+datadir=/opt/ilias/mysqldata
+pid_file=/opt/ilias/mysqldata/mysqld.pid
+
+mysql_daemon_user=mysql    # Run mysqld as this user.
+
+if [ $1 != "uid=0(root)" ]; then
+    echo "$0: this script must be run as root ... fatal error"
+    exit 1
+fi
+
+case "$mode" in
+'start')
+    # Start deamon
+    echo -n "Starting mysqld: "
+    daemon $bindir/safe_mysqld --datadir=$datadir --user=$mysql_daemon_user &
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/mysql
+    ;;
+'status')
+    status mysqld
+    ;;
+'restart')
+    $0 stop
+    $0 start
+        ;;
+'stop')
+    # Stop deamon
+    echo -n "Shutting down mysqld: "
+    #mysqladmin shutdown
+    killproc mysqld 2>/dev/null
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/mysql
+    ;;
+		
+*)
+    echo "usage: $0 start|status|restart|stop"
+    exit 1
+    ;;
+
+esac
+
+
+-----
+
+
+(2) httpd - Apache init script for RedHat linuy -----
+
+#!/bin/sh
+#
+# Startup script for the Apache Web Server
+#
+# chkconfig: 345 85 15
+# description: Apache is a World Wide Web server.  It is used to serve \
+#	       HTML files and CGI.
+# processname: httpd
+# pidfile: /opt/ilias/httpd/logs/httpd.pid
+# config: /opt/ilias/config/access.conf
+# config: /opt/ilias/config/httpd.conf
+# config: /opt/ilias/config/srm.conf
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+bindir=/opt/ilias/httpd/bin
+pid_file=/opt/ilias/httpd/logs/httpd.pid
+
+# See how we were called.
+case "$1" in
+start)
+    echo -n "Starting httpd: "
+    daemon $bindir/httpd
+    echo
+    touch /var/lock/subsys/httpd
+	;;
+stop)
+    echo -n "Shutting down http: "
+    killproc httpd
+    echo
+    rm -f /var/lock/subsys/httpd
+    rm -f $pid_file
+    ;;
+status)
+    status httpd
+    ;;
+restart)
+    $0 stop
+    $0 start
+    ;;
+reload)
+    echo -n "Reloading httpd: "
+    killproc httpd -HUP
+    echo
+    ;;
+*)
+    echo "Usage: $0 {start|stop|restart|reload|status}"
+    exit 1
+esac
+
+exit 0
+
+-----
