@@ -243,7 +243,7 @@ class ilSoapUserAdministration
 			return $this->__raiseError($this->__getMessage(),'Client');
 		}
 
-		if(strlen($user_data['passwd']))
+		if(strlen($user_data['passwd']) != 32)
 		{
 			$user_new['passwd_type'] = IL_PASSWD_PLAIN;
 		}
@@ -309,6 +309,11 @@ class ilSoapUserAdministration
 
 
 		$log->write('SOAP: addUser()');
+
+		// Need this for entry in object_data
+		$new_user->setTitle($new_user->getFullname());
+		$new_user->setDescription($new_user->getEmail());
+
 		$new_user->create();
 		$new_user->saveAsNew();
 

@@ -725,15 +725,10 @@ class ilCourseObjectivesGUI
 			// Up down links
 			if(count($objectives) > 1)
 			{
-				if($counter < count($objectives))
+				if($counter == 1)
 				{
-					$tpl->setCurrentBlock("img");
-					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-					$tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveDown'));
-					$tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_down.gif'));
-					$tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_down'));
-					$tpl->parseCurrentBlock();
-				}
+					$tpl->setVariable("NO_IMG_PRE_TYPE",ilUtil::getImagePath('empty.gif'));
+				}					
 				if($counter > 1) 
 				{
 					$tpl->setCurrentBlock("img");
@@ -743,29 +738,45 @@ class ilCourseObjectivesGUI
 					$tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_up'));
 					$tpl->parseCurrentBlock();
 				}
+				if($counter < count($objectives))
+				{
+					$tpl->setCurrentBlock("img");
+					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
+					$tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveDown'));
+					$tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_down.gif'));
+					$tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_down'));
+					$tpl->parseCurrentBlock();
+				}
+				if($counter == count($objectives))
+				{
+					$tpl->setCurrentBlock("no_img_post");
+					$tpl->setVariable("NO_IMG_POST_TYPE",ilUtil::getImagePath('empty.gif'));
+					$tpl->parseCurrentBlock();
+				}					
+
 			}
 			// Edit link
-			$tpl->setCurrentBlock("img");
+			$tpl->setCurrentBlock("edit_img");
 			$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-			$tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'editObjective'));
-			$tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('edit.gif'));
-			$tpl->setVariable("IMG_ALT",$this->lng->txt('edit'));
+			$tpl->setVariable("EDIT_IMG_LINK",$this->ctrl->getLinkTarget($this,'editObjective'));
+			$tpl->setVariable("EDIT_IMG_TYPE",ilUtil::getImagePath('edit.gif'));
+			$tpl->setVariable("EDIT_IMG_ALT",$this->lng->txt('edit'));
 			$tpl->parseCurrentBlock();
 			
 			// Assign lm
-			$tpl->setCurrentBlock("img");
+			$tpl->setCurrentBlock("edit_img");
 			$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-			$tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'listAssignedLM'));
-			$tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('icon_lm.gif'));
-			$tpl->setVariable("IMG_ALT",$this->lng->txt('crs_lm_assignment'));
+			$tpl->setVariable("EDIT_IMG_LINK",$this->ctrl->getLinkTarget($this,'listAssignedLM'));
+			$tpl->setVariable("EDIT_IMG_TYPE",ilUtil::getImagePath('icon_lm.gif'));
+			$tpl->setVariable("EDIT_IMG_ALT",$this->lng->txt('crs_lm_assignment'));
 			$tpl->parseCurrentBlock();
 
 			// Assign questions
-			$tpl->setCurrentBlock("img");
+			$tpl->setCurrentBlock("edit_img");
 			$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-			$tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'listAssignedQuestions'));
-			$tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('icon_tst.gif'));
-			$tpl->setVariable("IMG_ALT",$this->lng->txt('crs_question_assignment'));
+			$tpl->setVariable("EDIT_IMG_LINK",$this->ctrl->getLinkTarget($this,'listAssignedQuestions'));
+			$tpl->setVariable("EDIT_IMG_TYPE",ilUtil::getImagePath('icon_tst.gif'));
+			$tpl->setVariable("EDIT_IMG_ALT",$this->lng->txt('crs_question_assignment'));
 			$tpl->parseCurrentBlock();
 
 			$tpl->setCurrentBlock("options");
@@ -1155,7 +1166,7 @@ class ilCourseObjectivesGUI
 		if(!count($this->__getAllTests()))
 		{
 			$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-			sendInfo($this->lng->txt('crs_no_tests_inside_course'));
+			sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
 			
 			return true;
 		}
@@ -1176,7 +1187,7 @@ class ilCourseObjectivesGUI
 		$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
 		$counter = 0;
-		foreach($questions as $question)
+		foreach($this->__sortQuestions($questions) as $question)
 		{
 			++$counter;
 
@@ -1566,7 +1577,8 @@ class ilCourseObjectivesGUI
 
 		$counter = 0;
 		$assignable = false;
-		foreach($tmp_tst->getAllQuestions() as $question_data)
+		
+		foreach($this->__sortQuestions($tmp_tst->getAllQuestions()) as $question_data)
 		{
 			++$counter;
 
@@ -1653,6 +1665,11 @@ class ilCourseObjectivesGUI
 
 		return true;
 
+	}
+
+	function __sortQuestions($a_qst_ids)
+	{
+		return ilUtil::sortArray($a_qst_ids,'title','asc');
 	}
 
 	function assignQuestion()
