@@ -33,14 +33,9 @@ require_once ("classes/class.ilMetaData.php");
 *
 * @package application
 */
-class ilBibItem extends ilMetaData
+class ilBibItem
 {
 
-	//fbo;
-	var $encoding;
-	//end fbo
-
-	
 	/**
 	* Constructor
 	* @access	public
@@ -62,10 +57,6 @@ class ilBibItem extends ilMetaData
 		$this->type = $a_type;
 		$this->id = $a_id;
 
-		if($a_id != 0)
-		{
-			$this->read();
-		}
 	}
 
 
