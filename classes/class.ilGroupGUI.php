@@ -378,7 +378,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$stati = array(0=>"group_status_public",2=>"group_status_closed");
+		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));		
 
 		//build form
 		$grp_status = $this->object->getGroupStatus();
@@ -443,7 +443,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[2]["tab_text"] = 'trash';						//tab -text
 		}
 
-		if( $rbacsystem->checkAccess('delete',$_GET["ref_id"]) )
+		if( $rbacsystem->checkAccess('delete',$_GET["ref_id"]) && $this->object->getType() == 'grp')
 		{
 			$tab[3] = array ();
 			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
