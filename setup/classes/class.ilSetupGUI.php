@@ -195,6 +195,7 @@ class ilSetupGUI extends ilSetup
 				break;	
 
 			case "newclient":
+				$this->cmd = "ini";
 				$this->setDisplayMode("setup");
 				$this->ini_client_exists = $this->newClient();
 				$this->displayIni();
