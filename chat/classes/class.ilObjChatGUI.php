@@ -115,6 +115,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$counter = 0;
 		$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
 		$rooms = $this->object->chat_room->getRoomsOfObject();
+		$script = $this->inModule() ? "./chat.php" : "./chat/chat.php";
 
 		// ADD PUBLIC ROOM
 		// CHAT SERVER  ACTIVE

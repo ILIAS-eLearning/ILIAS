@@ -155,6 +155,10 @@ class ilChatServerConfig
 			}
 			$this->error_message .= $this->lng->txt("chat_add_moderator_password");
 		}
+		if($this->getAllowedHosts())
+		{
+			$this->__parseAllowedHosts();
+		}
 
 		return $this->error_message ? false : true;
 	}
@@ -201,6 +205,22 @@ class ilChatServerConfig
 	}
 
 	//PRIVATE
+	function __parseAllowedHosts()
+	{
+		$hosts_arr2 = array();
+		$hosts_arr = explode(',',$this->getAllowedHosts());
+
+		for($i = 0;$i < count($hosts_arr); ++$i)
+		{
+			if(trim($hosts_arr[$i]))
+			{
+				$hosts_arr2[] = trim($hosts_arr[$i]);
+			}
+		}
+		$this->setAllowedHosts(implode(',',$hosts_arr2));
+
+		return true;
+	}
 	function __writeConfigFile()
 	{
 		if(!($fp = @fopen($a_path."./chat/chatserver/server.ini","w")))
