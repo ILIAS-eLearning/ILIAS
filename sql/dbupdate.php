@@ -4026,3 +4026,9 @@ foreach($admin as $type => $ops)
 
 $rbacadmin->assignRoleToFolder($member_id,ROLE_FOLDER_ID,"n");
 ?>
+<#238>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
