@@ -317,13 +317,15 @@ class ilSearch
 			$where .= "AGAINST('".$and."') ";
 		}
 		// AND NOT
+		/*
 		foreach($this->parsed_str["not"] as $and)
 		{
 			$where .= "AND NOT ";
 			$where .= $match;
 			$where .= "AGAINST('".$and."') ";
 		}
-		$where .= ") ) ";
+        */
+		$where .= ") ";
 
 		return $where;
 	}
