@@ -2787,12 +2787,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = true;
 				}
 				$active = $this->object->getActiveTestUser();
-				$this->tpl->setCurrentBlock("percentage");
-				$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-				$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
-				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-				$this->tpl->parseCurrentBlock();
+
+				if(!$_GET['crs_show_result'])
+				{
+					$this->tpl->setCurrentBlock("percentage");
+					$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+					$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+					$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock("cancel_test");
 				$this->tpl->setVariable("BUTTON_CANCELTEST", $this->lng->txt("cancel_test"));
 				$this->tpl->parseCurrentBlock();
@@ -3118,15 +3122,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $formaction);
 
-		if ($sequence == 1)
+		if(!$_GET['crs_show_result'])
 		{
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+			if ($sequence == 1)
+			{
+				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+			}
 		}
-		else
-		{
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-		}
-
 		if ($finish)
 		{
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");

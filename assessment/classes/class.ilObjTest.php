@@ -2333,8 +2333,25 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 
-	
+	function getWrongAnsweredQuestions()
+	{
+		global $ilUser;
 
+		foreach($all_questions =& $this->getAllQuestionsForActiveUser() as $question)
+		{
+			foreach($this->getTestResult($ilUser->getId()) as $result)
+			{
+				if($result['qid'] == $question['question_id'])
+				{
+					if($result['max'] != $result['reached'])
+					{
+						$wrong[] = $question;
+					}
+				}
+			}
+		}
+		return $wrong ? $wrong : array();
+	}
 /**
 * increments sequence to the next wrong answered question
 * 
@@ -2356,13 +2373,11 @@ class ilObjTest extends ilObject
 				{
 					if($result['max'] != $result['reached'])
 					{
-						$_SESSION['crs_last_seq'] = $i;
 						return $i;
 					}
 				}
 			}
 		}
-		$_SESSION['crs_last_seq'] = $this->getQuestionCount() + 1;
 		return ($this->getQuestionCount()+1);
 	}
 
@@ -2376,9 +2391,6 @@ class ilObjTest extends ilObject
 */
 	function decrementSequenceByResult($a_sequence)
 	{
-		global $ilUser;
-
-
 		for($i = $a_sequence; $i > 0; $i--)
 		{
 			$qid = $this->getQuestionIdFromActiveUserSequence($i);
