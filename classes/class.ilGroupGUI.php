@@ -3073,6 +3073,121 @@ class ilGroupGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	* get object back from trash
+	*
+	* @access	public
+	*/
+	function undeleteObject()
+	{
+		global $rbacsystem;
+
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($_POST["trash_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach ($_POST["trash_id"] as $id)
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+
+
+			if ($obj_data->getType() == "fold" or $obj_data->getType() == "file")
+			{
+				if (!$rbacsystem->checkAccess('create',ilUtil::getGroupId($_GET["ref_id"]),"grp"))
+				{
+					$no_create[] = $id;
+				}
+			}
+			else
+			{
+				if (!$rbacsystem->checkAccess('create',ilUtil::getGroupId($_GET["ref_id"]),$obj_data->getType()))
+				{
+					$no_create[] = $id;
+				}
+			}
+		}
+
+		if (count($no_create))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach ($_POST["trash_id"] as $id)
+		{
+			// INSERT AND SET PERMISSIONS
+			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id,"tree");
+			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id,"grp_tree");
+			
+			// DELETE SAVED TREE
+			$saved_tree = new ilTree(-(int)$id);
+			$saved_tree->deleteTree($saved_tree->getNodeData($id));
+			
+			$grp_saved_tree = new ilGroupTree(-(int)$id);
+			$grp_saved_tree->deleteTree($grp_saved_tree->getNodeData($id));
+		}
+		
+		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		
+		sendInfo($this->lng->txt("msg_undeleted"),true);
+		
+		header("Location:".$this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		exit();
+	}
+	
+	/**
+	* recursive method to insert all saved nodes of the clipboard
+	* (maybe this function could be moved to a rbac class ?)
+	*
+	* @access	private
+	* @param	integer
+	* @param	integer
+	* @param	integer
+	* @param	string database table
+	*/
+	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id,$a_db_table)
+	{
+		global $rbacadmin, $rbacreview;
+
+		if($a_db_table=="grp_tree")
+		{
+			$this->grp_tree->insertNode($a_source_id,$a_dest_id);
+		}
+		else
+		{
+			$this->tree->insertNode($a_source_id,$a_dest_id);
+		}
+		
+		if($a_db_table=="tree")
+		{
+			// SET PERMISSIONS
+			$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
+			$obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
+
+			foreach ($parentRoles as $parRol)
+			{
+				$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
+			}
+		}
+		if($a_db_table=="grp_tree")
+		{
+			$grp_saved_tree = new ilGroupTree($a_tree_id);
+			$childs = $grp_saved_tree->getChilds($a_source_id);
+		}
+		else
+		{
+			$saved_tree = new ilTree($a_tree_id);
+			$childs = $saved_tree->getChilds($a_source_id);
+		}
+		
+		foreach ($childs as $child)
+		{
+			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_db_table);
+		}
+	}
 	
 }
 ?>
