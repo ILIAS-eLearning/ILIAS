@@ -175,6 +175,9 @@ class ilPCParagraph extends ilPageContent
 		return $this->par_node->get_attribute("Language");
 	}
 
+	/**
+	* converts user input to xml
+	*/
 	function input2xml($a_text)
 	{
 		$a_text = stripslashes($a_text);
@@ -188,6 +191,12 @@ class ilPCParagraph extends ilPageContent
 		$a_text = str_replace("<","&lt;",$a_text);
 		$a_text = str_replace(">","&gt;",$a_text);
 
+		// mask curly brackets
+/*
+echo htmlentities($a_text);
+		$a_text = str_replace("{", "&#123;", $a_text);
+		$a_text = str_replace("}", "&#125;", $a_text);
+echo htmlentities($a_text);*/
 		// linefeed to br
 		$a_text = str_replace(chr(13).chr(10),"<br />",$a_text);
 		$a_text = str_replace(chr(13),"<br />", $a_text);
@@ -406,6 +415,10 @@ class ilPCParagraph extends ilPageContent
 		// br to linefeed
 		$a_text = str_replace("<br />", "\n", $a_text);
 		$a_text = str_replace("<br/>", "\n", $a_text);
+
+		// prevent curly brackets from being swallowed up by template engine
+		$a_text = str_replace("{", "&#123;", $a_text);
+		$a_text = str_replace("{", "&#125;", $a_text);
 
 		// unmask html
 		$a_text = str_replace("&lt;", "<", $a_text);

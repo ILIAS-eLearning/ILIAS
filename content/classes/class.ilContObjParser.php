@@ -116,6 +116,7 @@ class ilContObjParser extends ilSaxParser
 		$this->subdir = $a_subdir;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
+		$this->inside_code = false;
 
 		$this->lm_tree = new ilTree($this->content_object->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
@@ -534,6 +535,14 @@ class ilContObjParser extends ilSaxParser
 					$this->page_object->needsImportParsing(true);
 				}
 				break;
+
+			case "Paragraph":
+				if ($a_attribs["Characteristic"] == "Code")
+				{
+					$this->inside_code = true;
+				}
+				break;
+
 
 			////////////////////////////////////////////////
 			/// Meta Data Section
@@ -1043,6 +1052,10 @@ class ilContObjParser extends ilSaxParser
 				$this->glossary_term->create();
 				break;
 
+			case "Paragraph":
+				$this->inside_code = false;
+				break;
+
 			case "Definition":
 				$this->in_glossary_definition = false;
 				$this->page_object->updateFromXML();
@@ -1147,7 +1160,10 @@ class ilContObjParser extends ilSaxParser
 
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
-		$a_data = preg_replace("/\t+/","",$a_data);
+		if (!$this->inside_code)
+		{
+			$a_data = preg_replace("/\t+/","",$a_data);
+		}
 
 		$this->chr_data .= $a_data;
 
@@ -1174,23 +1190,6 @@ class ilContObjParser extends ilSaxParser
 
 			switch($this->getCurrentElement())
 			{
-				case "Paragraph":
-					//$this->paragraph->appendText($a_data);
-//echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
-					break;
-
-				/*
-				case "Caption":
-					if ($this->in_media_object)
-					{
-						$this->media_item->setCaption($a_data);
-					}
-					break;*/
-
-				/*
-				case "GlossaryTerm":
-					$this->glossary_term->setTerm($a_data);
-					break;*/
 
 				case "IntLink":
 				case "ExtLink":
@@ -1199,86 +1198,6 @@ class ilContObjParser extends ilSaxParser
 						$this->map_area->appendTitle($a_data);
 					}
 					break;
-
-				///////////////////////////
-				/// MetaData Section
-				///////////////////////////
-				/*
-				case "Title":
-					$this->meta_data->setTitle(addslashes($a_data));
-					break;
-
-				case "Language":
-					$this->meta_data->setLanguage($a_data);
-					break;
-
-				case "Description":
-					$this->meta_data->setDescription($a_data);
-					break;*/
-
-				case "Keyword":
-//					$this->meta_data->addKeyword($this->keyword_language, $a_data);
-//echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
-					break;
-
-				// TECHNICAL: Format
-				/*
-				case "Format":
-					if ($this->in_media_item)
-					{
-						$this->media_item->setFormat($a_data);
-					}
-					if ($this->in_meta_data)
-					{
-						$this->meta_technical->addFormat($a_data);
-					}
-					if ($this->in_file_item)
-					{
-						$this->file_item->setFileType($a_data);
-					}
-					break;*/
-
-				// TECHNICAL: Size
-				case "Size":
-					//$this->meta_technical->setSize($a_data);
-					break;
-
-				// TECHNICAL: Location
-				case "Location":
-//echo "Adding a location:".$this->loc_type.":".$a_data.":<br>";
-					// TODO: adapt for files in "real" subdirectories
-				/*
-					if ($this->in_media_item)
-					{
-						$this->media_item->setLocationType($this->loc_type);
-						$this->media_item->setLocation($a_data);
-					}
-					if ($this->in_meta_data)
-					{
-						$this->meta_technical->addLocation($this->loc_type, $a_data);
-					}
-					if ($this->in_file_item)
-					{
-						$this->file_item->setFileName($a_data);
-						$this->file_item->setTitle($a_data);
-					}
-					break;*/
-
-				// TECHNICAL: InstallationRemarks
-				/*
-				case "InstallationRemarks":
-					$this->meta_technical->setInstallationRemarks($a_data);
-					break;
-
-				// TECHNICAL: InstallationRemarks
-				case "OtherPlatformRequirements":
-					$this->meta_technical->setOtherRequirements($a_data);
-					break;
-
-				// TECHNICAL: Duration
-				case "Duration":
-					$this->meta_technical->setDuration($a_data);
-					break;*/
 
 			}
 		}
