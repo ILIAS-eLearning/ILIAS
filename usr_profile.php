@@ -35,8 +35,14 @@ require_once "./classes/class.ilObjUser.php";
 // added by ratana ty to read image directory
 // for upload file
 require_once "./classes/class.ilSetup.php";
-//$webspace_dir = "./docss";
-$webspace_dir = "/htdocs/ilias3wbdata";
+
+// Read from ini file webspace dir ./docss
+require_once "classes/class.ilSetup.php";
+$mySetup = new ilSetup();
+$mySetup->readIniFile();
+$webspace_dir = $mySetup->image_path;
+
+
 //$image_dir = $webspace_dir."/usr_images";
 
 // purpose is to upload file of user
@@ -79,7 +85,8 @@ function upload_file()
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-//1$tpl->setVariable("IMAGE_PATH","./docss/usr_images"."/".$ilias->account->prefs["profile_image"]);
+// To display picture after Uploaded
+//$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
 
 
 // display infopanel if something happened
