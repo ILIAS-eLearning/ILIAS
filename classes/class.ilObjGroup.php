@@ -299,9 +299,10 @@ class ilObjGroup extends ilObject
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
 				//the assignment stops the inheritation
-				if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
-						$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
+				//if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
+				//		$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
 			}//END foreach
 		}
 
