@@ -20,8 +20,6 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
-
 /**
 * Class ilObjGroup
 *
@@ -546,16 +544,36 @@ class ilObjGroup extends ilObject
 		//group status opened/private
 	  	if ($a_grpStatus == 0 )//|| $a_grpStatus == 1)
 		{
+
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', ROLE_FOLDER_ID);
+
 			foreach ($arr_globalRoles as $globalRole)
 			{
+				//initialize permissionarray
+				$granted_permissions = array();
 				//delete old rolepermissions in rbac_fa
 				$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
 				//revoke all permission on current group object for global role
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);
 				//grant new permissions according to group status
-				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
+				//$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
+				$ops_of_role = $rbacreview->getOperationsOfRole($globalRole,"grp", ROLE_FOLDER_ID);
+
+				if(in_array(2,$ops_of_role)) //VISIBLE permission is set for global role and group
+				{
+					array_push($granted_permissions,"2");
+				}
+				if(in_array(7,$ops_of_role)) //JOIN permission is set for global role and group
+				{
+					array_push($granted_permissions,"7");
+				}
+
+				if(!empty($granted_permissions))
+				{
+					$rbacadmin->grantPermission($globalRole, $granted_permissions, $this->getRefId());
+				}
+
 				//copy permissiondefinitions of openGroup_template
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				//$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
@@ -584,9 +602,9 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get group status
+	* get group status, redundant method because
 	* @access	public
-	* @param	return group status[0=public|1=?private?|2=closed]
+	* @param	return group status[0=public|2=closed]
 	*/
 	function getGroupStatus()
 	{
@@ -601,15 +619,16 @@ class ilObjGroup extends ilObject
 		$arr_globalRoles = array_diff($local_roles, $this->getDefaultGroupRoles());
 
 		//if one global role has no permission to join the group is officially closed !
-		foreach($arr_globalRoles as $role)
+		foreach($arr_globalRoles as $globalRole)
 		{
-			if ($rbacsystem->checkPermission($this->getRefId(), $role ,"join") == false)
+			$ops_of_role = $rbacreview->getOperationsOfRole($globalRole,"grp", ROLE_FOLDER_ID);
+			if ($rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join"))
 			{
-				return 1;
+				return 0;
 			}
 		}
 
-		return 0;
+		return 1;
 	}
 
 	/**
@@ -617,7 +636,6 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	returns array of obj_ids of assigned local roles
 	*/
-//	function getMemberStatus($a_user_id, $a_grp_id="")
 	function getMemberRoles($a_user_id, $a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
