@@ -986,15 +986,15 @@ class ASS_MultipleChoice extends ASS_Question
 				);
 			if (strlen($value) > 0)
 			{
-				$solution["value"] = $this->answers[$value]->get_answertext();
-						$solution["points"] = $this->answers[$value]->get_points();
+				$solution["value"] = $value;
+				$solution["points"] = $this->answers[$value]->get_points();
 				if ($this->answers[$value]->isStateChecked())
 				{
 					$solution["true"] = 1;
 				}
 			}
 			$counter++;
-			array_push($user_result, $solution);
+			$user_result[$value] = $solution;
 		}
 		return $user_result;
 	}

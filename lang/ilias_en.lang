@@ -97,6 +97,8 @@ assessment#:#add_imagemap#:#Add imagemap
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
+assessment#:#answer_is_right#:#Your solution is right
+assessment#:#answer_is_wrong#:#Your solution is wrong
 assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
 assessment#:#applet_attributes#:#Applet attributes
@@ -1769,6 +1771,7 @@ common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
 common#:#selected#:#Selected
+common#:#unselected#:#Unselected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
 common#:#sender#:#Sender
