@@ -334,7 +334,7 @@ setup_first_client#:#Setup your first Client
 setup_ini_first#:#Please create your ini-file first!
 setup_inifile#:#create ini-file
 setup_inifile_desc#:#create the ini-file for your installation
-setup_languages#:#install languages
+setup_languages#:#Install languages
 setup_languages_desc#:#install additional languages
 setup_login#:#Login to Setup
 setup_mainmenu#:#Setup mainmenu
