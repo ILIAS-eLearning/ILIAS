@@ -994,5 +994,111 @@ CREATE TABLE grp_tree (
   PRIMARY KEY  (tree,child,parent)
 ) TYPE=MyISAM;
 
+<#45>
+<?php
+$q = "INSERT INTO object_data ".
+	 "(type,title,description,owner,create_date,last_update) ".
+	 "VALUES ".
+	 "('rolt','grp_Admin_rolt','Administrator role template of groups',-1,now(),now())";
+$this->db->query($q);
+
+$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
+	 "VALUES (LAST_INSERT_ID(),8,'n',9)";
+$this->db->query($q);
 
 
+$ops = array();
+$ops[0] = array("bm",5,6,3,2,4);//bm
+$ops[1] = array("crs",5,6,3,2);//crs
+$ops[2] = array("fold",5,6,3,2,4);//fold
+$ops[3] = array("frm",5,6,3,2);//frm
+$ops[4] = array("grp",6,3,2,4,1,8,7);//grp
+$ops[5] = array("le",5,6,3,2);//le
+$ops[6] = array("mob",5,6,3,2);//mob
+$ops[7] = array("rolf",2,3,4);//rolf
+
+foreach ($ops as $object)
+{
+	foreach ($object as $ops_id)
+	{
+		if(!is_string($ops_id))
+		{
+			$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
+				 "VALUES (LAST_INSERT_ID(),'".$object[0]."',".$ops_id.",8)";
+			$this->db->query($q);
+
+		}
+	}
+}
+
+//create Member role template of groups
+$q = "INSERT INTO object_data ".
+	 "(type,title,description,owner,create_date,last_update) ".
+	 "VALUES ".
+	 "('rolt','grp_Member_rolt','Member role template of groups',-1,now(),now())";
+$this->db->query($q);
+/*
+$q = "SELECT LAST_INSERT_ID()";
+$rolt_id = $this->db->getRow($q);
+*/
+$q = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
+	 "VALUES (LAST_INSERT_ID(),8,'n',9)";
+$this->db->query($q);
+
+$ops = array();
+$ops[0] = array("bm",5,6,3,2,4);//bm
+$ops[1] = array("crs",5,6,3,2);//crs
+$ops[2] = array("fold",5,6,3,2,4);//fold
+$ops[3] = array("frm",5,6,3,2);//frm
+$ops[4] = array("grp",3,2,4,8,7);//grp
+$ops[5] = array("le",5,6,3,2);//le
+$ops[6] = array("mob",5,6,3,2);//mob
+
+
+foreach ($ops as $object)
+{
+	foreach ($object as $ops_id)
+	{
+		if(!is_string($ops_id))
+		{
+			$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
+				 "VALUES (LAST_INSERT_ID(),'".$object[0]."',".$ops_id.",8)";
+			$this->db->query($q);
+
+		}
+	}
+}
+$q = "INSERT INTO object_data ".
+	 "(type,title,description,owner,create_date,last_update) ".
+	 "VALUES ".
+	 "('rolt','grp_Status_closed','Group role template',-1,now(),now())";
+$this->db->query($q);
+
+$ops = array("grp",2);//grp
+foreach ($ops as $ops_id)
+{
+	if(!is_string($ops_id))
+	{
+		$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
+			 "VALUES (LAST_INSERT_ID(),'".$ops[0]."',".$ops_id.",8)";
+		$this->db->query($q);
+	}
+}
+
+$q = "INSERT INTO object_data ".
+	 "(type,title,description,owner,create_date,last_update) ".
+	 "VALUES ".
+	 "('rolt','grp_Status_open','Group role template',-1,now(),now())";
+$this->db->query($q);
+
+$ops = array("grp",2,7);//grp
+foreach ($ops as $ops_id)
+{
+	if(!is_string($ops_id))
+	{
+		$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent)".
+			 "VALUES (LAST_INSERT_ID(),'".$ops[0]."',".$ops_id.",8)";
+		$this->db->query($q);
+	}
+}
+?>
