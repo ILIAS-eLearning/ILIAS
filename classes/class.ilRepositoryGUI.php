@@ -74,7 +74,8 @@ class ilRepositoryGUI
 		$this->ctrl =& $ilCtrl;
 
 		$this->ctrl->saveParameter($this, array("ref_id"));
-		$this->ctrl->setReturn($this,"ShowList");
+		if (!ilUtil::isAPICall())
+			$this->ctrl->setReturn($this,"ShowList");
 
 		// determine current ref id and mode
 		if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
@@ -326,16 +327,174 @@ class ilRepositoryGUI
 		$this->tpl->show();
 	}
 
+	
+	function getFlatListData ($ref_id) {
+		global $objDefinition, $ilBench;
+		// get all objects of current node
+		$ilBench->start("Repository", "FlatList_01getChilds");
+		$objects = $this->tree->getChilds($ref_id, "title");
+		$ilBench->stop("Repository", "FlatList_01getChilds");
+
+				
+		$ilBench->start("Repository", "FlatList_02collectChilds");
+
+		$found = false;
+		foreach ($objects as $key => $object)
+		{
+			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
+			{
+				continue;
+			}
+
+			// hide object types in devmode
+			if ($objDefinition->getDevMode($object["type"]))
+			{
+				continue;
+			}
+
+			switch ($object["type"])
+			{
+				// categories
+				case "cat":
+					$this->categories[$key] = $object;
+					break;
+
+				// test&assessment
+				case "tst":
+					$this->tests[$key] = $object;
+					break;
+
+				case "qpl":
+					$this->questionpools[$key] = $object;
+					break;
+
+				// survey tool
+				case "svy":
+					$this->surveys[$key] = $object;
+					break;
+
+				case "spl":
+					$this->surveyquestionpools[$key] = $object;
+					break;
+
+
+				// media pools
+				case "mep":
+					$this->media_pools[$key] = $object;
+					break;
+
+				// learning resources
+				case "lm":
+				case "slm":
+				case "dbk":
+				case "htlm":
+					$this->learning_resources[$key] = $object;
+
+					// check if lm is online
+					if ($object["type"] == "lm")
+					{
+						include_once("content/classes/class.ilObjLearningModule.php");
+						$lm_obj =& new ilObjLearningModule($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					// check if fblm is online
+					if ($object["type"] == "htlm")
+					{
+						include_once("content/classes/class.ilObjFileBasedLM.php");
+						$lm_obj =& new ilObjFileBasedLM($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					// check if scorm is online
+					if ($object["type"] == "slm")
+					{
+						include_once("classes/class.ilObjSCORMLearningModule.php");
+						$lm_obj =& new ilObjSCORMLearningModule($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					break;
+
+				// forums
+				case "frm":
+					$this->forums[$key] = $object;
+					break;
+
+				// groups
+				case "grp":
+					$this->groups[$key] = $object;
+					break;
+
+				// glossary
+				case "glo":
+					$this->glossaries[$key] = $object;
+
+					// check if glossary is online
+					include_once("content/classes/class.ilObjGlossary.php");
+					if((!ilObjGlossary::_lookupOnline($object["obj_id"]))
+						&& (!$this->rbacsystem->checkAccess('write',$object["child"])))
+					{
+						unset ($this->glossaries[$key]);
+					}
+					break;
+
+				//
+				case "exc":
+					$this->exercises[$key] = $object;
+					break;
+
+				case "chat":
+					$this->chats[$key] = $object;
+					break;
+
+				// files
+				case "file":
+					$this->files[$key] = $object;
+					break;
+
+				// folders
+				case "fold":
+					$this->folders[$key] = $object;
+					break;
+
+				// courses
+				case "crs":
+					include_once "./course/classes/class.ilObjCourse.php";
+					
+					$tmp_course =& new ilObjCourse($object["ref_id"]);
+					if($tmp_course->isActivated() or $this->rbacsystem->checkAccess("write",$object["child"]))
+					{
+						$this->courses[$key] = $object;
+					}
+					break;
+			}
+		}
+		$ilBench->stop("Repository", "FlatList_02collectChilds");
+		
+
+	}
+	
 	/**
 	* display flat list
 	*/
 	function showFlatList()
 	{
 		global $objDefinition, $ilBench;
+		
+		
+		$this->getFlatListData($this->cur_ref_id);
 
 		$ilBench->start("Repository", "FlatList");
 
 		$this->prepareOutput();
+
 
 		// get all objects of current node
 		$ilBench->start("Repository", "FlatList_01getChilds");
@@ -3291,6 +3450,7 @@ class ilRepositoryGUI
 		}
 		return true;
 	}
+	
 	function copyObject($a_target,$a_source,$a_with_content = true)
 	{
 		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
