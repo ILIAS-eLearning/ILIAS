@@ -18,18 +18,25 @@ body { margin:4px; }
 <script src="./js/wz_dragdrop.js"></script>
 
 <script>
+dragDropTree = true;	// set variable in wz_dragdrop.js to control drag and drop-function 
 SET_DHTML({ICONIDS});
 </script>
-
-<a href='#' onClick="window.open('{POPUPLINK}','','width=400,height=350');return(false);">Test Popup</a>
 
 <script>
 var sourceId = -1;
 var targetId = -1;
 var copymove = "move";	// move | copy
 var position = "after";	// before | after
-function doDragDropAction() {
-	window.location = "{TESTPFAD}";
+function doDragDropAction() 
+{
+	PARAM = "&dragdropSource="+sourceId+"&dragdropTarget="+targetId+"&dragdropCopymove="+copymove+"&dragdropPosition="+position;
+	window.location = "{TESTPFAD}"+PARAM;
+}
+
+function openPopupQuestion() 
+{
+	w = window.open('{POPUPLINK}','dragdropquestion','width=400,height=350');
+	w.focus();
 }
 </script>
 

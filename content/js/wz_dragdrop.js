@@ -39,6 +39,7 @@ or see http://www.gnu.org/copyleft/lesser.html
 // PATH TO THE TRANSPARENT 1*1 PX IMAGE (required by NS 4 as spacer)
 var spacer = 'transparentpixel.gif';
 
+var dragDropTree = false;
 
 
 
@@ -1377,8 +1378,12 @@ The following objects/properties are accessible from here:
 For more properties and details, visit the API documentation
 at http://www.walterzorn.com/dragdrop/api_e.htm (english) or
 http://www.walterzorn.de/dragdrop/api.htm (german)    */
+var startX = -1;
+var startY = -1;
 function my_PickFunc()
 {
+	startX = dd.obj.x;
+	startY = dd.obj.y;
 }
 
 
@@ -1410,6 +1415,36 @@ Here may be investigated, for example, what's the name (dd.obj.name)
 of the dropped item, and where (dd.obj.x, dd.obj.y) it has been dropped... */
 function my_DropFunc()
 {
+	if (dragDropTree) 
+	{
+
+		sourceObj = dd.obj;
+		targetObj = "";
+		dy = 1000;
+		for (i=0;i<dd.elements.length;i++) 
+		{
+			dy2 = Math.abs(dd.obj.y - dd.elements[i].y);
+			dx2 = Math.abs(dd.obj.x - dd.elements[i].x);
+			if (dy2 < dy && dd.elements[i].name != dd.obj.name && dy2<8 && dx2<10) 
+			{
+				dy = dy2;
+				targetObj = dd.elements[i];
+			}
+			
+		}
+		if (targetObj!="") 
+		{
+			//alert(sourceObj.name+" - "+targetObj.name);
+			sourceId = sourceObj.name.substr(7,sourceObj.name.length);
+			targetId = targetObj.name.substr(7,targetObj.name.length);
+			openPopupQuestion();
+			dd.obj.moveTo(startX,startY);
+		} 
+		else 
+		{
+			dd.obj.moveTo(startX,startY);
+		}
+	}
 }
 
 
