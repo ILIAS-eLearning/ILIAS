@@ -69,6 +69,20 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Returns the calling script of the GUI class
+	*
+	* @access	public
+	*/
+	function getCallingScript()
+	{
+		$module = $this->object->getModule($this->type);
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+		return $module . "test.php";
+	}
+	
+	/**
 	* form for new test object import
 	*/
 	function importFileObject()
@@ -86,7 +100,7 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadObject(false);
-		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
 	}
 	
 	/**
@@ -102,7 +116,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		require_once "./assessment/classes/class.ilObjTest.php";
 		ilObjTest::_clone($_POST["tst"]);
-		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
 	}
 	
 	/**
@@ -750,7 +764,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_PROPERTIES", $_SERVER['PHP_SELF'] . $add_parameter);
+		$this->tpl->setVariable("ACTION_PROPERTIES", $this->getCallingScript() . $add_parameter);
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
 		}
@@ -1009,7 +1023,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				}
 				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->getCallingScript() . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -1045,7 +1059,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->getCallingScript() . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1063,8 +1077,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->getCallingScript() . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->getCallingScript() . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1095,15 +1109,15 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		// create table header
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->getCallingScript() . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1147,7 +1161,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1196,7 +1210,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1250,7 +1264,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 
 		if (count($questionpools) == 0)
 		{
@@ -1287,7 +1301,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_random_select_questionpool"));
 		$this->tpl->setVariable("TXT_NR_OF_QUESTIONS", $this->lng->txt("tst_random_nr_of_questions"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
@@ -1331,7 +1345,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$chosen_questions = join($question_array, ",");
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
@@ -1489,7 +1503,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
 		$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1783,7 +1797,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					$q_id = $data->question_id;
 					$qpl_ref_id = $this->object->_getRefIdFromObjId($data->obj_fi);
-					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
+					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->getCallingScript() . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
 				} else {
 					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
 				}
@@ -1792,11 +1806,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					if ($data->question_id != $this->object->questions[1])
 					{
-						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->getCallingScript() . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 					}
 					if ($data->question_id != $this->object->questions[count($this->object->questions)])
 					{
-						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->getCallingScript() . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
@@ -1835,7 +1849,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->getCallingScript() . $add_parameter);
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
@@ -2015,7 +2029,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_MARKS", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("ACTION_MARKS", $this->getCallingScript() . $add_parameter);
 		$this->tpl->setVariable("HEADER_SHORT", $this->lng->txt("tst_mark_short_form"));
 		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
 		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
@@ -2460,7 +2474,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$introduction = $this->object->getIntroduction();
 		$introduction = preg_replace("/\n/i", "<br />", $introduction);
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-		$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
+		$this->tpl->setVariable("FORMACTION", $this->getCallingScript() . "$add_parameter$add_sequence");
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -2508,7 +2522,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 //		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
-		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
+		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
 
 		// output question
 		switch ($question_gui->getQuestionType())
@@ -2579,7 +2593,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
 //		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
-		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
+		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
@@ -2594,7 +2608,7 @@ class ilObjTestGUI extends ilObjectGUI
 //		$this->tpl->setCurrentBlock("result_description");
 //		$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter());
+		$this->tpl->setVariable("FORMACTION", $this->getCallingScript() . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -3496,13 +3510,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$csvfile["nr_of_questions"] = count($this->object->questions);
 				$_SESSION["print_eval"] = $csvfile;
 				$this->tpl->setCurrentBlock("print_block");
-				$this->tpl->setVariable("PRINT_ACTION", $_SERVER['PHP_SELF'] . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation");
+				$this->tpl->setVariable("PRINT_ACTION", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation");
 				$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 				$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("output");
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 			$this->tpl->parseCurrentBlock();
 
 		}
@@ -3528,7 +3542,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("userselect");
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 			$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
 			$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_all_users"));
 			$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
@@ -3672,7 +3686,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_CONFIRM_DELETE_RESULTS", $this->lng->txt("tst_confirm_delete_results"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_delete_results"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -3799,12 +3813,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("results");
-		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
+		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $this->getCallingScript() . "$add_parameter&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
+		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->getCallingScript() . "$add_parameter&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
 		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
 		if ($mark_obj)
 		{
@@ -3853,7 +3867,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
 //			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
