@@ -1387,36 +1387,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if ($_POST["cmd"]["select_relation"] or $_POST["cmd"]["select_value"])
 			{
 				$relations = $this->object->getAllRelations();
-				if ($_POST["cmd"]["select_value"])
+				switch ($all_questions[$_POST["q"]]["type_tag"])
 				{
-					$this->tpl->setCurrentBlock("option_r");
-					$this->tpl->setVariable("OPTION_VALUE", $_POST["r"]);
-					$this->tpl->setVariable("OPTION_TEXT", $relations[$_POST["r"]]["short"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					switch ($all_questions[$_POST["q"]]["type_tag"])
-					{
-						case "qt_nominal":
-							foreach ($relations as $rel_id => $relation)
-							{
-								if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
-								{
-									$this->tpl->setCurrentBlock("option_r");
-									$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-									$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-									if ($rel_id == $_POST["r"])
-									{
-										$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-									}
-									$this->tpl->parseCurrentBlock();
-								}
-							}
-							break;
-						case "qt_ordinal":
-						case "qt_metric":
-							foreach ($relations as $rel_id => $relation)
+					case "qt_nominal":
+						foreach ($relations as $rel_id => $relation)
+						{
+							if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
 							{
 								$this->tpl->setCurrentBlock("option_r");
 								$this->tpl->setVariable("OPTION_VALUE", $rel_id);
@@ -1427,8 +1403,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 								}
 								$this->tpl->parseCurrentBlock();
 							}
-							break;
-					}
+						}
+						break;
+					case "qt_ordinal":
+					case "qt_metric":
+						foreach ($relations as $rel_id => $relation)
+						{
+							$this->tpl->setCurrentBlock("option_r");
+							$this->tpl->setVariable("OPTION_VALUE", $rel_id);
+							$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
+							if ($rel_id == $_POST["r"])
+							{
+								$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+							}
+							$this->tpl->parseCurrentBlock();
+						}
+						break;
 				}
 				$this->tpl->setCurrentBlock("select_relation");
 				$this->tpl->setVariable("SELECT_RELATION", $this->lng->txt("select_relation"));
@@ -1477,6 +1467,39 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("COMMAND_BACK", "$back_command");
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
+			$textoutput = "";
+			foreach ($checked_questions as $id)
+			{
+				foreach ($pages as $question_array)
+				{
+					foreach ($question_array as $question_data)
+					{
+						if ($question_data["question_id"] == $id)
+						{
+							if ($textoutput)
+							{
+								$textoutput .= "<br>";
+							}
+							$textoutput .= $question_data["title"] . ": " . $question_data["questiontext"];
+						}
+					}
+				}
+			}
+			foreach ($checked_questionblocks as $id)
+			{
+				foreach ($pages as $question_array)
+				{
+					if ($question_array[0]["questionblock_id"] == $id)
+					{
+						if ($textoutput)
+						{
+							$textoutput .= "<br>";
+						}
+						$textoutput .= $this->lng->txt("questionblock") . ": " . $question_array[0]["questionblock_title"];
+					}
+				}
+			}
+			$this->tpl->setVariable("CONSTRAINT_QUESTION_TEXT", "$textoutput");
 			$this->tpl->setVariable("SELECT_PRIOR_QUESTION", $this->lng->txt("select_prior_question"));
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 			$this->tpl->parseCurrentBlock();
