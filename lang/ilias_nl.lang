@@ -1563,6 +1563,7 @@ common#:#path_to_unzip#:#Pad naar Unzip
 common#:#path_to_zip#:#Pad naar Zip
 common#:#pathes#:#Paden
 common#:#payment_system#:#Betaal-systeem
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Toestemming
 common#:#permission#:#Toestemming
 common#:#permission_denied#:#Toegang gewijgerd

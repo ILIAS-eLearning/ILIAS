@@ -1563,6 +1563,7 @@ common#:#path_to_unzip#:#Шлях до Unzip
 common#:#path_to_zip#:#Шлях до Zip
 common#:#pathes#:#Шляхи
 common#:#payment_system#:#Платіжна Система
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Права
 common#:#permission#:#Права
 common#:#permission_denied#:#В Доступі Відмовлено

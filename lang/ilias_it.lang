@@ -1562,6 +1562,7 @@ common#:#path_to_unzip#:#Percorso di UNZIP
 common#:#path_to_zip#:#Percorso di ZIP
 common#:#pathes#:#Percorsi
 common#:#payment_system#:#Sistema a pagamento
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato

@@ -1563,6 +1563,7 @@ common#:#path_to_unzip#:#Chemin vers Unzip
 common#:#path_to_zip#:#Chemin vers Zip
 common#:#pathes#:#Chemins
 common#:#payment_system#:#Système de paiement
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission refusée

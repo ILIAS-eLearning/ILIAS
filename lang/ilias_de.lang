@@ -1563,6 +1563,7 @@ common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
 common#:#pathes#:#Pfade
 common#:#payment_system#:#Bezahlungssystem
+common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
