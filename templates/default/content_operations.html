@@ -2,100 +2,17 @@
 <style>
 body { margin:0px; }
 </style>
-<table cellpadding="0" cellspacing="0" width="100%" border="0">
-<tr>
-  <td bgcolor="#000000" rowspan="5" width="10%" valign="bottom" 
-   align="left">&nbsp;&nbsp;<img src="images/spacer.gif" 
-   width="2" height="1" alt="" />
-  </td>
-  <td bgcolor="#000000" colspan="28"><img 
-   src="images/spacer.gif" width="1" height="5" alt="" /></td>
-</tr>
 
-<tr>
-  <td bgcolor="#ffffff" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#ffffff"><img src="images/spacer.gif"
-   width="1" height="2" alt="" /></td>
-  <td bgcolor="#ffffff" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
- 
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-<tr>
-  <td bgcolor="#ffffff" valign="bottom" align="center">&nbsp;<a href="{OBJ_SELF}"><span class="tab">View content</span></a>&nbsp;</td>
-  <td bgcolor="#efefef" valign="bottom" class="tab" align="center">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=edit"><span class="tab">Edit properties</span></a>&nbsp;</td>
-  <td bgcolor="#efefef" valign="bottom" class="tab" align="center">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=perm">Permission settings</a>&nbsp;</td>
-  <td bgcolor="#efefef" valign="bottom" class="tab" align="center">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=owner"><span class="tab">Show owner</span></a>&nbsp;</td>
-</tr>
-<tr>
-  <td colspan="3" bgcolor="#ffffff"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-<tr>
-  <td colspan="3" bgcolor="#ffffff"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-</table>
-
-
+{TABS}
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="locator">
-	<td align="left" valign="top">
-      <strong>
-            Operations for Object type at {TREEPATH}
-	  </strong>
-    </td>
-  </tr>
+<tr class="locator">
+  <td align="left" valign="top">
+    <strong>Operations for Object type at {TREEPATH}</strong>
+  </td>
+</tr>
 </table>
+
 <!-- BEGIN sys_message -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
   <tr class="message">
@@ -108,6 +25,7 @@ body { margin:0px; }
 </table>
 <!-- END sys_message -->
 <br><br>
+
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}" name="objectItems" method="post">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="header">
@@ -118,18 +36,17 @@ body { margin:0px; }
   <td width="15%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=operation&direction={DIR}"
    <strong>Operation</strong></a></div>
   </td>
-   <td width="47%" align="left"><div class="list-item"><a 
+   <td width="47%" align="left"><div class="list-item"><a
    href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
    <strong>Description</strong></a></div>
   </td>
-  <td width="25%" align="right"><div class="list-item"> 
+  <td width="25%" align="right"><div class="list-item">
   <a href="void">Status</a></div>
   </td>
   <td width="5%" align="right">
   &nbsp;
   </td>
 </tr>
-
 
 <!-- BEGIN row -->
 <tr class="{CSS_ROW}">
@@ -175,15 +92,15 @@ body { margin:0px; }
 			<td align="left">
 			  <div class="form-element">
 			  <img src="images/pfeil_rechts.gif" border="0">
-				<input class="form-element" type="submit" name="cmd" 
+				<input class="form-element" type="submit" name="cmd"
 					   value="delete" />
-				<input class="form-element" type="submit" name="cmd" 
-					   value="create" /> 
+				<input class="form-element" type="submit" name="cmd"
+					   value="create" />
 			  </div>
 			</td>
 			<td align="right" width="25%">
 			  <div class="form-element">
-				<input class="form-element" type="submit" name="cmd" 
+				<input class="form-element" type="submit" name="cmd"
 					   value="addPermission" />
 			  </div>
 			</td>

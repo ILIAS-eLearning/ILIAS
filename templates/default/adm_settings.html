@@ -1,65 +1,65 @@
 <style>
 body { margin:0px; }
 </style>
+
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="locator">
-	<td align="left" valign="top">
-      <strong>
-            System settings
-	  </strong>
-    </td>
-  </tr>
+<tr class="locator">
+  <td align="left" valign="top">
+    <strong>System settings</strong>
+  </td>
+</tr>
 </table>
 <br>
+
 <form action="{SCRIPTNAME}" method="post">
 <input type="hidden" name="Fuserdata[Id]" value="{USR_ID}">
 <table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
-  <tr>
-    <td align="right">ILIAS Login<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Login]"  value="{USR_LOGIN}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">ILIAS Password<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Passwd]"  value="{USR_PASSWD}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">Gender<sup>*</sup></td>
-    <td>
+<tr>
+  <td align="right">ILIAS Login<sup>*</sup></td>
+  <td><input type="text" name="Fuserdata[Login]" value="{USR_LOGIN}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">ILIAS Password<sup>*</sup></td>
+  <td><input type="text" name="Fuserdata[Passwd]"  value="{USR_PASSWD}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">Gender<sup>*</sup></td>
+  <td>
 <!-- BEGIN gender -->
         {GENDER}
 <!-- END gender -->
-    </td>
-  </tr>
-  <tr>
-    <td align="right">Firstname<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[FirstName]" value="{USR_FIRSTNAME}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">Surname<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[SurName]" value="{USR_SURNAME}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">Title&nbsp;</td>
-    <td><input type="text" name="Fuserdata[Title]" value="{USR_TITLE}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">Email<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Email]" value="{USR_EMAIL}" size="20"></td>
-  </tr>
-  <tr>
-    <td align="right">Default role<sup>*</sup></td>
-    <td>
+  </td>
+</tr>
+<tr>
+  <td align="right">Firstname<sup>*</sup></td>
+  <td><input type="text" name="Fuserdata[FirstName]" value="{USR_FIRSTNAME}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">Surname<sup>*</sup></td>
+  <td><input type="text" name="Fuserdata[SurName]" value="{USR_SURNAME}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">Title&nbsp;</td>
+  <td><input type="text" name="Fuserdata[Title]" value="{USR_TITLE}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">Email<sup>*</sup></td>
+  <td><input type="text" name="Fuserdata[Email]" value="{USR_EMAIL}" size="20"></td>
+</tr>
+<tr>
+  <td align="right">Default role<sup>*</sup></td>
+  <td>
 <!-- BEGIN role -->
         {ROLE}
 <!-- END role -->
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center">
-      <input type="submit" value="OK">&nbsp;
-      <input type="submit" name="cmd" value="list">
-    </td>
-  </tr>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" align="center">
+  <input type="submit" value="OK">&nbsp;
+  <input type="submit" name="cmd" value="list">
+  </td>
+</tr>
 </table>
 <p class="infotext"><sup>*</sup> Required.</p>
 </form>
