@@ -95,12 +95,12 @@ class ilObjGroup extends ilObject
 	*/
 	function joinGroup($a_userId, $a_memStatus)
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 
 		if(isset($a_userId) && isset($a_memStatus))
 		{
 /*
-			if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+			if ($rbacreview->isAssignable($_GET["obj_id"],$_GET["parent"]))
 			{
 
 			}
@@ -142,8 +142,8 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 
-		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
-		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		foreach ($role_arr as $role_id)
 		{	
@@ -173,9 +173,9 @@ class ilObjGroup extends ilObject
 		
 		$usr_arr= array();
 		//echo ($this->m_grpId);
-		$rolf = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		$rolf = $rbacreview->getRoleFolderOfObject($this->m_grpId);
 		//var_dump ($rolf);
-		$rol  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+		$rol  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		foreach ($rol as $value) 
 		{	
@@ -193,8 +193,8 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 
-		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
-		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		//TOOODOOOO: schoen machen !!!
 		foreach ($role_arr as $role_id)
@@ -228,8 +228,8 @@ class ilObjGroup extends ilObject
 	*/
 	function setGroupStatus($a_grpStatus)
 	{
-		global $rbacadmin;
-		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->getRefId());
+		global $rbacadmin, $rbacreview;
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 
 
 		if(strcmp($a_grpStatus,"group_status_public") == 0)			//group status set public (=0)
@@ -245,17 +245,17 @@ class ilObjGroup extends ilObject
 		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
 		{
 			//ATTENTION: do not regard this as sensible code, it´s just a snap-shot
-			$role_folder   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+			$role_folder   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
 
 			$rbacadmin->copyRolePermission(102,8, $role_folder["child"], 6 );
 			$rbacadmin->assignRoleToFolder(2,$role_folder["child"],$role_folder["parent"],'n');
 /*
-			$roles_of_folder = $rbacadmin->getRolesAssignedToFolder(8);
+			$roles_of_folder = $rbacreview->getRolesOfRoleFolder(8);
 			print_r($roles_of_folder);
 			if(!in_array($stop_inherit,$roles_of_folder))
 			{
-				//$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
-				$parentRoles = $rbacadmin->getParentRoleIds($role_folder["child"]);
+				//$parentRoles = $rbacreview->getParentRoleIds($rolf_data["child"]);
+				$parentRoles = $rbacreview->getParentRoleIds($role_folder["child"]);
 				$rbacadmin->copyRolePermission(102,8, $rolfId, $roleObj->getId() );
 
 //				$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
@@ -383,8 +383,8 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 
-		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
-		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		//TOOODOOOO: schoen machen !!!
 		foreach ($role_arr as $role_id) 

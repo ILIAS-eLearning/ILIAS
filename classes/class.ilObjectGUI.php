@@ -935,7 +935,7 @@ class ilObjectGUI
 		$tree->insertNode($a_source_id,$a_dest_id);
 
 		// SET PERMISSIONS
-		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id);
+		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
 		$obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 
 		foreach ($parentRoles as $parRol)
@@ -1270,18 +1270,18 @@ class ilObjectGUI
 		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
 		{
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
-			$parentRoles = $rbacadmin->getParentRoleIds($this->object->getRefId());
+			$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
 
 			$data = array();
 
 			// GET ALL LOCAL ROLE IDS
-			$role_folder = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
+			$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 			
 			$local_roles = array();
 
 			if ($role_folder)
 			{
-				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folder["ref_id"]);
+				$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 			}
 				
 			foreach ($parentRoles as $r)
@@ -1326,7 +1326,7 @@ class ilObjectGUI
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
 		
-		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();
 		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
@@ -1335,7 +1335,7 @@ class ilObjectGUI
 		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
 		{
 			// Check if object is able to contain role folder
-			$child_objects = $rbacadmin->getModules($this->object->getType(), $this->object->getRefId());
+			$child_objects = $rbacreview->getModules($this->object->getType(), $this->object->getRefId());
 
 			if ($child_objects["rolf"])
 			{
@@ -1458,7 +1458,7 @@ class ilObjectGUI
 		{
 			foreach ($_POST["stop_inherit"] as $stop_inherit)
 			{
-				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+				$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 				
 				if (empty($rolf_data["child"]))
 				{
@@ -1475,7 +1475,7 @@ class ilObjectGUI
 						$rolfObj->setPermissions($_GET["ref_id"]);
 						unset($rolfObj);
 						
-						$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+						$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 					}
 					else
 					{
@@ -1486,11 +1486,11 @@ class ilObjectGUI
 				// CHECK ACCESS 'write' of role folder
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
-					$role_folder = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
-					$roles_of_folder = $rbacadmin->getRolesAssignedToFolder($role_folder["ref_id"]);
+					$role_folder = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
+					$roles_of_folder = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 					if(!in_array($stop_inherit,$roles_of_folder))
 					{
-						$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
+						$parentRoles = $rbacreview->getParentRoleIds($rolf_data["child"]);
 						$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 													   $rolf_data["child"],$stop_inherit);
 						$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
@@ -1990,12 +1990,12 @@ class ilObjectGUI
 	{
 		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
 
-		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+		$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 
 		if (!($rolf_id = $rolf_data["child"]))
 		{
-			$mods = $rbacadmin->getModules($this->object->getType(),$_GET["ref_id"]);
-			//if (!in_array('rolf',$rbacadmin->getModules($this->object->getType(),$_GET["ref_id"])))
+			$mods = $rbacreview->getModules($this->object->getType(),$_GET["ref_id"]);
+			//if (!in_array('rolf',$rbacreview->getModules($this->object->getType(),$_GET["ref_id"])))
 			if (!isset($mods["rolf"]))
 			{
 				$this->ilias->raiseError("'".$this->object->getTitle()."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
@@ -2016,7 +2016,7 @@ class ilObjectGUI
 				$rolf_id = $rolfObj->getRefId();
 
 				// Suche aller Parent Rollen im Baum
-				$parentRoles = $rbacadmin->getParentRoleIds($this->object->getRefId());
+				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
 				foreach ($parentRoles as $parRol)
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen

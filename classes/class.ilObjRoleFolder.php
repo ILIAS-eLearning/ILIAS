@@ -54,9 +54,9 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 
-		$roles = $rbacadmin->getRolesAssignedToFolder($this->getId());
+		$roles = $rbacreview->getRolesOfRoleFolder($this->getId());
 
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
 		require_once("classes/class.ilObjRole.php");

@@ -123,7 +123,7 @@ class ilRbacSystem
 
 				$path_ids = $tree->getPathId($a_ref_id);
 				array_unshift($path_ids,SYSTEM_FOLDER_ID);
-				$parent_roles = $rbacadmin->getParentRoles($path_ids);
+				$parent_roles = $rbacreview->getParentRoles($path_ids);
 
 				foreach ($parent_roles as $par_rol)
 				{

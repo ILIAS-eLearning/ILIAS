@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.3 2003/03/28 11:37:40 akill Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.4 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -53,13 +53,13 @@ class ilObjRootFolder extends ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 		
 		$this->ilias->raiseError("ilObjRootFolder::delete(): Can't delete root folder", $this->ilias->error_obj->MESSAGE);
 
 		// GET ALL ROLES OF ROLE FOLDER
 		/*
-		$all_roles = $rbacadmin->getRolesAssignedToFolder($this->getId());
+		$all_roles = $rbacreview->getRolesOfRoleFolder($this->getId());
 		
 		// FIRST DELETE THIS ROLES
 		foreach($all_roles as $role_id)

@@ -514,7 +514,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	{
 		global $rbacadmin,$rbacreview;
 		
-		$parentRoles = $rbacadmin->getParentRoleIds($a_parent);
+		$parentRoles = $rbacreview->getParentRoleIds($a_parent);
 
 		foreach ($parentRoles as $parRol)
 		{
@@ -595,7 +595,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 		$tree->insertNode($new_id,$a_parent_ref);
 
-		$parentRoles = $rbacadmin->getParentRoleIds($a_parent_ref);
+		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
 
 		foreach ($parentRoles as $parRol)
 		{
@@ -655,12 +655,12 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	*/
 	function getSubObjects()
 	{
-		global $rbacsystem,$rbacadmin;
+		global $rbacsystem,$rbacadmin,$rbacreview;
 
 		$data = array();
 
 		// show only objects with permission 'create'
-		$objects = $rbacadmin->getModules($this->type,$this->id);
+		$objects = $rbacreview->getModules($this->type,$this->id);
 
 		foreach ($objects as $key => $object)
 		{
