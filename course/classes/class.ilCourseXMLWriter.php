@@ -244,6 +244,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		foreach($this->course_obj->items_obj->getAllItems() as $item)
 		{
+			
 			if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($item['child'],false))
 			{
 				continue;
@@ -256,6 +257,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$attr['Position'] = $item['position'];
 
 			$this->xmlStartTag('Object',$attr);
+			$this->xmlElement('Title',null,$item['title']);
+			$this->xmlElement('Description',null,$item['description']);
 			$this->xmlElement('Start',null,$item['activation_start']);
 			$this->xmlElement('End',null,$item['activation_end']);
 

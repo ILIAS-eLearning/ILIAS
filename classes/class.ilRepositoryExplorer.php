@@ -289,7 +289,10 @@ class ilRepositoryExplorer extends ilExplorer
 					unset($tmp_obj);
 					return false;
 				}
-
+				if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
+				{
+					return false;
+				}
 				// Show only activated course items
 				include_once "./course/classes/class.ilCourseItems.php";
 

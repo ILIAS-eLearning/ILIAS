@@ -203,6 +203,8 @@ class ilGlossaryExport
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("GlossaryExport", "buildExportFile");
+
+		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
 }

@@ -173,11 +173,11 @@ class ilContObjectExport
 		switch ($this->mode)
 		{
 			case "pdf":
-				$this->buildExportFilePDF();
+				return $this->buildExportFilePDF();
 				break;
 
 			default:
-				$this->buildExportFileXML();
+				return $this->buildExportFileXML();
 				break;
 		}
 	}
@@ -248,6 +248,8 @@ class ilContObjectExport
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("ContentObjectExport", "buildExportFile");
+
+		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
 	/**

@@ -160,7 +160,10 @@ class ilCourseArchives
 
 	
 		// Step three create child object xml
-
+		// add objects directory
+		$this->course_files_obj->addDirectory($this->getName().'/objects');
+		
+		$this->__addZipFiles($this->course_obj->getRefId());
 
 
 		// Step four zip
@@ -235,6 +238,31 @@ class ilCourseArchives
 	}
 
 	// PRIVATE
+	function __addZipFiles($a_parent_id)
+	{
+		$this->course_obj->initCourseItemObject();
+		$this->course_obj->items_obj->setParentId($a_parent_id);
+
+		foreach($this->course_obj->items_obj->getAllItems() as $item)
+		{
+			if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($item['child'],false))
+			{
+				continue;
+			}
+			
+			if($abs_file_name = $tmp_obj->getXMLZip())
+			{
+				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['child'].'.zip';
+				$this->course_files_obj->copy($abs_file_name,$this->getName().'/objects/'.$new_name);
+			}
+
+			$this->__addZipFiles($item['child']);
+			unset($tmp_obj);
+		}
+		return true;
+	}
+
+
 	function __read()
 	{
 		$this->archives = array();

@@ -989,5 +989,11 @@ class ilObject
 	{
 		return $this->register;
 	}
+
+
+	function getXMLZip()
+	{
+		return false;
+	}
 } // END class.ilObject
 ?>

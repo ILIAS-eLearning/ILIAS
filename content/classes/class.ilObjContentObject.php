@@ -1079,6 +1079,8 @@ class ilObjContentObject extends ilObject
 	{
 		global $ilBench;
 
+		include_once "./content/classes/class.ilLMPageObject.php";
+
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
@@ -1335,6 +1337,17 @@ class ilObjContentObject extends ilObject
 			unset($structure_obj);
 		}
 	}
+
+	function getXMLZip()
+	{
+		include_once("./content/classes/class.ilContObjectExport.php");
+
+		$cont_exp = new ilContObjectExport($this,'xml');
+
+		$export_file = $cont_exp->buildExportFile();
+		return $export_file;
+	}		
+
 
 }
 ?>

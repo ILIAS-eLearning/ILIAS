@@ -677,6 +677,16 @@ class ilObjGlossary extends ilObject
 	}
 
 
+	function getXMLZip()
+	{
+		include_once("content/classes/class.ilGlossaryExport.php");
+
+		$glo_exp = new ilGlossaryExport($this);
+
+		return $glo_exp->buildExportFile();
+	}
+
+
 } // END class.ilObjGlossary
 
 ?>
