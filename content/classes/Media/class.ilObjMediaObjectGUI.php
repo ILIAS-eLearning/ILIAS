@@ -949,6 +949,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		if ($_POST["file"][0] == "..")
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
 		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 		$cur_dir = (!empty($cur_subdir))
