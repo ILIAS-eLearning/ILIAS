@@ -405,6 +405,18 @@ class ilObjTestGUI extends ilObjectGUI
 		exit;
 	}
 
+	/**
+	* download source code paragraph
+	*/
+	function download_paragraphObject()
+	{
+		require_once("content/classes/Pages/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
+		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
+		exit;
+	}
+
+
 	function questionBrowser()
 	{
 		global $rbacsystem;
