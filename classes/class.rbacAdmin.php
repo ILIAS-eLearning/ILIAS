@@ -695,5 +695,23 @@ class RbacAdmin extends PEAR
 		}
 		return $ops_id ? $ops_id : array();
 	}
+/**
+ * get role ids of all parent roles
+ * @access private
+ * @param string object id of start node
+ * @return string 
+ */
+	function getParentRoleIds($a_start_node = "")
+	{
+		global $ilias;
+
+		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
+		$tree = new Tree($_GET["parent"],$ilias->ini->readVariable('system','ROOT_FOLDER_ID'));
+
+		$pathIds  = $tree->getPathId($a_start_node,1);
+		$pathIds[0] = $ilias->ini->readVariable('system','SYSTEM_FOLDER_ID');
+		
+		return $this->getParentRoles($pathIds);
+	}
 }
 ?>
