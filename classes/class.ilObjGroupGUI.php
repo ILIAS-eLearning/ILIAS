@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.38 2003/10/09 09:22:09 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.39 2003/10/09 10:13:38 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -197,6 +197,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("CMD_CANCEL", "cancel");		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
