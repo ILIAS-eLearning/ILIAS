@@ -83,7 +83,7 @@ class Search
 		$w .= " OR surname LIKE '%".$this->text."%'";
 		$w .= " OR email LIKE '%".$this->text."%'";
 		
-		$query = "SELECT * FROM user_data WHERE ".$w;	
+		$query = "SELECT * FROM usr_data WHERE ".$w;	
 		$res = $this->ilias->db->query($query);
 		
 		$this->hits = $res->numRows();

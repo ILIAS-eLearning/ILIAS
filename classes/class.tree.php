@@ -358,11 +358,11 @@ class Tree
 	}
 
 	/**
-	* get all nodes in the subtree under specified node.
-	* When no node was given starts at the current node
+	* get all nodes in the subtree under specified node
+	* 
 	* @access	public
 	* @param	array		node_data
-	* @return	array		2-dim (int/array) key, node_data of each subtree node
+	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
 	function getSubTree($a_node)
 	{	
@@ -377,7 +377,7 @@ class Tree
 		{
 			$subtree[] = $this->fetchNodeData($row);
 		}
-		
+			
 		return $subtree;
 	}	
 	
@@ -388,20 +388,6 @@ class Tree
 	*/
 	function deleteTree($a_node)
 	{
-		// TODO: rbac issues should NOT be handled in tree-class!!
-		/*
-		foreach ($delete as $val)
-		{
-			$res = $this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
-		
-			$res = $this->ilias->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
-		
-			$res = $this->ilias->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
-
-			$res = $this->ilias->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
-		}
-		*/
-
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
 		// delete subtree
@@ -745,22 +731,12 @@ class Tree
 	* get data of a specific node from tree and object_data
 	* When no node_id was given the method returns data of current node
 	* @access	public
-	* @param	integer		obj_id/node_id of node (optional)
-	* @param	integer		parent_id (optional)
+	* @param	integer		object id
+	* @param	integer		parent id 
 	* @return	object	db	db result object
 	*/
-	function getNodeData($a_obj_id = 0, $a_parent_id = 0)
+	function getNodeData($a_obj_id,$a_parent_id)
 	{
-		if (empty($a_node_id))
-		{
-			$a_obj_id = $this->node_id;
-		}
-		
-		if (empty($a_parent_id))
-		{
-			$a_parent_id = $this->parent_id;
-		}
-		
 		$query = "SELECT * FROM object_data,tree ".
 				 "WHERE object_data.obj_id = tree.child ".
 				 "AND tree.child = '".$a_obj_id."' ".
@@ -834,11 +810,11 @@ class Tree
 	* @param    integer     parent id of query node
 	* @return	boolean
 	*/
-	function isGrandChild($a_startnode,$a_startparent,$a_query_node,$a_query_parent)
+	function isGrandChild($a_start_node,$a_start_parent,$a_query_node,$a_query_parent)
 	{
 		$query = "SELECT * FROM tree s,tree v ".
-			"WHERE s.child = '".$a_startnode."' ".
-			"AND s.parent = '".$a_startparent."' ".
+			"WHERE s.child = '".$a_start_node."' ".
+			"AND s.parent = '".$a_start_parent."' ".
 			"AND v.child = '".$a_query_node."' ".
 			"AND v.parent = '".$a_query_parent."' ".
 			"AND s.tree = '".$this->tree_id."' ".

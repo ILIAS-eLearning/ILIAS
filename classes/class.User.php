@@ -82,9 +82,9 @@ class User
 	*/
 	function getUserdata ()
 	{
-		$query = "SELECT * FROM user_data ".
-				 "LEFT JOIN rbac_ua ON user_data.usr_id=rbac_ua.usr_id ".
-				 "WHERE user_data.usr_id='".$this->Id."'";	
+		$query = "SELECT * FROM usr_data ".
+				 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
+				 "WHERE usr_data.usr_id='".$this->Id."'";	
 		$res = $this->ilias->db->query($query);
 		
 		if ($res->numRows() > 0)
@@ -104,7 +104,7 @@ class User
 				"LastLogin"  => $data["last_login"],
 			);
 
-			//get userpreferences from user_pref table
+			//get userpreferences from usr_pref table
 			$this->readPrefs();
 
 			//set language to default if not set
@@ -176,8 +176,8 @@ class User
 	*/
 	function saveAsNew ()
 	{
-		// fill user_data
-		$query = "INSERT INTO user_data
+		// fill usr_data
+		$query = "INSERT INTO usr_data
 				 (usr_id,login,passwd,
 				 firstname,surname,
 				 title,gender,
@@ -202,7 +202,7 @@ class User
 	{
 		$this->Id = $this->data["Id"];
 
-		$query = "UPDATE user_data SET
+		$query = "UPDATE usr_data SET
 				 gender='".$this->data[Gender]."',
 				 title='".$this->data[Title]."',
 				 firstname='".$this->data[FirstName]."',
@@ -243,7 +243,7 @@ class User
 		
 		//update password
 		$this->data["passwd"] = md5($pw1);
-		$query = "UPDATE user_data SET
+		$query = "UPDATE usr_data SET
 				 passwd='".$this->data["passwd"]."'
 				 WHERE usr_id='".$this->Id."'";
 		$this->ilias->db->query($query);
@@ -261,7 +261,7 @@ class User
 	function writePref($a_keyword, $a_value)
 	{
 		//DELETE
-		$sql = "DELETE FROM user_pref 
+		$sql = "DELETE FROM usr_pref 
 				WHERE usr_id='".$this->Id."'
 				AND keyword='".$a_keyword."'";
 		$r = $this->ilias->db->query($sql);
@@ -269,7 +269,7 @@ class User
 		//INSERT
 		if ($a_value != "")
 		{
-			$sql = "INSERT INTO user_pref 
+			$sql = "INSERT INTO usr_pref 
 				(usr_id, keyword, value)
 				VALUES
 				('".$this->Id."', '".$a_keyword."', '".$a_value."')";
@@ -284,14 +284,14 @@ class User
 	function writePrefs()
 	{
 		//DELETE
-		$sql = "DELETE FROM user_pref 
+		$sql = "DELETE FROM usr_pref 
 			WHERE usr_id='".$this->Id."'";
 		$r = $this->ilias->db->query($sql);
 
 		foreach ($this->prefs as $keyword => $value)
 		{
 			//INSERT
-			$sql = "INSERT INTO user_pref 
+			$sql = "INSERT INTO usr_pref 
 				(usr_id, keyword, value)
 				VALUES
 				('".$this->Id."', '".$keyword."', '".$value."')";
@@ -337,7 +337,7 @@ class User
 		
 		$this->prefs = array();
 		
-		$query = "SELECT * FROM user_pref WHERE usr_id='".$this->Id."'";	
+		$query = "SELECT * FROM usr_pref WHERE usr_id='".$this->Id."'";	
 		$res = $this->ilias->db->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -365,7 +365,7 @@ class User
 		}
 		
 		// delete user_account
-		$this->ilias->db->query("DELETE FROM user_data WHERE usr_id='$id'");
+		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='$id'");
 		
 		// delete user-role relation
 		$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='$id' AND rol_id='$rol_id'");
@@ -516,7 +516,7 @@ class User
 		//initialize array
 		$bookmarks = array();
 		//query
-		$sql = "SELECT * FROM bookmarks";
+		$sql = "SELECT * FROM fav_data";
 
 		$bookmarks[] = array(
 			"id" => 1,
@@ -538,7 +538,7 @@ class User
 		//initialize array
 		$bookmarks = array();
 		//query
-		$sql = "SELECT * FROM bookmarks";
+		$sql = "SELECT * FROM fav_data";
 
 		$bookmarks[] = array(
 			"id" => 1,
@@ -637,7 +637,7 @@ class User
 	
 	function getUserId($AccountId)
 	{
-		$res = $this->ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$this->ilias->auth->getUsername()."'");
+		$res = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
 		//query has got a result
 		if ($res->numRows() > 0)
 		{

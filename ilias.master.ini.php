@@ -15,7 +15,7 @@ name = ilias3
 save_db = true
 
 [auth]
-table = user_data
+table = usr_data
 usercol = login
 passcol = passwd
 

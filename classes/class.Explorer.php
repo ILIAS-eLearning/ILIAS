@@ -348,7 +348,7 @@ class Explorer
 			}
 		}
 
-		$this->ilias->raiseError("Error in tree",$this->ilias->error_obj->FATAL);
+		$this->ilias->raiseError(get_class($this).": Error in tree",$this->ilias->error_obj->FATAL);
 	}
 
 	/**

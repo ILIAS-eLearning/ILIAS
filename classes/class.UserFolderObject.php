@@ -32,10 +32,10 @@ class UserFolderObject extends Object
 		
 		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
 		{
-			if ($user_data = getUserList($_GET["order"], $_GET["direction"]) )
+			if ($usr_data = getUserList($_GET["order"], $_GET["direction"]) )
 			{
 			
-				foreach ($user_data as $key => $val)
+				foreach ($usr_data as $key => $val)
 				{
 					//visible data part
 					$this->objectList["data"][] = array(

@@ -1,7 +1,20 @@
-# MYSQL DUMP (phpMyAdmin) for ILIAS
-# @version $Id$
+# phpMyAdmin MySQL-Dump
+# version 2.3.0
+# http://phpwizard.net/phpMyAdmin/
+# http://www.phpmyadmin.net/ (download page)
+#
+# Host: localhost
+# Generation Time: Oct 16, 2002 at 08:42 AM
+# Server version: 3.23.44
+# PHP Version: 4.2.1
+# Database : `ilias3`
+# --------------------------------------------------------
 
-CREATE TABLE bookmarks (
+#
+# Table structure for table `fav_data`
+#
+
+CREATE TABLE fav_data (
   usr_fk int(11) NOT NULL default '0',
   id int(11) NOT NULL default '0',
   pos int(11) NOT NULL default '0',
@@ -15,18 +28,18 @@ CREATE TABLE bookmarks (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table `bookmarks`
+# Dumping data for table `fav_data`
 #
 
-INSERT INTO bookmarks (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
-INSERT INTO bookmarks (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);
+INSERT INTO fav_data (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
+INSERT INTO fav_data (usr_fk, id, pos, url, name, folder, timest) VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);
 # --------------------------------------------------------
 
 #
-# Table structure for table `lang_data`
+# Table structure for table `lng_data`
 #
 
-CREATE TABLE lang_data (
+CREATE TABLE lng_data (
   identifier varchar(30) NOT NULL default '',
   lang_key char(2) NOT NULL default '',
   value mediumblob NOT NULL,
@@ -34,7 +47,7 @@ CREATE TABLE lang_data (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table `lang_data`
+# Dumping data for table `lng_data`
 #
 
 # --------------------------------------------------------
@@ -87,35 +100,34 @@ INSERT INTO object_data (obj_id, type, title, description, owner, create_date, l
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (3, 'role', 'Author', 'Role for teachers with many write & some create permissions.', -1, '2002-01-16 15:32:50', '2002-01-16 15:33:54');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (4, 'role', 'Learner', 'Typical role for students. Grants write access to some objects.', -1, '2002-01-16 15:34:00', '2002-01-16 15:34:35');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (5, 'role', 'Guest', 'Role grants only a few visible & read permissions.', -1, '2002-01-16 15:34:46', '2002-01-16 15:35:19');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (6, 'user', 'The System Administrator', '', -1, '2002-01-16 16:09:22', '2002-08-30 13:54:04');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (6, 'usr', 'The System Administrator', 'admin@yourserver.com', -1, '2002-01-16 16:09:22', '2002-08-30 13:54:04');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (7, 'usrf', 'Users', 'Folder contains all users', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (8, 'rolf', 'Roles', 'Folder contains all roles', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (1, 'cat', 'ILIAS open source', 'This is the root node of the system!!!', -1, '2002-06-24 15:15:03', '2002-06-24 15:15:03');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (10, 'objf', 'Objects', 'Folder contains list of known object types', -1, '2002-07-15 12:36:56', '2002-07-15 12:36:56');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (9, 'adm', 'System Settings', 'Folder contains the systems settings', -1, '2002-07-15 12:37:33', '2002-07-15 12:37:33');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (11, 'lngf', 'Languages', 'Folder contains all available languages', -1, '2002-07-15 15:52:51', '2002-07-15 15:52:51');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (12, 'type', 'user', 'User object', -1, '2002-07-15 15:53:37', '2002-07-15 15:53:37');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (13, 'type', 'le', 'Learning object', -1, '2002-07-15 15:54:04', '2002-07-15 15:54:04');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (14, 'type', 'frm', 'Forum object', -1, '2002-07-15 15:54:22', '2002-07-15 15:54:22');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (15, 'type', 'grp', 'Group object', -1, '2002-07-15 15:54:37', '2002-07-15 15:54:37');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (16, 'type', 'cat', 'Category object', -1, '2002-07-15 15:54:54', '2002-07-15 15:54:54');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (17, 'type', 'crs', 'Course object', -1, '2002-07-15 15:55:08', '2002-07-15 15:55:08');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (18, 'type', 'file', 'FileSharing object', -1, '2002-07-15 15:55:31', '2002-07-15 15:55:31');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (19, 'type', 'mail', 'Mailmodule object', -1, '2002-07-15 15:55:49', '2002-07-15 15:55:49');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (20, 'type', 'abo', 'Subscription/Membership object', -1, '2002-07-15 15:56:11', '2002-07-15 15:56:11');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (21, 'type', 'adm', 'Administration Panel object', -1, '2002-07-15 15:56:38', '2002-07-15 15:56:38');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (22, 'type', 'usrf', 'User Folder object', -1, '2002-07-15 15:56:52', '2002-07-15 15:56:52');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (23, 'type', 'rolf', 'Role Folder object', -1, '2002-07-15 15:57:06', '2002-07-15 15:57:06');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (24, 'type', 'objf', 'Object-Type Folder object', -1, '2002-07-15 15:57:17', '2002-07-15 15:57:17');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (25, 'type', 'set', 'Set object', -1, '2002-07-15 15:57:57', '2002-07-15 15:57:57');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (26, 'type', 'type', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (27, 'type', 'rolt', 'Role template object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (156, 'user', 'T. Eacher', 'teacher@yourserver.com', 6, '2002-08-30 14:04:26', '2002-08-30 14:04:26');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (158, 'user', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (157, 'user', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (28, 'type', 'lngf', 'Language Folder object', -1, '2002-08-28 14:22:01', '2002-08-28 14:22:01');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (30, 'type', 'role', 'Role object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (29, 'type', 'lang', 'Language object', -1, '2002-08-30 10:18:29', '2002-08-30 10:18:29');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (12, 'typ', 'usr', 'User object', -1, '2002-07-15 15:53:37', '2002-07-15 15:53:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (13, 'typ', 'le', 'Learning module Object', -1, '2002-07-15 15:54:04', '2002-07-15 15:54:04');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (14, 'typ', 'frm', 'Forum object', -1, '2002-07-15 15:54:22', '2002-07-15 15:54:22');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (15, 'typ', 'grp', 'Group object', -1, '2002-07-15 15:54:37', '2002-07-15 15:54:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (16, 'typ', 'cat', 'Category object', -1, '2002-07-15 15:54:54', '2002-07-15 15:54:54');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (17, 'typ', 'crs', 'Course object', -1, '2002-07-15 15:55:08', '2002-07-15 15:55:08');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (18, 'typ', 'file', 'FileSharing object', -1, '2002-07-15 15:55:31', '2002-07-15 15:55:31');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (19, 'typ', 'mail', 'Mailmodule object', -1, '2002-07-15 15:55:49', '2002-07-15 15:55:49');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (21, 'typ', 'adm', 'Administration Panel object', -1, '2002-07-15 15:56:38', '2002-07-15 15:56:38');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (22, 'typ', 'usrf', 'User Folder object', -1, '2002-07-15 15:56:52', '2002-07-15 15:56:52');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (23, 'typ', 'rolf', 'Role Folder object', -1, '2002-07-15 15:57:06', '2002-07-15 15:57:06');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (24, 'typ', 'objf', 'Object-Type Folder object', -1, '2002-07-15 15:57:17', '2002-07-15 15:57:17');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (26, 'typ', 'typ', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (27, 'typ', 'rolt', 'Role template object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (156, 'usr', 'T. Eacher', 'teacher@yourserver.com', 6, '2002-08-30 14:04:26', '2002-08-30 14:04:26');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (158, 'usr', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (157, 'usr', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (28, 'typ', 'lngf', 'Language Folder object', -1, '2002-08-28 14:22:01', '2002-08-28 14:22:01');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (31, 'typ', 'lo', 'Learning Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (29, 'typ', 'lng', 'Language object', -1, '2002-08-30 10:18:29', '2002-08-30 10:18:29');
 # --------------------------------------------------------
 
 #
@@ -399,11 +411,11 @@ INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'frm', 1, 1
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'cat', 1, 152);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'abo', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'abo', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 4, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 6, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'user', 5, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usr', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usr', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usr', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usr', 6, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usr', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 4, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'rolf', 3, 8);
@@ -503,10 +515,10 @@ INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 3, 
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 6, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'mail', 5, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'set', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 1, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'type', 4, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'typ', 1, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'typ', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'typ', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'typ', 4, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 1, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (2, 'usrf', 2, 8);
@@ -516,16 +528,16 @@ INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'role', 3, 
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'role', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'rolf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'user', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usr', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (3, 'usr', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'mail', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'role', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (5, 'usr', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'role', 2, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 3, 8);
 INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'rolf', 2, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'user', 3, 8);
-INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'user', 2, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'usr', 3, 8);
+INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'usr', 2, 8);
 # --------------------------------------------------------
 
 #
@@ -571,7 +583,7 @@ INSERT INTO settings (keyword, value) VALUES ('city', 'gjjg');
 INSERT INTO settings (keyword, value) VALUES ('convert_path', '');
 INSERT INTO settings (keyword, value) VALUES ('country', 'hjgh');
 INSERT INTO settings (keyword, value) VALUES ('crs_enable', '');
-INSERT INTO settings (keyword, value) VALUES ('db_version', '3');
+INSERT INTO settings (keyword, value) VALUES ('db_version', '1');
 INSERT INTO settings (keyword, value) VALUES ('email', 'hjgj');
 INSERT INTO settings (keyword, value) VALUES ('errors', '');
 INSERT INTO settings (keyword, value) VALUES ('feedback', '');
@@ -621,10 +633,10 @@ INSERT INTO tree (tree, child, parent, lft, rgt, depth) VALUES (1, 11, 9, 9, 10,
 # --------------------------------------------------------
 
 #
-# Table structure for table `user_data`
+# Table structure for table `usr_data`
 #
 
-CREATE TABLE user_data (
+CREATE TABLE usr_data (
   usr_id int(11) NOT NULL default '0',
   login char(11) NOT NULL default '',
   passwd char(32) NOT NULL default '',
@@ -641,20 +653,20 @@ CREATE TABLE user_data (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table `user_data`
+# Dumping data for table `usr_data`
 #
 
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'System', 'Administrator', 'The', 'm', 'ilias@yourserver.com', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'N.', 'Iemand', '', 'm', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'St.', 'Udent', '', 'm', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
-INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'T.', 'Eacher', '', 'm', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
+INSERT INTO usr_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'System', 'Administrator', 'The', 'm', 'ilias@yourserver.com', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
+INSERT INTO usr_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'N.', 'Iemand', '', 'm', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
+INSERT INTO usr_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'St.', 'Udent', '', 'm', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO usr_data (usr_id, login, passwd, firstname, surname, title, gender, email, last_login, last_update, create_date) VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'T.', 'Eacher', '', 'm', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
 # --------------------------------------------------------
 
 #
-# Table structure for table `user_pref`
+# Table structure for table `usr_pref`
 #
 
-CREATE TABLE user_pref (
+CREATE TABLE usr_pref (
   usr_id int(11) NOT NULL default '0',
   keyword char(40) NOT NULL default '',
   value char(40) default NULL,
@@ -662,19 +674,30 @@ CREATE TABLE user_pref (
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table `user_pref`
+# Dumping data for table `usr_pref`
 #
 
-INSERT INTO user_pref (usr_id, keyword, value) VALUES (6, 'language', 'de');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (6, 'language', 'de');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (6, 'skin', 'default');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (6, 'style_default', 'style');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (156, 'language', 'en');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (156, 'skin', 'default');
+INSERT INTO usr_pref (usr_id, keyword, value) VALUES (156, 'style_default', 'style');
 # --------------------------------------------------------
 
 #
-# Table structure for table `user_session`
+# Table structure for table `usr_session`
 #
 
-CREATE TABLE user_session (
+CREATE TABLE usr_session (
   sesskey varchar(32) NOT NULL default '',
   expiry int(11) NOT NULL default '0',
   value text NOT NULL,
   PRIMARY KEY  (sesskey)
 ) TYPE=MyISAM;
+
+#
+# Dumping data for table `usr_session`
+#
+
+

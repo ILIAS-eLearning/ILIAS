@@ -63,7 +63,7 @@ class RoleObject extends Object
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("Role Exists",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
 			}
 
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
@@ -372,7 +372,7 @@ class RoleObject extends Object
 
 						foreach ($objects as $object)
 						{
-							$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
+							$rbacadmin->revokePermission($object["obj_id"],$object["parent"],$_GET["obj_id"]);
 						}
 					}
 				}
@@ -383,7 +383,7 @@ class RoleObject extends Object
 
 					foreach ($objects as $object)
 					{
-						$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
+						$rbacadmin->revokePermission($object["obj_id"],$object["parent"],$_GET["obj_id"]);
 						$rbacadmin->grantPermission($_GET["obj_id"],$ops_array,$object["obj_id"],$object["parent"]);
 					}
 				}

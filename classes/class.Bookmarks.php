@@ -51,7 +51,7 @@ class Bookmarks
 			$w = "folder='".$folder."' AND ";
 		}
 			
-		$sql = "SELECT * FROM bookmarks 
+		$sql = "SELECT * FROM fav_data 
 				WHERE ".$w." usr_fk='".$this->userId."'
 				ORDER BY folder, pos";
 
@@ -81,7 +81,7 @@ class Bookmarks
 	*/
 	function insert()
 	{
-		// fill user_data
+		// fill usr_data
 		$query = "INSERT INTO bookmark ".
 				 "(usr_fk, pos, url, name) ".
 				 "VALUES ".
@@ -100,7 +100,7 @@ class Bookmarks
 			return false;
 		}
 
-		$query = "UPDATE bookmarks SET ".
+		$query = "UPDATE fav_data SET ".
 				 "name='".$this->name."', ".
 				 "url='".$this->url."' ".
 				 "WHERE usr_fk='".$this->userId."' ".
@@ -118,7 +118,7 @@ class Bookmarks
 	function delete ($a_id)
 	{
 		// delete bookmark
-		$sql = "DELETE FROM bookmarks WHERE id='".$a_id."'";
+		$sql = "DELETE FROM fav_data WHERE id='".$a_id."'";
 		$this->ilias->db->query($sql);
 	}
 
@@ -139,7 +139,7 @@ class Bookmarks
 			$w = "folder='".$a_folder."' AND ";
 		}
 			
-		$sql = "SELECT * FROM bookmarks 
+		$sql = "SELECT * FROM fav_data 
 				WHERE ".$w." usr_fk='".$this->userId."'
 				ORDER BY folder, pos";
 		$r = $this->ilias->db->query($sql);
@@ -168,7 +168,7 @@ class Bookmarks
 		//initialize array
 		$folders = array();
 		//query
-		$sql = "SELECT folder FROM bookmarks 
+		$sql = "SELECT folder FROM fav_data 
 				WHERE usr_fk='".$this->userId."'
 				GROUP BY folder";
 		$r = $this->ilias->db->query($sql);

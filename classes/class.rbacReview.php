@@ -56,7 +56,7 @@ class RbacReview
 	*/
 	function getUserData($a_usr_id)
 	{
-		$query = "SELECT * FROM user_data WHERE usr_id='".$a_usr_id."'";
+		$query = "SELECT * FROM usr_data WHERE usr_id='".$a_usr_id."'";
 		$res = $this->ilias->db->query($query);	
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
