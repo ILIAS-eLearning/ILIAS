@@ -21,52 +21,80 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
+require_once("./content/classes/class.ilMetaData.php");
 
 /**
-* Class ilLearningModule
+* Class ilMetaDataGUI
 *
-* This class handles Learning Modules like ilObjLearningModule
-* , maybe they will be merged sometime. This class is only an
-* intermediate test class. All object_data storage and the like is done
-* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
+* GUI class for ilMetaData
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilLearningModule
+class ilMetaDataGUI
 {
 	var $ilias;
-	var $meta_data;
-	var $id;
+	var $tpl;
+	var $lng;
+
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModule($a_id)
+	function ilMetaDataGUI()
 	{
-		global $ilias;
+		global $ilias, $tpl, $lng;
+		$lng->LoadLanguageModule("meta");
 
 		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
 
-		$this->id = $a_id;
-
-		//$this->read(); todo
 	}
 
-	function getLayout()
+	function setMetaDataObject(&$a_obj)
 	{
-		// todo: make it real
-		return "toc2win";
+		$this->obj =& $a_obj;
 	}
 
-
-	function assignMetaData(&$a_meta_data)
+	function curValue($a_val_name)
 	{
-		$this->meta_data =& $a_meta_data;
+		if(is_object($this->obj))
+		{
+			$method = "get".$a_val_name;
+			return $this->obj->$method();
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	function edit()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
+		$this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
+		$this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+		$this->tpl->setVariable("VAL_IDENTIFIER", $this->curValue("ID"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("meta_title"));
+		$this->tpl->setVariable("VAL_TITLE", $this->curValue("Title"));
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+		$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", true);
+		$this->tpl->setVariable("SEL_NAME", "language");
+		$lngcodes = ilMetaData::getLanguageCodes();
+		foreach($lngcodes as $lngcode)
+		{
+			$this->tpl->setCurrentBlock("lg_option");
+			$this->tpl->setVariable("VAL_LG", $lngcode);
+			$this->tpl->setVariable("TXT_LG", $this->lng->txt("meta_c_".$lngcode));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
 	}
 
 }

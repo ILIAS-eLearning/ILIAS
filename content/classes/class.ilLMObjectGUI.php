@@ -40,14 +40,13 @@ class ilLMObjectGUI
 	var $tpl;
 	var $lng;
 
-	function ilLMObjectGUI(&$a_lm_object)
+	function ilLMObjectGUI()
 	{
 		global $ilias, $tpl, $lng, $objDefinition;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		$this->lm_obj =& $a_lm_object;
 		$this->objDefinition =& $objDefinition;
 	}
 
@@ -75,6 +74,28 @@ class ilLMObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	* output a cell in object list
+	*/
+	function add_cell($val, $link = "")
+	{
+		if(!empty($link))
+		{
+			$this->tpl->setCurrentBlock("begin_link");
+			$this->tpl->setVariable("LINK_TARGET", $link);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("end_link");
+		}
+
+		$this->tpl->setCurrentBlock("text");
+		$this->tpl->setVariable("TEXT_CONTENT", $val);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("table_cell");
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 
 }
 ?>
