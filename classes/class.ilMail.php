@@ -107,6 +107,13 @@ class ilMail
 	var $mail_send_type;
 
 	/**
+	* Should sent messages be stored in sentbox of user
+	* @var boolean
+	* @access private
+	*/
+	var $save_in_sentbox;
+
+	/**
 	* variable for sending mail
 	* @var string 
 	* @access private
@@ -137,11 +144,25 @@ class ilMail
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
 		$this->mfile = new ilFileDataMail($this->user_id);
+
+		// DEFAULT: sent mail aren't stored insentbox of user.
+		$this->setSaveInSentbox(false);
 		
 		// GET REFERENCE ID OF MAIL OBJECT
 		$this->readMailObjectReferenceId();
 
 	}
+
+	function setSaveInSentbox($a_save_in_sentbox)
+	{
+		$this->save_in_sentbox = $a_save_in_sentbox;
+	}
+
+	function getSaveInSentbox()
+	{
+		return $this->save_in_sentbox;
+	}
+
 	/**
 	* set mail send type
 	* @var array of send types ('system','normal','email')
@@ -419,7 +440,7 @@ class ilMail
 
 	/**
 	* save mail in folder
-	* @access	public
+	* @access	private
 	* @param	integer id of folder
 	* @param    integer sender_id
 	* @param    array attachments
@@ -860,7 +881,10 @@ class ilMail
 		// save mail in sent box
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
 										$a_m_subject,$a_m_message);
-		$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
+		if($a_attachment)
+		{
+			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
+		}
 
 		// ACTIONS FOR NORMAL
 		// save attachments
@@ -894,6 +918,12 @@ class ilMail
 								$this->getEmailsOfRecipients($a_rcp_cc),
 								$this->getEmailsOfRecipients($a_rcp_bc),
 								$a_m_subject,$a_m_message,$a_attachment);
+		}
+
+		// Temporary bugfix
+		if(!$this->getSaveInSentbox())
+		{
+			$this->deleteMails(array($sent_id));
 		}
 
 		return '';
