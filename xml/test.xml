@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE LearningObject SYSTEM "lo_aktuell.dtd">
+<LearningObject><MetaData><General Identifier="A-5-X" Structure="Linear" AggregationLevel="2"><Title>LaTeX - ein Satzsystem mit elektronisch-spezifischen
+		  Markup</Title><Language>de</Language><Description>Dieser Abschnitt stellt das Text-Satzsystem LaTeX
+		  vor.</Description> 
+		<Keywords>LaTeX, TeX, Textsatz</Keywords> 
+		<Coverage>LaTeX, TeX, Textsatz</Coverage> 
+	 </General> 
+	 <Lifecycle Status="Draft"> 
+		<Version>0.6</Version> 
+		<Contribute Role="Author"> 
+		  <Entity> 
+			 <vCard> 
+				<FN>Maik Stührenberg</FN> 
+				<N> 
+				  <Family>Stührenberg</Family> 
+				  <Given>Maik</Given> 
+				</N> 
+				<ORG> 
+				  <Orgname>Justus-Liebig-Universität Gießen</Orgname> 
+				  <Orgunit>Angewandte Sprachwissenschaft und
+					 Computerlinguistik</Orgunit> 
+				</ORG> 
+				<ADR TYPE="work"> 
+				  <Street>Otto-Behaghel-Str. 10 D</Street> 
+				  <Locality>Gießen</Locality> 
+				  <Pcode>35394</Pcode> 
+				  <Country>Germany</Country> 
+				</ADR> 
+				<TEL TYPE="work">0641/99-29056</TEL> 
+				<EMAIL TYPE="internet">Maik.Stuehrenberg@Uni-Giessen.de</EMAIL> 
+			 </vCard></Entity> 
+		  <Date>2002-02-06</Date> 
+		</Contribute> 
+	 </Lifecycle> 
+  </MetaData>
+<LayoutInformation CSS-URL="milca.css"/> 
+  <Content> 
+	 <Text> 
+		<Paragraph>LaTeX (das "X" wird wie ein "ch" ausgesprochen) ist ein
+		  Textsatzsystem, das auf TeX aufbaut. TeX ist keine WYSIWYG-Textverarbeitung wie
+		  Word, es besitzt noch nicht einmal eine grafische Oberfläche. Dennoch kann man
+		  mit TeX hohe typographische Ansprüche erfüllen. Unübertroffen sind TeX und
+		  LaTeX trotz ihres hohen Alters vor allem im Satz von mathematischen Formeln.
+		  Eine erste funktionierende Version von TeX wurde von Donald E. Knuth schon 1978
+		  herausgegeben. Seit 1982, in der Computerhistorie wahrlich ein biblisches
+		  Alter, gilt TeX als stabil.</Paragraph> 
+		<Paragraph>Ein TeX- oder LaTeX-System ist kein einzelnes Stück Software,
+		  sondern vielmehr das Zusammenspielen von einem Editor (der üblicherweise nicht
+		  zum TeX-System dazugehört), dem TeX-Programm, das für die Formatierung sorgt,
+		  einem Programm zur Darstellung der Ausgabedatei (einem Previewer) und einem
+		  Druckertreiber zur Druckausgabe. Dabei werden - ähnlich der Arbeitsweise einer
+		  Programmiersprache - aus jedem dieser einzelnen Bestandteile Ausgabedateien
+		  erzeugt, die vom folgenden Werkzeug eingelesen und weiter verarbeitet werden.
+		  Aus diesem Grund sind TeX und LaTeX nicht interaktiv wie eine klassische
+		  Textverarbeitung, die jede Formatierung sofort anzeigt. Um Änderungen sichtbar
+		  zu machen ist immer ein erneuter Aufruf des TeX-Interpreters nötig.</Paragraph>
+		
+		<Paragraph>TeX enthält über 900 Befehle, darunter 300 primitive
+		  Basisbefehle zum Setzen von Text. Das erschwert das Erlernen und den Einsatz im
+		  Privatgebrauch. Allerdings enthält TeX auch eine Makrosprache, mit deren Hilfe
+		  Funktionssammlungen auf höheren Abstraktionsebenen geschaffen werden können.
+		  Eine solche Sammlung an Funktionen und Formatvorlagen ist LaTeX, 1984 von
+		  Leslie Lamport entwickelt. Seit einiger Zeit arbeitet ein Team von unabhängigen
+		  Entwicklern an der Verbesserung und Erweiterung des Pakets. LaTeX hat es in
+		  kurzer Zeit geschafft, zur weltweit häufigsten Benutzerschnittstelle zur
+		  TeX-Welt zu werden. Umsetzungen von LaTeX gibt es für alle gängigen und darüber
+		  hinaus noch für viele exotische Betriebssysteme. Unter Windows ist
+		  <Link href="http://www.miktex.org" title="MikTeX Homepage">MikTeX</Link> eine
+		  weit verbreitete Distribution.</Paragraph> 
+		<Paragraph>Was LaTeX im Zusammenhang mit der Strukturierung von
+		  Informatione interessant macht, sind zweierlei Aspekte: 
+		  <List Type="ordered"> 
+			 <Item> 
+				<Paragraph>LaTeX ist eine Markupsprache;</Paragraph> 
+			 </Item> 
+			 <Item> 
+				<Paragraph>LaTeX ist um neue Dokumentklassen erweiterbar. Damit
+				  ähnelt das Konzept dem der Metasprachen SGML und XML.</Paragraph> 
+			 </Item> 
+		  </List> </Paragraph> 
+		<Paragraph>Das mächtige strukturelle Markup von LaTeX ist seine Stärke.
+		  Der Benutzer wählt aus einer der bereitgestellten Dokumentklassen eine passende
+		  aus und wird vom Layout vollkommen freigestellt. Auf Wunsch können allerdings
+		  explizite optische Markup-Informationen hinzugefügt werden. Zur Auswahl stehen
+		  verschiedene Layoutklassen, je nach Umfang und Verwendungszweck. Vom
+		  <Code>article</Code> über <Code>report</Code> bis hin zu <Code>book</Code>.
+		  Daneben gibt es noch Standardklassen für Briefe, Folien oder auch Poster. Da
+		  LaTeX vor allem im wissenschaftlichen Bereich eingesetzt wird, sind die Klassen
+		  vor allem für Dokumente dieser Zielgruppe optimiert.</Paragraph> 
+		<Paragraph>Die LaTeX Tags unterscheiden sich von denen in HTML oder
+		  SGML/XML. In den zuletzt genannten besteht ein Element aus einem öffnenden und
+		  schließenden Tag, jeweils durch "<Code>&lt;</Code>" und "<Code>&gt;</Code>"
+		  umschlossen. LaTeX-Tags werden dagegen üblicherweise durch den Backslash
+		  ("<Code>\</Code>") eingeleitet (von einigen wenigen Ausnahmen abgesehen). Die
+		  Bezeichnung der Tags ist in der Regel englisch und deskriptiv. Parameter, die
+		  den Attributen in anderen Markup- und Metasprachen vergleichbar sind, werden in
+		  geschweiften Klammern "<Code>{</Code>" bzw. "<Code>}</Code>" eingeschlossen,
+		  optionale Argumente in eckigen Klammern "<Code>[</Code>" bzw. "<Code>]</Code>".
+		  Problematisch an LaTeX Elementen ist, dass sie durch ein Leerzeichen
+		  abgeschlossen werden, was schnell Fehler verursachen kann.</Paragraph> 
+		<Paragraph>Im Gegensatz zu TeX besitzt LaTeX noch weitere Mechanismen zur
+		  Auszeichnung. Eine davon sind die Umgebungen, wie z.B.
+		  <Example Id="LaTeX1" Language="de" Status="well-formed"> 
+		  <ExampleText><Code Display="Block"><CodeElem>\begin{quote}</CodeElem>
+			 <CodeElem>Dies ist ein
+			 Zitat.</CodeElem><CodeElem>\end{quote}</CodeElem></Code></ExampleText></Example>Auch
+		  Listen und Aufzählungen werden durch Umgebungen realisiert.</Paragraph> 
+		<Paragraph>LaTeX unterteilt den Text in Abschnitte verschiedener
+		  Hierarchieordnungen (<Code>section</Code>, <Code>subsection</Code>,
+		  <Code>subsubsection</Code>). Titel und Autor eines Dokuments werden
+		  entsprechend ausgezeichnet. Damit folgt die Annotation der Elemente in LaTeX
+		  semantischen Regeln.</Paragraph> 
+		<Paragraph>Ein LaTeX Dokument:<Example Id="LaTeX2" Language="de"
+		  Status="well-formed"> 
+		  <ExampleText><Code
+			 Display="Block"><CodeElem>\documentclass[a4paper]{article}</CodeElem><CodeElem>\usepackage[ngerman]</CodeElem><CodeElem>\usepackage[latin1]{inputenc}</CodeElem><CodeElem>Dies
+			 ist eine einfache LaTeX
+			 Datei.</CodeElem><CodeElem>\end{document}</CodeElem></Code></ExampleText></Example></Paragraph>
+		
+		<Paragraph>An dieser Stelle soll nicht weiter auf LaTeX eingegangen
+		  werden, da eine weitere Vertiefung den Rahmen sprengen würde. Für Einführungen
+		  in LaTeX gibt es hervorragende Literatur, sowohl in gedruckter Form als auch
+		  frei im Web verfügbar.</Paragraph></Text> 
+	 <LearningObject> 
+		<MetaData> 
+		  <General Identifier="svg1" Structure="Atomic" AggregationLevel="1"> 
+			 <Title>Ein SVG</Title> 
+			 <Language>de</Language> 
+			 <Description>SVG</Description> 
+			 <Keywords>test</Keywords> 
+		  </General> 
+		  <Technical Format="text-xhtml"> 
+			 <Location>test2.svg</Location> 
+		  </Technical></MetaData></LearningObject> 
+  </Content> 
+  <bibliography> 
+	 <bibitem type="Internet" label="Cookbook"> 
+		<author><firstname>Markus</firstname><lastname>Porto</lastname> 
+		</author> 
+		<title>Kochbuch für LaTeX</title> 
+		<organization>Justus-Liebig-Universität Gießen</organization> 
+		<URL>http://www.uni-giessen.de/hrz/tex/cookbook/cookbook.html</URL> 
+	 </bibitem> 
+	 <bibitem type="Internet" label="LaTeXTipps"> 
+		<organization>Rechnerverbund Mathematik der Uni-GH
+		  Paderborn</organization> 
+		<title>LaTeX-Tipps</title> 
+		<URL>http://math-www.uni-paderborn.de/~dreyerja/latex/latex_tips.html</URL>
+		
+	 </bibitem> 
+  </bibliography> 
+</LearningObject>
