@@ -9,7 +9,7 @@
 
 <p>
 
-<form method=post action="{EXPORT_ACTION}">
+<form method=post action="{EXPORT_ACTION}" TARGET="{EXPORT_TARGET}">
 
 <table>
 
@@ -39,7 +39,7 @@
 
 	<!-- BEGIN print -->
 	<tr class="std">
-		<td class="option"><input type="radio" name="type" value="pdf"	{PRINT_CHECKED}></input>
+		<td class="option"><input type="radio" name="type" value="print"	{PRINT_CHECKED}></input>
 		</td>
 		<td class="option_value">
 		{TXT_PRINTEXPORT}
@@ -63,6 +63,7 @@
 		{TXT_PAGESALL}
 		</td>
 	</tr>
+<!--
 	<tr class="std">
 		<td class="option"><input type="radio" name="pages" value="chapter" ></input>
 		</td>
@@ -70,7 +71,9 @@
 		{TXT_PAGESCHAPTER}
 		</td>
 	</tr>
+-->	
 	<!-- BEGIN thispage -->
+<!--
 	<tr class="std">
 		<td class="option"><input type="radio" name="pages" value="page" ></input>
 		</td>
@@ -78,6 +81,7 @@
 		{TXT_PAGESPAGE}
 		</td>
 	</tr>
+-->
 	<!-- END thispage -->
 
 	<tr class="std">
