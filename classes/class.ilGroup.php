@@ -24,6 +24,7 @@
 
 /**
 * group class for ilias
+* TODO: this class is only used for mail functionality (class.ilmail.php) so far!!
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -101,9 +102,5 @@ class ilGroup
 		}
 		return $ids ? $ids : array();
 	}
-	
-	
-	
-
 }
 ?>
