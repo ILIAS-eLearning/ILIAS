@@ -131,6 +131,7 @@ assessment#:#eval_java_result#:#The answer for the value %s is %s. You received 
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
+assessment#:#eval_data#:#Evaluation Data
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)

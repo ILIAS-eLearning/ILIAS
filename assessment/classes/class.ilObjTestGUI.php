@@ -115,7 +115,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		setcookie("imagepathweb", $this->object->getImagePathWeb());
 		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
-		// Creating prerequisites for JavaScript Editor		
+		// Creating prerequisites for JavaScript Editor
 		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
 		$this->tpl->setCurrentBlock("htmlarea");
 		$this->tpl->setVariable("AREA_NAME", "introduction");
@@ -355,7 +355,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["enable_processing_time"]) {
 			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
 		}
-		
+
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -778,7 +778,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
 			}
 		}
-		
+
 
 		if ($_POST["cmd"]["random_select_yes"])
 		{
@@ -909,7 +909,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$checked_move = 0;
 		if ($_POST["cmd"]["move"])
 		{
-			foreach ($_POST as $key => $value) 
+			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/cb_(\d+)/", $key, $matches))
 				{
@@ -1009,7 +1009,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_OR", $this->lng->txt("or"));
 			$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
 		}
-		
+
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1470,7 +1470,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
 		switch ($question_gui->getQuestionType())
@@ -1536,16 +1535,21 @@ class ilObjTestGUI extends ilObjectGUI
 	function eval_statObject()
 	{
 		global $ilUser;
+		if (!$_POST["export_type"])
+		{
+			$_POST["export_type"] = TYPE_PRINT;
+		}
+
 		$testname = preg_replace("/\s/", "_", $this->object->getTitle());
 		switch ($_POST["export_type"])
 		{
 			case TYPE_XLS:
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
-				
+
 				// sending HTTP headers
 				$workbook->send("$testname.xls");
-				
+
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
@@ -1560,11 +1564,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$format_title->setFgColor('silver');
 				$worksheet =& $workbook->addWorksheet($this->object->getTitle());
 				break;
-			case TYPE_SPSS:
+			case (TYPE_SPSS || TYPE_PRINT):
 				$csvfile = array();
 				break;
 		}
-		
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1628,7 +1631,7 @@ class ilObjTestGUI extends ilObjectGUI
 				case TYPE_XLS:
 					$worksheet->write(0, $column++, $this->lng->txt("name"), $format_title);
 					break;
-				case TYPE_SPSS:
+				case (TYPE_SPSS || TYPE_PRINT):
 					array_push($csvrow, $this->lng->txt("name"));
 					break;
 			}
@@ -1646,7 +1649,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_qworkedthrough"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_qworkedthrough"));
 						break;
 				}
@@ -1665,7 +1668,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_pworkedthrough"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_pworkedthrough"));
 						break;
 				}
@@ -1684,7 +1687,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_timeofwork"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_timeofwork"));
 						break;
 				}
@@ -1703,7 +1706,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_atimeofwork"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_atimeofwork"));
 						break;
 				}
@@ -1722,7 +1725,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_firstvisit"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_firstvisit"));
 						break;
 				}
@@ -1741,7 +1744,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_lastvisit"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_lastvisit"));
 						break;
 				}
@@ -1760,7 +1763,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultspoints"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_resultspoints"));
 						break;
 				}
@@ -1779,7 +1782,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultsmarks"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_resultsmarks"));
 						break;
 				}
@@ -1798,7 +1801,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancemean"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_distancemean"));
 						break;
 				}
@@ -1817,7 +1820,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancequintile"), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->lng->txt("tst_stat_result_distancequintile"));
 						break;
 				}
@@ -1833,14 +1836,14 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write(0, $column++, $this->object->getQuestionTitle($i), $format_title);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $this->object->getQuestionTitle($i));
 						break;
 				}
 			}
 			switch ($_POST["export_type"])
 			{
-				case TYPE_SPSS:
+				case (TYPE_SPSS || TYPE_PRINT):
 					array_push($csvfile, $csvrow);
 					break;
 			}
@@ -1899,7 +1902,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case TYPE_XLS:
 						$worksheet->write($row, $column++, $value);
 						break;
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvrow, $value);
 						break;
 				}
@@ -1915,7 +1918,7 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $stat_eval["qworkedthrough"]);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS || TYPE_PRINT):
 							array_push($csvrow, $stat_eval["qworkedthrough"]);
 							break;
 					}
@@ -1930,8 +1933,11 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $stat_eval["pworkedthrough"], $format_percent);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS):
 							array_push($csvrow, $stat_eval["pworkedthrough"]);
+							break;
+						case (TYPE_PRINT):
+							array_push($csvrow, sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %");
 							break;
 					}
 				}
@@ -1951,8 +1957,11 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $time);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS):
 							array_push($csvrow, $time);
+							break;
+						case (TYPE_PRINT):
+							array_push($csvrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 							break;
 					}
 				}
@@ -1972,8 +1981,11 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $time);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS):
 							array_push($csvrow, $time);
+							break;
+						case (TYPE_PRINT):
+							array_push($csvrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 							break;
 					}
 				}
@@ -1987,7 +1999,10 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]), $format_datetime);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS):
+							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
+							break;
+						case (TYPE_PRINT):
 							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
 							break;
 					}
@@ -2002,7 +2017,7 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]), $format_datetime);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS || TYPE_PRINT):
 							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
 							break;
 					}
@@ -2021,6 +2036,9 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_SPSS:
 							array_push($csvrow, $stat_eval["resultspoints"]);
 							break;
+						case TYPE_PRINT:
+							array_push($csvrow, $stat_eval["resultspoints"]." ".strtolower($this->lng->txt("of"))." ". $stat_eval["maxpoints"]);
+							break;
 					}
 				}
 				if ($eval_statistical_settings["resultsmarks"]) {
@@ -2033,7 +2051,7 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $stat_eval["resultsmarks"]);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS || TYPE_PRINT):
 							array_push($csvrow, $stat_eval["resultsmarks"]);
 							break;
 					}
@@ -2048,7 +2066,7 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $stat_eval["distancemean"]);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS || TYPE_PRINT):
 							array_push($csvrow, $stat_eval["distancemean"]);
 							break;
 					}
@@ -2063,7 +2081,7 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_XLS:
 							$worksheet->write($row, $column++, $stat_eval["distancequintile"]);
 							break;
-						case TYPE_SPSS:
+						case (TYPE_SPSS || TYPE_PRINT):
 							array_push($csvrow, $stat_eval["distancequintile"]);
 							break;
 					}
@@ -2082,6 +2100,9 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_SPSS:
 							array_push($csvrow, $stat_eval[$i-1]["reached"]);
 							break;
+						case TYPE_PRINT:
+							array_push($csvrow, $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
+							break;
 					}
 					$this->tpl->parseCurrentBlock();
 				}
@@ -2092,7 +2113,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter++;
 				switch ($_POST["export_type"])
 				{
-					case TYPE_SPSS:
+					case (TYPE_SPSS || TYPE_PRINT):
 						array_push($csvfile, $csvrow);
 						break;
 				}
@@ -2110,9 +2131,23 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("symbol"));
 			$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
 			$this->tpl->parseCurrentBlock();
+
+			if ($_POST["export_type"]==TYPE_PRINT)
+			{
+				$row_num = 0;
+				$rows  = "";
+				foreach ($csvfile as $evalrow)
+				{
+					$rows = $rows."&row".$row_num++."=".implode(",", $evalrow);
+				}
+				$this->tpl->setCurrentBlock("print_block");
+				$this->tpl->setVariable("PRINT_ACTION", "print_eval_data.php?count=".count($csvfile)."&qcount=".count($this->object->questions).$rows);
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("output");
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
 			$this->tpl->parseCurrentBlock();
+
 		}
 			else
 		{
@@ -2165,6 +2200,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
 		$this->tpl->parseCurrentBlock();
+
+
 		switch ($_POST["export_type"])
 		{
 			case TYPE_XLS:
@@ -2456,7 +2493,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 				}
 			}
-	
+
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
