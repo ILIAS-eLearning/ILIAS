@@ -221,6 +221,22 @@ class ilConditionHandler
 		return true;
 	}
 
+
+	/**
+	* delete all trigger and target entries
+	* This method is called from ilObject::delete() if an object os removed from trash
+	*/
+	function delete($a_ref_id)
+	{
+		$query = "DELETE FROM conditions WHERE ".
+			"target_ref_id = '".$a_ref_id."' ".
+			"OR trigger_ref_id = '".$a_ref_id."'";
+
+		$res = $this->db->query($query);
+
+		return true;
+	}
+
 	/**
 	* delete condition
 	*/

@@ -884,6 +884,11 @@ class ilObject
 			$rbacadmin->revokePermission($this->getRefId());
 		}
 
+		// remove conditions
+		$ch =& new ilConditionHandler();
+		$ch->delete($this->getRefId());
+		unset($ch);
+
 		return $remove;
 	}
 
