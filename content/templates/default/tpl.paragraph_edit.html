@@ -348,7 +348,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-str",
       tooltip   : "Strong",
-      image     : "<span class=ilc_Strong>B</span>",
+      image     : "<span class=ilc_Strong>Strong</span>",
       textMode  : false,
 	  context   : "",
       action    : function(editor, id) 
@@ -364,7 +364,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-emp",
       tooltip   : "Italic",
-      image     : "<span class=ilc_Emph>I</span>",
+      image     : "<span class=ilc_Emph>Emphatic</span>",
       textMode  : false,
       action    : function(editor, id)
 	  			  {
@@ -645,9 +645,9 @@ function buttonX()
 	if(pos1>=0)
 	{
 		S1 = S.substr(0,pos1);
-		pos1b = S1.lastIndexOf(">");	// Rückwärts
-		pos1c = S1.lastIndexOf("<");	// Rückwärts
-		pos1d = S1.lastIndexOf("</");	// Rückwärts
+		pos1b = S1.lastIndexOf(">");	// Rï¿½ckwï¿½rts
+		pos1c = S1.lastIndexOf("<");	// Rï¿½ckwï¿½rts
+		pos1d = S1.lastIndexOf("</");	// Rï¿½ckwï¿½rts
 		
 		start = S1.substring(pos1c,pos1);
 		tagStart = S1.substring(pos1c,pos1b+1);
