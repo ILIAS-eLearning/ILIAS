@@ -1055,6 +1055,7 @@ class ilObjectGUI
 			// GET ALL LOCAL ROLE IDS
 			$role_folder = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
 			
+			$local_roles = array();
 			if ($role_folder)
 			{
 				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folder["ref_id"]);
