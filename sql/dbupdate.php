@@ -998,3 +998,7 @@ CREATE TABLE dp_properties (
 
 <#77>
 ALTER TABLE xmlvalue ADD FULLTEXT ( tag_value );
+
+<#78>
+UPDATE usr_pref SET value='default' WHERE keyword='skin';
+UPDATE usr_pref SET value='blueshadow' WHERE keyword='style';
