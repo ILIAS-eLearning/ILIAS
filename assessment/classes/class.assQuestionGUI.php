@@ -426,8 +426,19 @@ class ASS_QuestionGUI
 		$this->writePostData();
 		$this->object->saveToDb();
 		$this->object->removeAllQuestionReferences();
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		if ($_GET["test_ref_id"] == "")
+		{
+			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
+			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		}
+		else
+		{
+			require_once ("assessment/classes/class.ilObjTest.php");
+			$_GET["ref_id"] = $_GET["test_ref_id"];
+			$test =& new ilObjTest($_GET["test_ref_id"], true);
+			$test->insertQuestion($this->object->getId());
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+		}
 	}
 
 	/**

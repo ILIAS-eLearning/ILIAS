@@ -56,7 +56,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     	$lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, "ref_id");
+		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id"));
 
 		if (!defined("ILIAS_MODULE"))
 		{
@@ -90,7 +90,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
 
@@ -99,6 +99,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$q_type = ($_POST["sel_question_types"] != "")
 				? $_POST["sel_question_types"]
 				: $_GET["sel_question_types"];
+		}
+
+		if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
+			&& $next_class != "ilpageobjectgui")
+		{
+			if ($_GET["test_ref_id"] == "")
+			{
+				$this->setAdminTabs($_POST["new_type"]);
+			}
+			else
+			{
+				include_once "./classes/class.ilTabsGUI.php";
+				$tabs_gui =& new ilTabsGUI();
+
+				$tabs_gui->addTarget("back",
+					"test.php?ref_id=".$_GET["test_ref_id"]."&cmd=questions", "", "");
+
+				// output tabs
+				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+			}
 		}
 
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
@@ -141,7 +161,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 			case "ass_multiplechoicegui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -149,7 +168,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_clozetestgui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -157,7 +175,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_orderingquestiongui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -165,7 +182,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_matchingquestiongui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -173,7 +189,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_imagemapquestiongui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -181,7 +196,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_javaappletgui":
-				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -189,7 +203,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			default:
-				$this->setAdminTabs($_POST["new_type"]);
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
@@ -319,8 +332,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
-// echo "<br>create--".$_POST["sel_question_types"];
+//echo "<br>create--".$_POST["sel_question_types"];
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+		$q_gui->object->setObjId($this->object->getId());
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("editQuestion");
+
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+
+	/**
+	* create new question
+	*/
+	function &createQuestionForTestObject()
+	{
+//echo "<br>create--".$_GET["new_type"];
+		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$this->ctrl->setCmdClass(get_class($q_gui));
 		$this->ctrl->setCmd("editQuestion");
@@ -370,95 +398,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 
-	/**
-	* Creates the create/edit template form of a question
-	*
-	* Creates the create/edit template form of a question and fills it with
-	* that data of the question.
-	*
-	* @access public
-	*/
-	/*
-	function editQuestionForm($type)
-	{
-echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
-		if ($_POST["cmd"]["unlock_no"])
-		{
-	    	header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
-			exit;
-		}
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		if (!$type)
-		{
-			$type = $this->object->getQuestiontype($_GET["edit"]);
-		}
-
-		// catch feedback message
-		sendInfo();
-
-		// First of all: Load question data from database
-		$question =& $this->object->createQuestion($type);
-		if (($_POST["id"] > 0) or ($_GET["edit"] > 0))
-		{
-			$question->object->loadFromDb($_POST["id"] + $_GET["edit"]);
-		}
-
-
-		$this->setLocator("", "", "", $question->object->getTitle());
-		$missing_required_fields = 0;
-
-		// cancel action
-		if (strlen($_POST["cmd"]["cancel"]) > 0)
-		{
-			// Cancel
-			$this->cancel_action();
-			exit();
-		}
-
-		$question->object->setObjId($this->obj_id);
-		$question_type = $question->getQuestionType();
-
-		// set screen title (Edit/Create Question)
-		if ($question->object->id > 0)
-		{
-			$title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
-		}
-		else
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($question_type);
-		}
-		$this->tpl->setVariable("HEADER", $title);
-
-		// lock confirmation
-		if ($_GET["locked"] == 1)
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_askunlock.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&edit=" . $_GET["edit"]);
-			$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("unlock"));
-			$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->isInUse($_GET["edit"])));
-			$this->tpl->parseCurrentBlock();
-			return;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
-
-		if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]))
-		{
-			$missing_required_fields = $question->writePostData();
-		}
-
-		$question->showEditForm();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->parseCurrentBlock();
-	}*/
-
-
+	
 	/**
 	* show assessment data of object
 	*/

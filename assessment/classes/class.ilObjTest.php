@@ -62,7 +62,7 @@ class ilObjTest extends ilObject
 {
 /**
 * The database id of the additional test data dataset
-* 
+*
 * The database id of the additional test data dataset
 *
 * @var integer
@@ -71,8 +71,8 @@ class ilObjTest extends ilObject
 
 /**
 * Contains the name of the author
-* 
-* A text representation of the authors name. The name of the author must 
+*
+* A text representation of the authors name. The name of the author must
 * not necessary be the name of the owner.
 *
 * @var string
@@ -81,7 +81,7 @@ class ilObjTest extends ilObject
 
 /**
 * Contains the metadata of the test
-* 
+*
 * A reference to an IMS compatible matadata set
 *
 * @var object
@@ -90,7 +90,7 @@ class ilObjTest extends ilObject
 
 /**
 * Contains the test questions
-* 
+*
 * An array which contains all the test questions
 *
 * @var array
@@ -99,7 +99,7 @@ class ilObjTest extends ilObject
 
 /**
 * A textual introduction for the test
-* 
+*
 * An introduction text to give users more information
 * on the test.
 *
@@ -109,7 +109,7 @@ class ilObjTest extends ilObject
 
 /**
 * Defines the mark schema
-* 
+*
 * Defines the mark schema
 *
 * @var object
@@ -233,7 +233,7 @@ class ilObjTest extends ilObject
 * @var string
 */
   var $ending_time;
-  
+
 /**
 * An array containing the different types of assessment tests
 *
@@ -245,7 +245,7 @@ class ilObjTest extends ilObject
 * @var array
 */
 	var $test_types;
-	
+
 	/**
 	* Constructor
 	* @access	public
@@ -253,30 +253,32 @@ class ilObjTest extends ilObject
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function ilObjTest($a_id = 0,$a_call_by_reference = true)
-	{ 
+	{
 		$this->type = "tst";
-		$this->ilObject($a_id, $a_call_by_reference);
+		$this->mark_schema = new ASS_MarkSchema();
+		//$this->ilObject($a_id, $a_call_by_reference);
 		$this->retrieveTestTypes();
 		$this->test_id = -1;
-    $this->author = $this->ilias->account->fullname;
-    $this->introduction = "";
-    $this->questions = array();
-    $this->sequence_settings = TEST_FIXED_SEQUENCE;
-    $this->score_reporting = REPORT_AFTER_QUESTION;
-    $this->reporting_date = "";
-    $this->nr_of_tries = 0;
-    $this->starting_time = "";
+		$this->author = $this->ilias->account->fullname;
+		$this->introduction = "";
+		$this->questions = array();
+		$this->sequence_settings = TEST_FIXED_SEQUENCE;
+		$this->score_reporting = REPORT_AFTER_QUESTION;
+		$this->reporting_date = "";
+		$this->nr_of_tries = 0;
+		$this->starting_time = "";
 		$this->ending_time = "";
-    $this->processing_time = "00:00:00";
+		$this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
-    $this->test_type = TYPE_ASSESSMENT;
-    $this->test_formats = 7;
-    $this->mark_schema = new ASS_MarkSchema();
+		$this->test_type = TYPE_ASSESSMENT;
+		$this->test_formats = 7;
+		//$this->mark_schema = new ASS_MarkSchema();
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
 	/**
@@ -496,7 +498,7 @@ class ilObjTest extends ilObject
 				break;
 
 			case "paste":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
@@ -522,20 +524,24 @@ class ilObjTest extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 	
-/**
-* Retrieves the test types from the database
-*
-* Retrieves the test types from the database and sets the
-* test_types array to the corresponding values.
-*
-* @access private
-* @see $test_types
-*/
-	function retrieveTestTypes() {
+	/**
+	* Retrieves the test types from the database
+	*
+	* Retrieves the test types from the database and sets the
+	* test_types array to the corresponding values.
+	*
+	* @access private
+	* @see $test_types
+	*/
+	function retrieveTestTypes()
+	{
+		global $ilDB;
+
 		$this->test_types = array();
 		$query = "SELECT * FROM tst_test_type ORDER BY test_type_id";
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
 			$this->test_types[$row->test_type_id] = $row->type_tag;
 		}
 	}
@@ -626,7 +632,7 @@ class ilObjTest extends ilObject
     if ($this->test_id > 0) {
       $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
 				$db->quote("$complete"),
-        $db->quote($this->test_id) 
+        $db->quote($this->test_id)
       );
       $result = $db->query($query);
 		}
@@ -654,7 +660,7 @@ class ilObjTest extends ilObject
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId()),
-        $db->quote($this->author), 
+        $db->quote($this->author),
         $db->quote($this->test_type),
         $db->quote($this->introduction), 
         $db->quote($this->sequence_settings),
@@ -687,7 +693,7 @@ class ilObjTest extends ilObject
         $db->quote($this->starting_time), 
         $db->quote($this->ending_time), 
 				$db->quote("$complete"),
-        $db->quote($this->test_id) 
+        $db->quote($this->test_id)
       );
       $result = $db->query($query);
     }
@@ -723,44 +729,46 @@ class ilObjTest extends ilObject
 	}
 
 
-/**
-* Loads a ilObjTest object from a database
-* 
-* Loads a ilObjTest object from a database (experimental)
-*
-* @param object $db A pear DB object
-* @param integer $test_id A unique key which defines the test in the database
-* @access public
-*/
-  function loadFromDb()
-  {
-    $db = $this->ilias->db;
-    
-    $query = sprintf("SELECT * FROM tst_tests WHERE obj_fi = %s",
-      $db->quote($this->getId())
-    );
-    $result = $db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+	/**
+	* Loads a ilObjTest object from a database
+	*
+	* Loads a ilObjTest object from a database (experimental)
+	*
+	* @param object $db A pear DB object
+	* @param integer $test_id A unique key which defines the test in the database
+	* @access public
+	*/
+	function loadFromDb()
+	{
+		$db = $this->ilias->db;
+
+		$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi = %s",
+		$db->quote($this->getId())
+			);
+		$result = $db->query($query);
+		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		{
+			if ($result->numRows() == 1)
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->test_id = $data->test_id;
-        $this->author = $data->author;
-        $this->test_type = $data->test_type_fi;
-        $this->introduction = $data->introduction;
-        $this->sequence_settings = $data->sequence_settings;
-        $this->score_reporting = $data->score_reporting;
-        $this->nr_of_tries = $data->nr_of_tries;
-        $this->processing_time = $data->processing_time;
+				$this->author = $data->author;
+				$this->test_type = $data->test_type_fi;
+				$this->introduction = $data->introduction;
+				$this->sequence_settings = $data->sequence_settings;
+				$this->score_reporting = $data->score_reporting;
+				$this->nr_of_tries = $data->nr_of_tries;
+				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
-        $this->starting_time = $data->starting_time;
+				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
 
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->loadQuestions();
-      }
-    }
- }
+			}
+		}
+	}
 
 	function loadQuestions() {
     $db = $this->ilias->db;
@@ -841,7 +849,7 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the sequence settings
-* 
+*
 * Sets the sequence settings of the ilObjTest object
 *
 * @param integer $sequence_settings The sequence settings
@@ -990,7 +998,7 @@ class ilObjTest extends ilObject
 
 /**
 * Checks if the user can review the test
-* 
+*
 * Checks if the user can review the test and returns TRUE if the user can review the test.
 * Otherwise the result is FALSE.
 *
@@ -1146,7 +1154,7 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the ending time for the test
-* 
+*
 * Sets the ending time in database timestamp format for the test
 *
 * @param string $ending_time The ending time for the test. Empty string for no ending time.
@@ -1319,7 +1327,6 @@ class ilObjTest extends ilObject
 
 	function insertQuestion($question_id)
 	{
-
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
@@ -1340,7 +1347,6 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($duplicate_id),
 			$this->ilias->db->quote($sequence)
 			);
-
 		$result = $this->ilias->db->query($query);
 		if ($result != DB_OK)
 		{
@@ -2298,7 +2304,7 @@ class ilObjTest extends ilObject
 	function getImagePath() {
 		return CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/images/";
 	}
-	
+
 /**
 * Returns the web image path for web accessable images of a survey
 *
