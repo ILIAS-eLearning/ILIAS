@@ -55,9 +55,10 @@ class Object
 		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_GET["type"]))
 		{
 			$data = array();
-									
+			$data["fields"] = array();						
+			$data["fields"]["title"] = "";
+			$data["fields"]["desc"] = "";
 			return $data;
-
 		}
 		else
 		{
