@@ -43,13 +43,8 @@ class RbacAdmin
 		}
 
 		$q = "DELETE FROM rbac_ua WHERE usr_id='".$a_usr_id."'";
-		$r = $this->ilias->db->query($q);
+		$this->ilias->db->query($q);
 		
-		if (!$r->affectedRows())
-		{
-			return false;
-		}
-
 		return true;
 	}
 
@@ -175,12 +170,7 @@ class RbacAdmin
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
-		$r = $this->ilias->db->query($q);
-		
-		if (!$r->affectedRows())
-		{
-			return false;
-		}
+		$this->ilias->db->query($q);
 
 		return true;
 	}
@@ -285,13 +275,8 @@ class RbacAdmin
 		$q = "DELETE FROM rbac_ua ".
 			 "WHERE usr_id='".$a_usr_id."' ".
 			 "AND rol_id='".$a_rol_id."'";
-		$r = $this->ilias->db->query($q);
+		$this->ilias->db->query($q);
 		
-		if (!$r->affectedRows())
-		{
-			return false;
-		}
-
 		return true;
 	}
 
