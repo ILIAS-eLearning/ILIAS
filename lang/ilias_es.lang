@@ -38,6 +38,9 @@
 administration#:#analyze_data#:#Analizar integridad de datos
 administration#:#analyze_desc#:#Buscar en el sistema objetos corruptos/inválidos/inexistentes/sobredimensionados
 administration#:#analyzing#:#Analizando...
+administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
+administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
+administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!###17 Nov 2004 new variable
 administration#:#clean#:#Limpiar
 administration#:#clean_desc#:#Eliminar referencias inválidas y nodos del árbol. Eliminar huecos de la estructura en árbol
 administration#:#cleaning#:#Realizando Limpieza...
@@ -63,6 +66,7 @@ administration#:#purging_trash#:#Limpiando papelera...
 administration#:#purging_unbound_objs#:#Limpiando objetos sobredimensionados
 administration#:#removing_invalid_childs#:#Eliminando nodos del árbol no válidos
 administration#:#removing_invalid_refs#:#Eliminando referencias no válidas
+administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
 administration#:#restore_missing#:#Restaurando objetos desaparecidos
 administration#:#restore_missing_desc#:#Restaurar objetos sobredimensionados y perdidos a la Carpeta de Recuperación
 administration#:#restore_trash#:#Restaurar objetos eliminados
@@ -79,12 +83,14 @@ administration#:#scanning_system#:#Explorando sistema
 administration#:#searching_deleted_objs#:#Buscando objetos borrados...
 administration#:#searching_invalid_childs#:#Buscando nodos del arbol no válidos...
 administration#:#searching_invalid_refs#:#Buscando referencias no válidas...
+administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...###17 Nov 2004 new variable
 administration#:#searching_missing_objs#:#Buscando objetos desaparecidos...
 administration#:#searching_unbound_objs#:#Buscando objetos sobredimensionados...
 administration#:#skipped#:#ignorado
 administration#:#start_scan#:#Comenzar!
 administration#:#stop_scan#:#Parar!
 administration#:#systemcheck#:#Chequeo del Sistema
+administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.###17 Nov 2004 new variable
 administration#:#view_last_log#:#Ver el último log de exploración
 administration#:#view_log#:#Ver detalles
 assessment#:#0_unlimited#:#(0 = unlimited)
