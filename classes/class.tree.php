@@ -782,7 +782,7 @@ class Tree
 	function fetchNodeData($a_row)
 	{
 		$data = array(
-					"ref_id"		=> $a_row->obj_id,
+					"ref_id"		=> $a_row->ref_id,
 					"obj_id"		=> $a_row->obj_id,
 					"type"			=> $a_row->type,
 					"title"			=> $a_row->title,
