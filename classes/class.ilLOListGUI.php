@@ -112,8 +112,8 @@ class ilLOListGUI
 		//build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-
 		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("learning_objects"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lo_list.php?cmd=explorer&expand=".$_GET["expand"]);
 		$this->tpl->parseCurrentBlock();

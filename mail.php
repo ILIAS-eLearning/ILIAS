@@ -57,7 +57,7 @@ if(isset($_GET["mail_id"]))
 	$_POST["cmd"]["submit"] = true;
 	$_POST["action"] = 'delete';
 	$_POST["mail_id"] = array($_GET["mail_id"]);
-}	
+}
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 if (isset($_POST["cmd"]["submit"]))

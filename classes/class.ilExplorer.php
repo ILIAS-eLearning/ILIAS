@@ -159,6 +159,7 @@ class ilExplorer
 		$this->expand_target = $a_exp_target;
 	}
 
+
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
@@ -526,7 +527,7 @@ class ilExplorer
 		{
 			return false;
 		}
-			
+
 		if ($deleted == 1)
 		{
 			return true;
@@ -536,7 +537,7 @@ class ilExplorer
 			return false;
 		}
 	}
-	
+
 	/**
 	* set the expand option
 	* this value is stored in a SESSION variable to save it different view (lo view, frm view,...)
@@ -563,7 +564,7 @@ class ilExplorer
 		}
 		$this->expanded = $_SESSION["expand"];
 	}
-	
+
 	/**
 	* active/deactivate the filter
 	* @access	public
@@ -575,7 +576,7 @@ class ilExplorer
 		$this->filtered = $a_bool;
 		return true;
 	}
-	
+
 	/**
 	* check if item is in filter
 	* @access	private

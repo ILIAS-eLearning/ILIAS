@@ -149,7 +149,7 @@ td.il_no_style {
 }
 
 /* locator */
-div.locator {
+div.il_Locator {
 	padding-top:1px;
 	padding-left:5px;
 	padding-right:5px;
@@ -157,11 +157,84 @@ div.locator {
 	font-size:13px;
 	vertical-align:top;
 	text-align:left;
-	background-color:#b9c0d5;
+	background-color: #E0E0E0;
 	border-width: 1px;
 	border-style: outset;
-	border-color: #b9c0d5;
+	border-color: #E0E0E0;
 }
+
+span.il_LocatorTitle
+{
+	font-weight: bold;
+}
+
+/* Tabs */
+
+div.il_Tab{
+	line-height: 20px;
+}
+
+a.tabactive
+{
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 2px;
+	border-style: inset;
+	border-color: #DDDDDD;
+	color: black;
+	background-color: #CCCCCC;
+}
+
+a.tabinactive
+{
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: outset;
+	border-color: #DDDDDD;
+}
+
+/* Explorer */
+
+div.il_Explorer
+{
+	margin-top: 23px;
+	margin-left: 4px;
+	margin-right: 3px;
+	margin-bottom: 3px;
+}
+
+div.il_ExplorerHeader
+{
+	padding-top:1px;
+	padding-left:3px;
+	padding-right:3px;
+	padding-bottom:1px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#E0E0E0;
+	border-width: 1px;
+	border-style: outset;
+	border-color: #E0E0E0;
+	margin:0px;
+	font-weight: bold;
+	top: 0px;
+	left: 0px;
+	position: fixed;
+	width: 100%;
+}
+
+
+/* Table Links */
 
 a.tblheader, a.tblheader:visited
 {
@@ -176,17 +249,24 @@ a.tblheader:hover
 
 /* ---------------- headlines ------------------ */
 
-h1 {
-	margin-top:4px;
-	margin-bottom:4px;
-	font-size:16px;
+div.il_Header
+{
+	margin-top:2px;
+	margin-bottom:5px;
 	color:#222222;
-	background-color: #C0C0C0;
+	background-color: #E0E4F0;
 	border-width:2px;
-	border-color:#BBBBBB;
+	border-color:#E0E0F0;
 	border-style:outset;
 	padding:7px;
 	background-image: url(blueshadow/images/cellpic5.gif);
+	background-repeat:repeat-x;
+}
+
+h1 {
+	margin-top:2px;
+	margin-bottom:10px;
+	font-size:16px;
 }
 
 h2 {
@@ -203,16 +283,6 @@ h2 {
 }
 
 /* ----------------- invisible border ------------- */
-
-div.top_border {
-	margin:0px;
-	padding-top:10px;
-	padding-bottom:5px;
-	padding-right:15px;
-	padding-left:15px;
-	background-color:#153060;
-	/*background-color:#b9c0d5;*/
-}
 
 div.invisible_border {
 	margin-top:15px;
@@ -394,22 +464,6 @@ select.ilEditSelect {
 	background-image: none;
 	text-decoration:none;
 	font-size:10px;
-}
-
-
-/* ------------------ tabs -------------- */
-.tab {
-	font-size:11px;
-	color: #000000;
-	font-weight: bold;
-	background-color:#153060;
-}
-
-.tabactive {
-	background-color:#dddddd;
-}
-.tabinactive {
-	background-color:#bbbbbb;
 }
 
 /* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */

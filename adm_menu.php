@@ -60,6 +60,7 @@ $explorer->setOutput(0);
 $output = $explorer->getOutput();
 
 $tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("all_objects"));
 $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();

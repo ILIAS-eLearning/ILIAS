@@ -147,7 +147,7 @@
 <object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="st">st</subobj>
-	<property name="view">view_content</property>
+	<property name="view">edit_properties</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="editMeta">meta_data</property>
