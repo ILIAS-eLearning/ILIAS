@@ -1588,7 +1588,7 @@ class ilObjUserGUI extends ilObjectGUI
 			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
-			"getHobby" => "hobby");
+			"getHobby" => "hobby", "getMatriculation" => "matriculation");
 
 		foreach ($val_arr as $key => $value)
 		{

@@ -66,6 +66,7 @@ class ilObjUser extends ilObject
 	var $fax;
 	var $email;
 	var $hobby;
+	var $matriculation;
     var $referral_comment;
     var $approve_date;
     var $active;
@@ -245,6 +246,7 @@ class ilObjUser extends ilObject
 		$this->setPhoneHome($a_data["phone_home"]);
 		$this->setPhoneMobile($a_data["phone_mobile"]);
 		$this->setFax($a_data["fax"]);
+		$this->setMatriculation($a_data["matriculation"]);
 		$this->setEmail($a_data["email"]);
 		$this->setHobby($a_data["hobby"]);
 
@@ -296,7 +298,7 @@ class ilObjUser extends ilObject
                 . "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,approve_date,active,"
+                . "referral_comment,matriculation,approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
@@ -308,7 +310,7 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', "
                 . "'".$this->phone_office."','".$this->phone_home."', "
                 . "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(), "
-                . "'".ilUtil::addSlashes($this->referral_comment)."', '".$this->approve_date."', '".$this->active."', "
+                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '" .$this->approve_date."', '".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
                 . ")";
 		}
@@ -318,7 +320,7 @@ class ilObjUser extends ilObject
                 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,approve_date,active,"
+                . "referral_comment,matriculation,approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
@@ -330,7 +332,7 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', "
                 . "'".$this->phone_office."','".$this->phone_home."', "
                 . "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(), "
-                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".$this->approve_date."','".$this->active."', "
+                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".$this->approve_date."','".$this->active."', "
                 . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
                 . ")";
 		}
@@ -381,6 +383,7 @@ class ilObjUser extends ilObject
             "phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
             "fax='".ilUtil::prepareDBString($this->fax)."', ".
             "referral_comment='".ilUtil::prepareDBString($this->referral_comment)."', ".
+            "matriculation='".ilUtil::prepareDBString($this->matriculation)."', ".
             "approve_date='".ilUtil::prepareDBString($this->approve_date)."', ".
             "active='".ilUtil::prepareDBString($this->active)."', ".
             "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
@@ -1210,6 +1213,25 @@ class ilObjUser extends ilObject
 	function getFax()
 	{
 		return $this->fax;
+	}
+
+	/**
+	* set matriculation number
+	* @access	public
+	* @param	string	matriculation number
+	*/
+	function setMatriculation($a_str)
+	{
+		$this->matriculation = $a_str;
+	}
+
+	/**
+	* get matriculation number
+	* @access	public
+	*/
+	function getMatriculation()
+	{
+		return $this->matriculation;
 	}
 
 	/**
