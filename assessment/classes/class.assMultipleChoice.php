@@ -182,7 +182,14 @@ class ASS_MultipleChoice extends ASS_Question {
 		}
 		$qtiRenderChoice = $this->domxml->create_element("render_choice");
 		// shuffle output
-		$qtiRenderChoice->set_attribute("shuffle", "yes");
+		if ($this->getShuffle())
+		{
+			$qtiRenderChoice->set_attribute("shuffle", "yes");
+		}
+		else
+		{
+			$qtiRenderChoice->set_attribute("shuffle", "no");
+		}
 		// add answers
 		foreach ($this->answers as $index => $answer)
 		{
