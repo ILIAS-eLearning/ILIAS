@@ -1760,7 +1760,7 @@ meta#:#meta_very_low#:#Molto basso###01 Oct 2003 new variable
 meta#:#meta_yes#:#Si###01 Oct 2003 new variable
 search#:#search_all_results#:#Tutti i resultati###10 Sep 2003 new variable
 search#:#search_concatenation#:#Concatenazione###10 Sep 2003 new variable
-search#:#seararch#:#search_lm_meta#:ch_content#:#Contenuto della pagina###10 Sep 2003 new variable
+search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable
 search#:#search_dbk_content#:#Libraria digitale (contenuto)###10 Sep 2003 new variable
 search#:#search_dbk_meta#:#Libraria digitale (metadata)###10 Sep 2003 new variable
 search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
