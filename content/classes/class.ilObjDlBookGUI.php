@@ -66,10 +66,6 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		
 	}
 	
-	function offlineexport() {
-		
-	}
-	
 	function offlineexportform() 
 	{
 		
