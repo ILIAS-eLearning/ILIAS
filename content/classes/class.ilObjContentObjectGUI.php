@@ -1365,7 +1365,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
 
 		$cols = array("", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"]);
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "exportList", "cmdClass" => get_class($this));
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
