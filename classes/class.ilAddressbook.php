@@ -68,7 +68,7 @@ class ilAddressbook
 				"WHERE (login LIKE '%".$a_query_str."%' ".
 				"OR firstname LIKE '%".$a_query_str."%' ".
 				"OR lastname LIKE '%".$a_query_str."%' ".
-				"OR email LIKE '%".$a_query_str."%') ";
+				"OR email LIKE '%".$a_query_str."%') ".
 				"AND user_id = '".$this->user_id."'";
 		}
 		else
