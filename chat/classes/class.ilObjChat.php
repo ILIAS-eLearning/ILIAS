@@ -139,10 +139,10 @@ class ilObjChat extends ilObject
 
 	function __formatBody(&$user,&$lang)
 	{
-		$body = $lang->txt("chat_invitation_body");
+		$body = $lang->txt("chat_invitation_body")." ";
 		$body .= $user->getFullname();
-		$body .= "\n\n";
-		$body .= $lang->txt("chat_chatroom_body").": ".$this->chat_room->getTitle()."\n";
+		$body .= "\n";
+		$body .= $lang->txt("chat_chatroom_body")." ".$this->chat_room->getTitle()."\n\n";
 		$body .= "<a class=\"navigation\" href=\"./chat/chat_rep?ref_id=".$this->getRefId()."\">".
 			$lang->txt("chat_to_chat_body")."</a>";
 

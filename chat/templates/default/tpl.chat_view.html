@@ -21,7 +21,12 @@
 	  <tr class="{ROWCOL}">
 		<td class="std" align="center">{ROOM_CHECK}</td>
 		<td class="std">{ROOM_NAME}</td>
-		<td class="std"><a href="{ROOM_LINK}" class="navigation" target="{ROOM_TARGET}">{ROOM_TXT_LINK}</a></td>
+			<!-- BEGIN active -->
+			<td class="std"><a href="{ROOM_LINK}" class="navigation" target="{ROOM_TARGET}">{ROOM_TXT_LINK}</a></td>
+			<!-- END active -->
+			<!-- BEGIN not_active -->
+			<td class="std">&nbsp;</td>
+			<!-- END not_active -->
 	  </tr>
 	  <!-- END tbl_rooms_row -->
 	  <tr class="tblfooter">

@@ -318,14 +318,14 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
   </object>
-  <object name="chat" class_name="Chat" module="chat" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+  <object name="chat" class_name="Chat" module="chat" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view">view</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
   </object>
-  <object name="chac" class_name="ChatServer" module="chat" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+  <object name="chac" class_name="ChatServer" module="chat" checkbox="0" inherit="0" translate="sys" rbac="1" >
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
