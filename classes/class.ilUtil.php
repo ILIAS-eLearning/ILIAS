@@ -845,7 +845,7 @@ class ilUtil
 			return false;
 		}
 
-		if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
+		if (!preg_match("/^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$/", $a_passwd))
 		{
 			return false;
 		}
