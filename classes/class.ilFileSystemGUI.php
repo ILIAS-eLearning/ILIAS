@@ -244,8 +244,11 @@ class ilFileSystemGUI
 			$this->tpl->setVariable("COLUMN_COUNTS", 4);
 			$tbl->setColumnWidth(array("1%", "1%", "60%", "40%"));
 			$cols = array("", "", "dir_file", "size");
+			$header_params = $this->ctrl->getParameterArray($this, "listFiles");
+			/*
 			$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-				"cmd" => "listFiles", "cmdClass" => get_class($this), "hier_id" => $_GET["hier_id"]);
+				"cmd" => "listFiles", "cmdClass" => get_class($this),
+				"hier_id" => $_GET["hier_id"]);*/
 			$tbl->setHeaderVars($cols, $header_params);
 		}
 		else
@@ -255,8 +258,10 @@ class ilFileSystemGUI
 			$this->tpl->setVariable("COLUMN_COUNTS", 5);
 			$tbl->setColumnWidth(array("1%", "1%", "50%", "25%", "25%"));
 			$cols = array("", "", "dir_file", "size", "label");
+			$header_params = $this->ctrl->getParameterArray($this, "listFiles");
+			/*
 			$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-				"cmd" => "listFiles", "cmdClass" => get_class($this), "hier_id" => $_GET["hier_id"]);
+				"cmd" => "listFiles", "cmdClass" => get_class($this), "hier_id" => $_GET["hier_id"]);*/
 			$tbl->setHeaderVars($cols, $header_params);
 		}
 
