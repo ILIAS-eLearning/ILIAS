@@ -1603,9 +1603,9 @@ class ilObjectGUI
 
 			$data["roles"][] = $r;
 		}
-
+		
 		$ope_list = getOperationList($this->object->getType());
-
+		
 		// BEGIN TABLE_DATA_OUTER
 		foreach ($ope_list as $key => $operation)
 		{

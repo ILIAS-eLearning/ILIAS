@@ -205,16 +205,20 @@ class ilHACPExplorer extends ilAICCExplorer
 						else
 							$hacpURL=ILIAS_HTTP_PATH."/content/sahs_server.php";
 						
-						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;// $a_node_id";
-						$url.="?aicc_url=$hacpURL&aicc_sid=".session_id();
-					
+						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;
+						//$aicc_sid=$this->slm_obj->ref_id."%20".session_id();
+						$aicc_sid=implode("_", array(session_id(), $this->slm_obj->ref_id, $a_node_id));
+						$url.="?aicc_url=$hacpURL&aicc_sid=$aicc_sid";
+
+/*					
 						foreach ($this->slm_obj as $key=>$value)
 							$output.="key=$key value=$value<br>";
 						$tpl->setVariable("TITLE", $output);
-	
-						//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-						$tpl->setVariable("LINK_TARGET", "$url");
+*/	
+						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+						$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
+						$tpl->setVariable("ONCLICK", " onclick=\"parent.$frame_target.location.href='$url'\"");
+
 						
 //					}
 				}

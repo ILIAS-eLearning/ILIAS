@@ -30,6 +30,8 @@
 * @package content
 */
 
+include ("sahs_presentation.php");
+/*
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
@@ -49,5 +51,5 @@ $lm_presentation = new ilLMPresentationGUI();
 $ilBench->save();
 
 //$tpl->show();
-
+*/
 ?>

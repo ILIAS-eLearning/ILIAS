@@ -74,25 +74,28 @@ class ilObjSCORMTracking
 		}
 	}
 
-	function store()
+	function store($ref_id=0, $sahs_id=0, $extractData=1)
 	{
 		global $ilDB, $ilUser;
 
-		$this->extractData();
+		if (empty($ref_id))
+			$ref_id=$_GET["ref_id"];
+		
+		if (empty($sahs_id))
+			$sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
+			
+		if ($extractData==1)
+			$this->extractData();
 
 		if (is_object($ilUser))
 		{
 			$user_id = $ilUser->getId();
 		}
 
-		$sahs_id = ($_GET["sahs_id"] != "")
-			? $_GET["sahs_id"]
-			: $_POST["sahs_id"];
-
 		// writing to scorm test log
 		$f = fopen("content/scorm.log", "a");
 		fwrite($f, "\nCALLING SCORM store()\n");
-		if ($_GET["ref_id"] <= 1)
+		if ($ref_id <= 1)
 		{
 			fwrite($f, "Error: No ref_id given.\n");
 		}
@@ -114,7 +117,7 @@ class ilObjSCORMTracking
 				{
 					$q = "INSERT INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
 						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($_GET["ref_id"]).",".
+						$ilDB->quote($ref_id).",".
 						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Insert - L:".$insert["left"].",R:".
@@ -132,7 +135,7 @@ class ilObjSCORMTracking
 				{
 					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
 						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($_GET["ref_id"]).",".
+						$ilDB->quote($ref_id).",".
 						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Update - L:".$update["left"].",R:".

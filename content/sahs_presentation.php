@@ -38,6 +38,10 @@ require_once "classes/class.ilObjectGUI.php";
 $lng->loadLanguageModule("content");
 
 	$ref_id=$_GET["ref_id"];
+
+	if (!$rbacsystem->checkAccess("read", $_GET["ref_id"])) {
+		$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+	}
 	
 	//read type of cbt
 	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
@@ -63,7 +67,8 @@ $lng->loadLanguageModule("content");
 					break;
 		default:
 					//unknown type
-					$ilias->raiseError($lng->txt("unknown type in sahs_presentation"),$ilias->error_obj->MESSAGE);
+					require_once "./content/classes/class.ilLMPresentationGUI.php";
+					$lm_presentation = new ilLMPresentationGUI();
 
 	}
 
