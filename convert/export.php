@@ -1599,7 +1599,7 @@ class ILIAS2export
 		
 		// create the xml string (workaround for domxml_new_doc) ***
 		$xmlStr =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>". // *** ISO-8859-1
-					"<!DOCTYPE LearningObject SYSTEM \"http://localhost/ilias3/convert/ilias_lo.dtd\">".
+					"<!DOCTYPE LearningObject SYSTEM \"http://127.0.0.1/ilias3/xml/ilias_lo.dtd\">".
 					"<root />"; // dummy node
 		
 		// create a domxml document object
