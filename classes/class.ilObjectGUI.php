@@ -2203,7 +2203,7 @@ class ilObjectGUI
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),
 				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
+				"desc"        => $obj_data->getDescription()." ",	// workaround for empty desc
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
@@ -2216,7 +2216,7 @@ class ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
 			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
-
+	
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
