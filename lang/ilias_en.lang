@@ -36,6 +36,7 @@
 administration#:#analyze_data#:#Analyze data Integrity
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#analyzing#:#Analyzing...
+common#:#no_limit#:#No limit
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
@@ -1744,6 +1745,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
+common#:#usr_hits_per_page#:#Hits/page in tables
 content#:#pg#:#Page
 content#:#read offline#:#Read Offline
 content#:#st#:#Chapter

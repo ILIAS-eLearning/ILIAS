@@ -194,7 +194,11 @@ if ($ilias->auth->getAuth())
 	{
 		$ilias->account->refreshLogin();
 	}
-
+	
+	// set hits per page for all lists using table module 
+	$_GET["limit"] = ($_GET["limit"]) ? intval($_GET["limit"]): intval($ilias->account->prefs["hits_per_page"]);
+	$_GET["offset"] = intval($_GET["offset"]);
+	
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"

@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.68 2004/02/11 09:59:47 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.69 2004/02/13 14:13:07 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -669,8 +669,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit(10);
-		$tbl->setOffset(0);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -785,19 +785,6 @@ class ilObjGroupGUI extends ilObjectGUI
 				//sort data array
 
 				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-
-				$offset = intval($_GET["offset"]);
-				$limit = intval($_GET["limit"]);
-
-				if ($limit == 0)
-				{
-					$limit = 10;	// TODO: move to user settings
-				}
-
-				if ($offset == "")
-				{
-					$offset = 0;	// TODO: move to user settings
-				}
 
 				// create table
 				include_once "./classes/class.ilTableGUI.php";
@@ -1168,17 +1155,11 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0) $limit = 10;	// TODO: move to user settings
-		if ($offset == "") $offset = 0;	// TODO: move to user settings
-
 		if (isset($this->data["data"]))
 		{
 			//sort data array
 			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-			$output = array_slice($this->data["data"],$offset,$limit);
+			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 		}
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
@@ -1199,8 +1180,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->render();

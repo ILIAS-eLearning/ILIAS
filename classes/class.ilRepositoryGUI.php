@@ -97,6 +97,9 @@ class ilRepositoryGUI
 		{
 			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 		}
+		
+		// set no limit for hits/page
+		$_GET["limit"] = 9999;
 
 		$this->categories = array();
 		$this->learning_resources = array();
@@ -435,12 +438,8 @@ class ilRepositoryGUI
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
 
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-		$limit = 9999;		// todo: not nice
 		$maxcount = count($this->categories);
-		$cats = array_slice($this->categories, $offset, $limit);
+		$cats = array_slice($this->categories, $_GET["offset"], $_GET["limit"]);
 
 		// render table content data
 $ilBench->start("Repository", "showCategories_01Rows");
@@ -547,8 +546,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer
@@ -574,17 +573,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 	*/
 	function showLearningResources()
 	{
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 9999;	// todo: not nice
-		}
-
 		$maxcount = count($this->learning_resources);
-		$lrs = array_slice($this->learning_resources, $offset, $limit);
+		$lrs = array_slice($this->learning_resources, $_GET["offset"], $_GET["limit"]);
 
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
@@ -733,8 +723,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer
@@ -759,17 +749,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 	*/
 	function showGlossaries()
 	{
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 9999;	// todo: not nice
-		}
-
 		$maxcount = count($this->glossaries);
-		$glos = array_slice($this->glossaries, $offset, $limit);
+		$glos = array_slice($this->glossaries, $_GET["offset"], $_GET["limit"]);
 
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
@@ -867,8 +848,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer
@@ -1100,13 +1081,6 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 	{
 		global  $tree, $rbacsystem, $ilias, $lng;
 
-		// set offset & limit
-		//$offset = intval($_GET["offset"]);
-		//$limit = intval($_GET["limit"]);
-
-		$limit = 9999;
-		$offset = 0;
-
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
@@ -1115,7 +1089,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		$maxcount = count($this->groups);
 
-		$cont_arr = array_slice($this->groups, $offset, $limit);
+		$cont_arr = array_slice($this->groups, $_GET["offset"], $_GET["limit"]);
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_grp_row.html");
 
@@ -1177,8 +1151,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		$tbl->setColumnWidth(array("90%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 		//$this->showActions(true);
 
@@ -1202,13 +1176,6 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 	{
 		global  $tree, $rbacsystem;
 
-		// set offset & limit
-		//$offset = intval($_GET["offset"]);
-		//$limit = intval($_GET["limit"]);
-
-		$limit = 99999;
-		$offset = 0;
-
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
@@ -1217,7 +1184,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		$maxcount = count($this->exercises);
 
-		$cont_arr = array_slice($this->exercises, $offset, $limit);
+		$cont_arr = array_slice($this->exercises, $_GET["offset"], $_GET["limit"]);
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_exc_row.html");
 
@@ -1268,8 +1235,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		$tbl->setColumnWidth(array("90%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 		//$this->showActions(true);
 
@@ -1292,13 +1259,6 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		$this->lng->loadLanguageModule("chat");
 
-		// set offset & limit
-		//$offset = intval($_GET["offset"]);
-		//$limit = intval($_GET["limit"]);
-
-		$limit = 99999;
-		$offset = 0;
-
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
@@ -1307,7 +1267,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		$maxcount = count($this->chats);
 
-		$cont_arr = array_slice($this->chats, $offset, $limit);
+		$cont_arr = array_slice($this->chats, $_GET["offset"], $_GET["limit"]);
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_chat_row.html");
 
@@ -1374,8 +1334,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		$tbl->setColumnWidth(array("90%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 		//$this->showActions(true);
 
@@ -1400,17 +1360,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		
 		$this->lng->loadLanguageModule("assessment");
 		
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 9999;	// todo: not nice
-		}
-
 		$maxcount = count($this->tests);
-		$tests = array_slice($this->tests, $offset, $limit);
+		$tests = array_slice($this->tests, $_GET["offset"], $_GET["limit"]);
 
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
@@ -1548,8 +1499,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer
@@ -1570,17 +1521,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
   
   function showQuestionPools()
   {
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 9999;	// todo: not nice
-		}
-
 		$maxcount = count($this->questionpools);
-		$qpool = array_slice($this->questionpools, $offset, $limit);
+		$qpool = array_slice($this->questionpools, $_GET["offset"], $_GET["limit"]);
 
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
@@ -1667,8 +1609,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer

@@ -134,16 +134,6 @@ class ilObjectGUI
 			$this->prepareOutput();
 		}
 
-		// set offset & limit for
-		// TODO: init better move to inc.header.php
-		$_GET["offset"] = intval($_GET["offset"]);
-		$_GET["limit"] = intval($_GET["limit"]);
-
-		if ($_GET["limit"] == 0)
-		{
-			$_GET["limit"] = 10;	// TODO: move to user settings
-		}
-//echo ":".get_class($this->object).":";
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{

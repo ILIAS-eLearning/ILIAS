@@ -303,6 +303,12 @@ if ($_GET["cmd"] == "save")
 				$reload = true;
 		}
 
+		// set user hits per page
+		if ($_POST["usr_hits_per_page"] != "")
+		{
+			$ilias->account->setPref("hits_per_page",$_POST["usr_hits_per_page"]);
+		}
+
 		// save user data & object_data
 		$ilias->account->setTitle($ilias->account->getFullname());
 		$ilias->account->setDescription($ilias->account->getEmail());
@@ -385,6 +391,29 @@ foreach ($templates as $template)
 	}
 }
 
+// hits per page
+$hits_options = array(10,15,20,30,40,50,100,9999);
+
+foreach ($hits_options as $hits_option)
+{
+	$tpl->setCurrentBlock("selecthits");
+
+	if ($ilias->account->prefs["hits_per_page"] == $hits_option)
+	{
+		$tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
+	}
+
+	$tpl->setVariable("HITSVALUE", $hits_option);
+
+	if ($hits_option == 9999)
+	{
+		$hits_option = $lng->txt("no_limit");
+	}
+
+	$tpl->setVariable("HITSOPTION", $hits_option);
+	$tpl->parseCurrentBlock();
+}
+
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
@@ -448,6 +477,7 @@ $tpl->setVariable("TXT_HOBBY",$lng->txt("hobby"));					// here
 $tpl->setVariable("TXT_DEFAULT_ROLES",$lng->txt("default_roles"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
+$tpl->setVariable("TXT_USR_HITS_PER_PAGE",$lng->txt("usr_hits_per_page"));
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
@@ -519,7 +549,7 @@ foreach ($val_array as $key => $value)
 		$tpl->setVariable("CHK_".strtoupper($value), "checked");
 	}
 }
-// End of shwing
+// End of showing
 // Testing by ratana ty
 
 $tpl->parseCurrentBlock();
