@@ -1,0 +1,143 @@
+/**
+* ILIAS language file
+*
+* @module		language file lithuanian
+* @modulegroup		language
+* @author 		Arturas Kavaliauskas <rgb@soften.ktu.lt> 
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+<!-- language file start -->
+available_languages#:#galimos kalbos
+back#:#atgal
+change#:#keisti
+change_password#:#Keisti slaptažodį
+choose_language#:#pasirinkite kalbą
+choose_languages#:#Pasirinkite papildomas kalbas ir/arba pašalinkite.
+choose_password#:#Pasirinkite slaptažodį
+data_path#:#duomenys saugomi (kelias)
+database#:#duomenų bazė
+database_exists#:#duomenų bazė jau yra
+database_is_uptodate#:#Duomenų bazės struktūra tinkama
+database_needs_update#:#Duomenų bazės struktūrą reikia atnaujinti
+database_ready#:#duomenų bazė paruošta.
+database_update#:#atnaujinti duomenų bazės struktūrą
+database_version#:#dabartinė duomenų bazės struktūros versija
+date#:#data
+db_host#:#duomenų bazės serveris
+db_name#:#duomenų bazės vardas
+db_pass#:#duomenų bazės slaptažodis
+db_type#:#duomenų bazės tipas
+db_user#:#duomenų bazės vartotojas
+db_version#:#duomenų bazės struktūros versija
+default#:#standartinis
+delete#:#šalinti
+en_by_default#:#(Anglų kalbos pašalinti negalima).
+enter_password#:#Prašom įvesti slaptažodį
+env_ok#:#Taigi, viskas atrodo teisingai.
+env_using#:#ILIAS 3 veiks ant
+env_warning#:#ILIAS 3 veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS 3 sėkmingai veiks ir kitokiose aplinkose.
+environment#:#Aplinka
+err_create_database_failed#:#sukurti duomenų bazę nepavyko
+err_wrong_login#:#Neteisingas prisijungimas
+file_does_not_exist#:#Byla neegzistuoja.
+file_version#:#bylos versija
+fill_both_fields#:#Prašom užpildyti abu laukelius!
+ilias_version#:#ILIAS versija
+inifile#:#nustatymų byla
+inifile_can_write#:#ILIAS 3 diegimo programa gali sukurti nustatymų bylą.
+inifile_cannot_write#:#ILIAS 3 diegimo programa negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.
+inifile_content#:#Nustatymų bylos turinys:
+inifile_exists#:#Nustatymų byla jau egzistuoja. Atkreipkite dėmesį, kad nauji nustatymai sunaikins senus.
+inifile_fill_all#:#Prašom užpildyti visus laukelius!
+inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS 3 startas.
+inifile_written#:#Nustatymų byla sėkmingai sukurta.
+inst_name#:#diegimo vardas
+install#:#įdiegti
+installation#:#Instaliacija
+installed#:#įdiegta
+intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jūs galite vykdyti diegimo/atnaujinimo darbus.
+lang_de#:#Vokiečių
+lang_dk#:#Danų
+lang_en#:#Anglų
+lang_error_occurred#:#Įvyko klaida. Darbas nutraukiamas.
+lang_es#:#Ispanų
+lang_fr#:#Prancūzų
+lang_id#:#Indoneziečių
+lang_it#:#Italų
+lang_no#:#Norvegų
+lang_pl#:#Lenkų
+lang_se#:#Švedų
+lang_lt#:#Lietuvių
+lang_xx#:#(kita)
+language#:#kalba
+languages#:#kalbos
+languages_installed#:#Įdiegtos kalbos.
+logged_out#:#Jūsų autentifikuota sesija užbaigta.
+login#:#autentifikacija
+login_to_ilias#:#prisijungti prie ILIAS
+logout#:#užbaigti autentifikuotą sesiją
+no_changes#:#Jokių pakeitimų.
+no_db_update_file#:#dbupdate.php byla nerasta!
+not_connected_to_db#:#Nėra ryšio su duomenų baze.
+out_of_webspace#:#(vietos stygius)
+password#:#slaptažodis
+password_changed#:#Slaptažodis pakeistas.
+password_empty#:#Tuščias slaptažodis!
+password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 3 diegimo programos.
+password_set#:#Slaptažodis išsaugotas.
+pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS 3 sistemos diegimo tęsti nepavyks.
+pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima
+pre_folder_write#:#ILIAS 3 kataloge rašyti galima
+pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.
+pre_php_version#:#PHP versija
+preliminaries#:#Preliminariai
+reset#:#Atstatyti
+set_newpasswd#:#Įveskite naują slaptažodį
+set_oldpasswd#:#Įveskite seną slaptažodį
+setup#:#diegimo programa
+setup_database#:#įdiegti duomenų bazę
+setup_database_desc#:#diegiame duomenų bazę
+setup_db_first#:#Pirmiau įdiekite duomenų bazę!
+setup_ini_first#:#Pirmiau sukurkite nustatymų bylą!
+setup_inifile#:#sukurti nustatymų bylą
+setup_inifile_desc#:#kuriame nustatymų bylą
+setup_languages#:#įdiegti kalbas
+setup_languages_desc#:#diegiame kalbas
+setup_mainmenu#:#Pagrindinis meniu
+setup_menu#:#diegimo menių
+setup_password#:#sukurti slaptažodį
+setup_password_desc#:#priskirkite slaptažodį priėjimui prie diegimo programos apriboti.
+setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.
+setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite
+submit#:#Patvirtinti
+update_applied#:#Atnaujinimas įvykdytas sėkmingai
+update_error#:#Atnaujinimas nesėkmingas
+update_not_found#:#Atnaujinimas nerastas!
+version#:#versija
+webspace_dir#:#Internetinis duomenų kelias
+with#:#su
+wrong_password#:#Klaidingas slaptažodis!
