@@ -2919,6 +2919,7 @@ search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
 survey#:#add_category#:#Add category
+survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
@@ -3000,6 +3001,7 @@ survey#:#duplicate#:#Duplicate
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#end_date#:#End date
+survey#:#enter_phrase_title#:#Please enter a phrase title
 survey#:#enter_value#:#Enter a value
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
@@ -3007,6 +3009,7 @@ survey#:#exit#:#Exit
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
+survey#:#finished#:#finished
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
 survey#:#harmonic_mean#:#Harmonic mean
@@ -3019,11 +3022,13 @@ survey#:#invite_participants#:#Invite participants
 survey#:#invited_groups#:#Invited groups
 survey#:#invited_users#:#Invited users
 survey#:#last_update#:#Last update
+survey#:#lower_limit#:#Lower limit
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
+survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
 survey#:#mode#:#Most selected value
 survey#:#mode_nr_of_selections#:#Nr of selections
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
@@ -3039,6 +3044,7 @@ survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
+survey#:#not_finished#:#not finished
 survey#:#obligatory#:#obligatory
 survey#:#off#:#off
 survey#:#offline#:#offline
@@ -3051,10 +3057,16 @@ survey#:#percentage_of_selections#:#Percentage of users that selected this categ
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
+survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
+survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
+survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
+survey#:#qpl_questions_pasted#:#Question(s) pasted.
+survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
+survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!
 survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
@@ -3075,6 +3087,9 @@ survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?
 survey#:#reset_filter#:#Reset filter
 survey#:#resume_survey#:#Resume the survey
+survey#:#save_phrase#:#Save as phrase
+survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!
+survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Groups
 survey#:#search_invitation#:#Search for users or groups to invite
@@ -3106,26 +3121,11 @@ survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
+survey#:#upper_limit#:#Upper limit
+survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
-survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
-survey#:#qpl_questions_pasted#:#Question(s) pasted.
-survey#:#finished#:#finished
-survey#:#not_finished#:#not finished
-survey#:#save_phrase#:#Save as phrase
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
-survey#:#enter_phrase_title#:#Please enter a phrase title
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!
-survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
-survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.
-survey#:#lower_limit#:#Lower limit
-survey#:#upper_limit#:#Upper limit
