@@ -8,7 +8,7 @@
 	{MESSAGE}
 	<!-- BEGIN new_thread -->
 	<p>
-	  <form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
+	  <form name="formular1" action="{FORMACTION}" method="post"  enctype="multipart/form-data" onSubmit="return isEmpty(this, 'all', '')">
 
 		<table class="std">
 		  <tr>
@@ -21,6 +21,12 @@
 			  <textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{FORM_MESSAGE}</textarea>
 			</td>
 		  </tr>
+		<!-- BEGIN attachment -->
+		  <tr>
+			<td class="option" align="right"><b>{TXT_ATTACHMENTS_ADD}</b></td>
+		 	<td class="option_value"><input class="submit" type="file" name="userfile" /></td>
+		  </tr>
+		<!-- END attachment -->
 		  <tr>
 			<td class="option" valign="top">{TXT_NOTIFY}</td>
 			<td class="option_value">&nbsp;<input type="checkbox" name="formData[notify]" value="1" {NOTIFY_CHECKED} />{NOTIFY}</td>

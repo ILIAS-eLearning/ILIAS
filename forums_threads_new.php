@@ -122,6 +122,14 @@ if ($_GET["cmd"] == "newthread")
 		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
 			ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"]);
 		
+		// file upload
+		if(isset($_FILES["userfile"]))
+		{
+			$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$newPost);
+			$tmp_file_obj->storeUploadedFile($_FILES["userfile"]);
+		}
+		// end file upload		
+		
 		// Visit-Counter
 		$frm->setDbTable("frm_data");
 		$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
@@ -147,6 +155,12 @@ $tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
+
+$tpl->setCurrentBlock("attachment");
+$tpl->setVariable("TXT_ATTACHMENTS_ADD",$lng->txt("forums_attachments_add"));
+$tpl->setVariable("BUTTON_UPLOAD",$lng->txt("upload"));
+$tpl->parseCurrentBlock("attachment");
+
 $tpl->parseCurrentBlock("new_thread");
 
 $tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
