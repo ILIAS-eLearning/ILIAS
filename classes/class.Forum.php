@@ -161,7 +161,27 @@ class Forum
 	
 	// *******************************************************************************
 	
+	
+	/**
+	* get one dataset from set Table and set WhereCondition
+	* @return array $res dataset 
+	* @access public
+	*/
+	function getOneDataset()
+	{	
 		
+		$q = "SELECT * FROM ".$this->dbTable." WHERE ( ".$this->whereCondition." )";		
+		
+		if ($this->orderField != "")
+			$q .= " ORDER BY ".$this->orderField;				
+			
+		$res = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
+     		
+		$this->setWhereCondition("1");
+		
+		return $res;	
+	}
+	
 	
 	/**
 	* get one topic-dataset by WhereCondition
