@@ -205,7 +205,7 @@ class Object
 				
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
-				$css_row = TUtil::switchColor($num,"row_high","row_low");
+				$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operation["operation"]);
 				$tplContent->parseCurrentBlock();

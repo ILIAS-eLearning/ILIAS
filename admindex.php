@@ -1,16 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
-<head>
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-</head>
+<?php
+/**
+ * admin objects frameset
+ * 
+ * this file decides if a frameset is used or not
+ * 
+ * @author Peter Gabriel <pgabriel@databay.de>
+ * @package ilias-core
+ * @version $Id$
+*/
+require_once "./include/ilias_header.inc";
 
-<frameset cols="175,*">
-<frame src="adm_menu.php?expand=1" name="tree" marginwidth="0" marginheight="0" scrolling="auto">
-<frame src="content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto">
-<noframes>
-The administration interface requires a <b>frames-capable</b> web browser.
-</noframes>
-</frameset>
+//look if there is a file tpl.adm.html
+$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
 
-</html>
+if (file_exists($startfilename))
+{
+	$tpl = new Template("tpl.adm.html", false, false);
+	$tpl->show();
+}
+else
+{
+	header("location: content.php?expand=1");
+}
+
+?>

@@ -11,5 +11,17 @@
 require_once "./include/ilias_header.inc";
 
 $tpl = new Template("tpl.main_buttons.html", false, false);
+
+//user stylehandling
+if ($ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
+{
+	$style = $ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css";
+}
+else
+{
+	$style = "style.css";
+}
+$tpl->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
+
 $tpl->show();
 ?>

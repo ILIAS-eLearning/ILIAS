@@ -43,7 +43,7 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		$num++;
 		
 		// color changing
-		$css_row = TUtil::switchColor($num,"row_high","row_low");
+		$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
 		
 		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
@@ -91,5 +91,6 @@ $eingebunden = true;
 require_once("./adm_basicdata.php");
 $tplContent->setVariable("SYSTEMSETTINGS",$tpl->get());
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
 ?>

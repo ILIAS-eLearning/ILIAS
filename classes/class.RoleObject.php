@@ -261,7 +261,7 @@ class RoleObject extends Object
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
 				// color changing
-				$css_row = TUtil::switchColor($key,"row_high","row_low");
+				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operations["operation"]);
 				$tplContent->parseCurrentBlock();
@@ -286,7 +286,7 @@ class RoleObject extends Object
 
 				foreach ($users as $key => $user)
 				{
-					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
+					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "tblrow1" : "tblrow2");
 					$checked = in_array($user["obj_id"],$assigned_users);
 					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
 					$tplContent->setVariable("CHECK_USER",$box);
@@ -311,7 +311,7 @@ class RoleObject extends Object
 			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key,"row_high","row_low"));
+				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key, "tblrow1", "tblrow2"));
 				$tplContent->setVariable("CHECK_ADOPT",$radio);
 				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
 				$tplContent->setVariable("ROLE_NAME",$par["title"]);

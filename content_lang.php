@@ -40,7 +40,7 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 		foreach ($user_data as $key => $val)
 		{
 			// color changing
-			$css_row = TUtil::switchColor($key,"row_high","row_low");
+			$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
 
 			$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"]."&cmd=edit");
@@ -68,5 +68,7 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
+$tplmain->show();
+
 ?>

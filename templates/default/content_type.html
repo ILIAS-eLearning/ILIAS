@@ -1,13 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html>
-<head>
+<!-- @version $Id$ -->
 
-<title>ILIAS admin interface</title>
-<link rel="stylesheet" type="text/css" href="ilias.css">
-</head>
-<body>
+<style>
+body { margin:0px; }
+</style>
 <table cellpadding="0" cellspacing="0" width="100%" border="0">
-
 <tr>
   <td bgcolor="#000000" rowspan="5" width="10%" valign="bottom" 
    align="left">&nbsp;&nbsp;<img src="images/spacer.gif" 
@@ -128,7 +124,7 @@
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <input type="HIDDEN" name="type" value="objf">
 	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
-		  <tr class="header">
+		  <tr class="tblheader">
 			<td width="8%" align="right" colspan="2">
 			  <div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=type&direction={DIR}"
 				  <strong>Type</strong></a>
@@ -189,5 +185,3 @@
 	  </table>
 	  <!-- END options -->
 </form>
-</body>
-</html>
