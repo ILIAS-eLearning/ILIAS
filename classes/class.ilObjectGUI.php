@@ -615,14 +615,14 @@ class ilObjectGUI
  	*/
 	function pasteObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview, $log;
 
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
 		{
 			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
+		
 		// this loop does all checks
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
@@ -680,34 +680,58 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// log pasteObject call
+		$log->write("ilObjectGUI::pasteObject(), cmd: ".$_SESSION["clipboard"]["cmd"]);
 
 		////////////////////////////////////////////////////////
 		// everything ok: now paste the objects to new location
+		
+		// to prevent multiple actions via back/reload button
+		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
+		unset($_SESSION["clipboard"]["ref_ids"]);
 
 		// process COPY command
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
 			// CALL PRIVATE CLONE METHOD
-			$this->cloneObject($_GET["ref_id"]);
+			$this->cloneObject($ref_ids);
 		}
 
 		// process CUT command
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
 		{
-			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+			// get subtrees
+			foreach($ref_ids as $ref_id)
 			{
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
-			
-				// delete old tree entries
-				$this->tree->deleteTree($top_node);
-
 			}
+			
+			// STEP 1: Move all subtrees to trash
+			$log->write("ilObjectGUI::pasteObject(), (1/3) move subtrees to trash");
+			
+			foreach($ref_ids as $ref_id)
+			{
+				$tnodes = $this->tree->getSubtree($this->tree->getNodeData($ref_id));
+				
+				foreach ($tnodes as $tnode)
+				{
+					$rbacadmin->revokePermission($tnode["child"]);
+					$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
+				}
 
-			// now move all subtrees to new location
+				$this->tree->saveSubTree($ref_id);
+				$this->tree->deleteTree($this->tree->getNodeData($ref_id));
+			}
+			
+	
+			// STEP 2: Move all subtrees to new location
+			$log->write("ilObjectGUI::pasteObject(), (2/3) move subtrees to new location");
+
 			// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
 			foreach ($subnodes as $key => $subnode)
 			{
@@ -716,6 +740,12 @@ class ilObjectGUI
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
+
+				// log entry
+				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
+					" rgt: ".$subnode[0]["rgt"].", lft: ".$subnode[0]["lft"].", parent: ".$subnode[0]["parent"].",".
+					" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
+					", title: ".$obj_data->getTitle());
 
 				// ... remove top_node from list ...
 				array_shift($subnode);
@@ -729,23 +759,57 @@ class ilObjectGUI
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
+						
+						// log entry
+						$log->write("ilObjectGUI::pasteObject(), inserted subnode. ref_id: ".$node["child"].",".
+							" rgt: ".$node["rgt"].", lft: ".$node["lft"].", parent: ".$node["parent"].",".
+							" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
+							", title: ".$obj_data->getTitle());
 					}
 				}
 			}
+			
+			// STEP 3: Remove trashed objects from system
+			$log->write("ilObjectGUI::pasteObject(), (3/3) remove trashed subtrees from system");
+
+			foreach ($ref_ids as $ref_id)
+			{
+				// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+				$saved_tree = new ilTree(-(int)$ref_id);
+				$node_data = $saved_tree->getNodeData($ref_id);
+				$subtree_nodes = $saved_tree->getSubTree($node_data);
+	
+				// remember already checked deleted node_ids
+				$checked[] = -(int) $ref_id;
+	
+				// dive in recursive manner in each already deleted subtrees and remove these objects too
+				$this->removeDeletedNodes($ref_id, $checked, false);
+		
+				// delete save tree
+				$this->tree->deleteTree($node_data);
+				
+				// write log entry
+				$log->write("ilObjectGUI::pasteObject(), deleted tree, tree_id: ".$node_data["tree"].
+					", child: ".$node_data["child"]);
+			}
+
+			
+			$log->write("ilObjectGUI::pasteObject(), cut finished");
+			
 			// inform other objects in hierarchy about paste operation
 			//$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 
 			// inform other objects in hierarchy about cut operation
 			// the parent object where cut occured
 			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
-			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$_SESSION["clipboard"]["ref_ids"]);
+			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$ref_ids);
 			unset($tmp_object);
 		} // END CUT
 
 		// process LINK command
 		if ($_SESSION["clipboard"]["cmd"] == "link")
 		{
-			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+			foreach ($ref_ids as $ref_id)
 			{
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
@@ -783,7 +847,13 @@ class ilObjectGUI
 					// ... use mapping array to find out the correct new parent node where to put in the node...
 					//$new_parent = array_search($node["parent"],$mapping);
 					// ... append node to mapping for further possible subnodes ...
-					$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];						
+					$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+					
+					// log creation of role folder
+					$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
+						", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+						", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+
 				}
 
 				// ... insert subtree of top_node if any subnodes exist ...
@@ -818,7 +888,13 @@ class ilObjectGUI
 								// ... use mapping array to find out the correct new parent node where to put in the node...
 								//$new_parent = array_search($node["parent"],$mapping);
 								// ... append node to mapping for further possible subnodes ...
-								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];						
+								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+								
+								// log creation of role folder
+								$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
+									", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+									", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+
 							}
 						}
 						
@@ -838,6 +914,9 @@ class ilObjectGUI
 					}
 				}
 			}
+			
+			$log->write("ilObjectGUI::pasteObject(), link finished");
+			
 			// inform other objects in hierarchy about link operation
 			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 		} // END LINK
@@ -1004,18 +1083,18 @@ class ilObjectGUI
 	*
 	* @access	private
 	*/
-	function cloneObject()
+	function cloneObject($a_ref_ids)
 	{
 		global $rbacsystem;
 
-		if(!is_array($_SESSION["clipboard"]["ref_ids"]))
+		if(!is_array($a_ref_ids))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_error_copy"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// NOW CLONE ALL OBJECTS
 		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
+		foreach ($a_ref_ids as $id)
 		{
 			$this->cloneNodes($id,$this->ref_id,$mapping);
 		}
@@ -1081,7 +1160,7 @@ class ilObjectGUI
 	*/
 	function undeleteObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $log;
 
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
@@ -1112,6 +1191,7 @@ class ilObjectGUI
 			// DELETE SAVED TREE
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
+			
 		}
 
 		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
@@ -1133,9 +1213,12 @@ class ilObjectGUI
 	*/
 	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id)
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $log;
 
 		$this->tree->insertNode($a_source_id,$a_dest_id);
+		
+		// write log entry
+		$log->write("ilObjectGUI::insertSavedNodes(), restored ref_id $a_source_id from trash");
 
 		// SET PERMISSIONS
 		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
@@ -1167,7 +1250,7 @@ class ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
-		global $rbacsystem, $rbacadmin;
+		global $rbacsystem, $rbacadmin, $log;
 	
 		// TODO: move checkings to deleteObject
 		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
@@ -1222,6 +1305,10 @@ class ilObjectGUI
 				{
 					$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
 					$obj->delete();
+					
+					// write log entry
+					$log->write("ilObjectGUI::confirmedDeleteObject(), deleted obj_id ".$obj->getId().
+						", type: ".$obj->getType().", title: ".$obj->getTitle());
 				}
 			}
 			else
@@ -1251,6 +1338,10 @@ class ilObjectGUI
 
 				$this->tree->saveSubTree($id);
 				$this->tree->deleteTree($this->tree->getNodeData($id));
+
+				// write log entry
+				$log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$id.
+					" to trash");
 				
 				// remove item from all user desktops
 				$affected_users = ilUtil::removeItemFromDesktops($id);
@@ -1291,7 +1382,7 @@ class ilObjectGUI
 	*/
 	function removeFromSystemObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $log;
 		
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
@@ -1318,11 +1409,22 @@ class ilObjectGUI
 			foreach ($subtree_nodes as $node)
 			{
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				
+				// write log entry
+				$log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: ".$node_obj->getId().
+					", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
+					"title: ".$node_obj->getTitle());
+					
 				$node_obj->delete();
 			}
 
 			// FIRST DELETE ALL ENTRIES IN RBAC TREE
 			$this->tree->deleteTree($node_data);
+						
+			// write log entry
+			$log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: ".$node_data["tree"].
+				", child: ".$node_data["child"]);
+
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
@@ -1339,8 +1441,10 @@ class ilObjectGUI
 	* @param	integer ref_id of source object
 	* @param    boolean 
 	*/
-	function removeDeletedNodes($a_node_id,$a_checked)
+	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects = true)
 	{
+		global $log;
+		
 		$q = "SELECT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
 		
 		$r = $this->ilias->db->query($q);
@@ -1359,13 +1463,26 @@ class ilObjectGUI
 
 				$this->removeDeletedNodes($row->tree,$a_checked);
 			
-				foreach ($del_subtree_nodes as $node)
+				if ($a_delete_objects)
 				{
-					$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
-					$node_obj->delete();
+					foreach ($del_subtree_nodes as $node)
+					{
+						$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+						
+						// write log entry
+						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().
+							", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
+							"title: ".$node_obj->getTitle());
+							
+						$node_obj->delete();
+					}
 				}
 			
 				$this->tree->deleteTree($del_node_data);
+				
+				// write log entry
+				$log->write("ilObjectGUI::removeDeletedNodes(), deleted tree, tree_id: ".$del_node_data["tree"].
+					", child: ".$del_node_data["child"]);
 			}
 		}
 		
