@@ -318,6 +318,26 @@ div.il_ExplorerHeader
 	width: 100%;
 }
 
+div.il_RepMode
+{
+	position: relative;
+	top: -20px;
+	text-align:right;
+}
+
+div.il_RepDescription
+{
+	position: relative;
+	top: -10px;
+	font-size: 13px;
+	font-style: italic;
+	text-align:left;
+}
+
+div.il_RepAddObjects
+{
+	text-align: right;
+}
 
 /* Table Links */
 
