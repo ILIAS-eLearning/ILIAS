@@ -446,7 +446,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 											  $_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
 											  "&offset=".$Start."&orderby=".$_GET["orderby"]);
 							$tpl->setVariable("TXT_CENS_MESSAGE", $lng->txt("forums_the_post"));
-							$tpl->setVariable("TXT_CENS_COMMENT", $lng->txt("comment").":");
+							$tpl->setVariable("TXT_CENS_COMMENT", $lng->txt("forums_censor_comment").":");
 							$tpl->setVariable("CENS_MESSAGE", $frm->prepareText($node["pos_cens_com"],2));
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel"));
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm"));
