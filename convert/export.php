@@ -523,32 +523,19 @@ class ILIAS2export
 				}
 				break;
 			
-			/* ***
 			// imagemap files
 			case "imap":
+				// build target directories
+				$this->makeDir($tDir);
+				// set and build target subdirectory
+				$tDir = $tDir."imagemap".$id."/";
+				$this->makeDir($tDir);
 				
-				// build type directories
-				$sourceImapDir = $sourceDir."imagemaps/";
-				$targetImapDir = $targetDir."imagemaps/";
-				make_dir($targetImapDir); // function make_dir is located in /include/util.inc
-							
 				// copy files
-				
-				// gif image
-				if (file_exists($sourceImapDir.$id.".gif"))
-				{
-					$sourceImapName = $targetImapName = "$id.gif";
-					copy($sourceImapDir.$sourceImapName,$targetImapDir.$targetImapName);				
-				}
-				
-				// gif work-image
-				if (file_exists($sourceImapDir."work-$id.gif"))
-				{
-					$sourceImapWorkName = $targetImapWorkName = "work-$id.gif";
-					copy($sourceImapDir.$sourceImapWorkName,$targetImapDir.$targetImapWorkName);
-				}			
-			break;
+				copy($sDir.$tName, $tDir.$tName);
+				break;
 			
+			/* ***
 			// files of multimedia objects in elements
 			case "mm":
 				
@@ -1167,7 +1154,8 @@ class ILIAS2export
 				$refnode = $elements[0];
 				
 				// 4 MetaData..Technical ***
-				$attrs = array(	"Format" => $mimetype);
+				// *** $attrs = array(	"Format" => $mimetype);
+				$attrs = array(	"Format" => "image-gif");
 				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
 				
 				// 4.2 ..Technical..Size
@@ -1327,6 +1315,8 @@ class ILIAS2export
 				
 				// ..Table..Summary  --> unavailable in ILIAS2
 				
+				// *** if is_array
+				
 				// ..Table..TableRow ***
 				foreach ($data as $value) 
 				{
@@ -1357,22 +1347,12 @@ class ILIAS2export
 				*/
 				
 				break;
-			/*
+			
 			// imagemap
 			case 5:
 				// table 'el_map'
-				$sql =	"SELECT * ".
+				$sql =	"SELECT align, borderspace, type ".
 						"FROM el_map ".
-						"WHERE id = $id;";
-				
-				// table 'maparea'
-				$sql =	"SELECT * ".
-						"FROM maparea ".
-						"WHERE id = $id ".
-						"ORDER BY nr;";
-				
-				$sql =	"SELECT datei, align ".
-						"FROM el_bild ".
 						"WHERE id = $id;";
 				
 				$result = $this->db->query($sql);		
@@ -1381,24 +1361,38 @@ class ILIAS2export
 				{
 					die ($result->getMessage());
 				}
+				// get row
+				$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// table 'maparea'
+				$sql =	"SELECT shape, coords, href, alt ".
+						"FROM maparea ".
+						"WHERE id = $id ".
+						"ORDER BY nr;";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
 				// get row(s)
-				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$maparea[] = $row;
+				}
 				// free result set
 				$result->free();
 				
 				// auf Existenz der Datei checken!!!!!!!!!!!!!
 				
 				// get (image) file size and mimetype ***
-				if (file_exists($this->iliasDir."bilder/".$image["datei"]))
+				if (file_exists($this->iliasDir."imagemaps/".$id.".".$map["type"]))
 				{
-					$fileSize = filesize($this->iliasDir."bilder/".$image["datei"]);
-					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."bilder/".$image["datei"]));
-				}
-				
-				// check for orginal file name and set it to id if empty
-				if ($image["datei"] == "")
-				{
-					$image["datei"] = $id;
+					$fileSize = filesize($this->iliasDir."imagemaps/".$id.".".$map["type"]);
+					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."imagemaps/".$id.".".$map["type"]));
 				}
 				
 				//-----------------------------------------------
@@ -1425,7 +1419,7 @@ class ILIAS2export
 				$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
 				
 				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
+				$Location = $this->writeNode($Technical, "Location", Null, "./objects/imagemap".$id."/".$id.".".$map["type"]);
 				
 				// 4.4 ..Technical..(Requirement | OrComposite) ***
 				
@@ -1437,7 +1431,20 @@ class ILIAS2export
 				
 				// LearningObject..Layout --> unavailable for file
 				
-				// LearningObject..Parameter --> unavailable for file
+				// LearningObject..Parameter VRI-Links
+				if (is_array($maparea))
+				{
+					$Parameter = $this->writeNode($LearningObject, "Parameter");
+					
+					foreach ($maparea as $value)
+					{
+						// ..ParameterName
+						$ParameterName = $this->writeNode($Parameter, "ParameterName", Null, "Maparea");
+						
+						// ..ParameterValue
+						$ParameterValue = $this->writeNode($Parameter, "ParameterValue", Null, "<area shape=\"".$value["shape"]."\" coords=\"".$value["coords"]."\" href=\"".$value["href"]."\" alt=\"".$value["alt"]."\"");
+					}
+				}
 				
 				// LearningObject..Content --> unavailable for AggregationLevel 1
 				
@@ -1448,10 +1455,10 @@ class ILIAS2export
 				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
 				
 				// *** copy file(s)
-				$this->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
+				$this->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
 				
 				break;
-			*/
+			
 			// multiple choice
 			case 6:
 				
@@ -1633,7 +1640,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $image, $fileSize, $mimetype, $table, $i, $data, $attrs, $mc, $answer);
+		unset($sql, $row, $element, $text, $image, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
