@@ -1704,6 +1704,7 @@ content#:#cont_full_is_in_dir#:#No es posible eliminar. El fichero de pantalla c
 content#:#cont_fullscreen#:#Pantalla Completa
 content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_get_orig_size#:#Establecer tamaño original
+content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#How published###19 Sep 2003 new variable
 content#:#cont_href#:#href

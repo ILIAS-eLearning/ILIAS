@@ -1816,6 +1816,7 @@ content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran 
 content#:#cont_fullscreen#:#Plein écran
 content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
+content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#Hauteur
 content#:#cont_how_published#:#Publié comment
 content#:#cont_href#:#href
