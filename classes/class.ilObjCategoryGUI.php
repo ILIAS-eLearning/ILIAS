@@ -29,6 +29,7 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * $Id$
 * 
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -682,6 +683,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 	function listUsersObject($show_delete = false)
 	{
 		include_once './classes/class.ilLocalUser.php';
+		include_once './classes/class.ilObjUserGUI.php';
 
 		global $rbacsystem;
 
