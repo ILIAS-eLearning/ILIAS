@@ -27,6 +27,7 @@ require_once "classes/class.util.php";
 require_once "classes/class.User.php";
 require_once "classes/class.format.php";
 require_once "classes/class.prevnextnavbar.php";
+require_once "classes/class.ObjectDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
 require_once "classes/class.Language.php";
