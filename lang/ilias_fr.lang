@@ -966,8 +966,8 @@ common#:#email#:#Email
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
-common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
+common#:#enable_js_edit#:#Activer éditeur javascript
+common#:#enable_js_edit_info#:#Cette option permet d'activer un éditeur pour tout les ressources d'apprentissage (module d'apprentissage ILIAS, Glossaire, question etc.)
 common#:#enable_password_assistance#:#Activer l'assistance pour les mots de passe
 common#:#enable_registration#:#Autoriser les nouveaux enregistrements d'utilisateurs
 common#:#enabled#:#Activé
@@ -2349,7 +2349,7 @@ content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
 content#:#cont_contents#:#Contenus
 content#:#cont_coords#:#Coordonnées
-content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
+content#:#cont_copy_object#:#insérer l'objet
 content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_create_export_file#:#Créer répertoire d'exportation
@@ -2499,7 +2499,7 @@ content#:#cont_mob_inst_prop#:#Propriétés de l'instance
 content#:#cont_mob_prop#:#Propriétés de l'objet
 content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Mois
-content#:#cont_move_object#:#move object###29 Nov 2004 new variable
+content#:#cont_move_object#:#déplacer l'objet
 content#:#cont_msg_multiple_editions#:#Il n'est pas possible d'afficher les détails de plusieurs éditions
 content#:#cont_name#:#Nom
 content#:#cont_new_area#:#Nouvelle zone de lien
@@ -2577,12 +2577,12 @@ content#:#cont_series#:#Collection
 content#:#cont_series_editor#:#Responsable de collection
 content#:#cont_series_title#:#Titre de collection
 content#:#cont_series_volume#:#Volume de collection
-content#:#cont_set_after#:#insert after###29 Nov 2004 new variable
-content#:#cont_set_before#:#insert before###29 Nov 2004 new variable
-content#:#cont_set_cancel#:#cancel###29 Nov 2004 new variable
+content#:#cont_set_after#:#insérer après
+content#:#cont_set_before#:#insérer avant
+content#:#cont_set_cancel#:#Annuler
 content#:#cont_set_class#:#Fixer la classe
 content#:#cont_set_edit_mode#:#Régler mode de modification
-content#:#cont_set_into#:#insert into###29 Nov 2004 new variable
+content#:#cont_set_into#:#insérer à l'intérieur
 content#:#cont_set_link#:#Régler lien
 content#:#cont_set_shape#:#Modifier forme
 content#:#cont_set_start_file#:#Régler fichier de départ
