@@ -330,7 +330,7 @@ class ilPageObject extends ilLMObject
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
 	*/
-	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false)
+	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false, $a_append_bib = false)
 	{
 		if ($a_incl_head)
 		{
@@ -339,10 +339,19 @@ class ilPageObject extends ilLMObject
 		else
 		{
 			// append multimedia object elements
-			if ($a_append_mobs)
+			if ($a_append_mobs || $a_append_bib)
 			{
-				$mobs =& $this->getMultimediaXML();
-				return "<dummy>".$this->dom->dump_node($this->node).$mobs."</dummy>";
+                $mobs = "";
+                $bibs = "";
+                if ($a_append_mobs)
+                {
+                    $mobs =& $this->getMultimediaXML();
+                }
+                if ($a_append_bib)
+                {
+                    $bibs =& $this->getBibliographyXML();
+                }
+				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs."</dummy>";
 			}
 			else
 			{
@@ -372,6 +381,22 @@ class ilPageObject extends ilLMObject
 		return $this->contains_int_link;
 	}
 
+	/**
+	* get a xml string that contains all Bibliography elements, that
+	* are referenced by any bibitem alias in the page
+	*/
+    function getBibliographyXML() {
+        global $ilias;
+        
+        $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id='".$_GET["ref_id"]."' ");
+        $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+        
+        include_once("./classes/class.ilNestedSetXML.php");
+        $nested = new ilNestedSetXML();
+        $bibs_xml = $nested->export($row["obj_id"], "bib");
+        
+        return $bibs_xml;
+    }
 
 	/**
 	* get a xml string that contains all media object elements, that
