@@ -271,6 +271,14 @@ a.tblheader:hover
 	color:#000000;
 }
 
+/* --- description text ---*/
+div.il_Description
+{
+	margin-top:5px;
+	font-size: 13px;
+	font-style: italic;
+	text-align:left;
+}
 
 /* ---------------- headlines ------------------ */
 

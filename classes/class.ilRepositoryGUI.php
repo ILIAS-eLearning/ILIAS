@@ -204,6 +204,10 @@ class ilRepositoryGUI
 
 			foreach ($cats as $cat)
 			{
+
+				require_once("classes/class.ilObjCategory.php");
+				$cat_obj =& new ilObjCategory($cat["ref_id"], true);
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color
@@ -218,7 +222,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("CAT_LINK", $obj_link);
 
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
-				$tpl->setVariable("DESCRIPTION", $cat["description"]);
+				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cat["last_update"]));
 				$tpl->parseCurrentBlock();
 			}
@@ -228,7 +232,7 @@ class ilRepositoryGUI
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
-			$tpl->setVariable("COLSPAN", "5");
+			$tpl->setVariable("COLSPAN", "3");
 			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock();
 		}
@@ -241,11 +245,10 @@ class ilRepositoryGUI
 		$tbl->setTitle($this->lng->txt("categories"),
 			"icon_cat_b.gif", $this->lng->txt("categories"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title"),
-			$this->lng->txt("description"), $this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("", "type", "title", "description", "last_change"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("", "type", "title"),
 			array("ref_id" => $_GET["ref_id"]));
-		$tbl->setColumnWidth(array("1%", "1%", "38%", "40%", "20%"));
+		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -357,7 +360,7 @@ class ilRepositoryGUI
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
-			$tpl->setVariable("COLSPAN", "4");
+			$tpl->setVariable("COLSPAN", "3");
 			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock();
 		}
@@ -371,11 +374,10 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("learning_resources"),"icon_lm_b.gif",$this->lng->txt("learning_resources"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title"),
-			$this->lng->txt("description"), $this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("", "type", "title", "description", "last_update"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("", "type", "title"),
 			array("ref_id" => $_GET["ref_id"]));
-		$tbl->setColumnWidth(array("1%", "1%", "38%", "40%", "20%"));
+		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
@@ -480,10 +482,7 @@ class ilRepositoryGUI
 				{
 					$moderator = $frm->getUser($topicData["top_usr_id"]);
 
-					$tpl->setVariable("START_DATE_TXT1", $lng->txt("launch"));
-					$tpl->setVariable("START_DATE_TXT2", strtolower($lng->txt("by")));
-					$tpl->setVariable("START_DATE", $frm->convertDate($topicData["top_date"]));
-					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$topicData["top_usr_id"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
+					$tpl->setVariable("TXT_MODERATORS", $lng->txt("forums_moderators"));
 				}
 
 				// when forum was changed ...
@@ -677,9 +676,9 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("","title","description","owner","last_change"), array("ref_id"=>$_GET["ref_id"]));
-		$tbl->setColumnWidth(array("1%","30%","39%","10%","20%"));
+		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner")));
+		$tbl->setHeaderVars(array("","title","owner"), array("ref_id"=>$_GET["ref_id"]));
+		$tbl->setColumnWidth(array("1%","89%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
