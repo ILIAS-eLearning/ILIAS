@@ -22,6 +22,7 @@
 */
 
 require_once("content/classes/class.ilParagraph.php");
+require_once("content/classes/class.ilLMTable.php");
 
 /**
 * Page Parser, parses xml content of page as stored in db table lm_page_object
@@ -35,9 +36,12 @@ require_once("content/classes/class.ilParagraph.php");
 class ilPageParser extends ilSaxParser
 {
 	var $paragraph;
+	var $table;
 	var $page_object;
 	var $xml_data;
 	var $current_element;
+	var $cur_container;
+	var $container;
 
 
 	/**
@@ -55,6 +59,8 @@ class ilPageParser extends ilSaxParser
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
 		$this->current_element = array();
+		$this->container[] =& $a_page_object;
+		$this->cur_container =& $a_page_object;
 		parent::ilSaxParser($a_xml_file);	//???
 	}
 
@@ -130,14 +136,44 @@ class ilPageParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BeginTag:$a_name:<br>";
+
 		switch($a_name)
 		{
 			case "Paragraph":
-				$this->paragraph =& new ilParagraph();
-				$this->paragraph->setLanguage($a_attribs["Language"]);
-				$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
-				$this->page_object->appendContent($this->paragraph);
+				$cur_container =& $this->container[count($this->container) - 1];
+
+				if (is_object($cur_container))
+				{
+					$this->paragraph =& new ilParagraph();
+					$this->paragraph->setLanguage($a_attribs["Language"]);
+					$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
+					$cur_container->appendContent($this->paragraph);
+				}
+				break;
+
+			case "Table":	// todo: allow nesting in tables and lists here
+				$cur_container =& $this->container[count($this->container) - 1];
+				if (is_object($cur_container))
+				{
+					$this->table =& new ilLMTable();
+					// todo: attribute handling here
+					$cur_container->appendContent($this->table);
+				}
+				$this->container[] =& $this->table;
+				break;
+
+			case "TableRow":
+				if  (is_object($this->table))
+				{
+					$this->table->newRow();
+				}
+				break;
+
+			case "TableData":
+				if  (is_object($this->table))
+				{
+					$this->table->newCol();
+				}
 				break;
 
 			case "br":
@@ -178,6 +214,10 @@ class ilPageParser extends ilSaxParser
 				{
 					$this->paragraph->appendText("</$a_name>");
 				}
+				break;
+
+			case "Table":
+				unset ($this->container[count($this->container) - 1]);
 				break;
 
 		}

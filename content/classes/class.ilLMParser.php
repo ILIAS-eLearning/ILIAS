@@ -26,6 +26,7 @@ require_once("content/classes/class.ilStructureObject.php");
 require_once("content/classes/class.ilLearningModule.php");
 require_once("content/classes/class.ilMetaData.php");
 require_once("content/classes/class.ilParagraph.php");
+require_once("content/classes/class.ilLMTable.php");
 
 /**
 * Learning Module Parser
@@ -46,10 +47,12 @@ class ilLMParser extends ilSaxParser
 	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
 	var $meta_data;			// current meta data object
 	var $paragraph;
+	var $table;
 	var $lm_id;
 	var $lm_tree;
 	var $pg_into_tree;
 	var $st_into_tree;
+	var $container;
 
 	var $keyword_language;
 
@@ -230,6 +233,8 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 			case "PageObject":
 				$this->page_object =& new ilPageObject();
 				$this->page_object->setLMId($this->lm_id);
+				$this->container = array();
+				$this->container[] =& $this->page_object;
 				$this->current_object =& $this->page_object;
 				break;
 
@@ -239,13 +244,41 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				break;
 
 			case "Paragraph":
-				$this->paragraph =& new ilParagraph();
-				$this->paragraph->setLanguage($a_attribs["Language"]);
-				$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
-				$this->page_object->appendContent($this->paragraph);
+echo "start paragraph<br>";
+				$cur_container =& $this->container[count($this->container) - 1];
+				if (is_object($cur_container))
+				{
+echo "in container!<br>";
+					$this->paragraph =& new ilParagraph();
+					$this->paragraph->setLanguage($a_attribs["Language"]);
+					$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
+					$cur_container->appendContent($this->paragraph);
+				}
 				break;
 
-			case "Table":
+			case "Table":	// todo: allow nesting in tables and lists here
+				$cur_container =& $this->container[count($this->container) - 1];
+				if (is_object($cur_container))
+				{
+					$this->table =& new ilLMTable();
+					// todo: attribute handling here
+					$cur_container->appendContent($this->table);
+				}
+				$this->container[] =& $this->table;
+				break;
+
+			case "TableRow":
+				if  (is_object($this->table))
+				{
+					$this->table->newRow();
+				}
+				break;
+
+			case "TableData":
+				if  (is_object($this->table))
+				{
+					$this->table->newCol();
+				}
 				break;
 
 			case "MetaData":
@@ -320,6 +353,7 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				// if we are within a structure object: put page in tree
 				unset($this->meta_data);	//!?!
 				unset($this->page_object);
+				unset ($this->container[count($this->container) - 1]);
 				break;
 
 			case "MetaData":
@@ -350,6 +384,10 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 
 			case "Paragraph":
 				// can't unset paragraph object, because PageObject is still processing
+				break;
+
+			case "Table":
+				unset ($this->container[count($this->container) - 1]);
 				break;
 
 		}

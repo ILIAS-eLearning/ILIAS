@@ -27,6 +27,7 @@
 
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
+		<xsl:number count="Paragraph" level="any"/>
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="position()"/>
 			</xsl:attribute>
@@ -52,6 +53,25 @@
 	<xsl:variable name="Tagname" select="name()"/>
 	<span class="il{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
+
+<xsl:template match="Table">
+	<xsl:for-each select="Title">
+		<xsl:value-of select="."/>
+	<br/>
+	</xsl:for-each>
+	<table class="Table" id="lo_view">
+	<xsl:for-each select="TableRow">
+		<tr class="TableRow" id="lo_view">
+			<xsl:for-each select="TableData">
+				<td class="TableData" id="lo_view">
+					<xsl:apply-templates/>
+				</td>
+			</xsl:for-each>
+		</tr>
+	</xsl:for-each>
+	</table>
+</xsl:template>
+
 
 
 <!--
