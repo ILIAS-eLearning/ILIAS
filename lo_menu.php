@@ -19,7 +19,7 @@ $exp->addFilter("root");
 $exp->addFilter("cat");
 $exp->addFilter("grp");
 $exp->addFilter("crs");
-//$exp->addFilter("le");
+$exp->addFilter("le");
 $exp->setFiltered(true);
 
 //build html-output
