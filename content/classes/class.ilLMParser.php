@@ -29,6 +29,7 @@ require_once("content/classes/class.ilParagraph.php");
 require_once("content/classes/class.ilLMTable.php");
 require_once("content/classes/class.ilMediaObject.php");
 require_once("content/classes/class.ilMediaItem.php");
+require_once("content/classes/class.ilBibItem.php");
 
 /**
 * Learning Module Parser
@@ -66,6 +67,8 @@ class ilLMParser extends ilSaxParser
 	var $media_item;		// current media item
 	var $loc_type;			// current location type
 
+	var $bib_item;			// current bib item object
+	var $in_bib_item;		// are we currently within BibItem? true/false
 
 	/**
 	* Constructor
@@ -444,6 +447,28 @@ class ilLMParser extends ilSaxParser
 				$this->meta_technical->setOtherRequirementsLanguage($a_attribs["Language"]);
 				break;
 
+			case "Bibliography":
+				$this->in_bib_item = true;
+// echo "<br>---NEW METADATA---<br>";
+				$this->bib_item =& new ilBibItem();
+/*
+				if(!$this->in_media_object)
+				{
+					$this->current_object->assignMetaData($this->meta_data);
+					if(get_class($this->current_object) == "ilobjlearningmodule")
+					{
+//echo "starting new meta data for lm<br>";
+						$this->bib_item->setId($this->lm_object->getId());
+						$this->bib_item->setType("lm");
+					}
+				}
+				else
+				{
+					$this->media_object->assignMetaData($this->meta_data);
+				}
+*/
+				break;
+                
 		}
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
@@ -453,6 +478,16 @@ class ilLMParser extends ilSaxParser
 		{
 			$this->page_object->appendXMLContent($this->buildTag("start", $a_name, $a_attribs));
 		}
+		// append content to meta data xml content
+        if ($this->in_meta_data )   // && !$this->in_page_object && !$this->in_media_object
+        {
+            $this->meta_data->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
+        }
+		// append content to bibitem xml content
+        if ($this->in_bib_item)   // && !$this->in_page_object && !$this->in_media_object
+        {
+            $this->bib_item->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
+        }
 	}
 
 
@@ -468,6 +503,32 @@ class ilLMParser extends ilSaxParser
 			$this->page_object->appendXMLContent($this->buildTag("end", $a_name));
 		}
 
+		if ($this->in_meta_data)	//  && !$this->in_page_object && !$this->in_media_object
+
+		// append content to metadataxml content
+		if($a_name == "MetaData")
+		{
+			$this->meta_data->appendXMLContent("\n".$this->buildTag("end", $a_name));
+		}
+		else
+		{
+			$this->meta_data->appendXMLContent($this->buildTag("end", $a_name));
+		}
+
+		// append content to bibitemxml content
+		if ($this->in_bib_item)	// && !$this->in_page_object && !$this->in_media_object
+		{
+			if($a_name == "BibItem")
+			{
+				$this->bib_item->appendXMLContent("\n".$this->buildTag("end", $a_name));
+			}
+			else
+			{
+				$this->bib_item->appendXMLContent($this->buildTag("end", $a_name));
+			}
+		
+		}
+        
 		switch($a_name)
 		{
 			case "StructureObject":
@@ -566,9 +627,17 @@ class ilLMParser extends ilSaxParser
 
 			case "MetaData":
 				$this->in_meta_data = false;
-				// save structure object at the end of its meta block
-				if(get_class($this->current_object) == "ilstructureobject")
+                if(get_class($this->current_object) == "ilpageobject")
 				{
+                    // Metadaten eines PageObjects sichern in NestedSet
+                    $this->page_object->createFromXML();
+
+                    include_once("./classes/class.ilNestedSetXML.php");
+                    $nested = new ilNestedSetXML();
+                    $nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");                    
+                } 
+				else if(get_class($this->current_object) == "ilstructureobject")
+				{    // save structure object at the end of its meta block
 					// determine parent
 					$cnt = count($this->structure_objects);
 					if ($cnt > 1)
@@ -584,13 +653,34 @@ class ilLMParser extends ilSaxParser
 					$this->current_object->create();
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
+                    
+                    // Metadaten eines StructureObjects sichern in NestedSet
+                    include_once("./classes/class.ilNestedSetXML.php");
+                    $nested = new ilNestedSetXML();
+                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");                    
 				}
-				if(get_class($this->current_object) == "ilobjlearningmodule")
+                else if(get_class($this->current_object) == "ilobjdlbook") 
+                {
+                    // Metadaten eines ContentObjects sichern in NestedSet
+                    include_once("./classes/class.ilNestedSetXML.php");
+                    $nested = new ilNestedSetXML();
+                    $nested->import($this->meta_data->getXMLContent(),$this->lm_object->getId(),"co");                    
+                }
+                
+				if(get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjdlbook" )
 				{
 					$this->current_object->update();
 				}
 				break;
 
+			case "Bibliography":
+                
+				$this->in_bib_item = false;
+				
+                $nested = new ilNestedSetXML();
+                $nested->import($this->bib_item->getXMLContent(),$this->lm_object->getId(),"bib");
+                break;
+                
 			case "Paragraph":
 				// can't unset paragraph object, because PageObject is still processing
 				break;
@@ -634,6 +724,16 @@ class ilLMParser extends ilSaxParser
 			if ($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
 			{
 				$this->page_object->appendXMLContent($a_data);
+			}
+            
+			if ($this->in_meta_data  )	
+			{
+				$this->meta_data->appendXMLContent($a_data);
+			}
+
+			if ($this->in_bib_item  )	
+			{
+				$this->bib_item->appendXMLContent($a_data);
 			}
 
 			switch($this->getCurrentElement())
