@@ -2926,6 +2926,7 @@ survey#:#already_completed_survey#:#You have already completed the survey! You a
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
+survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
@@ -2935,6 +2936,7 @@ survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategor
 survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
 survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
+survey#:#contains#:#Contains###10 Jun 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
@@ -2975,6 +2977,7 @@ survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Fragenblock definieren
 survey#:#disinvite#:#Disinvite###27 May 2004 new variable
+survey#:#display_all_available#:#Display all available###10 Jun 2004 new variable
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard-Haltung (einverstanden-unentschlossen-nicht einverstanden)
@@ -3010,11 +3013,14 @@ survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kateg
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
 survey#:#finished#:#finished###07 Jun 2004 new variable
+survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
 survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
 survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
 survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
+survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!###10 Jun 2004 new variable
+survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!###10 Jun 2004 new variable
 survey#:#introduction#:#Einleitung
 survey#:#invitation#:#Invitation###27 May 2004 new variable
 survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
@@ -3039,7 +3045,9 @@ survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kateg
 survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
+survey#:#no_questionblocks_available#:#There are no questionblocks available###10 Jun 2004 new variable
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
+survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new variable
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
@@ -3078,6 +3086,8 @@ survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
+survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
+survey#:#questions#:#Questions###10 Jun 2004 new variable
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
@@ -3090,10 +3100,13 @@ survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
 survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
 survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
+survey#:#search_field_all#:#Search in all fields###10 Jun 2004 new variable
 survey#:#search_for#:#Search for###27 May 2004 new variable
 survey#:#search_groups#:#Groups###27 May 2004 new variable
 survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
+survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
+survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
