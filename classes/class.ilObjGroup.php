@@ -111,9 +111,14 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin;
 		$grp_DefaultRoles = $this->getDefaultGroupRoles();
-		if(isset($a_user_id) && isset($a_mem_status) && !$this->isMember($a_user_id) )
+		if(isset($a_user_id) && isset($a_mem_status) )
 		{
+			if(!$this->isMember($a_user_id))
+			{
+				$this->ilias->account->addDesktopItem($this->getId(),"grp");
+			}
 			$this->join($a_user_id,$a_mem_status);
+
 			return true;
 		}
 		else
