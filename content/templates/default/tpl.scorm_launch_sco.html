@@ -6,13 +6,12 @@
 </head>
 <body>
 <script language="JavaScript">
-
-parent.APIFRAME.init();
-parent.APIFRAME.ILIASSetValue('cmi.launch_data','{LAUNCH_DATA}');
-parent.APIFRAME.ILIASSetValue('cmi.student_data.mastery_score','{MAST_SCORE}');
-parent.APIFRAME.ILIASSetValue('cmi.student_data.max_time_allowed','{MAX_TIME}');
-parent.APIFRAME.ILIASSetValue('cmi.student_data.time_limit_action','{LIMIT_ACT}');
-
+API=parent.APIFRAME.API;
+parent.API=API; // gut gell?
+API.IliasSetValue('cmi.launch_data','{LAUNCH_DATA}');
+API.IliasSetValue('cmi.student_data.mastery_score','{MAST_SCORE}');
+API.IliasSetValue('cmi.student_data.max_time_allowed','{MAX_TIME}');
+API.IliasSetValue('cmi.student_data.time_limit_action','{LIMIT_ACT}');
 document.location.href = '{HREF}';
 
 </script>

@@ -380,11 +380,13 @@ class ilSCORMExplorer extends ilExplorer
 					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
 					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
 				}
 				else
 				{
 					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.init(); parent.APIFRAME.ILIASLaunchSCO('".$a_node_id."');\"");
+					$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSco('".$a_node_id."');return false;\"");
 				}
 
 			}

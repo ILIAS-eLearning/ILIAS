@@ -25,15 +25,11 @@
 * scorm learning module presentation script
 *
 * @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
-* @version $Id: scorm_server.php,v 1.0 2003/08/12 
+* @version $Id: scorm_server.php,v 1.0 2003/08/12
 *
 * @package content
 */
 chdir("..");
-session_id($_GET["PHPSESSID"]);
-
-require_once "./include/inc.header.php";
-
 
 $api = ($_GET["api"] == "")
 	? $_POST["api"]
@@ -43,17 +39,25 @@ $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
 
+
 if ($api == 2)
 {
+	require_once "./include/inc.header.php";
 	require_once "./content/classes/SCORM/class.ilObjSCORMTracking2.php";
 	$track = new ilObjSCORMTracking2();
 	$track->$cmd();
 	exit;
 }
 
+session_id($_GET["PHPSESSID"]);
+require_once "./include/inc.header.php";
+
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
 require_once "./content/classes/SCORM/class.ilObjDebug.php";
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
+
+exit;
+
 $debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
 
 if (isset($_GET["value"])) //setValue Call
