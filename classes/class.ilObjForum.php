@@ -237,7 +237,7 @@ class ilObjForum extends ilObject
 		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
 
 		// create moderator role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("frm_moderator_ref_id_".$this->getRefId(),"Moderator of forum obj_no.".$this->getId());
+		$roleObj = $rfoldObj->createRole("il_frm_moderator_".$this->getRefId(),"Moderator of forum obj_no.".$this->getId());
 		$roles[] = $roleObj->getId();
 
 		unset($rfoldObj);
