@@ -309,6 +309,8 @@ class ilObjDlBook extends ilObjContentObject
 		// ------------------------------------------------------
         // deliver files
 		// ------------------------------------------------------
+		ilUtil::deliverFile($export_dir."/".$fileName.".zip",$fileName);
+		/*
 		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -326,6 +328,7 @@ class ilObjDlBook extends ilObjContentObject
 		header ("Content-length:".(string)( filesize($export_dir."/".$fileName.".zip")) );
 
 		readfile( $export_dir."/".$fileName.".zip" );
+		*/
 
 	}
 
