@@ -89,22 +89,22 @@ assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
-assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
+assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
-assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
-assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
-assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
-assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
+assessment#:#applet_attributes#:#Applet-Attribute
+assessment#:#applet_new_parameter#:#Neuer Parameter
+assessment#:#applet_parameter#:#Parameter
+assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
 assessment#:#cloze_text#:#Lückentext
-assessment#:#code#:#Code###19 May 2004 new variable
+assessment#:#code#:#Code
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
@@ -113,7 +113,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
+assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
@@ -131,9 +131,9 @@ assessment#:#filter#:#Filter
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
-assessment#:#height#:#Height###19 May 2004 new variable
+assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
-assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
+assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -151,7 +151,7 @@ assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
-assessment#:#please_select#:#---- bitte auswählen ----###13 May 2004 content changed
+assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
@@ -172,7 +172,7 @@ assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage f�
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qt_cloze#:#Lückentext
 assessment#:#qt_imagemap#:#ImageMap-Frage
-assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
+assessment#:#qt_javaapplet#:#Java-Applet-Frage
 assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
@@ -186,8 +186,8 @@ assessment#:#remove_question#:#Entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
-assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
-assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
+assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
+assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
@@ -200,7 +200,7 @@ assessment#:#start_tag#:#Start-Marke
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
-assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
+assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
@@ -292,7 +292,7 @@ assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#width#:#Width###19 May 2004 new variable
+assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
