@@ -92,7 +92,7 @@ class ilMetaDataGUI
 		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
 
-		$this->tpl->setVariable("CHOOSE_SECTION_ACTION", $a_formaction . "&cmd=choose_meta_section");
+		$this->tpl->setVariable("CHOOSE_SECTION_ACTION", $a_formaction . "&cmd=choose_meta_section&mode=meta");
 		$this->tpl->setVariable("TXT_CHOOSE_SECTION", $this->lng->txt("meta_choose_section"));
 		$this->tpl->setVariable("META_SECTION_" . strtoupper($a_section), " selected");
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $this->lng->txt("meta_choose_language"));

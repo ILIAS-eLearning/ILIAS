@@ -270,6 +270,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+	// called by administration
 	function chooseMetaSectionObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -278,6 +279,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"], $_POST["meta_language"]);
 	}
+
+	// called by editor
+	function choose_meta_section()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->object->getRefId(), $_POST["meta_section"]);
+	}
+
 
 	function editMetaObject()
 	{
