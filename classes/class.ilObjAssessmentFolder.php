@@ -243,7 +243,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &getLog($ts_from, $ts_to, $test_id)
+	function &getLog($ts_from, $ts_to, $test_id, $with_user_actions = FALSE)
 	{
 		$log = array();
 		$query = sprintf("SELECT * FROM ass_log WHERE obj_fi = %s AND TIMESTAMP > %s AND TIMESTAMP < %s ORDER BY TIMESTAMP",
@@ -254,9 +254,39 @@ class ilObjAssessmentFolder extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			array_push($log, $row);
+			if (!array_key_exists($row["TIMESTAMP"], $log))
+			{
+				$log[$row["TIMESTAMP"]] = array();
+			}
+			array_push($log[$row["TIMESTAMP"]], $row);
 		}
-		return $log;
+		if ($with_user_actions)
+		{
+			require_once "./assessment/classes/class.ilObjTest.php";
+			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s",
+				$this->ilias->db->quote(ilObjTest::_getTestIDFromObjectID($test_id))
+			);
+			$result = $this->ilias->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (!array_key_exists($row["TIMESTAMP"], $log))
+				{
+					$log[$row["TIMESTAMP"]] = array();
+				}
+				array_push($log[$row["TIMESTAMP"]], $row);
+			}
+		}
+		ksort($log);
+		// flatten array
+		$log_array = array();
+		foreach ($log as $key => $value)
+		{
+			foreach ($value as $index => $row)
+			{
+				array_push($log_array, $row);
+			}
+		}
+		return $log_array;
 	}
 } // END class.ilObjAssessmentFolder
 ?>

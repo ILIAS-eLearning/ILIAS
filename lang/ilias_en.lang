@@ -257,6 +257,7 @@ assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
+assessment#:#log_user_data_removed#:#Removed all user data
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
@@ -740,6 +741,8 @@ common#:#assessment_log_no_log#:#It is no log data available for the selected te
 common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
 common#:#assessment_log_question#:#Question
 common#:#assessment_log_select_test#:#--- Please select a test ---
+common#:#assessment_log_user_answer#:#User answered a question
+common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_log_text#:#Log message
 common#:#assessment_settings#:#Test&Assessment administration settings
 common#:#assf_edit_permission#:#Change permission settings

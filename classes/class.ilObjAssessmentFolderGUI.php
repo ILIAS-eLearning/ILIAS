@@ -214,11 +214,19 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			require_once "./assessment/classes/class.assQuestion.php";
 			$ts_from = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0);
 			$ts_to = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0);
-			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"]);
-			$tblrow = array("tblrow1", "tblrow2");
+			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"], $_POST["log_user_answers"]);
 			$users = array();
 			foreach ($log_output as $key => $log)
 			{
+				if (array_key_exists("value1", $log))
+				{
+					$tblrow = array("tblrow1light", "tblrow2light");
+				}
+				else
+				{
+					$tblrow = array("tblrow1", "tblrow2");
+				}
+				$title = "";
 				if (!array_key_exists($log["user_fi"], $users))
 				{
 					$users[$log["user_fi"]] = ilObjUser::_lookupName($log["user_fi"]);
@@ -236,7 +244,14 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 					$title = "(" . $this->lng->txt("assessment_log_question") . ": " . $title . ")";
 				}
 				$this->tpl->setVariable("TXT_USER", trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
-				$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " " . $title));
+				if (array_key_exists("value1", $log))
+				{
+					$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer") . " " . $title));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " " . $title));
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 			if (count($log_output) == 0)
@@ -258,12 +273,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOG_FROM", $this->lng->txt("from"));
 		if (!is_array($_POST["log_from_date"]))
 		{
-			$date_input = ilUtil::makeDateSelect("log_from_date");
+			$date_input = ilUtil::makeDateSelect("log_from_date", "", "", "", 2004);
 			$time_input = ilUtil::makeTimeSelect("log_from_time");
 		}
 		else
 		{
-			$date_input = ilUtil::makeDateSelect("log_from_date", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"]);
+			$date_input = ilUtil::makeDateSelect("log_from_date", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], 2004);
 		  $time_input = ilUtil::makeTimeSelect("log_from_time", TRUE, $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"]);
 		}
 		$this->tpl->setVariable("INPUT_LOG_FROM", $date_input." / ".$time_input);
@@ -273,16 +288,21 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOG_TO", $this->lng->txt("to"));
 		if (!is_array($_POST["log_to_date"]))
 		{
-			$date_input = ilUtil::makeDateSelect("log_to_date");
+			$date_input = ilUtil::makeDateSelect("log_to_date", "", "", "", 2004);
 			$time_input = ilUtil::makeTimeSelect("log_to_time");
 		}
 		else
 		{
-			$date_input = ilUtil::makeDateSelect("log_to_date", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"]);
+			$date_input = ilUtil::makeDateSelect("log_to_date", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], 2004);
 		  $time_input = ilUtil::makeTimeSelect("log_to_time", TRUE, $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"]);
 		}
 		$this->tpl->setVariable("INPUT_LOG_TO", $date_input." / ".$time_input);
 		$this->tpl->setVariable("TXT_LOG_TO_CALENDAR", $this->lng->txt("assessment_log_open_calendar"));
+		$this->tpl->setVariable("TXT_LOG_USER_ANSWERS", $this->lng->txt("assessment_log_user_answers"));
+		if ($_POST["log_user_answers"] == 1)
+		{
+			$this->tpl->setVariable("CHECKED_USER_ANSWERS", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("INPUT_FIELDS_LOG_TO", "log_to_date");
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("show"));
 		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
