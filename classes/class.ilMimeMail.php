@@ -22,7 +22,7 @@
  *
  * 	@package ilias-mail
  */
-class MimeMail
+class ilMimeMail
 {
 	/**
 	 * list of To addresses
@@ -71,7 +71,7 @@ class MimeMail
 	 * Mail contructor
 	 */
 
-	function MimeMail()
+	function ilMimeMail()
 	{
 		$this->autoCheck( true );
 		$this->boundary= "--" . md5( uniqid("myboundary") );
