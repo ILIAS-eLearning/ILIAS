@@ -81,7 +81,7 @@ class ilPageObject
 	}
 
 	/**
-	*
+	* read page data
 	*/
 	function read()
 	{
