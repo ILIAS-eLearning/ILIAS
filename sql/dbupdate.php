@@ -1202,3 +1202,36 @@ CREATE TABLE style (
 	parameter	VARCHAR(100),
 	value		VARCHAR(100)
 );
+<#57>
+#adding permission settings for role templates
+<?php
+$query = "DELETE FROM rbac_ta WHERE type='rolt'";
+$this->db->query($query);
+
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='rolt'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$rolt_id = $row->obj_id;
+
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='role'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$role_id = $row->obj_id;
+
+$query = "SELECT * FROM rbac_ta WHERE typ_id='$role_id'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('$rolt_id','".$row->ops_id."')";
+	$this->db->query($query);
+}
+
+$query = "SELECT * FROM rbac_templates WHERE type='role'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) ".
+		"VALUES ('".$row->rol_id."','rolt','".$row->ops_id."','".$row->parent."')";
+	$this->db->query($query);
+}
+?>
