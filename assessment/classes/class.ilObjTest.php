@@ -1979,7 +1979,7 @@ class ilObjTest extends ilObject
 		foreach ($times as $key => $value) {
 			$max_time += $value;
 		}
-		if (!$test_result["test"]["total_reached_points"]) {
+		if ((!$test_result["test"]["total_reached_points"]) or (!$test_result["test"]["total_max_points"])) {
 			$percentage = 0.0;
 		} else {
 			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
@@ -1993,12 +1993,20 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$worked_through_result = $this->ilias->db->query($query_worked_through);
+		if (!$worked_through_result->numRows())
+		{
+			$atimeofwork = 0;
+		}
+		else
+		{
+			$atimeofwork = $max_time / $worked_through_result->numRows();
+		}
 		$result_array = array(
 			"qworkedthrough" => $worked_through_result->numRows(),
 			"qmax" => count($test_result["test"]["test"]->questions),
 			"pworkedthrough" => ($worked_through_result->numRows()) / count($test_result["test"]["test"]->questions),
 			"timeofwork" => $max_time,
-			"atimeofwork" => $max_time / ($worked_through_result->numRows()),
+			"atimeofwork" => $atimeofwork,
 			"firstvisit" => $first_date,
 			"lastvisit" => $last_date,
 			"resultspoints" => $test_result["test"]["total_reached_points"],
@@ -2078,7 +2086,7 @@ class ilObjTest extends ilObject
 		$maximum_points = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$res =& $this->getTestResult($row->user_fi);
-			if (!$res["test"]["total_reached_points"]) {
+			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"])) {
 				$percentage = 0.0;
 			} else {
 				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
