@@ -549,6 +549,7 @@ class ilRbacReview
 
 	/**
 	* get all objects in which the inheritance was stopped
+	* TODO: the function returns all objects containing a role folder. So the function name should be renamed.
 	* @access	public
 	* @param	integer	role_id
 	* @return	array
@@ -564,19 +565,19 @@ class ilRbacReview
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 			
-		$q = "SELECT DISTINCT parent_obj FROM rbac_fa ".
+		$q = "SELECT DISTINCT parent FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($row->parent_obj != SYSTEM_FOLDER_ID)
+			if ($row->parent != ROLE_FOLDER_ID)
 			{
-				$parent_obj[] = $row->parent_obj;
+				$parent[] = $row->parent;
 			}
 		}
 
-		return $parent_obj ? $parent_obj : array();
+		return $parent ? $parent : array();
 	}
 
 } // END class.RbacReview

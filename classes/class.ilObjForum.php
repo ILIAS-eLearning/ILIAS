@@ -192,12 +192,6 @@ class ilObjForum extends ilObject
 	*/
 	function delete()
 	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-		
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
 		$topData = $this->Forum->getOneTopic();	
 		
@@ -221,7 +215,8 @@ class ilObjForum extends ilObject
 		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 		
-		return true;
+		// always call parent delete function at the end!!		
+		return (parent::delete()) ? true : false;
 	}
 
 	/**

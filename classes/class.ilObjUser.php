@@ -547,10 +547,23 @@ class ilObjUser extends ilObject
 
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
+		
+		// remove mailbox
+		include_once ("classes/class.ilMailbox.php");
+		$mailbox = new IlMailbox($this->getId());
+		$mailbox->delete();
+		
+		// remove bookmarks
+		// TODO: move this to class.ilBookmarkFolder
+		$q = "DELETE FROM bookmark_tree WHERE tree='".$this->getId()."'";
+		$this->ilias->db->query($q);
+
+		$q = "DELETE FROM bookmark_data WHERE user_id='".$this->getId()."'";
+		$this->ilias->db->query($q);
 
 		// delete object data
 		parent::delete();
-
+		return true;
 	}
 
 	/**

@@ -43,6 +43,11 @@ common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add
+common#:#msg_deleted_role#:#Role deleted
+common#:#msg_deleted_roles#:#Roles deleted
+common#:#msg_deleted_rolt#:#Role Template deleted
+common#:#msg_deleted_rolts#:#Role Template deleted
+common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate

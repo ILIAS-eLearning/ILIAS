@@ -74,8 +74,11 @@ if (!isset($_GET["type"]))
 // determine command
 if (($cmd = $_GET["cmd"]) == "gateway")
 {
-	$cmd = key($_POST["cmd"]);
+	// surpress warning if POST is not set
+	@$cmd = key($_POST["cmd"]);
+
 }
+
 if (empty($cmd)) // if no cmd is given default to first property
 {
 	$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
