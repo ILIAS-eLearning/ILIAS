@@ -142,6 +142,7 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultAdminRole();
 				$passed = 1;
+				$this->addDesktopItem($user_obj->getId());
 				break;
 
 			case $this->ROLE_TUTOR:
@@ -159,6 +160,7 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultTutorRole();
 				$passed = 1;
+				$this->addDesktopItem($user_obj->getId());
 				break;
 				
 		}
