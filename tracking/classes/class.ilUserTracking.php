@@ -70,7 +70,7 @@ class ilUserTracking {
 		." user_id = ".$ilDB->quote($ilUser->getId())
 // changed following line to " limit 1 "; because acc_time doesn't exist in table
 // 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
-		." order by acc_time desc limit 1 ";
+			// ." order by acc_time desc limit 1 ";
 		." limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
