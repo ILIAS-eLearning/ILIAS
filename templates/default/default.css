@@ -152,6 +152,7 @@ div.top_border {
 	background-color: black;
 }
 div.invisible_border {
+	width:100%;
 	margin-top:12px;
 	margin-bottom:12px;
 	margin-right:15px;
