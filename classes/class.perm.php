@@ -102,7 +102,7 @@
 	 $a_order = 'title';
 
 	$query = "SELECT * FROM object_data ".
-	 "WHERE type = 'type' ".
+	 "WHERE type = 'typ' ".
 	 "ORDER BY ".$a_order." ".$a_direction;
 	$res = $db->query($query);
 
@@ -118,7 +118,6 @@
 	"last_update"	=> $data->last_update
 	);
 	}
-
 	return $arr;
  }	
 
@@ -223,7 +222,7 @@
 		(type,title,description,owner,create_date,last_update)
 		VALUES
 		('$AObjType','".$AObjData[title]."','".$AObjData[desc]."',
-		".$ilias->account->Id.",now(),now())";
+		'".$ilias->account->Id."',now(),now())";
 	$res = $db->query($query);
 	
  $query = "SELECT LAST_INSERT_ID()";
