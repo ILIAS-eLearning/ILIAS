@@ -75,7 +75,7 @@ class ILIAS2export
 	{
 		// build dsn of database connection and connect
 		$dsn = "mysql://$user:$pass@$host/$dbname";
-		$this->db = DB::connect($dsn, true);
+		$this->db = DB::connect($dsn, TRUE);
 		
 		// test for valid connection
 		if (DB::isError($this->db))
@@ -115,7 +115,7 @@ class ILIAS2export
 		if (is_string($text) or
 			is_integer($text))
 		{
-			$nodeText = $this->doc->create_text_node(iconv("ISO-8859-1","UTF-8",$text)); // ***
+			$nodeText = $this->doc->create_text_node(utf8_encode($text)); // *** iconv("ISO-8859-1","UTF-8",$text)
 			$nodeText = $node->append_child($nodeText);
 		}
 		
@@ -411,6 +411,21 @@ class ILIAS2export
 		return $str;
 	}
 	
+	// get mimetype for a file *** takes full path to a lokal file
+	function getMimeType ($file)
+	{
+		// get mimetype
+		$mime = str_replace("/", "-", @mime_content_type($file));
+		
+		// set default if mimety setting failed
+		if (empty($mime))
+		{
+			$mime = "application-octet-stream";
+		}
+		
+		return $mime;
+	}
+	
 	/**
 	*  *** creates a directory, if it doesn't exist
 	*
@@ -437,7 +452,7 @@ class ILIAS2export
 		if (!@is_dir($sDir) or 
 			!@is_dir($tDir))
 		{
-			return false;
+			return FALSE;
 		}
 		
 		// read sdir, copy files and copy directories recursively
@@ -454,14 +469,14 @@ class ILIAS2export
 					if (!@is_dir($tDir."/".$file))
 					{
 						if (!mkdir($tDir."/".$file, 0770))
-							return false;
+							return FALSE;
 	
 						chmod($tDir."/".$file, 0770);
 					}
 	
 					if (!rCopy($sDir."/".$file,$tDir."/".$file))
 					{
-						return false;
+						return FALSE;
 					}
 				}
 				
@@ -470,12 +485,12 @@ class ILIAS2export
 				{
 	            	if (!copy($sDir."/".$file,$tDir."/".$file))
 					{
-						return false;
+						return FALSE;
 					}
 				}
 			}
 		}
-		return true;
+		return TRUE;
 	}
 	
 	function getImageNames ($sDir, $imageId, $imageName = "")
@@ -960,7 +975,7 @@ class ILIAS2export
 			{
 				// get multimedia file size and mimetype ***
 				$size = filesize($mmName);
-				$mimetype = str_replace("/", "-", mime_content_type($mmName));
+				$mimetype = $this->getMimeType($mmName);
 				
 				//-----------------------------------------------
 				// create LearningObject AggregationLevel 1 tree:
@@ -986,7 +1001,7 @@ class ILIAS2export
 				$Size = $this->writeNode($Technical, "Size", Null, $size);
 				
 				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", Null, "/objects/mm".$id."/".$mm["file"]); // ***
+				$Location = $this->writeNode($Technical, "Location", Null, "./objects/mm".$id."/".$mm["file"]); // ***
 				
 				// 4.4 ..Technical..(Requirement | OrComposite) ***
 				
@@ -1021,7 +1036,7 @@ class ILIAS2export
 			if (!empty($mmName))
 			{
 				// get multimedia mimetype ***
-				$mimetype = str_replace("/", "-", mime_content_type($mmName));
+				$mimetype = $this->getMimeType($mmName);
 				
 				//-----------------------------------------------
 				// create LearningObject AggregationLevel 1 tree:
@@ -1112,7 +1127,7 @@ class ILIAS2export
 		{
 			// get (image) file size and mimetype ***
 			$size = filesize($fileName);
-			$mimetype = str_replace("/", "-", mime_content_type($fileName));
+			$mimetype = $this->getMimeType($fileName);
 			
 			//-----------------------------------------------
 			// create LearningObject AggregationLevel 1 tree:
@@ -1138,7 +1153,7 @@ class ILIAS2export
 			$Size = $this->writeNode($Technical, "Size", Null, $size);
 			
 			// 4.3 ..Technical..Location
-			$Location = $this->writeNode($Technical, "Location", Null, "/objects/file".$id."/".$file["file"]); // ***
+			$Location = $this->writeNode($Technical, "Location", Null, "./objects/file".$id."/".$file["file"]); // ***
 			
 			// 4.4 ..Technical..(Requirement | OrComposite) ***
 			
@@ -1225,6 +1240,13 @@ class ILIAS2export
 				// *** (convert VRIs, HTML and Layout (alignment))
 				//--------------------------
 				
+				/* **
+				$temp = convertVri($text["text"]); // *** Probe, eigentlich muss eine Unterscheidung auf Limit her
+				echo "<pre>";
+				print_r($temp);
+				echo "</pre>";
+				*/
+				
 				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
 				
 				// Paragraph ***
@@ -1261,15 +1283,15 @@ class ILIAS2export
 				// get names (of existing image files)
 				$names = $this->getImageNames ($this->iliasDir."bilder/", $id, $image["datei"]);
 				
-				// proceed only if at least one file was found, else no subtrewill be created ***
+				// proceed only if at least one file was found, else no subtree will be created ***
 				if (is_array($names))
 				{
 					// set full path of the main file ***
-					$fileName = $this->iliasDir."bilder/".key($names);
+					$fileName = $this->iliasDir."bilder/".key($names); // *** old filename
 					
 					// get (image) file size and mimetype ***
 					$fileSize = filesize($fileName);
-					$mimetype = str_replace("/", "-", mime_content_type($fileName));
+					$mimetype = $this->getMimeType($fileName);
 					
 					//-------------------------------------------------
 					// create LearningObject AggregationLevel 1 subtree:
@@ -1295,7 +1317,7 @@ class ILIAS2export
 					$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
 					
 					// 4.3 ..Technical..Location
-					$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
+					$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$names[key($names)]); // *** new filename
 					
 					// 4.4 ..Technical..(Requirement | OrComposite) ***
 					
@@ -1508,7 +1530,7 @@ class ILIAS2export
 				{
 					// get (image) file size and mimetype ***
 					$fileSize = filesize($fileName);
-					$mimetype = str_replace("/", "-", mime_content_type($fileName));
+					$mimetype = $this->getMimeType($fileName);
 				
 					//--------------------------------------------------
 					// create LearningObject AggregationLevel 1 subtree:
@@ -1664,19 +1686,55 @@ class ILIAS2export
 				
 				break;
 			
-			/*
 			// multimedia
 			case 7:
-				$sql =	"SELECT * ".
-						"FROM el_multimedia ".
-						"WHERE id = $id;";
 				
-				// table multimedia is treated separatly
+				// table 'el_multimedia' and 'multimedia'
+				$sql =	"SELECT el.mm_id, el.align, mm.st_type, mm.file, mm.verweis ".
+						"FROM el_multimedia AS el, multimedia AS mm ".
+						"WHERE el.id = $id ".
+						"AND el.mm_id = mm.id;";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row
+				$mm = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// get filename or reference *** um Test ob vorhanden ergänzen
+				if ($mm["st_type"] == "file")
+				{
+					$refText = $mm["file"];
+				}
+				elseif ($mm["st_type"] == "reference")
+				{
+					$refText = $mm["verweis"];
+				}
+				
+				//--------------------------
+				// create Paragraph subtree:
+				//--------------------------
+				
+				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
+				
+				// Paragraph ***
+				$attrs = array(	"Language" => "de", // *** aus meta holen
+								"Characteristic" => "Example"); // *** aus bsp holen
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				
+				// Paragraph..Reference ***
+				$attrs = array(	"Reference_to" => "mm_".$mm["mm_id"],
+								"Type" => "LearningObject");
+				$Reference = $this->writeNode($Paragraph, "Reference", $attrs, $refText);
+				
 				break;
-			*/
 			
 			case 8: // filelist
-				
 				
 				// table 'el_filelist' 
 				/* *** not needed
@@ -1731,32 +1789,25 @@ class ILIAS2export
 				break;
 			
 			/*
-			// sourcecode
+			// sourcecode ***
 			case 9:
-				$sql =	"SELECT * ".
-						"FROM el_sourcecode ".
-						"WHERE id = $id;";
-				
-				break;
 			
 			// survey ***
 			case 10:
-				// el_survey
-				break;
 			*/
 			
-			default: // temporary dummy ***
+			// temporary dummy ***
+			default: 
 				
 				// Paragraph
-				$attrs = array(	"Language" => "de",
-								"Characteristic" => "Example");
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "dummy");
+				$attrs = array(	"Language" => "en");
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "Object not supported yet.");
 		}
 		
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer);
+		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer, $mm, $refText);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
@@ -2224,7 +2275,7 @@ class ILIAS2export
 		// LearningObject..Layout ***
 		
 		// LearningObject..Content ***
-		/* ***
+		
 		// (Chapters)
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
@@ -2280,7 +2331,7 @@ class ILIAS2export
 		}
 		// free result set
 		$result->free();
-		*/
+		
 		// (multimedia objects of multimedia elements)
 		$sql =	"SELECT DISTINCT mm.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el, el_multimedia AS el_mm, multimedia AS mm ".
@@ -2473,15 +2524,261 @@ class ILIAS2export
 		
 		// dump xml document on the screen ***
 		echo "<PRE>";
-		echo htmlentities($this->doc->dump_mem(true));
+		echo htmlentities($this->doc->dump_mem(TRUE));
 		echo "</PRE>";
 		
 		// dump xml document into a file ***
-		$this->doc->dump_file($path, false, true);
+		$this->doc->dump_file($path, FALSE, TRUE);
 		
 		// call destructor
 		$this->_ilias2export();
 	}
+}
+
+/**
+* fetch all vri tags in a string
+*
+* *** Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
+* vri_fetch($string,"st") returns an array $arr with $arr["inst"]->100, $arr["type"]->"st"
+* and $arr["id"]->20.
+*
+* @param string $data string, that should be searched through
+* @param string $types vri types, that should be searched, separated by "|", e.g. "mm|st"
+* @param boolean $limiter true, if vri in input string doesn´t contain tag limiter "<" and ">" (default TRUE)
+* @param boolean $vri true, if vri in input string doesn´t contain vri string "vri=" (default TRUE)
+*
+* @return	array	array with fields "inst", "type", "id" and "target"; false, if no vri was found
+*/
+function fetchVri ($data, $types, $limiter = TRUE, $vri = TRUE)
+{
+	// set limiter strings
+	if($limiter)
+	{
+		$lt = "<";
+		$gt = ">";
+	}
+	else
+	{
+		$lt = $gt = "";
+	}
+	
+	// set vri string
+	if ($vri)
+	{
+		$vri = "vri[\s]*=[\s]*";
+	}
+	else
+	{
+		$vri = "";
+	}
+	
+	// set content and end tag string
+	if($limiter and $vri)
+	{
+		$end = "(.*?)<\/vri>";
+	}
+	else
+	{
+		$end = "";
+	}
+	
+	// set regular expressiion for vri tag
+	$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
+	
+	// get all vri tags
+	preg_match_all($vriTag, $data, $matches, PREG_SET_ORDER);
+	
+	/* ***
+	echo "<pre>";
+	htmlentities(print_r($matches));
+	echo "</pre>";
+	*/
+	
+	if (is_array($matches))
+	{
+		// fill vri array	
+		foreach ($matches as $key => $value)
+		{
+			$vriSet[$key] = array(	"inst" => $value[1],
+									"type" => $value[2],
+									"id" => $value[3],
+									"target" => $value[5],
+									"content" => $value[7]);
+		}
+		return $vriSet;	
+	}
+	else
+	{
+		return FALSE;	
+	}
+	
+	/* ***
+	echo "<pre>";
+	htmlentities(print_r($vriSet));
+	echo "</pre>";
+	*/
+}
+
+/**
+* replace vri tags in a string $text with string $str
+*
+* All vri tags (specified by $inst, $types and $id) are replaced by $str.
+*
+* @param	string		$text		string, in that tags should be replaced
+* @param	string		$str		string, that replaces the removed tags
+* @param	integer		$inst		installation ID of vri
+* @param	string		$types		vri type
+* @param	integer 	$id			vri ID
+* @param	boolean		$e_tag		TRUE, if one-part tag is meant (e.g. <vri=!100!mm!22!/>) (optional, default FALSE)
+* @param	boolean		$no_limit	TRUE, if vri in input string doesn´t contain tag limiter "<" and ">" (default FALSE)
+* @param	string		$target		target type (media|glossary|faq|new) (optional)
+*
+* @return	string		string with replaced tags
+*/
+function replaceVri ($text, $string, $type, $id, $emptyTag = FALSE, $noLimiter = FALSE, $noVri = FALSE)
+{
+	// set whitespaces
+	$ws = "[ \t\r\f\v\n]";
+	
+	// set limiter strings
+	if($noLimiter)
+	{
+		$lt = $gt = "";
+	}
+	else
+	{
+		$lt = "<";
+		$gt = ">";
+	}
+	
+	// set vri string
+	if ($noVri)
+	{
+		$vri = "";
+	}
+	else
+	{
+		$vri = "vri$ws*=$ws*";
+		// content
+		$content = "";
+		// endtag
+		$endTag = "";
+	}
+	
+	// set empty tag strings
+	if ($emptyTag)
+	{
+		// set empty tag slash
+		$slash = "/";
+		// endtag
+		$endTag = "";
+		// content
+		$content = "";
+	}
+	else
+	{
+		// set empty-tag slash
+		$slash = "";
+		// endtag
+		$endTag = $lt."/vri".$gt;
+		// content
+		$content = "(.[^".$endTag."]*)";
+	}
+	
+	// set regular expressiion for vri tag
+	$vriTag =	$lt.$vri."!(([_a-z0-9-]|[.-])*)!(".$type.")!(".$id.")!$ws*".
+				"(type$ws*=$ws*(media|glossary|faq|new)$ws*)?".$slash.$gt.
+				$content.$endTag;
+	
+	// get vri
+	$str = eregi_replace($vriTag,$string,$text);
+	
+	return $str;
+}
+
+
+/**
+* replace vri tags in a string $text with string $str
+*
+* All vri tags (specified by $inst, $types and $id) are replaced by $str.
+*
+* @param	string		$text		string, in that tags should be replaced
+* @param	string		$str		string, that replaces the removed tags
+* @param	integer		$inst		installation ID of vri
+* @param	string		$types		vri type
+* @param	integer 	$id			vri ID
+* @param	boolean		$e_tag		TRUE, if one-part tag is meant (e.g. <vri=!100!mm!22!/>) (optional, default FALSE)
+* @param	boolean		$no_limit	TRUE, if vri in input string doesn´t contain tag limiter "<" and ">" (default FALSE)
+* @param	string		$target		target type (media|glossary|faq|new) (optional)
+*
+* @return	string		string with replaced tags
+*/
+function vri_replace($text, $str, $inst, $types, $id, $e_tag=FALSE, $no_limit=FALSE, $target="")
+{
+	// set limiter strings
+	if($no_limit)
+	{
+		$lt = $gt = "";
+	}
+	else
+	{
+		$lt = "<";
+		$gt = ">";
+	}
+	$slash = ($e_tag) ? "/" : "";
+	$ws= "[ \t\r\f\v\n]"; // whitespaces
+	$tarstr = ($target != "") ? "(type$ws*=$ws*$target$ws*)?" : "";
+	$vri_tag=$lt."$ws*[vV][rR][iI]$ws*=$ws*!$inst!$types!$id!$ws*".$tarstr.$slash.$gt;
+	$ret = eregi_replace($vri_tag,$str,$text);
+	return $ret;
+}
+
+/**
+*/
+function convertVri ($text, $noLimit=FALSE)
+{
+	// 2-tag-vri (<vri=!...!> ... </vri>)
+	while ($vri = fetchVri($text,"st|ab|pg|mm",FALSE,$noLimiter))
+	{
+		// *** legacy
+		if ($vri["type"] == "ab")
+		{
+			$vri["type"] == "pg";
+		}
+		
+		/* ***
+		// Paragraph..Reference ***
+		$attrs = array(	"Reference_to" => $vri["type"]."_".$vri["id"],
+						"Type" => "LearningObject");
+		$Reference = $this->writeNode($parent, "Reference", $attrs, "bla");
+		
+		// cut the tags
+		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],FALSE,$noLimit,$vri["target"]);
+		$text = ereg_replace("</[Vv][Rr][Ii]>","",$text);
+		*/
+		/*
+		$str = "<Reference Reference_to=\"".$vri["type"]."_".$vri["id"]."\" Type=\"LearningObject\">";
+		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],FALSE,$noLimit,$vri["target"]);
+		// cut end tags
+		$text = ereg_replace("</[Vv][Rr][Ii]>","</Reference>",$text);
+		*/
+		
+		// *** inst (not needed), type, id, target
+		$test[] = array("inst" => $vri["inst"],
+						"type" => $vri["type"],
+						"id" => $vri["id"],
+						"target" => $vri["target"],
+						"content" => $vri["content"]);
+	}
+	/*
+	// 1-tag-vri (<vri=!...!/>) (only used for "inline"-images !)
+	while ($vri = vri_fetch($text,"mm",TRUE,$noLimit))
+	{
+		$str = "<Reference Reference_to=\"".$vri["type"]."_".$vri["id"]."\" Type=\"LearningObject\" />";
+		$text = vri_replace($text,$str,$vri["inst"],$vri["type"],$vri["id"],TRUE,$noLimit,$vri["target"]);
+	}		
+	*/
+	return $test;
 }
 
 //------
@@ -2551,4 +2848,5 @@ else
 			"</body>\n".
 		"</html>\n";
 }
+
 ?>

@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-02-12, Matthias Rulinski
+2003-02-15, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -255,22 +255,24 @@ ELEMENT (id, parent)
 									n wrong
 	
 	el_multimedia
-		id
-		inst
-		width
-		height
-		paras
-		plugin
-		align
-		mm_id
-		mm_inst
-		derive_size
-		derive_full_size
-		derive_caption
-		derive_defparam
-		caption
-		full_width
-		full_height
+		mm_id				-->		Reference.Reference_to (mm_mm_id) ***
+		align				-->		*** (Aligment)
+									0 left
+									1 center
+									2 right
+									3 left with text on the right
+									4 right with text on the left
+		width				-->		multimedia data used instead
+		height				-->		multimedia data used instead
+		full_width			-->		unavailable in ILIAS3
+		full_height			-->		unavailable in ILIAS3
+		paras				-->		unavailable in ILIAS3 (multimedia data used instead)
+		derive_size			-->		unavailable in ILIAS3 (multimedia data used instead)
+		derive_full_size	-->		unavailable in ILIAS3 (multimedia data used instead)
+		derive_caption		-->		unavailable in ILIAS3 (multimedia data used instead)
+		derive_defparam		-->		unavailable in ILIAS3 (multimedia data used instead)
+		caption				-->		unavailable in ILIAS3
+		
 	
 	el_filelist
 		sort				-->		***
