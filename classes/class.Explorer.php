@@ -132,8 +132,8 @@ class Explorer
 					{
 						if ($object["child"] != 1)
 						{
-							$data = $this->tree->getParentNodeData($object["child"]);
-							$parent_index = $this->getIndex($data);
+							//$data = $this->tree->getParentNodeData($object["child"]);
+							$parent_index = $this->getIndex($object);
 						}
 
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
@@ -378,14 +378,14 @@ class Explorer
 	{
 		foreach ($this->format_options as $key => $value)
 		{
-			if (($value["child"] == $a_data["child"])
-			   && ($value["parent"] == $a_data["parent"]))
+			if (($value["child"] == $a_data["parent"]))
 			{
 				return $key;
 			}
 		}
 
-		$this->ilias->raiseError(get_class($this).": Error in tree. No index found",$this->ilias->error_obj->FATAL);
+		// exit on error
+		$this->ilias->raiseError(get_class($this)."::getIndex(): Error in tree. No index found!",$this->ilias->error_obj->FATAL);
 	}
 
 	/**
