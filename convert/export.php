@@ -358,10 +358,10 @@ class ILIAS2export
 		return $str;
 	}
 	
-	// convert (answer status | answer) values ***
-	function convertAnswerStatus ($answerStatus)
+	// convert answer values ***
+	function convertAnswer ($answer)
 	{
-		switch ($answerStatus) 
+		switch ($answer) 
 		{
 			case "y":
 			case "r":
@@ -1117,7 +1117,7 @@ class ILIAS2export
 				{
 					foreach ($answer as $value) 
 					{
-						$attrs = array(	"Status" => $this->convertAnswerStatus($value["mright"]));
+						$attrs = array(	"Solution" => $this->convertAnswer($value["mright"]));
 						$Answer = $this->writeNode($parent, "Answer", $attrs);
 						
 						// ..Answer..Paragraph ***
@@ -1133,7 +1133,7 @@ class ILIAS2export
 					// ..Answer..Paragraph ***
 					$attrs = array(	"Language" => "de", // *** aus meta holen
 									"Characteristic" => "Example"); // *** aus bsp holen
-					$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $this->convertAnswerStatus($mc["answer"]));
+					$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $this->convertAnswer($mc["answer"]));
 				}
 				
 				// TestItem..Hint ***
