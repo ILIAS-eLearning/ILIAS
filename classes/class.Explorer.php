@@ -63,13 +63,13 @@ class Explorer extends PEAR
 	*/
 	function setOutput($a_parent,$a_depth = "")
 	{
-		global $rbacadmin, $rbacsystem, $expanded;
+		global $rbacadmin, $rbacsystem,$expanded;
+		static $counter = 0;
 
 		if (empty($a_depth))
 		{
 		 	$a_depth = 1;
 		}
-		
 		if($objects =  $this->tree->getChilds($a_parent,"title"))
 		{
 			$tab = ++$a_depth - 2;
@@ -79,37 +79,44 @@ class Explorer extends PEAR
 			{
 				if($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 				{
-					$this->format_options["$object[id]"]["parent"] = $object["parent"];
-					$this->format_options["$object[id]"]["title"] = $object["title"];
-					$this->format_options["$object[id]"]["type"] = $object["type"];
-					$this->format_options["$object[id]"]["depth"] = $tab;
-					$this->format_options["$object[id]"]["container"] = false;
-					$this->format_options["$object[id]"]["visible"]	  = true;
+					if($object["id"] != 1)
+					{
+						$data = $this->tree->getParentNodeData($object["id"],$object["parent"]);
+						$parent_index = $this->getIndex($data);
+					}
+					$this->format_options["$counter"]["parent"] = $object["parent"];
+					$this->format_options["$counter"]["obj_id"] = $object["id"];
+					$this->format_options["$counter"]["title"] = $object["title"];
+					$this->format_options["$counter"]["type"] = $object["type"];
+					$this->format_options["$counter"]["depth"] = $tab;
+					$this->format_options["$counter"]["container"] = false;
+					$this->format_options["$counter"]["visible"]	  = true;
 
 					// Create prefix array
 					for($i=0;$i<$tab;++$i)
 					{
-						 $this->format_options["$object[id]"]["tab"][] = 'blank';
+						 $this->format_options["$counter"]["tab"][] = 'blank';
 					}
 
 					// only if parent is expanded and visible, object is visible
 					if($object["id"] != 1 and (!in_array($object["parent"],$expanded) 
-					   or !$this->format_options["$object[parent]"]["visible"]))
+					   or !$this->format_options["$parent_index"]["visible"]))
 					{
-						$this->format_options["$object[id]"]["visible"] = false;
+						$this->format_options["$counter"]["visible"] = false;
 					}
 						
 					// if object exists parent is container
 					if($object["id"] != 1)
 					{
-						$this->format_options["$object[parent]"]["container"] = true;
+						$this->format_options["$parent_index"]["container"] = true;
 						if(in_array($object["parent"],$expanded))
 						{
-							$this->format_options["$object[parent]"]["tab"][($tab-2)] = 'minus';
+							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
 						}
 						else
-							$this->format_options["$object[parent]"]["tab"][($tab-2)] = 'plus';
+							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
 					}
+					++$counter;
 					// Recursive
 					$this->setOutput($object["id"],$a_depth);
 				} //if
@@ -125,19 +132,10 @@ class Explorer extends PEAR
 	*/
 	function getOutput()
 	{
-		$this->format_options[1]["tab"] = array();
+		$this->format_options[0]["tab"] = array();
 		
 		$depth = $this->tree->getMaximumDepth();
 		
-		$tmp = $this->format_options;
-		unset($this->format_options);
-		$i=0;
-		foreach($tmp as $key => $option)
-		{
-			$this->format_options[$i] = $option;
-			$this->format_options[$i++]["obj_id"] = $key;
-		}
-
 		for($i=0;$i<$depth;++$i)
 		{
 			$this->createLines($i);
@@ -285,5 +283,24 @@ class Explorer extends PEAR
 		}
 		return false;
 	}
+/**
+ * get index of format_options array from specific obj_id,parent_id
+ * @param array object data
+ * @return int index
+ * @access private
+ **/
+	function getIndex($a_data)
+	{
+		foreach($this->format_options as $key => $value)
+		{
+			if(($value["obj_id"] == $a_data["obj_id"]) 
+			   && ($value["parent"] == $a_data["parent"]))
+			{
+				return $key;
+			}
+		}
+		$this->ilias->raiseError("Error in tree",$this->ilias->error_object->FATAL);
+	}
+		
 }
 ?>

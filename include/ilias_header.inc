@@ -90,6 +90,8 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	// init rbac
 	$rbacsystem = new RbacSystemH($ilias->db);
 	$rbacadmin = new RbacAdminH($ilias->db);
+	$rbacreview = new RbacReviewH($ilias->db);
+
 	// TODO: rbacAdmin should only started when using admin-functions.
 	// At the moment the method in the 3 main classes are not separated properly
 	// to do this. All rbac-classes need to be cleaned up

@@ -100,7 +100,6 @@ class RbacSystem extends PEAR
 		
 		$create = false;
 		$operations = explode(",",$a_operations);
-		
 		$ops = array();
 
 		$rbacadmin = new RbacAdminH($this->db);
@@ -138,13 +137,12 @@ class RbacSystem extends PEAR
 				// sometimes no tree-object was instated, therefore:
 				if (!is_object($tree))
 				{
-					$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
+					$tree = new Tree($a_obj_id,ROOT_FOLDER_ID);
 				}
 
-				$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
-				array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
+				$path_ids = $tree->getPathId($a_obj_id,ROOT_FOLDER_ID);
+				array_unshift($path_ids,SYSTEM_FOLDER_ID);
 				$parent_roles = $rbacadmin->getParentRoles($path_ids);
-
 				foreach ($parent_roles as $par_rol)
 				{
 					if (in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
