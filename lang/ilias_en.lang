@@ -555,13 +555,9 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_set_width#:#Set Width
-content#:#cont_set_class#:#Set Class
-content#:#cont_table#:#Table
-content#:#cont_caption#:#Caption
-content#:#cont_top#:#Top
-content#:#cont_bottom#:#Bottom
 content#:#cont_all_pages#:#All Pages
+content#:#cont_bottom#:#Bottom
+content#:#cont_caption#:#Caption
 content#:#cont_chapters#:#Chapters
 content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
@@ -574,11 +570,15 @@ content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
 content#:#cont_preview#:#Preview
+content#:#cont_set_class#:#Set Class
+content#:#cont_set_width#:#Set Width
 content#:#cont_subchapters#:#Subchapters
+content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_width#:#Table Width
+content#:#cont_top#:#Top
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page

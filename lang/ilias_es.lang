@@ -556,6 +556,8 @@ common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#your message
 common#:#zipcode#:#zip code
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
+content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
+content#:#cont_caption#:#Caption###11 Jun 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
@@ -568,11 +570,15 @@ content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
+content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
+content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
+content#:#cont_table#:#Table###11 Jun 2003 new variable
 content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
 content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
 content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
+content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
