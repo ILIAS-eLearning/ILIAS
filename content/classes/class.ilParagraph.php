@@ -103,10 +103,19 @@ class ilParagraph
 		return $this->language;
 	}
 
-	function getXML()
+	function getXML($a_utf8_encoded = false)
 	{
-		return "<Paragraph Language=\"".$this->getLanguage().
-			"\">".$this->getText()."</Paragraph>";
+		if ($a_utf8_encoded)
+		{
+			return "<Paragraph Language=\"".$this->getLanguage().
+				"\">".utf8_encode($this->getText())."</Paragraph>";
+		}
+		else
+		{
+			return "<Paragraph Language=\"".$this->getLanguage().
+				"\">".$this->getText()."</Paragraph>";
+		}
+
 	}
 
 

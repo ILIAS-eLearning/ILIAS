@@ -55,7 +55,6 @@ class ilPageParser extends ilSaxParser
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
 		$this->current_element = array();
-
 		parent::ilSaxParser($a_xml_file);	//???
 	}
 
