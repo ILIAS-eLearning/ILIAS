@@ -1,5 +1,8 @@
 <?php
 
+//pear DB abstraction layer
+require_once ("DB.php");
+
 /**
 * Export of content from ILIAS2 to ILIAS3 using DOMXML
 *
@@ -11,50 +14,62 @@
 
 // *** = dirty/buggy --> to be modified/extended
 
-//include files from PEAR
-require_once "PEAR.php";
-require_once "DB.php";
-
-// connection data
-$user = "mysql";
-$pass = "lqsym";
-$host = "localhost";
-$dbname = "ilias";
-
-// build dsn of database connection and connect
-$dsn = "mysql://$user:$pass@$host/$dbname";
-$db = DB::connect($dsn, true);
-
-// test for valid connection
-if (DB::isError($db))
-{
-	die ($db->getMessage());
-}
-
-// test ***
-$exp = new export;
-$exp->outputFile();
-
-// quit connection
-$db->disconnect();
-
-class export 
+class ILIAS2export 
 {
 	//-----------
 	// properties
 	//-----------
 	
 	/**
-	 * domxml document object ***
-	 * 
-	 * @var object doc
-	 * @access public 
-	 */
+	* database handle from pear database class
+	* 
+	* @var string
+	* @access private
+	*/
+	var $db;
+	
+	/**
+	* domxml document object ***
+	* 
+	* @var object doc
+	* @access private 
+	*/
 	var $doc;
 	
 	//-------
 	//methods
 	//-------
+	
+	/**
+	* constructor
+	* 
+	* @param	string	xml version
+	* @access	public 
+	*/
+	function ILIAS2export ($user , $pass, $host, $dbname)
+	{
+		// build dsn of database connection and connect
+		$dsn = "mysql://$user:$pass@$host/$dbname";
+		$this->db = DB::connect($dsn, true);
+		
+		// test for valid connection
+		if (DB::isError($this->db))
+		{
+			die ($this->db->getMessage());
+		}
+	}
+	
+	/**
+	* destructor
+	* 
+	* @access	private
+	* @return	boolean
+	*/
+	function _ILIAS2export ()
+	{
+		// quit connection
+		$this->db->disconnect();
+	}
 	
 	// write node using DOMXML
 	function writeNode ($parent, $tag, $attrs = NULL, $text = NULL)
@@ -296,21 +311,18 @@ class export
 	// ILIAS2 Metadata --> ILIAS3 MetaData
 	function exportMetadata ($id, $type, $parent)
 	{
-		// ***
-		global $db;
-		
 		//-------------------------
 		// get data from db tables:
 		//-------------------------
 		
 		// table 'meta'
-		$sql =	"SELECT id, inst, typ, title, lang, description, diff, level, status, ".
+		$sql =	"SELECT inst, title, lang, description, diff, level, status, ".
 				"material_level, last_modified_date, publisher, publish_date ".
 				"FROM meta ".
 				"WHERE id = $id ".
 				"AND typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -339,7 +351,7 @@ class export
 				"WHERE id = $id ".
 				"AND typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -359,7 +371,7 @@ class export
 				"WHERE id = $id ".
 				"AND typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -377,7 +389,7 @@ class export
 						"AND ma.id = $id ".
 						"AND ma.typ = '$type';";
 				
-				$result2 = $db->query($sql2);		
+				$result2 = $this->db->query($sql2);		
 				// check $result for error
 				if (DB::isError($result2))
 				{
@@ -410,7 +422,7 @@ class export
 				"WHERE id = $id ".
 				"AND typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -428,7 +440,7 @@ class export
 						"AND mc.typ = '$type' ".
 						"AND mc.id = $id;";
 				
-				$result2 = $db->query($sql2);		
+				$result2 = $this->db->query($sql2);		
 				// check $result for error
 				if (DB::isError($result2))
 				{
@@ -462,7 +474,7 @@ class export
 				"AND mt.id = $id ".
 				"AND mt.typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -480,7 +492,7 @@ class export
 				"AND md.id = $id ".
 				"AND md.typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -506,7 +518,7 @@ class export
 				"AND ms.id = $id ".
 				"AND ms.typ = '$type';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -538,13 +550,13 @@ class export
 		$MetaData = $this->writeNode($parent, "MetaData");
 		
 		// 1 MetaData..General
-		$attrs = array(	"Structure" => $this->selectStructure($meta["typ"]),
-						"AggregationLevel" => $this->selectAggregationLevel($meta["typ"]));
+		$attrs = array(	"Structure" => $this->selectStructure($type),
+						"AggregationLevel" => $this->selectAggregationLevel($type));
 		$General = $this->writeNode($MetaData, "General", $attrs);
 		
 		// 1.1 ..General..Identifier
 		$attrs = array(	"Catalog" => "ILIAS2 ".$meta["inst"],
-						"Entry" => $meta["id"]);
+						"Entry" => $type."_".$id);
 		$Identifier = $this->writeNode($General, "Identifier", $attrs);
 		
 		// 1.2 ..General..Title
@@ -566,6 +578,11 @@ class export
 				$attrs = array(	"Language" => $meta["lang"]);
 				$Keyword = $this->writeNode($General, "Keyword", $attrs, $value);
 			}
+		}
+		else
+		{
+			$attrs = array(	"Language" => $meta["lang"]);
+			$Keyword = $this->writeNode($General, "Keyword", $attrs, "Not available"); // default
 		}
 		
 		// 1.6 ..General..Description --> unavailable in ILIAS2
@@ -664,9 +681,6 @@ class export
 	// ILIAS2 Element (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
 	function exportElement ($id, $parent)
 	{
-		// ***
-		global $db;
-		
 		//-------------------------
 		// get data from db tables:
 		//-------------------------
@@ -677,7 +691,7 @@ class export
 				"WHERE id = $id ".
 				"AND deleted = '0000-00-00 00:00:00'";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -698,7 +712,7 @@ class export
 						"FROM el_text ".
 						"WHERE id = $id;";
 				
-				$result = $db->query($sql);		
+				$result = $this->db->query($sql);		
 				// check $result for error
 				if (DB::isError($result))
 				{
@@ -722,7 +736,19 @@ class export
 				// Text..Paragraph ***
 				$attrs = array(	"Language" => "test", // *** aus meta holen
 								"Characteristic" => "test"); // *** aus bsp holen
-				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, htmlentities($text["text"])); // *** Whitespaces
+				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, $text["text"]);
+				
+				break;
+			
+			default: // temporary dummy ***
+				
+				// Text
+				$Text = $this->writeNode($parent, "Text");
+				
+				// Text..Paragraph
+				$attrs = array(	"Language" => "dummy",
+								"Characteristic" => "dummy");
+				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, "dummy");
 				
 				break;
 			
@@ -849,9 +875,6 @@ class export
 	// ILIAS2 Page (only undeleted) --> ILIAS3 LearningObject AggregationLevel 2 or 3 or Test or Glossary
 	function exportPage ($id, $parent)
 	{
-		// ***
-		global $db;
-		
 		//-------------------------
 		// get data from db tables:
 		//-------------------------
@@ -862,7 +885,7 @@ class export
 				"WHERE id = $id ".
 				"AND deleted = '0000-00-00 00:00:00'";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
@@ -891,25 +914,28 @@ class export
 				// LearningObject..Layout ***
 				
 				// LearningObject..Content ***
-				$Content = $this->writeNode($LearningObject, "Content");
-				
-				// ..Content.. ***
 				$sql =	"SELECT id ".
 						"FROM element ".
 						"WHERE page = $id ".
 						"AND deleted = '0000-00-00 00:00:00' ".
 						"ORDER BY nr;";
 				
-				$result = $db->query($sql);		
+				$result = $this->db->query($sql);		
 				// check $result for error
 				if (DB::isError($result))
 				{
 					die ($result->getMessage());
 				}
+				// check row number
+				if ($result->numRows() > 0)
+				{
+					$Content = $this->writeNode($LearningObject, "Content");
+				}
 				// get row(s)
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$Element = $this->exportElement($row["id"], $Content); // ***
+					// ..Content.. ***
+					$Element = $this->exportElement($row["id"], $Content);
 				}
 				// free result set
 				$result->free();
@@ -947,9 +973,6 @@ class export
 	// ILIAS2 Lerneinheit --> ILIAS3 LearningObject AggregationLevel 4
 	function exportLerneinheit ($id)
 	{
-		// ***
-		global $db;
-		
 		//-------------------------
 		// get data from db tables:
 		//-------------------------
@@ -975,28 +998,30 @@ class export
 		// LearningObject..Layout ***
 		
 		// LearningObject..Content ***
-		$Content = $this->writeNode($LearningObject, "Content");
-		
 		// Es fehlt die Schicht der Gliederungspunkte (LO 3) ***
 		// Stattdessen werden Pages eingefügt LO 2/3.
-		// Muss später angepasst werden.
-		
-		// ..Content.. ***
+		// Muss später angepasst werden.			
 		$sql =	"SELECT id ".
 				"FROM page ".
 				"WHERE lerneinheit = $id ".
 				"AND deleted = '0000-00-00 00:00:00';";
 		
-		$result = $db->query($sql);		
+		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
 			die ($result->getMessage());
 		}
+		// check row number
+		if ($result->numRows() > 0)
+		{
+			$Content = $this->writeNode($LearningObject, "Content");
+		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$Page = $this->exportPage($row["id"], $Content); // ***
+			// ..Content.. ***
+			$Page = $this->exportPage($row["id"], $Content);
 		}
 		// free result set
 		$result->free();
@@ -1019,7 +1044,7 @@ class export
 	}
 	
 	// create xml output
-	function outputFile ()
+	function outputFile ($leId, $path)
 	{
 		//-------------------------
 		// create new xml document:
@@ -1027,7 +1052,7 @@ class export
 		
 		// create the xml string (workaround for domxml_new_doc) ***
 		$xmlStr =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>".
-					"<!DOCTYPE LearningObject SYSTEM \"http://127.0.0.1/ilias_lo_.dtd\">".
+					"<!DOCTYPE LearningObject SYSTEM \"http://localhost/ilias3/convert/ilias_lo.dtd\">".
 					"<root />"; // dummy node
 		
 		// create a domxml document object
@@ -1038,11 +1063,64 @@ class export
 		$root->unlink_node();
 		
 		// create ILIAS3 LearningObject out of ILIAS2 Lerneinheit ***
-		$LearningObject = $this->exportLerneinheit(5);
+		$LearningObject = $this->exportLerneinheit($leId);
 		
 		// dump xml document on the screen ***
 		echo "<PRE>";
 		echo htmlentities($this->doc->dump_mem(true));
 		echo "</PRE>";
+		
+		// dump xml document into a file ***
+		$this->doc->dump_file($path, false, true);
+		
+		// call destructor
+		$this->_ilias2export();
 	}
 }
+
+//------
+// main:
+//------
+
+// Sicherheitsabfragen fehlen ***
+if ($_REQUEST["ok"] == "ok")
+{
+	// connection data
+	$user = $_REQUEST["user"];
+	$pass = $_REQUEST["pass"];
+	$host = $_REQUEST["host"];
+	$dbname = $_REQUEST["dbname"];
+	
+	// LE id, path
+	$leId = $_REQUEST["leId"];
+	$path = $_REQUEST["path"];
+	
+	// test run ***
+	$exp = new ilias2export($user, $pass, $host, $dbname);
+	$exp->outputFile($leId, $path);
+}
+else
+{
+	echo "<html>".
+			"<head>".
+				"<title>ILIAS2export (experimental)</title>".
+			"</head>".
+			"<body>".
+				"Export of ILIAS2 'Lerneinheiten' in ILIAS3 LearningObjects (experimental)<br /><br />".
+				"<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\" enctype=\"multipart/form-data\">".
+					"ILIAS2 Databaseconnection:<br /><br />".
+					"user:<br /><input type=\"text\" name=\"user\" maxlengh=\"30\" size=\"20\" value=\"mysql\"><br />".
+					"pass:<br /><input type=\"password\" name=\"pass\" maxlengh=\"30\" size=\"20\" value=\"\"><br />".
+					"host:<br /><input type=\"text\" name=\"host\" maxlengh=\"30\" size=\"20\" value=\"localhost\"><br />".
+					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"ilias\"><br /><br />".
+					"Id of the 'Lerneinheit' to be exported:<br /><br />".
+					"<input type=\"text\" name=\"leId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />".
+					"Full Path and Filename for the generated XML File:<br /><br />".
+					"<input type=\"text\" name=\"path\" maxlengh=\"50\" size=\"40\" value=\"/Temp/LO.xml\"><br /><br />".
+					"<input type=\"submit\" name=\"ok\" value=\"ok\">".
+				"</form>".
+			"</body>".
+		"</html>";
+}
+
+?>
