@@ -82,16 +82,20 @@ class ilGroup
 	*/
 	function searchGroups($a_search_str)
 	{
-		$query = "SELECT obj_id,title,description FROM object_data ".
-			"WHERE (title LIKE '%".$a_search_str."%' ".
-			"OR description LIKE '%".$a_search_str."%') ".
-			"AND type = 'grp'";
+		$query = "SELECT * ".
+			"FROM object_data ,object_reference ".
+			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
+			"OR object_data.description LIKE '%".$a_search_str."%') ".
+			"AND object_data.type = 'grp' ".
+			"AND object_data.obj_id = object_reference.obj_id";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = array(
-				"obj_id"        => $row->obj_id,
+			// STORE DATA IN ARRAY WITH KEY obj_id
+			// SO DUPLICATE ENTRIES ( LINKED OBJECTS ) ARE UNIQUE
+			$ids[$row->obj_id] = array(
+				"ref_id"        => $row->ref_id,
 				"title"         => $row->title,
 				"description"   => $row->description);
 		}
