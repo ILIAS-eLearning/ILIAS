@@ -74,7 +74,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="lm">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="dbk">dbk</subobj>
