@@ -30,20 +30,22 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
 <!-- language file start -->
-common#:#absolute_path#:#absolute path
-common#:#accept_usr_agreement#:#accept user agreement?
-common#:#access#:#access
+common#:#absolute_path#:#absolute path###20 Mar 2003 new variable
+common#:#accept_usr_agreement#:#accept user agreement?###20 Mar 2003 new variable
+common#:#access#:#access###20 Mar 2003 new variable
 common#:#action_aborted#:#Action aborted!###20 Mar 2003 new variable
-common#:#actions#:#actions
+common#:#actions#:#actions###20 Mar 2003 new variable
 common#:#active_roles#:#Active Roles###04 Aug 2003 new variable
 common#:#add#:#add###16 Apr 2003 content changed
-common#:#add_author#:#add author
-common#:#add_member#:#add member
+common#:#add_author#:#add author###20 Mar 2003 new variable
+common#:#add_member#:#add member###20 Mar 2003 new variable
 common#:#add_translation#:#Add translation###01 Sep 2003 new variable
-common#:#administrate#:#administrate
-common#:#administration#:#administration
-common#:#administrator#:#administrator
+common#:#administrate#:#administrate###20 Mar 2003 new variable
+common#:#administration#:#administration###20 Mar 2003 new variable
+common#:#administrator#:#administrator###20 Mar 2003 new variable
 common#:#adopt#:#adopt###28 Mar 2003 new variable
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###29 Mar 2003 new variable
 common#:#all_objects#:#All Objects###04 Aug 2003 new variable
@@ -540,11 +542,12 @@ common#:#msg_no_rolf_allowed1#:#The object###10 Jul 2003 new variable
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.###10 Jul 2003 new variable
 common#:#msg_no_search_result#:#No entries found###04 Aug 2003 new variable
 common#:#msg_no_search_string#:#Please enter your query###04 Aug 2003 new variable
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
-common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users###18 Nov 2003 new variable
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself###04 Aug 2003 new variable
+common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type###04 Aug 2003 new variable
+common#:#msg_nothing_found#:#msg_nothing_found###04 Aug 2003 new variable
 common#:#msg_obj_created#:#Object created.###10 Jul 2003 new variable
-common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_obj_exists#:#This object already exists in this folder###04 Aug 2003 new variable
 common#:#msg_obj_modified#:#Modifications saved.###10 Jul 2003 new variable
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from2#:#(The setting have been saved!)###08 Jul 2003 new variable
@@ -556,6 +559,8 @@ common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for autogenerat
 common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed###04 Nov 2003 new variable
 common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again. ###04 Nov 2003 new variable
 common#:#msg_roleassignment_changed#:#Roleassigment changed###04 Aug 2003 new variable
+common#:#msg_sysrole_not_deletable#:#The systemrole cannot be deleted###18 Nov 2003 new variable
+common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.###18 Nov 2003 new variable
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.###10 Jul 2003 new variable
 common#:#msg_user_last_role1#:#The following users are only assigned to this role:###04 Jul 2003 new variable
@@ -1000,6 +1005,7 @@ content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#New Term###16 Aug 2003 new variable
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself###26 Sep 2003 new variable
 content#:#cont_no_object_found#:#Could not find any object with this title###26 Sep 2003 new variable
+content#:#cont_no_page#:#No Page found.###18 Nov 2003 new variable
 content#:#cont_none#:#None###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
