@@ -76,6 +76,7 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
+common#:#check_langfile#:#Please check your language file.
 common#:#check_language#:#Check Language
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -135,6 +136,14 @@ common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
 common#:#enumerate#:#Enumerate
+common#:#err_1_param#:#Only 1 parameter!
+common#:#err_2_param#:#Only 2 parameter!
+common#:#err_count_param#:#Reason: Wrong parameter count.
+common#:#err_in_line#:#Error in line
+common#:#err_no_langfile_found#:#No language file found!
+common#:#err_no_param#:#No parameter!
+common#:#err_over_3_param#:#More than 3 parameters!
+common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#error_recipient#:#Error Recipient
 common#:#execute#:#Execute
@@ -143,6 +152,8 @@ common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#file#:#File
 common#:#file_not_found#:#File Not Found
+common#:#file_not_valid#:#File not valid!
+common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
@@ -200,6 +211,7 @@ common#:#help#:#Help
 common#:#host#:#Host
 common#:#http_path#:#Http Path
 common#:#id#:#ID
+common#:#identifier#:#identifier
 common#:#ilias_version#:#ILIAS version
 common#:#import#:#Import
 common#:#in_use#:#User Language
@@ -240,6 +252,7 @@ common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
+common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first.
 common#:#languages#:#Languages
@@ -321,6 +334,7 @@ common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#migrate#:#Migrate
+common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
 common#:#msg_changes_ok#:#The changes were OK
@@ -509,6 +523,7 @@ common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
+common#:#value#:#value
 common#:#version#:#Version
 common#:#view#:#View
 common#:#view_content#:#View Content
@@ -519,18 +534,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#langfile_found#:#Language file found
-common#:#module#:#module
-common#:#identifier#:#identifier
-common#:#value#:#value
-common#:#err_in_line#:#Error in line
-common#:#err_no_param#:#No parameter!
-common#:#err_1_param#:#Only 1 parameter!
-common#:#err_2_param#:#Only 2 parameter!
-common#:#err_over_3_param#:#More than 3 parameters!
-common#:#check_langfile#:#Please check your language file.
-common#:#err_count_param#:#Reason: Wrong parameter count.
-common#:#file_not_valid#:#File not valid!
-common#:#file_valid#:#File is valid!
-common#:#err_wrong_header#:#Reason: Wrong header.
-common#:#err_no_langfile_found#:#No language file found!
