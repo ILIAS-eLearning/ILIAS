@@ -217,13 +217,11 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
 			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
 			$this->tpl->setVariable ("SOURCE", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-			//$this->tpl->setVariable ("SOURCE", "group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
 			$this->tpl->show();
 		}
 		else	// list
 		{
 			$this->show_content();
-			//$this->displayList();
 		}
 	}
 
@@ -391,13 +389,10 @@ class ilGroupGUI extends ilObjectGUI
 
 	function explorer()
 	{
-//		require_once "classes/class.ilExplorer.php";
-
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 		//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe bergeben kann
 		
 		$exp = new ilGroupExplorer("group.php",$this->grp_id);
-		//$exp = new ilExplorer("group.php?cmd=displayList");
 
 		if ($_GET["expand"] == "")
 		{
@@ -421,6 +416,7 @@ class ilGroupGUI extends ilObjectGUI
 		$exp->addFilter("glo");
 		$exp->addFilter("crs");
 		$exp->addFilter("fold");
+		$exp->addFilter("file");
 		$exp->setFiltered(true);
 		
 		//build html-output
@@ -1552,16 +1548,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
-	}
-
-	/**
-	* function that executes "displayList"
-	* function ist only executed if $_POST["cmd"] is set to "cancel"
-	* TODO: replace function by setting methods return location
-	*/
-	function cancelObject()
-	{
-		header("Location: group.php?cmd=displaylist&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
