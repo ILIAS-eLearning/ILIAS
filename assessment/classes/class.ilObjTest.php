@@ -2041,6 +2041,31 @@ class ilObjTest extends ilObject
 		}
 		return $result_array;
 	}
+
+/**
+* Returns the image path for web accessable images of a survey
+*
+* Returns the image path for web accessable images of a survey
+* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_SURVEY/images
+*
+* @access public
+*/
+	function getImagePath() {
+		return CLIENT_WEB_DIR . "/assessment/" . $this->getRefId() . "/images/";
+	}
 	
+/**
+* Returns the web image path for web accessable images of a survey
+*
+* Returns the web image path for web accessable images of a survey
+* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_SURVEY/images
+*
+* @access public
+*/
+	function getImagePathWeb() {
+		$webdir = CLIENT_WEB_DIR . "/assessment/" . $this->getRefId() . "/images/";
+		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+	}
+
 } // END class.ilObjTest
 ?>
