@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.48 2003/08/19 12:21:45 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.49 2003/08/22 12:25:37 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -260,11 +260,14 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 				foreach ($parent_role_ids as $key => $par)
 				{
-					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
-					$output["adopt"][$key]["check_adopt"] = $radio;
-					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-					$output["adopt"][$key]["role_name"] = $par["title"];
+					if ($par["obj_id"] != SYSTEM_ROLE_ID)
+					{
+						$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+						$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+						$output["adopt"][$key]["check_adopt"] = $radio;
+						$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+						$output["adopt"][$key]["role_name"] = $par["title"];
+					}
 				}
 	
 				$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
