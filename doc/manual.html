@@ -1,4 +1,5 @@
-<P><font size=+3><B>Dokumentation ILIAS 3<br />
+<!-- @version $Id$ -->
+<FONT SIZE=+1><B>ILIAS 3: Handbuch</B></FONT><P><font size=+3><B>Dokumentation ILIAS 3<br />
 </b></font><br />
 <br />
 <font size=+2><B>Benutzerhandbuch<br />
@@ -17,12 +18,12 @@ Das Benutzerhandbuch von ILIAS3 gliedert sich in drei Abschnitte, entsprechend d
 </li><br />
 <li> Die Administratordokumentation zeigt Voraussetzungen und die Installation von ILIAS3. Die Managementkonsole wird in diesem Abschnitt genauer beschrieben.<br />
 </li><br />
-<li> Die Entwicklerdokumentation versorgt den Programmierer mit Informationen über Konzepte, Datenstrukturen und Programmierung von ILIAS3. Bitte lesen Sie in diesem Teil über Hintergrundinformationen von ILIAS3.<br />
+<li> Die Entwicklerdokumentation informiert den Programmierer über Konzepte, Datenstrukturen und Programmierung von ILIAS3. Bitte lesen Sie in diesem Teil über Hintergrundinformationen von ILIAS3.<br />
 </li><br />
 </ul><br />
 <br />
 <a name="#chapter2"></a><h1>2&nbsp;Benutzerhandbuch</h1><br />
-Anhand der Bildschirmfotos (Screenshots) werden Ihnen die Funktionen von ILIAS3 näher erklärt. Beachten Sie bitte, dass es zu Farbabweichungen und leichten textuellen Abweichen kommen kann, da jeder Administrator ILIAS3 anpassen kann.<br />
+Anhand der Bildschirmfotos (Screenshots) werden Ihnen die Funktionen von ILIAS3 näher erklärt. Beachten Sie bitte, dass es zu Farbabweichungen und Abweichung im Text kommen kann, da jeder Administrator ILIAS3 anpassen kann.<br />
 Sie finden das Benutzerhandbuch zu ILIAS3 ebenfalls online. Es ist unter der Internet-Adresse <a href="http://www.ilias.uni-koeln.de" target="_blank" target="_new">http://www.ilias.uni-koeln.de</a> verfügbar.<br />
 <br />
 <a name="#chapter21"></a><h2>2.1&nbsp;Anmeldung auf dem System.</h2><br />
@@ -52,10 +53,10 @@ Die Hauptfunktionen von ILIAS3 sind für Sie jederzeit übersichtlich in einem Men
 </li><br />
 <li> Gruppenfunktionen<br />
 </li><br />
-<li> falls Sie berechtigt sind, Autorenbereich und Administration.<br />
+<li> Autorenbereich und Administration (falls Sie dazu berechtigt sind)<br />
 </li><br />
 </ul><br />
-Rechtsbündig sind noch Schaltflächen angeordnet für Hilfe, Feedback-Formular und der Logout-Knopf zum Beenden der Sitzung mit ILIAS3.<br />
+Rechtsbündig sind Schaltflächen angeordnet für Hilfe, Feedback-Formular und der Logout-Knopf zum Beenden der Sitzung mit ILIAS3.<br />
 Wir stellen Ihnen die einzelnen Funktionen im Folgenden detailliert vor.<br />
 <br />
 <a name="#chapter23"></a><h2>2.3&nbsp;Persönlicher Schreibtisch</h2><br />
@@ -86,23 +87,23 @@ Auf die anderen Komponenten (Apache, z.B. mySQL, usw) soll an dieser Stelle nich
 <br />
 Die Dokumentation von PEAR finden Sie unter <a href="http://pear.php.net" target="_blank" target="_new">http://pear.php.net</a>. Die Module selbst bekommen Sie aus dem CVS. Bitte loggen Sie sich dazu in das Pear-cvs ein:<br />
 <br />
-cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> login<br />
+$ cvs -d :pserver:<a href="mailto:cvsread@cvs.php.net:/repository" target="_new">cvsread@cvs.php.net:/repository</a> login<br />
 <br />
 Das Passwort ist phpfi.<br />
 <br />
 Jetzt können Sie das DB-Modul mithilfe von <br />
 <br />
-cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> co pear/DB<br />
+$ cvs -d :pserver:<a href="mailto:cvsread@cvs.php.net:/repository" target="_new">cvsread@cvs.php.net:/repository</a> co pear/DB<br />
 <br />
-auschecken. Bitte kopieren Sie den Inhalt des DB-Verzeichnisses in Ihr pear-Verzeichnis auf dem Webserver, so dass Sie die DB.php und das DB-Verzeichnis überschreiben.<br />
+downloaden. Bitte kopieren Sie den Inhalt des DB-Verzeichnisses in Ihr pear-Verzeichnis auf dem Webserver, so dass Sie die DB.php und das DB-Verzeichnis überschreiben.<br />
 <br />
-Das Auth Modul bekommen sie schließlich mithilfe von<br />
+Das Auth Modul bekommen sie mithilfe von<br />
 <br />
-cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> co pear/Auth<br />
+$ cvs -d :pserver:<a href="mailto:cvsread@cvs.php.net:/repository" target="_new">cvsread@cvs.php.net:/repository</a> co pear/Auth<br />
 <br />
 Bitte kopieren Sie auch hier das Auth-Verzeichnis so, dass der Auth-Ordner direkt im pear-Verzeichnis liegt.<br />
 <br />
-Bitte verwechseln Sie nicht das pear-Verzeichnis mit dem PEAR-Verzeichnis. das PEAR-Verzeichnis ist ein Unterordner ihrer PEAR-Bibliothek im pear-Verzeichnis.<br />
+Bitte verwechseln Sie nicht das pear-Verzeichnis mit dem PEAR-Verzeichnis. Das PEAR-Verzeichnis ist ein Unterordner ihrer PEAR-Bibliothek im pear-Verzeichnis.<br />
 <br />
 <a name="#chapter322"></a><h3>3.2.2&nbsp;Installation von ILIAS3</h3><br />
 Éntpacken Sie das mitgelieferte Archiv in das gewünschte Web-Verzeichnis unter ihrem Webroot (z.B. /var/www/ilias3/, im Folgenden abgekürzt mit …/ilias3/).<br />
@@ -112,21 +113,27 @@ Folgen Sie den Anweisungen auf dem Bildschirm für eine automatische Installation
 <br />
 <a name="#chapter3221"></a><h4>3.2.2.1&nbsp;Manuelles Setup</h4><br />
 Für den Fall, dass es nicht möglich ist, ILIAS3 automatisch zu installieren (INI-Datei schreiben nicht möglich, Datenbankzugangsdaten nicht griffbereit) können Sie auch ein manuelles Setup durchführen.<br />
+<br />
 Schreiben der Ini-Datei<br />
-Kopieren Sie die Datei ilias.master.inc.php nach ilias.inc.php. Passen Sie dort die Daten, insbesondere Datenbankzugangsdaten an Ihr System an.<br />
+Kopieren Sie die Datei ilias.master.inc.php nach ilias.inc.php. Passen Sie dort die Daten, insbesondere Datenbankzugangsdaten, an Ihr System an.<br />
+<br />
 Einrichtung der Datenbank<br />
 Erstellen Sie eine Datenbank mit dem Namen, den Sie auch in der INI-Datei eingetragen haben. Spielen Sie in diese Datenbank das SQL-Datenbank-Template im sql-Unterverzeichnis Ihrer ILIAS3-Installation ein.<br />
+<br />
 Sprachdateien<br />
 Das Sprachkonzept unterliegt einem Mechanismus, der Schreibrechte auf das Sprachenverzeichnis …/ilias3/lang benötigt. Bitte ermöglichen Sie Schreibzugriff für den Webserver.<br />
+<br />
 <a name="#chapter3222"></a><h4>3.2.2.2&nbsp;Abschluss der Installation</h4><br />
 Falls Ihre Installation erfolgreich war, zeigt Ihnen das ILIAS3-Setup durch folgenden Bildschirm an:<br />
 <tt></tt><br />
 Sie können sich nun auf der Startseite von ILIAS3 (also z.B. <a href="http://localhost/ilias3/" target="_blank" target="_new">http://localhost/ilias3/</a>) unter folgendem Benutzernamen anmelden:<br />
 Login: admin, Passwort: admin.<br />
-Wenn alles funktioniert hat, befinden Sie sich auf der Hauptseite von ILIAS3, dem Persönlichen Schreibtisch. Bitte löschen Sie nun die Datei setup.php oder verhindern sie durch ein <br />
-chmod 000 setup.php<br />
+Nun befinden Sie sich auf der Hauptseite von ILIAS3, dem Persönlichen Schreibtisch. Bitte löschen Sie nun die Datei setup.php oder verhindern sie durch<br />
+<br />
+$ chmod 000 setup.php<br />
+<br />
 den Zugriff Dritter auf die Setup-Datei.<br />
-Sie haben jetzt die Möglichkeit ILIAS3 zu administrieren, Benutzer anzulegen, etc.<br />
+Sie haben jetzt die Möglichkeit, ILIAS3 zu administrieren, Benutzer anzulegen, etc.<br />
 <br />
 <a name="#chapter3223"></a><h4>3.2.2.3&nbsp;Anlegen von Benutzern</h4><br />
 <a name="#chapter3224"></a><h4>3.2.2.4&nbsp;Erstellen von Lerneinheiten</h4><br />
@@ -135,7 +142,7 @@ Sie haben jetzt die Möglichkeit ILIAS3 zu administrieren, Benutzer anzulegen, et
 <br />
 <a name="#chapter4"></a><h1>4&nbsp;Entwicklerdokumentation</h1><br />
 <br />
-Aufgabe dieses Kapitels ist es, dem Programmentwickler das Gesamtkonzept von ILIAS3 näher zu bringen und das Verfahren dabei zu erläutern. Die Klassenstrukturen sind vereinheitlicht. Bitte halten Sie sich insbesondere an die Techniken im Konstruktor der jeweiligen Klasse (s. Abschnitt 4.2.1).<br />
+Aufgabe dieses Kapitels ist es, dem Programmentwickler das Gesamtkonzept von ILIAS3 zu erläutern. Die Klassenstrukturen sind vereinheitlicht. Bitte halten Sie sich insbesondere an die Techniken im Konstruktor der jeweiligen Klasse (s. Abschnitt 4.2.1).<br />
 ILIAS3 basiert auf der Programmiersprache PHP und dem „neuen“ PEAR-Framework. Das Programm benutzt dabei folgende Klassen von PEAR:<br />
 <ul><br />
 <li> Datenbankabstraktionsschicht (DB.php) <br />
@@ -175,11 +182,11 @@ ILIAS3 umfasst neben dem Hauptzweck, der Lernumgebung, folgende Module:<br />
 <br />
 <a name="#chapter41"></a><h2>4.1&nbsp;Konzeptbeschreibung</h2><br />
 <br />
-Die folgenden Unterkapitel erklären Teilkonzepte von ILIAS3 und erläutern sie in Klartext. Zum nachvollziehen dieser Konzepte schauen Sie bitte in die Quelltexte der jeweiligen Klassen.<br />
+Die folgenden Unterkapitel erklären Teilkonzepte von ILIAS3. Zum nachvollziehen der Konzepte schauen Sie bitte in die Quelltexte der jeweiligen Klassen.<br />
 <br />
 <br />
 <a name="#chapter411"></a><h3>4.1.1&nbsp;Setup-Routine</h3><br />
-ILIAS3 wird über eine Setup-Routine auf dem Computer installiert. Dabei können folgende Aufgaben abgearbeitet automatisiert abgearbeitet werden:<br />
+ILIAS3 wird über eine Setup-Routine auf dem Computer installiert. Dabei können folgende Aufgaben automatisiert abgearbeitet werden:<br />
 <ul><br />
 <li> Schreiben der INI-Datei (s. auch Abschnitt 4.1.2)<br />
 </li><br />
@@ -189,7 +196,7 @@ ILIAS3 wird über eine Setup-Routine auf dem Computer installiert. Dabei können f
 </li><br />
 </ul><br />
 <br />
-ILIAS3 wertet Ergebnisse aus und berichtet eine erfolgreiche Installation und bietet in dem Fall den Link zum Login an.<br />
+ILIAS3 zeitg eine erfolgreiche Installation an und bietet in dem Fall den Link zum Login an.<br />
 Damit die Zahl der Fehler minimiert wird, werden im Vorfeld Voraussetzungen überprüft:<br />
 <ul><br />
 <li> schreibbares ILIAS-Verzeichnis (wird benötigt für die ini-Datei),<br />
@@ -198,62 +205,62 @@ Damit die Zahl der Fehler minimiert wird, werden im Vorfeld Voraussetzungen über
 </li><br />
 </ul><br />
 Sind diese Voraussetzungen nicht gegeben, bietet ILIAS3 keine automatisierte Installation.<br />
-Weitere Installationsschritte können dabei relativ bequem über Anpassung des Setup-Templates, der Setup-Klasse und des Setup-Skriptes vorgenommen werden.<br />
-Neben den Überprüfungen auf schreibbare Verzeichnisse, etc, besteht die Hauptaufgabe der Setup-Klasse die korrekte Einrichtung der Datenbank. Dazu ist die neueste PEAR-Version nötig. Die Setup-Klasse fängt beim Connect zum Datenbankserver alle möglichen Fehler ab und berichtet diese.<br />
+Weitere Installationsschritte können dabei bequem über Anpassung des Setup-Templates, der Setup-Klasse und des Setup-Skriptes vorgenommen werden.<br />
+Neben den Überprüfungen auf schreibbare Verzeichnisse etc. besteht die Hauptaufgabe der Setup-Klasse in der korrekten Einrichtung der Datenbank. Dazu ist die neueste PEAR-Version nötig. Die Setup-Klasse fängt beim Connect zum Datenbankserver Fehler ab und berichtet diese.<br />
 <br />
 <a name="#chapter412"></a><h3>4.1.2&nbsp;INI-Datei-Handling</h3><br />
-Die IniFile-Klasse kapselt Lese und Schreibzugriff auf die Ini-Datei von ILIAS3 (ilias.ini.php). Durch Sie müssen insbesondere Fehler beim Lesen abgefangen und berichtet werden. Die wichtigste Methode für den Programmierer ist readVariable. Eine Ini-Instanz befindet sich im ilias-Hauptobjekt $ilias-ini. Sie können z.B. die Default-Systemsprache über folgenden Aufruf auslesen:<br />
+Die IniFile-Klasse kapselt Lese- und Schreibzugriff auf die Ini-Datei von ILIAS3 (ilias.ini.php). Durch sie werden Fehler beim Lesen abgefangen und berichtet. Die wichtigste Methode für den Programmierer ist readVariable. Eine Ini-Instanz befindet sich im Ilias-Hauptobjekt $ilias-ini. Sie können z.B. die Default-Systemsprache über folgenden Aufruf auslesen:<br />
 $lng = $ilias-&gt;ini-&gt;readVariable(„language“, „default“);<br />
 Dabei bezeichnet der erste Parameter die Gruppe, der zweite Parameter der Variablenname. Gruppen erkennen Sie in der Ini-Datei an den eckigen Klammern (z.B. [language]).<br />
 <br />
 <a name="#chapter413"></a><h3>4.1.3&nbsp;Fehlermanagement</h3><br />
-ILIAS3 bietet ein Fehlermanagement für die Behandlung von fatalen Fehlern (sofortiger Programmabbruch, Warnungen (Fehler mit sofortigem Programmabbruch und Ausgabe auf einer Fehlerseite), und Message (Ausgabe einer Nachricht auf dem Bildschirm bei fortlaufendem Programm). Dazu wird in allen Klassen das Fehlermanagement von ILIAS3 aktiviert, dass durch die Klasse ErrorHandling repräsentiert wird. Diese Klasse wir im ilias-Objekt instanziert und ruft den PEAR-Errorhandler auf und behandelt die Fehler je nach aufgetretenem Fehlergrad).<br />
+ILIAS3 bietet ein Fehlermanagement für die Behandlung von fatalen Fehlern (sofortiger Programmabbruch), Warnungen (Fehler mit sofortigem Programmabbruch und Ausgabe auf einer Fehlerseite), und Message (Ausgabe einer Nachricht auf dem Bildschirm bei fortlaufendem Programm). Dazu wird in allen Klassen das Fehlermanagement von ILIAS3 aktiviert, dass durch die Klasse ErrorHandling repräsentiert wird. Diese Klasse wird im Ilias-Objekt instanziert, ruft den PEAR-Errorhandler auf und behandelt die Fehler je nach aufgetretenem Fehlergrad.<br />
 <br />
 <a name="#chapter4131"></a><h4>4.1.3.1&nbsp;Erzeugen von Fehlern</h4><br />
-Falls in Ihrer Klasse ein Fehler aufgetreten ist, wird er entweder automatisch behandelt (im Falle von Datenbankabfragen - ungültige SQL-Statements) oder muss von Ihnen explizit erhoben werden. Dafür steht ihnen die Methode $this-&gt;raiseError zur Verfügung. Geben Sie als ersten Parameter die Nachricht des Fehlers an, als zweiten Parameter erwartet die Methode die Art des Fehlers, z.B.<br />
+Falls in einer Klasse ein Fehler aufgetreten ist, wird er entweder automatisch behandelt (im Falle von Datenbankabfragen - ungültige SQL-Statements) oder muss von Ihnen explizit erhoben werden. Dafür steht ihnen die Methode $this-&gt;raiseError zur Verfügung. Geben Sie als ersten Parameter die Nachricht des Fehlers an, als zweiten Parameter erwartet die Methode die Art des Fehlers, z.B.<br />
 $this-&gt;raiseError(„user exists“, $this-&gt;FATAL);<br />
 <br />
 <a name="#chapter414"></a><h3>4.1.4&nbsp;Datenbankwrapper</h3><br />
 ILIAS3 leitet die PEAR-Klasse DB noch einmal ab, damit der Fehlermechanismus automatisch ablaufen kann. Schlägt eine Abfrage ($this-&gt;query) fehl, so wird automatisch ein Fataler Fehler erzeugt und eine entsprechende Meldung auf dem Bildschirm ausgegeben (error.php).<br />
 <br />
 <a name="#chapter415"></a><h3>4.1.5&nbsp;Datenbankupdater</h3><br />
-ILIAS3 ist mit einem Mechanismus ausgestattet, der die Datenbank während des Entwicklungsprozesses eines Releases unter allen Entwicklern up-to-date hält. Ändert man etwas an der Datenbank, so werden die Änderungen in dbupdate.php im sql-Verzeichnis eingetragen. Bei der Pflege des Entwicklungssnapshots (also der aktuellen Developerversion) kann man nun im Adminbereich diese Datanbankversion überprüfen und evtl. updaten. Bei Veröffentlichung eines neuen Releases wird ILIAS3 installiert, die Updates installiert, und daraufhin die Datenbank exportiert. Dieser Datenbankauszug (dump) ersetzt das alte Datenbanktemplate (ilias3.sql).<br />
+ILIAS3 ist mit einem Mechanismus ausgestattet, der die Datenbank während des Entwicklungsprozesses eines Releases unter allen Entwicklern up-to-date hält. Ändert man etwas an der Datenbank, so werden die Änderungen in dbupdate.php im sql-Verzeichnis eingetragen. Bei der Pflege des Entwicklungssnapshots (also der aktuellen Developerversion) kann man nun im Adminbereich diese Datanbankversion überprüfen und evtl. updaten. Vor Veröffentlichung eines neuen Releases wird ILIAS3 auf einem Testsystem installiert, vorhandene Updates installiert und daraufhin die Datenbank exportiert. Dieser Datenbankauszug (dump) ersetzt das alte Datenbanktemplate (ilias3.sql).<br />
 Folgende Regeln sind zu beachten, wenn Datenbankänderungen in das Skript dbupdate.php eingetragen werden:<br />
 <ul><br />
 <li> Inkrementieren Sie die Versionsnummer der letzten Änderung und fügen Sie diese darunter ein. (Format: &lt;#nummer&gt;).<br />
 </li><br />
-<li> SQL-Statements müssen mit einem Semicolon abgeschlossen werden. Inhalte von Textfeldern sind in einfache Anführungszeichen zu setzen.<br />
+<li> SQL-Statements müssen mit einem Semikolon abgeschlossen werden. Inhalte von Textfeldern sind in einfache Anführungszeichen zu setzen.<br />
 </li><br />
-<li> Sie können auch ganz normal PHP-Code verwenden, der mit &lt;?php ?&gt; umschlossen sein muss. <br />
+<li> Sie können auch PHP-Code verwenden, der mit &lt;?php ?&gt; umschlossen sein muss. <br />
 </li><br />
 </ul><br />
-Das ilias-Objekt ist vorhanden und stellt Ihnen einen Datenbank-Handler zur Verfügung ($ilias-&gt;db).  <br />
+Das Ilias-Objekt stellt Ihnen einen Datenbank-Handler zur Verfügung ($ilias-&gt;db).  <br />
 <br />
 <a name="#chapter416"></a><h3>4.1.6&nbsp;Loggingmechanismus</h3><br />
-ILIAS3 bietet einen simplen Loggingmechanismus in eine Datei. Sie haben Zugriff auf den Logger mittels des Ilias-Objektes: <br />
+ILIAS3 bietet einen einfachen Loggingmechanismus in eine Datei. Sie haben Zugriff auf den Logger mittels des Ilias-Objektes: <br />
 $ilias-&gt;log-&gt;write($msg);<br />
 Daraufhin wird in die Datei ilias.log die Nachricht $msg geschrieben. Der Logger eignet sich besonders gut zum Debugging. Z.B. wird er eingesetzt, um den Administrator über fehlende Sprachtopics zu informieren.<br />
 <br />
 <a name="#chapter417"></a><h3>4.1.7&nbsp;Interne Mail</h3><br />
-Ein internes Mailsystem gehört zum Lieferumfang von ILIAS3. Dieses Mailsystem arbeitet auf einer einzigen Datenbankklasse und verwaltet versendete und empfangene Mail in einer einzigen Datenbankzeile.<br />
+Ein internes Mailsystem gehört zum Lieferumfang von ILIAS3. Dieses Mailsystem besteht aus einer Klasse.<br />
 <br />
 <a name="#chapter418"></a><h3>4.1.8&nbsp;Sprachkonzept</h3><br />
 ILIAS3 ist sprachenunabhängig, d.h. sämtliche Texte sind in Templates mittels definierten Platzhaltern angegeben (z.b. TXT_SAVE) die in den aufgerufenen PHP-Skripten in die jeweilige Benutzersprache übersetzt werden. Eine Übersetzung eines solchen Platzhalters geschieht mit z.B. mit folgendem Befehl:<br />
 $tpl-&gt;setVariable(„TXT_SAVE“, $lng-&gt;txt(„save“));<br />
-Der Zugriff auf die Benutzersprache wird in der header-Datei von ILIAS3 initialisiert. Die Sprachklasse (class.Language.php) wird dabei instantiiert.<br />
+Der Zugriff auf die Benutzersprache wird in der header-Datei von ILIAS3 initialisiert. Die Sprachklasse (class.Language.php) wird dabei instanziert.<br />
 $lng = new Language($ilias-&gt;account-&gt;data[„language“]);<br />
 $data[language] besteht meist aus einem zweibuchstabigen Sprachcode („en“, „de“, „it“, …). Die Sprachklasse versucht nun, auf eine generierte Sprachdatei zuzugreifen, die im lang-Ordner von ILIAS3 liegt. Schlägt dies fehl, wird keine Sprache initialisiert.<br />
 <br />
 <br />
 <a name="#chapter42"></a><h2>4.2&nbsp;Programmierung</h2><br />
-Die Programmierung von ILIAS3 unterliegt einigen Regeln. Näheres hierzu erfahren sie unter rules.txt sowie Programmierrichtlinien.doc. Dort sind Variablennamenkonventionen u.v.m. aufgeführt. Eine Sache noch hier:<br />
+Die Programmierung von ILIAS3 unterliegt einigen Regeln. Näheres hierzu erfahren Sie unter rules.txt sowie unter Programmierrichtlinien.doc. Dort sind Variablennamenkonventionen u.v.m. aufgeführt. Auf folgendes möchten wir kurz eingehen:<br />
 Formularbehandlung<br />
-Es gibt in Formularen feste Parameter, wie $id, die vom Benutzer nicht verändert werden. Anstelle diese in hidden-Felder abzulegen, werden diese per GET-Methode in der Action des Formulars eingetragen, Beispiel:<br />
+Es gibt in Formularen feste Parameter, wie $id, die vom Benutzer nicht verändert werden können. Anstelle diese in hidden-Felder abzulegen, werden diese per GET-Methode in der Action des Formulars eingetragen, Beispiel:<br />
 &lt;form name=“form“ action=“{FORMACTION}“ method=”post”&gt;<br />
 bzw.<br />
 $tpl-&gt;setVariable(“FORMACTION”, “admusers.php?id=“.$id);<br />
-Die Variablen werden anschließend in den Arrays $_POST und $_GET behandelt. So ist weiterhin ein gezieltes Ansteuern von anderen Seiten ohne Submit möglich. Der Code ist aufgeräumter, da nach User-Submitted Variablen und festen Variablen unterschieden wird.<br />
-So ist es möglich „Register Globals = off“ zu setzen.<br />
+Die Variablen werden anschließend in den Arrays $_POST und $_GET behandelt. So ist weiterhin ein gezieltes Ansteuern von anderen Seiten ohne Submit möglich. Der Code ist übersichtlicher, da nach User-Submitted Variablen und festen Variablen unterschieden wird.<br />
+So ist es möglich, „Register Globals = off“ zu setzen.<br />
 <br />
 <br />
 <a name="#chapter421"></a><h3>4.2.1&nbsp;Klassenentwurf</h3><br />
@@ -270,7 +277,7 @@ Errormanagment???<br />
 <a name="#chapter5"></a><h1>5&nbsp;Templatedokumentation</h1><br />
 Ein großer Fortschritt von ILIAS3 gegenüber Vorgängerversionen besteht in der Verwendung von Templates.<br />
 Personen mit Shell-/FTP-Zugang zum Rechner können neue Templatesets definieren, bzw. vorhandene Templatesets umdefinieren. Dadurch kann der Benutzer ILIAS an seine Bedürfnisse anpassen, z.B. ILIAS auch über einen PDA benutzen. <br />
-Sofern vorhanden kann der Benutzer kann in einem Templateset zwischen verschiedenen Farbensets wählen, die durch Stylesheet-Dateien (*.css) definiert wurden. Ist es noch nicht ausgewählt, wird das erste genommen.<br />
+Sofern vorhanden kann der Benutzer in einem Templateset zwischen verschiedenen Farbensets wählen, die durch Stylesheet-Dateien (*.css) definiert wurden. Ist kein Set gewählt, wird standartmäßig automatisch das erste Set übernommen.<br />
 <br />
 <a name="#chapter51"></a><h2>5.1&nbsp;Stylesheet-Dateien</h2><br />
 Im Template-Ordner &quot;default&quot; befinden sich nach der Installation zwei Stylesheet-Dateien: &quot;style.css&quot; und &quot;bluewonder.css&quot;. Diese können im persönlichen Profil ausgewählt werden. Dazu muss das Template &quot;usr_profile.html&quot; die Selectbox &quot;usr_style&quot; zur Auswahl der Styles enthalten.<br />
@@ -298,25 +305,25 @@ Eine Liste der Tags:<br />
 </li><br />
 </ul><br />
 <br />
-Sie können selbstverständlich weitere Formatierungen hinzufügen und die Vorhandenen beliebig ändern.<br />
+Sie können selbstverständlich weitere Formatierungen hinzufügen und die vorhandenen beliebig ändern.<br />
 Durch eine Vielzahl von Stylesheet-Dateien erreichen sie eine höhere Benutzerakzeptanz.<br />
 <br />
 <br />
 <a name="#chapter52"></a><h2>5.2&nbsp;Framesets und nicht-Framegestützte Seiten</h2><br />
-Ilias ist nicht auf Frames festgelegt. Das &quot;default&quot;-Templateset ist ein Vorlagensatz mit Frames, &quot;noframes&quot; bezeichnet dem Namen nach ein Templateset ohne Frames (mit Hauptmenü an der Seite).<br />
-ILIAS3 erkennt selbständig Framegestützte Seiten an der Datei &quot;tpl.start.html&quot;. Diese Datei definiert das Hauptframeset von ILIAS und verweist auf das Hauptmenü und auf den Persönlichen Schreibtisch (usr_personaldesktop.php). Betrachten Sie die Datei tpl.start.html für weitere Details.<br />
+ILIAS3 ist nicht auf Frames festgelegt. Das &quot;default&quot;-Templateset ist ein Vorlagensatz mit Frames, &quot;noframes&quot; bezeichnet dem Namen nach ein Templateset ohne Frames (mit Hauptmenü an der Seite).<br />
+ILIAS3 erkennt selbständig framegestützte Seiten an der Datei &quot;tpl.start.html&quot;. Diese Datei definiert das Hauptframeset von ILIAS und verweist auf das Hauptmenü und auf den Persönlichen Schreibtisch (usr_personaldesktop.php). Betrachten Sie die Datei tpl.start.html für weitere Details.<br />
 Ein weiteres Frameset kann bei Aufruf der Objekt-Administration bzw. bei Aufruf der Lerneinheiten erfolgen.<br />
 Dieses Frameset wird durch die Dateien &quot;tpl.lo.html&quot; bzw. &quot;tpl.adm.html&quot; definiert. Für weitere Einzelheiten öffnen Sie bitte diese Dateien.<br />
 <br />
 <a name="#chapter53"></a><h2>5.3&nbsp;Template-Dateien</h2><br />
-ILIAS benötigt eine Reihe von html-Dateien, die das Layout von Ilias bestimmen. Diese Dateien finden Sie im jeweiligen Templateordner. In den Dateien gibt es eine Anzahl von &quot;Topics&quot;. Es existieren <br />
+ILIAS§ benötigt eine Reihe von html-Dateien, die das Layout von IlLIAS3 bestimmen. Diese Dateien finden Sie im jeweiligen Templateordner. In den Dateien gibt es eine Anzahl von &quot;Topics&quot;. Es existieren <br />
 <ul><br />
 <li> Variablen-Topics (z.B. {MAIL_COUNT}), die durch das Programm dynamisch ersetzt werden (hier: z.B. &quot;3&quot; um anzuzeigen, das es drei neue Mails gibt), und<br />
 </li><br />
 <li> Blöcke, die von ILIAS wiederholt werden können (z.B. eine Zeile in einer Mailübersicht) oder nur in bestimmten Fällen ausgegeben werden (z.B. eine Fehlermeldung)<br />
 </li><br />
 </ul><br />
-Bitte halten Sie sich an die Schreibweise der Variablen bzw. Blöcke. Diese wurden in ILIAS definiert und können nicht verändert werden.<br />
-Alle Textanteile in den Templates werden ebenfalls durch Variablen bezeichnet, um die Vielsprachigkeit von Ilias zu gewährleisten. Alle Textvariablen werden durch &quot;TXT_&quot; vor der Variable markiert (z.B. TXT_MAIL wird zu &quot;mail&quot; im Englischen, zu &quot;Posta&quot; im Italienischen). Dieses System ist eng mit dem Sprachensystem von Ilias verknüpft. Lesen Sie, falls Sie neue Sprachen hinzufügen wollen, im Abschnitt &quot;Sprachen&quot; (???).<br />
+Bitte halten Sie sich an die Schreibweise der Variablen bzw. Blöcke. Diese wurden in ILIAS§ definiert und können nicht verändert werden.<br />
+Alle Textanteile in den Templates werden ebenfalls durch Variablen bezeichnet, um die Vielsprachigkeit von IIAS3 zu gewährleisten. Alle Textvariablen werden durch &quot;TXT_&quot; vor der Variable markiert (z.B. TXT_MAIL wird zu &quot;mail&quot; im Englischen, zu &quot;Posta&quot; im Italienischen). Dieses System ist eng mit dem Sprachensystem von ILIAS3 verknüpft. Lesen Sie, falls Sie neue Sprachen hinzufügen wollen, im Abschnitt &quot;Sprachen&quot; (???).<br />
 Nachfolgend finden Sie eine Liste von Blöcken und Variablen in den einzelnen Templatedateien von Ilias. Global definierte Variablen (also Variablen, die in keinem Block stehen) stehen unter dem Abschnitt &quot;global&quot;. Beachten Sie bitte, dass Blöcke aus kleinen Buchstaben bestehen, Variablenbezeichner bestehen aus Großbuchstaben.<br />
 <br />
