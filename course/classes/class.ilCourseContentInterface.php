@@ -147,6 +147,7 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_up.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_up");
+							$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 							$this->ctrl->setParameter($this,"item_id",$cont_data["child"]);
 							$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciMove");
 							$tmp_array["tar"] = "";
@@ -157,6 +158,7 @@ class ilCourseContentInterface
 						{
 							$tmp_array["gif"] = ilUtil::getImagePath("a_down.gif");
 							$tmp_array["lng"] = $this->lng->txt("crs_move_down");
+							$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 							$this->ctrl->setParameter($this,"item_id",-$cont_data["child"]);
 							$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciMove");
 							$tmp_array["tar"] = "";
@@ -166,6 +168,7 @@ class ilCourseContentInterface
 					}
 					$tmp_array["gif"] = ilUtil::getImagePath("edit.gif");
 					$tmp_array["lng"] = $this->lng->txt("edit");
+					$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 					$this->ctrl->setParameter($this,"item_id",$cont_data["child"]);
 					$tmp_array["lnk"] = $this->ctrl->getLinkTarget($this,"cciEdit");
 					$tmp_array["tar"] = "";
@@ -214,7 +217,7 @@ class ilCourseContentInterface
 				}
 				else
 				{
-					$txt = $this->lng->txt("crs_to").": ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
+					$txt = $this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
 				}
 				$tpl->setVariable("ACTIVATION_END",$txt);
 
