@@ -9,7 +9,16 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
+$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK","groups.php");
+$tplbtn->setVariable("BTN_TXT", $lng->txt("back"));
+$tplbtn->parseCurrentBlock();
+$tplbtn->setCurrentBlock("btn_row");
+$tplbtn->parseCurrentBlock();
+
 $tpl = new Template("tpl.group_new.html", false, true);
+$tpl->setVariable("BUTTONS",$tplbtn->get());
 
 //$tpl->setVariable("BUTTONS",$tplbtn->get());
 

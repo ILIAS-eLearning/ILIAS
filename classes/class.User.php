@@ -361,6 +361,27 @@ class User extends PEAR
 	 }
 
 	 /**
+	  * get own bookmarks
+	  *
+	  * @return array bookmarks
+	  * @access public
+	  */
+	 function getBookmarkFolder()
+	 {
+		 //initialize array
+		 $bookmarks = array();
+		 //query
+		 $sql = "SELECT * FROM bookmarks";
+
+		 $bookmarks[] = array(
+			 "id" => 1,
+			 "name" => "sonstiges",
+			 );
+		 return $bookmarks;
+	 }
+
+
+	 /**
 	  * get literature bookmarks
 	  *
 	  * @return array lessons

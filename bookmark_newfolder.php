@@ -29,17 +29,21 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 
-$bm = $ilias->account->getBookmarks();
+$bmf = $ilias->account->getBookmarkFolder();
 
-foreach ($bm as $row)
+foreach ($bmf as $row)
 {
 	$i++;
-	$tpl->setCurrentBlock("bookmarkrow");
-	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
-	$tpl->setVariable("URL", $row["url"]);
-	$tpl->setVariable("DESC", $row["desc"]);
+	$tpl->setCurrentBlock("selfolders");
+	$tpl->setVariable("SEL_OPTION", $row["name"]);
+	$tpl->setVariable("SEL_VALUE", $row["id"]);
 	$tpl->parseCurrentBlock();
 }
+$tpl->setVariable("TXT_TOP", $lng->txt("top"));
+$tpl->setVariable("TXT_NAME", $lng->txt("name"));
+$tpl->setVariable("TXT_CREATE_IN_FOLDER", $lng->txt("create_in_folder"));
+$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
