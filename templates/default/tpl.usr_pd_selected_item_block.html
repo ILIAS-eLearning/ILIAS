@@ -1,4 +1,4 @@
-<table class="ilPDSelectedItemBlock" cellspacing="0">
+<table class="ilPDSelectedItemBlock">
 <tr class="tblheader">
 	<td class="std" colspan="3"><img border="0" src="{IMG_HEADER}" align="middle" />
 	{TXT_BLOCK_HEADER}</td>
@@ -7,13 +7,15 @@
 <!-- BEGIN block_row -->
 
 <!-- BEGIN tbl_tstheader -->
-  <tr class="tblheader">
+<tr class="tblheader">
 	<td class="std" colspan="3"><b>{TXT_TST_TITLE}</b></td>
-  </tr>
+</tr>
 <!-- END tbl_tstheader -->
 
 <tr class="{ROWCOL}">
-	<td class="std"><a href="{LINK_SHOW}" class="navigation" target="{TARGET_SHOW}">{TXT_ITEM_TITLE}</a>
+	<td class="std">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td>
+	<a href="{LINK_SHOW}" class="navigation" target="{TARGET_SHOW}">{TXT_ITEM_TITLE}</a>
 	<!-- BEGIN description -->
 	<br />{TXT_ITEM_DESCRIPTION}
 	<!-- END description -->
@@ -27,6 +29,7 @@
 	<!-- BEGIN drop_link -->
 	<a href="usr_personaldesktop.php?cmd=dropItem&type={TYPE}&id={ID}" class="navigation" target="{TARGET_DROP}">{TXT_DROP}</a>
 	<!-- END drop_link -->
+	</td></tr></table>
 	</td>
 </tr>
 <!-- END block_row -->
