@@ -179,6 +179,8 @@ class ilObjUser extends ilObject
 	*/
 	function read()
 	{
+		global $ilErr;
+
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
@@ -191,17 +193,17 @@ class ilObjUser extends ilObject
 
 			// convert password storage layout used by table usr_data into
 			// storage layout used by class ilObjUser
-			if ($a_data["passwd"] == "" && $data["i2passwd"] != "")
+			if ($data["passwd"] == "" && $data["i2passwd"] != "")
 			{
-				$a_data["passwd_type"] = IL_PASSWD_CRYPT;
-				$a_data["passwd"] = $a_data["i2passwd"];
+				$data["passwd_type"] = IL_PASSWD_CRYPT;
+				$data["passwd"] = $data["i2passwd"];
 			}
 			else 
 			{
-				$a_data["passwd_type"] = IL_PASSWD_MD5;
-				//$a_data["passwd"] = $a_data["passwd"]; (implicit)
+				$data["passwd_type"] = IL_PASSWD_MD5;
+				//$data["passwd"] = $data["passwd"]; (implicit)
 			}
-			unset($a_data["i2passw"]);
+			unset($data["i2passw"]);
 
 
 			// fill member vars in one shot
@@ -247,7 +249,7 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
-			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
+			$ilErr->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 
 		parent::read();
@@ -260,8 +262,14 @@ class ilObjUser extends ilObject
 	*/
 	function assignData($a_data)
 	{
+		global $ilErr;
+
 		// basic personal data
 		$this->setLogin($a_data["login"]);
+		if (! $a_data["passwd_type"])
+		{
+			 $ilErr->raiseError("<b>Error: passwd_type missing in function assignData(). ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
+		}
 		$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
@@ -312,6 +320,8 @@ class ilObjUser extends ilObject
 	*/
 	function saveAsNew($a_from_formular = true)
 	{
+		global $ilErr;
+
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
@@ -328,6 +338,9 @@ class ilObjUser extends ilObject
 				$pw_field = "i2passwd";
 				$pw_value = $this->passwd;
 				break;
+
+			default :
+				 $ilErr->raiseError("<b>Error: passwd_type missing in function saveAsNew. ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 
 		if ($a_from_formular)
@@ -399,10 +412,13 @@ class ilObjUser extends ilObject
 	*/
 	function update()
 	{
+		global $ilErr;
+
 		//$this->id = $this->data["Id"];
 
         $this->syncActive();
 
+		$pw_udpate = '';
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
@@ -416,8 +432,10 @@ class ilObjUser extends ilObject
 			case IL_PASSWD_CRYPT:
 				$pw_update = "passwd='', i2passwd='".$this->passwd."'";
 				break;
+
+			default :
+				$ilErr->raiseError("<b>Error: passwd_type missing in function update()".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
-//echo "<br>update:pw-".$this->passwd_type."-".$this->passwd."-";
 		$q = "UPDATE usr_data SET ".
             "gender='".$this->gender."', ".
             "title='".ilUtil::prepareDBString($this->utitle)."', ".

@@ -25,6 +25,14 @@ define ("IL_EXTRACT_ROLES", 1);
 define ("IL_USER_IMPORT", 2);
 define ("IL_VERIFY", 3);
 
+define ("IL_FAIL_ON_CONFLICT", 1);
+define ("IL_UPDATE_ON_CONFLICT", 2);
+define ("IL_IGNORE_ON_CONFLICT", 3);
+
+define ("IL_IMPORT_SUCCESS", 1);
+define ("IL_IMPORT_WARNING", 2);
+define ("IL_IMPORT_FAILURE", 3);
+
 require_once("classes/class.ilSaxParser.php");
 
 /**
@@ -66,9 +74,76 @@ class ilUserImportParser extends ilSaxParser
 	var $logins;
 
 	/**
-	 * This variable is used to report whether importing was successful.
+	 * Conflict handling rule.
+	 *
+	 * Values:  IL_FAIL_ON_CONFLICT
+	 *          IL_UPDATE_ON_CONFLICT
+	 *          IL_IGNORE_ON_CONFLICT
 	 */
-	var $success;
+	var $conflict_rule;
+
+	/**
+	 * This variable is used to report the error level of the validation process
+	 * or the importing process.
+     *
+	 * Values:  IL_IMPORT_SUCCESS
+	 *          IL_IMPORT_WARNING
+	 *          IL_IMPORT_FAILURE
+     *
+     * Meaning of the values when in validation mode:
+	 *          IL_IMPORT_WARNING
+	 *					Some of the entity actions can not be processed
+	 *                  as specified in the XML file. One or more of the
+	 *                  following conflicts have occurred:
+	 *                  -	An "Insert" action has been specified for a user  
+	 *						who is already in the database.
+	 *                  -	An "Update" action has been specified for a user 
+	 *						who is not in the database.
+	 *                  -	A "Delete" action has been specified for a user 
+     *					   who is not in the database.
+	 *          IL_IMPORT_FAILURE
+	 *					Some of the XML elements are invalid.
+     *
+     * Meaning of the values when in import mode:
+	 *          IL_IMPORT_WARNING
+	 *					Some of the entity actions have not beeen processed
+	 *					as specified in the XML file.
+     *
+     *                  In IL_UPDATE_ON_CONFLICT mode, the following 
+	 *					 may have occured:
+     *                  -	An "Insert" action has been replaced by a 
+	 *						"Update" action for a user who is already in the 
+	 *						database.
+     *                   -	An "Update" action has been replaced by a
+	 *						"Insert" action for a user who is not in the 
+	 *						database.
+     *                  -	A "Delete" action has been replaced by a "Ignore"
+	 *						action for a user who is not in the database.
+	 *
+     *                 In IL_IGNORE_ON_CONFLICT mode, the following 
+	 *					 may have occured:
+     *                 -	An "Insert" action has been replaced by a 
+	 *						"Ignore" action for a user who is already in the 
+	 *						database.
+     *                 -	An "Update" action has been replaced by a
+	 *						"Ignore" action for a user who is not in the 
+	 *						database.
+     *                  -	A "Delete" action has been replaced by a "Ignore"
+	 *						action for a user who is not in the database.
+     *
+	 *          IL_IMPORT_FAILURE
+	 *					The import could not be completed.
+     *
+	 *                       In IL_FAIL_ON_CONFLICT mode, the following 
+	 *						 may have occured:
+	 *                       -	An "Insert" action has failed for a user who is
+	 *							already in the database.
+	 *                       -	An "Update" action has failed for a user who is 
+	 *							not in the database.
+	 *                       -	A "Delete" action has failed for a user who is 
+	 *							not in the database.
+	 */
+	var $error_level;
 
 	/**
 	 * The password type of the current user.
@@ -88,16 +163,18 @@ class ilUserImportParser extends ilSaxParser
 	*
 	* @param	string		$a_xml_file		xml file
 	* @param	int			$a_mode			IL_EXTRACT_ROLES | IL_USER_IMPORT | IL_VERIFY
+	* @param	int			$a_conflict_rue	IL_FAIL_ON_CONFLICT | IL_UPDATE_ON_CONFLICT | IL_IGNORE_ON_CONFLICT
 	*
 	* @access	public
 	*/
-	function ilUserImportParser($a_xml_file, $a_mode = IL_USER_IMPORT)
+	function ilUserImportParser($a_xml_file, $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
 		global $lng, $tree;
 
 		$this->roles = array();
 		$this->mode = $a_mode;
-		$this->success = true;
+		$this->conflict_rule = $a_conflict_rule;
+		$this->error_level = IL_IMPORT_SUCCESS;
 		$this->protocol = array();
 		$this->logins = array();
 		parent::ilSaxParser($a_xml_file);
@@ -241,40 +318,37 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
+		global $lng;
+
 		switch($a_name)
 		{
 			case "Role":
 				if (is_null($a_attribs['Id'])
 				|| $a_attribs['Id'] == "")
 				{
-					$this->log($this->userObj->getLogin(), "'Id' attribute in 'Role' element must be specified.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_missing"),"Role","Id"));
 				}
 				$this->current_role_id = $a_attribs["Id"];
 				$this->current_role_type = $a_attribs["Type"];
 				if ($this->current_role_type != 'Global'
 				&& $this->current_role_type != 'Local')
 				{
-					$this->log($this->userObj->getLogin(), "'Type' attribute in 'Role' element must be specified with value 'Global' or 'Local'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_missing"),"Role","Type"));
 				}
 				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
 				if ($this->current_role_action != "Assign"
 				&& $this->current_role_action != "Detach")
 				{
-					$this->log($this->userObj->getLogin(), "'Action' attribute in 'Role' element must be specified with value 'Assign' or 'Detach'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Role","Action",$a_attribs["Action"]));
 				}
 				if ($this->action == "Insert"
-				&& $this->current_role_action == "detach")
+				&& $this->current_role_action == "Detach")
 				{
-					$this->log($this->userObj->getLogin(), "'Action' attribute in 'Role' element must be 'Assign' when 'Action' attribute in 'User' element is 'Insert'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_inapplicable"),"Role","Action",$this->current_role_action,$this->action));
 				}
 				if ($this->action == "Delete")
 				{
-					$this->log($this->userObj->getLogin(), "'Role' element must not be specified when 'Action' attribute in 'User' element is 'Delete'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_inapplicable"),"Role","Delete"));
 				}
 				break;
 
@@ -287,8 +361,7 @@ class ilUserImportParser extends ilSaxParser
 				&& $this->action != "Update"
 				&& $this->action != "Delete")
 				{
-					$this->log($this->userObj->getImportId(), "'Action' attribute in 'User' element must be specified with value 'Insert', 'udpate' or 'Delete'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"User","Action",$a_attribs["Action"]));
 				}
 				$this->currPassword = null;
 				$this->currPasswordType = null;
@@ -443,7 +516,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin, $rbacreview, $ilUser;
+		global $ilias, $rbacadmin, $rbacreview, $ilUser, $lng;
 
 		switch($a_name)
 		{
@@ -454,14 +527,76 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				// Fetch the user_id from the database
 				$user_id = ilObjUser::getUserIdByLogin($this->userObj->getLogin());
+
+				// Handle conflicts
+				switch ($this->conflict_rule)
+				{
+					case IL_FAIL_ON_CONFLICT :
+						// do not change action
+						break;
+					case IL_UPDATE_ON_CONFLICT :
+						switch ($this->action)
+						{
+							case "Insert" :
+								if ($user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_replaced"),"Insert","Update"));
+									$this->action = "Update";
+								}
+								break;
+							case "Update" :
+								if (! $user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_replaced"),"Update","Insert"));
+									$this->action = "Insert";
+								}
+								break;
+							case "Delete" :
+								if (! $user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_ignored"),"Delete"));
+									$this->action = "Ignore";
+								}
+								break;
+						}
+						break;
+					case IL_IGNORE_ON_CONFLICT :
+						switch ($this->action)
+						{
+							case "Insert" :
+								if ($user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_ignored"),"Insert"));
+									$this->action = "Ignore";
+								}
+								break;
+							case "Update" :
+								if (! $user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_ignored"),"Update"));
+									$this->action = "Ignore";
+								}
+								break;
+							case "Delete" :
+								if (! $user_id) 
+								{
+									$this->logWarning($this->userObj->getLogin(),sprintf($lng->txt("usrimport_action_ignored"),"Delete"));
+									$this->action = "Ignore";
+								}
+								break;
+						}
+						break;
+				}
+
+				// Perform the action
 				switch ($this->action)
 				{
 					case "Insert" :
 						if ($user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Insert', user is already in database.");
-							$this->success = false;
+							$this->logFailure($this->userObj->getLogin(),$lng->txt("usrimport_cant_insert"));
 						}
 						else
 						{
@@ -510,8 +645,7 @@ class ilUserImportParser extends ilSaxParser
 					case "Update" :
 						if (! $user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Update', no such user in database.");
-							$this->success = false;
+							$this->logFailure($this->userObj->getLogin(),$lng->txt("usrimport_cant_update"));
 						}
 						else
 						{
@@ -550,6 +684,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getDepartment())) $updateUser->setDepartment($this->userObj->getDepartment());
 							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
 							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", $ilUser->getId());
+							if (! is_null($this->userObj->getClientIP())) $updateUser->setClientIP($this->userObj->getClientIP());
 
 							$updateUser->update();
 
@@ -572,8 +707,7 @@ class ilUserImportParser extends ilSaxParser
 					case "Delete" :
 						if (! $user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Delete', no such user in database.");
-							$this->success = false;
+							$this->logFailure($this->userObj->getLogin(),$lng->txt("usrimport_cant_delete"));
 						}
 						else
 						{
@@ -671,6 +805,10 @@ class ilUserImportParser extends ilSaxParser
 			case "Active":
 				$this->currActive = $this->cdata;
 				break;
+
+			case "ClientIP":
+				$this->userObj->setClientIP($this->cdata);
+				break;
 		}
 	}
 
@@ -679,6 +817,8 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyEndTag($a_xml_parser, $a_name)
 	{
+		global $lng;
+
 		switch($a_name)
 		{
 			case "Role":
@@ -690,23 +830,41 @@ class ilUserImportParser extends ilSaxParser
 			case "User":
 				$user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
 
+				if (is_null($this->userObj->getLogin()))
+				{	
+					$this->logFailure("---",sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Login", "Insert"));
+				}
+
 				switch ($this->action)
 				{
 					case "Insert" :
 						if ($user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Insert'. User is already in database.");
-							$this->success = false;
+							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_insert"));
 						}
 						if (is_null($this->userObj->getGender()))
 						{	
-							$this->log($this->userObj->getLogin(),"Gender element must be specified for Action 'Insert'.");
-							$this->success = false;
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Gender", "Insert"));
+						}
+						if (is_null($this->userObj->getFirstname()))
+						{	
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Firstname", "Insert"));
+						}
+						if (is_null($this->userObj->getLastname()))
+						{	
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Lastname", "Insert"));
+						}
+						if (is_null($this->userObj->getFirstname()))
+						{	
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Firstname", "Insert"));
+						}
+						if (is_null($this->userObj->getEmail()))
+						{	
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Email", "Insert"));
 						}
 						if (count($this->roles) == 0)
 						{	
-							$this->log($this->userObj->getLogin(),"Role element must be specified for Action 'Insert'.");
-							$this->success = false;
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required","Role"), "Insert"));
 						} 
 						else 
 						{
@@ -721,23 +879,20 @@ class ilUserImportParser extends ilSaxParser
 							}
 							if (! $has_global_role)
 							{
-							$this->log($this->userObj->getLogin(),"At least one global Role must be specified for Action 'Insert'.");
-							$this->success = false;
+								$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_global_role_for_action_required"),"Insert"));
 							}
 						}
 						break;
 					case "Update" :
 						if (! $user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Update'. No such user in database.");
-							$this->success = false;
+							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_update"));
 						}
 						break;
 					case "Delete" :
 						if (! $user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'Delete'. No such user in database.");
-							$this->success = false;
+							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_delete"));
 						}
 						break;
 				}
@@ -749,8 +904,7 @@ class ilUserImportParser extends ilSaxParser
 			case "Login":
 				if (array_key_exists($this->cdata, $this->logins))
 				{
-					$this->log($this->cdata, "Login must be unique in import data.");
-					$this->success = false;
+					$this->logFailure($this->cdata, $lng->txt("usrimport_login_is_not_unique"));
 				} 
 				else
 				{
@@ -771,8 +925,7 @@ class ilUserImportParser extends ilSaxParser
 						break;
 
 					default :
-						$this->log($this->userObj->getLogin(), "Invalid password type '".$this->currPasswordType."'. Password type must be 'ILIAS2' or 'ILIAS3'.");
-						$this->success = false;
+						$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Type","Password",$this->currPasswordType));
 						break;
 				}
 				break;
@@ -794,8 +947,7 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "m"
 				&& $this->cdata != "f")
 				{
-					$this->log($this->userObj->getLogin(), "Invalid Gender element '".$this->cdata."'. Gender must be 'm' or 'f'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Gender",$this->cdata));
 				}
 				$this->userObj->setGender($this->cdata);
 				break;
@@ -860,8 +1012,7 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")
 				{
-					$this->log($this->userObj->getLogin(), "Invalid Active element '".$this->cdata."'. Active must be 'm' or 'f'.");
-					$this->success = false;
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Active",$this->cdata));
 				}
 				$this->currActive = $this->cdata;
 				break;
@@ -898,12 +1049,12 @@ class ilUserImportParser extends ilSaxParser
 	}
 
 	/**
-     * Writes a log message to the protocol a message.
+     * Writes a warning log message to the protocol.
 	 *
 	* @param	string		login
 	* @param	string		message
 	 */
-	function log($aLogin, $aMessage) 
+	function logWarning($aLogin, $aMessage) 
 	{
 		if (! array_key_exists($aLogin, $this->protocol))
 		{
@@ -913,6 +1064,28 @@ class ilUserImportParser extends ilSaxParser
 		{
 			$this->protocol[$aLogin][] = $aMessage;
 		}
+		if ($this->error_level == IL_IMPORT_SUCCESS)
+		{
+			$this->error_level = IL_IMPORT_WARNING;
+		}
+	}
+	/**
+     * Writes a failure log message to the protocol.
+	 *
+	* @param	string		login
+	* @param	string		message
+	 */
+	function logFailure($aLogin, $aMessage) 
+	{
+		if (! array_key_exists($aLogin, $this->protocol))
+		{
+			$this->protocol[$aLogin] = array();
+		}
+		if ($aMessage)
+		{
+			$this->protocol[$aLogin][] = $aMessage;
+		}
+		$this->error_level = IL_IMPORT_FAILURE;
 	}
 
 
@@ -931,22 +1104,34 @@ class ilUserImportParser extends ilSaxParser
 	/**
      * Returns the protocol as a HTML table.
 	 */
-	function getProtocolAsHTML() 
+	function getProtocolAsHTML($a_log_title) 
 	{
-		$html = "<table>";
-		$html = $html."<tr><td><b>Login</b></td><td><b>Reason</b></td></tr>";
-		foreach ($this->protocol as $login => $messages)
+		global $lng;
+
+		$block = new ilTemplate("tpl.usr_import_log_block.html", true, true);
+		$block->setVariable("TXT_LOG_TITLE", $a_log_title);
+		$block->setVariable("TXT_MESSAGE_ID", $lng->txt("login"));
+		$block->setVariable("TXT_MESSAGE_TEXT", $lng->txt("message"));
+		foreach ($this->getProtocol() as $login => $messages)
 		{
-			$html = $html."<tr>";
-			$html = $html.'<td valign="top">'.$login.'</td><td valign="top"><ul>';
+			$block->setCurrentBlock("log_row");
+			$reason = "";
 			foreach ($messages as $message)
 			{
-				$html = $html."<li>".$message."</li>";
+				if ($reason == "")
+				{
+					$reason = $message;
+				}
+				else
+				{
+					$reason = $reason."<br>".$message;
+				}
 			}
-			$html = $html."</ul></td></tr>";
+			$block->setVariable("MESSAGE_ID", $login);
+			$block->setVariable("MESSAGE_TEXT", $reason);
+			$block->parseCurrentBlock();
 		}
-		$html = $html."</table>";
-		return $html;
+		return $block->get();
 	}
 
 	/**
@@ -954,7 +1139,16 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	function isSuccess() 
 	{
-		return $this->success;
+		return $this->error_level == IL_IMPORT_SUCCESS;
+	}
+
+	/**
+     * Returns the error level.
+	 * @return IL_IMPORT_SUCCESS | IL_IMPORT_WARNING | IL_IMPORT_FAILURE
+	 */
+	function getErrorLevel() 
+	{
+		return $this->error_level;
 	}
 }
 ?>

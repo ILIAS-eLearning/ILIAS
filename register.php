@@ -158,7 +158,11 @@ function saveForm()
     	$passwd = ilUtil::generatePasswords(1);
     	$_POST["Fobject"]["passwd"] = $passwd[0];
     }
-    
+	// The password type is not passed in the post data. Therefore we
+	// append it here manually.
+	require_once "classes/class.ilObjUser.php";
+    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
+
 	// validate email
 	if (!ilUtil::is_email($_POST["Fobject"]["email"]))
 	{

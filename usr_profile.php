@@ -693,6 +693,7 @@ $data["fields"] = array();
 $data["fields"]["gender"] = "";
 $data["fields"]["firstname"] = "";
 $data["fields"]["lastname"] = "";
+$data["fields"]["title"] = "";
 $data["fields"]["institution"] = "";
 $data["fields"]["department"] = "";
 $data["fields"]["street"] = "";
