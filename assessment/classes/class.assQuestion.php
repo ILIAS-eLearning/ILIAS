@@ -539,6 +539,18 @@ class ASS_Question extends PEAR {
     $clone->set_author($this->ilias->account->fullname);
     $clone->save_to_db($this->ilias->db->db);
   }
+	
+/**
+* Returns the image path for web accessable images of a question
+* 
+* Returns the image path for web accessable images of a question.
+* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
+*
+* @access public
+*/
+	function get_image_path() {
+		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
+	}
 }
 
 ?>
