@@ -48,7 +48,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     global $lng;
 		$this->type = "qpl";
     $lng->loadLanguageModule("assessment");
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->setTabTargetScript("questionpool.php");
+		if ($a_prepare_output) {
+			$this->prepareOutput();
+		}
 	}
 
 	/**
@@ -73,7 +77,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		header("Location:".$this->getReturnLocation("save","questionpool.php?".$this->link_params));
 		exit();
 	}
 

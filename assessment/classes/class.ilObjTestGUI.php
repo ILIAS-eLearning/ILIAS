@@ -47,6 +47,7 @@ class ilObjTestGUI extends ilObjectGUI
 	  $lng->loadLanguageModule("assessment");
 		$this->type = "tst";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->setTabTargetScript("test.php");
 	}
 	
 	/**
@@ -71,7 +72,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		header("Location:".$this->getReturnLocation("save","test.php?".$this->link_params));
 		exit();
 	}
 	
@@ -150,6 +151,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
     $this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ACTION_PROPERTIES", $_SERVER['PHP_SELF'] . $add_parameter);
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -200,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
     }
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"),true);
-      header("location: ". $this->getReturnLocation("cancel","adm_object.php?ref_id=".$this->ref_id));
+      header("location: ". $this->getReturnLocation("cancel","test.php?ref_id=".$this->ref_id));
       exit();
     }
     $data = array();
@@ -236,6 +238,159 @@ class ilObjTestGUI extends ilObjectGUI
   }
 
 	function questionsObject() {
+		if ($_GET["up"] > 0) {
+			// Move a question up in sequence
+			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND question_fi=%s",
+				$this->ilias->db->db->quote($_GET["edit"]),
+				$this->ilias->db->db->quote($_GET["up"])
+			);
+			$result = $this->ilias->db->query($query);
+			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			if ($data->sequence > 1) {
+				// OK, it's not the top question, so move it up
+				$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND sequence=%s",
+					$this->ilias->db->db->quote($_GET["edit"]),
+					$this->ilias->db->db->quote($data->sequence - 1)
+				);
+				$result = $this->ilias->db->query($query);
+				$data_previous = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				// change previous dataset
+				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
+					$this->ilias->db->db->quote($data->sequence),
+					$this->ilias->db->db->quote($data_previous->test_question_id)
+				);
+				$result = $this->ilias->db->query($query);
+				// move actual dataset up
+				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
+					$this->ilias->db->db->quote($data->sequence - 1),
+					$this->ilias->db->db->quote($data->test_question_id)
+				);
+				$result = $this->ilias->db->query($query);
+			}
+		}
+		if ($_GET["down"] > 0) {
+			// Move a question down in sequence
+			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND question_fi=%s",
+				$this->ilias->db->db->quote($_GET["edit"]),
+				$this->ilias->db->db->quote($_GET["down"])
+			);
+			$result = $this->ilias->db->query($query);
+			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$query = sprintf("SELECT * FROM dum_test_question WHERE test_fi=%s AND sequence=%s",
+				$this->ilias->db->db->quote($_GET["edit"]),
+				$this->ilias->db->db->quote($data->sequence + 1)
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows() == 1) {
+				// OK, it's not the last question, so move it down
+				$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				// change next dataset
+				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
+					$this->ilias->db->db->quote($data->sequence),
+					$this->ilias->db->db->quote($data_next->test_question_id)
+				);
+				$result = $this->ilias->db->query($query);
+				// move actual dataset down
+				$query = sprintf("UPDATE dum_test_question SET sequence=%s WHERE test_question_id=%s",
+					$this->ilias->db->db->quote($data->sequence + 1),
+					$this->ilias->db->db->quote($data->test_question_id)
+				);
+				$result = $this->ilias->db->query($query);
+			}
+		}
+		if ($_POST["cmd"]["insert_question"]) {
+			header("location:il_as_question_manager.php");
+			exit();
+		}
+		if ($_POST["cmd"]["create_question"]) {
+			header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
+			exit();
+		}
+		if (strlen($_POST["cmd"]["remove"]) > 0) {
+			$checked_questions = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/cb_(\d+)/", $key, $matches)) {
+					array_push($checked_questions, $matches[1]);
+				}
+			}
+			if (count($checked_questions) > 0) {
+				foreach ($checked_questions as $key => $value) {
+					$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+						$this->ilias->db->db->quote($this->get_id()),
+						$this->ilias->db->db->quote($value)
+					);
+					$result = $this->ilias->db->query($query);
+				}
+			} elseif (count($checked_questions) == 0) {
+				sendInfo("Please check at least one question to remove it");
+			}
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", true);
+    $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
+
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+			$this->ilias->db->db->quote($this->object->get_test_id())
+		);
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->tpl->setCurrentBlock("QTab");
+				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
+				if ($data->owner == $this->ilias->account->id) {
+					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
+				} else {
+					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
+				}
+				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
+				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.gif", true) . "\" alt=\"Up\" border=\"0\" /></a>");
+				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.gif", true) . "\" alt=\"Down\" border=\"0\" /></a>");
+				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
+				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
+				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+		}
+		if ($counter == 0) {
+			$this->tpl->setCurrentBlock("Emptytable");
+			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
+			$this->tpl->parseCurrentBlock();
+		} else {
+			$this->tpl->setCurrentBlock("QFooter");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("QTypes");
+		$query = "SELECT * FROM qpl_question_type";
+		$query_result = $this->ilias->db->query($query);
+		while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
+			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("QUESTION_CREATED", $this->lng->txt("tst_question_create_date"));
+		$this->tpl->setVariable("QUESTION_UPDATED", $this->lng->txt("tst_question_last_update"));
+		$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
+		$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
+		$this->tpl->setVariable("TEXT_CREATE_NEW", $this->lng->txt("create_new"));
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	function editMetaObject() {

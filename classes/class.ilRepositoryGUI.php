@@ -1288,7 +1288,7 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("tst_edit");
-					$tpl->setVariable("EDIT_LINK","assessment/adm_object.php?ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK","assessment/test.php?ref_id=".$tst_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
@@ -1388,7 +1388,7 @@ class ilRepositoryGUI
 
 			foreach ($qpool as $qpl_data)
 			{
-          $obj_link = "assessment/adm_object.php?ref_id=" . $qpl_data["ref_id"];
+          $obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"];
 
 				if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{
@@ -1408,7 +1408,7 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_edit");
-					$tpl->setVariable("EDIT_LINK","assessment/adm_object.php?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK","assessment/questionpool.php?ref_id=".$qpl_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
