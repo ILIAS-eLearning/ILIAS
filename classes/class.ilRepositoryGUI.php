@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -640,6 +640,8 @@ class ilRepositoryGUI
 	{
 		global $objDefinition, $ilBench;
 
+		$this->visible_only_items = false;
+		
 		// set no limit for hits/page
 		$_GET["limit"] = 9999;
 
@@ -776,6 +778,11 @@ class ilRepositoryGUI
 			$this->showiLincClassrooms();
 		}
 
+		if ($this->visible_only_items == true)
+		{
+			$this->showVisibleOnlyMessage();
+		}
+		
 		$this->tpl->show();
 
 		$ilBench->stop("Repository", "FlatList_03showObjects");
@@ -856,6 +863,35 @@ class ilRepositoryGUI
 			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		}
 	}
+	
+	/**
+	* get "visible only" item explanation link
+	*
+	* (html due to performance reasons)
+	*/
+	function getVisibleOnly()
+	{
+		$this->visible_only_items = true;
+		return "<a href=\"#visible_only_expl\">[*]</a>";
+	}
+	
+	/**
+	* show explanation message for items that are
+	* only visible but not readable
+	*/
+	function showVisibleOnlyMessage()
+	{
+		$this->tpl->setCurrentBlock("visible_items_message");
+		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->tpl->setVariable("VIS_ITEMS_MESSAGE", $this->lng->txt("no_access_item"));
+		}
+		else
+		{
+			$this->tpl->setVariable("VIS_ITEMS_MESSAGE", $this->lng->txt("no_access_item_public"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* show categories
@@ -905,7 +941,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("cat_show");
-					$tpl->setVariable("STITLE", $cat["title"]);
+					$tpl->setVariable("STITLE", $cat["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 				$ilBench->stop("Repository", "showCategories_01Rows_ReadLink");
@@ -1125,7 +1162,8 @@ class ilRepositoryGUI
 					else
 					{
 						$tpl->setCurrentBlock("lres_visible");
-						$tpl->setVariable("V_TITLE", $lr_data["title"]);
+						$tpl->setVariable("V_TITLE", $lr_data["title"].
+							" ".$this->getVisibleOnly());
 //echo "LM_Title:".$lr_data["title"].":<br>";
 						$tpl->parseCurrentBlock();
 					}
@@ -1294,7 +1332,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("glo_visible");
-					$tpl->setVariable("V_TITLE", $gl_data["title"]);
+					$tpl->setVariable("V_TITLE", $gl_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -1460,7 +1499,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("mep_visible");
-					$tpl->setVariable("V_TITLE", $mep_data["title"]);
+					$tpl->setVariable("V_TITLE", $mep_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -1705,7 +1745,8 @@ class ilRepositoryGUI
 			else
 			{
 				// only visible-access
-				$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
+				$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>".
+					" ".$this->getVisibleOnly());
 
 				if (is_array($lastPost))
 				{
@@ -1834,7 +1875,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("group_visible");
-					$tpl->setVariable("V_TITLE", $cont_data["title"]);
+					$tpl->setVariable("V_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -1992,15 +2034,28 @@ class ilRepositoryGUI
 				$num++;
 				$obj_link = "exercise.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$tpl->setVariable("TITLE", $cont_data["title"]);
-				$tpl->setVariable("LINK", $obj_link);
-				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
-				$tpl->setVariable("LINK_TARGET", $t_frame);
+				
+				if ($this->rbacsystem->checkAccess('read', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("exc_read");
+					$tpl->setVariable("TITLE", $cont_data["title"]);
+					$tpl->setVariable("LINK", $obj_link);
+					$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+					$tpl->setVariable("LINK_TARGET", $t_frame);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("exc_visible");
+					$tpl->setVariable("V_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("tbl_content");
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
@@ -2019,9 +2074,9 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("excs"),"icon_exc_b.gif",$this->lng->txt("excs"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
-		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("85%","15%"));
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("100%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -2042,6 +2097,9 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* show chats
+	*/
 	function showChats()
 	{
 		global  $tree, $rbacsystem, $ilias;
@@ -2156,9 +2214,11 @@ class ilRepositoryGUI
 	}
 		
 
-
+	/**
+	* show test
+	*/
 	function showTests()
-  {
+	{
 		global $ilias;
 		
 		$this->lng->loadLanguageModule("assessment");
@@ -2193,11 +2253,21 @@ class ilRepositoryGUI
 
 				if ($tst_data["complete"])
 				{
-					$tpl->setCurrentBlock("tst_read");
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-					$tpl->setVariable("VIEW_TARGET", "bottom");
-					$tpl->setVariable("R_TITLE", $tst_data["title"]);
-					$tpl->parseCurrentBlock();
+					if ($this->rbacsystem->checkAccess('read', $tst_data["ref_id"]))
+					{
+						$tpl->setCurrentBlock("tst_read");
+						$tpl->setVariable("VIEW_LINK", $obj_link);
+						$tpl->setVariable("VIEW_TARGET", "bottom");
+						$tpl->setVariable("R_TITLE", $tst_data["title"]);
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->setCurrentBlock("tst_visible");
+						$tpl->setVariable("V_TITLE", $tst_data["title"].
+							" ".$this->getVisibleOnly());
+						$tpl->parseCurrentBlock();
+					}
 				}
 				else
 				{
@@ -2345,9 +2415,13 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("TESTS", $tpl->get());
 		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
 		$this->tpl->parseCurrentBlock();
-  }
+	}
   
-	function showSurveys() {
+	/**
+	* show surveys
+	*/
+	function showSurveys()
+	{
 		global $ilias;
 		$this->lng->loadLanguageModule("survey");
 		
@@ -2407,11 +2481,21 @@ class ilRepositoryGUI
 
 				if (($svy_data["complete"]) and ($svy_data["status"] == 1))
 				{
-					$tpl->setCurrentBlock("svy_read");
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-					$tpl->setVariable("VIEW_TARGET", "bottom");
-					$tpl->setVariable("R_TITLE", $svy_data["title"]);
-					$tpl->parseCurrentBlock();
+					if ($this->rbacsystem->checkAccess('read', $svy_data["ref_id"]))
+					{
+						$tpl->setCurrentBlock("svy_read");
+						$tpl->setVariable("VIEW_LINK", $obj_link);
+						$tpl->setVariable("VIEW_TARGET", "bottom");
+						$tpl->setVariable("R_TITLE", $svy_data["title"]);
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->setCurrentBlock("svy_visible");
+						$tpl->setVariable("V_TITLE", $svy_data["title"].
+							" ".$this->getVisibleOnly());
+						$tpl->parseCurrentBlock();
+					}
 				}
 				else
 				{
@@ -2562,7 +2646,11 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function showSurveyquestionpools() {
+	/**
+	* show survey question pools
+	*/
+	function showSurveyquestionpools()
+	{
 		$maxcount = count($this->surveyquestionpools);
 		$qpool = array_slice($this->surveyquestionpools, $_GET["offset"], $_GET["limit"]);
 
@@ -2609,6 +2697,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("V_TITLE", $spl_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				else
+				{
+					$tpl->setCurrentBlock("spl_visible");
+					$tpl->setVariable("VIS_TITLE", $spl_data["title"].
+						" ".$this->getVisibleOnly());
+					$tpl->parseCurrentBlock();
+				}
+				
 				
 				if ($this->rbacsystem->checkAccess('delete', $spl_data["ref_id"]))
 				{
@@ -2681,8 +2777,11 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* show test question pools
+	*/
 	function showQuestionPools()
-  {
+	{
 		$maxcount = count($this->questionpools);
 		$qpool = array_slice($this->questionpools, $_GET["offset"], $_GET["limit"]);
 
@@ -2729,6 +2828,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				else
+				{
+					$tpl->setCurrentBlock("qpl_visible");
+					$tpl->setVariable("VIS_TITLE", $qpl_data["title"].
+						" ".$this->getVisibleOnly());
+					$tpl->parseCurrentBlock();
+				}
+
 				
 				if ($this->rbacsystem->checkAccess('delete', $qpl_data["ref_id"]))
 				{
@@ -2860,7 +2967,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("file_visible");
-					$tpl->setVariable("VISIBLE_TITLE", $cont_data["title"]);
+					$tpl->setVariable("VISIBLE_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -3002,7 +3110,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("fold_visible");
-					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -3082,6 +3191,9 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* show courses
+	*/
 	function showCourses()
 	{
 		include_once './classes/class.ilRepositoryExplorer.php';
@@ -3151,7 +3263,8 @@ class ilRepositoryGUI
 				else
 				{
 					$tpl->setCurrentBlock("crs_visible");
-					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
 				
