@@ -3098,7 +3098,7 @@ crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course admi
 crs#:#crs_info_reg_deactivated#:#There is no registration possible
 crs#:#crs_info_reg_direct#:#It is necessary to register to this course
 crs#:#crs_info_reg_password#:#Registration needs a valid password.
-crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.
+crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_list_users#:#List users
 crs#:#crs_lm_assignment#:#Learning material assignment

@@ -3665,7 +3665,12 @@ class ilObjTest extends ilObject
 				case "qt_text":
 					$question = new ASS_TextQuestion();
 					break;
+
+				default:
+					// Return false if question id does not exists or type is unknown
+					return false;
 			}
+
 			$question->loadFromDb($question_id);
 			return $question;
 		}

@@ -1818,7 +1818,7 @@ class ilCourseObjectivesGUI
 		{
 			$this->tpl->setCurrentBlock("edit_footer");
 			$this->tpl->setVariable("TXT_RESET",$this->lng->txt('reset'));
-			$this->tpl->setVariable("TXT_UPDATE",$this->lng->txt('update'));
+			$this->tpl->setVariable("TXT_UPDATE",$this->lng->txt('save'));
 			$this->tpl->setVariable("CMD_UPDATE",'updateQuestionAssignment');
 			$this->tpl->parseCurrentBlock();
 		}
