@@ -1199,9 +1199,9 @@ class ilContObjParser extends ilSaxParser
 		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
 		// in character data, but we don't want that, because it's the
 		// way we mask user html in our content, so we convert back...
+		$a_data = preg_replace("/&(?!amp;)/","&amp;",$a_data);
 		$a_data = str_replace("<","&lt;",$a_data);
 		$a_data = str_replace(">","&gt;",$a_data);
-		$a_data = preg_replace("/&(?!amp;)/","&amp;",$a_data);
 
 
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
