@@ -549,6 +549,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// show introduction page
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
+		if ((strcmp($ilUser->login, "anonymous") == 0) && (!$this->object->getAnonymize()))
+		{
+			if ($_POST["cmd"]["cancel"]) 
+			{
+				$path = $this->tree->getPathFull($this->object->getRefID());
+				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+				return;
+			}
+			$this->tpl->setCurrentBlock("back");
+			$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("anonymous_with_personalized_survey"));
+			$this->tpl->parseCurrentBlock();
+			return;
+		}
+
 		if ($this->object->getAnonymize())
 		{
 			$this->tpl->setCurrentBlock("start");
@@ -4879,7 +4896,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
 					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
 					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP"]), "date"));
-					$this->tpl->setVariable("CODE_USED", $row["state"]);
+					$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
+					if ($row["state"])
+					{
+						$state = "<span class=\"smallgreen\">" . $this->lng->txt("used") . "</span>";
+					}
+					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
 				}
 			}
