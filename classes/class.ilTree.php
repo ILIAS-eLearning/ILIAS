@@ -289,12 +289,17 @@ class ilTree
 		{
 			$order_clause = "ORDER BY ".$a_order." ".$a_direction;
 		}
+		else
+		{
+			$order_clause = "ORDER BY ".$this->table_tree.".lft";
+		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $order_clause;
+
 		$r = $this->ilias->db->query($q);
 
 		$count = $r->numRows();
@@ -373,6 +378,12 @@ class ilTree
 			 "AND ".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilias->db->getRow($q);
 
+		//
+		// note: i changed the processing here. nodes are (concerning lft ordering)
+		// appended after the last child of a parent now, not before the first
+		// child as before. mail any errors to me alex.killing@gmx.de
+		//
+		/*
 		$left = $r->lft;
 		$lft = $left + 1;
 		$rgt = $left + 2;
@@ -391,7 +402,7 @@ class ilTree
 			 "END ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 		$this->ilias->db->query($q);
-		
+
 		// get depth
 		$depth = $this->getDepth($a_parent_id) + 1;
 
@@ -399,12 +410,41 @@ class ilTree
 		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
 			 "VALUES ".
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
+		*/
+
+		$right = $r->rgt;
+		$lft = $right;
+		$rgt = $right + 1;
+
+		// spread tree
+		$q = "UPDATE ".$this->table_tree." SET ".
+			 "lft = CASE ".
+			 "WHEN lft > ".$right." ".
+			 "THEN lft + 2 ".
+			 "ELSE lft ".
+			 "END, ".
+			 "rgt = CASE ".
+			 "WHEN rgt >= ".$right." ".
+			 "THEN rgt + 2 ".
+			 "ELSE rgt ".
+			 "END ".
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
+		$this->ilias->db->query($q);
+
+		// get depth
+		$depth = $this->getDepth($a_parent_id) + 1;
+
+		// insert node
+		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
+			 "VALUES ".
+			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
+
 		$this->ilias->db->query($q);
 	}
 
 	/**
 	* get all nodes in the subtree under specified node
-	* 
+	*
 	* @access	public
 	* @param	array		node_data
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
@@ -425,15 +465,15 @@ class ilTree
 			 "ORDER BY ".$this->table_tree.".lft";
 
 		$r = $this->ilias->db->query($q);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$subtree[] = $this->fetchNodeData($row);
 		}
-			
+
 		return $subtree;
 	}
-	
+
 	/**
 	* delete node and the whole subtree under this node
 	* @access	public
@@ -694,7 +734,7 @@ class ilTree
 							"rgt"		=> $row->rgt
 						   );
 		}
-		
+
 		return $arr;
 	}
 
@@ -911,7 +951,7 @@ class ilTree
 		
 		$q = "DELETE FROM ".$this->table_tree." WHERE ".$this->tree_pk." = '".$a_tree_id."'";
 		$this->ilias->db->query($q);
-		
+
 		return true;
 	}
 
@@ -1034,7 +1074,7 @@ class ilTree
 			 "WHERE child='".$a_node_id."' ".
 			 "AND ".$this->tree_pk."='".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
-		
+
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->parent;
@@ -1086,5 +1126,94 @@ class ilTree
 	{
 		$this->tree_id = $a_tree_id;
 	}
+
+	/**
+	* get node data of successor node
+	*
+	* @access	public
+	* @param	integer		node id
+	* @return	array		node data array
+	*/
+	function fetchSuccessorNode($a_node_id, $a_type = "")
+	{
+		if (!isset($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+		}
+
+		// get lft value for current node
+		$q = "SELECT lft FROM ".$this->table_tree." ".
+			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
+		$r = $this->ilias->db->query($q);
+		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		// get data of successor node
+		$type_where = ($a_type != "")
+			? "AND ".$this->table_obj_data.".type = '$a_type' "
+			: "";
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 $this->buildJoin().
+			 "WHERE lft > '".$curr_node["lft"]."' ".
+			 $type_where.
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
+			 "ORDER BY lft LIMIT 1";
+		$r = $this->ilias->db->query($q);
+
+		if ($r->numRows() < 1)
+		{
+			return false;
+		}
+		else
+		{
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			return $this->fetchNodeData($row);
+		}
+	}
+
+	/**
+	* get node data of predecessor node
+	*
+	* @access	public
+	* @param	integer		node id
+	* @return	array		node data array
+	*/
+	function fetchPredecessorNode($a_node_id, $a_type = "")
+	{
+		if (!isset($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+		}
+
+		// get lft value for current node
+		$q = "SELECT lft FROM ".$this->table_tree." ".
+			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
+		$r = $this->ilias->db->query($q);
+		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		// get data of predecessor node
+		$type_where = ($a_type != "")
+			? "AND ".$this->table_obj_data.".type = '$a_type' "
+			: "";
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 $this->buildJoin().
+			 "WHERE lft < '".$curr_node["lft"]."' ".
+			 $type_where.
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
+			 "ORDER BY lft DESC LIMIT 1";
+		$r = $this->ilias->db->query($q);
+
+		if ($r->numRows() < 1)
+		{
+			return false;
+		}
+		else
+		{
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			return $this->fetchNodeData($row);
+		}
+	}
+
 } // END class.tree
 ?>
