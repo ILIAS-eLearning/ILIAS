@@ -126,32 +126,7 @@ class ilGroupExplorer extends ilExplorer
 		} //if
 	} //function
 	
-	/**
-	* method to create a forum system specific header
-	* @access	public
-	* @param	integer obj_id
-	* @param	integer array options
-	* @return	string
-	*/
-	function formatHeader()
-	{
-		global $lng, $ilias;
-
-		
-		$grp_obj =& $ilias->obj_factory->getInstanceByRefId($this->grp_id);
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
-
-		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_grp.gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_grp"));
-		$tpl->setVariable("TITLE", $grp_obj->getTitle());
-		$tpl->setVariable("TARGET","target=\"content\"");
-		$tpl->setVariable("LINK_TARGET",$this->target."?ref_id=".$this->grp_id);
-		$tpl->parseCurrentBlock();
-		
-		$this->output[] = $tpl->get();
-	}
+	
 	
 	/**
 	* Creates output
@@ -164,7 +139,7 @@ class ilGroupExplorer extends ilExplorer
 	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
-
+		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -221,7 +196,7 @@ class ilGroupExplorer extends ilExplorer
 			
 			$tpl->setVariable("LINK_TARGET", $this->getURLbyType($a_option));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-
+			
 			if($a_option["type"]=="fold")
 			{
 				$tpl->setVariable("TARGET", " target=\"content\"");

@@ -426,9 +426,9 @@ class ilGroupGUI extends ilObjectGUI
 		//build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-
+		$obj_grp = & $this->ilias->obj_factory->getInstanceByRefId($this->grp_id);
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("group_details"));
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("obj_grp").":".$obj_grp->getTitle());
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->parseCurrentBlock();
 
