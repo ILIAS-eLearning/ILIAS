@@ -40,11 +40,15 @@ class ilUtil
 	* @param	string	object type
 	* @param	string	tpl path
 	*/
-	function getImageTagByType($a_type,$a_path)
+	function getImageTagByType($a_type, $a_path, $a_big = false)
 	{
 		global $lng;
 
-		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		if ($a_big)
+		{
+			$big = "_b";
+		}
+		return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**
