@@ -79,8 +79,8 @@ class ilObjSCORMTracking
 				 $masteryScore=$record["masteryscore"];
 			}	
     		
-    		$query="INSERT INTO scorm_tracking (sc_item_id,usr_id,entry,exit,lesson_location,credit,raw,comments,lesson_status,launch_data,suspend_data,mastery_score) VALUES ".
-    		"('$this->sco_id','$this->usr_id','ab-initio','','','credit','','','not attempted','$launchData','','$masteryScore')";
+    		$query="INSERT INTO scorm_tracking (sc_item_id,usr_id,entry,exit,lesson_location,credit,raw,comments,lesson_status,launch_data,suspend_data,mastery_score,student_name) VALUES ".
+    		"('$this->sco_id','$this->usr_id','ab-initio','','','credit','','','not attempted','$launchData','','$masteryScore','ralph')";
     		$this->ilias->db->query($query);
     		
     		//time capturing has to be added
@@ -100,6 +100,7 @@ class ilObjSCORMTracking
     		
     			$this->initialized=true;
     			return "true";*/
+    			echo "true";
     		}
     		else 
     		{
@@ -203,7 +204,8 @@ class ilObjSCORMTracking
     		}
     		else 
     		{
-    			$this->errorCode="401";
+    			$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    			$this->ilias->db->query($query);
     			echo "";
     		}
     	}
@@ -216,7 +218,7 @@ class ilObjSCORMTracking
         	{
 			
         		$elemName=$this->extractElement($dataModelElement);
-        		$query="SELECT " .$elemName." FROM scorm_tracking WHERE sc_item_id='1'";
+        		$query="SELECT " .$elemName." FROM scorm_tracking WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
 				$record_set = $this->ilias->db->query($query);
 				
 				while ($record = $record_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -226,14 +228,18 @@ class ilObjSCORMTracking
         	}
         	else 
         	{
-        		$this->errorCode="404";//Element is write only
+        		//Element is write only
+        		$query="UPDATE scorm_tracking SET error_Number='404' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    			$this->ilias->db->query($query);
         		echo "";
         	}
         	
         }
         else 
         {
-        	$this->errorCode="401";//Element not implemented
+        	//Element not implemented
+        	$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    		$this->ilias->db->query($query);
         	echo "";
         }
     }
@@ -248,7 +254,9 @@ class ilObjSCORMTracking
       //checking parameter
       if(!is_string($elemValue))
       {
-      	$this->errorCode="405";//Incorrect data type
+      	//Incorrect data type
+      	$query="UPDATE scorm_tracking SET error_Number='405' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    	$this->ilias->db->query($query);
       	echo "false";
       }
     	
@@ -263,7 +271,7 @@ class ilObjSCORMTracking
         		if($elemName=="total_time")
         		{
         		}
-        		$query="UPDATE scorm_tracking SET " .$elemName."='$elemValue'";
+        		$query="UPDATE scorm_tracking SET " .$elemName."='$elemValue' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
     			$this->ilias->db->query($query);
     			//error coding. probably for enum fields in scorm_tracking data checkin already here
     			echo "true";
@@ -271,14 +279,17 @@ class ilObjSCORMTracking
         	}
         	else 
         	{
-        		$this->errorCode="403";//Element is read only
+        		$query="UPDATE scorm_tracking SET error_Number='403' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    			$this->ilias->db->query($query);
         		echo "false";
         	}
         	
         }
         else 
         {
-        	$this->errorCode="401";//Element not implemented
+        	//Element not implemented
+        	$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+    		$this->ilias->db->query($query);
         	echo "false";
         }
     }
@@ -290,7 +301,17 @@ class ilObjSCORMTracking
 
     function lmsGetLastError()
     {
-       echo $this->errorCode;//eventually changing cause error code might need to be set back to be "0"
+    	$query="SELECT error_Number from scorm_tracking WHERE sc_item_id='$this->sco_id' and usr_id='$this->usr_id'";
+    	$record_set = $this->ilias->db->query($query);
+    	
+    	while ($record = $record_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$errnum=$record["error_Number"];
+		}	
+       // error code needs to be set back to be "0"
+       $query="UPDATE scorm_tracking SET error_Number='0' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
+       $this->ilias->db->query($query);
+       echo $errnum;
     }
 
     function lmsGetErrorString($errNum)
@@ -310,28 +331,28 @@ class ilObjSCORMTracking
     function calculateTime()
     {
     	$this->sessionTime=($this->endTime-$this->startTime);
-    	echo "<br/>";
+    	//datbase call
   
     }
 	
 	function extractElement($dataModelElement)
 	{
-			if(strpos($dataModelElement,"cmi.core.score")!=false)
+			if(!(strpos($dataModelElement,"cmi.core.score")===false))
 			{
-				return $elemName=ereg_replace("cmi.core.score","",$dataModelElement);
+				return $elemName=eregi_replace("cmi.core.score.","",$dataModelElement);
 			}
-			elseif (strpos($dataModelElement,"cmi.core")!=false)
+			elseif (!(strpos($dataModelElement,"cmi.core")===false))
 			{
-				return $elemName=ereg_replace("cmi.core.","",$dataModelElement);
+				return $elemName=eregi_replace("cmi.core.","",$dataModelElement);
 			}
-			elseif (strpos($dataModelElement,"cmi.student_data")!=false)
+			elseif (!(strpos($dataModelElement,"cmi.student_data")===false))
 			{
-				return $elemName=ereg_replace("cmi.student_data","",$dataModelElement);
+				return $elemName=eregi_replace("cmi.student_data.","",$dataModelElement);
 			}
 			else 
 			{
 				
-				return $elemName=ereg_replace("cmi.","",$dataModelElement);
+				return $elemName=eregi_replace("cmi.","",$dataModelElement);
 				
 			}	
 			

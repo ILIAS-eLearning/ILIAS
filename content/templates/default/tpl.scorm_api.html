@@ -3,7 +3,10 @@
 <head>
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script src="scorm_functions.js" ></script>
+//<script src="scorm_functions.js" ></script>
+<script>
+
+</script>
 
 </head>
 
@@ -24,7 +27,11 @@
 	// this one works in ns 4.x only, some switch implementation has still to be provided
 	//document.writeln('<EMBED  Name="APIAdapter" type="application/x-java-applet;version=1.3" code="ILIAS.class" WIDTH="0" HEIGHT="0">');
     //document.writeln('</object>');
-	init();
+	parent.init();
+	parent.start();
+	
+	//setTimeout("start()",10000);
+	
 </script>
 
 </body>
