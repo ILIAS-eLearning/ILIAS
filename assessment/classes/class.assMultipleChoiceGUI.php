@@ -680,14 +680,44 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 		
+		$maxpoints = 0;
+		$maxindex = -1;
 		foreach ($this->object->answers as $idx => $answer)
 		{
-			if ($answer->isStateChecked())
+			if ($answer->get_points() > $maxpoints)
 			{
-				$repl_str = "dummy=\"solution_mc$idx\"";
-				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+				$maxpoints = $answer->get_points();
+				$maxindex = $idx;
 			}
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+		}
+		foreach ($this->object->answers as $idx => $answer)
+		{
+			if ($this->object->get_response() == RESPONSE_MULTIPLE)
+			{
+				if ($answer->isStateChecked() && ($answer->get_points() > 0))
+				{
+					$repl_str = "dummy=\"solution_mc$idx\"";
+					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+				}
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			}
+			else
+			{
+				if ($idx == $maxindex)
+				{
+					$solpoints = $answer->get_points();
+				}
+				else
+				{
+					$solpoints = 0;
+				}
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $solpoints . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			}
+		}
+		if ($maxindex > -1)
+		{
+			$repl_str = "dummy=\"solution_mc$maxindex\"";
+			$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 		}
 
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";

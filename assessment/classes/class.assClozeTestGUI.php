@@ -617,18 +617,22 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			}
 			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
-				$points = 0;
+				$maxpoints = 0;
+				$maxindex = -1;
 				foreach ($gap as $answeridx => $answer)
 				{
-					$points += $answer->get_points();
-					if ($answer->isStateChecked())
+					if ($answer->get_points() > $maxpoints)
 					{
-						$repl_str = "dummy=\"solution_sgap_$idx" . "_$answeridx\"";
-						$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
-//						$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+						$maxpoints = $answer->get_points();
+						$maxindex = $answeridx;
 					}
 				}
-				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $points . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
+				if ($maxindex > -1)
+				{
+					$repl_str = "dummy=\"solution_sgap_$idx" . "_$maxindex\"";
+					$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+				}
+				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $maxpoints . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
 				if ($this->object->suggested_solutions[$idx])
 				{
 					if ($showsolution)

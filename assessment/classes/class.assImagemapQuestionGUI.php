@@ -675,19 +675,27 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			}
 		}
 		
+		$maxpoints = 0;
+		$maxindex = -1;
 		foreach ($this->object->answers as $idx => $answer)
 		{
-			$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
-			if ($answer->isStateChecked())
+			if ($answer->get_points() > $maxpoints)
 			{
-				$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
-				$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
-				$preview->createPreview();
-				if (count($preview->areas))
-				{
-					$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
-					$solutionoutput = preg_replace("/usemap\=\"#solution_qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#solution_qmap\" src=\"$imagepath\"", $solutionoutput);
-				}
+				$maxpoints = $answer->get_points();
+				$maxindex = $idx;
+			}
+		}
+		if ($maxindex > -1)
+		{
+			$output = preg_replace("/nohref id\=\"map$maxindex\"/", "href=\"$formaction&selImage=$maxindex\"", $output);
+			$answer = $this->object->answers[$maxindex];
+			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
+			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+			$preview->createPreview();
+			if (count($preview->areas))
+			{
+				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+				$solutionoutput = preg_replace("/usemap\=\"#solution_qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#solution_qmap\" src=\"$imagepath\"", $solutionoutput);
 			}
 		}
 
