@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 11, 2004 at 01:05 AM
+# Generation Time: Sep 02, 2004 at 10:18 AM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias310beta1`
+# Database : `ilias320beta1`
 # --------------------------------------------------------
 
 #
@@ -64,14 +64,14 @@ CREATE TABLE `aicc_course` (
 
 CREATE TABLE `aicc_object` (
   `obj_id` int(11) NOT NULL auto_increment,
-  `alm_id` int(11) NOT NULL default '0',
+  `slm_id` int(11) NOT NULL default '0',
   `system_id` varchar(50) NOT NULL default '',
   `title` text NOT NULL,
   `description` text,
   `developer_id` varchar(50) default NULL,
   `type` char(3) NOT NULL default '',
   PRIMARY KEY  (`obj_id`),
-  KEY `alm_id` (`alm_id`)
+  KEY `alm_id` (`slm_id`)
 ) TYPE=MyISAM;
 
 #
@@ -226,12 +226,35 @@ CREATE TABLE `chat_user` (
   `usr_id` int(11) NOT NULL default '0',
   `chat_id` int(11) NOT NULL default '0',
   `room_id` int(11) NOT NULL default '0',
-  `last_conn_timestamp` timestamp(14) NOT NULL,
+  `last_conn_timestamp` int(14) default NULL,
   PRIMARY KEY  (`usr_id`,`chat_id`,`room_id`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `chat_user`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `conditions`
+#
+
+CREATE TABLE `conditions` (
+  `id` int(11) NOT NULL auto_increment,
+  `target_ref_id` int(11) NOT NULL default '0',
+  `target_obj_id` int(11) NOT NULL default '0',
+  `target_type` varchar(8) NOT NULL default '',
+  `trigger_ref_id` int(11) NOT NULL default '0',
+  `trigger_obj_id` int(11) NOT NULL default '0',
+  `trigger_type` varchar(8) NOT NULL default '',
+  `operator` varchar(64) default NULL,
+  `value` varchar(64) default NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `conditions`
 #
 
 # --------------------------------------------------------
@@ -255,6 +278,119 @@ CREATE TABLE `content_object` (
 
 #
 # Dumping data for table `content_object`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_archives`
+#
+
+CREATE TABLE `crs_archives` (
+  `archive_id` int(11) NOT NULL auto_increment,
+  `course_id` int(11) NOT NULL default '0',
+  `archive_name` varchar(255) NOT NULL default '',
+  `archive_type` tinyint(2) NOT NULL default '0',
+  `archive_date` int(11) default NULL,
+  `archive_size` int(11) default NULL,
+  `archive_lang` varchar(16) default NULL,
+  PRIMARY KEY  (`archive_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_archives`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_items`
+#
+
+CREATE TABLE `crs_items` (
+  `parent_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `activation_unlimited` tinyint(2) default NULL,
+  `activation_start` int(8) default NULL,
+  `activation_end` int(8) default NULL,
+  `position` int(11) default NULL,
+  PRIMARY KEY  (`parent_id`,`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_items`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_members`
+#
+
+CREATE TABLE `crs_members` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `status` tinyint(2) NOT NULL default '0',
+  `role` tinyint(2) NOT NULL default '0',
+  `passed` tinyint(1) default NULL,
+  PRIMARY KEY  (`obj_id`,`usr_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_members`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_settings`
+#
+
+CREATE TABLE `crs_settings` (
+  `obj_id` int(11) NOT NULL default '0',
+  `syllabus` text,
+  `contact_name` varchar(255) default NULL,
+  `contact_responsibility` varchar(255) default NULL,
+  `contact_phone` varchar(255) default NULL,
+  `contact_email` varchar(255) default NULL,
+  `contact_consultation` text,
+  `activation_unlimited` tinyint(2) default NULL,
+  `activation_start` int(11) default NULL,
+  `activation_end` int(11) default NULL,
+  `activation_offline` int(1) default NULL,
+  `subscription_unlimited` tinyint(2) default NULL,
+  `subscription_start` int(11) default NULL,
+  `subscription_end` int(11) default NULL,
+  `subscription_type` int(2) default NULL,
+  `subscription_password` varchar(32) default NULL,
+  `subscription_max_members` int(4) default NULL,
+  `subscription_notify` int(2) default NULL,
+  `sortorder` int(2) default NULL,
+  `archive_start` int(11) default NULL,
+  `archive_end` int(11) default NULL,
+  `archive_type` int(2) default NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_settings`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_subscribers`
+#
+
+CREATE TABLE `crs_subscribers` (
+  `usr_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `sub_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_subscribers`
 #
 
 # --------------------------------------------------------
@@ -289,6 +425,7 @@ INSERT INTO `ctrl_calls` VALUES ('ilpageeditorgui', 'ilpcfileitemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpageeditorgui', 'ilobjmediaobjectgui');
 INSERT INTO `ctrl_calls` VALUES ('ilpageeditorgui', 'ilpcsourcecodegui');
 INSERT INTO `ctrl_calls` VALUES ('ilpageeditorgui', 'ilinternallinkgui');
+INSERT INTO `ctrl_calls` VALUES ('ilpageeditorgui', 'ilpcquestiongui');
 INSERT INTO `ctrl_calls` VALUES ('illmeditorgui', 'ilobjdlbookgui');
 INSERT INTO `ctrl_calls` VALUES ('illmeditorgui', 'ilmetadatagui');
 INSERT INTO `ctrl_calls` VALUES ('illmeditorgui', 'ilobjlearningmodulegui');
@@ -304,6 +441,14 @@ INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilstructureobjectgui
 INSERT INTO `ctrl_calls` VALUES ('ilobjlearningmodulegui', 'ilobjstylesheetgui');
 INSERT INTO `ctrl_calls` VALUES ('ilglossarytermgui', 'iltermdefinitioneditorgui');
 INSERT INTO `ctrl_calls` VALUES ('ileditclipboardgui', 'ilobjmediaobjectgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ilpageobjectgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_multiplechoicegui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_clozetestgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_matchingquestiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_orderingquestiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_imagemapquestiongui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjquestionpoolgui', 'ass_javaappletgui');
+INSERT INTO `ctrl_calls` VALUES ('ilobjcoursegui', 'ilcourseregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjhacplearningmodulegui', 'ilfilesystemgui');
 INSERT INTO `ctrl_calls` VALUES ('ilobjgroupgui', 'ilregistergui');
 INSERT INTO `ctrl_calls` VALUES ('ilrepositorygui', 'ilobjgroupgui');
@@ -354,6 +499,8 @@ INSERT INTO `ctrl_classfile` VALUES ('iltermdefinitioneditorgui', 'content/class
 INSERT INTO `ctrl_classfile` VALUES ('ilobjlearningmodulegui', 'content/classes/class.ilObjLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilglossarytermgui', 'content/classes/class.ilGlossaryTermGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ileditclipboardgui', 'content/classes/class.ilEditClipboardGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjquestionpoolgui', 'assessment/classes/class.ilObjQuestionPoolGUI.php');
+INSERT INTO `ctrl_classfile` VALUES ('ilobjcoursegui', 'course/classes/class.ilObjCourseGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjhacplearningmodulegui', 'classes/class.ilObjHACPLearningModuleGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilobjgroupgui', 'classes/class.ilObjGroupGUI.php');
 INSERT INTO `ctrl_classfile` VALUES ('ilrepositorygui', 'classes/class.ilRepositoryGUI.php');
@@ -3371,8 +3518,8 @@ INSERT INTO `object_data` VALUES (71, 'lng', 'de', 'not_installed', 6, '2003-08-
 INSERT INTO `object_data` VALUES (72, 'lng', 'es', 'not_installed', 6, '2003-08-15 10:25:19', '2003-08-15 10:25:19', '');
 INSERT INTO `object_data` VALUES (73, 'lng', 'it', 'not_installed', 6, '2003-08-15 10:25:19', '2003-08-15 10:25:19', '');
 INSERT INTO `object_data` VALUES (84, 'typ', 'exc', 'Exercise object', -1, '2003-11-30 21:22:49', '2003-11-30 21:22:49', '');
-INSERT INTO `object_data` VALUES (85, 'typ', 'ldap', 'LDAP settings object', -1, '2003-11-30 21:22:49', '2003-11-30 21:22:49', '');
-INSERT INTO `object_data` VALUES (86, 'ldap', 'LDAP settings', 'Folder contains all LDAP settings', -1, '2003-11-30 21:22:49', '2003-11-30 21:22:49', '');
+INSERT INTO `object_data` VALUES (85, 'typ', 'auth', 'Authentication settings', -1, '2003-11-30 21:22:49', '2003-11-30 21:22:49', '');
+INSERT INTO `object_data` VALUES (86, 'auth', 'Authentication settings', 'Select and configure authentication mode for all user accounts', -1, '2003-11-30 21:22:49', '2003-11-30 21:22:49', '');
 INSERT INTO `object_data` VALUES (87, 'typ', 'fold', 'Folder object', -1, '2003-11-30 21:22:50', '2003-11-30 21:22:50', '');
 INSERT INTO `object_data` VALUES (88, 'typ', 'file', 'File object', -1, '2003-11-30 21:22:50', '2003-11-30 21:22:50', '');
 INSERT INTO `object_data` VALUES (89, 'lng', 'fr', 'not_installed', 6, '2004-01-20 12:22:17', '2004-01-20 12:22:17', '');
@@ -3396,6 +3543,11 @@ INSERT INTO `object_data` VALUES (106, 'typ', 'taxf', 'Taxonomy folder object', 
 INSERT INTO `object_data` VALUES (107, 'taxf', 'Taxonomy folder', 'Configure taxonomy settings here', -1, '2004-06-21 01:27:18', '2004-06-21 01:27:18', '');
 INSERT INTO `object_data` VALUES (108, 'typ', 'trac', 'UserTracking object', -1, '2004-07-11 01:03:12', '2004-07-11 01:03:12', '');
 INSERT INTO `object_data` VALUES (109, 'trac', '__User Tracking', 'System user tracking', -1, '2004-07-11 01:03:12', '2004-07-11 01:03:12', '');
+INSERT INTO `object_data` VALUES (110, 'rolt', 'il_crs_admin', 'Administrator template for course admins', -1, '2004-09-02 09:49:43', '2004-09-02 09:49:43', '');
+INSERT INTO `object_data` VALUES (111, 'rolt', 'il_crs_tutor', 'Tutor template for course tutors', -1, '2004-09-02 09:49:43', '2004-09-02 09:49:43', '');
+INSERT INTO `object_data` VALUES (112, 'rolt', 'il_crs_member', 'Member template for course members', -1, '2004-09-02 09:49:43', '2004-09-02 09:49:43', '');
+INSERT INTO `object_data` VALUES (113, 'typ', 'pays', 'Payment settings', -1, '2004-09-02 09:49:45', '2004-09-02 09:49:45', '');
+INSERT INTO `object_data` VALUES (114, 'pays', 'Payment settings', 'Payment settings', -1, '2004-09-02 09:49:45', '2004-09-02 09:49:45', '');
 # --------------------------------------------------------
 
 #
@@ -3419,11 +3571,12 @@ INSERT INTO `object_reference` VALUES (9, 9);
 INSERT INTO `object_reference` VALUES (10, 10);
 INSERT INTO `object_reference` VALUES (11, 11);
 INSERT INTO `object_reference` VALUES (12, 12);
-INSERT INTO `object_reference` VALUES (13, 86);
+INSERT INTO `object_reference` VALUES (19, 114);
 INSERT INTO `object_reference` VALUES (14, 98);
 INSERT INTO `object_reference` VALUES (15, 100);
 INSERT INTO `object_reference` VALUES (16, 107);
 INSERT INTO `object_reference` VALUES (17, 109);
+INSERT INTO `object_reference` VALUES (18, 86);
 # --------------------------------------------------------
 
 #
@@ -3466,6 +3619,22 @@ CREATE TABLE `page_object` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `payment_vendors`
+#
+
+CREATE TABLE `payment_vendors` (
+  `vendor_id` int(11) NOT NULL default '0',
+  `cost_center` varchar(16) NOT NULL default '',
+  PRIMARY KEY  (`vendor_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `payment_vendors`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `personal_clipboard`
 #
 
@@ -3492,12 +3661,12 @@ CREATE TABLE `qpl_answers` (
   `question_fi` int(10) unsigned NOT NULL default '0',
   `name` varchar(50) NOT NULL default '',
   `shuffle` enum('0','1') NOT NULL default '1',
-  `answertext` varchar(100) NOT NULL default '',
+  `answertext` text NOT NULL,
   `points` double NOT NULL default '0',
   `aorder` int(10) unsigned NOT NULL default '0',
   `correctness` enum('0','1') NOT NULL default '0',
   `solution_order` int(10) unsigned NOT NULL default '0',
-  `matchingtext` varchar(100) default NULL,
+  `matchingtext` text,
   `matching_order` int(10) unsigned default NULL,
   `gap_id` int(10) unsigned NOT NULL default '0',
   `cloze_type` enum('0','1') default NULL,
@@ -3511,25 +3680,6 @@ CREATE TABLE `qpl_answers` (
 
 #
 # Dumping data for table `qpl_answers`
-#
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `qpl_question_material`
-#
-
-CREATE TABLE `qpl_question_material` (
-  `material_id` int(11) NOT NULL auto_increment,
-  `question_id` int(11) NOT NULL default '0',
-  `materials` text,
-  `materials_file` text,
-  `TIMESTAMP` timestamp(14) NOT NULL,
-  UNIQUE KEY `material_id` (`material_id`)
-) TYPE=MyISAM;
-
-#
-# Dumping data for table `qpl_question_material`
 #
 
 # --------------------------------------------------------
@@ -3566,7 +3716,7 @@ INSERT INTO `qpl_question_type` VALUES (7, 'qt_javaapplet');
 CREATE TABLE `qpl_questions` (
   `question_id` int(11) NOT NULL auto_increment,
   `question_type_fi` int(10) unsigned NOT NULL default '0',
-  `ref_fi` int(10) unsigned NOT NULL default '0',
+  `obj_fi` int(10) unsigned NOT NULL default '0',
   `title` varchar(100) NOT NULL default '',
   `comment` text,
   `author` varchar(50) NOT NULL default '',
@@ -3621,6 +3771,9 @@ INSERT INTO `rbac_fa` VALUES (82, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (80, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (81, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (14, 8, 'y');
+INSERT INTO `rbac_fa` VALUES (110, 8, 'n');
+INSERT INTO `rbac_fa` VALUES (111, 8, 'n');
+INSERT INTO `rbac_fa` VALUES (112, 8, 'n');
 # --------------------------------------------------------
 
 #
@@ -3745,6 +3898,7 @@ INSERT INTO `rbac_ta` VALUES (16, 21);
 INSERT INTO `rbac_ta` VALUES (16, 22);
 INSERT INTO `rbac_ta` VALUES (16, 23);
 INSERT INTO `rbac_ta` VALUES (16, 24);
+INSERT INTO `rbac_ta` VALUES (16, 25);
 INSERT INTO `rbac_ta` VALUES (16, 27);
 INSERT INTO `rbac_ta` VALUES (16, 28);
 INSERT INTO `rbac_ta` VALUES (16, 29);
@@ -3914,6 +4068,10 @@ INSERT INTO `rbac_ta` VALUES (108, 1);
 INSERT INTO `rbac_ta` VALUES (108, 2);
 INSERT INTO `rbac_ta` VALUES (108, 3);
 INSERT INTO `rbac_ta` VALUES (108, 6);
+INSERT INTO `rbac_ta` VALUES (113, 1);
+INSERT INTO `rbac_ta` VALUES (113, 2);
+INSERT INTO `rbac_ta` VALUES (113, 3);
+INSERT INTO `rbac_ta` VALUES (113, 4);
 # --------------------------------------------------------
 
 #
@@ -4196,6 +4354,187 @@ INSERT INTO `rbac_templates` VALUES (4, 'svy', 2, 8);
 INSERT INTO `rbac_templates` VALUES (5, 'svy', 2, 8);
 INSERT INTO `rbac_templates` VALUES (4, 'svy', 46, 8);
 INSERT INTO `rbac_templates` VALUES (5, 'svy', 46, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 7, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'lm', 8, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 7, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'slm', 8, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'dbk', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 7, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'glo', 8, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 9, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'frm', 10, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'chat', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'chat', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'chat', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'chat', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'chat', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'file', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'file', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'file', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'file', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'file', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'tst', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 7, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 8, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 18, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 20, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 21, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 22, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 23, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 24, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 25, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 26, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 27, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 29, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'grp', 31, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'exc', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'exc', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'exc', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'exc', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'exc', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 18, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 20, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 21, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 22, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 25, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 26, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'fold', 29, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 1, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 3, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 4, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 6, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 17, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 18, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 20, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 21, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 22, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 23, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 24, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 25, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 26, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 27, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 29, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 31, 8);
+INSERT INTO `rbac_templates` VALUES (110, 'crs', 32, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'lm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'lm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'lm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'slm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'slm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'slm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'slm', 7, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'slm', 8, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'dbk', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'dbk', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'dbk', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'glo', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'glo', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'glo', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'glo', 7, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'glo', 8, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'frm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'frm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'frm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'frm', 9, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'chat', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'chat', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'chat', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'file', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'file', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'file', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'tst', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'tst', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'tst', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'grp', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'grp', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'grp', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'grp', 7, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'grp', 8, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'exc', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'exc', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'exc', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'fold', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'fold', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'fold', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'crs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'crs', 3, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'crs', 4, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'crs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (111, 'crs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'lm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'lm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'slm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'slm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'slm', 7, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'slm', 8, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'dbk', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'dbk', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'glo', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'glo', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'glo', 7, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'glo', 8, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'frm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'frm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'chat', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'chat', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'file', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'file', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'tst', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'tst', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'grp', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'grp', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'grp', 7, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'grp', 8, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'exc', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'exc', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'fold', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'fold', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'crs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'crs', 3, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'crs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (112, 'crs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (3, 'cat', 25, 8);
 # --------------------------------------------------------
 
 #
@@ -4521,14 +4860,13 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '234');
-INSERT INTO `settings` VALUES ('ilias_version', '3.1.0_beta1 2004/07/11');
+INSERT INTO `settings` VALUES ('db_version', '272');
+INSERT INTO `settings` VALUES ('ilias_version', '3.2.0_beta1 2004/09/02');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
 INSERT INTO `settings` VALUES ('language', 'en');
 INSERT INTO `settings` VALUES ('ldap_basedn', '');
-INSERT INTO `settings` VALUES ('ldap_enable', '');
 INSERT INTO `settings` VALUES ('ldap_port', '');
 INSERT INTO `settings` VALUES ('ldap_server', '');
 INSERT INTO `settings` VALUES ('system_user_id', '6');
@@ -4547,6 +4885,7 @@ INSERT INTO `settings` VALUES ('enable_bench', '0');
 INSERT INTO `settings` VALUES ('sys_user_tracking_id', '17');
 INSERT INTO `settings` VALUES ('enable_tracking', '0');
 INSERT INTO `settings` VALUES ('save_user_related_data', '0');
+INSERT INTO `settings` VALUES ('auth_mode', '1');
 # --------------------------------------------------------
 
 #
@@ -4854,7 +5193,7 @@ CREATE TABLE `survey_question` (
   `question_id` int(11) NOT NULL auto_increment,
   `subtype` enum('0','1','2','3','4','5') NOT NULL default '0',
   `questiontype_fi` int(11) NOT NULL default '0',
-  `ref_fi` int(11) NOT NULL default '0',
+  `obj_fi` int(11) unsigned NOT NULL default '0',
   `owner_fi` int(11) NOT NULL default '0',
   `title` varchar(100) NOT NULL default '',
   `description` varchar(200) NOT NULL default '',
@@ -4998,7 +5337,7 @@ INSERT INTO `survey_relation` VALUES (6, 'more', '>', 20040518195903);
 
 CREATE TABLE `survey_survey` (
   `survey_id` int(11) NOT NULL auto_increment,
-  `ref_fi` int(11) NOT NULL default '0',
+  `obj_fi` int(11) NOT NULL default '0',
   `author` varchar(50) NOT NULL default '',
   `introduction` text,
   `status` enum('0','1') NOT NULL default '1',
@@ -5078,10 +5417,10 @@ CREATE TABLE `tree` (
 # Dumping data for table `tree`
 #
 
-INSERT INTO `tree` VALUES (1, 1, 0, 1, 22, 1);
+INSERT INTO `tree` VALUES (1, 1, 0, 1, 26, 1);
 INSERT INTO `tree` VALUES (1, 7, 9, 5, 6, 3);
 INSERT INTO `tree` VALUES (1, 8, 9, 7, 8, 3);
-INSERT INTO `tree` VALUES (1, 9, 1, 2, 21, 2);
+INSERT INTO `tree` VALUES (1, 9, 1, 2, 25, 2);
 INSERT INTO `tree` VALUES (1, 10, 9, 9, 10, 3);
 INSERT INTO `tree` VALUES (1, 11, 9, 11, 12, 3);
 INSERT INTO `tree` VALUES (1, 12, 9, 3, 4, 3);
@@ -5089,6 +5428,8 @@ INSERT INTO `tree` VALUES (1, 14, 9, 13, 14, 3);
 INSERT INTO `tree` VALUES (1, 15, 9, 15, 16, 3);
 INSERT INTO `tree` VALUES (1, 16, 9, 17, 18, 3);
 INSERT INTO `tree` VALUES (1, 17, 9, 19, 20, 3);
+INSERT INTO `tree` VALUES (1, 18, 9, 21, 22, 3);
+INSERT INTO `tree` VALUES (1, 19, 9, 23, 24, 3);
 # --------------------------------------------------------
 
 #
@@ -5130,8 +5471,7 @@ CREATE TABLE `tst_eval_settings` (
   `lastvisit` enum('0','1') NOT NULL default '1',
   `resultspoints` enum('0','1') NOT NULL default '1',
   `resultsmarks` enum('0','1') NOT NULL default '1',
-  `distancemean` enum('0','1') NOT NULL default '1',
-  `distancequintile` enum('0','1') NOT NULL default '1',
+  `distancemedian` enum('0','1') NOT NULL default '1',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`eval_settings_id`)
 ) TYPE=MyISAM COMMENT='User settings for statistical evaluation tool';
@@ -5235,7 +5575,7 @@ INSERT INTO `tst_test_type` VALUES (3, 'tt_navigation_controlling');
 
 CREATE TABLE `tst_tests` (
   `test_id` int(10) unsigned NOT NULL auto_increment,
-  `ref_fi` int(11) NOT NULL default '0',
+  `obj_fi` int(11) NOT NULL default '0',
   `author` varchar(50) NOT NULL default '',
   `test_type_fi` int(10) unsigned NOT NULL default '0',
   `introduction` text,
@@ -5308,6 +5648,11 @@ CREATE TABLE `usr_data` (
   `phone_mobile` varchar(40) NOT NULL default '',
   `fax` varchar(40) NOT NULL default '',
   `i2passwd` varchar(32) NOT NULL default '',
+  `time_limit_owner` int(10) default '0',
+  `time_limit_unlimited` int(2) default '0',
+  `time_limit_from` int(10) default '0',
+  `time_limit_until` int(10) default '0',
+  `time_limit_message` int(2) default '0',
   PRIMARY KEY  (`usr_id`),
   KEY `login` (`login`,`passwd`)
 ) TYPE=MyISAM;
@@ -5316,8 +5661,8 @@ CREATE TABLE `usr_data` (
 # Dumping data for table `usr_data`
 #
 
-INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '');
-INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '');
+INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 0, 1, 0, 0, 0);
+INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 0, 1, 0, 0, 0);
 # --------------------------------------------------------
 
 #
@@ -5388,6 +5733,7 @@ CREATE TABLE `usr_session` (
 #
 
 INSERT INTO `usr_session` VALUES ('6e41d11d4bab4fed4d1f16be263140f2', 1082327754, 'locator_data|a:0:{}locator_level|i:-1;', 1082326314, 0);
+INSERT INTO `usr_session` VALUES ('dd90ca21fa965ec700b2f339bec83d5d', 1094112251, 'locator_data|a:0:{}locator_level|i:-1;', 1094110811, 0);
 # --------------------------------------------------------
 
 #
