@@ -82,6 +82,39 @@ td.option_value {
 	border-bottom:1px solid #000000;
 }
 
+td.submit {
+	background-color:#d0d0d0;
+	color:#222222;
+	padding:4px;
+	font-size:13px;
+	vertical-align:top;
+}
+
+/* must reset all values of td style */
+td.il_no_style {
+	font-size:normal;
+	font-weight:normal;
+	background-image:none;
+	background-color:white;
+}
+
+/* locator */
+
+div.locator {
+	padding-top:2px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:2px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#dddddd;
+	border-width:2px;
+	border-style:solid;
+	border-color:#606060;
+}
+
+
 /* ---------------- headlines ------------------ */
 
 h1 {
@@ -96,12 +129,19 @@ h2 {
 }
 
 /* ----------------- invisible border ------------- */
-
+div.top_border {
+	margin:0px;
+	padding-top:10px;
+	padding-bottom:5px;
+	padding-right:15px;
+	padding-left:15px;
+	background-color: black;
+}
 div.invisible_border {
 	margin-top:12px;
 	margin-bottom:12px;
-	margin-right:12px;
-	margin-left:12px;
+	margin-right:15px;
+	margin-left:15px;
 }
 
 /* ----------------- alternative text styles ------------- */
@@ -245,7 +285,15 @@ img.imgtab {
 	margin:0px;
 }
 
-/* ------------------ blind image - spacer gif -------------- 
+/* --- Editor styles ---*/
+div.il_editarea
+{
+	border-style: dotted;
+	border-width: 1px;
+}
+
+
+/* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
 	display:block;

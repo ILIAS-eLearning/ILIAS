@@ -217,6 +217,9 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$style_id = $style_gui->deleteStyleParameterObject();
 	}
 
+	/**
+	* show chapters
+	*/
 	function chapters()
 	{
 		global $tree;
@@ -225,7 +228,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
+			$this->object->getRefId()."&cmd=post&backcmd=chapters");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -269,7 +272,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			//$this->showActions();
+			$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
@@ -458,9 +461,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		// delete all selected objects
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$tree->deleteTree($tree->getNodeData($id));
 			$obj =& ilLMObjectFactory::getInstance($id);
+			$obj->setLMId($this->object->getId());
+			$node_data = $tree->getNodeData($id);
 			$obj->delete();
+			if($tree->isInTree($id))
+			{
+				$tree->deleteTree($node_data);
+			}
 		}
 
 		// feedback

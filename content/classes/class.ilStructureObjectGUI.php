@@ -262,7 +262,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// chapters should be behind pages in the tree
 		// so if target is first node, the target is substituted with
 		// the last child of type pg
-		if (($_GET["target"] == IL_FIRST_NODE) || empty($_GET["target"]))
+		if ($_GET["target"] == IL_FIRST_NODE)
 		{
 			$tree = new ilTree($this->lm_obj->getId());
 			$tree->setTableNames('lm_tree','lm_data');
@@ -272,13 +272,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$parent_id = (!empty($_GET["obj_id"]))
 				? $_GET["obj_id"]
 				: $tree->getRootId();
-
 			// determine last child of type pg
 			$childs =& $tree->getChildsByType($parent_id, "pg");
 			if (count($childs) != 0)
 			{
 				$_GET["target"] = $childs[count($childs) - 1]["obj_id"];
 			}
+		}
+		if (empty($_GET["target"]))
+		{
+			$_GET["target"] = IL_LAST_NODE;
 		}
 
 		parent::putInTree();

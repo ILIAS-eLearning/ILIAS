@@ -189,7 +189,7 @@ class ilLMExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		//$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
 		$tpl->setVariable("TITLE", $this->lm_obj->getTitle());
 		$tpl->setVariable("LINK_TARGET", $this->target);
 		$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");

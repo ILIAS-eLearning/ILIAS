@@ -140,14 +140,6 @@ td.submit {
 	vertical-align:top;
 }
 
-
-td.locator {
-	padding:1px;
-	font-size:13px;
-	vertical-align:top;
-	text-align:left;
-}
-
 /* must reset all values of td style */
 td.il_no_style {
 	font-size:normal;
@@ -156,7 +148,20 @@ td.il_no_style {
 	background-color:white;
 }
 
-
+/* locator */
+div.locator {
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#b9c0d5;
+	border-width: 1px;
+	border-style: outset;
+	border-color: #b9c0d5;
+}
 
 a.tblheader, a.tblheader:visited
 {
@@ -172,6 +177,8 @@ a.tblheader:hover
 /* ---------------- headlines ------------------ */
 
 h1 {
+	margin-top:4px;
+	margin-bottom:4px;
 	font-size:16px;
 	color:#222222;
 	background-color: #C0C0C0;
@@ -196,6 +203,16 @@ h2 {
 }
 
 /* ----------------- invisible border ------------- */
+
+div.top_border {
+	margin:0px;
+	padding-top:10px;
+	padding-bottom:5px;
+	padding-right:15px;
+	padding-left:15px;
+	background-color:#153060;
+	/*background-color:#b9c0d5;*/
+}
 
 div.invisible_border {
 	margin-top:15px;
@@ -385,7 +402,7 @@ select.ilEditSelect {
 	font-size:11px;
 	color: #000000;
 	font-weight: bold;
-	background-color:#000000;
+	background-color:#153060;
 }
 
 .tabactive {
