@@ -606,8 +606,8 @@ class ilMetaData
 				/* editing meta data with editor: new title */
 				if (isset($this->meta["Title"]["Value"]))
 				{
-					$this->setTitle($this->meta["Title"]["Value"]);
-					$this->setDescription($this->meta["Description"][0]["Value"]);
+					$this->setTitle(ilUtil::stripSlashes($this->meta["Title"]["Value"]));
+					$this->setDescription(ilUtil::stripSlashes($this->meta["Description"][0]["Value"]));
 					$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
 							 "obj_id = '" . $this->getID() . "'";
 					$this->ilias->db->query($query);

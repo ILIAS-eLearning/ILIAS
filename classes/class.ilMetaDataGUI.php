@@ -146,11 +146,11 @@ class ilMetaDataGUI
 				$tpl->setVariable("IDENTIFIER_LOOP_NO", $i);
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", htmlentities(stripslashes(utf8_decode($identifier[$i]["value"]))));
+				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", ilUtil::prepareFormOutput($identifier[$i]["value"]));
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", htmlentities(stripslashes(utf8_decode($identifier[$i]["Catalog"]))));
+				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
-				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY", htmlentities(stripslashes(utf8_decode($identifier[$i]["Entry"]))));
+				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY", ilUtil::prepareFormOutput($identifier[$i]["Entry"]));
 				$tpl->setVariable("IDENTIFIER_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Identifier&meta_language=" . $a_language . "&meta_path=General&meta_section=" . $a_section);
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 				$tpl->parseCurrentBlock();
@@ -186,7 +186,6 @@ class ilMetaDataGUI
 		$title = $this->meta_obj->getElement("Title", "General");
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("meta_title"));
 		$tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-		//$tpl->setVariable("VAL_TITLE", htmlentities(stripslashes(utf8_decode($title[0]["value"]))));
 		$tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($title[0]["value"]));
 		$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 		$tpl->setVariable("VAL_TITLE_LANGUAGE", $this->showLangSel("meta[Title][Language]", $title[0]["Language"]));
@@ -207,7 +206,7 @@ class ilMetaDataGUI
 				$tpl->setVariable("DESCRIPTION_LOOP_NO", $i);
 				$tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 				$tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("DESCRIPTION_LOOP_VAL", htmlentities(stripslashes(utf8_decode($description[$i]["value"]))));
+				$tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
 				$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Description][" . $i . "][Language]", $description[$i]["Language"]));
 				$tpl->setVariable("DESCRIPTION_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Description&meta_language=" . $a_language . "&meta_path=General&meta_section=" . $a_section);
@@ -232,7 +231,7 @@ class ilMetaDataGUI
 				$tpl->setVariable("KEYWORD_LOOP_NO", $i);
 				$tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
 				$tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("KEYWORD_LOOP_VAL", htmlentities(stripslashes(utf8_decode($keyword[$i]["value"]))));
+				$tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($keyword[$i]["value"]));
 				$tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Keyword][" . $i . "][Language]", $keyword[$i]["Language"]));
 				$tpl->setVariable("KEYWORD_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Keyword&meta_language=" . $a_language . "&meta_path=General&meta_section=" . $a_section);
@@ -247,7 +246,7 @@ class ilMetaDataGUI
 			$tpl->setCurrentBlock("keyword_loop");
 			$tpl->setVariable("COVERAGE_LOOP_TXT_COVERAGE", $this->lng->txt("meta_coverage"));
 			$tpl->setVariable("COVERAGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$tpl->setVariable("COVERAGE_LOOP_VAL", $coverage[0]["value"]);
+			$tpl->setVariable("COVERAGE_LOOP_VAL", ilUtil::prepareFormOutput($coverage[0]["value"]));
 			$tpl->setVariable("COVERAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 			$tpl->setVariable("COVERAGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Coverage][Language]", $coverage[0]["Language"]));
 			$tpl->setVariable("COVERAGE_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=General&meta_name=Coverage&meta_index=0");
@@ -309,7 +308,7 @@ class ilMetaDataGUI
 			{
 				$tpl->setVariable("TXT_VERSION", $this->lng->txt("meta_version"));
 				$tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("VAL_VERSION", htmlentities(stripslashes(utf8_decode($version[0]["value"]))));
+				$tpl->setVariable("VAL_VERSION", ilUtil::prepareFormOutput($version[0]["value"]));
 				$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("VAL_VERSION_LANGUAGE", $this->showLangSel("meta[Version][Language]", $version[0]["Language"]));
 			}
@@ -337,7 +336,7 @@ class ilMetaDataGUI
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $i);
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt("meta_entity"));
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", htmlentities(stripslashes(utf8_decode($entity[$j]["value"]))));
+							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($entity[$j]["value"]));
 
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Entity&meta_language=" . $a_language . "&meta_path=Lifecycle/Contribute&meta_section=" . $a_section . "&meta_index=" . $i);
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
@@ -365,7 +364,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt("meta_date"));
 					if (is_array($date = $this->meta_obj->getElement("Date", "Lifecycle/Contribute", $i)))
 					{
-						$tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", htmlentities(stripslashes(utf8_decode($date[0]["value"]))));
+						$tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($date[0]["value"]));
 					}
 					$tpl->setVariable("CONTRIBUTE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Contribute&meta_language=" . $a_language . "&meta_path=Lifecycle&meta_section=" . $a_section);
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
@@ -416,7 +415,7 @@ class ilMetaDataGUI
 			if (is_array($meta_metadata = $this->meta_obj->getElement("Meta-Metadata")))
 			{
 				$tpl->setVariable("VAL_LANGUAGE", $this->showLangSel("meta[Language]", $meta_metadata[0]["Language"]));
-				$tpl->setVariable("VAL_METADATASCHEME", htmlentities(stripslashes(utf8_decode($meta_metadata[0]["MetadataScheme"]))));
+				$tpl->setVariable("VAL_METADATASCHEME", ilUtil::prepareFormOutput($meta_metadata[0]["MetadataScheme"]));
 			}
 	
 			/* Identifier */
@@ -436,11 +435,11 @@ class ilMetaDataGUI
 					$tpl->setVariable("IDENTIFIER_LOOP_NO", $i);
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", htmlentities(stripslashes(utf8_decode($identifier[$i]["value"]))));
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", ilUtil::prepareFormOutput($identifier[$i]["value"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", htmlentities(stripslashes(utf8_decode($identifier[$i]["Catalog"]))));
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY", htmlentities(stripslashes(utf8_decode($identifier[$i]["Entry"]))));
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY", ilUtil::prepareFormOutput($identifier[$i]["Entry"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Identifier&meta_language=" . $a_language . "&meta_path=Meta-Metadata&meta_section=" . $a_section);
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 					$tpl->parseCurrentBlock();
@@ -470,7 +469,7 @@ class ilMetaDataGUI
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $i);
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt("meta_entity"));
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", htmlentities(stripslashes(utf8_decode($entity[$j]["value"]))));
+							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($entity[$j]["value"]));
 
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Entity&meta_language=" . $a_language . "&meta_path=Meta-Metadata/Contribute&meta_section=" . $a_section . "&meta_index=" . $i);
 							$tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
@@ -498,7 +497,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt("meta_date"));
 					if (is_array($date = $this->meta_obj->getElement("Date", "Meta-Metadata/Contribute", $i)))
 					{
-						$tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", htmlentities(stripslashes(utf8_decode($date[0]["value"]))));
+						$tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($date[0]["value"]));
 					}
 					$tpl->setVariable("CONTRIBUTE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Contribute&meta_language=" . $a_language . "&meta_path=Meta-Metadata&meta_section=" . urlencode($a_section));
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
@@ -615,7 +614,7 @@ class ilMetaDataGUI
 					$tpl->setCurrentBlock("typicalagerange_loop");
 					$tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
 					$tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", htmlentities(stripslashes(utf8_decode($typicalAgeRange[$i]["value"]))));
+					$tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($typicalAgeRange[$i]["value"]));
 					$tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("TYPICALAGERANGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[TypicalAgeRange][" . $i . "][Language]", $typicalAgeRange[$i]["Language"]));
 					$tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=TypicalAgeRange&meta_language=" . $a_language . "&meta_path=Educational&meta_section=" . $a_section);
@@ -628,7 +627,7 @@ class ilMetaDataGUI
 			if (is_array($typicalLearningTime = $this->meta_obj->getElement("TypicalLearningTime", "Educational")))
 			{
 				$tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
-				$tpl->setVariable("VAL_TYPICALLEARNINGTIME", htmlentities(stripslashes(utf8_decode($typicalLearningTime[0]["value"]))));
+				$tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($typicalLearningTime[0]["value"]));
 			}
 
 			/* Description */
@@ -640,7 +639,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("DESCRIPTION_LOOP_NO", $i);
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("DESCRIPTION_LOOP_VAL", htmlentities(stripslashes(utf8_decode($description[$i]["value"]))));
+					$tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Description][" . $i . "][Language]", $description[$i]["Language"]));
 					$tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Educational&meta_name=Description&meta_index=" . $i);
@@ -725,7 +724,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("DESCRIPTION_LOOP_NO", $i);
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("DESCRIPTION_LOOP_VAL", htmlentities(stripslashes(utf8_decode($description[$i]["value"]))));
+					$tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Description][" . $i . "][Language]", $description[$i]["Language"]));
 					$tpl->parseCurrentBlock();
@@ -768,12 +767,12 @@ class ilMetaDataGUI
 			$tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
 			if (is_array($entity = $this->meta_obj->getElement("Entity", "Annotation")))
 			{
-				$tpl->setVariable("VAL_ENTITY", htmlentities(stripslashes(utf8_decode($entity[0]["value"]))));
+				$tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($entity[0]["value"]));
 			}
 			$tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
 			if (is_array($date = $this->meta_obj->getElement("Date", "Annotation")))
 			{
-				$tpl->setVariable("VAL_DATE", htmlentities(stripslashes(utf8_decode($date[0]["value"]))));
+				$tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($date[0]["value"]));
 			}
 
 			/* Description */
@@ -781,7 +780,7 @@ class ilMetaDataGUI
 			{
 				$tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 				$tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("VAL_DESCRIPTION", htmlentities(stripslashes(utf8_decode($description[0]["value"]))));
+				$tpl->setVariable("VAL_DESCRIPTION", ilUtil::stripSlashes($description[0]["value"]));
 				$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("VAL_DESCRIPTION_LANGUAGE", $this->showLangSel("meta[Description][Language]", $description[0]["Language"]));
 			}
@@ -862,9 +861,9 @@ class ilMetaDataGUI
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TAXONPATH_NO", $i);
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_TAXON", $this->lng->txt("meta_taxon"));
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", htmlentities(stripslashes(utf8_decode($taxon[$j]["value"]))));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", ilUtil::prepareFormOutput($taxon[$j]["value"]));
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ID", $this->lng->txt("meta_id"));
-							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", htmlentities(stripslashes(utf8_decode($taxon[$j]["Id"]))));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", ilUtil::prepareFormOutput($taxon[$j]["Id"]));
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON_LANGUAGE", $this->showLangSel("meta[TaxonPath][" . $i . "][Taxon][" . $j . "][Language]", $taxon[$j]["Language"]));
 							$tpl->setVariable("TAXONPATH_TAXON_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Taxon&meta_language=" . $a_language . "&meta_path=Classification/TaxonPath&meta_section=" . $a_section . "&meta_index=" . $i);
@@ -890,7 +889,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("TAXONPATH_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					if (is_array($source = $this->meta_obj->getElement("Source", "Classification/TaxonPath", $i)))
 					{
-						$tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", htmlentities(stripslashes(utf8_decode($source[0]["value"]))));
+						$tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", ilUtil::prepareFormOutput($source[0]["value"]));
 						$tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE_LANGUAGE", $this->showLangSel("meta[TaxonPath][" . $i . "][Source][Language]", $source[0]["Language"]));
 					}
 					$tpl->setVariable("TAXONPATH_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=TaxonPath&meta_language=" . $a_language . "&meta_path=Classification&meta_section=" . $a_section);
@@ -904,7 +903,7 @@ class ilMetaDataGUI
 			{
 				$tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
 				$tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("VAL_DESCRIPTION", htmlentities(stripslashes(utf8_decode($description[0]["value"]))));
+				$tpl->setVariable("VAL_DESCRIPTION", ilUtil::stripSlashes($description[0]["value"]));
 				$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("VAL_DESCRIPTION_LANGUAGE", $this->showLangSel("meta[Description][Language]", $description[0]["Language"]));
 			}
@@ -926,7 +925,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("KEYWORD_LOOP_NO", $i);
 					$tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
 					$tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("KEYWORD_LOOP_VAL", htmlentities(stripslashes(utf8_decode($keyword[$i]["value"]))));
+					$tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($keyword[$i]["value"]));
 					$tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Keyword][" . $i . "][Language]", $keyword[$i]["Language"]));
 					$tpl->setVariable("KEYWORD_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Keyword&meta_language=" . $a_language . "&meta_path=Classification&meta_section=" . $a_section);
@@ -982,7 +981,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("FORMAT_LOOP_NO", $i);
 					$tpl->setVariable("FORMAT_LOOP_TXT_FORMAT", $this->lng->txt("meta_format"));
 					$tpl->setVariable("FORMAT_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("FORMAT_LOOP_VAL", htmlentities(stripslashes(utf8_decode($format[$i]["value"]))));
+					$tpl->setVariable("FORMAT_LOOP_VAL", ilUtil::prepareFormOutput($format[$i]["value"]));
 					$tpl->setVariable("FORMAT_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Technical&meta_name=Format&meta_index=" . $i);
 					$tpl->setVariable("FORMAT_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
 					$tpl->setVariable("FORMAT_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Format&meta_language=" . $a_language . "&meta_path=Technical&meta_section=" . $a_section);
@@ -997,7 +996,7 @@ class ilMetaDataGUI
 				$tpl->setCurrentBlock("size");
 				$tpl->setVariable("SIZE_TXT_SIZE", $this->lng->txt("meta_size"));
 				$tpl->setVariable("SIZE_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("SIZE_VAL", htmlentities(stripslashes(utf8_decode($size[0]["value"]))));
+				$tpl->setVariable("SIZE_VAL", ilUtil::prepareFormOutput($size[0]["value"]));
 				$tpl->setVariable("SIZE_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Technical&meta_name=Size&meta_index=0");
 				$tpl->setVariable("SIZE_TXT_DELETE", $this->lng->txt("meta_delete"));
 				$tpl->parseCurrentBlock();
@@ -1016,7 +1015,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("LOCATION_LOOP_NO", $i);
 					$tpl->setVariable("LOCATION_LOOP_TXT_LOCATION", $this->lng->txt("meta_location"));
 					$tpl->setVariable("LOCATION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("LOCATION_LOOP_VAL", htmlentities(stripslashes(utf8_decode($location[$i]["value"]))));
+					$tpl->setVariable("LOCATION_LOOP_VAL", ilUtil::prepareFormOutput($location[$i]["value"]));
 					$tpl->setVariable("LOCATION_LOOP_TXT_TYPE", $this->lng->txt("meta_type"));
 					$tpl->setVariable("LOCATION_LOOP_TXT_LOCALFILE", $this->lng->txt("meta_local_file"));
 					$tpl->setVariable("LOCATION_LOOP_TXT_REFERENCE", $this->lng->txt("meta_reference"));
@@ -1058,14 +1057,14 @@ class ilMetaDataGUI
 					if (is_array($operatingSystem = $this->meta_obj->getElement("OperatingSystem", "Technical/Requirement/Type", $i)))
 					{
 						$tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_NAME_" . strtoupper($operatingSystem[0]["Name"]), " selected");
-						$tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION", htmlentities(stripslashes(utf8_decode($operatingSystem[0]["MinimumVersion"]))));
-						$tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION", htmlentities(stripslashes(utf8_decode($operatingSystem[0]["MaximumVersion"]))));
+						$tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION", ilUtil::prepareFormOutput($operatingSystem[0]["MinimumVersion"]));
+						$tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION", ilUtil::prepareFormOutput($operatingSystem[0]["MaximumVersion"]));
 					}
 					if (is_array($browser = $this->meta_obj->getElement("Browser", "Technical/Requirement/Type", $i)))
 					{
 						$tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_NAME_" . strtoupper($browser[0]["Name"]), " selected");
-						$tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION", htmlentities(stripslashes(utf8_decode($browser[0]["MinimumVersion"]))));
-						$tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION", htmlentities(stripslashes(utf8_decode($browser[0]["MaximumVersion"]))));
+						$tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION", ilUtil::prepareFormOutput($browser[0]["MinimumVersion"]));
+						$tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION", ilUtil::prepareFormOutput($browser[0]["MaximumVersion"]));
 					}
 					$tpl->parseCurrentBlock();
 				}
@@ -1114,14 +1113,14 @@ class ilMetaDataGUI
 							if (is_array($operatingSystem = $this->meta_obj->getElement("OperatingSystem", "Technical/OrComposite/Requirement/Type", $i)))
 							{
 								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_NAME_" . strtoupper($operatingSystem[0]["Name"]), " selected");
-								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION", htmlentities(stripslashes(utf8_decode($operatingSystem[0]["MinimumVersion"]))));
-								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION", htmlentities(stripslashes(utf8_decode($operatingSystem[0]["MaximumVersion"]))));
+								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION", ilUtil::prepareFormOutput($operatingSystem[0]["MinimumVersion"]));
+								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION", ilUtil::prepareFormOutput($operatingSystem[0]["MaximumVersion"]));
 							}
 							if (is_array($browser = $this->meta_obj->getElement("Browser", "Technical/OrComposite/Requirement/Type", $i)))
 							{
 								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_BROWSER_NAME_" . strtoupper($browser[0]["Name"]), " selected");
-								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION", htmlentities(stripslashes(utf8_decode($browser[0]["MinimumVersion"]))));
-								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION", htmlentities(stripslashes(utf8_decode($browser[0]["MaximumVersion"]))));
+								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION", ilUtil::prepareFormOutput($browser[0]["MinimumVersion"]));
+								$tpl->setVariable("ORCOMPOSITE_REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION", ilUtil::prepareFormOutput($browser[0]["MaximumVersion"]));
 							}
 							$tpl->parseCurrentBlock();
 						}
@@ -1146,7 +1145,7 @@ class ilMetaDataGUI
 				$tpl->setCurrentBlock("installationremarks");
 				$tpl->setVariable("INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS", $this->lng->txt("meta_installation_remarks"));
 				$tpl->setVariable("INSTALLATIONREMARKS_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("INSTALLATIONREMARKS_VAL", htmlentities(stripslashes(utf8_decode($installationRemarks[0]["value"]))));
+				$tpl->setVariable("INSTALLATIONREMARKS_VAL", ilUtil::prepareFormOutput($installationRemarks[0]["value"]));
 				$tpl->setVariable("INSTALLATIONREMARKS_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("INSTALLATIONREMARKS_VAL_LANGUAGE", $this->showLangSel("meta[InstallationRemarks][Language]", $installationRemarks[0]["Language"]));
 				$tpl->setVariable("INSTALLATIONREMARKS_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Technical&meta_name=InstallationRemarks&meta_index=0");
@@ -1164,7 +1163,7 @@ class ilMetaDataGUI
 				$tpl->setCurrentBlock("otherplattformrequirements");
 				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS", $this->lng->txt("meta_other_plattform_requirements"));
 				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_VAL", htmlentities(stripslashes(utf8_decode($otherPlattformRequirements[0]["value"]))));
+				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_VAL", ilUtil::prepareFormOutput($otherPlattformRequirements[0]["value"]));
 				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE", $this->showLangSel("meta[OtherPlattformRequirements][Language]", $otherPlattformRequirements[0]["Language"]));
 				$tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Technical&meta_name=OtherPlattformRequirements&meta_index=0");
@@ -1182,7 +1181,7 @@ class ilMetaDataGUI
 				$tpl->setCurrentBlock("duration");
 				$tpl->setVariable("DURATION_TXT_DURATION", $this->lng->txt("meta_duration"));
 				$tpl->setVariable("DURATION_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("DURATION_VAL", htmlentities(stripslashes(utf8_decode($duration[0]["value"]))));
+				$tpl->setVariable("DURATION_VAL", ilUtil::prepareFormOutput($duration[0]["value"]));
 				$tpl->setVariable("DURATION_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Technical&meta_name=Duration&meta_index=0");
 				$tpl->setVariable("DURATION_TXT_DELETE", $this->lng->txt("meta_delete"));
 				$tpl->parseCurrentBlock();
@@ -1263,9 +1262,9 @@ class ilMetaDataGUI
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL", $identifier[$i]["value"]);
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_CATALOG", $identifier[$i]["Catalog"]);
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_ENTRY", $identifier[$i]["Entry"]);
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL", ilUtil::prepareFormOutput($identifier[$i]["value"]));
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
+					$tpl->setVariable("IDENTIFIER_LOOP_VAL_ENTRY", ilUtil::prepareFormOutput($identifier[$i]["Entry"]));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -1290,7 +1289,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_catalog"));
-					$tpl->setVariable("DESCRIPTION_LOOP_VAL", $description[$i]["value"]);
+					$tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
 					$tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Resource][Description][" . $i . "][Language]", $description[$i]["Language"]));
 					$tpl->parseCurrentBlock();
 				}
@@ -1344,14 +1343,14 @@ class ilMetaDataGUI
 		if (is_array($_POST["meta"]))
 		{
 			$meta = $_POST["meta"];
-			$this->meta_obj->setTitle($meta["Title"]["Value"]);
+			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
 			$this->meta_obj->setMeta($meta);
 		}
 		/* creating a new object -> meta data: title and description */
 		else if (is_array($_POST["Fobject"]))
 		{
 			$meta = $_POST["Fobject"];
-			$this->meta_obj->setTitle($meta["title"]);
+			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["title"]));
 			$this->meta_obj->setMeta($meta);
 		}
 		$this->meta_obj->setSection($a_section);
@@ -1365,13 +1364,13 @@ class ilMetaDataGUI
 		if (is_array($_POST["meta"]))
 		{
 			$meta = $_POST["meta"];
-			$this->meta_obj->setTitle($meta["Title"]["Value"]);
+			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
 		}
 		/* creating a new object -> meta data: title and description */
 		else if (is_array($_POST["Fobject"]))
 		{
 			$meta = $_POST["Fobject"];
-			$this->meta_obj->setTitle($meta["title"]);
+			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["title"]));
 		}
 
 		return $this->meta_obj;
