@@ -166,6 +166,7 @@ ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 lang_de#:#Deutsch
+lang_zh#:#Chinesisch
 lang_dk#:#Dänisch
 lang_en#:#Englisch
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
