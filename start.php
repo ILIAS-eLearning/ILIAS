@@ -65,7 +65,6 @@ if (file_exists($start_template))
 else
 {
 	ilUtil::redirect($start_script);
-	exit();
 }
 
 ?>

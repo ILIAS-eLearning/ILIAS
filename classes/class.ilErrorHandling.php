@@ -117,18 +117,40 @@ class ilErrorHandling extends PEAR
 
 			if (!defined("ILIAS_MODULE"))
 			{
-				header("location: error.php");
+				ilUtil::redirect("error.php");
 			}
 			else
 			{
-				header("location: ../error.php");
+				ilUtil::redirect("../error.php");
 			}
-			
-			exit();
 		}
 
 		if ($a_error_obj->getCode() == $this->MESSAGE)
 		{
+			$_SESSION["message"] = $a_error_obj->getMessage();
+			// save post vars to session in case of error
+			$_SESSION["error_post_vars"] = $_POST;
+
+			if (empty($_SESSION["referer"]))
+			{
+				$dirname = dirname($_SERVER["PHP_SELF"]);
+				$ilurl = parse_url(ILIAS_HTTP_PATH);
+				$subdir = substr(strstr($dirname,$ilurl["path"]),strlen($ilurl["path"]));
+				$updir = "";
+			
+				if ($subdir)
+				{
+					$num_subdirs = substr_count($subdir,"/");
+			
+					for ($i=1;$i<=$num_subdirs;$i++)
+					{
+						$updir .= "../";
+					}
+				}
+
+				ilUtil::redirect($updir."index.php");
+			}
+			
 			// check if already GET-Parameters exists in Referer-URI
 			if (substr($_SESSION["referer"],-4) == ".php")
 			{
@@ -139,12 +161,7 @@ class ilErrorHandling extends PEAR
 				$glue = "&";
 			}
 
-			$_SESSION["message"] = $a_error_obj->getMessage();
-			// save post vars to session in case of error
-			$_SESSION["error_post_vars"] = $_POST;
-
-			header("location: ".$_SESSION["referer"].$glue);
-			exit();
+			ilUtil::redirect($_SESSION["referer"].$glue);
 		}
 	}
 } // END class.ilErrorHandling

@@ -38,7 +38,7 @@ $lng->loadLanguageModule("content");
 // check write permission
 if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
 

@@ -38,7 +38,7 @@ $lng->loadLanguageModule("content");
 // check read permission
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
 // learning module presentation class does the rest
