@@ -119,7 +119,7 @@ function returnXtlLink()
 		} 
 		else 
 		{
-			N = "<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>";
+			N = "<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>"+"&nbsp;";
 			S = opener.editor.getSelectedHTML();
 			opener.editor.insertHTML("#!#*#!#");
 			H = opener.editor.getHTML();
@@ -140,7 +140,7 @@ function returnXtlLink()
 	}
 	else 
 	{
-		N = "<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>";
+		N = "<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>"+"&nbsp;";
 		S = opener.editor.getHTML();
 		S = S.replace(oldLink,N);
 		opener.editor.setHTML(S+"&nbsp;");
