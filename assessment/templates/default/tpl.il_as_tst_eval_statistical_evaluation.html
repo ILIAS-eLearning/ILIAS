@@ -9,7 +9,11 @@
 <td width="20"></td>
 <td><h2>{TXT_SPECIFICATION}</h2></td>
 </tr>
-<tr><td colspan="2">{TXT_STAT_USERS_INTRO} <input type="submit" class="submit" name="cmd[stat_selected_users]" value="{TXT_STAT_SELECTED_USERS}" /><br />{TXT_STAT_CHOOSE_USERS}</td>
+<tr><td colspan="2">
+<!-- BEGIN selected_users -->
+{TXT_STAT_USERS_INTRO_SELECTED} <input type="submit" class="submit" name="cmd[stat_selected_users]" value="{TXT_STAT_SELECTED_USERS}" /><br />{TXT_STAT_CHOOSE_USERS}
+<!-- END selected_users -->
+</td>
 <td width="20"></td>
 <td rowspan="2">
 <input type="checkbox" name="chb_result_qworkedthrough" id="chb_result_qworkedthrough" value="1"{CHECKED_QWORKEDTHROUGH} /><label for="chb_result_qworkedthrough">{TXT_QWORKEDTHROUGH}</label><br />
