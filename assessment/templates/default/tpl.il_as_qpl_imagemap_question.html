@@ -11,8 +11,8 @@
   <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_IMAGEMAP_AUTHOR}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_IMAGEMAP_COMMENT}" id="comment" size="50" /></td>
+	<td class="option">{TEXT_COMMENT}:</td>
+	<td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_IMAGEMAP_COMMENT}" id="comment" size="50" /></td>
 </tr>
 <tr>
 	<td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
@@ -22,20 +22,20 @@
 <tr>
 	<td class="option">{TEXT_IMAGE}:</td>
 	<td class="option_value" colspan="4">
-  <input name="imageName" type="file" id="image" size="30" />
-	<input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} />
-  <!-- BEGIN imageupload -->
-	<p>{UPLOADED_IMAGE}</p>
-  <!-- END imageupload -->
-  <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
-  <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
- 	</td>
+		<input name="imageName" type="file" id="image" size="30" />
+		<input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} />
+		<!-- BEGIN imageupload -->
+		<p>{UPLOADED_IMAGE}</p>
+		<!-- END imageupload -->
+		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
+		<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+	</td>
 </tr>
 <tr>
 	<td class="option">{TEXT_IMAGEMAP}:</td>
 	<td class="option_value" colspan="4">
-  <input type="file" name="imagemapName" id="imagemap" size="30" />
-	<input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} />
+		<input type="file" name="imagemapName" id="imagemap" size="30" />
+		<input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} />
 	</td>
 </tr>
 </table>
@@ -52,38 +52,40 @@
 <!-- END answerheader -->
 <!-- BEGIN answers -->
 <tr>
-  <td class="{COLOR_CLASS}"><input type="checkbox" name="cb_{ANSWER_ORDER}" value="1" /></td>
-  <td class="{COLOR_CLASS}"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
-  <td class="{COLOR_CLASS}"><input type="radio" name="radio" id="radio_{ANSWER_ORDER}" value="{ANSWER_ORDER}"{CHECKED_ANSWER} /></td>
-  <td class="{COLOR_CLASS}">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_IMAGEMAP_POINTS}" /></td>
-  <td class="{COLOR_CLASS}">{TEXT_SHAPE}</td>
-  <td class="{COLOR_CLASS}">{COORDINATES}
-  <input type="hidden" name="coords_{ANSWER_ORDER}" id="coords_{ANSWER_ORDER}" value="{COORDINATES}">
-  <input type="hidden" name="area_{ANSWER_ORDER}" id="area_{ANSWER_ORDER}" value="{AREA}"></td>
+	<td class="{COLOR_CLASS}"><input type="checkbox" name="cb_{ANSWER_ORDER}" value="1" /></td>
+	<td class="{COLOR_CLASS}"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
+	<td class="{COLOR_CLASS}"><input type="radio" name="radio" id="radio_{ANSWER_ORDER}" value="{ANSWER_ORDER}"{CHECKED_ANSWER} /></td>
+	<td class="{COLOR_CLASS}">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_IMAGEMAP_POINTS}" /></td>
+	<td class="{COLOR_CLASS}">{TEXT_SHAPE}</td>
+	<td class="{COLOR_CLASS}">{COORDINATES}
+	<input type="hidden" name="coords_{ANSWER_ORDER}" id="coords_{ANSWER_ORDER}" value="{COORDINATES}">
+	<input type="hidden" name="area_{ANSWER_ORDER}" id="area_{ANSWER_ORDER}" value="{AREA}"></td>
 </tr>
 <!-- END answers -->
 </table>
 <table class="fullwidth">
-<tr><td class="submit">
-<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-<div align="right">
-<!-- BEGIN deletebutton -->
-<input type="submit" class="submit" name="cmd[deletearea]" value="{DELETE_AREA}" />
-<!-- END deletebutton -->
-<input type="submit" class="submit" name="cmd[addarea]" value="{ADD_AREA}" />
-<select name="newarea"><option value="rect">{TEXT_RECT}</option><option value="circle">{TEXT_CIRCLE}</option><option value="poly">{TEXT_POLY}</option></select>
-&nbsp;&nbsp;
-<input name="cmd[apply]" type="submit" class="submit" id="apply_imagemap" value="{APPLY}" />
-<input name="cmd[save]" type="submit" class="submit" id="save_imagemap" value="{SAVE}" />
-<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
-</div>
-</td></tr>
+<tr>
+	<td class="submit">
+	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+	<div align="right">
+	<!-- BEGIN deletebutton -->
+	<input type="submit" class="submit" name="cmd[deletearea]" value="{DELETE_AREA}" />
+	<!-- END deletebutton -->
+	<input type="submit" class="submit" name="cmd[addArea]" value="{ADD_AREA}" />
+	<select name="newarea"><option value="rect">{TEXT_RECT}</option><option value="circle">{TEXT_CIRCLE}</option><option value="poly">{TEXT_POLY}</option></select>
+	&nbsp;&nbsp;
+	<input name="cmd[apply]" type="submit" class="submit" id="apply_imagemap" value="{APPLY}" />
+	<input name="cmd[save]" type="submit" class="submit" id="save_imagemap" value="{SAVE}" />
+	<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+	</div>
+	</td>
+</tr>
 </table>
 <!-- END questioneditor -->
 <!-- BEGIN imagemapeditor -->
 <p>
 {TEXT_SHAPETITLE}: <input type="text" name="shapetitle" size="30" value="{VALUE_SHAPETITLE}" />
-<input type="submit" class="submit" name="cmd[saveshape]" value="{SAVE}"{DISABLED_SAVE} />
+<input type="submit" class="submit" name="cmd[saveShape]" value="{SAVE}"{DISABLED_SAVE} />
 <input type="submit" class="submit" name="cmd[back]" value="{CANCEL}" />
 </p>
 <!-- BEGIN hidden -->
