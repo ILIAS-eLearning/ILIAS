@@ -152,7 +152,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       $question->object->loadFromDb($_POST["id"] + $_GET["edit"]);
     }
 
-		$this->setLocator("", "", "", $question->object->get_title());
+		$this->setLocator("", "", "", $question->object->getTitle());
     $missing_required_fields = 0;
 
     if (strlen($_POST["cmd"]["cancel"]) > 0) {
@@ -161,7 +161,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       exit();
     }
 
-    $question->object->set_ref_id($_GET["ref_id"]);
+    $question->object->setRefId($_GET["ref_id"]);
     $question_type = $question->getQuestionType();
 
     if ($question->object->id > 0) {
@@ -177,7 +177,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&edit=" . $_GET["edit"]);
 			$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("unlock"));
 			$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->is_in_use($_GET["edit"])));
+			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->isInUse($_GET["edit"])));
 			$this->tpl->parseCurrentBlock();
 			return;
 		}		
@@ -188,7 +188,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       $missing_required_fields = $question->writePostData();
     }
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
-			$in_use = $question->object->is_in_use();
+			$in_use = $question->object->isInUse();
 			if ($in_use) {
 				// ???do you really want to delete the test data???
 				// either use a session variable and store $question
@@ -200,7 +200,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       if (!$missing_required_fields) {
         $question->object->saveToDb();
 				// remove all references to the question in test solutions
-				$question->object->remove_all_question_references();
+				$question->object->removeAllQuestionReferences();
         $this->cancel_action($question->object->get_id());
         exit();
       } else {
@@ -212,7 +212,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       if (!$missing_required_fields) {
         $question->object->saveToDb();
 				// remove all references to the question in test solutions
-				$question->object->remove_all_question_references();
+				$question->object->removeAllQuestionReferences();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
       }
@@ -263,7 +263,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
     $this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question->object->get_title());
+		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question->object->getTitle());
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
     $this->tpl->parseCurrentBlock();
@@ -300,7 +300,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("row");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($this->object->is_in_use($data->question_id)) {
+					if ($this->object->isInUse($data->question_id)) {
 						$this->tpl->setVariable("TXT_LOCKED", $img_locked);
 					}
 					$this->tpl->setVariable("TXT_TITLE", $data->title);
@@ -577,7 +577,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
           if ($editable) {
-						if ($this->object->is_in_use($data->question_id)) {
+						if ($this->object->isInUse($data->question_id)) {
 	            $this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id&locked=1\">" . $img_locked . "</a>");
 						} else {
 	            $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");

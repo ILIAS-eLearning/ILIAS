@@ -762,7 +762,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $author
 */
-  function get_author() {
+  function getAuthor() {
     return $this->author;
   }
 
@@ -1530,9 +1530,9 @@ class ilObjTest extends ilObject
           break;
       }
       $question->loadFromDb($value);
-      $max_points = $question->get_maximum_points();
+      $max_points = $question->getMaximumPoints();
       $total_max_points += $max_points;
-      $reached_points = $question->get_reached_points($user_id, $this->get_test_id());
+      $reached_points = $question->getReachedPoints($user_id, $this->get_test_id());
       $total_reached_points += $reached_points;
 			if ($max_points > 0) {
 				$percentvalue = $reached_points / $max_points;
@@ -1541,7 +1541,7 @@ class ilObjTest extends ilObject
 			}
 			$row = array(
 				"nr" => "$key",
-				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->get_id() . "\">" . $question->get_title() . "</a>",
+				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%"
@@ -2002,7 +2002,7 @@ class ilObjTest extends ilObject
 * @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
 * @access public
 */
-	function get_estimated_working_time() {
+	function getEstimatedWorkingTime() {
 		$time_in_seconds = 0;
 		foreach ($this->questions as $question_id) {
       $question_type = $this->get_question_type($question_id);
@@ -2025,7 +2025,7 @@ class ilObjTest extends ilObject
           break;
       }
       $question->loadFromDb($question_id);
-			$est_time = $question->get_estimated_working_time();
+			$est_time = $question->getEstimatedWorkingTime();
 			$time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
 		}
 		$hours = (int)($time_in_seconds / 3600)	;

@@ -100,7 +100,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 				$filename = $thisanswer->get_answertext();
 				if ($filename) 
 				{
-					$imagepath = $this->object->get_image_path_web() . $thisanswer->get_answertext();
+					$imagepath = $this->object->getImagePathWeb() . $thisanswer->get_answertext();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
 					$this->tpl->setVariable("IMAGE_FILENAME", $thisanswer->get_answertext());
 					$this->tpl->setVariable("VALUE_ANSWER", "");
@@ -170,7 +170,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-		if ($this->object->get_shuffle())
+		if ($this->object->getShuffle())
 		{
 			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
 		}
@@ -178,10 +178,10 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		{
 			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 		}
-		$this->tpl->setVariable("ORDERING_ID", $this->object->get_id());
-		$this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->object->get_title());
-		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->object->get_comment());
-		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", $this->object->get_author());
+		$this->tpl->setVariable("ORDERING_ID", $this->object->getId());
+		$this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->object->getComment());
+		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
@@ -239,7 +239,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		}
 		
 		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->get_estimated_working_time();
+		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
@@ -290,7 +290,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		}
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
     $this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -308,7 +308,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 					if ($_FILES[$key]["tmp_name"]) 
 					{
 						// upload the ordering picture
-						if ($this->object->get_id() <= 0) 
+						if ($this->object->getId() <= 0) 
 						{
 							$this->object->saveToDb();
 							$saved = true;
@@ -359,7 +359,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		$postponed = "";
 		if ($test_id) 
 		{
-			$solutions =& $this->object->get_solution_values($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id);
 		}
 		if ($is_postponed) 
 		{
@@ -373,7 +373,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->get_materials_path_web().$value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("material_download");
@@ -385,7 +385,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		$keys = array_keys($this->object->answers);
 		if ($this->object->shuffle) 
 		{
-			$keys = $this->object->pc_array_shuffle($keys);
+			$keys = $this->object->pcArrayShuffle($keys);
 		}
 		foreach ($keys as $key) 
 		{
@@ -400,7 +400,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 			}
 			if ($this->object->get_ordering_type() == OQ_PICTURES) 
 			{
-				$imagepath = $this->object->get_image_path_web() . $value->get_answertext();
+				$imagepath = $this->object->getImagePathWeb() . $value->get_answertext();
 				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
 			} 
 			else 
@@ -411,7 +411,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
     }
 
     $this->tpl->setCurrentBlock("ordering");
-    $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->object->get_title() . $postponed);
+    $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->object->getTitle() . $postponed);
     $this->tpl->setVariable("ORDERING_QUESTION", $this->object->get_question());
     $this->tpl->parseCurrentBlock();
 	}

@@ -32,12 +32,12 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require_once('Spreadsheet/Excel/Writer/Format.php');
-require_once('Spreadsheet/Excel/Writer/BIFFwriter.php');
-require_once('Spreadsheet/Excel/Writer/Worksheet.php');
-require_once('Spreadsheet/Excel/Writer/Parser.php');
-require_once('OLE/PPS/Root.php');
-require_once('OLE/PPS/File.php');
+require_once('Format.php');
+require_once('BIFFwriter.php');
+require_once('Worksheet.php');
+require_once('Parser.php');
+//require_once('OLE/PPS/Root.php');
+//require_once('OLE/PPS/File.php');
 
 /**
 * Class for generating Excel Spreadsheets
@@ -364,7 +364,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
      */
     function &addValidator()
     {
-        include_once('Spreadsheet/Excel/Writer/Validator.php');
+        include_once('Validator.php');
         /* FIXME: check for successful inclusion*/
         $valid = new Spreadsheet_Excel_Writer_Validator($this->_parser);
         return $valid;
@@ -572,7 +572,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     */
     function _storeOLEFile()
     {
-        $OLE = new OLE_PPS_File(OLE::Asc2Ucs('Book'));
+/*        $OLE = new OLE_PPS_File(OLE::Asc2Ucs('Book'));
         if ($this->_tmp_dir != '') {
             $OLE->setTempDir($this->_tmp_dir);
         }
@@ -597,7 +597,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
             return $this->raiseError("OLE Error: ".$res->getMessage());
         }
         return true;
-    }
+*/    }
  
     /**
     * Calculate offsets for Worksheet BOF records.

@@ -148,17 +148,17 @@ class ASS_MultipleChoice extends ASS_Question {
 		$root = $this->domxml->document_element();
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", $this->get_id());
-		$qtiIdent->set_attribute("title", $this->get_title());
+		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->get_comment());
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation
 		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", $this->get_title());
+		$qtiPresentation->set_attribute("label", $this->getTitle());
 		// add flow to presentation
 		$qtiFlow = $this->domxml->create_element("flow");
 		// add material with question text to presentation
@@ -313,9 +313,9 @@ class ASS_MultipleChoice extends ASS_Question {
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
-    $db = & $ilias->db->db;
+    $db = & $ilias->db;
 
-	$estw_time = $this->get_estimated_working_time();
+	$estw_time = $this->getEstimatedWorkingTime();
 	$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
@@ -344,8 +344,8 @@ class ASS_MultipleChoice extends ASS_Question {
       if ($result == DB_OK) {
         $this->id = $this->ilias->db->getLastInsertId();
         // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-        if ($this->get_test_id() > 0) {
-          $this->insert_into_test($this->get_test_id());
+        if ($this->getTestId() > 0) {
+          $this->insertIntoTest($this->getTestId());
         }
       }
     } else {
@@ -365,7 +365,7 @@ class ASS_MultipleChoice extends ASS_Question {
     }
     if ($result == DB_OK) {
       // saving material uris in the database
-      $this->save_materials_to_db();
+      $this->saveMaterialsToDb();
 
       // Antworten schreiben
       // alte Antworten löschen
@@ -401,7 +401,7 @@ class ASS_MultipleChoice extends ASS_Question {
   {
     global $ilias;
 
-    $db = & $ilias->db->db;
+    $db = & $ilias->db;
     $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
       $db->quote($question_id)
     );
@@ -421,7 +421,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
-      $this->load_material_from_db($question_id);
+      $this->loadMaterialFromDb($question_id);
 
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
         $db->quote($question_id)
@@ -629,7 +629,7 @@ class ASS_MultipleChoice extends ASS_Question {
 * @access public
 * @see $points
 */
-  function get_maximum_points() {
+  function getMaximumPoints() {
     $points = 0;
     foreach ($this->answers as $key => $value) {
 			if ($value->is_true()) {
@@ -648,12 +648,12 @@ class ASS_MultipleChoice extends ASS_Question {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function get_reached_points($user_id, $test_id) {
+  function getReachedPoints($user_id, $test_id) {
     $found_values = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->db->quote($user_id),
-      $this->ilias->db->db->quote($test_id),
-      $this->ilias->db->db->quote($this->get_id())
+      $this->ilias->db->quote($user_id),
+      $this->ilias->db->quote($test_id),
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -680,9 +680,9 @@ class ASS_MultipleChoice extends ASS_Question {
   function get_reached_information($user_id, $test_id) {
     $found_values = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->db->quote($user_id),
-      $this->ilias->db->db->quote($test_id),
-      $this->ilias->db->db->quote($this->get_id())
+      $this->ilias->db->quote($user_id),
+      $this->ilias->db->quote($test_id),
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -719,7 +719,7 @@ class ASS_MultipleChoice extends ASS_Question {
 * @access public
 * @see $answers
 */
-  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
+  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
@@ -728,7 +728,7 @@ class ASS_MultipleChoice extends ASS_Question {
 			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
-				$db->quote($this->get_id())
+				$db->quote($this->getId())
 			);
 			$result = $db->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -742,7 +742,7 @@ class ASS_MultipleChoice extends ASS_Question {
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
-					$db->quote($this->get_id()),
+					$db->quote($this->getId()),
 					$db->quote($_POST["multiple_choice_result"])
 				);
 			}
@@ -751,7 +751,7 @@ class ASS_MultipleChoice extends ASS_Question {
 			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
-				$db->quote($this->get_id())
+				$db->quote($this->getId())
 			);
 			$result = $db->query($query);
       foreach ($_POST as $key => $value) {
@@ -759,14 +759,14 @@ class ASS_MultipleChoice extends ASS_Question {
 					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 						$db->quote($ilUser->id),
 						$db->quote($test_id),
-						$db->quote($this->get_id()),
+						$db->quote($this->getId()),
 						$db->quote($value)
 					);
           $result = $db->query($query);
         }
       }
     }
-    //parent::save_working_data($limit_to);
+    //parent::saveWorkingData($limit_to);
   }
 }
 

@@ -302,7 +302,7 @@ class ilObjQuestionPool extends ilObject
       $result = $this->ilias->db->query($query);
 			$question = new ASS_Question();
 			$question->setId($question_id);
-			$question->remove_all_question_references();
+			$question->removeAllQuestionReferences();
 			// delete the question in the tst_test_question table (list of test questions)
 			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 			$deleteresult = $this->ilias->db->query($querydelete);
@@ -355,8 +355,8 @@ class ilObjQuestionPool extends ilObject
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
     	$question =& $this->create_question("", $row->question_fi);
-			$reached = $question->object->get_reached_points($row->user_fi, $row->test_fi);
-			$max = $question->get_maximum_points();
+			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
+			$max = $question->getMaximumPoints();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -448,7 +448,7 @@ class ilObjQuestionPool extends ilObject
 * @return boolean The number of datasets which are affected by the use of the query.
 * @access public
 */
-	function is_in_use($question_id) {
+	function isInUse($question_id) {
 		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote("$question_id")
 		);

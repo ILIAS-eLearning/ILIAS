@@ -153,7 +153,7 @@ class ASS_QuestionGUI {
 
 		// Add all materials uris from the form into the object
 		$saved = false;
-		$this->object->flush_materials();
+		$this->object->flushMaterials();
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/material_list_/", $key, $matches)) 
@@ -165,13 +165,13 @@ class ASS_QuestionGUI {
 		{
 			if (($_POST["id"] > 0) or ($result != 1)) 
 			{
-				if ($this->object->get_id() <= 0) 
+				if ($this->object->getId() <= 0) 
 				{
 					$this->object->saveToDb();
 					$saved = true;
 					sendInfo($this->lng->txt("question_saved_for_upload"));
 				}
-				$this->object->set_materialsfile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
+				$this->object->setMaterialsFile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
 			}
 			else
 			{
@@ -187,7 +187,7 @@ class ASS_QuestionGUI {
 		{
 			foreach ($_POST[materialselect] as $value) 
 			{
-				$this->object->delete_material($value);
+				$this->object->deleteMaterial($value);
 			}
 		}
 		return $saved;

@@ -120,7 +120,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->setCurrentBlock("imageupload");
 		//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
 		$this->tpl->parse("imageupload");
-		$imagepath = $this->object->get_image_path_web() . $img;
+		$imagepath = $this->object->getImagePathWeb() . $img;
 		$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
 		} else {
 		$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
@@ -138,10 +138,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		} else {
 		$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
 		}
-		$this->tpl->setVariable("IMAGEMAP_ID", $this->object->get_id());
-		$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->object->get_title());
-		$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->object->get_comment());
-		$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->object->get_author());
+		$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
+		$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->object->getComment());
+		$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -191,7 +191,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		}
 		
 		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->get_estimated_working_time();
+		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
@@ -217,7 +217,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
 		
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->set_author(ilUtil::stripSlashes($_POST["author"]));
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -234,7 +234,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			}
 			else 
 			{
-				if ($this->object->get_id() <= 0) 
+				if ($this->object->getId() <= 0) 
 				{
 					$this->object->saveToDb();
 					$saved = true;
@@ -274,7 +274,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			}
 			else 
 			{
-				if ($this->object->get_id() <= 0)
+				if ($this->object->getId() <= 0)
 				{
 					$this->object->saveToDb();
 					$saved = true;
@@ -312,7 +312,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$postponed = "";
 		if ($test_id) 
 		{
-			$solutions =& $this->object->get_solution_values($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id);
 		}
 		if ($is_postponed) 
 		{
@@ -326,7 +326,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->get_materials_path_web().$value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("material_download");
@@ -335,7 +335,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		}
 
     $this->tpl->setCurrentBlock("imagemapblock");
-    $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->get_title());
+    $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->getTitle());
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->object->get_question());
     $this->tpl->setVariable("IMAGEMAP", $this->object->get_imagemap_contents($formaction));
 		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) 
@@ -343,7 +343,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$formaction .= "&selimage=" . $solutions[0]->value1;
 			if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "rect") == 0) 
 			{
-				$imagepath_working = $this->object->get_image_path() . $this->object->get_image_filename();
+				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
 				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
 				preg_match("/(\d+),(\d+),(\d+),(\d+)/", $coords, $matches);
 				$x0 = $matches[1];
@@ -361,7 +361,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			} 
 			else if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "circle") == 0) 
 			{
-				$imagepath_working = $this->object->get_image_path() . $this->object->get_image_filename();
+				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
 				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
 				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
 				$x = $matches[1];
@@ -378,7 +378,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			} 
 			else if (strcmp($this->object->answers[$solutions[0]->value1]->get_area(), "poly") == 0) 
 			{
-				$imagepath_working = $this->object->get_image_path() . $this->object->get_image_filename();
+				$imagepath_working = $this->object->getImagePath() . $this->object->get_image_filename();
 				$coords = $this->object->answers[$solutions[0]->value1]->get_coords();
 				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
 				$x = $matches[1];
@@ -404,16 +404,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				system($convert_cmd);
 			}
 		}
-		if (file_exists($this->object->get_image_path() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg")) 
+		if (file_exists($this->object->getImagePath() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg")) 
 		{
-			$imagepath = "displaytempimage.php?gfx=" . $this->object->get_image_path() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg";
+			$imagepath = "displaytempimage.php?gfx=" . $this->object->getImagePath() . $this->object->get_image_filename() . ".sel" . $ilUser->id . ".jpg";
 		} 
 		else 
 		{
-			$imagepath = $this->object->get_image_path_web() . $this->object->get_image_filename();
+			$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		}
     $this->tpl->setVariable("IMAGE", $imagepath);
-    $this->tpl->setVariable("IMAGEMAP_NAME", $this->object->get_title() . $postponed);
+    $this->tpl->setVariable("IMAGEMAP_NAME", $this->object->getTitle() . $postponed);
     $this->tpl->parseCurrentBlock();
 	}
 

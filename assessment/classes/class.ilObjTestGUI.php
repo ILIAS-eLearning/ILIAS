@@ -172,7 +172,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$_POST["processing_time"]["s"]
 				);
 			} else {
-				$proc_time = $this->object->get_estimated_working_time();
+				$proc_time = $this->object->getEstimatedWorkingTime();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$proc_time["h"],
 					$proc_time["m"],
@@ -193,7 +193,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		} else {
 			$data["sel_test_types"] = $this->object->get_test_type();
-			$data["author"] = $this->object->get_author();
+			$data["author"] = $this->object->getAuthor();
 			$data["introduction"] = $this->object->get_introduction();
 			$data["sequence_settings"] = $this->object->get_sequence_settings();
 			$data["score_reporting"] = $this->object->get_score_reporting();
@@ -202,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["enable_processing_time"] = $this->object->get_enable_processing_time();
 			$data["processing_time"] = $this->object->get_processing_time();
 			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0) {
-				$proc_time = $this->object->get_estimated_working_time();
+				$proc_time = $this->object->getEstimatedWorkingTime();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$proc_time["h"],
 					$proc_time["m"],
@@ -1160,7 +1160,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// save question solution
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
-			$question_gui->question->save_working_data($this->object->get_test_id());
+			$question_gui->question->saveWorkingData($this->object->get_test_id());
 			// set new finish time for test
 			if ($_SESSION["active_time_id"]) {
 				$this->object->update_working_time($_SESSION["active_time_id"]);

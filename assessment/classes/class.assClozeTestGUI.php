@@ -165,12 +165,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 		$this->outOtherQuestionData();
 		
 		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->object->get_title());
-		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", $this->object->get_comment());
-		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", $this->object->get_author());
+		$this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", $this->object->getComment());
+		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->get_cloze_text());
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
-		$this->tpl->setVariable("CLOZE_ID", $this->object->get_id());
+		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());
 		
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -220,7 +220,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 		}
 		
 		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->get_estimated_working_time();
+		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
@@ -259,7 +259,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 		}
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
     $this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding estimated working time and materials uris
@@ -448,7 +448,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 		$postponed = "";
 		if ($test_id) 
 		{
-			$solutions =& $this->object->get_solution_values($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id);
 		}
 		if ($is_postponed) 
 		{
@@ -462,7 +462,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->get_materials_path_web().$value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("material_download");
@@ -506,7 +506,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 				$keys = array_keys($gap);
 				if ($this->object->shuffle) 
 				{
-					$keys = $this->object->pc_array_shuffle($keys);
+					$keys = $this->object->pcArrayShuffle($keys);
 				}
 				foreach ($keys as $key)
 				{
@@ -526,7 +526,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI {
 		$this->tpl->parseCurrentBlock();
 
     $this->tpl->setCurrentBlock("cloze_test");
-    $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->object->get_title() . $postponed);
+    $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->object->getTitle() . $postponed);
     $this->tpl->parseCurrentBlock();
 	}
 
