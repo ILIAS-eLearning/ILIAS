@@ -2354,7 +2354,6 @@ $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='file'";
 $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
-
 // add operation assignment to file object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
@@ -2457,6 +2456,11 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// change existing objects
 	$node_id = $tree->getParentId($dest_rolf_id);
 	
+	if (empty($node_id))
+	{
+		continue;
+	}
+
 	// GET ALL SUBNODES
 	$node_data = $tree->getNodeData($node_id);
 	$subtree_nodes = $tree->getSubTree($node_data);
@@ -2566,6 +2570,11 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// change existing objects
 	$node_id = $tree->getParentId($dest_rolf_id);
 	
+	if (empty($node_id))
+	{
+		continue;
+	}
+
 	// GET ALL SUBNODES
 	$node_data = $tree->getNodeData($node_id);
 	$subtree_nodes = $tree->getSubTree($node_data);
