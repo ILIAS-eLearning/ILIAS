@@ -2355,6 +2355,7 @@ content#:#cont_link_ext#:#Enlace (externo)
 content#:#cont_link_int#:#Enlace (interno)
 content#:#cont_link_select#:#Enlace interno
 content#:#cont_link_type#:#Tipo de enlace
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#-Lista de Ficheros-
 content#:#cont_list_properties#:#Propiedades de Lista
 content#:#cont_lk_chapter#:#Capítulo

@@ -2357,6 +2357,7 @@ content#:#cont_link_ext#:#Посилання (зовнішнє)
 content#:#cont_link_int#:#Посилання (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Властивості Списку
 content#:#cont_lk_chapter#:#Глава

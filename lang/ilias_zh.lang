@@ -2373,6 +2373,7 @@ content#:#cont_link_ext#:#链接（外部）
 content#:#cont_link_int#:#链接（内部）
 content#:#cont_link_select#:#内部链接
 content#:#cont_link_type#:#链接类型
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#列表属性
 content#:#cont_lk_chapter#:#章
