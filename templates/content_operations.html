@@ -114,7 +114,7 @@
 		{MESSAGE}
 	  </strong>
 	</span>
-<form action="{OBJ_EDIT}" name="objectItems" method="post">
+<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="header">
   <td width="8%" align="right" colspan="2">
@@ -191,7 +191,7 @@
 			<td align="right" width="25%">
 			  <div class="form-element">
 				<input class="form-element" type="submit" name="cmd" 
-					   value="save" />
+					   value="addPermission" />
 			  </div>
 			</td>
 			<td align="right" width="5%">&nbsp;</td>

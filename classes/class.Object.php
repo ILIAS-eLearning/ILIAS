@@ -397,6 +397,32 @@ class Object
 			$tplContent->setVariable("OWNER_NAME","UNKNOWN");
 		}
 	}
+	function addPermissionObject()
+	{
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacreview = new RbacReviewH($this->ilias->db);
+
+		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+		foreach($_POST["id"] as $ops_id => $status)
+		{
+			if($status == 'e')
+			{
+				if(!in_array($ops_id,$ops_valid))
+				{
+					$rbacreview->assignPermissionToObject($_GET["obj_id"],$ops_id);
+				}
+			}
+			if($status == 'd')
+			{
+				if(in_array($ops_id,$ops_valid))
+				{
+					// IT'S NOT POSSIBLE TO DEASSIGN PERMISSIONS
+					var_dump("<pre>","hallo","</pre");
+				}
+			}
+		}
+		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+	}
 // PRIVATE METHODEN
 	function getPath($a_id = "")
 	{
