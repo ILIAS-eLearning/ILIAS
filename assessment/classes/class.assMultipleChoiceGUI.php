@@ -408,19 +408,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		//$this->setObjectData();
 		$this->writePostData();
 
-		if (!$this->checkInput())
+		foreach ($_POST["cmd"] as $key => $value)
 		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-		}
-		else
-		{
-			foreach ($_POST["cmd"] as $key => $value)
+			// was one of the answers deleted
+			if (preg_match("/delete_(\d+)/", $key, $matches))
 			{
-				// was one of the answers deleted
-				if (preg_match("/delete_(\d+)/", $key, $matches))
-				{
-					$this->object->delete_answer($matches[1]);
-				}
+				$this->object->delete_answer($matches[1]);
 			}
 		}
 
