@@ -93,6 +93,35 @@ class ilStructureObject extends ilLMObject
 	}
 
 	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng;
+
+		// determine learning object
+		$lm_id = ilLMObject::_lookupContObjID($a_target);
+
+		// get all references
+		$ref_ids = ilObject::_getAllReferences($lm_id);
+
+		// check read permissions
+		foreach ($ref_ids as $ref_id)
+		{
+			if ($rbacsystem->checkAccess("read", $ref_id))
+			{
+				ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
+					"&obj_id=$a_target");
+			}
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
+
+	/**
 	* export object to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the

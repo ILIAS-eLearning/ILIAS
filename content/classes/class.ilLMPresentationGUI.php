@@ -1043,7 +1043,14 @@ class ilLMPresentationGUI
 						}
 						else
 						{
-							$href = "../goto.php?target=pg_".$target_id;
+							if ($type == "PageObject")
+							{
+								$href = "../goto.php?target=pg_".$target_id;
+							}
+							else
+							{
+								$href = "../goto.php?target=st_".$target_id;
+							}
 							$ltarget = "ilContObj".$lm_id;
 						}
 						break;

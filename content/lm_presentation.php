@@ -35,6 +35,7 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
+//echo "check access read ".$_GET["ref_id"];
 // check read permission
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
