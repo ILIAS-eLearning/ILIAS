@@ -61,10 +61,8 @@ function xslt_free(&$proc)
 	unset($proc);
 }
 
-//$xsl = file_get_contents("./content/page.xsl");
-//$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-//$xh = xslt_create();
-//$params = array ('mode' => $this->getOutputMode());
-//xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+function xslt_error(&$proc)
+{
+}
 
 ?>
