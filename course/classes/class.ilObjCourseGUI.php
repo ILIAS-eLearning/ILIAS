@@ -330,6 +330,11 @@ class ilObjCourseGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["crs"]["archive_type"] : 
 			$this->object->getArchiveType();
 
+		$abo_status = $_SESSION["error_post_vars"]["crs"]["abo_status"] ? 
+			$_SESSION["error_post_vars"]["crs"]["abo_status"] : 
+			$this->object->getAboStatus();
+
+
 		// SET VALUES
 		$this->tpl->setVariable("SYLLABUS",$syllabus);
 		$this->tpl->setVariable("CONTACT_NAME",$contact_name);
@@ -369,10 +374,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt("crs_subscription_options_direct"));
 		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt("crs_subscription_options_password"));
 
-		$this->tpl->setVariable("TXT_SORTORDER",$this->lng->txt("crs_sortorder"));
+		$this->tpl->setVariable("TXT_SORTORDER",$this->lng->txt("crs_sortorder_abo"));
 		$this->tpl->setVariable("TXT_MANUAL",$this->lng->txt("crs_sort_manual"));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("crs_sort_title"));
 		$this->tpl->setVariable("TXT_SORT_ACTIVATION",$this->lng->txt("crs_sort_activation"));
+		$this->tpl->setVariable("TXT_ABO",$this->lng->txt('crs_allow_abo'));
 
 		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
 		$this->tpl->setVariable("TXT_ARCHIVE_START",$this->lng->txt("crs_start"));
@@ -460,6 +466,9 @@ class ilObjCourseGUI extends ilObjectGUI
 								ilUtil::formRadioButton($sortorder_type == $this->object->SORT_ACTIVATION ? 1 : 0,
 														"crs[sortorder_type]",$this->object->SORT_ACTIVATION));
 
+		$this->tpl->setVariable("CHECK_ABO",
+								ilUtil::formCheckbox($abo_status == $this->object->ABO_ENABLED ? 1 : 0,
+														"crs[abo_status]",$this->object->ABO_ENABLED));
 
 		$this->tpl->setVariable("SELECT_ARCHIVE_START_MINUTE",$this->__getDateSelect("minute","crs[archive_start][minute]",
 																					 date("i",$archive_start)));
@@ -529,6 +538,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setArchiveStart($this->__toUnix($_POST["crs"]["archive_start"]));
 		$this->object->setArchiveEnd($this->__toUnix($_POST["crs"]["archive_end"]));
 		$this->object->setArchiveType($_POST["crs"]["archive_type"]);
+		$this->object->setAboStatus($_POST['crs']['abo_status']);
 
 		if($this->object->validate())
 		{

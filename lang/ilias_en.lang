@@ -4583,3 +4583,5 @@ crs#:#crs_objective_updated_test#:#Updated modifications.
 crs#:#crs_no_questions_assigned#:#There are no questions assigned.
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
+crs#:#crs_allow_abo#:#Allow subscription of course items
+crs#:#crs_sortorder_abo#:#Sortorder/Subscription
