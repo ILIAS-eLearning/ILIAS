@@ -542,7 +542,7 @@
 				<select size="1" class="ilEditSelect">
 					<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
 					</xsl:attribute>
-				<option value="edit">edit properties</option>
+				<option value="editAlias">edit properties</option>
 				<option value="insert_par">insert Paragr.</option>
 				<option value="insert_tab">insert Table</option>
 				<option value="insert_mob">insert Media</option>

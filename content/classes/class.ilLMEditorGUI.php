@@ -90,13 +90,16 @@ class ilLMEditorGUI
 			$cmd = key($_POST["cmd"]);
 		}
 
-		if ($cmd == "edpost")
+		if ($cmd == "edpost" || $_GET["hier_id"])
 		{
 			$type = "content";
 			if (isset($_GET["hier_id"]))
 			{
-				$cmd = key($_POST["cmd"]);
-				$hier_id = $_GET["hier_id"];
+				if($cmd == "edpost")
+				{
+					$cmd = key($_POST["cmd"]);
+					$hier_id = $_GET["hier_id"];
+				}
 			}
 			else
 			{
@@ -169,6 +172,7 @@ class ilLMEditorGUI
 							? $new_type
 							: "lm";
 				}
+
 //echo "2"; exit;
 //echo "type:$type:cmd:$cmd:ctype:$ctype:";
 				if($type == "content")
