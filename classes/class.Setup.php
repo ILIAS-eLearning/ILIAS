@@ -18,54 +18,61 @@ require_once "DB.php";
 class Setup
 {
 	/**
-	 * ini file
-	 * @var string
-	 * @access private
-	 */
+	* ini file
+	* @var		string
+	* @access	private
+	*/
 	var $INI_FILE = "./ilias.ini.php";
 
 	/**
-	 * ini file
-	 * @var string
-	 * @access private
-	 */
+	* ini file
+	* @var		string
+	* @access	private
+	*/
 	var $DEFAULT_INI_FILE = "./ilias.master.ini.php";
 	
 	/**
-	 * sql-template-file
-	 * @var string
-	 * @access private
-	 */
+	* sql-template-file
+	* @var		string
+	* @access	private
+	*/
 	var $SQL_FILE = "./sql/ilias3.sql";
 	
-    /**
-	 *  database connector
-	 *  @var string
-	 *  @access public
+	/**
+	*  database connector
+	*  @var		string
+	*  @access	public
 	*/
-    var $dsn = "";
+	var $dsn = "";
+
+	/**
+	*  database handler
+	*  @var		object
+	*  @access	public
+	*/
+	var $db;
 	
-    /**
-	 *  ini-object
-	 *  @var object IniFile
-	 *  @access private
-	 */
+	/**
+	*  ini-object
+	*  @var		object IniFile
+	*  @access	private
+	*/
 	var $ini;
 	
 	/**
-	 * default array for ini-file
-	 * @var array
-     * @access private
-	 */
+	* default array for ini-file
+	* @var		array
+	* @access	private
+	*/
 	var $default;
 	
 	/**
-    * constructor
-    * @return boolean
-    */
+	* constructor
+	* @return	boolean
+	*/
 
-    function getDefaults()
-    {
+	function getDefaults()
+	{
 	//default values are in $DEFAULTINIFILE
 	//NOTE: please don't use any brackets
 	$this->default = parse_ini_file($this->DEFAULT_INI_FILE, true);
@@ -82,21 +89,21 @@ class Setup
 		$this->dbTypes["sybase"] = "SyBase";
 		$this->dbTypes["ifx"] = "Informix";
 		$this->dbTypes["fbsql"] = "FrontBase";
-    }
+	}
 
-    /**
+	/**
 	* constructor
 	*/
 	function Setup()
-    {
+	{
 		$this->ini = new IniFile($this->INI_FILE);
-    }
+	}
 
 	/**
 	* try to read the ini file
 	*/
-    function readIniFile()
-    {
+	function readIniFile()
+	{
 		// get settings from ini file
 		$this->ini = new IniFile($this->INI_FILE);
 		$this->ini->read();
@@ -120,13 +127,13 @@ class Setup
 		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
 		return true;
-    }
+	}
 
 	/**
 	* write the ini file
 	*/
-    function writeIniFile()
-    {		
+	function writeIniFile()
+	{		
 		//write inifile
 		//overwrite with defaults
 		$this->getDefaults();
@@ -159,20 +166,23 @@ class Setup
 		$this->dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost."/".$this->dbName;
 	}
 	
-    /**
+	/**
 	 * connect
 	 */
-     function connect()
+	 function connect()
 	 {
-		 // build dsn of database connection and connect
-		 $this->dsn = $this->dbtype.
-			 "://".$this->dbuser.
-			 ":".$this->dbpass.
-			 "@".$this->dbhost.
+		//check parameters
+		if ($this->dbType=="" || $this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
+		{
+			$this->error = "empty_fields";
+			return false;
+		}
+		
+		$this->setDSN();
 
-		 $this->db = DB::connect($this->dsn,true);
+		$this->db = DB::connect($this->dsn,true);
 
-		 if (DB::isError($this->db)) {
+		if (DB::isError($this->db)) {
 			 $this->error_msg = $this->db->getMessage();
 			 $this->error = "not_connected_to_db";
 			 return false;
@@ -182,9 +192,9 @@ class Setup
 	 }
 
 	/**
-	 * set the databasetype
-	 * @param string
-	 */
+	* set the databasetype
+	* @param	string
+	*/
 	function setDbType($str)
 	{
 		$this->dbType = $str;
@@ -192,9 +202,9 @@ class Setup
 	}
 	
 	/**
-	 * set the host
-	 * @param string
-	 */
+	* set the host
+	* @param	string
+	*/
 	function setDbHost($str)
 	{
 		$this->dbHost = $str;
@@ -202,9 +212,9 @@ class Setup
 	}
 
 	/**
-	 * set the name of database
-	 * @param string
-	 */
+	* set the name of database
+	* @param	string
+	*/
 	function setDbName($str)
 	{
 		$this->dbName = $str;
@@ -212,9 +222,9 @@ class Setup
 	}
 
 	/**
-	 * set the user
-	 * @param string
-	 */
+	* set the user
+	* @param	string
+	*/
 	function setDbUser($str)
 	{
 		$this->dbUser = $str;
@@ -222,21 +232,21 @@ class Setup
 	}
 
 	/**
-	 * set the password
-	 * @param string
-	 */
+	* set the password
+	* @param	string
+	*/
 	function setDbPass($str)
 	{
 		$this->dbPass = $str;
 		$this->setDSN();
 	}
 
-    /**
-	 * execute a query
-	 * @param string 
-	 * @param string
-	 * @return bool true
-	 */
+	/**
+	* execute a query
+	* @param	string 
+	* @param	string
+	* @return	boolean	true
+	*/
 	function execQuery($db,$str)
 	{
 		$sql = explode("\n",trim($str));
@@ -265,9 +275,9 @@ class Setup
 	}
 
 	/**
-	 * set the database data
+	* set the database data
 	*/
-    function installDatabase()
+	function installDatabase()
 	{
 		//check parameters
 		if ($this->dbType=="" || $this->dbHost=="" || $this->dbName=="" || $this->dbUser=="")
@@ -275,8 +285,8 @@ class Setup
 			$this->error = "empty_fields";
 			return false;
 		}
-
-		if ($this->checkDatabaseHost() == false)
+		
+		if (!$this->checkDatabaseHost())
 		{
 			$this->error = "no_connection_to_host";
 			return false;		
@@ -310,10 +320,12 @@ class Setup
 		
 		//database is created, now disconnect and reconnect
 		$db->disconnect();
+		
 		$db = DB::connect($this->dsn);
+		
 		if (DB::isError($db))
 		{
-			$this->error = "creation_of_database_failed";
+			$this->error = "connection_failed";
 			$db->disconnect();
 			return false;
 		}
@@ -326,8 +338,8 @@ class Setup
 			$this->error_msg = "dump_error";
 			return false;
 		}
-	    return true;
-    }
+		return true;
+	}
 
 	/**
 	* check database connection
@@ -335,7 +347,7 @@ class Setup
 	*/
 	function checkDatabaseHost()
 	{
-        //connect to databasehost
+		//connect to databasehost
 		$db = DB::connect($this->dsn_host);
 
 		if (DB::isError($db))
@@ -374,11 +386,11 @@ class Setup
 	* check if inifile exists
 	* @return	boolean
 	*/
-    function checkIniFileExists()
-    {
+	function checkIniFileExists()
+	{
 		$a = file_exists($this->INI_FILE);
 		return $a;		
-    }
+	}
 	
 	function checkPasswordExists()
 	{
@@ -406,14 +418,14 @@ class Setup
 		
 		return false;
 	}
-    
+	
 	/**
 	* check for writable directory
 	* @param	string	directory
 	* @return	array
 	*/
-    function checkWritable($a_dir = ".")
-    {
+	function checkWritable($a_dir = ".")
+	{
 		clearstatcache();
 		if (is_writable($a_dir))
 		{
@@ -434,8 +446,8 @@ class Setup
 	* @param	string	directory
 	* @return	array
 	*/
-    function checkCreatable($a_dir = ".")
-    {
+	function checkCreatable($a_dir = ".")
+	{
 		clearstatcache();
 		if (mkdir($a_dir."/crtst", 0774))
 		{
@@ -738,10 +750,20 @@ class Setup
 
 	function setPassword ($a_password)
 	{
-		$query = "REPLACE INTO settings ".
-				 "(keyword,value) ".
-				 "VALUES ".
-				 "('setup_passwd','".$a_password."')";
+		if ($this->getPassword())
+		{
+			$query = "UPDATE settings SET ".
+				 "value = '".$a_password."' ".
+				 "WHERE keyword = 'setup_passwd'";
+		}
+		else
+		{
+			$query = "REPLACE INTO settings ".
+					 "(keyword,value) ".
+					 "VALUES ".
+					 "('setup_passwd','".$a_password."')";
+		}
+
 		$this->db->query($query);
 		
 		return true;

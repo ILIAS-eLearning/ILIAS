@@ -3,8 +3,6 @@ available_languages#:#idiomas disponibles
 choose_language#:#escoge tu idioma
 database#:#base de datos
 database_exists#:#La base de datos existe.
-database_is_uptodate#:#La base de datos es actual.
-database_needs_update#:#La base de datos necesita una actualización.
 database_update#:#actualizar base da datos
 database_version#:#versión actual de la base de datos
 date#:#fecha
@@ -31,6 +29,18 @@ password#:#contraseña
 setup#:#Configuración
 setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
 setup_welcome#:#Bienvenido a la configuración de ILIAS.<br/>Para hacer que ILIAS sea operativo rellene los siguientes campos.<br/>ILIAS instalará la base de datos con los parametros dadose despúes de hacer click en <enviar>.
+setup_inifile#:#create ini-file
+setup_database#:#setup database
+setup_languages#:#install languages
+setup_password#:#setup password
+setup_welcome#:#Welcome to ILIAS setup. This setup-routine helps you to
+setup_inifile_desc#:#create the ini-file for your installation
+setup_database_desc#:#setup the database
+setup_languages_desc#:#install additional languages
+setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
+setup_ini_first#:#Please create your ini-file first!
+setup_db_first#:#Please setup your database first!
+back#:#back
 lang_de#:#Alemán
 lang_dk#:#Dinamarqués
 lang_en#:#Inglés
@@ -64,4 +74,36 @@ inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la con
 inifile_can_write#:#ILIAS3 generará tu archivo ini.
 en_by_default#:#(Instalado por defecto y no se puede borrar).
 intro_install#:#Esta es la página de configuración de ILIAS3. Aquí puedes proceder a la instalación paso a paso.
-setup_mainmenu#:#Setup mainmenu
+setup_mainmenu#:#Menú de configuración
+version#:#Version
+preliminaries#:#Preliminaries
+environment#:#Environment
+with#:#with
+env_using#:#ILIAS3 will be running on
+env_ok#:#Ok. Sounds good.
+env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
+pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
+pre_php_version#:#PHP version
+pre_folder_write#:#Writable ILIAS3 folder
+pre_folder_create#:#New folders creatable in ILIAS 3 folder
+pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
+inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
+inifile_fill_all#:#Please fill out all fields.
+inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
+inifile_written#:#The ini-file has been successfully saved on your host.
+inifile_content#:#Your ini-file has this content:
+choose_languages#:#Please choose additional languages and/or remove selected languages.
+password_info#:#To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.
+password_set#:#Password set.
+wrong_password#:#Wrong password!
+fill_both_fields#:#Please fill out both fields!
+password_empty#:#No password given!
+installation#:#Installation
+no_db_update_file#:#dbupdate.php not found!
+database_is_uptodate#:#La base de datos es actual.
+database_needs_update#:#La base de datos necesita una actualización.
+update_not_found#:#Update not found!
+update_applied#:#Update applied
+update_error#:#Error while updating
+file_version#:#file version
+no_changes#:#No changes.
