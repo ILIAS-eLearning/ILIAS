@@ -136,8 +136,13 @@ if (!empty($status))
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 $tpl->setVariable("USERNAME", $_GET["username"]);
-$tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-$tpl->setVariable("REGISTER", $lng->txt("registration"));
+$tpl->setVariable("USER_AGREEMENT", "[ ".$lng->txt("usr_agreement")." ]");
+if ($ilias->getSetting("enable_registration"))
+{
+	$tpl->setVariable("REGISTER", "[ ".$lng->txt("registration")." ]");
+}
+
+
 $tpl->parseCurrentBlock();
 
 $tpl->show(false);
