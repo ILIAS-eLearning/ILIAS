@@ -105,7 +105,7 @@ class ForumObject extends Object
 	function updateObject($a_data)
 	{		
 		
-		if (parent::updateObject())
+		if (parent::updateObject($a_data))
 		{			
 			$a_obj_data = $a_data;
 			
