@@ -1,9 +1,9 @@
 /**
 * ILIAS language file
 *
-* @module		language file english
+* @module		language file ukrainian
 * @modulegroup	language
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author 		Matthias Kunkel <squash@univ.kiev.ua>
 * @version		$Id$
 */
 
@@ -733,14 +733,14 @@ common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
 common#:#articels_unread#:#Непрочитані статті:
 common#:#as_of#:#як в
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
+common#:#assessment_log#:#Створити лог по Тестування & Оцінювання для вказаного періоду часу
+common#:#assessment_log_datetime#:#Дата/Час
+common#:#assessment_log_for_test#:#Для тесту
+common#:#assessment_log_no_log#:#Немає даних з логів доступних для вибраного тесту та вибраного періоду часу!
+common#:#assessment_log_open_calendar#:#Натисніть сюди щоб відкрити календар для вибору дати (потрібен JavaScript!)
+common#:#assessment_log_question#:#Питання
+common#:#assessment_log_select_test#:#--- Будь ласка виберіть тест ---
+common#:#assessment_log_text#:#Лог повідомлення
 common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання
 common#:#assf_edit_permission#:#Змінити настройки прав
 common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням
@@ -946,44 +946,44 @@ common#:#crs_added#:#Курс додано
 common#:#crs_archives#:#Архіви
 common#:#crs_at_least_one_admin#:#Повинен бути принаймні один адміністратор курсу.
 common#:#crs_available#:#Доступні Курси
-common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
+common#:#crs_container_link_not_allowed#:#Не є можливим зв'язати об'єкти контейнеру контейнеру
 common#:#crs_create#:#Створити Курс
-common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
-common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
-common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
-common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
-common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
+common#:#crs_create_alm#:#Створити AICC Учбовий Модуль
+common#:#crs_create_chat#:#Створити Чат
+common#:#crs_create_dbk#:#Створити Digilib Книгу
+common#:#crs_create_exc#:#Створити Вправу
+common#:#crs_create_file#:#Завантажити Файл
+common#:#crs_create_fold#:#Створити Папку
 common#:#crs_create_frm#:#Створити Форум
 common#:#crs_create_glo#:#Створити Глосарій
-common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
-common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
-common#:#crs_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
-common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
-common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
-common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#crs_create_grp#:#Створити Групу
+common#:#crs_create_hlm#:#Створити HACP Учбовий Модуль
+common#:#crs_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#crs_create_lm#:#Створити ILIAS Учбовий Модуль
+common#:#crs_create_mep#:#Створити Медіа Пул
+common#:#crs_create_qpl#:#Створити Пул Питань для Тесту
+common#:#crs_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+common#:#crs_create_spl#:#Створити Пул Питань для Опитування
+common#:#crs_create_svy#:#Створити Опитування
+common#:#crs_create_tst#:#Створити Тест
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
 common#:#crs_join#:#Підписатись на Курс
 common#:#crs_leave#:#Відписатись від Курсу
 common#:#crs_management_system#:#Система Управління Курсом
-common#:#crs_member_not_passed#:#Not passed###14 Aug 2004 new variable
-common#:#crs_member_passed#:#Passed###14 Aug 2004 new variable
+common#:#crs_member_not_passed#:#Не пройдений
+common#:#crs_member_passed#:#Пройдений
 common#:#crs_new#:#Новий Курс
-common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
+common#:#crs_no_content#:#Без вмісту
 common#:#crs_read#:#Доступ на читання до Курсу
-common#:#crs_status_blocked#:#[Access refused]###14 Aug 2004 new variable
-common#:#crs_status_pending#:#[Waiting for registration]###14 Aug 2004 new variable
-common#:#crs_subscribers_assigned#:#Assigned new user(s)###14 Aug 2004 new variable
+common#:#crs_status_blocked#:#[В доступі відмовлено]
+common#:#crs_status_pending#:#[Очікуйте реєстрації]
+common#:#crs_subscribers_assigned#:#Призначені нові користувачі
 common#:#crs_visible#:#Курс є видимим
 common#:#crs_write#:#Редагувати Курс
-common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
-common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#cumulative_time#:#Загальний час
+common#:#cur_number_rec#:#Поточна кількість записів
 common#:#current_password#:#Поточний Пароль
 common#:#cut#:#Вирізати
 common#:#cutPage#:#Вирізати
@@ -991,7 +991,7 @@ common#:#database#:#База даних
 common#:#database_version#:#Поточна Версія Бази даних
 common#:#dataset#:#Пункт
 common#:#date#:#Дата
-common#:#dateplaner#:#Органайзер###14 Sep 2004 content changed
+common#:#dateplaner#:#Календар
 common#:#day#:#День
 common#:#days#:#Дні
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
