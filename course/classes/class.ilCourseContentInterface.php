@@ -875,6 +875,13 @@ class ilCourseContentInterface
 
 	function __showInfo()
 	{
+		include_once './course/classes/class.ilCourseObjective.php';
+
+		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
+		{
+			return true;
+		}
+
 		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_info_'.$this->objective_status));
 		
