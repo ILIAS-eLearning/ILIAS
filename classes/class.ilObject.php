@@ -620,11 +620,21 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupType($a_id)
+	function _lookupType($a_id,$a_reference = false)
 	{
 		global $ilDB;
 
-		$q = "SELECT type FROM object_data WHERE obj_id = '".$a_id."'";
+		if ($a_reference === true)
+		{
+			$q = "SELECT type FROM object_data as obj ".
+				 "LEFT JOIN object_reference as ref ON ref.obj_id=obj.obj_id ".
+				 "WHERE ref.ref_id = '".$a_id."'";
+		}
+		else
+		{
+			$q = "SELECT type FROM object_data WHERE obj_id = '".$a_id."'";
+		}
+
 		$obj_set = $ilDB->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 

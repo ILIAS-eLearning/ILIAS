@@ -27,7 +27,6 @@ require_once("classes/class.ilObjFolderGUI.php");
 require_once("classes/class.ilObjFolder.php");
 require_once("classes/class.ilObjFileGUI.php");
 require_once("classes/class.ilObjFile.php");
-require_once("classes/class.ilRegisterGUI.php");
 require_once("classes/class.ilTabsGUI.php");
 
 /**
@@ -66,10 +65,10 @@ class ilRepositoryGUI
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->setTargetScript("repository.php");
-		$this->ctrl->getCallStructure("ilRepositoryGUI");
+
 		$this->ctrl->saveParameter($this, array("ref_id"));
-		$this->ctrl->setReturn($this,"bla");
+		$this->ctrl->setReturn($this,"ShowList");
+
 		// determine current ref id and mode
 		if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
 		{
@@ -101,23 +100,6 @@ class ilRepositoryGUI
 			$this->cur_ref_id = $this->tree->getRootId();
 		}
 
-		// get object of current ref id
-		include_once("classes/class.ilObjectFactory.php");
-		$this->object =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
-
-		// get GUI of current object
-		$class_name = $objDefinition->getClassName($this->object->getType());
-		$module = $objDefinition->getModule($this->object->getType());
-		$module_dir = ($module == "") ? "" : $module."/";
-		$class_constr = "ilObj".$class_name."GUI";
-		include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-		$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-		
-		if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
-		{
-			$this->object->callRegisterGUI($this->ctrl->getTargetScript());
-		}
-
 		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
 		//	&& ($this->object->getType() == "cat" || $this->object->getType() == "root" || $this->object->getType() == "grp"))
 		{
@@ -145,9 +127,67 @@ class ilRepositoryGUI
 	*/
 	function _forwards()
 	{
-		return array("ilObjGroupGUI","ilObjFolderGUI","ilRegisterGUI");
+		return array("ilObjGroupGUI","ilObjFolderGUI");
 	}
 	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+		/*if (empty($next_class))
+		{
+			// get object of current ref id
+			//include_once("classes/class.ilObjectFactory.php");
+			$obj = $this->ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
+			$next_class = get_class($obj)."gui";
+			$obj_type = $obj->getType();
+		}*/
+		
+		$cmd = $this->ctrl->getCmd();
+
+		switch ($next_class)
+		{
+			case "ilobjgroupgui":
+				include_once("./classes/class.ilObjGroupGUI.php");
+				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);
+
+				$this->prepareOutput();
+
+				$this->gui_obj->executeCommand();
+				$this->tpl->show();
+				break;
+
+			default:
+
+		if (!isset($obj_type))
+		{
+			$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+		}
+		
+		// get GUI of current object
+		$class_name = $this->objDefinition->getClassName($obj_type);
+		$module = $this->objDefinition->getModule($obj_type);
+		$module_dir = ($module == "") ? "" : $module."/";
+		$class_constr = "ilObj".$class_name."GUI";
+		include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+		$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
+		
+				// execute repository cmd
+				if (empty($cmd))
+				{
+					$cmd = $this->ctrl->getCmd("ShowList");
+					//$next_class = "";
+				}
+				
+				$this->cmd = $cmd;
+				$this->$cmd();	
+				break;
+		}		
+	}
+
 	function prepareOutput()
 	{
 		// output objects
@@ -171,37 +211,6 @@ class ilRepositoryGUI
 
 		// set header
 		$this->setHeader();
-	}
-
-
-	/**
-	* execute command
-	*/
-	function &executeCommand()
-	{
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-//vd($next_class);
-		if (empty($cmd))
-		{
-			$cmd = $this->ctrl->getCmd("ShowList");
-			$next_class = "";
-		}
-	
-		switch ($next_class)
-		{
-			case "ilobjgroupgui":
-		$this->prepareOutput();
-				$this->gui_obj->executeCommand();
-				$this->tpl->show();
-				break;
-
-			default:
-				// execute repository cmd
-				$this->cmd = $cmd;
-				$this->$cmd();	
-				break;
-		}		
 	}
 
 	/**
@@ -502,15 +511,15 @@ class ilRepositoryGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("HEADER",  $this->object->getTitle());
+			$this->tpl->setVariable("HEADER",  $this->gui_obj->object->getTitle());
 
-			$desc = ($this->object->getDescription())
-				? $this->object->getDescription()
+			$desc = ($this->gui_obj->object->getDescription())
+				? $this->gui_obj->object->getDescription()
 				: "";
 			$this->tpl->setVariable("H_DESCRIPTION",  $desc);
 			//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
 			{
-				$this->showPossibleSubObjects($this->object->getType());
+				$this->showPossibleSubObjects($this->gui_obj->object->getType());
 			}
 		}
 
@@ -2084,42 +2093,6 @@ class ilRepositoryGUI
 	}
 
 	/**
-	* set tabs
-	* DEPRECATED ??
-	*/
-	function setTabs()
-	{
-		// set tabs
-		// display different buttons depending on viewmod
-		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
-		{
-			$ftabtype = "tabactive";
-			$ttabtype = "tabinactive";
-		}
-		else
-		{
-			$ftabtype = "tabinactive";
-			$ttabtype = "tabactive";
-		}
-
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE", $ttabtype);
-		$this->tpl->setVariable("TAB_TARGET", "bottom");
-		$this->tpl->setVariable("TAB_LINK", "repository.php?viewmode=tree");
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE", $ftabtype);
-		$this->tpl->setVariable("TAB_TARGET", "bottom");
-		$this->tpl->setVariable("TAB_LINK", "repository.php?viewmode=flat");
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-
-	/**
 	* set Locator
 	*/
 	function setLocator()
@@ -2144,7 +2117,7 @@ class ilRepositoryGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
-		if ($this->object->getType() != "grp" && ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit"))
+		if ($this->gui_obj->object->getType() != "grp" && ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit"))
 		{
 			unset($path[count($path) - 1]);
 		}
@@ -2166,8 +2139,8 @@ class ilRepositoryGUI
 			{
 				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
 			}
+
 			$this->tpl->setVariable("LINK_ITEM", "repository.php?ref_id=".$row["child"]);
-			//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
 
 			$this->tpl->parseCurrentBlock();
 
@@ -2184,19 +2157,6 @@ class ilRepositoryGUI
 				$ilias_locator->navigate($i++,$this->lng->txt("repository"),"repository.php?ref_id=".$row["child"],"bottom");
 			}
 		}
-
-		/*
-		if (DEBUG)
-		{
-			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
-		}
-
-		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
-
-		if ($_GET["cmd"] == "confirmDeleteAdm")
-		{
-			$prop_name = "delete_object";
-		}*/
 
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
@@ -2261,12 +2221,12 @@ class ilRepositoryGUI
 	function showActionSelect(&$subobj)
 	{
 		$actions = array("edit" => $this->lng->txt("edit"),
-			"addToDesk" => $this->lng->txt("to_desktop"),
-			"export" => $this->lng->txt("export"));
+						"addToDesk" => $this->lng->txt("to_desktop"),
+						"export" => $this->lng->txt("export"));
 
-		if(is_array($subobj))
+		if (is_array($subobj))
 		{
-			if(in_array("dbk",$subobj) or in_array("lm",$subobj))
+			if (in_array("dbk",$subobj) or in_array("lm",$subobj))
 			{
 				$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
@@ -2281,30 +2241,29 @@ class ilRepositoryGUI
 
 	function addToDesk()
 	{
-		if($_GET["item_ref_id"] and $_GET["type"])
+		if ($_GET["item_ref_id"] and $_GET["type"])
 		{
 			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
 			$this->showList();
 		}
 		else
 		{
-			if($_POST["items"])
+			if ($_POST["items"])
 			{
-				foreach($_POST["items"] as $item)
+				foreach ($_POST["items"] as $item)
 				{
 					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
 					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
 					unset($tmp_obj);
 				}
 			}
+
 			$this->showList();
 		}
 	}
 
 	function executeAdminCommand()
 	{
-		global $objDefinition;
-
 		$this->prepareOutput();
 
 		$id = $this->cur_ref_id;
@@ -2337,14 +2296,13 @@ class ilRepositoryGUI
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 				$obj->setTargetFrame("save", "bottom");
-//echo $class_constr.":".$method."<br>";
 				$obj->$method();
 			}
 		}
 		else	// all other commands
 		{
 
-			$obj =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
+		/*	$obj =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
 			$class_name = $objDefinition->getClassName($obj->getType());
 			$module = $objDefinition->getModule($obj->getType());
 			$module_dir = ($module == "")
@@ -2353,62 +2311,60 @@ class ilRepositoryGUI
 
 			$class_constr = "ilObj".$class_name."GUI";
 			include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-//echo $class_constr.":".$cmd."<br>";
-			$obj_gui =& new $class_constr("", $this->cur_ref_id, true, false);
+			$obj_gui =& new $class_constr("", $this->cur_ref_id, true, false);*/
 
 			switch($cmd)
 			{
 				case "delete":
 					$_POST["id"] = array($this->cur_ref_id);
-					$obj_gui->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
-					//$obj_gui->setReturnLocation("delete", "repository.php?ref_id=".$_GET["ref_id"]);
-					$obj_gui->deleteObject();
+					$this->gui_obj->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
+					$this->gui_obj->deleteObject();
 					break;
 
 				case "cancelDelete":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$obj_gui->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
-					$obj_gui->cancelDeleteObject();
+					$this->gui_obj->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
+					$this->gui_obj->cancelDeleteObject();
 					break;
 
 				case "confirmedDelete":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$obj_gui->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
-					$obj_gui->confirmedDeleteObject();
+					$this->gui_obj->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
+					$this->gui_obj->confirmedDeleteObject();
 					break;
 
 				case "edit":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
 					$_POST["id"] = array($this->cur_ref_id);
-					$_GET["type"] = $this->object->getType();
-					$obj_gui->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id);
-					//$obj_gui->setTargetFrame("save", "bottom");
-					$obj_gui->editObject();
+					$_GET["type"] = $this->gui_obj->object->getType();
+					$this->gui_obj->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id);
+					$this->gui_obj->editObject();
 					break;
 
 				case "cancel":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$obj_gui->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
-					$obj_gui->cancelObject();
+					$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
+					$this->gui_obj->cancelObject();
 					break;
 
 				case "update":
 					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$obj_gui->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
-					$obj_gui->updateObject();
+					$this->gui_obj->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
+					$this->gui_obj->updateObject();
 					break;
 
 				case "addTranslation":
-					$obj_gui->setReturnLocation("addTranslation",
+					$this->gui_obj->setReturnLocation("addTranslation",
 						"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id);
-					$obj_gui->addTranslationObject();
+					$this->gui_obj->addTranslationObject();
 					break;
 
 				case "sendfile":
-					$this->object->sendfile();
+					$this->gui_obj->object->sendfile();
 					break;
 			}
 		}
+
 		$this->tpl->show();
 	}
 
@@ -2461,6 +2417,6 @@ class ilRepositoryGUI
 	{
 		$this->executeAdminCommand();
 	}
-} // END class ilRepository
+} // END class.ilRepository
 
 ?>
