@@ -22,7 +22,7 @@
 * @version  $Id$
 * @access   public
 */
-class soapclient extends nusoap_base  {
+class soap_client extends nusoap_base  {
 
 	var $username = '';
 	var $password = '';
@@ -74,7 +74,7 @@ class soapclient extends nusoap_base  {
 	* @param	integer $response_timeout set the response timeout
 	* @access   public
 	*/
-	function soapclient($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = 0, $response_timeout = 30){
+	function soap_client($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = 0, $response_timeout = 30){
 		$this->endpoint = $endpoint;
 		$this->proxyhost = $proxyhost;
 		$this->proxyport = $proxyport;
@@ -559,7 +559,7 @@ class soapclient extends nusoap_base  {
 			}
 		}
 		$r = rand();
-		$evalStr = 'class soap_proxy_'.$r.' extends soapclient {
+		$evalStr = 'class soap_proxy_'.$r.' extends soap_client {
 				'.$evalStr.'
 			}';
 		//print "proxy class:<pre>$evalStr</pre>";

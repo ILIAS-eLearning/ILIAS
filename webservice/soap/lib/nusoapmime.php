@@ -43,10 +43,14 @@ require_once('Mail/mimePart.php');
 *
 * @author   Scott Nichol <snichol@sourceforge.net>
 * @author	Thanks to Guillaume and Henning Reich for posting great attachment code to the mail list
+<<<<<<< nusoapmime.php
 * @version  $Id$
+=======
+* @version  $Id$
+>>>>>>> 1.1.2.2
 * @access   public
 */
-class soapclientmime extends soapclient {
+class soapclientmime extends soap_client {
 	var $requestAttachments = array();
 	var $responseAttachments;
 	var $mimeContentType;
