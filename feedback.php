@@ -27,7 +27,14 @@ if ($_POST["msg_send"])
 	}
 	else
 	{
-		if (mail($recipient, "ILIAS 3 Feedback", $_POST["msg_content"]))
+		$subject = "ILIAS 3 Feedback";
+		$from_host = "From: http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"])."\n\r";
+		$message = $from_host.$_POST["msg_content"];
+		$from_email = $ilias->account->getEmail();
+		$from_sender = $ilias->account->getFullname();
+		$headers = "From: ".$from_sender."<".$from_email.">\r\n";
+		
+		if (mail($recipient,$subject,$message,$headers))
 		{
 			$tpl->setVariable("MSG", $lng->txt("mail_sent"));
 		}
