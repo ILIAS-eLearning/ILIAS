@@ -243,6 +243,8 @@ common#:#functions#:#Functions
 common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender#:#Gender
+common#:#gender_f#:#Female
+common#:#gender_m#:#Male
 common#:#generate#:#Generate
 common#:#glo#:#Glossary
 common#:#glo_a#:#a Glossary

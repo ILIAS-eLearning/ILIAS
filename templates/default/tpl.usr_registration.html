@@ -28,9 +28,9 @@ body { margin:0px; }
   <tr>
     <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
     <td class="option_value">
-<!-- BEGIN gender -->
-        {GENDER}
-<!-- END gender -->
+	<input type="radio" name="Fobject[gender]" value="f" {BTN_GENDER_F}/> {TXT_GENDER_F}
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="Fobject[gender]" value="m" {BTN_GENDER_M}/> {TXT_GENDER_M}
+    </td>
     </td>
   </tr>
   <tr>

@@ -31,13 +31,11 @@ body { margin:0px; }
 	<td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB}></td>
 </tr>
 <tr>
-	<td class="option">{TXT_SALUTATION}</td>
-	<td class="option_value">
-	<select name="usr_gender">
-		<option {SELECTED_M} value="m">{TXT_SALUTATION_M}</option>
-		<option {SELECTED_F} value="f">{TXT_SALUTATION_F}</option>
-	</select>
-	</td>
+    <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
+    <td class="option_value">
+	<input type="radio" name="Fobject[gender]" value="f" {BTN_GENDER_F}/> {TXT_GENDER_F}
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="usr_gender" value="m" {BTN_GENDER_M}/> {TXT_GENDER_M}
+    </td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>

@@ -97,7 +97,7 @@ $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TITLE",$author->getTitle());
 
 $tpl->setVariable("TXT_GENDER", $lng->txt("gender"));
-$tpl->setVariable("GENDER",$author->getGender());
+$tpl->setVariable("GENDER",strtolower($lng->txt("gender_".$author->getGender())));
 
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 
