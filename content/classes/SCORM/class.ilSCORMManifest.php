@@ -86,7 +86,7 @@ class ilSCORMManifest extends ilSCORMObject
 	{
 		parent::read();
 
-		$q = "SELECT * FROM sc_manifest WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_manifest WHERE obj_id = '".$this->getId()."'";
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);

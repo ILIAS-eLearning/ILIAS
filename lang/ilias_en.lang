@@ -648,6 +648,8 @@ content#:#cont_import_id#:#identifier
 content#:#cont_sc_title#:#title
 content#:#cont_structure#:#structure
 content#:#cont_item#:#Item
+content#:#cont_manifest#:#Manifest
+content#:#cont_version#:#version
 content#:#cont_id_ref#:#identifierref
 content#:#cont_is_visible#:#isvisible
 content#:#cont_parameters#:#parameters

@@ -27,6 +27,7 @@ require_once("content/classes/SCORM/class.ilSCORMOrganizationsGUI.php");
 require_once("content/classes/SCORM/class.ilSCORMOrganizationGUI.php");
 require_once("content/classes/SCORM/class.ilSCORMResourcesGUI.php");
 require_once("content/classes/SCORM/class.ilSCORMResourceGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMManifestGUI.php");
 
 /**
 * Parent object for SCORM GUI objects
@@ -82,7 +83,8 @@ class ilSCORMObjectGUI
 				break;
 
 			case "sma":					// manifest
-				return;
+				$sma_gui =& new ilSCORMManifestGUI($a_id);
+				return $sma_gui;
 				break;
 
 			case "srs":					// resources

@@ -57,6 +57,31 @@ class ilSCORMExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->checkPermissions(false);
 		$this->setOrderColumn("");
+		$this->outputIcons(false);
+	}
+
+
+	/**
+	* overwritten method from base class
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	*/
+	function formatHeader($a_obj_id,$a_option)
+	{
+		global $lng, $ilias;
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		$tpl->setCurrentBlock("row");
+		//$tpl->setVariable("TYPE", $a_option["type"]);
+		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+		$tpl->setVariable("TITLE", $lng->txt("cont_manifest"));
+		$tpl->setVariable("LINK_TARGET", $this->target."&".$this->target_get."=".$a_obj_id);
+		$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
 	}
 
 
