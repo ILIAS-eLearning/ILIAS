@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.37 2003/08/06 13:27:12 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.38 2003/08/06 15:47:11 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -502,20 +502,10 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 				
-				//var_dump("<pre>",$online_users,$assigned_users,$_SESSION["user_list"],$affected_users,"</pre>");exit;
-
 				foreach ($affected_users as $affected_user)
 				{
-					$role_arr = array();
+					$role_arr = $rbacreview->assignedRoles($affected_user["user_id"]);
 		
-					$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$affected_user["user_id"]."'";
-					$r = $this->ilias->db->query($q);
-
-					while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-					{
-						$role_arr[] = $row->rol_id;
-					}
-
 					if ($affected_user["user_id"] == $_SESSION["AccountId"])
 					{
 						$_SESSION["RoleId"] = $role_arr;

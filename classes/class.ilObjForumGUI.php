@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.8 2003/07/31 15:19:57 shofmann Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.9 2003/08/05 16:45:22 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -62,6 +62,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// ...finally assign moderator role to creator of forum object
 		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");
+		ilObjUser::updateActiveRoles($forumObj->getOwner());
 			
 		// insert new forum as new topic into frm_data
 		$top_data = array(
@@ -83,7 +84,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ilias->db->query($q);
 
 		// always send a message
-		sendInfo($this->lng->txt("forum_added"),true);
+		sendInfo($this->lng->txt("frm_added"),true);
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
