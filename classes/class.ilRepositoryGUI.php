@@ -1824,7 +1824,7 @@ class ilRepositoryGUI
 			
 			foreach ($tests as $tst_data)
 			{
-          $obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
+				$obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
 
 				if ($tst_data["complete"])
 				{
@@ -3189,11 +3189,12 @@ class ilRepositoryGUI
 				$pos_actions = $objDefinition->getActions($type);
 
 				$actions = array();
-				if(isset($pos_actions['link']))
+				if($objDefinition->allowLink($type))
 				{
 					$actions['link'] = $this->lng->txt("link");
 				}
-				if(isset($pos_actions['copy']))
+				#if(isset($pos_actions['copy']))
+				if(1)
 				{
 					$actions['copy'] = $this->lng->txt("copy");
 				}

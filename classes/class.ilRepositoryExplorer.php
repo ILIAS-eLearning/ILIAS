@@ -77,6 +77,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->addFilter("file");
 		$this->addFilter("fold");
 		$this->addFilter("crs");
+		$this->addFilter('tst');
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 	}
@@ -132,6 +133,9 @@ class ilRepositoryExplorer extends ilExplorer
 				
 			case "file":
 				return "repository.php?cmd=sendfile&ref_id=".$a_node_id."&set_mode=flat";
+
+			case 'tst':
+				return "assessment/test.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
 		}
 	}
 
@@ -181,6 +185,10 @@ class ilRepositoryExplorer extends ilExplorer
 			case "fold":
 			case "file":
 				return false;
+
+			case 'tst':
+				return "assessment/test.php?ref_id=".$a_node_id."&set_mode=flat";
+
 		}
 	}		
 
@@ -213,7 +221,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree;
+		global $rbacsystem,$tree,$ilDB;
 
 		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
 		{
@@ -248,6 +256,20 @@ class ilRepositoryExplorer extends ilExplorer
 			case "grp":
 				return true;
 				break;
+
+			case 'tst':
+				if(!$rbacsystem->checkAccess("read", $a_ref_id))
+				{
+					return false;
+				}
+
+				$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",$a_obj_id);
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return (bool) $row->complete;
+				}
+				return false;
 
 			// media pools can only be edited
 			case "mep":
