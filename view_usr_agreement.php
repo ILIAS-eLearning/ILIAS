@@ -22,32 +22,35 @@
 */
 
 
+
+
 /**
-* display user agreement
+* displays user agreement, when not logged in
 *
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
+* @author Nils Eiken <nils.eiken@uni-koeln.de>
+*
 *
 * @package ilias
 */
 
-require_once "./include/inc.header.php";
 
+require_once "./include/inc.header.php";
+/*
 // catch hack attempts
 
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
 	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
-}
+}*/
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+//$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+//$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 
 // set locator
-$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+/*$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
@@ -57,7 +60,7 @@ $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("usr_agreement"));
 $tpl->setVariable("LINK_ITEM", "usr_agreement.php");
-$tpl->parseCurrentBlock();
+$tpl->parseCurrentBlock();*/
 
 // catch feedback message
 sendInfo();
@@ -65,16 +68,16 @@ sendInfo();
 infoPanel();
 
 // display tabs
-include "./include/inc.personaldesktop_buttons.php";
+//include "./include/inc.personaldesktop_buttons.php";
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
-//$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
-$tpl->setVariable("TXT_AGREEMENT", $lng->txt("usr_agreement"));
+//$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
+//$tpl->setVariable("TXT_AGREEMENT", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement());
-$tpl->setVariable("TXT_ACCEPT", $lng->txt("accept_usr_agreement"));
-$tpl->setVariable("TXT_YES", $lng->txt("yes"));
-$tpl->setVariable("TXT_NO", $lng->txt("no"));
-$tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
+$tpl->setVariable("BACK", $lng->txt("back"));
+//$tpl->setVariable("TXT_YES", $lng->txt("yes"));
+//$tpl->setVariable("TXT_NO", $lng->txt("no"));
+//$tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
 
 $tpl->show();
 
