@@ -1175,3 +1175,245 @@ if ($row->ref_id > 0)
 	}
 }
 ?>
+
+<#87>
+<?php
+// remove create operation for file object
+$query = "SELECT obj_id FROM object_data ".
+		 "WHERE type='typ' AND title='file'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
+$this->db->query($query);
+ 
+// init rbac
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
+// init tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+// init object definition
+$ilObjDef = new ilObjectDefinition();
+$ilObjDef->startParsing();
+
+// migration of rbac_pa
+
+// first clean up rbac_pa. remove empty entries
+$query = "DELETE FROM rbac_pa WHERE ops_id='a:0:{}'";
+$this->db->query($query);
+
+// set new object create permissions
+$query = "SELECT rbac_pa.ops_id, rbac_pa.rol_id, rbac_pa.obj_id as ref_id, object_data.type FROM rbac_pa ".
+		 "LEFT JOIN object_reference ON rbac_pa.obj_id=object_reference.ref_id ".
+		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$arr_pa_entries[] = array(
+								"ref_id"	=>	$row->ref_id,
+								"rol_id"	=>	$row->rol_id,
+								"type"		=>	$row->type,
+								"operations"=>	unserialize($row->ops_id)
+							);
+}
+
+foreach ($arr_pa_entries as $key => $pa_entry)
+{
+	// detect create permission
+	$pa_entry["create"] = array_search("5",$pa_entry["operations"]);
+	
+	// remove create permission and remember pa_entries with create permission
+	if ($pa_entry["create"] !== false)
+	{
+		unset($pa_entry["operations"][$pa_entry["create"]]);
+	}
+	
+	switch ($pa_entry)
+	{
+		case "usrf":
+			if (in_array("4",$pa_entry["operations"]))
+			{
+				$pa_entry["operations"][] = "13";
+			}
+			break;
+			
+		case "grp":
+			if ($pa_entry["create"] !== false)
+			{
+				$pa_entry["operations"][] = "18";
+				$pa_entry["operations"][] = "20";
+				$pa_entry["operations"][] = "21";
+			}
+
+			if (in_array("2",$pa_entry["operations"]) and in_array("3",$pa_entry["operations"]))
+			{
+				$pa_entry["operations"][] = "25";
+				$pa_entry["operations"][] = "26";
+			}
+			break;
+
+		case "cat":
+			if ($pa_entry["create"] !== false)
+			{
+				$pa_entry["operations"][] = "16";
+				$pa_entry["operations"][] = "17";
+				$pa_entry["operations"][] = "18";
+				$pa_entry["operations"][] = "19";
+				$pa_entry["operations"][] = "20";
+				$pa_entry["operations"][] = "21";
+				$pa_entry["operations"][] = "22";
+				$pa_entry["operations"][] = "23";
+				$pa_entry["operations"][] = "24";
+			}
+			break;
+			
+		case "crs":
+			if ($pa_entry["create"] !== false)
+			{
+				$pa_entry["operations"][] = "18";
+				$pa_entry["operations"][] = "20";
+				$pa_entry["operations"][] = "21";
+				$pa_entry["operations"][] = "22";
+			}
+			break;
+	}
+
+	// remove multiple values
+	$pa_entry["operations"] = array_unique($pa_entry["operations"]);
+	
+	$rbacadmin->revokePermission($pa_entry["ref_id"],$pa_entry["rol_id"]);
+	$rbacadmin->grantPermission($pa_entry["rol_id"],$pa_entry["operations"],$pa_entry["ref_id"]);
+}
+
+// migration of rbac_templates and rbac_ta
+
+// build array with all rbac object types
+$query = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
+		 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
+		 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
+									    "type"		=> $row->title
+										);
+
+	$rbac_operations[$row->typ_id][$row->ops_id] = $row->ops_id;
+}
+	
+foreach ($rbac_objects as $key => $obj_data)
+{
+	$rbac_objects[$key]["ops"] = $rbac_operations[$key];
+}
+
+// get all roles
+$query = "SELECT * FROM rbac_fa";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$arr_roles[] = array(
+						"rol_id"	=>	$row->rol_id,
+						"rolf_id"	=>	$row->parent,
+						"assign"	=>	$row->assign
+						);
+}
+
+foreach ($arr_roles as $role)
+{
+	// work on a copy of rbac_objects
+	$rbac_objects_temp = $rbac_objects;
+
+	// for local roles display only the permissions settings for allowed subobjects 
+	if ($role["rolf_id"] != ROLE_FOLDER_ID)
+	{
+		// first get object in question (parent of role folder object)
+		$parent_data = $tree->getParentNodeData($role["rolf_id"]);
+		// get allowed subobject of object
+		$subobj_data = $ilObjDef->getSubObjects($parent_data["type"]);
+		
+		// remove not allowed object types from array but keep the type definition of object itself
+		foreach ($rbac_objects_temp as $key => $obj_data)
+		{
+			if (!$subobj_data[$obj_data["type"]] and $parent_data["type"] != $obj_data["type"])
+			{
+				unset($rbac_objects_temp[$key]);
+			}
+		}
+	} // end if local roles
+	
+	foreach ($rbac_objects_temp as $key => $obj_data)
+	{
+		$arr_selected = $rbacreview->getOperationsOfRole($role["rol_id"], $obj_data["type"], $role["rolf_id"]);
+
+		// detect create permission
+		$obj_data["create"] = array_search("5",$arr_selected);
+	
+		// remove create permission and remember pa_entries with create permission
+		if ($obj_data["create"] !== false)
+		{
+			unset($arr_selected[$obj_data["create"]]);
+		}
+
+		if ($obj_data["create"] !== false)
+		{
+			switch ($obj_data["type"])
+			{
+				case "usrf":
+					$arr_selected[] = "13";
+					break;
+					
+				case "grp":
+					$arr_selected[] = "18";
+					$arr_selected[] = "20";
+					$arr_selected[] = "21";
+					$arr_selected[] = "25";
+					$arr_selected[] = "26";
+
+					break;
+		
+				case "cat":
+					$arr_selected[] = "16";
+					$arr_selected[] = "17";
+					$arr_selected[] = "18";
+					$arr_selected[] = "19";
+					$arr_selected[] = "20";
+					$arr_selected[] = "21";
+					$arr_selected[] = "22";
+					$arr_selected[] = "23";
+					$arr_selected[] = "24";
+					break;
+					
+				case "crs":
+					$arr_selected[] = "18";
+					$arr_selected[] = "20";
+					$arr_selected[] = "21";
+					$arr_selected[] = "22";
+					break;
+			}
+		}
+
+		// remove multiple values
+		$arr_selected = array_unique($arr_selected);
+
+		// sets new template permissions
+		if (!empty($arr_selected))
+		{
+			// delete all template entries for each role
+			$rbacadmin->deleteRolePermission($role["rol_id"], $role["rolf_id"],$obj_data["type"]);
+			$rbacadmin->setRolePermission($role["rol_id"], $obj_data["type"], $arr_selected, $role["rolf_id"]);
+		}
+	}
+}
+
+// remove old create operation
+$query = "DELETE FROM rbac_ta WHERE ops_id=5";
+$this->db->query($query);
+$query = "DELETE FROM rbac_operations WHERE ops_id=5";
+$this->db->query($query);
+// clean up tree
+$query = "DELETE FROM tree WHERE parent=0 AND tree <> 1";
+$this->db->query($query);
+?>
