@@ -2270,6 +2270,7 @@ common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already 
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
 common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
+common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
@@ -3038,6 +3039,7 @@ forum#:#forums_censor_comment#:#Moderators kommentar
 forum#:#forums_count#:#Antal Forums
 forum#:#forums_count_art#:#Antal artikler
 forum#:#forums_count_thr#:#Antal tr&aring;de
+forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Slet vedh&aelig;ftning
 forum#:#forums_download_attachment#:#Download fil
 forum#:#forums_edit_post#:#Rediger Artikel
@@ -3058,6 +3060,7 @@ forum#:#forums_post_new_entry#:#Ny artikel oprettet
 forum#:#forums_posts#:#Alle artikler
 forum#:#forums_posts_not_available#:#Artikler ikke tilg&aelig;ngelige
 forum#:#forums_print_thread#:#Print Tr&aring;d
+forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
 forum#:#forums_quote#:#Citat
 forum#:#forums_respond#:#Skriv Svar
 forum#:#forums_subject#:#Emne
@@ -3067,7 +3070,7 @@ forum#:#forums_thread_articles#:#Artikler om alle emner
 forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.
-forum#:#forums_threads#:#Tr&aring;de
+forum#:#forums_threads#:#Tr&aring;de###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige
 forum#:#forums_topics_overview#:#Emne Oversigt
 forum#:#forums_your_reply#:#Dit Svar

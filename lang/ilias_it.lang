@@ -2509,6 +2509,7 @@ common#:#usrimport_cant_insert#:#Non pu&#242; essere eseguita l'operazione di "I
 common#:#usrimport_cant_update#:#Non pu&#242; essere eseguita l'operazione di "Modifica". L'utente non &#232; presente nel Database.
 common#:#usrimport_conflict_handling_info#:#Se &#232; selezionato "Ignora i conflitti", ILIAS ignora le operazioni che non possono essere eseguite (come le modifiche di utenti non esistenti o l'inserimento di utenti gi&#224; presenti).\nSe &#232; selezionato "Modifica i conflitti", ILIAS aggiorna comunque il database anche se l'operazione richiesta non pu&#242; essere eseguita (per esempio l'operazione di inserimento di un utente gi&#224; presente viene sostituita con l'operazione di modifica).
 common#:#usrimport_global_role_for_action_required#:#Per l'operazione "%1$s" deve essere specificato almeno un ruolo globale.
+common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Login non unico.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#L'attributo "%2$s" nell'elemento "%1$s" &#232; mancante.
@@ -3515,6 +3516,7 @@ forum#:#forums_censor_comment#:#Commento del moderatore
 forum#:#forums_count#:#Numero di forum
 forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
+forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Cancella l&#039;allegato
 forum#:#forums_download_attachment#:#Download dell'allegato
 forum#:#forums_edit_post#:#Modifica messaggio
@@ -3535,6 +3537,7 @@ forum#:#forums_post_new_entry#:#Il messaggio &#232; stato inserito
 forum#:#forums_posts#:#Tutti i messaggi
 forum#:#forums_posts_not_available#:#Messaggi non disponibili
 forum#:#forums_print_thread#:#Stampa questo argomento
+forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
 forum#:#forums_quote#:#Citazione
 forum#:#forums_respond#:#Rispondi ad un articolo
 forum#:#forums_subject#:#Oggetto
@@ -3545,7 +3548,7 @@ forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
 forum#:#forums_thread_marked#:#Questo argomento &#232; stato segnato come letto.
 forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
-forum#:#forums_threads#:#Argomenti
+forum#:#forums_threads#:#Argomenti###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta

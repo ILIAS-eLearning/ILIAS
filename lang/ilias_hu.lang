@@ -2511,6 +2511,7 @@ common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already 
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
 common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
+common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
@@ -3518,6 +3519,7 @@ forum#:#forums_censor_comment#:#A cenzor megjegyzése
 forum#:#forums_count#:#Fórumok száma
 forum#:#forums_count_art#:#Hozzászólások száma
 forum#:#forums_count_thr#:#Témák száma
+forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Csatolás törlése
 forum#:#forums_download_attachment#:#Fájl letöltése
 forum#:#forums_edit_post#:#Hozzászólás szerkesztése
@@ -3538,6 +3540,7 @@ forum#:#forums_post_new_entry#:#Új hozzászólás került beírásra
 forum#:#forums_posts#:#Minden hozzászólás
 forum#:#forums_posts_not_available#:#A hozzászólások nem elérhetőek
 forum#:#forums_print_thread#:#Téma nyomtatása
+forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
 forum#:#forums_quote#:#Közlemény
 forum#:#forums_respond#:#Válasz küldése
 forum#:#forums_subject#:#Tárgy
@@ -3548,7 +3551,7 @@ forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#Létrehozta
 forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Új téma került beírásra
-forum#:#forums_threads#:#Témák
+forum#:#forums_threads#:#Témák###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#A témák nem elérhetők
 forum#:#forums_topics_overview#:#Témák áttekintése
 forum#:#forums_your_reply#:#Your Reply###05 Nov 2004 new variable

@@ -3518,6 +3518,7 @@ forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
+forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
@@ -3538,6 +3539,7 @@ forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_print_thread#:#Thread ausdrucken
+forum#:#forums_print_view#:#Druckansicht
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
 forum#:#forums_subject#:#Titel
@@ -3548,7 +3550,7 @@ forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads#:#Themen
+forum#:#forums_threads#:#Themen###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
@@ -4816,5 +4818,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-forum#:#forums_created_by#:#Angelegt von
-forum#:#forums_print_view#:#Druckansicht

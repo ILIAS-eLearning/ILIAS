@@ -2511,6 +2511,7 @@ common#:#usrimport_cant_insert#:#Nie można wykonać akcji "Wstaw". Taki użytko
 common#:#usrimport_cant_update#:#Nie można wykonać akcji "Uaktualnij". Brak takiego użytkownika w bazie.
 common#:#usrimport_conflict_handling_info#:#Kiedy jest wybrane "Ignoruj przy konflikcie", ILIAS ignoruje akcję, jeśli ona nie może być wykonana (np. akcja "Wstaw" nie jest wykonana, jeśli już istnieje w bazie danych użytkownik o tym samym loginie.)\nKiedy jest wybrane "Uaktualnij przy konflikcie", ILIAS uaktualnia bazę danych jeśli akcja nie może zostać wykonana. (np. akcja "Wstaw" jest zastępowana przez akcję "Uaktualnij", jeśli już istnieje w bazie danych użytkownik o takim samym loginie).
 common#:#usrimport_global_role_for_action_required#:#Conajmniej jedna globalna rola musi być określona dla akcji "%1$s".
+common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Login nie jest unikalny.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#Brak Atrybutu "%2$s" w elemencie "%1$s".
@@ -3518,6 +3519,7 @@ forum#:#forums_censor_comment#:#Komentarz cenzora
 forum#:#forums_count#:#Ilość Forów
 forum#:#forums_count_art#:#Ilość artykułów
 forum#:#forums_count_thr#:#Ilość wątków
+forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Usuń załącznik
 forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
@@ -3538,6 +3540,7 @@ forum#:#forums_post_new_entry#:#Nowy artykuł został napisany.
 forum#:#forums_posts#:#Wszystkie artykuły
 forum#:#forums_posts_not_available#:#Artykuły nie są dostępne
 forum#:#forums_print_thread#:#Drukuj wątek
+forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
 forum#:#forums_quote#:#Cytat
 forum#:#forums_respond#:#Wyślij odpowiedź
 forum#:#forums_subject#:#Przedmiot
@@ -3548,7 +3551,7 @@ forum#:#forums_thread_create_date#:#Utworzone dnia
 forum#:#forums_thread_create_from#:#Utworzone przez
 forum#:#forums_thread_marked#:#Wątek został zaznaczony jako przeczytany.
 forum#:#forums_thread_new_entry#:#Został zapisany nowy temat.
-forum#:#forums_threads#:#Wątki
+forum#:#forums_threads#:#Wątki###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Tematy nie są dostępne
 forum#:#forums_topics_overview#:#Przegląd tematów
 forum#:#forums_your_reply#:#Twoja odpowiedź
