@@ -551,6 +551,30 @@ class ilPageObject
 				array("Target" => $target, "Type" => $type,
 					"TargetFrame" => $targetframe);
 		}
+		unset($xpc);
+
+		// get all media aliases
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+
+		require_once("content/classes/Pages/class.ilMediaItem.php");
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$oid = $res->nodeset[$i]->get_attribute("OriginId");
+			if (substr($oid, 0, 4) =="il__")
+			{
+				$id_arr = explode("_", $oid);
+				$id = $id_arr[count($id_arr) - 1];
+
+				$med_links = ilMediaItem::_getMapAreasIntLinks($id);
+				foreach($med_links as $key => $med_link)
+				{
+					$links[$key] = $med_link;
+				}
+			}
+		}
+		unset($xpc);
 
 		return $links;
 	}

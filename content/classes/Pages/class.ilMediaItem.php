@@ -749,5 +749,28 @@ class ilMediaItem
 		}
 	}
 
+	/**
+	* get all internal links of map areas of a mob
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	function _getMapAreasIntLinks($a_mob_id)
+	{
+		// read media_items records
+		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."' ".
+			"ORDER BY nr";
+		$item_set = $this->ilias->db->query($query);
+		$links = array();
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$map_links = ilMapArea::_getIntLinks($item_rec["id"]);
+			foreach($map_links as $key => $map_link)
+			{
+				$links[$key] = $map_link;
+			}
+		}
+		return $links;
+	}
+
 }
 ?>

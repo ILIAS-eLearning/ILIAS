@@ -189,6 +189,34 @@ class ilMapArea
 	}
 
 	/**
+	* get all internal links of a media items map areas
+	*
+	* @param	int		$a_item_id		media item id
+	*/
+	function _getIntLinks($a_item_id)
+	{
+		$q = "SELECT * FROM map_area WHERE item_id='".$a_item_id."'";
+		$area_set = $this->ilias->db->query($q);
+
+		$links = array();
+
+		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$target = $area_rec["target"];
+			$type = $area_rec["type"];
+			$targetframe = $area_rec["target_frame"];
+
+			if (($area_rec["link_type"] == IL_INT_LINK) && (is_int(strpos($target, "__"))))
+			{
+				$links[$target.":".$type.":".$targetframe] =
+					array("Target" => $target, "Type" => $type,
+						"TargetFrame" => $targetframe);
+			}
+		}
+		return $links;
+	}
+
+	/**
 	* set media item id
 	*
 	* @param	int		$a_item_id		media item id

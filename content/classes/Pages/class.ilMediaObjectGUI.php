@@ -43,6 +43,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
 	{
+//echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
@@ -1520,13 +1521,13 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
 		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
 		$_GET["hier_id"] = $_SESSION["il_map_edit_hier_id"];
-		$_GET["areatype"] = $_SESSION["il_map_edit_area_type"];
+		//$_GET["areatype"] = $_SESSION["il_map_edit_area_type"];
 		//$_GET["coords"] = $_SESSION["il_map_edit_coords"];
 	}
 
 	function clearParameters()
 	{
-		unset($_SESSION["il_map_el_href"]);
+		$_SESSION["il_map_el_href"] = "";
 	}
 
 
@@ -1584,7 +1585,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$area_type = $_SESSION["il_map_edit_area_type"];
 		$coords = $_SESSION["il_map_edit_coords"];
 		$cnt_coords = ilMapArea::countCoords($coords);
-
+//echo "areatype:".$_SESSION["il_map_edit_area_type"].":<br>";
 		// decide what to do next
 		switch ($area_type)
 		{
@@ -1596,6 +1597,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				}
 				else if ($cnt_coords == 2)
 				{
+//echo "setting2:".$_SESSION["il_map_il_target"].":<br>";
 					$this->editMapArea(false, true, true);
 				}
 				break;
@@ -1637,6 +1639,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				}
 				break;
 		}
+//echo "setting3:".$_SESSION["il_map_il_target"].":<br>";
 	}
 
 
@@ -1847,6 +1850,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$_SESSION["il_map_il_ltype"] = "int";
 
 		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
+//echo "setting1:".$_SESSION["il_map_il_target"].":<br>";
 		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
 		switch ($_SESSION["il_map_edit_mode"])
 		{
@@ -1855,6 +1859,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				break;
 
 			default:
+//echo "addArea";
 				$this->addArea();
 				break;
 		}
@@ -2024,6 +2029,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 					case "int":
 						$area->setLinkType(IL_INT_LINK);
 						$area->setType($_SESSION["il_map_il_type"]);
+//echo "savingTarget:".$_SESSION["il_map_il_target"].":";
 						$area->setTarget($_SESSION["il_map_il_target"]);
 						$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
 						break;
