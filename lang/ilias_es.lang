@@ -40,6 +40,7 @@ common#:#active_roles#:#Active Roles###04 Aug 2003 new variable
 common#:#add#:#add###16 Apr 2003 content changed
 common#:#add_author#:#add author
 common#:#add_member#:#add member
+common#:#add_translation#:#Add translation###01 Sep 2003 new variable
 common#:#administrate#:#administrate
 common#:#administration#:#administration
 common#:#administrator#:#administrator
@@ -51,6 +52,8 @@ common#:#and#:#and###20 Aug 2003 new variable
 common#:#announce#:#anunciar
 common#:#announce_changes#:#announce changes
 common#:#answers#:#answers
+common#:#appointment#:#Appointment###01 Sep 2003 new variable
+common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#archive
 common#:#are_you_sure#:#Estás seguro?
 common#:#assign_lo_forum#:#assign lo forum
@@ -76,6 +79,7 @@ common#:#bookmarks_of#:#Bookmarks of###09 Apr 2003 new variable
 common#:#btn_remove_system#:#remove from system
 common#:#btn_undelete#:#undelete
 common#:#by#:#by
+common#:#calendar#:#Calendar###01 Sep 2003 new variable
 common#:#cancel#:#cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
@@ -83,6 +87,7 @@ common#:#cat#:#cat
 common#:#cat_a#:#a category###06 Aug 2003 new variable
 common#:#cat_add#:#Add Category###06 Aug 2003 new variable
 common#:#cat_added#:#Category added###16 Jul 2003 new variable
+common#:#cat_edit#:#Edit Category###01 Sep 2003 new variable
 common#:#cat_new#:#New Category###06 Aug 2003 new variable
 common#:#categories#:#categories
 common#:#cc#:#cc
@@ -126,6 +131,7 @@ common#:#crs_a#:#a Course###06 Aug 2003 new variable
 common#:#crs_add#:#Add Course###06 Aug 2003 new variable
 common#:#crs_added#:#Course added###16 Jul 2003 new variable
 common#:#crs_available#:#available courses
+common#:#crs_edit#:#Edit Course###01 Sep 2003 new variable
 common#:#crs_management_system#:#course management system
 common#:#crs_new#:#New Course###06 Aug 2003 new variable
 common#:#current_password#:#current password
@@ -134,6 +140,7 @@ common#:#database#:#database
 common#:#database_version#:#current database version
 common#:#dataset#:#Dataset###04 Jun 2003 new variable
 common#:#date#:#date
+common#:#day#:#Day###01 Sep 2003 new variable
 common#:#days#:#Days###25 Mar 2003 new variable
 common#:#db_host#:#database host
 common#:#db_name#:#database name
@@ -210,6 +217,7 @@ common#:#frm#:#frm
 common#:#frm_a#:#a Forum###06 Aug 2003 new variable
 common#:#frm_add#:#Add Forum###06 Aug 2003 new variable
 common#:#frm_added#:#Forum added###06 Aug 2003 new variable
+common#:#frm_edit#:#Edit Forum###01 Sep 2003 new variable
 common#:#frm_new#:#New Forum###06 Aug 2003 new variable
 common#:#from#:#from:###25 Mar 2003 content changed
 common#:#fullname#:#Fullname###20 Aug 2003 new variable
@@ -236,12 +244,14 @@ common#:#grp#:#grp
 common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
+common#:#grp_edit#:#Edit Group###01 Sep 2003 new variable
 common#:#grp_new#:#New Group###06 Aug 2003 new variable
 common#:#guest#:#Guest###20 Aug 2003 new variable
 common#:#guests#:#Guests###20 Aug 2003 new variable
 common#:#help#:#help
 common#:#hide_details#:#hide details###20 Aug 2003 new variable
 common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
+common#:#home#:#Home###01 Sep 2003 new variable
 common#:#host#:#host
 common#:#http_path#:#http path
 common#:#id#:#ID
@@ -371,8 +381,9 @@ common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
 common#:#migrate#:#migrate
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
+common#:#month#:#Month###01 Sep 2003 new variable
 common#:#move_to#:#move to
-common#:#msg_cancel_delete#:#Action cancelled.###10 Jul 2003 new variable
+common#:#msg_cancel#:#Action cancelled###01 Sep 2003 new variable
 common#:#msg_changes_ok#:#the changes were ok
 common#:#msg_clear_clipboard#:#Clipboard cleared.###10 Jul 2003 new variable
 common#:#msg_cloned#:#Selected object(s) copied.###10 Jul 2003 new variable
@@ -392,7 +403,10 @@ common#:#msg_linked#:#Selected object(s) linked.###10 Jul 2003 new variable
 common#:#msg_may_not_contain#:#This object may not contain objects of type: ###16 Jul 2003 content changed
 common#:#msg_min_one_active_role#:#Each user must have at least one active role!###09 Aug 2003 new variable
 common#:#msg_min_one_role#:#Each user must have at least one role!###09 Aug 2003 new variable
+common#:#msg_multi_language_selected#:#You selected the same language for different translations!###01 Sep 2003 new variable
+common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.###01 Sep 2003 new variable
 common#:#msg_no_delete_yourself#:#Do you feel depressed? weary of life? You cannot delete your own user account.###19 Aug 2003 new variable
+common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation###01 Sep 2003 new variable
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create_object1#:#You have no permission to create###06 Aug 2003 new variable
@@ -438,6 +452,7 @@ common#:#my_frms#:#My Forums###19 Aug 2003 new variable
 common#:#my_los#:#My Learning Objects###19 Aug 2003 new variable
 common#:#name#:#name
 common#:#new#:#new
+common#:#new_appointment#:#New Appointment###01 Sep 2003 new variable
 common#:#new_folder#:#new folder
 common#:#new_group#:#new group
 common#:#new_language#:#New language
@@ -479,6 +494,8 @@ common#:#obj_owner#:#This Object is owned by###04 Jun 2003 content changed
 common#:#obj_pg#:#Page###15 Aug 2003 new variable
 common#:#obj_role#:#Role###15 May 2003 new variable
 common#:#obj_rolf#:#Role Administration###15 May 2003 new variable
+common#:#obj_rolf_local#:#Local Roles###01 Sep 2003 new variable
+common#:#obj_rolf_local_desc#:#Contains local roles of object no.###01 Sep 2003 new variable
 common#:#obj_rolt#:#Role Template###15 May 2003 new variable
 common#:#obj_root#:#root###15 May 2003 new variable
 common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
@@ -558,6 +575,7 @@ common#:#register#:#Register###12 Aug 2003 new variable
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asteriks are required information).###19 Aug 2003 new variable
 common#:#registered_since#:#registered since###25 Mar 2003 content changed
 common#:#registration#:#New account registration###19 Aug 2003 new variable
+common#:#remove_translation#:#Remove translation###01 Sep 2003 new variable
 common#:#rename#:#Rename###28 Mar 2003 new variable
 common#:#reply#:#reply
 common#:#required_field#:#required
@@ -566,6 +584,7 @@ common#:#retype_password#:#retype password
 common#:#right#:#right
 common#:#rights#:#rights
 common#:#role#:#role
+common#:#role_add_local#:#Add local Role###01 Sep 2003 new variable
 common#:#role_added#:#Role added###02 Apr 2003 new variable
 common#:#role_assignment#:#Role Assignment###04 Aug 2003 new variable
 common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
@@ -646,6 +665,7 @@ common#:#to_desktop#:#To Desktop###19 Aug 2003 new variable
 common#:#today#:#today
 common#:#total#:#total
 common#:#tpl_path#:#template path
+common#:#translation#:#Translation###01 Sep 2003 new variable
 common#:#trash#:#trash
 common#:#treeview#:#Tree view###07 Feb 2003 new variable
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add###06 Aug 2003 new variable
@@ -686,6 +706,7 @@ common#:#view#:#View###22 Jan 2003 new variable
 common#:#view_content#:#view content
 common#:#visible_layers#:#visible layers
 common#:#visits#:#visits
+common#:#week#:#Week###01 Sep 2003 new variable
 common#:#welcome#:#Welcome###12 Aug 2003 new variable
 common#:#who_is_online#:#Who is online?###04 Aug 2003 new variable
 common#:#with#:#with###04 Aug 2003 new variable
@@ -706,6 +727,7 @@ content#:#cont_Number#:#Number###12 Jul 2003 new variable
 content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
+content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
@@ -718,6 +740,8 @@ content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
+content#:#cont_definition#:#Definition###01 Sep 2003 new variable
+content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
 content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
@@ -769,6 +793,8 @@ content#:#cont_resources#:#Resources###04 Aug 2003 new variable
 content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
 content#:#cont_sc_title#:#title###04 Aug 2003 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
+content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
+content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
@@ -813,7 +839,8 @@ forum#:#forums_post_modified#:#article has been modified
 forum#:#forums_post_new_entry#:#new article has been inscribed
 forum#:#forums_posts#:#all articles
 forum#:#forums_posts_not_available#:#articles not available
-forum#:#forums_respond#:#respond to an article
+forum#:#forums_quote#:#Quote###01 Sep 2003 new variable
+forum#:#forums_respond#:#respond to an article###01 Sep 2003 content changed
 forum#:#forums_the_post#:#article
 forum#:#forums_thread#:#thread###25 Mar 2003 content changed
 forum#:#forums_thread_articles#:#articles to the thread###25 Mar 2003 content changed

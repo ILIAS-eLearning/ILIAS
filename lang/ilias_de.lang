@@ -32,16 +32,15 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
-common#:#home#:#Zur Startseite
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
-common#:#remove_translation#:#Übersetzung entfernen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
+common#:#add_translation#:#Übersetzung hinzufügen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -53,9 +52,9 @@ common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
+common#:#appointment#:#Appointment###01 Sep 2003 new variable
+common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#Archiv
-common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
-common#:#obj_rolf_local#:#Lokale Rollen
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
@@ -80,20 +79,16 @@ common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
+common#:#calendar#:#Calendar###01 Sep 2003 new variable
 common#:#cancel#:#Abbrechen
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
-common#:#add_translation#:#Übersetzung hinzufügen
-common#:#translation#:#Übersetzung
 common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
-common#:#cat_new#:#Neue Kategorie
 common#:#cat_edit#:#Kategorie bearbeiten
-common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
-common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
-common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
+common#:#cat_new#:#Neue Kategorie###01 Sep 2003 content changed
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
@@ -134,9 +129,9 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
-common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_available#:#Verfügbare Kurse
+common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_new#:#Neuer Kurs
 common#:#current_password#:#Derzeitiges Passwort
@@ -145,6 +140,7 @@ common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Datensatz
 common#:#date#:#Datum
+common#:#day#:#Day###01 Sep 2003 new variable
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
@@ -220,8 +216,8 @@ common#:#forums_overview#:#Übersicht Foren
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
-common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_added#:#Forum angelegt
+common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
@@ -246,15 +242,16 @@ common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppen übersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
-common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
+common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_new#:#Neue Gruppe
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hobby#:#Interessen/Hobbies
+common#:#home#:#Zur Startseite
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
@@ -344,7 +341,7 @@ common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
-common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
+common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.###01 Sep 2003 content changed
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
@@ -384,6 +381,7 @@ common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#module#:#Modul
 common#:#modules#:#Module
+common#:#month#:#Month###01 Sep 2003 new variable
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
@@ -405,7 +403,10 @@ common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
 common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
+common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
+common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Depressiv? Lebensmüde? Sie können nicht Ihr eigenes Benutzerkonto löschen.###22 Aug 2003 content changed
+common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
@@ -454,6 +455,7 @@ common#:#my_frms#:#Meine Foren
 common#:#my_los#:#Meine Lernobjekte
 common#:#name#:#Name
 common#:#new#:#Neu
+common#:#new_appointment#:#New Appointment###01 Sep 2003 new variable
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
@@ -495,6 +497,8 @@ common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollenverwaltung
+common#:#obj_rolf_local#:#Lokale Rollen
+common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM Lernmodul
@@ -574,6 +578,7 @@ common#:#register#:#Anmelden
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registration#:#Neuanmeldung
+common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
@@ -663,6 +668,7 @@ common#:#to_desktop#:#Abo###22 Aug 2003 content changed
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
+common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
@@ -703,6 +709,7 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
+common#:#week#:#Week###01 Sep 2003 new variable
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
@@ -723,6 +730,7 @@ content#:#cont_Number#:#Nummer
 content#:#cont_Reference#:#Referenz
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
+content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
@@ -735,6 +743,8 @@ content#:#cont_content#:#Inhalt
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
+content#:#cont_definition#:#Definition###01 Sep 2003 new variable
+content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
@@ -787,6 +797,8 @@ content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_sc_title#:#Titel
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
+content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_st_title#:#Kapitel-Titel
@@ -831,8 +843,8 @@ forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
-forum#:#forums_respond#:#Antworten
 forum#:#forums_quote#:#Zitieren
+forum#:#forums_respond#:#Antworten###01 Sep 2003 content changed
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema
