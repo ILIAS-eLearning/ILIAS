@@ -61,9 +61,15 @@ class ilLOListGUI
 		}
 		if($cmd == "post")
 		{
-			$cmd = key($_POST["cmd"]);
+			if(isset($_POST["cmd"]["action"]))
+			{
+				$cmd = $_POST["action_type"];
+			}
+			else
+			{
+				$cmd = key($_POST["cmd"]);
+			}
 		}
-
 		$this->$cmd();
 	}
 
@@ -168,6 +174,12 @@ class ilLOListGUI
 
 		// set locator
 		$this->setLocator();
+
+		// SHOW MESSAGE IF EXISTS
+		if($this->message)
+		{
+			sendInfo($this->message);
+		}
 		/*
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
@@ -272,6 +284,7 @@ class ilLOListGUI
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
 				{
 					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
+					$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
 					$this->tpl->setVariable("VIEW_TARGET", "_top");
 					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
@@ -315,7 +328,7 @@ class ilLOListGUI
 			$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$this->tpl->setCurrentBlock("tbl_content");
 			$this->tpl->setVariable("ROWCOL", "tblrow1");
-			$this->tpl->setVariable("COLSPAN", "6");
+			$this->tpl->setVariable("COLSPAN", "7");
 			$this->tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -328,11 +341,11 @@ class ilLOListGUI
 		// title & header columns
 		//$tbl->setTitle($this->lng->txt("lo_available"),"icon_crs_b.gif",$this->lng->txt("lo_available"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("status"),
+		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("status"),
 								   $this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
-		$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"),
+		$tbl->setHeaderVars(array("","title","description","status","last_visit","last_update","context"),
 							array("cmd" => "displayList", "ref_id" => $_GET["ref_id"]));
-		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+		//$tbl->setColumnWidth(array("7%","7%","7%","15%","31%","6%","17%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -358,9 +371,50 @@ class ilLOListGUI
 		exit;
 	}
 
+	function edit()
+	{
+		if(!is_array($_POST["items"]))
+		{
+			$this->message .= $this->lng->txt("select_one");
+			$this->view();
+			return;
+		}
+		foreach($_POST["items"] as $item)
+		{
+			header("location: ./content/lm_edit.php?ref_id=$item");
+			exit;
+		}
+	}
+
+	function export()
+	{
+		if($_POST["items"])
+		{
+			foreach($_POST["items"] as $item)
+			{
+				// DO SOMETHING $item = ref_id of selected object
+			}
+		}
+	}
+
 	function addToDesk()
 	{
-		$this->ilias->account->addDesktopItem($_GET["ref_id"], $_GET["type"]);
+		if($_GET["ref_id"] and $_GET["type"])
+		{
+			$this->ilias->account->addDesktopItem($_GET["ref_id"],$_GET["type"]);
+		}
+		else
+		{
+			if($_POST["items"])
+			{
+				foreach($_POST["items"] as $item)
+				{
+					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
+					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
+					unset($tmp_obj);
+				}
+			}
+		}
 		$this->view();
 	}
 
@@ -433,14 +487,37 @@ class ilLOListGUI
 
 		if (is_array($subobj))
 		{
+			$this->showActionSelect($subobj);
+
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			$this->tpl->setVariable("COLUMN_COUNTS", 6);
+			$this->tpl->setVariable("COLUMN_COUNTS", 7);
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			$this->tpl->setVariable("BTN_NAME", "create");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function showActionSelect(&$subobj)
+	{
+		$actions = array("edit" => $this->lng->txt("edit"),"addToDesk" => $this->lng->txt("to_desktop")
+						 ,"export" => $this->lng->txt("export"));
+
+		if(is_array($subobj))
+		{
+			if(in_array("dbk",$subobj) or in_array("lm",$subobj))
+			{
+				$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+				
+				$this->tpl->setCurrentBlock("tbl_action_select");
+				$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect("","action_type",$actions,false,true));
+				$this->tpl->setVariable("BTN_NAME","action");
+				$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("submit"));
+				$this->tpl->parseCurrentBlock();
+			}
+				
 		}
 	}
 
