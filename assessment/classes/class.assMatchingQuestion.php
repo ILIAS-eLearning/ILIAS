@@ -402,16 +402,19 @@ class ASS_MatchingQuestion extends ASS_Question
 				$fh = @fopen($imagepath, "rb");
 				if ($fh == false)
 				{
-					global $ilErr;
-					$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
-					return;
+					//global $ilErr;
+					//$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
+					//return;
 				}
-				$imagefile = fread($fh, filesize($imagepath));
-				fclose($fh);
-				$base64 = base64_encode($imagefile);
-				$qtiBase64Data = $this->domxml->create_text_node($base64);
-				$qtiMatImage->append_child($qtiBase64Data);
-				$qtiMaterial->append_child($qtiMatImage);
+				else
+				{
+					$imagefile = fread($fh, filesize($imagepath));
+					fclose($fh);
+					$base64 = base64_encode($imagefile);
+					$qtiBase64Data = $this->domxml->create_text_node($base64);
+					$qtiMatImage->append_child($qtiBase64Data);
+					$qtiMaterial->append_child($qtiMatImage);
+				}
 			}
 			else
 			{
