@@ -177,7 +177,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("has_rooms");
-		$this->tpl->setVariable("TBL_FOOTER_IMG_SRC",substr(ilUtil::getImagePath("arrow_downright.gif"),1));
+		$this->tpl->setVariable("TBL_FOOTER_IMG_SRC", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("TBL_FOOTER_SELECT",$this->__showAdminRoomSelect(count($rooms)));
 		$this->tpl->setVariable("FOOTER_HAS_ROOMS_OK",$this->lng->txt("ok"));
 		$this->tpl->parseCurrentBlock();
