@@ -32,22 +32,11 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
-common#:#lm_added#:#LearningModule added
-common#:#cat_added#:#Category added
-common#:#slm_added#:#SCORM LearningModule added
-common#:#crs_added#:#Course added
-common#:#grp_added#:#Group added
-common#:#rolf_added#:#Role Folder added
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add
-common#:#msg_deleted_role#:#Role deleted
-common#:#msg_deleted_roles#:#Roles deleted
-common#:#msg_deleted_rolt#:#Role Template deleted
-common#:#msg_deleted_rolts#:#Role Template deleted
-common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -86,6 +75,7 @@ common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
+common#:#cat_added#:#Category added
 common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#censorship
@@ -121,6 +111,7 @@ common#:#create#:#Create
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
+common#:#crs_added#:#Course added
 common#:#crs_available#:#Available Courses
 common#:#crs_management_system#:#Course Management System
 common#:#current_password#:#Current Password
@@ -219,6 +210,7 @@ common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
+common#:#grp_added#:#Group added
 common#:#help#:#Help
 common#:#hobby#:#Interests/Hobbies
 common#:#host#:#Host
@@ -288,6 +280,7 @@ common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
 common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#lm#:#Learning Module
+common#:#lm_added#:#LearningModule added
 common#:#lng#:#Language
 common#:#lngf#:#Language Folder
 common#:#lo#:#Learning Object
@@ -350,6 +343,11 @@ common#:#msg_cloned#:#Selected object(s) copied.
 common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).
 common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).
 common#:#msg_cut_copied#:#Selected object(s) moved.
+common#:#msg_deleted_role#:#Role deleted
+common#:#msg_deleted_roles#:#Roles deleted
+common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted
+common#:#msg_deleted_rolt#:#Role Template deleted
+common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
@@ -514,6 +512,7 @@ common#:#role_added#:#Role added
 common#:#role_deleted#:#Role deleted
 common#:#roles#:#Roles
 common#:#rolf#:#Role Folder
+common#:#rolf_added#:#Role Folder added
 common#:#rolt#:#Role Template
 common#:#rolt_added#:#Role template added
 common#:#salutation#:#Salutation
@@ -553,6 +552,7 @@ common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#signature#:#Signature
 common#:#slm#:#SCORM LM
+common#:#slm_added#:#SCORM LearningModule added
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#startpage#:#Startpage
@@ -619,12 +619,6 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_page_header#:#Page Header
-content#:#cont_order#:#Order Type
-content#:#cont_list_properties#:#List Properties
-content#:#cont_st_title#:#Chapter Title
-content#:#cont_pg_title#:#Page Title
-content#:#cont_none#:#None
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
@@ -652,16 +646,22 @@ content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
+content#:#cont_list_properties#:#List Properties
 content#:#cont_lm_properties#:#Learning Module Properties
+content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
+content#:#cont_order#:#Order Type
+content#:#cont_page_header#:#Page Header
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
+content#:#cont_pg_title#:#Page Title
 content#:#cont_preview#:#Preview
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
+content#:#cont_st_title#:#Chapter Title
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border

@@ -75,6 +75,7 @@ common#:#cancel#:#cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
 common#:#cat#:#cat
+common#:#cat_added#:#Category added###16 Jul 2003 new variable
 common#:#categories#:#categorie
 common#:#cc#:#cc
 common#:#censorship#:#censorship###13 May 2003 new variable
@@ -110,6 +111,7 @@ common#:#create#:#creare
 common#:#create_in#:#creare in
 common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
 common#:#crs#:#crs
+common#:#crs_added#:#Course added###16 Jul 2003 new variable
 common#:#crs_available#:#corsi disponibili
 common#:#crs_management_system#:#sistema management courses
 common#:#current_password#:#password attuale
@@ -208,6 +210,7 @@ common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#gruppi
 common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
 common#:#grp#:#grp
+common#:#grp_added#:#Group added###16 Jul 2003 new variable
 common#:#help#:#aiuto
 common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
 common#:#host#:##host
@@ -277,6 +280,7 @@ common#:#list_of_questions#:#lista di domande
 common#:#literature#:#letteratura
 common#:#literature_bookmarks#:#favoriti letteratura
 common#:#lm#:#Learning Module###14 May 2003 new variable
+common#:#lm_added#:#LearningModule added###16 Jul 2003 new variable
 common#:#lng#:#lingua
 common#:#lngf#:#lngf
 common#:#lo#:#lezione
@@ -339,11 +343,16 @@ common#:#msg_cloned#:#Selected object(s) copied.###10 Jul 2003 new variable
 common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).###10 Jul 2003 new variable
 common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).###10 Jul 2003 new variable
 common#:#msg_cut_copied#:#Selected object(s) moved.###10 Jul 2003 new variable
+common#:#msg_deleted_role#:#Role deleted###16 Jul 2003 new variable
+common#:#msg_deleted_roles#:#Roles deleted###16 Jul 2003 new variable
+common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted###16 Jul 2003 new variable
+common#:#msg_deleted_rolt#:#Role Template deleted###16 Jul 2003 new variable
+common#:#msg_deleted_rolts#:#Role Template deleted###16 Jul 2003 new variable
 common#:#msg_error_copy#:#Copy Error###04 Jul 2003 new variable
 common#:#msg_failed#:#fallito
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).###10 Jul 2003 new variable
 common#:#msg_linked#:#Selected object(s) linked.###10 Jul 2003 new variable
-common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_may_not_contain#:#This object may not contain objects of type: ###16 Jul 2003 content changed
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create_role#:#You have no permission to add roles###08 Jul 2003 new variable
@@ -503,6 +512,7 @@ common#:#role_added#:#Role added###02 Apr 2003 new variable
 common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
 common#:#roles#:#roles
 common#:#rolf#:#rolf
+common#:#rolf_added#:#Role Folder added###16 Jul 2003 new variable
 common#:#rolt#:#rolt
 common#:#rolt_added#:#Role template added###02 Apr 2003 new variable
 common#:#salutation#:#apellativo
@@ -542,6 +552,7 @@ common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#proprietario
 common#:#signature#:##signature
 common#:#slm#:#SCORM LM###18 Jun 2003 new variable
+common#:#slm_added#:#SCORM LearningModule added###16 Jul 2003 new variable
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#sort_by_this_column#:#Sort by this column###30 May 2003 new variable
 common#:#startpage#:##startpage
@@ -635,16 +646,22 @@ content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
+content#:#cont_list_properties#:#List Properties###16 Jul 2003 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
+content#:#cont_none#:#None###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
 content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
+content#:#cont_order#:#Order Type###16 Jul 2003 new variable
+content#:#cont_page_header#:#Page Header###16 Jul 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
+content#:#cont_pg_title#:#Page Title###16 Jul 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
 content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
+content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
 content#:#cont_table#:#Table###11 Jun 2003 new variable
 content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
