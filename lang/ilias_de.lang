@@ -138,7 +138,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
@@ -327,10 +327,10 @@ assessment#:#result#:#Ergebnis
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
-assessment#:#save_finish#:#Speichern und Test fertigstellen###21 Dec 2004 content changed
-assessment#:#save_introduction#:#Speichern und zur Einführung###21 Dec 2004 content changed
-assessment#:#save_next#:#Speichern und zur nächsten Frage###21 Dec 2004 content changed
-assessment#:#save_previous#:#Speichern und zur vorigen Frage###21 Dec 2004 content changed
+assessment#:#save_finish#:#Test fertigstellen
+assessment#:#save_introduction#:#Zur Einführung
+assessment#:#save_next#:#Weiter
+assessment#:#save_previous#:#Zurück
 assessment#:#search_found_groups#:#Gefundene Gruppen
 assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
@@ -4089,10 +4089,10 @@ survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie 
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangscodes
-survey#:#combobox#:#Combobox###22 Dec 2004 new variable
+survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
-survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
-survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
+survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
+survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraints#:#Beschränkungen
 survey#:#contains#:#Beinhaltet
@@ -4137,7 +4137,7 @@ survey#:#dc_varying#:#unterschiedlich
 survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Fragenblock definieren
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
+survey#:#description_maxchars#:#Wenn Sie nichts eintragen, ist die maximale Anzahl der einzugebenden Zeichen unbegrenzt.
 survey#:#disinvite#:#Ausladen
 survey#:#display_all_available#:#Anzeige aller verfübaren
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
@@ -4171,7 +4171,7 @@ survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
-survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
+survey#:#enter_questionblock_title#:#Bitte geben Sie einen Titel für den Fragenblock an!
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
@@ -4197,7 +4197,7 @@ survey#:#finished#:#beendet
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
-survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
+survey#:#glossary_term#:#Glossarbegriff
 survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#heading#:#Überschrift
 survey#:#horizontal#:#horizontal
@@ -4219,10 +4219,10 @@ survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
-survey#:#material#:#Material###23 Dec 2004 new variable
-survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
+survey#:#material#:#Material
+survey#:#material_added_successfully#:#Sie haben erfolgreich einen Verweis auf Material eingestellt!
 survey#:#material_file#:#Material-Datei
-survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
+survey#:#maxchars#:#Maximale Anzahl erlaubter Zeichen
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
@@ -4322,7 +4322,7 @@ survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
 survey#:#search_users#:#Nutzerinnen
 survey#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
-survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
+survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
@@ -4332,7 +4332,7 @@ survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
-survey#:#selection#:#Selection###22 Dec 2004 new variable
+survey#:#selection#:#Auswahl
 survey#:#set_filter#:#Filter setzen
 survey#:#skipped#:#überprungen
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
@@ -4381,7 +4381,7 @@ survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
 survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
-survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
+survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 32 Zeichen bestehenden Umfragecode ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Umfragecode auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
 survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Umfragecode eingeben
