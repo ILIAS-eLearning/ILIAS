@@ -420,6 +420,13 @@ class ilCourseMembers
 	}
 	function hasAccess($a_usr_id)
 	{
+		global $rbacsystem;
+
+		if($rbacsystem->checkAccess('write',$this->course_obj->getRefId()))
+		{
+			return true;
+		}
+
 		return $this->isAssigned($a_usr_id) && !$this->isBlocked($a_usr_id) ? true : false;
 	}
 
