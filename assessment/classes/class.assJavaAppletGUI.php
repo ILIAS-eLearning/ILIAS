@@ -224,6 +224,14 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	function uploadingMaterial()
+	{
+		//$this->setObjectData();
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+
 	/**
 	* save question to db and return to question pool
 	*/

@@ -710,6 +710,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			$this->object->setId($_POST["multiple_choice_id"]);
 		}
+		
+		if ($saved)
+		{
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->object->saveToDb();
+			$_GET["q_id"] = $this->object->getId();
+		}
 
 		return $result;
 	}
