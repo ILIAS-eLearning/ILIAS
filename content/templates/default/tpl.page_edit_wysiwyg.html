@@ -24,3 +24,51 @@
 </table>
 <!-- END med_link -->
 </form>
+
+<script src="./js/functions.js" language="JavaScript" type="text/javascript"></script>
+<script src="./js/wz_dragdrop.js" language="JavaScript" type="text/javascript"></script>
+
+<div id="contextmenu" style="position:absolute;left:0;top:0;visibility:hidden;">
+<table border=1 cellspacing=0 cellpadding=0 bgcolor=white ><tr><td>
+
+    <table cellspacing=0 cellpadding=2 border=0>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'edit');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Bearbeiten</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_par');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Absatz einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_src');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Code einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_tab');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Tabelle einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_mob');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Medien einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_list');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Liste einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_flst');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Dateiliste einf&uuml;gen</td>
+        </tr>
+        <tr>
+            <td onClick="if (confirm('Wirklich l&ouml;schen ?')) {doActionForm('cmd[exec]', 'command', 'delete');}" onMouseOver="M_in(this);" onMouseOut="M_out(this);">L&ouml;schen</td>
+        </tr>
+    </table>
+
+</td></tr></table>
+</div>
+
+<div id="actionForm"></div>
+
+<script>
+var actionUrl = "{FORMACTION}";
+</script>
+
+<script language="JavaScript" type="text/javascript">
+SET_DHTML("contextmenu","actionForm");
+</script>
+
+
