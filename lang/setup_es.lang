@@ -191,6 +191,7 @@ intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proce
 ip_address#:#IP address###21 Nov 2003 new variable
 java_path#:#Path to Java###21 Nov 2003 new variable
 java_path_comment#:#required for SCORM Learning modules###05 Jan 2004 new variable
+lang_cs#:#Czech###new variable 08 Mar 2004
 lang_de#:#Alemán
 lang_dk#:#Dinamarqués
 lang_en#:#Inglés
