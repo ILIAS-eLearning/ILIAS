@@ -970,22 +970,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// get local roles
 		$loc_roles = $rbacreview->getAssignableRoles();
+		$pre_select = null;
 		$l_roles = array();
 		foreach ($loc_roles as $key => $loc_role)
 		{
 				// fetch context path of role
 				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
 
-				// only list roles that are not set to status "deleted" and
-				// for which the user has write permissions.
-				//
-				// FIXME: As a temporary hack, we must not list il_crs_... roles,
-				//        because assigning a user to one of these roles is not
-				//        sufficient, to become a member of a course.
-				//
+				// only process role folders that are not set to status "deleted" 
+				// and for which the user has write permissions.
+				// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
+				// (The ROLE_FOLDER_ID folder contains the global roles).
 				if (!$rbacreview->isDeleted($rolf[0])
 				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
-				&& substr($loc_role["title"],0,6) != 'il_crs'
+				&& $rolf[0] != ROLE_FOLDER_ID
 				)
 				{
 					$path = "";
@@ -1007,9 +1005,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					{
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
+					if (strlen($path) > 30)
+					{
+						$path = strlen($path,0,14).'...'.substr($path,strlen($path)-14);
+					}
+
+
 					if ($loc_role["role_type"] != "Global")
 					{
 						$l_roles[$loc_role["obj_id"]] = $path.": ".$loc_role["title"];
+					}
+					if ($loc_role["title"] == $role["name"])
+					{
+						$pre_select = $loc_role;
 					}
 				}
 		} //foreach role

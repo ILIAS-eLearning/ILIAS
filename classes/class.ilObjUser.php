@@ -229,7 +229,14 @@ class ilObjUser extends ilObject
 	{
 		// basic personal data
 		$this->setLogin($a_data["login"]);
-		$this->setPasswd($a_data["passwd"]);
+		if ($a_data["passwd"])
+		{
+			$this->setPasswd($a_data["passwd"], IL_PASSWD_MD5);
+		}
+		else
+		{
+			$this->setPasswd($a_data["il2passwd"], IL_PASSWD_CRYPT);
+		}
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
 		$this->setFirstname($a_data["firstname"]);
@@ -370,6 +377,21 @@ class ilObjUser extends ilObject
 
         $this->syncActive();
 
+		switch ($this->passwd_type)
+		{
+			case IL_PASSWD_PLAIN:
+				$pw_update = "i2passwd='', passwd='".md5($this->passwd)."'";
+				break;
+
+			case IL_PASSWD_MD5:
+				$pw_update = "i2passwd='', passwd='".$this->passwd."'";
+				break;
+
+			case IL_PASSWD_CRYPT:
+				$pw_update = "passwd='', i2passwd='".$this->passwd."'";
+				break;
+		}
+
 		$q = "UPDATE usr_data SET ".
             "gender='".$this->gender."', ".
             "title='".ilUtil::prepareDBString($this->utitle)."', ".
@@ -396,6 +418,7 @@ class ilObjUser extends ilObject
             "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
             "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
+			$pw_update.", ".
             "last_update=now(), ".
             "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."' ".
             "WHERE usr_id='".$this->id."'";

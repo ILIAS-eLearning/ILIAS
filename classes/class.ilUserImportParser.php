@@ -23,6 +23,7 @@
 
 define ("IL_EXTRACT_ROLES", 1);
 define ("IL_USER_IMPORT", 2);
+define ("IL_VERIFY", 3);
 
 require_once("classes/class.ilSaxParser.php");
 
@@ -217,6 +218,7 @@ class ilUserImportParser extends ilSaxParser
 			case "Role":
 				$this->current_role_id = $a_attribs["Id"];
 				$this->current_role_type = $a_attribs["Type"];
+				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
 				break;
 
 			case "User":
@@ -333,6 +335,110 @@ class ilUserImportParser extends ilSaxParser
 	}
 
 	/**
+	 * Assigns a user to a role.
+     */
+	function assignToRole($a_user_obj, $a_role_id)
+	{
+		require_once "classes/class.ilObjRole.php";
+		require_once "course/classes/class.ilObjCourse.php";
+		require_once "course/classes/class.ilCourseMembers.php";
+
+		global $rbacreview, $rbacadmin, $tree;
+
+		// If it is a course role, use the ilCourseMember object to assign
+		// the user to the role
+		$role_obj = new ilObjRole($a_role_id, false);
+		$role_obj->read();
+		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
+		{
+			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id,true);
+			$course_ref = $tree->getParentId($rolf_refs[0]);
+			$course_obj = new ilObjCourse($course_ref, true);
+			$crsmembers_obj = new ilCourseMembers($course_obj);
+
+			switch (substr($role_obj->getTitle(),0,12))
+			{
+				case 'il_crs_admin' :
+					$crs_role = $crsmembers_obj->ROLE_ADMIN;
+					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
+					break;
+				case 'il_crs_tutor' :
+					$crs_role = $crsmembers_obj->ROLE_TUTOR;
+					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
+					break;
+				case 'il_crs_membe' :
+				default :
+					$crs_role = $crsmembers_obj->ROLE_MEMBER;
+					$crs_status = $crsmembers_obj->STATUS_UNBLOCKED;
+					break;
+			}
+
+			if ($crsmembers_obj->isAssigned($a_user_obj->getID()))
+			{
+				$crsmembers_obj->update($a_user_obj->getID(), $crs_role, $crs_status, false);
+			}
+			else
+			{
+				$crsmembers_obj->add($a_user_obj, $crs_role);
+			}
+		}
+		// If it is not a course role, use RBAC to assign the user to the role
+		else
+		{
+			$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
+		}
+	}
+	/**
+	 * Detachs a user from a role.
+     */
+	function detachFromRole($a_user_obj, $a_role_id)
+	{
+		require_once "classes/class.ilObjRole.php";
+		require_once "course/classes/class.ilObjCourse.php";
+		require_once "course/classes/class.ilCourseMembers.php";
+
+		global $rbacreview, $rbacadmin, $tree;
+
+		// If it is a course role, use the ilCourseMember object to assign
+		// the user to the role
+		$role_obj = new ilObjRole($a_role_id, false);
+		$role_obj->read();
+		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
+		{
+			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id,true);
+			$course_ref = $tree->getParentId($rolf_refs[0]);
+			$course_obj = new ilObjCourse($course_ref, true);
+			$crsmembers_obj = new ilCourseMembers($course_obj, false);
+			switch (substr($role_obj->getTitle(),0,12)) 
+			{
+				case 'il_crs_membe' :
+					if ($crsmembers_obj->isMember($a_user_obj->getId()))
+					{
+						$crsmembers_obj->delete($a_user_obj->getId());
+					}
+					break;
+				case 'il_crs_admin' :
+					if ($crsmembers_obj->isAdmin($a_user_obj->getId()))
+					{
+						$crsmembers_obj->delete($a_user_obj->getId());
+					}
+					break;
+				case 'il_crs_tutor' :
+					if ($crsmembers_obj->isTutor($a_user_obj->getId()))
+					{
+						$crsmembers_obj->delete($a_user_obj->getId());
+					}
+					break;
+			}
+		}
+		// If it is not a course role, use RBAC to assign the user to the role
+		else
+		{
+			$rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
+		}
+	}
+
+	/**
 	* handler for end of element when in import user mode.
 	*/
 	function importEndTag($a_xml_parser, $a_name)
@@ -396,8 +502,7 @@ class ilUserImportParser extends ilSaxParser
 							//set role entries
 							foreach($this->roles as $role_id => $role)
 							{
-								$rbacadmin->assignUser($this->role_assign[$role_id],
-									$this->userObj->getId(), true);
+								$this->assignToRole($this->userObj, $this->role_assign[$role_id]);
 							}
 						}
 						break;
@@ -455,12 +560,10 @@ class ilUserImportParser extends ilSaxParser
 								switch ($role["action"])
 								{
 									case "Assign" :
-										$rbacadmin->assignUser($this->role_assign[$role_id],
-											$updateUser->getId(), true);
+										$this->assignToRole($updateUser, $this->role_assign[$role_id]);
 										break;
 									case "Detach" :
-										$rbacadmin->deassignUser($role_id, 
-											$updateUser->getId());
+										$this->detachFromRole($updateUser, $this->role_assign[$role_id]);
 										break;
 								}
 							}
