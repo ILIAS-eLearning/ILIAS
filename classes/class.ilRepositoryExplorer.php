@@ -65,6 +65,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->addFilter("lm");
 		$this->addFilter("frm");
 		$this->addFilter("dbk");
+		$this->addFilter("glo");
 		$this->setFiltered(true);
 
 	}
@@ -85,6 +86,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "frm":
 				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
+
+			case "glo":
+				return "content/glossary_presentation.php?ref_id=".$a_node_id;
 		}
 	}
 
@@ -104,6 +108,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "frm":
 				return "";
+
+			case "glo":
+				return "";
 		}
 	}
 
@@ -119,6 +126,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return true;
 				break;
 
+			// all other types are only clickable, if read permission is given
 			default:
 				if ($rbacsystem->checkAccess("read", $a_ref_id))
 				{

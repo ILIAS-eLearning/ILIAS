@@ -139,7 +139,7 @@ class ilGlossaryPresentationGUI
 			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
 
 		$cols = array("term", "language", "definitions", "id");
-		$header_params = array("ref_id" => $this->ref_id, "cmd" => "listTerms");
+		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("25%","15%","60%"));
 

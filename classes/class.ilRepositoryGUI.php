@@ -93,6 +93,7 @@ class ilRepositoryGUI
 		$this->learning_resources = array();
 		$this->forums = array();
 		$this->groups = array();
+		$this->glossaries = array();
 
 	}
 
@@ -111,6 +112,10 @@ class ilRepositoryGUI
 		$this->$cmd();
 	}
 
+
+	/**
+	* show list (tree or flat, depending on current mode)
+	*/
 	function showList()
 	{
 		switch ($this->mode)
@@ -125,6 +130,10 @@ class ilRepositoryGUI
 		}
 	}
 
+
+	/**
+	* display tree view
+	*/
 	function showTree()
 	{
 		// output objects
@@ -179,6 +188,9 @@ class ilRepositoryGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* display flat list
+	*/
 	function showFlatList()
 	{
 		// get all objects of current node
@@ -223,6 +235,11 @@ class ilRepositoryGUI
 				case "grp":
 					$this->groups[$key] = $object;
 					break;
+
+				// glossary
+				case "glo":
+					$this->glossaries[$key] = $object;
+					break;
 			}
 		}
 
@@ -264,6 +281,12 @@ class ilRepositoryGUI
 			$this->showLearningResources();
 		}
 
+		// glossaries
+		if (count($this->glossaries))
+		{
+			$this->showGlossaries();
+		}
+
 		// forums
 		if (count($this->forums))
 		{
@@ -280,6 +303,9 @@ class ilRepositoryGUI
 	}
 
 
+	/**
+	* display header section (header, description, tree/flat icon)
+	*/
 	function setHeader()
 	{
 		if ($this->cur_ref_id == $this->tree->getRootId())
@@ -569,6 +595,137 @@ class ilRepositoryGUI
 
 		$this->tpl->setCurrentBlock("learning_resources");
 		$this->tpl->setVariable("LEARNING_RESOURCES", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* show glossaries
+	*/
+	function showGlossaries()
+	{
+		// set offset & limit
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+		if ($limit == 0)
+		{
+			$limit = 9999;	// todo: not nice
+		}
+
+		$maxcount = count($this->glossaries);
+		$glos = array_slice($this->glossaries, $offset, $limit);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$glo_num = count($glos);
+
+		// render table content data
+		if ($glo_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_glo_row.html");
+
+			// counter for rowcolor change
+			$num = 0;
+
+			foreach ($glos as $gl_data)
+			{
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$obj_icon = "icon_glo_b.gif";
+
+				//$tpl->setVariable("TITLE", $lr_data["title"]);
+
+				$obj_link = "content/glossary_presentation.php?ref_id=".$gl_data["ref_id"];
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
+				if($this->rbacsystem->checkAccess('read',$gl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("read");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $gl_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("visible");
+					$tpl->setVariable("V_TITLE", $gl_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("tbl_content");
+				if($this->rbacsystem->checkAccess('write',$gl_data["ref_id"]))
+				{
+					$tpl->setVariable("EDIT_LINK","content/glossary_edit.php?cmd=listTerms&ref_id=".$gl_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
+				}
+				if (!$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
+				{
+					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
+					{
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+							"&item_ref_id=".$gl_data["ref_id"].
+							"&type=glo&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&sort_by=".$_GET["sort_by"]);
+						$tpl->setVariable("TXT_TO_DESK", "(".$this->lng->txt("to_desktop").")");
+					}
+				}
+
+				$tpl->setVariable("DESCRIPTION", $gl_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($gl_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+
+		}
+		else
+		{
+
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("glossaries"),"icon_glo_b.gif",$this->lng->txt("glossaries"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("", "title"),
+			array("ref_id" => $_GET["ref_id"]));
+		$tbl->setColumnWidth(array("1%", "99%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("glossaries");
+		$this->tpl->setVariable("GLOSSARIES", $tpl->get());
 		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
 		$this->tpl->parseCurrentBlock();
 
@@ -1010,7 +1167,7 @@ class ilRepositoryGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "cat")))
+					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
