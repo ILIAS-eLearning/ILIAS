@@ -346,6 +346,14 @@ div.invisible_border {
 	width: 100%;
 }
 
+div.il_Footer
+{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-size: 10px;
+	text-align:center;
+}
+
 /* ------- Helptext --------- */
 span.il_Helptext {
 	font-size:11px;

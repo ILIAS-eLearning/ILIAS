@@ -52,5 +52,5 @@ $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "forums_menu.php?fexpand=".$_GET["fexpand"]."&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 $tpl->parseCurrentBlock();
 
-$tpl->show();
+$tpl->show(false);
 ?>
