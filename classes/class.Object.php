@@ -508,34 +508,34 @@ class Object
 		include_once ("classes/class.Admin.php");
 		
 		$admin = new Admin();
-		return $admin->cutObject();
+		return $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 	}
 	function copyAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
 		
 		$admin = new Admin();
-		return $admin->copyObject();
+		return $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 	}
 	function linkAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
 		
-		$admin = new Admin();
+		$admin = new Admin($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 		return $admin->linkObject();
 	}
 	function pasteAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
 		$admin = new Admin();
-		return $admin->pasteObject();
+		return $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
 	}
 	function deleteAdmObject()
 	{
 		include_once ("classes/class.Admin.php");
 		
 		$admin = new Admin();
-		return $admin->deleteObject();
+		return $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
 	}
 	function confirmDeleteAdmObject()
 	{
@@ -564,11 +564,56 @@ class Object
 
 		return $data;
 	}
+	function trashObject()
+	{
+		global $lng,$tree;
+
+
+		$objects = $tree->getSavedNodeData($_GET["obj_id"]);
+		if(count($objects))
+		{
+			$data["empty"] = false;
+			$data["cols"] = array("","type", "title", "description", "last_change");
+			
+			foreach($objects as $obj_data)
+			{
+				$data["data"]["$obj_data[child]"] = array(
+					"checkbox"    => "",
+					"type"        => $obj_data["type"],
+					"title"       => $obj_data["title"],
+					"desc"        => $obj_data["desc"],
+					"last_update" => $obj_data["last_update"]);
+			}
+			$data["buttons"] = array( "button1"  => $lng->txt("btn_undelete"),
+									  "button2"  => $lng->txt("btn_remove_system"));
+			return $data;
+		}
+		else
+		{
+			$this->ilias->error_obj->sendInfo($lng->txt("msg_trash_empty"));
+			$data["empty"] = true;
+			return $data;
+		}
+	}		
 	function cancelDeleteObject()
 	{
 		session_unregister("saved_post");
 	}
 
+	function undeleteAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+
+		$admin = new Admin();
+		return $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
+	}
+	function removeAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+
+		$admin = new Admin();
+		return $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
+	}
 	function clearAdmObject()
 	{
 		include_once ("classes/class.Admin.php");

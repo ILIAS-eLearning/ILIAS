@@ -18,7 +18,7 @@ class RoleObject extends Object
 	{
 		$this->Object();
 	}
-	
+
 	/**
 	* create a role object 
 	* @access	public

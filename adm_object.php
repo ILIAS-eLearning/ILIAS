@@ -44,6 +44,12 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("delete"):
 			$_GET["cmd"] = "confirmDeleteAdm";
 			break;
+		case $lng->txt("btn_undelete"):
+			$_GET["cmd"] = "undeleteAdm";
+			break;
+		case $lng->txt("btn_remove_system"):
+			$_GET["cmd"] = "removeAdm";
+			break;
 		case $lng->txt("cancel"):
 			$_GET["cmd"] = "cancelDelete";
 			break;
