@@ -10,7 +10,7 @@
 * @extends PEAR
 * @package ilias-core
 */
-class SaxParser extends PEAR
+class ilSaxParser extends PEAR
 {
 	/**
 	 * ilias object
@@ -18,7 +18,7 @@ class SaxParser extends PEAR
 	 * @access private
 	 */
 	var $ilias;
-	
+
 	/**
 	 * language object
 	 * @var object language
@@ -38,7 +38,7 @@ class SaxParser extends PEAR
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function SaxParser($a_xml_file)
+	function ilSaxParser($a_xml_file)
 	{
 		global $ilias, $lng;
 
