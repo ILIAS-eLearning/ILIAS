@@ -408,12 +408,18 @@ class ilObjContentObject extends ilObject
 			case "html":
 				$export_dir = $lm_dir."/export_html";
 				break;
+
+			// scorm
+			case "scorm":
+				$export_dir = $lm_dir."/export_scorm";
+				break;
 				
 			default:		// = xml
 				$export_dir = $lm_dir."/export";
 				break;
 		}
 		ilUtil::makeDir($export_dir);
+				
 		if(!@is_dir($export_dir))
 		{
 			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
@@ -429,6 +435,10 @@ class ilObjContentObject extends ilObject
 		{
 			case "html":
 				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_html";
+				break;
+
+			case "scorm":
+				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_scorm";
 				break;
 				
 			default:			// = xml
@@ -1415,7 +1425,7 @@ class ilObjContentObject extends ilObject
 	{
 		$file = array();
 		
-		$types = array("xml", "html");
+		$types = array("xml", "html", "scorm");
 		
 		foreach ($types as $type)
 		{
@@ -1424,7 +1434,7 @@ class ilObjContentObject extends ilObject
 			if (!@is_dir($dir) or
 				!is_writeable($dir))
 			{
-				return array();
+				continue;
 			}
 	
 			// open directory
@@ -1452,7 +1462,6 @@ class ilObjContentObject extends ilObject
 		// sort files
 		ksort ($file);
 		reset ($file);
-
 		return $file;
 	}
 	
@@ -1520,9 +1529,53 @@ class ilObjContentObject extends ilObject
 	}
 	
 	/**
+	* export scorm package
+	*/
+	function exportSCORM($a_target_dir, $log)
+	{
+		ilUtil::delDir($a_target_dir);
+		ilUtil::makeDir($a_target_dir);
+		//ilUtil::makeDir($a_target_dir."/res");
+		
+		// export everything to html
+		$this->exportHTML($a_target_dir."/res", $log, false);
+		
+		// build manifest file
+		include("content/classes/class.ilContObjectManifestBuilder.php");
+		$man_builder = new ilContObjectManifestBuilder($this);
+		$man_builder->buildManifest();
+		$man_builder->dump($a_target_dir);
+		
+		// copy scorm 1.2 schema definitions
+		copy("content/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir."/adlcp_rootv1p2.xsd");
+		copy("content/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir."/imscp_rootv1p1p2.xsd");
+		copy("content/scorm_xsd/imsmd_rootv1p2p1.xsd", $a_target_dir."/imsmd_rootv1p2p1.xsd");
+		
+		// zip it all
+		$date = time();
+		$zip_file = $a_target_dir."/".$date."__".IL_INST_ID."__".
+			$this->getType()."_".$this->getId().".zip";
+	//echo "zip-".$a_target_dir."-to-".$zip_file;
+		ilUtil::zip(array($a_target_dir."/res",
+			$a_target_dir."/imsmanifest.xml",
+			$a_target_dir."/adlcp_rootv1p2.xsd",
+			$a_target_dir."/imscp_rootv1p1p2.xsd",
+			$a_target_dir."/imsmd_rootv1p2p1.xsd")
+			, $zip_file);
+			
+		$dest_file = $this->getExportDirectory("scorm")."/".$date."__".IL_INST_ID."__".
+			$this->getType()."_".$this->getId().".zip";
+		
+		rename($zip_file, $dest_file);
+		ilUtil::delDir($a_target_dir);
+
+	}
+
+	
+	/**
 	* export html package
 	*/
-	function exportHTML($a_target_dir, $log)
+	function exportHTML($a_target_dir, $log, $a_zip_file = true)
 	{
 		global $ilias, $tpl;
 
@@ -1624,13 +1677,17 @@ class ilObjContentObject extends ilObject
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		
-		// zip it all
-		$date = time();
-		$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
-			$this->getType()."_".$this->getId().".zip";
+		// zip everything
+		if ($a_zip_file)
+		{
+			// zip it all
+			$date = time();
+			$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
+				$this->getType()."_".$this->getId().".zip";
 //echo "zip-".$a_target_dir."-to-".$zip_file;
-		ilUtil::zip($a_target_dir, $zip_file);
-		ilUtil::delDir($a_target_dir);
+			ilUtil::zip($a_target_dir, $zip_file);
+			ilUtil::delDir($a_target_dir);
+		}
 	}
 	
 	/**

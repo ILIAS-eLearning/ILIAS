@@ -1974,18 +1974,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->exportList();
 	}
 
+	/**
+	* show list of export files
+	*/
 	function exportMenu()
 	{
-				// create export file button
+		// create xml export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
 		$this->tpl->parseCurrentBlock();
 		
-		// create export file button
+		// create html export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_html"));
+		$this->tpl->parseCurrentBlock();
+
+		// create scorm export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportSCORM"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_scorm"));
 		$this->tpl->parseCurrentBlock();
 
 		// view last export log button
@@ -2074,7 +2083,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$tbl->setMaxCount(count($export_files));
 		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
 		$tbl->render();
 		if(count($export_files) > 0)
 		{
@@ -2441,6 +2449,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		require_once("content/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object, "html");
+		$cont_exp->buildExportFile();
+//echo $this->tpl->get();
+		$this->exportList();
+	}
+
+	/**
+	* create scorm package
+	*/
+	function exportSCORM()
+	{
+		require_once("content/classes/class.ilContObjectExport.php");
+		$cont_exp = new ilContObjectExport($this->object, "scorm");
 		$cont_exp->buildExportFile();
 //echo $this->tpl->get();
 		$this->exportList();

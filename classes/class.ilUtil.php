@@ -1158,7 +1158,7 @@ class ilUtil
 	}
 
 	/**
-	*	zips given directory into given zip.file
+	*	zips given directory/file into given zip.file
 	*/
 	function zip($a_dir, $a_file)
 	{
@@ -1177,11 +1177,24 @@ class ilUtil
 		$zip = PATH_TO_ZIP;
 		//$zip = $ilias->getSetting("zip_path");
 
-		$name = basename($a_dir);
+		if (is_array($a_dir))
+		{
+			$source = "";
+			foreach($a_dir as $dir)
+			{
+				$name = basename($dir);
+				$source.= " ".ilUtil::escapeShellArg($name);
+			}
+		}
+		else
+		{
+			$name = basename($a_dir);
+			$source = ilUtil::escapeShellArg($name);
+		}
 
-		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($a_file)." ".ilUtil::escapeShellArg($name);
+		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($a_file)." ".$source;
 		exec($zipcmd);
-
+//echo htmlentities($zipcmd);
 		chdir($cdir);
 	}
 

@@ -70,6 +70,11 @@ class ilContObjectExport
 				$this->filename = $this->subdir.".zip";
 				break;
 
+			case "scorm":
+				$this->export_dir = $this->cont_obj->getExportDirectory("scorm");
+				$this->subdir = $this->cont_obj->getType()."_".$this->cont_obj->getId();
+				$this->filename = $this->subdir.".zip";
+				break;
 			
 			case "pdf":
 				$this->export_dir = $this->cont_obj->getOfflineDirectory();
@@ -181,6 +186,10 @@ class ilContObjectExport
 		{
 			case "html":
 				return $this->buildExportFileHTML();
+				break;
+				
+			case "scorm":
+				return $this->buildExportFileSCORM();
 				break;
 
 			case "pdf":
@@ -353,6 +362,27 @@ class ilContObjectExport
 
 		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("ContentObjectExport", "buildHTMLPackage");
+	}
+
+	/**
+	* build scorm package
+	*/
+	function buildExportFileSCORM()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentObjectExport", "buildSCORMPackage");
+
+		// create directories
+		$this->cont_obj->createExportDirectory("scorm");
+
+		// get html content
+		$ilBench->start("ContentObjectExport", "buildSCORMPackage_getSCORM");
+		$this->cont_obj->exportSCORM($this->export_dir."/".$this->subdir, $expLog);
+		$ilBench->stop("ContentObjectExport", "buildSCORMPackage_getSCORM");
+
+		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
+		$ilBench->stop("ContentObjectExport", "buildSCORMPackage");
 	}
 
 }
