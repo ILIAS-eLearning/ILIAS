@@ -131,6 +131,12 @@ class ilObjGlossary extends ilObject
 		// todo: glossary attributes/properties
 	}
 
+	function getTermList()
+	{
+		$list = ilGlossaryTerm::getTermList($this->getId());
+		return $list;
+	}
+
 	/**
 	* copy all properties and subobjects of a glossary
 	*
