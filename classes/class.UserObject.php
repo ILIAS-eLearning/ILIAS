@@ -99,7 +99,15 @@ class UserObject extends Object
 			$Fusetdata["Id"]   = createNewObject("uset",$Fobject2);
 			
 			//create usertree from class.user.php	
-			$tree->addTree($Fuserdata["Id"], $Fuserdata["Id"]);
+			$tree->addTree($Fuserdata["Id"], $Fusetdata["Id"]);
+			
+			//add subfolder
+			//notefolder:
+				$userTree = new tree(0,0,0,$Fuserdata["Id"]);
+				$FObject3["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
+				$FObject3["desc"]  = "Note Folder Object";
+				$Fnotfdata["Id"]   = createNewObject("notf",$FObject3);
+				$userTree->insertNode($Fnotfdata["Id"], $Fusetdata["Id"], 0);			
 		}
 		else
 		{
