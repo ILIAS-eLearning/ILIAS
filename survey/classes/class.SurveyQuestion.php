@@ -167,6 +167,8 @@ class SurveyQuestion {
 	* @var integer
 	*/
 	var $orientation;
+	
+	var $material;
 
 /**
 * SurveyQuestion constructor
@@ -212,6 +214,7 @@ class SurveyQuestion {
 		$this->obligatory = 1;
 		$this->orientation = 0;
 		$this->materials = array();
+		$this->material = array();
 		register_shutdown_function(array(&$this, '_SurveyQuestion'));
 	}
 
@@ -675,17 +678,6 @@ class SurveyQuestion {
 */  }
 
 /**
-* Saves a SurveyQuestion object to a database
-*
-* Saves a SurveyQuestion object to a database (only method body)
-*
-* @access public
-*/
-  function saveToDb($original_id = "") {
-    // Method body
-  }
-
-/**
 * Duplicates a survey question
 *
 * Duplicates a survey question
@@ -755,14 +747,58 @@ class SurveyQuestion {
 /**
 * Loads a SurveyQuestion object from the database
 *
-* Loads a SurveyQuestion object from the database (only method body)
+* Loads a SurveyQuestion object from the database
 *
-* @param integer $id The database id of the survey question
+* @param integer $question_id A unique key which defines the question in the database
 * @access public
 */
-  function loadFromDb($id) {
-    // Method body
-  }
+	function loadFromDb($question_id)
+	{
+		$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$this->material = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$this->material = array(
+					"internal_link" => $row["internal_link"],
+					"import_id" => $row["import_id"]
+				);
+			}
+		}
+	}
+
+	/**
+	* Saves a SurveyQuestion object to a database
+	*
+	* Saves a SurveyQuestion object to a database
+	*
+	* @param integer $original_id
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
+		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($this->material["internal_link"] . ""),
+			$this->ilias->db->quote($this->material["import_id"] . "")
+		);
+		$this->ilias->db->query($query);
+		if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+		{
+			ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+		}
+	}
+	
 
 /**
 * Saves the learners input of the question to the database
@@ -1050,6 +1086,13 @@ class SurveyQuestion {
 		);
 		$result = $this->ilias->db->query($query);
 
+		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
+
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
@@ -1138,6 +1181,22 @@ class SurveyQuestion {
 	
 	function syncWithOriginal()
 	{
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
+			$this->ilias->db->quote($this->original_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
+		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->original_id . ""),
+			$this->ilias->db->quote($this->material["internal_link"] . ""),
+			$this->ilias->db->quote($this->material["import_id"] . "")
+		);
+		$this->ilias->db->query($query);
+		if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+		{
+			ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+		}
 	}
 
 /**
@@ -1282,5 +1341,154 @@ class SurveyQuestion {
 		}
 	}
 
+/**
+* Sets a material link for the question
+*
+* Sets a material link for the question
+*
+* @param string $material_id An internal link pointing to the material
+* @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
+* @access public
+*/
+	function setMaterial($material_id = "", $is_import = false)
+	{
+		if (strcmp($material_id, "") != 0)
+		{
+			$import_id = "";
+			if ($is_import)
+			{
+				$import_id = $material_id;
+				$material_id = $this->_resolveInternalLink($import_id);
+			}
+			$this->material = array(
+				"internal_link" => $material_id,
+				"import_id" => $import_id
+			);
+		}
+	}
+	
+	function _resolveInternalLink($internal_link)
+	{
+		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
+		{
+			require_once "./content/classes/Pages/class.ilInternalLink.php";
+			require_once "./content/classes/class.ilLMObject.php";
+			require_once "./content/classes/class.ilGlossaryTerm.php";
+			switch ($matches[2])
+			{
+				case "lm":
+					$resolved_link = ilLMObject::_getIdForImportId($internal_link);
+					break;
+				case "pg":
+					$resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
+					break;
+				case "st":
+					$resolved_link = ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
+					break;
+				case "git":
+					$resolved_link = ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
+					break;
+				case "mob":
+					$resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
+					break;
+			}
+			if (strcmp($resolved_link, "") == 0)
+			{
+				$resolved_link = $internal_link;
+			}
+		}
+		else
+		{
+			$resolved_link = $internal_link;
+		}
+		return $resolved_link;
+	}
+	
+	function _resolveIntLinks($question_id)
+	{
+		global $ilDB;
+		$resolvedlinks = 0;
+		$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$internal_link = $row["internal_link"];
+				$resolved_link = SurveyQuestion::_resolveInternalLink($internal_link);
+				if (strcmp($internal_link, $resolved_link) != 0)
+				{
+					// internal link was resolved successfully
+					$queryupdate = sprintf("UPDATE survey_material SET internal_link = %s WHERE material_id = %s",
+						$ilDB->quote($resolved_link),
+						$ilDB->quote($row["material_id"] . "")
+					);
+					$updateresult = $ilDB->query($queryupdate);
+					$resolvedlinks++;
+				}
+			}
+		}
+		if ($resolvedlinks)
+		{
+			// there are resolved links -> reenter theses links to the database
+
+			// delete all internal links from the database
+			require_once "./content/classes/Pages/class.ilInternalLink.php";
+			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
+
+			$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
+					{
+						ilInternalLink::_saveLink("sqst", $question_id, $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
+		}
+	}
+	
+	function _getInternalLinkHref($target = "")
+	{
+		global $ilDB;
+		$linktypes = array(
+			"lm" => "LearningModule",
+			"pg" => "PageObject",
+			"st" => "StructureObject",
+			"git" => "GlossaryItem",
+			"mob" => "MediaObject"
+		);
+		$href = "";
+		if (preg_match("/il__(\w+)_(\d+)/", $target, $matches))
+		{
+			$type = $matches[1];
+			$target_id = $matches[2];
+			switch($linktypes[$matches[1]])
+			{
+				case "LearningModule":
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					break;
+				case "PageObject":
+				case "StructureObject":
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					break;
+				case "GlossaryItem":
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
+					break;
+				case "MediaObject":
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					break;
+			}
+		}
+		return $href;
+	}
+	
 }
 ?>

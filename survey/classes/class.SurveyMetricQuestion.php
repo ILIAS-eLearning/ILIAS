@@ -228,6 +228,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
         }
       }
     }
+		parent::loadFromDb($id);
   }
 
 /**
@@ -351,6 +352,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
 			);
 			$answer_result = $this->ilias->db->query($query);
     }
+		parent::saveToDb($original_id);
   }
 	
 	/**
@@ -618,6 +620,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
 				$answer_result = $this->ilias->db->query($query);
 			}
 		}
+		parent::syncWithOriginal();
 	}
 	
 }

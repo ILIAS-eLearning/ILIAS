@@ -345,6 +345,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
         }
       }
     }
+		parent::loadFromDb($id);
   }
 
 /**
@@ -449,6 +450,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
         $answer_result = $this->ilias->db->query($query);
       }
     }
+		parent::saveToDb($original_id);
   }
 
 	/**
@@ -698,6 +700,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 				}
 			}
 		}
+		parent::syncWithOriginal();
 	}
 
 }

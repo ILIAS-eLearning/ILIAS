@@ -842,5 +842,166 @@ class SurveyQuestionGUI {
 		$this->tpl->setVariable("HEADER", $title);
 //		echo "<br>end setQuestionTabs<br>";
 	}
+
+	function addMaterial()
+	{
+		global $tree;
+
+		require_once("./survey/classes/class.ilMaterialExplorer.php");
+		switch ($_POST["internalLinkType"])
+		{
+			case "lm":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "lm";
+				break;
+			case "glo":
+				$_SESSION["link_new_type"] = "glo";
+				$_SESSION["search_link_type"] = "glo";
+				break;
+			case "st":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "st";
+				break;
+			case "pg":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "pg";
+				break;
+			default:
+				if (!$_SESSION["link_new_type"])
+				{
+					$_SESSION["link_new_type"] = "lm";
+				}
+				break;
+		}
+
+		sendInfo($this->lng->txt("select_object_to_link"));
+		
+		$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this,'addMaterial'), get_class($this));
+
+		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		$exp->addFilter($_SESSION["link_new_type"]);
+		$exp->setSelectableType($_SESSION["link_new_type"]);
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", true);
+		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
+		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function removeMaterial()
+	{
+		$this->object->material = array();
+		$this->object->saveToDb();
+		$this->editQuestion();
+	}
+	
+	function cancelExplorer()
+	{
+		unset($_SESSION["link_new_type"]);
+		$this->editQuestion();
+	}
+		
+	function addPG()
+	{
+		$this->object->setMaterial("il__pg_" . $_GET["pg"]);
+		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("material_added_successfully"));
+		$this->editQuestion();
+	}
+	
+	function addST()
+	{
+		$this->object->setMaterial("il__st_" . $_GET["st"]);
+		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("material_added_successfully"));
+		$this->editQuestion();
+	}
+
+	function addGIT()
+	{
+		$this->object->setMaterial("il__git_" . $_GET["git"]);
+		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("material_added_successfully"));
+		$this->editQuestion();
+	}
+	
+	function linkChilds()
+	{
+		switch ($_SESSION["search_link_type"])
+		{
+			case "pg":
+			case "st":
+				$_GET["q_id"] = $this->object->getId();
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				require_once("./content/classes/class.ilObjContentObject.php");
+				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
+				// get all chapters
+				$ctree =& $cont_obj->getLMTree();
+				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
+				foreach($nodes as $node)
+				{
+					if($node["type"] == $_SESSION["search_link_type"])
+					{
+						$this->tpl->setCurrentBlock("linktable_row");
+						$this->tpl->setVariable("TEXT_LINK", $node["title"]);
+						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
+						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
+				}
+				$this->tpl->setCurrentBlock("link_selection");
+				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "glo":
+				$_GET["q_id"] = $this->object->getId();
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
+				require_once "./content/classes/class.ilObjGlossary.php";
+				$glossary =& new ilObjGlossary($_GET["source_id"], true);
+				// get all glossary items
+				$terms = $glossary->getTermList();
+				foreach($terms as $term)
+				{
+					$this->tpl->setCurrentBlock("linktable_row");
+					$this->tpl->setVariable("TEXT_LINK", $term["term"]);
+					$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+					$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("link_selection");
+				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "lm":
+				$this->object->setMaterial("il__lm_" . $_GET["source_id"]);
+				unset($_SESSION["link_new_type"]);
+				unset($_SESSION["search_link_type"]);
+				sendInfo($this->lng->txt("material_added_successfully"));
+				$this->editQuestion();
+				break;
+		}
+	}
 }
 ?>

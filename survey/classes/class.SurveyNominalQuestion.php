@@ -286,6 +286,7 @@ class SurveyNominalQuestion extends SurveyQuestion {
         }
       }
     }
+		parent::loadFromDb($id);
   }
 
 /**
@@ -390,6 +391,7 @@ class SurveyNominalQuestion extends SurveyQuestion {
         $answer_result = $this->ilias->db->query($query);
       }
     }
+		parent::saveToDb($original_id);
   }
 
 	/**
@@ -655,6 +657,7 @@ class SurveyNominalQuestion extends SurveyQuestion {
 				}
 			}
 		}
+		parent::syncWithOriginal();
 	}
 	
 }
