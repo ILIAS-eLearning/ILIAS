@@ -45,6 +45,7 @@ class ilGroupGUI extends ilObjectGUI
 	var $tree;
 	var $ilias;
 	var $object;
+	var $grp_object;
 	var $grp_tree;
 	var $grp_id;
 	/**
@@ -88,12 +89,23 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["sort_by"]= "title";
 		}
-
+		
 		// get the object
 		$this->assignObject();
 		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$this->lng =& $this->object->lng;
-
+		
+		// get group object ($this->object nad $this->grp_object are not always the same)
+		if($this->object->getType()=="fold")
+		{
+			$this->grp_object =& $ilias->obj_factory->getInstanceByRefId(ilUtil::getGroupId($_GET["ref_id"]));
+		}
+		else
+		{
+			$this->grp_object = $this->object;
+		}
+		
+		
 		$this->grp_id = ilUtil::getGroupId($_GET["ref_id"]);
 
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
@@ -402,16 +414,8 @@ class ilGroupGUI extends ilObjectGUI
 		else if(!isset($_SESSION["viewmode"]))
 			$_SESSION["viewmode"] = "flat";	//default viewmode
 		
-		//exception
-		if($this->object->getType()=="fold")
-		{
-			$tmp_object =& $ilias->obj_factory->getInstanceByRefId(ilUtil::getGroupId($_GET["ref_id"]));
-		}
-		else
-		{
-			$tmp_object = $this->object;
-		}
-		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]) || !$tmp_object->isMember())
+		
+		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]) || !$this->grp_object->isMember())
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
@@ -507,8 +511,8 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{
-			$data["title"] = $this->object->getTitle();
-			$data["desc"] = $this->object->getDescription();
+			$data["title"] = $this->grp_object->getTitle();
+			$data["desc"] = $this->grp_object->getDescription();
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "edit", "tpl.grp_edit.html");
@@ -523,14 +527,14 @@ class ilGroupGUI extends ilObjectGUI
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 
 		//build form
-		$grp_status = $this->object->getGroupStatus();
+		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->grp_object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", "bottom");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_CANCEL", "show_content" );
+		$this->tpl->setVariable("CMD_CANCEL", "view" );
 		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
@@ -621,7 +625,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3]["tab_text"] = 'trash';						//tab -text
 		}
 
-		if( $rbacsystem->checkAccess('delete',$_GET["ref_id"]) && $this->object->getType() == 'grp')
+		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[4] = array ();
 			$tab[4]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
@@ -1762,10 +1766,10 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			if(isset($_POST["group_status"]))
 			{
-				$this->object->setTitle($_POST["Fobject"]["title"]);
-				$this->object->setDescription($_POST["Fobject"]["desc"]);
-				$this->object->setGroupStatus($_POST["group_status"]);
-				$this->update = $this->object->update();
+				$this->grp_object->setTitle($_POST["Fobject"]["title"]);
+				$this->grp_object->setDescription($_POST["Fobject"]["desc"]);
+				$this->grp_object->setGroupStatus($_POST["group_status"]);
+				$this->update = $this->grp_object->update();
 			}
 		}
 		header("Location: group.php?".$this->link_params);
