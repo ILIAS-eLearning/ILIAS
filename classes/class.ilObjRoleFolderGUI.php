@@ -75,7 +75,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 						"type"			=> $val["type"],
 						"name"			=> $val["title"],
 						"description"	=> $val["desc"],
-						"last_change"	=> ilFormat::formatDate($val["last_update"]),
+						"last_change"	=> $val["last_update"],
 						"obj_id"		=> $val["obj_id"]
 					);
 
@@ -101,6 +101,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 											);		
 
 			unset($this->data["data"][$key]["obj_id"]);
+						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		parent::displayList();
