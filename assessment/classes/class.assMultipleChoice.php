@@ -165,6 +165,13 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			switch ($node->node_name())
 			{
+				case "duration":
+					$iso8601period = $node->get_content();
+					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+					{
+						$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
+					}
+					break;
 				case "presentation":
 					$flow = $node->first_child();
 					$flownodes = $flow->child_nodes();
@@ -265,6 +272,13 @@ class ASS_MultipleChoice extends ASS_Question
 		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
+		// add estimated working time
+		$qtiIdent->append_child($qtiComment);
+		$qtiDuration = $this->domxml->create_element("duration");
+		$workingtime = $this->getEstimatedWorkingTime();
+		$qtiDurationText = $this->domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]));
+		$qtiDuration->append_child($qtiDurationText);
+		$qtiIdent->append_child($qtiDuration);
 		// PART I: qti presentation
 		$qtiPresentation = $this->domxml->create_element("presentation");
 		$qtiPresentation->set_attribute("label", $this->getTitle());
