@@ -1279,45 +1279,53 @@ class ilObjUser extends ilObject
 	function _getLinkToObject($a_id)
 	{
 		return array("profile.php?user=".$a_id,"");
-	}	
+	}
 
 	/*
 	* get the memberships(group_ids) of groups that are subscribed to the current user object
+	* @param	integer optional user_id
 	* @access	public
 	*/
-	function getMembershipsOfGroups()
+	function getGroupMemberships($a_user_id="")
 	{
 		global $rbacreview, $rbacadmin, $ilias, $tree;
 
-		$group_memberships = array();
+		if(strlen($a_user_id) > 0)
+		{
+			$user_id = $a_user_id;
+		}
+		else
+		{
+			$user_id = $this->getId();
+		}
 
+		$grp_memberships = array();
+		
 		// get all roles which the user is assigned to
-		$roles = $rbacreview->assignedRoles($this->getId());
+		$roles = $rbacreview->assignedRoles($user_id);
 
 		foreach($roles as $role)
 		{
-			//get all rolefolders of the relevant roles
-			//$rolef = $rbacadmin->getFoldersAssignedToRole($role);
-			// canged by fgruemme  
-			$rolef = $rbacreview->getFoldersAssignedToRole($role);
+			$ass_rolefolders = $rbacreview->getFoldersAssignedToRole($role);	//rolef_refids
 
-			foreach($rolef as $folder)
+			foreach($ass_rolefolders as $role_folder)
 			{
-				//get the node which the role folder is assigned to
-				$node = $tree->getParentNodeData($folder["parent"]);
+				$node = $tree->getParentNodeData($role_folder);
 
-				if( isset($node["child"]) && (strcmp($node["type"],"grp") == 0))
+				if($node["type"] =="grp")
 				{
-					//get the data of the object containig the relevant rolefolders
-					$object = $ilias->obj_factory->getInstanceByRefId($node["child"]);
-					array_push($group_memberships,$object->getId());
+					$group =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+					if($group->isMember($user_id)==true && !in_array($group->getId(), $grp_memberships) )
+					{
+						array_push($grp_memberships, $group->getId());
+					}
 				}
-
+				unset($group);
 			}
-
 		}
-		return $group_memberships;
+		return $grp_memberships;
 	}
+
 
 	/**
 	* STATIC METHOD
