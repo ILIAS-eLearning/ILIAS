@@ -13,13 +13,11 @@ $o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
 $o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
 $tpl->setVariable("TABS", TUtil::showTabs(1,$o));
 
-
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
-
 $tpl->setCurrentBlock("locator");
 $tpl->setVariable("TREEPATH",$path);
-$tpl->setVariable("PATH", $lng->txt("path"));
+$tpl->setVariable("TXT_PATH", $lng->txt("path"));
 $tpl->parseCurrentBlock();
 
 $tpl->setVariable("TYPE","user");

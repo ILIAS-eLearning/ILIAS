@@ -66,7 +66,7 @@ if ($tpl->includeTree() == true)
 	else
 		$expanded = $_GET["expand"];
 	
-	$tplTree = new Template("explorer.html",true,true);
+	$tplTree = new Template("tpl.explorer.html",true,true);
 	$exp = new Explorer("lo_content.php");
 	$exp->setExpand($expanded);
 	

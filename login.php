@@ -43,6 +43,7 @@ foreach ($langs as $row)
 	$tpl->setVariable("LANG_IMG", "./lang/".$row["id"].".gif");
 	$tpl->parseCurrentBlock();
 }
+
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 $tpl->setVariable("FORMACTION", "login.php?lang=".$lang);
@@ -51,24 +52,28 @@ $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
-if (!empty($ilias->auth->status) && $ilias->auth->status == AUTH_EXPIRED)
+if (!empty($ilias->auth->status))
 {
-	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
-}
-else if (!empty($ilias->auth->status) && $ilias->auth->status == AUTH_IDLED)
-{
-	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
-} 
-else if (!empty ($ilias->auth->status) && $ilias->auth->status == AUTH_WRONG_LOGIN)
-{
-	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));
+	switch($ilias->auth->status)
+	{
+		case AUTH_EXPIRED:
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
+			break;
+		case AUTH_IDLED:
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
+			break;
+		case AUTH_WRONG_LOGIN:
+		default:
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));
+			break;
+	}
 }
 
 $tpl->setCurrentBlock("content");
-$tpl->setVariable(PHP_SELF,$_SERVER['PHP_SELF']);
-$tpl->setVariable(USERNAME,$username);
+$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
+$tpl->setVariable("USERNAME", $_GET["username"]);
 $tpl->parseCurrentBlock();
 
-//$tpl->show();
 $tpl->show();
+
 ?>

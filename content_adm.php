@@ -2,23 +2,34 @@
 include_once "include/ilias_header.inc";
 
 // Template-Engine anschmeissen
-$tplContent = new Template("content_adm.html",true,true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_adm.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
-$tplContent->setVariable("TREEPATH",$path);
 
-$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tpl->setCurrentBlock("locator");
+$tpl->setVariable("TREEPATH",$path);
+$tpl->setVariable("PATH", $lng->txt("path"));
+$tpl->parseCurrentBlock();
 
+//show tabs
+$o = array();
+$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+$tpl->setVariable("TABS", TUtil::showTabs(1,$o));
 
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
 {
-	$tplContent->setVariable("DIR",'DESC');
+	$tpl->setVariable("DIR",'DESC');
 }
 if($_GET["direction"] == 'DESC')
 {
-	$tplContent->setVariable("DIR",'ASC');
+	$tpl->setVariable("DIR",'ASC');
 }
 
 // set sort column
@@ -33,6 +44,7 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 	
 	foreach ($tree->Childs as $key => $val)
     {
+		$tpl->setCurrentBlock("row");
 		// VISIBLE?
 		if(!$rbacsystem->checkAccess("visible",$val["id"],$_GET["obj_id"]))
 		{
@@ -46,23 +58,23 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		
 		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 		
-		$tplContent->setCurrentBlock("row");
-		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
-		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
-		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
-		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-		$tplContent->setVariable("IMG_TYPE","icon_".$val["type"]."_b.gif");
-		$tplContent->setVariable("ALT_IMG_TYPE",$val["type"]);
-		$tplContent->setVariable("CSS_ROW",$css_row);
-		$tplContent->setVariable("OBJ_ID",$val["id"]);
-		$tplContent->parseCurrentBlock();
+		$tpl->setCurrentBlock("row");
+		$tpl->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
+		$tpl->setVariable("OBJ_TITLE",$val["title"]);
+		$tpl->setVariable("OBJ_DESC",$val["desc"]);
+		$tpl->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
+		$tpl->setVariable("IMG_TYPE","icon_".$val["type"]."_b.gif");
+		$tpl->setVariable("ALT_IMG_TYPE",$val["type"]);
+		$tpl->setVariable("CSS_ROW",$css_row);
+		$tpl->setVariable("OBJ_ID",$val["id"]);
+		$tpl->parseCurrentBlock();
     }
 	
-	$tplContent->touchBlock("options");
+	$tpl->touchBlock("options");
 }
 else
 {
-	$tplContent->touchBlock("notfound");
+	$tpl->touchBlock("notfound");
 }
 
 // display category options
@@ -70,17 +82,17 @@ $type = $obj["type"];
 
 if (!empty($ilias->typedefinition[$type]))
 {
-	$tplContent->setCurrentBlock("type");
+	$tpl->setCurrentBlock("type");
 	$opts = TUtil::formSelect(12,"type",TUtil::getModules($ilias->typedefinition[$type]));
-	$tplContent->setVariable("SELECT_OBJTYPE",$opts);
-	$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-	$tplContent->setVariable("TPOS",$_GET["parent"]);
-	$tplContent->parseCurrentBlock();
+	$tpl->setVariable("SELECT_OBJTYPE",$opts);
+	$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+	$tpl->setVariable("TPOS",$_GET["parent"]);
+	$tpl->parseCurrentBlock();
 }
 
-$tplContent->setVariable("OBJ_EDIT","object.php?obj_id=".$_GET["obj_id"]."&parent".$_GET["parent"]."&type=admin");
-$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-$tplContent->setVariable("TPOS",$_GET["parent"]);
+$tpl->setVariable("OBJ_EDIT","object.php?obj_id=".$_GET["obj_id"]."&parent".$_GET["parent"]."&type=admin");
+$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tpl->setVariable("TPOS",$_GET["parent"]);
 
 //show tabs
 $o = array();
@@ -88,22 +100,21 @@ $o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
 $o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
 $o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
 $o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-$tplContent->setVariable("TABS", TUtil::showTabs(1,$o));
-
+$tpl->setVariable("TABS", TUtil::showTabs(1,$o));
 
 if ($_GET["message"])
 {
-	$tplContent->setCurrentBlock("sys_message");
-	$tplContent->setVariable("ERROR_MESSAGE",stripslashes($_GET["message"]));
-	$tplContent->parseCurrentBlock();
+	$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("MSG",stripslashes($_GET["message"]));
+	$tpl->parseCurrentBlock();
 }
 
-$eingebunden = true;
+$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
+$tpl->setCurrentBlock("systemsettings");
+require_once("./include/inc.basicdata.php");
+$tpl->parseCurrentBlock();
 
-
-require_once("./adm_basicdata.php");
-$tplContent->setVariable("SYSTEMSETTINGS",$tpl->get());
-
-$tpl->setVariable("CONTENT", $tplContent->get());	
 $tpl->show();
+
 ?>

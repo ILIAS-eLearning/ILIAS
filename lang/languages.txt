@@ -83,6 +83,7 @@ employee	employee	Angestellter	impiegato	employee
 enable	enable	aktivieren	attivare	enable
 enumerate	enumerate	nummerieren	numerare	enumerate
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creazione banca-dati fallita	creation of database failed
+err_wrong_login	wrong login	Login ungültig	wrong login	wrong login
 error_recipient	error recipient	Empfänger von Fehlermeldungen	recipiente di errori	error recipient
 execute	execute	ausführen	esegui	execute
 faq_exercise	faq exercise	FAQ/Übungskapitel	FAQ/esercizi	faq exercise
