@@ -569,6 +569,48 @@ class ASS_ImagemapQuestion extends ASS_Question {
   }
 
 /**
+* Returns the evaluation data, a learner has entered to answer the question
+*
+* Returns the evaluation data, a learner has entered to answer the question
+*
+* @param integer $user_id The database ID of the learner
+* @param integer $test_id The database Id of the test containing the question
+* @access public
+*/
+  function get_reached_information($user_id, $test_id) {
+    $found_values = array();
+    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+      $this->ilias->db->db->quote($user_id),
+      $this->ilias->db->db->quote($test_id),
+      $this->ilias->db->db->quote($this->get_id())
+    );
+    $result = $this->ilias->db->query($query);
+    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+      array_push($found_values, $data->value1);
+    }
+    $counter = 1;
+		$user_result = array();
+    foreach ($found_values as $key => $value) {
+			$solution = array(
+				"order" => "$counter",
+				"points" => 0,
+				"true" => 0,
+				"value" => ""
+			);
+      if (strlen($value) > 0) {
+				$solution["value"] = $this->answers[$value]->get_answertext();
+        if ($this->answers[$value]->is_true()) {
+					$solution["points"] = $this->answers[$value]->get_points();
+					$solution["true"] = 1;
+        }
+      }
+			$counter++;
+			array_push($user_result, $solution);
+    }
+    return $user_result;
+  }
+
+/**
 * Saves the learners input of the question to the database
 * 
 * Saves the learners input of the question to the database

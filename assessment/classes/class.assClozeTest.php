@@ -698,6 +698,62 @@ class ASS_ClozeTest extends ASS_Question {
   }
 
 /**
+* Returns the evaluation data, a learner has entered to answer the question
+*
+* Returns the evaluation data, a learner has entered to answer the question
+*
+* @param integer $user_id The database ID of the learner
+* @param integer $test_id The database Id of the test containing the question
+* @access public
+*/
+  function get_reached_information($user_id, $test_id) {
+    $found_value1 = array();
+    $found_value2 = array();
+    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+      $this->ilias->db->db->quote($user_id),
+      $this->ilias->db->db->quote($test_id),
+      $this->ilias->db->db->quote($this->get_id())
+    );
+    $result = $this->ilias->db->query($query);
+    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+      array_push($found_value1, $data->value1);
+      array_push($found_value2, $data->value2);
+    }
+    $counter = 1;
+		$user_result = array();
+    foreach ($found_value1 as $key => $value) {
+      if ($this->get_cloze_type() == CLOZE_TEXT) {
+        foreach ($this->gaps[$value] as $k => $v) {
+					$solution = array(
+						"gap" => "$counter",
+						"points" => 0,
+						"true" => 0,
+						"value" => $v->get_answertext()
+					);
+          if (strcmp($v->get_answertext(), $found_value2[$key]) == 0) {
+						$solution["points"] = $v->get_points();
+						$solution["true"] = 1;
+          }
+        }
+      } else {
+				$solution = array(
+					"gap" => "$counter",
+					"points" => 0,
+					"true" => 0,
+					"value" => $this->gaps[$value][$found_value2[$key]]->get_answertext()
+				);
+        if ($this->gaps[$value][$found_value2[$key]]->is_true()) {
+					$solution["points"] = $this->gaps[$value][$found_value2[$key]]->get_points();;
+					$solution["true"] = 1;
+        }
+      }
+			$counter++;
+			array_push($user_result, $solution);
+    }
+    return $user_result;
+  }
+
+/**
 * Returns the maximum points, a learner can reach answering the question
 *
 * Returns the maximum points, a learner can reach answering the question
