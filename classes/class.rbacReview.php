@@ -9,7 +9,7 @@
 */
 class RbacReview
 {
-	/**
+    /**
 	* ilias object
 	* @var object ilias
 	* @access public
@@ -22,8 +22,8 @@ class RbacReview
 	*/
 	function RbacReview()
 	{
-		global $ilias;
-
+	    global $ilias;
+		
 		$this->ilias =& $ilias;
 	}
 
@@ -35,8 +35,8 @@ class RbacReview
 	*/
 	function assignedUsers($a_rol_id)
 	{
-		$usr = array();
-
+	    $usr = array();
+	   
 		$query = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
 		$res = $this->ilias->db->query($query);
 

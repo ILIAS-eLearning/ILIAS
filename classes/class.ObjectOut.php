@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.9 2002/12/19 00:13:45 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.10 2002/12/19 00:39:19 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -23,7 +23,7 @@ class ObjectOut
 	* @access	private
 	*/
 	var $objDefinition;
-
+	
 	/**
 	* template object
 	* @var		object ilias
@@ -291,7 +291,7 @@ class ObjectOut
 
 	function viewObject()
 	{
-		$this->getTemplateFile("view");
+	    $this->getTemplateFile("view");
 		$num = 0;
 
 		//table header
@@ -323,6 +323,8 @@ class ObjectOut
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 			
 				// surpress checkbox for particular object types
+
+				
 				if ($ctrl["type"] == "adm" || $ctrl["type"] == "typ" || $ctrl["type"] == "perm")
 				{
 					$this->tpl->touchBlock("empty_cell");
@@ -387,6 +389,12 @@ class ObjectOut
 		exit();
 	}
 	function copyAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function linkAdmObject()
 	{
 		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");

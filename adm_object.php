@@ -21,6 +21,9 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("copy"):
 			$_GET["cmd"] = "copyAdm";
 			break;
+		case $lng->txt("link"):
+			$_GET["cmd"] = "linkAdm";
+			break;
 		case $lng->txt("paste"):
 			$_GET["cmd"] = "pasteAdm";
 			break;
