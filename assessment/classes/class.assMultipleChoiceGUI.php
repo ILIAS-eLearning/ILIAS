@@ -98,7 +98,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function editQuestion()
 	{
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$javascript = "<script type=\"text/javascript\">%s</script>";
+		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{
@@ -139,10 +139,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("question_data");
+			$this->tpl->setCurrentBlock("HeadContent");
 			if ($this->object->get_answer_count() == 0)
 			{
-				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 			}
 			else
 			{
@@ -151,23 +151,25 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
 						break;
 					case "":
 						if ($this->object->get_answer_count() == 0)
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						}
 						else
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
 						}
 						break;
 					default:
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						break;
 				}
 			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("question_data");
 			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
@@ -264,11 +266,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("question_data");
+			$this->tpl->setCurrentBlock("HeadContent");
 
 			if ($this->object->get_answer_count() == 0)
 			{
-				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 			}
 			else
 			{
@@ -277,23 +279,25 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
 						break;
 					case "":
 						if ($this->object->get_answer_count() == 0)
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						}
 						else
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.getElementById('answer_".($this->object->get_answer_count() - 1)."').scrollIntoView(\"true\");"));
 						}
 						break;
 					default:
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
 						break;
 				}
 			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("question_data");
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -341,6 +345,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 

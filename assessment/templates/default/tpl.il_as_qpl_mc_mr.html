@@ -1,5 +1,5 @@
 <form name="frm_multiple_choice" action="{ACTION_MULTIPLE_CHOICE_TEST}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{MULTIPLE_CHOICE_ID}">
+<input type="hidden" name="id" value="{MULTIPLE_CHOICE_ID}" />
 <table class="fullwidth">
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
@@ -19,7 +19,7 @@
   <td class="option_value" colspan="4"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_WORKING_TIME}:<br>({TIME_FORMAT})</td>
+  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
@@ -59,5 +59,4 @@
 </td></tr>
 </table>
 </form>
-{JAVASCRIPT_SELECTION}
 <a name="bottom"></a>

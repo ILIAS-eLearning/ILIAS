@@ -254,20 +254,22 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
 
-		$this->tpl->setCurrentBlock("question_data");
-		$javascript = "<script type=\"text/javascript\">%s</script>";
+		$this->tpl->setCurrentBlock("HeadContent");
+		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		if (preg_match("/addTextGap_(\d+)/", $this->ctrl->getCmd(), $matches))
 		{
-			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
+			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
 		}
 		else if (preg_match("/addSelectGap_(\d+)/", $this->ctrl->getCmd(), $matches))
 		{
-			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
+			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
 		}
 		else
 		{
-			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.title.focus();"));
+			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.title.focus();"));
 		}
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
@@ -291,6 +293,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 
