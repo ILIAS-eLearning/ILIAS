@@ -78,13 +78,10 @@ switch ($_GET["cmd"])
 {
 	// no more view() here! all calls moved to "out" class
 	case "view":
-		//TODO: can be removed i think
 		break;
 
-	// save object
-	// removed 2nd param parent_id. $id is parent_id
+	// no more save() here! all calls moved to "out" class
 	case "save":
-		//$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
 		break;
 
 	// update object
@@ -97,7 +94,7 @@ switch ($_GET["cmd"])
 		$data = $obj->editObject($_GET["order"], $_GET["direction"]);
 		break;
 
-	// edit object
+	// create object
 	case "create":
 		$data = $obj->createObject($id, $_POST["new_type"]);
 		break;
@@ -132,7 +129,7 @@ switch ($_GET["cmd"])
 // CALL OUTPUT METHOD OF OBJECT
 $class_constr = $class_name."ObjectOut";
 require_once("./classes/class.".$class_name."ObjectOut.php");
-//echo "call:".$class_name."ObjectOut"."->".$method."<br>";exit;
+//echo "$class_constr().$method<br>";
 $obj = new $class_constr($data,$id,$call_by_reference);
 $obj->$method();
 

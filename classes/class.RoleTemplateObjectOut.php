@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -27,6 +27,41 @@ class RoleTemplateObjectOut extends ObjectOut
 			   $_GET["parent_parent"]."&cmd=view");
 		exit();
 	}
+
+
+	/**
+	* save a new role template object
+	* @access	public
+	**/
+	function saveObject()
+	{
+		global $rbacadmin, $rbacsystem; 
+
+
+		// CHECK ACCESS 'write' to role folder
+		if ($rbacsystem->checkAccess('write', $_GET["ref_id"], $_GET["parent"]))
+		{
+			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError("A role with the name '".
+										 $_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",
+										 $this->ilias->error_obj->WARNING);
+			}
+			require_once("./classes/class.RoleTemplateObject.php");
+			$roltObj = new RoleTemplateObject();
+			$roltObj->setTitle($_POST["Fobject"]["title"]);
+			$roltObj->setDescription($_POST["Fobject"]["desc"]);
+			$roltObj->create();
+			//$rbacadmin->assignRoleToFolder($new_obj_id, $a_obj_id, $a_parent,'n');
+			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"], $_GET["parent"], 'y');
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+		}
+		return true;
+	}
+
 
 	function permObject()
 	{

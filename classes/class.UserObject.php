@@ -21,11 +21,12 @@ class UserObject extends Object
 	* Contructor
 	* @access	public
 	*/
-	function UserObject($a_id,$a_call_by_reference = "")
+	function UserObject($a_id = 0,$a_call_by_reference = "")
 	{
 		global $lng;
 
 		$this->Object($a_id,$a_call_by_reference);
+		$this->type = "usr";
 
 		// for gender selection. don't change this
 		$this->gender = array(
@@ -96,51 +97,7 @@ class UserObject extends Object
 		}
 	}
 
-	/**
-	* save user data
-	* @access	public
-	*/
-	function saveObject($a_parent_ref_id, $a_type, $a_new_type, $a_data)
-	{
-		global $rbacsystem,$rbacadmin,$tree;
-		
-		if ($rbacsystem->checkAccess('write', $a_parent_ref_id))
-		{
-			$user = new User();
-			$user->setData($a_data);
-			
-			//create new Object, return ObjectID of new Object
-			$user_id = createNewObject("usr",$user->getFullname(),$user->getEmail());
-			$user->setId($user_id);
 
-			//insert user data in table user_data
-			$user->saveAsNew();
-
-			//set role entries
-			$rbacadmin->assignUser($a_data["default_role"],$user->getId(),true);
-			
-			//create new usersetting entry 
-			$uset_id = createNewObject("uset",$user->getFullname(),"User Setting Folder");
-			$uset_ref = createNewReference($uset_id);
-			
-			//create usertree from class.user.php
-			// tree_id is the obj_id of user not ref_id!
-			// this could become a problem with same ids
-			$tree->addTree($user->getId(), $uset_ref);
-			
-			//add notefolder to user tree
-			$userTree = new tree(0,0,$user->getId());
-			$notf_id = createNewObject("notf",$user->getFullname(),"Note Folder Object");
-			$notf_ref = createNewReference($notf_id);
-			$userTree->insertNode($notf_ref, $uset_ref);			
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
-		}
-		return true;		
-	}
-	
 	/**
 	* delete user
 	* @access	public
@@ -159,6 +116,7 @@ class UserObject extends Object
 		// delete object_data entry
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1);
 	}
+
 	
 	/**
 	* edit user data

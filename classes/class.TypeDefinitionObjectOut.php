@@ -3,7 +3,7 @@
 * Class TypeDefinitionObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.4 2003/02/25 17:36:49 akill Exp $
+* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.5 2003/03/10 10:55:41 shofmann Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -84,12 +84,6 @@ class TypeDefinitionObjectOut extends ObjectOut
 					"parent_parent" => $this->parent
 				);
 
-		//if (is_array($this->data["data"][0]))
-		//{
-			//table cell
-			//for ($i=0; $i< count($this->data["data"]); $i++)
-			//{
-				//$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
 
 				$num++;
@@ -152,6 +146,16 @@ class TypeDefinitionObjectOut extends ObjectOut
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
 	}
+
+
+	/**
+	* save object!?
+	*/
+	function saveObject()
+	{
+		$this->alterOperationsOnObject();
+	}
+
 
 	function editObject()
 	{

@@ -8,10 +8,8 @@
 * @extends Object
 * @package ilias-core
 */
-class NoteFolderObject
+class NoteFolderObject extends Object
 {
-	var $ilias;
-	
 	var $m_usr_id;
 	
 	var $m_tree;
@@ -26,17 +24,27 @@ class NoteFolderObject
 	*/
 	function NoteFolderObject($user_id = 0,$a_call_by_reference = "")
 	{
-		global $ilias;
-		$this->ilias =& $ilias;
-		
 		$this->Object($user_id,$a_call_by_reference);
 		
 		$this->m_usr_id = $user_id;
-		$this->m_tree = new tree(0,0,$user_id);
-
-		$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
 	}
 
+
+	/**
+	* create new note folder object
+	*
+	* note: title and description must be set
+	*/
+	function create()
+	{
+		parent::create();
+
+		$this->m_tree = new tree(0,0,$this->m_usr_id);
+		$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
+
+	}
+
+	
 	/**
 	* add note to notefolder 
 	* 
