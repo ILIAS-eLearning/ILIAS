@@ -181,8 +181,8 @@ inifile_fill_all#:#Wypełnij wszystkie pola.
 inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 3.
 inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
 input_error#:#Błąd wejścia
-inst_name#:#nazwa instalacji
 inst_identification#:#Identyfikacja instalacji
+inst_name#:#nazwa instalacji
 install#:#instaluj
 installation#:#Instaluj
 installed#:#zainstalowany
