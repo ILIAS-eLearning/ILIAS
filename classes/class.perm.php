@@ -214,6 +214,7 @@ function createNewReference ($a_obj_id)
 	return getLastInsertId();
 }
 
+
 /**
 * get list of object, optional only a list of a particular type
 * @access	public
