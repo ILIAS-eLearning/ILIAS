@@ -226,10 +226,14 @@ common#:#frm_new#:#New Forum###06 Aug 2003 new variable
 common#:#from#:#di:###25 Mar 2003 content changed
 common#:#fullname#:#Fullname###20 Aug 2003 new variable
 common#:#functions#:#funzioni
+common#:#gdf_add#:#Add Definition###22 Sep 2003 new variable
+common#:#gdf_new#:#New Definition###22 Sep 2003 new variable
 common#:#gender#:#sesso
 common#:#generate#:#generare
 common#:#glo#:#Glossary###15 Aug 2003 new variable
+common#:#glo_add#:#Add Glossary###22 Sep 2003 new variable
 common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
+common#:#glo_new#:#New Glossary###22 Sep 2003 new variable
 common#:#glossary#:#glossario
 common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
 common#:#group_any_objects#:#No Subobjects avilable ###12 Jun 2003 new variable
@@ -736,6 +740,10 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#Tuo messagio
 common#:#zipcode#:#codice postale
+content#:#HTML export#:#HTML Export###22 Sep 2003 new variable
+content#:#PDF export#:#PDF Export###22 Sep 2003 new variable
+content#:#Pages#:#Pages###22 Sep 2003 new variable
+content#:#all#:#All###22 Sep 2003 new variable
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
 content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
 content#:#cont_Example#:#Example###23 Jun 2003 new variable
@@ -884,9 +892,12 @@ content#:#cont_width#:#Width###08 Jul 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#cont_xml_base#:#xml:base###04 Aug 2003 new variable
 content#:#cont_year#:#Year###19 Sep 2003 new variable
+content#:#pages from#:#Pages From###22 Sep 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
+content#:#read offline#:#Read Offline###22 Sep 2003 new variable
 content#:#st#:#Chapter###12 May 2003 new variable
+content#:#start export#:#Start Export###22 Sep 2003 new variable
 forum#:#forums#:#Forums###08 May 2003 new variable
 forum#:#forums_articles#:#articles
 forum#:#forums_available#:#fori disponibili

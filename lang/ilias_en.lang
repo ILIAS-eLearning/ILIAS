@@ -226,10 +226,14 @@ common#:#frm_new#:#New Forum
 common#:#from#:#From
 common#:#fullname#:#Fullname
 common#:#functions#:#Functions
+common#:#gdf_add#:#Add Definition
+common#:#gdf_new#:#New Definition
 common#:#gender#:#Gender
 common#:#generate#:#Generate
 common#:#glo#:#Glossary
+common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Added glossary
+common#:#glo_new#:#New Glossary
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
 common#:#group_any_objects#:#No Subobjects avilable
@@ -327,12 +331,8 @@ common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#lm#:#Learning Module
 common#:#lm_a#:#a Learning module
 common#:#lm_add#:#Add Learning Module
-common#:#glo_add#:#Add Glossary
 common#:#lm_added#:#LearningModule added
 common#:#lm_new#:#New Learning Module
-common#:#glo_new#:#New Glossary
-common#:#gdf_new#:#New Definition
-common#:#gdf_add#:#Add Definition
 common#:#lng#:#Language
 common#:#lngf#:#Language Folder
 common#:#lo#:#Learning Object
@@ -743,15 +743,12 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_Alphabetic#:#Alphabetic A, B, ...
-content#:#cont_Citation#:#Citation
-content#:#read offline#:#Read Offline
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
-content#:#pages from#:#Pages From
-content#:#start export#:#Start Export
+content#:#cont_Alphabetic#:#Alphabetic A, B, ...
+content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -899,9 +896,12 @@ content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
+content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page
+content#:#read offline#:#Read Offline
 content#:#st#:#Chapter
+content#:#start export#:#Start Export
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_available#:#Available Forums
