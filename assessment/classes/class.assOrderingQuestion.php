@@ -1067,11 +1067,45 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
+	* Checks the data to be saved for consistency
+	*
+	* Checks the data to be saved for consistency
+	*
+  * @return boolean True, if the check was ok, False otherwise
+	* @access public
+	* @see $answers
+	*/
+	function checkSaveData()
+	{
+		$result = true;
+		$order_values = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/order_(\d+)/", $key, $matches))
+			{
+				if (strcmp($value, "") != 0)
+				{
+					array_push($order_values, $value);
+				}
+			}
+		}
+		$check_order = array_flip($order_values);
+		if (count($check_order) != count($order_values))
+		{
+			// duplicate order values!!!
+			$result = false;
+			sendInfo($this->lng->txt("duplicate_order_values_entered"));
+		}
+		return $result;
+	}
+
+	/**
 	* Saves the learners input of the question to the database
 	*
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $test_id The database id of the test containing this question
+  * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
 	* @see $answers
 	*/
@@ -1080,30 +1114,35 @@ class ASS_OrderingQuestion extends ASS_Question
 		global $ilDB;
 		global $ilUser;
 
-		$db =& $ilDB->db;
-
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId())
-		);
-		$result = $db->query($query);
-
-		foreach ($_POST as $key => $value)
+		$saveWorkingDataResult = $this->checkSaveData();
+		if ($saveWorkingDataResult)
 		{
-			if (preg_match("/order_(\d+)/", $key, $matches))
+			$db =& $ilDB->db;
+	
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$db->quote($ilUser->id),
+				$db->quote($test_id),
+				$db->quote($this->getId())
+			);
+			$result = $db->query($query);
+	
+			foreach ($_POST as $key => $value)
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-					$db->quote($ilUser->id),
-					$db->quote($test_id),
-					$db->quote($this->getId()),
-					$db->quote($matches[1]),
-					$db->quote($value)
-				);
-				$result = $db->query($query);
+				if (preg_match("/order_(\d+)/", $key, $matches))
+				{
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($ilUser->id),
+						$db->quote($test_id),
+						$db->quote($this->getId()),
+						$db->quote($matches[1]),
+						$db->quote($value)
+					);
+					$result = $db->query($query);
+				}
 			}
+		//    parent::saveWorkingData($limit_to);
 		}
-	//    parent::saveWorkingData($limit_to);
+		return $saveWorkingDataResult;
 	}
 }
 

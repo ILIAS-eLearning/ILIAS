@@ -1322,11 +1322,12 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			// save question solution
+			$saveResult = false;
 			if (!($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT)) and (!$maxprocessingtimereached))
 			{
 				// but only if the ending time is not reached
 				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
-				$question_gui->object->saveWorkingData($this->object->getTestId());
+				$saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
 
 				if ($_POST["cmd"]["directfeedback"])
 				{
@@ -1357,11 +1358,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->sequence = $_GET["sequence"];
-		if ($_POST["cmd"]["next"])
+		if (($_POST["cmd"]["next"]) and $saveResult)
 		{
 			$this->sequence++;
 		}
-		elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0))
+		elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0) and ($saveResult))
 		{
 			$this->sequence--;
 		}

@@ -127,6 +127,8 @@ assessment#:#detail_max_processing_time_reached#:#You have reached the maximum a
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
 assessment#:#direct_feedback#:#Verify your solution
 assessment#:#duplicate#:#Duplicate
+assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
+assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
