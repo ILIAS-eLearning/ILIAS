@@ -48,10 +48,16 @@ echo "POST: ";
 var_dump($_POST);
 echo "<br>GET, cmd: ";
 echo $_GET["cmd"];
-echo "<br>";*/
+echo "<br>";
+echo $_GET["type"];
+*/
 if ($_GET["cmd"] == "post")
 {
-	$cmd = key($_POST["cmd"]);
+	if (!empty($_POST["cmd"]))
+	{
+		$cmd = key($_POST["cmd"]);
+	}
+	
 }
 else
 {
