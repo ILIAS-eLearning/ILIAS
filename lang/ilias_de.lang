@@ -1081,5 +1081,6 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser Rolle zugewiesen:
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.

@@ -396,19 +396,9 @@ class ilObjectGUI
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
 		if (count($no_copy))
 		{
-			foreach($no_copy as $id)
-			{
-				// GET OBJECT TITLE
-				$tmp_obj = $this->ilias->obj_factory->getInstanceByRefId($id);
-				$no_copy_title[] = $tmp_obj->getTitle();
-				unset($tmp_obj);
-			}
-			$no_copy = implode(',',$no_copy_title);
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
-									 $no_copy,$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
+									 $this->ilias->error_obj->MESSAGE);
 		}
-
-		// OR SHORTER
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
@@ -712,16 +702,8 @@ class ilObjectGUI
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_cut))
 		{
-			foreach($no_cut as $id)
-			{
-				// GET OBJECT TITLE
-				$tmp_obj = $this->ilias->obj_factory->getInstanceByRefId($id);
-				$no_cut_title[] = $tmp_obj->getTitle();
-				unset($tmp_obj);
-			}
-			$no_cut = implode(',',$no_cut_title);
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".
-									 $no_cut,$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
+									 $this->ilias->error_obj->MESSAGE);
 		}
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
@@ -798,13 +780,16 @@ class ilObjectGUI
 	*
 	* @access	private
 	* @param	integer	reference id
-	* @param	integer	reference id of parent object
 	*/
-#	function cloneObject($a_ref_id,$a_parent_id)
 	function cloneObject($a_ref_id)
 	{
 		global $objDefinition,$tree,$rbacsystem;
 
+		if(!is_array($_SESSION["clipboard"]["ref_ids"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_error_copy"),$this->ilias->error_obj->MESSAGE);
+		}
+		
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
 			// CHECK SOME THINGS
@@ -824,7 +809,6 @@ class ilObjectGUI
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
-			//$object = getObjectByReference($a_ref_id);
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 
 			if (!in_array($obj_data->getType(),array_keys($objDefinition->getSubObjects($object->getType()))))
@@ -832,30 +816,30 @@ class ilObjectGUI
 				$not_allowed_subobject[] = $obj_data->getType();
 			}
 		}
-
 		if (count($no_paste))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create")." ".implode(',',$this->getTitlesByRefId($no_paste)),
+									 $this->ilias->error_obj->MESSAGE);
 		}
 
 		if (count($is_child))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
+			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$this->getTitlesByRefId($is_child)),
 									 $this->ilias->error_obj->MESSAGE);
 		}
 
 		if (count($not_allowed_subobject))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".
+									 implode(',',$not_allowed_subobject),
 									 $this->ilias->error_obj->MESSAGE);
 		}
 
 		// NOW CLONE ALL OBJECTS
 		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach ($_SESSION["clipboard"] as $id => $object)
+		foreach($_SESSION["clipboard"]["ref_ids"] as $id)
 		{
-			$this->cloneSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
+			$this->cloneNodes($id,$this->ref_id);
 		}
 		$this->clearObject();
 	}
@@ -864,25 +848,29 @@ class ilObjectGUI
 	* clone all nodes
 	*
 	* @access	public
-	* @param	integer
-	* @param	integer
-	* @param	integer
-	* @param	integer
-	* @param	integer
+	* @param	integer ref_id of source object
+	* @param	integer ref_id of destination object
+	* @param    boolean 
 	*/
-	function cloneSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
+	function cloneNodes($a_source_id,$a_dest_id)
 	{
 		global $tree;
 
-		$new_object_id = $this->object->clone($a_dest_id);
+		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED
+		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
+		$new_ref_id = $source_obj->clone($a_dest_id);
+		unset($source_obj);
 
-		$saved_tree = new ilTree($a_tree_id);
-		$childs = $saved_tree->getChilds($a_source_id);
-
-		foreach ($childs as $child)
+		// GET ALL CHILDS OF SOURCE OBJECT AND CALL THIS METHOD FOR OF THEM
+		foreach($tree->getChilds($a_source_id) as $child)
 		{
-			$this->cloneSavedNodes($child["child"],$child["parent"],$new_object_id,$a_dest_id,$a_tree_id);
+			// STOP IF CHILD OBJECT IS ROLE FOLDER SINCE IT DOESN'T MAKE SENSE TO CLONE LOCAL ROLES
+			if($child["type"] != 'rolf')
+			{
+				$this->cloneNodes($child["ref_id"],$new_ref_id);
+			}
 		}
+		return true;
 	}
 
 	/**
@@ -2293,5 +2281,29 @@ class ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
+	
+	/**
+	* get Titles of objects
+	* this method is used for error messages in methods cut/copy/paste
+	*
+	* @param	array(integer) Array of ref_ids
+	* @return   array(string)  Array of titles
+	* @access	private
+ 	*/
+	function getTitlesByRefId($a_ref_ids)
+	{
+		foreach($a_ref_ids as $id)
+		{
+			// GET OBJECT TITLE
+			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($id);
+			$title[] = $tmp_obj->getTitle();
+			unset($tmp_obj);
+		}
+		return $title ? $title : array();
+	}
+
+
+
+
 }
 ?>

@@ -458,7 +458,7 @@ class ilObject
 			 "(type,title,description,owner,create_date,last_update) ".
 			 "VALUES ".
 			 "('".$this->type."','".$this->title."','".$this->desc."',".
-			 "'".$ilias->account->getId()."',now(),now())";
+			 "'".$this->ilias->account->getId()."',now(),now())";
 		$ilias->db->query($q);
 
 		$this->id = getLastInsertId();
@@ -584,26 +584,24 @@ class ilObject
 	{
 		global $tree,$rbacadmin,$rbacreview;
 
-		$q = "INSERT INTO object_data ".
-			"(type,title,description,owner,create_date,last_update) ".
-			"VALUES ".
-			"('".$this->getType()."','".$this->getTitle()."','".$this->getDescription()."',".
-			"'".$ilias->account->getId()."',now(),now())";
-		$this->ilias->db->query($q);
-	
-		$new_id = getLastInsertId();
+		$new_obj = new ilObject();
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setType($this->getType());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->create();
+		$new_ref_id = $new_obj->createReference();
+		unset($new_obj);
 
-		$tree->insertNode($new_id,$a_parent_ref);
+		$tree->insertNode($new_ref_id,$a_parent_ref);
 
-		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
+		$parentRoles = $rbacreview->getParentRoleIds($new_ref_id);
 
 		foreach ($parentRoles as $parRol)
 		{
-			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id);
+			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_ref_id);
 		}
-		return $new_id;
+		return $new_ref_id;
 	}
 
 
