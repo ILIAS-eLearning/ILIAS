@@ -663,7 +663,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 					// text
 					$this->tpl->setCurrentBlock("definition");
-					$short_str = ilPCParagraph::xml2output($def["short_text"]);
+					$short_str = strip_tags(ilPCParagraph::xml2output($def["short_text"]));
 					$short_str = str_replace("<", "&lt;", $short_str);
 					$short_str = str_replace(">", "&gt;", $short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
@@ -767,10 +767,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$term = new ilGlossaryTerm($_GET["term_id"]);
 
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+
 
 		//$this->tpl->setVariable("HEADER",
 		//	$this->lng->txt("cont_term").": ".$term->getTerm());

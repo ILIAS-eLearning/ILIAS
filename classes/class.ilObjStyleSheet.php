@@ -305,6 +305,16 @@ class ilObjStyleSheet extends ilObject
 		}
 	}
 
+	/**
+	* get syntax style path
+	*
+	* static
+	*/
+	function getSyntaxStylePath()
+	{
+		return "../content/syntaxhighlight.css";
+	}
+
 	function update()
 	{
 		parent::update();
