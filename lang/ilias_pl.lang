@@ -155,6 +155,8 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku powstał błąd!
 assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
 assessment#:#error_save_image_file#:#Błąd zapisu pliku graficznego!
@@ -284,8 +286,11 @@ assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu został
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Usuń wszystkie dane uczestnika
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
+assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Czas końca
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.

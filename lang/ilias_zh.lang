@@ -175,6 +175,8 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
@@ -321,8 +323,11 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
+assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable

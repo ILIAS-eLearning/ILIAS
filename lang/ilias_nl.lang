@@ -157,6 +157,8 @@ assessment#:#ects_use_fx_grade#:#Gebruik de 'FX' schaal, wanneer de niet succesv
 assessment#:#ects_use_fx_grade_part2#:#percentage van het totaal aantal punten.
 assessment#:#end_tag#:#Eind-tag
 assessment#:#ending_time_reached#:#De eind-tijd is bereikt
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Er is een fout opgetreden bij het importeren van de vraag(vragen) uit het door u geselecteerde bestand!
 assessment#:#error_open_image_file#:#Fout bij het openen van een grafisch bestand!
 assessment#:#error_open_java_file#:#Fout bij het openen van een java applet!
@@ -298,8 +300,11 @@ assessment#:#tst_all_user_data_deleted#:#Allel gebruikers-gegevens van deze test
 assessment#:#tst_already_taken#:#Testen zijn gedaan
 assessment#:#tst_anon_eval#:#Anoniem geaggregeerde resultaten
 assessment#:#tst_browse_for_questions#:#Doorzoek op vragen
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Verwijder alle gebruikers-gegevens
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b op zijn minst één markerings-stap om deze te verwijderen
+assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Eindtijd
 assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nog toe de test ingevoerd. Er zijn geen anoniem geaggregeerde test-resultaten
 assessment#:#tst_eval_total_finished#:#Totaal aantal gemaakte testen
@@ -999,7 +1004,6 @@ common#:#filter#:#Filter:
 common#:#firstname#:#Voornaam
 common#:#flatview#:#Lijst-overzicht
 common#:#fold#:#
-Map
 common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
@@ -3050,7 +3054,6 @@ meta#:#meta_c_DE#:#Cyprus
 meta#:#meta_c_DJ#:#Tsjechische Republiek
 meta#:#meta_c_DK#:#Duitsland
 meta#:#meta_c_DM#:#
-Djibouti
 meta#:#meta_c_DO#:#Denemarken
 meta#:#meta_c_DZ#:#Dominica
 meta#:#meta_c_EC#:#Dominicaanse Republiek
