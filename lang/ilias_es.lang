@@ -262,7 +262,6 @@ common#:#group_not_available#:#any group available###12 Jun 2003 new variable
 common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
-common#:#group_status_private#:#Private###29 Apr 2003 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#groups
 common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
