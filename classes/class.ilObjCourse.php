@@ -85,5 +85,21 @@ class ilObjCourse extends ilObject
 		
 		return true;
 	}
+
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id)
+	{
+		// object specific event handling
+			
+		parent::notify($a_event,$a_ref_id);
+	}
 } //END class.ilObjCourse
 ?>

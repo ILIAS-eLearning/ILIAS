@@ -865,5 +865,37 @@ class ilObjGroup extends ilObject
 		return $rfoldObj;
 	}
 
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id)
+	{
+		// object specific event handling
+		switch ($a_event)
+		{
+			case "link":
+				echo "Gruppe hat link event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				break;
+			
+			case "cut":
+				echo "Gruppe hat cut event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				break;
+				
+			case "copy":
+				echo "Gruppe hat copy event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				break;
+		}
+		
+		// stop walking up the tree
+		return true;
+		
+		parent::notify($a_event,$a_ref_id);
+	}
 } //END class.ilObjGroup
 ?>
