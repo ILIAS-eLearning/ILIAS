@@ -1150,3 +1150,27 @@ if(!$got_hobby)
 
 <#49>
 ALTER TABLE lm_page_object MODIFY COLUMN content LONGTEXT NOT NULL DEFAULT '';
+
+<#50>
+DROP TABLE IF EXISTS meta_technical;
+CREATE TABLE meta_technical (
+	tech_id int NOT NULL auto_increment,
+	obj_id int(11) NOT NULL,
+	obj_type char(3) NOT NULL,
+	size varchar(50) NOT NULL default '',
+	install_remarks TEXT NOT NULL default '',
+	install_remarks_lang char(2) NOT NULL default '',
+	other_requirements TEXT NOT NULL default '',
+	other_requirements_lang char(2) NOT NULL default '',
+	duration varchar(50) NOT NULL default '',
+	PRIMARY KEY (tech_id),
+	INDEX (obj_id, obj_type)
+) TYPE=MyISAM;
+
+<#51>
+DROP TABLE IF EXISTS meta_techn_loc;
+CREATE TABLE meta_techn_loc (
+	tech_id int NOT NULL,
+	location varchar(150),
+	INDEX (tech_id)
+) TYPE=MyISAM;
