@@ -106,8 +106,9 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliascom {color: rgb(0, 128, 0);} ";
 	cfg.pageStyle += ".iliasstrong {font-weight: bold;} ";
 	cfg.pageStyle += ".iliasemp {font-style: italic;} ";
-	cfg.pageStyle += ".iliasxln {color: 800000;text-decoration:underline;}";
-	cfg.statusBar = false;
+	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
+	
+	//cfg.statusBar = false;
 	
 	cfg.toolbar = [
 		[ 
