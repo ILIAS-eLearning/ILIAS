@@ -54,6 +54,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 	function setPageObject(&$a_pg_obj)
 	{
 		$this->obj =& $a_pg_obj;
+		$this->obj->setLMId($this->lm_obj->getId());
 	}
 
 	/*
@@ -96,14 +97,16 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 		header('Content-type: text/html; charset=UTF-8');
 
+		$pg_title = $this->obj->getPresentationTitle();
+
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'edit', 'ref_id' => $this->lm_obj->getRefId(),
-			'webspace_path' => $wb_path);
+		$params = array ('mode' => 'edit', 'pg_title' => $pg_title,
+			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -142,14 +145,16 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
 
+		$pg_title = $this->obj->getPresentationTitle();
+
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'preview', 'ref_id' => $this->lm_obj->getRefId(),
-			'webspace_path' => $wb_path);
+		$params = array ('mode' => 'preview', 'pg_title' => $pg_title,
+			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
