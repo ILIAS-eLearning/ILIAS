@@ -48,10 +48,19 @@ class ilWysiwygUtil
 							$this->showFootnote();
 							break;
 						}
+			case "movecopytreenode" : {
+							$this->showMoveCopyQuestion();
+							break;
+						}
 		}
 		
 		$this->tpl->show();
 		
+	}
+	
+	function showMoveCopyQuestion() {
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,false,true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 	}
 	
 	function showXtl() 
@@ -138,6 +147,21 @@ class ilWysiwygUtil
 		{
 			$new["convert"] = "[xln url=\"".$attrs[url]."\"]";
             $new["convert2"] = "[/xln]";
+		}
+		
+		if ($attrs["class"] == "iliasiln") 
+		{
+			reset ($attrs);
+			$N = "";
+			while (list ($key, $val) = each ($attrs)) 
+			{
+				if ($key!="class") 
+				{
+					$N .= " ".$key."=\"".$val."\"";
+				}
+			}
+			$new["convert"] = "[iln".$N."]";
+            $new["convert2"] = "[/iln]";
 		}
 		
         if ($attrs["class"] == "ilc_Strong") 
