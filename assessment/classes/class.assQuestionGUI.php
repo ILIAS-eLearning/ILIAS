@@ -445,8 +445,15 @@ class ASS_QuestionGUI
 	*/
 	function cancel()
 	{
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		if ($_GET["q_id"] > 0)
+		{
+			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		}
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+		}
 	}
 
 	/**
@@ -457,7 +464,7 @@ class ASS_QuestionGUI
 		$this->writePostData();
 		$this->object->saveToDb();
 		$this->object->removeAllQuestionReferences();
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 	}
 }
