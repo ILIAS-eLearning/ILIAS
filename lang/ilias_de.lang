@@ -31,9 +31,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-<<<<<<< ilias_en.lang###25 Mar 2003 new variable
-<<<<<<< ilias_en.lang###25 Mar 2003 new variable
-<<<<<<< ilias_en.lang###25 Mar 2003 new variable
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
@@ -522,4 +519,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-zz#:#aa#:#aa###25 Mar 2003 new variable
