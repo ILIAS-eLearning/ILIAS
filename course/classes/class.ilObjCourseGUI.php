@@ -25,7 +25,7 @@
 /**
 * Class ilObjCourseGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI
@@ -353,7 +353,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("crs_unlimited"));
 		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("crs_start"));
 		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("crs_end"));
-		$this->tpl->setVariable("TXT_ACTIVATION_OFFLINE",$this->lng->txt("crs_offline"));
+		$this->tpl->setVariable("TXT_ACTIVATION_OFFLINE",$this->lng->txt("set_online"));
 
 		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
 		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("crs_unlimited"));
@@ -409,7 +409,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_YEAR",$this->__getDateSelect("year","crs[activation_end][year]",
 																					date("Y",$activation_end)));
 
-		$this->tpl->setVariable("CHECK_ACTIVATION_OFFLINE",ilUtil::formCheckbox($offline,"crs[activation_offline]",1));
+		$this->tpl->setVariable("CHECK_ACTIVATION_OFFLINE",ilUtil::formCheckbox(!$offline,"crs[activation_offline]",1));
 
 		$this->tpl->setVariable("SUBSCRIPTION_UNLIMITED",ilUtil::formCheckbox($subscription_unlimited,"crs[subscription_unlimited]",1));
 
@@ -515,7 +515,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setActivationUnlimitedStatus((bool) $_POST["crs"]["activation_unlimited"]);
 		$this->object->setActivationStart($this->__toUnix($_POST["crs"]["activation_start"]));
 		$this->object->setActivationEnd($this->__toUnix($_POST["crs"]["activation_end"]));
-		$this->object->setOfflineStatus($_POST["crs"]["activation_offline"]);
+		$this->object->setOfflineStatus(!$_POST["crs"]["activation_offline"]);
 
 		$this->object->setSubscriptionUnlimitedStatus((bool) $_POST["crs"]["subscription_unlimited"]);
 		$this->object->setSubscriptionStart($this->__toUnix($_POST["crs"]["subscription_start"]));
