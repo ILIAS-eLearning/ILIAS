@@ -819,7 +819,18 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create"));
 		// values
-		$this->tpl->setVariable("DATADIR_PATH", $_SESSION["error_post_vars"]["form"]["datadir_path"]);
+		//echo $this->ini->readVariable($this->ini->readVariable("server","presetting"),"data_dir");
+		if ($_SESSION["error_post_vars"]["form"])
+		{
+			$this->tpl->setVariable("DATADIR_PATH", $_SESSION["error_post_vars"]["form"]["datadir_path"]);
+		}
+		elseif ($this->ini->readVariable("server","presetting") != "")
+		{
+			$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"data_dir"));
+		}
+
+
+			
 		//$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? "CHK_DATADIR_PATH_TARGET" : "CHK_DATADIR_PATH_CREATE";
 		$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? $checked : "";
 		$this->tpl->setVariable("CHK_DATADIR_PATH",$chk_datadir_path);
@@ -831,8 +842,17 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
 		$this->tpl->setVariable("TXT_LOG_COMMENT", $this->lng->txt("log_path_comment"));
 		$this->tpl->setVariable("TXT_DISABLE_LOGGING", $this->lng->txt("disable_logging"));
+
 		// values
-		$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
+		if ($_SESSION["error_post_vars"]["form"])
+		{
+			$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
+		}
+		elseif ($this->ini->readVariable("server","presetting") != "")
+		{
+			$this->tpl->setVariable("LOG_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"log"));
+		}
+
 		$chk_log_path = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
 		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_path);
 		$this->tpl->parseCurrentBlock();
@@ -852,13 +872,25 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
 		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
 		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
+
 		// values
-		$this->tpl->setVariable("CONVERT_PATH", $_SESSION["error_post_vars"]["form"]["convert_path"]);
-		$this->tpl->setVariable("ZIP_PATH", $_SESSION["error_post_vars"]["form"]["zip_path"]);
-		$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
-		$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
-		$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
-		
+		if ($_SESSION["error_post_vars"]["form"])
+		{
+			$this->tpl->setVariable("CONVERT_PATH", $_SESSION["error_post_vars"]["form"]["convert_path"]);
+			$this->tpl->setVariable("ZIP_PATH", $_SESSION["error_post_vars"]["form"]["zip_path"]);
+			$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
+			$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
+			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
+		}
+		elseif ($this->ini->readVariable("server","presetting") != "")
+		{
+			$this->tpl->setVariable("CONVERT_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"convert"));
+			$this->tpl->setVariable("ZIP_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"zip"));
+			$this->tpl->setVariable("UNZIP_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"unzip"));
+			$this->tpl->setVariable("JAVA_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"java"));
+			$this->tpl->setVariable("HTMLDOC_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"htmldoc"));
+		}
+								
 		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
 		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
 		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
