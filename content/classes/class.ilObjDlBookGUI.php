@@ -244,9 +244,10 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		} 
 		else 
 		{
-			$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline");
+			$this->tpl->setVariable("TXT_ACTION","Digilib-Book - download");
 			$this->tpl->setVariable("TXT_HTMLEXPORT",$this->lng->txt("HTML export") );
 			$this->tpl->setVariable("TXT_PDFEXPORT",$this->lng->txt("PDF export") );
+            $this->tpl->setVariable("TXT_XMLEXPORT",$this->lng->txt("XML export (only complete book)") );
 			$this->tpl->setVariable("OFFLINE_CHECKED","checked");
 		}
 		
@@ -301,7 +302,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 
 		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("read offline"));
+		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
 
