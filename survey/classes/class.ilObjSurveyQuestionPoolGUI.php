@@ -1699,6 +1699,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("svy_file"),
 			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
 
+		$tbl->enabled["sort"] = false;
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
 		// control
