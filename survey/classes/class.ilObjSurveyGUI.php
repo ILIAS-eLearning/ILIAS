@@ -666,13 +666,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("VALUE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
+		$this->tpl->setVariable("VALUE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
+		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($this->object->getDescription()));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->getIntroduction());
+		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->getIntroduction()));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));

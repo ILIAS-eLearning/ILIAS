@@ -700,10 +700,10 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["description"] = $this->object->getDescription();
 		}
 		$this->object->setTestType($data["sel_test_types"]);
-		$this->object->setTitle($data["title"]);
-		$this->object->setDescription($data["description"]);
-		$this->object->setAuthor($data["author"]);
-		$this->object->setIntroduction($data["introduction"]);
+		$this->object->setTitle(ilUtil::prepareFormOutput($data["title"]));
+		$this->object->setDescription(ilUtil::prepareFormOutput($data["description"]));
+		$this->object->setAuthor(ilUtil::prepareFormOutput($data["author"]));
+		$this->object->setIntroduction(ilUtil::prepareFormOutput($data["introduction"]));
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setScoreReporting($data["score_reporting"]);
 		$this->object->setReportingDate($data["reporting_date"]);

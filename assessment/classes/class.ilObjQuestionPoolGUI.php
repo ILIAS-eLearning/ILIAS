@@ -603,7 +603,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* export question
 	*/
-	function _exportObject()
+	function exportQuestionObject()
 	{
 		// export button was pressed
 		if (count($_POST["q_id"]) > 0)
@@ -1261,7 +1261,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("ass_export_files"));
 
@@ -1346,7 +1346,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			require_once("assessment/classes/class.ilQuestionpoolExport.php");
-			$qpl_exp = new ilQuestionpoolExport($this->object);
+			$question_ids =& $this->object->getAllQuestionIds();
+			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $question_ids);
 			$qpl_exp->buildExportFile();
 			$this->exportObject();
 
@@ -1370,6 +1371,107 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* download export file
+	*/
+	function downloadExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//$this->setTabs();
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFileObject()
+	{
+		session_unregister("ilExportFiles");
+		$this->ctrl->redirect($this, "export");
+	}
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFileObject()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+			if (@is_dir($exp_dir))
+			{
+				ilUtil::delDir($exp_dir);
+			}
+		}
+		$this->ctrl->redirect($this, "export");
+	}
 	
 } // END class.ilObjQuestionPoolGUI
 ?>

@@ -979,6 +979,23 @@ class ilObjQuestionPool extends ilObject
 		}
 	}
 	
+	function &getAllQuestionIds()
+	{
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s",
+			$this->ilias->db->quote($this->getId())
+		);
+		$query_result = $this->ilias->db->query($query);
+		$questions = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($questions, $row["question_id"]);
+			}
+		}
+		return $questions;
+	}
+	
 	/**
 	* Returns a QTI xml representation of a list of questions
 	*
