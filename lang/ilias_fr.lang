@@ -1293,6 +1293,7 @@ common#:#msg_no_perm_modify_rolt#:#Vous n'avez pas la permission de modifier les
 common#:#msg_no_perm_modify_user#:#Vous n'avez pas la permission de modifier les données utilisateurs
 common#:#msg_no_perm_paste#:#Vous n'avez pas la permission de coller les objets suivants :
 common#:#msg_no_perm_perm#:#Vous n'avez pas la permission de modifier les paramètres de permissions
+common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###26 Nov 2003 new variable
 common#:#msg_no_perm_write#:#Vous n'avez pas la permission d'écrire

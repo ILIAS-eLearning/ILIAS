@@ -1293,6 +1293,7 @@ common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
+common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!

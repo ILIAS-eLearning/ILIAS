@@ -1293,6 +1293,7 @@ common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template d
 common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
+common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
