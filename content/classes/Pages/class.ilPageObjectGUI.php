@@ -531,8 +531,16 @@ class ilPageObjectGUI
 					$tpl->setCurrentBlock("chapter_row");
 					$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 					$tpl->setVariable("ROWCLASS", "tblrow1");
-					$tpl->setVariable("LINK_CHAPTER",
-						"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+					if (!empty($target_str))
+					{
+						$tpl->setVariable("LINK_CHAPTER",
+							"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+					}
+					else
+					{
+						$tpl->setVariable("LINK_CHAPTER",
+							"[iln media=\"".$obj["id"]."\"/]");
+					}
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("chapter_list");
