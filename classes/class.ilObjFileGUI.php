@@ -164,6 +164,13 @@ class ilObjFileGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
+	
+	function sendFileObject()
+	{
+		$this->object->sendFile();
+		
+		return true;
+	}
 
 	/**
 	* cancel action and go back to previous page

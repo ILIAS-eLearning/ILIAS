@@ -830,6 +830,8 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		$tpl = new ilTemplate("tpl.chat_message.html",true,true,true);
 
+		$_POST['message'] = htmlentities(trim($_POST['message']),ENT_COMPAT,'utf-8');
+
 		$tpl->setVariable("MESSAGE",$_POST["message"]);
 		$tpl->setVariable("FONT_COLOR",$_POST["color"]);
 		$tpl->setVariable("FONT_FACE",$_POST["type"]);
