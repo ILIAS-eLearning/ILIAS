@@ -435,6 +435,61 @@ class ilMediaItem
 	}
 
 	/**
+	* get work directory for image map editing
+	*/
+	function getWorkDirectory()
+	{
+		return ilUtil::getDataDir()."/med_items/item_".$this->getId();
+	}
+
+	/**
+	* create work directory for image map editing
+	*/
+	function createWorkDirectory()
+	{
+		if(!@is_dir(ilUtil::getDataDir()."/med_items"))
+		{
+			ilUtil::createDirectory(ilUtil::getDataDir()."/med_items");
+		}
+		$work_dir = $this->getWorkDirectory();
+		if(!@is_dir($work_dir))
+		{
+			ilUtil::createDirectory($work_dir);
+		}
+	}
+
+	/**
+	* get location suffix
+	*/
+	function getSuffix()
+	{
+		$loc_arr = explode(".", $this->getLocation());
+
+		return $loc_arr[count($loc_arr) - 1];
+	}
+
+
+	function makeMapWorkCopy()
+	{
+
+	}
+
+	function outputFile($mode, $map_rec)
+	{
+		$imtype = ilUtil::getGDSupportedImageType($this->getSuffix());
+
+		if (!empty($imtype))
+		{
+			header("Pragma: no-cache");
+			header("Expires: 0");
+			header("Content-type: image/gif");
+			readfile(fname());
+		}
+		exit;
+	}
+
+
+	/**
 	* get xml code of media items' areas
 	*/
 	function getMapAreasXML()

@@ -244,6 +244,25 @@ class ilMediaObject extends ilObjMediaObject
 	}
 
 	/**
+	* get directory for files of media object (static)
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	function _getDirectory($a_mob_id)
+	{
+		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+	}
+
+
+	/**
+	* create file directory of media object
+	*/
+	function createDirectory()
+	{
+		ilUtil::createDirectory(ilMediaObject::_getDirectory($this->getId()));
+	}
+
+	/**
 	* get MediaObject XLM Tag
 	*  @param	int		$a_mode		IL_MODE_ALIAS | IL_MODE_OUTPUT | IL_MODE_FULL
 	*/

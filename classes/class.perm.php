@@ -462,7 +462,7 @@ function infoPanel($a_keep = true)
 	{
 		$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html");
 		$tpl->setCurrentBlock("infopanel");
-		
+
 		if (!empty($_SESSION["infopanel"]["text"]))
 		{
 			$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
