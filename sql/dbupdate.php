@@ -5105,3 +5105,20 @@ CREATE TABLE `frm_thread_access` (
   `access_last` int(11) NOT NULL default '0',
   PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`)
 ) TYPE=MyISAM;
+
+<#353>
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `obj_id` int(11) NOT NULL,
+  `obj_type` CHAR(8) NOT NULL DEFAULT '',
+  `action` char(20) NOT NULL DEFAULT '',
+  `hdate` DATETIME,
+  `usr_id` int(11) NOT NULL,
+  `info_params` TEXT NOT NULL DEFAULT '',
+  `user_comment` TEXT NOT NULL DEFAULT '',
+  INDEX id_type (obj_id, obj_type)
+) TYPE=MyISAM;
+<#354>
+ALTER TABLE content_object ADD COLUMN hist_user_comments ENUM('y','n') DEFAULT 'n';
+

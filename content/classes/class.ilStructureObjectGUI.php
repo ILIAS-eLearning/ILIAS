@@ -419,13 +419,24 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			{
 				continue;
 			}
+			
 			$obj =& ilLMObjectFactory::getInstance($this->content_object, $id);
 			$obj->setLMId($this->content_object->getId());
 			$node_data = $tree->getNodeData($id);
 			//$obj->delete();
 			if($tree->isInTree($id))
 			{
+				$parent_id = $tree->getParentId($id);
 				$tree->deleteTree($node_data);
+				
+				// write history entry
+				require_once("classes/class.ilHistory.php");
+				ilHistory::_createEntry($id, "cut",
+					array(ilLMObject::_lookupTitle($parent_id), $parent_id),
+					$this->content_object->getType().":pg");
+				ilHistory::_createEntry($parent_id, "cut_page",
+					array(ilLMObject::_lookupTitle($id), $id),
+					$this->content_object->getType().":st");
 			}
 			$cutted++;
 		}
@@ -520,6 +531,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$tree->insertNode($id, $this->obj->getId(), $target);
 			ilEditClipboard::clear();
 		}
+		
+		// write history comments
+		include_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($id, "paste",
+			array(ilLMObject::_lookupTitle($this->obj->getId()), $this->obj->getId()),
+			$this->content_object->getType().":pg");
+		ilHistory::_createEntry($parent_id, "paste_page",
+			array(ilLMObject::_lookupTitle($id), $id),
+			$this->content_object->getType().":st");
 
 		// check the tree
 		$this->checkTree();

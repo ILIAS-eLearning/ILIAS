@@ -97,12 +97,14 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				//$contObjLocator->setContentObject($this->content_object);
 				$page_object =& $this->obj->getPageObject();
 				$page_object->buildDom();
+				$page_object->addUpdateListener($this, "updateHistory");
 				$int_links = $page_object->getInternalLinks();
 				$link_xml = $this->getLinkXML($int_links);
 				$page_gui =& new ilPageObjectGUI($page_object);
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);
+				$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
 				$page_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
 					"&amp;ref_id=".$this->content_object->getRefId());
 				$page_gui->setFullscreenLink("lm_presentation.php?cmd=fullscreen".
@@ -271,6 +273,38 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		return $link_info;
 	}
+	
+	
+	/**
+	* history
+	*
+	* @access	public
+	*/
+	function history()
+	{
+		$this->setTabs();
+		
+		require_once("classes/class.ilHistoryGUI.php");
+		$hist_gui =& new ilHistoryGUI($this->obj->getId() ,
+			$this->content_object->getType().":pg");
+		$hist_html = $hist_gui->getHistoryTable(
+			$this->ctrl->getParameterArray($this, "history"),
+			$this->content_object->isActiveHistoryUserComments()
+			);
+		
+		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+	}
+
+	/**
+	* update history
+	*/
+	function updateHistory()
+	{
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($this->obj->getId(), "update",
+			"", $this->content_object->getType().":pg",
+			"", true);
+	}
 
 
 	/**
@@ -303,6 +337,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
 			, "editMeta", get_class($this));
+
+		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
+			, "history", get_class($this));
 
 		$tabs = $this->ctrl->getTabs();
 		foreach ($tabs as $tab)
