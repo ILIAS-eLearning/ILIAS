@@ -197,13 +197,15 @@ class ilHACPExplorer extends ilAICCExplorer
 						$url=$unit->getCommand_line();
 						if (strlen($url)==0)
 							$url=$unit->getFilename();
+						
+						//relative path?	
+						if (substr($url,0,7)!="http://")
+							$url=$this->slm_obj->getDataDirectory("output")."/".$url;
+							
 						if (strlen($unit->getWebLaunch())>0)
 							$url.="?".$unit->getWebLaunch();
 						
-						if (substr($_SERVER["REMOTE_ADDR"],0,9)=="10.113.88") //for testing
-							$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/content/sahs_server.php";
-						else
-							$hacpURL=ILIAS_HTTP_PATH."/content/sahs_server.php";
+						$hacpURL=ILIAS_HTTP_PATH."/content/sahs_server.php";
 						
 						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;
 						//$aicc_sid=$this->slm_obj->ref_id."%20".session_id();
