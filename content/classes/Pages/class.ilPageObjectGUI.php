@@ -246,6 +246,7 @@ class ilPageObjectGUI
 		{
 			if($this->getOutputMode() == "edit")
 			{
+//echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
 			}
 			else

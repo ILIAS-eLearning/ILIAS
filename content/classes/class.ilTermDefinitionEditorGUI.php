@@ -80,15 +80,16 @@ class ilTermDefinitionEditorGUI
 		$page =& $this->definition->getPageObject();
 		$page->addUpdateListener($this, "saveShortText");
 		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setTemplateTargetVar("ADM_CONTENT");
+		$page_gui->setTemplateTargetVar("CONTENT");
 		$page_gui->setOutputMode("edit");
 		$page_gui->setLocator($gloss_loc);
+		$page_gui->setHeader("bloblo");
 		$page_gui->setPresentationTitle($this->term->getTerm());
 		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
-		if($_GET["mode"] == "page_edit")
+		if($_GET["mode"] == "page_edit" || $cmd == "view")
 		{
 			$page_gui->showPageEditor();
 		}
@@ -96,7 +97,7 @@ class ilTermDefinitionEditorGUI
 		{
 			$cmd = $_GET["cmd"];
 			$this->setAdminTabs();
-//echo "cmd:".$_GET["cmd"].":<br>";
+
 			switch ($cmd)
 			{
 				case "editDefinitionMetaData":
@@ -117,6 +118,7 @@ class ilTermDefinitionEditorGUI
 
 				default:
 					$page_gui->$cmd();
+					break;
 			}
 		}
 

@@ -109,6 +109,7 @@ class ilPageEditorGUI
 
 	function executeCommand()
 	{
+//echo "execute";
 		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
 		{
 			return;
