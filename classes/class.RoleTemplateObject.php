@@ -46,34 +46,6 @@ class RoleTemplateObject extends Object
 
 
 	/**
-	* save permission templates of role
-	* @access	public
-	**/
-	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
-	{
-		global $tree, $rbacadmin, $rbacsystem;
-
-		// get rid of $_GET variables
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
-		{
-			// Alle Template Eintraege loeschen
-			$rbacadmin->deleteRolePermission($this->id, $_GET["parent"]);
-
-			foreach ($a_template_perm as $key => $ops_array)
-			{
-				// Setzen der neuen template permissions
-				$rbacadmin->setRolePermission($this->id, $key,$ops_array,$_GET["parent"]);
-			}
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
-		}
-		return true;
-	}
-
-	/**
 	* copy permissions from role or template
 	* @access	public
 	**/

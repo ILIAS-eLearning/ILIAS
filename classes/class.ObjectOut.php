@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ObjectOut.php,v 1.42 2003/03/17 17:44:43 shofmann Exp $
+* @version $Id$
 *
 * @package ilias-core
 */
@@ -592,9 +592,78 @@ class ObjectOut
 		$this->tpl->parseCurrentBlock();
 	}
 
+	
+	/**
+	* save permissions
+	*/
 	function permSaveObject()
 	{
-		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=perm");
+		global $tree,$rbacsystem,$rbacreview,$rbacadmin;
+
+		// TODO: get rid of $_GET variables
+
+		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$rbacadmin->revokePermission($_GET["ref_id"]);
+
+			foreach ($_POST["perm"] as $key => $new_role_perms)
+			{
+				// $key enthaelt die aktuelle Role_Id
+				$rbacadmin->grantPermission($key,$new_role_perms, $_GET["ref_id"]);
+			}
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to change permission",$this->ilias->error_obj->WARNING);
+		}
+		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
+		// muss folgendes geschehen:
+		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
+		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
+		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
+		//   und das Permission Template an den Wert des nächst höher gelegenen Permission Templates angepasst
+
+		if ($_POST["stop_inherit"])
+		{
+			foreach ($_POST["stop_inherit"] as $stop_inherit)
+			{
+				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+				if (!($rolf_id = $rolf_data["child"]))
+				{
+					// CHECK ACCESS 'create' rolefolder
+					if ($rbacsystem->checkAccess('create', $_GET["ref_id"],'rolf'))
+					{
+						require_once ("classes/class.RoleFolderObject.php");
+						$rolfObj = new RoleFolderObject();
+						$rolfObj->setTitle("Local roles");
+						$rolfObj->setDescription("Role Folder of object no. ".$_GET["ref_id"]);
+						$rolfObj->create();
+						$rolfObj->createReference();
+						$rolfObj->putInTree($_GET["ref_id"]);
+						unset($rolfObj);
+					}
+					else
+					{
+						$this->ilias->raiseError("No permission to create Role Folder",$this->ilias->error_obj->WARNING);
+					}
+				}
+				// CHECK ACCESS 'write' of role folder
+				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
+				{
+					$parentRoles = $rbacadmin->getParentRoleIds();
+					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+												   $rolf_data["child"],$stop_inherit);
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
+				}
+				else
+				{
+					$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+				}
+			}// END FOREACH
+		}// END STOP INHERIT
+	
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
 

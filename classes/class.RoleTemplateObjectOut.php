@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.6 2003/03/14 23:17:55 akill Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.7 2003/03/18 08:51:23 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -199,6 +199,36 @@ class RoleTemplateObjectOut extends ObjectOut
 
 		$this->tpl->parseCurrentBlock("adm_content");
 	}
+
+
+	/**
+	* save permission templates of role
+	* @access	public
+	**/
+	function permSaveObject()
+	{
+		global $tree, $rbacadmin, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// Alle Template Eintraege loeschen
+			$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
+
+			foreach ($_POST["template_perm"] as $key => $ops_array)
+			{
+				// Setzen der neuen template permissions
+				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$_GET["ref_id"]);
+			}
+		}
+		header("Location: adm_object.php?obj_id=".$this->object->getId()."&ref_id=".
+			$_GET["ref_id"]."&cmd=perm");
+
+	}
+
 
 	function adoptPermSaveObject()
 	{
