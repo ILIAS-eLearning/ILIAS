@@ -3,6 +3,7 @@
 {MESSAGE}
 <h2>{TXT_HEADER}</h2>
 <!-- BEGIN groupheader -->
+<form action="{FORMACTION}" {TARGET} method="post">
 <table class="fullwidth" >
 <tr>
   <td class ="tblrow1" colspan="2"><b>{TXT_MESSAGE}</b></td>
@@ -22,7 +23,20 @@
   <td class ="tblrow2" width="20%" align="right"><b>{TXT_GRP_STATUS}</b></td>
   <td class ="tblrow2"><b>{GRP_STATUS}</b></td>
 </tr>
-
+<tr>
+<tr>
+  <td class="option">{TXT_SUBJECT}<span class="asterisk">*</span></td>
+  <td class="option_value"><input name="subject" value="{SUBJECT}" {READONLY} size="40" maxlength="70" style="width:300px;"/></td>
+</tr>
+<tr>
+  <td class="submit" colspan="2">
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+  </div>
+  </td>
+</tr>
+</form>
 </table>
 <!-- END locontent -->
 
