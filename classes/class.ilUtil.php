@@ -1589,5 +1589,28 @@ class ilUtil
 		return "";
 	}
 
+	/**
+	* checks if mime type is provided by getimagesize()
+	*
+	* @param	string		$a_mime		mime format
+	*
+	* @return	boolean		returns true if size is deducible by getimagesize()
+	*/
+	function deducibleSize($a_mime)
+	{
+		if (($a_mime == "image/gif") || ($a_mime == "image/jpeg") ||
+			($a_mime == "image/png") || ($a_mime == "application/x-shockwave-flash") ||
+			($a_mime == "image/tiff") || ($a_mime == "image/x-ms-bmp") ||
+			($a_mime == "image/psd") || ($a_mime == "image/iff"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 } // END class.ilUtil
 ?>

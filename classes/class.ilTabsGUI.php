@@ -99,10 +99,27 @@ class ilTabsGUI
 			$tabs = $this->tabs;
 		}
 
+		if ($_GET["cmd"] == "")
+		{
+			if (is_array($_POST["cmd"]))
+			{
+				$cmd = key($_POST["cmd"]);
+			}
+		}
+		else if ($_GET["cmd"] == "edpost")
+		{
+			$cmd_arr = explode("_", key($_POST["cmd"]));
+			$cmd = $_POST["command".$cmd_arr[1]];
+		}
+		else
+		{
+			$cmd = $_GET["cmd"];
+		}
+
 		foreach ($tabs as $row)
 		{
 			$i++;
-			if ($row[1] == $_GET["cmd"])
+			if ($row[1] == $cmd)
 			{
 				$tabtype = "tabactive";
 				$tab = $tabtype;
