@@ -1,5 +1,6 @@
 <?php
 include_once("./classes/class.IniFile.php");
+include_once("./classes/class.DBx.php");
 
 /**
 * ILIAS base class
@@ -124,11 +125,7 @@ class ILIAS extends PEAR
 					 "@".$this->ini->readVariable("db", "host").
 					 "/".$this->ini->readVariable("db", "name");
 		
-		$this->db = DB::connect($this->dsn,true);
-            
-		if (DB::isError($this->db)) {
-			die($this->db->getMessage());
-		}
+		$this->db = new DBx($this->dsn);
 			
 		// build option string for PEAR::Auth
 		$this->auth_params = array(
