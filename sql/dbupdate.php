@@ -153,3 +153,9 @@ usr_id INT NOT NULL ,
 search_result TEXT,
 PRIMARY KEY ( usr_id )
 );
+
+<#23>
+ALTER TABLE lm_data ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
+
+<#24>
+ALTER TABLE object_data ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
