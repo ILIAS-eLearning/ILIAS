@@ -269,6 +269,7 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
+common#:#resources#:#Resources
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
 common#:#grp_mem_change_status#:#Change member status
@@ -382,7 +383,7 @@ common#:#lo_available#:#Overview Learning Modules & Courses
 common#:#lo_categories#:#LO Categories
 common#:#lo_edit#:#Edit Learning Object
 common#:#lo_new#:#New Learning Object
-common#:#lo_no_content#:#No Learning Ressources Available
+common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
 common#:#locator#:#Locator:
