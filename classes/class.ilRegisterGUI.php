@@ -82,6 +82,8 @@ class ilRegisterGUI
 	
 	function showRegistrationForm()
 	{
+		global $rbacsystem, $ilias, $lng;
+		
 		$owner = new ilObjUser($this->object->getOwner());
 
 		switch ($this->object->getRegistrationFlag())
@@ -134,6 +136,12 @@ class ilRegisterGUI
 			$this->tpl->setVariable("CMD_CANCEL","cancel");
 			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
+		}
+
+		if (!$rbacsystem->checkAccess("join", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+			return;
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
