@@ -33,16 +33,21 @@
 require_once "./include/inc.header.php";
 
 //look if there is a file tpl.start.html
-$startfilename = $ilias->tplPath.$ilias->account->skin."/tpl.start.html"; 
+$startfilename = $ilias->tplPath.$ilias->account->skin."/tpl.start.html";
+
+$script = (!empty($_GET["script"]))
+	? $_GET["script"]
+	: "usr_personaldesktop.php";
 
 if (file_exists($startfilename))
 {
 	$tpl = new ilTemplate("tpl.start.html", false, false);
+	$tpl->setVariable("SCRIPT", $script);
 	$tpl->show();
 }
 else
 {
-	header("location: usr_personaldesktop.php");
+	header("location: ".$script);
 	exit;
 }
 

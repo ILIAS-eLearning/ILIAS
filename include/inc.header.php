@@ -159,21 +159,31 @@ if ($script != "login.php" && $script != "index.php")
 $tpl = new ilTemplate("tpl.main.html", true, true);
 
 //navigation things
+/*
+	I really don't know in which case the following code is needed.
+	If any errors occur due to disabling this, please do
+	not hesitate to mail me... alex.killing@gmx.de
+
 if ($script != "login.php" && $script != "index.php")
 {
 	if ($tpl->includeNavigation() == true)
 	{
-		$tpl->addBlockFile("NAVIGATION", "navigation", "tpl.main_buttons.html");
-		include("include/inc.mainmenu.php");
+		$menu = new ilMainMenu();
+		$menu->setTemplate($tpl);
+		$menu->addMenuBlock("NAVIGATION", "navigation");
+		$menu->setTemplateVars();
+		//include("include/inc.mainmenu.php");
 	}
-}
+}*/
+
+
 $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 {
 	$mbox = new ilMailbox($_SESSION["AccountId"]);
 	$folder_id = $mbox->getInboxFolder();
-	
+
 	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".
 									htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
