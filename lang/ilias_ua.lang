@@ -119,7 +119,7 @@ assessment#:#apply#:#Примінити
 assessment#:#ass_create_export_file#:#Створити файл експорту
 assessment#:#ass_export_files#:#Файли експорту
 assessment#:#ass_file#:#Файл
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Питання
 assessment#:#ass_questions#:#Питання
 assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
@@ -201,14 +201,14 @@ assessment#:#eval_found_selected_groups#:#Вибрані групи
 assessment#:#eval_found_selected_users#:#Вибрані користувачі
 assessment#:#eval_imagemap_result#:#Вибір карти зображення є %s. Ви отримали %s балів.
 assessment#:#eval_java_result#:#Відповідь зі значенням %s є %s. Ви отримали %s балів.
-assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###05 Nov 2004 new variable
+assessment#:#eval_legend_link#:#Будь ласка подивіться в позначення для отримання позначень символів в заголовку колонки.
 assessment#:#eval_matching_result#:#Співпадаюча пара %s - %s є %s. Ви отримали %s балів.
 assessment#:#eval_order_result#:#Команда зі значенням %s є %s. Ви отримали %s балів.
 assessment#:#eval_search_groups#:#Групи
 assessment#:#eval_search_term#:#Пошуковий термін
 assessment#:#eval_search_users#:#Користувачі
-assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
-assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Пошук користувачів, яких ви бажаєте додати до статистичної оцінки
+assessment#:#eval_selected_users#:#Оцінювання для вибраних користувачів
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -248,15 +248,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#Виникла помилка зб�
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#legend#:#Умовне позначення
 assessment#:#locked#:#заблокований
-assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
-assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
-assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
-assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
-assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
-assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
+assessment#:#log_create_new_test#:#Створити новий тест
+assessment#:#log_mark_added#:#Оцінка додана
+assessment#:#log_mark_changed#:#Оцінка змінена
+assessment#:#log_mark_removed#:#Оцінка видалена
+assessment#:#log_modified_test#:#Тест був модифікований
+assessment#:#log_no_test_fields_changed#:#Збережено, але змін не було
+assessment#:#log_question_added#:#Питання додане на позицію
+assessment#:#log_question_position_changed#:#Позиція питання змінена
+assessment#:#log_question_removed#:#Питання видалене
 assessment#:#maintenance#:#Підтримка
 assessment#:#mark_schema#:#Схема оцінок
 assessment#:#match_terms_and_definitions#:#Співпадаючі терміни та визначення
@@ -266,7 +266,7 @@ assessment#:#matching_pair#:#Співпадаючі пари
 assessment#:#material#:#Матеріал
 assessment#:#material_download#:#Матеріал для завантаження
 assessment#:#material_file#:#Файл матеріалу
-assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
+assessment#:#maxchars#:#Максимальна кількість символів
 assessment#:#maximum_nr_of_tries_reached#:#Ви досялги максимальної кількості спроб на цей тест. Неможливо увійти в тест!
 assessment#:#meaning#:#Значення
 assessment#:#min_percentage_ne_0#:#Ви маєете вказати мінімальне процентне співвідношення до нуля процентів! Схема оцінок не збережена.
@@ -276,7 +276,7 @@ assessment#:#no_passed_mark#:#Ви маєте вказати принаймні 
 assessment#:#no_question_selected_for_move#:#Будь ласка виберіть принаймні одне питання щоб перенести його!
 assessment#:#no_questions_available#:#Немає доступних питань!
 assessment#:#no_target_selected_for_move#:#Ви повинні вибрати цільову позицію!
-assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
+assessment#:#no_user_or_group_selected#:#Будь ласка виберіть опцію що ви шукаєте (користувачів та/або групи)!
 assessment#:#or#:#або
 assessment#:#order_pictures#:#Порядок зображень
 assessment#:#order_terms#:#Порядок термінів
@@ -294,8 +294,8 @@ assessment#:#postpone#:#Відкласти питання
 assessment#:#postponed#:#відкладене
 assessment#:#preview#:#Попередній огляд
 assessment#:#previous_question_rows#:#<< Питання %d - %d з %d
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###05 Nov 2004 new variable
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions###05 Nov 2004 new variable
+assessment#:#qpl_assessment_no_assessment_of_questions#:#Немає доступних оцінок по питанням для вибраного питання. Питання ніколи не використовувалось в тесті.
+assessment#:#qpl_assessment_of_questions#:#Оцінка по питанням
 assessment#:#qpl_assessment_total_of_answers#:#Загальна кількість відповідей
 assessment#:#qpl_assessment_total_of_right_answers#:#Загальний процент правильних відповідей (процент максимальних балів)
 assessment#:#qpl_confirm_delete_questions#:#Ви впевнені що бажаєте видалити наступні питання ? Якщо ви видалите заблоковані питання то результати усіх тестів що містять залоковані питання буде також видалено.
@@ -309,7 +309,7 @@ assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одн�
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
 assessment#:#qpl_question_is_in_use#:#Питання що ви збираєтесь редагувати існує в %s тесті(ах). Якщо ви зміните це питання, ви НЕ зміните питання в тесті(ах), тому що система створює копію питання коли воно вставляється в тест!
 assessment#:#qpl_questions_deleted#:#Питання виделено(і).
-assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
+assessment#:#qpl_select_file_for_import#:#Ви повинні вибрати файл для імпорту!
 assessment#:#qt_cloze#:#Закрити питання
 assessment#:#qt_imagemap#:#Питання з картою зображення
 assessment#:#qt_javaapplet#:#Питання з Ява Аплетом
@@ -317,13 +317,13 @@ assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
-assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
+assessment#:#qt_text#:#Коротка Відповідь (Текст) Питання
 assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
 assessment#:#question_short#:#П
-assessment#:#question_title#:#Question title###17 Dec 2004 new variable
+assessment#:#question_title#:#Назва питання
 assessment#:#question_type#:#Тип Питання
 assessment#:#questionpool_not_entered#:#Будб ласка введіть ім'я для пула з питаннями!
-assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
+assessment#:#questions_from#:#питання з
 assessment#:#radio_set#:#Встановити
 assessment#:#radio_unset#:#Звільнити
 assessment#:#random_accept_sample#:#Прийняти приклад
@@ -341,19 +341,19 @@ assessment#:#result#:#Результат
 assessment#:#save_before_upload_imagemap#:#Ви маєте прийняти ваші зміни перед тим як завантажувати карту зображення!
 assessment#:#save_before_upload_javaapplet#:#Ви маєте прийняти ваші зміни перед тим як завантажувати ява аплет!
 assessment#:#save_edit#:#Зберегти та редагувати вміст
-assessment#:#save_finish#:#Зберегтри та закінчити тест###21 Dec 2004 content changed
-assessment#:#save_introduction#:#Зберегти та перейти до передмови###21 Dec 2004 content changed
-assessment#:#save_next#:#Зберегти та перейти до наступного питання###21 Dec 2004 content changed
-assessment#:#save_previous#:#Зберегти та перейти до попереднього питання###21 Dec 2004 content changed
-assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
-assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
-assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
-assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
+assessment#:#save_finish#:#Закінчити тест
+assessment#:#save_introduction#:#Перейти до передмови
+assessment#:#save_next#:#Наступне
+assessment#:#save_previous#:#Попереднє
+assessment#:#save_text_answer_points#:#Зберегти пункти текстового питання
+assessment#:#search_found_groups#:#Знайти групи
+assessment#:#search_found_users#:#Знайти користувачів
+assessment#:#see_details_for_further_information#:#Дивитись деталі запропонованих рішень
 assessment#:#select_an_answer#:#--- Будь ласка виберіть відповідь ---
 assessment#:#select_gap#:#Вибрати проміжок
-assessment#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+assessment#:#select_max_one_item#:#Будь ласка виберіть тільки один пункт
 assessment#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для перміщення питань та натисніть одну з кнопок вставки!
-assessment#:#select_tst_option#:#--- Please select a test ---###05 Nov 2004 new variable
+assessment#:#select_tst_option#:#--- Будь ласка виберіть тест ---
 assessment#:#selected_image#:#Помічене зображення
 assessment#:#set_filter#:#Встановити фільтр
 assessment#:#shape#:#Форма
@@ -362,65 +362,65 @@ assessment#:#solution_hint#:#Запропоноване рішення
 assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#start_tag#:#Початковий тег
 assessment#:#starting_time_not_reached#:#Ви не досягли початкового часу
-assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
-assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
+assessment#:#statistical_data#:#Статистичні дані
+assessment#:#suggested_solution_added_successfully#:#Ви вдало встановили запропоноване рішення!
 assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений
-assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
+assessment#:#text_answers_saved#:#Пункти текстового питання змінені!
 assessment#:#text_gap#:#Текстовий проміжок
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
-assessment#:#time_format#:#HH MM SS###05 Nov 2004 new variable
+assessment#:#text_maximum_chars_allowed#:#Будь ласка не вводьте більше ніж %s символів. Усі символи, що перевищують цю кількість будуть видалені.
+assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Будь ласка заповніть пусті параметри аплету перед додаванням нових параметрів!
 assessment#:#true#:#Правда
-assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!###29 Nov 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
 assessment#:#tst_already_taken#:#Тест вже вибраний
 assessment#:#tst_anon_eval#:#Анонімно зібрані результати
 assessment#:#tst_browse_for_questions#:#Огляд для питань
-assessment#:#tst_confirm_delete_results#:#Ви видаляєте усі ваші попередньо введені результати цього тесту. Це знищить усі питання на їх початкове значення. БУдь ласка зауважте, що ви не можете обнулити кількість спроб, вони ще потрібні для цього тесту. Ви дійсно бажаєте обнулити усі попередньо введені результати ?###29 Nov 2004 content changed
+assessment#:#tst_confirm_delete_results#:#Ви видаляєте усі ваші попередньо введені результати цього тесту. Це обнулить усі питання на їх початкове значення. Будь ласка зауважте, що ви не можете обнулити кількість спроб, вони ще потрібні для цього тесту. Ви дійсно бажаєте обнулити усі попередньо введені результати ?
 assessment#:#tst_confirm_delete_results_info#:#Ваші попередньо введені результати по питанням тесту були видалені. Ви вдало обнулили тест!
 assessment#:#tst_delete_all_user_data#:#Видалити усі дані користувача
 assessment#:#tst_delete_missing_mark#:#Будь ласка виберіть принаймні одну відмітку для видалення
 assessment#:#tst_delete_results#:#Обнулити тест
 assessment#:#tst_ending_time#:#Кінцевий час
 assessment#:#tst_enter_questionpool#:#Будь ласка введіть ім'я пулу питань де будуть зберігатись нові питання
-assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
-assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
-assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
-assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
-assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
-assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
-assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
-assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
-assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
-assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
-assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
-assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
-assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
-assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.###13 Sep 2004 new variable
-assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.###13 Sep 2004 new variable
-assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.###13 Sep 2004 new variable
-assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
-assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
-assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
-assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
-assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
-assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
-assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
-assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
-assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
-assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
-assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
+assessment#:#tst_eval_no_anonymous_aggregation#:#Ніхто ще не увійшов у цей тест. Ще не має доступних анонімно зібраних результатів теста.
+assessment#:#tst_eval_total_finished#:#Загальна кількість закінчених тестів
+assessment#:#tst_eval_total_finished_average_time#:#Середній щас проходження для завершених тестів
+assessment#:#tst_eval_total_passed#:#Загальна кількість пройдених тестів
+assessment#:#tst_eval_total_passed_average_points#:#Середній бал пройдених тестів
+assessment#:#tst_eval_total_persons#:#Загальна кількість осіб, що увійшли в тест
+assessment#:#tst_general_properties#:#Загальні властивості
+assessment#:#tst_generate_xls#:#Сгенерувати Excel
+assessment#:#tst_in_use_edit_questions_disabled#:#Тест виконують користувачі: %d осіб. Вам не дозволено редагувати або переміщувати питання в цьому тесті!
+assessment#:#tst_insert_missing_question#:#Будь ласка виберіть хоча б одне питання, щоб вставити його в тест!
+assessment#:#tst_insert_questions#:#Ви впервені що ви бажаєте вставити наступні питання в тест?
+assessment#:#tst_insert_questions_and_results#:#Цей тест вже завершели %s осіб. Вставка питань до цього тесту видалить усі результати цих користувачів по тесту. Ви впевнені, що бажаєте вставити наступні питання в тест?
+assessment#:#tst_introduction#:#Вступ
+assessment#:#tst_mark#:#Оцінка
+assessment#:#tst_mark_create_new_mark_step#:#Створити новий шаг оцінки
+assessment#:#tst_mark_create_simple_mark_schema#:#Створити просту схему оцінок
+assessment#:#tst_mark_minimum_level#:#Мінімальний рівень (в %)
+assessment#:#tst_mark_official_form#:#Офіціальна форма
+assessment#:#tst_mark_passed#:#Пройдений
+assessment#:#tst_mark_short_form#:#Коротка форма
+assessment#:#tst_maximum_points#:#Максимум балів
+assessment#:#tst_missing_author#:#Ви не ввели ім'я автора у властивості тесту! Будь ласка додайте ім'я автора.
+assessment#:#tst_missing_marks#:#Ви не додали схему оцінювання до тесту! Будь ласка додайте хоча б просту схему оцінювання в тест.
+assessment#:#tst_missing_questions#:#В тесті немає жодного питання! Будь ласка додайте принаймні одне питання в тест.
+assessment#:#tst_missing_title#:#Ви не ввели назву тесту! Будь ласка перейдіть до секції мета даних та введіть назву.
+assessment#:#tst_no_marks_defined#:#Не вказані оцінки, будь ласка створіть принаймні просту схему оцінок!
+assessment#:#tst_no_more_available_questionpools#:#Більше не має доступних пулів питань
+assessment#:#tst_no_question_selected_for_removal#:#Будь ласка виберіть принаймні одне питання щоб видалити його!
+assessment#:#tst_no_questionpools_for_random_test#:#Ви не додали пул питань для цього випадкового тесту! Будь ласка вкажіть принаймні один пул питань.
+assessment#:#tst_no_questions_available#:#Немає доступних питань! Ви маєте створити нові питання або зробити пошук питань.
+assessment#:#tst_no_questions_for_random_test#:#Ви не вибрали жодного питання з пулів питань для цього випадкового тесту! Будь ласка вкажіть принаймні одне питання вказавши кількість питань для доданого пула питань.
+assessment#:#tst_no_taken_tests#:#Немає взятих тестів!
+assessment#:#tst_no_tries#:#пусто
+assessment#:#tst_nr_of_tries#:#Максимальна кількість спроб
+assessment#:#tst_nr_of_tries_of_user#:#Спроби вже скінчились
+assessment#:#tst_percent_solved#:#Процентів розв'язано
+assessment#:#tst_processing_time#:#Максимальний час роботи
+assessment#:#tst_question_no#:#Порядок
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
