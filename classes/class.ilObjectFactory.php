@@ -157,9 +157,15 @@ class ilObjectFactory
 		}
 
 		// read object data
-		$q = "SELECT * FROM object_data ".
-			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-			 "WHERE object_reference.ref_id='".$a_ref_id."'";
+		
+		// Much too slow
+		#$q = "SELECT * FROM object_data ".
+		#	 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
+		#	 "WHERE object_reference.ref_id='".$a_ref_id."'";
+		$q = "SELECT * FROM object_data,object_reference ".
+			"WHERE object_reference.obj_id = object_data.obj_id ".
+			"AND object_reference.ref_id = '".$a_ref_id."'";
+
 		$object_set = $ilias->db->query($q);
 
 		// check number of records
