@@ -423,6 +423,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
 			$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
 		}
+		else
+		{
+			$solutionoutput = "<table border=\"0\">\n";
+		}
 
 		// set solutions
 		$solution_script = "";
@@ -460,6 +464,22 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
 				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 			}
+		}
+		else
+		{
+			foreach ($this->object->matchingpairs as $idx => $answer)
+			{
+				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+				{
+					$imagepath = $this->object->getImagePathWeb() . $answer->getPicture();
+					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" /></div></td></tr>\n";
+				}
+				else
+				{
+					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"textbox\">" . $answer->getDefinition() . "</div></td></tr>\n";
+				}
+			}
+			$solutionoutput .= "</table>";
 		}
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 		if ($test_id) 
