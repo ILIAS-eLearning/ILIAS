@@ -238,11 +238,8 @@ common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_new#:#New Group
 common#:#guest#:#Guest
-common#:#guest#:#Guest
-common#:#guests#:#Guests
 common#:#guests#:#Guests
 common#:#help#:#Help
-common#:#hide_details#:#hide details
 common#:#hide_details#:#hide details
 common#:#hobby#:#Interests/Hobbies
 common#:#host#:#Host
@@ -615,7 +612,6 @@ common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
 common#:#settings#:#Settings
-common#:#show_details#:#show details
 common#:#show_details#:#show details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
