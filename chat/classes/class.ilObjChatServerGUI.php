@@ -103,13 +103,14 @@ class ilObjChatServerGUI extends ilObjectGUI
 		// SET TEXT VARIABLES
 		$this->tpl->setVariable("FORMACTION", 
 								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
-		$this->tpl->setVariable("TXT_CHAT_SERVER_SETTINGS","!!Chat Server Einstellungen");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_IP","!!Chat server ip");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_MODERATOR","!!Chat Moderator password");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_PORT","!Chat server port");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_LOGFILE","!Chat server logfile");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_LEVEL","!Chat server log level");
-		$this->tpl->setVariable("TXT_CHAT_SERVER_ALLOWED","!Chat server allowed");
+		$this->tpl->setVariable("TXT_CHAT_SERVER_SETTINGS",$this->lng->txt("chat_server_settings"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_IP",$this->lng->txt("chat_server_ip"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_MODERATOR",$this->lng->txt("chat_moderator_password"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_PORT",$this->lng->txt("chat_server_port"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_LOGFILE",$this->lng->txt("chat_server_logfile"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_LEVEL",$this->lng->txt("chat_server_loglevel"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_ALLOWED",$this->lng->txt("chat_server_allowed"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_ALLOWED_B",$this->lng->txt("chat_server_allowed_b"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("save"));
@@ -164,8 +165,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 	// PRIVATE
 	function __getLogLevelSelect($a_level)
 	{
-		$levels = array(0 => $this->lng->txt("chat_level_no"),
-						1 => $this->lng->txt("chat_level_fatal"),
+		$levels = array(1 => $this->lng->txt("chat_level_fatal"),
 						2 => $this->lng->txt("chat_level_error"),
 						3 => $this->lng->txt("chat_level_info"),
 						4 => $this->lng->txt("chat_level_debug"),

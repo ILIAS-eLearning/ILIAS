@@ -359,6 +359,8 @@ class ilPersonalDesktopGUI
 	function displayChats()
 	{
 		global $rbacsystem;
+
+		$this->lng->loadLanguageModule("chat");
 		$chat_items = $this->ilias->account->getDesktopItems("chat");
 
 		$i = 0;

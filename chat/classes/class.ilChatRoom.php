@@ -275,7 +275,7 @@ class ilChatRoom
 
 		if(!$this->getTitle())
 		{
-			$this->error_msg .= $this->lng->txt("!!chat_title_missing");
+			$this->error_msg .= $this->lng->txt("chat_title_missing");
 		}
 		if(!$this->getOwnerId())
 		{

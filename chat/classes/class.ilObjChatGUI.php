@@ -102,7 +102,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if($_SESSION["room_id_delete"])
 		{
 			$checked = $_SESSION["room_id_delete"];
-			sendInfo($this->lng->txt("!!delete_sure"));
+			sendInfo($this->lng->txt("chat_delete_sure"));
 			$this->tpl->setVariable("TXT_DELETE_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_DELETE_CONFIRM",$this->lng->txt("delete"));
 		}
@@ -110,7 +110,7 @@ class ilObjChatGUI extends ilObjectGUI
 		// SHOW ROOMS TABLE
 		$this->tpl->setVariable("FORMACTION",$this->getTargetScript("cmd=gateway&ref_id=".
 																	$this->ref_id));
-		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("!!chat_my_chatrooms"));
+		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
 
 		$counter = 0;
 		$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
@@ -123,7 +123,7 @@ class ilObjChatGUI extends ilObjectGUI
 								ilUtil::formCheckbox(in_array(0,$checked) ? 1 : 0,
 													 "del_id[]",
 													 0));
-		$this->tpl->setVariable("ROOM_NAME",$this->object->getTitle()." ".$this->lng->txt("!!chat_public"));
+		$this->tpl->setVariable("ROOM_NAME",$this->object->getTitle()." ".$this->lng->txt("chat_public_room"));
 
 		$script = $this->inModule() ? "./chat.php" : "./chat/chat.php";
 		$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=0");
@@ -146,14 +146,11 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
 			$this->tpl->parseCurrentBlock();
 		}
-		if(count($rooms))
-		{
-			$this->tpl->setCurrentBlock("has_rooms");
-			$this->tpl->setVariable("TBL_FOOTER_IMG_SRC",substr(ilUtil::getImagePath("arrow_downright.gif"),1));
-			$this->tpl->setVariable("TBL_FOOTER_SELECT",$this->__showAdminRoomSelect(count($rooms)));
-			$this->tpl->setVariable("FOOTER_HAS_ROOMS_OK",$this->lng->txt("ok"));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setCurrentBlock("has_rooms");
+		$this->tpl->setVariable("TBL_FOOTER_IMG_SRC",substr(ilUtil::getImagePath("arrow_downright.gif"),1));
+		$this->tpl->setVariable("TBL_FOOTER_SELECT",$this->__showAdminRoomSelect(count($rooms)));
+		$this->tpl->setVariable("FOOTER_HAS_ROOMS_OK",$this->lng->txt("ok"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TBL_FOOTER_ADD_SELECT",$this->__showAdminAddRoomSelect());
 		$this->tpl->setVariable("FOOTER_OK",$this->lng->txt("add"));
 	}
@@ -168,12 +165,12 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		if(!isset($_POST["del_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("!!select_one"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html",true);
 		$this->tpl->setVariable("FORMACTION",$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
-		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("!!name"));
+		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("chat_room_name"));
 		$this->tpl->setVariable("ROOM_CANCEL",$this->lng->txt("cancel"));
 	
 		switch($_POST["action"])
@@ -181,11 +178,11 @@ class ilObjChatGUI extends ilObjectGUI
 			case "renameRoom":
 				if(count($_POST["del_id"]) > 1)
 				{
-					$this->ilias->raiseError($this->lng->txt("!!select_one"),$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
 				}
 				if(in_array(0,$_POST["del_id"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("!!no_rename_public"),$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError($this->lng->txt("chat_no_rename_public"),$this->ilias->error_obj->MESSAGE);
 				}
 
 				// STORE ID IN SESSION
@@ -194,7 +191,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$room =& new ilChatRoom($this->ref_id);
 				$room->setRoomId($_SESSION["room_id_rename"]);
 
-				$this->tpl->setVariable("TXT_EDIT_CHATROOMS",$this->lng->txt("!!chatroom_rename"));
+				$this->tpl->setVariable("TXT_EDIT_CHATROOMS",$this->lng->txt("chat_chatroom_rename"));
 				$this->tpl->setVariable("ROOM_NAME",$room->getTitle());
 				$this->tpl->setVariable("CMD","renameRoom");
 				$this->tpl->setVariable("ROOM_EDIT",$this->lng->txt("rename"));
@@ -203,7 +200,7 @@ class ilObjChatGUI extends ilObjectGUI
 			case "deleteRoom":
 				if(in_array(0,$_POST["del_id"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("!!no_delete_public"),$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError($this->lng->txt("chat_no_delete_public"),$this->ilias->error_obj->MESSAGE);
 				}
 				$_SESSION["room_id_delete"] = $_POST["del_id"];
 				header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
@@ -216,7 +213,7 @@ class ilObjChatGUI extends ilObjectGUI
 			case "refreshRoom":
 				if(in_array(0,$_POST["del_id"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("!!no_refreash_public"),$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError($this->lng->txt("chat_no_refresh_public"),$this->ilias->error_obj->MESSAGE);
 				}
 				foreach($_POST["del_id"] as $room_id)
 				{
@@ -225,7 +222,7 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->object->server_comm->send();
 					$this->object->chat_room->deleteAllMessages();
 				}
-				sendInfo($this->lng->txt("!!chat_messages_deleted"),true);
+				sendInfo($this->lng->txt("chat_messages_deleted"),true);
 				header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 				exit;
 		}	
@@ -241,7 +238,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		if(!$_SESSION["room_id_delete"])
 		{
-			$this->ilias->raiseError($this->lng->txt("!!select_one"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
 		if(!$this->object->chat_room->deleteRooms($_SESSION["room_id_delete"]))
@@ -249,7 +246,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		unset($_SESSION["room_id_delete"]);
-		sendInfo($this->lng->txt("!!rooms _deleted"),true);
+		sendInfo($this->lng->txt("chat_rooms_deleted"),true);
 		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 		exit;
 	}
@@ -272,7 +269,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		$room->add();
 
-		sendInfo("!!chat_room_added");
+		sendInfo("chat_room_added");
 		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 		exit;
 	}
@@ -296,7 +293,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$room->rename();
 
 		unset($_SESSION["room_id_rename"]);
-		sendInfo("!!chat_room_added");
+		sendInfo("chat_room_renamed");
 		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 		exit;
 	}		
@@ -311,13 +308,12 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html",true);
 		$this->tpl->setVariable("FORMACTION",$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
-		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("!!name"));
+		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("chat_room_name"));
 		$this->tpl->setVariable("ROOM_CANCEL",$this->lng->txt("cancel"));
 	
-		$this->tpl->setVariable("TXT_EDIT_CHATROOMS",$this->lng->txt("!!chatroom_add"));
+		$this->tpl->setVariable("TXT_EDIT_CHATROOMS",$this->lng->txt("chat_chatroom_rename"));
 		$this->tpl->setVariable("ROOM_NAME","");
 		$this->tpl->setVariable("CMD","addRoom");
 		$this->tpl->setVariable("ROOM_EDIT",$this->lng->txt("add"));
@@ -391,7 +387,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if($_GET["p_id"])
 		{
 			$user_obj =& new ilObjUser((int) $_GET["p_id"]);
-			$message = $this->lng->txt("!!private_message")." ";
+			$message = $this->lng->txt("chat_private_message")." ";
 			$message .= $this->object->chat_user->getLogin()." -> ".$user_obj->getLogin();
 			sendInfo($message);
 		}
@@ -410,7 +406,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("whisper");
 			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("!!send_private"));
+			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 		}
 		else
 		{
@@ -440,7 +436,7 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		if(!$_POST["message"])
 		{
-			sendInfo($this->lng->txt("msg_no_perm_read"),true);
+			sendInfo($this->lng->txt("chat_insert_message"),true);
 		}
 		if($_POST["message"] and $this->object->chat_room->checkWriteAccess())
 		{
@@ -455,7 +451,7 @@ class ilObjChatGUI extends ilObjectGUI
 			}
 			if(!$this->object->server_comm->send())
 			{
-				$this->error = "!!NO CONNECTION ";
+				$this->error = $this->lng->txt("chat_no_connection");
 			}
 		}
 		$this->showInputFrame();
@@ -466,7 +462,8 @@ class ilObjChatGUI extends ilObjectGUI
 		if($_GET["i_id"])
 		{
 			$this->object->chat_room->invite((int) $_GET["i_id"]);
-			sendInfo($this->lng->txt("!!chat_user_invited"),true);
+			$this->object->sendMessage((int) $_GET["i_id"]);
+			sendInfo($this->lng->txt("chat_user_invited"),true);
 			$this->showFrames();
 		}
 	}
@@ -480,7 +477,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->object->server_comm->setKickedUser($tmp_user->getLogin());
 			$this->object->server_comm->setType("kick");
 			$this->object->server_comm->send();
-			sendInfo($this->lng->txt("!!chat_user_dropped"),true);
+			sendInfo($this->lng->txt("chat_user_dropped"),true);
 			$this->showFrames();
 		}
 	}
@@ -520,7 +517,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if(count($users) <= 1)
 		{
 			$this->tpl->setCurrentBlock("no_actice");
-			$this->tpl->setVariable("NO_ONLINE_USERS",$this->lng->txt("!!es sind keine weiteren Benutzer anwesend"));
+			$this->tpl->setVariable("NO_ONLINE_USERS",$this->lng->txt("chat_no_active_users"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -557,7 +554,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->tpl->setVariable("ONLINE_LINK_A","chat.php?cmd=".$cmd.
 										"&ref_id=".$this->ref_id."&room_id=".
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
-				$this->tpl->setVariable("TXT_INVITE_USER",$this->lng->txt("!!chat_invite_user"));
+				$this->tpl->setVariable("TXT_INVITE_USER",$this->lng->txt("chat_invite_user"));
 				$this->tpl->setVariable("ONLINE_USER_NAME_A",$user["login"]);
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,true));
 				
@@ -566,7 +563,7 @@ class ilObjChatGUI extends ilObjectGUI
 			}
 		}
 		$this->tpl->setCurrentBlock("show_online");
-		$this->tpl->setVariable("ONLINE_USERS",$this->lng->txt("!!chat_online_users"));
+		$this->tpl->setVariable("ONLINE_USERS",$this->lng->txt("chat_online_users"));
 		$this->tpl->parseCurrentBlock();
 	}
 	function __showActiveUsers()
@@ -586,8 +583,8 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$hide = $_SESSION["a_users"] ? true : false;
 
-		$this->tpl->setVariable("ACTIVE_USERS",$this->lng->txt("!!chat_active_users"));
-		$this->tpl->setVariable("DETAILS_B_TXT",$hide ? $this->lng->txt("!!Show details") : $this->lng->txt("!!Hide details"));
+		$this->tpl->setVariable("ACTIVE_USERS",$this->lng->txt("chat_active_users"));
+		$this->tpl->setVariable("DETAILS_B_TXT",$hide ? $this->lng->txt("chat_show_details") : $this->lng->txt("chat_hide_details"));
 		$this->tpl->setVariable("DETAILS_B","chat.php?ref_id=".$this->object->getRefId().
 								"&room_id=".$this->object->chat_room->getRoomId().
 								"&a_users=".($hide ? 0 : 1)."&cmd=showUserFrame");
@@ -600,7 +597,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if(count($users) <= 1)
 		{
 			$this->tpl->setCurrentBlock("no_actice");
-			$this->tpl->setVariable("NO_ACTIVE_USERS",$this->lng->txt("!!es sind keine weiteren Benutzer anwesend"));
+			$this->tpl->setVariable("NO_ACTIVE_USERS",$this->lng->txt("chat_no_active_users"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -637,18 +634,25 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 	function __showAdminAddRoomSelect()
 	{
-		$opt = array("createRoom" => $this->lng->txt("!!chatroom"));
+		$opt = array("createRoom" => $this->lng->txt("chat_room_select"));
 
 		return ilUtil::formSelect("","action_b",$opt,false,true);
 	}
 
 	function __showAdminRoomSelect()
 	{
-		$opt = array("renameRoom" => $this->lng->txt("rename"),
-					 "refreshRoom" => $this->lng->txt("chat_delete_messages"),
-					 "exportRoom" => $this->lng->txt("html_export"),
-					 "deleteRoom" => $this->lng->txt("delete"));
-
+		if(count($this->object->chat_room->getRoomsOfObject()))
+		{
+			$opt = array("renameRoom" => $this->lng->txt("rename"),
+						 "refreshRoom" => $this->lng->txt("chat_refresh"),
+						 "exportRoom" => $this->lng->txt("chat_html_export"),
+						 "deleteRoom" => $this->lng->txt("delete"));
+		}
+		else
+		{
+			$opt = array("exportRoom" => $this->lng->txt("html_export"));
+		}
+			
 		return ilUtil::formSelect(isset($_SESSION["room_id_delete"]) ? "deleteRoom" : "",
 								  "action",
 								  $opt,
@@ -675,8 +679,8 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		$hide = $_SESSION["h_rooms"] ? true : false;
 
-		$this->tpl->setVariable("ROOMS_ROOMS",$this->lng->txt("!!Chatrooms"));
-		$this->tpl->setVariable("DETAILS_TXT",$hide ? $this->lng->txt("!!Show details") : $this->lng->txt("!!Hide details"));
+		$this->tpl->setVariable("ROOMS_ROOMS",$this->lng->txt("chat_rooms"));
+		$this->tpl->setVariable("DETAILS_TXT",$hide ? $this->lng->txt("chat_show_details") : $this->lng->txt("chat_hide_details"));
 		$this->tpl->setVariable("ROOMS_COUNT",count($public_rooms) + count($private_rooms));
 		$this->tpl->setVariable("DETAILS_A","chat.php?ref_id=".$this->object->getRefId().
 								"&room_id=".$this->object->chat_room->getRoomId().
@@ -726,31 +730,30 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function __getColorSelect()
 	{
-		$colors = array("black" => $this->lng->txt("black"),
-						"red" => $this->lng->txt("red"),
-						"green" => $this->lng->txt("green"),
-						"maroon" => $this->lng->txt("maroon"),
-						"olive" => $this->lng->txt("olive"),
-						"navy" => $this->lng->txt("navy"),
-						"purple" => $this->lng->txt("purple"),
-						"teal" => $this->lng->txt("teal"),
-						"silver" => $this->lng->txt("silver"),
-						"gray" => $this->lng->txt("gray"),
-						"lime" => $this->lng->txt("lime"),
-						"yellow" => $this->lng->txt("yellow"),
-						"fuchsia" => $this->lng->txt("fuchsia"),
-						"aqua" => $this->lng->txt("aqua"),
-						"white" => $this->lng->txt("white"),
-						"blue" => $this->lng->txt("blue"));
+		$colors = array("black" => $this->lng->txt("chat_black"),
+						"red" => $this->lng->txt("chat_red"),
+						"green" => $this->lng->txt("chat_green"),
+						"maroon" => $this->lng->txt("chat_maroon"),
+						"olive" => $this->lng->txt("chat_olive"),
+						"navy" => $this->lng->txt("chat_navy"),
+						"purple" => $this->lng->txt("chat_purple"),
+						"teal" => $this->lng->txt("chat_teal"),
+						"silver" => $this->lng->txt("chat_silver"),
+						"gray" => $this->lng->txt("chat_gray"),
+						"lime" => $this->lng->txt("chat_lime"),
+						"yellow" => $this->lng->txt("chat_yellow"),
+						"fuchsia" => $this->lng->txt("chat_fuchsia"),
+						"aqua" => $this->lng->txt("chat_aqua"),
+						"blue" => $this->lng->txt("chat_blue"));
 
 		return ilUtil::formSelect($_POST["color"],"color",$colors,false,true);
 	}
 
 	function __getFontType()
 	{
-		$types = array("times" => $this->lng->txt("times"),
-					   "tahoma" => $this->lng->txt("tahoma"),
-					   "arial" => $this->lng->txt("arial"));
+		$types = array("times" => $this->lng->txt("chat_times"),
+					   "tahoma" => $this->lng->txt("chat_tahoma"),
+					   "arial" => $this->lng->txt("chat_arial"));
 
 		$_POST["type"] = $_POST["type"] ? $_POST["type"] : "times";
 
@@ -768,24 +771,24 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		$_POST["face"] = is_array($_POST["face"]) ? $_POST["face"] : array();
 
-		$types = array("bold" => $this->lng->txt("bold"),
-					   "italic" => $this->lng->txt("italic"),
-					   "underlined" => $this->lng->txt("underlined"));
+		$types = array("bold" => $this->lng->txt("chat_bold"),
+					   "italic" => $this->lng->txt("chat_italic"),
+					   "underlined" => $this->lng->txt("chat_underlined"));
 
 		$this->tpl->setCurrentBlock("FONT_FACES");
-		$this->tpl->setVariable("BL_TXT_FACE","<b>".$this->lng->txt("bold")."</b>");
+		$this->tpl->setVariable("BL_TXT_FACE","<b>".$this->lng->txt("chat_bold")."</b>");
 		$this->tpl->setVariable("FONT_FACE","bold");
 		$this->tpl->setVariable("FACE_CHECKED",in_array("bold",$_POST["face"]) ? "checked=\"checked\"" : "");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("FONT_FACES");
-		$this->tpl->setVariable("BL_TXT_FACE","<i>".$this->lng->txt("italic")."</i>");
+		$this->tpl->setVariable("BL_TXT_FACE","<i>".$this->lng->txt("chat_italic")."</i>");
 		$this->tpl->setVariable("FONT_FACE","italic");
 		$this->tpl->setVariable("FACE_CHECKED",in_array("italic",$_POST["face"]) ? "checked=\"checked\"" : "");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("FONT_FACES");
-		$this->tpl->setVariable("BL_TXT_FACE","<u>".$this->lng->txt("underlined")."</u>");
+		$this->tpl->setVariable("BL_TXT_FACE","<u>".$this->lng->txt("chat_underlined")."</u>");
 		$this->tpl->setVariable("FONT_FACE","underlined");
 		$this->tpl->setVariable("FACE_CHECKED",in_array("underlined",$_POST["face"]) ? "checked=\"checked\"" : "");
 		$this->tpl->parseCurrentBlock();
