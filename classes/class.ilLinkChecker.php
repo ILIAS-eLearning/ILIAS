@@ -429,7 +429,7 @@ class ilLinkChecker
 
 		foreach($a_links as $link)
 		{
-			if(!@gethostbyname($link['host']))
+			if(gethostbyname($link['host']) == $link['host'])
 			{
 				$invalid[] = $link;
 				continue;
