@@ -185,8 +185,8 @@ if ( !isset($_SESSION["locator_level"]) )
 $ilias_locator = new ilLocatorGUI();
 
 // load style definitions
-//$styleDefinition = new ilStyleDefinition();
-//$styleDefinition->startParsing();
+$styleDefinition = new ilStyleDefinition();
+$styleDefinition->startParsing();
 
 //navigation things
 /*
