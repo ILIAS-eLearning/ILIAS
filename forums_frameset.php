@@ -14,7 +14,6 @@ require_once "./classes/class.ilObjForum.php";
 
 $lng->loadLanguageModule("forum");
 
-// NECESSARY CAUSE MUST EVENTUAL RELOADED
 // delete post and its sub-posts
 if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 {
